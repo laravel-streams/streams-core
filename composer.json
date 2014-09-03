@@ -1,20 +1,48 @@
 {
     "name": "streams/core",
-    "description": "",
+    "description": "Streams core library.",
     "authors": [
         {
-            "name": "Osvaldo Brignoni",
-            "email": "obrignoni@aiwebsystems.com"
+            "name": "AnomalyLabs",
+            "email": "projects@anomaly.is"
         }
     ],
     "require": {
         "php": ">=5.4.0",
-        "illuminate/support": "4.2.*"
+        "anomaly/lexicon": "dev-master",
+        "artdarek/oauth-4-laravel": "dev-master",
+        "barryvdh/laravel-debugbar": "1.*",
+        "cartalyst/sentry": "2.1.*",
+        "cebe/markdown": "*",
+        "dimsav/laravel-translatable": "4.2.*",
+        "kriswallsmith/assetic": "1.2.*@dev",
+        "illuminate/html": "4.3.*@dev",
+        "intervention/image": "dev-master",
+        "laravelbook/ardent": "2.*",
+        "leafo/scssphp": "dev-develop",
+        "lmammino/jsmin4assetic": "1.0.*@dev",
+        "mccool/laravel-auto-presenter": "2.*",
+        "nesbot/Carbon": "1.*",
+        "natxet/CssMin": "dev-master",
+        "netcarver/textile": "3.6.*@dev",
+        "oyejorge/less.php": "~1.5",
+        "ptachoire/cssembed": "dev-master",
+        "venturecraft/revisionable": "1.*"
+    },
+    "require-dev": {
+        "barryvdh/laravel-ide-helper": "1.*",
+        "phing/phing": "2.*",
+        "phpunit/phpunit": "4.*"
     },
     "autoload": {
         "psr-0": {
             "Streams\\Core": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
 }
