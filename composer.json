@@ -29,11 +29,6 @@
         "ptachoire/cssembed": "dev-master",
         "venturecraft/revisionable": "1.*"
     },
-    "require-dev": {
-        "barryvdh/laravel-ide-helper": "1.*",
-        "phing/phing": "2.*",
-        "phpunit/phpunit": "4.*"
-    },
     "autoload": {
         "psr-0": {
             "Streams\\Core": "src/"
