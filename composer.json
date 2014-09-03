@@ -1,0 +1,20 @@
+{
+    "name": "streams/core",
+    "description": "",
+    "authors": [
+        {
+            "name": "Osvaldo Brignoni",
+            "email": "obrignoni@aiwebsystems.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Streams\\Core": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
