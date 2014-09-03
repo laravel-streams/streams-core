@@ -8,7 +8,6 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
         "anomaly/lexicon": "dev-master",
         "artdarek/oauth-4-laravel": "dev-master",
         "barryvdh/laravel-debugbar": "1.*",
