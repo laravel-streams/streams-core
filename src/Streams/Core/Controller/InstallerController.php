@@ -60,7 +60,7 @@ class InstallerController extends BaseController
             return \Redirect::to('/installer/' . array_shift($this->steps));
         }
 
-        $method = \Str::camel($step);
+        $method = camel_case($step);
 
         return call_user_func_array([$this, $method], []);
     }

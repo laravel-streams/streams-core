@@ -39,7 +39,7 @@ class Installer
      */
     protected function run($step)
     {
-        $method = \Str::camel($step);
+        $method = camel_case($step);
 
         return call_user_func_array([$this, $method], []);
     }

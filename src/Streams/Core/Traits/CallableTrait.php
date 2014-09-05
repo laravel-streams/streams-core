@@ -36,7 +36,7 @@ trait CallableTrait
             return call_user_func_array($this->callbacks[$method], $arguments);
         }
 
-        $method = \Str::camel('on_' . $method);
+        $method = camel_case('on_' . $method);
 
         if (method_exists($this, $method)) {
             return call_user_func_array([$this, $method], $arguments);
