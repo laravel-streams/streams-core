@@ -14,13 +14,15 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->registerApplication();
         $this->registerSchemaUtility();
 
+        $this->includePackageResources();
+
         \Application::locate();
     }
 
     /**
      * Register the application class.
      */
-    public function registerApplication()
+    protected function registerApplication()
     {
         $this->app->singleton(
             'streams.application',
@@ -33,7 +35,7 @@ class ApplicationServiceProvider extends ServiceProvider
     /**
      * Register the SchemaUtility.
      */
-    public function registerSchemaUtility()
+    protected function registerSchemaUtility()
     {
         $this->app->singleton(
             'streams.schema.utility',
@@ -41,5 +43,13 @@ class ApplicationServiceProvider extends ServiceProvider
                 return new StreamSchemaUtility();
             }
         );
+    }
+
+    /**
+     * Include package resource files.
+     */
+    protected function includePackageResources()
+    {
+        echo __DIR__.'/../../routes.php';die;
     }
 }
