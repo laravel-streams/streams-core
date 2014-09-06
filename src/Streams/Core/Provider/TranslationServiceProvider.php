@@ -11,6 +11,8 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
     {
         $this->registerLoader();
         $this->registerTranslator();
+
+        $this->addNamespace();
     }
 
     /**
@@ -35,5 +37,13 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
                 return $trans;
             }
         );
+    }
+
+    /**
+     * Add the streams language namespace.
+     */
+    protected function addNamespace()
+    {
+        \Lang::addNamespace('streams', __DIR__ . '/../../../../resources/lang');
     }
 }
