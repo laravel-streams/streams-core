@@ -19,11 +19,6 @@ class Table
     public function __construct(TableUi $ui)
     {
         $this->ui = $ui;
-
-        $this->view   = $this->ui->newView($ui);
-        $this->header = $this->ui->newHeader($ui);
-        $this->row    = $this->ui->newRow($ui);
-        $this->action = $this->ui->newAction($ui);
     }
 
     /**
@@ -33,12 +28,13 @@ class Table
      */
     public function make()
     {
+        $rows    = $this->makeRows();
         $views   = $this->makeViews();
         $headers = $this->makeHeaders();
-        $rows    = $this->makeRows();
         $actions = $this->makeActions();
+        $options = $this->makeOptions();
 
-        return compact('views', 'headers', 'rows', 'actions');
+        return compact('views', 'headers', 'rows', 'actions', 'options');
     }
 
     /**
@@ -51,7 +47,11 @@ class Table
         $views = $this->ui->getViews();
 
         foreach ($views as &$view) {
-            $view = $this->view->make($view);
+            $title = trans(\ArrayHelper::value($view, 'title', null, [$this->ui]));
+
+            $active = $title == 'All' ? true : false;
+
+            $view = compact('title', 'active');
         }
 
         return $views;
@@ -67,10 +67,73 @@ class Table
         $rows = [];
 
         foreach ($this->ui->getEntries() as $entry) {
-            $rows[] = $this->row->make($entry);
+            $columns = $this->makeColumns($entry);
+            $buttons = $this->makeButtons($entry);
+
+            $rows[] = compact('columns', 'buttons');
         }
 
         return $rows;
+    }
+
+    /**
+     * Return the columns array.
+     *
+     * @param $entry
+     * @return string
+     */
+    protected function makeColumns($entry)
+    {
+        $columns = $this->ui->getColumns();
+
+        foreach ($columns as &$column) {
+            if (is_string($column)) {
+                $column = [
+                    'data' => $column
+                ];
+            }
+
+            $data = \ArrayHelper::value($column, 'data', null, [$this->ui, $entry]);
+
+            if (isset($entry->{$data})) {
+                $data = $entry->{$data};
+            } elseif (strpos($data, '{{') !== false) {
+                $data = \View::parse($data, $entry);
+            } elseif (strpos($data, '.') !== false and $data = $entry) {
+                foreach (explode('.', $data) as $attribute) {
+                    $data = $data->{$attribute};
+                }
+            }
+
+            $column = compact('data');
+        }
+
+        return $columns;
+    }
+
+    /**
+     * Return the buttons array.
+     *
+     * @param $entry
+     * @return string
+     */
+    protected function makeButtons($entry)
+    {
+        $buttons = $this->ui->getButtons();
+
+        foreach ($buttons as &$button) {
+            $url = \ArrayHelper::value($button, 'url', '#', [$this->ui, $entry]);
+
+            $title = trans(\ArrayHelper::value($button, 'title', null, [$this->ui, $entry]));
+
+            $attributes = \ArrayHelper::value($button, 'attributes', [], [$this->ui, $entry]);
+
+            $button = \HTML::link($url, $title, $attributes);
+
+            $button = compact('button');
+        }
+
+        return $buttons;
     }
 
     /**
@@ -83,7 +146,19 @@ class Table
         $headers = $this->ui->getColumns();
 
         foreach ($headers as &$header) {
-            $header = $this->header->make($header);
+            if (is_string($header)) {
+                $header = [
+                    'data' => $header
+                ];
+            }
+
+            if (isset($column['header'])) {
+                $header = trans(\ArrayHelper::value($header, 'header', null, [$this->ui]));
+            } else {
+                $header = \StringHelper::humanize($header['data']);
+            }
+
+            $header = compact('header');
         }
 
         return $headers;
@@ -99,9 +174,29 @@ class Table
         $actions = $this->ui->getActions();
 
         foreach ($actions as &$button) {
-            $button = $this->action->make($button);
+            $url = \ArrayHelper::value($button, 'url', '#', [$this->ui]);
+
+            $title = trans(\ArrayHelper::value($button, 'title', null, [$this->ui]));
+
+            $attributes = \ArrayHelper::value($button, 'attributes', [], [$this->ui]);
+
+            $button = \HTML::link($url, $title, $attributes);
+
+            $button = compact('button');
         }
 
         return $actions;
+    }
+
+    /**
+     * Return the table options array.
+     *
+     * @return array
+     */
+    protected function makeOptions()
+    {
+        return [
+            'sortable' => ($this->ui->getSortable()),
+        ];
     }
 }

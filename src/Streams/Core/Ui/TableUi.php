@@ -238,6 +238,16 @@ class TableUi extends UiAbstract
     }
 
     /**
+     * Get the sortable flag.
+     *
+     * @return bool
+     */
+    public function getSortable()
+    {
+        return $this->sortable;
+    }
+
+    /**
      * Set the sortable flag.
      *
      * @param boolean $sortable
@@ -484,72 +494,6 @@ class TableUi extends UiAbstract
     public function newTable($ui)
     {
         return new Table($ui);
-    }
-
-    /**
-     * Return a new TableView instance.
-     *
-     * @param $ui
-     * @return TableView
-     */
-    public function newView($ui)
-    {
-        return new TableView($ui);
-    }
-
-    /**
-     * Return a new TableHeader instance.
-     *
-     * @param $ui
-     * @return TableHeader
-     */
-    public function newHeader($ui)
-    {
-        return new TableHeader($ui);
-    }
-
-    /**
-     * Return new TableRow instance.
-     *
-     * @param $ui
-     * @return TableRow
-     */
-    public function newRow($ui)
-    {
-        return new TableRow($ui);
-    }
-
-    /**
-     * Return a new TableColumn instance.
-     *
-     * @param $ui
-     * @return TableColumn
-     */
-    public function newColumn($ui)
-    {
-        return new TableColumn($ui);
-    }
-
-    /**
-     * Return a new TableButton instance.
-     *
-     * @param $ui
-     * @return TableButton
-     */
-    public function newButton($ui)
-    {
-        return new TableButton($ui);
-    }
-
-    /**
-     * Return a new TableAction instance.
-     *
-     * @param $ui
-     * @return TableAction
-     */
-    public function newAction($ui)
-    {
-        return new TableAction($ui);
     }
 
     /**
