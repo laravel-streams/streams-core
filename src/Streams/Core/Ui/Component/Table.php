@@ -1,5 +1,6 @@
 <?php namespace Streams\Core\Ui\Component;
 
+use Illuminate\Support\Facades\Paginator;
 use Streams\Core\Ui\TableUi;
 
 class Table
@@ -28,13 +29,14 @@ class Table
      */
     public function make()
     {
-        $rows    = $this->makeRows();
-        $views   = $this->makeViews();
-        $headers = $this->makeHeaders();
-        $actions = $this->makeActions();
-        $options = $this->makeOptions();
+        $rows       = $this->makeRows();
+        $views      = $this->makeViews();
+        $headers    = $this->makeHeaders();
+        $actions    = $this->makeActions();
+        $pagination = $this->makePagination();
+        $options    = $this->makeOptions();
 
-        return compact('views', 'headers', 'rows', 'actions', 'options');
+        return compact('views', 'headers', 'rows', 'actions', 'options', 'pagination');
     }
 
     /**
@@ -128,9 +130,19 @@ class Table
 
             $attributes = \ArrayHelper::value($button, 'attributes', [], [$this->ui, $entry]);
 
-            $button = \HTML::link($url, $title, $attributes);
+            $link = \HTML::link($url, $title, $attributes);
 
-            $button = compact('button');
+            $dropdown = \ArrayHelper::value($button, 'dropdown', [], [$this->ui, $entry]);
+
+            foreach ($dropdown as &$item) {
+                $url = \ArrayHelper::value($item, 'url', '#', [$this->ui, $entry]);
+
+                $title = trans(\ArrayHelper::value($item, 'title', null, [$this->ui, $entry]));
+
+                $item = compact('url', 'title');
+            }
+
+            $button = compact('link', 'attributes', 'dropdown');
         }
 
         return $buttons;
@@ -180,9 +192,19 @@ class Table
 
             $attributes = \ArrayHelper::value($button, 'attributes', [], [$this->ui]);
 
-            $button = \HTML::link($url, $title, $attributes);
+            $link = \HTML::link($url, $title, $attributes);
 
-            $button = compact('button');
+            $dropdown = \ArrayHelper::value($button, 'dropdown', [], [$this->ui]);
+
+            foreach ($dropdown as &$item) {
+                $url = \ArrayHelper::value($item, 'url', '#', [$this->ui]);
+
+                $title = trans(\ArrayHelper::value($item, 'title', null, [$this->ui]));
+
+                $item = compact('url', 'title');
+            }
+
+            $button = compact('link', 'attributes', 'dropdown');
         }
 
         return $actions;
@@ -196,7 +218,25 @@ class Table
     protected function makeOptions()
     {
         return [
-            'sortable' => ($this->ui->getSortable()),
+            'sortable' => ($this->ui->isSortable()),
         ];
+    }
+
+    /**
+     * Return the pagination array.
+     *
+     * @return array
+     */
+    protected function makePagination()
+    {
+        $paginator = $this->ui->getPaginator();
+
+        $links = $paginator->links();
+
+        $pagination = $paginator->toArray();
+
+        $pagination['links'] = $links;
+
+        return $pagination;
     }
 }

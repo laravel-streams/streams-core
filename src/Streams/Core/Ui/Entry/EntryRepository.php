@@ -1,11 +1,13 @@
 <?php namespace Streams\Core\Ui\Entry;
 
+use Streams\Core\Ui\TableUi;
+
 class EntryRepository
 {
     /**
      * The UI object.
      *
-     * @var
+     * @var \Streams\Core\Ui\TableUi
      */
     protected $ui;
 
@@ -14,7 +16,7 @@ class EntryRepository
      *
      * @param $ui
      */
-    public function __construct($ui)
+    public function __construct(TableUi $ui)
     {
         $this->ui = $ui;
     }
@@ -26,6 +28,26 @@ class EntryRepository
      */
     public function get()
     {
-        return $this->ui->getModel()->get();
+        $model = $this->ui->getModel();
+
+        $paginator = $this->ui->getPaginator();
+
+        $limit  = $this->ui->getLimit($paginator->getPerPage());
+        $offset = ($paginator->getFrom() - 1) * $limit;
+
+        return $model
+            ->take($limit)
+            ->skip($offset)
+            ->get();
+    }
+
+    /**
+     * Return the total number of entries.
+     *
+     * @return mixed
+     */
+    public function total()
+    {
+        return $this->ui->getModel()->count();
     }
 }

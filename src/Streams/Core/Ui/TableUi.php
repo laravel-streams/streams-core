@@ -1,12 +1,6 @@
 <?php namespace Streams\Core\Ui;
 
 use Streams\Core\Ui\Component\Table;
-use Streams\Core\Ui\Component\TableAction;
-use Streams\Core\Ui\Component\TableButton;
-use Streams\Core\Ui\Component\TableColumn;
-use Streams\Core\Ui\Component\TableHeader;
-use Streams\Core\Ui\Component\TableRow;
-use Streams\Core\Ui\Component\TableView;
 use Streams\Core\Ui\Entry\EntryRepository;
 
 class TableUi extends UiAbstract
@@ -44,14 +38,7 @@ class TableUi extends UiAbstract
      *
      * @var null
      */
-    protected $limit = null;
-
-    /**
-     * The pagination value.
-     *
-     * @var null
-     */
-    protected $paginate = null;
+    protected $limit = 15;
 
     /**
      * The total number of entries.
@@ -110,6 +97,13 @@ class TableUi extends UiAbstract
     protected $entries = [];
 
     /**
+     * The paginator object.
+     *
+     * @var null
+     */
+    protected $paginator = null;
+
+    /**
      * The table object.
      *
      * @var Component\Table
@@ -148,6 +142,10 @@ class TableUi extends UiAbstract
      */
     protected function trigger()
     {
+        $this->total = $this->repository->total();
+
+        $this->paginator = $this->newPaginator();
+
         if (!$this->entries) {
             $this->entries = $this->repository->get();
         }
@@ -192,25 +190,23 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Set the query limit.
+     * Return the limit value.
+     *
+     * @return null
+     */
+    public function getLimit()
+    {
+        return $this->limit;
+    }
+
+    /**
+     * Set the limit value.
      *
      * @param null $limit
      */
     public function setLimit($limit)
     {
         $this->limit = $limit;
-
-        return $this;
-    }
-
-    /**
-     * Set the paginate value.
-     *
-     * @param null $paginate
-     */
-    public function setPaginate($paginate)
-    {
-        $this->paginate = $paginate;
 
         return $this;
     }
@@ -226,25 +222,13 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Set the total count.
-     *
-     * @param null $total
-     */
-    public function setTotal($total)
-    {
-        $this->total = $total;
-
-        return $this;
-    }
-
-    /**
      * Get the sortable flag.
      *
      * @return bool
      */
-    public function getSortable()
+    public function isSortable()
     {
-        return $this->sortable;
+        return ($this->sortable);
     }
 
     /**
@@ -486,12 +470,22 @@ class TableUi extends UiAbstract
     }
 
     /**
+     * Get the paginator object.
+     *
+     * @return null
+     */
+    public function getPaginator()
+    {
+        return $this->paginator;
+    }
+
+    /**
      * Return a new Table instance.
      *
      * @param $ui
      * @return Table
      */
-    public function newTable($ui)
+    protected function newTable($ui)
     {
         return new Table($ui);
     }
@@ -502,8 +496,18 @@ class TableUi extends UiAbstract
      * @param $ui
      * @return EntryRepository
      */
-    public function newEntryRepository($ui)
+    protected function newEntryRepository($ui)
     {
         return new EntryRepository($ui);
+    }
+
+    /**
+     * Return a new paginator instance.
+     *
+     * @return mixed
+     */
+    protected function newPaginator()
+    {
+        return \App::make('paginator')->make([], $this->total, $this->limit);
     }
 }
