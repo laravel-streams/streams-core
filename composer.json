@@ -17,7 +17,6 @@
         "dimsav/laravel-translatable": "4.2.*",
         "kriswallsmith/assetic": "1.2.*@dev",
         "illuminate/html": "4.3.*@dev",
-        "illuminate/support": "4.3.*@dev",
         "intervention/image": "dev-master",
         "laravelbook/ardent": "2.*",
         "leafo/scssphp": "dev-develop",
