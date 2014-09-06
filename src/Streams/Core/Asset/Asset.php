@@ -2,13 +2,12 @@
 
 use Assetic\Asset\GlobAsset;
 use Assetic\Asset\FileAsset;
-use Assetic\Filter\JSMinFilter;
-use Assetic\Filter\CssMinFilter;
-use Assetic\Filter\LessphpFilter;
-use Assetic\Filter\ScssphpFilter;
 use Assetic\Asset\AssetCollection;
-use Assetic\Filter\PhpCssEmbedFilter;
-use Streams\Core\Asset\Filter\LexiconAssetFilter;
+use Streams\Core\Asset\Filter\JSMinFilter;
+use Streams\Core\Asset\Filter\CssMinFilter;
+use Streams\Core\Asset\Filter\LessphpFilter;
+use Streams\Core\Asset\Filter\ScssphpFilter;
+use Streams\Core\Asset\Filter\PhpCssEmbedFilter;
 
 class Asset
 {
@@ -152,11 +151,9 @@ class Asset
                             $filter = new JSMinFilter();
                         }
                         break;
+
                     case 'embed':
                         $filter = new PhpCssEmbedFilter();
-                        break;
-                    case 'lex':
-                        $filter = new LexiconAssetFilter();
                         break;
 
                     default:
