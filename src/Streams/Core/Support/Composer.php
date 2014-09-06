@@ -28,10 +28,6 @@ class Composer
             return $view;
         }
 
-        if (!str_contains($view, '::')) {
-            $view = 'streams::' . $view;
-        }
-
         $environment = $view->getFactory();
         $themeView   = null;
 
