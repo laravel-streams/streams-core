@@ -75,20 +75,6 @@ class TableUi extends UiAbstract
     protected $actions = [];
 
     /**
-     * Show the table headers?
-     *
-     * @var bool
-     */
-    protected $showHeaders = true;
-
-    /**
-     * Show the table footer?
-     *
-     * @var bool
-     */
-    protected $showFooter = true;
-
-    /**
      * Views for the table.
      *
      * @var array
@@ -302,32 +288,6 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Set the show headers flag.
-     *
-     * @param boolean $showHeaders
-     * @return $this
-     */
-    public function setShowHeaders($showHeaders)
-    {
-        $this->showHeaders = ($showHeaders);
-
-        return $this;
-    }
-
-    /**
-     * Set the show footer flag.
-     *
-     * @param boolean $showFooter
-     * @return $this
-     */
-    public function setShowFooter($showFooter)
-    {
-        $this->showFooter = ($showFooter);
-
-        return $this;
-    }
-
-    /**
      * Get the views array.
      *
      * @return array
@@ -458,12 +418,8 @@ class TableUi extends UiAbstract
      */
     public function setButtons($buttons)
     {
-        if (is_array($buttons)) {
-            foreach ($buttons as $button) {
-                $this->addButton($button);
-            }
-        } else {
-            $this->buttons = $buttons;
+        foreach ($buttons as $button) {
+            $this->addButton($button);
         }
 
         return $this;
