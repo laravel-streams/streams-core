@@ -1,19 +1,13 @@
 <?php namespace Streams\Core\Ui;
 
 use Streams\Core\Ui\Component\Table;
-use Streams\Core\Ui\Component\TableHead;
-use Streams\Core\Ui\Component\TableHeader;
-use Streams\Core\Ui\Component\TableBody;
-use Streams\Core\Ui\Component\TableRow;
-use Streams\Core\Ui\Component\TableColumn;
+use Streams\Core\Ui\Component\TableAction;
 use Streams\Core\Ui\Component\TableButton;
-use Streams\Core\Ui\Component\TableFoot;
-use Streams\Core\Ui\Component\TablePagination;
-use Streams\Core\Ui\Collection\TableHeaderCollection;
-use Streams\Core\Ui\Collection\TableRowCollection;
-use Streams\Core\Ui\Collection\TableColumnCollection;
-use Streams\Core\Ui\Collection\TableButtonCollection;
-use Streams\Core\Ui\Repository\EntryRepository;
+use Streams\Core\Ui\Component\TableColumn;
+use Streams\Core\Ui\Component\TableHeader;
+use Streams\Core\Ui\Component\TableRow;
+use Streams\Core\Ui\Component\TableView;
+use Streams\Core\Ui\Entry\EntryRepository;
 
 class TableUi extends UiAbstract
 {
@@ -95,6 +89,13 @@ class TableUi extends UiAbstract
     protected $showFooter = true;
 
     /**
+     * Views for the table.
+     *
+     * @var array
+     */
+    protected $views = [];
+
+    /**
      * Filters for the table.
      *
      * @var null
@@ -123,6 +124,20 @@ class TableUi extends UiAbstract
     protected $entries = [];
 
     /**
+     * The table object.
+     *
+     * @var Component\Table
+     */
+    protected $table;
+
+    /**
+     * The repository object.
+     *
+     * @var Entry\EntryRepository
+     */
+    protected $repository;
+
+    /**
      * Create a new TableUi instance.
      *
      * @param null $slug
@@ -130,7 +145,8 @@ class TableUi extends UiAbstract
      */
     public function __construct($model = null)
     {
-        $this->table = $this->newTable();
+        $this->repository = $this->newEntryRepository($this);
+        $this->table      = $this->newTable($this);
 
         if ($model) {
             return $this->make($model);
@@ -147,15 +163,10 @@ class TableUi extends UiAbstract
     protected function trigger()
     {
         if (!$this->entries) {
-            $this->entries = $this->newEntryRepository()->get();
+            $this->entries = $this->repository->get();
         }
 
-        /*$this->entries = $this->entries->toArray();
-
-        $this->entries = array_merge($this->entries, $this->entries, $this->entries, $this->entries);
-        $this->entries = array_merge($this->entries, $this->entries, $this->entries, $this->entries, $this->entries);*/
-
-        $this->output = $this->table->render();
+        $this->output = \View::make('html/table', $this->table->make());
 
         return $this;
     }
@@ -253,6 +264,16 @@ class TableUi extends UiAbstract
     }
 
     /**
+     * Get the actions.
+     *
+     * @return null
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
      * Set the actions.
      *
      * @param array $actions
@@ -302,6 +323,44 @@ class TableUi extends UiAbstract
     public function setShowFooter($showFooter)
     {
         $this->showFooter = ($showFooter);
+
+        return $this;
+    }
+
+    /**
+     * Get the views array.
+     *
+     * @return array
+     */
+    public function getViews()
+    {
+        return $this->views;
+    }
+
+    /**
+     * Set the views array.
+     *
+     * @param $views
+     * @return $this
+     */
+    public function setViews($views)
+    {
+        foreach ($views as $view) {
+            $this->addView($view);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add a view to the array.
+     *
+     * @param $view
+     * @return $this
+     */
+    public function addView($view)
+    {
+        $this->views[] = $view;
 
         return $this;
     }
@@ -461,146 +520,90 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Return a new table instance.
+     * Return a new Table instance.
      *
+     * @param $ui
      * @return Table
      */
-    public function newTable()
+    public function newTable($ui)
     {
-        return new Table($this);
+        return new Table($ui);
     }
 
     /**
-     * Return a new table head instance.
+     * Return a new TableView instance.
      *
-     * @return TableHead
+     * @param $ui
+     * @return TableView
      */
-    public function newTableHead()
+    public function newView($ui)
     {
-        return new TableHead($this);
+        return new TableView($ui);
     }
 
     /**
-     * Return a new table header instance.
+     * Return a new TableHeader instance.
      *
+     * @param $ui
      * @return TableHeader
      */
-    public function newTableHeader()
+    public function newHeader($ui)
     {
-        return new TableHeader($this);
+        return new TableHeader($ui);
     }
 
     /**
-     * Return a new table body instance.
+     * Return new TableRow instance.
      *
-     * @return TableHeader
-     */
-    public function newTableBody()
-    {
-        return new TableBody($this);
-    }
-
-    /**
-     * Return a new table head instance.
-     *
+     * @param $ui
      * @return TableRow
      */
-    public function newTableRow()
+    public function newRow($ui)
     {
-        return new TableRow($this);
+        return new TableRow($ui);
     }
 
     /**
-     * Return a new table column instance.
+     * Return a new TableColumn instance.
      *
+     * @param $ui
      * @return TableColumn
      */
-    public function newTableColumn()
+    public function newColumn($ui)
     {
-        return new TableColumn($this);
+        return new TableColumn($ui);
     }
 
     /**
-     * Return a new table button instance.
+     * Return a new TableButton instance.
      *
+     * @param $ui
      * @return TableButton
      */
-    public function newTableButton()
+    public function newButton($ui)
     {
-        return new TableButton($this);
+        return new TableButton($ui);
     }
 
     /**
-     * Return a new table foot instance.
+     * Return a new TableAction instance.
      *
-     * @return TableFoot
+     * @param $ui
+     * @return TableAction
      */
-    public function newTableFoot()
+    public function newAction($ui)
     {
-        return new TableFoot($this);
+        return new TableAction($ui);
     }
 
     /**
      * Return a new entry repository instance.
      *
+     * @param $ui
      * @return EntryRepository
      */
-    public function newEntryRepository()
+    public function newEntryRepository($ui)
     {
-        return new EntryRepository($this);
-    }
-
-    /**
-     * Return a new table pagination instance.
-     *
-     * @return TablePagination
-     */
-    public function newTablePagination()
-    {
-        return new TablePagination($this);
-    }
-
-    /**
-     * Return a new TableHeaderCollection instance.
-     *
-     * @param $items
-     * @return TableHeaderCollection
-     */
-    public function newTableHeaderCollection($items)
-    {
-        return new TableHeaderCollection($items);
-    }
-
-    /**
-     * Return a new TableRowCollection instance.
-     *
-     * @param $items
-     * @return TableRowCollection
-     */
-    public function newTableRowCollection($items)
-    {
-        return new TableRowCollection($items);
-    }
-
-    /**
-     * Return a new TableColumnCollection instance.
-     *
-     * @param $items
-     * @return TableColumnCollection
-     */
-    public function newTableColumnCollection($items)
-    {
-        return new TableColumnCollection($items);
-    }
-
-    /**
-     * Return a new TableButtonCollection instance.
-     *
-     * @param $items
-     * @return TableButtonCollection
-     */
-    public function newTableButtonCollection($items)
-    {
-        return new TableButtonCollection($items);
+        return new EntryRepository($ui);
     }
 }

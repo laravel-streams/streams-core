@@ -66,13 +66,7 @@ abstract class UiAbstract
     {
         $this->trigger();
 
-        return \View::make(
-            $this->wrapperView,
-            [
-                'title'   => \Lang::trans($this->title),
-                'content' => $this->output,
-            ]
-        );
+        return \View::make($this->wrapperView, array_merge($this->table->make(), ['content' => $this->output]));
     }
 
     /**

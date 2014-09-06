@@ -3,7 +3,7 @@
 use Streams\Core\Ui\Contract\RenderableInterface;
 use Streams\Core\Ui\FormUi;
 
-class Form extends FormComponent
+class Form
 {
     /**
      * The table view to use.
@@ -20,9 +20,6 @@ class Form extends FormComponent
     public function __construct(FormUi $ui = null)
     {
         $this->ui = $ui;
-
-        $this->formSection       = $ui->newFormSection();
-        $this->formTabbedSection = $ui->newFormTabbedSection();
     }
 
     /**

@@ -65,7 +65,7 @@ class Application
     {
         $this->app['streams.classloader']->addPsr4(
             'Streams\Core\Model\\',
-            base_path('app/models/streams/' . $this->getAppRef())
+            base_path('models/streams/' . $this->getAppRef())
         );
 
         $this->app['streams.classloader']->register();

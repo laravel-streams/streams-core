@@ -1,149 +1,61 @@
 <?php namespace Streams\Core\Ui\Component;
 
-class TableButton extends TableComponent
+use Streams\Core\Ui\TableUi;
+
+class TableButton
 {
     /**
-     * The view to use.
+     * The table UI object.
      *
-     * @var string
+     * @var \Streams\Core\Ui\TableUi
      */
-    protected $view = null;
+    protected $ui;
 
     /**
-     * The entry object.
+     * Create a new Table instance.
      *
-     * @var null
+     * @param TableUi $ui
      */
-    protected $entry = null;
-
-    /**
-     * The attributes option.
-     *
-     * @var null
-     */
-    protected $attributes = null;
-
-    /**
-     * The title of the button.
-     *
-     * @var null
-     */
-    protected $title = null;
-
-    /**
-     * The default class string.
-     *
-     * @var string
-     */
-    protected $class = 'btn btn-xs';
-
-    /**
-     * Return the output.
-     *
-     * @return string|void
-     */
-    public function render()
+    public function __construct(TableUi $ui)
     {
-        $title      = $this->title();
-        $attributes = $this->attributes();
-
-        return \View::make($this->view ?: 'streams/partials/table/button', compact('title', 'attributes'));
+        $this->ui = $ui;
     }
 
     /**
-     * Return the button title.
-     *
-     * @return string
-     */
-    protected function title()
-    {
-        return \Lang::trans($this->title);
-    }
-
-    /**
-     * Return the attributes array prepped for Lexicon.
-     *
-     * @return array
-     */
-    protected function attributes()
-    {
-        $attributes = $this->attributes;
-
-        if ($attributes instanceof \Closure) {
-            $attributes = \StreamsHelper::value($attributes, [$this]);
-        }
-
-        foreach ($attributes as $attribute => &$value) {
-
-            $value = \StreamsHelper::value($value, [$this]);
-
-            $value = str_replace('+', $this->class, $value);
-
-            $attributes[$attribute] = compact('attribute', 'value');
-        }
-
-        return $attributes;
-    }
-
-    /**
-     * Set the view option.
-     *
-     * @param $view
-     * @return $this
-     */
-    public function setView($view)
-    {
-        $this->view = $view;
-
-        return $this;
-    }
-
-    /**
-     * Get the entry object.
-     *
-     * @return null
-     */
-    public function getEntry()
-    {
-        return $this->entry;
-    }
-
-    /**
-     * Set the entry object.
+     * Make a button array.
      *
      * @param $entry
-     * @return $this
+     * @param $button
+     * @return array
      */
-    public function setEntry($entry)
+    public function make($entry, $button)
     {
-        $this->entry = $entry;
+        $url = $this->makeUrl($entry, $button);
 
-        return $this;
+        $title = trans(\ArrayHelper::value($button, 'title', null, [$this->ui, $entry]));
+
+        $attributes = \ArrayHelper::value($button, 'attributes', [], [$this->ui, $entry]);
+
+        $button = \HTML::link($url, $title, $attributes);
+
+        return compact('button');
     }
 
     /**
-     * Set the attributes option.
+     * Return the URL string.
      *
-     * @param $attributes
-     * @return $this
+     * @param $entry
+     * @param $button
+     * @return \Illuminate\View\View|string
      */
-    public function setAttributes($attributes)
+    protected function makeUrl($entry, $button)
     {
-        $this->attributes = $attributes;
+        $url = \ArrayHelper::value($button, 'url', '#', [$this->ui, $entry]);
 
-        return $this;
-    }
+        if (strpos($url, '{{') !== false) {
+            $url = \View::parse($url, $entry);
+        }
 
-    /**
-     * Set the button title.
-     *
-     * @param $title
-     * @return $this
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
+        return $url;
     }
 }

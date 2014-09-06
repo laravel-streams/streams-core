@@ -1,25 +1,107 @@
 <?php namespace Streams\Core\Ui\Component;
 
-class Table extends TableComponent
+use Streams\Core\Ui\TableUi;
+
+class Table
 {
     /**
-     * The table view to use.
+     * The table UI object.
      *
-     * @var string
+     * @var \Streams\Core\Ui\TableUi
      */
-    protected $view = 'streams/table';
+    protected $ui;
 
     /**
-     * Render the table.
+     * Create a new Table instance.
+     *
+     * @param TableUi $ui
+     */
+    public function __construct(TableUi $ui)
+    {
+        $this->ui = $ui;
+
+        $this->view   = $this->ui->newView($ui);
+        $this->header = $this->ui->newHeader($ui);
+        $this->row    = $this->ui->newRow($ui);
+        $this->action = $this->ui->newAction($ui);
+    }
+
+    /**
+     * Return the data needed to render the table.
+     *
+     * @return array
+     */
+    public function make()
+    {
+        $views   = $this->makeViews();
+        $headers = $this->makeHeaders();
+        $rows    = $this->makeRows();
+        $actions = $this->makeActions();
+
+        return compact('views', 'headers', 'rows', 'actions');
+    }
+
+    /**
+     * Return the views for a table.
+     *
+     * @return array
+     */
+    protected function makeViews()
+    {
+        $views = $this->ui->getViews();
+
+        foreach ($views as &$view) {
+            $view = $this->view->make($view);
+        }
+
+        return $views;
+    }
+
+    /**
+     * Return the rows for a table.
+     *
+     * @return mixed
+     */
+    protected function makeRows()
+    {
+        $rows = [];
+
+        foreach ($this->ui->getEntries() as $entry) {
+            $rows[] = $this->row->make($entry);
+        }
+
+        return $rows;
+    }
+
+    /**
+     * Return the headers for a table.
+     *
+     * @return array
+     */
+    protected function makeHeaders()
+    {
+        $headers = $this->ui->getColumns();
+
+        foreach ($headers as &$header) {
+            $header = $this->header->make($header);
+        }
+
+        return $headers;
+    }
+
+    /**
+     * Return the actions array.
      *
      * @return string
      */
-    public function render()
+    protected function makeActions()
     {
-        $head = $this->ui->newTableHead();
-        $body = $this->ui->newTableBody();
-        $foot = $this->ui->newTableFoot();
+        $actions = $this->ui->getActions();
 
-        return \View::make($this->view, compact('head', 'body', 'foot'));
+        foreach ($actions as &$button) {
+            $button = $this->action->make($button);
+        }
+
+        return $actions;
     }
 }

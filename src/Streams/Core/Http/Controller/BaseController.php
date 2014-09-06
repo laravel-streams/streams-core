@@ -1,6 +1,8 @@
-<?php namespace Streams\Core\Controller;
+<?php namespace Streams\Core\Http\Controller;
 
-class BaseController extends \Controller
+use Illuminate\Routing\Controller;
+
+class BaseController extends Controller
 {
     /**
      * Create a new BaseController instance.

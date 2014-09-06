@@ -24,14 +24,14 @@ class Composer
     public function overloadView($view)
     {
         // If this is a theme view just return as is.
-        if (\Str::startsWith('theme::', $view->getName())) {
+        if (starts_with('theme::', $view->getName())) {
             return $view;
         }
 
         $environment = $view->getFactory();
         $themeView   = null;
 
-        if (!\Str::contains($view->getName(), '::')) {
+        if (!str_contains($view->getName(), '::')) {
 
             $themeView = "{$view->getName()}";
 

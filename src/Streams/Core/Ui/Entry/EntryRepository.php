@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Ui\Repository;
+<?php namespace Streams\Core\Ui\Entry;
 
 class EntryRepository
 {

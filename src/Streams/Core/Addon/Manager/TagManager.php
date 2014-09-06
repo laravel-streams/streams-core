@@ -22,7 +22,7 @@ class TagManager extends AddonManager
     {
         foreach ($this->getClasses() as $slug => $class) {
             if (isset($this->data[$slug]) and $this->data[$slug]->is_installed) {
-                $app['lexicon']->registerPlugin($slug, $class);
+                $app['anomaly.lexicon']->registerPlugin($slug, $class);
             }
         }
     }

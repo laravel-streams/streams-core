@@ -22,7 +22,7 @@ class ModuleManager extends AddonManager
         $slug = \Request::segment(1) == 'admin' ? \Request::segment(2) : \Request::segment(1);
 
         if (!in_array(\Request::segment(2), ['login', 'logout']) and $this->exists($slug)) {
-            return \Module::get($slug);
+            return \Module::find($slug);
         }
     }
 

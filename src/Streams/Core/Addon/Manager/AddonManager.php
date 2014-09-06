@@ -1,6 +1,5 @@
 <?php namespace Streams\Core\Addon\Manager;
 
-use Illuminate\Support\Str;
 use Streams\Core\Addon\AddonAbstract;
 use Streams\Core\Traits\CallableTrait;
 use Composer\Autoload\ClassLoader;
@@ -70,7 +69,7 @@ class AddonManager
 
             $slug = basename($path);
 
-            $type = strtolower(Str::singular(basename(dirname($path))));
+            $type = strtolower(str_singular(basename(dirname($path))));
 
             // All we are going to do here is add namespaces,
             // include dependent files and register PSR-4 paths.
@@ -289,13 +288,15 @@ class AddonManager
     }
 
     /**
+     * Get a single addon.
+     *
      * @param string $slug
      * @param array  $parameters
      * @return AddonAbstract
      */
-    public function get($slug, $parameters = [])
+    public function find($slug, $parameters = [])
     {
-        return \App::make('streams.' . Str::singular($this->folder) . '.' . $slug, $parameters);
+        return \App::make('streams.' . str_singular($this->folder) . '.' . $slug, $parameters);
     }
 
     /**
@@ -303,12 +304,12 @@ class AddonManager
      *
      * @return array
      */
-    public function getAll()
+    public function all()
     {
         $addons = [];
 
         foreach ($this->registeredAddons as $info) {
-            $addons[$info['slug']] = $this->get($info['slug']);
+            $addons[$info['slug']] = $this->find($info['slug']);
         }
 
         return $this->newCollection($addons);
@@ -344,7 +345,7 @@ class AddonManager
      */
     public function getNamespace($type, $slug)
     {
-        return 'Streams\Addon\\' . Str::studly(basename($type)) . '\\' . Str::studly($slug);
+        return 'Streams\Addon\\' . studly_case(basename($type)) . '\\' . studly_case($slug);
     }
 
     /**
@@ -357,7 +358,7 @@ class AddonManager
     {
         $info = $this->registeredAddons[$slug];
 
-        return $info['namespace'] . '\\' . Str::studly($info['slug']) . Str::studly($info['type']);
+        return $info['namespace'] . '\\' . studly_case($info['slug']) . studly_case($info['type']);
     }
 
     /**
@@ -431,7 +432,7 @@ class AddonManager
      */
     public function install($slug)
     {
-        return $this->get($slug)->newInstaller()->install();
+        return $this->find($slug)->newInstaller()->install();
     }
 
     /**
@@ -442,7 +443,7 @@ class AddonManager
      */
     public function uninstall($slug)
     {
-        return $this->get($slug)->newInstaller()->uninstall();
+        return $this->find($slug)->newInstaller()->uninstall();
     }
 
     /**
@@ -453,7 +454,7 @@ class AddonManager
      */
     public function isInstalled($slug)
     {
-        return $this->get($slug)->isInstalled();
+        return $this->find($slug)->isInstalled();
     }
 
     /**
@@ -464,7 +465,7 @@ class AddonManager
      */
     public function isEnabled($slug)
     {
-        return $this->get($slug)->isEnabled();
+        return $this->find($slug)->isEnabled();
     }
 
     /**

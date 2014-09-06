@@ -142,7 +142,7 @@ class FieldModel extends EloquentModel
     public function getTypeAttribute($type)
     {
         if (\FieldType::exists($type)) {
-            return \FieldType::get($type);
+            return \FieldType::find($type);
         }
 
         return $type;

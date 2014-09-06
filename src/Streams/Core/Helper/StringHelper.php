@@ -10,9 +10,15 @@ class StringHelper
      */
     public function humanize($string = null)
     {
-        return ucwords(\Str::snake($string));
+        return ucwords(str_replace('_', ' ', snake_case($string)));
     }
 
+    /**
+     * Return the boolean evaluation of a string.
+     * 
+     * @param null $string
+     * @return mixed
+     */
     public function bool($string = null)
     {
         return filter_var($string, FILTER_VALIDATE_BOOLEAN);

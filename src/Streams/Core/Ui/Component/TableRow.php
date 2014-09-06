@@ -1,142 +1,74 @@
 <?php namespace Streams\Core\Ui\Component;
 
-use Streams\Core\Ui\Contract\RenderableInterface;
 use Streams\Core\Ui\TableUi;
 
-class TableRow extends TableComponent
+class TableRow
 {
     /**
-     * The view to use.
+     * The table UI object.
      *
-     * @var string
+     * @var \Streams\Core\Ui\TableUi
      */
-    protected $view = null;
+    protected $ui;
 
     /**
-     * The entry object.
-     *
-     * @var null
-     */
-    protected $entry = null;
-
-    /**
-     * Create a new TableRow instance.
+     * Create a new Table instance.
      *
      * @param TableUi $ui
      */
-    public function __construct(TableUi $ui = null)
+    public function __construct(TableUi $ui)
     {
         $this->ui = $ui;
 
-        $this->tableColumn = $ui->newTableColumn();
-        $this->tableButton = $ui->newTableButton();
+        $this->column = $this->ui->newColumn($ui);
+        $this->button = $this->ui->newButton($ui);
     }
 
     /**
-     * Return the output.
+     * Make the row array.
      *
-     * @return string|void
+     * @param $entry
+     * @return array
      */
-    public function render()
+    public function make($entry)
     {
-        $columns = $this->buildColumns();
-        $buttons = $this->buildButtons();
+        $columns = $this->makeColumns($entry);
+        $buttons = $this->makeButtons($entry);
 
-        return \View::make($this->view ? : 'streams/partials/table/row', compact('columns', 'buttons'));
+        return compact('columns', 'buttons');
     }
 
     /**
-     * Return a collection of TableColumn components.
+     * Return the columns array.
      *
-     * @return \Streams\Ui\Collection\TableColumnCollection
+     * @param $entry
+     * @return string
      */
-    protected function buildColumns()
+    protected function makeColumns($entry)
     {
         $columns = $this->ui->getColumns();
 
-        if ($columns instanceof \Closure) {
-            $columns = \StreamsHelper::value($columns, [$this]);
+        foreach ($columns as &$column) {
+            $column = $this->column->make($entry, $column);
         }
 
-        foreach ($columns as &$options) {
-
-            if (isset($options['column']) and $options['column'] instanceof RenderableInterface) {
-                $options['column']->setEntry($this->entry);
-                continue;
-            }
-
-            if (is_string($options)) {
-                $options = ['field' => $options];
-            }
-
-            $column = clone($this->tableColumn);
-
-            $column->setEntry($this->entry);
-
-            $column->setView(\ArrayHelper::value($options, 'view', null, [$this]));
-            $column->setField(\ArrayHelper::value($options, 'field', null, [$this]));
-            $column->setColumn(\ArrayHelper::value($options, 'column', null, [$this]));
-            $column->setAttributes(\ArrayHelper::value($options, 'attributes', null, [$this]));
-
-            $options = compact('column');
-        }
-
-        return $this->ui->newTableColumnCollection($columns);
+        return $columns;
     }
 
     /**
-     * Return a collection of TableButton components.
+     * Return the buttons array.
      *
-     * @return \Streams\Ui\Collection\TableButtonCollection
+     * @param $entry
+     * @return string
      */
-    protected function buildButtons()
+    protected function makeButtons($entry)
     {
         $buttons = $this->ui->getButtons();
 
-        if ($buttons instanceof \Closure) {
-            $buttons = \StreamsHelper::value($buttons, [$this]);
+        foreach ($buttons as &$button) {
+            $button = $this->button->make($entry, $button);
         }
 
-        foreach ($buttons as &$options) {
-
-            $button = clone($this->tableButton);
-
-            $button->setEntry($this->entry);
-
-            if ($options instanceof \Closure) {
-                $options = \StreamsHelper::value($options, [$this]);
-            }
-
-            $button->setView(\ArrayHelper::value($options, 'view', null, [$this]));
-            $button->setTitle(\ArrayHelper::value($options, 'title', null, [$this]));
-            $button->setAttributes(\ArrayHelper::value($options, 'attributes', null, [$this]));
-
-            $options = compact('button');
-        }
-
-        return $this->ui->newTableButtonCollection($buttons);
-    }
-
-    /**
-     * Get the entry object.
-     *
-     * @return null
-     */
-    public function getEntry()
-    {
-        return $this->entry;
-    }
-
-    /**
-     * Set the entry object.
-     *
-     * @param $entry
-     * @return $this
-     */
-    public function setEntry($entry)
-    {
-        $this->entry = $entry;
-
-        return $this;
+        return $buttons;
     }
 }

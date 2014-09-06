@@ -26,7 +26,7 @@ class ThemeManager extends AddonManager
 
         $slug = 'streams';
 
-        return $this->get($slug);
+        return $this->find($slug);
     }
 
     /**
@@ -43,7 +43,7 @@ class ThemeManager extends AddonManager
 
         $slug = 'aiws';
 
-        return $this->get($slug);
+        return $this->find($slug);
     }
 
     /**

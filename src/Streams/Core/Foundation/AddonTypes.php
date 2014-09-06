@@ -30,7 +30,7 @@ class AddonTypes
      */
     public function getAddonTypeManagerClass($type)
     {
-        return 'Streams\Core\Addon\Manager\\' . \Str::studly(\Str::singular($type)) . 'Manager';
+        return 'Streams\Core\Addon\Manager\\' . studly_case(str_singular($type)) . 'Manager';
     }
 
     /**
@@ -74,7 +74,7 @@ class AddonTypes
     protected function bindRepositories(Container $app)
     {
         foreach ($this->addonTypes as $type => $class) {
-            $classSegment = \Str::studly(\Str::singular($type));
+            $classSegment = studly_case(str_singular($type));
 
             $interface  = 'Streams\Addon\Module\Addons\Contract\\' . $classSegment . 'RepositoryInterface';
             $repository = 'Streams\Addon\Module\Addons\Repository\Streams' . $classSegment . 'Repository';

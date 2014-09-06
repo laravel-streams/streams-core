@@ -1,6 +1,7 @@
 <?php namespace Streams\Core\Addon;
 
 use Anomaly\Lexicon\Contract\EnvironmentInterface;
+use Anomaly\Lexicon\Contract\LexiconInterface;
 use Anomaly\Lexicon\Contract\PluginInterface;
 use Streams\Core\Addon\Model\TagModel;
 use Streams\Core\Addon\Presenter\TagPresenter;
@@ -178,14 +179,15 @@ abstract class TagAbstract extends AddonAbstract implements PluginInterface
     }
 
     /**
-     * Set the Lexicon environment
+     * Set the Lexicon environment.
      *
-     * @param EnvironmentInterface $lexicon
-     * @return $this
+     * @param LexiconInterface $lexicon
+     * @return $this|mixed
      */
-    public function setEnvironment(EnvironmentInterface $lexicon)
+    public function setEnvironment(LexiconInterface $lexicon)
     {
         $this->lexicon = $lexicon;
+
         return $this;
     }
 

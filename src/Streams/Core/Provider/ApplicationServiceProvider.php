@@ -14,7 +14,7 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->registerApplication();
         $this->registerSchemaUtility();
 
-        $this->includePackageResources();
+        $this->includeRoutes();
 
         \Application::locate();
     }
@@ -48,8 +48,8 @@ class ApplicationServiceProvider extends ServiceProvider
     /**
      * Include package resource files.
      */
-    protected function includePackageResources()
+    protected function includeRoutes()
     {
-        echo __DIR__.'/../../routes.php';die;
+        include __DIR__.'/../Http/routes.php';
     }
 }
