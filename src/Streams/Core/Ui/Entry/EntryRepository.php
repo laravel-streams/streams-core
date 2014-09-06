@@ -33,7 +33,7 @@ class EntryRepository
         $paginator = $this->ui->getPaginator();
 
         $limit  = $this->ui->getLimit($paginator->getPerPage());
-        $offset = ($paginator->getFrom() - 1) * $limit;
+        $offset = ($paginator->getCurrentPage() - 1) * $limit;
 
         return $model
             ->take($limit)
