@@ -16,6 +16,8 @@ class ApplicationServiceProvider extends ServiceProvider
 
         $this->includeRoutes();
 
+        $this->addNamespace();
+
         \Application::locate();
     }
 
@@ -51,5 +53,13 @@ class ApplicationServiceProvider extends ServiceProvider
     protected function includeRoutes()
     {
         include __DIR__.'/../Http/routes.php';
+    }
+
+    /**
+     * Add streams namespaces.
+     */
+    protected function addNamespace()
+    {
+        \View::addNamespace('streams', __DIR__.'/../../../../resources/views');
     }
 }
