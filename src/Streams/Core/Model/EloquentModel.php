@@ -1,6 +1,5 @@
 <?php namespace Streams\Core\Model;
 
-use LaravelBook\Ardent\Ardent;
 use Streams\Core\Traits\CacheableTrait;
 use Streams\Core\Traits\ObservableTrait;
 use Dimsav\Translatable\Translatable;
@@ -11,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Streams\Core\Model\Presenter\EloquentPresenter;
 use Venturecraft\Revisionable\RevisionableTrait;
 
-class EloquentModel extends Ardent implements ArrayableInterface, PresenterInterface
+class EloquentModel extends ArdentModel implements ArrayableInterface, PresenterInterface
 {
     /*use Translatable {
         Translatable::save as translatableSave;
