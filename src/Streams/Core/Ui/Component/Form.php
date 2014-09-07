@@ -29,8 +29,9 @@ class Form
     public function data()
     {
         $sections = $this->makeSections();
+        $actions  = $this->makeActions();
 
-        return compact('sections');
+        return compact('sections', 'actions');
     }
 
     /**
@@ -49,5 +50,39 @@ class Form
         }
 
         return $sections;
+    }
+
+    /**
+     * Return the actions array.
+     *
+     * @return string
+     */
+    protected function makeActions()
+    {
+        $actions = $this->ui->getActions();
+
+        foreach ($actions as &$action) {
+            $url = \ArrayHelper::value($action, 'url', '#', [$this->ui]);
+
+            $title = trans(\ArrayHelper::value($action, 'title', null, [$this->ui]));
+
+            $attributes = \ArrayHelper::value($action, 'attributes', [], [$this->ui]);
+
+            $button = \HTML::link($url, $title, $attributes);
+
+            $dropdown = \ArrayHelper::value($action, 'dropdown', [], [$this->ui]);
+
+            foreach ($dropdown as &$item) {
+                $url = \ArrayHelper::value($item, 'url', '#', [$this->ui]);
+
+                $title = trans(\ArrayHelper::value($item, 'title', null, [$this->ui]));
+
+                $item = compact('url', 'title');
+            }
+
+            $action = compact('button', 'attributes', 'dropdown');
+        }
+
+        return $actions;
     }
 }

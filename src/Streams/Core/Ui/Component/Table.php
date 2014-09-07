@@ -186,16 +186,16 @@ class Table
     {
         $actions = $this->ui->getActions();
 
-        foreach ($actions as &$button) {
-            $url = \ArrayHelper::value($button, 'url', '#', [$this->ui]);
+        foreach ($actions as &$action) {
+            $url = \ArrayHelper::value($action, 'url', '#', [$this->ui]);
 
-            $title = trans(\ArrayHelper::value($button, 'title', null, [$this->ui]));
+            $title = trans(\ArrayHelper::value($action, 'title', null, [$this->ui]));
 
-            $attributes = \ArrayHelper::value($button, 'attributes', [], [$this->ui]);
+            $attributes = \ArrayHelper::value($action, 'attributes', [], [$this->ui]);
 
-            $link = \HTML::link($url, $title, $attributes);
+            $button = \HTML::link($url, $title, $attributes);
 
-            $dropdown = \ArrayHelper::value($button, 'dropdown', [], [$this->ui]);
+            $dropdown = \ArrayHelper::value($action, 'dropdown', [], [$this->ui]);
 
             foreach ($dropdown as &$item) {
                 $url = \ArrayHelper::value($item, 'url', '#', [$this->ui]);
@@ -205,7 +205,7 @@ class Table
                 $item = compact('url', 'title');
             }
 
-            $button = compact('link', 'attributes', 'dropdown');
+            $action = compact('button', 'attributes', 'dropdown');
         }
 
         return $actions;
