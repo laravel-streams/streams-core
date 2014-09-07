@@ -53,7 +53,17 @@ abstract class UiAbstract
     }
 
     /**
-     * Set the title property.
+     * Get the title.
+     *
+     * @return null
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set the title.
      *
      * @param $title
      * @return $this
