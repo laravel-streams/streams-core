@@ -1,5 +1,6 @@
 <?php namespace Streams\Core\Provider;
 
+use Illuminate\Translation\FileLoader;
 use Streams\Core\Support\Translator;
 
 class TranslationServiceProvider extends \Illuminate\Translation\TranslationServiceProvider
@@ -9,10 +10,22 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
      */
     public function register()
     {
+        $this->registerStreamsPath();
         $this->registerLoader();
         $this->registerTranslator();
+    }
 
-        $this->addNamespace();
+    /**
+     * Register the streams path for language.
+     */
+    protected function registerStreamsPath()
+    {
+        $this->app->bind(
+            'path.lang',
+            function ($app) {
+                return __DIR__ . '/../../../../resources/lang';
+            }
+        );
     }
 
     /**
@@ -37,13 +50,5 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
                 return $trans;
             }
         );
-    }
-
-    /**
-     * Add the streams language namespace.
-     */
-    protected function addNamespace()
-    {
-        \Lang::addNamespace('streams', __DIR__ . '/../../../../resources/lang');
     }
 }
