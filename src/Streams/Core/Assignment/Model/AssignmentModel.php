@@ -33,6 +33,16 @@ class AssignmentModel extends FieldModel
     }
 
     /**
+     * Return the field type.
+     *
+     * @return mixed
+     */
+    public function fieldType()
+    {
+        return $this->field->type;
+    }
+
+    /**
      * Return the stream relationship.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
