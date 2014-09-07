@@ -163,6 +163,16 @@ class FormUi extends UiAbstract
     }
 
     /**
+     * Get the actions for the form.
+     *
+     * @return array
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
      * Set the actions for the form.
      *
      * @param $actions
