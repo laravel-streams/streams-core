@@ -72,12 +72,14 @@ class FormUi extends UiAbstract
      */
     protected function trigger()
     {
-        if ($_POST) {
-            $this->entry = $this->resource->save();
-        } elseif (is_numeric($this->entry)) {
+        if (is_numeric($this->entry)) {
             $this->entry = $this->resource->find($this->entry);
         } elseif ($this->entry === null) {
             $this->entry = $this->resource->newEntry();
+        }
+
+        if ($_POST) {
+            $this->entry = $this->resource->save();
         }
 
         $this->output = \View::make(
