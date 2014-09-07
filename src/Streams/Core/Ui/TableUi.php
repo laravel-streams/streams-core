@@ -138,7 +138,7 @@ class TableUi extends UiAbstract
 
         $this->output = \View::make(
             'html/table',
-            $this->table->make()
+            $this->table->data()
         );
 
         return $this;

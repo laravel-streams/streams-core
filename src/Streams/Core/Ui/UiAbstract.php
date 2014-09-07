@@ -37,15 +37,7 @@ abstract class UiAbstract
     {
         $this->trigger();
 
-        return \View::make(
-            'html/panel',
-            array_merge(
-                $this->table->make(),
-                [
-                    'content' => $this->output
-                ]
-            )
-        );
+        return $this->output;
     }
 
     /**

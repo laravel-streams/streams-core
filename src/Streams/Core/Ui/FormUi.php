@@ -1,20 +1,7 @@
 <?php namespace Streams\Core\Ui;
 
 use Streams\Core\Ui\Component\Form;
-use Streams\Core\Ui\Component\FormTab;
-use Streams\Core\Ui\Component\FormRow;
-use Streams\Core\Ui\Component\FormField;
-use Streams\Core\Ui\Component\FormColumn;
-use Streams\Core\Ui\Component\FormSection;
-use Streams\Core\Ui\Component\FormTabContent;
-use Streams\Core\Ui\Component\FormTabHeading;
-use Streams\Core\Ui\Component\FormTabbedSection;
-use Streams\Core\Ui\Collection\FormColumnCollection;
-use Streams\Core\Ui\Collection\FormFieldCollection;
-use Streams\Core\Ui\Collection\FormRowCollection;
-use Streams\Core\Ui\Collection\FormTabCollection;
-use Streams\Core\Ui\Repository\EntryRepository;
-use Streams\Core\Ui\Handler\FormHandler;
+use Streams\Core\Ui\Entry\EntryResource;
 
 class FormUi extends UiAbstract
 {
@@ -68,8 +55,8 @@ class FormUi extends UiAbstract
      */
     public function __construct($model = null)
     {
-        $this->form    = $this->newForm();
-        $this->handler = $this->newFormHandler();
+        $this->resource = $this->newEntryResource();
+        $this->form     = $this->newForm();
 
         if ($model) {
             $this->model = $model;
@@ -86,10 +73,15 @@ class FormUi extends UiAbstract
     protected function trigger()
     {
         if ($_POST) {
-            $this->entry = $this->handler->save();
+            $this->entry = $this->resource->save();
+        } elseif (is_numeric($this->entry)) {
+            $this->entry = $this->resource->find($this->entry);
         }
 
-        $this->output = $this->form->render();
+        $this->output = \View::make(
+            'html/form',
+            $this->form->data()
+        );
 
         return $this;
     }
@@ -232,156 +224,12 @@ class FormUi extends UiAbstract
     }
 
     /**
-     * Return a new FormLayout instance.
+     * Return a new entry resource instance.
      *
-     * @return FormLayout
+     * @return EntryResource
      */
-    public function newFormLayout()
+    public function newEntryResource()
     {
-        return new FormLayout($this);
-    }
-
-    /**
-     * Return a new FormSection instance.
-     *
-     * @return FormSection
-     */
-    public function newFormSection()
-    {
-        return new FormSection($this);
-    }
-
-    /**
-     * Return a new FormTabbedSection instance.
-     *
-     * @return FormTabbedSection
-     */
-    public function newFormTabbedSection()
-    {
-        return new FormTabbedSection($this);
-    }
-
-    /**
-     * Return a new FormTab instance.
-     *
-     * @return FormTab
-     */
-    public function newFormTab()
-    {
-        return new FormTab($this);
-    }
-
-    /**
-     * Return a new form tab heading instance.
-     *
-     * @return FormTabHeading
-     */
-    public function newFormTabHeading()
-    {
-        return new FormTabHeading($this);
-    }
-
-    /**
-     * Return a new form tab content instance.
-     *
-     * @return FormTabContent
-     */
-    public function newFormTabContent()
-    {
-        return new FormTabContent($this);
-    }
-
-    /**
-     * Return a new FormRow instance.
-     *
-     * @return FormRow
-     */
-    public function newFormRow()
-    {
-        return new FormRow($this);
-    }
-
-    /**
-     * Return a new FormColumn instance.
-     *
-     * @return FormColumn
-     */
-    public function newFormColumn()
-    {
-        return new FormColumn($this);
-    }
-
-    /**
-     * Return a new form field instance.
-     *
-     * @return FormField
-     */
-    public function newFormField()
-    {
-        return new FormField($this);
-    }
-
-    /**
-     * Return a new entry repository instance.
-     *
-     * @return EntryRepository
-     */
-    public function newEntryRepository()
-    {
-        return new EntryRepository($this);
-    }
-
-    /**
-     * Return a new form tab collection instance.
-     *
-     * @param $items
-     * @return FormTabCollection
-     */
-    public function newFormTabCollection($items)
-    {
-        return new FormTabCollection($items);
-    }
-
-    /**
-     * Return a new form row collection instance.
-     *
-     * @param $items
-     * @return FormRowCollection
-     */
-    public function newFormRowCollection($items)
-    {
-        return new FormRowCollection($items);
-    }
-
-    /**
-     * Return a new form column collection instance.
-     *
-     * @param $items
-     * @return FormColumnCollection
-     */
-    public function newFormColumnCollection($items)
-    {
-        return new FormColumnCollection($items);
-    }
-
-    /**
-     * Return a new form field collection instance.
-     *
-     * @param $items
-     * @return FormFieldCollection
-     */
-    public function newFormFieldCollection($items)
-    {
-        return new FormFieldCollection($items);
-    }
-
-    /**
-     * Return a new form handler instance.
-     *
-     * @return FormHandler
-     */
-    protected function newFormHandler()
-    {
-        return new FormHandler($this);
+        return new EntryResource($this);
     }
 }
