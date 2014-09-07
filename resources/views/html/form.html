@@ -11,11 +11,19 @@
             {{ section.title }}
         </h3>
     </div>
-    <div class="panel-body" style="padding: 0;">
+    <div class="panel-body">
         Hi there
     </div>
 </section>
 {{ /sections }}
+
+<section class="panel panel-default">
+    <div class="panel-body">
+        {{ actions }}
+        {{ button }}
+        {{ /actions }}
+    </div>
+</section>
 
 {{ form.close }}
 {{ stop }}
