@@ -25,6 +25,40 @@ class EntryModel extends EloquentModel
     }
 
     /**
+     * Set a given attribute on the model.
+     *
+     * @param  string $key
+     * @param  mixed  $value
+     * @return void
+     */
+    public function setAttribute($key, $value)
+    {
+        // First we will check for the presence of a mutator for the set operation
+        // which simply lets the developers tweak the attribute as it is set on
+        // the model, such as "json_encoding" an listing of data for storage.
+        if ($this->hasSetMutator($key)) {
+            $method = 'set' . studly_case($key) . 'Attribute';
+
+            return $this->{$method}($value);
+        }
+
+        // If an attribute is listed as a "date", we'll convert it from a DateTime
+        // instance into a form proper for storage on the database tables using
+        // the connection grammar's date format. We will auto set the values.
+        elseif (in_array($key, $this->getDates()) && $value) {
+            $value = $this->fromDateTime($value);
+        }
+
+        // Lastly if we have a type for this key - use the field type
+        // mutate method to transform the value to storage format.
+        elseif ($type = $this->findAssignmentBySlug($key)->getType()) {
+            $value = $type->mutate($value);
+        }
+
+        $this->attributes[$key] = $value;
+    }
+
+    /**
      * Set entry information that every record needs.
      *
      * @return $this
@@ -84,7 +118,7 @@ class EntryModel extends EloquentModel
         if ($this->stream instanceof StreamModel) {
             return $this->stream;
         } else {
-            return $this->stream = (new StreamModel())->object($this->stream);
+            return $this->stream = return (new StreamModel())->object($this->stream);
         }
     }
 
@@ -115,7 +149,7 @@ class EntryModel extends EloquentModel
      * Return a new presenter instance.
      *
      * @param $resource
-     * @return \Streams\Presenter\EloquentPresenter|EntryPresenter
+     * @return EntryPresenter|\Streams\Core\Model\Presenter\EloquentPresenter
      */
     public function newPresenter($resource)
     {

@@ -76,6 +76,17 @@ abstract class FieldTypeAbstract extends AddonAbstract
     }
 
     /**
+     * Mutate the value for storage.
+     *
+     * @param $value
+     * @return mixed
+     */
+    public function mutate($value)
+    {
+        return $value;
+    }
+
+    /**
      * Return the column type.
      *
      * @return string
