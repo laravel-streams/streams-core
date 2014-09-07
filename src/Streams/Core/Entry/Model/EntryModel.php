@@ -118,7 +118,7 @@ class EntryModel extends EloquentModel
         if ($this->stream instanceof StreamModel) {
             return $this->stream;
         } else {
-            return $this->stream = return (new StreamModel())->object($this->stream);
+            return $this->stream = (new StreamModel())->object($this->stream);
         }
     }
 
