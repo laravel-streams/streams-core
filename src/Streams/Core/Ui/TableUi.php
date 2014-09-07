@@ -115,7 +115,7 @@ class TableUi extends UiAbstract
         $this->table      = $this->newTable($this);
 
         if ($model) {
-            return $this->make($model);
+            $this->model = $model;
         }
 
         return $this;

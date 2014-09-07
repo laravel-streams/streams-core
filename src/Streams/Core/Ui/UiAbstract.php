@@ -28,20 +28,6 @@ abstract class UiAbstract
     protected $title = 'misc.untitled';
 
     /**
-     * Make a model table.
-     *
-     * @param      $slug
-     * @param null $namespace
-     * @return $this
-     */
-    public function make($model)
-    {
-        $this->model = $model;
-
-        return $this;
-    }
-
-    /**
      * Return the compiled the view output.
      *
      * @param bool $return
@@ -95,5 +81,18 @@ abstract class UiAbstract
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * Set the model object.
+     *
+     * @param $model
+     * @return $this
+     */
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
     }
 }

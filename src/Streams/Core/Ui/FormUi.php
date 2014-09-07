@@ -72,7 +72,7 @@ class FormUi extends UiAbstract
         $this->handler = $this->newFormHandler();
 
         if ($model) {
-            return $this->make($model);
+            $this->model = $model;
         }
 
         return $this;
