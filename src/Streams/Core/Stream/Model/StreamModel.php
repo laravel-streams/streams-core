@@ -57,6 +57,10 @@ class StreamModel extends EloquentModel
     {
         $assignments = array();
 
+        $streamModel = new StreamModel();
+
+        $streamModel->setRawAttributes($data);
+
         if (isset($data['assignments'])) {
             foreach ($data['assignments'] as $assignment) {
                 if (isset($assignment['field'])) {
@@ -68,16 +72,15 @@ class StreamModel extends EloquentModel
 
                     $assignmentModel->setRawAttributes($assignment);
 
+                    $fieldModel->parent = $assignmentModel;
+
                     $assignmentModel->setRelation('field', $fieldModel);
+                    $assignmentModel->setRelation('stream', $streamModel);
 
                     $assignments[] = $assignmentModel;
                 }
             }
         }
-
-        $streamModel = new StreamModel();
-
-        $streamModel->setRawAttributes($data);
 
         $assignmentsCollection = new AssignmentCollection($assignments);
 
