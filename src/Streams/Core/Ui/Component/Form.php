@@ -43,6 +43,15 @@ class Form
     {
         $sections = $this->ui->getSections();
 
+        if ($sections === null) {
+            $sections = [
+                [
+                    'title'  => $this->ui->getTitle(),
+                    'fields' => $this->ui->getEntry()->getStream()->assignments->fieldSlugs(),
+                ]
+            ];
+        }
+
         foreach ($sections as &$section) {
             $title = trans(\ArrayHelper::value($section, 'title', null, [$this->ui]));
 
