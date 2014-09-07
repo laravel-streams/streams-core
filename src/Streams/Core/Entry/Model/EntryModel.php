@@ -12,7 +12,15 @@ class EntryModel extends EloquentModel
      *
      * @var array/null
      */
-    protected $stream = [];
+    protected $stream;
+
+    /**
+     * Create a new EntryModel instance.
+     */
+    public function __construct()
+    {
+        $this->stream = (new StreamModel())->object($this->stream);
+    }
 
     /**
      * Return the default columns.
@@ -90,7 +98,7 @@ class EntryModel extends EloquentModel
     public function findAssignmentBySlug($slug)
     {
         return $this
-            ->getStream()
+            ->stream
             ->assignments
             ->findBySlug($slug);
     }
@@ -103,9 +111,7 @@ class EntryModel extends EloquentModel
      */
     public function fieldType($slug)
     {
-        $assignment = $this->findAssignmentBySlug($slug);
-
-        return $assignment->field->type->setAssignment($assignment)->setEntry($this);
+        return $this->findAssignmentBySlug($slug)->fieldType();
     }
 
     /**
@@ -115,11 +121,7 @@ class EntryModel extends EloquentModel
      */
     public function getStream()
     {
-        if ($this->stream instanceof StreamModel) {
-            return $this->stream;
-        } else {
-            return $this->stream = (new StreamModel())->object($this->stream);
-        }
+        return $this->stream;
     }
 
     /**
