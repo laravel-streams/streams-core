@@ -6,25 +6,18 @@ use Streams\Core\Addon\Presenter\FieldTypePresenter;
 abstract class FieldTypeAbstract extends AddonAbstract
 {
     /**
-     * The database column type this field type uses.
+     * The database column type.
      *
      * @var string
      */
     protected $columnType = 'string';
 
     /**
-     * Column constraint
+     * The column constraint.
      *
      * @var string
      */
     protected $columnConstraint = null;
-
-    /**
-     * Field type version
-     *
-     * @var string
-     */
-    protected $version = '1.0.0';
 
     /**
      * The entry model object.
@@ -56,25 +49,14 @@ abstract class FieldTypeAbstract extends AddonAbstract
     public function input()
     {
         $options = [
-            'class'       => 'form-control',
-            'placeholder' => $this->getPlaceholder(),
+            'class' => 'form-control',
         ];
 
-        return \Form::input('text', $this->postKey(), $this->value(), $options);
-    }
-
-    public function formName()
-    {
-        return $this->slug;
-    }
-
-    protected function getPlaceholder()
-    {
-        return null;
+        return \Form::text($this->fieldName(), $this->value, $options);
     }
 
     /**
-     * Return the column name for this field type.
+     * Return the database column name.
      *
      * @return string
      */
@@ -84,238 +66,13 @@ abstract class FieldTypeAbstract extends AddonAbstract
     }
 
     /**
-     * Return placeholder text.
+     * Return the field name.
      *
-     * @param null $default
      * @return string
      */
-    public function placeholder($default = null)
-    {
-        if (!$placeholder = 'Test Placeholder') {
-            return $default;
-        }
-
-        return $placeholder;
-    }
-
-    /**
-     * Run when the field is created.
-     */
-    public function construct()
-    {
-    }
-
-    /**
-     * Run when the field is destroyed.
-     */
-    public function destroy()
-    {
-    }
-
-    /**
-     * Run when the field is assigned.
-     */
-    public function assigned()
-    {
-    }
-
-    /**
-     * Run when the field is unassigned.
-     */
-    public function unassigned()
-    {
-    }
-
-    /**
-     * Return the value for the field type.
-     *
-     * @param $default
-     * @return null
-     */
-    public function value()
-    {
-        if (\Request::isMethod('post')) {
-            return \Input::get($this->postKey());
-        } elseif (isset($this->entry->{$this->entryKey()})) {
-            return $this->entry->{$this->entryKey()};
-        }
-
-        return $this->defaultValue();
-    }
-
-    /**
-     * Return the default value.
-     *
-     * @return null
-     */
-    protected function defaultValue()
-    {
-        return null;
-    }
-
-    protected function postKey()
-    {
-        return $this->entryKey();;
-    }
-
-    protected function entryKey()
+    public function fieldName()
     {
         return $this->assignment->field->slug;
-    }
-
-    /**
-     * Has relation?
-     *
-     * @return boolean
-     */
-    public function hasRelation(FieldTypeAbstract $fieldType)
-    {
-        if (method_exists($fieldType, 'relation')) {
-            $relationArray = $fieldType->relation();
-
-            if (!is_array($relationArray) or empty($relationArray)) {
-                return false;
-            }
-
-            if (!empty($relationArray['method']) and in_array(
-                    $relationArray['method'],
-                    $this->getValidRelationMethods()
-                )
-            ) {
-                return true;
-            }
-        }
-    }
-
-    /**
-     * Wrapper method for the Eloquent hasOne method.
-     *
-     * @param  EntryModel $related
-     * @param  string     $foreignKey
-     * @return Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function hasOne($related, $foreignKey = null, $localKey = null)
-    {
-        return [
-            'method'    => __FUNCTION__,
-            'arguments' => func_get_args(),
-        ];
-    }
-
-    /**
-     * Wrapper method for the Eloquent morphOne method.
-     *
-     * @param  EntryModel $related
-     * @param  string     $name
-     * @param  string     $type
-     * @param  string     $id
-     * @return Illuminate\Database\Eloquent\Relations\MorphOne
-     */
-    public function morphOne($related, $name, $type = null, $id = null, $localKey = null)
-    {
-        return [
-            'method'    => __FUNCTION__,
-            'arguments' => func_get_args(),
-        ];
-    }
-
-    /**
-     * Wrapper method for the Eloquent belongsTo() method.
-     *
-     * @param  EntryModel $related
-     * @param  string     $foreignKey
-     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function belongsTo($related, $foreignKey = null)
-    {
-        return [
-            'method'    => __FUNCTION__,
-            'arguments' => func_get_args(),
-        ];
-    }
-
-    /**
-     * Wrapper method for the Eloquent morphTo() method.
-     *
-     * @param  string $name
-     * @param  string $type
-     * @param  string $id
-     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function morphTo($name = null, $type = null, $id = null)
-    {
-        return [
-            'method'    => __FUNCTION__,
-            'arguments' => func_get_args(),
-        ];
-    }
-
-    /**
-     * Wrapper method for the Eloquent hasMany() method.
-     *
-     * @param  EntryModel $related
-     * @param  string     $foreignKey
-     * @return Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function hasMany($related, $foreignKey = null)
-    {
-        return [
-            'method'    => __FUNCTION__,
-            'arguments' => func_get_args(),
-        ];
-    }
-
-    /**
-     * Wrapper method for the Eloquent morphMany() method.
-     *
-     * @param  EntryModel $related
-     * @param  string     $name
-     * @param  string     $type
-     * @param  string     $id
-     * @return Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function morphMany($related, $name, $type = null, $id = null, $localKey = null)
-    {
-        return [
-            'method'    => __FUNCTION__,
-            'arguments' => func_get_args(),
-        ];
-    }
-
-    /**
-     * Wrapper method for the Eloquent belongsTo() method.
-     *
-     * @param  EntryModel $related
-     * @param  string     $table
-     * @param  string     $foreignKey
-     * @param  string     $otherKey
-     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null)
-    {
-        return [
-            'method'    => __FUNCTION__,
-            'arguments' => func_get_args(),
-        ];
-    }
-
-    /**
-     * Define a polymorphic many-to-many relationship.
-     *
-     * @param  string $related
-     * @param  string $name
-     * @param  string $table
-     * @param  string $foreignKey
-     * @param  string $otherKey
-     * @param  bool   $inverse
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
-    public function morphToMany($related, $name, $table = null, $foreignKey = null, $otherKey = null, $inverse = false)
-    {
-        return [
-            'method'    => __FUNCTION__,
-            'arguments' => func_get_args(),
-        ];
     }
 
     /**
@@ -339,16 +96,6 @@ abstract class FieldTypeAbstract extends AddonAbstract
     }
 
     /**
-     * Return the version.
-     *
-     * @return string
-     */
-    public function getVersion()
-    {
-        return $this->version;
-    }
-
-    /**
      * Get the entry object.
      *
      * @return null
@@ -367,6 +114,29 @@ abstract class FieldTypeAbstract extends AddonAbstract
     public function setEntry($entry)
     {
         $this->entry = $entry;
+
+        return $this;
+    }
+
+    /**
+     * Get the value.
+     *
+     * @return null
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * Set the value.
+     *
+     * @param $value
+     * @return $this
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
 
         return $this;
     }

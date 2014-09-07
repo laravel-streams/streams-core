@@ -1,8 +1,19 @@
 <?php namespace Streams\Core\Addon\Presenter;
 
 
+use Streams\Core\Addon\FieldTypeAbstract;
+
 class FieldTypePresenter extends AddonPresenter
 {
+    /**
+     * Create a new FieldTypePresenter instance.
+     *
+     * @param FieldTypeAbstract $resource
+     */
+    public function __construct(FieldTypeAbstract $resource) {
+        $this->resource = $resource;
+    }
+
     /**
      * Return the assignment object.
      *
@@ -40,6 +51,6 @@ class FieldTypePresenter extends AddonPresenter
      */
     public function __toString()
     {
-        return $this->resource->value();
+        return (string) $this->resource->getValue();
     }
 }
