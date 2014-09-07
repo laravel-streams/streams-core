@@ -72,7 +72,7 @@ class Table
             $columns = $this->makeColumns($entry);
             $buttons = $this->makeButtons($entry);
 
-            $rows[] = compact('columns', 'buttons');
+            $rows[] = compact('columns', 'buttons', 'entry');
         }
 
         return $rows;

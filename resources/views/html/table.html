@@ -4,13 +4,13 @@
     <thead>
     <tr>
         {{ if options.sortable }}
-        <th class="sort-handle">
+        <th>
             <i class="fa fa-reorder" style="color: #dadada"></i>
         </th>
         {{ endif }}
 
         {{ if actions }}
-        <th class="select-box">
+        <th>
             <input type="checkbox" onclick="$(this).closest('table').find(':checkbox').prop('checked', this.checked);"/>
         </th>
         {{ endif }}
@@ -31,14 +31,14 @@
     {{ rows }}
     <tr>
         {{ if data.options.sortable }}
-        <td class="sort-handle">
+        <td>
             <i class="fa fa-reorder" style="cursor: move;"></i>
         </td>
         {{ endif }}
 
         {{ if data.actions }}
-        <td class="select-box">
-            <input type="checkbox"/>
+        <td>
+            <input type="checkbox" name="id[]" value="{{ entry.id }}"/>
         </td>
         {{ endif }}
 
