@@ -40,7 +40,6 @@ abstract class FieldTypeAbstract extends AddonAbstract
      */
     protected $assignment = null;
 
-
     /**
      * Return the form input.
      *
