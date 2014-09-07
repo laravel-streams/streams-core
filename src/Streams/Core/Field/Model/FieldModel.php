@@ -142,7 +142,10 @@ class FieldModel extends EloquentModel
     public function getTypeAttribute($type)
     {
         if (\FieldType::exists($type)) {
-            return \FieldType::find($type);
+            $type = \FieldType::find($type)
+                ->setAssignment($this->parent)
+                ->setEntry($this->parent->stream->parent)
+                ->setValue($this->parent->stream->parent->getAttributeValue($this->slug));
         }
 
         return $type;
