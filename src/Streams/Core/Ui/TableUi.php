@@ -6,20 +6,6 @@ use Streams\Core\Ui\Entry\EntryRepository;
 class TableUi extends UiAbstract
 {
     /**
-     * The model we are working with.
-     *
-     * @var null
-     */
-    protected $model = null;
-
-    /**
-     * The active query object.
-     *
-     * @var null
-     */
-    protected $query = null;
-
-    /**
      * What column to order by.
      *
      * @var null
@@ -39,13 +25,6 @@ class TableUi extends UiAbstract
      * @var null
      */
     protected $limit = 15;
-
-    /**
-     * The total number of entries.
-     *
-     * @var null
-     */
-    protected $total = null;
 
     /**
      * Are rows sortable?
@@ -97,6 +76,13 @@ class TableUi extends UiAbstract
     protected $entries = [];
 
     /**
+     * The total number of entries.
+     *
+     * @var null
+     */
+    protected $total = null;
+
+    /**
      * The paginator object.
      *
      * @var null
@@ -125,7 +111,7 @@ class TableUi extends UiAbstract
      */
     public function __construct($model = null)
     {
-        $this->repository = $this->newEntryRepository($this);
+        $this->repository = $this->newRepository($this);
         $this->table      = $this->newTable($this);
 
         if ($model) {
@@ -150,7 +136,10 @@ class TableUi extends UiAbstract
             $this->entries = $this->repository->get();
         }
 
-        $this->output = \View::make('html/table', $this->table->make());
+        $this->output = \View::make(
+            'html/table',
+            $this->table->make()
+        );
 
         return $this;
     }
@@ -496,7 +485,7 @@ class TableUi extends UiAbstract
      * @param $ui
      * @return EntryRepository
      */
-    protected function newEntryRepository($ui)
+    protected function newRepository($ui)
     {
         return new EntryRepository($ui);
     }

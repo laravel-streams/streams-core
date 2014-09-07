@@ -28,21 +28,6 @@ abstract class UiAbstract
     protected $title = 'misc.untitled';
 
     /**
-     * The table wrapper view.
-     *
-     * @var string
-     */
-    protected $wrapperView = 'html/panel';
-
-    /**
-     * Prefix the UI to allow for
-     * multiple instances on the same page.
-     *
-     * @var null
-     */
-    protected $prefix = null;
-
-    /**
      * Make a model table.
      *
      * @param      $slug
@@ -66,7 +51,15 @@ abstract class UiAbstract
     {
         $this->trigger();
 
-        return \View::make($this->wrapperView, array_merge($this->table->make(), ['content' => $this->output]));
+        return \View::make(
+            'html/panel',
+            array_merge(
+                $this->table->make(),
+                [
+                    'content' => $this->output
+                ]
+            )
+        );
     }
 
     /**
@@ -95,32 +88,6 @@ abstract class UiAbstract
     }
 
     /**
-     * Set the wrapper view.
-     *
-     * @param $wrapper
-     * @return $this
-     */
-    public function setWrapperView($wrapperView)
-    {
-        $this->wrapperView = $wrapperView;
-
-        return $this;
-    }
-
-    /**
-     * Set the prefix;
-     *
-     * @param $prefix
-     * @return $this
-     */
-    public function setPrefix($prefix)
-    {
-        $this->prefix = strtolower(preg_replace('/[^a-zA-Z0-9]+/', '', $prefix));
-
-        return $this;
-    }
-
-    /**
      * Get the model object.
      *
      * @return null
@@ -128,15 +95,5 @@ abstract class UiAbstract
     public function getModel()
     {
         return $this->model;
-    }
-
-    /**
-     * Render object when treated as a string
-     *
-     * @return mixed
-     */
-    public function __toString()
-    {
-        return $this->render();
     }
 }
