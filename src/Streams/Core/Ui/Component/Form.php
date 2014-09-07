@@ -75,7 +75,12 @@ class Form
                                     'attributes' => [
                                         'class' => 'col-lg-24',
                                     ],
-                                    'fields'     => \ArrayHelper::value($section, 'fields', null, [$this->ui])
+                                    'fields'     => \ArrayHelper::value(
+                                            $section,
+                                            'fields',
+                                            null,
+                                            [$this->ui]
+                                        )
                                 ]
                             ],
                             [$this->ui]
@@ -133,7 +138,9 @@ class Form
         $fields = \ArrayHelper::value($column, 'fields', null, [$this->ui]);
 
         foreach ($fields as &$field) {
-            //$field = $field;
+            $assignments = $this->ui->getModel()->getStream()->assignments;
+
+            $field = $assignments->findBySlug($field)->field;
 
             $field = compact('field');
         }
