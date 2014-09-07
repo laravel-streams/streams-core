@@ -63,6 +63,11 @@ abstract class FieldTypeAbstract extends AddonAbstract
         return \Form::input('text', $this->postKey(), $this->value(), $options);
     }
 
+    public function formName()
+    {
+        return $this->slug;
+    }
+
     protected function getPlaceholder()
     {
         return null;
