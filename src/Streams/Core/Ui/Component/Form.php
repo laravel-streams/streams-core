@@ -137,9 +137,9 @@ class Form
     {
         $fields = \ArrayHelper::value($column, 'fields', null, [$this->ui]);
 
-        foreach ($fields as &$field) {
-            $assignments = $this->ui->getModel()->getStream()->assignments;
+        $assignments = $this->ui->getModel()->getStream()->assignments;
 
+        foreach ($fields as &$field) {
             $field = $assignments->findBySlug($field)->field;
 
             $field = compact('field');
