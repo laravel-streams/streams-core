@@ -18,11 +18,6 @@ class Translator extends BaseTranslator
 
         $this->getAddon($namespace);
 
-        // If a lang key, automatically namespace w/ streams:: if none
-        if (str_contains($key, '.') and !str_contains($key, '::')) {
-            $key = 'streams::' . $key;
-        }
-
         return parent::get($key, $replace, $locale);
     }
 
