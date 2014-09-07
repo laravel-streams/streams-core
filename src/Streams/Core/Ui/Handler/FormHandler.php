@@ -28,20 +28,13 @@ class FormHandler
      */
     public function save()
     {
-        $model = $this->ui->getModel();
+        $entry = $this->ui->getEntry();
 
-        $assignments = $model->getStream()->assignments;
+        foreach ($entry->getStream()->assignments as $assignment) {
+            $field = $assignment->field;
+            $type  = $field->type;
 
-        if (!$entry = $this->ui->getEntry()) {
-            $entry = new $model;
-        }
-
-        foreach ($assignments as $assignment) {
-            $type = $assignment->field->type
-                ->setAssignment($assignment)
-                ->setEntry($entry);
-
-            $entry->{$type->columnName()} = $type->value();
+            $entry->{$field->slug} = \Input::get($type->fieldName());
         }
 
         if ($entry->save()) {

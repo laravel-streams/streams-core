@@ -39,4 +39,31 @@ class EntryResource
     {
         return $this->ui->getModel()->newInstance();
     }
+
+    /**
+     * Process the form submission.
+     *
+     * @return mixed
+     */
+    public function save()
+    {
+        $entry = $this->ui->getEntry();
+
+        foreach ($entry->getStream()->assignments as $assignment) {
+            $field = $assignment->field;
+            $type  = $field->type;
+
+            $entry->{$field->slug} = \Input::get($type->fieldName());
+        }
+
+        if ($entry->save()) {
+            \Messages::add('success', \Lang::trans('**Success** Perfect!'));
+        } else {
+            foreach ($entry->errors()->all() as $message) {
+                \Messages::add('error', \Lang::trans('**Error** ' . $message));
+            }
+        }
+
+        return $entry;
+    }
 }
