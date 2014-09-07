@@ -76,6 +76,8 @@ class FormUi extends UiAbstract
             $this->entry = $this->resource->save();
         } elseif (is_numeric($this->entry)) {
             $this->entry = $this->resource->find($this->entry);
+        } elseif ($this->entry === null) {
+            $this->entry = $this->resource->newEntry();
         }
 
         $this->output = \View::make(
