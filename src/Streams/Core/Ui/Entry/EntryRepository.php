@@ -32,13 +32,17 @@ class EntryRepository
 
         $paginator = $this->ui->getPaginator();
 
-        $limit  = $this->ui->getLimit($paginator->getPerPage());
-        $offset = ($paginator->getCurrentPage() - 1) * $limit;
+        $limit   = $this->ui->getLimit($paginator->getPerPage());
+        $offset  = ($paginator->getCurrentPage() - 1) * $limit;
+        $orderBy = $this->ui->getOrderBy();
+        $sort    = $this->ui->getSort();
 
-        return $model
+        $query = $model
             ->take($limit)
             ->skip($offset)
-            ->get();
+            ->orderBy($orderBy, $sort);
+
+        return $query->get();
     }
 
     /**

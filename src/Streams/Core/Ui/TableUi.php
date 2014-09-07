@@ -155,7 +155,17 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Set the column to order by.
+     * Get the order by value.
+     *
+     * @return null
+     */
+    public function getOrderBy()
+    {
+        return $this->orderBy;
+    }
+
+    /**
+     * Set the order by value.
      *
      * @param null $orderBy
      */
@@ -164,6 +174,16 @@ class TableUi extends UiAbstract
         $this->orderBy = $orderBy;
 
         return $this;
+    }
+
+    /**
+     * Get the sort value.
+     *
+     * @return string
+     */
+    public function getSort()
+    {
+        return $this->sort;
     }
 
     /**
