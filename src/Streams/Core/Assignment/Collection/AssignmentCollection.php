@@ -22,6 +22,22 @@ class AssignmentCollection extends EloquentCollection
     }
 
     /**
+     * Return the field slugs in
+     *
+     * @return array
+     */
+    public function fieldSlugs()
+    {
+        $slugs = [];
+
+        foreach ($this->items as $item) {
+            $slugs[] = $item->field->slug;
+        }
+
+        return $slugs;
+    }
+
+    /**
      * Return only assignments that have relation fields.
      *
      * @return \Illuminate\Support\Collection
