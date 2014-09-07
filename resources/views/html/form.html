@@ -1,0 +1,21 @@
+{{ extends "theme::layouts/default" }}
+
+{{ section "content" }}
+
+{{ form.open }}
+
+{{ sections as section }}
+<section class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ section.title }}
+        </h3>
+    </div>
+    <div class="panel-body" style="padding: 0;">
+        Hi there
+    </div>
+</section>
+{{ /sections }}
+
+{{ form.close }}
+{{ stop }}
