@@ -7,7 +7,8 @@ Route::when('admin*', 'auth');
 Route::get('admin/login', 'Streams\Core\Http\Controller\AdminController@login');
 Route::post('admin/login', 'Streams\Core\Http\Controller\AdminController@attemptLogin');
 
-Route::post('admin/addons/modules', 'Streams\Addon\Module\Addons\Controller\Admin\ModulesController@index');
+Route::get('admin/addons/modules', 'Streams\Addon\Module\Addons\Controller\Admin\ModulesController@index');
+Route::get('admin/addons/modules/create', 'Streams\Addon\Module\Addons\Controller\Admin\ModulesController@create');
 
 // Logout route
 Route::get(
