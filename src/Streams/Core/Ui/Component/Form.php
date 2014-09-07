@@ -1,19 +1,18 @@
 <?php namespace Streams\Core\Ui\Component;
 
-use Streams\Core\Ui\Contract\RenderableInterface;
 use Streams\Core\Ui\FormUi;
 
 class Form
 {
     /**
-     * The table view to use.
+     * The UI object.
      *
-     * @var string
+     * @var \Streams\Core\Ui\FormUi
      */
-    protected $view = null;
+    protected $ui;
 
     /**
-     * Create a new FormColumn instance.
+     * Create a new Form instance.
      *
      * @param FormUi $ui
      */
@@ -23,112 +22,32 @@ class Form
     }
 
     /**
-     * Render the table.
+     * Return the data needed to render the form.
      *
-     * @return string
+     * @return array
      */
-    public function render()
+    public function data()
     {
-        $sections = $this->buildSections();
+        $sections = $this->makeSections();
 
-        return \View::make($this->view ? : 'streams/form', compact('sections'));
+        return compact('sections');
     }
 
     /**
-     * Build the sections array.
+     * Return the sections for the form.
      *
-     * @return string
+     * @return null
      */
-    protected function buildSections()
+    protected function makeSections()
     {
         $sections = $this->ui->getSections();
 
-        if ($sections instanceof \Closure) {
-            $sections = \StreamsHelper::value($sections, [$this]);
-        }
+        foreach ($sections as $section) {
+            $title = trans(\ArrayHelper::value($section, 'title', null, [$this->ui]));
 
-        foreach ($sections as &$options) {
-
-            if ($options instanceof RenderableInterface) {
-                $options = ['section' => $options];
-                continue;
-            }
-
-            if (isset($options['tabs'])) {
-                $section = $this->buildTabbedSection($options);
-            } else {
-                $section = $this->buildSection($options);
-            }
-
-            $section->setTitle(\ArrayHelper::value($options, 'title', null, [$this]));
-
-            $options = compact('section');
+            $section = compact('title');
         }
 
         return $sections;
-    }
-
-    /**
-     * Build a new tabbed form section.
-     *
-     * @param array $options
-     * @return mixed
-     */
-    protected function buildTabbedSection($options = [])
-    {
-        $section = $this->formTabbedSection;
-
-        $section = $section->setTabs(\ArrayHelper::value($options, 'tabs'));
-
-        return $section;
-    }
-
-    /**
-     * Build a new form section.
-     *
-     * @param array $options
-     * @return mixed
-     */
-    protected function buildSection($options = [])
-    {
-        $section = $this->formSection;
-
-        if (isset($options['layout'])) {
-            $section->setLayout(\ArrayHelper::value($options, 'layout', null, [$this]));
-        } elseif (isset($options['columns'])) {
-            $section->setLayout(
-                [
-                    [
-                        'columns' => $options['columns']
-                    ]
-                ]
-            );
-        } elseif (isset($options['fields'])) {
-            $section->setLayout(
-                [
-                    [
-                        'columns' => [
-                            [
-                                'fields' => $options['fields']
-                            ]
-                        ]
-                    ]
-                ]
-            );
-        } else {
-            $section->setLayout(
-                [
-                    [
-                        'columns' => [
-                            [
-                                'fields' => $options
-                            ]
-                        ]
-                    ]
-                ]
-            );
-        }
-
-        return $section;
     }
 }

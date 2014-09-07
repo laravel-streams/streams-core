@@ -27,7 +27,7 @@ class Table
      *
      * @return array
      */
-    public function make()
+    public function data()
     {
         $rows       = $this->makeRows();
         $views      = $this->makeViews();
@@ -51,6 +51,7 @@ class Table
         foreach ($views as &$view) {
             $title = trans(\ArrayHelper::value($view, 'title', null, [$this->ui]));
 
+            // @todo - This should look to the query string
             $active = $title == 'All' ? true : false;
 
             $view = compact('title', 'active');
