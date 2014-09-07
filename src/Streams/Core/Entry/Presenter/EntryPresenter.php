@@ -7,10 +7,9 @@ class EntryPresenter extends EloquentPresenter
     public function __get($key)
     {
         if ( /*!method_exists($this, $key) and */
-        isset($this->resource->{$key})
+        $assignment = $this->resource->findAssignmentBySlug($key)
         ) {
             $decorator  = \App::make('McCool\LaravelAutoPresenter\PresenterDecorator');
-            $assignment = $this->resource->findAssignmentBySlug($key);
 
             if ($assignment) {
                 $type = $assignment->field->type
