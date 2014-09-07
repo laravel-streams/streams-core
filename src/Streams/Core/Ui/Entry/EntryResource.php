@@ -20,12 +20,23 @@ class EntryResource
     }
 
     /**
-     * Return the desired entries.
+     * Return the desired entry.
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function find($id)
+    {
+        return $this->ui->getModel()->find($id);
+    }
+
+    /**
+     * Return a new entry.
      *
      * @return mixed
      */
-    public function get()
+    public function newEntry()
     {
-        return $this->ui->getModel()->get();
+        return $this->ui->getModel()->newInstance();
     }
 }
