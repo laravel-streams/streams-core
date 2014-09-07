@@ -43,13 +43,102 @@ class Form
     {
         $sections = $this->ui->getSections();
 
-        foreach ($sections as $section) {
+        foreach ($sections as &$section) {
             $title = trans(\ArrayHelper::value($section, 'title', null, [$this->ui]));
 
-            $section = compact('title');
+            $rows = $this->makeRows($section);
+
+            $section = compact('title', 'rows');
         }
 
         return $sections;
+    }
+
+    /**
+     * Return the rows for a form section.
+     *
+     * @param $section
+     * @return mixed
+     */
+    protected function makeRows($section)
+    {
+        $rows = \ArrayHelper::value(
+            $section,
+            'rows',
+            [
+                [
+                    'columns' => \ArrayHelper::value(
+                            $section,
+                            'columns',
+                            [
+                                [
+                                    'attributes' => [
+                                        'class' => 'col-lg-24',
+                                    ],
+                                    'fields'     => \ArrayHelper::value($section, 'fields', null, [$this->ui])
+                                ]
+                            ],
+                            [$this->ui]
+                        )
+                ]
+            ],
+            [$this->ui]
+        );
+
+        foreach ($rows as &$row) {
+            $columns = $this->makeColumns($row);
+
+            $row = compact('columns');
+        }
+
+        return $rows;
+    }
+
+    /**
+     * Return the columns for a section row.
+     *
+     * @param $row
+     * @return mixed
+     */
+    protected function makeColumns($row)
+    {
+        $columns = \ArrayHelper::value($row, 'columns', null, [$this->ui]);
+
+        foreach ($columns as &$column) {
+            $fields = $this->makeFields($column);
+
+            $attributes = \ArrayHelper::value($column, 'attributes', [], [$this->ui]);
+
+            foreach ($attributes as $attribute => &$value) {
+                $value = [
+                    'attribute' => $attribute,
+                    'value'     => $value,
+                ];
+            }
+
+            $column = compact('fields', 'attributes');
+        }
+
+        return $columns;
+    }
+
+    /**
+     * Return the fields for a row column.
+     *
+     * @param $column
+     * @return mixed
+     */
+    protected function makeFields($column)
+    {
+        $fields = \ArrayHelper::value($column, 'fields', null, [$this->ui]);
+
+        foreach ($fields as &$field) {
+            //$field = $field;
+
+            $field = compact('field');
+        }
+
+        return $fields;
     }
 
     /**
@@ -62,13 +151,13 @@ class Form
         $actions = $this->ui->getActions();
 
         foreach ($actions as &$action) {
-            $url = \ArrayHelper::value($action, 'url', '#', [$this->ui]);
-
             $title = trans(\ArrayHelper::value($action, 'title', null, [$this->ui]));
 
             $attributes = \ArrayHelper::value($action, 'attributes', [], [$this->ui]);
 
-            $button = \HTML::link($url, $title, $attributes);
+            $attributes['type'] = 'submit';
+
+            $button = \Form::button($title, $attributes);
 
             $dropdown = \ArrayHelper::value($action, 'dropdown', [], [$this->ui]);
 

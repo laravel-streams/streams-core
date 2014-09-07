@@ -12,7 +12,17 @@
         </h3>
     </div>
     <div class="panel-body">
-        Hi there
+        {{ rows }}
+        <div class="row-fluid">
+            {{ columns }}
+            <div {{ attributes }}{{ attribute }}="{{ value }}"{{ /attributes }}>
+                {{ fields }}
+                    {{ field }}<br>
+                {{ /fields }}
+            </div>
+            {{ /columns }}
+        </div>
+        {{ /rows }}
     </div>
 </section>
 {{ /sections }}
