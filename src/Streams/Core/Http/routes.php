@@ -10,6 +10,7 @@ Route::post('admin/login', 'Streams\Core\Http\Controller\AdminController@attempt
 Route::get('admin/addons/modules', 'Streams\Addon\Module\Addons\Controller\Admin\ModulesController@index');
 Route::get('admin/addons/modules/create', 'Streams\Addon\Module\Addons\Controller\Admin\ModulesController@create');
 Route::get('admin/addons/modules/edit/{id}', 'Streams\Addon\Module\Addons\Controller\Admin\ModulesController@edit');
+Route::post('admin/addons/modules/edit/{id}', 'Streams\Addon\Module\Addons\Controller\Admin\ModulesController@edit');
 
 // Logout route
 Route::get(
