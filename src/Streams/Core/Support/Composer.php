@@ -33,33 +33,47 @@ class Composer
 
         if (!str_contains($view->getName(), '::')) {
 
-            $themeView = "{$view->getName()}";
+            $themeView       = "{$view->getName()}";
+            $themeMobileView = "mobile/{$view->getName()}";
 
         } else {
 
             $segments          = explode('::', $view->getName());
             $namespaceSegments = explode('.', $segments[0]);
 
-            $viewPath = $segments[1];
+            $namespace = $segments[0];
+            $viewPath  = $segments[1];
+
+            $mobileView = "{$namespace}::mobile/{$viewPath}";
 
             if (count($namespaceSegments) == 2) {
 
                 $addonType = $namespaceSegments[0];
                 $addonSlug = $namespaceSegments[1];
-                $themeView = "theme::app/{$addonType}/{$addonSlug}/{$viewPath}";
+
+                $themeView       = "theme::overload/{$addonType}/{$addonSlug}/{$viewPath}";
+                $themeMobileView = "theme::mobile/{$addonType}/{$addonSlug}/{$viewPath}";
 
             } else {
 
                 $namespace = $segments[0];
                 $viewPath  = $segments[1];
 
-                $themeView = "theme::app/{$namespace}/{$viewPath}";
+                $themeView       = "theme::overload/{$namespace}/{$viewPath}";
+                $themeMobileView = "theme::overload/{$namespace}/{$viewPath}";
 
             }
+
         }
 
-        if ($themeView and $environment->exists($themeView)) {
+        if (\Agent::isMobile() and $themeMobileView and $environment->exists($themeMobileView)) {
+
+            $view->setPath($environment->getFinder()->find($themeMobileView));
+
+        } elseif ($themeView and $environment->exists($themeView)) {
+
             $view->setPath($environment->getFinder()->find($themeView));
+
         }
 
         return $view;
