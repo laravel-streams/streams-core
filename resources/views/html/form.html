@@ -18,10 +18,7 @@
             <div
             {{ attributes }}{{ attribute }}="{{ value }}"{{ /attributes }}>
             {{ fields }}
-            <div class="form-group">
-                <label for="{{ field.slug }}">{{ field.name }}</label>
-                {{ field.type.input }}
-            </div>
+            {{ field.type.element }}
             {{ /fields }}
         </div>
         {{ /columns }}

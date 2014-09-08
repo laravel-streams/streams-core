@@ -55,6 +55,18 @@ abstract class FieldTypeAbstract extends AddonAbstract
     }
 
     /**
+     * Return the form input element output.
+     *
+     * @return mixed
+     */
+    public function element()
+    {
+        $field = $this->assignment->field;
+
+        return \View::make('html/partials/element', compact('field'));
+    }
+
+    /**
      * Return the database column name.
      *
      * @return string
