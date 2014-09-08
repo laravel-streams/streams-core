@@ -35,16 +35,6 @@ class FieldTypePresenter extends AddonPresenter
     }
 
     /**
-     * Return the input.
-     *
-     * @return mixed
-     */
-    public function input()
-    {
-        return $this->resource->input();
-    }
-
-    /**
      * By default return the value.
      *
      * @return string
