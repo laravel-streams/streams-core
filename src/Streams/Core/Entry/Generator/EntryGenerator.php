@@ -20,7 +20,7 @@ class EntryGenerator extends Generator
      */
     public function appRefPath($path = null)
     {
-        return 'models/streams/' . \Application::getAppRef();
+        return 'storage/models/streams/' . \Application::getAppRef();
     }
 
     /**
