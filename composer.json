@@ -18,6 +18,7 @@
         "kriswallsmith/assetic": "1.2.*@dev",
         "illuminate/html": "4.3.*@dev",
         "intervention/image": "dev-master",
+        "jenssegers/agent": "*",
         "laravelbook/ardent": "2.*",
         "leafo/scssphp": "dev-develop",
         "lmammino/jsmin4assetic": "1.0.*@dev",
