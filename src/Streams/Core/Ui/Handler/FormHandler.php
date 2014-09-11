@@ -38,10 +38,10 @@ class FormHandler
         }
 
         if ($entry->save()) {
-            \Messages::add('success', \Lang::trans('**Success** Perfect!'));
+            \Messages::add('success', trans('**Success** Perfect!'));
         } else {
             foreach ($entry->errors()->all() as $message) {
-                \Messages::add('error', \Lang::trans('**Error** ' . $message));
+                \Messages::add('error', trans('**Error** ' . $message));
             }
         }
 

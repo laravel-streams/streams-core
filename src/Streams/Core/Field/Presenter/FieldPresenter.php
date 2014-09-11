@@ -22,6 +22,6 @@ class FieldPresenter extends EloquentPresenter
      */
     public function name()
     {
-        return \Lang::trans($this->resource->name);
+        return trans($this->resource->name);
     }
 }

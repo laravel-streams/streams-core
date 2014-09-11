@@ -12,7 +12,7 @@ class AddonPresenter extends Presenter
      */
     public function name()
     {
-        return \Lang::trans($this->resource->getType() . '.' . $this->resource->getSlug() . '::addon.name');
+        return trans($this->resource->getType() . '.' . $this->resource->getSlug() . '::addon.name');
     }
 
     /**
@@ -22,7 +22,7 @@ class AddonPresenter extends Presenter
      */
     public function description()
     {
-        return \Lang::trans($this->resource->getType() . '.' . $this->resource->getSlug() . '::addon.description');
+        return trans($this->resource->getType() . '.' . $this->resource->getSlug() . '::addon.description');
     }
 
     /**

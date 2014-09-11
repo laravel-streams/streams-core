@@ -88,7 +88,7 @@ class FieldModel extends EloquentModel
      */
     public function getFieldNameAttribute($name)
     {
-        return \Lang::trans($name);
+        return trans($name);
     }
 
     /**
