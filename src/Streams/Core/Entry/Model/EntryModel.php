@@ -17,8 +17,10 @@ class EntryModel extends EloquentModel
     /**
      * Create a new EntryModel instance.
      */
-    public function __construct()
+    public function __construct($attributes = [])
     {
+        parent::__construct($attributes);
+
         $this->stream = (new StreamModel())->object($this->stream);
 
         $this->stream->parent = $this;
