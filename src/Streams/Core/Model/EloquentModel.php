@@ -12,13 +12,6 @@ use Venturecraft\Revisionable\RevisionableTrait;
 
 class EloquentModel extends ArdentModel implements ArrayableInterface, PresenterInterface
 {
-    /**
-     * Is the model translatable?
-     *
-     * @var bool
-     */
-    protected $translatable = false;
-
     use Translatable {
         Translatable::save as translatableSave;
     }
@@ -74,9 +67,21 @@ class EloquentModel extends ArdentModel implements ArrayableInterface, Presenter
     ) {
         if ($this->translatable and $this->translatableSave($options)) {
             return parent::save($rules, $customMessages, $options, $beforeSave, $afterSave);
+        } else {
+            return parent::save($rules, $customMessages, $options, $beforeSave, $afterSave);
         }
 
         return false;
+    }
+
+    /**
+     * Return the is revisionable attribute.
+     *
+     * @return bool
+     */
+    public function getIsRevisionableAttribute()
+    {
+        return isset($this->attributes['is_revisionable']) ? $this->attributes['is_revisionable'] : false;
     }
 
     /**
