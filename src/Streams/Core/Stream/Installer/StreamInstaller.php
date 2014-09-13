@@ -22,7 +22,10 @@ class StreamInstaller extends Installer
      *
      * @var array
      */
-    protected $stream = [];
+    protected $stream = [
+        'is_translatable' => 0,
+        'is_revisionable' => 0,
+    ];
 
     /**
      * Stream field assignments.
@@ -94,12 +97,6 @@ class StreamInstaller extends Installer
         if (!$stream->sort_by) {
             $stream->sort_by = 'title';
         }
-
-        $stream->is_hidden = \StringHelper::bool($stream->is_hidden);
-
-        $stream->is_translatable = \StringHelper::bool($stream->is_translatable);
-
-        $stream->is_revisionable = \StringHelper::bool($stream->is_revisionable);
 
         $this->model = $stream;
 
