@@ -12,7 +12,7 @@ class EntryModel extends EloquentModel
      *
      * @var array/null
      */
-    protected $stream;
+    protected $stream = [];
 
     /**
      * Create a new EntryModel instance.
