@@ -40,19 +40,19 @@ class EntryGenerator extends Generator
             $namespace = Str::studly($stream->namespace);
 
             // Create the app ref folder
-            if (!is_dir(app_path("{$appRefPath}"))) {
-                mkdir(app_path("{$appRefPath}"), 0777, true);
+            if (!is_dir(base_path("{$appRefPath}"))) {
+                mkdir(base_path("{$appRefPath}"), 0777, true);
             }
 
             // Create the namespace folder
-            if (!is_dir(app_path("{$appRefPath}/{$namespace}"))) {
-                mkdir(app_path("{$appRefPath}/{$namespace}"), 0777, true);
+            if (!is_dir(base_path("{$appRefPath}/{$namespace}"))) {
+                mkdir(base_path("{$appRefPath}/{$namespace}"), 0777, true);
             }
 
             $className = Str::studly($stream->namespace . '_' . $stream->slug) . 'EntryModel';
 
             $this->make(
-                app_path("{$appRefPath}/{$namespace}/{$className}.php"),
+                base_path("{$appRefPath}/{$namespace}/{$className}.php"),
                 [
                     '{className}'       => $className,
                     '{namespacePrefix}' => studly_case($namespace),
@@ -316,6 +316,6 @@ class EntryGenerator extends Generator
      */
     public function templatePath()
     {
-        return app_path('assets/generator/EntryModelTemplate.txt');
+        return base_path('assets/generator/EntryModelTemplate.txt');
     }
 }
