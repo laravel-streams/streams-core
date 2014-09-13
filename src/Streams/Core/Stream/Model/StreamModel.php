@@ -53,6 +53,12 @@ class StreamModel extends EloquentModel
         return $this->entryTable() . '_translations';
     }
 
+    /**
+     * Saturate a stream model from compiled data.
+     *
+     * @param $data
+     * @return StreamModel
+     */
     public function object($data)
     {
         $assignments = array();

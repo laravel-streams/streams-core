@@ -55,7 +55,7 @@ class EntryGenerator extends Generator
                 app_path("{$appRefPath}/{$namespace}/{$className}.php"),
                 [
                     '{className}'       => $className,
-                    '{namespacePrefix}' => \Str::studly($namespace),
+                    '{namespacePrefix}' => studly_case($namespace),
                     '{table}'           => "'" . $stream->prefix . $stream->slug . "'",
                     '{rules}'           => $this->compileStreamValidation($stream),
                     '{stream}'          => $this->compileStreamData($stream),

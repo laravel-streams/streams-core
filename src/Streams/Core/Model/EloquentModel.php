@@ -12,11 +12,18 @@ use Venturecraft\Revisionable\RevisionableTrait;
 
 class EloquentModel extends ArdentModel implements ArrayableInterface, PresenterInterface
 {
-    /*use Translatable {
-        Translatable::save as translatableSave;
-    }*/
+    /**
+     * Is the model translatable?
+     *
+     * @var bool
+     */
+    protected $translatable = false;
 
-    /*use RevisionableTrait;*/
+    use Translatable {
+        Translatable::save as translatableSave;
+    }
+
+    use RevisionableTrait;
     use CacheableTrait;
     use ObservableTrait;
 
@@ -51,26 +58,26 @@ class EloquentModel extends ArdentModel implements ArrayableInterface, Presenter
     /**
      * Save the model.
      *
-     * @param array $rules
-     * @param array $customMessages
-     * @param array $options
+     * @param array    $rules
+     * @param array    $customMessages
+     * @param array    $options
      * @param \Closure $beforeSave
      * @param \Closure $afterSave
      * @return bool
      */
-    /*public function save(
+    public function save(
         array $rules = array(),
         array $customMessages = array(),
         array $options = array(),
         \Closure $beforeSave = null,
         \Closure $afterSave = null
     ) {
-        if ($this->translatableSave($options)) {
+        if ($this->translatable and $this->translatableSave($options)) {
             return parent::save($rules, $customMessages, $options, $beforeSave, $afterSave);
         }
 
         return false;
-    }*/
+    }
 
     /**
      * Return a new collection class with our models.

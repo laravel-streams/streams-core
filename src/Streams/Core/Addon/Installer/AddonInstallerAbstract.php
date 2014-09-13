@@ -99,11 +99,11 @@ abstract class AddonInstallerAbstract extends Installer
 
             array_pop($class);
 
-            $class[] = \Str::studly($stream . '_stream_installer');
+            $class[] = studly_case($stream . '_stream_installer');
 
             $class = implode('\\', $class);
 
-            $method = \Str::studly('new_' . $stream . '_stream_installer');
+            $method = studly_case('new_' . $stream . '_stream_installer');
 
             if (method_exists($this, $method)) {
                 $class = call_user_func_array([$this, $method], [$this->addon]);

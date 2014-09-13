@@ -18,7 +18,7 @@ class EntryHelper
         } elseif (is_string($slug) and class_exists($slug)) {
             return new $slug;
         } elseif ($slug and $namespace) {
-            return \Str::studly("Streams\Model\\_{$namespace}\\_{$namespace}_{$slug}_EntryModel");
+            return studly_case("Streams\Model\\_{$namespace}\\_{$namespace}_{$slug}_EntryModel");
         }
 
         return null;

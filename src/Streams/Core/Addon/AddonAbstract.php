@@ -193,9 +193,9 @@ abstract class AddonAbstract implements PresenterInterface
      */
     public function newInstaller()
     {
-        $slug      = \Str::studly($this->slug);
-        $addon     = \Str::singular(\Str::studly($this->type));
-        $installer = \Str::studly($slug . '_' . $this->getType() . 'installer');
+        $slug      = studly_case($this->slug);
+        $addon     = str_singular(studly_case($this->type));
+        $installer = studly_case($slug . '_' . $this->getType() . 'installer');
 
         $installer = 'Streams\Addon\\' . $addon . '\\' . $slug . '\\Installer\\' . $installer;
 
