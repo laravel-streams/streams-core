@@ -41,18 +41,6 @@ abstract class UiAbstract
     }
 
     /**
-     * Return the bare output without wrapping it.
-     *
-     * @return null
-     */
-    public function output()
-    {
-        $this->trigger();
-
-        return $this->output;
-    }
-
-    /**
      * Get the title.
      *
      * @return null
