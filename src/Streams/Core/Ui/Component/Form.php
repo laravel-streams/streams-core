@@ -171,9 +171,17 @@ class Form
 
             $attributes = \ArrayHelper::value($action, 'attributes', [], [$this->ui]);
 
-            $attributes['type'] = 'submit';
+            if (isset($attributes['url'])) {
+                if (!starts_with($attributes['url'], 'http')) {
+                    $attributes['url'] = url($attributes['url']);
+                }
 
-            $button = \Form::button($title, $attributes);
+                $button = \HTML::link($attributes['url'], $title, $attributes);
+            } else {
+                $attributes['type'] = 'submit';
+
+                $button = \Form::button($title, $attributes);
+            }
 
             $dropdown = \ArrayHelper::value($action, 'dropdown', [], [$this->ui]);
 

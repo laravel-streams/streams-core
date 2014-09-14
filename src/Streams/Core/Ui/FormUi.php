@@ -2,6 +2,7 @@
 
 use Streams\Core\Ui\Component\Form;
 use Streams\Core\Ui\Entry\EntryResource;
+use Streams\Core\Ui\Handler\ActionHandler;
 
 class FormUi extends UiAbstract
 {
@@ -47,6 +48,10 @@ class FormUi extends UiAbstract
      */
     protected $wrapperView = 'html/blank';
 
+    protected $resource;
+    protected $form;
+    protected $action;
+
     /**
      * Create a new FormUi instance.
      *
@@ -57,6 +62,7 @@ class FormUi extends UiAbstract
     {
         $this->resource = $this->newEntryResource();
         $this->form     = $this->newForm();
+        $this->action   = $this->newActionHandler();
 
         if ($model) {
             $this->model = $model;
@@ -80,6 +86,8 @@ class FormUi extends UiAbstract
 
         if ($_POST) {
             $this->entry = $this->resource->save();
+
+            $this->action->redirect();
         }
 
         $this->output = \View::make(
@@ -245,5 +253,15 @@ class FormUi extends UiAbstract
     public function newEntryResource()
     {
         return new EntryResource($this);
+    }
+
+    /**
+     * Return a new action handler instance.
+     *
+     * @return ActionHandler
+     */
+    public function newActionHandler()
+    {
+        return new ActionHandler($this);
     }
 }
