@@ -10,8 +10,8 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
      */
     public function register()
     {
-        $this->registerStreamsPath();
         $this->registerLoader();
+        $this->registerStreamsPath();
         $this->registerTranslator();
     }
 
