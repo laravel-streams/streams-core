@@ -63,27 +63,40 @@ if (!function_exists('hashify')) {
     {
         ob_start();
         var_dump($value);
-        $string = ob_get_clean();
 
-        return hash($algorithm, $string);
+        return hash($algorithm, ob_get_clean());
     }
 }
 
 if (!function_exists('evaluate_key')) {
     /**
      * Return the evaluated value of an array key.
+     * If no key exists return the default value.
      *
-     * @param $payload
-     * @return string
+     * @param       $array
+     * @param       $key
+     * @param null  $default
+     * @param array $arguments
+     * @return mixed|null
      */
     function evaluate_key($array, $key, $default = null, $arguments = [])
     {
-        $value = $default;
+        return evaluate(key_value($array, $key, $default), $arguments);
+    }
+}
 
-        if (isset($array[$key])) {
-            $value = $array[$key];
-        }
-
-        return evaluate($value, $arguments);
+if (!function_exists('key_value')) {
+    /**
+     * Return the value of an array.
+     * If no key exists return the default value.
+     *
+     * @param      $array
+     * @param      $key
+     * @param null $default
+     * @return null
+     */
+    function key_value($array, $key, $default = null)
+    {
+        return isset($array[$key]) ? $array[$key] : $default;
     }
 }
