@@ -60,7 +60,7 @@ class Composer
                 $viewPath  = $segments[1];
 
                 $themeView       = "theme::overload/{$namespace}/{$viewPath}";
-                $themeMobileView = "theme::overload/{$namespace}/{$viewPath}";
+                $themeMobileView = "theme::mobile/{$namespace}/{$viewPath}";
 
             }
 
