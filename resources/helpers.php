@@ -4,10 +4,10 @@ if (!function_exists('humanize')) {
     /**
      * Return the humanized version of a string.
      *
-     * @param null $string
+     * @param $string
      * @return string
      */
-    function humanize($string = null)
+    function humanize($string)
     {
         return ucwords(str_replace('_', ' ', snake_case($string)));
     }
@@ -15,14 +15,15 @@ if (!function_exists('humanize')) {
 
 if (!function_exists('boolean')) {
     /**
-     * Return the boolean evaluation of a string.
+     * Return the evaluated boolean value of a value.
      *
-     * @param null $string
+     * @param       $value
+     * @param array $arguments
      * @return mixed
      */
-    function boolean($string = null)
+    function boolean($value, $arguments = [])
     {
-        return filter_var($string, FILTER_VALIDATE_BOOLEAN);
+        return filter_var(evaluate($value, $arguments), FILTER_VALIDATE_BOOLEAN);
     }
 }
 
@@ -30,8 +31,8 @@ if (!function_exists('evaluate')) {
     /**
      * Return the evaluated value of a value (ya, that's right).
      *
-     * @param      $value
-     * @param null $arguments
+     * @param       $value
+     * @param array $arguments
      * @return mixed|null
      */
     function evaluate($value, $arguments = [])
@@ -56,7 +57,8 @@ if (!function_exists('hashify')) {
     /**
      * Return a hash value from anything.
      *
-     * @param $value
+     * @param        $value
+     * @param string $algorithm
      * @return string
      */
     function hashify($value, $algorithm = 'md5')
