@@ -34,6 +34,16 @@ class ModuleManager extends AddonManager
     }
 
     /**
+     * Get the active module slug.
+     *
+     * @return null
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
      * Set the active module slug.
      *
      * @param $slug
