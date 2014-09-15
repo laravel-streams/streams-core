@@ -41,6 +41,7 @@ class BootFilter
             // Add the module namespace.
             if ($module = \Module::active()) {
                 \View::addNamespace('module', $module->getPath('views'));
+                \Lang::addNamespace('module', $module->getPath('lang'));
             }
 
             // Add the theme namespace.
