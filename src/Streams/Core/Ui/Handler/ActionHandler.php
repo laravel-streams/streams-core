@@ -34,7 +34,7 @@ class ActionHandler
 
         \Messages::flash();
 
-        $redirect = \ArrayHelper::value($action, 'redirect', '/poop', [$this->ui]);
+        $redirect = evaluate_key($action, 'redirect', '/poop', [$this->ui]);
 
         if (!starts_with($redirect, 'http')) {
             $redirect = url($redirect);

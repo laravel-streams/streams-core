@@ -31,8 +31,15 @@ class BootFilter
                 $theme = \Theme::getPublicTheme();
             }
 
+            // Set the active module
+            if (\Request::segment(1) == 'admin') {
+                \Module::setActive(\Request::segment(2));
+            } else {
+                \Module::setActive(\Request::segment(1));
+            }
+
             // Add the module namespace.
-            if ($module = \Module::getActive()) {
+            if ($module = \Module::active()) {
                 \View::addNamespace('module', $module->getPath('views'));
             }
 

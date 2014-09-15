@@ -49,7 +49,7 @@ class Table
         $views = $this->ui->getViews();
 
         foreach ($views as &$view) {
-            $title = trans(\ArrayHelper::value($view, 'title', null, [$this->ui]));
+            $title = trans(evaluate_key($view, 'title', null, [$this->ui]));
 
             // @todo - This should look to the query string
             $active = $title == 'All' ? true : false;
@@ -96,7 +96,7 @@ class Table
                 ];
             }
 
-            $data = \ArrayHelper::value($column, 'data', null, [$this->ui, $entry]);
+            $data = evaluate_key($column, 'data', null, [$this->ui, $entry]);
 
             if (isset($entry->{$data})) {
                 $data = $entry->{$data};
@@ -125,20 +125,20 @@ class Table
         $buttons = $this->ui->getButtons();
 
         foreach ($buttons as &$button) {
-            $url = \ArrayHelper::value($button, 'url', '#', [$this->ui, $entry]);
+            $url = evaluate_key($button, 'url', '#', [$this->ui, $entry]);
 
-            $title = trans(\ArrayHelper::value($button, 'title', null, [$this->ui, $entry]));
+            $title = trans(evaluate_key($button, 'title', null, [$this->ui, $entry]));
 
-            $attributes = \ArrayHelper::value($button, 'attributes', [], [$this->ui, $entry]);
+            $attributes = evaluate_key($button, 'attributes', [], [$this->ui, $entry]);
 
             $link = \HTML::link($url, $title, $attributes);
 
-            $dropdown = \ArrayHelper::value($button, 'dropdown', [], [$this->ui, $entry]);
+            $dropdown = evaluate_key($button, 'dropdown', [], [$this->ui, $entry]);
 
             foreach ($dropdown as &$item) {
-                $url = \ArrayHelper::value($item, 'url', '#', [$this->ui, $entry]);
+                $url = evaluate_key($item, 'url', '#', [$this->ui, $entry]);
 
-                $title = trans(\ArrayHelper::value($item, 'title', null, [$this->ui, $entry]));
+                $title = trans(evaluate_key($item, 'title', null, [$this->ui, $entry]));
 
                 $item = compact('url', 'title');
             }
@@ -166,9 +166,9 @@ class Table
             }
 
             if (isset($column['header'])) {
-                $header = trans(\ArrayHelper::value($header, 'header', null, [$this->ui]));
+                $header = trans(evaluate_key($header, 'header', null, [$this->ui]));
             } else {
-                $header = \StringHelper::humanize($header['data']);
+                $header = humanize($header['data']);
             }
 
             $header = compact('header');
@@ -187,20 +187,20 @@ class Table
         $actions = $this->ui->getActions();
 
         foreach ($actions as &$action) {
-            $url = \ArrayHelper::value($action, 'url', '#', [$this->ui]);
+            $url = evaluate_key($action, 'url', '#', [$this->ui]);
 
-            $title = trans(\ArrayHelper::value($action, 'title', null, [$this->ui]));
+            $title = trans(evaluate_key($action, 'title', null, [$this->ui]));
 
-            $attributes = \ArrayHelper::value($action, 'attributes', [], [$this->ui]);
+            $attributes = evaluate_key($action, 'attributes', [], [$this->ui]);
 
             $button = \HTML::link($url, $title, $attributes);
 
-            $dropdown = \ArrayHelper::value($action, 'dropdown', [], [$this->ui]);
+            $dropdown = evaluate_key($action, 'dropdown', [], [$this->ui]);
 
             foreach ($dropdown as &$item) {
-                $url = \ArrayHelper::value($item, 'url', '#', [$this->ui]);
+                $url = evaluate_key($item, 'url', '#', [$this->ui]);
 
-                $title = trans(\ArrayHelper::value($item, 'title', null, [$this->ui]));
+                $title = trans(evaluate_key($item, 'title', null, [$this->ui]));
 
                 $item = compact('url', 'title');
             }

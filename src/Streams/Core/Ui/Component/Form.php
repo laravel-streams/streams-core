@@ -53,7 +53,7 @@ class Form
         }
 
         foreach ($sections as &$section) {
-            $title = trans(\ArrayHelper::value($section, 'title', null, [$this->ui]));
+            $title = trans(evaluate_key($section, 'title', null, [$this->ui]));
 
             $rows = $this->makeRows($section);
 
@@ -71,12 +71,12 @@ class Form
      */
     protected function makeRows($section)
     {
-        $rows = \ArrayHelper::value(
+        $rows = evaluate_key(
             $section,
             'rows',
             [
                 [
-                    'columns' => \ArrayHelper::value(
+                    'columns' => evaluate_key(
                             $section,
                             'columns',
                             [
@@ -84,7 +84,7 @@ class Form
                                     'attributes' => [
                                         'class' => 'col-lg-24',
                                     ],
-                                    'fields'     => \ArrayHelper::value(
+                                    'fields'     => evaluate_key(
                                             $section,
                                             'fields',
                                             null,
@@ -116,12 +116,12 @@ class Form
      */
     protected function makeColumns($row)
     {
-        $columns = \ArrayHelper::value($row, 'columns', null, [$this->ui]);
+        $columns = evaluate_key($row, 'columns', null, [$this->ui]);
 
         foreach ($columns as &$column) {
             $fields = $this->makeFields($column);
 
-            $attributes = \ArrayHelper::value($column, 'attributes', [], [$this->ui]);
+            $attributes = evaluate_key($column, 'attributes', [], [$this->ui]);
 
             foreach ($attributes as $attribute => &$value) {
                 $value = [
@@ -144,7 +144,7 @@ class Form
      */
     protected function makeFields($column)
     {
-        $fields = \ArrayHelper::value($column, 'fields', null, [$this->ui]);
+        $fields = evaluate_key($column, 'fields', null, [$this->ui]);
 
         $assignments = $this->ui->getEntry()->getStream()->assignments;
 
@@ -167,9 +167,9 @@ class Form
         $actions = $this->ui->getActions();
 
         foreach ($actions as &$action) {
-            $title = trans(\ArrayHelper::value($action, 'title', null, [$this->ui]));
+            $title = trans(evaluate_key($action, 'title', null, [$this->ui]));
 
-            $attributes = \ArrayHelper::value($action, 'attributes', [], [$this->ui]);
+            $attributes = evaluate_key($action, 'attributes', [], [$this->ui]);
 
             if (isset($attributes['url'])) {
                 if (!starts_with($attributes['url'], 'http')) {
@@ -183,12 +183,12 @@ class Form
                 $button = \Form::button($title, $attributes);
             }
 
-            $dropdown = \ArrayHelper::value($action, 'dropdown', [], [$this->ui]);
+            $dropdown = evaluate_key($action, 'dropdown', [], [$this->ui]);
 
             foreach ($dropdown as &$item) {
-                $url = \ArrayHelper::value($item, 'url', '#', [$this->ui]);
+                $url = evaluate_key($item, 'url', '#', [$this->ui]);
 
-                $title = trans(\ArrayHelper::value($item, 'title', null, [$this->ui]));
+                $title = trans(evaluate_key($item, 'title', null, [$this->ui]));
 
                 $item = compact('url', 'title');
             }

@@ -75,9 +75,9 @@ class Asset
     protected function filename($identifier)
     {
         if (isset($this->collections[$identifier])) {
-            $filename = \CacheHelper::key($this->collections[$identifier]);
+            $filename = hashify($this->collections[$identifier]);
         } else {
-            $filename = \CacheHelper::key($identifier);
+            $filename = hashify($identifier);
         }
 
         return $filename . '.' . \File::extension($identifier);

@@ -13,17 +13,37 @@ class ModuleManager extends AddonManager
     protected $folder = 'modules';
 
     /**
+     * The slug of the currently active module.
+     *
+     * @var null
+     */
+    protected $active = null;
+
+    /**
      * Return the active module.
      *
-     * @return \AddonAbstract
+     * @return null|\Streams\Core\Addon\AddonAbstract
      */
-    public function getActive()
+    public function active()
     {
-        $slug = \Request::segment(1) == 'admin' ? \Request::segment(2) : \Request::segment(1);
-
-        if (!in_array(\Request::segment(2), ['login', 'logout']) and $this->exists($slug)) {
-            return \Module::find($slug);
+        if ($this->exists($this->active)) {
+            return $this->find($this->active);
         }
+
+        return null;
+    }
+
+    /**
+     * Set the active module slug.
+     *
+     * @param $slug
+     * @return $this
+     */
+    public function setActive($slug)
+    {
+        $this->active = $slug;
+
+        return $this;
     }
 
     /**

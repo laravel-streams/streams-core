@@ -9,7 +9,7 @@ class BaseController extends Controller
      */
     public function __construct()
     {
-        $this->module = \Module::getActive();
+        $this->module = \Module::active();
 
         $this->messages = \App::make('messages');
     }

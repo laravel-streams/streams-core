@@ -133,7 +133,7 @@ class Image extends ImageManager
      */
     protected function filename()
     {
-        return \CacheHelper::key([$this->image, $this->filters[$this->image]]) . '.' . \File::extension($this->image);
+        return hashify([$this->image, $this->filters[$this->image]]) . '.' . \File::extension($this->image);
     }
 
     /**

@@ -13,13 +13,6 @@ abstract class ModuleAbstract extends AddonAbstract
     protected $sections = null;
 
     /**
-     * The icon HTML.
-     *
-     * @var null
-     */
-    protected $icon = null;
-
-    /**
      * Get the module sections.
      *
      * @return null
@@ -27,16 +20,6 @@ abstract class ModuleAbstract extends AddonAbstract
     public function getSections()
     {
         return $this->sections;
-    }
-
-    /**
-     * Get the module icon.
-     *
-     * @return null
-     */
-    public function getIcon()
-    {
-        return $this->icon;
     }
 
     /**
