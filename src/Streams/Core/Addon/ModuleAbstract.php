@@ -23,6 +23,16 @@ abstract class ModuleAbstract extends AddonAbstract
     }
 
     /**
+     * Return whether the module is active or not.
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        return ($this->slug == \Module::getActive());
+    }
+
+    /**
      * Return a new ModuleModel instance.
      *
      * @return null|ModuleModel
