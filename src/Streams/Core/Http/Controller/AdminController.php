@@ -7,7 +7,7 @@ class AdminController extends BaseController
      */
     public function login()
     {
-        return \View::make('login');
+        return \View::make('theme::login');
     }
 
     /**
