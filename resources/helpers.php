@@ -102,3 +102,31 @@ if (!function_exists('key_value')) {
         return isset($array[$key]) ? $array[$key] : $default;
     }
 }
+
+if (!function_exists('memory_usage')) {
+    /**
+     * Return the current memory usage.
+     *
+     * @return string
+     */
+    function memory_usage()
+    {
+        $unit = array('b', 'kb', 'mb');
+
+        $size = memory_get_usage(true);
+
+        return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
+    }
+}
+
+if (!function_exists('request_time')) {
+    /**
+     * Return the elapsed request time.
+     *
+     * @return mixed
+     */
+    function request_time()
+    {
+        return number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 2) . ' s';
+    }
+}
