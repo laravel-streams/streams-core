@@ -31,6 +31,8 @@ class BootFilter
                 $theme = \Theme::getPublicTheme();
             }
 
+            \Lang::addNamespace('theme', $theme->getPath('lang'));
+
             // Set the active module
             if (\Request::segment(1) == 'admin') {
                 \Module::setActive(\Request::segment(2));
