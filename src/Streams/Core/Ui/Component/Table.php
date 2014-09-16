@@ -20,6 +20,11 @@ class Table
     public function __construct(TableUi $ui)
     {
         $this->ui = $ui;
+
+        $this->rowBuilder    = $this->ui->newRowBuilder($ui);
+        $this->viewBuilder   = $this->ui->newViewBuilder($ui);
+        $this->headerBuilder = $this->ui->newHeaderBuilder($ui);
+        $this->actionBuilder = $this->ui->newActionBuilder($ui);
     }
 
     /**
@@ -29,10 +34,10 @@ class Table
      */
     public function data()
     {
-        $rows       = $this->makeRows();
-        $views      = $this->makeViews();
-        $headers    = $this->makeHeaders();
-        $actions    = $this->makeActions();
+        $rows       = $this->assembleRows();
+        $views      = $this->assembleViews();
+        $headers    = $this->assembleHeaders();
+        $actions    = $this->assembleActions();
         $pagination = $this->makePagination();
         $options    = $this->makeOptions();
 
@@ -40,172 +45,64 @@ class Table
     }
 
     /**
-     * Return the views for a table.
+     * Return the view data.
      *
      * @return array
      */
-    protected function makeViews()
+    protected function assembleViews()
     {
-        $views = $this->ui->getViews();
+        $views = [];
 
-        foreach ($views as &$view) {
-            $title = trans(evaluate_key($view, 'title', null, [$this->ui]));
-
-            // @todo - This should look to the query string
-            $active = $title == 'All' ? true : false;
-
-            $view = compact('title', 'active');
+        foreach ($this->ui->getViews() as $options) {
+            $views[] = $this->viewBuilder->setOptions($options)->data();
         }
 
         return $views;
     }
 
     /**
-     * Return the rows for a table.
+     * Return the rows data.
      *
-     * @return mixed
+     * @return array
      */
-    protected function makeRows()
+    protected function assembleRows()
     {
         $rows = [];
 
         foreach ($this->ui->getEntries() as $entry) {
-            $columns = $this->makeColumns($entry);
-            $buttons = $this->makeButtons($entry);
-
-            $rows[] = compact('columns', 'buttons', 'entry');
+            $rows[] = $this->rowBuilder->setEntry($entry)->data();
         }
 
         return $rows;
     }
 
     /**
-     * Return the columns array.
-     *
-     * @param $entry
-     * @return string
-     */
-    protected function makeColumns($entry)
-    {
-        $columns = $this->ui->getColumns();
-
-        foreach ($columns as &$column) {
-            if (is_string($column)) {
-                $column = [
-                    'data' => $column
-                ];
-            }
-
-            $data = evaluate_key($column, 'data', null, [$this->ui, $entry]);
-
-            if (isset($entry->{$data})) {
-                $data = $entry->{$data};
-            } elseif (strpos($data, '{{') !== false) {
-                $data = \View::parse($data, $entry);
-            } elseif (strpos($data, '.') !== false and $data = $entry) {
-                foreach (explode('.', $data) as $attribute) {
-                    $data = $data->{$attribute};
-                }
-            }
-
-            $column = compact('data');
-        }
-
-        return $columns;
-    }
-
-    /**
-     * Return the buttons array.
-     *
-     * @param $entry
-     * @return string
-     */
-    protected function makeButtons($entry)
-    {
-        $buttons = $this->ui->getButtons();
-
-        foreach ($buttons as &$button) {
-            $url = evaluate_key($button, 'url', '#', [$this->ui, $entry]);
-
-            $title = trans(evaluate_key($button, 'title', null, [$this->ui, $entry]));
-
-            $attributes = evaluate_key($button, 'attributes', [], [$this->ui, $entry]);
-
-            $link = \HTML::link($url, $title, $attributes);
-
-            $dropdown = evaluate_key($button, 'dropdown', [], [$this->ui, $entry]);
-
-            foreach ($dropdown as &$item) {
-                $url = evaluate_key($item, 'url', '#', [$this->ui, $entry]);
-
-                $title = trans(evaluate_key($item, 'title', null, [$this->ui, $entry]));
-
-                $item = compact('url', 'title');
-            }
-
-            $button = compact('link', 'attributes', 'dropdown');
-        }
-
-        return $buttons;
-    }
-
-    /**
-     * Return the headers for a table.
+     * Return the headers data.
      *
      * @return array
      */
-    protected function makeHeaders()
+    protected function assembleHeaders()
     {
-        $headers = $this->ui->getColumns();
+        $headers = [];
 
-        foreach ($headers as &$header) {
-            if (is_string($header)) {
-                $header = [
-                    'data' => $header
-                ];
-            }
-
-            if (isset($column['header'])) {
-                $header = trans(evaluate_key($header, 'header', null, [$this->ui]));
-            } else {
-                $header = humanize($header['data']);
-            }
-
-            $header = compact('header');
+        foreach ($this->ui->getColumns() as $options) {
+            $headers[] = $this->headerBuilder->setOptions($options)->data();
         }
 
         return $headers;
     }
 
     /**
-     * Return the actions array.
+     * Return the actions data.
      *
-     * @return string
+     * @return array
      */
-    protected function makeActions()
+    protected function assembleActions()
     {
-        $actions = $this->ui->getActions();
+        $actions = [];
 
-        foreach ($actions as &$action) {
-            $url = evaluate_key($action, 'url', '#', [$this->ui]);
-
-            $title = trans(evaluate_key($action, 'title', null, [$this->ui]));
-
-            $attributes = evaluate_key($action, 'attributes', [], [$this->ui]);
-
-            $button = \HTML::link($url, $title, $attributes);
-
-            $dropdown = evaluate_key($action, 'dropdown', [], [$this->ui]);
-
-            foreach ($dropdown as &$item) {
-                $url = evaluate_key($item, 'url', '#', [$this->ui]);
-
-                $title = trans(evaluate_key($item, 'title', null, [$this->ui]));
-
-                $item = compact('url', 'title');
-            }
-
-            $action = compact('button', 'attributes', 'dropdown');
+        foreach ($this->ui->getActions() as $options) {
+            $actions[] = $this->actionBuilder->setOptions($options)->data();
         }
 
         return $actions;
@@ -219,7 +116,9 @@ class Table
     protected function makeOptions()
     {
         return [
-            'sortable' => ($this->ui->isSortable()),
+            'sortable'   => boolean($this->ui->getSortable()),
+            'pagination' => boolean($this->ui->getPagination()),
+            'tableClass' => $this->ui->getTableClass(),
         ];
     }
 
@@ -230,7 +129,7 @@ class Table
      */
     protected function makePagination()
     {
-        $paginator = $this->ui->getPaginator();
+        /*$paginator = $this->ui->getPaginator();
 
         $links = $paginator->links();
 
@@ -238,6 +137,6 @@ class Table
 
         $pagination['links'] = $links;
 
-        return $pagination;
+        return $pagination;*/
     }
 }

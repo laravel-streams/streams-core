@@ -1,6 +1,3 @@
-{{ extends "theme::layouts/default" }}
-
-{{ section "content" }}
 <section class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">
@@ -14,7 +11,7 @@
     </div>
     <div class="panel-body" style="padding: 0;">
 
-        <table class="table table-hover">
+        <table class="{{ options.tableClass }}">
 
             <!-- Table Head -->
             <thead>
@@ -33,7 +30,7 @@
 
                 {{ headers }}
                 <th>
-                    {{ header }}
+                    {{ title }}
                 </th>
                 {{ /headers }}
 
@@ -45,7 +42,7 @@
             <!-- Table Body -->
             <tbody>
             {{ rows }}
-            <tr>
+            <tr class="{{ class }}">
                 {{ if data.options.sortable }}
                 <td>
                     <i class="fa fa-reorder" style="cursor: move;"></i>
@@ -59,16 +56,16 @@
                 {{ endif }}
 
                 {{ columns }}
-                <td>
-                    {{ data }}
+                <td class="{{ class }}">
+                    {{ output }}
                 </td>
                 {{ /columns }}
 
                 <td class="text-right">
                     {{ buttons }}
                     <div class="btn-group">
-                        {{ link }}
-                        {{ if dropdown }}
+                        <a href="{{ url }}" class="{{ class }}">{{ title }}</a>
+                        <!--{{ if dropdown }}
                         <button type="button" class="{{ attributes.class }} dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
@@ -78,7 +75,7 @@
                             <li><a href="{{ url }}">{{ title }}</a></li>
                             {{ /dropdown }}
                         </ul>
-                        {{ endif }}
+                        {{ endif }}-->
                     </div>
                     {{ /buttons }}
                 </td>
@@ -94,8 +91,8 @@
 
                     <div class="btn-group">
                         {{ actions }}
-                        {{ button }}
-                        {{ if dropdown }}
+                        <button class="{{ class }}" data-toggle="dropdown">{{ title }}</button>
+                        <!--{{ if dropdown }}
                         <button type="button" class="{{ attributes.class }} dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
@@ -105,13 +102,15 @@
                             <li><a href="{{ url }}">{{ title }}</a></li>
                             {{ /dropdown }}
                         </ul>
-                        {{ endif }}
+                        {{ endif }}-->
                         {{ /actions }}
                     </div>
 
+                    {{ if options.pagination }}
                     <div class="btn-group pull-right">
                         {{ pagination.links }}
                     </div>
+                    {{ endif }}
 
                 </td>
             </tr>
@@ -121,4 +120,3 @@
 
     </div>
 </section>
-{{ stop }}

@@ -1,7 +1,12 @@
 <?php namespace Streams\Core\Ui;
 
 use Streams\Core\Ui\Component\Table;
-use Streams\Core\Ui\Entry\EntryRepository;
+use Streams\Core\Ui\Builder\TableRowBuilder;
+use Streams\Core\Ui\Builder\TableViewBuilder;
+use Streams\Core\Ui\Builder\TableActionBuilder;
+use Streams\Core\Ui\Builder\TableButtonBuilder;
+use Streams\Core\Ui\Builder\TableColumnBuilder;
+use Streams\Core\Ui\Builder\TableHeaderBuilder;
 
 class TableUi extends UiAbstract
 {
@@ -20,74 +25,102 @@ class TableUi extends UiAbstract
     protected $sort = 'ASC';
 
     /**
-     * Limit results.
+     * The limit value.
      *
      * @var null
      */
     protected $limit = 15;
 
     /**
-     * Are rows sortable?
+     * The pagination flag.
+     *
+     * @var bool
+     */
+    protected $pagination = true;
+
+    /**
+     * The sortable flag.
      *
      * @var bool
      */
     protected $sortable = false;
 
     /**
-     * Mass assignable actions.
+     * The table class.
+     *
+     * @var string
+     */
+    protected $tableClass = 'table table-hover';
+
+    /**
+     * The row class.
+     *
+     * @var string
+     */
+    protected $rowClass = '';
+
+    /**
+     * The actions array.
      *
      * @var null
      */
     protected $actions = [];
 
     /**
-     * Views for the table.
+     * The views array.
      *
      * @var array
      */
     protected $views = [];
 
     /**
-     * Filters for the table.
+     * The filters array.
      *
      * @var null
      */
     protected $filters = [];
 
     /**
-     * Column to for the table.
+     * The columns array.
      *
      * @var null
      */
     protected $columns = [];
 
     /**
-     * Button template for each row.
+     * The buttons array.
      *
      * @var null
      */
     protected $buttons = [];
 
     /**
-     * The entries to render in the table.
+     * The entries collection.
      *
-     * @var null
+     * @var
      */
-    protected $entries = [];
+    protected $entries = null;
 
     /**
-     * The total number of entries.
+     * The entry total.
      *
      * @var null
      */
     protected $total = null;
 
     /**
-     * The paginator object.
+     * The wrapper view.
      *
-     * @var null
+     * @var string
      */
-    protected $paginator = null;
+    protected $wrapper = 'html/blank';
+
+    /**
+     * The table view.
+     *
+     * @var string
+     */
+    protected $view = 'html/table';
 
     /**
      * The table object.
@@ -111,8 +144,8 @@ class TableUi extends UiAbstract
      */
     public function __construct($model = null)
     {
-        $this->repository = $this->newRepository($this);
         $this->table      = $this->newTable($this);
+        $this->repository = $this->newRepository($this);
 
         if ($model) {
             $this->model = $model;
@@ -128,30 +161,13 @@ class TableUi extends UiAbstract
      */
     protected function trigger()
     {
-        $this->total = $this->repository->total();
-
-        $this->paginator = $this->newPaginator();
-
         if (!$this->entries) {
             $this->entries = $this->repository->get();
         }
 
-        $this->output = \View::make(
-            'html/table',
-            $this->table->data()
-        );
+        $this->output = \View::make($this->view, $this->table->data());
 
         return $this;
-    }
-
-    /**
-     * Return the model object.
-     *
-     * @return null
-     */
-    public function getModel()
-    {
-        return $this->model;
     }
 
     /**
@@ -167,7 +183,7 @@ class TableUi extends UiAbstract
     /**
      * Set the order by value.
      *
-     * @param null $orderBy
+     * @param $orderBy
      */
     public function setOrderBy($orderBy)
     {
@@ -177,7 +193,7 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Get the sort value.
+     * Get the sort.
      *
      * @return string
      */
@@ -187,9 +203,9 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Set the sort order.
+     * Set the sort.
      *
-     * @param null $sort
+     * @param $sort
      */
     public function setSort($sort)
     {
@@ -199,7 +215,7 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Return the limit value.
+     * Get the limit.
      *
      * @return null
      */
@@ -209,9 +225,10 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Set the limit value.
+     * Set the limit.
      *
-     * @param null $limit
+     * @param $limit
+     * @return $this
      */
     public function setLimit($limit)
     {
@@ -221,7 +238,30 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Get the total count.
+     * Get the pagination flag.
+     *
+     * @return bool
+     */
+    public function getPagination()
+    {
+        return $this->pagination;
+    }
+
+    /**
+     * Set the pagination flag.
+     *
+     * @param $pagination
+     * @return $this
+     */
+    public function setPagination($pagination)
+    {
+        $this->pagination = $pagination;
+
+        return $this;
+    }
+
+    /**
+     * Get the entry total.
      *
      * @return null
      */
@@ -235,9 +275,9 @@ class TableUi extends UiAbstract
      *
      * @return bool
      */
-    public function isSortable()
+    public function getSortable()
     {
-        return ($this->sortable);
+        return $this->sortable;
     }
 
     /**
@@ -248,6 +288,50 @@ class TableUi extends UiAbstract
     public function setSortable($sortable)
     {
         $this->sortable = $sortable;
+
+        return $this;
+    }
+
+    /**
+     * Get the table class.
+     *
+     * @return string
+     */
+    public function getTableClass()
+    {
+        return $this->tableClass;
+    }
+
+    /**
+     * Set the table class.
+     *
+     * @param boolean $class
+     */
+    public function setTableClass($class)
+    {
+        $this->tableClass = $class;
+
+        return $this;
+    }
+
+    /**
+     * Get the row class.
+     *
+     * @return string
+     */
+    public function getRowClass()
+    {
+        return $this->rowClass;
+    }
+
+    /**
+     * Set the row class.
+     *
+     * @param boolean $class
+     */
+    public function setRowClass($class)
+    {
+        $this->rowClass = $class;
 
         return $this;
     }
@@ -265,14 +349,12 @@ class TableUi extends UiAbstract
     /**
      * Set the actions.
      *
-     * @param array $actions
+     * @param $actions
      * @return $this
      */
-    public function setActions(array $actions)
+    public function setActions($actions)
     {
-        foreach ($actions as $action) {
-            $this->addAction($action);
-        }
+        $this->actions = $actions;
 
         return $this;
     }
@@ -291,7 +373,7 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Get the views array.
+     * Get the views.
      *
      * @return array
      */
@@ -301,22 +383,20 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Set the views array.
+     * Set the views.
      *
      * @param $views
      * @return $this
      */
     public function setViews($views)
     {
-        foreach ($views as $view) {
-            $this->addView($view);
-        }
+        $this->views = $views;
 
         return $this;
     }
 
     /**
-     * Add a view to the array.
+     * Add a view.
      *
      * @param $view
      * @return $this
@@ -329,7 +409,7 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Get the filters array.
+     * Get the filters.
      *
      * @return null
      */
@@ -339,21 +419,19 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Set the filters array.
+     * Set the filters.
      *
      * @param $filters
      */
     public function setFilters($filters)
     {
-        foreach ($filters as $filter) {
-            $this->addFilter($filter);
-        }
+        $this->filters = $filters;
 
         return $this;
     }
 
     /**
-     * Add a filter to the filters array.
+     * Add a filter.
      *
      * @param $filter
      * @return $this
@@ -366,7 +444,7 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Return the columns configuration.
+     * Return the columns.
      *
      * @return null
      */
@@ -376,22 +454,20 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Set the column configurations.
+     * Set the columns.
      *
-     * @param array $columns
+     * @param $columns
      * @return $this
      */
-    public function setColumns(array $columns)
+    public function setColumns($columns)
     {
-        foreach ($columns as $column) {
-            $this->addColumn($column);
-        }
+        $this->columns = $columns;
 
         return $this;
     }
 
     /**
-     * Add a column configuration.
+     * Add a column.
      *
      * @param $column
      * @return $this
@@ -404,7 +480,7 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Return the buttons array.
+     * Return the buttons.
      *
      * @return null
      */
@@ -414,22 +490,20 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Set the button configuration.
+     * Set the buttons.
      *
      * @param $buttons
      * @return $this
      */
     public function setButtons($buttons)
     {
-        foreach ($buttons as $button) {
-            $this->addButton($button);
-        }
+        $this->buttons = $buttons;
 
         return $this;
     }
 
     /**
-     * Add a button configuration.
+     * Add a button.
      *
      * @param $button
      * @return $this
@@ -442,7 +516,7 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Return the entries collection.
+     * Return the entries.
      *
      * @return null
      */
@@ -458,9 +532,7 @@ class TableUi extends UiAbstract
      */
     public function setEntries($entries)
     {
-        foreach ($entries as $entry) {
-            $this->addEntry($entry);
-        }
+        $this->entries = $entries;
 
         return $this;
     }
@@ -479,13 +551,16 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Get the paginator object.
+     * Set the table view.
      *
-     * @return null
+     * @param $view
+     * @return $this
      */
-    public function getPaginator()
+    public function setView($view)
     {
-        return $this->paginator;
+        $this->view = $view;
+
+        return $this;
     }
 
     /**
@@ -500,23 +575,78 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Return a new entry repository instance.
-     *
-     * @param $ui
-     * @return EntryRepository
-     */
-    protected function newRepository($ui)
-    {
-        return new EntryRepository($ui);
-    }
-
-    /**
      * Return a new paginator instance.
      *
      * @return mixed
      */
     protected function newPaginator()
     {
-        return \App::make('paginator')->make([], $this->total, $this->limit);
+        return \App::make('paginator');
+    }
+
+    /**
+     * Return a new TableViewBuilder instance.
+     *
+     * @param $ui
+     * @return TableViewBuilder
+     */
+    public function newViewBuilder($ui)
+    {
+        return new TableViewBuilder($ui);
+    }
+
+    /**
+     * Return a new TableHeaderBuilder instance.
+     *
+     * @param $ui
+     * @return TableHeaderBuilder
+     */
+    public function newHeaderBuilder($ui)
+    {
+        return new TableHeaderBuilder($ui);
+    }
+
+    /**
+     * Return a new TableActionBuilder instance.
+     *
+     * @param $ui
+     * @return TableActionBuilder
+     */
+    public function newActionBuilder($ui)
+    {
+        return new TableActionBuilder($ui);
+    }
+
+    /**
+     * Return a new TableRowBuilder instance.
+     *
+     * @param $ui
+     * @return TableRowBuilder
+     */
+    public function newRowBuilder($ui)
+    {
+        return new TableRowBuilder($ui);
+    }
+
+    /**
+     * Return a new TableColumnBuilder instance.
+     *
+     * @param $ui
+     * @return TableColumnBuilder
+     */
+    public function newColumnBuilder($ui)
+    {
+        return new TableColumnBuilder($ui);
+    }
+
+    /**
+     * Return a new TableButtonBuilder instance.
+     *
+     * @param $ui
+     * @return TableButtonBuilder
+     */
+    public function newButtonBuilder($ui)
+    {
+        return new TableButtonBuilder($ui);
     }
 }

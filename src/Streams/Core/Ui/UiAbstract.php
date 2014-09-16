@@ -1,8 +1,9 @@
 <?php namespace Streams\Core\Ui;
 
 use Streams\Core\Traits\CallableTrait;
+use Streams\Core\Ui\Contract\UiInterface;
 
-abstract class UiAbstract
+abstract class UiAbstract implements UiInterface
 {
     use CallableTrait;
 
@@ -28,12 +29,43 @@ abstract class UiAbstract
     protected $title = 'misc.untitled';
 
     /**
+     * The wrapper view.
+     *
+     * @var null
+     */
+    protected $wrapper = null;
+
+    /**
+     * Trigger rendering.
+     *
+     * @return null
+     */
+    protected function trigger()
+    {
+        return null;
+    }
+
+    /**
      * Return the compiled the view output.
      *
      * @param bool $return
      * @return mixed
      */
     public function render()
+    {
+        $content = $this->output();
+
+        $title  = trans(evaluate($this->title, [$this]));
+
+        return \View::make($this->wrapper, compact('content', 'title'));
+    }
+
+    /**
+     * Return the output.
+     *
+     * @return null
+     */
+    public function output()
     {
         $this->trigger();
 
@@ -84,5 +116,28 @@ abstract class UiAbstract
         $this->model = $model;
 
         return $this;
+    }
+
+    /**
+     * Set the wrapper view.
+     *
+     * @param $view
+     */
+    public function setWrapper($view)
+    {
+        $this->wrapper = $view;
+
+        return $this;
+    }
+
+    /**
+     * Return a new repository instance.
+     *
+     * @param UiAbstract $ui
+     * @return Repository
+     */
+    protected function newRepository(UiAbstract $ui)
+    {
+        return new Repository($ui);
     }
 }

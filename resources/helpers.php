@@ -83,7 +83,7 @@ if (!function_exists('evaluate_key')) {
      */
     function evaluate_key($array, $key, $default = null, $arguments = [])
     {
-        return evaluate(key_value($array, $key, $default), $arguments);
+        return is_array($array) ? evaluate(key_value($array, $key, $default), $arguments) : $default;
     }
 }
 
@@ -92,12 +92,12 @@ if (!function_exists('key_value')) {
      * Return the value of an array.
      * If no key exists return the default value.
      *
-     * @param      $array
-     * @param      $key
-     * @param null $default
+     * @param array $array
+     * @param       $key
+     * @param null  $default
      * @return null
      */
-    function key_value($array, $key, $default = null)
+    function key_value(array $array, $key, $default = null)
     {
         return isset($array[$key]) ? $array[$key] : $default;
     }
@@ -130,3 +130,40 @@ if (!function_exists('request_time')) {
         return number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 2) . ' s';
     }
 }
+
+if (!function_exists('merge')) {
+    /**
+     * Merge data into a string.
+     *
+     * @return string
+     */
+    function merge($string, $data)
+    {
+        if (!is_array($data)) {
+            if (!$data instanceof \Illuminate\Contracts\Support\ArrayableInterface) {
+                return null;
+            } else {
+                $data = $data->toArray();
+            }
+        }
+
+        preg_match_all('/\{([a-z._)]*)\}/', $string, $matches);
+
+        if (isset($matches[0])) {
+            foreach ($matches[0] as $match) {
+                $value = $data;
+                $parts = explode('.', substr($match, 1, -1));
+
+                foreach ($parts as $attribute) {
+                    $value = evaluate_key($value, $attribute);
+                }
+
+                $string = str_replace($match, $value, $string);
+            }
+        }
+
+        return $string;
+    }
+}
+
+

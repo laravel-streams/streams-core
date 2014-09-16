@@ -44,4 +44,27 @@ trait CallableTrait
 
         return null;
     }
+
+    /**
+     * Get the callbacks array.
+     *
+     * @return array
+     */
+    public function getCallbacks()
+    {
+        return $this->callbacks;
+    }
+
+    /**
+     * Set the callbacks array.
+     *
+     * @param $callbacks
+     * @return $this
+     */
+    public function setCallbacks($callbacks)
+    {
+        $this->callbacks = $callbacks;
+
+        return $this;
+    }
 }
