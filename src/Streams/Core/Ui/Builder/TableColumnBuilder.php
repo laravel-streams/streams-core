@@ -19,9 +19,9 @@ class TableColumnBuilder extends TableBuilderAbstract
     public function data()
     {
         $class = $this->buildClass();
-        $data  = $this->buildData();
+        $value = $this->buildValue();
 
-        return compact('class', 'data');
+        return compact('class', 'value');
     }
 
     /**
@@ -39,27 +39,21 @@ class TableColumnBuilder extends TableBuilderAbstract
      *
      * @return string
      */
-    protected function buildData()
+    protected function buildValue()
     {
-        if (is_string($this->options)) {
-            $this->options = [
-                'data' => $this->options
-            ];
-        }
+        $value = evaluate_key($this->options, 'value', null, [$this->ui, $this->entry]);
 
-        $data = evaluate_key($this->options, 'data', null, [$this->ui, $this->entry]);
-
-        if (isset($this->entry->{$data})) {
-            $data = $this->entry->{$data};
-        } elseif (strpos($data, '{') !== false) {
-            $data = merge($data, $this->entry);
-        } elseif (strpos($data, '.') !== false and $data = $this->entry) {
-            foreach (explode('.', $data) as $attribute) {
-                $data = $data->{$attribute};
+        if (isset($this->entry->{$value})) {
+            $value = $this->entry->{$value};
+        } elseif (strpos($value, '{') !== false) {
+            $value = merge($value, $this->entry);
+        } elseif (strpos($value, '.') !== false and $value = $this->entry) {
+            foreach (explode('.', $value) as $attribute) {
+                $value = $value->{$attribute};
             }
         }
 
-        return $data;
+        return $value;
     }
 
     /**
@@ -72,7 +66,7 @@ class TableColumnBuilder extends TableBuilderAbstract
     {
         if (is_string($options)) {
             $options = [
-                'data' => $options,
+                'value' => $options,
             ];
         }
 
