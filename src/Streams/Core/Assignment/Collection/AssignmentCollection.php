@@ -5,12 +5,12 @@ use Streams\Core\Collection\EloquentCollection;
 class AssignmentCollection extends EloquentCollection
 {
     /**
-     * Find an item by slug.
+     * Find an assignment by it's field slug.
      *
      * @param $slug
      * @return null
      */
-    public function findBySlug($slug)
+    public function findByFieldSlug($slug)
     {
         foreach ($this->items as $item) {
             if ($item->field->slug == $slug) {

@@ -18,10 +18,10 @@ class TableColumnBuilder extends TableBuilderAbstract
      */
     public function data()
     {
-        $class  = $this->buildClass();
-        $output = $this->buildOutput();
+        $class = $this->buildClass();
+        $data  = $this->buildData();
 
-        return compact('class', 'output');
+        return compact('class', 'data');
     }
 
     /**
@@ -35,31 +35,48 @@ class TableColumnBuilder extends TableBuilderAbstract
     }
 
     /**
-     * Return the output.
+     * Return the column data.
      *
      * @return string
      */
-    protected function buildOutput()
+    protected function buildData()
     {
         if (is_string($this->options)) {
             $this->options = [
-                'output' => $this->options
+                'data' => $this->options
             ];
         }
 
-        $output = evaluate_key($this->options, 'output', null, [$this->ui, $this->entry]);
+        $data = evaluate_key($this->options, 'data', null, [$this->ui, $this->entry]);
 
-        if (isset($this->entry->{$output})) {
-            $output = $this->entry->{$output};
-        } elseif (strpos($output, '{') !== false) {
-            $output = merge($output, $this->entry);
-        } elseif (strpos($output, '.') !== false and $data = $this->entry) {
-            foreach (explode('.', $output) as $attribute) {
-                $output = $output->{$attribute};
+        if (isset($this->entry->{$data})) {
+            $data = $this->entry->{$data};
+        } elseif (strpos($data, '{') !== false) {
+            $data = merge($data, $this->entry);
+        } elseif (strpos($data, '.') !== false and $data = $this->entry) {
+            foreach (explode('.', $data) as $attribute) {
+                $data = $data->{$attribute};
             }
         }
 
-        return $output;
+        return $data;
+    }
+
+    /**
+     * Set the options and catch defaults.
+     *
+     * @param $options
+     * @return $this
+     */
+    public function setOptions($options)
+    {
+        if (is_string($options)) {
+            $options = [
+                'data' => $options,
+            ];
+        }
+
+        return parent::setOptions($options);
     }
 
     /**

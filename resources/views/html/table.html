@@ -24,7 +24,8 @@
 
                 {{ if actions }}
                 <th>
-                    <input type="checkbox" onclick="$(this).closest('table').find(':checkbox').prop('checked', this.checked);"/>
+                    <input type="checkbox"
+                           onclick="$(this).closest('table').find(':checkbox').prop('checked', this.checked);"/>
                 </th>
                 {{ endif }}
 
@@ -57,7 +58,7 @@
 
                 {{ columns }}
                 <td class="{{ class }}">
-                    {{ output }}
+                    {{ data }}
                 </td>
                 {{ /columns }}
 

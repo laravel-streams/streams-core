@@ -3,6 +3,18 @@
 class TableHeaderBuilder extends TableBuilderAbstract
 {
     /**
+     * Create a new TableHeaderBuilder instance.
+     *
+     * @param \Streams\Core\Ui\TableUi $ui
+     */
+    public function __construct($ui)
+    {
+        parent::__construct($ui);
+
+        $this->assignments = $this->ui->getModel()->getStream()->assignments;
+    }
+
+    /**
      * Return the data.
      *
      * @return array
@@ -21,10 +33,37 @@ class TableHeaderBuilder extends TableBuilderAbstract
      */
     protected function buildTitle()
     {
-        if (is_string($this->options)) {
-            return humanize($this->options);
+        $title = evaluate_key($this->options, 'title', null, [$this->ui]);
+
+        if ($assignment = $this->assignments->findByFieldSlug($title)) {
+            $title = $assignment->field->name;
+        } else {
+            $translated = trans($title);
+
+            if ($translated == $title) {
+                $title = humanize($title);
+            } else {
+                $title = $translated;
+            }
         }
 
-        return 'Tmp'; //trans(evaluate_key($this->options, 'title', null, [$this->ui]));
+        return $title;
+    }
+
+    /**
+     * Set the options and catch defaults.
+     *
+     * @param $options
+     * @return $this
+     */
+    public function setOptions($options)
+    {
+        if (is_string($options)) {
+            $options = [
+                'title' => $options,
+            ];
+        }
+
+        return parent::setOptions($options);
     }
 }

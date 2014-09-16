@@ -1,7 +1,7 @@
 <?php namespace Streams\Core\Ui\Component;
 
-use Illuminate\Support\Facades\Paginator;
 use Streams\Core\Ui\TableUi;
+use Illuminate\Support\Facades\Paginator;
 
 class Table
 {
@@ -34,14 +34,15 @@ class Table
      */
     public function data()
     {
-        $rows       = $this->assembleRows();
-        $views      = $this->assembleViews();
-        $headers    = $this->assembleHeaders();
-        $actions    = $this->assembleActions();
-        $pagination = $this->makePagination();
-        $options    = $this->makeOptions();
+        $rows    = $this->makeRows();
+        $views   = $this->makeViews();
+        $headers = $this->makeHeaders();
+        $actions = $this->makeActions();
 
-        return compact('views', 'headers', 'rows', 'actions', 'options', 'pagination');
+        $pagination = $this->buildPagination();
+        $options    = $this->buildOptions();
+
+        return compact('views', 'headers', 'rows', 'actions', 'pagination', 'options');
     }
 
     /**
@@ -49,7 +50,7 @@ class Table
      *
      * @return array
      */
-    protected function assembleViews()
+    protected function makeViews()
     {
         $views = [];
 
@@ -65,7 +66,7 @@ class Table
      *
      * @return array
      */
-    protected function assembleRows()
+    protected function makeRows()
     {
         $rows = [];
 
@@ -81,7 +82,7 @@ class Table
      *
      * @return array
      */
-    protected function assembleHeaders()
+    protected function makeHeaders()
     {
         $headers = [];
 
@@ -97,7 +98,7 @@ class Table
      *
      * @return array
      */
-    protected function assembleActions()
+    protected function makeActions()
     {
         $actions = [];
 
@@ -113,7 +114,7 @@ class Table
      *
      * @return array
      */
-    protected function makeOptions()
+    protected function buildOptions()
     {
         return [
             'sortable'   => boolean($this->ui->getSortable()),
@@ -127,7 +128,7 @@ class Table
      *
      * @return array
      */
-    protected function makePagination()
+    protected function buildPagination()
     {
         /*$paginator = $this->ui->getPaginator();
 

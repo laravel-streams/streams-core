@@ -63,7 +63,7 @@ class EntryModel extends EloquentModel
 
         // Lastly if we have a type for this key - use the field type
         // mutate method to transform the value to storage format.
-        elseif ($assignment = $this->findAssignmentBySlug($key)) {
+        elseif ($assignment = $this->findAssignmentByFieldSlug($key)) {
             if ($type = $assignment->fieldType()) {
                 $value = $type->mutate($value);
             }
@@ -101,12 +101,12 @@ class EntryModel extends EloquentModel
      * @param $slug
      * @return mixed
      */
-    public function findAssignmentBySlug($slug)
+    public function findAssignmentByFieldSlug($slug)
     {
         return $this
             ->stream
             ->assignments
-            ->findBySlug($slug);
+            ->findByFieldSlug($slug);
     }
 
     /**
@@ -117,7 +117,7 @@ class EntryModel extends EloquentModel
      */
     public function fieldType($slug)
     {
-        return $this->findAssignmentBySlug($slug)->fieldType();
+        return $this->findAssignmentByFieldSlug($slug)->fieldType();
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php namespace Streams\Core\Ui\Builder;
 
+use Streams\Core\Ui\Contract\BuilderInterface;
 use Streams\Core\Ui\TableUi;
 
 class TableRowBuilder extends TableBuilderAbstract
@@ -18,7 +19,7 @@ class TableRowBuilder extends TableBuilderAbstract
      */
     public function __construct(TableUi $ui)
     {
-        $this->ui = $ui;
+        parent::__construct($ui);
 
         $this->columnBuilder = $this->ui->newColumnBuilder($ui);
         $this->buttonBuilder = $this->ui->newButtonBuilder($ui);
@@ -58,7 +59,11 @@ class TableRowBuilder extends TableBuilderAbstract
         $columns = [];
 
         foreach ($this->ui->getColumns() as $options) {
-            $columns[] = $this->columnBuilder->setEntry($this->entry)->setOptions($options)->data();
+            if ($options instanceof BuilderInterface) {
+                $columns[] = $options->setEntry($this->entry)->setOptions($options)->data();
+            } else {
+                $columns[] = $this->columnBuilder->setEntry($this->entry)->setOptions($options)->data();
+            }
         }
 
         return $columns;

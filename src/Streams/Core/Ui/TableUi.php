@@ -109,6 +109,13 @@ class TableUi extends UiAbstract
     protected $total = null;
 
     /**
+     * The paginator object.
+     *
+     * @var null
+     */
+    protected $paginator = null;
+
+    /**
      * The wrapper view.
      *
      * @var string
@@ -144,12 +151,12 @@ class TableUi extends UiAbstract
      */
     public function __construct($model = null)
     {
-        $this->table      = $this->newTable($this);
-        $this->repository = $this->newRepository($this);
-
         if ($model) {
             $this->model = $model;
         }
+
+        $this->table      = $this->newTable($this);
+        $this->repository = $this->newRepository($this);
 
         return $this;
     }
