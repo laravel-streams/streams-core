@@ -85,7 +85,8 @@ class TableFilter implements TableFilterInterface
             $this->getOption('name'),
             $this->getValue(),
             [
-                'class' => 'form-control'
+                'placeholder' => trans($this->getOption('placeholder', humanize($this->getOption('name')))),
+                'class'       => 'form-control'
             ]
         );
     }
