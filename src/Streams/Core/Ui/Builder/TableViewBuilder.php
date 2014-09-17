@@ -1,7 +1,16 @@
 <?php namespace Streams\Core\Ui\Builder;
 
+use Streams\Core\Ui\Contract\TableViewInterface;
+
 class TableViewBuilder extends TableBuilderAbstract
 {
+    /**
+     * The view object.
+     *
+     * @var null
+     */
+    protected $view = null;
+
     /**
      * Return the data.
      *
@@ -10,9 +19,10 @@ class TableViewBuilder extends TableBuilderAbstract
     public function data()
     {
         $title = $this->buildTitle();
-        $active = $this->buildActive();
+        $class = $this->buildClass();
+        $url   = $this->buildUrl();
 
-        return compact('title', 'active');
+        return compact('title', 'class', 'url');
     }
 
     /**
@@ -22,16 +32,45 @@ class TableViewBuilder extends TableBuilderAbstract
      */
     protected function buildTitle()
     {
-        return trans(evaluate_key($this->options, 'title', null, [$this->ui]));
+        return trans(evaluate($this->view->getOption('title'), null, [$this->ui]));
     }
 
     /**
-     * Return the active flag.
+     * Return the class.
      *
-     * @return bool
+     * @return string
      */
-    protected function buildActive()
+    protected function buildClass()
     {
-        return ($this->buildTitle() == 'All');
+        $class = evaluate($this->view->getOption('class'), '', [$this->ui]);
+
+        if ($this->view->isActive()) {
+            $class .= ' active';
+        }
+
+        return $class;
+    }
+
+    /**
+     * Return the URL.
+     *
+     * @return string
+     */
+    protected function buildUrl()
+    {
+        return \Request::url() . '?view=' . $this->view->getSlug();
+    }
+
+    /**
+     * Set the view.
+     *
+     * @param TableViewInterface $view
+     * @return $this
+     */
+    public function setView(TableViewInterface $view)
+    {
+        $this->view = $view;
+
+        return $this;
     }
 }

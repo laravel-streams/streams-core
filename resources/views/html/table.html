@@ -1,10 +1,15 @@
 <section class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">
-            {{ views }}
-            <span class="{{ if not active }}text-muted{{ endif }}">{{ title }}</span>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            {{ /views }}
+            {{ if views }}
+            <ul class="table-views">
+                {{ views }}
+                <li class="{{ class }}">
+                    <a href="{{ url }}">{{ title }}</a>
+                </li>
+                {{ /views }}
+            </ul>
+            {{ endif }}
 
             <span class="pull-right text-muted"><i class="fa fa-filter"></i> Filter</span>
         </h3>

@@ -57,12 +57,12 @@ class TableColumnBuilder extends TableBuilderAbstract
     }
 
     /**
-     * Set the options and catch defaults.
+     * Make the class and catch defaults.
      *
      * @param $options
      * @return $this
      */
-    public function setOptions($options)
+    public function make($options)
     {
         if (is_string($options)) {
             $options = [
@@ -70,7 +70,7 @@ class TableColumnBuilder extends TableBuilderAbstract
             ];
         }
 
-        return parent::setOptions($options);
+        return parent::make($options);
     }
 
     /**

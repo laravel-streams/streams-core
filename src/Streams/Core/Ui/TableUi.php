@@ -1,5 +1,6 @@
 <?php namespace Streams\Core\Ui;
 
+use Streams\Core\Ui\Collection\TableViewCollection;
 use Streams\Core\Ui\Component\Table;
 use Streams\Core\Ui\Builder\TableRowBuilder;
 use Streams\Core\Ui\Builder\TableViewBuilder;
@@ -7,6 +8,7 @@ use Streams\Core\Ui\Builder\TableActionBuilder;
 use Streams\Core\Ui\Builder\TableButtonBuilder;
 use Streams\Core\Ui\Builder\TableColumnBuilder;
 use Streams\Core\Ui\Builder\TableHeaderBuilder;
+use Streams\Core\Ui\Support\TableView;
 
 class TableUi extends UiAbstract
 {
@@ -386,7 +388,7 @@ class TableUi extends UiAbstract
      */
     public function getViews()
     {
-        return $this->views;
+        return new TableViewCollection($this->views);
     }
 
     /**

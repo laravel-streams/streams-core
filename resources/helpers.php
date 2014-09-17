@@ -1,5 +1,24 @@
 <?php
 
+if (!function_exists('slugify')) {
+    /**
+     * Return the slugified version of a string.
+     *
+     * @param        $string
+     * @param string $separator
+     * @return mixed|string
+     */
+    function slugify($string, $separator = '-')
+    {
+        $string = trim($string);
+        $string = strtolower($string);
+        $string = preg_replace('/[\s-]+/', $separator, $string);
+        $string = preg_replace("/[^0-9a-zA-Z-]/", '', $string);
+
+        return $string;
+    }
+}
+
 if (!function_exists('humanize')) {
     /**
      * Return the humanized version of a string.

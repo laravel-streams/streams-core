@@ -19,12 +19,12 @@ abstract class BuilderAbstract implements BuilderInterface
     protected $entry = null;
 
     /**
-     * Set the options.
+     * Make the class.
      *
      * @param $options
      * @return $this
      */
-    public function setOptions($options)
+    public function make($options)
     {
         $this->options = $options;
 

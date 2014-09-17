@@ -54,8 +54,8 @@ class Table
     {
         $views = [];
 
-        foreach ($this->ui->getViews() as $options) {
-            $views[] = $this->viewBuilder->setOptions($options)->data();
+        foreach ($this->ui->getViews() as $view) {
+            $views[] = $this->viewBuilder->setView($view)->data();
         }
 
         return $views;
@@ -87,7 +87,7 @@ class Table
         $headers = [];
 
         foreach ($this->ui->getColumns() as $options) {
-            $headers[] = $this->headerBuilder->setOptions($options)->data();
+            $headers[] = $this->headerBuilder->make($options)->data();
         }
 
         return $headers;
@@ -103,7 +103,7 @@ class Table
         $actions = [];
 
         foreach ($this->ui->getActions() as $options) {
-            $actions[] = $this->actionBuilder->setOptions($options)->data();
+            $actions[] = $this->actionBuilder->make($options)->data();
         }
 
         return $actions;

@@ -3,11 +3,11 @@
 interface BuilderInterface
 {
     /**
-     * Set the options.
+     * Make the class.
      *
      * @return array
      */
-    public function setOptions($options);
+    public function make($options);
 
     /**
      * Set the entry.
