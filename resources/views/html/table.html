@@ -1,3 +1,16 @@
+<!--<section class="panel panel-default table-search">
+    <div class="panel-body">
+        <form class="form-inline" method="get">
+            <div class="form-group">
+                <input type="text" name="test-filter" class="form-control" placeholder="Search...">
+            </div>
+
+            <button type="submit" class="btn btn-success">Search</button>
+            <a href="{{ url.current }}" class="btn btn-link">Clear</a>
+        </form>
+    </div>
+</section>-->
+
 <section class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">
@@ -11,14 +24,14 @@
             </ul>
             {{ endif }}
 
-            <a href="#" class="pull-right table-filter-toggle" onclick="$(this).toggleClass('open'); return false;">
+            <a href="#" class="pull-right table-filter-toggle {{ options.filter_state }}" onclick="$(this).toggleClass('active'); $('.table-filters').toggleClass('active'); return false;">
                 <i class="fa fa-filter"></i> Filter
             </a>
         </h3>
     </div>
     <div class="panel-body" style="padding: 0;">
 
-        <div class="table-filters">
+        <div class="table-filters {{ options.filter_state }}">
             <form class="form-inline" method="get">
                 <input type="hidden" name="filter" value="true">
 
@@ -27,7 +40,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-success">Filter</button>
-                <a href="{{ url.current }}" class="btn btn-link">Cancel</a>
+                <a href="{{ url.current }}" class="btn btn-link">Clear</a>
             </form>
         </div>
 

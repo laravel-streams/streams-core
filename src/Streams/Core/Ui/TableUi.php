@@ -1,5 +1,7 @@
 <?php namespace Streams\Core\Ui;
 
+use Streams\Core\Ui\Builder\TableFilterBuilder;
+use Streams\Core\Ui\Collection\TableFilterCollection;
 use Streams\Core\Ui\Component\Table;
 use Streams\Core\Ui\Builder\TableRowBuilder;
 use Streams\Core\Ui\Builder\TableViewBuilder;
@@ -450,7 +452,7 @@ class TableUi extends UiAbstract
      */
     public function getFilters()
     {
-        return $this->filters;
+        return new TableFilterCollection($this, $this->filters);
     }
 
     /**
@@ -683,5 +685,16 @@ class TableUi extends UiAbstract
     public function newButtonBuilder($ui)
     {
         return new TableButtonBuilder($ui);
+    }
+
+    /**
+     * Return a new TableFilterBuilder instance.
+     *
+     * @param $ui
+     * @return TableFilterBuilder
+     */
+    public function newFilterBuilder($ui)
+    {
+        return new TableFilterBuilder($ui);
     }
 }

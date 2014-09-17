@@ -8,4 +8,12 @@ interface TableFilterInterface
      * @return string
      */
     public function input();
+
+    /**
+     * Build onto the query.
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function query($query);
 }

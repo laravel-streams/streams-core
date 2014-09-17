@@ -1,13 +1,10 @@
 <?php namespace Streams\Core\Ui\Support;
 
 use Streams\Core\Ui\TableUi;
-use Streams\Core\Traits\CallableTrait;
 use Streams\Core\Ui\Contract\TableFilterInterface;
 
-abstract class TableFilterAbstract implements TableFilterInterface
+class TableFilter implements TableFilterInterface
 {
-    use CallableTrait;
-
     /**
      * The filter options.
      *
@@ -32,23 +29,7 @@ abstract class TableFilterAbstract implements TableFilterInterface
     {
         $this->ui = $ui;
 
-        if (isset($options['callbacks'])) {
-            $this->callbacks = $options['callbacks'];
-
-            unset($options['callbacks']);
-        }
-
-        if (isset($options['slug'])) {
-            $this->slug = $options['slug'];
-        } elseif (isset($options['title'])) {
-            $this->slug = slugify($options['title']);
-        } else {
-            $this->slug = 'default';
-        }
-
         $this->options = $options;
-
-        $this->active = (\Input::get('view') == $this->slug);
     }
 
     /**
@@ -57,6 +38,17 @@ abstract class TableFilterAbstract implements TableFilterInterface
      * @return null|string
      */
     public function input()
+    {
+        return null;
+    }
+
+    /**
+     * Build onto the query.
+     *
+     * @param $query
+     * @return null
+     */
+    public function query($query)
     {
         return null;
     }

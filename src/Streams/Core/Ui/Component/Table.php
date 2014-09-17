@@ -25,7 +25,7 @@ class Table
         $this->viewBuilder   = $this->ui->newViewBuilder($ui);
         $this->headerBuilder = $this->ui->newHeaderBuilder($ui);
         $this->actionBuilder = $this->ui->newActionBuilder($ui);
-        //$this->filterBuilder = $this->ui->newFilterBuilder($ui);
+        $this->filterBuilder = $this->ui->newFilterBuilder($ui);
     }
 
     /**
@@ -39,11 +39,12 @@ class Table
         $views   = $this->makeViews();
         $headers = $this->makeHeaders();
         $actions = $this->makeActions();
+        $filters = $this->makeFilters();
 
         $pagination = $this->buildPagination();
         $options    = $this->buildOptions();
 
-        return compact('views', 'headers', 'rows', 'actions', 'pagination', 'options');
+        return compact('views', 'headers', 'rows', 'actions', 'filters', 'pagination', 'options');
     }
 
     /**
@@ -111,6 +112,22 @@ class Table
     }
 
     /**
+     * Return the filters data.
+     *
+     * @return array
+     */
+    protected function makeFilters()
+    {
+        $filters = [];
+
+        foreach ($this->ui->getFilters() as $filter) {
+            $filters[] = $this->filterBuilder->setFilter($filter)->data();
+        }
+
+        return $filters;
+    }
+
+    /**
      * Return the table options array.
      *
      * @return array
@@ -122,6 +139,7 @@ class Table
             'sortable'         => boolean($this->ui->getSortable()),
             'pagination'       => boolean($this->ui->getPagination()),
             'noResultsMessage' => trans($this->ui->getNoResultsMessage()),
+            'filter_state'     => \Input::has('filter') ? 'active' : null,
         ];
     }
 
