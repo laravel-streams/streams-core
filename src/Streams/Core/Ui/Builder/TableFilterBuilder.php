@@ -18,7 +18,19 @@ class TableFilterBuilder extends TableBuilderAbstract
      */
     public function data()
     {
-        return null;
+        $input = $this->buildInput();
+
+        return compact('input');
+    }
+
+    /**
+     * Return the input.
+     *
+     * @return mixed
+     */
+    protected function buildInput()
+    {
+        return $this->filter->input();
     }
 
     /**

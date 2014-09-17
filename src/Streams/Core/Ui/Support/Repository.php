@@ -33,6 +33,8 @@ class Repository
 
         $view = $this->ui->getViews()->active();
 
+        $filters = $this->ui->getFilters();
+
         //$paginator = $this->ui->getPaginator();
 
         //$limit   = $this->ui->getLimit($paginator->getPerPage());
@@ -49,6 +51,16 @@ class Repository
 
         if ($result instanceof Builder) {
             $query = $result;
+        }
+
+        foreach ($filters as $filter) {
+            if ($filter->getValue()) {
+                $result = $filter->query($query);
+
+                if ($result instanceof Builder) {
+                    $query = $result;
+                }
+            }
         }
 
         return $query->get();

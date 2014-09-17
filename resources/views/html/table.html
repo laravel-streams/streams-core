@@ -35,9 +35,11 @@
             <form class="form-inline" method="get">
                 <input type="hidden" name="filter" value="true">
 
+                {{ filters }}
                 <div class="form-group">
-                    <input type="text" name="test-filter" class="form-control" placeholder="Test Filter">
+                    {{ input }}
                 </div>
+                {{ /filters }}
 
                 <button type="submit" class="btn btn-success">Filter</button>
                 <a href="{{ url.current }}" class="btn btn-link">Clear</a>

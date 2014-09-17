@@ -39,7 +39,75 @@ class TableFilter implements TableFilterInterface
      */
     public function input()
     {
+        switch ($this->getOption('type')) {
+            case 'select':
+                return $this->buildSelectFilterInput();
+                break;
+
+            case 'text':
+            case 'email':
+                return $this->buildTextFilterInput();
+                break;
+
+            default:
+                break;
+        }
+
         return null;
+    }
+
+    /**
+     * Return the input for a generic select filter input.
+     *
+     * @return mixed
+     */
+    protected function buildSelectFilterInput()
+    {
+        return \Form::select(
+            $this->getOption('slug'),
+            $this->getOption('options'),
+            $this->getValue(),
+            [
+                'class' => 'form-control'
+            ]
+        );
+    }
+
+    /**
+     * Return the input for a generic text filter input.
+     *
+     * @return mixed
+     */
+    protected function buildTextFilterInput()
+    {
+        return \Form::input(
+            $this->getOption('type'),
+            $this->getOption('name'),
+            $this->getValue(),
+            [
+                'class' => 'form-control'
+            ]
+        );
+    }
+
+    /**
+     * Return the current value of the filter.
+     *
+     * @return mixed
+     */
+    public function getValue()
+    {
+        $value = null;
+
+        switch ($this->getOption('type')) {
+            case 'field':
+
+            default:
+                $value = \Input::get($this->getOption('name'));
+                break;
+        }
+
+        return $value;
     }
 
     /**
@@ -50,7 +118,15 @@ class TableFilter implements TableFilterInterface
      */
     public function query($query)
     {
-        return null;
+        switch ($this->getOption('type')) {
+            case 'field':
+
+            default:
+                $query = evaluate($this->getOption('query'), [$query, $this]);
+                break;
+        }
+
+        return $query;
     }
 
     /**
