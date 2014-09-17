@@ -1,7 +1,6 @@
 <?php namespace Streams\Core\Ui\Support;
 
 use Streams\Core\Traits\CallableTrait;
-use Illuminate\Database\Eloquent\Builder;
 use Streams\Core\Ui\Contract\TableViewInterface;
 
 class TableView implements TableViewInterface
@@ -53,17 +52,6 @@ class TableView implements TableViewInterface
         $this->options = $options;
 
         $this->active = (\Input::get('view') == $this->slug);
-    }
-
-    /**
-     * Modify the query.
-     *
-     * @param Builder $query
-     * @return Builder|mixed
-     */
-    public function query(Builder $query)
-    {
-        return $query;
     }
 
     /**

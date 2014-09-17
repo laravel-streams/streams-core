@@ -1,17 +1,7 @@
 <?php namespace Streams\Core\Ui\Contract;
 
-use Illuminate\Database\Eloquent\Builder;
-
 interface TableViewInterface
 {
-    /**
-     * Modify the query.
-     *
-     * @param Builder $query
-     * @return mixed
-     */
-    public function query(Builder $query);
-
     /**
      * Get the active flag.
      *

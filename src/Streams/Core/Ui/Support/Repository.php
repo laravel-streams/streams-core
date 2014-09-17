@@ -1,5 +1,6 @@
-<?php namespace Streams\Core\Ui;
+<?php namespace Streams\Core\Ui\Support;
 
+use Illuminate\Database\Eloquent\Builder;
 use Streams\Core\Ui\TableUi;
 
 class Repository
@@ -30,6 +31,8 @@ class Repository
     {
         $model = $this->ui->getModel();
 
+        $view = $this->ui->getViews()->active();
+
         //$paginator = $this->ui->getPaginator();
 
         //$limit   = $this->ui->getLimit($paginator->getPerPage());
@@ -41,6 +44,12 @@ class Repository
             //->take($limit)
             //->skip($offset)
             ->orderBy($orderBy, $sort);
+
+        $result = $view->fire('query', [$query]);
+
+        if ($result instanceof Builder) {
+            $query = $result;
+        }
 
         return $query->get();
     }

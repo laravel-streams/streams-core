@@ -1,6 +1,7 @@
 <?php namespace Streams\Core\Ui;
 
 use Streams\Core\Traits\CallableTrait;
+use Streams\Core\Ui\Support\Repository;
 use Streams\Core\Ui\Contract\UiInterface;
 
 abstract class UiAbstract implements UiInterface

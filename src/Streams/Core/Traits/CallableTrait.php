@@ -26,8 +26,10 @@ trait CallableTrait
     }
 
     /**
-     * Fire a callback.
+     * Fire a callback or return a default value.
      *
+     * @param       $method
+     * @param array $arguments
      * @return mixed|null
      */
     public function fire($method, $arguments = [])
