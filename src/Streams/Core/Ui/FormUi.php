@@ -60,6 +60,8 @@ class FormUi extends UiAbstract
      */
     public function __construct($model = null)
     {
+        return;
+
         $this->resource = $this->newEntryResource();
         $this->form     = $this->newForm();
         $this->action   = $this->newActionHandler();

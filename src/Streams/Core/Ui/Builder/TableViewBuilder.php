@@ -18,9 +18,9 @@ class TableViewBuilder extends TableBuilderAbstract
      */
     public function data()
     {
+        $url   = $this->buildUrl();
         $title = $this->buildTitle();
         $class = $this->buildClass();
-        $url   = $this->buildUrl();
 
         return compact('title', 'class', 'url');
     }

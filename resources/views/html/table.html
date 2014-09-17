@@ -11,10 +11,24 @@
             </ul>
             {{ endif }}
 
-            <span class="pull-right text-muted"><i class="fa fa-filter"></i> Filter</span>
+            <span class="pull-right text-muted table-filter-toggle open">
+                <i class="fa fa-filter"></i> Filter
+            </span>
         </h3>
     </div>
     <div class="panel-body" style="padding: 0;">
+
+        <div class="table-filters">
+            <form class="form-inline" method="get">
+                <input type="hidden" name="filter" value="true">
+
+                {{ filters }}
+                {{ input }}
+                {{ /filters }}
+                <button type="submit" class="btn btn-success">Filter</button>
+                <a href="{{ url.current }}" class="btn btn-link">Cancel</a>
+            </form>
+        </div>
 
         {{ if rows }}
         <table class="{{ options.tableClass }}">
@@ -125,9 +139,9 @@
 
         </table>
         {{ else }}
-        <p>
-            Nothing to see here.
-        </p>
+        <div class="no-results">
+            {{ options.noResultsMessage }}
+        </div>
         {{ endif }}
 
     </div>

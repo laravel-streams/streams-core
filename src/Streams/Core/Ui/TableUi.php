@@ -54,6 +54,13 @@ class TableUi extends UiAbstract
     protected $tableClass = 'table table-hover';
 
     /**
+     * The "no results" message.
+     *
+     * @var string
+     */
+    protected $noResultsMessage = 'message.no_results';
+
+    /**
      * The row class.
      *
      * @var string
@@ -140,7 +147,7 @@ class TableUi extends UiAbstract
     /**
      * The repository object.
      *
-     * @var Entry\EntryRepository
+     * @var Support\Repository
      */
     protected $repository;
 
@@ -320,6 +327,26 @@ class TableUi extends UiAbstract
         $this->tableClass = $class;
 
         return $this;
+    }
+
+    /**
+     * Get the no results message.
+     *
+     * @return string
+     */
+    public function getNoResultsMessage()
+    {
+        return $this->noResultsMessage;
+    }
+
+    /**
+     * The the no results message.
+     *
+     * @param $message
+     */
+    protected function setNoResultsMessage($message)
+    {
+        $this->noResultsMessage = $message;
     }
 
     /**
