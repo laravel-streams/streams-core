@@ -25,7 +25,7 @@ class Table
         $this->viewBuilder   = $this->ui->newViewBuilder($ui);
         $this->headerBuilder = $this->ui->newHeaderBuilder($ui);
         $this->actionBuilder = $this->ui->newActionBuilder($ui);
-        $this->filterBuilder = $this->ui->newFilterBuilder($ui);
+        //$this->filterBuilder = $this->ui->newFilterBuilder($ui);
     }
 
     /**

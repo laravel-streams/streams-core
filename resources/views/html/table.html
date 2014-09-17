@@ -11,9 +11,9 @@
             </ul>
             {{ endif }}
 
-            <span class="pull-right text-muted table-filter-toggle open">
+            <a href="#" class="pull-right table-filter-toggle" onclick="$(this).toggleClass('open'); return false;">
                 <i class="fa fa-filter"></i> Filter
-            </span>
+            </a>
         </h3>
     </div>
     <div class="panel-body" style="padding: 0;">
@@ -22,9 +22,10 @@
             <form class="form-inline" method="get">
                 <input type="hidden" name="filter" value="true">
 
-                {{ filters }}
-                {{ input }}
-                {{ /filters }}
+                <div class="form-group">
+                    <input type="text" name="test-filter" class="form-control" placeholder="Test Filter">
+                </div>
+
                 <button type="submit" class="btn btn-success">Filter</button>
                 <a href="{{ url.current }}" class="btn btn-link">Cancel</a>
             </form>
