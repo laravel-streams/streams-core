@@ -50,8 +50,6 @@ class TableView implements TableViewInterface
         }
 
         $this->options = $options;
-
-        $this->active = (\Input::get('view') == $this->slug);
     }
 
     /**
