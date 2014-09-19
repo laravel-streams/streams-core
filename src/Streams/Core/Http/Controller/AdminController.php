@@ -32,21 +32,30 @@ class AdminController extends BaseController
 
             \Event::fire('user.login', $user);
 
+            \Messages::add('info', 'Welcome, ' . $user->name . '.')->flash();
+
             return \Redirect::intended('admin/dashboard');
         } catch (\Cartalyst\Sentry\Users\LoginRequiredException $e) {
-            return \Redirect::to('admin/login')->with('message', 'Login field is required.');
+            \Messages::add('error', 'Login field is required.')->flash();
+            return \Redirect::to('admin/login');
         } catch (\Cartalyst\Sentry\Users\PasswordRequiredException $e) {
-            return \Redirect::to('admin/login')->with('message', 'Password field is required.');
+            \Messages::add('error', 'Password field is required.')->flash();
+            return \Redirect::to('admin/login');
         } catch (\Cartalyst\Sentry\Users\WrongPasswordException $e) {
-            return \Redirect::to('admin/login')->with('message', 'Wrong password, try again.');
+            \Messages::add('error', 'Wrong password, try again.')->flash();
+            return \Redirect::to('admin/login');
         } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
-            return \Redirect::to('admin/login')->with('message', 'User was not found.');
+            \Messages::add('error', 'User was not found.')->flash();
+            return \Redirect::to('admin/login');
         } catch (\Cartalyst\Sentry\Users\UserNotActivatedException $e) {
-            return \Redirect::to('admin/login')->with('message', 'User is not activated.');
+            \Messages::add('error', 'User is not activated.')->flash();
+            return \Redirect::to('admin/login');
         } catch (\Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
-            return \Redirect::to('admin/login')->with('message', 'User is suspended.');
+            \Messages::add('error', 'User is suspended.')->flash();
+            return \Redirect::to('admin/login');
         } catch (\Cartalyst\Sentry\Throttling\UserBannedException $e) {
-            return \Redirect::to('admin/login')->with('message', 'User is banned.');
+            \Messages::add('error', 'User is banned.')->flash();
+            return \Redirect::to('admin/login');
         }
     }
 }
