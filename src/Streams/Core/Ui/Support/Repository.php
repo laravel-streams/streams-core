@@ -104,7 +104,8 @@ class Repository
      */
     public function save()
     {
-        $entry = $this->ui->getEntry();
+        $entry  = $this->ui->getEntry();
+        $action = $this->ui->actions()->active();
 
         foreach ($entry->getStream()->assignments as $assignment) {
             $field = $assignment->field;
@@ -122,6 +123,8 @@ class Repository
                 \Messages::add('error', trans('**Error** ' . $message));
             }
         }
+
+        $action->redirect($entry);
 
         return $entry;
     }

@@ -1,9 +1,10 @@
 <?php namespace Streams\Core\Ui;
 
-use Streams\Core\Ui\Builder\FormSectionBuilder;
 use Streams\Core\Ui\Component\Form;
 use Streams\Core\Ui\Support\Repository;
 use Streams\Core\Ui\Handler\ActionHandler;
+use Streams\Core\Ui\Builder\FormSectionBuilder;
+use Streams\Core\Ui\Collection\FormActionCollection;
 
 class FormUi extends UiAbstract
 {
@@ -34,6 +35,13 @@ class FormUi extends UiAbstract
      * @var array
      */
     protected $actions = [];
+
+    /**
+     * The UI status.
+     *
+     * @var null
+     */
+    protected $status = null;
 
     /**
      * The form view.
@@ -100,6 +108,16 @@ class FormUi extends UiAbstract
         $this->output = \View::make($this->formView, $this->form->data());
 
         return $this;
+    }
+
+    /**
+     * Return a collection of actions.
+     *
+     * @return FormActionCollection
+     */
+    public function actions()
+    {
+        return new FormActionCollection($this->actions);
     }
 
     /**
@@ -229,6 +247,29 @@ class FormUi extends UiAbstract
     public function setEntry($entry)
     {
         $this->entry = $entry;
+
+        return $this;
+    }
+
+    /**
+     * Get the status.
+     *
+     * @return null
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set the status.
+     *
+     * @param $status
+     * @return $this
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
 
         return $this;
     }
