@@ -64,7 +64,7 @@ class TableButtonBuilder extends TableBuilderAbstract
      */
     protected function buildUrl()
     {
-        return evaluate_key($this->options, 'url', null, [$this->ui, $this->entry]);
+        return url(evaluate_key($this->options, 'path', null, [$this->ui, $this->entry]));
     }
 
     /**

@@ -57,6 +57,6 @@ class TableActionBuilder extends TableBuilderAbstract
      */
     protected function buildUrl()
     {
-        return evaluate_key($this->options, 'url', null, [$this->ui]);
+        return url(evaluate_key($this->options, 'path', null, [$this->ui]));
     }
 }
