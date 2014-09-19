@@ -39,7 +39,9 @@ class FormSectionBuilder extends FormBuilderAbstract
         $assignments = $this->ui->getEntry()->getStream()->assignments;
 
         foreach (evaluate_key($this->options, 'fields', []) as $field) {
-            $fields[] = $assignments->findByFieldSlug($field);
+            if (!in_array($field, $this->ui->getSkips())) {
+                $fields[] = $assignments->findByFieldSlug($field);
+            }
         }
 
         return $fields;

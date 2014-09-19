@@ -54,4 +54,23 @@ class AssignmentCollection extends EloquentCollection
 
         return self::make($relations);
     }
+
+    /**
+     * Return fields less skips.
+     *
+     * @param $skips
+     * @return static
+     */
+    public function skip($skips)
+    {
+        $fields = [];
+
+        foreach ($this->items as $item) {
+            if (!in_array($item->slug, $skips)) {
+                $fields[] = $item;
+            }
+        }
+
+        return self::make($fields);
+    }
 }
