@@ -6,11 +6,15 @@
 
 {{ sections as section }}
 <section class="panel panel-default">
+    {{ if section.title }}
     <div class="panel-heading">
         <h3 class="panel-title">
             {{ section.title }}
         </h3>
     </div>
+    {{ else }}
+    <br><!-- @todo - this is ugly as sin, fix it. -->
+    {{ endif }}
     <div class="panel-body" style="padding-top: 0; padding-bottom: 0;">
         {{ fields }}
         {{ field.type.element }}
