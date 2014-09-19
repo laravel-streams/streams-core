@@ -60,9 +60,9 @@ class TableRowBuilder extends TableBuilderAbstract
 
         foreach ($this->ui->getColumns() as $options) {
             if ($options instanceof BuilderInterface) {
-                $columns[] = $options->setEntry($this->entry)->make($options)->data();
+                $columns[] = $options->setEntry($this->entry)->setOptions($options)->data();
             } else {
-                $columns[] = $this->columnBuilder->setEntry($this->entry)->make($options)->data();
+                $columns[] = $this->columnBuilder->setEntry($this->entry)->setOptions($options)->data();
             }
         }
 
@@ -79,7 +79,7 @@ class TableRowBuilder extends TableBuilderAbstract
         $buttons = [];
 
         foreach ($this->ui->getButtons() as $options) {
-            $buttons[] = $this->buttonBuilder->setEntry($this->entry)->make($options)->data();
+            $buttons[] = $this->buttonBuilder->setEntry($this->entry)->setOptions($options)->data();
         }
 
         return $buttons;

@@ -89,7 +89,7 @@ class Table
         $headers = [];
 
         foreach ($this->ui->getColumns() as $options) {
-            $headers[] = $this->headerBuilder->make($options)->data();
+            $headers[] = $this->headerBuilder->setOptions($options)->data();
         }
 
         return $headers;
@@ -105,7 +105,7 @@ class Table
         $actions = [];
 
         foreach ($this->ui->getActions() as $options) {
-            $actions[] = $this->actionBuilder->make($options)->data();
+            $actions[] = $this->actionBuilder->setOptions($options)->data();
         }
 
         return $actions;

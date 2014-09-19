@@ -19,6 +19,8 @@ class Form
     public function __construct(FormUi $ui = null)
     {
         $this->ui = $ui;
+
+        $this->sectionBuilder = $this->ui->newSectionBuilder($ui);
     }
 
     /**
@@ -41,23 +43,10 @@ class Form
      */
     protected function makeSections()
     {
-        $sections = $this->ui->getSections();
+        $sections = [];
 
-        if ($sections === null) {
-            $sections = [
-                [
-                    'title'  => $this->ui->getTitle(),
-                    'fields' => $this->ui->getEntry()->getStream()->assignments->fieldSlugs(),
-                ]
-            ];
-        }
-
-        foreach ($sections as &$section) {
-            $title = trans(evaluate_key($section, 'title', null, [$this->ui]));
-
-            $rows = $this->makeRows($section);
-
-            $section = compact('title', 'rows');
+        foreach ($this->ui->getSections() as $options) {
+            $sections[] = $this->sectionBuilder->setOptions($options)->data();
         }
 
         return $sections;

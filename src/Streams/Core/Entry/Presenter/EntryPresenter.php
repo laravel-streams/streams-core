@@ -9,7 +9,7 @@ class EntryPresenter extends EloquentPresenter
         if ( /*!method_exists($this, $key) and */
         $assignment = $this->resource->findAssignmentByFieldSlug($key)
         ) {
-            $decorator  = \App::make('McCool\LaravelAutoPresenter\PresenterDecorator');
+            $decorator = \App::make('McCool\LaravelAutoPresenter\PresenterDecorator');
 
             if ($assignment) {
                 $type = $assignment->field->type

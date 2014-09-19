@@ -1,5 +1,6 @@
 <?php namespace Streams\Core\Ui;
 
+use Streams\Core\Ui\Builder\FormSectionBuilder;
 use Streams\Core\Ui\Component\Form;
 use Streams\Core\Ui\Support\Repository;
 use Streams\Core\Ui\Handler\ActionHandler;
@@ -241,5 +242,16 @@ class FormUi extends UiAbstract
     public function newForm($ui)
     {
         return new Form($ui);
+    }
+
+    /**
+     * Return a new FormSectionBuilder instance.
+     *
+     * @param $ui
+     * @return FormSectionBuilder
+     */
+    public function newSectionBuilder($ui)
+    {
+        return new FormSectionBuilder($ui);
     }
 }
