@@ -188,6 +188,26 @@ class TableUi extends UiAbstract
     }
 
     /**
+     * Return a collection of views.
+     *
+     * @return TableViewCollection
+     */
+    public function views()
+    {
+        return new TableViewCollection($this->views);
+    }
+
+    /**
+     * Return a collection of filters.
+     *
+     * @return TableFilterCollection
+     */
+    public function filters()
+    {
+        return new TableFilterCollection($this, $this->filters);
+    }
+
+    /**
      * Get the order by value.
      *
      * @return null
@@ -416,7 +436,7 @@ class TableUi extends UiAbstract
      */
     public function getViews()
     {
-        return new TableViewCollection($this->views);
+        return $this->views;
     }
 
     /**
@@ -452,7 +472,7 @@ class TableUi extends UiAbstract
      */
     public function getFilters()
     {
-        return new TableFilterCollection($this, $this->filters);
+        return $this->filters;
     }
 
     /**

@@ -1,23 +1,23 @@
 <?php namespace Streams\Core\Ui\Support;
 
+use Streams\Core\Ui\UiAbstract;
 use Illuminate\Database\Eloquent\Builder;
-use Streams\Core\Ui\TableUi;
 
 class Repository
 {
     /**
      * The UI object.
      *
-     * @var \Streams\Core\Ui\TableUi
+     * @var \Streams\Core\Ui\UiAbstract
      */
     protected $ui;
 
     /**
-     * Create a new EntryRepository instance.
+     * Create a new Repository instance.
      *
-     * @param $ui
+     * @param UiAbstract $ui
      */
-    public function __construct(TableUi $ui)
+    public function __construct(UiAbstract $ui)
     {
         $this->ui = $ui;
     }
@@ -31,9 +31,9 @@ class Repository
     {
         $model = $this->ui->getModel();
 
-        $view = $this->ui->getViews()->active();
+        $view = $this->ui->views()->active();
 
-        $filters = $this->ui->getFilters();
+        $filters = $this->ui->filters();
 
         //$paginator = $this->ui->getPaginator();
 

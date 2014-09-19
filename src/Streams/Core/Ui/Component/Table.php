@@ -56,7 +56,7 @@ class Table
     {
         $views = [];
 
-        foreach ($this->ui->getViews() as $view) {
+        foreach ($this->ui->views() as $view) {
             $views[] = $this->viewBuilder->setView($view)->data();
         }
 
@@ -120,7 +120,7 @@ class Table
     {
         $filters = [];
 
-        foreach ($this->ui->getFilters() as $filter) {
+        foreach ($this->ui->filters() as $filter) {
             $filters[] = $this->filterBuilder->setFilter($filter)->data();
         }
 

@@ -1,7 +1,7 @@
 <?php namespace Streams\Core\Ui;
 
 use Streams\Core\Ui\Component\Form;
-use Streams\Core\Ui\Entry\EntryResource;
+use Streams\Core\Ui\Support\Repository;
 use Streams\Core\Ui\Handler\ActionHandler;
 
 class FormUi extends UiAbstract
@@ -16,9 +16,9 @@ class FormUi extends UiAbstract
     /**
      * Sections of form structure.
      *
-     * @var null
+     * @var array
      */
-    protected $sections = null;
+    protected $sections = [];
 
     /**
      * Fields to skip.
@@ -39,7 +39,7 @@ class FormUi extends UiAbstract
      *
      * @var string
      */
-    protected $formView = 'streams/form';
+    protected $formView = 'html/form';
 
     /**
      * The wrapper view to use.
@@ -48,27 +48,33 @@ class FormUi extends UiAbstract
      */
     protected $wrapperView = 'html/blank';
 
-    protected $resource;
+    /**
+     * The repository object.
+     *
+     * @var Support\Repository
+     */
+    protected $repository;
+
+    /**
+     * The form object.
+     *
+     * @var Component\Form
+     */
     protected $form;
-    protected $action;
 
     /**
      * Create a new FormUi instance.
      *
-     * @param null $slug
-     * @param null $namespace
+     * @param null $model
      */
     public function __construct($model = null)
     {
-        return;
-
-        $this->resource = $this->newEntryResource();
-        $this->form     = $this->newForm();
-        $this->action   = $this->newActionHandler();
-
         if ($model) {
             $this->model = $model;
         }
+
+        $this->form       = $this->newForm($this);
+        $this->repository = $this->newRepository($this);
 
         return $this;
     }
@@ -81,21 +87,16 @@ class FormUi extends UiAbstract
     protected function trigger()
     {
         if (is_numeric($this->entry)) {
-            $this->entry = $this->resource->find($this->entry);
+            $this->entry = $this->repository->find($this->entry);
         } elseif ($this->entry === null) {
-            $this->entry = $this->resource->newEntry();
+            $this->entry = $this->repository->newEntry();
         }
 
         if ($_POST) {
-            $this->entry = $this->resource->save();
-
-            $this->action->redirect();
+            $this->entry = $this->repository->save();
         }
 
-        $this->output = \View::make(
-            'html/form',
-            $this->form->data()
-        );
+        $this->output = \View::make($this->formView, $this->form->data());
 
         return $this;
     }
@@ -111,22 +112,20 @@ class FormUi extends UiAbstract
     }
 
     /**
-     * Set the sections of the form.
+     * Set the sections.
      *
      * @param $sections
      * @return $this
      */
     public function setSections($sections)
     {
-        foreach ($sections as $section) {
-            $this->addSection($section);
-        }
+        $this->sections = $sections;
 
         return $this;
     }
 
     /**
-     * Add a section to the form.
+     * Add a section.
      *
      * @param $section
      * @return $this
@@ -139,7 +138,7 @@ class FormUi extends UiAbstract
     }
 
     /**
-     * Get the skips array.
+     * Get the skips.
      *
      * @return array
      */
@@ -149,22 +148,20 @@ class FormUi extends UiAbstract
     }
 
     /**
-     * Set the skipped fields.
+     * Set the skips.
      *
-     * @param $skipped
+     * @param $skips
      * @return $this
      */
     public function setSkips($skips)
     {
-        foreach ($skips as $skip) {
-            $this->addSkip($skip);
-        }
+        $this->skips = $skips;
 
         return $this;
     }
 
     /**
-     * Add a field to skip.
+     * Add a skip.
      *
      * @param $skip
      * @return $this
@@ -177,7 +174,7 @@ class FormUi extends UiAbstract
     }
 
     /**
-     * Get the actions for the form.
+     * Get the actions.
      *
      * @return array
      */
@@ -187,22 +184,20 @@ class FormUi extends UiAbstract
     }
 
     /**
-     * Set the actions for the form.
+     * Set the actions.
      *
      * @param $actions
      * @return $this
      */
     public function setActions($actions)
     {
-        foreach ($actions as $action) {
-            $this->addAction($action);
-        }
+        $this->actions = $actions;
 
         return $this;
     }
 
     /**
-     * Add a action to the form.
+     * Add a action.
      *
      * @param $action
      * @return $this
@@ -215,7 +210,7 @@ class FormUi extends UiAbstract
     }
 
     /**
-     * Get the entry object.
+     * Get the entry.
      *
      * @return null
      */
@@ -225,7 +220,7 @@ class FormUi extends UiAbstract
     }
 
     /**
-     * Set the entry object.
+     * Set the entry.
      *
      * @param $entry
      * @return $this
@@ -240,30 +235,11 @@ class FormUi extends UiAbstract
     /**
      * Return a new Form instance.
      *
+     * @param $ui
      * @return Form
      */
-    public function newForm()
+    public function newForm($ui)
     {
-        return new Form($this);
-    }
-
-    /**
-     * Return a new entry resource instance.
-     *
-     * @return EntryResource
-     */
-    public function newEntryResource()
-    {
-        return new EntryResource($this);
-    }
-
-    /**
-     * Return a new action handler instance.
-     *
-     * @return ActionHandler
-     */
-    public function newActionHandler()
-    {
-        return new ActionHandler($this);
+        return new Form($ui);
     }
 }
