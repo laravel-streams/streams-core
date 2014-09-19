@@ -11,19 +11,11 @@
             {{ section.title }}
         </h3>
     </div>
-    <div class="panel-body" style="padding: 0;">
-        {{ rows }}
-        <div class="row-fluid">
-            {{ columns }}
-            <div
-            {{ attributes }}{{ attribute }}="{{ value }}"{{ /attributes }}>
-            {{ fields }}
-            {{ field.type.element }}
-            {{ /fields }}
-        </div>
-        {{ /columns }}
+    <div class="panel-body" style="padding-top: 0; padding-bottom: 0;">
+        {{ fields }}
+        {{ field.type.element }}
+        {{ /fields }}
     </div>
-    {{ /rows }}
 </section>
 {{ /sections }}
 
