@@ -185,4 +185,16 @@ if (!function_exists('merge')) {
     }
 }
 
-
+if (!function_exists('crud')) {
+    /**
+     * Shortcut to generate crud routes.
+     */
+    function crud($base, $controller)
+    {
+        // Help automate common CRUD routes.
+        Route::any($base, $controller . '@index');
+        Route::any($base . '/create', $controller . '@create');
+        Route::any($base . '/edit/{id}', $controller . '@edit');
+        Route::any($base . '/delete/{id}', $controller . '@delete');
+    }
+}
