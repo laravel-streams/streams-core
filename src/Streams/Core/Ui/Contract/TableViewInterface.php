@@ -10,12 +10,12 @@ interface TableViewInterface
     public function isActive();
 
     /**
-     * Set the active state.
+     * Set the active flag.
      *
-     * @param $flag
+     * @param $active
      * @return mixed
      */
-    public function setActive($state);
+    public function setActive($active);
 
     /**
      * Get an option value or the default.
