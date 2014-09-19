@@ -5,18 +5,6 @@ use Streams\Core\Ui\FormUi;
 class FormSectionBuilder extends FormBuilderAbstract
 {
     /**
-     * Create a new FormBuilderAbstract instance.
-     *
-     * @param FormUi $ui
-     */
-    public function __construct(FormUi $ui)
-    {
-        parent::__construct($ui);
-
-        $this->assignments = $this->ui->getModel()->getStream()->assignments;
-    }
-
-    /**
      * Return the data.
      *
      * @return array
@@ -48,8 +36,10 @@ class FormSectionBuilder extends FormBuilderAbstract
     {
         $fields = [];
 
+        $assignments = $this->ui->getEntry()->getStream()->assignments;
+
         foreach (evaluate_key($this->options, 'fields', []) as $field) {
-            $fields[] = $this->assignments->findByFieldSlug($field);
+            $fields[] = $assignments->findByFieldSlug($field);
         }
 
         return $fields;
