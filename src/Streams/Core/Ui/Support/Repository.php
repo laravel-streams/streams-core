@@ -111,7 +111,7 @@ class Repository
             $field = $assignment->field;
             $type  = $field->type;
 
-            if (\Input::has($type->fieldName())) {
+            if (!in_array($type->fieldName(), $this->ui->getSkips())) {
                 $entry->{$field->slug} = \Input::get($type->fieldName());
             }
         }
