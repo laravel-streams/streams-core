@@ -149,7 +149,7 @@ class Form
         $assignments = $this->ui->getEntry()->getStream()->assignments;
 
         foreach ($fields as &$field) {
-            $field = $assignments->findBySlug($field)->field;
+            $field = $assignments->findByFieldSlug($field)->field;
 
             $field = compact('field');
         }

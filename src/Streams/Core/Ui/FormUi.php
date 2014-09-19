@@ -35,18 +35,18 @@ class FormUi extends UiAbstract
     protected $actions = [];
 
     /**
-     * The form view to use.
+     * The form view.
      *
      * @var string
      */
     protected $formView = 'html/form';
 
     /**
-     * The wrapper view to use.
+     * The wrapper view.
      *
      * @var string
      */
-    protected $wrapperView = 'html/blank';
+    protected $wrapper = 'html/blank';
 
     /**
      * The repository object.
