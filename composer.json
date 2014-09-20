@@ -20,15 +20,15 @@
         "intervention/image": "dev-master",
         "jenssegers/agent": "*",
         "laravelbook/ardent": "2.*",
-        "leafo/scssphp": "dev-develop",
-        "lmammino/jsmin4assetic": "1.0.*@dev",
-        "mccool/laravel-auto-presenter": "dev-master",
+        "venturecraft/revisionable": "1.*",
+        "robclancy/presenter": "1.3.*",
         "nesbot/Carbon": "1.*",
+        "lmammino/jsmin4assetic": "1.0.*@dev",
+        "leafo/scssphp": "dev-develop",
         "natxet/CssMin": "dev-master",
         "netcarver/textile": "3.6.*@dev",
         "oyejorge/less.php": "~1.5",
-        "ptachoire/cssembed": "dev-master",
-        "venturecraft/revisionable": "1.*"
+        "ptachoire/cssembed": "dev-master"
     },
     "autoload": {
         "psr-0": {
