@@ -14,8 +14,8 @@
         }
     ],
     "require": {
-        "laravel/framework": "5.0.x",
-        "illuminate/html": "5.0.x",
+        "laravel/framework": "5.0.*",
+        "illuminate/html": "5.0.*",
         "anomaly/lexicon": "dev-master",
         "artdarek/oauth-4-laravel": "dev-master",
         "barryvdh/laravel-debugbar": "1.*",
