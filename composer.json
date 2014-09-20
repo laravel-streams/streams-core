@@ -7,6 +7,12 @@
             "email": "projects@anomaly.is"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/anomalylabs/laravel-auto-presenter"
+        }
+    ],
     "require": {
         "laravel/framework": "5.0.x-dev",
         "illuminate/html": "5.0.x-dev",
