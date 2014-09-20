@@ -28,7 +28,7 @@
         "laravelbook/ardent": "2.*",
         "leafo/scssphp": "dev-develop",
         "lmammino/jsmin4assetic": "1.0.*@dev",
-        "mccool/laravel-auto-presenter": "dev-master",
+        "anomalylabs/laravel-auto-presenter": "dev-master",
         "nesbot/Carbon": "1.*",
         "natxet/CssMin": "dev-master",
         "netcarver/textile": "3.6.*@dev",
