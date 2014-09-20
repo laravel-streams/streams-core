@@ -15,6 +15,7 @@
         "barryvdh/laravel-debugbar": "1.*",
         "cartalyst/sentry": "2.1.*",
         "cebe/markdown": "*",
+        "laravelbook/ardent": "2.*",
         "dimsav/laravel-translatable": "4.2.*",
         "kriswallsmith/assetic": "1.2.*@dev",
         "intervention/image": "dev-master",
