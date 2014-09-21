@@ -91,6 +91,7 @@ class StreamsServiceProvider extends ServiceProvider
         \App::register('Streams\Platform\Provider\ImageServiceProvider');
         \App::register('Streams\Platform\Provider\ErrorServiceProvider');
         \App::register('Streams\Platform\Provider\MessagesServiceProvider');
+        \App::register('Streams\Platform\Provider\PresenterServiceProvider');
         \App::register('Streams\Platform\Provider\DecoratorServiceProvider');
         \App::register('Streams\Platform\Provider\ApplicationServiceProvider');
         \App::register('Streams\Platform\Provider\TranslationServiceProvider');
