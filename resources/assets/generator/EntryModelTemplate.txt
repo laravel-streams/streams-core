@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Model\{namespacePrefix};
 
-use Streams\Core\Entry\Model\EntryModel;
+use Streams\Platform\Entry\Model\EntryModel;
 
 class {className} extends EntryModel
 {
