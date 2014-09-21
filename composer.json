@@ -28,7 +28,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Streams\\Core": "src/"
+            "Streams\\Platform": "src/"
         }
     },
     "minimum-stability": "dev",
