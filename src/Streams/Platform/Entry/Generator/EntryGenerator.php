@@ -316,6 +316,6 @@ class EntryGenerator extends Generator
      */
     public function templatePath()
     {
-        return base_path('assets/generator/EntryModelTemplate.txt');
+        return __DIR__ . '../../../../../../resources/assets/generator/EntryModelTemplate.txt';
     }
 }
