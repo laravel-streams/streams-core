@@ -17,7 +17,6 @@
         "cebe/markdown": "*",
         "kriswallsmith/assetic": "1.2.*@dev",
         "intervention/image": "dev-master",
-        "jenssegers/agent": "*",
         "robclancy/presenter": "1.3.*",
         "nesbot/Carbon": "1.*",
         "lmammino/jsmin4assetic": "1.0.*@dev",
