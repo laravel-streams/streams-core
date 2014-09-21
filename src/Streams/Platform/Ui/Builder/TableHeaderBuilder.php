@@ -36,7 +36,7 @@ class TableHeaderBuilder extends TableBuilderAbstract
         $title = evaluate_key($this->options, 'title', null, [$this->ui]);
 
         if ($assignment = $this->assignments->findByFieldSlug($title)) {
-            $title = $assignment->field->name;
+            $title = trans($assignment->field->name);
         } else {
             $translated = trans($title);
 
