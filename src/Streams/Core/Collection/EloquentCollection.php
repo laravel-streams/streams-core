@@ -11,10 +11,8 @@ class EloquentCollection extends Collection
      */
     public function __construct($models)
     {
-        $decorator = \App::make('McCool\LaravelAutoPresenter\PresenterDecorator');
-
         foreach ($models as &$model) {
-            $model = $decorator->decorate($model);
+            $model = \Decorator::decorate($model);
         }
 
         return parent::__construct($models);

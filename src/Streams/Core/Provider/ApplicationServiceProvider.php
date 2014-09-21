@@ -1,7 +1,7 @@
 <?php namespace Streams\Core\Provider;
 
-use Streams\Core\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Streams\Core\Foundation\Application;
 use Streams\Core\Stream\Utility\StreamSchemaUtility;
 
 class ApplicationServiceProvider extends ServiceProvider
@@ -53,7 +53,7 @@ class ApplicationServiceProvider extends ServiceProvider
      */
     protected function includeRoutes()
     {
-        include __DIR__.'/../Http/routes.php';
+        include __DIR__ . '/../Http/routes.php';
     }
 
     /**
@@ -61,7 +61,7 @@ class ApplicationServiceProvider extends ServiceProvider
      */
     protected function includeHelpers()
     {
-        include __DIR__.'/../../../../resources/helpers.php';
+        include __DIR__ . '/../../../../resources/helpers.php';
     }
 
     /**
@@ -69,8 +69,8 @@ class ApplicationServiceProvider extends ServiceProvider
      */
     protected function addNamespace()
     {
-        \Config::set('view.paths', [__DIR__.'/../../../../resources/views']);
+        \Config::set('view.paths', [__DIR__ . '/../../../../resources/views']);
 
-        \View::addNamespace('streams', __DIR__.'/../../../../resources/views');
+        \View::addNamespace('streams', __DIR__ . '/../../../../resources/views');
     }
 }

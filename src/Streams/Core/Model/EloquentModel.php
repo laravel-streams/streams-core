@@ -1,16 +1,17 @@
 <?php namespace Streams\Core\Model;
 
+use Dimsav\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Model;
 use Streams\Core\Traits\CacheableTrait;
 use Streams\Core\Traits\ObservableTrait;
-use Dimsav\Translatable\Translatable;
+use Illuminate\Database\Eloquent\Collection;
 use Streams\Core\Contract\PresenterInterface;
 use Streams\Core\Contract\ArrayableInterface;
 use Streams\Core\Collection\EloquentCollection;
-use Illuminate\Database\Eloquent\Collection;
-use Streams\Core\Model\Presenter\EloquentPresenter;
 use Venturecraft\Revisionable\RevisionableTrait;
+use Streams\Core\Model\Presenter\EloquentPresenter;
 
-class EloquentModel extends ArdentModel implements ArrayableInterface, PresenterInterface
+class EloquentModel extends Model implements ArrayableInterface, PresenterInterface
 {
     use Translatable {
         Translatable::save as translatableSave;

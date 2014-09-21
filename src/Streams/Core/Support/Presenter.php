@@ -1,10 +1,24 @@
 <?php namespace Streams\Core\Support;
 
-use McCool\LaravelAutoPresenter\BasePresenter;
-use McCool\LaravelAutoPresenter\ResourceMethodNotFoundException;
-
-class Presenter extends BasePresenter
+class Presenter
 {
+    /**
+     * The resource payload to present.
+     *
+     * @var
+     */
+    protected $resource;
+
+    /**
+     * Create a new Presenter instance.
+     *
+     * @param $resource
+     */
+    public function __construct($resource)
+    {
+        $this->resource = $resource;
+    }
+
     /**
      * Magic Method access initially tries for local
      * methods then, defers to the decorated object.
@@ -24,17 +38,12 @@ class Presenter extends BasePresenter
      * @param $key
      * @param $args
      * @return mixed
-     * @throws \McCool\LaravelAutoPresenter\ResourceMethodNotFoundException
      */
     public function __call($key, $args)
     {
         if (method_exists($this->resource, $key)) {
             return call_user_func_array(array($this->resource, $key), $args);
         }
-
-        throw new ResourceMethodNotFoundException(
-            get_called_class() . '::' . $key . ' method does not exist'
-        );
     }
 
     /**
@@ -58,6 +67,22 @@ class Presenter extends BasePresenter
     public function __set($property, $value)
     {
         $this->resource->{$property} = $value;
+    }
+
+    /**
+     * Unset a variable through the presenter.
+     *
+     * @param string $name
+     */
+    public function __unset($name)
+    {
+        if (is_array($this->object)) {
+            unset($this->resource[$name]);
+
+            return;
+        }
+
+        unset($this->resource->$name);
     }
 
     /**

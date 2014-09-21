@@ -1,8 +1,9 @@
 <?php
 
+Route::get('/', 'HomeControllersss@index');
+
 // Authenticate anything behind admin/
 Route::when('admin*', 'auth');
-
 // Login routes
 Route::get('admin/login', 'Streams\Core\Http\Controller\AdminController@login');
 Route::post('admin/login', 'Streams\Core\Http\Controller\AdminController@attemptLogin');

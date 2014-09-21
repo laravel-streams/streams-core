@@ -280,9 +280,7 @@ class AddonManager
 
                 \Event::fire($addon->getType() . '.' . $addon->getSlug() . 'make', [$addon]);
 
-                $decorator = \App::make('McCool\LaravelAutoPresenter\PresenterDecorator');
-
-                return $decorator->decorate($addon);
+                return \Decorator::decorate($addon);
             }
         );
     }

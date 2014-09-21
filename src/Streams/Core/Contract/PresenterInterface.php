@@ -6,7 +6,7 @@ interface PresenterInterface
      * Return a new presenter instance.
      *
      * @param $resource
-     * @return \Streams\Presenter\PresenterAbstract
+     * @return mixed
      */
     public function newPresenter($resource);
 }
