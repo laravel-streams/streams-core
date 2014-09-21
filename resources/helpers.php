@@ -159,7 +159,7 @@ if (!function_exists('merge')) {
     function merge($string, $data)
     {
         if (!is_array($data)) {
-            if (!$data instanceof \Illuminate\Contracts\Support\ArrayableInterface) {
+            if (!$data instanceof \Streams\Platform\Contract\ArrayableInterface) {
                 return null;
             } else {
                 $data = $data->toArray();

@@ -1,6 +1,8 @@
 <?php namespace Streams\Platform\Support;
 
-class Presenter
+use Streams\Platform\Contract\ArrayableInterface;
+
+class Presenter implements ArrayableInterface
 {
     /**
      * The resource payload to present.
@@ -97,6 +99,20 @@ class Presenter
         }
 
         return json_encode($this->resource);
+    }
+
+    /**
+     * Return the resource as an array.
+     *
+     * @return array|null
+     */
+    public function toArray()
+    {
+        if ($this->resource instanceof ArrayableInterface) {
+            return $this->resource->toArray();
+        } else {
+            return null;
+        }
     }
 
     /**
