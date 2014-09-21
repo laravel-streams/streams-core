@@ -1,9 +1,9 @@
-<?php namespace Streams\Core\Addon\Installer;
+<?php namespace Streams\Platform\Addon\Installer;
 
-use Streams\Core\Support\Installer;
-use Streams\Core\Addon\AddonAbstract;
-use Streams\Core\Field\Installer\FieldInstaller;
-use Streams\Core\Stream\Installer\StreamInstaller;
+use Streams\Platform\Support\Installer;
+use Streams\Platform\Addon\AddonAbstract;
+use Streams\Platform\Field\Installer\FieldInstaller;
+use Streams\Platform\Stream\Installer\StreamInstaller;
 
 abstract class AddonInstallerAbstract extends Installer
 {
@@ -35,7 +35,7 @@ abstract class AddonInstallerAbstract extends Installer
     /**
      * The addon object.
      *
-     * @var \Streams\Core\Addon\AddonAbstract
+     * @var \Streams\Platform\Addon\AddonAbstract
      */
     protected $addon;
 

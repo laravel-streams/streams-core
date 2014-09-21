@@ -1,9 +1,9 @@
-<?php namespace Streams\Core\Stream\Installer;
+<?php namespace Streams\Platform\Stream\Installer;
 
-use Streams\Core\Support\Installer;
-use Streams\Core\Addon\AddonAbstract;
-use Streams\Core\Stream\Model\StreamModel;
-use Streams\Core\Assignment\Installer\AssignmentInstaller;
+use Streams\Platform\Support\Installer;
+use Streams\Platform\Addon\AddonAbstract;
+use Streams\Platform\Stream\Model\StreamModel;
+use Streams\Platform\Assignment\Installer\AssignmentInstaller;
 
 class StreamInstaller extends Installer
 {

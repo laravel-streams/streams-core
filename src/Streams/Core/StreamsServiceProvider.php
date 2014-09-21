@@ -1,4 +1,4 @@
-<?php namespace Streams\Core;
+<?php namespace Streams\Platform;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
@@ -49,18 +49,18 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerCoreAliases()
     {
-        $this->loader->alias('Tag', 'Streams\Core\Facade\TagFacade');
-        $this->loader->alias('Theme', 'Streams\Core\Facade\ThemeFacade');
-        $this->loader->alias('Block', 'Streams\Core\Facade\BlockFacade');
-        $this->loader->alias('Asset', 'Streams\Core\Facade\AssetFacade');
-        $this->loader->alias('Image', 'Streams\Core\Facade\ImageFacade');
-        $this->loader->alias('Module', 'Streams\Core\Facade\ModuleFacade');
-        $this->loader->alias('Messages', 'Streams\Core\Facade\MessagesFacade');
-        $this->loader->alias('Extension', 'Streams\Core\Facade\ExtensionFacade');
-        $this->loader->alias('FieldType', 'Streams\Core\Facade\FieldTypeFacade');
-        $this->loader->alias('Decorator', 'Streams\Core\Facade\DecoratorFacade');
-        $this->loader->alias('Application', 'Streams\Core\Facade\ApplicationFacade');
-        $this->loader->alias('StreamSchemaUtility', 'Streams\Core\Facade\StreamSchemaUtilityFacade');
+        $this->loader->alias('Tag', 'Streams\Platform\Facade\TagFacade');
+        $this->loader->alias('Theme', 'Streams\Platform\Facade\ThemeFacade');
+        $this->loader->alias('Block', 'Streams\Platform\Facade\BlockFacade');
+        $this->loader->alias('Asset', 'Streams\Platform\Facade\AssetFacade');
+        $this->loader->alias('Image', 'Streams\Platform\Facade\ImageFacade');
+        $this->loader->alias('Module', 'Streams\Platform\Facade\ModuleFacade');
+        $this->loader->alias('Messages', 'Streams\Platform\Facade\MessagesFacade');
+        $this->loader->alias('Extension', 'Streams\Platform\Facade\ExtensionFacade');
+        $this->loader->alias('FieldType', 'Streams\Platform\Facade\FieldTypeFacade');
+        $this->loader->alias('Decorator', 'Streams\Platform\Facade\DecoratorFacade');
+        $this->loader->alias('Application', 'Streams\Platform\Facade\ApplicationFacade');
+        $this->loader->alias('StreamSchemaUtility', 'Streams\Platform\Facade\StreamSchemaUtilityFacade');
     }
 
     /**
@@ -82,20 +82,20 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerCore()
     {
-        //\App::register('Streams\Core\Provider\AppServiceProvider');
-        //\App::register('Streams\Core\Provider\ArtisanServiceProvider');
+        //\App::register('Streams\Platform\Provider\AppServiceProvider');
+        //\App::register('Streams\Platform\Provider\ArtisanServiceProvider');
         //\App::register('App\Providers\FilterServiceProvider');
-        \App::register('Streams\Core\Provider\LogServiceProvider');
-        \App::register('Streams\Core\Provider\RouteServiceProvider');
-        \App::register('Streams\Core\Provider\AssetServiceProvider');
-        \App::register('Streams\Core\Provider\ImageServiceProvider');
-        \App::register('Streams\Core\Provider\ErrorServiceProvider');
-        \App::register('Streams\Core\Provider\MessagesServiceProvider');
-        \App::register('Streams\Core\Provider\DecoratorServiceProvider');
-        \App::register('Streams\Core\Provider\ApplicationServiceProvider');
-        \App::register('Streams\Core\Provider\TranslationServiceProvider');
+        \App::register('Streams\Platform\Provider\LogServiceProvider');
+        \App::register('Streams\Platform\Provider\RouteServiceProvider');
+        \App::register('Streams\Platform\Provider\AssetServiceProvider');
+        \App::register('Streams\Platform\Provider\ImageServiceProvider');
+        \App::register('Streams\Platform\Provider\ErrorServiceProvider');
+        \App::register('Streams\Platform\Provider\MessagesServiceProvider');
+        \App::register('Streams\Platform\Provider\DecoratorServiceProvider');
+        \App::register('Streams\Platform\Provider\ApplicationServiceProvider');
+        \App::register('Streams\Platform\Provider\TranslationServiceProvider');
 
-        \App::register('Streams\Core\Provider\AddonServiceProvider');
-        \App::register('Streams\Core\Provider\FilterServiceProvider');
+        \App::register('Streams\Platform\Provider\AddonServiceProvider');
+        \App::register('Streams\Platform\Provider\FilterServiceProvider');
     }
 }

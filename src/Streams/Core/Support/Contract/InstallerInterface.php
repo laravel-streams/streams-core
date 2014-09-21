@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Support\Contract;
+<?php namespace Streams\Platform\Support\Contract;
 
 interface InstallerInterface
 {

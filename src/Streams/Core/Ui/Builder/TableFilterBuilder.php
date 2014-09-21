@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Ui\Builder;
+<?php namespace Streams\Platform\Ui\Builder;
 
-use Streams\Core\Ui\Contract\TableFilterInterface;
+use Streams\Platform\Ui\Contract\TableFilterInterface;
 
 class TableFilterBuilder extends TableBuilderAbstract
 {

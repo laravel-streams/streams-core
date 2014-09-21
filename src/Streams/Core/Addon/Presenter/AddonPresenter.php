@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Addon\Presenter;
+<?php namespace Streams\Platform\Addon\Presenter;
 
 
-use Streams\Core\Support\Presenter;
+use Streams\Platform\Support\Presenter;
 
 class AddonPresenter extends Presenter
 {

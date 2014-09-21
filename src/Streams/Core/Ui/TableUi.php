@@ -1,15 +1,15 @@
-<?php namespace Streams\Core\Ui;
+<?php namespace Streams\Platform\Ui;
 
-use Streams\Core\Ui\Builder\TableFilterBuilder;
-use Streams\Core\Ui\Collection\TableFilterCollection;
-use Streams\Core\Ui\Component\Table;
-use Streams\Core\Ui\Builder\TableRowBuilder;
-use Streams\Core\Ui\Builder\TableViewBuilder;
-use Streams\Core\Ui\Builder\TableActionBuilder;
-use Streams\Core\Ui\Builder\TableButtonBuilder;
-use Streams\Core\Ui\Builder\TableColumnBuilder;
-use Streams\Core\Ui\Builder\TableHeaderBuilder;
-use Streams\Core\Ui\Collection\TableViewCollection;
+use Streams\Platform\Ui\Builder\TableFilterBuilder;
+use Streams\Platform\Ui\Collection\TableFilterCollection;
+use Streams\Platform\Ui\Component\Table;
+use Streams\Platform\Ui\Builder\TableRowBuilder;
+use Streams\Platform\Ui\Builder\TableViewBuilder;
+use Streams\Platform\Ui\Builder\TableActionBuilder;
+use Streams\Platform\Ui\Builder\TableButtonBuilder;
+use Streams\Platform\Ui\Builder\TableColumnBuilder;
+use Streams\Platform\Ui\Builder\TableHeaderBuilder;
+use Streams\Platform\Ui\Collection\TableViewCollection;
 
 class TableUi extends UiAbstract
 {

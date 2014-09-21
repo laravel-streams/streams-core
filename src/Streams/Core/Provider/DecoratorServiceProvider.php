@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Provider;
+<?php namespace Streams\Platform\Provider;
 
-use Streams\Core\Support\Decorator;
+use Streams\Platform\Support\Decorator;
 use Illuminate\Support\ServiceProvider;
 
 class DecoratorServiceProvider extends ServiceProvider

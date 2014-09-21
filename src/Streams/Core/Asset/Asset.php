@@ -1,13 +1,13 @@
-<?php namespace Streams\Core\Asset;
+<?php namespace Streams\Platform\Asset;
 
 use Assetic\Asset\GlobAsset;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\AssetCollection;
-use Streams\Core\Asset\Filter\JSMinFilter;
-use Streams\Core\Asset\Filter\CssMinFilter;
-use Streams\Core\Asset\Filter\LessphpFilter;
-use Streams\Core\Asset\Filter\ScssphpFilter;
-use Streams\Core\Asset\Filter\PhpCssEmbedFilter;
+use Streams\Platform\Asset\Filter\JSMinFilter;
+use Streams\Platform\Asset\Filter\CssMinFilter;
+use Streams\Platform\Asset\Filter\LessphpFilter;
+use Streams\Platform\Asset\Filter\ScssphpFilter;
+use Streams\Platform\Asset\Filter\PhpCssEmbedFilter;
 
 class Asset
 {

@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Http\Filter;
+<?php namespace Streams\Platform\Http\Filter;
 
 class AuthFilter
 {

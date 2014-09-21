@@ -1,15 +1,15 @@
-<?php namespace Streams\Core\Http\Filter;
+<?php namespace Streams\Platform\Http\Filter;
 
-use Streams\Core\Assignment\Model\AssignmentModel;
-use Streams\Core\Assignment\Observer\AssignmentObserver;
-use Streams\Core\Entry\Model\EntryModel;
-use Streams\Core\Entry\Observer\EntryObserver;
-use Streams\Core\Field\Model\FieldModel;
-use Streams\Core\Field\Observer\FieldObserver;
-use Streams\Core\Model\EloquentModel;
-use Streams\Core\Model\Observer\EloquentObserver;
-use Streams\Core\Stream\Model\StreamModel;
-use Streams\Core\Stream\Observer\StreamObserver;
+use Streams\Platform\Assignment\Model\AssignmentModel;
+use Streams\Platform\Assignment\Observer\AssignmentObserver;
+use Streams\Platform\Entry\Model\EntryModel;
+use Streams\Platform\Entry\Observer\EntryObserver;
+use Streams\Platform\Field\Model\FieldModel;
+use Streams\Platform\Field\Observer\FieldObserver;
+use Streams\Platform\Model\EloquentModel;
+use Streams\Platform\Model\Observer\EloquentObserver;
+use Streams\Platform\Stream\Model\StreamModel;
+use Streams\Platform\Stream\Observer\StreamObserver;
 
 class BootFilter
 {
@@ -52,7 +52,7 @@ class BootFilter
             \Image::addNamespace('theme', $theme->getPath());
 
             // Overload views with the composer.
-            \View::composer('*', 'Streams\Core\Support\Composer');
+            \View::composer('*', 'Streams\Platform\Support\Composer');
 
             // Set some placeholders.
             \View::share('title', null);

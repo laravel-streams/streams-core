@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Ui\Builder;
+<?php namespace Streams\Platform\Ui\Builder;
 
-use Streams\Core\Ui\Contract\BuilderInterface;
+use Streams\Platform\Ui\Contract\BuilderInterface;
 
 abstract class BuilderAbstract implements BuilderInterface
 {

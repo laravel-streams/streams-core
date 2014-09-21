@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Ui\Builder;
+<?php namespace Streams\Platform\Ui\Builder;
 
 class TableActionBuilder extends TableBuilderAbstract
 {

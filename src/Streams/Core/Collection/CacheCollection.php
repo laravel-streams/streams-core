@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Collection;
+<?php namespace Streams\Platform\Collection;
 
 use Illuminate\Support\Collection;
 

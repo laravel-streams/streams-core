@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Foundation\Model;
+<?php namespace Streams\Platform\Foundation\Model;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;

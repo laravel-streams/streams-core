@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Addon\Collection;
+<?php namespace Streams\Platform\Addon\Collection;
 
-use Streams\Core\Support\Collection;
+use Streams\Platform\Support\Collection;
 
 class ModuleSectionCollection extends Collection
 {

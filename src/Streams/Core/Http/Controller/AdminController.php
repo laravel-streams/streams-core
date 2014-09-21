@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Http\Controller;
+<?php namespace Streams\Platform\Http\Controller;
 
 class AdminController extends BaseController
 {

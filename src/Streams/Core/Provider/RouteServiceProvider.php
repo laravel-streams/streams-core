@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Provider;
+<?php namespace Streams\Platform\Provider;
 
 use Illuminate\Routing\RouteServiceProvider as ServiceProvider;
 

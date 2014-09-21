@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Ui\Handler;
+<?php namespace Streams\Platform\Ui\Handler;
 
-use Streams\Core\Ui\FormUi;
+use Streams\Platform\Ui\FormUi;
 
 class PostHandler
 {

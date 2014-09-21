@@ -1,8 +1,8 @@
-<?php namespace Streams\Core\Provider;
+<?php namespace Streams\Platform\Provider;
 
 use Illuminate\Support\ServiceProvider;
-use Streams\Core\Foundation\Application;
-use Streams\Core\Stream\Utility\StreamSchemaUtility;
+use Streams\Platform\Foundation\Application;
+use Streams\Platform\Stream\Utility\StreamSchemaUtility;
 
 class ApplicationServiceProvider extends ServiceProvider
 {

@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Entry\Presenter;
+<?php namespace Streams\Platform\Entry\Presenter;
 
-use Streams\Core\Model\Presenter\EloquentPresenter;
+use Streams\Platform\Model\Presenter\EloquentPresenter;
 
 class EntryPresenter extends EloquentPresenter
 {

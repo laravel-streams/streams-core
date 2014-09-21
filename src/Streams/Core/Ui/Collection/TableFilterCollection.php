@@ -1,10 +1,10 @@
-<?php namespace Streams\Core\Ui\Collection;
+<?php namespace Streams\Platform\Ui\Collection;
 
-use Streams\Core\Ui\TableUi;
-use Streams\Core\Support\Collection;
-use Streams\Core\Ui\Support\TableFilter;
-use Streams\Core\Ui\Contract\TableFilterInterface;
-use Streams\Core\Ui\Contract\TableViewInterface;
+use Streams\Platform\Ui\TableUi;
+use Streams\Platform\Support\Collection;
+use Streams\Platform\Ui\Support\TableFilter;
+use Streams\Platform\Ui\Contract\TableFilterInterface;
+use Streams\Platform\Ui\Contract\TableViewInterface;
 
 class TableFilterCollection extends Collection
 {

@@ -1,8 +1,8 @@
-<?php namespace Streams\Core\Addon\Manager;
+<?php namespace Streams\Platform\Addon\Manager;
 
-use Streams\Core\Addon\Model\TagModel;
+use Streams\Platform\Addon\Model\TagModel;
 use Illuminate\Container\Container;
-use Streams\Core\Addon\Collection\TagCollection;
+use Streams\Platform\Addon\Collection\TagCollection;
 
 class TagManager extends AddonManager
 {

@@ -1,8 +1,8 @@
-<?php namespace Streams\Core\Entry\Generator;
+<?php namespace Streams\Platform\Entry\Generator;
 
 use Illuminate\Support\Str;
-use Streams\Core\Support\Generator;
-use Streams\Core\Stream\Model\StreamModel;
+use Streams\Platform\Support\Generator;
+use Streams\Platform\Stream\Model\StreamModel;
 
 class EntryGenerator extends Generator
 {

@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Provider;
+<?php namespace Streams\Platform\Provider;
 
 use Illuminate\Support\ServiceProvider;
-use Streams\Core\Support\Messages;
+use Streams\Platform\Support\Messages;
 
 class MessagesServiceProvider extends ServiceProvider
 {

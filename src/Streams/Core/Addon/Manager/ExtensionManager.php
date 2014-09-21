@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Addon\Manager;
+<?php namespace Streams\Platform\Addon\Manager;
 
-use Streams\Core\Addon\Model\ExtensionModel;
-use Streams\Core\Addon\Collection\ExtensionCollection;
+use Streams\Platform\Addon\Model\ExtensionModel;
+use Streams\Platform\Addon\Collection\ExtensionCollection;
 
 class ExtensionManager extends AddonManager
 {

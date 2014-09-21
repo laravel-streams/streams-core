@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Provider;
+<?php namespace Streams\Platform\Provider;
 
 use Illuminate\Support\ServiceProvider;
-use Streams\Core\Asset\Asset;
+use Streams\Platform\Asset\Asset;
 
 class AssetServiceProvider extends ServiceProvider
 {

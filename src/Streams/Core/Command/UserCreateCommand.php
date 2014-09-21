@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Command;
+<?php namespace Streams\Platform\Command;
 
 use Illuminate\Console\Command as BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;

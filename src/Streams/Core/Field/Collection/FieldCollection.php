@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Field\Collection;
+<?php namespace Streams\Platform\Field\Collection;
 
-use Streams\Core\Collection\EloquentCollection;
+use Streams\Platform\Collection\EloquentCollection;
 
 class FieldCollection extends EloquentCollection
 {

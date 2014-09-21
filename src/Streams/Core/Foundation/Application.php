@@ -1,9 +1,9 @@
-<?php namespace Streams\Core\Foundation;
+<?php namespace Streams\Platform\Foundation;
 
 use Composer\Autoload\ClassLoader;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Request;
-use Streams\Core\Foundation\Model\ApplicationModel;
+use Streams\Platform\Foundation\Model\ApplicationModel;
 
 class Application
 {
@@ -64,7 +64,7 @@ class Application
     protected function registerEntryModels()
     {
         $this->app['streams.classloader']->addPsr4(
-            'Streams\Core\Model\\',
+            'Streams\Platform\Model\\',
             base_path('storage/models/streams/' . $this->getAppRef())
         );
 

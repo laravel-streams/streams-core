@@ -1,8 +1,8 @@
-<?php namespace Streams\Core\Provider;
+<?php namespace Streams\Platform\Provider;
 
 use Composer\Autoload\ClassLoader;
 use Illuminate\Support\ServiceProvider;
-use Streams\Core\Foundation\AddonTypes;
+use Streams\Platform\Foundation\AddonTypes;
 
 class AddonServiceProvider extends ServiceProvider
 {

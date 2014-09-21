@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Ui\Contract;
+<?php namespace Streams\Platform\Ui\Contract;
 
 interface RepositoryInterface
 {

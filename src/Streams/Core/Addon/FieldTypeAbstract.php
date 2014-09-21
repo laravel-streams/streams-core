@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Addon;
+<?php namespace Streams\Platform\Addon;
 
-use Streams\Core\Addon\Model\FieldTypeModel;
-use Streams\Core\Addon\Presenter\FieldTypePresenter;
+use Streams\Platform\Addon\Model\FieldTypeModel;
+use Streams\Platform\Addon\Presenter\FieldTypePresenter;
 
 abstract class FieldTypeAbstract extends AddonAbstract
 {

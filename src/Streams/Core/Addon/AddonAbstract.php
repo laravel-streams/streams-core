@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Addon;
+<?php namespace Streams\Platform\Addon;
 
-use Streams\Core\Traits\CallableTrait;
-use Streams\Core\Contract\PresenterInterface;
+use Streams\Platform\Traits\CallableTrait;
+use Streams\Platform\Contract\PresenterInterface;
 
 abstract class AddonAbstract implements PresenterInterface
 {

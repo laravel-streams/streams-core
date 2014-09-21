@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Addon\Collection;
+<?php namespace Streams\Platform\Addon\Collection;
 
 class ThemeCollection extends AddonCollection
 {

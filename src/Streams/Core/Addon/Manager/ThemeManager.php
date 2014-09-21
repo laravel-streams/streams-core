@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Addon\Manager;
+<?php namespace Streams\Platform\Addon\Manager;
 
-use Streams\Core\Addon\Model\ThemeModel;
-use Streams\Core\Addon\Collection\ThemeCollection;
+use Streams\Platform\Addon\Model\ThemeModel;
+use Streams\Platform\Addon\Collection\ThemeCollection;
 
 class ThemeManager extends AddonManager
 {

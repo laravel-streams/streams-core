@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Provider;
+<?php namespace Streams\Platform\Provider;
 
 use Illuminate\Support\ServiceProvider;
-use Streams\Core\Image\Image;
+use Streams\Platform\Image\Image;
 
 class ImageServiceProvider extends ServiceProvider
 {

@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Traits;
+<?php namespace Streams\Platform\Traits;
 
 trait CallableTrait
 {

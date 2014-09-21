@@ -1,12 +1,12 @@
-<?php namespace Streams\Core\Stream\Model;
+<?php namespace Streams\Platform\Stream\Model;
 
-use Streams\Core\Model\EloquentModel;
-use Streams\Core\Field\Model\FieldModel;
-use Streams\Core\Stream\Presenter\StreamPresenter;
-use Streams\Core\Stream\Schema\StreamSchema;
-use Streams\Core\Assignment\Model\AssignmentModel;
-use Streams\Core\Stream\Collection\StreamCollection;
-use Streams\Core\Assignment\Collection\AssignmentCollection;
+use Streams\Platform\Model\EloquentModel;
+use Streams\Platform\Field\Model\FieldModel;
+use Streams\Platform\Stream\Presenter\StreamPresenter;
+use Streams\Platform\Stream\Schema\StreamSchema;
+use Streams\Platform\Assignment\Model\AssignmentModel;
+use Streams\Platform\Stream\Collection\StreamCollection;
+use Streams\Platform\Assignment\Collection\AssignmentCollection;
 
 class StreamModel extends EloquentModel
 {
@@ -172,6 +172,6 @@ class StreamModel extends EloquentModel
      */
     public function assignments()
     {
-        return $this->hasMany('Streams\Core\Assignment\Model\AssignmentModel', 'stream_id')->orderBy('sort_order');
+        return $this->hasMany('Streams\Platform\Assignment\Model\AssignmentModel', 'stream_id')->orderBy('sort_order');
     }
 }

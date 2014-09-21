@@ -1,9 +1,9 @@
-<?php namespace Streams\Core\Entry\Model;
+<?php namespace Streams\Platform\Entry\Model;
 
-use Streams\Core\Model\EloquentModel;
-use Streams\Core\Stream\Model\StreamModel;
-use Streams\Core\Entry\Presenter\EntryPresenter;
-use Streams\Core\Entry\Collection\EntryCollection;
+use Streams\Platform\Model\EloquentModel;
+use Streams\Platform\Stream\Model\StreamModel;
+use Streams\Platform\Entry\Presenter\EntryPresenter;
+use Streams\Platform\Entry\Collection\EntryCollection;
 
 class EntryModel extends EloquentModel
 {
@@ -157,7 +157,7 @@ class EntryModel extends EloquentModel
      * Return a new presenter instance.
      *
      * @param $resource
-     * @return EntryPresenter|\Streams\Core\Model\Presenter\EloquentPresenter
+     * @return EntryPresenter|\Streams\Platform\Model\Presenter\EloquentPresenter
      */
     public function newPresenter($resource)
     {

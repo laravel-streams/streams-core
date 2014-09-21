@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Stream\Collection;
+<?php namespace Streams\Platform\Stream\Collection;
 
-use Streams\Core\Collection\EloquentCollection;
+use Streams\Platform\Collection\EloquentCollection;
 
 class StreamCollection extends EloquentCollection
 {

@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Provider;
+<?php namespace Streams\Platform\Provider;
 
 use Log;
 use Illuminate\Support\ServiceProvider;

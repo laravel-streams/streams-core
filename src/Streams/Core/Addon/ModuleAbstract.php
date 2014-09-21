@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Addon;
+<?php namespace Streams\Platform\Addon;
 
-use Streams\Core\Addon\Model\ModuleModel;
-use Streams\Core\Addon\Presenter\ModulePresenter;
+use Streams\Platform\Addon\Model\ModuleModel;
+use Streams\Platform\Addon\Presenter\ModulePresenter;
 
 abstract class ModuleAbstract extends AddonAbstract
 {

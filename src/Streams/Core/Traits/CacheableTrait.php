@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Traits;
+<?php namespace Streams\Platform\Traits;
 
-use Streams\Core\Collection\CacheCollection;
+use Streams\Platform\Collection\CacheCollection;
 
 trait CacheableTrait
 {

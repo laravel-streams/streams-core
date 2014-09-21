@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Addon\Model;
+<?php namespace Streams\Platform\Addon\Model;
 
-use Streams\Core\Model\EloquentModel;
+use Streams\Platform\Model\EloquentModel;
 
 class AddonModel extends EloquentModel
 {

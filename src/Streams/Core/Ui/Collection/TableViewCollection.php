@@ -1,8 +1,8 @@
-<?php namespace Streams\Core\Ui\Collection;
+<?php namespace Streams\Platform\Ui\Collection;
 
-use Streams\Core\Support\Collection;
-use Streams\Core\Ui\Support\TableView;
-use Streams\Core\Ui\Contract\TableViewInterface;
+use Streams\Platform\Support\Collection;
+use Streams\Platform\Ui\Support\TableView;
+use Streams\Platform\Ui\Contract\TableViewInterface;
 
 class TableViewCollection extends Collection
 {

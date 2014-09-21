@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Addon;
+<?php namespace Streams\Platform\Addon;
 
-use Streams\Core\Addon\Model\ThemeModel;
-use Streams\Core\Addon\Presenter\ThemePresenter;
+use Streams\Platform\Addon\Model\ThemeModel;
+use Streams\Platform\Addon\Presenter\ThemePresenter;
 
 abstract class ThemeAbstract extends AddonAbstract
 {

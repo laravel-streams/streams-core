@@ -1,10 +1,10 @@
-<?php namespace Streams\Core\Assignment\Installer;
+<?php namespace Streams\Platform\Assignment\Installer;
 
-use Streams\Core\Support\Installer;
-use Streams\Core\Addon\AddonAbstract;
-use Streams\Core\Field\Model\FieldModel;
-use Streams\Core\Stream\Model\StreamModel;
-use Streams\Core\Assignment\Model\AssignmentModel;
+use Streams\Platform\Support\Installer;
+use Streams\Platform\Addon\AddonAbstract;
+use Streams\Platform\Field\Model\FieldModel;
+use Streams\Platform\Stream\Model\StreamModel;
+use Streams\Platform\Assignment\Model\AssignmentModel;
 
 class AssignmentInstaller extends Installer
 {
@@ -27,7 +27,7 @@ class AssignmentInstaller extends Installer
     /**
      * The addon object.
      *
-     * @var \Streams\Core\Addon\AddonAbstract
+     * @var \Streams\Platform\Addon\AddonAbstract
      */
     protected $addon;
 

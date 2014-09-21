@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Stream\Schema;
+<?php namespace Streams\Platform\Stream\Schema;
 
-use Streams\Core\Stream\Model\StreamModel;
+use Streams\Platform\Stream\Model\StreamModel;
 
 class StreamSchema
 {

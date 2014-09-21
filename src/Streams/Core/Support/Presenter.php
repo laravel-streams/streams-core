@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Support;
+<?php namespace Streams\Platform\Support;
 
 class Presenter
 {

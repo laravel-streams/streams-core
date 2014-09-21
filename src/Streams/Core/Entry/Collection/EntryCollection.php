@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Entry\Collection;
+<?php namespace Streams\Platform\Entry\Collection;
 
-use Streams\Core\Collection\EloquentCollection;
+use Streams\Platform\Collection\EloquentCollection;
 
 class EntryCollection extends EloquentCollection
 {

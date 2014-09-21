@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Model\Presenter;
+<?php namespace Streams\Platform\Model\Presenter;
 
-use Streams\Core\Support\Presenter;
+use Streams\Platform\Support\Presenter;
 
 class EloquentPresenter extends Presenter
 {

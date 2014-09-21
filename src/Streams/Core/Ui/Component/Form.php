@@ -1,13 +1,13 @@
-<?php namespace Streams\Core\Ui\Component;
+<?php namespace Streams\Platform\Ui\Component;
 
-use Streams\Core\Ui\FormUi;
+use Streams\Platform\Ui\FormUi;
 
 class Form
 {
     /**
      * The UI object.
      *
-     * @var \Streams\Core\Ui\FormUi
+     * @var \Streams\Platform\Ui\FormUi
      */
     protected $ui;
 

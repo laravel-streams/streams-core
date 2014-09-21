@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Ui\Support;
+<?php namespace Streams\Platform\Ui\Support;
 
-use Streams\Core\Traits\CallableTrait;
-use Streams\Core\Ui\Contract\FormActionInterface;
+use Streams\Platform\Traits\CallableTrait;
+use Streams\Platform\Ui\Contract\FormActionInterface;
 
 class FormAction implements FormActionInterface
 {

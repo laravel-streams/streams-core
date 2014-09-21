@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Addon\Presenter;
+<?php namespace Streams\Platform\Addon\Presenter;
 
 class TagPresenter extends AddonPresenter
 {

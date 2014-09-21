@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Ui\Support;
+<?php namespace Streams\Platform\Ui\Support;
 
-use Streams\Core\Ui\TableUi;
-use Streams\Core\Ui\Contract\TableFilterInterface;
+use Streams\Platform\Ui\TableUi;
+use Streams\Platform\Ui\Contract\TableFilterInterface;
 
 class TableFilter implements TableFilterInterface
 {
@@ -15,7 +15,7 @@ class TableFilter implements TableFilterInterface
     /**
      * The UI object.
      *
-     * @var \Streams\Core\Ui\TableUi
+     * @var \Streams\Platform\Ui\TableUi
      */
     protected $ui;
 

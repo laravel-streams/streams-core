@@ -1,8 +1,8 @@
-<?php namespace Streams\Core\Ui;
+<?php namespace Streams\Platform\Ui;
 
-use Streams\Core\Traits\CallableTrait;
-use Streams\Core\Ui\Support\Repository;
-use Streams\Core\Ui\Contract\UiInterface;
+use Streams\Platform\Traits\CallableTrait;
+use Streams\Platform\Ui\Support\Repository;
+use Streams\Platform\Ui\Contract\UiInterface;
 
 abstract class UiAbstract implements UiInterface
 {

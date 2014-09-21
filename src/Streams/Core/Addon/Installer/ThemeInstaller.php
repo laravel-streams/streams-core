@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Addon\Installer;
+<?php namespace Streams\Platform\Addon\Installer;
 
 class ThemeInstallerAbstract extends AddonInstallerAbstract
 {

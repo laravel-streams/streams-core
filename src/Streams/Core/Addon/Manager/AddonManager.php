@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Addon\Manager;
+<?php namespace Streams\Platform\Addon\Manager;
 
-use Streams\Core\Addon\AddonAbstract;
-use Streams\Core\Traits\CallableTrait;
+use Streams\Platform\Addon\AddonAbstract;
+use Streams\Platform\Traits\CallableTrait;
 use Composer\Autoload\ClassLoader;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;

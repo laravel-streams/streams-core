@@ -1,15 +1,15 @@
-<?php namespace Streams\Core\Model;
+<?php namespace Streams\Platform\Model;
 
 use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
-use Streams\Core\Traits\CacheableTrait;
-use Streams\Core\Traits\ObservableTrait;
+use Streams\Platform\Traits\CacheableTrait;
+use Streams\Platform\Traits\ObservableTrait;
 use Illuminate\Database\Eloquent\Collection;
-use Streams\Core\Contract\PresenterInterface;
-use Streams\Core\Contract\ArrayableInterface;
-use Streams\Core\Collection\EloquentCollection;
+use Streams\Platform\Contract\PresenterInterface;
+use Streams\Platform\Contract\ArrayableInterface;
+use Streams\Platform\Collection\EloquentCollection;
 use Venturecraft\Revisionable\RevisionableTrait;
-use Streams\Core\Model\Presenter\EloquentPresenter;
+use Streams\Platform\Model\Presenter\EloquentPresenter;
 
 class EloquentModel extends Model implements ArrayableInterface, PresenterInterface
 {

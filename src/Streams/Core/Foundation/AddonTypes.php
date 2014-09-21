@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Foundation;
+<?php namespace Streams\Platform\Foundation;
 
 use Illuminate\Container\Container;
-use Streams\Core\Manager\AddonManagerAbstract;
+use Streams\Platform\Manager\AddonManagerAbstract;
 
 class AddonTypes
 {
@@ -30,7 +30,7 @@ class AddonTypes
      */
     public function getAddonTypeManagerClass($type)
     {
-        return 'Streams\Core\Addon\Manager\\' . studly_case(str_singular($type)) . 'Manager';
+        return 'Streams\Platform\Addon\Manager\\' . studly_case(str_singular($type)) . 'Manager';
     }
 
     /**

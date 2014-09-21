@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Stream\Observer;
+<?php namespace Streams\Platform\Stream\Observer;
 
-use Streams\Core\Entry\Generator\EntryGenerator;
-use Streams\Core\Model\Observer\EloquentObserver;
+use Streams\Platform\Entry\Generator\EntryGenerator;
+use Streams\Platform\Model\Observer\EloquentObserver;
 
 class StreamObserver extends EloquentObserver
 {

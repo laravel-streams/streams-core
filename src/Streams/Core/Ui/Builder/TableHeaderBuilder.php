@@ -1,11 +1,11 @@
-<?php namespace Streams\Core\Ui\Builder;
+<?php namespace Streams\Platform\Ui\Builder;
 
 class TableHeaderBuilder extends TableBuilderAbstract
 {
     /**
      * Create a new TableHeaderBuilder instance.
      *
-     * @param \Streams\Core\Ui\TableUi $ui
+     * @param \Streams\Platform\Ui\TableUi $ui
      */
     public function __construct($ui)
     {

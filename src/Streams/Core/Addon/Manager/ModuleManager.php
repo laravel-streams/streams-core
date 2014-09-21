@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Addon\Manager;
+<?php namespace Streams\Platform\Addon\Manager;
 
-use Streams\Core\Addon\Model\ModuleModel;
-use Streams\Core\Addon\Collection\ModuleCollection;
+use Streams\Platform\Addon\Model\ModuleModel;
+use Streams\Platform\Addon\Collection\ModuleCollection;
 
 class ModuleManager extends AddonManager
 {
@@ -22,7 +22,7 @@ class ModuleManager extends AddonManager
     /**
      * Return the active module.
      *
-     * @return null|\Streams\Core\Addon\AddonAbstract
+     * @return null|\Streams\Platform\Addon\AddonAbstract
      */
     public function active()
     {

@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Assignment\Collection;
+<?php namespace Streams\Platform\Assignment\Collection;
 
-use Streams\Core\Collection\EloquentCollection;
+use Streams\Platform\Collection\EloquentCollection;
 
 class AssignmentCollection extends EloquentCollection
 {

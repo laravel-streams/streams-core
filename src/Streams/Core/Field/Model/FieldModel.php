@@ -1,8 +1,8 @@
-<?php namespace Streams\Core\Field\Model;
+<?php namespace Streams\Platform\Field\Model;
 
-use Streams\Core\Model\EloquentModel;
-use Streams\Core\Field\Presenter\FieldPresenter;
-use Streams\Core\Field\Collection\FieldCollection;
+use Streams\Platform\Model\EloquentModel;
+use Streams\Platform\Field\Presenter\FieldPresenter;
+use Streams\Platform\Field\Collection\FieldCollection;
 
 class FieldModel extends EloquentModel
 {

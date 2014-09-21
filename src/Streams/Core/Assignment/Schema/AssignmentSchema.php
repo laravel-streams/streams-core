@@ -1,13 +1,13 @@
-<?php namespace Streams\Core\Assignment\Schema;
+<?php namespace Streams\Platform\Assignment\Schema;
 
-use Streams\Core\Assignment\Model\AssignmentModel;
+use Streams\Platform\Assignment\Model\AssignmentModel;
 
 class AssignmentSchema
 {
     /**
      * The model object.
      *
-     * @var \Streams\Core\Assignment\Model\AssignmentModel
+     * @var \Streams\Platform\Assignment\Model\AssignmentModel
      */
     protected $model;
 

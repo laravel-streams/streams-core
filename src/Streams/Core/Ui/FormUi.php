@@ -1,10 +1,10 @@
-<?php namespace Streams\Core\Ui;
+<?php namespace Streams\Platform\Ui;
 
-use Streams\Core\Ui\Component\Form;
-use Streams\Core\Ui\Support\Repository;
-use Streams\Core\Ui\Handler\ActionHandler;
-use Streams\Core\Ui\Builder\FormSectionBuilder;
-use Streams\Core\Ui\Collection\FormActionCollection;
+use Streams\Platform\Ui\Component\Form;
+use Streams\Platform\Ui\Support\Repository;
+use Streams\Platform\Ui\Handler\ActionHandler;
+use Streams\Platform\Ui\Builder\FormSectionBuilder;
+use Streams\Platform\Ui\Collection\FormActionCollection;
 
 class FormUi extends UiAbstract
 {

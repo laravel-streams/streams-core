@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Support;
+<?php namespace Streams\Platform\Support;
 
 use Illuminate\Session\Store;
 use Illuminate\Support\MessageBag;

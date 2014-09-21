@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Addon\Model;
+<?php namespace Streams\Platform\Addon\Model;
 
 class ThemeModel extends AddonModel
 {

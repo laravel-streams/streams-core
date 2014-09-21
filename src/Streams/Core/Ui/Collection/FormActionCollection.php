@@ -1,8 +1,8 @@
-<?php namespace Streams\Core\Ui\Collection;
+<?php namespace Streams\Platform\Ui\Collection;
 
-use Streams\Core\Support\Collection;
-use Streams\Core\Ui\Contract\FormActionInterface;
-use Streams\Core\Ui\Support\FormAction;
+use Streams\Platform\Support\Collection;
+use Streams\Platform\Ui\Contract\FormActionInterface;
+use Streams\Platform\Ui\Support\FormAction;
 
 class FormActionCollection extends Collection
 {

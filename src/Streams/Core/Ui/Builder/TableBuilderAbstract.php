@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Ui\Builder;
+<?php namespace Streams\Platform\Ui\Builder;
 
-use Streams\Core\Ui\TableUi;
+use Streams\Platform\Ui\TableUi;
 
 abstract class TableBuilderAbstract extends BuilderAbstract
 {

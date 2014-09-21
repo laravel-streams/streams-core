@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Ui\Component;
+<?php namespace Streams\Platform\Ui\Component;
 
-use Streams\Core\Ui\TableUi;
+use Streams\Platform\Ui\TableUi;
 use Illuminate\Support\Facades\Paginator;
 
 class Table
@@ -8,7 +8,7 @@ class Table
     /**
      * The table UI object.
      *
-     * @var \Streams\Core\Ui\TableUi
+     * @var \Streams\Platform\Ui\TableUi
      */
     protected $ui;
 

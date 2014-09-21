@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Assignment\Observer;
+<?php namespace Streams\Platform\Assignment\Observer;
 
-use Streams\Core\Model\Observer\EloquentObserver;
+use Streams\Platform\Model\Observer\EloquentObserver;
 
 class AssignmentObserver extends EloquentObserver
 {

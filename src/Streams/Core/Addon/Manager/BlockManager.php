@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Addon\Manager;
+<?php namespace Streams\Platform\Addon\Manager;
 
-use Streams\Core\Addon\Model\BlockModel;
-use Streams\Core\Addon\Collection\BlockCollection;
+use Streams\Platform\Addon\Model\BlockModel;
+use Streams\Platform\Addon\Collection\BlockCollection;
 
 class BlockManager extends AddonManager
 {

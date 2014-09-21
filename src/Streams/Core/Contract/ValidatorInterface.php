@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Contract;
+<?php namespace Streams\Platform\Contract;
 
 interface ValidatorInterface
 {

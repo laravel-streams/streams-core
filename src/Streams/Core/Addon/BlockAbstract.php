@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Addon;
+<?php namespace Streams\Platform\Addon;
 
-use Streams\Core\Addon\Model\BlockModel;
-use Streams\Core\Addon\Presenter\BlockPresenter;
+use Streams\Platform\Addon\Model\BlockModel;
+use Streams\Platform\Addon\Presenter\BlockPresenter;
 
 abstract class BlockAbstract extends AddonAbstract
 {

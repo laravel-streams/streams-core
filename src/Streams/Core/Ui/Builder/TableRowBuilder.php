@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Ui\Builder;
+<?php namespace Streams\Platform\Ui\Builder;
 
-use Streams\Core\Ui\Contract\BuilderInterface;
-use Streams\Core\Ui\TableUi;
+use Streams\Platform\Ui\Contract\BuilderInterface;
+use Streams\Platform\Ui\TableUi;
 
 class TableRowBuilder extends TableBuilderAbstract
 {

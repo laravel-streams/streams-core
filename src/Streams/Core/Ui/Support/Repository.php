@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Ui\Support;
+<?php namespace Streams\Platform\Ui\Support;
 
-use Streams\Core\Ui\UiAbstract;
+use Streams\Platform\Ui\UiAbstract;
 use Illuminate\Database\Eloquent\Builder;
 
 class Repository
@@ -8,7 +8,7 @@ class Repository
     /**
      * The UI object.
      *
-     * @var \Streams\Core\Ui\UiAbstract
+     * @var \Streams\Platform\Ui\UiAbstract
      */
     protected $ui;
 

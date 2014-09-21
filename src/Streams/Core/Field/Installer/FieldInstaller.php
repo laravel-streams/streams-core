@@ -1,8 +1,8 @@
-<?php namespace Streams\Core\Field\Installer;
+<?php namespace Streams\Platform\Field\Installer;
 
-use Streams\Core\Support\Installer;
-use Streams\Core\Addon\AddonAbstract;
-use Streams\Core\Field\Model\FieldModel;
+use Streams\Platform\Support\Installer;
+use Streams\Platform\Addon\AddonAbstract;
+use Streams\Platform\Field\Model\FieldModel;
 
 class FieldInstaller extends Installer
 {
@@ -25,7 +25,7 @@ class FieldInstaller extends Installer
     /**
      * The addon object.
      *
-     * @var \Streams\Core\Addon\AddonAbstract
+     * @var \Streams\Platform\Addon\AddonAbstract
      */
     protected $addon;
 

@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Support;
+<?php namespace Streams\Platform\Support;
 
-use Streams\Core\Traits\CallableTrait;
+use Streams\Platform\Traits\CallableTrait;
 
 class Installer
 {

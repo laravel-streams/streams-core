@@ -1,9 +1,9 @@
-<?php namespace Streams\Core\Assignment\Model;
+<?php namespace Streams\Platform\Assignment\Model;
 
-use Streams\Core\Field\Model\FieldModel;
-use Streams\Core\Assignment\Schema\AssignmentSchema;
-use Streams\Core\Assignment\Presenter\AssignmentPresenter;
-use Streams\Core\Assignment\Collection\AssignmentCollection;
+use Streams\Platform\Field\Model\FieldModel;
+use Streams\Platform\Assignment\Schema\AssignmentSchema;
+use Streams\Platform\Assignment\Presenter\AssignmentPresenter;
+use Streams\Platform\Assignment\Collection\AssignmentCollection;
 
 class AssignmentModel extends FieldModel
 {
@@ -59,7 +59,7 @@ class AssignmentModel extends FieldModel
      */
     public function field()
     {
-        return $this->belongsTo('Streams\Core\Field\Model\FieldModel');
+        return $this->belongsTo('Streams\Platform\Field\Model\FieldModel');
     }
 
     /**
@@ -77,7 +77,7 @@ class AssignmentModel extends FieldModel
      * Return a new presenter instance.
      *
      * @param $resource
-     * @return AssignmentPresenter|\Streams\Core\Field\Presenter\FieldPresenter|\Streams\Presenter\EloquentPresenter
+     * @return AssignmentPresenter|\Streams\Platform\Field\Presenter\FieldPresenter|\Streams\Presenter\EloquentPresenter
      */
     public function newPresenter($resource)
     {

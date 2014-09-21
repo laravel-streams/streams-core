@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Ui\Builder;
+<?php namespace Streams\Platform\Ui\Builder;
 
-use Streams\Core\Ui\FormUi;
+use Streams\Platform\Ui\FormUi;
 
 class FormSectionBuilder extends FormBuilderAbstract
 {

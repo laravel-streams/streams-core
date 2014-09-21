@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Entry\Observer;
+<?php namespace Streams\Platform\Entry\Observer;
 
-use Streams\Core\Model\Observer\EloquentObserver;
+use Streams\Platform\Model\Observer\EloquentObserver;
 
 class EntryObserver extends EloquentObserver
 {

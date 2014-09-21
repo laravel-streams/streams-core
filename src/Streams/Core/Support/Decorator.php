@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Support;
+<?php namespace Streams\Platform\Support;
 
-use Streams\Core\Contract\PresenterInterface;
+use Streams\Platform\Contract\PresenterInterface;
 
 class Decorator
 {

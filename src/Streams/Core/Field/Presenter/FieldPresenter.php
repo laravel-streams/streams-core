@@ -1,6 +1,6 @@
-<?php namespace Streams\Core\Field\Presenter;
+<?php namespace Streams\Platform\Field\Presenter;
 
-use Streams\Core\Model\Presenter\EloquentPresenter;
+use Streams\Platform\Model\Presenter\EloquentPresenter;
 
 class FieldPresenter extends EloquentPresenter
 {

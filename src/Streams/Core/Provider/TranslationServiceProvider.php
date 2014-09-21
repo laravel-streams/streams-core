@@ -1,7 +1,7 @@
-<?php namespace Streams\Core\Provider;
+<?php namespace Streams\Platform\Provider;
 
 use Illuminate\Translation\FileLoader;
-use Streams\Core\Support\Translator;
+use Streams\Platform\Support\Translator;
 
 class TranslationServiceProvider extends \Illuminate\Translation\TranslationServiceProvider
 {

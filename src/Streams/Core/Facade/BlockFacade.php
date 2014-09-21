@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Facade;
+<?php namespace Streams\Platform\Facade;
 
 use Illuminate\Support\Facades\Facade as BaseFacade;
 

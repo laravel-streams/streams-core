@@ -1,4 +1,4 @@
-<?php namespace Streams\Core\Asset\Filter;
+<?php namespace Streams\Platform\Asset\Filter;
 
 use Assetic\Asset\AssetInterface;
 
