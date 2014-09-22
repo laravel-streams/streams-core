@@ -215,12 +215,12 @@ class AddonManager
     public function registerComponents($path, $binding)
     {
         // Add config namespace
-        \Config::addNamespace($binding, $path . '/config');
+        \Config::addNamespace($binding, $path . '/resources/config');
 
         // Add asset and view paths
-        \View::addNamespace($binding, $path . '/views');
-        \Asset::addNamespace($binding, $path);
-        \Image::addNamespace($binding, $path);
+        \View::addNamespace($binding, $path . '/resources/views');
+        \Asset::addNamespace($binding, $path . '/resources');
+        \Image::addNamespace($binding, $path . '/resources');
     }
 
     /**
@@ -268,7 +268,7 @@ class AddonManager
                 $addon = new $addonClass;
 
                 // Add lang namespace
-                \Lang::addNamespace($binding, $info['path'] . '/lang');
+                \Lang::addNamespace($binding, $info['path'] . '/resources/lang');
 
                 $addon->setType($info['type']);
                 $addon->setPath($info['path']);

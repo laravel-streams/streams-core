@@ -31,7 +31,7 @@ class BootFilter
                 $theme = \Theme::getPublicTheme();
             }
 
-            \Lang::addNamespace('theme', $theme->getPath('lang'));
+            \Lang::addNamespace('theme', $theme->getPath('resources/lang'));
 
             // Set the active module
             if (\Request::segment(1) == 'admin') {
@@ -42,14 +42,14 @@ class BootFilter
 
             // Add the module namespace.
             if ($module = \Module::active()) {
-                \View::addNamespace('module', $module->getPath('views'));
-                \Lang::addNamespace('module', $module->getPath('lang'));
+                \View::addNamespace('module', $module->getPath('resources/views'));
+                \Lang::addNamespace('module', $module->getPath('resources/lang'));
             }
 
             // Add the theme namespace.
-            \View::addNamespace('theme', $theme->getPath('views'));
-            \Asset::addNamespace('theme', $theme->getPath());
-            \Image::addNamespace('theme', $theme->getPath());
+            \View::addNamespace('theme', $theme->getPath('resources/views'));
+            \Asset::addNamespace('theme', $theme->getPath('resources'));
+            \Image::addNamespace('theme', $theme->getPath('resources'));
 
             // Overload views with the composer.
             \View::composer('*', 'Streams\Platform\Support\Composer');
