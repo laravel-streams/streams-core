@@ -5,19 +5,8 @@ use Streams\Platform\Addon\AddonAbstract;
 use Streams\Platform\Field\Installer\FieldInstaller;
 use Streams\Platform\Stream\Installer\StreamInstaller;
 
-abstract class AddonInstallerAbstract extends Installer
+class AddonInstaller extends Installer
 {
-    /**
-     * Installation steps.
-     *
-     * @var array
-     */
-    protected $steps = [
-        'install_fields',
-        'install_streams',
-        'save',
-    ];
-
     /**
      * The streams to install.
      *
@@ -52,7 +41,7 @@ abstract class AddonInstallerAbstract extends Installer
     }
 
     /**
-     * Run through installation steps.
+     * Install the addon.
      *
      * @return bool
      */
@@ -61,10 +50,14 @@ abstract class AddonInstallerAbstract extends Installer
         \Event::fire('installer.addon::before_install', [$this]);
         \Event::fire('installer.' . $this->addon->getType() . '::before_install', [$this]);
 
-        $result = parent::install();
+        $this->installFields();
+        $this->installStreams();
+        $this->save();
 
         \Event::fire('installer.addon::after_install', [$this]);
         \Event::fire('installer.' . $this->addon->getType() . '::after_install', [$this]);
+
+        return true;
     }
 
     /**

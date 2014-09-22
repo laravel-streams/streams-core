@@ -8,16 +8,6 @@ use Streams\Platform\Assignment\Installer\AssignmentInstaller;
 class StreamInstaller extends Installer
 {
     /**
-     * Installation steps.
-     *
-     * @var array
-     */
-    protected $steps = [
-        'install_stream',
-        'install_assignments',
-    ];
-
-    /**
      * The stream data.
      *
      * @var array
@@ -49,6 +39,19 @@ class StreamInstaller extends Installer
         $this->addon = $addon;
 
         $this->streams = new StreamModel();
+    }
+
+    /**
+     * Install the stream.
+     *
+     * @return bool
+     */
+    public function install()
+    {
+        $this->installStream();
+        $this->installAssignments();
+
+        return true;
     }
 
     /**

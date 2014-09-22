@@ -7,15 +7,6 @@ use Streams\Platform\Field\Model\FieldModel;
 class FieldInstaller extends Installer
 {
     /**
-     * The installation steps.
-     *
-     * @var array
-     */
-    protected $steps = [
-        'install_field',
-    ];
-
-    /**
      * The field data.
      *
      * @var array
@@ -37,6 +28,18 @@ class FieldInstaller extends Installer
         $this->addon = $addon;
 
         $this->fields = new FieldModel();
+    }
+
+    /**
+     * Install the field.
+     *
+     * @return bool|void
+     */
+    public function install()
+    {
+        $this->installField();
+
+        return true;
     }
 
     /**

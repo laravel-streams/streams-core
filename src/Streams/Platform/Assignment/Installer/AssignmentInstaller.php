@@ -9,15 +9,6 @@ use Streams\Platform\Assignment\Model\AssignmentModel;
 class AssignmentInstaller extends Installer
 {
     /**
-     * The installation steps.
-     *
-     * @var array
-     */
-    protected $steps = [
-        'install_assignment',
-    ];
-
-    /**
      * The assignment data.
      *
      * @var array
@@ -48,6 +39,18 @@ class AssignmentInstaller extends Installer
 
         $this->fields      = new FieldModel();
         $this->assignments = new AssignmentModel();
+    }
+
+    /**
+     * Install the assignments.
+     *
+     * @return bool|void
+     */
+    public function install()
+    {
+        $this->installAssignment();
+
+        return true;
     }
 
     /**

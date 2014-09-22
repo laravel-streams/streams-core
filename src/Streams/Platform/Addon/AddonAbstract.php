@@ -1,5 +1,6 @@
 <?php namespace Streams\Platform\Addon;
 
+use Streams\Platform\Addon\Installer\AddonInstaller;
 use Streams\Platform\Traits\CallableTrait;
 use Streams\Platform\Contract\PresenterInterface;
 
@@ -193,13 +194,7 @@ abstract class AddonAbstract implements PresenterInterface
      */
     public function newInstaller()
     {
-        $slug      = studly_case($this->slug);
-        $addon     = str_singular(studly_case($this->type));
-        $installer = studly_case($slug . '_' . $this->getType() . 'installer');
-
-        $installer = 'Streams\Addon\\' . $addon . '\\' . $slug . '\\Installer\\' . $installer;
-
-        return new $installer($this);
+        return new AddonInstaller($this);
     }
 
     /**
