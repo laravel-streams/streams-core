@@ -1,5 +1,6 @@
 <?php namespace Streams\Platform\Ui;
 
+use Streams\Platform\Ui\Builder\FormActionBuilder;
 use Streams\Platform\Ui\Component\Form;
 use Streams\Platform\Ui\Support\Repository;
 use Streams\Platform\Ui\Handler\ActionHandler;
@@ -34,7 +35,12 @@ class FormUi extends UiAbstract
      *
      * @var array
      */
-    protected $actions = [];
+    protected $actions = [
+        'save',
+        'save_exit',
+        'cancel',
+        'delete',
+    ];
 
     /**
      * The UI status.
@@ -294,5 +300,16 @@ class FormUi extends UiAbstract
     public function newSectionBuilder($ui)
     {
         return new FormSectionBuilder($ui);
+    }
+
+    /**
+     * Return a new FormActionBuilder instance.
+     *
+     * @param $ui
+     * @return FormActionBuilder
+     */
+    public function newActionBuilder($ui)
+    {
+        return new FormActionBuilder($ui);
     }
 }
