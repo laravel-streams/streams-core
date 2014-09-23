@@ -21,11 +21,12 @@ class TableActionBuilder extends TableBuilderAbstract
      */
     public function data()
     {
-        $title  = $this->buildTitle();
-        $class  = $this->buildClass();
-        $action = $this->buildAction();
+        $title    = $this->buildTitle();
+        $class    = $this->buildClass();
+        $action   = $this->buildAction();
+        $dropdown = $this->buildDropdown();
 
-        return compact('title', 'class', 'action');
+        return compact('title', 'class', 'action', 'dropdown');
     }
 
     /**
@@ -58,5 +59,24 @@ class TableActionBuilder extends TableBuilderAbstract
     protected function buildAction()
     {
         return url(evaluate_key($this->options, 'action', null, [$this->ui]));
+    }
+
+    /**
+     * Build the dropdown.
+     *
+     * @return array
+     */
+    protected function buildDropdown()
+    {
+        $dropdown = [];
+
+        foreach (evaluate_key($this->options, 'dropdown', [], [$this->ui]) as $options) {
+            $title  = trans($options['title']);
+            $action = url($options['action']);
+
+            $dropdown[] = compact('title', 'action');
+        }
+
+        return $dropdown;
     }
 }
