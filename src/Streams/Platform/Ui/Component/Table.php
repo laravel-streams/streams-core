@@ -150,14 +150,14 @@ class Table
      */
     protected function buildPagination()
     {
-        /*$paginator = $this->ui->getPaginator();
+        $paginator = $this->ui->getPaginator();
 
-        $links = $paginator->links();
+        $links = $paginator->appends($_GET)->links();
 
         $pagination = $paginator->toArray();
 
         $pagination['links'] = $links;
 
-        return $pagination;*/
+        return $pagination;
     }
 }

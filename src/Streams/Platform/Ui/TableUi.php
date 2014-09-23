@@ -632,11 +632,33 @@ class TableUi extends UiAbstract
     }
 
     /**
+     * Get the paginator.
+     *
+     * @return null
+     */
+    public function getPaginator()
+    {
+        return $this->paginator;
+    }
+
+    /**
+     * Set the paginator.
+     *
+     * @param $paginator
+     */
+    public function setPaginator($paginator)
+    {
+        $this->paginator = $paginator;
+
+        return $this;
+    }
+
+    /**
      * Return a new paginator instance.
      *
      * @return mixed
      */
-    protected function newPaginator()
+    public function newPaginator()
     {
         return \App::make('paginator');
     }

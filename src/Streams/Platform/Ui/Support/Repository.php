@@ -33,25 +33,31 @@ class Repository
 
         $view = $this->ui->views()->active();
 
+        $result = $view->fire('query', [$model]);
+
+        if ($result instanceof Builder) {
+            $query = $result;
+        } else {
+            $query = $model;
+        }
+
+        $total = $query->count();
+
         $filters = $this->ui->filters();
 
-        //$paginator = $this->ui->getPaginator();
+        $paginator = $this->ui->newPaginator()->make([], $total, $this->ui->getLimit());
 
-        //$limit   = $this->ui->getLimit($paginator->getPerPage());
-        //$offset  = ($paginator->getCurrentPage() - 1) * $limit;
+        $this->ui->setPaginator($paginator);
+
+        $limit   = $paginator->getPerPage();
+        $offset  = ($paginator->getCurrentPage() - 1) * $limit;
         $orderBy = $this->ui->getOrderBy();
         $sort    = $this->ui->getSort();
 
         $query = $model
-            //->take($limit)
-            //->skip($offset)
+            ->take($limit)
+            ->skip($offset)
             ->orderBy($orderBy, $sort);
-
-        $result = $view->fire('query', [$query]);
-
-        if ($result instanceof Builder) {
-            $query = $result;
-        }
 
         foreach ($filters as $filter) {
             if ($filter->getValue()) {
