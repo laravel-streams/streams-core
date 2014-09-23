@@ -188,6 +188,9 @@ if (!function_exists('merge')) {
 if (!function_exists('crud')) {
     /**
      * Shortcut to generate crud routes.
+     *
+     * @param $base
+     * @param $controller
      */
     function crud($base, $controller)
     {
@@ -195,6 +198,22 @@ if (!function_exists('crud')) {
         Route::any($base, $controller . '@index');
         Route::any($base . '/create', $controller . '@create');
         Route::any($base . '/edit/{id}', $controller . '@edit');
-        Route::any($base . '/delete/{id}', $controller . '@delete');
+        Route::any($base . '/delete/{id?}', $controller . '@delete');
+    }
+}
+
+if (!function_exists('referer')) {
+    /**
+     * Return the HTTP_REFERER or fallback.
+     *
+     * @return string
+     */
+    function referer($fallback = null)
+    {
+        if (!$fallback) {
+            $fallback = url();
+        }
+
+        return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $fallback;
     }
 }
