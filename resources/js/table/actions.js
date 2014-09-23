@@ -16,6 +16,7 @@ $(document).ready(function () {
 
     // When an action is clicked - do something
     $('[data-action]').on('click', function (e) {
+        e.preventDefault();
         $(this).closest('form').attr('action', $(this).data('action')).submit();
     });
 });
