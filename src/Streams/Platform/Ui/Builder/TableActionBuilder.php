@@ -21,11 +21,11 @@ class TableActionBuilder extends TableBuilderAbstract
      */
     public function data()
     {
-        $title = $this->buildTitle();
-        $class = $this->buildClass();
-        $url   = $this->buildUrl();
+        $title  = $this->buildTitle();
+        $class  = $this->buildClass();
+        $action = $this->buildAction();
 
-        return compact('title', 'class', 'url');
+        return compact('title', 'class', 'action');
     }
 
     /**
@@ -51,12 +51,12 @@ class TableActionBuilder extends TableBuilderAbstract
     }
 
     /**
-     * Return the URL.
+     * Return the action.
      *
      * @return mixed|null
      */
-    protected function buildUrl()
+    protected function buildAction()
     {
-        return url(evaluate_key($this->options, 'path', null, [$this->ui]));
+        return url(evaluate_key($this->options, 'action', null, [$this->ui]));
     }
 }
