@@ -35,10 +35,10 @@ class TableView implements TableViewInterface
      */
     public function __construct($options)
     {
-        if (isset($options['callbacks'])) {
-            $this->callbacks = $options['callbacks'];
+        if (isset($options['query'])) {
+            $this->on('query', $options['query']);
 
-            unset($options['callbacks']);
+            unset($options['query']);
         }
 
         if (isset($options['slug'])) {
