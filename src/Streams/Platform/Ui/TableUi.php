@@ -18,14 +18,12 @@ class TableUi extends UiAbstract
      *
      * @var null
      */
-    protected $orderBy = 'id';
-
-    /**
-     * The sorting direction.
-     *
-     * @var string
-     */
-    protected $sort = 'ASC';
+    protected $orderBy = [
+        [
+            'column'    => 'id',
+            'direction' => 'ASC',
+        ]
+    ];
 
     /**
      * The limit value.
@@ -208,7 +206,7 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Get the order by value.
+     * Get the ordering.
      *
      * @return null
      */
@@ -218,35 +216,29 @@ class TableUi extends UiAbstract
     }
 
     /**
-     * Set the order by value.
+     * Set ordering.
      *
-     * @param $orderBy
+     * @param        $column
+     * @param string $direction
+     * @return $this
      */
-    public function setOrderBy($orderBy)
+    public function setOrderBy($column, $direction = 'ASC')
     {
-        $this->orderBy = $orderBy;
+        $this->orderBy = [compact('column', 'direction')];
 
         return $this;
     }
 
     /**
-     * Get the sort.
+     * Add to ordering.
      *
-     * @return string
+     * @param        $column
+     * @param string $direction
+     * @return $this
      */
-    public function getSort()
+    public function addOrderBy($column, $direction = 'ASC')
     {
-        return $this->sort;
-    }
-
-    /**
-     * Set the sort.
-     *
-     * @param $sort
-     */
-    public function setSort($sort)
-    {
-        $this->sort = $sort;
+        $this->orderBy[] = compact('column', 'direction');
 
         return $this;
     }
