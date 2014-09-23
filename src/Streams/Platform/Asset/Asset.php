@@ -116,8 +116,8 @@ class Asset
         if (strpos($asset, '::') !== false) {
             list($namespace, $path) = explode('::', $asset);
         } else {
-            $namespace = 'theme';
-            $path      = \File::extension($asset) . '/' . $asset;
+            $namespace = 'streams';
+            $path      = $asset;
         }
 
         return $this->namespaces[$namespace] . '/' . $path;

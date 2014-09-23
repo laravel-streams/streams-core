@@ -62,6 +62,8 @@ class ApplicationServiceProvider extends ServiceProvider
     {
         \Config::set('view.paths', [__DIR__ . '/../../../../resources/views']);
 
+        \Asset::addNamespace('streams', __DIR__ . '/../../../../resources');
+
         \View::addNamespace('streams', __DIR__ . '/../../../../resources/views');
     }
 }
