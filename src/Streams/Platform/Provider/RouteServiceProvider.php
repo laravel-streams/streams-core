@@ -20,6 +20,6 @@ class RouteServiceProvider extends ServiceProvider
         // file. This "namespace" helper will load the routes file within a
         // route group which automatically sets the controller namespace.
 
-        include __DIR__ . '/../Http/routes.php';
+        include __DIR__ . '/../../../../resources/routes.php';
     }
 }

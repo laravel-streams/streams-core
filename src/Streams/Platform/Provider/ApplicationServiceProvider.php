@@ -14,7 +14,6 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->registerApplication();
         $this->registerSchemaUtility();
 
-        $this->includeRoutes();
         $this->includeHelpers();
 
         $this->addNamespace();
@@ -46,14 +45,6 @@ class ApplicationServiceProvider extends ServiceProvider
                 return new StreamSchemaUtility();
             }
         );
-    }
-
-    /**
-     * Include package resource files.
-     */
-    protected function includeRoutes()
-    {
-        include __DIR__ . '/../Http/routes.php';
     }
 
     /**

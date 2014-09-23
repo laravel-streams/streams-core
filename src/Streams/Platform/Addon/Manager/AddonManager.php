@@ -234,9 +234,7 @@ class AddonManager
 
         if (isset($this->data[$slug]) and $this->data[$slug]->is_installed) {
             $load = [
-                'start.php',
-                'events.php',
-                'filters.php',
+                'helpers.php',
                 'routes.php',
             ];
 
