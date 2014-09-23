@@ -26,7 +26,8 @@
             </ul>
             {{ endif }}
 
-            <a href="#" class="pull-right table-filter-toggle {{ options.filter_state }}" onclick="$(this).toggleClass('active'); $('.table-filters').toggleClass('active'); return false;">
+            <a href="#" class="pull-right table-filter-toggle {{ options.filter_state }}"
+               onclick="$(this).toggleClass('active'); $('.table-filters').toggleClass('active'); return false;">
                 <i class="fa fa-filter"></i> Filter
             </a>
         </h3>
@@ -50,113 +51,114 @@
         </div>
 
         {{ if rows }}
-        <table class="{{ options.tableClass }}">
+        <form method="post">
+            <table class="{{ options.tableClass }}">
 
-            <!-- Table Head -->
-            <thead>
-            <tr>
-                {{ if options.sortable }}
-                <th>
-                    <i class="fa fa-reorder" style="color: #dadada"></i>
-                </th>
-                {{ endif }}
-
-                {{ if actions }}
-                <th>
-                    <input type="checkbox"
-                           onclick="$(this).closest('table').find(':checkbox').prop('checked', this.checked);"/>
-                </th>
-                {{ endif }}
-
-                {{ headers }}
-                <th>
-                    {{ title }}
-                </th>
-                {{ /headers }}
-
-                <th>&nbsp;</th>
-            </tr>
-            </thead>
-
-
-            <!-- Table Body -->
-            <tbody>
-            {{ rows }}
-            <tr class="{{ class }}">
-                {{ if data.options.sortable }}
-                <td>
-                    <i class="fa fa-reorder" style="cursor: move;"></i>
-                </td>
-                {{ endif }}
-
-                {{ if data.actions }}
-                <td>
-                    <input type="checkbox" name="id[]" value="{{ entry.id }}"/>
-                </td>
-                {{ endif }}
-
-                {{ columns }}
-                <td class="{{ class }}">
-                    {{ value }}
-                </td>
-                {{ /columns }}
-
-                <td class="text-right">
-                    {{ buttons }}
-                    <div class="btn-group">
-                        <a href="{{ url }}" class="{{ class }}">{{ title }}</a>
-                        <!--{{ if dropdown }}
-                        <button type="button" class="{{ attributes.class }} dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu pull-right">
-                            {{ dropdown }}
-                            <li><a href="{{ url }}">{{ title }}</a></li>
-                            {{ /dropdown }}
-                        </ul>
-                        {{ endif }}-->
-                    </div>
-                    {{ /buttons }}
-                </td>
-            </tr>
-            {{ /rows }}
-            </tbody>
-
-
-            <!-- Table Foot -->
-            <tfoot>
-            <tr>
-                <td colspan="100%" style="padding: 10px;">
-
-                    <div class="btn-group">
-                        {{ actions }}
-                        <button class="{{ class }}" data-toggle="dropdown" disabled>{{ title }}</button>
-                        <!--{{ if dropdown }}
-                        <button type="button" class="{{ attributes.class }} dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            {{ dropdown }}
-                            <li><a href="{{ url }}">{{ title }}</a></li>
-                            {{ /dropdown }}
-                        </ul>
-                        {{ endif }}-->
-                        {{ /actions }}
-                    </div>
-
-                    {{ if options.pagination }}
-                    <div class="btn-group pull-right">
-                        {{ pagination.links }}
-                    </div>
+                <!-- Table Head -->
+                <thead>
+                <tr>
+                    {{ if options.sortable }}
+                    <th>
+                        <i class="fa fa-reorder" style="color: #dadada"></i>
+                    </th>
                     {{ endif }}
 
-                </td>
-            </tr>
-            </tfoot>
+                    {{ if actions }}
+                    <th>
+                        <input type="checkbox" data-toggle="all"/>
+                    </th>
+                    {{ endif }}
 
-        </table>
+                    {{ headers }}
+                    <th>
+                        {{ title }}
+                    </th>
+                    {{ /headers }}
+
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+
+
+                <!-- Table Body -->
+                <tbody>
+                {{ rows }}
+                <tr class="{{ class }}">
+                    {{ if data.options.sortable }}
+                    <td>
+                        <i class="fa fa-reorder" style="cursor: move;"></i>
+                    </td>
+                    {{ endif }}
+
+                    {{ if data.actions }}
+                    <td>
+                        <input type="checkbox" name="id[]" value="{{ entry.id }}"/>
+                    </td>
+                    {{ endif }}
+
+                    {{ columns }}
+                    <td class="{{ class }}">
+                        {{ value }}
+                    </td>
+                    {{ /columns }}
+
+                    <td class="text-right">
+                        {{ buttons }}
+                        <div class="btn-group">
+                            <a href="{{ url }}" class="{{ class }}">{{ title }}</a>
+                            <!--{{ if dropdown }}
+                            <button type="button" class="{{ attributes.class }} dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                {{ dropdown }}
+                                <li><a href="{{ url }}">{{ title }}</a></li>
+                                {{ /dropdown }}
+                            </ul>
+                            {{ endif }}-->
+                        </div>
+                        {{ /buttons }}
+                    </td>
+                </tr>
+                {{ /rows }}
+                </tbody>
+
+
+                <!-- Table Foot -->
+                <tfoot>
+                <tr>
+                    <td colspan="100%" style="padding: 10px;">
+
+                        <div class="btn-group actions">
+                            {{ actions }}
+                            <button class="{{ class }}" data-action="{{ action }}" disabled>{{ title }}</button>
+                            <!--{{ if dropdown }}
+                            <button type="button" class="{{ attributes.class }} dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                {{ dropdown }}
+                                <li><a href="{{ url }}">{{ title }}</a></li>
+                                {{ /dropdown }}
+                            </ul>
+                            {{ endif }}-->
+                            {{ /actions }}
+                        </div>
+
+                        {{ if options.pagination }}
+                        <div class="btn-group pull-right">
+                            {{ pagination.links }}
+                        </div>
+                        {{ endif }}
+
+                    </td>
+                </tr>
+                </tfoot>
+
+            </table>
+        </form>
         {{ else }}
         <div class="no-results">
             {{ options.noResultsMessage }}
