@@ -15,15 +15,15 @@ class TableButtonBuilder extends TableBuilderAbstract
      * @var array
      */
     protected $buttons = [
-        'delete' => [
+        'delete'  => [
             'title' => 'button.delete',
             'class' => 'btn btn-sm btn-danger',
         ],
-        'edit'   => [
+        'edit'    => [
             'title' => 'button.edit',
             'class' => 'btn btn-sm btn-default',
         ],
-        'options'   => [
+        'options' => [
             'title' => 'Options',
             'class' => 'btn btn-sm btn-link',
         ]
@@ -88,10 +88,10 @@ class TableButtonBuilder extends TableBuilderAbstract
         $dropdown = [];
 
         foreach (evaluate_key($this->options, 'dropdown', [], [$this->ui]) as $options) {
-            $title  = trans($options['title']);
-            $action = url($options['path']);
+            $title = trans($options['title']);
+            $url   = url($options['path']);
 
-            $dropdown[] = compact('title', 'path');
+            $dropdown[] = compact('title', 'url');
         }
 
         return $dropdown;

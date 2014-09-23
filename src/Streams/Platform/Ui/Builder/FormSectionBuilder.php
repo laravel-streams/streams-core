@@ -40,7 +40,7 @@ class FormSectionBuilder extends FormBuilderAbstract
 
         foreach (evaluate_key($this->options, 'fields', []) as $field) {
             if (!in_array($field, $this->ui->getSkips())) {
-                $fields[] = $assignments->findByFieldSlug($field);
+                $fields[$field] = $assignments->findByFieldSlug($field);
             }
         }
 

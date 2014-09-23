@@ -18,36 +18,29 @@ class FormActionBuilder extends FormBuilderAbstract
      */
     protected $actions = [
         'save'          => [
-            'title'    => 'button.save',
-            'redirect' => 'admin/addons/',
-            'value'    => 'save',
-            'name'     => 'formAction',
-            'class'    => 'btn btn-sm btn-success',
+            'title' => 'button.save',
+            'value' => 'save',
+            'name'  => 'formAction',
+            'class' => 'btn btn-sm btn-success',
         ],
         'save_exit'     => [
-            'title'    => 'button.save_exit',
-            'redirect' => 'admin/addons/modules',
-            'value'    => 'save_exit',
-            'name'     => 'formAction',
-            'class'    => 'btn btn-sm btn-info',
+            'title' => 'button.save_exit',
+            'value' => 'save_exit',
+            'name'  => 'formAction',
+            'class' => 'btn btn-sm btn-info',
         ],
         'save_continue' => [
-            'title'    => 'button.save_continue',
-            'redirect' => 'admin/addons/',
-            'value'    => 'save_continue',
-            'name'     => 'formAction',
-            'class'    => 'btn btn-sm btn-info',
+            'title' => 'button.save_continue',
+            'value' => 'save_continue',
+            'name'  => 'formAction',
+            'class' => 'btn btn-sm btn-info',
         ],
         'cancel'        => [
             'title' => 'button.cancel',
-            'value' => 'cancel',
-            'path'  => 'admin/addons/modules',
             'class' => 'btn btn-sm btn-default',
         ],
         'delete'        => [
             'title' => 'button.delete',
-            'value' => 'delete',
-            'path'  => 'admin/addons/',
             'class' => 'btn btn-sm btn-danger pull-right',
         ]
     ];
@@ -59,35 +52,98 @@ class FormActionBuilder extends FormBuilderAbstract
      */
     public function data()
     {
-        $button = $this->buildButton();
+        $url      = $this->buildUrl();
+        $title    = $this->buildTitle();
+        $class    = $this->buildClass();
+        $value    = $this->buildValue();
+        $dropdown = $this->buildDropdown();
 
-        return compact('button');
+        return compact('title', 'class', 'url', 'value', 'dropdown');
     }
 
     /**
-     * Build the button.
+     * Build the title.
      *
      * @return string
      */
-    protected function buildButton()
+    protected function buildTitle()
     {
-        $title = trans(evaluate($this->action->getOption('title'), [$this->ui]));
+        $default = $this->defaultValue('title');
 
-        if ($url = evaluate($this->action->getOption('path'), [$this->ui])) {
-            $attributes = [
-                'class' => $this->action->getOption('class'),
-            ];
+        return trans(evaluate($this->action->getOption('title', $default), [$this->ui]));
+    }
 
-            return link_to(url($url), $title, $attributes);
-        } else {
-            $attributes = [
-                'value' => $this->action->getOption('value'),
-                'name'  => $this->action->getOption('name'),
-                'class' => $this->action->getOption('class'),
-            ];
+    /**
+     * Build the class.
+     *
+     * @return mixed|null
+     */
+    protected function buildClass()
+    {
+        $default = $this->defaultValue('class');
 
-            return \Form::submit($title, $attributes);
+        return evaluate($this->action->getOption('class', $default), [$this->ui]);
+    }
+
+    /**
+     * Build the value.
+     *
+     * @return mixed|null
+     */
+    protected function buildValue()
+    {
+        $default = $this->defaultValue('value');
+
+        return evaluate($this->action->getOption('value', $default), [$this->ui]);
+    }
+
+    /**
+     * Build the url.
+     *
+     * @return mixed|null
+     */
+    protected function buildUrl()
+    {
+        $default = $this->defaultValue('path');
+
+        return url(evaluate($this->action->getOption('path', $default), [$this->ui]));
+    }
+
+    /**
+     * Build the dropdown.
+     *
+     * @return array
+     */
+    protected function buildDropdown()
+    {
+        $dropdown = [];
+
+        foreach (evaluate($this->action->getOption('dropdown', []), [$this->ui]) as $options) {
+            $title = trans($options['title']);
+            $url   = url($options['path']);
+
+            $dropdown[] = compact('title', 'url');
         }
+
+        return $dropdown;
+    }
+
+    /**
+     * Return the pre-registered default value.
+     *
+     * @param      $property
+     * @param null $default
+     * @return null
+     */
+    protected function defaultValue($property, $default = null)
+    {
+        if (isset($this->actions[$this->action->getOption('type')])) {
+            if (isset($this->actions[$this->action->getOption('type')][$property])) {
+                return $this->actions[$this->action->getOption('type')][$property];
+            }
+        }
+
+        return $default;
     }
 
     /**
