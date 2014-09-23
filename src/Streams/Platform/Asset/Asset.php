@@ -61,7 +61,9 @@ class Asset
             \File::makeDirectory($directory, 777, true);
         }
 
-        if ($data = $this->get($identifier)) {
+        $data = $this->get($identifier);
+
+        if ($data) {
             \File::put($path, $data);
         }
     }
@@ -101,8 +103,8 @@ class Asset
             }
 
             return $collection->dump();
-        } elseif ($path = $this->locate($identifier) and file_exists($path)) {
-            return \File::get($path);
+        } else {
+            return \File::get($this->locate($identifier));
         }
     }
 
@@ -116,8 +118,8 @@ class Asset
         if (strpos($asset, '::') !== false) {
             list($namespace, $path) = explode('::', $asset);
         } else {
-            $namespace = 'streams';
-            $path      = $asset;
+            $namespace = 'theme';
+            $path      = \File::extension($asset) . '/' . $asset;
         }
 
         return $this->namespaces[$namespace] . '/' . $path;
@@ -181,7 +183,9 @@ class Asset
         $path = 'assets/' . \Application::getAppRef() . '/' . $extension . '/' . $filename;
 
         if (!\File::exists($path) or isset($_GET['_compile'])) {
-            if (!$this->publish($identifier, $path)) {
+            if (\File::exists($path)) {
+                $this->publish($identifier, $path);
+            } else {
                 return null;
             }
         }
@@ -211,7 +215,7 @@ class Asset
     {
         $path = $this->pipe($identifier);
 
-        return $path ? \URL::to($path, $extra, $secure or \Request::isSecure()) : $path;
+        return \URL::to($path, $extra, $secure or \Request::isSecure());
     }
 
     /**
@@ -226,7 +230,7 @@ class Asset
     {
         $path = $this->pipe($collection);
 
-        return $path ? \HTML::script($path, $attributes, $secure or \Request::isSecure()) : null;
+        return \HTML::script($path, $attributes, $secure or \Request::isSecure());
     }
 
     /**
@@ -241,7 +245,7 @@ class Asset
     {
         $path = $this->pipe($collection);
 
-        return $path ? \HTML::style($path, $attributes, $secure or \Request::isSecure()) : null;
+        return \HTML::style($path, $attributes, $secure or \Request::isSecure());
     }
 
     /**
@@ -257,7 +261,7 @@ class Asset
     {
         $path = $this->pipe($asset);
 
-        return $path ? \HTML::image($path, $alt, $attributes, $secure or \Request::isSecure()) : $path;
+        return \HTML::image($path, $alt, $attributes, $secure or \Request::isSecure());
     }
 
     /**
