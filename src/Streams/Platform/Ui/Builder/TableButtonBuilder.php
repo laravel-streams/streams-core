@@ -18,6 +18,14 @@ class TableButtonBuilder extends TableBuilderAbstract
         'delete' => [
             'title' => 'button.delete',
             'class' => 'btn btn-sm btn-danger',
+        ],
+        'edit'   => [
+            'title' => 'button.edit',
+            'class' => 'btn btn-sm btn-default',
+        ],
+        'options'   => [
+            'title' => 'Options',
+            'class' => 'btn btn-sm btn-link',
         ]
     ];
 
@@ -28,11 +36,12 @@ class TableButtonBuilder extends TableBuilderAbstract
      */
     public function data()
     {
-        $title = $this->buildTitle();
-        $class = $this->buildClass();
-        $url   = $this->buildUrl();
+        $url      = $this->buildUrl();
+        $title    = $this->buildTitle();
+        $class    = $this->buildClass();
+        $dropdown = $this->buildDropdown();
 
-        return compact('title', 'class', 'url');
+        return compact('title', 'class', 'url', 'dropdown');
     }
 
     /**
@@ -42,7 +51,9 @@ class TableButtonBuilder extends TableBuilderAbstract
      */
     protected function buildTitle()
     {
-        return trans(evaluate_key($this->options, 'title', null, [$this->ui, $this->entry]));
+        $default = $this->defaultValue('title');
+
+        return trans(evaluate_key($this->options, 'title', $default, [$this->ui, $this->entry]));
     }
 
     /**
@@ -52,7 +63,7 @@ class TableButtonBuilder extends TableBuilderAbstract
      */
     protected function buildClass()
     {
-        $default = 'btn btn-sm btn-default';
+        $default = $this->defaultValue('class');
 
         return evaluate_key($this->options, 'class', $default, [$this->ui, $this->entry]);
     }
@@ -65,6 +76,43 @@ class TableButtonBuilder extends TableBuilderAbstract
     protected function buildUrl()
     {
         return url(evaluate_key($this->options, 'path', null, [$this->ui, $this->entry]));
+    }
+
+    /**
+     * Build the dropdown.
+     *
+     * @return array
+     */
+    protected function buildDropdown()
+    {
+        $dropdown = [];
+
+        foreach (evaluate_key($this->options, 'dropdown', [], [$this->ui]) as $options) {
+            $title  = trans($options['title']);
+            $action = url($options['path']);
+
+            $dropdown[] = compact('title', 'path');
+        }
+
+        return $dropdown;
+    }
+
+    /**
+     * Return the pre-registered default value.
+     *
+     * @param      $property
+     * @param null $default
+     * @return null
+     */
+    protected function defaultValue($property, $default = null)
+    {
+        if (isset($this->options['type'])) {
+            if (isset($this->buttons[$this->options['type']])) {
+                return $this->buttons[$this->options['type']][$property];
+            }
+        }
+
+        return $default;
     }
 
     /**

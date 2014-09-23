@@ -11,7 +11,7 @@ class TableActionBuilder extends TableBuilderAbstract
         'delete' => [
             'title' => 'button.delete',
             'class' => 'btn btn-sm btn-danger',
-        ]
+        ],
     ];
 
     /**
@@ -36,7 +36,9 @@ class TableActionBuilder extends TableBuilderAbstract
      */
     protected function buildTitle()
     {
-        return trans(evaluate_key($this->options, 'title', null, [$this->ui]));
+        $default = $this->defaultValue('title');
+
+        return trans(evaluate_key($this->options, 'title', $default, [$this->ui]));
     }
 
     /**
@@ -46,7 +48,7 @@ class TableActionBuilder extends TableBuilderAbstract
      */
     protected function buildClass()
     {
-        $default = 'btn btn-sm btn-default';
+        $default = $this->defaultValue('class');
 
         return evaluate_key($this->options, 'class', $default, [$this->ui]);
     }
@@ -78,5 +80,23 @@ class TableActionBuilder extends TableBuilderAbstract
         }
 
         return $dropdown;
+    }
+
+    /**
+     * Return the pre-registered default value.
+     *
+     * @param      $property
+     * @param null $default
+     * @return null
+     */
+    protected function defaultValue($property, $default = null)
+    {
+        if (isset($this->options['type'])) {
+            if (isset($this->actions[$this->options['type']])) {
+                return $this->actions[$this->options['type']][$property];
+            }
+        }
+
+        return $default;
     }
 }

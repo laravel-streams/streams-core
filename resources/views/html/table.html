@@ -106,8 +106,8 @@
                         {{ buttons }}
                         <div class="btn-group">
                             <a href="{{ url }}" class="{{ class }}">{{ title }}</a>
-                            <!--{{ if dropdown }}
-                            <button type="button" class="{{ attributes.class }} dropdown-toggle" data-toggle="dropdown">
+                            {{ if dropdown }}
+                            <button type="button" class="{{ class }} dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
@@ -116,7 +116,7 @@
                                 <li><a href="{{ url }}">{{ title }}</a></li>
                                 {{ /dropdown }}
                             </ul>
-                            {{ endif }}-->
+                            {{ endif }}
                         </div>
                         {{ /buttons }}
                     </td>
