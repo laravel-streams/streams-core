@@ -35,8 +35,9 @@ class TableRowBuilder extends TableBuilderAbstract
         $class   = $this->buildClass();
         $columns = $this->buildColumns();
         $buttons = $this->buildButtons();
+        $entry   = $this->entry;
 
-        return compact('class', 'columns', 'buttons');
+        return compact('class', 'columns', 'buttons', 'entry');
     }
 
     /**
