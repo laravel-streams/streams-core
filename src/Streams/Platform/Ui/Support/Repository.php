@@ -52,7 +52,7 @@ class Repository
         $limit  = $paginator->getPerPage();
         $offset = ($paginator->getCurrentPage() - 1) * $limit;
 
-        $query = $model->take($limit)->skip($offset);
+        $query = $query->take($limit)->skip($offset);
 
         foreach ($this->ui->getOrderBy() as $orderBy) {
             $query = $query->orderBy($orderBy['column'], $orderBy['direction']);
