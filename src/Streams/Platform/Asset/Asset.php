@@ -183,9 +183,9 @@ class Asset
         $path = 'assets/' . \Application::getAppRef() . '/' . $extension . '/' . $filename;
 
         if (!\File::exists($path) or isset($_GET['_compile'])) {
-            if (\File::exists($path)) {
+            try {
                 $this->publish($identifier, $path);
-            } else {
+            } catch (\Exception $e) {
                 return null;
             }
         }
