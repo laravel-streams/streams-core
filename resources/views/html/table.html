@@ -26,8 +26,7 @@
             </ul>
             {{ endif }}
 
-            <a href="#" class="pull-right table-filter-toggle {{ options.filter_state }}"
-               onclick="$(this).toggleClass('active'); $('.table-filters').toggleClass('active'); return false;">
+            <a href="#" class="pull-right table-filter-toggle {{ options.filter_state }}" data-toggle="filters">
                 <i class="fa fa-filter"></i> Filter
             </a>
         </h3>

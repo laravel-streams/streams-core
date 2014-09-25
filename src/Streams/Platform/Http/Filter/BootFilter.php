@@ -58,6 +58,13 @@ class BootFilter
             \View::share('title', null);
             \View::share('description', null);
 
+            if ($locale = \Input::get('locale')) {
+                \Session::put('locale', $locale);
+            }
+
+            // Set Locale
+            \App::setLocale(\Session::get('locale', \Config::get('locale')));
+
             // Set observer on core models.
             EntryModel::observe(new EntryObserver());
             FieldModel::observe(new FieldObserver());

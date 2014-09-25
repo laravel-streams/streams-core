@@ -4,6 +4,18 @@
 
 {{ form.open }}
 
+<div class="toolbar">
+    <a href="#" class="flag-icon flag-icon-us active" data-toggle="tooltip" data-locale="en" title="English"></a>
+    <a href="#" class="flag-icon flag-icon-fr" data-toggle="tooltip" data-locale="fr" title="French"></a>
+    <a href="#" class="flag-icon flag-icon-de" data-toggle="tooltip" data-locale="de" title="German"></a>
+    <a href="#" class="flag-icon flag-icon-it" data-toggle="tooltip" data-locale="it" title="Italian"></a>
+    <a href="#" class="flag-icon flag-icon-ae" data-toggle="tooltip" data-locale="ae" title="Arabic"></a>
+
+    <a href="#" class="btn btn-xs btn-link history">
+        <i class="fa fa-history"></i>History
+    </a>
+</div>
+
 {{ sections as section }}
 <section class="panel panel-default">
     {{ if section.title }}
@@ -23,7 +35,7 @@
 </section>
 {{ /sections }}
 
-<section class="panel panel-default">
+<section class="panel panel-default actions">
     <div class="panel-body">
         {{ actions }}
         {{ if value }}
