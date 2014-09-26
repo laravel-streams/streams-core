@@ -1,5 +1,6 @@
 <?php namespace Streams\Platform\Addon;
 
+use Streams\Addon\Tag\Theme\ThemeTag;
 use Streams\Platform\Addon\Model\ThemeModel;
 use Streams\Platform\Addon\Presenter\ThemePresenter;
 
@@ -41,5 +42,21 @@ abstract class ThemeAbstract extends AddonAbstract
     public function newPresenter($resource)
     {
         return new ThemePresenter($resource);
+    }
+
+    /**
+     * Return a new ThemeTag instance.
+     *
+     * @return ThemeTag
+     */
+    public function newTag()
+    {
+        $tag = get_called_class() . 'Tag';
+
+        if (class_exists($tag)) {
+            return new $tag;
+        }
+
+        return new ThemeTag();
     }
 }

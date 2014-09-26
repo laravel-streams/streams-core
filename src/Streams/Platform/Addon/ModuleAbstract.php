@@ -64,9 +64,9 @@ abstract class ModuleAbstract extends AddonAbstract
         $tag = get_called_class() . 'Tag';
 
         if (class_exists($tag)) {
-            return new $tag($this);
+            return new $tag;
         }
 
-        return new ModuleTag($this);
+        return new ModuleTag();
     }
 }
