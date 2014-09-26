@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon;
 
-use Streams\Platform\Addon\Installer\AddonInstaller;
 use Streams\Platform\Traits\CallableTrait;
 use Streams\Platform\Contract\PresenterInterface;
+use Streams\Platform\Addon\Installer\AddonInstaller;
 
 abstract class AddonAbstract implements PresenterInterface
 {
