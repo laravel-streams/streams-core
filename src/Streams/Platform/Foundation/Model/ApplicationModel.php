@@ -16,7 +16,9 @@ class ApplicationModel extends Model
         $domain = trim(str_replace(array('http://', 'https://'), '', $domain), '/');
 
         return DB::table('apps')
-            ->whereDomain($domain)
+            ->join('apps_domains', 'apps.id', '=', 'apps_domains.app_id')
+            ->where('apps.domain', $domain)
+            ->orWhere('apps_domains.domain', $domain)
             ->first();
     }
 }

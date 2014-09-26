@@ -2,7 +2,6 @@
 
 use Composer\Autoload\ClassLoader;
 use Illuminate\Container\Container;
-use Illuminate\Support\Facades\Request;
 use Streams\Platform\Foundation\Model\ApplicationModel;
 
 class Application
@@ -89,7 +88,7 @@ class Application
         if (\Schema::hasTable('apps')) {
             if (!$this->appRef) {
                 if (!$domain) {
-                    $domain = Request::root();
+                    $domain = \Request::root();
                 }
 
                 if ($app = $this->apps->findByDomain($domain)) {
@@ -101,10 +100,10 @@ class Application
                     return true;
                 }
 
-                return false;
+                throw new \Exception('Could not locate app.');
             }
         } else {
-            return false;
+            throw new \Exception('Could not locate app.');
         }
 
         return true;

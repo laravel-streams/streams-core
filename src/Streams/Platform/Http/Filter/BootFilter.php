@@ -59,11 +59,13 @@ class BootFilter
             \View::share('description', null);
 
             if ($locale = \Input::get('locale')) {
-                \Session::put('locale', $locale);
+                \Sentry::getUser()->changeLocale($locale);
             }
 
             // Set Locale
-            \App::setLocale(\Session::get('locale', \Config::get('locale')));
+            if (\Sentry::check()) {
+                \App::setLocale(\Sentry::getUser()->getLocale(\Config::get('locale')));
+            }
 
             // Set observer on core models.
             EntryModel::observe(new EntryObserver());
