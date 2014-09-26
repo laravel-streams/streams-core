@@ -1,5 +1,6 @@
 <?php namespace Streams\Platform\Addon;
 
+use Streams\Platform\Addon\Tag\ModuleTag;
 use Streams\Platform\Addon\Model\ModuleModel;
 use Streams\Platform\Addon\Presenter\ModulePresenter;
 
@@ -51,5 +52,21 @@ abstract class ModuleAbstract extends AddonAbstract
     public function newPresenter($resource)
     {
         return new ModulePresenter($resource);
+    }
+
+    /**
+     * Return a new ModuleTag instance.
+     *
+     * @return ModuleTag
+     */
+    public function newTag()
+    {
+        $tag = get_called_class() . 'Tag';
+
+        if (class_exists($tag)) {
+            return new $tag($this);
+        }
+
+        return new ModuleTag($this);
     }
 }
