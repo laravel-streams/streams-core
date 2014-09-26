@@ -65,7 +65,13 @@ class TableButtonBuilder extends TableBuilderAbstract
     {
         $default = $this->defaultValue('class');
 
-        return evaluate_key($this->options, 'class', $default, [$this->ui, $this->entry]);
+        $class = evaluate_key($this->options, 'class', $default, [$this->ui, $this->entry]);
+
+        if (substr($class, 0, 1) == '+') {
+            $class = $default . substr($class, 1);
+        }
+
+        return $class;
     }
 
     /**
