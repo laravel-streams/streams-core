@@ -7,11 +7,11 @@ use Streams\Platform\Addon\Presenter\ModulePresenter;
 abstract class ModuleAbstract extends AddonAbstract
 {
     /**
-     * The menu lang string.
+     * The group string.
      *
      * @var null
      */
-    protected $menu = null;
+    protected $group = null;
 
     /**
      * An array of module sections.
@@ -21,13 +21,13 @@ abstract class ModuleAbstract extends AddonAbstract
     protected $sections = null;
 
     /**
-     * Get the menu string.
+     * Get the group string.
      *
      * @return null
      */
-    public function getMenu()
+    public function getGroup()
     {
-        return $this->menu;
+        return $this->group;
     }
 
     /**
