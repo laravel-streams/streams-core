@@ -7,11 +7,28 @@ use Streams\Platform\Addon\Presenter\ModulePresenter;
 abstract class ModuleAbstract extends AddonAbstract
 {
     /**
+     * The menu lang string.
+     *
+     * @var null
+     */
+    protected $menu = null;
+
+    /**
      * An array of module sections.
      *
      * @var null
      */
     protected $sections = null;
+
+    /**
+     * Get the menu string.
+     *
+     * @return null
+     */
+    public function getMenu()
+    {
+        return $this->menu;
+    }
 
     /**
      * Get the module sections.
