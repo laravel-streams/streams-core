@@ -26,10 +26,12 @@ class BootFilter
             \Application::boot();
 
             if (\Request::segment(1) === 'admin') {
-                $theme = \Theme::getAdminTheme();
+                \Theme::setActive('streams');
             } else {
-                $theme = \Theme::getPublicTheme();
+                \Theme::setActive('aiws');
             }
+
+            $theme = \Theme::active();
 
             \Lang::addNamespace('theme', $theme->getPath('resources/lang'));
 
