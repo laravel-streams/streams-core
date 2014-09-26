@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'untitled' => 'Untitled',
+    'data'   => 'Data',
+    'system' => 'System'
 ];
