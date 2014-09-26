@@ -13,37 +13,47 @@ class ThemeManager extends AddonManager
     protected $folder = 'themes';
 
     /**
-     * Get the active admin theme.
+     * The active theme slug.
      *
-     * @return null
+     * @var null
      */
-    public function getAdminTheme()
+    protected $active = null;
+
+    /**
+     * Return the active module.
+     *
+     * @return null|\Streams\Platform\Addon\AddonAbstract
+     */
+    public function active()
     {
-        /**
-         * @todo - Eventually, this will be a setting that
-         * returns the active admin theme slug
-         **/
+        if ($this->exists($this->active)) {
+            return $this->find($this->active);
+        }
 
-        $slug = 'streams';
-
-        return $this->find($slug);
+        return null;
     }
 
     /**
-     * Get the active public theme.
+     * Get the active module slug.
      *
      * @return null
      */
-    public function getPublicTheme()
+    public function getActive()
     {
-        /**
-         * @todo - Eventually, this will be a setting that
-         * returns the active public theme slug
-         **/
+        return $this->active;
+    }
 
-        $slug = 'aiws';
+    /**
+     * Set the active module slug.
+     *
+     * @param $slug
+     * @return $this
+     */
+    public function setActive($slug)
+    {
+        $this->active = $slug;
 
-        return $this->find($slug);
+        return $this;
     }
 
     /**
