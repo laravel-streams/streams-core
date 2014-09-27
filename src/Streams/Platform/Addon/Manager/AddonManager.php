@@ -256,7 +256,6 @@ class AddonManager
      */
     public function registerToContainer(Container $app, array $info, $binding)
     {
-        // Register a singleton addon
         $app->bind(
             'streams.' . $info['type'] . '.' . $info['slug'],
             function () use ($info, $binding) {
