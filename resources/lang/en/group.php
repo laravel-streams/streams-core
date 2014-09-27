@@ -1,6 +1,7 @@
 <?php
 
 return [
-    'data'   => 'Data',
-    'system' => 'System'
+    'data'    => 'Data',
+    'system'  => 'System',
+    'website' => 'Website',
 ];
