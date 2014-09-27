@@ -44,6 +44,16 @@ abstract class AddonAbstract implements PresenterInterface
     protected $enabled = null;
 
     /**
+     * Return the model.
+     *
+     * @return mixed
+     */
+    public function model()
+    {
+        return $this->newModel()->findBySlug($this->slug);
+    }
+
+    /**
      * Set the installed property.
      *
      * @return bool
@@ -194,6 +204,12 @@ abstract class AddonAbstract implements PresenterInterface
      */
     public function newInstaller()
     {
+        $installer = get_called_class() . 'Installer';
+
+        if (class_exists($installer)) {
+            return new $installer($this);
+        }
+
         return new AddonInstaller($this);
     }
 
