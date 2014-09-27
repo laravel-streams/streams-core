@@ -34,6 +34,18 @@ class StreamModel extends EloquentModel
     }
 
     /**
+     * Find by slug and namespace.
+     *
+     * @param $slug
+     * @param $namespace
+     * @return mixed
+     */
+    public function findBySlugAndNamespace($slug, $namespace)
+    {
+        return $this->whereSlug($slug)->whereNamespace($namespace)->first();
+    }
+
+    /**
      * Return the entry table name.
      *
      * @return string
@@ -51,6 +63,15 @@ class StreamModel extends EloquentModel
     public function translatableTable()
     {
         return $this->entryTable() . '_translations';
+    }
+
+    /**
+     * Return the singular slug inflection.
+     * @return string
+     */
+    public function singular()
+    {
+        return str_singular($this->slug);
     }
 
     public function object($data)

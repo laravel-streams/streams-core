@@ -1,5 +1,6 @@
 <?php namespace Streams\Platform\Addon\Installer;
 
+use Streams\Platform\Field\Model\FieldModel;
 use Streams\Platform\Support\Installer;
 use Streams\Platform\Addon\AddonAbstract;
 use Streams\Platform\Field\Installer\FieldInstaller;
@@ -13,6 +14,13 @@ class AddonInstaller extends Installer
      * @var array
      */
     protected $install = [];
+
+    /**
+     * The fields to install.
+     *
+     * @var array
+     */
+    protected $fields = [];
 
     /**
      * The addon object.
@@ -29,6 +37,8 @@ class AddonInstaller extends Installer
     public function __construct(AddonAbstract $addon)
     {
         $this->addon = $addon;
+
+        $this->fieldInstaller = $this->newFieldInstaller();
     }
 
     /**
@@ -39,6 +49,8 @@ class AddonInstaller extends Installer
     public function install()
     {
         $this->fire('before_install');
+
+        $this->installFields();
 
         foreach ($this->install as $installer) {
             (new $installer($this->addon))->install();
@@ -58,6 +70,8 @@ class AddonInstaller extends Installer
     {
         $this->fire('before_uninstall');
 
+        $this->uninstallFields();
+
         foreach ($this->install as $installer) {
             (new $installer($this->addon))->uninstall();
         }
@@ -65,6 +79,36 @@ class AddonInstaller extends Installer
         $this->fire('after_uninstall');
 
         return true;
+    }
+
+    /**
+     * Install fields.
+     */
+    protected function installFields()
+    {
+        foreach ($this->fields as $slug => $field) {
+            if (!isset($field['slug'])) {
+                $field['slug'] = $slug;
+            }
+
+            $this->fieldInstaller->setField($field)->install();
+        }
+    }
+
+    /**
+     * Uninstall fields.
+     *
+     * @return bool|void
+     */
+    public function uninstallFields()
+    {
+        foreach ($this->fields as $slug => $field) {
+            if (!isset($field['slug'])) {
+                $field['slug'] = $slug;
+            }
+
+            $this->fieldInstaller->setField($field)->uninstall();
+        }
     }
 
     /**

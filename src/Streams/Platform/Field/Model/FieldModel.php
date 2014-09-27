@@ -166,7 +166,7 @@ class FieldModel extends EloquentModel
      */
     public function assignments()
     {
-        return $this->hasMany('Streams\Model\AssignmentModel', 'field_id');
+        return $this->hasMany('Streams\Platform\Assignment\Model\AssignmentModel', 'field_id');
     }
 
     /**

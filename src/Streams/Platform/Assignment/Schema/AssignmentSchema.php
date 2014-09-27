@@ -42,30 +42,27 @@ class AssignmentSchema
 
         $constraint = $this->getColumnConstraint($assignment);
 
-        $defaultValue = $assignment->field->getSetting('default_value');
-
-        if (\Schema::hasColumn($entryTable, $columnName)) {
-            $this->addColumn(
-                $entryTable,
-                $assignment,
-                $fieldType,
-                $columnName,
-                $columnTypeMethod,
-                $constraint,
-                $defaultValue
-            );
-        }
-
         if ($assignment->stream->is_translatable and $assignment->is_translatable) {
-            if (\Schema::hasColumn($translatableTable, $columnName)) {
+            if (!\Schema::hasColumn($translatableTable, $columnName)) {
                 $this->addColumn(
                     $translatableTable,
                     $assignment,
                     $fieldType,
                     $columnName,
                     $columnTypeMethod,
-                    $constraint,
-                    $defaultValue
+                    $constraint
+                );
+            }
+        } else {
+            // @todo - Might need to ALWAYS add to parent column
+            if (!\Schema::hasColumn($entryTable, $columnName)) {
+                $this->addColumn(
+                    $entryTable,
+                    $assignment,
+                    $fieldType,
+                    $columnName,
+                    $columnTypeMethod,
+                    $constraint
                 );
             }
         }
@@ -104,7 +101,7 @@ class AssignmentSchema
             );
         }
 
-        if ($assignment->stream->is_translatable and $assignment->is_translatable) {
+        if (\Schema::tableExists($translatableTable)) {
             if (\Schema::hasColumn($translatableTable, $columnName)) {
                 \Schema::table(
                     $translatableTable,
@@ -127,7 +124,6 @@ class AssignmentSchema
      * @param $columnName
      * @param $columnTypeMethod
      * @param $constraint
-     * @param $defaultValue
      * @return bool
      */
     protected function addColumn(
@@ -136,8 +132,7 @@ class AssignmentSchema
         $fieldType,
         $columnName,
         $columnTypeMethod,
-        $constraint,
-        $defaultValue
+        $constraint
     ) {
         \Schema::table(
             $table,
@@ -146,8 +141,7 @@ class AssignmentSchema
                 $fieldType,
                 $columnName,
                 $columnTypeMethod,
-                $constraint,
-                $defaultValue
+                $constraint
             ) {
 
                 // Only the string method cares about a constraint
@@ -156,8 +150,6 @@ class AssignmentSchema
                 } else {
                     $column = $table->{$columnTypeMethod}($columnName);
                 }
-
-                $column->default($defaultValue);
 
                 $column->nullable(true);
             }

@@ -6,14 +6,14 @@ use Streams\Platform\Field\Model\FieldModel;
 use Streams\Platform\Stream\Model\StreamModel;
 use Streams\Platform\Assignment\Model\AssignmentModel;
 
-class AssignmentsInstaller extends Installer
+class AssignmentInstaller extends Installer
 {
     /**
-     * The assignments data.
+     * The assignment data.
      *
      * @var array
      */
-    protected $assignments = [];
+    protected $assignment = [];
 
     /**
      * The addon object.
@@ -24,11 +24,12 @@ class AssignmentsInstaller extends Installer
 
     /**
      * Create a new AssignmentsInstaller instance.
+     *
+     * @param AddonAbstract $addon
      */
-    public function __construct(AddonAbstract $addon, StreamModel $stream = null)
+    public function __construct(AddonAbstract $addon)
     {
         $this->addon  = $addon;
-        $this->stream = $stream;
     }
 
     /**
@@ -40,9 +41,7 @@ class AssignmentsInstaller extends Installer
     {
         $this->fire('before_install');
 
-        foreach ($this->assignments as $fieldSlug => $assignment) {
-            $this->installAssignment($fieldSlug, $assignment);
-        }
+        $this->installAssignment();
 
         $this->fire('after_install');
     }
@@ -65,11 +64,13 @@ class AssignmentsInstaller extends Installer
      * @param $fieldSlug
      * @param $assignment
      */
-    protected function installAssignment($fieldSlug, $assignment)
+    protected function installAssignment()
     {
-        $assignment = (new AssignmentModel())->fill($assignment);
+        $assignment = (new AssignmentModel())->fill($this->assignment);
 
-        $field = (new FieldModel())->findBySlugAndNamespace($fieldSlug, $this->stream->namespace);
+        $field = (new FieldModel())->findBySlugAndNamespace($assignment->field, $this->stream->namespace);
+
+        unset($assignment->field);
 
         $langPrefix = $this->addon->getType() . '.' . $field->namespace . '::field.' . $field->slug;
 
@@ -97,14 +98,27 @@ class AssignmentsInstaller extends Installer
     }
 
     /**
-     * Set the assignments.
+     * Set the assignment.
      *
-     * @param $assignments
+     * @param $assignment
      * @return $this
      */
-    public function setAssignments($assignments)
+    public function setAssignment($assignment)
     {
-        $this->assignments = $assignments;
+        $this->assignment = $assignment;
+
+        return $this;
+    }
+
+    /**
+     * Set the stream.
+     *
+     * @param $stream
+     * @return $this
+     */
+    public function setStream($stream)
+    {
+        $this->stream = $stream;
 
         return $this;
     }

@@ -4,14 +4,14 @@ use Streams\Platform\Support\Installer;
 use Streams\Platform\Addon\AddonAbstract;
 use Streams\Platform\Field\Model\FieldModel;
 
-class FieldsInstaller extends Installer
+class FieldInstaller extends Installer
 {
     /**
-     * The fields to install.
+     * The field to install.
      *
      * @var array
      */
-    protected $fields = [];
+    protected $field = [];
 
     /**
      * The addon object.
@@ -31,7 +31,7 @@ class FieldsInstaller extends Installer
     }
 
     /**
-     * Install fields.
+     * Install a field.
      *
      * @return bool|void
      */
@@ -39,15 +39,13 @@ class FieldsInstaller extends Installer
     {
         $this->fire('before_install');
 
-        foreach ($this->fields as $slug => $field) {
-            $this->installField($slug, $field);
-        }
+        $this->installField();
 
         $this->fire('after_install');
     }
 
     /**
-     * Uninstall fields.
+     * Install a field.
      *
      * @return bool|void
      */
@@ -55,22 +53,17 @@ class FieldsInstaller extends Installer
     {
         $this->fire('before_uninstall');
 
-        (new FieldModel())->whereNamespace($this->addon->getSlug())->delete();
+        $this->uninstallField();
 
         $this->fire('after_uninstall');
     }
 
     /**
      * Install a field.
-     *
-     * @param $slug
-     * @param $field
      */
-    protected function installField($slug, $field)
+    protected function installField()
     {
-        $field = (new FieldModel())->fill($field);
-
-        $field->slug = $slug;
+        $field = (new FieldModel())->fill($this->field);
 
         if (!$field->namespace) {
             $field->namespace = $this->addon->getSlug();
@@ -83,5 +76,28 @@ class FieldsInstaller extends Installer
         $field->is_locked = boolean($field->is_locked);
 
         $field->save();
+    }
+
+    /**
+     * Uninstall a field.
+     */
+    protected function uninstallField()
+    {
+        if ($field = (new FieldModel())->findBySlugAndNamespace($this->field['slug'], $this->addon->getSlug())) {
+            $field->delete();
+        }
+    }
+
+    /**
+     * Set the field.
+     *
+     * @param $field
+     * @return $this
+     */
+    public function setField($field)
+    {
+        $this->field = $field;
+
+        return $this;
     }
 }

@@ -3,7 +3,7 @@
 use Streams\Platform\Support\Installer;
 use Streams\Platform\Addon\AddonAbstract;
 use Streams\Platform\Stream\Model\StreamModel;
-use Streams\Platform\Assignment\Installer\AssignmentsInstaller;
+use Streams\Platform\Assignment\Installer\AssignmentInstaller;
 
 class StreamInstaller extends Installer
 {
@@ -25,18 +25,13 @@ class StreamInstaller extends Installer
     protected $assignments = [];
 
     /**
-     * The model object.
-     *
-     * @var null
-     */
-    protected $model = null;
-
-    /**
      * Create a new StreamInstaller instance.
      */
     public function __construct(AddonAbstract $addon)
     {
         $this->addon = $addon;
+
+        $this->assignmentInstaller = $this->newAssignmentInstaller();
     }
 
     /**
@@ -52,6 +47,27 @@ class StreamInstaller extends Installer
         $this->installAssignments();
 
         $this->fire('after_install');
+    }
+
+    /**
+     * Uninstall a stream.
+     *
+     * @return bool|void
+     */
+    public function uninstall()
+    {
+        $this->fire('before_uninstall');
+
+        $slug = explode('\\', get_called_class());
+        $slug = array_pop($slug);
+        $slug = str_replace('StreamInstaller', '', $slug);
+        $slug = strtolower($slug);
+
+        (new StreamModel())->findBySlugAndNamespace($slug, $this->addon->getSlug())->delete();
+
+        $this->newAssignmentInstaller()->uninstall();
+
+        $this->fire('after_uninstall');
     }
 
     /**
@@ -101,25 +117,9 @@ class StreamInstaller extends Installer
             $stream->sort_by = 'title';
         }
 
-        $this->model = $stream;
+        $stream->save();
 
-        return $stream->save();
-    }
-
-    /**
-     * Uninstall a stream.
-     *
-     * @return bool|void
-     */
-    public function uninstall()
-    {
-        $this->fire('before_uninstall');
-
-        (new StreamModel())->whereNamespace($this->addon->getSlug())->delete();
-
-        $this->newAssignmentInstaller()->uninstall();
-
-        $this->fire('after_uninstall');
+        $this->assignmentInstaller->setStream($stream);
     }
 
     /**
@@ -129,18 +129,22 @@ class StreamInstaller extends Installer
      */
     protected function installAssignments()
     {
-        $installer = $this->newAssignmentInstaller();
+        foreach ($this->assignments as $field => $assignment) {
+            if (!isset($assignment['field'])) {
+                $assignment['field'] = $field;
+            }
 
-        $installer->setAssignments($this->assignments)->install();
+            $this->assignmentInstaller->setAssignment($assignment)->install();
+        }
     }
 
     /**
-     * Return a new AssignmentsInstallerInstance.
+     * Return a new AssignmentInstallerInstance.
      *
-     * @return AssignmentsInstaller
+     * @return AssignmentInstaller
      */
     protected function newAssignmentInstaller()
     {
-        return new AssignmentsInstaller($this->addon, $this->model);
+        return new AssignmentInstaller($this->addon);
     }
 }

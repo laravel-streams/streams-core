@@ -26,23 +26,39 @@ class StreamSchema
      */
     public function create()
     {
-        if (!\Schema::hasTable($this->model->entryTable())) {
+        if ($this->model->is_translatable) {
+            if (!\Schema::hasTable($this->model->entryTable())) {
+                \Schema::create(
+                    $this->model->entryTable(),
+                    function ($table) {
+                        $table->increments('id');
+                        $table->integer('sort_order')->nullable();
+                        $table->datetime('created_at');
+                        $table->integer('created_by')->nullable();
+                        $table->datetime('updated_at')->nullable();
+                        $table->integer('updated_by')->nullable();
+                    }
+                );
+            }
+
+            if (!\Schema::hasTable($this->model->translatableTable())) {
+                \Schema::create(
+                    $this->model->translatableTable(),
+                    function ($table) {
+                        $relationColumn = str_singular($this->model->slug) . '_id';
+
+                        $table->increments('id');
+                        $table->integer($relationColumn);
+                        $table->string('locale');
+
+                        $table->index('locale');
+                        $table->unique([$relationColumn . '_id', 'locale']);
+                    }
+                );
+            }
+        } elseif (!\Schema::hasTable($this->model->entryTable())) {
             \Schema::create(
                 $this->model->entryTable(),
-                function ($table) {
-                    $table->increments('id');
-                    $table->integer('sort_order')->nullable();
-                    $table->datetime('created_at');
-                    $table->integer('created_by')->nullable();
-                    $table->datetime('updated_at')->nullable();
-                    $table->integer('updated_by')->nullable();
-                }
-            );
-        }
-
-        if ($this->model->is_translatable and !\Schema::hasTable($this->model->translatableTable())) {
-            \Schema::create(
-                $this->model->translatableTable(),
                 function ($table) {
                     $table->increments('id');
                     $table->integer('sort_order')->nullable();
