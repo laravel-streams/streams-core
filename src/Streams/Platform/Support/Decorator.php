@@ -36,8 +36,10 @@ class Decorator
             if ($model instanceOf Collection) {
                 $model = $this->decorateCollection($model);
                 $resource->setRelation($relationName, $model);
-            } else {
+            } elseif (!$model instanceof Presenter) {
                 $resource->setRelation($relationName, $model->newPresenter($model));
+            } else {
+                $resource->setRelation($relationName, $model);
             }
         }
 
