@@ -191,4 +191,14 @@ class Presenter implements ArrayableInterface
             unset($this->resource->{$key});
         }
     }
+
+    /**
+     * Get the resource.
+     *
+     * @return mixed
+     */
+    public function getResource()
+    {
+        return $this->resource;
+    }
 }
