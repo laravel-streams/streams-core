@@ -3,12 +3,12 @@
 use Streams\Platform\Support\Installer;
 use Streams\Platform\Addon\AddonAbstract;
 use Streams\Platform\Stream\Model\StreamModel;
-use Streams\Platform\Assignment\Installer\AssignmentInstaller;
+use Streams\Platform\Assignment\Installer\AssignmentsInstaller;
 
 class StreamInstaller extends Installer
 {
     /**
-     * The stream data.
+     * The stream information.
      *
      * @var array
      */
@@ -25,7 +25,7 @@ class StreamInstaller extends Installer
     protected $assignments = [];
 
     /**
-     * The stream model.
+     * The model object.
      *
      * @var null
      */
@@ -37,8 +37,6 @@ class StreamInstaller extends Installer
     public function __construct(AddonAbstract $addon)
     {
         $this->addon = $addon;
-
-        $this->streams = new StreamModel();
     }
 
     /**
@@ -48,10 +46,12 @@ class StreamInstaller extends Installer
      */
     public function install()
     {
+        $this->fire('before_install');
+
         $this->installStream();
         $this->installAssignments();
 
-        return true;
+        $this->fire('after_install');
     }
 
     /**
@@ -115,25 +115,16 @@ class StreamInstaller extends Installer
     {
         $installer = $this->newAssignmentInstaller();
 
-        foreach ($this->assignments as $field => $assignment) {
-
-            if (!isset($assignment['field'])) {
-                $assignment['field'] = $field;
-            }
-
-            $installer->setAssignment($assignment)->install();
-        }
-
-        return true;
+        $installer->setAssignments($this->assignments)->install();
     }
 
     /**
-     * Return a new AssignmentInstallerInstance.
+     * Return a new AssignmentsInstallerInstance.
      *
-     * @return AssignmentInstaller
+     * @return AssignmentsInstaller
      */
     protected function newAssignmentInstaller()
     {
-        return new AssignmentInstaller($this->addon, $this->model);
+        return new AssignmentsInstaller($this->addon, $this->model);
     }
 }

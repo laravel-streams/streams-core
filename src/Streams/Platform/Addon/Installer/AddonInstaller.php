@@ -8,18 +8,11 @@ use Streams\Platform\Stream\Installer\StreamInstaller;
 class AddonInstaller extends Installer
 {
     /**
-     * The streams to install.
+     * The installers to install.
      *
      * @var array
      */
-    protected $streams = [];
-
-    /**
-     * The fields to install.
-     *
-     * @var array
-     */
-    protected $fields = [];
+    protected $install = [];
 
     /**
      * The addon object.
@@ -36,8 +29,6 @@ class AddonInstaller extends Installer
     public function __construct(AddonAbstract $addon)
     {
         $this->addon = $addon;
-
-        $this->fieldInstaller = $this->newFieldInstaller();
     }
 
     /**
@@ -47,84 +38,13 @@ class AddonInstaller extends Installer
      */
     public function install()
     {
-        \Event::fire('installer.addon::before_install', [$this]);
-        \Event::fire('installer.' . $this->addon->getType() . '::before_install', [$this]);
+        $this->fire('before_install');
 
-        $this->installFields();
-        $this->installStreams();
-        $this->save();
-
-        \Event::fire('installer.addon::after_install', [$this]);
-        \Event::fire('installer.' . $this->addon->getType() . '::after_install', [$this]);
-
-        return true;
-    }
-
-    /**
-     * Install the fields.
-     *
-     * @return bool
-     */
-    protected function installFields()
-    {
-        foreach ($this->fields as $slug => $field) {
-
-            if (!isset($field['slug'])) {
-                $field['slug'] = $slug;
-            }
-
-            $this->fieldInstaller->setField($field)->install();
+        foreach ($this->install as $installer) {
+            (new $installer($this->addon))->install();
         }
 
-        return true;
-    }
-
-    /**
-     * Install the streams.
-     *
-     * @return bool
-     */
-    protected function installStreams()
-    {
-        foreach ($this->streams as $stream) {
-            $class = get_called_class();
-            $class = explode('\\', $class);
-
-            array_pop($class);
-
-            $class[] = studly_case($stream . '_stream_installer');
-
-            $class = implode('\\', $class);
-
-            $method = studly_case('new_' . $stream . '_stream_installer');
-
-            if (method_exists($this, $method)) {
-                $class = call_user_func_array([$this, $method], [$this->addon]);
-            } else {
-                if (class_exists($class)) {
-                    $class = new $class($this->addon);
-                }
-            }
-
-            if ($class instanceof StreamInstaller) {
-                $class->install();
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Save the state of the installation.
-     *
-     * @return bool
-     */
-    protected function save()
-    {
-        $this->addon
-            ->newModel()
-            ->findBySlug($this->addon->getSlug())
-            ->installed();
+        $this->fire('after_install');
 
         return true;
     }
@@ -136,13 +56,41 @@ class AddonInstaller extends Installer
      */
     public function uninstall()
     {
-        $addon = $this->addon->newModel()->findBySlug($this->addon->getSlug());
+        $this->fire('before_uninstall');
 
-        \StreamSchemaUtility::destroyNamespace($addon->namespace);
+        foreach ($this->install as $installer) {
+            (new $installer($this->addon))->uninstall();
+        }
 
-        $addon->uninstalled();
+        $this->fire('after_uninstall');
 
         return true;
+    }
+
+    /**
+     * Save the state of the install.
+     */
+    protected function onAfterInstall()
+    {
+        $this->addon->model()->installed();
+    }
+
+    /**
+     * Save the state of the uninstall.
+     */
+    protected function onAfterUninstall()
+    {
+        $this->addon->model()->uninstalled();
+    }
+
+    /**
+     * Get the addon.
+     *
+     * @return AddonAbstract
+     */
+    public function getAddon()
+    {
+        return $this->addon;
     }
 
     /**

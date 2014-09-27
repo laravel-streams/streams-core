@@ -6,14 +6,14 @@ use Streams\Platform\Field\Model\FieldModel;
 use Streams\Platform\Stream\Model\StreamModel;
 use Streams\Platform\Assignment\Model\AssignmentModel;
 
-class AssignmentInstaller extends Installer
+class AssignmentsInstaller extends Installer
 {
     /**
-     * The assignment data.
+     * The assignments data.
      *
      * @var array
      */
-    protected $assignment = [];
+    protected $assignments = [];
 
     /**
      * The addon object.
@@ -23,14 +23,7 @@ class AssignmentInstaller extends Installer
     protected $addon;
 
     /**
-     * The stream object.
-     *
-     * @var \Streams\Model\StreamModel
-     */
-    protected $stream;
-
-    /**
-     * Create a new FieldInstaller instance.
+     * Create a new AssignmentsInstaller instance.
      */
     public function __construct(AddonAbstract $addon, StreamModel $stream)
     {
@@ -48,23 +41,26 @@ class AssignmentInstaller extends Installer
      */
     public function install()
     {
-        $this->installAssignment();
+        $this->fire('before_install');
 
-        return true;
+        foreach ($this->assignments as $fieldSlug => $assignment) {
+            $this->installAssignment($fieldSlug, $assignment);
+        }
+
+        $this->fire('after_install');
     }
 
     /**
-     * Install the assignment.
+     * Install an assignment.
      *
-     * @return bool
+     * @param $fieldSlug
+     * @param $assignment
      */
-    protected function installAssignment()
+    protected function installAssignment($fieldSlug, $assignment)
     {
-        $assignment = (new AssignmentModel())->fill($this->assignment);
+        $assignment = (new AssignmentModel())->fill($assignment);
 
-        $field = $this->fields->findBySlugAndNamespace($assignment->field, $this->stream->namespace);
-
-        unset($assignment->field);
+        $field = $this->fields->findBySlugAndNamespace($fieldSlug, $this->stream->namespace);
 
         $langPrefix = $this->addon->getType() . '.' . $field->namespace . '::field.' . $field->slug;
 
@@ -76,30 +72,30 @@ class AssignmentInstaller extends Installer
         $assignment->field_id  = $field->getKey();
 
         if (!$assignment->name) {
-            $assignment->name = $field->getResource()->name;
+            $assignment->name = $field->name;
         }
 
         if (!$assignment->instructions) {
             $assignment->instructions = $langPrefix . '.instructions';
         }
 
-        $assignment->is_required     = \StringHelper::bool($assignment->is_required);
-        $assignment->is_unique       = \StringHelper::bool($assignment->is_unique);
-        $assignment->is_translatable = \StringHelper::bool($assignment->is_translatable);
-        $assignment->is_revisionable = \StringHelper::bool($assignment->is_revisionable);
+        $assignment->is_unique       = boolean($assignment->is_unique);
+        $assignment->is_required     = boolean($assignment->is_required);
+        $assignment->is_translatable = boolean($assignment->is_translatable);
+        $assignment->is_revisionable = boolean($assignment->is_revisionable);
 
-        return $assignment->save();
+        $assignment->save();
     }
 
     /**
-     * Set the assignment data.
+     * Set the assignments.
      *
-     * @param $assignment
+     * @param $assignments
      * @return $this
      */
-    public function setAssignment($assignment)
+    public function setAssignments($assignments)
     {
-        $this->assignment = $assignment;
+        $this->assignments = $assignments;
 
         return $this;
     }

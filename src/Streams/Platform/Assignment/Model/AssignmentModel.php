@@ -49,7 +49,7 @@ class AssignmentModel extends FieldModel
      */
     public function stream()
     {
-        return $this->belongsTo('Streams\Stream\Model\StreamModel', 'stream_id');
+        return $this->belongsTo('Streams\Platform\Stream\Model\StreamModel', 'stream_id');
     }
 
     /**

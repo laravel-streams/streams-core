@@ -4,14 +4,14 @@ use Streams\Platform\Support\Installer;
 use Streams\Platform\Addon\AddonAbstract;
 use Streams\Platform\Field\Model\FieldModel;
 
-class FieldInstaller extends Installer
+class FieldsInstaller extends Installer
 {
     /**
-     * The field data.
+     * The fields to install.
      *
      * @var array
      */
-    protected $field = [];
+    protected $fields = [];
 
     /**
      * The addon object.
@@ -21,35 +21,42 @@ class FieldInstaller extends Installer
     protected $addon;
 
     /**
-     * Create a new FieldInstaller instance.
+     * Create a new FieldsInstaller instance.
      */
     public function __construct(AddonAbstract $addon)
     {
         $this->addon = $addon;
 
-        $this->fields = new FieldModel();
+        $this->model = new FieldModel();
     }
 
     /**
-     * Install the field.
+     * Install fields.
      *
      * @return bool|void
      */
     public function install()
     {
-        $this->installField();
+        $this->fire('before_install');
 
-        return true;
+        foreach ($this->fields as $slug => $field) {
+            $this->installField($slug, $field);
+        }
+
+        $this->fire('after_install');
     }
 
     /**
-     * Install the field.
+     * Install a field.
      *
-     * @return bool
+     * @param $slug
+     * @param $field
      */
-    protected function installField()
+    protected function installField($slug, $field)
     {
-        $field = (new FieldModel())->fill($this->field);
+        $field = (new FieldModel())->fill($field);
+
+        $field->slug = $slug;
 
         if (!$field->namespace) {
             $field->namespace = $this->addon->getSlug();
@@ -59,21 +66,8 @@ class FieldInstaller extends Installer
             $field->name = $this->addon->getType() . '.' . $field->namespace . '::field.' . $field->slug . '.name';
         }
 
-        $field->is_locked = \StringHelper::bool($field->is_locked);
+        $field->is_locked = boolean($field->is_locked);
 
-        return $field->save();
-    }
-
-    /**
-     * Set the field data.
-     *
-     * @param $field
-     * @return $this
-     */
-    public function setField($field)
-    {
-        $this->field = $field;
-
-        return $this;
+        $field->save();
     }
 }
