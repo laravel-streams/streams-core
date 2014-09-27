@@ -40,7 +40,15 @@ class FormSectionBuilder extends FormBuilderAbstract
 
         foreach (evaluate_key($this->options, 'fields', []) as $field) {
             if (!in_array($field, $this->ui->getSkips())) {
-                $fields[$field] = $assignments->findByFieldSlug($field);
+                $entry      = $this->ui->getEntry();
+                $assignment = $assignments->findByFieldSlug($field);
+                $type       = $assignment->fieldType();
+
+                $type->setEntry($entry)->setAssignment($assignment)->setValue($entry->getResource()->{$field});
+
+                $element = $type->element();
+
+                $fields[] = compact('element');
             }
         }
 

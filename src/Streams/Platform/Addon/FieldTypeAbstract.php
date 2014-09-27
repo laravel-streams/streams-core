@@ -20,6 +20,13 @@ abstract class FieldTypeAbstract extends AddonAbstract
     protected $columnConstraint = null;
 
     /**
+     * The element view.
+     *
+     * @var string
+     */
+    protected $elementView = 'html/partials/element';
+
+    /**
      * The entry model object.
      *
      * @var null
@@ -61,9 +68,11 @@ abstract class FieldTypeAbstract extends AddonAbstract
      */
     public function element()
     {
-        $field = $this->assignment->field;
+        $for   = $this->fieldName();
+        $name  = $this->assignment->field->name;
+        $input = $this->input();
 
-        return \View::make('html/partials/element', compact('field'));
+        return \View::make($this->elementView, compact('for', 'name', 'input'));
     }
 
     /**
