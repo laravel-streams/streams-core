@@ -107,6 +107,22 @@ class StreamInstaller extends Installer
     }
 
     /**
+     * Uninstall a stream.
+     *
+     * @return bool|void
+     */
+    public function uninstall()
+    {
+        $this->fire('before_uninstall');
+
+        (new StreamModel())->whereNamespace($this->addon->getSlug())->delete();
+
+        $this->newAssignmentInstaller()->uninstall();
+
+        $this->fire('after_uninstall');
+    }
+
+    /**
      * Install the field assignments.
      *
      * @return bool

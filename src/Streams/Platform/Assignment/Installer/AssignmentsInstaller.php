@@ -25,13 +25,10 @@ class AssignmentsInstaller extends Installer
     /**
      * Create a new AssignmentsInstaller instance.
      */
-    public function __construct(AddonAbstract $addon, StreamModel $stream)
+    public function __construct(AddonAbstract $addon, StreamModel $stream = null)
     {
         $this->addon  = $addon;
         $this->stream = $stream;
-
-        $this->fields      = new FieldModel();
-        $this->assignments = new AssignmentModel();
     }
 
     /**
@@ -51,6 +48,18 @@ class AssignmentsInstaller extends Installer
     }
 
     /**
+     * Uninstall assignments.
+     *
+     * @return bool|void
+     */
+    public function uninstall()
+    {
+        $streams = array_merge((new StreamModel())->all()->lists('id'), [0]);
+
+        (new AssignmentModel())->whereNotIn('stream_id', $streams)->delete();
+    }
+
+    /**
      * Install an assignment.
      *
      * @param $fieldSlug
@@ -60,7 +69,7 @@ class AssignmentsInstaller extends Installer
     {
         $assignment = (new AssignmentModel())->fill($assignment);
 
-        $field = $this->fields->findBySlugAndNamespace($fieldSlug, $this->stream->namespace);
+        $field = (new FieldModel())->findBySlugAndNamespace($fieldSlug, $this->stream->namespace);
 
         $langPrefix = $this->addon->getType() . '.' . $field->namespace . '::field.' . $field->slug;
 

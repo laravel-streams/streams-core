@@ -47,6 +47,20 @@ class FieldsInstaller extends Installer
     }
 
     /**
+     * Uninstall fields.
+     *
+     * @return bool|void
+     */
+    public function uninstall()
+    {
+        $this->fire('before_uninstall');
+
+        (new FieldModel())->whereNamespace($this->addon->getSlug())->delete();
+
+        $this->fire('after_uninstall');
+    }
+
+    /**
      * Install a field.
      *
      * @param $slug
