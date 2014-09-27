@@ -15,6 +15,12 @@ class TableButtonBuilder extends TableBuilderAbstract
      * @var array
      */
     protected $buttons = [
+        'success' => [
+            'class' => 'btn btn-sm btn-success',
+        ],
+        'danger'  => [
+            'class' => 'btn btn-sm btn-danger',
+        ],
         'delete'  => [
             'title' => 'button.delete',
             'class' => 'btn btn-sm btn-danger',
@@ -39,9 +45,10 @@ class TableButtonBuilder extends TableBuilderAbstract
         $url      = $this->buildUrl();
         $title    = $this->buildTitle();
         $class    = $this->buildClass();
+        $display  = $this->buildDisplay();
         $dropdown = $this->buildDropdown();
 
-        return compact('title', 'class', 'url', 'dropdown');
+        return compact('title', 'class', 'url', 'dropdown', 'display');
     }
 
     /**
@@ -85,6 +92,16 @@ class TableButtonBuilder extends TableBuilderAbstract
     }
 
     /**
+     * Return the display.
+     *
+     * @return mixed|null
+     */
+    protected function buildDisplay()
+    {
+        return evaluate_key($this->options, 'display', true, [$this->ui, $this->entry]);
+    }
+
+    /**
      * Build the dropdown.
      *
      * @return array
@@ -113,7 +130,7 @@ class TableButtonBuilder extends TableBuilderAbstract
     protected function defaultValue($property, $default = null)
     {
         if (isset($this->options['type'])) {
-            if (isset($this->buttons[$this->options['type']])) {
+            if (isset($this->buttons[$this->options['type']][$property])) {
                 return $this->buttons[$this->options['type']][$property];
             }
         }
