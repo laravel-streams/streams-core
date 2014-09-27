@@ -72,8 +72,6 @@ class StreamModel extends EloquentModel
 
                     $assignmentModel->setRawAttributes($assignment);
 
-                    $fieldModel->parent = $assignmentModel;
-
                     $assignmentModel->setRelation('field', $fieldModel);
                     $assignmentModel->setRelation('stream', $streamModel);
 
