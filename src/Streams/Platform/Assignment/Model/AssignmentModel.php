@@ -15,24 +15,6 @@ class AssignmentModel extends FieldModel
     protected $table = 'streams_assignments';
 
     /**
-     * Clean up garbage records.
-     * Be careful using this.
-     * It can be very expensive.
-     *
-     * @return bool
-     */
-    public function cleanup()
-    {
-        $ids = FieldModel::all()->lists('id');
-
-        if (!$ids) {
-            return true;
-        }
-
-        return $this->whereNotIn('field_id', $ids)->delete();
-    }
-
-    /**
      * Return the field type.
      *
      * @return mixed
