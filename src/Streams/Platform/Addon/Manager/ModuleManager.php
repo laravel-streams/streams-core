@@ -1,5 +1,6 @@
 <?php namespace Streams\Platform\Addon\Manager;
 
+use Illuminate\Container\Container;
 use Streams\Platform\Addon\Model\ModuleModel;
 use Streams\Platform\Addon\Collection\ModuleCollection;
 

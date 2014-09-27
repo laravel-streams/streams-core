@@ -276,6 +276,10 @@ class AddonManager
                 $addon->setInstalled(isset($this->data[$info['slug']]) and $this->data[$info['slug']]->is_installed);
                 $addon->setEnabled(isset($this->data[$info['slug']]) and $this->data[$info['slug']]->is_enabled);
 
+                if (method_exists($addon, 'newServiceProvider')) {
+                    \App::register($addon->newServiceProvider());
+                }
+
                 \Event::fire($addon->getType() . '.' . $addon->getSlug() . 'make', [$addon]);
 
                 return \Decorator::decorate($addon);

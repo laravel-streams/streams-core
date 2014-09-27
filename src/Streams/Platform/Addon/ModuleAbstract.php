@@ -3,6 +3,7 @@
 use Streams\Platform\Addon\Tag\ModuleTag;
 use Streams\Platform\Addon\Model\ModuleModel;
 use Streams\Platform\Addon\Presenter\ModulePresenter;
+use Streams\Platform\Addon\Provider\ModuleServiceProvider;
 
 abstract class ModuleAbstract extends AddonAbstract
 {
@@ -14,11 +15,18 @@ abstract class ModuleAbstract extends AddonAbstract
     protected $group = null;
 
     /**
+     * The module menu.
+     *
+     * @var array
+     */
+    protected $menu = [];
+
+    /**
      * An array of module sections.
      *
-     * @var null
+     * @var array
      */
-    protected $sections = null;
+    protected $sections = [];
 
     /**
      * Get the group string.
@@ -28,6 +36,16 @@ abstract class ModuleAbstract extends AddonAbstract
     public function getGroup()
     {
         return $this->group;
+    }
+
+    /**
+     * Get the module menu.
+     *
+     * @return null
+     */
+    public function getMenu()
+    {
+        return $this->menu;
     }
 
     /**
@@ -85,5 +103,21 @@ abstract class ModuleAbstract extends AddonAbstract
         }
 
         return new ModuleTag();
+    }
+
+    /**
+     * Return a new ModuleServiceProvider instance.
+     *
+     * @return ModuleServiceProvider
+     */
+    public function newServiceProvider()
+    {
+        $serviceProvider = get_called_class() . 'ServiceProvider';
+
+        if (class_exists($serviceProvider)) {
+            return new $serviceProvider;
+        }
+
+        return new ModuleServiceProvider(app());
     }
 }
