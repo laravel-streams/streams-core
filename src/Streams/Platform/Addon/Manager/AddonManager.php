@@ -1,10 +1,10 @@
 <?php namespace Streams\Platform\Addon\Manager;
 
-use Streams\Platform\Addon\AddonAbstract;
-use Streams\Platform\Traits\CallableTrait;
 use Composer\Autoload\ClassLoader;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
+use Streams\Platform\Addon\AddonAbstract;
+use Streams\Platform\Traits\CallableTrait;
 
 class AddonManager
 {
@@ -16,6 +16,13 @@ class AddonManager
      * @var null
      */
     protected $folder = null;
+
+    /**
+     * Enable storage?
+     *
+     * @var bool
+     */
+    protected $storage = true;
 
     /**
      * A runtime cache of registered addons.
@@ -105,7 +112,7 @@ class AddonManager
      */
     protected function loadData()
     {
-        if (\Application::locate()) {
+        if ($this->storage and \Application::locate()) {
             $table = \Application::getAppRef() . '_addons_' . $this->folder;
 
             $data = \DB::table($table)->get();
@@ -232,7 +239,7 @@ class AddonManager
     {
         $slug = basename($path);
 
-        if (isset($this->data[$slug]) and $this->data[$slug]->is_installed) {
+        if ($this->storage and (isset($this->data[$slug]) and $this->data[$slug]->is_installed)) {
             $load = [
                 'helpers.php',
                 'routes.php',
@@ -272,11 +279,18 @@ class AddonManager
                 $addon->setSlug($info['slug']);
                 $addon->binding = $binding;
 
-                $addon->setInstalled(isset($this->data[$info['slug']]) and $this->data[$info['slug']]->is_installed);
-                $addon->setEnabled(isset($this->data[$info['slug']]) and $this->data[$info['slug']]->is_enabled);
+                if ($this->storage) {
+                    $addon->setInstalled(
+                        isset($this->data[$info['slug']]) and $this->data[$info['slug']]->is_installed
+                    );
+                    $addon->setEnabled(isset($this->data[$info['slug']]) and $this->data[$info['slug']]->is_enabled);
+                } else {
+                    $addon->setInstalled(true);
+                    $addon->setEnabled(true);
+                }
 
-                if (method_exists($addon, 'newServiceProvider')) {
-                    \App::register($addon->newServiceProvider());
+                if ($serviceProvider = $addon->newServiceProvider()) {
+                    \App::register($serviceProvider);
                 }
 
                 \Event::fire($addon->getType() . '.' . $addon->getSlug() . 'make', [$addon]);

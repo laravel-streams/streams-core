@@ -13,6 +13,13 @@ class DistributionManager extends AddonManager
     protected $folder = 'distributions';
 
     /**
+     * Enable storage?
+     *
+     * @var bool
+     */
+    protected $storage = false;
+
+    /**
      * Return a new model instance.
      *
      * @return mixed
