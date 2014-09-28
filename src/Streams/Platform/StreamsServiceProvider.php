@@ -60,6 +60,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->loader->alias('FieldType', 'Streams\Platform\Facade\FieldTypeFacade');
         $this->loader->alias('Decorator', 'Streams\Platform\Facade\DecoratorFacade');
         $this->loader->alias('Application', 'Streams\Platform\Facade\ApplicationFacade');
+        $this->loader->alias('Distribution', 'Streams\Platform\Facade\DistributionFacade');
         $this->loader->alias('StreamSchemaUtility', 'Streams\Platform\Facade\StreamSchemaUtilityFacade');
     }
 
