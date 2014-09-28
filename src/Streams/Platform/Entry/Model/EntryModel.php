@@ -48,7 +48,7 @@ class EntryModel extends EloquentModel
         // First we will check for the presence of a mutator for the set operation
         // which simply lets the developers tweak the attribute as it is set on
         // the model, such as "json_encoding" an listing of data for storage.
-        if ($this->hasSetMutator($key)) {
+        if ($key and $this->hasSetMutator($key)) {
             $method = 'set' . studly_case($key) . 'Attribute';
 
             return $this->{$method}($value);

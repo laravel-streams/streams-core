@@ -100,10 +100,12 @@ class Application
                     return true;
                 }
 
-                throw new \Exception('Could not locate app.');
+                //throw new \Exception('Could not locate app.');
+                return false;
             }
         } else {
-            throw new \Exception('Could not locate app.');
+            //throw new \Exception('Could not locate app.');
+            return false;
         }
 
         return true;

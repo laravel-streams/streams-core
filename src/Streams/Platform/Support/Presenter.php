@@ -78,7 +78,7 @@ class Presenter implements ArrayableInterface
      */
     public function __unset($name)
     {
-        if (is_array($this->object)) {
+        if (is_array($this->resource)) {
             unset($this->resource[$name]);
 
             return;

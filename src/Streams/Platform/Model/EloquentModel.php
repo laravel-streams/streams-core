@@ -1,20 +1,20 @@
 <?php namespace Streams\Platform\Model;
 
-use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Streams\Platform\Traits\CacheableTrait;
 use Streams\Platform\Traits\ObservableTrait;
 use Illuminate\Database\Eloquent\Collection;
+use Streams\Platform\Traits\RevisionableTrait;
+use Streams\Platform\Traits\TranslatableTrait;
 use Streams\Platform\Contract\PresenterInterface;
 use Streams\Platform\Contract\ArrayableInterface;
 use Streams\Platform\Collection\EloquentCollection;
-use Venturecraft\Revisionable\RevisionableTrait;
 use Streams\Platform\Model\Presenter\EloquentPresenter;
 
 class EloquentModel extends Model implements ArrayableInterface, PresenterInterface
 {
-    use Translatable {
-        Translatable::save as translatableSave;
+    use TranslatableTrait {
+        TranslatableTrait::save as translatableSave;
     }
 
     use RevisionableTrait;
@@ -22,11 +22,25 @@ class EloquentModel extends Model implements ArrayableInterface, PresenterInterf
     use ObservableTrait;
 
     /**
+     * Translatable flag.
+     *
+     * @var bool
+     */
+    protected $translatable = false;
+
+    /**
      * Translatable attributes.
      *
      * @var array
      */
     protected $translatedAttributes = [];
+
+    /**
+     * Enable revisions.
+     *
+     * @var bool
+     */
+    protected $revisionEnabled = false;
 
     /**
      * Validate the model by default.
@@ -66,13 +80,11 @@ class EloquentModel extends Model implements ArrayableInterface, PresenterInterf
         \Closure $beforeSave = null,
         \Closure $afterSave = null
     ) {
-        if ($this->translatable and $this->translatableSave($options)) {
-            return parent::save($rules, $customMessages, $options, $beforeSave, $afterSave);
+        if ($this->translatable) {
+            return $this->translatableSave($options);
         } else {
             return parent::save($rules, $customMessages, $options, $beforeSave, $afterSave);
         }
-
-        return false;
     }
 
     /**

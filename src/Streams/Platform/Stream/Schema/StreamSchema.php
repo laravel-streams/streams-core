@@ -7,7 +7,7 @@ class StreamSchema
     /**
      * The model object.
      *
-     * @var \Streams\Model\StreamModel
+     * @var \Streams\Platform\Stream\Model\StreamModel
      */
     protected $model;
 
@@ -50,9 +50,14 @@ class StreamSchema
                         $table->increments('id');
                         $table->integer($relationColumn);
                         $table->string('locale');
+                        $table->integer('sort_order')->nullable();
+                        $table->datetime('created_at');
+                        $table->integer('created_by')->nullable();
+                        $table->datetime('updated_at')->nullable();
+                        $table->integer('updated_by')->nullable();
 
                         $table->index('locale');
-                        $table->unique([$relationColumn . '_id', 'locale']);
+                        $table->unique([$relationColumn, 'locale']);
                     }
                 );
             }

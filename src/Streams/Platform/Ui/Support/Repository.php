@@ -113,8 +113,10 @@ class Repository
         $action = $this->ui->actions()->active();
 
         foreach ($entry->getStream()->assignments as $assignment) {
+            $type  = $assignment->fieldType();
             $field = $assignment->field;
-            $type  = $field->type;
+
+            $type->setEntry($entry)->setAssignment($assignment);
 
             if (!in_array($type->fieldName(), $this->ui->getSkips())) {
                 $entry->{$field->slug} = \Input::get($type->fieldName());

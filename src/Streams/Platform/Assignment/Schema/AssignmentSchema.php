@@ -53,8 +53,17 @@ class AssignmentSchema
                     $constraint
                 );
             }
+            if (!\Schema::hasColumn($entryTable, $columnName)) {
+                $this->addColumn(
+                    $entryTable,
+                    $assignment,
+                    $fieldType,
+                    $columnName,
+                    $columnTypeMethod,
+                    $constraint
+                );
+            }
         } else {
-            // @todo - Might need to ALWAYS add to parent column
             if (!\Schema::hasColumn($entryTable, $columnName)) {
                 $this->addColumn(
                     $entryTable,
