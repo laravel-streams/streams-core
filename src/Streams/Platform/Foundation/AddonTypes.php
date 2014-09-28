@@ -49,7 +49,6 @@ class AddonTypes
     public function register(Container $app)
     {
         foreach ($this->addonTypes as $type => $class) {
-            /** @var $manager AddonManagerAbstract */
             $manager = new $class($app['streams.classloader'], $app['files']);
 
             \App::instance('streams.' . $type, $manager);
