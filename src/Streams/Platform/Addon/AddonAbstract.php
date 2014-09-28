@@ -214,6 +214,22 @@ abstract class AddonAbstract implements PresenterInterface
     }
 
     /**
+     * Return a new service provider instance.
+     *
+     * @return null
+     */
+    public function newServiceProvider()
+    {
+        $serviceProvider = get_called_class() . 'ServiceProvider';
+
+        if (class_exists($serviceProvider)) {
+            return new $serviceProvider(app());
+        }
+
+        return null;
+    }
+
+    /**
      * Object to string method.
      * This is required of the presenter.
      *
