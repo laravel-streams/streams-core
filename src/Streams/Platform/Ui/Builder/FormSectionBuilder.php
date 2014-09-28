@@ -44,7 +44,7 @@ class FormSectionBuilder extends FormBuilderAbstract
                 $assignment = $assignments->findByFieldSlug($field);
                 $type       = $assignment->fieldType();
 
-                $type->setEntry($entry)->setAssignment($assignment)->setValue($entry->getResource()->{$field});
+                $type->setEntry($entry)->setAssignment($assignment)->setValue($entry->{$field});
 
                 $element = $type->element();
 
