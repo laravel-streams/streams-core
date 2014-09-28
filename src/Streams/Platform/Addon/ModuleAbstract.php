@@ -104,20 +104,4 @@ abstract class ModuleAbstract extends AddonAbstract
 
         return new ModuleTag();
     }
-
-    /**
-     * Return a new ModuleServiceProvider instance.
-     *
-     * @return ModuleServiceProvider
-     */
-    public function newServiceProvider()
-    {
-        $serviceProvider = get_called_class() . 'ServiceProvider';
-
-        if (class_exists($serviceProvider)) {
-            return new $serviceProvider;
-        }
-
-        return new ModuleServiceProvider(app());
-    }
 }
