@@ -12,7 +12,7 @@ class AddonServiceProvider extends ServiceProvider
      * @var array
      */
     protected $addonTypes = [
-        //'distributions',
+        'distributions',
         'field_types',
         'extensions',
         'modules',
