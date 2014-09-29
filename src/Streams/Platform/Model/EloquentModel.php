@@ -36,11 +36,11 @@ class EloquentModel extends Model implements ArrayableInterface, PresenterInterf
     protected $translatedAttributes = [];
 
     /**
-     * Enable revisions.
+     * Revisionable flag.
      *
      * @var bool
      */
-    protected $revisionEnabled = false;
+    protected $revisionable = false;
 
     /**
      * Validate the model by default.
@@ -85,6 +85,16 @@ class EloquentModel extends Model implements ArrayableInterface, PresenterInterf
         } else {
             return parent::save($rules, $customMessages, $options, $beforeSave, $afterSave);
         }
+    }
+
+    /**
+     * Return an identifiable name.
+     *
+     * @return string
+     */
+    public function identifiableName()
+    {
+        return $this->getKey();
     }
 
     /**
