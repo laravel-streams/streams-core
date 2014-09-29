@@ -34,9 +34,6 @@
             "Streams\\Platform": "src/"
         }
     },
-    "config": {
-        "bin-dir": "bin"
-    },
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
