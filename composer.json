@@ -30,7 +30,7 @@
         "phpspec/phpspec": "~2.0"
     },
     "autoload": {
-        "psr-4": {
+        "psr-0": {
             "Streams\\Platform": "src/"
         }
     },
