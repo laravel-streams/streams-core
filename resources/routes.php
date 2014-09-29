@@ -1,7 +1,5 @@
 <?php
 
-Route::get('/', 'HomeControllersss@index');
-
 // Authenticate anything behind admin/
 Route::when('admin*', 'auth');
 

@@ -12,7 +12,7 @@ class AuthFilter
     {
         $ignore = array('login', 'logout');
 
-        if (!in_array(\Request::segment(2), $ignore) and !\Sentry::check()) {
+        if (\Application::boot() and !in_array(\Request::segment(2), $ignore) and !\Sentry::check()) {
 
             \Session::put('url.intended', \Request::url());
 

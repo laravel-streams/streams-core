@@ -34,11 +34,13 @@ class Application
      */
     public function boot($appRef = null)
     {
-        if ($appRef) {
-            $this->appRef = $appRef;
-        } else {
-            if (!$this->isLocated()) {
-                $this->locate();
+        if ($this->isInstalled()) {
+            if ($appRef) {
+                $this->appRef = $appRef;
+            } else {
+                if (!$this->isLocated()) {
+                    $this->locate();
+                }
             }
         }
 
