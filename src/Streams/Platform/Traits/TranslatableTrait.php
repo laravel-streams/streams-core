@@ -1,8 +1,9 @@
 <?php namespace Streams\Platform\Traits;
 
+use Illuminate\Database\Eloquent\MassAssignmentException;
+
 trait TranslatableTrait
 {
-
     /**
      * Alias for getTranslation()
      */
@@ -19,6 +20,13 @@ trait TranslatableTrait
         return $this->getTranslation($locale, true);
     }
 
+    /**
+     * Get translation of model.
+     *
+     * @param null $locale
+     * @param bool $withFallback
+     * @return null
+     */
     public function getTranslation($locale = null, $withFallback = false)
     {
         $locale       = $locale ? : \App::getLocale();
@@ -27,18 +35,24 @@ trait TranslatableTrait
         if ($this->getTranslationByLocaleKey($locale)) {
             $translation = $this->getTranslationByLocaleKey($locale);
         } elseif ($withFallback
-            && \App::make('config')->has('app.fallback_locale')
-            && $this->getTranslationByLocaleKey(\App::make('config')->get('app.fallback_locale'))
+            and \App::make('config')->has('app.fallback_locale')
+            and $this->getTranslationByLocaleKey(\App::make('config')->get('app.fallback_locale'))
         ) {
             $translation = $this->getTranslationByLocaleKey(\App::make('config')->get('app.fallback_locale'));
         } else {
-            $translation = $this->getNewTranslationInstance($locale);
+            $translation = $this->newTranslationInstance($locale);
             $this->translations->add($translation);
         }
 
         return $translation;
     }
 
+    /**
+     * Check if the model has a translation.
+     *
+     * @param null $locale
+     * @return bool
+     */
     public function hasTranslation($locale = null)
     {
         $locale = $locale ? : \App::getLocale();
@@ -52,40 +66,69 @@ trait TranslatableTrait
         return false;
     }
 
+    /**
+     * Get the models translated name.
+     *
+     * @return string
+     */
     public function getTranslationModelName()
     {
         return $this->translationModel ? : $this->getTranslationModelNameDefault();
     }
 
+    /**
+     * Return the default model translation name.
+     *
+     * @return string
+     */
     public function getTranslationModelNameDefault()
     {
         $config = \App::make('config');
+
         return get_class($this) . $config->get('app.translatable_suffix', 'Translation');
     }
 
+    /**
+     * Get the relation key to native table.
+     *
+     * @return mixed
+     */
     public function getRelationKey()
     {
         return $this->translationForeignKey ? : $this->getForeignKey();
     }
 
+    /**
+     * Get the local key.
+     *
+     * @return string
+     */
     public function getLocaleKey()
     {
         return $this->localeKey ? : 'locale';
     }
 
-    public function translations()
-    {
-        return $this->hasMany($this->getTranslationModelName(), $this->getRelationKey());
-    }
-
+    /**
+     * Get an attribute value.
+     *
+     * @param $key
+     * @return mixed
+     */
     public function getAttribute($key)
     {
         if ($this->isKeyReturningTranslationText($key)) {
             return $this->getTranslation()->$key;
         }
+
         return parent::getAttribute($key);
     }
 
+    /**
+     * Set an attribute value.
+     *
+     * @param $key
+     * @param $value
+     */
     public function setAttribute($key, $value)
     {
         if (in_array($key, $this->translatedAttributes)) {
@@ -95,28 +138,38 @@ trait TranslatableTrait
         }
     }
 
+    /**
+     * Save the model.
+     *
+     * @param array $options
+     * @return bool
+     */
     public function save(array $options = array())
     {
         if ($this->exists) {
             if (count($this->getDirty()) > 0) {
-                // If $this->exists and dirty, parent::save() has to return true. If not,
-                // an error has occurred. Therefore we shouldn't save the translations.
                 if (parent::save($options)) {
                     return $this->saveTranslations();
                 }
+
                 return false;
             } else {
-                // If $this->exists and not dirty, parent::save() skips saving and returns
-                // false. So we have to save the translations
                 return $this->saveTranslations();
             }
         } elseif (parent::save($options)) {
-            // We save the translations only if the instance is saved in the database.
             return $this->saveTranslations();
         }
+
         return false;
     }
 
+    /**
+     * Saturate the model data.
+     *
+     * @param array $attributes
+     * @return mixed
+     * @throws MassAssignmentException
+     */
     public function fill(array $attributes)
     {
         $totallyGuarded = $this->totallyGuarded();
@@ -132,6 +185,7 @@ trait TranslatableTrait
                         throw new MassAssignmentException($key);
                     }
                 }
+
                 unset($attributes[$key]);
             }
         }
@@ -139,6 +193,12 @@ trait TranslatableTrait
         return parent::fill($attributes);
     }
 
+    /**
+     * Get translation by locale key.
+     *
+     * @param $key
+     * @return null
+     */
     private function getTranslationByLocaleKey($key)
     {
         foreach ($this->translations as $translation) {
@@ -146,39 +206,68 @@ trait TranslatableTrait
                 return $translation;
             }
         }
+
         return null;
     }
 
+    /**
+     * Does the key return translated values?
+     *
+     * @param $key
+     * @return bool
+     */
     protected function isKeyReturningTranslationText($key)
     {
         return in_array($key, $this->translatedAttributes);
     }
 
+    /**
+     * Is the key locale?
+     *
+     * @param $key
+     * @return bool
+     */
     protected function isKeyALocale($key)
     {
-        $locales = $this->getLocales();
-        return in_array($key, $locales);
+        return in_array($key, $this->getLocales());
     }
 
+    /**
+     * Get available locales.
+     *
+     * @return mixed
+     */
     protected function getLocales()
     {
-        $config = \App::make('config');
-        return $config->get('app.locales', array());
+        return \App::make('config')->get('app.locales', array());
     }
 
+    /**
+     * Save the translations.
+     *
+     * @return bool
+     */
     protected function saveTranslations()
     {
         $saved = true;
 
         foreach ($this->translations as $translation) {
-            if ($saved && $this->isTranslationDirty($translation)) {
+            if ($saved and $this->isTranslationDirty($translation)) {
                 $translation->setAttribute($this->getRelationKey(), $this->getKey());
+
                 $saved = $translation->save();
             }
         }
+
         return $saved;
     }
 
+    /**
+     * Is the translation dirty?
+     *
+     * @param $translation
+     * @return bool
+     */
     protected function isTranslationDirty($translation)
     {
         $dirtyAttributes = $translation->getDirty();
@@ -186,17 +275,42 @@ trait TranslatableTrait
         return count($dirtyAttributes) > 0;
     }
 
-    protected function getNewTranslationInstance($locale)
+    /**
+     * Return a new translation instance.
+     *
+     * @param $locale
+     * @return mixed
+     */
+    protected function newTranslationInstance($locale)
     {
-        $modelName   = $this->getTranslationModelName();
+        $modelName = $this->getTranslationModelName();
+
         $translation = new $modelName;
+
         $translation->setAttribute($this->getLocaleKey(), $locale);
+
         return $translation;
     }
 
+    /**
+     * The translations relationship.
+     *
+     * @return mixed
+     */
+    public function translations()
+    {
+        return $this->hasMany($this->getTranslationModelName(), $this->getRelationKey());
+    }
+
+    /**
+     * Check if a key is set on the local or translated models.
+     *
+     * @param $key
+     * @return bool
+     */
     public function __isset($key)
     {
-        return (in_array($key, $this->translatedAttributes) || parent::__isset($key));
+        return (in_array($key, $this->translatedAttributes) or parent::__isset($key));
     }
 
 }
