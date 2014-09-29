@@ -33,6 +33,11 @@ class BootFilter
 
             $theme = \Theme::active();
 
+            // @todo - replace this with distribution logic
+            if (!$theme) {
+                $theme = \Theme::find('streams');
+            }
+
             \Lang::addNamespace('theme', $theme->getPath('resources/lang'));
 
             // Set the active module

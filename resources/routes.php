@@ -4,6 +4,7 @@ Route::get('/', 'HomeControllersss@index');
 
 // Authenticate anything behind admin/
 Route::when('admin*', 'auth');
+
 // Login routes
 Route::get('admin/login', 'Streams\Platform\Http\Controller\AdminController@login');
 Route::post('admin/login', 'Streams\Platform\Http\Controller\AdminController@attemptLogin');
@@ -29,3 +30,6 @@ Route::get(
         return Redirect::to('admin/dashboard');
     }
 );
+
+// Installer loads from distribution
+Distribution::find('base');
