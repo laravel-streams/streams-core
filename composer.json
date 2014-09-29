@@ -26,10 +26,16 @@
         "lmammino/jsmin4assetic": "1.0.*@dev",
         "artdarek/oauth-4-laravel": "dev-master"
     },
+    "require-dev": {
+        "phpspec/phpspec": "~2.0"
+    },
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "Streams\\Platform": "src/"
         }
+    },
+    "config": {
+        "bin-dir": "bin"
     },
     "minimum-stability": "dev",
     "extra": {
