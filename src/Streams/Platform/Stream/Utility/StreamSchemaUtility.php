@@ -25,15 +25,18 @@ class StreamSchemaUtility
      */
     public function destroyNamespace($namespace)
     {
-        // @todo - We need a more elegant design than this.
-        // Call delete on the collections to iterate over items.
         $this->streams->findAllByNamespace($namespace)->delete();
         $this->fields->findAllByNamespace($namespace)->delete();
 
-        // @todo - put these in a maintenance method (heavy)
-        /*$this->fields->cleanup();
-        $this->assignments->cleanup();*/
-
         return true;
+    }
+
+    /**
+     * Clean up any garbage sitting around.
+     */
+    public function cleanup()
+    {
+        $this->fields->findAllOrphaned()->delete();
+        $this->assignments->findAllOrphaned()->delete();
     }
 }

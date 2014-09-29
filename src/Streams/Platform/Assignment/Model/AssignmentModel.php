@@ -15,6 +15,21 @@ class AssignmentModel extends FieldModel
     protected $table = 'streams_assignments';
 
     /**
+     * Find orphaned assignments.
+     *
+     * @return mixed
+     */
+    public function findAllOrphaned()
+    {
+        return $this->select('streams_assignments.*')
+            ->leftJoin('streams_streams', 'streams_assignments.stream_id', '=', 'streams_streams.id')
+            ->leftJoin('streams_fields', 'streams_assignments.field_id', '=', 'streams_fields.id')
+            ->whereNull('streams_streams.id')
+            ->orWhereNull('streams_fields.id')
+            ->get();
+    }
+
+    /**
      * Return the field type.
      *
      * @return mixed

@@ -2,6 +2,7 @@
 
 use Streams\Platform\Model\EloquentModel;
 use Streams\Platform\Field\Presenter\FieldPresenter;
+use Streams\Platform\Assignment\Model\AssignmentModel;
 use Streams\Platform\Field\Collection\FieldCollection;
 
 class FieldModel extends EloquentModel
@@ -51,21 +52,16 @@ class FieldModel extends EloquentModel
     }
 
     /**
-     * Clean up garbage records.
-     * Be careful using this.
-     * It can be very expensive.
+     * Find all orphaned fields.
      *
-     * @return bool
+     * @return mixed
      */
-    public function cleanup()
+    public function findAllOrphaned()
     {
-        $ids = AssignmentModel::all()->lists('id');
-
-        if (!$ids) {
-            return true;
-        }
-
-        return $this->whereNotIn('id', $ids)->delete();
+        return $this->select('streams_fields.*')
+                ->leftJoin('streams_streams', 'streams_fields.namespace', '=', 'streams_streams.namespace')
+                ->whereNull('streams_streams.id')
+                ->get();
     }
 
     /**
