@@ -36,7 +36,7 @@ class ThemeServiceProvider extends ServiceProvider
 
         // @todo - replace this with distribution logic
         if (!$theme) {
-            $theme = $themes->find('streams');
+            $theme = $themes->make('streams');
         }
 
 
