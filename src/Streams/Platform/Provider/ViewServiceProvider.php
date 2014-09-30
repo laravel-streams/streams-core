@@ -20,7 +20,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     protected function setViewPath()
     {
-        $this->app->make('config')->set('view.paths', [__DIR__ . '/../../../../resources/views']);
+        app('config')->set('view.paths', [__DIR__ . '/../../../../resources/views']);
     }
 
     /**
@@ -28,7 +28,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     protected function addStreamsNamespaceHint()
     {
-        $this->app->make('view')->addNamespace('streams', __DIR__ . '/../../../../resources/views');
+        app('view')->addNamespace('streams', __DIR__ . '/../../../../resources/views');
     }
 
     /**
@@ -36,6 +36,6 @@ class ViewServiceProvider extends ServiceProvider
      */
     protected function registerOurViewComposer()
     {
-        $this->app->make('view')->composer('*', 'Streams\Platform\Support\Composer');
+        app('view')->composer('*', 'Streams\Platform\Support\Composer');
     }
 }

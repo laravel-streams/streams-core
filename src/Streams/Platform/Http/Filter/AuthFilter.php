@@ -9,9 +9,9 @@ class AuthFilter
      */
     public function filter()
     {
-        $auth    = app()->make('auth');
-        $session = app()->make('session');
-        $request = app()->make('request');
+        $auth    = app('auth');
+        $session = app('session');
+        $request = app('request');
 
         $ignore = array('login', 'logout');
 

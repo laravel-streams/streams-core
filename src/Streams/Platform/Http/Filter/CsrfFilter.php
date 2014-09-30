@@ -12,7 +12,7 @@ class CsrfFilter
      */
     public function filter(Request $request)
     {
-        $session = app()->make('session');
+        $session = app('session');
 
         if ($session->token() != $request->input('_token')) {
             throw new TokenMismatchException;

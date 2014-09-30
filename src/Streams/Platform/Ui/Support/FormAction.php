@@ -52,7 +52,7 @@ class FormAction implements FormActionInterface
     public function redirect($entry)
     {
         if ($redirect = evaluate($this->getOption('redirect'), [$entry])) {
-            app()->make('streams.messages')->flash();
+            app('streams.messages')->flash();
 
             header('Location: ' . url($redirect));
         }

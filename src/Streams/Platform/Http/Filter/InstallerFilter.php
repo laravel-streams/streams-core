@@ -13,7 +13,7 @@ class InstallerFilter
      */
     public function filter(Request $request)
     {
-        $application = app()->make('streams.application');
+        $application = app('streams.application');
 
         if ($request->segment(1) !== 'installer' and !$application->isInstalled()) {
             return redirect('installer');

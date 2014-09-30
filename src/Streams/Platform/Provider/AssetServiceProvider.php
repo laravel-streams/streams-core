@@ -32,6 +32,6 @@ class AssetServiceProvider extends ServiceProvider
      */
     protected function addStreamsNamespaceHint()
     {
-        $this->app->make('streams.asset')->addNamespace('streams', __DIR__ . '/../../../../resources');
+        app('streams.asset')->addNamespace('streams', __DIR__ . '/../../../../resources');
     }
 }

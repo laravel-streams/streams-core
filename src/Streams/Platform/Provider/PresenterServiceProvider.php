@@ -25,11 +25,11 @@ class PresenterServiceProvider extends ServiceProvider
      */
     protected function registerContentRenderingTrigger()
     {
-        $this->app->make('view')->composer(
+        app('view')->composer(
             '*',
             function ($view) {
                 if ($view instanceOf \Illuminate\View\View) {
-                    $this->app->make('events')->fire('content.rendering', array($view));
+                    app('events')->fire('content.rendering', array($view));
                 }
             }
         );
@@ -41,7 +41,7 @@ class PresenterServiceProvider extends ServiceProvider
      */
     protected function registerContentRenderingListener()
     {
-        $this->app->make('events')->listen(
+        app('events')->listen(
             'content.rendering',
             function ($view) {
                 $data = array_merge($view->getFactory()->getShared(), $view->getData());
@@ -51,7 +51,7 @@ class PresenterServiceProvider extends ServiceProvider
                 }
 
                 foreach ($data as $key => $value) {
-                    $view[$key] = $this->app->make('streams.decorator')->decorate($value);
+                    $view[$key] = app('streams.decorator')->decorate($value);
                 }
             }
         );

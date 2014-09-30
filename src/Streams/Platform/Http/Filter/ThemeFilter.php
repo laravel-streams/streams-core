@@ -9,13 +9,13 @@ class ThemeFilter
      */
     public function filter()
     {
-        $view       = app()->make('view');
-        $request    = app()->make('request');
-        $translator = app()->make('translator');
+        $view       = app('view');
+        $request    = app('request');
+        $translator = app('translator');
 
-        $asset  = app()->make('streams.asset');
-        $image  = app()->make('streams.image');
-        $themes = app()->make('streams.themes');
+        $asset  = app('streams.asset');
+        $image  = app('streams.image');
+        $themes = app('streams.themes');
 
 
         // @todo - get this from the database.

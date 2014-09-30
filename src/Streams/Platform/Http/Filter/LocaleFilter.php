@@ -9,11 +9,11 @@ class LocaleFilter
      */
     public function filter()
     {
-        $auth        = app()->make('auth');
-        $config      = app()->make('config');
-        $session     = app()->make('session');
-        $request     = app()->make('request');
-        $application = app()->make('streams.application');
+        $auth        = app('auth');
+        $config      = app('config');
+        $session     = app('session');
+        $request     = app('request');
+        $application = app('streams.application');
 
         // If the application is installed try getting
         // and storing the locale on the user. If the

@@ -16,9 +16,9 @@ class ErrorServiceProvider extends ServiceProvider
         // even register several error handlers to handle different types of
         // exceptions. If nothing is returned, the default error view is
         // shown, which includes a detailed stack trace during debug.
-        $this->app->make('app')->error(
+        app('app')->error(
             function (\Exception $e) {
-                $this->app->make('log')->error($e);
+                app('log')->error($e);
             }
         );
     }

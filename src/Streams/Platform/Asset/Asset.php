@@ -176,15 +176,16 @@ class Asset
      */
     protected function pipe($identifier)
     {
-        $application = app()->make('streams.application');
+        $file        = app('files');
+        $application = app('streams.application');
 
         $filename = $this->filename($identifier);
 
-        $extension = \File::extension($filename);
+        $extension = $file->extension($filename);
 
         $path = 'assets/' . $application->getReference() . '/' . $extension . '/' . $filename;
 
-        if (!\File::exists($path) or isset($_GET['_compile'])) {
+        if (!$file->exists($path) or isset($_GET['_compile'])) {
             try {
                 $this->publish($identifier, $path);
             } catch (\Exception $e) {

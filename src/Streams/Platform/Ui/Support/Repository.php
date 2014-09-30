@@ -112,7 +112,7 @@ class Repository
         $entry  = $this->ui->getEntry();
         $action = $this->ui->actions()->active();
 
-        $messages = app()->make('streams.messages');
+        $messages = app('streams.messages');
 
         foreach ($entry->getStream()->assignments as $assignment) {
             $type  = $assignment->fieldType();

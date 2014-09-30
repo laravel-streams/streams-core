@@ -9,13 +9,13 @@ class ModuleFilter
      */
     public function filter()
     {
-        $view       = app()->make('view');
-        $request    = app()->make('request');
-        $translator = app()->make('translator');
+        $view       = app('view');
+        $request    = app('request');
+        $translator = app('translator');
 
-        $asset   = app()->make('streams.asset');
-        $image   = app()->make('streams.image');
-        $modules = app()->make('streams.modules');
+        $asset   = app('streams.asset');
+        $image   = app('streams.image');
+        $modules = app('streams.modules');
 
 
         // Set the active module

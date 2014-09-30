@@ -9,6 +9,6 @@ class StartFilter
      */
     public function filter()
     {
-        app()->make('streams.application')->setup();
+        app('streams.application')->setup();
     }
 }

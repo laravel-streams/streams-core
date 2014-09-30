@@ -113,15 +113,17 @@ class Image extends ImageManager
      */
     protected function pipe()
     {
-        $application = app()->make('streams.application');
+        $file = app('files');
+
+        $application = app('streams.application');
 
         $filename = $this->filename();
 
-        $extension = \File::extension($filename);
+        $extension = $file->extension($filename);
 
         $path = 'assets/' . $application->getReference() . '/' . $extension . '/' . $filename;
 
-        if (!\File::exists($path) or isset($_GET['_compile'])) {
+        if (!$file->exists($path) or isset($_GET['_compile'])) {
             $this->publish($path);
         }
 

@@ -12,7 +12,7 @@ class LogServiceProvider extends ServiceProvider
     public function register()
     {
     }
-    
+
     /**
      * Configure the application's logging facilities.
      *
@@ -20,6 +20,6 @@ class LogServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->make('log')->useFiles(storage_path() . '/logs/laravel.log');
+        app('log')->useFiles(storage_path() . '/logs/laravel.log');
     }
 }

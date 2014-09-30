@@ -10,6 +10,6 @@ class MessagesServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->instance('streams.messages', new Messages($this->app->make('session.store')));
+        $this->app->instance('streams.messages', new Messages(app('session.store')));
     }
 }

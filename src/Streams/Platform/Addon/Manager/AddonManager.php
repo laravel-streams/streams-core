@@ -114,7 +114,7 @@ class AddonManager
      */
     protected function loadData()
     {
-        $application = app()->make('streams.application');
+        $application = app('streams.application');
 
         if ($this->storage and $application->locate()) {
             $table = $application->getReference() . '_addons_' . $this->folder;
@@ -229,9 +229,9 @@ class AddonManager
         \Config::addNamespace($binding, $path . '/resources/config');
 
         // Add asset and view paths
-        app()->make('view')->addNamespace($binding, $path . '/resources/views');
-        app()->make('streams.asset')->addNamespace($binding, $path . '/resources');
-        app()->make('streams.image')->addNamespace($binding, $path . '/resources');
+        app('view')->addNamespace($binding, $path . '/resources/views');
+        app('streams.asset')->addNamespace($binding, $path . '/resources');
+        app('streams.image')->addNamespace($binding, $path . '/resources');
     }
 
     /**
@@ -299,7 +299,7 @@ class AddonManager
 
                 \Event::fire($addon->getType() . '.' . $addon->getSlug() . 'make', [$addon]);
 
-                return app()->make('streams.decorator')->decorate($addon);
+                return app('streams.decorator')->decorate($addon);
             }
         );
     }
