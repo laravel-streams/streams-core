@@ -11,8 +11,8 @@ class FilterServiceProvider extends \Illuminate\Routing\FilterServiceProvider
         'Streams\Platform\Http\Filter\StartFilter',
         'Streams\Platform\Http\Filter\InstallerFilter',
         'Streams\Platform\Http\Filter\LocaleFilter',
-        'Streams\Platform\Http\Filter\SetupThemeFilter',
-        'Streams\Platform\Http\Filter\SetupModuleFilter',
+        'Streams\Platform\Http\Filter\ThemeFilter',
+        'Streams\Platform\Http\Filter\ModuleFilter',
     ];
 
     /**

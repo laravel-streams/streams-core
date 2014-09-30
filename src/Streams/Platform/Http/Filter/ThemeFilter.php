@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Http\Filter;
 
-class SetupThemeFilter
+class ThemeFilter
 {
     /**
      * Setup the active theme.

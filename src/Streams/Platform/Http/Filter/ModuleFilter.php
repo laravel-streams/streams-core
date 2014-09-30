@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Http\Filter;
 
-class SetupModuleFilter
+class ModuleFilter
 {
     /**
      * Setup the active module.
@@ -30,9 +30,11 @@ class SetupModuleFilter
 
 
         // Setup namespace for the active module.
-        $asset->addNamespace('module', $module->getPath('resources'));
-        $image->addNamespace('module', $module->getPath('resources'));
-        $view->addNamespace('module', $module->getPath('resources/views'));
-        $translator->addNamespace('module', $module->getPath('resources/lang'));
+        if ($module) {
+            $asset->addNamespace('module', $module->getPath('resources'));
+            $image->addNamespace('module', $module->getPath('resources'));
+            $view->addNamespace('module', $module->getPath('resources/views'));
+            $translator->addNamespace('module', $module->getPath('resources/lang'));
+        }
     }
 }
