@@ -30,13 +30,13 @@ class  ModuleUninstallCommand extends BaseCommand {
 
         $name = ucfirst($slug);
 
-        $module = \Module::get($slug);
+        $module = app()->make('streams.modules')->get($slug);
 
         if (!$module) {
             $this->error("{$name} module not found.");
         } elseif ($module->isCore()) {
             $this->error("{$name} is a core module and cannot be uninstalled.");
-        } elseif (\Module::install($slug)) {
+        } elseif (app()->make('streams.modules')->install($slug)) {
             $this->info("{$name} module uninstalled.");
         } else {
             $this->error("There was a problem uninstalling {$name} module.");

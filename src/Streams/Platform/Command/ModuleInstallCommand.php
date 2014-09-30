@@ -28,9 +28,9 @@ class  ModuleInstallCommand extends BaseCommand {
 	{
         $slug = $this->argument('slug');
 
-        if (!\Module::get($slug)) {
+        if (!app()->make('streams.modules')->get($slug)) {
             $this->error("{$slug} module not found.");
-        } elseif (\Module::install($slug)) {
+        } elseif (app()->make('streams.modules')->install($slug)) {
             $this->info("{$slug} module installed.");
         } else {
             $this->error("There was a problem installing {$slug} module.");

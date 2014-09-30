@@ -34,29 +34,29 @@ class BootFilter
         $application->setup();
 
         if (\Request::segment(1) === 'admin') {
-            \Theme::setActive('streams');
+            app()->make('streams.themes')->setActive('streams');
         } else {
-            \Theme::setActive('aiws');
+            app()->make('streams.themes')->setActive('aiws');
         }
 
-        $theme = \Theme::active();
+        $theme = app()->make('streams.themes')->active();
 
         // @todo - replace this with distribution logic
         if (!$theme) {
-            $theme = \Theme::find('streams');
+            $theme = app()->make('streams.themes')->find('streams');
         }
 
         $translator->addNamespace('theme', $theme->getPath('resources/lang'));
 
         // Set the active module
         if (\Request::segment(1) == 'admin') {
-            \Module::setActive(\Request::segment(2));
+            app()->make('streams.modules')->setActive(\Request::segment(2));
         } else {
-            \Module::setActive(\Request::segment(1));
+            app()->make('streams.modules')->setActive(\Request::segment(1));
         }
 
         // Add the module namespace.
-        if ($module = \Module::active()) {
+        if ($module = app()->make('streams.modules')->active()) {
             $view->addNamespace('module', $module->getPath('resources/views'));
             $translator->addNamespace('module', $module->getPath('resources/lang'));
         }

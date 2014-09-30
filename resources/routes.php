@@ -30,4 +30,4 @@ Route::get(
 );
 
 // Installer loads from distribution
-Distribution::find('base');
+app()->make('streams.distributions')->find('base');

@@ -65,7 +65,7 @@ abstract class ModuleAbstract extends AddonAbstract
      */
     public function isActive()
     {
-        return ($this->slug == \Module::getActive());
+        return ($this->slug == app()->make('streams.modules')->getActive());
     }
 
     /**
