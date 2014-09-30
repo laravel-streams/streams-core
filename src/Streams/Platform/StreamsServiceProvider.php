@@ -25,8 +25,6 @@ class StreamsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerPackageAliases();
-        $this->registerCoreAliases();
-
         $this->registerPackages();
         $this->registerCore();
     }
@@ -42,14 +40,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         $this->loader->alias('Form', 'Illuminate\Html\FormFacade');
         $this->loader->alias('HTML', 'Illuminate\Html\HtmlFacade');
-    }
-
-    /**
-     * Register core aliases.
-     */
-    protected function registerCoreAliases()
-    {
-        $this->loader->alias('StreamSchemaUtility', 'Streams\Platform\Facade\StreamSchemaUtilityFacade');
     }
 
     /**
