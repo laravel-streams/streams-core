@@ -137,8 +137,10 @@ class FieldModel extends EloquentModel
      */
     public function getTypeAttribute($type)
     {
-        if (\FieldType::exists($type)) {
-            $type = \FieldType::find($type);
+        $manager = app()->make('streams.field_types');
+
+        if ($manager->exists($type)) {
+            $type = $manager->find($type);
         }
 
         return $type;
