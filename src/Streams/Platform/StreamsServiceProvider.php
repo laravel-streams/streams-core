@@ -74,10 +74,9 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerCore()
     {
         \App::register('Streams\Platform\Provider\ApplicationServiceProvider');
-
         \App::register('Streams\Platform\Provider\ViewServiceProvider');
-
         \App::register('Streams\Platform\Provider\LogServiceProvider');
+
         \App::register('Streams\Platform\Provider\RouteServiceProvider');
         \App::register('Streams\Platform\Provider\AssetServiceProvider');
         \App::register('Streams\Platform\Provider\ImageServiceProvider');

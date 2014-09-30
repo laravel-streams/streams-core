@@ -1,11 +1,9 @@
 <?php namespace Streams\Platform\Provider;
 
-use Log;
 use Illuminate\Support\ServiceProvider;
 
 class LogServiceProvider extends ServiceProvider
 {
-
     /**
      * Configure the application's logging facilities.
      *
@@ -13,7 +11,7 @@ class LogServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Log::useFiles(storage_path() . '/logs/laravel.log');
+        app()->make('log')->useFiles(storage_path() . '/logs/laravel.log');
     }
 
     /**
@@ -25,5 +23,4 @@ class LogServiceProvider extends ServiceProvider
     {
         //
     }
-
 }
