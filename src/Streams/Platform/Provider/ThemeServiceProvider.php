@@ -1,13 +1,13 @@
-<?php namespace Streams\Platform\Http\Filter;
+<?php namespace Streams\Platform\Provider;
 
-class ThemeFilter
+use Illuminate\Support\ServiceProvider;
+
+class ThemeServiceProvider extends ServiceProvider
 {
     /**
-     * Setup the active theme.
-     *
-     * @return mixed
+     * Register the service provider.
      */
-    public function filter()
+    public function register()
     {
         $view       = app('view');
         $request    = app('request');

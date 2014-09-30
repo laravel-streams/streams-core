@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Http\Filter;
 
-class StartFilter
+class SetupFilter
 {
     /**
      * Setup the application.

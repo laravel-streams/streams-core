@@ -1,13 +1,13 @@
-<?php namespace Streams\Platform\Http\Filter;
+<?php namespace Streams\Platform\Provider;
 
-class ModuleFilter
+use Illuminate\Support\ServiceProvider;
+
+class ModuleServiceProvider extends ServiceProvider
 {
     /**
-     * Setup the active module.
-     *
-     * @return mixed
+     * Register the service provider.
      */
-    public function filter()
+    public function register()
     {
         $view       = app('view');
         $request    = app('request');

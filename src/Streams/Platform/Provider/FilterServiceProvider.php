@@ -8,11 +8,8 @@ class FilterServiceProvider extends \Illuminate\Routing\FilterServiceProvider
      * @var array
      */
     protected $before = [
-        'Streams\Platform\Http\Filter\StartFilter',
+        'Streams\Platform\Http\Filter\SetupFilter',
         'Streams\Platform\Http\Filter\InstallerFilter',
-        'Streams\Platform\Http\Filter\LocaleFilter',
-        'Streams\Platform\Http\Filter\ThemeFilter',
-        'Streams\Platform\Http\Filter\ModuleFilter',
     ];
 
     /**
