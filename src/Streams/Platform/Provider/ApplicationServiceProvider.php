@@ -2,6 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 use Streams\Platform\Foundation\Application;
+use Streams\Platform\Foundation\Model\ApplicationModel;
 use Streams\Platform\Stream\Utility\StreamSchemaUtility;
 
 class ApplicationServiceProvider extends ServiceProvider
@@ -18,7 +19,7 @@ class ApplicationServiceProvider extends ServiceProvider
 
         $this->addNamespace();
 
-        \Application::locate();
+        app()->make('streams.application')->locate();
     }
 
     /**
@@ -29,7 +30,7 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->app->singleton(
             'streams.application',
             function () {
-                return new Application($this->app);
+                return new Application(new ApplicationModel(), $this->app);
             }
         );
     }

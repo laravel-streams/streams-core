@@ -2,16 +2,15 @@
 
 use Composer\Autoload\ClassLoader;
 use Illuminate\Container\Container;
-use Streams\Platform\Foundation\Model\ApplicationModel;
 
-class Application
+class Application implements ApplicationInterface
 {
     /**
      * The application reference.
      *
      * @var null
      */
-    protected $appRef = null;
+    protected $reference = null;
 
     /**
      * Keep installed status around.
@@ -21,29 +20,33 @@ class Application
     protected $installed = null;
 
     /**
+     * The application model.
+     *
+     * @var Model\ApplicationModel
+     */
+    protected $model;
+
+    /**
+     * The container object.
+     *
+     * @var
+     */
+    protected $container;
+
+    /**
      * Create a new Application instance
      */
-    public function __construct(Container $app)
+    public function __construct(ApplicationModelInterface $model = null, Container $app = null)
     {
-        $this->app = $app;
-        $this->apps = new ApplicationModel();
+        $this->model     = $model;
+        $this->container = $app;
     }
 
     /**
-     * Boot the application environment.
+     * Setup the application.
      */
-    public function boot($appRef = null)
+    public function setup()
     {
-        if ($this->isInstalled()) {
-            if ($appRef) {
-                $this->appRef = $appRef;
-            } else {
-                if (!$this->isLocated()) {
-                    $this->locate();
-                }
-            }
-        }
-
         $this->setTablePrefix();
         $this->registerEntryModels();
         $this->registerAddons();
@@ -64,12 +67,12 @@ class Application
      */
     protected function registerEntryModels()
     {
-        $this->app['streams.classloader']->addPsr4(
+        $this->container['streams.classloader']->addPsr4(
             'Streams\Platform\Model\\',
-            base_path('storage/models/streams/' . $this->getAppRef())
+            base_path('storage/models/streams/' . $this->getReference())
         );
 
-        $this->app['streams.classloader']->register();
+        $this->container['streams.classloader']->register();
     }
 
     /**
@@ -77,7 +80,7 @@ class Application
      */
     protected function registerAddons()
     {
-        \App::make('streams.addon_types')->boot($this->app);
+        \App::make('streams.addon_types')->boot($this->container);
     }
 
     /**
@@ -87,17 +90,17 @@ class Application
      */
     public function locate($domain = null)
     {
-        if (\Schema::hasTable('apps')) {
-            if (!$this->appRef) {
+        if (\Schema::hasTable('applications')) {
+            if (!$this->reference) {
                 if (!$domain) {
                     $domain = \Request::root();
                 }
 
-                if ($app = $this->apps->findByDomain($domain)) {
+                if ($app = $this->model->findByDomain($domain)) {
 
                     $this->installed = true;
 
-                    $this->appRef = $app->reference;
+                    $this->reference = $app->reference;
 
                     return true;
                 }
@@ -118,9 +121,9 @@ class Application
      *
      * @return null
      */
-    public function getAppRef()
+    public function getReference()
     {
-        return $this->appRef;
+        return $this->reference;
     }
 
     /**
@@ -130,11 +133,11 @@ class Application
      */
     public function tablePrefix()
     {
-        if (!$this->appRef) {
+        if (!$this->reference) {
             $this->locate();
         }
 
-        return $this->appRef . '_';
+        return $this->reference . '_';
     }
 
     /**
@@ -155,15 +158,5 @@ class Application
     protected function isLocated()
     {
         return $this->installed;
-    }
-
-    /**
-     * Does the installer directory exist?
-     *
-     * @return bool
-     */
-    public function installerExists()
-    {
-        return (is_dir(base_path('installer')));
     }
 }

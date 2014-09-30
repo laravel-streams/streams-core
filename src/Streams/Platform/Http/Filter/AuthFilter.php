@@ -10,9 +10,11 @@ class AuthFilter
      */
     public function filter()
     {
+        $application = app()->make('streams.application');
+        
         $ignore = array('login', 'logout');
 
-        if (\Application::boot() and !in_array(\Request::segment(2), $ignore) and !\Sentry::check()) {
+        if ($application->setup() and !in_array(\Request::segment(2), $ignore) and !\Sentry::check()) {
 
             \Session::put('url.intended', \Request::url());
 

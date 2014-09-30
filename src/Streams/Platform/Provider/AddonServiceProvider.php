@@ -2,7 +2,7 @@
 
 use Composer\Autoload\ClassLoader;
 use Illuminate\Support\ServiceProvider;
-use Streams\Platform\Foundation\AddonTypes;
+use Streams\Platform\Addon\AddonTypes;
 
 class AddonServiceProvider extends ServiceProvider
 {

@@ -112,8 +112,10 @@ class AddonManager
      */
     protected function loadData()
     {
-        if ($this->storage and \Application::locate()) {
-            $table = \Application::getAppRef() . '_addons_' . $this->folder;
+        $application = app()->make('streams.application');
+
+        if ($this->storage and $application->locate()) {
+            $table = $application->getReference() . '_addons_' . $this->folder;
 
             $data = \DB::table($table)->get();
 

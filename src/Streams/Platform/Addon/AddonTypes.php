@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Foundation;
+<?php namespace Streams\Platform\Addon;
 
 use Illuminate\Container\Container;
 use Streams\Platform\Manager\AddonManagerAbstract;

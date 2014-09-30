@@ -1,15 +1,16 @@
 <?php namespace Streams\Platform\Http\Filter;
 
+use Streams\Platform\Model\EloquentModel;
+use Streams\Platform\Entry\Model\EntryModel;
+use Streams\Platform\Field\Model\FieldModel;
+use Streams\Platform\Foundation\Application;
+use Streams\Platform\Stream\Model\StreamModel;
+use Streams\Platform\Entry\Observer\EntryObserver;
+use Streams\Platform\Field\Observer\FieldObserver;
+use Streams\Platform\Model\Observer\EloquentObserver;
+use Streams\Platform\Stream\Observer\StreamObserver;
 use Streams\Platform\Assignment\Model\AssignmentModel;
 use Streams\Platform\Assignment\Observer\AssignmentObserver;
-use Streams\Platform\Entry\Model\EntryModel;
-use Streams\Platform\Entry\Observer\EntryObserver;
-use Streams\Platform\Field\Model\FieldModel;
-use Streams\Platform\Field\Observer\FieldObserver;
-use Streams\Platform\Model\EloquentModel;
-use Streams\Platform\Model\Observer\EloquentObserver;
-use Streams\Platform\Stream\Model\StreamModel;
-use Streams\Platform\Stream\Observer\StreamObserver;
 
 class BootFilter
 {
@@ -20,7 +21,13 @@ class BootFilter
      */
     public function filter()
     {
-        \Application::boot();
+        $application = app()->make('streams.application');
+
+        if (!$application->isInstalled()) {
+            return;
+        }
+
+        $application->setup();
 
         if (\Request::segment(1) === 'admin') {
             \Theme::setActive('streams');
@@ -62,7 +69,7 @@ class BootFilter
         \View::share('title', null);
         \View::share('description', null);
 
-        if (\Application::isInstalled()) {
+        if ($application->isInstalled()) {
             if ($locale = \Input::get('locale')) {
                 \Sentry::getUser()->changeLocale($locale);
             }
