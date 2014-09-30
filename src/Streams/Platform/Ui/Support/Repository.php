@@ -112,6 +112,8 @@ class Repository
         $entry  = $this->ui->getEntry();
         $action = $this->ui->actions()->active();
 
+        $messages = app()->make('streams.messages');
+
         foreach ($entry->getStream()->assignments as $assignment) {
             $type  = $assignment->fieldType();
             $field = $assignment->field;
@@ -124,10 +126,10 @@ class Repository
         }
 
         if ($entry->save()) {
-            \Messages::add('success', trans('**Success** Perfect!'));
+            $messages->add('success', trans('**Success** Perfect!'));
         } else {
             foreach ($entry->errors()->all() as $message) {
-                \Messages::add('error', trans('**Error** ' . $message));
+                $messages->add('error', trans('**Error** ' . $message));
             }
         }
 

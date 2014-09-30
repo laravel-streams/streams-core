@@ -12,7 +12,7 @@ class EloquentCollection extends Collection
     public function __construct($models)
     {
         foreach ($models as &$model) {
-            $model = \Decorator::decorate($model);
+            $model = app()->make('streams.decorator')->decorate($model);
         }
 
         return parent::__construct($models);

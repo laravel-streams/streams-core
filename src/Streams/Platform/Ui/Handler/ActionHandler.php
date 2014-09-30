@@ -32,7 +32,7 @@ class ActionHandler
             }
         }
 
-        \Messages::flash();
+        app()->make('streams.messages')->flash();
 
         $redirect = evaluate_key($action, 'redirect', '/poop', [$this->ui]);
 

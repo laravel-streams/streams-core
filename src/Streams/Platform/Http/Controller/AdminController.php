@@ -17,6 +17,8 @@ class AdminController extends BaseController
      */
     public function attemptLogin()
     {
+        $messages = app()->make('streams.messages');
+        
         try {
             $credentials = [
                 'email'    => \Request::get('email'),
@@ -32,29 +34,29 @@ class AdminController extends BaseController
 
             \Event::fire('user.login', $user);
 
-            \Messages::add('info', 'Welcome, ' . $user->name . '.')->flash();
+            $messages->add('info', 'Welcome, ' . $user->name . '.')->flash();
 
             return \Redirect::intended('admin/dashboard');
         } catch (\Cartalyst\Sentry\Users\LoginRequiredException $e) {
-            \Messages::add('error', 'Login field is required.')->flash();
+            $messages->add('error', 'Login field is required.')->flash();
             return \Redirect::to('admin/login');
         } catch (\Cartalyst\Sentry\Users\PasswordRequiredException $e) {
-            \Messages::add('error', 'Password field is required.')->flash();
+            $messages->add('error', 'Password field is required.')->flash();
             return \Redirect::to('admin/login');
         } catch (\Cartalyst\Sentry\Users\WrongPasswordException $e) {
-            \Messages::add('error', 'Wrong password, try again.')->flash();
+            $messages->add('error', 'Wrong password, try again.')->flash();
             return \Redirect::to('admin/login');
         } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
-            \Messages::add('error', 'User was not found.')->flash();
+            $messages->add('error', 'User was not found.')->flash();
             return \Redirect::to('admin/login');
         } catch (\Cartalyst\Sentry\Users\UserNotActivatedException $e) {
-            \Messages::add('error', 'User is not activated.')->flash();
+            $messages->add('error', 'User is not activated.')->flash();
             return \Redirect::to('admin/login');
         } catch (\Cartalyst\Sentry\Throttling\UserSuspendedException $e) {
-            \Messages::add('error', 'User is suspended.')->flash();
+            $messages->add('error', 'User is suspended.')->flash();
             return \Redirect::to('admin/login');
         } catch (\Cartalyst\Sentry\Throttling\UserBannedException $e) {
-            \Messages::add('error', 'User is banned.')->flash();
+            $messages->add('error', 'User is banned.')->flash();
             return \Redirect::to('admin/login');
         }
     }

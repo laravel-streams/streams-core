@@ -13,7 +13,7 @@ class EntryPresenter extends EloquentPresenter
                     ->setEntry($this->resource)
                     ->setValue($this->resource->{$assignment->field->slug});
 
-                return \Decorator::decorate($type);
+                return app()->make('streams.decorator')->decorate($type);
             }
         }
 

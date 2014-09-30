@@ -299,7 +299,7 @@ class AddonManager
 
                 \Event::fire($addon->getType() . '.' . $addon->getSlug() . 'make', [$addon]);
 
-                return \Decorator::decorate($addon);
+                return app()->make('streams.decorator')->decorate($addon);
             }
         );
     }
