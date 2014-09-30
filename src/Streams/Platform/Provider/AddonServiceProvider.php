@@ -5,6 +5,13 @@ use Illuminate\Support\ServiceProvider;
 class AddonServiceProvider extends ServiceProvider
 {
     /**
+     * Defer loading this service provider.
+     *
+     * @var bool
+     */
+    protected $defer = true;
+
+    /**
      * Available addon types.
      *
      * @var array

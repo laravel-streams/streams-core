@@ -73,15 +73,15 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Streams\Platform\Provider\HelpersServiceProvider');
         $this->app->register('Streams\Platform\Provider\FilterServiceProvider');
         $this->app->register('Streams\Platform\Provider\LoaderServiceProvider');
-        $this->app->register('Streams\Platform\Provider\RouteServiceProvider');
         $this->app->register('Streams\Platform\Provider\AssetServiceProvider');
         $this->app->register('Streams\Platform\Provider\ImageServiceProvider');
         $this->app->register('Streams\Platform\Provider\ErrorServiceProvider');
+        $this->app->register('Streams\Platform\Provider\RouteServiceProvider');
         $this->app->register('Streams\Platform\Provider\ViewServiceProvider');
-        $this->app->register('Streams\Platform\Provider\AddonServiceProvider');
         $this->app->register('Streams\Platform\Provider\LogServiceProvider');
 
         // Deferred
         $this->app->register('Streams\Platform\Provider\TranslationServiceProvider');
+        $this->app->register('Streams\Platform\Provider\AddonServiceProvider');
     }
 }
