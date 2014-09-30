@@ -1,13 +1,13 @@
-<?php namespace Streams\Platform\Provider;
+<?php namespace Streams\Platform\Http\Filter;
 
-use Illuminate\Support\ServiceProvider;
-
-class LocaleServiceProvider extends ServiceProvider
+class LocaleFilter
 {
     /**
-     * Register the service provider.
+     * Setup the application.
+     *
+     * @return mixed
      */
-    public function register()
+    public function filter()
     {
         $auth        = app('auth');
         $config      = app('config');

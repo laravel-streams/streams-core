@@ -9,6 +9,7 @@ class FilterServiceProvider extends \Illuminate\Routing\FilterServiceProvider
      */
     protected $before = [
         'Streams\Platform\Http\Filter\SetupFilter',
+        'Streams\Platform\Http\Filter\LocaleFilter',
         'Streams\Platform\Http\Filter\InstallerFilter',
     ];
 

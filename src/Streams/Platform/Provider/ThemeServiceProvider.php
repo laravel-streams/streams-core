@@ -5,6 +5,13 @@ use Illuminate\Support\ServiceProvider;
 class ThemeServiceProvider extends ServiceProvider
 {
     /**
+     * Defer loading this service provider.
+     *
+     * @var bool
+     */
+    protected $defer = true;
+
+    /**
      * Register the service provider.
      */
     public function register()
