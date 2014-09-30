@@ -35,7 +35,7 @@ class AddonServiceProvider extends ServiceProvider
         $loader = app('streams.loader');
 
         foreach ($this->types as $type => $manager) {
-            $this->app->instance('streams.' . $type, (new $manager($loader, $files))->register($this->app));
+            $this->app->instance('streams.' . $type, (new $manager(app(), $loader, $files))->register());
         }
     }
 }
