@@ -44,6 +44,45 @@ abstract class AddonAbstract implements PresenterInterface
     protected $enabled = null;
 
     /**
+     * The addon's class abstract.
+     *
+     * @var null
+     */
+    protected $abstract = null;
+
+    /**
+     * Register the addon's service provider.
+     *
+     * @return mixed
+     */
+    public function register()
+    {
+        if ($provider = $this->newServiceProvider()) {
+            $provider->register();
+        }
+    }
+
+    /**
+     * Install the addon.
+     *
+     * @return mixed
+     */
+    public function install()
+    {
+        return $this->newInstaller()->install();
+    }
+
+    /**
+     * Uninstall the addon.
+     *
+     * @return mixed
+     */
+    public function uninstall()
+    {
+        return $this->newInstaller()->uninstall();
+    }
+
+    /**
      * Return the model.
      *
      * @return mixed
@@ -177,6 +216,29 @@ abstract class AddonAbstract implements PresenterInterface
     }
 
     /**
+     * Get the class abstract.
+     *
+     * @return null
+     */
+    public function getAbstract()
+    {
+        return $this->abstract;
+    }
+
+    /**
+     * Set the class abstract.
+     *
+     * @param $abstract
+     * @return $this
+     */
+    public function setAbstract($abstract)
+    {
+        $this->abstract = $abstract;
+
+        return $this;
+    }
+
+    /**
      * Return a new presenter instance.
      *
      * @param $resource
@@ -202,7 +264,7 @@ abstract class AddonAbstract implements PresenterInterface
      *
      * @return mixed
      */
-    public function newInstaller()
+    protected function newInstaller()
     {
         $installer = get_called_class() . 'Installer';
 
@@ -218,7 +280,7 @@ abstract class AddonAbstract implements PresenterInterface
      *
      * @return null
      */
-    public function newServiceProvider()
+    protected function newServiceProvider()
     {
         $serviceProvider = get_called_class() . 'ServiceProvider';
 

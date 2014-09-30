@@ -25,11 +25,11 @@ class AddonManager
     protected $storage = true;
 
     /**
-     * The container binding method.
+     * The container method.
      *
      * @var string
      */
-    protected $binding = 'bind';
+    protected $method = 'bind';
 
     /**
      * A runtime cache of registered addons.
@@ -99,7 +99,7 @@ class AddonManager
             $slug = basename($path);
             $type = strtolower(str_singular(basename(dirname($path))));
 
-            $binding = $type . '.' . $slug;
+            $abstract = $type . '.' . $slug;
 
             $namespace = 'Streams\Addon\\' . studly_case(basename($type)) . '\\' . studly_case($slug);
 
@@ -108,9 +108,9 @@ class AddonManager
             // Register src directory
             $this->registerPsr($slug, $namespace, $path);
             $this->registerVendorAutoload($path);
-            $this->registerToContainer($slug, $type, $namespace, $path, $binding);
+            $this->registerToContainer($slug, $type, $namespace, $path, $abstract);
 
-            $this->addNamespaceHints($path, $binding);
+            $this->addNamespaceHints($path, $abstract);
         }
 
         $this->loader->register();
@@ -212,51 +212,46 @@ class AddonManager
      * Add namespace hints for other services.
      *
      * @param $path
-     * @param $binding
+     * @param $abstract
      */
-    public function addNamespaceHints($path, $binding)
+    public function addNamespaceHints($path, $abstract)
     {
-        app('view')->addNamespace($binding, $path . '/resources/views');
-        app('config')->addNamespace($binding, $path . '/resources/config');
+        app('view')->addNamespace($abstract, $path . '/resources/views');
+        app('config')->addNamespace($abstract, $path . '/resources/config');
 
-        app('streams.asset')->addNamespace($binding, $path . '/resources');
-        app('streams.image')->addNamespace($binding, $path . '/resources');
+        app('streams.asset')->addNamespace($abstract, $path . '/resources');
+        app('streams.image')->addNamespace($abstract, $path . '/resources');
     }
 
     /**
      * Register addon
      *
      * @param array  $info
-     * @param string $binding
+     * @param string $abstract
      * @return void
      */
-    public function registerToContainer($slug, $type, $namespace, $path, $binding)
+    public function registerToContainer($slug, $type, $namespace, $path, $abstract)
     {
-        $this->app->{$this->binding}(
-            'streams.' . $binding,
-            function () use ($slug, $type, $namespace, $path, $binding) {
-                $addonClass = $namespace . '\\' . studly_case($slug) . studly_case($type);
+        $this->app->{$this->method}(
+            'streams.' . $abstract,
+            function () use ($slug, $type, $namespace, $path, $abstract) {
+                $class = $namespace . '\\' . studly_case($slug) . studly_case($type);
 
-                /** @var $addon AddonAbstract */
-                $addon = new $addonClass;
+                $addon = new $class;
 
-                // Add lang namespace
-                \Lang::addNamespace($binding, $path . '/resources/lang');
+                app('translator')->addNamespace($abstract, $path . '/resources/lang');
 
                 $addon->setType($type);
                 $addon->setPath($path);
                 $addon->setSlug($slug);
+                $addon->setAbstract($abstract);
 
-                $addon->binding = $binding;
+                $addon->register();
 
                 $addon->setInstalled(true);
                 $addon->setEnabled(true);
 
-                if ($serviceProvider = $addon->newServiceProvider()) {
-                    \App::register($serviceProvider);
-                }
-
-                \Event::fire($addon->getType() . '.' . $addon->getSlug() . 'make', [$addon]);
+                app('events')->fire($slug . '.' . $slug . 'make', [$addon]);
 
                 return app('streams.decorator')->decorate($addon);
             }
@@ -387,7 +382,7 @@ class AddonManager
      */
     public function install($slug)
     {
-        return $this->make($slug)->newInstaller()->install();
+        return $this->make($slug)->install();
     }
 
     /**
@@ -398,7 +393,7 @@ class AddonManager
      */
     public function uninstall($slug)
     {
-        return $this->make($slug)->newInstaller()->uninstall();
+        return $this->make($slug)->uninstall();
     }
 
     /**
@@ -421,16 +416,6 @@ class AddonManager
     public function isEnabled($slug)
     {
         return $this->make($slug)->isEnabled();
-    }
-
-    /**
-     * Return a new model instance.
-     *
-     * @return mixed
-     */
-    protected function newModel()
-    {
-        return null;
     }
 
     /**
