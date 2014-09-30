@@ -49,7 +49,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerCoreAliases()
     {
-        $this->loader->alias('Messages', 'Streams\Platform\Facade\MessagesFacade');
         $this->loader->alias('Decorator', 'Streams\Platform\Facade\DecoratorFacade');
         $this->loader->alias('StreamSchemaUtility', 'Streams\Platform\Facade\StreamSchemaUtilityFacade');
     }
