@@ -13,11 +13,6 @@ class ApplicationServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerApplication();
-        $this->registerSchemaUtility();
-
-        $this->includeHelpers();
-
-        $this->addNamespace();
 
         app()->make('streams.application')->locate();
     }
@@ -33,38 +28,5 @@ class ApplicationServiceProvider extends ServiceProvider
                 return new Application(new ApplicationModel(), $this->app);
             }
         );
-    }
-
-    /**
-     * Register the SchemaUtility.
-     */
-    protected function registerSchemaUtility()
-    {
-        $this->app->singleton(
-            'streams.schema.utility',
-            function () {
-                return new StreamSchemaUtility();
-            }
-        );
-    }
-
-    /**
-     * Include package helper file.
-     */
-    protected function includeHelpers()
-    {
-        include __DIR__ . '/../../../../resources/helpers.php';
-    }
-
-    /**
-     * Add streams namespaces.
-     */
-    protected function addNamespace()
-    {
-        \Config::set('view.paths', [__DIR__ . '/../../../../resources/views']);
-
-        \Asset::addNamespace('streams', __DIR__ . '/../../../../resources');
-
-        \View::addNamespace('streams', __DIR__ . '/../../../../resources/views');
     }
 }

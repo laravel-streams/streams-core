@@ -227,9 +227,9 @@ class AddonManager
         \Config::addNamespace($binding, $path . '/resources/config');
 
         // Add asset and view paths
-        \View::addNamespace($binding, $path . '/resources/views');
-        \Asset::addNamespace($binding, $path . '/resources');
-        \Image::addNamespace($binding, $path . '/resources');
+        app()->make('view')->addNamespace($binding, $path . '/resources/views');
+        app()->make('streams.asset')->addNamespace($binding, $path . '/resources');
+        app()->make('streams.image')->addNamespace($binding, $path . '/resources');
     }
 
     /**

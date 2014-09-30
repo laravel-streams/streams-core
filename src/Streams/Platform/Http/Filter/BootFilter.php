@@ -22,6 +22,10 @@ class BootFilter
     public function filter()
     {
         $application = app()->make('streams.application');
+        $asset       = app()->make('streams.asset');
+        $image       = app()->make('streams.image');
+        $view        = app()->make('view');
+        $translator  = app()->make('translator');
 
         if (!$application->isInstalled()) {
             return;
@@ -42,7 +46,7 @@ class BootFilter
             $theme = \Theme::find('streams');
         }
 
-        \Lang::addNamespace('theme', $theme->getPath('resources/lang'));
+        $translator->addNamespace('theme', $theme->getPath('resources/lang'));
 
         // Set the active module
         if (\Request::segment(1) == 'admin') {
@@ -53,21 +57,21 @@ class BootFilter
 
         // Add the module namespace.
         if ($module = \Module::active()) {
-            \View::addNamespace('module', $module->getPath('resources/views'));
-            \Lang::addNamespace('module', $module->getPath('resources/lang'));
+            $view->addNamespace('module', $module->getPath('resources/views'));
+            $translator->addNamespace('module', $module->getPath('resources/lang'));
         }
 
         // Add the theme namespace.
-        \View::addNamespace('theme', $theme->getPath('resources/views'));
-        \Asset::addNamespace('theme', $theme->getPath('resources'));
-        \Image::addNamespace('theme', $theme->getPath('resources'));
+        $view->addNamespace('theme', $theme->getPath('resources/views'));
+        $asset->addNamespace('theme', $theme->getPath('resources'));
+        $image->addNamespace('theme', $theme->getPath('resources'));
 
         // Overload views with the composer.
-        \View::composer('*', 'Streams\Platform\Support\Composer');
+        $view->composer('*', 'Streams\Platform\Support\Composer');
 
         // Set some placeholders.
-        \View::share('title', null);
-        \View::share('description', null);
+        $view->share('title', null);
+        $view->share('description', null);
 
         if ($application->isInstalled()) {
             if ($locale = \Input::get('locale')) {
