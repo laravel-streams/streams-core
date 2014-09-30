@@ -10,25 +10,12 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
     public function register()
     {
         $this->registerLoader();
-        $this->registerStreamsPath();
         $this->registerTranslator();
+        $this->addStreamsNamespaceHint();
     }
 
     /**
-     * Register the streams path for language.
-     */
-    protected function registerStreamsPath()
-    {
-        $this->app->bind(
-            'path.lang',
-            function ($app) {
-                return __DIR__ . '/../../../../resources/lang';
-            }
-        );
-    }
-
-    /**
-     * Register the translator component.
+     * Register the translator class for Streams.
      */
     protected function registerTranslator()
     {
@@ -42,11 +29,24 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
                 // configuration so we can easily get both of these values from there.
                 $locale = $app['config']['app.locale'];
 
-                $trans = new Translator($loader, $locale);
+                $translator = new Translator($loader, $locale);
 
-                $trans->setFallback($app['config']['app.fallback_locale']);
+                $translator->setFallback($app['config']['app.fallback_locale']);
 
-                return $trans;
+                return $translator;
+            }
+        );
+    }
+
+    /**
+     * Add the path hint for the Streams namespace.
+     */
+    protected function addStreamsNamespaceHint()
+    {
+        $this->app->bind(
+            'path.lang',
+            function ($app) {
+                return __DIR__ . '/../../../../resources/lang';
             }
         );
     }

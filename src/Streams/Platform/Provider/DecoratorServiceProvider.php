@@ -10,6 +10,14 @@ class DecoratorServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerDecoratorClass();
+    }
+
+    /**
+     * Register the decorator class for Streams.
+     */
+    protected function registerDecoratorClass()
+    {
         $this->app->singleton(
             'streams.decorator',
             function () {

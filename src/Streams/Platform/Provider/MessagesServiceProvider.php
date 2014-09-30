@@ -1,7 +1,7 @@
 <?php namespace Streams\Platform\Provider;
 
-use Illuminate\Support\ServiceProvider;
 use Streams\Platform\Support\Messages;
+use Illuminate\Support\ServiceProvider;
 
 class MessagesServiceProvider extends ServiceProvider
 {
@@ -10,10 +10,18 @@ class MessagesServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerMessagesClass();
+    }
+
+    /**
+     * Register the messages class for Streams.
+     */
+    protected function registerMessagesClass()
+    {
         $this->app->singleton(
             'messages',
             function () {
-                return new Messages(\App::make('session.store'));
+                return new Messages(app()->make('session.store'));
             }
         );
     }

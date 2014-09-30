@@ -4,9 +4,8 @@ use Illuminate\Routing\FilterServiceProvider as ServiceProvider;
 
 class FilterServiceProvider extends ServiceProvider
 {
-
     /**
-     * The filters that should run before all requests.
+     * Filters to run before requests.
      *
      * @var array
      */
@@ -15,7 +14,7 @@ class FilterServiceProvider extends ServiceProvider
     ];
 
     /**
-     * The filters that should run after all requests.
+     * Filters to run after requests.
      *
      * @var array
      */
@@ -33,5 +32,4 @@ class FilterServiceProvider extends ServiceProvider
         'csrf'  => 'Streams\Platform\Http\Filter\CsrfFilter',
         'guest' => 'Streams\Platform\Http\Filter\GuestFilter',
     ];
-
 }
