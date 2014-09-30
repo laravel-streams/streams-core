@@ -25,6 +25,13 @@ class AddonManager
     protected $storage = true;
 
     /**
+     * The container binding method.
+     *
+     * @var string
+     */
+    protected $binding = 'bind';
+
+    /**
      * A runtime cache of registered addons.
      *
      * @var array
@@ -165,7 +172,6 @@ class AddonManager
         $vendorFile = 'streams.vendor.autoload.php';
 
         if (is_file($vendorPath . $vendorFile)) {
-
             $autoload = require $vendorPath . $vendorFile;
 
             if (!empty($autoload['psr-0'])) {
@@ -226,7 +232,7 @@ class AddonManager
      */
     public function registerToContainer($slug, $type, $namespace, $path, $binding)
     {
-        $this->app->bind(
+        $this->app->{$this->binding}(
             'streams.' . $binding,
             function () use ($slug, $type, $namespace, $path, $binding) {
                 $addonClass = $namespace . '\\' . studly_case($slug) . studly_case($type);
@@ -277,8 +283,7 @@ class AddonManager
      *
      * @return array
      */
-    public
-    function all()
+    public function all()
     {
         $addons = [];
 
@@ -294,22 +299,24 @@ class AddonManager
      *
      * @param $slug
      */
-    public
-    function exists(
-        $slug
-    ) {
+    public function exists($slug)
+    {
         return (isset($this->registered[$slug]));
     }
 
+    /**
+     * Get the classes of registered addons.
+     *
+     * @return array
+     */
     public function getClasses()
     {
-        $classes = [];
-
-        foreach ($this->registered as $info) {
-            $classes[$info['slug']] = $info['namespace'] . '\\' . studly_case($info['slug']) . studly_case($info['type']);
-        }
-
-        return $classes;
+        return array_map(
+            function ($addon) {
+                return get_class($addon->getResource());
+            },
+            $this->all()->all()
+        );
     }
 
     /**
@@ -365,8 +372,8 @@ class AddonManager
      */
     public function getApplicationAddonPaths()
     {
-        // @todo - this needs to be dynamic
-        $path = base_path('addons/develop/' . $this->folder);
+        $reference = app('streams.application')->getReference();
+        $path      = base_path('addons/' . $reference . '/' . $this->folder);
 
         if (is_dir($path)) {
             return $this->files->directories($path);
