@@ -74,21 +74,21 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerCore()
     {
         \App::register('Streams\Platform\Provider\ApplicationServiceProvider');
-        \App::register('Streams\Platform\Provider\ViewServiceProvider');
-        \App::register('Streams\Platform\Provider\LogServiceProvider');
-        \App::register('Streams\Platform\Provider\AssetServiceProvider');
-        \App::register('Streams\Platform\Provider\ImageServiceProvider');
-        \App::register('Streams\Platform\Provider\ErrorServiceProvider');
-        \App::register('Streams\Platform\Provider\MessagesServiceProvider');
+        \App::register('Streams\Platform\Provider\ClassLoaderServiceProvider');
         \App::register('Streams\Platform\Provider\DecoratorServiceProvider');
         \App::register('Streams\Platform\Provider\PresenterServiceProvider');
+        \App::register('Streams\Platform\Provider\MessagesServiceProvider');
         \App::register('Streams\Platform\Provider\HelpersServiceProvider');
         \App::register('Streams\Platform\Provider\FilterServiceProvider');
         \App::register('Streams\Platform\Provider\RouteServiceProvider');
-
-        // @todo - clean this and the addonTypes class up a bit
+        \App::register('Streams\Platform\Provider\AssetServiceProvider');
+        \App::register('Streams\Platform\Provider\ImageServiceProvider');
+        \App::register('Streams\Platform\Provider\ErrorServiceProvider');
+        \App::register('Streams\Platform\Provider\ViewServiceProvider');
         \App::register('Streams\Platform\Provider\AddonServiceProvider');
+        \App::register('Streams\Platform\Provider\LogServiceProvider');
 
+        // Deferred
         \App::register('Streams\Platform\Provider\TranslationServiceProvider');
     }
 }

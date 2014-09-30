@@ -105,6 +105,8 @@ class AddonManager
         $this->loader->register();
 
         $this->fire('after_register', [$app]);
+
+        return $this;
     }
 
     /**

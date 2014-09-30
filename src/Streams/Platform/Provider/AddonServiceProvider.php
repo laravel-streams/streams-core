@@ -1,7 +1,5 @@
 <?php namespace Streams\Platform\Provider;
 
-use Composer\Autoload\ClassLoader;
-use Streams\Platform\Addon\AddonTypes;
 use Illuminate\Support\ServiceProvider;
 
 class AddonServiceProvider extends ServiceProvider
@@ -11,14 +9,14 @@ class AddonServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $addonTypes = [
-        'distributions',
-        'field_types',
-        'extensions',
-        'modules',
-        'blocks',
-        'themes',
-        'tags',
+    protected $types = [
+        'distributions' => 'Streams\Platform\Addon\Manager\DistributionManager',
+        'field_types'   => 'Streams\Platform\Addon\Manager\FieldTypeManager',
+        'extensions'    => 'Streams\Platform\Addon\Manager\ExtensionManager',
+        'modules'       => 'Streams\Platform\Addon\Manager\ModuleManager',
+        'blocks'        => 'Streams\Platform\Addon\Manager\BlockManager',
+        'themes'        => 'Streams\Platform\Addon\Manager\ThemeManager',
+        'tags'          => 'Streams\Platform\Addon\Manager\TagManager',
     ];
 
     /**
@@ -26,27 +24,19 @@ class AddonServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerClassLoader();
         $this->registerAddonTypes();
-    }
-
-    /**
-     * Register class loader.
-     */
-    public function registerClassLoader()
-    {
-        $this->app->instance('streams.classloader', new ClassLoader);
     }
 
     /**
      * Register addon types.
      */
-    public function registerAddonTypes()
+    protected function registerAddonTypes()
     {
-        $addonTypes = new AddonTypes($this->addonTypes);
-
-        $addonTypes->register($this->app);
-
-        $this->app->instance('streams.addon_types', $addonTypes);
+        foreach ($this->types as $type => $manager) {
+            app()->instance(
+                'streams.' . $type,
+                (new $manager(app()->make('streams.classloader'), app()->make('files')))->register(app())
+            );
+        }
     }
 }

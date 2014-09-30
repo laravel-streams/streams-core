@@ -49,7 +49,6 @@ class Application implements ApplicationInterface
     {
         $this->setTablePrefix();
         $this->registerEntryModels();
-        $this->registerAddons();
     }
 
     /**
@@ -73,14 +72,6 @@ class Application implements ApplicationInterface
         );
 
         $this->container['streams.classloader']->register();
-    }
-
-    /**
-     * Register all of our addon types.
-     */
-    protected function registerAddons()
-    {
-        \App::make('streams.addon_types')->boot($this->container);
     }
 
     /**
