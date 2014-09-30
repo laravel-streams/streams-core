@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Addon\Collection;
 
-use Illuminate\Support\Collection;
+use Streams\Platform\Support\Collection;
 
 class AddonCollection extends Collection
 {

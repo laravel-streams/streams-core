@@ -264,34 +264,31 @@ class AddonManager
     }
 
     /**
-     * Get a single addon.
+     * Make an addon.
      *
-     * @param string $slug
-     * @param array  $parameters
-     * @return AddonAbstract
+     * @param $slug
+     * @return mixed
      */
-    public
-    function find(
-        $slug,
-        $parameters = []
-    ) {
-        return \App::make('streams.' . str_singular($this->folder) . '.' . $slug, $parameters);
+    public function make($slug)
+    {
+        return app('streams.' . str_singular($this->folder) . '.' . $slug);
     }
 
     /**
-     * Get all instantiated addons.
+     * Get all addons.
      *
      * @return array
      */
     public function all()
     {
-        $addons = [];
-
-        foreach ($this->registered as $info) {
-            $addons[$info['slug']] = $this->find($info['slug']);
-        }
-
-        return $this->newCollection($addons);
+        return $this->newCollection(
+            array_map(
+                function ($info) {
+                    return $this->make($info['slug']);
+                },
+                $this->registered
+            )
+        );
     }
 
     /**
@@ -390,7 +387,7 @@ class AddonManager
      */
     public function install($slug)
     {
-        return $this->find($slug)->newInstaller()->install();
+        return $this->make($slug)->newInstaller()->install();
     }
 
     /**
@@ -401,7 +398,7 @@ class AddonManager
      */
     public function uninstall($slug)
     {
-        return $this->find($slug)->newInstaller()->uninstall();
+        return $this->make($slug)->newInstaller()->uninstall();
     }
 
     /**
@@ -412,7 +409,7 @@ class AddonManager
      */
     public function isInstalled($slug)
     {
-        return $this->find($slug)->isInstalled();
+        return $this->make($slug)->isInstalled();
     }
 
     /**
@@ -423,7 +420,7 @@ class AddonManager
      */
     public function isEnabled($slug)
     {
-        return $this->find($slug)->isEnabled();
+        return $this->make($slug)->isEnabled();
     }
 
     /**

@@ -28,7 +28,7 @@ class ModuleManager extends AddonManager
     public function active()
     {
         if ($this->exists($this->active)) {
-            return $this->find($this->active);
+            return $this->make($this->active);
         }
 
         return null;

@@ -153,7 +153,7 @@ class FieldModel extends EloquentModel
         $manager = app('streams.field_types');
 
         if ($manager->exists($type)) {
-            $type = $manager->find($type);
+            $type = $manager->make($type);
         }
 
         return $type;
