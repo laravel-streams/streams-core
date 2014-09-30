@@ -2,6 +2,7 @@
 
 use Streams\Platform\Model\EloquentModel;
 use Streams\Platform\Stream\Model\StreamModel;
+use Streams\Platform\Entry\Observer\EntryObserver;
 use Streams\Platform\Entry\Presenter\EntryPresenter;
 use Streams\Platform\Entry\Collection\EntryCollection;
 
@@ -24,6 +25,18 @@ class EntryModel extends EloquentModel
         $this->stream = (new StreamModel())->object($this->stream);
 
         $this->stream->parent = $this;
+    }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::observe(new EntryObserver());
     }
 
     /**

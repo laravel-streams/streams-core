@@ -8,7 +8,11 @@ class FilterServiceProvider extends \Illuminate\Routing\FilterServiceProvider
      * @var array
      */
     protected $before = [
-        'Streams\Platform\Http\Filter\BootFilter',
+        'Streams\Platform\Http\Filter\StartFilter',
+        'Streams\Platform\Http\Filter\InstallerFilter',
+        'Streams\Platform\Http\Filter\LocaleFilter',
+        'Streams\Platform\Http\Filter\SetupThemeFilter',
+        'Streams\Platform\Http\Filter\SetupModuleFilter',
     ];
 
     /**
@@ -16,9 +20,7 @@ class FilterServiceProvider extends \Illuminate\Routing\FilterServiceProvider
      *
      * @var array
      */
-    protected $after = [
-        //
-    ];
+    protected $after = [];
 
     /**
      * All available route filters.
@@ -26,8 +28,7 @@ class FilterServiceProvider extends \Illuminate\Routing\FilterServiceProvider
      * @var array
      */
     protected $filters = [
-        'auth'  => 'Streams\Platform\Http\Filter\AuthFilter',
-        'csrf'  => 'Streams\Platform\Http\Filter\CsrfFilter',
-        'guest' => 'Streams\Platform\Http\Filter\GuestFilter',
+        'auth' => 'Streams\Platform\Http\Filter\AuthFilter',
+        'csrf' => 'Streams\Platform\Http\Filter\CsrfFilter',
     ];
 }

@@ -2,6 +2,7 @@
 
 use Streams\Platform\Model\EloquentModel;
 use Streams\Platform\Field\Model\FieldModel;
+use Streams\Platform\Stream\Observer\StreamObserver;
 use Streams\Platform\Stream\Presenter\StreamPresenter;
 use Streams\Platform\Stream\Schema\StreamSchema;
 use Streams\Platform\Assignment\Model\AssignmentModel;
@@ -21,6 +22,18 @@ class StreamModel extends EloquentModel
      * @var string
      */
     protected $table = 'streams_streams';
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::observe(new StreamObserver());
+    }
 
     /**
      * Return all streams with given namespace.
@@ -67,6 +80,7 @@ class StreamModel extends EloquentModel
 
     /**
      * Return the singular slug inflection.
+     *
      * @return string
      */
     public function singular()

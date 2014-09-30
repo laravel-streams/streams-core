@@ -11,6 +11,7 @@ class ViewServiceProvider extends ServiceProvider
     {
         $this->setViewPath();
         $this->addStreamsNamespaceHint();
+        $this->registerOurViewComposer();
     }
 
     /**
@@ -28,5 +29,13 @@ class ViewServiceProvider extends ServiceProvider
     protected function addStreamsNamespaceHint()
     {
         $this->app->make('view')->addNamespace('streams', __DIR__ . '/../../../../resources/views');
+    }
+
+    /**
+     * Use our own view composer.
+     */
+    protected function registerOurViewComposer()
+    {
+        $this->app->make('view')->composer('*', 'Streams\Platform\Support\Composer');
     }
 }

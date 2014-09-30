@@ -1,23 +1,21 @@
 <?php namespace Streams\Platform\Http\Filter;
 
-use Session;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
 use Illuminate\Session\TokenMismatchException;
 
-class CsrfFilter {
+class CsrfFilter
+{
+    /**
+     * Run the request filter.
+     *
+     * @return mixed
+     */
+    public function filter(Request $request)
+    {
+        $session = app()->make('session');
 
-	/**
-	 * Run the request filter.
-	 *
-	 * @return mixed
-	 */
-	public function filter(Route $route, Request $request)
-	{
-		if (Session::token() != $request->input('_token'))
-		{
-			throw new TokenMismatchException;
-		}
-	}
-
+        if ($session->token() != $request->input('_token')) {
+            throw new TokenMismatchException;
+        }
+    }
 }

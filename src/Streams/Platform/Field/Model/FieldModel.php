@@ -1,6 +1,7 @@
 <?php namespace Streams\Platform\Field\Model;
 
 use Streams\Platform\Model\EloquentModel;
+use Streams\Platform\Field\Observer\FieldObserver;
 use Streams\Platform\Field\Presenter\FieldPresenter;
 use Streams\Platform\Assignment\Model\AssignmentModel;
 use Streams\Platform\Field\Collection\FieldCollection;
@@ -27,6 +28,18 @@ class FieldModel extends EloquentModel
      * @var string
      */
     protected $table = 'streams_fields';
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::observe(new FieldObserver());
+    }
 
     /**
      * Find a field by slug and namespace.

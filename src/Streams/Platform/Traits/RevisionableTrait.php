@@ -50,7 +50,7 @@ trait RevisionableTrait
      * Observe model events to save revisions
      * automatically every time.
      */
-    public static function boot()
+    protected static function boot()
     {
         parent::boot();
 

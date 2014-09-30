@@ -1,5 +1,6 @@
 <?php namespace Streams\Platform\Assignment\Model;
 
+use Streams\Platform\Assignment\Observer\AssignmentObserver;
 use Streams\Platform\Field\Model\FieldModel;
 use Streams\Platform\Assignment\Schema\AssignmentSchema;
 use Streams\Platform\Assignment\Presenter\AssignmentPresenter;
@@ -13,6 +14,18 @@ class AssignmentModel extends FieldModel
      * @var string
      */
     protected $table = 'streams_assignments';
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::observe(new AssignmentObserver());
+    }
 
     /**
      * Find orphaned assignments.

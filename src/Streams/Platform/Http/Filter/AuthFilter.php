@@ -2,24 +2,23 @@
 
 class AuthFilter
 {
-
     /**
-     * Run the request filter.
+     * Authorize the request.
      *
      * @return mixed
      */
     public function filter()
     {
-        $application = app()->make('streams.application');
-        
+        $auth    = app()->make('auth');
+        $session = app()->make('session');
+        $request = app()->make('request');
+
         $ignore = array('login', 'logout');
 
-        if ($application->setup() and !in_array(\Request::segment(2), $ignore) and !\Sentry::check()) {
+        if (!in_array($request->segment(2), $ignore) and !$auth->check()) {
+            $session->put('url.intended', $request->url());
 
-            \Session::put('url.intended', \Request::url());
-
-            return \Redirect::to('admin/login');
+            return redirect('admin/login');
         }
     }
-
 }
