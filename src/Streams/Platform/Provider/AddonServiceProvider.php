@@ -24,19 +24,11 @@ class AddonServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerAddonTypes();
-    }
+        $loader = $this->app->make('streams.loader');
+        $files  = $this->app->make('files');
 
-    /**
-     * Register addon types.
-     */
-    protected function registerAddonTypes()
-    {
         foreach ($this->types as $type => $manager) {
-            app()->instance(
-                'streams.' . $type,
-                (new $manager(app()->make('streams.loader'), app()->make('files')))->register(app())
-            );
+            $this->app->instance('streams.' . $type, (new $manager($loader, $files))->register($this->app));
         }
     }
 }

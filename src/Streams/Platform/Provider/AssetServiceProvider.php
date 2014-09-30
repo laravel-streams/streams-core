@@ -10,14 +10,14 @@ class AssetServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerStreamsAssetClass();
+        $this->registerServiceProvider();
         $this->addStreamsNamespaceHint();
     }
 
     /**
      * Register the asset class for Streams.
      */
-    protected function registerStreamsAssetClass()
+    protected function registerServiceProvider()
     {
         $this->app->singleton(
             'streams.asset',
@@ -32,6 +32,6 @@ class AssetServiceProvider extends ServiceProvider
      */
     protected function addStreamsNamespaceHint()
     {
-        app()->make('streams.asset')->addNamespace('streams', __DIR__ . '/../../../../resources');
+        $this->app->make('streams.asset')->addNamespace('streams', __DIR__ . '/../../../../resources');
     }
 }

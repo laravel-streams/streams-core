@@ -9,7 +9,9 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
      */
     public function register()
     {
+        // Called on parent.
         $this->registerLoader();
+
         $this->registerTranslator();
         $this->addStreamsNamespaceHint();
     }
@@ -39,7 +41,7 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
     }
 
     /**
-     * Add the path hint for the Streams namespace.
+     * Add the "streams" namespace hint to translator.
      */
     protected function addStreamsNamespaceHint()
     {

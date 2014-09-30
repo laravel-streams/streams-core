@@ -1,8 +1,6 @@
 <?php namespace Streams\Platform\Provider;
 
-use Illuminate\Routing\FilterServiceProvider as ServiceProvider;
-
-class FilterServiceProvider extends ServiceProvider
+class FilterServiceProvider extends \Illuminate\Routing\FilterServiceProvider
 {
     /**
      * Filters to run before requests.

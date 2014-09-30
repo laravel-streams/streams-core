@@ -10,19 +10,6 @@ class MessagesServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerMessagesClass();
-    }
-
-    /**
-     * Register the messages class for Streams.
-     */
-    protected function registerMessagesClass()
-    {
-        $this->app->singleton(
-            'messages',
-            function () {
-                return new Messages(app()->make('session.store'));
-            }
-        );
+        $this->app->instance('messages', new Messages($this->app->make('session.store')));
     }
 }

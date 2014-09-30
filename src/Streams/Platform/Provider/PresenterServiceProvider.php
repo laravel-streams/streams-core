@@ -9,7 +9,6 @@ class PresenterServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
     }
 
     /**
@@ -26,11 +25,11 @@ class PresenterServiceProvider extends ServiceProvider
      */
     protected function registerContentRenderingTrigger()
     {
-        app()->make('view')->composer(
+        $this->app->make('view')->composer(
             '*',
             function ($view) {
                 if ($view instanceOf \Illuminate\View\View) {
-                    app()->make('events')->fire('content.rendering', array($view));
+                    $this->app->make('events')->fire('content.rendering', array($view));
                 }
             }
         );
@@ -42,15 +41,17 @@ class PresenterServiceProvider extends ServiceProvider
      */
     protected function registerContentRenderingListener()
     {
-        app()->make('events')->listen(
+        $this->app->make('events')->listen(
             'content.rendering',
             function ($view) {
-                if ($viewData = array_merge($view->getFactory()->getShared(), $view->getData())) {
-                    foreach ($viewData as $key => $value) {
-                        $view[$key] = app()->make('streams.decorator')->decorate($value);
-                    }
-                } else {
+                $data = array_merge($view->getFactory()->getShared(), $view->getData());
+
+                if (!$data) {
                     return;
+                }
+
+                foreach ($data as $key => $value) {
+                    $view[$key] = $this->app->make('streams.decorator')->decorate($value);
                 }
             }
         );

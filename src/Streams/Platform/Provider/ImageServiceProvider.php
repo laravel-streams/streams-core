@@ -10,19 +10,6 @@ class ImageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerImageClass();
-    }
-
-    /**
-     * Register the image class for Streams.
-     */
-    protected function registerImageClass()
-    {
-        $this->app->singleton(
-            'streams.image',
-            function () {
-                return new Image();
-            }
-        );
+        $this->app->instance('streams.image', new Image());
     }
 }

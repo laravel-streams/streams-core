@@ -3,7 +3,6 @@
 use Illuminate\Support\ServiceProvider;
 use Streams\Platform\Foundation\Application;
 use Streams\Platform\Foundation\Model\ApplicationModel;
-use Streams\Platform\Stream\Utility\StreamSchemaUtility;
 
 class ApplicationServiceProvider extends ServiceProvider
 {
@@ -12,21 +11,6 @@ class ApplicationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerApplication();
-
-        app()->make('streams.application')->locate();
-    }
-
-    /**
-     * Register the application class.
-     */
-    protected function registerApplication()
-    {
-        $this->app->singleton(
-            'streams.application',
-            function () {
-                return new Application(new ApplicationModel(), $this->app);
-            }
-        );
+        $this->app->instance('streams.application', new Application(new ApplicationModel(), $this->app));
     }
 }
