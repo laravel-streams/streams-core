@@ -59,13 +59,13 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerPackages()
     {
-        \App::register('Barryvdh\Debugbar\ServiceProvider');
-        \App::register('Jenssegers\Agent\AgentServiceProvider');
-        \App::register('Anomaly\Lexicon\LexiconServiceProvider');
-        \App::register('Cartalyst\Sentry\SentryServiceProvider');
-        \App::register('Intervention\Image\ImageServiceProvider');
+        $this->app->register('Barryvdh\Debugbar\ServiceProvider');
+        $this->app->register('Jenssegers\Agent\AgentServiceProvider');
+        $this->app->register('Anomaly\Lexicon\LexiconServiceProvider');
+        $this->app->register('Cartalyst\Sentry\SentryServiceProvider');
+        $this->app->register('Intervention\Image\ImageServiceProvider');
 
-        \App::register('Illuminate\Html\HtmlServiceProvider');
+        $this->app->register('Illuminate\Html\HtmlServiceProvider');
     }
 
     /**
@@ -73,22 +73,22 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerCore()
     {
-        \App::register('Streams\Platform\Provider\ApplicationServiceProvider');
-        \App::register('Streams\Platform\Provider\ClassLoaderServiceProvider');
-        \App::register('Streams\Platform\Provider\DecoratorServiceProvider');
-        \App::register('Streams\Platform\Provider\PresenterServiceProvider');
-        \App::register('Streams\Platform\Provider\MessagesServiceProvider');
-        \App::register('Streams\Platform\Provider\HelpersServiceProvider');
-        \App::register('Streams\Platform\Provider\FilterServiceProvider');
-        \App::register('Streams\Platform\Provider\RouteServiceProvider');
-        \App::register('Streams\Platform\Provider\AssetServiceProvider');
-        \App::register('Streams\Platform\Provider\ImageServiceProvider');
-        \App::register('Streams\Platform\Provider\ErrorServiceProvider');
-        \App::register('Streams\Platform\Provider\ViewServiceProvider');
-        \App::register('Streams\Platform\Provider\AddonServiceProvider');
-        \App::register('Streams\Platform\Provider\LogServiceProvider');
+        $this->app->register('Streams\Platform\Provider\ApplicationServiceProvider');
+        $this->app->register('Streams\Platform\Provider\DecoratorServiceProvider');
+        $this->app->register('Streams\Platform\Provider\PresenterServiceProvider');
+        $this->app->register('Streams\Platform\Provider\MessagesServiceProvider');
+        $this->app->register('Streams\Platform\Provider\HelpersServiceProvider');
+        $this->app->register('Streams\Platform\Provider\FilterServiceProvider');
+        $this->app->register('Streams\Platform\Provider\LoaderServiceProvider');
+        $this->app->register('Streams\Platform\Provider\RouteServiceProvider');
+        $this->app->register('Streams\Platform\Provider\AssetServiceProvider');
+        $this->app->register('Streams\Platform\Provider\ImageServiceProvider');
+        $this->app->register('Streams\Platform\Provider\ErrorServiceProvider');
+        $this->app->register('Streams\Platform\Provider\ViewServiceProvider');
+        $this->app->register('Streams\Platform\Provider\AddonServiceProvider');
+        $this->app->register('Streams\Platform\Provider\LogServiceProvider');
 
         // Deferred
-        \App::register('Streams\Platform\Provider\TranslationServiceProvider');
+        $this->app->register('Streams\Platform\Provider\TranslationServiceProvider');
     }
 }

@@ -66,12 +66,12 @@ class Application implements ApplicationInterface
      */
     protected function registerEntryModels()
     {
-        $this->container['streams.classloader']->addPsr4(
+        $this->container['streams.loader']->addPsr4(
             'Streams\Platform\Model\\',
             base_path('storage/models/streams/' . $this->getReference())
         );
 
-        $this->container['streams.classloader']->register();
+        $this->container['streams.loader']->register();
     }
 
     /**

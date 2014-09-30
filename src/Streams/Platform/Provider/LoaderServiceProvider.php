@@ -3,13 +3,13 @@
 use Composer\Autoload\ClassLoader;
 use Illuminate\Support\ServiceProvider;
 
-class ClassLoaderServiceProvider extends ServiceProvider
+class LoaderServiceProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
      */
     public function register()
     {
-        $this->app->instance('streams.classloader', new ClassLoader());
+        $this->app->instance('streams.loader', new ClassLoader());
     }
 }
