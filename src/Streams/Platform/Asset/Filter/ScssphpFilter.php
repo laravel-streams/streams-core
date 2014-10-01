@@ -11,7 +11,7 @@ class ScssphpFilter extends \Assetic\Filter\ScssphpFilter
      */
     public function filterDump(AssetInterface $asset)
     {
-        $asset->setContent(\View::parse($asset->getContent()));
+        $asset->setContent(app('view')->parse($asset->getContent()));
 
         return parent::filterDump($asset);
     }

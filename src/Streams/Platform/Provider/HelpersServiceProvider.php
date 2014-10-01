@@ -10,6 +10,6 @@ class HelpersServiceProvider extends ServiceProvider
     public function register()
     {
         // For now just include the helpers PHP file.
-        include __DIR__ . '/../../../../resources/helpers.php';
+        require_once __DIR__ . '/../../../../resources/helpers.php';
     }
 }
