@@ -142,10 +142,6 @@ class AddonManager
      */
     public function registerVendorAutoload($info)
     {
-        if (!$this->enablePsr) {
-            return;
-        }
-
         $vendorPath = $info['path'] . '/vendor/';
         $vendorFile = 'streams.vendor.autoload.php';
 
