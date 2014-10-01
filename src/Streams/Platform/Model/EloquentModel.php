@@ -1,9 +1,11 @@
 <?php namespace Streams\Platform\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
+use Laracasts\Commander\Events\EventGenerator;
+
 use Streams\Platform\Traits\CacheableTrait;
 use Streams\Platform\Traits\ObservableTrait;
-use Illuminate\Database\Eloquent\Collection;
 use Streams\Platform\Traits\RevisionableTrait;
 use Streams\Platform\Traits\TranslatableTrait;
 use Streams\Platform\Contract\PresenterInterface;
@@ -21,6 +23,8 @@ class EloquentModel extends Model implements ArrayableInterface, PresenterInterf
     use RevisionableTrait;
     use CacheableTrait;
     use ObservableTrait;
+
+    use EventGenerator;
 
     /**
      * Translatable flag.
