@@ -25,7 +25,7 @@ class AddonManager
     protected $storage = true;
 
     /**
-     * The container method.
+     * The registration method used for this type of addon.
      *
      * @var string
      */
@@ -94,7 +94,7 @@ class AddonManager
 
         $this->loadData();
 
-        foreach ($this->getAllAddonPaths() as $path) {
+        foreach ($this->allAddonPaths() as $path) {
 
             $slug = basename($path);
             $type = strtolower(str_singular(basename(dirname($path))));
@@ -103,14 +103,18 @@ class AddonManager
 
             $namespace = 'Streams\Addon\\' . studly_case(basename($type)) . '\\' . studly_case($slug);
 
-            $this->registered[$slug] = compact('slug', 'type', 'binding', 'namespace');
+            $this->registered[$slug] = $info = compact('slug', 'type', 'abstract', 'namespace', 'path');
 
             // Register src directory
-            $this->registerPsr($slug, $namespace, $path);
-            $this->registerVendorAutoload($path);
-            $this->registerToContainer($slug, $type, $namespace, $path, $abstract);
+            $this->loader->addPsr4(
+                $namespace . '\\',
+                $path . '/src'
+            );
 
-            $this->addNamespaceHints($path, $abstract);
+            $this->registerVendorAutoload($info);
+            $this->registerToContainer($info);
+
+            $this->addNamespaceHints($info);
         }
 
         $this->loader->register();
@@ -139,36 +143,17 @@ class AddonManager
     }
 
     /**
-     * Register PSR
+     * Register the vendor autoloader for an addon.
      *
-     * @param $type
-     * @param $slug
-     * @param $path
+     * @param $info
      */
-    public function registerPsr($slug, $namespace, $path)
-    {
-        if ($this->enablePsr) {
-            $this->loader->addPsr4(
-                $namespace . '\\',
-                $path . '/src'
-            );
-
-            $this->registered[$slug]['namespace'] = $namespace;
-        }
-    }
-
-    /**
-     * Register vendor autoload from a addon
-     *
-     * @param $addonPath
-     */
-    public function registerVendorAutoload($addonPath)
+    public function registerVendorAutoload($info)
     {
         if (!$this->enablePsr) {
             return;
         }
 
-        $vendorPath = $addonPath . '/vendor/';
+        $vendorPath = $info['path'] . '/vendor/';
         $vendorFile = 'streams.vendor.autoload.php';
 
         if (is_file($vendorPath . $vendorFile)) {
@@ -176,26 +161,26 @@ class AddonManager
 
             if (!empty($autoload['psr-0'])) {
                 foreach ($autoload['psr-0'] as $namespace => $path) {
-                    $this->loader->add($namespace, $this->getVendorPsrPath($vendorPath, $path));
+                    $this->loader->add($namespace, $this->makeVendorPsrPath($vendorPath, $path));
                 }
             }
 
             if (!empty($autoload['psr-4'])) {
                 foreach ($autoload['psr-4'] as $namespace => $path) {
-                    $this->loader->addPsr4($namespace, $this->getVendorPsrPath($vendorPath, $path));
+                    $this->loader->addPsr4($namespace, $this->makeVendorPsrPath($vendorPath, $path));
                 }
             }
         }
     }
 
     /**
-     * Get external PSR path
+     * Return the external PSR path for an addon.
      *
      * @param $vendorPath
      * @param $path
      * @return string
      */
-    public function getVendorPsrPath($vendorPath, $path)
+    public function makeVendorPsrPath($vendorPath, $path)
     {
         if (is_array($path)) {
             foreach ($path as &$p) {
@@ -211,45 +196,43 @@ class AddonManager
     /**
      * Add namespace hints for other services.
      *
-     * @param $path
-     * @param $abstract
+     * @param $info
      */
-    public function addNamespaceHints($path, $abstract)
+    public function addNamespaceHints($info)
     {
-        app('view')->addNamespace($abstract, $path . '/resources/views');
-        app('config')->addNamespace($abstract, $path . '/resources/config');
+        app('view')->addNamespace($info['abstract'], $info['path'] . '/resources/views');
+        app('config')->addNamespace($info['abstract'], $info['path'] . '/resources/config');
 
-        app('streams.asset')->addNamespace($abstract, $path . '/resources');
-        app('streams.image')->addNamespace($abstract, $path . '/resources');
+        app('streams.asset')->addNamespace($info['abstract'], $info['path'] . '/resources');
+        app('streams.image')->addNamespace($info['abstract'], $info['path'] . '/resources');
     }
 
     /**
      * Register addon
      *
-     * @param array  $info
-     * @param string $abstract
+     * @param array $info
      * @return void
      */
-    public function registerToContainer($slug, $type, $namespace, $path, $abstract)
+    public function registerToContainer($info)
     {
         $this->app->{$this->method}(
-            'streams.' . $abstract,
-            function () use ($slug, $type, $namespace, $path, $abstract) {
-                $class = $namespace . '\\' . studly_case($slug) . studly_case($type);
+            'streams.' . $info['abstract'],
+            function () use ($info) {
+                $class = $info['namespace'] . '\\' . studly_case($info['slug']) . studly_case($info['type']);
 
                 $addon = new $class;
 
-                app('translator')->addNamespace($abstract, $path . '/resources/lang');
-
-                $addon->setType($type);
-                $addon->setPath($path);
-                $addon->setSlug($slug);
-                $addon->setAbstract($abstract);
+                $addon->setType($info['type']);
+                $addon->setPath($info['path']);
+                $addon->setSlug($info['slug']);
+                $addon->setAbstract($info['abstract']);
 
                 $addon->setInstalled(true);
                 $addon->setEnabled(true);
 
-                app('events')->fire($slug . '.' . $slug . 'make', [$addon]);
+                app('translator')->addNamespace($info['abstract'], $info['path'] . '/resources/lang');
+
+                app('events')->fire($info['slug'] . '.' . $info['slug'] . 'make', [$addon]);
 
                 return app('streams.decorator')->decorate($addon);
             }
@@ -295,25 +278,25 @@ class AddonManager
     }
 
     /**
-     * Get all addon paths.
+     * Return all addon paths.
      *
      * @return array
      */
-    public function getAllAddonPaths()
+    public function allAddonPaths()
     {
-        $corePaths              = $this->getCoreAddonPaths();
-        $sharedPaths            = $this->getSharedAddonPaths();
-        $this->applicationPaths = $this->getApplicationAddonPaths();
+        $corePaths        = $this->coreAddonPaths();
+        $sharedPaths      = $this->sharedAddonPaths();
+        $applicationPaths = $this->applicationAddonPaths();
 
-        return array_merge($corePaths, $sharedPaths, $this->applicationPaths);
+        return array_merge($corePaths, $sharedPaths, $applicationPaths);
     }
 
     /**
-     * Get all core addon paths.
+     * Return all core addon paths.
      *
      * @return array
      */
-    public function getCoreAddonPaths()
+    public function coreAddonPaths()
     {
         $path = base_path('app/addons/' . $this->folder);
 
@@ -325,11 +308,11 @@ class AddonManager
     }
 
     /**
-     * Get all shared addon paths.
+     * Return all shared addon paths.
      *
      * @return array
      */
-    public function getSharedAddonPaths()
+    public function sharedAddonPaths()
     {
         $path = base_path('addons/shared/' . $this->folder);
 
@@ -341,11 +324,11 @@ class AddonManager
     }
 
     /**
-     * Get all application addon paths.
+     * Return all application addon paths.
      *
      * @return array
      */
-    public function getApplicationAddonPaths()
+    public function applicationAddonPaths()
     {
         $reference = app('streams.application')->getReference();
         $path      = base_path('addons/' . $reference . '/' . $this->folder);
@@ -358,7 +341,7 @@ class AddonManager
     }
 
     /**
-     * Install a module.
+     * Install an addon.
      *
      * @param $slug
      * @return bool
@@ -369,7 +352,7 @@ class AddonManager
     }
 
     /**
-     * Uninstall a module.
+     * Uninstall an addon.
      *
      * @param $slug
      * @return bool
@@ -399,16 +382,5 @@ class AddonManager
     public function isEnabled($slug)
     {
         return $this->make($slug)->isEnabled();
-    }
-
-    /**
-     * Return a new collection instance.
-     *
-     * @param array $items
-     * @return null
-     */
-    protected function newCollection(array $items = [])
-    {
-        return null;
     }
 }
