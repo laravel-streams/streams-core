@@ -98,12 +98,7 @@ class AddonManager
 
             $this->registered[$slug] = $info = compact('slug', 'type', 'abstract', 'namespace', 'path');
 
-            // Register src directory
-            $this->loader->addPsr4(
-                $namespace . '\\',
-                $path . '/src'
-            );
-
+            $this->registerSrcPath($info);
             $this->registerVendorAutoload($info);
             $this->registerToContainer($info);
 
@@ -118,6 +113,19 @@ class AddonManager
     }
 
     /**
+     * Register the addons src path.
+     *
+     * @param $info
+     */
+    protected function registerSrcPath($info)
+    {
+        $this->loader->addPsr4(
+            $info['namespace'] . '\\',
+            $info['path'] . '/src'
+        );
+    }
+
+    /**
      * Load data from the database.
      */
     protected function loadData()
@@ -127,7 +135,7 @@ class AddonManager
         if ($this->storage and $this->application->locate()) {
             $table = $this->application->getReference() . '_addons_' . $this->folder;
 
-            $data = \DB::table($table)->get();
+            $data = app('db')->table($table)->get();
 
             foreach ($data as $addon) {
                 $this->data[$addon->slug] = $addon;
