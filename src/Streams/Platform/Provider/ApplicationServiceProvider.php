@@ -2,7 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 use Streams\Platform\Foundation\Application;
-use Streams\Platform\Foundation\Model\ApplicationModel;
+use Streams\Platform\Foundation\ApplicationModel;
 
 class ApplicationServiceProvider extends ServiceProvider
 {
