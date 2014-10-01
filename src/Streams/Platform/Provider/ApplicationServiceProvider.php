@@ -12,5 +12,7 @@ class ApplicationServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->instance('streams.application', new Application(new ApplicationModel(), $this->app));
+
+        app('streams.application')->locate();
     }
 }
