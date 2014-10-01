@@ -17,13 +17,13 @@ class AddonServiceProvider extends ServiceProvider
      * @var array
      */
     protected $types = [
-        'distributions' => 'Streams\Platform\Addon\Manager\DistributionManager',
-        'field_types'   => 'Streams\Platform\Addon\Manager\FieldTypeManager',
-        'extensions'    => 'Streams\Platform\Addon\Manager\ExtensionManager',
-        'modules'       => 'Streams\Platform\Addon\Manager\ModuleManager',
-        'blocks'        => 'Streams\Platform\Addon\Manager\BlockManager',
-        'themes'        => 'Streams\Platform\Addon\Manager\ThemeManager',
-        'tags'          => 'Streams\Platform\Addon\Manager\TagManager',
+        'distributions' => 'Streams\Platform\Addon\DistributionManager',
+        'field_types'   => 'Streams\Platform\Addon\FieldTypeManager',
+        'extensions'    => 'Streams\Platform\Addon\ExtensionManager',
+        'modules'       => 'Streams\Platform\Addon\ModuleManager',
+        'blocks'        => 'Streams\Platform\Addon\BlockManager',
+        'themes'        => 'Streams\Platform\Addon\ThemeManager',
+        'tags'          => 'Streams\Platform\Addon\TagManager',
     ];
 
     /**

@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Addon\Manager;
+<?php namespace Streams\Platform\Addon;
 
 use Composer\Autoload\ClassLoader;
 use Illuminate\Container\Container;
@@ -294,21 +294,6 @@ class AddonManager
     public function exists($slug)
     {
         return (isset($this->registered[$slug]));
-    }
-
-    /**
-     * Get the classes of registered addons.
-     *
-     * @return array
-     */
-    public function getClasses()
-    {
-        return array_map(
-            function ($addon) {
-                return get_class($addon->getResource());
-            },
-            $this->all()->all()
-        );
     }
 
     /**

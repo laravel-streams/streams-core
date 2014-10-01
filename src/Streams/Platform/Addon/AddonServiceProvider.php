@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Addon\Provider;
+<?php namespace Streams\Platform\Addon;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -9,6 +9,6 @@ class AddonServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Register
+        //
     }
 }

@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Addon\Manager;
+<?php namespace Streams\Platform\Addon;
 
 use Illuminate\Container\Container;
 use Streams\Platform\Addon\Model\ModuleModel;

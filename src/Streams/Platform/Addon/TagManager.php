@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Addon\Manager;
+<?php namespace Streams\Platform\Addon;
 
 use Streams\Platform\Addon\Model\TagModel;
 use Illuminate\Container\Container;
@@ -20,10 +20,8 @@ class TagManager extends AddonManager
      */
     public function onAfterRegister(Container $app)
     {
-        foreach ($this->getClasses() as $slug => $class) {
-            if (isset($this->data[$slug]) and $this->data[$slug]->is_installed) {
-                $app['anomaly.lexicon']->registerPlugin($slug, $class);
-            }
+        foreach ($this->all() as $tag) {
+            app('anomaly.lexicon')->registerPlugin($tag->slug, get_class($tag->getResource()));
         }
     }
 

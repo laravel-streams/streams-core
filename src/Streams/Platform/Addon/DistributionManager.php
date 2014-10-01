@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Addon\Manager;
+<?php namespace Streams\Platform\Addon;
 
 use Streams\Platform\Addon\Collection\DistributionCollection;
 use Streams\Platform\Addon\Model\DistributionModel;
