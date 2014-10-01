@@ -39,13 +39,6 @@ class AddonManager
     protected $registered = [];
 
     /**
-     * Enable PSR
-     *
-     * @var bool
-     */
-    protected $enablePsr = true;
-
-    /**
      * Model data.
      *
      * @var array
