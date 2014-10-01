@@ -52,8 +52,6 @@ abstract class AddonAbstract implements PresenterInterface
 
     /**
      * Register the addon's service provider.
-     *
-     * @return mixed
      */
     public function register()
     {

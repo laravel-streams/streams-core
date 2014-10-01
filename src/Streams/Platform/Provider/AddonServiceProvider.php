@@ -27,7 +27,8 @@ class AddonServiceProvider extends ServiceProvider
     ];
 
     /**
-     * Register the service provider.
+     * Iterate through all the addons and register them.
+     * Then register each addon's own service provider.
      */
     public function register()
     {
@@ -36,6 +37,12 @@ class AddonServiceProvider extends ServiceProvider
 
         foreach ($this->types as $type => $manager) {
             $this->app->instance('streams.' . $type, (new $manager(app(), $loader, $files))->register());
+        }
+
+        foreach ($this->types as $type => $manager) {
+            foreach (app('streams.' . $type)->all() as $addon) {
+                $addon->register();
+            }
         }
     }
 }

@@ -246,8 +246,6 @@ class AddonManager
                 $addon->setSlug($slug);
                 $addon->setAbstract($abstract);
 
-                $addon->register();
-
                 $addon->setInstalled(true);
                 $addon->setEnabled(true);
 
