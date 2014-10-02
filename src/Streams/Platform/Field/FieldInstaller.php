@@ -2,7 +2,6 @@
 
 use Streams\Platform\Support\Installer;
 use Streams\Platform\Addon\AddonInterface;
-use Streams\Platform\Field\Service\FieldManagerService;
 
 class FieldInstaller extends Installer
 {
@@ -21,21 +20,21 @@ class FieldInstaller extends Installer
     protected $addon;
 
     /**
-     * The field manager service.
+     * The field service.
      *
-     * @var \Streams\Platform\Field\Service\FieldManagerService
+     * @var \Streams\Platform\Field\FieldService
      */
-    protected $service;
+    protected $fieldService;
 
     /**
      * Create a new FieldInstaller instance.
      *
      * @param AddonInterface $addon
      */
-    public function __construct(AddonInterface $addon, FieldManagerService $service)
+    public function __construct(AddonInterface $addon, FieldService $fieldService)
     {
-        $this->addon   = $addon;
-        $this->service = $service;
+        $this->addon        = $addon;
+        $this->fieldService = $fieldService;
     }
 
     /**
@@ -46,7 +45,13 @@ class FieldInstaller extends Installer
     public function install()
     {
         foreach ($this->fields as $slug => $field) {
-            $this->service->add($this->addon, array_merge($field, ['slug' => $slug]));
+
+            // Catch some convenient defaults.
+            $field['namespace'] = isset($field['namespace']) ? $field['namespace'] : $this->addon->getSlug();
+            $field['lang']      = isset($field['namespace']) ? $field['namespace'] : $this->addon->getAbstract();
+            $field['slug']      = $slug;
+
+            $this->fieldService->add($field);
         }
 
         return true;
@@ -60,7 +65,9 @@ class FieldInstaller extends Installer
     public function uninstall()
     {
         foreach ($this->fields as $slug => $field) {
-            $this->service->remove($this->addon, array_merge($field, ['slug' => $slug]));
+            $namespace = isset($field['namespace']) ? $field['namespace'] : $this->addon->getSlug();
+
+            $this->fieldService->remove($namespace, $slug);
         }
 
         return true;
