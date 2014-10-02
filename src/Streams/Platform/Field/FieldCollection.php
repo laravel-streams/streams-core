@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Field\Collection;
+<?php namespace Streams\Platform\Field;
 
 use Streams\Platform\Collection\EloquentCollection;
 

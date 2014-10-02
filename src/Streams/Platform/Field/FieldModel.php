@@ -1,10 +1,6 @@
-<?php namespace Streams\Platform\Field\Model;
+<?php namespace Streams\Platform\Field;
 
 use Streams\Platform\Model\EloquentModel;
-use Streams\Platform\Field\Observer\FieldObserver;
-use Streams\Platform\Field\Presenter\FieldPresenter;
-use Streams\Platform\Assignment\Model\AssignmentModel;
-use Streams\Platform\Field\Collection\FieldCollection;
 
 class FieldModel extends EloquentModel
 {
@@ -14,13 +10,6 @@ class FieldModel extends EloquentModel
      * @var bool
      */
     public $timestamps = false;
-
-    /**
-     * The field type object.
-     *
-     * @var null
-     */
-    protected $type = null;
 
     /**
      * Define the table name
@@ -42,15 +31,64 @@ class FieldModel extends EloquentModel
     }
 
     /**
-     * Find a field by slug and namespace.
+     * Add a field.
      *
-     * @param $slug
+     * @param       $slug
+     * @param       $namespace
+     * @param       $name
+     * @param       $type
+     * @param array $rules
+     * @param array $settings
+     * @param       $isLocked
+     * @return $this
+     */
+    public function add($namespace, $slug, $name, $type, array $rules, array $settings, $isLocked)
+    {
+        $this->slug      = $slug;
+        $this->name      = $name;
+        $this->type      = $type;
+        $this->rules     = $rules;
+        $this->settings  = $settings;
+        $this->is_locked = $isLocked;
+        $this->namespace = $namespace;
+
+        $this->save();
+
+        //$this->raise(new FieldInstalledEvent($this));
+
+        return $this;
+    }
+
+    /**
+     * Remove a field.
+     *
      * @param $namespace
+     * @param $slug
+     * @return $this
+     */
+    public function remove($namespace, $slug)
+    {
+        if ($field = $this->whereNamespace($namespace)->whereSlug($slug)->first()) {
+            $field->delete();
+
+            //$this->raise(new FieldUninstalledEvent($this));
+
+            return $this;
+        }
+
+        return false;
+    }
+
+    /**
+     * Find a field by namespace and slug.
+     *
+     * @param $namespace
+     * @param $slug
      * @return mixed
      */
-    public function findBySlugAndNamespace($slug, $namespace)
+    public function findByNamespaceAndSlug($namespace, $slug)
     {
-        return $this->whereSlug($slug)->whereNamespace($namespace)->first();
+        return $this->whereNamespace($namespace)->whereSlug($slug)->first();
     }
 
     /**
@@ -72,9 +110,9 @@ class FieldModel extends EloquentModel
     public function findAllOrphaned()
     {
         return $this->select('streams_fields.*')
-                ->leftJoin('streams_streams', 'streams_fields.namespace', '=', 'streams_streams.namespace')
-                ->whereNull('streams_streams.id')
-                ->get();
+            ->leftJoin('streams_streams', 'streams_fields.namespace', '=', 'streams_streams.namespace')
+            ->whereNull('streams_streams.id')
+            ->get();
     }
 
     /**
@@ -177,7 +215,7 @@ class FieldModel extends EloquentModel
      */
     public function assignments()
     {
-        return $this->hasMany('Streams\Platform\Assignment\Model\AssignmentModel', 'field_id');
+        return $this->hasMany('Streams\Platform\Assignment\AssignmentModel', 'field_id');
     }
 
     /**
