@@ -1,13 +1,9 @@
-<?php namespace Streams\Platform\Stream\Model;
+<?php namespace Streams\Platform\Stream;
 
+use Streams\Platform\Field\FieldModel;
 use Streams\Platform\Model\EloquentModel;
-use Streams\Platform\Field\Model\FieldModel;
-use Streams\Platform\Stream\Observer\StreamObserver;
-use Streams\Platform\Stream\Presenter\StreamPresenter;
-use Streams\Platform\Stream\Schema\StreamSchema;
-use Streams\Platform\Assignment\Model\AssignmentModel;
-use Streams\Platform\Stream\Collection\StreamCollection;
-use Streams\Platform\Assignment\Collection\AssignmentCollection;
+use Streams\Platform\Assignment\AssignmentModel;
+use Streams\Platform\Assignment\AssignmentCollection;
 
 class StreamModel extends EloquentModel
 {
@@ -36,6 +32,74 @@ class StreamModel extends EloquentModel
     }
 
     /**
+     * Add a stream.
+     *
+     * @param $namespace
+     * @param $slug
+     * @param $prefix
+     * @param $name
+     * @param $description
+     * @param $viewOptions
+     * @param $titleColumn
+     * @param $orderBy
+     * @param $isHidden
+     * @param $isTranslatable
+     * @param $isRevisionable
+     * @return $this
+     */
+    public function add(
+        $namespace,
+        $slug,
+        $prefix,
+        $name,
+        $description,
+        $viewOptions,
+        $titleColumn,
+        $orderBy,
+        $isHidden,
+        $isTranslatable,
+        $isRevisionable
+    ) {
+        $this->slug            = $slug;
+        $this->name            = $name;
+        $this->prefix          = $prefix;
+        $this->order_by        = $orderBy;
+        $this->is_hidden       = $isHidden;
+        $this->namespace       = $namespace;
+        $this->description     = $description;
+        $this->view_options    = $viewOptions;
+        $this->title_column    = $titleColumn;
+        $this->is_translatable = $isTranslatable;
+        $this->is_revisionable = $isRevisionable;
+
+        $this->save();
+
+        //$this->raise();
+
+        return $this;
+    }
+
+    /**
+     * Remove a stream.
+     *
+     * @param $namespace
+     * @param $slug
+     * @return $this|bool
+     */
+    public function remove($namespace, $slug)
+    {
+        if ($stream = $this->whereNamespace($namespace)->whereSlug($slug)->first()) {
+            $stream->delete();
+
+            //$this->raise();
+
+            return $stream;
+        }
+
+        return false;
+    }
+
+    /**
      * Return all streams with given namespace.
      *
      * @param $namespace
@@ -47,15 +111,15 @@ class StreamModel extends EloquentModel
     }
 
     /**
-     * Find by slug and namespace.
+     * Find by namespace and slug.
      *
-     * @param $slug
      * @param $namespace
+     * @param $slug
      * @return mixed
      */
-    public function findBySlugAndNamespace($slug, $namespace)
+    public function findByNamespaceAndSlug($namespace, $slug)
     {
-        return $this->whereSlug($slug)->whereNamespace($namespace)->first();
+        return $this->whereNamespace($namespace)->whereSlug($slug)->first();
     }
 
     /**
@@ -130,8 +194,9 @@ class StreamModel extends EloquentModel
      * @param  string $viewOptions
      * @return array
      */
-    public function getViewOptionsAttribute($viewOptions)
-    {
+    public function getViewOptionsAttribute(
+        $viewOptions
+    ) {
         return json_decode($viewOptions);
     }
 
@@ -181,7 +246,7 @@ class StreamModel extends EloquentModel
      * Return a new presenter instance.
      *
      * @param $resource
-     * @return \Streams\Presenter\EloquentPresenter|StreamPresenter
+     * @return \Streams\Platform\Model\Presenter\EloquentPresenter|StreamPresenter
      */
     public function newPresenter($resource)
     {
@@ -205,6 +270,6 @@ class StreamModel extends EloquentModel
      */
     public function assignments()
     {
-        return $this->hasMany('Streams\Platform\Assignment\Model\AssignmentModel', 'stream_id')->orderBy('sort_order');
+        return $this->hasMany('Streams\Platform\Assignment\AssignmentModel', 'stream_id')->orderBy('sort_order');
     }
 }

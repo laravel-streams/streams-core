@@ -1,13 +1,15 @@
 <?php namespace Streams\Platform\Support;
 
+use Laracasts\Commander\CommanderTrait;
 use Streams\Platform\Traits\CallableTrait;
 
 class Installer
 {
     use CallableTrait;
+    use CommanderTrait;
 
     /**
-     * Run through installation steps.
+     * Install logic.
      *
      * @return bool
      */
@@ -17,22 +19,12 @@ class Installer
     }
 
     /**
-     * Uninstall method.
+     * Uninstall logic.
      *
      * @return bool
      */
     public function uninstall()
     {
         return true;
-    }
-
-    /**
-     * Abort the installation.
-     *
-     * @return bool
-     */
-    protected function abort()
-    {
-        return $this->uninstall();
     }
 }

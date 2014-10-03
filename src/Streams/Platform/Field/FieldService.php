@@ -1,9 +1,10 @@
 <?php namespace Streams\Platform\Field;
 
 use Laracasts\Commander\CommanderTrait;
-use Streams\Platform\Addon\AddonInterface;
 use Streams\Platform\Field\Command\AddFieldCommand;
+use Streams\Platform\Field\Command\AssignFieldCommand;
 use Streams\Platform\Field\Command\RemoveFieldCommand;
+use Streams\Platform\Assignment\Command\UnassignFieldCommand;
 
 class FieldService
 {
@@ -51,6 +52,73 @@ class FieldService
     public function remove($namespace, $slug)
     {
         $command = new RemoveFieldCommand($namespace, $slug);
+
+        return $this->execute($command);
+    }
+
+    /**
+     * Assign a field.
+     *
+     * @param       $namespace
+     * @param       $stream
+     * @param       $field
+     * @param array $assignment
+     * @return mixed
+     */
+    public function assign($namespace, $stream, $field, array $assignment)
+    {
+        // Determine some optional properties.
+        $isTranslatable = isset($assignment['is_translatable']) ? $assignment['is_translatable'] : false;
+        $isRevisionable = isset($assignment['is_revisionable']) ? $assignment['is_revisionable'] : false;
+        $sortOrder      = isset($assignment['sort_order']) ? $assignment['sort_order'] : 0;
+        $settings       = isset($assignment['settings']) ? $assignment['settings'] : [];
+        $rules          = isset($assignment['rules']) ? $assignment['rules'] : [];
+
+        // Determine the assignment name.
+        if (!isset($assignment['name'])) {
+            if (isset($assignment['lang'])) {
+                $assignment['name'] = "{$assignment['lang']}::field.{$field}.name";
+            }
+        }
+
+        $name = isset($assignment['name']) ? $assignment['name'] : null;
+
+        // Determine the assignment instructions.
+        if (!isset($assignment['instructions'])) {
+            if (isset($assignment['lang'])) {
+                $assignment['instructions'] = "{$assignment['lang']}::field.{$field}.name";
+            }
+        }
+
+        $instructions = isset($assignment['instructions']) ? $assignment['instructions'] : null;
+
+        $command = new AssignFieldCommand(
+            $sortOrder,
+            $namespace,
+            $stream,
+            $field,
+            $name,
+            $instructions,
+            $settings,
+            $rules,
+            $isTranslatable,
+            $isRevisionable
+        );
+
+        return $this->execute($command);
+    }
+
+    /**
+     * Unassign a field.
+     *
+     * @param $namespace
+     * @param $stream
+     * @param $field
+     * @return mixed
+     */
+    public function unassign($namespace, $stream, $field)
+    {
+        $command = new UnassignFieldCommand($namespace, $stream, $field);
 
         return $this->execute($command);
     }

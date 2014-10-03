@@ -1,9 +1,9 @@
-<?php namespace Streams\Platform\Stream\Utility;
+<?php namespace Streams\Platform\Stream;
 
 
-use Streams\Platform\Assignment\Model\AssignmentModel;
+use Streams\Platform\Assignment\AssignmentModel;
 use Streams\Platform\Field\Model\FieldModel;
-use Streams\Platform\Stream\Model\StreamModel;
+use Streams\Platform\Stream\StreamModel;
 
 class StreamSchemaUtility
 {

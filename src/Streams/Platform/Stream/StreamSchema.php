@@ -1,13 +1,11 @@
-<?php namespace Streams\Platform\Stream\Schema;
-
-use Streams\Platform\Stream\Model\StreamModel;
+<?php namespace Streams\Platform\Stream;
 
 class StreamSchema
 {
     /**
      * The model object.
      *
-     * @var \Streams\Platform\Stream\Model\StreamModel
+     * @var \Streams\Platform\Stream\StreamModel
      */
     protected $model;
 

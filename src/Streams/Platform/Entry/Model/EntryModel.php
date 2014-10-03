@@ -1,7 +1,7 @@
 <?php namespace Streams\Platform\Entry\Model;
 
 use Streams\Platform\Model\EloquentModel;
-use Streams\Platform\Stream\Model\StreamModel;
+use Streams\Platform\Stream\StreamModel;
 use Streams\Platform\Entry\Observer\EntryObserver;
 use Streams\Platform\Entry\Presenter\EntryPresenter;
 use Streams\Platform\Entry\Collection\EntryCollection;

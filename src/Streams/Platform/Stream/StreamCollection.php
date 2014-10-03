@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Stream\Collection;
+<?php namespace Streams\Platform\Stream;
 
 use Streams\Platform\Collection\EloquentCollection;
 

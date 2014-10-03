@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Assignment\Observer;
+<?php namespace Streams\Platform\Assignment;
 
 use Streams\Platform\Model\Observer\EloquentObserver;
 

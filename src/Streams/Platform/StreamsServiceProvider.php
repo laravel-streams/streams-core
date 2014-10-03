@@ -79,6 +79,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Streams\Platform\Provider\ErrorServiceProvider');
         $this->app->register('Streams\Platform\Provider\RouteServiceProvider');
         $this->app->register('Streams\Platform\Provider\ModelServiceProvider');
+        $this->app->register('Streams\Platform\Provider\EventServiceProvider');
         $this->app->register('Streams\Platform\Provider\ViewServiceProvider');
         $this->app->register('Streams\Platform\Provider\AuthServiceProvider');
         $this->app->register('Streams\Platform\Provider\LogServiceProvider');

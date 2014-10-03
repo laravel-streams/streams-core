@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Str;
 use Streams\Platform\Support\Generator;
-use Streams\Platform\Stream\Model\StreamModel;
+use Streams\Platform\Stream\StreamModel;
 
 class EntryGenerator extends Generator
 {
@@ -18,9 +18,9 @@ class EntryGenerator extends Generator
      *
      * @return string
      */
-    public function appRefPath($path = null)
+    public function appRefPath()
     {
-        return 'storage/models/streams/' . \Application::getAppRef();
+        return 'storage/models/streams/' . app('streams.application')->getReference();
     }
 
     /**
