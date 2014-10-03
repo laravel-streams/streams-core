@@ -10,25 +10,4 @@ class FieldTypeManager extends AddonManager
      * @var string
      */
     protected $folder = 'field_types';
-
-    /**
-     * Return a new model instance.
-     *
-     * @return mixed
-     */
-    protected function newModel()
-    {
-        return new FieldTypeModel();
-    }
-
-    /**
-     * Return a new collection instance.
-     *
-     * @param array $fieldTypes
-     * @return null|FieldTypeCollection
-     */
-    protected function newCollection(array $fieldTypes = [])
-    {
-        return new FieldTypeCollection($fieldTypes);
-    }
 }

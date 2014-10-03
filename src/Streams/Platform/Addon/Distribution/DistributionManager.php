@@ -17,25 +17,4 @@ class DistributionManager extends AddonManager
      * @var bool
      */
     protected $storage = false;
-
-    /**
-     * Return a new model instance.
-     *
-     * @return mixed
-     */
-    protected function newModel()
-    {
-        return new DistributionModel();
-    }
-
-    /**
-     * Return a new collection instance.
-     *
-     * @param array $distributions
-     * @return null|DistributionCollection
-     */
-    protected function newCollection(array $distributions = [])
-    {
-        return new DistributionCollection($distributions);
-    }
 }

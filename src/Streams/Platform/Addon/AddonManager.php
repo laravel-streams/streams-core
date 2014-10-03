@@ -4,6 +4,7 @@ use Composer\Autoload\ClassLoader;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Streams\Platform\Addon\AddonAbstract;
+use Streams\Platform\Addon\Collection\AddonCollection;
 use Streams\Platform\Traits\CallableTrait;
 
 class AddonManager
@@ -379,5 +380,16 @@ class AddonManager
     public function isEnabled($slug)
     {
         return $this->make($slug)->isEnabled();
+    }
+
+    /**
+     * Return a new addon collection.
+     *
+     * @param array $addons
+     * @return AddonCollection
+     */
+    protected function newCollection(array $addons)
+    {
+        return new AddonCollection($addons);
     }
 }

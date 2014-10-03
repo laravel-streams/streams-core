@@ -65,15 +65,4 @@ class ModuleManager extends AddonManager
     {
         return new ModuleModel();
     }
-
-    /**
-     * Return a new collection instance.
-     *
-     * @param array $modules
-     * @return null|ModuleCollection
-     */
-    protected function newCollection(array $modules = [])
-    {
-        return new ModuleCollection($modules);
-    }
 }

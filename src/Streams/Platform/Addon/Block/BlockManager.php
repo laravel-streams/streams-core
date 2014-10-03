@@ -10,25 +10,4 @@ class BlockManager extends AddonManager
      * @var string
      */
     protected $folder = 'blocks';
-
-    /**
-     * Return a new model instance.
-     *
-     * @return mixed
-     */
-    protected function newModel()
-    {
-        return new BlockModel();
-    }
-
-    /**
-     * Return a new collection instance.
-     *
-     * @param array $blocks
-     * @return null|BlockCollection
-     */
-    protected function newCollection(array $blocks = [])
-    {
-        return new BlockCollection($blocks);
-    }
 }

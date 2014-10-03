@@ -64,15 +64,4 @@ class ThemeManager extends AddonManager
     {
         return new ThemeModel();
     }
-
-    /**
-     * Return a new collection instance.
-     *
-     * @param array $themes
-     * @return null|ThemeCollection
-     */
-    protected function newCollection(array $themes = [])
-    {
-        return new ThemeCollection($themes);
-    }
 }

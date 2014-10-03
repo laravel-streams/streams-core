@@ -76,17 +76,6 @@ abstract class ModuleAbstract extends AddonAbstract
     }
 
     /**
-     * Return a new presenter instance.
-     *
-     * @param $resource
-     * @return null|ModulePresenter
-     */
-    public function newPresenter($resource)
-    {
-        return new ModulePresenter($resource);
-    }
-
-    /**
      * Return a new ModuleTag instance.
      *
      * @return ModuleTag

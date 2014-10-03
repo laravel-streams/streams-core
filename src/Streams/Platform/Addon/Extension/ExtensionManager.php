@@ -54,25 +54,4 @@ class ExtensionManager extends AddonManager
 
         return $this->newCollection($addons);
     }
-
-    /**
-     * Return a new model instance.
-     *
-     * @return mixed
-     */
-    protected function newModel()
-    {
-        return new ExtensionModel();
-    }
-
-    /**
-     * Return a new collection instance.
-     *
-     * @param array $extensions
-     * @return null|ExtensionCollection
-     */
-    protected function newCollection(array $extensions = [])
-    {
-        return new ExtensionCollection($extensions);
-    }
 }

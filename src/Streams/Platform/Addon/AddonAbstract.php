@@ -1,5 +1,6 @@
 <?php namespace Streams\Platform\Addon;
 
+use Streams\Platform\Addon\Presenter\AddonPresenter;
 use Streams\Platform\Traits\CallableTrait;
 use Streams\Platform\Contract\PresenterInterface;
 use Streams\Platform\Addon\Installer\AddonInstaller;
@@ -237,23 +238,14 @@ abstract class AddonAbstract implements PresenterInterface
     }
 
     /**
-     * Return a new presenter instance.
+     * Return a new AddonPresenter.
      *
-     * @return mixed|null
+     * @param $resource
+     * @return mixed|AddonPresenter
      */
     public function newPresenter($resource)
     {
-        return null;
-    }
-
-    /**
-     * Return a new addon model instance.
-     *
-     * @return null
-     */
-    public function newModel()
-    {
-        return null;
+        return new AddonPresenter($resource);
     }
 
     /**

@@ -5,11 +5,11 @@ use Streams\Platform\Addon\AddonAbstract;
 abstract class ThemeAbstract extends AddonAbstract
 {
     /**
-     * By default this is not an admin theme.
+     * Is this an admin theme?
      *
      * @var bool
      */
-    protected $admin = null;
+    protected $admin = false;
 
     /**
      * Return whether this theme is admin or not.
@@ -29,17 +29,6 @@ abstract class ThemeAbstract extends AddonAbstract
     public function newModel()
     {
         return new ThemeModel();
-    }
-
-    /**
-     * Return a new presenter instance.
-     *
-     * @param $resource
-     * @return null|ThemePresenter
-     */
-    public function newPresenter($resource)
-    {
-        return new ThemePresenter($resource);
     }
 
     /**

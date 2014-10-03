@@ -23,25 +23,4 @@ class TagManager extends AddonManager
             app('anomaly.lexicon')->registerPlugin($tag->slug, get_class($tag->getResource()));
         }
     }
-
-    /**
-     * Return a new model instance.
-     *
-     * @return mixed
-     */
-    protected function newModel()
-    {
-        return new TagModel();
-    }
-
-    /**
-     * Return a new collection instance.
-     *
-     * @param array $tags
-     * @return null|TagCollection
-     */
-    protected function newCollection(array $tags = [])
-    {
-        return new TagCollection($tags);
-    }
 }

@@ -156,27 +156,6 @@ abstract class TagAbstract extends AddonAbstract implements PluginInterface
     }
 
     /**
-     * Return a new TagModel instance.
-     *
-     * @return null|TagModel
-     */
-    public function newModel()
-    {
-        return new TagModel();
-    }
-
-    /**
-     * Return a new presenter instance.
-     *
-     * @param $resource
-     * @return null|TagPresenter
-     */
-    public function newPresenter($resource)
-    {
-        return new TagPresenter($resource);
-    }
-
-    /**
      * Set the Lexicon environment.
      *
      * @param LexiconInterface $lexicon
