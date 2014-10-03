@@ -1,7 +1,7 @@
 <?php namespace Streams\Platform\Addon\Module;
 
-use Streams\Platform\Addon\AddonTag;
+use Streams\Platform\Addon\TagAbstract;
 
-class ModuleTag extends AddonTag
+class ModuleTag extends TagAbstract
 {
 }

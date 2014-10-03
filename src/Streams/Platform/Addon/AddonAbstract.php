@@ -239,8 +239,7 @@ abstract class AddonAbstract implements PresenterInterface
     /**
      * Return a new presenter instance.
      *
-     * @param $resource
-     * @return null
+     * @return mixed|null
      */
     public function newPresenter($resource)
     {
@@ -280,11 +279,11 @@ abstract class AddonAbstract implements PresenterInterface
      */
     protected function newServiceProvider()
     {
-        $serviceProvider = get_called_class() . 'ServiceProvider';
+        /*$serviceProvider = get_called_class() . 'ServiceProvider';
 
         if (class_exists($serviceProvider)) {
             return new $serviceProvider(app());
-        }
+        }*/
 
         return null;
     }

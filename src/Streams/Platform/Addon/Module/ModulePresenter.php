@@ -13,14 +13,4 @@ class ModulePresenter extends AddonPresenter
     {
         $this->resource = $resource;
     }
-
-    /**
-     * Return the sections for a module.
-     *
-     * @return ModuleSectionCollection
-     */
-    public function sections()
-    {
-        return new ModuleSectionCollection($this->resource->getSections());
-    }
 }
