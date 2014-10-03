@@ -34,6 +34,50 @@ class ModuleManager extends AddonManager
     }
 
     /**
+     * Install the addon.
+     *
+     * @return mixed
+     */
+    public function install()
+    {
+        return $this->newInstaller()->install();
+    }
+
+    /**
+     * Uninstall the addon.
+     *
+     * @return mixed
+     */
+    public function uninstall()
+    {
+        return $this->newInstaller()->uninstall();
+    }
+
+    /**
+     * Set the installed property.
+     *
+     * @return bool
+     */
+    public function setInstalled($installed)
+    {
+        $this->installed = $installed;
+
+        return $this;
+    }
+
+    /**
+     * Set the enabled property.
+     *
+     * @return bool
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
      * Get the active module slug.
      *
      * @return null
@@ -57,6 +101,28 @@ class ModuleManager extends AddonManager
     }
 
     /**
+     * Return if an addon is installed or not.
+     *
+     * @param $slug
+     * @return bool
+     */
+    public function isInstalled($slug)
+    {
+        return $this->make($slug)->isInstalled();
+    }
+
+    /**
+     * Return if an addon is enabled or not.
+     *
+     * @param $slug
+     * @return bool
+     */
+    public function isEnabled($slug)
+    {
+        return $this->make($slug)->isEnabled();
+    }
+
+    /**
      * Return a new model instance.
      *
      * @return mixed
@@ -64,5 +130,16 @@ class ModuleManager extends AddonManager
     protected function newModel()
     {
         return new ModuleModel();
+    }
+
+    /**
+     * Return a new module collection.
+     *
+     * @param array $addons
+     * @return ModuleCollection
+     */
+    protected function newCollection(array $addons)
+    {
+        return new ModuleCollection($addons);
     }
 }

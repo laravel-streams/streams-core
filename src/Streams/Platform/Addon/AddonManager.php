@@ -4,7 +4,6 @@ use Composer\Autoload\ClassLoader;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Streams\Platform\Addon\AddonAbstract;
-use Streams\Platform\Addon\Collection\AddonCollection;
 use Streams\Platform\Traits\CallableTrait;
 
 class AddonManager
@@ -309,50 +308,6 @@ class AddonManager
         }
 
         return [];
-    }
-
-    /**
-     * Install an addon.
-     *
-     * @param $slug
-     * @return bool
-     */
-    public function install($slug)
-    {
-        return $this->make($slug)->install();
-    }
-
-    /**
-     * Uninstall an addon.
-     *
-     * @param $slug
-     * @return bool
-     */
-    public function uninstall($slug)
-    {
-        return $this->make($slug)->uninstall();
-    }
-
-    /**
-     * Return if an addon is installed or not.
-     *
-     * @param $slug
-     * @return bool
-     */
-    public function isInstalled($slug)
-    {
-        return $this->make($slug)->isInstalled();
-    }
-
-    /**
-     * Return if an addon is enabled or not.
-     *
-     * @param $slug
-     * @return bool
-     */
-    public function isEnabled($slug)
-    {
-        return $this->make($slug)->isEnabled();
     }
 
     /**

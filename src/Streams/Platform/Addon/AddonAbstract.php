@@ -1,9 +1,7 @@
 <?php namespace Streams\Platform\Addon;
 
-use Streams\Platform\Addon\Presenter\AddonPresenter;
 use Streams\Platform\Traits\CallableTrait;
 use Streams\Platform\Contract\PresenterInterface;
-use Streams\Platform\Addon\Installer\AddonInstaller;
 
 abstract class AddonAbstract implements PresenterInterface
 {
@@ -79,16 +77,6 @@ abstract class AddonAbstract implements PresenterInterface
     public function uninstall()
     {
         return $this->newInstaller()->uninstall();
-    }
-
-    /**
-     * Return the model.
-     *
-     * @return mixed
-     */
-    public function model()
-    {
-        return $this->newModel()->findBySlug($this->slug);
     }
 
     /**
@@ -238,10 +226,10 @@ abstract class AddonAbstract implements PresenterInterface
     }
 
     /**
-     * Return a new AddonPresenter.
+     * Return a new addon presenter.
      *
      * @param $resource
-     * @return mixed|AddonPresenter
+     * @return AddonPresenter
      */
     public function newPresenter($resource)
     {
