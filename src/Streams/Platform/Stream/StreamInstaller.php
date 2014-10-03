@@ -2,7 +2,7 @@
 
 use Streams\Platform\Support\Installer;
 use Streams\Platform\Field\FieldService;
-use Streams\Platform\Addon\AddonInterface;
+use Streams\Platform\Addon\AddonAbstract;
 
 class StreamInstaller extends Installer
 {
@@ -37,12 +37,12 @@ class StreamInstaller extends Installer
     /**
      * Create a new StreamInstaller instance.
      *
-     * @param AddonInterface $addon
+     * @param AddonAbstract $addon
      * @param StreamService  $streamService
      * @param FieldService   $fieldService
      */
     public function __construct(
-        AddonInterface $addon,
+        AddonAbstract $addon,
         StreamService $streamService,
         FieldService $fieldService
     ) {

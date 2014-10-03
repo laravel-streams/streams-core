@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Addon\FieldType;
 
-use Streams\Platform\Addon\Model\AddonModel;
+use Streams\Platform\Addon\AddonModel;
 
 class FieldTypeModel extends AddonModel
 {

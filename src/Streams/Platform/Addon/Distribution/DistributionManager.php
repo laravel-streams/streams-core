@@ -1,8 +1,6 @@
 <?php namespace Streams\Platform\Addon\Distribution;
 
 use Streams\Platform\Addon\AddonManager;
-use Streams\Platform\Addon\Model\DistributionModel;
-use Streams\Platform\Addon\Collection\DistributionCollection;
 
 class DistributionManager extends AddonManager
 {

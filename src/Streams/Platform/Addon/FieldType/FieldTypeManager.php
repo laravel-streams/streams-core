@@ -1,8 +1,6 @@
 <?php namespace Streams\Platform\Addon\FieldType;
 
 use Streams\Platform\Addon\AddonManager;
-use Streams\Platform\Addon\Model\FieldTypeModel;
-use Streams\Platform\Addon\Collection\FieldTypeCollection;
 
 class FieldTypeManager extends AddonManager
 {

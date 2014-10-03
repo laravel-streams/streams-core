@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Addon\Collection;
+<?php namespace Streams\Platform\Addon;
 
 use Streams\Platform\Support\Collection;
 

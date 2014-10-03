@@ -1,17 +1,12 @@
 <?php namespace Streams\Platform\Field\Command;
 
 use Streams\Platform\Field\FieldModel;
-use Laracasts\Commander\CommandHandler;
-use Laracasts\Commander\Events\EventDispatcher;
+use Streams\Platform\Traits\DispatchableTrait;
+use Streams\Platform\Contract\CommandInterface;
 
-class RemoveFieldCommandHandler implements CommandHandler
+class RemoveFieldCommandHandler implements CommandInterface
 {
-    /**
-     * The event dispatcher.
-     *
-     * @var \Laracasts\Commander\Events\EventDispatcher
-     */
-    protected $dispatcher;
+    use DispatchableTrait;
 
     /**
      * The field model.
@@ -23,13 +18,11 @@ class RemoveFieldCommandHandler implements CommandHandler
     /**
      * Create a new InstallFieldCommandHandler instance.
      *
-     * @param EventDispatcher $dispatcher
-     * @param FieldModel      $field
+     * @param FieldModel $field
      */
-    function __construct(EventDispatcher $dispatcher, FieldModel $field)
+    function __construct(FieldModel $field)
     {
-        $this->field      = $field;
-        $this->dispatcher = $dispatcher;
+        $this->field = $field;
     }
 
     /**
@@ -46,7 +39,7 @@ class RemoveFieldCommandHandler implements CommandHandler
         );
 
         if ($field) {
-            $this->dispatcher->dispatch($field->releaseEvents());
+            $this->dispatchEventsFor($field);
 
             return $field;
         }

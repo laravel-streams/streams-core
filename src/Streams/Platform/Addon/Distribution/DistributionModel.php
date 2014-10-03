@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Addon\Distribution;
 
-use Streams\Platform\Addon\Model\AddonModel;
+use Streams\Platform\Addon\AddonModel;
 
 class DistributionModel extends AddonModel
 {

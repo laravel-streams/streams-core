@@ -1,19 +1,14 @@
 <?php namespace Streams\Platform\Field\Command;
 
 use Streams\Platform\Field\FieldModel;
-use Laracasts\Commander\CommandHandler;
 use Streams\Platform\Stream\StreamModel;
-use Laracasts\Commander\Events\EventDispatcher;
+use Streams\Platform\Traits\DispatchableTrait;
+use Streams\Platform\Contract\CommandInterface;
 use Streams\Platform\Assignment\AssignmentModel;
 
-class AssignFieldCommandHandler implements CommandHandler
+class AssignFieldCommandHandler implements CommandInterface
 {
-    /**
-     * The event dispatcher.
-     *
-     * @var \Laracasts\Commander\Events\EventDispatcher
-     */
-    protected $dispatcher;
+    use DispatchableTrait;
 
     /**
      * The stream model.
@@ -39,13 +34,11 @@ class AssignFieldCommandHandler implements CommandHandler
     /**
      * Create a new AssignFieldCommandHandler instance.
      *
-     * @param EventDispatcher $dispatcher
      * @param StreamModel     $stream
      * @param FieldModel      $field
      * @param AssignmentModel $assignment
      */
     function __construct(
-        EventDispatcher $dispatcher,
         StreamModel $stream,
         FieldModel $field,
         AssignmentModel $assignment
@@ -53,7 +46,6 @@ class AssignFieldCommandHandler implements CommandHandler
         $this->field      = $field;
         $this->stream     = $stream;
         $this->assignment = $assignment;
-        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -79,7 +71,7 @@ class AssignFieldCommandHandler implements CommandHandler
             $command->getIsRevisionable()
         );
 
-        //$this->raise();
+        $this->dispatchEventsFor($assignment);
 
         return $assignment;
     }

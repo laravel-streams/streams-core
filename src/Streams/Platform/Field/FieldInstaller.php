@@ -1,7 +1,7 @@
 <?php namespace Streams\Platform\Field;
 
 use Streams\Platform\Support\Installer;
-use Streams\Platform\Addon\AddonInterface;
+use Streams\Platform\Addon\AddonAbstract;
 
 class FieldInstaller extends Installer
 {
@@ -15,7 +15,7 @@ class FieldInstaller extends Installer
     /**
      * The addon object.
      *
-     * @var \Streams\Platform\Addon\AddonInterface
+     * @var \Streams\Platform\Addon\AddonAbstract
      */
     protected $addon;
 
@@ -29,9 +29,9 @@ class FieldInstaller extends Installer
     /**
      * Create a new FieldInstaller instance.
      *
-     * @param AddonInterface $addon
+     * @param AddonAbstract $addon
      */
-    public function __construct(AddonInterface $addon, FieldService $fieldService)
+    public function __construct(AddonAbstract $addon, FieldService $fieldService)
     {
         $this->addon        = $addon;
         $this->fieldService = $fieldService;

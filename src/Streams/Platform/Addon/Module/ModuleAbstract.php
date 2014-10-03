@@ -1,9 +1,6 @@
 <?php namespace Streams\Platform\Addon\Module;
 
 use Streams\Platform\Addon\AddonAbstract;
-use Streams\Platform\Addon\Tag\ModuleTag;
-use Streams\Platform\Addon\Model\ModuleModel;
-use Streams\Platform\Addon\Presenter\ModulePresenter;
 
 abstract class ModuleAbstract extends AddonAbstract
 {

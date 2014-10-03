@@ -71,6 +71,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Streams\Platform\Provider\DecoratorServiceProvider');
         $this->app->register('Streams\Platform\Provider\PresenterServiceProvider');
         $this->app->register('Streams\Platform\Provider\MessagesServiceProvider');
+        $this->app->register('Streams\Platform\Provider\ListenerServiceProvider');
         $this->app->register('Streams\Platform\Provider\HelpersServiceProvider');
         $this->app->register('Streams\Platform\Provider\FilterServiceProvider');
         $this->app->register('Streams\Platform\Provider\LoaderServiceProvider');
@@ -79,7 +80,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Streams\Platform\Provider\ErrorServiceProvider');
         $this->app->register('Streams\Platform\Provider\RouteServiceProvider');
         $this->app->register('Streams\Platform\Provider\ModelServiceProvider');
-        $this->app->register('Streams\Platform\Provider\EventServiceProvider');
         $this->app->register('Streams\Platform\Provider\ViewServiceProvider');
         $this->app->register('Streams\Platform\Provider\AuthServiceProvider');
         $this->app->register('Streams\Platform\Provider\LogServiceProvider');

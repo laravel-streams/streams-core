@@ -1,9 +1,14 @@
 <?php namespace Streams\Platform\Addon;
 
 use Streams\Platform\Support\Installer;
+use Streams\Platform\Traits\EventableTrait;
+use Streams\Platform\Traits\DispatchableTrait;
 
 class AddonInstaller extends Installer
 {
+    use EventableTrait;
+    use DispatchableTrait;
+
     /**
      * The installers to run.
      *
@@ -14,16 +19,16 @@ class AddonInstaller extends Installer
     /**
      * The addon object.
      *
-     * @var \Streams\Platform\Addon\AddonInterface
+     * @var \Streams\Platform\Addon\AddonAbstract
      */
     protected $addon;
 
     /**
      * Create a new AddonInstallerAbstract instance.
      *
-     * @param AddonInterface $addon
+     * @param AddonAbstract $addon
      */
-    public function __construct(AddonInterface $addon)
+    public function __construct(AddonAbstract $addon)
     {
         $this->addon = $addon;
     }
@@ -35,11 +40,13 @@ class AddonInstaller extends Installer
      */
     public function install()
     {
+        $this->fire('before_install');
+
         foreach ($this->installers as $installer) {
             app()->make($installer, ['addon' => $this->addon])->install();
         }
 
-        die('INSTALLED');
+        $this->fire('after_install');
 
         return true;
     }
@@ -51,11 +58,13 @@ class AddonInstaller extends Installer
      */
     public function uninstall()
     {
+        $this->fire('before_uninstall');
+
         foreach ($this->installers as $installer) {
             app()->make($installer, ['addon' => $this->addon])->uninstall();
         }
 
-        die('UNINSTALLED');
+        $this->fire('after_uninstall');
 
         return true;
     }

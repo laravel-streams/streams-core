@@ -2,16 +2,11 @@
 
 use Laracasts\Commander\CommandHandler;
 use Streams\Platform\Stream\StreamModel;
-use Laracasts\Commander\Events\EventDispatcher;
+use Streams\Platform\Traits\DispatchableTrait;
 
 class AddStreamCommandHandler implements CommandHandler
 {
-    /**
-     * The event dispatcher.
-     *
-     * @var \Laracasts\Commander\Events\EventDispatcher
-     */
-    protected $dispatcher;
+    use DispatchableTrait;
 
     /**
      * The stream model.
@@ -23,13 +18,11 @@ class AddStreamCommandHandler implements CommandHandler
     /**
      * Create a new InstallStreamCommandHandler instance.
      *
-     * @param EventDispatcher $dispatcher
-     * @param StreamModel     $stream
+     * @param StreamModel $stream
      */
-    function __construct(EventDispatcher $dispatcher, StreamModel $stream)
+    function __construct(StreamModel $stream)
     {
-        $this->stream     = $stream;
-        $this->dispatcher = $dispatcher;
+        $this->stream = $stream;
     }
 
     /**
@@ -62,7 +55,7 @@ class AddStreamCommandHandler implements CommandHandler
             $command->getIsRevisionable()
         );
 
-        $this->dispatcher->dispatch($stream->releaseEvents());
+        $this->dispatchEventsFor($stream);
 
         return $stream;
     }

@@ -1,5 +1,4 @@
-<?php namespace Streams\Platform\Addon\Presenter;
-
+<?php namespace Streams\Platform\Addon;
 
 use Streams\Platform\Support\Presenter;
 

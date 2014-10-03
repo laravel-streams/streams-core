@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Field;
 
-use Laracasts\Commander\CommanderTrait;
+use Streams\Platform\Traits\CommandableTrait;
 use Streams\Platform\Field\Command\AddFieldCommand;
 use Streams\Platform\Field\Command\AssignFieldCommand;
 use Streams\Platform\Field\Command\RemoveFieldCommand;
@@ -8,7 +8,7 @@ use Streams\Platform\Assignment\Command\UnassignFieldCommand;
 
 class FieldService
 {
-    use CommanderTrait;
+    use CommandableTrait;
 
     /**
      * Add a field.

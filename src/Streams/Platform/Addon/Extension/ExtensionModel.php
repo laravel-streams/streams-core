@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Addon\Extension;
 
-use Streams\Platform\Addon\Model\AddonModel;
+use Streams\Platform\Addon\AddonModel;
 
 class ExtensionModel extends AddonModel
 {

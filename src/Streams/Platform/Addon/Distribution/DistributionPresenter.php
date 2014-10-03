@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Addon\Distribution;
 
-use Streams\Platform\Addon\Presenter\AddonPresenter;
+use Streams\Platform\Addon\AddonPresenter;
 
 class DistributionPresenter extends AddonPresenter
 {

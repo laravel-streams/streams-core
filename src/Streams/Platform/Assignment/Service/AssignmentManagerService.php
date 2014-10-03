@@ -4,7 +4,7 @@ use Streams\Platform\Assignment\Command\UnassignFieldCommand;
 use Streams\Platform\Field\FieldModel;
 use Laracasts\Commander\CommanderTrait;
 use Streams\Platform\Stream\StreamModel;
-use Streams\Platform\Addon\AddonInterface;
+use Streams\Platform\Addon\AddonAbstract;
 use Streams\Platform\Assignment\Command\AssignFieldCommand;
 
 class AssignmentManagerService
@@ -14,14 +14,14 @@ class AssignmentManagerService
     /**
      * Assign a field to a stream.
      *
-     * @param AddonInterface $addon
+     * @param AddonAbstract $addon
      * @param StreamModel    $stream
      * @param FieldModel     $field
      * @param array          $assignment
      * @return mixed
      */
     public function assign(
-        AddonInterface $addon,
+        AddonAbstract $addon,
         StreamModel $stream,
         FieldModel $field,
         array $assignment

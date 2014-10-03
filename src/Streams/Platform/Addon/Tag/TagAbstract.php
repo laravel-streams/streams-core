@@ -1,10 +1,8 @@
 <?php namespace Streams\Platform\Addon\Tag;
 
 use Streams\Platform\Addon\AddonAbstract;
-use Streams\Platform\Addon\Model\TagModel;
 use Anomaly\Lexicon\Contract\PluginInterface;
 use Anomaly\Lexicon\Contract\LexiconInterface;
-use Streams\Platform\Addon\Presenter\TagPresenter;
 
 abstract class TagAbstract extends AddonAbstract implements PluginInterface
 {

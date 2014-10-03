@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Addon\Tag;
 
-use Streams\Platform\Addon\Model\AddonModel;
+use Streams\Platform\Addon\AddonModel;
 
 class TagModel extends AddonModel
 {

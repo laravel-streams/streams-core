@@ -1,8 +1,6 @@
 <?php namespace Streams\Platform\Addon\Theme;
 
 use Streams\Platform\Addon\AddonManager;
-use Streams\Platform\Addon\Model\ThemeModel;
-use Streams\Platform\Addon\Collection\ThemeCollection;
 
 class ThemeManager extends AddonManager
 {

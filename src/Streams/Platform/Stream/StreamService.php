@@ -1,12 +1,12 @@
 <?php namespace Streams\Platform\Stream;
 
-use Laracasts\Commander\CommanderTrait;
+use Streams\Platform\Traits\CommandableTrait;
 use Streams\Platform\Stream\Command\AddStreamCommand;
 use Streams\Platform\Stream\Command\RemoveStreamCommand;
 
 class StreamService
 {
-    use CommanderTrait;
+    use CommandableTrait;
 
     /**
      * Add a stream.

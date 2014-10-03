@@ -1,8 +1,6 @@
 <?php namespace Streams\Platform\Addon\Block;
 
 use Streams\Platform\Addon\AddonAbstract;
-use Streams\Platform\Addon\Model\BlockModel;
-use Streams\Platform\Addon\Presenter\BlockPresenter;
 
 abstract class BlockAbstract extends AddonAbstract
 {

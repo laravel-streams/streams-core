@@ -2,9 +2,9 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
-use Laracasts\Commander\Events\EventGenerator;
 
 use Streams\Platform\Traits\CacheableTrait;
+use Streams\Platform\Traits\EventableTrait;
 use Streams\Platform\Traits\ObservableTrait;
 use Streams\Platform\Traits\RevisionableTrait;
 use Streams\Platform\Traits\TranslatableTrait;
@@ -24,7 +24,7 @@ class EloquentModel extends Model implements ArrayableInterface, PresenterInterf
     use CacheableTrait;
     use ObservableTrait;
 
-    use EventGenerator;
+    use EventableTrait;
 
     /**
      * Translatable flag.

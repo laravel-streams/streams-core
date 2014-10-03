@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Addon\Theme;
 
-use Streams\Platform\Addon\Model\AddonModel;
+use Streams\Platform\Addon\AddonModel;
 
 class ThemeModel extends AddonModel
 {

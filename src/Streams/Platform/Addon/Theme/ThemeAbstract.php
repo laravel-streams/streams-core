@@ -1,9 +1,6 @@
 <?php namespace Streams\Platform\Addon\Theme;
 
-use Streams\Addon\Tag\Theme\ThemeTag;
 use Streams\Platform\Addon\AddonAbstract;
-use Streams\Platform\Addon\Model\ThemeModel;
-use Streams\Platform\Addon\Presenter\ThemePresenter;
 
 abstract class ThemeAbstract extends AddonAbstract
 {

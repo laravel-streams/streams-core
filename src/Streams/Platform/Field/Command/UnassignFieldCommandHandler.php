@@ -1,19 +1,14 @@
 <?php namespace Streams\Platform\Field\Command;
 
+use Laracasts\Commander\Events\DispatchableTrait;
 use Streams\Platform\Field\FieldModel;
-use Laracasts\Commander\CommandHandler;
 use Streams\Platform\Stream\StreamModel;
-use Laracasts\Commander\Events\EventDispatcher;
+use Streams\Platform\Contract\CommandInterface;
 use Streams\Platform\Assignment\AssignmentModel;
 
-class UnassignFieldCommandHandler implements CommandHandler
+class UnassignFieldCommandHandler implements CommandInterface
 {
-    /**
-     * The event dispatcher.
-     *
-     * @var \Laracasts\Commander\Events\EventDispatcher
-     */
-    protected $dispatcher;
+    use DispatchableTrait;
 
     /**
      * The stream model.
@@ -39,13 +34,11 @@ class UnassignFieldCommandHandler implements CommandHandler
     /**
      * Create a new UnassignFieldCommandHandler instance.
      *
-     * @param EventDispatcher $dispatcher
      * @param StreamModel     $stream
      * @param FieldModel      $field
      * @param AssignmentModel $assignment
      */
     function __construct(
-        EventDispatcher $dispatcher,
         StreamModel $stream,
         FieldModel $field,
         AssignmentModel $assignment
@@ -53,7 +46,6 @@ class UnassignFieldCommandHandler implements CommandHandler
         $this->field      = $field;
         $this->stream     = $stream;
         $this->assignment = $assignment;
-        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -69,7 +61,7 @@ class UnassignFieldCommandHandler implements CommandHandler
 
         $assignment = $this->assignment->remove($stream->getKey(), $field->getKey());
 
-        //$this->raise();
+        $this->dispatchEventsFor($assignment);
 
         return $assignment;
     }

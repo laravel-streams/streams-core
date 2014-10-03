@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Addon\Model;
+<?php namespace Streams\Platform\Addon;
 
 use Streams\Platform\Model\EloquentModel;
 
@@ -16,28 +16,38 @@ class AddonModel extends EloquentModel
     }
 
     /**
-     * Mark the addon as installed and save.
+     * Mark an addon as installed.
      *
+     * @param $slug
      * @return mixed
      */
-    public function installed()
+    public function installed($slug)
     {
-        $this->is_enabled   = true;
-        $this->is_installed = true;
+        $addon = $this->whereSlug($slug)->first();
 
-        return $this->save();
+        $addon->is_enabled   = true;
+        $addon->is_installed = true;
+
+        $addon->save();
+
+        return $addon;
     }
 
     /**
-     * Mark the addon as uninstalled and save.
+     * Mark an addon as uninstalled.
      *
+     * @param $slug
      * @return mixed
      */
-    public function uninstalled()
+    public function uninstalled($slug)
     {
-        $this->is_enabled   = false;
-        $this->is_installed = false;
+        $addon = $this->whereSlug($slug)->first();
 
-        return $this->save();
+        $addon->is_enabled   = false;
+        $addon->is_installed = false;
+
+        $addon->save();
+
+        return $addon;
     }
 }

@@ -1,8 +1,6 @@
 <?php namespace Streams\Platform\Addon\Module;
 
-use Streams\Platform\Addon\ModuleAbstract;
-use Streams\Platform\Addon\Presenter\AddonPresenter;
-use Streams\Platform\Addon\Collection\ModuleSectionCollection;
+use Streams\Platform\Addon\AddonPresenter;
 
 class ModulePresenter extends AddonPresenter
 {

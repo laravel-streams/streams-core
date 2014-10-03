@@ -2,8 +2,6 @@
 
 use Illuminate\Container\Container;
 use Streams\Platform\Addon\AddonManager;
-use Streams\Platform\Addon\Model\TagModel;
-use Streams\Platform\Addon\Collection\TagCollection;
 
 class TagManager extends AddonManager
 {

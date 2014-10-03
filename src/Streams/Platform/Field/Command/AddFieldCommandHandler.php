@@ -1,10 +1,13 @@
 <?php namespace Streams\Platform\Field\Command;
 
 use Streams\Platform\Field\FieldModel;
-use Laracasts\Commander\CommandHandler;
+use Streams\Platform\Traits\DispatchableTrait;
+use Streams\Platform\Contract\CommandInterface;
 
-class AddFieldCommandHandler implements CommandHandler
+class AddFieldCommandHandler implements CommandInterface
 {
+    use DispatchableTrait;
+
     /**
      * The field model.
      *
@@ -30,7 +33,7 @@ class AddFieldCommandHandler implements CommandHandler
      */
     public function handle($command)
     {
-        return $this->field->add(
+        $field = $this->field->add(
             $command->getNamespace(),
             $command->getSlug(),
             $command->getName(),
@@ -39,6 +42,10 @@ class AddFieldCommandHandler implements CommandHandler
             $command->getSettings(),
             $command->getIsLocked()
         );
+
+        $this->dispatchEventsFor($field);
+
+        return $field;
     }
 }
  

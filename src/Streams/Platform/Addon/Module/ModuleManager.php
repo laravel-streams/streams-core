@@ -2,8 +2,6 @@
 
 use Illuminate\Container\Container;
 use Streams\Platform\Addon\AddonManager;
-use Streams\Platform\Addon\Model\ModuleModel;
-use Streams\Platform\Addon\Collection\ModuleCollection;
 
 class ModuleManager extends AddonManager
 {
