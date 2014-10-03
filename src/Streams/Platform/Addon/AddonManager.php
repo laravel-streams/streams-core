@@ -40,13 +40,6 @@ class AddonManager
     protected $registered = [];
 
     /**
-     * Model data.
-     *
-     * @var array
-     */
-    protected $data = [];
-
-    /**
      * The container object.
      *
      * @var \Illuminate\Container\Container
@@ -86,8 +79,6 @@ class AddonManager
     {
         $this->fire('before_register', [$this->app]);
 
-        $this->loadData();
-
         foreach ($this->allAddonPaths() as $path) {
 
             $slug = basename($path);
@@ -124,24 +115,6 @@ class AddonManager
             $info['namespace'] . '\\',
             $info['path'] . '/src'
         );
-    }
-
-    /**
-     * Load data from the database.
-     */
-    protected function loadData()
-    {
-        $this->application = app('streams.application');
-
-        if ($this->storage and $this->application->locate()) {
-            $table = $this->application->getReference() . '_addons_' . $this->folder;
-
-            $data = app('db')->table($table)->get();
-
-            foreach ($data as $addon) {
-                $this->data[$addon->slug] = $addon;
-            }
-        }
     }
 
     /**
