@@ -15,7 +15,6 @@
         "oyejorge/less.php": "~1.5",
         "laravel/framework": "~5.0",
         "natxet/CssMin": "dev-master",
-        "laracasts/commander": "~1.0",
         "leafo/scssphp": "dev-develop",
         "robclancy/presenter": "1.3.*",
         "anomaly/lexicon": "dev-master",
