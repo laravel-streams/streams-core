@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Image;
+<?php namespace Streams\Platform\Asset;
 
 use Intervention\Image\ImageManager;
 
@@ -23,14 +23,14 @@ class Image extends ImageManager
      *
      * @var array
      */
-    protected $filters = [];
+    protected $applied = [];
 
     /**
      * An array of supported filters.
      *
      * @var array
      */
-    protected $supportedFilters = [
+    protected $filters = [
         'blur',
         'brightness',
         'colorize',
@@ -377,7 +377,7 @@ class Image extends ImageManager
     {
         $path = $this->pipe();
 
-        return \URL::to($path, $extra, $secure or \Request::isSecure());
+        return \URL::to($path, $extra, $secure or app('request')->isSecure());
     }
 
     /**
@@ -392,7 +392,7 @@ class Image extends ImageManager
     {
         $path = $this->pipe();
 
-        return \HTML::image($path, $alt, $attributes, $secure or \Request::isSecure());
+        return app('html')->image($path, $alt, $attributes, $secure or app('request')->isSecure());
     }
 
     /**
@@ -433,7 +433,7 @@ class Image extends ImageManager
     {
         $this->image = $image;
 
-        $this->filters[$image] = [];
+        $this->applied[$image] = [];
 
         return $this;
     }
@@ -447,7 +447,7 @@ class Image extends ImageManager
      */
     public function addFilter($method, $arguments)
     {
-        $this->filters[$this->image][$method] = $arguments;
+        $this->applied[$this->image][$method] = $arguments;
 
         return $this;
     }
@@ -459,6 +459,6 @@ class Image extends ImageManager
      */
     public function getSupportedFilters()
     {
-        return $this->supportedFilters;
+        return $this->filters;
     }
 }
