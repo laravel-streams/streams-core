@@ -3,9 +3,11 @@
 use Illuminate\Support\ServiceProvider;
 use Streams\Platform\Traits\CallableTrait;
 
-abstract class AddonServiceProvider extends ServiceProvider
+abstract class AddonServiceProviderAbstract extends ServiceProvider
 {
     use CallableTrait;
+
+    protected $type = null;
 
     protected $binding = 'singleton';
 
@@ -110,9 +112,7 @@ abstract class AddonServiceProvider extends ServiceProvider
 
     protected function getType()
     {
-        $class = (new \ReflectionClass($this))->getShortName();
-
-        return snake_case(str_replace('ServiceProvider', '', $class));
+        return $this->type;
     }
 
     protected function getFolder()

@@ -2,7 +2,7 @@
 
 use Streams\Platform\Support\Presenter;
 
-class AddonPresenter extends Presenter
+abstract class AddonPresenterAbstract extends Presenter
 {
     /**
      * Return the name of the addon.

@@ -1,13 +1,8 @@
 <?php namespace Streams\Platform\Addon;
 
-class AddonRepository
+class AddonRepositoryAbstract
 {
-    protected $loaded;
-
-    function __construct(array $loaded)
-    {
-        $this->loaded = $loaded;
-    }
+    protected $type = null;
 
     /**
      * Get an addon.
@@ -17,7 +12,7 @@ class AddonRepository
      */
     public function get($slug = null)
     {
-        foreach ($this->loaded as $abstract) {
+        foreach (app("streams.{$this->type}.loaded") as $abstract) {
             if (ends_with($abstract, '.' . $slug)) {
                 return app('streams.decorator')->decorate(app($abstract));
             }
@@ -33,24 +28,25 @@ class AddonRepository
      */
     public function all()
     {
-        return $this->newCollection(
+        $collection = $this->getCollection();
+
+        return new $collection(
             array_map(
                 function ($abstract) {
                     return app('streams.decorator')->decorate(app($abstract));
                 },
-                $this->loaded
+                app("streams.{$this->type}.loaded")
             )
         );
     }
 
     /**
-     * Return a new collection instance.
+     * Get the collection class.
      *
-     * @param array $addons
-     * @return AddonCollection
+     * @return string
      */
-    protected function newCollection(array $addons)
+    protected function getCollection()
     {
-        return new AddonCollection($addons);
+        return (new AddonTypeClassResolver())->resolveCollection($this->type);
     }
 }
