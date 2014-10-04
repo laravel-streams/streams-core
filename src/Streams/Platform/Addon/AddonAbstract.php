@@ -36,11 +36,11 @@ abstract class AddonAbstract implements PresenterInterface
      * Return a new addon presenter.
      *
      * @param $resource
-     * @return AddonPresenter
+     * @return mixed
      */
     public function newPresenter($resource)
     {
-        $presenter = (new AddonTypeClassResolver())->resolvePresenter($this->getType());
+        $presenter = (new AddonClassResolver())->resolvePresenter($this->getType());
 
         return new $presenter($resource);
     }

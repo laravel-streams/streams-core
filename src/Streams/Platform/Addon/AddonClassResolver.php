@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Addon;
 
-class AddonTypeClassResolver
+class AddonClassResolver
 {
     /**
      * Resolve a service provider.
