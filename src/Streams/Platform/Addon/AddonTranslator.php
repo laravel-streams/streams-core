@@ -4,11 +4,12 @@ class AddonTranslator
 {
     /**
      * Translate an addon to it's service provider.
+
      *
-     * @param AddonAbstract $addon
+*@param Addon $addon
      * @return bool|string
      */
-    public function toServiceProvider(AddonAbstract $addon)
+    public function toServiceProvider(Addon $addon)
     {
         return $this->translate($addon, 'ServiceProvider');
     }

@@ -3,7 +3,7 @@
 use Streams\Platform\Traits\CallableTrait;
 use Streams\Platform\Contract\PresenterInterface;
 
-abstract class AddonAbstract implements PresenterInterface
+class Addon implements PresenterInterface
 {
     use CallableTrait;
 

@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\FieldType;
 
-use Streams\Platform\Addon\AddonAbstract;
+use Streams\Platform\Addon\Addon;
 
-abstract class FieldTypeAbstract extends AddonAbstract
+abstract class FieldType extends Addon
 {
     protected $columnType = 'string';
 

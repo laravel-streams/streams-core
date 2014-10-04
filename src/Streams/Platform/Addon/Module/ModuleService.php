@@ -31,11 +31,12 @@ class ModuleService
 
     /**
      * Install a module.
+
      *
-     * @param ModuleAbstract $module
+*@param Module $module
      * @return bool
      */
-    public function install(ModuleAbstract $module)
+    public function install(Module $module)
     {
         $installer = $this->translator->toInstaller($module);
 
@@ -54,11 +55,12 @@ class ModuleService
 
     /**
      * Uninstall a module.
+
      *
-     * @param ModuleAbstract $module
+*@param Module $module
      * @return bool
      */
-    public function uninstall(ModuleAbstract $module)
+    public function uninstall(Module $module)
     {
         $installer = $this->translator->toInstaller($module);
 

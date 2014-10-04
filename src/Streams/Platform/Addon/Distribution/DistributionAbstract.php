@@ -1,7 +1,7 @@
 <?php namespace Streams\Platform\Addon\Distribution;
 
-use Streams\Platform\Addon\AddonAbstract;
+use Streams\Platform\Addon\Addon;
 
-abstract class DistributionAbstract extends AddonAbstract
+abstract class Distribution extends Addon
 {
 }

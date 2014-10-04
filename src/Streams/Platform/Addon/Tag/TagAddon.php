@@ -1,10 +1,10 @@
 <?php namespace Streams\Platform\Addon\Tag;
 
-use Streams\Platform\Addon\AddonAbstract;
+use Streams\Platform\Addon\Addon;
 use Anomaly\Lexicon\Contract\PluginInterface;
 use Anomaly\Lexicon\Contract\LexiconInterface;
 
-class TagAddon extends AddonAbstract implements PluginInterface
+class TagAddon extends Addon implements PluginInterface
 {
     /**
      * Attributes that have been passed into the tag.

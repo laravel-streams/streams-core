@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\Module;
 
-use Streams\Platform\Addon\AddonAbstract;
+use Streams\Platform\Addon\Addon;
 
-abstract class ModuleAbstract extends AddonAbstract
+abstract class Module extends Addon
 {
     /**
      * The group string.

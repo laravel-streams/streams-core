@@ -1,8 +1,7 @@
 <?php namespace Streams\Platform\Addon\Block;
 
-use Streams\Platform\Addon\AddonAbstract;
+use Streams\Platform\Addon\Addon;
 
-class BlockAddon extends AddonAbstract
+class BlockAddon extends Addon
 {
-    protected $type = 'block';
 }

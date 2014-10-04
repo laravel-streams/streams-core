@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\Theme;
 
-use Streams\Platform\Addon\AddonAbstract;
+use Streams\Platform\Addon\Addon;
 
-abstract class ThemeAbstract extends AddonAbstract
+abstract class Theme extends Addon
 {
     /**
      * Is this an admin theme?

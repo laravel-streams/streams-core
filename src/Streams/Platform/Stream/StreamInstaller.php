@@ -1,7 +1,7 @@
 <?php namespace Streams\Platform\Stream;
 
 use Streams\Platform\Field\FieldService;
-use Streams\Platform\Addon\AddonAbstract;
+use Streams\Platform\Addon\Addon;
 
 class StreamInstaller
 {
