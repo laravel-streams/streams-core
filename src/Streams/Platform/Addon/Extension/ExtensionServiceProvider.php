@@ -1,7 +1,8 @@
 <?php namespace Streams\Platform\Addon\Extension;
 
-use Streams\Platform\Addon\AddonServiceProvider;
+use Streams\Platform\Addon\AddonServiceProviderAbstract;
 
-class ExtensionServiceProvider extends AddonServiceProvider
+class ExtensionServiceProvider extends AddonServiceProviderAbstract
 {
+    protected $type = 'extension';
 }

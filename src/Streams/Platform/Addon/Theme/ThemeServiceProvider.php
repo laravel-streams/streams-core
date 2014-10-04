@@ -1,7 +1,8 @@
 <?php namespace Streams\Platform\Addon\Theme;
 
-use Streams\Platform\Addon\AddonServiceProvider;
+use Streams\Platform\Addon\AddonServiceProviderAbstract;
 
-class ThemeServiceProvider extends AddonServiceProvider
+class ThemeServiceProvider extends AddonServiceProviderAbstract
 {
+    protected $type = 'theme';
 }
