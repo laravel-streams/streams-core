@@ -2,7 +2,7 @@
 
 use Illuminate\Container\Container;
 
-class Application implements ApplicationInterface
+class Application
 {
     /**
      * The application reference.
@@ -21,14 +21,14 @@ class Application implements ApplicationInterface
     /**
      * The application model.
      *
-     * @var Model\ApplicationModel
+     * @var ApplicationModel
      */
     protected $model;
 
     /**
      * Create a new Application instance
      */
-    public function __construct(ApplicationModelInterface $model = null)
+    public function __construct(ApplicationModel $model = null)
     {
         $this->model = $model;
     }

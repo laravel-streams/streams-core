@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
-class ApplicationModel extends Model implements ApplicationModelInterface
+class ApplicationModel extends Model
 {
     /**
      * Find an application record by domain.
