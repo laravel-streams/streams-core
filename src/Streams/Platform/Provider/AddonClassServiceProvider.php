@@ -1,6 +1,7 @@
 <?php namespace Streams\Platform\Provider;
 
 use Illuminate\Support\ServiceProvider;
+use Streams\Platform\Addon\AddonTypeClassResolver;
 
 class AddonClassServiceProvider extends ServiceProvider
 {
@@ -16,14 +17,10 @@ class AddonClassServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $resolver = new AddonTypeClassResolver();
+
         foreach (config('streams.addons.types') as $type) {
-            $class         = studly_case($type);
-            $namespace     = $class . '\\';
-            $baseNamespace = 'Streams\Platform\Addon\\';
-
-            $serviceProvider = $baseNamespace . $namespace . $class . 'ServiceProvider';
-
-            $this->app->register($serviceProvider);
+            $this->app->register($resolver->resolveServiceProvider($type));
         }
     }
 }
