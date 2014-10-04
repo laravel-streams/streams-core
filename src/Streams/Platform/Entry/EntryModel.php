@@ -64,7 +64,7 @@ class EntryModel extends EloquentModel
         if ($key and $this->hasSetMutator($key)) {
             $method = 'set' . studly_case($key) . 'Attribute';
 
-            return $this->{$method}($value);
+            $value = $this->{$method}($value);
         }
 
         // If an attribute is listed as a "date", we'll convert it from a DateTime
