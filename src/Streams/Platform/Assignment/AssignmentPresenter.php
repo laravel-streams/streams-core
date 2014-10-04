@@ -11,6 +11,6 @@ class AssignmentPresenter extends EloquentPresenter
      */
     public function instructions()
     {
-        return \Lang::has($this->resource->instructions) ? trans($this->resource->instructions) : null;
+        return trans($this->resource->instructions);
     }
 }
