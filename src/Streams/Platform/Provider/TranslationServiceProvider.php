@@ -13,7 +13,7 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
         $this->registerLoader();
 
         $this->registerTranslator();
-        $this->addStreamsNamespaceHint();
+        $this->addStreamsLangPath();
     }
 
     /**
@@ -41,9 +41,9 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
     }
 
     /**
-     * Add the "streams" namespace hint to translator.
+     * Add the "streams" lang path.
      */
-    protected function addStreamsNamespaceHint()
+    protected function addStreamsLangPath()
     {
         $this->app->bind(
             'path.lang',

@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\Module;
 
-use Streams\Platform\Addon\AddonListener;
+use Streams\Platform\Support\EventListener;
 
-class ModuleListener extends AddonListener
+class ModuleListener extends EventListener
 {
     protected $module;
 
@@ -10,7 +10,6 @@ class ModuleListener extends AddonListener
     {
         $this->module = $module;
     }
-
 
     public function whenModuleInstalled($event)
     {

@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\Module;
 
-use Streams\Platform\Addon\AddonModel;
+use Streams\Platform\Model\EloquentModel;
 
-class ModuleModel extends AddonModel
+class ModuleModel extends EloquentModel
 {
     /**
      * Define the table name.

@@ -27,12 +27,10 @@ class ThemeServiceProvider extends ServiceProvider
 
         // @todo - get this from the database.
         if ($request->segment(1) == 'admin') {
-            $themes->setActive('streams');
+            $theme = $themes->get('streams');
         } else {
-            $themes->setActive('aiws');
+            $theme = $themes->get('aiws');
         }
-
-        $theme = $themes->active();
 
         // @todo - replace this with distribution logic
         if (!$theme) {

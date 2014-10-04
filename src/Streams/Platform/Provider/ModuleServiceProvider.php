@@ -27,14 +27,10 @@ class ModuleServiceProvider extends ServiceProvider
 
         // Set the active module
         if ($request->segment(1) == 'admin') {
-            $modules->setActive($request->segment(2));
+            $module = $modules->get($request->segment(2));
         } else {
-            // @todo - unlike in the admin we can't assume frontend modules in use.
-            $modules->setActive($request->segment(1));
+            $module = $modules->get($request->segment(1));
         }
-
-        $module = $modules->active();
-
 
         // Setup namespace for the active module.
         if ($module) {
