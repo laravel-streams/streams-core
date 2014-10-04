@@ -40,11 +40,6 @@ class AddonRepository
         );
     }
 
-    /**
-     * Get the collection class.
-     *
-     * @return string
-     */
     protected function getCollection()
     {
         return (new AddonTypeClassResolver())->resolveCollection($this->type);
