@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\Module;
 
-use Streams\Platform\Addon\AddonCollectionAbstract;
+use Streams\Platform\Addon\AddonCollection;
 
-class ModuleCollection extends AddonCollectionAbstract
+class ModuleCollection extends AddonCollection
 {
     protected $type = 'module';
 

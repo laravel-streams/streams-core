@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\Distribution;
 
-use Streams\Platform\Addon\AddonCollectionAbstract;
+use Streams\Platform\Addon\AddonCollection;
 
-class DistributionCollection extends AddonCollectionAbstract
+class DistributionCollection extends AddonCollection
 {
     protected $type = 'distribution';
 }

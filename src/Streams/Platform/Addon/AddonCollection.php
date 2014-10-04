@@ -2,7 +2,7 @@
 
 use Streams\Platform\Support\Collection;
 
-abstract class AddonCollectionAbstract extends Collection
+class AddonCollection extends Collection
 {
     /**
      * Find an addon by it's slug.

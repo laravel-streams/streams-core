@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\Theme;
 
-use Streams\Platform\Addon\AddonCollectionAbstract;
+use Streams\Platform\Addon\AddonCollection;
 
-class ThemeCollection extends AddonCollectionAbstract
+class ThemeCollection extends AddonCollection
 {
     protected $type = 'theme';
 }

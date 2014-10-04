@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\Tag;
 
-use Streams\Platform\Addon\AddonCollectionAbstract;
+use Streams\Platform\Addon\AddonCollection;
 
-class TagCollection extends AddonCollectionAbstract
+class TagCollection extends AddonCollection
 {
     protected $type = 'tag';
 }

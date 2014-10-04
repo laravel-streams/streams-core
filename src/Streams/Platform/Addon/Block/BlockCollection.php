@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\Block;
 
-use Streams\Platform\Addon\AddonCollectionAbstract;
+use Streams\Platform\Addon\AddonCollection;
 
-class BlockCollection extends AddonCollectionAbstract
+class BlockCollection extends AddonCollection
 {
     protected $type = 'block';
 }
