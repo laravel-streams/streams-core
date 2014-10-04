@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 class MessagesServiceProvider extends ServiceProvider
 {
     /**
-     * Register the service provider.
+     * Register our message bag.
      */
     public function register()
     {

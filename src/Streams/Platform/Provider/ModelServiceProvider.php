@@ -9,12 +9,11 @@ class ModelServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $loader      = app('streams.loader');
-        $application = app('streams.application');
+        $loader = app('streams.loader');
 
         $loader->addPsr4(
             'Streams\Platform\Model\\',
-            base_path('storage/models/streams/' . $application->getReference())
+            base_path('storage/models/streams/' . app('streams.application')->getReference())
         );
 
         return $loader->register();

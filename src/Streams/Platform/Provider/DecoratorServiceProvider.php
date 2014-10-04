@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 class DecoratorServiceProvider extends ServiceProvider
 {
     /**
-     * Register the service provider.
+     * Register the decorator service.
      */
     public function register()
     {

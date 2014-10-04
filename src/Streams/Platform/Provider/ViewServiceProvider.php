@@ -5,7 +5,7 @@ use Illuminate\Support\ServiceProvider;
 class ViewServiceProvider extends ServiceProvider
 {
     /**
-     * Register the service provider.
+     * Setup view rendering services.
      */
     public function register()
     {

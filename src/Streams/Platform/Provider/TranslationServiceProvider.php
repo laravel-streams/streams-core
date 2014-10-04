@@ -5,7 +5,7 @@ use Streams\Platform\Support\Translator;
 class TranslationServiceProvider extends \Illuminate\Translation\TranslationServiceProvider
 {
     /**
-     * Register the service provider.
+     * Setup translation services.
      */
     public function register()
     {
@@ -17,7 +17,7 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
     }
 
     /**
-     * Register the translator class for Streams.
+     * Use our own translator class.
      */
     protected function registerTranslator()
     {

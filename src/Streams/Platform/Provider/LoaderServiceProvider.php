@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 class LoaderServiceProvider extends ServiceProvider
 {
     /**
-     * Register the service provider.
+     * Register the class loader used in Streams.
      */
     public function register()
     {

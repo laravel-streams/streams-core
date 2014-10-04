@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 class AssetServiceProvider extends ServiceProvider
 {
     /**
-     * Register the service provider.
+     * Register the asset utility.
      */
     public function register()
     {

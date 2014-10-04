@@ -5,19 +5,19 @@ use Illuminate\Support\ServiceProvider;
 class PresenterServiceProvider extends ServiceProvider
 {
     /**
-     * Register the service provider.
-     */
-    public function register()
-    {
-    }
-
-    /**
-     * Auto decorate items.
+     * Auto decorate objects.
      */
     public function boot()
     {
         $this->registerContentRenderingTrigger();
         $this->registerContentRenderingListener();
+    }
+
+    /**
+     * Register the service provider.
+     */
+    public function register()
+    {
     }
 
     /**
@@ -37,7 +37,7 @@ class PresenterServiceProvider extends ServiceProvider
 
     /**
      * Register the event listener we are firing
-     * in the hook registered above.
+     * in the hook we registered above.
      */
     protected function registerContentRenderingListener()
     {

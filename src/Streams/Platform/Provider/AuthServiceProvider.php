@@ -7,7 +7,7 @@ class AuthServiceProvider extends SentryServiceProvider
 {
     /**
      * Takes all the components of Sentry and glues them
-     * together to create Sentry.
+     * together to create Sentry under "auth".
      *
      * @return void
      */

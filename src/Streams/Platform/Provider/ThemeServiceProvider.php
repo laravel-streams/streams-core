@@ -12,33 +12,26 @@ class ThemeServiceProvider extends ServiceProvider
     protected $defer = true;
 
     /**
-     * Register the service provider.
+     * Setup the environment with the active theme.
      */
     public function register()
     {
-        $view       = app('view');
         $request    = app('request');
-        $translator = app('translator');
-
-        $asset  = app('streams.asset');
-        $image  = app('streams.image');
-        $themes = app('streams.themes');
-
 
         // @todo - get this from settings.
         if ($request->segment(1) == 'admin') {
-            $theme = $themes->get('streams');
+            $theme = app('streams.themes')->get('streams');
         } else {
-            $theme = $themes->get('streams');
+            $theme = app('streams.themes')->get('streams');
         }
 
         // Register the active theme.
         $this->app['streams.theme.active'] = $theme;
 
-        // Setup namespace for the active theme.
-        $asset->addNamespace('theme', $theme->getPath('resources'));
-        $image->addNamespace('theme', $theme->getPath('resources'));
-        $view->addNamespace('theme', $theme->getPath('resources/views'));
-        $translator->addNamespace('theme', $theme->getPath('resources/lang'));
+        // Setup namespace hints for a short namespace.
+        app('view')->addNamespace('theme', $theme->getPath('resources/views'));
+        app('streams.asset')->addNamespace('theme', $theme->getPath('resources'));
+        app('streams.image')->addNamespace('theme', $theme->getPath('resources'));
+        app('translator')->addNamespace('theme', $theme->getPath('resources/lang'));
     }
 }

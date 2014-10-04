@@ -13,7 +13,7 @@ class ListenerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register addon listeners.
+     * Register addon.* listeners.
      */
     protected function registerAddonListeners()
     {

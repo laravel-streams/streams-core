@@ -5,7 +5,7 @@ use Illuminate\Support\ServiceProvider;
 class HelpersServiceProvider extends ServiceProvider
 {
     /**
-     * Register the service provider.
+     * Register Streams helpers.
      */
     public function register()
     {

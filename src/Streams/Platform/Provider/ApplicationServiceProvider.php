@@ -7,7 +7,7 @@ use Streams\Platform\Foundation\ApplicationModel;
 class ApplicationServiceProvider extends ServiceProvider
 {
     /**
-     * Register the service provider.
+     * Register and setup the application.
      */
     public function register()
     {

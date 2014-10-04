@@ -12,35 +12,28 @@ class ModuleServiceProvider extends ServiceProvider
     protected $defer = true;
 
     /**
-     * Register the service provider.
+     * Setup the environment with the active module.
      */
     public function register()
     {
-        $view       = app('view');
-        $request    = app('request');
-        $translator = app('translator');
-
-        $asset   = app('streams.asset');
-        $image   = app('streams.image');
-        $modules = app('streams.modules');
-
+        $request = app('request');
 
         // Determine the active module.
         if ($request->segment(1) == 'admin') {
-            $module = $modules->get($request->segment(2));
+            $module = app('streams.modules')->get($request->segment(2));
         } else {
-            $module = $modules->get($request->segment(1));
+            $module = app('streams.modules')->get($request->segment(1));
         }
 
         // Bind the active module.
         $this->app['streams.module.active'] = $module;
 
-        // Setup namespace for the active module.
+        // Setup namespace hints with short namespace.
         if ($module) {
-            $asset->addNamespace('module', $module->getPath('resources'));
-            $image->addNamespace('module', $module->getPath('resources'));
-            $view->addNamespace('module', $module->getPath('resources/views'));
-            $translator->addNamespace('module', $module->getPath('resources/lang'));
+            app('view')->addNamespace('module', $module->getPath('resources/views'));
+            app('streams.asset')->addNamespace('module', $module->getPath('resources'));
+            app('streams.image')->addNamespace('module', $module->getPath('resources'));
+            app('translator')->addNamespace('module', $module->getPath('resources/lang'));
         }
     }
 }

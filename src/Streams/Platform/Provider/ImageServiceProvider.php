@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 class ImageServiceProvider extends ServiceProvider
 {
     /**
-     * Register the service provider.
+     * Register image utility.
      */
     public function register()
     {
