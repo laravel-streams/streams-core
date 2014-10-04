@@ -6,4 +6,3 @@ class FieldTypeCollection extends AddonCollectionAbstract
 {
     protected $type = 'field_type';
 }
- 
