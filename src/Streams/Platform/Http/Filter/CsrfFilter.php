@@ -8,13 +8,11 @@ class CsrfFilter
     /**
      * Run the request filter.
      *
-     * @return mixed
+     * @throws \Illuminate\Session\TokenMismatchException
      */
     public function filter(Request $request)
     {
-        $session = app('session');
-
-        if ($session->token() != $request->input('_token')) {
+        if (app('session')->token() != $request->input('_token')) {
             throw new TokenMismatchException;
         }
     }

@@ -1,18 +1,19 @@
 <?php namespace Streams\Platform\Http\Filter;
 
+use Illuminate\Http\Request;
+
 class LocaleFilter
 {
     /**
      * Setup the application.
      *
-     * @return mixed
+     * @param Request $request
      */
-    public function filter()
+    public function filter(Request $request)
     {
         $auth        = app('auth');
         $config      = app('config');
         $session     = app('session');
-        $request     = app('request');
         $application = app('streams.application');
 
         // If the application is installed try getting

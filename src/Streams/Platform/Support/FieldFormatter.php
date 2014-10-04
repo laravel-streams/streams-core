@@ -2,7 +2,6 @@
 
 class FieldFormatter
 {
-
     /**
      * Format the value according to the provided formats
      *

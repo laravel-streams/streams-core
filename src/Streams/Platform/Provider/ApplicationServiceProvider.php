@@ -16,5 +16,7 @@ class ApplicationServiceProvider extends ServiceProvider
         app('config')->addNamespace('streams', __DIR__ . '/../../../../resources/config');
 
         app('streams.application')->locate();
+
+        app('streams.application')->setup();
     }
 }

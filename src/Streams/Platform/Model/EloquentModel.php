@@ -5,7 +5,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 use Streams\Platform\Traits\CacheableTrait;
 use Streams\Platform\Traits\EventableTrait;
-use Streams\Platform\Traits\ObservableTrait;
 use Streams\Platform\Traits\RevisionableTrait;
 use Streams\Platform\Traits\TranslatableTrait;
 use Streams\Platform\Contract\PresenterInterface;
@@ -22,7 +21,6 @@ class EloquentModel extends Model implements ArrayableInterface, PresenterInterf
 
     use RevisionableTrait;
     use CacheableTrait;
-    use ObservableTrait;
 
     use EventableTrait;
 
