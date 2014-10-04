@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Field\Command;
 
-use Laracasts\Commander\Events\DispatchableTrait;
 use Streams\Platform\Field\FieldModel;
 use Streams\Platform\Stream\StreamModel;
+use Streams\Platform\Traits\DispatchableTrait;
 use Streams\Platform\Contract\CommandInterface;
 use Streams\Platform\Assignment\AssignmentModel;
 
@@ -20,7 +20,7 @@ class UnassignFieldCommandHandler implements CommandInterface
     /**
      * The field model.
      *
-     * @var \Streams\Platform\Field\Model\FieldModel
+     * @var \Streams\Platform\Field\FieldModel
      */
     protected $field;
 

@@ -36,16 +36,13 @@ class StreamInstaller
     /**
      * Create a new StreamInstaller instance.
      *
-     * @param AddonAbstract $addon
      * @param StreamService $streamService
      * @param FieldService  $fieldService
      */
     public function __construct(
-        AddonAbstract $addon,
         StreamService $streamService,
         FieldService $fieldService
     ) {
-        $this->addon         = $addon;
         $this->streamService = $streamService;
         $this->fieldService  = $fieldService;
     }
@@ -55,28 +52,23 @@ class StreamInstaller
      */
     public function install()
     {
-        // Determine a namespace if not provided.
-        if (!isset($this->stream['namespace'])) {
-            $this->stream['namespace'] = $this->addon->getSlug();
-        }
-
-        // Determine a slug if not provided.
-        if (!isset($this->stream['lang'])) {
-            $this->stream['lang'] = $this->addon->getAbstract();
-        }
-
         $slug      = $this->stream['slug'];
         $namespace = $this->stream['namespace'];
 
+        // Determine a lang namespace if not provided.
+        if (!isset($this->stream['lang'])) {
+            $this->stream['lang'] = 'module.' . $this->stream['namespace'];
+        }
+
         // Add the stream.
-        $stream = $this->streamService->add($this->stream);
+        $this->streamService->add($this->stream);
 
         // Assign each of the assignments.
         foreach ($this->assignments as $field => $assignment) {
 
             // Catch some convenient defaults.
             if (!isset($assignment['lang'])) {
-                $assignment['lang'] = $this->addon->getAbstract();
+                $assignment['lang'] = $this->stream['lang'];
             }
 
             $this->fieldService->assign(
@@ -95,11 +87,6 @@ class StreamInstaller
      */
     public function uninstall()
     {
-        // Determine a namespace if not provided.
-        if (!isset($this->stream['namespace'])) {
-            $this->stream['namespace'] = $this->addon->getSlug();
-        }
-
         $slug      = $this->stream['slug'];
         $namespace = $this->stream['namespace'];
 
@@ -114,6 +101,6 @@ class StreamInstaller
         }
 
         // Remove the stream.
-        $stream = $this->streamService->remove($namespace, $slug);
+        $this->streamService->remove($namespace, $slug);
     }
 }

@@ -1,10 +1,10 @@
 <?php namespace Streams\Platform\Stream\Command;
 
-use Laracasts\Commander\CommandHandler;
 use Streams\Platform\Stream\StreamModel;
 use Streams\Platform\Traits\DispatchableTrait;
+use Streams\Platform\Contract\CommandInterface;
 
-class AddStreamCommandHandler implements CommandHandler
+class AddStreamCommandHandler implements CommandInterface
 {
     use DispatchableTrait;
 

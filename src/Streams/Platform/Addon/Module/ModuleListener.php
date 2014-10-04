@@ -28,7 +28,7 @@ class ModuleListener extends EventListener
      */
     public function whenModuleWasInstalled($event)
     {
-        $this->module->installed($event->getModule()->slug);
+        $this->module->installed($event->getModule()->getSlug());
     }
 
     /**
@@ -38,7 +38,7 @@ class ModuleListener extends EventListener
      */
     public function whenModuleWasUninstalled($event)
     {
-        $this->module->uninstalled($event->getModule()->slug);
+        $this->module->uninstalled($event->getModule()->getSlug());
     }
 }
  

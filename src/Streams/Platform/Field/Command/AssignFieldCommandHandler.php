@@ -20,7 +20,7 @@ class AssignFieldCommandHandler implements CommandInterface
     /**
      * The field model.
      *
-     * @var \Streams\Platform\Field\Model\FieldModel
+     * @var \Streams\Platform\Field\FieldModel
      */
     protected $field;
 

@@ -40,7 +40,7 @@ class ModuleService
         $installer = $this->translator->toInstaller($module);
 
         foreach ((new $installer)->getInstallers() as $installer) {
-            app()->make($installer, [compact('addon')])->install();
+            app()->make($installer)->install();
         }
 
         $this->raise(new ModuleWasInstalledEvent($module));
@@ -63,7 +63,7 @@ class ModuleService
         $installer = $this->translator->toInstaller($module);
 
         foreach ((new $installer)->getInstallers() as $installer) {
-            app()->make($installer, [compact('addon')])->uninstall();
+            app()->make($installer)->uninstall();
         }
 
         $this->raise(new ModuleWasUninstalledEvent($module));

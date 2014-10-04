@@ -136,7 +136,7 @@ class AssignmentModel extends EloquentModel
      */
     public function field()
     {
-        return $this->belongsTo('Streams\Platform\Field\Model\FieldModel');
+        return $this->belongsTo('Streams\Platform\Field\FieldModel');
     }
 
     /**

@@ -1,10 +1,10 @@
 <?php namespace Streams\Platform\Stream\Command;
 
-use Laracasts\Commander\CommandHandler;
 use Streams\Platform\Stream\StreamModel;
 use Streams\Platform\Traits\DispatchableTrait;
+use Streams\Platform\Contract\CommandInterface;
 
-class RemoveStreamCommandHandler implements CommandHandler
+class RemoveStreamCommandHandler implements CommandInterface
 {
     use DispatchableTrait;
 
@@ -39,7 +39,7 @@ class RemoveStreamCommandHandler implements CommandHandler
         );
 
         if ($stream) {
-            $this->dispatchEventsFor($stream->releaseEvents());
+            $this->dispatchEventsFor($stream);
 
             return $stream;
         }
