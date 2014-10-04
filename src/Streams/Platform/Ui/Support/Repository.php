@@ -33,9 +33,11 @@ class Repository
 
         $view = $this->ui->views()->active();
 
-        $result = $view->fire('query', [$model]);
+        if ($view) {
+            $result = $view->fire('query', [$model]);
+        }
 
-        if ($result instanceof Builder) {
+        if (isset($result) and $result instanceof Builder) {
             $query = $result;
         } else {
             $query = $model;
