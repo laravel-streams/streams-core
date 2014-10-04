@@ -29,10 +29,6 @@ Route::get(
     }
 );
 
-// Installer loads from distribution
-app('streams.distributions')->make('base');
-
-
 
 
 
