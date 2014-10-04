@@ -12,14 +12,7 @@ class ModuleTranslator extends AddonTranslator
      */
     public function toTag(ModuleAbstract $module)
     {
-        $class      = get_class($module);
-        $translated = $class . 'Tag';
-
-        if (!class_exists($translated)) {
-            return false;
-        }
-
-        return $translated;
+        return $this->translate($module, 'Tag');
     }
 }
  
