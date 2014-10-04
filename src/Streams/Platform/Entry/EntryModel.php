@@ -93,13 +93,13 @@ class EntryModel extends EloquentModel
     public function setMetaAttributes()
     {
         if (!$this->exists) {
-            $createdBy = \Sentry::getUser()->id or null;
+            $createdBy = app('auth')->getUser()->getKey() or null;
 
             $this->setAttribute('created_by', $createdBy);
             $this->setAttribute('updated_at', null);
             $this->setAttribute('ordering_count', $this->count('id') + 1);
         } else {
-            $updatedBy = \Sentry::getUser()->id or null;
+            $updatedBy = app('auth')->getUser()->getKey() or null;
 
             $this->setAttribute('updated_by', $updatedBy);
             $this->setAttribute('updated_at', time());
