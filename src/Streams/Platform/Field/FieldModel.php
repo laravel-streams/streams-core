@@ -116,15 +116,13 @@ class FieldModel extends EloquentModel
     }
 
     /**
-     * Get a setting value.
+     * Return the assignments relationship.
      *
-     * @param      $key
-     * @param null $default
-     * @return null
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function getSetting($key, $default = null)
+    public function assignments()
     {
-        return isset($this->settings->{$key}) ? $this->settings->{$key} : $default;
+        return $this->hasMany('Streams\Platform\Assignment\AssignmentModel', 'field_id');
     }
 
     /**
@@ -184,7 +182,7 @@ class FieldModel extends EloquentModel
      * Return the type attribute.
      *
      * @param $type
-     * @return \AddonAbstract
+     * @return mixed
      */
     public function getTypeAttribute($type)
     {
@@ -195,21 +193,11 @@ class FieldModel extends EloquentModel
      * Return a new presenter instance.
      *
      * @param $resource
-     * @return \Streams\Presenter\EloquentPresenter|FieldPresenter
+     * @return FieldPresenter|\Streams\Platform\Model\Presenter\EloquentPresenter
      */
     public function newPresenter($resource)
     {
         return new FieldPresenter($resource);
-    }
-
-    /**
-     * Return the assignments relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function assignments()
-    {
-        return $this->hasMany('Streams\Platform\Assignment\AssignmentModel', 'field_id');
     }
 
     /**
