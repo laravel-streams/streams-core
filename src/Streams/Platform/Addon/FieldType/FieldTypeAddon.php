@@ -95,15 +95,8 @@ class FieldTypeAddon extends Addon
         return $this;
     }
 
-    public function newPresenter($resource)
+    public function newPresenter()
     {
-        $class     = get_class($this);
-        $presenter = $class . 'Presenter';
-
-        if (class_exists($presenter)) {
-            return new $presenter($resource);
-        }
-
-        return new FieldTypePresenter($resource);
+        return new FieldTypePresenter($this);
     }
 }

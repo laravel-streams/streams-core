@@ -194,15 +194,9 @@ class AssignmentModel extends EloquentModel
         return new AssignmentCollection($items);
     }
 
-    /**
-     * Return a new presenter instance.
-     *
-     * @param $resource
-     * @return AssignmentPresenter|\Streams\Platform\Field\Presenter\FieldPresenter|\Streams\Presenter\EloquentPresenter
-     */
-    public function newPresenter($resource)
+    public function newPresenter()
     {
-        return new AssignmentPresenter($resource);
+        return new AssignmentPresenter($this);
     }
 
     /**

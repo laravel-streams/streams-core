@@ -189,15 +189,9 @@ class FieldModel extends EloquentModel
         return app('streams.field_types')->get($type);
     }
 
-    /**
-     * Return a new presenter instance.
-     *
-     * @param $resource
-     * @return FieldPresenter|\Streams\Platform\Model\Presenter\EloquentPresenter
-     */
-    public function newPresenter($resource)
+    public function newPresenter()
     {
-        return new FieldPresenter($resource);
+        return new FieldPresenter($this);
     }
 
     /**

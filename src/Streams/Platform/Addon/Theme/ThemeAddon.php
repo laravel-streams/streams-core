@@ -2,7 +2,7 @@
 
 use Streams\Platform\Addon\Addon;
 
-abstract class Theme extends Addon
+class ThemeAddon extends Addon
 {
     /**
      * Is this an admin theme?

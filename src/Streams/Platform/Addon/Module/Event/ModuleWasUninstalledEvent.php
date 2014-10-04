@@ -1,24 +1,26 @@
 <?php namespace Streams\Platform\Addon\Module\Event;
 
-use Streams\Platform\Addon\Module\Module;
+use Streams\Platform\Addon\Module\ModuleAddon;
 
 class ModuleWasUninstalledEvent
 {
     /**
      * The module object.
 
-     *
-*@var \Streams\Platform\Addon\Module\Module
+
+*
+*@var \Streams\Platform\Addon\Module\ModuleAddon
      */
     protected $module;
 
     /**
      * Create a new ModuleWasUnnstalledEvent instance.
 
-     *
-*@param Module $module
+
+*
+*@param ModuleAddon $module
      */
-    function __construct(Module $module)
+    function __construct(ModuleAddon $module)
     {
         $this->module = $module;
     }

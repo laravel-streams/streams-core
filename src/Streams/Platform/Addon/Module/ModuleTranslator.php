@@ -7,11 +7,12 @@ class ModuleTranslator extends AddonTranslator
     /**
      * Translate a module to it's tag.
 
-     *
-*@param Module $module
+
+*
+*@param ModuleAddon $module
      * @return bool|mixed|string
      */
-    public function toTag(Module $module)
+    public function toTag(ModuleAddon $module)
     {
         return $this->translate($module, 'Tag');
     }
@@ -19,11 +20,12 @@ class ModuleTranslator extends AddonTranslator
     /**
      * Translate a module to it's installer.
 
-     *
-*@param Module $module
+
+*
+*@param ModuleAddon $module
      * @return bool|string
      */
-    public function toInstaller(Module $module)
+    public function toInstaller(ModuleAddon $module)
     {
         return $this->translate($module, 'Installer');
     }

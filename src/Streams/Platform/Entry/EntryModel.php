@@ -166,14 +166,8 @@ class EntryModel extends EloquentModel
         return new EntryCollection($items);
     }
 
-    /**
-     * Return a new presenter instance.
-     *
-     * @param $resource
-     * @return EntryPresenter|\Streams\Platform\Model\Presenter\EloquentPresenter
-     */
-    public function newPresenter($resource)
+    public function newPresenter()
     {
-        return new EntryPresenter($resource);
+        return new EntryPresenter($this);
     }
 }

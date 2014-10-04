@@ -7,11 +7,12 @@ class ThemeTranslator extends AddonTranslator
     /**
      * Translate a module to it's tag.
 
-     *
-*@param Theme $theme
+
+*
+*@param ThemeAddon $theme
      * @return bool|string
      */
-    public function toTag(Theme $theme)
+    public function toTag(ThemeAddon $theme)
     {
         return $this->translate($theme, 'Tag');
     }

@@ -242,15 +242,9 @@ class StreamModel extends EloquentModel
         return new StreamCollection($items);
     }
 
-    /**
-     * Return a new presenter instance.
-     *
-     * @param $resource
-     * @return \Streams\Platform\Model\Presenter\EloquentPresenter|StreamPresenter
-     */
-    public function newPresenter($resource)
+    public function newPresenter()
     {
-        return new StreamPresenter($resource);
+        return new StreamPresenter($this);
     }
 
     /**

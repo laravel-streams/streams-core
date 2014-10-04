@@ -2,7 +2,7 @@
 
 use Streams\Platform\Addon\Addon;
 
-abstract class Module extends Addon
+class ModuleAddon extends Addon
 {
     /**
      * The group string.

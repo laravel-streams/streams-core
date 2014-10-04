@@ -156,14 +156,8 @@ class EloquentModel extends Model implements ArrayableInterface, PresenterInterf
         return $this;
     }
 
-    /**
-     * Return a new resource instance.
-     *
-     * @param $resource
-     * @return EloquentPresenter
-     */
-    public function newPresenter($resource)
+    public function newPresenter()
     {
-        return new EloquentPresenter($resource);
+        return new EloquentPresenter($this);
     }
 }
