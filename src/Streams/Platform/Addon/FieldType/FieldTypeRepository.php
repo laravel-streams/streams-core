@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\FieldType;
 
-use Streams\Platform\Addon\AddonRepositoryAbstract;
+use Streams\Platform\Addon\AddonRepository;
 
-class FieldTypeRepository extends AddonRepositoryAbstract
+class FieldTypeRepository extends AddonRepository
 {
     protected $type = 'field_type';
 }

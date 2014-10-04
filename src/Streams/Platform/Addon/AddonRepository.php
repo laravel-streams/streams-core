@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Addon;
 
-class AddonRepositoryAbstract
+class AddonRepository
 {
     protected $type = null;
 
