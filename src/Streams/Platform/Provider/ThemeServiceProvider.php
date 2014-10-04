@@ -25,18 +25,15 @@ class ThemeServiceProvider extends ServiceProvider
         $themes = app('streams.themes');
 
 
-        // @todo - get this from the database.
+        // @todo - get this from settings.
         if ($request->segment(1) == 'admin') {
             $theme = $themes->get('streams');
         } else {
             $theme = $themes->get('aiws');
         }
 
-        // @todo - replace this with distribution logic
-        if (!$theme) {
-            $theme = $themes->make('streams');
-        }
-
+        // Register the active theme.
+        $this->app['streams.theme.active'] = app('streams.decorator')->decorate($theme);
 
         // Setup namespace for the active theme.
         $asset->addNamespace('theme', $theme->getPath('resources'));

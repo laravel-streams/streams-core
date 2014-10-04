@@ -25,12 +25,15 @@ class ModuleServiceProvider extends ServiceProvider
         $modules = app('streams.modules');
 
 
-        // Set the active module
+        // Determine the active module.
         if ($request->segment(1) == 'admin') {
             $module = $modules->get($request->segment(2));
         } else {
             $module = $modules->get($request->segment(1));
         }
+
+        // Bind the active module.
+        $this->app['streams.module.active'] = app('streams.decorator')->decorate($module);
 
         // Setup namespace for the active module.
         if ($module) {
