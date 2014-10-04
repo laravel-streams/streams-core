@@ -79,11 +79,7 @@ class TableUi extends UiAbstract
      *
      * @var array
      */
-    protected $views = [
-        [
-            'title' => 'misc.all'
-        ]
-    ];
+    protected $views = [];
 
     /**
      * The filters array.
