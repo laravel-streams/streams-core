@@ -7,6 +7,12 @@ abstract class AddonAbstract implements PresenterInterface
 {
     use CallableTrait;
 
+    protected $type = null;
+
+    protected $slug = null;
+
+    protected $path = null;
+
     public function isCore()
     {
         return str_contains($this->getPath(), base_path('core/'));
@@ -14,17 +20,38 @@ abstract class AddonAbstract implements PresenterInterface
 
     public function getPath($path = null)
     {
-        return dirname(dirname((new \ReflectionClass($this))->getFileName())) . ($path ? '/' . $path : null);
+        return $this->path . ($path ? '/' . ltrim($path, '/') : null);
+    }
+
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $path;
     }
 
     public function getSlug()
     {
-        return basename($this->getPath());
+        return $this->slug;
+    }
+
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 
     public function getType()
     {
-        return str_singular(basename(dirname($this->getPath())));
+        return $this->type;
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
     }
 
     public function getAbstract()

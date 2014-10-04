@@ -2,6 +2,7 @@
 
 use Streams\Platform\Addon\AddonAbstract;
 
-abstract class BlockAbstract extends AddonAbstract
+class BlockAddon extends AddonAbstract
 {
+    protected $type = 'block';
 }

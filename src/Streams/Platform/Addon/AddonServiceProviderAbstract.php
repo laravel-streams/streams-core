@@ -24,7 +24,7 @@ abstract class AddonServiceProviderAbstract extends ServiceProvider
             $this->registerSrcFolder($slug, $path);
 
             // Register the addon class to the container.
-            $this->registerAddonClass($slug);
+            $this->registerAddonClass($slug, $path);
 
             $loaded[] = $this->getAbstract($slug);
         }
@@ -44,14 +44,16 @@ abstract class AddonServiceProviderAbstract extends ServiceProvider
         );
     }
 
-    protected function registerAddonClass($slug)
+    protected function registerAddonClass($slug, $path)
     {
         $class = $this->getClass($slug);
 
+        $type = $this->type;
+
         $this->app->{$this->binding}(
             $this->getAbstract($slug),
-            function () use ($class) {
-                return new $class;
+            function () use ($class, $type, $slug, $path) {
+                return (new $class)->setType($type)->setSlug($slug)->setPath($path);
             }
         );
     }
