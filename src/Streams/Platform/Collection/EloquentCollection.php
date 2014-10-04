@@ -6,6 +6,7 @@ class EloquentCollection extends Collection
 {
     /**
      * Create a new EloquentCollection instance.
+     * Decorate models on the way in.
      *
      * @param array $models
      */
@@ -16,19 +17,5 @@ class EloquentCollection extends Collection
         }
 
         return parent::__construct($models);
-    }
-
-    /**
-     * Run delete on all the items individually.
-     *
-     * @return bool
-     */
-    public function delete()
-    {
-        foreach ($this->items as $item) {
-            $item->delete();
-        }
-
-        return true;
     }
 }
