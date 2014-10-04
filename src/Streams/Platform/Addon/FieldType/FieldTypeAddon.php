@@ -2,7 +2,7 @@
 
 use Streams\Platform\Addon\Addon;
 
-abstract class FieldType extends Addon
+class FieldTypeAddon extends Addon
 {
     protected $columnType = 'string';
 

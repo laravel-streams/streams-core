@@ -5,8 +5,7 @@ interface PresenterInterface
     /**
      * Return a new presenter instance.
      *
-     * @param $resource
      * @return mixed
      */
-    public function newPresenter($resource);
+    public function newPresenter();
 }

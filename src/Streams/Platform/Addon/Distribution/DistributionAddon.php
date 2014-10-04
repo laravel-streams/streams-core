@@ -2,6 +2,6 @@
 
 use Streams\Platform\Addon\Addon;
 
-abstract class Distribution extends Addon
+class DistributionAddon extends Addon
 {
 }

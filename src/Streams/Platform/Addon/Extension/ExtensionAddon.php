@@ -2,6 +2,6 @@
 
 use Streams\Platform\Addon\Addon;
 
-abstract class Extension extends Addon
+class ExtensionAddon extends Addon
 {
 }

@@ -1,5 +1,6 @@
 <?php namespace Streams\Platform\Addon;
 
+use Illuminate\Foundation\Application;
 use Streams\Platform\Traits\CallableTrait;
 use Streams\Platform\Contract\PresenterInterface;
 
@@ -15,7 +16,7 @@ class Addon implements PresenterInterface
 
     public function isCore()
     {
-        return str_contains($this->getPath(), base_path('core/'));
+        return str_contains($this->getPath(), 'core/addons');
     }
 
     public function getPath($path = null)
@@ -27,7 +28,7 @@ class Addon implements PresenterInterface
     {
         $this->path = $path;
 
-        return $path;
+        return $this;
     }
 
     public function getSlug()
@@ -59,27 +60,8 @@ class Addon implements PresenterInterface
         return "streams.{$this->getType()}.{$this->getSlug()}";
     }
 
-    /**
-     * Return a new addon presenter.
-     *
-     * @param $resource
-     * @return mixed
-     */
-    public function newPresenter($resource)
+    public function newPresenter()
     {
-        $presenter = (new AddonClassResolver())->resolvePresenter($this->getType());
-
-        return new $presenter($resource);
-    }
-
-    /**
-     * Object to string method.
-     * This is required of the presenter.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return json_encode($this);
+        return new AddonPresenter($this);
     }
 }
