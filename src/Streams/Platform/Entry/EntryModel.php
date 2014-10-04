@@ -1,10 +1,10 @@
-<?php namespace Streams\Platform\Entry\Model;
+<?php namespace Streams\Platform\Entry;
 
 use Streams\Platform\Model\EloquentModel;
 use Streams\Platform\Stream\StreamModel;
-use Streams\Platform\Entry\Observer\EntryObserver;
-use Streams\Platform\Entry\Presenter\EntryPresenter;
-use Streams\Platform\Entry\Collection\EntryCollection;
+use Streams\Platform\Entry\EntryObserver;
+use Streams\Platform\Entry\EntryPresenter;
+use Streams\Platform\Entry\EntryCollection;
 
 class EntryModel extends EloquentModel
 {

@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Entry\Presenter;
+<?php namespace Streams\Platform\Entry;
 
 use Streams\Platform\Model\Presenter\EloquentPresenter;
 

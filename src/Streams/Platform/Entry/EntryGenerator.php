@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Entry\Generator;
+<?php namespace Streams\Platform\Entry;
 
 use Illuminate\Support\Str;
 use Streams\Platform\Support\Generator;

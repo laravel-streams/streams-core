@@ -47,17 +47,17 @@ class CacheCollection extends Collection
      */
     public function index()
     {
-        if ($keys = \Cache::get($this->key)) {
+        if ($keys = app('cache')->get($this->key)) {
             $this->addKeys($keys);
         }
 
         $this->unique();
 
-        \Cache::forget($this->key);
+        app('cache')->forget($this->key);
 
         $self = $this;
 
-        \Cache::rememberForever(
+        app('cache')->rememberForever(
             $this->key,
             function () use ($self) {
                 return $self->all();
@@ -75,10 +75,10 @@ class CacheCollection extends Collection
     public function flush()
     {
         foreach ($this->items as $key) {
-            \Cache::forget($key);
+            app('cache')->forget($key);
         }
 
-        \Cache::forget($this->key);
+        app('cache')->forget($this->key);
 
         $this->items = [];
 
