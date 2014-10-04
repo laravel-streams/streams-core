@@ -1,6 +1,8 @@
 <?php namespace Streams\Platform\Assignment;
 
 use Streams\Platform\Model\EloquentModel;
+use Streams\Platform\Assignment\Event\FieldWasAssignedEvent;
+use Streams\Platform\Assignment\Event\FieldWasUnassignedEvent;
 
 class AssignmentModel extends EloquentModel
 {
@@ -67,7 +69,7 @@ class AssignmentModel extends EloquentModel
 
         $this->save();
 
-        //$this->raise();
+        $this->raise(new FieldWasAssignedEvent($this));
 
         return $this;
     }
@@ -86,7 +88,7 @@ class AssignmentModel extends EloquentModel
         if ($assignment) {
             $assignment->delete();
 
-            //$this->raise();
+            $this->raise(new FieldWasUnassignedEvent($assignment));
 
             return $this;
         }

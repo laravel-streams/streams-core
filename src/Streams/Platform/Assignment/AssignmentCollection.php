@@ -22,7 +22,7 @@ class AssignmentCollection extends EloquentCollection
     }
 
     /**
-     * Return the field slugs in
+     * Return the field slugs in assignments.
      *
      * @return array
      */
