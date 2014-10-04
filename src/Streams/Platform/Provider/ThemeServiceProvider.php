@@ -29,7 +29,7 @@ class ThemeServiceProvider extends ServiceProvider
         if ($request->segment(1) == 'admin') {
             $theme = $themes->get('streams');
         } else {
-            $theme = $themes->get('aiws');
+            $theme = $themes->get('streams');
         }
 
         // Register the active theme.
