@@ -7,8 +7,7 @@ class FieldPresenter extends EloquentPresenter
     /**
      * Return the type attribute.
      *
-     * @param $type
-     * @return \AddonAbstract
+     * @return mixed
      */
     public function type()
     {
