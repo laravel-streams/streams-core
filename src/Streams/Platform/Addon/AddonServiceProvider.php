@@ -3,7 +3,7 @@
 use Illuminate\Support\ServiceProvider;
 use Streams\Platform\Traits\CallableTrait;
 
-abstract class AddonServiceProviderAbstract extends ServiceProvider
+class AddonServiceProvider extends ServiceProvider
 {
     use CallableTrait;
 
