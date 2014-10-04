@@ -4,7 +4,7 @@ use Streams\Platform\Addon\AddonAbstract;
 use Anomaly\Lexicon\Contract\PluginInterface;
 use Anomaly\Lexicon\Contract\LexiconInterface;
 
-abstract class TagAbstract extends AddonAbstract implements PluginInterface
+class TagAddon extends AddonAbstract implements PluginInterface
 {
     /**
      * Attributes that have been passed into the tag.
