@@ -33,7 +33,7 @@ class ThemeServiceProvider extends ServiceProvider
         }
 
         // Register the active theme.
-        $this->app['streams.theme.active'] = app('streams.decorator')->decorate($theme);
+        $this->app['streams.theme.active'] = $theme;
 
         // Setup namespace for the active theme.
         $asset->addNamespace('theme', $theme->getPath('resources'));

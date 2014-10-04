@@ -19,8 +19,7 @@ class AddonRepositoryServiceProvider extends ServiceProvider
     {
         $resolver = new AddonTypeClassResolver();
 
-        foreach (config('streams.addons.types') as $type) {
-
+        foreach (config('streams::addons.types') as $type) {
             $repository = $resolver->resolveRepository($type);
 
             $this->app->singleton(

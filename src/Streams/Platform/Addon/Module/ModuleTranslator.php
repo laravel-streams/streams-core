@@ -14,5 +14,16 @@ class ModuleTranslator extends AddonTranslator
     {
         return $this->translate($module, 'Tag');
     }
+
+    /**
+     * Translate a module to it's installer.
+     *
+     * @param ModuleAbstract $module
+     * @return bool|string
+     */
+    public function toInstaller(ModuleAbstract $module)
+    {
+        return $this->translate($module, 'Installer');
+    }
 }
  

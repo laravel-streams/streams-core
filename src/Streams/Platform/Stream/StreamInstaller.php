@@ -1,10 +1,9 @@
 <?php namespace Streams\Platform\Stream;
 
-use Streams\Platform\Support\Installer;
 use Streams\Platform\Field\FieldService;
 use Streams\Platform\Addon\AddonAbstract;
 
-class StreamInstaller extends Installer
+class StreamInstaller
 {
     /**
      * The stream to install.
@@ -38,8 +37,8 @@ class StreamInstaller extends Installer
      * Create a new StreamInstaller instance.
      *
      * @param AddonAbstract $addon
-     * @param StreamService  $streamService
-     * @param FieldService   $fieldService
+     * @param StreamService $streamService
+     * @param FieldService  $fieldService
      */
     public function __construct(
         AddonAbstract $addon,

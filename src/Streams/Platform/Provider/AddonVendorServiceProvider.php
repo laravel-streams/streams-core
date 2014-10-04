@@ -16,7 +16,7 @@ class AddonVendorServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        foreach (config('streams.addons.types') as $type) {
+        foreach (config('streams::addons.types') as $type) {
             foreach (app("streams.{$type}.loaded") as $abstract) {
                 $this->registerAddonVendors(app($abstract));
             }

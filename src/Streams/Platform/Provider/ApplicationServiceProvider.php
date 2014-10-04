@@ -13,6 +13,8 @@ class ApplicationServiceProvider extends ServiceProvider
     {
         $this->app->instance('streams.application', new Application(new ApplicationModel(), $this->app));
 
+        app('config')->addNamespace('streams', __DIR__ . '/../../../../resources/config');
+
         app('streams.application')->locate();
     }
 }

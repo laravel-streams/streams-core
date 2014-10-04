@@ -1,57 +1,25 @@
 <?php namespace Streams\Platform\Addon\Module;
 
-use Streams\Platform\Support\Installer;
-use Streams\Platform\Addon\AddonAbstract;
-use Streams\Platform\Traits\EventableTrait;
-use Laracasts\Commander\Events\DispatchableTrait;
-use Streams\Platform\Addon\Module\Event\ModuleInstalledEvent;
-use Streams\Platform\Addon\Module\Event\ModuleUninstalledEvent;
+use Streams\Platform\Traits\CallableTrait;
 
-class ModuleInstaller extends Installer
+class ModuleInstaller
 {
-    use EventableTrait;
-    use DispatchableTrait;
+    use CallableTrait;
 
+    /**
+     * Installers to run.
+     *
+     * @var array
+     */
     protected $installers = [];
 
-    protected $addon;
-
-    public function __construct(AddonAbstract $addon)
+    /**
+     * Get the installers to run.
+     *
+     * @return array
+     */
+    public function getInstallers()
     {
-        $this->addon = $addon;
-    }
-
-    public function install()
-    {
-        $this->fire('before_install');
-
-        foreach ($this->installers as $installer) {
-            app()->make($installer, ['addon' => $this->addon])->install();
-        }
-
-        $this->raise(new ModuleInstalledEvent($this->addon));
-
-        $this->dispatchEventsFor($this);
-
-        $this->fire('after_install');
-
-        return true;
-    }
-
-    public function uninstall()
-    {
-        $this->fire('before_uninstall');
-
-        foreach ($this->installers as $installer) {
-            app()->make($installer, ['addon' => $this->addon])->uninstall();
-        }
-
-        $this->raise(new ModuleUninstalledEvent($this->addon));
-
-        $this->dispatchEventsFor($this);
-
-        $this->fire('after_uninstall');
-
-        return true;
+        return $this->installers;
     }
 }

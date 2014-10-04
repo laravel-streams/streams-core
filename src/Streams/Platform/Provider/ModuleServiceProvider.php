@@ -33,7 +33,7 @@ class ModuleServiceProvider extends ServiceProvider
         }
 
         // Bind the active module.
-        $this->app['streams.module.active'] = app('streams.decorator')->decorate($module);
+        $this->app['streams.module.active'] = $module;
 
         // Setup namespace for the active module.
         if ($module) {

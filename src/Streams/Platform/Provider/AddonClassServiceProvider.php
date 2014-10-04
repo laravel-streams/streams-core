@@ -19,7 +19,7 @@ class AddonClassServiceProvider extends ServiceProvider
     {
         $resolver = new AddonTypeClassResolver();
 
-        foreach (config('streams.addons.types') as $type) {
+        foreach (config('streams::addons.types') as $type) {
             $this->app->register($resolver->resolveServiceProvider($type));
         }
     }
