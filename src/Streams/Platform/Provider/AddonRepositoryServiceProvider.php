@@ -1,7 +1,7 @@
 <?php namespace Streams\Platform\Provider;
 
 use Illuminate\Support\ServiceProvider;
-use Streams\Platform\Addon\AddonRepository;
+use Streams\Platform\Addon\AddonTypeClassResolver;
 
 class AddonRepositoryServiceProvider extends ServiceProvider
 {
@@ -17,11 +17,16 @@ class AddonRepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $resolver = new AddonTypeClassResolver();
+
         foreach (config('streams.addons.types') as $type) {
+
+            $repository = $resolver->resolveRepository($type);
+
             $this->app->singleton(
                 'streams.' . str_plural($type),
-                function () use ($type) {
-                    return new AddonRepository(app("streams.{$type}.loaded"));
+                function () use ($repository, $type) {
+                    return new $repository(app("streams.{$type}.loaded"));
                 }
             );
         }
