@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\Tag;
 
-use Streams\Platform\Addon\AddonPresenterAbstract;
+use Streams\Platform\Addon\AddonPresenter;
 
-class TagPresenter extends AddonPresenterAbstract
+class TagPresenter extends AddonPresenter
 {
 }
  

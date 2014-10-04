@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\FieldType;
 
-use Streams\Platform\Addon\AddonPresenterAbstract;
+use Streams\Platform\Addon\AddonPresenter;
 
-class FieldTypePresenter extends AddonPresenterAbstract
+class FieldTypePresenter extends AddonPresenter
 {
     /**
      * By default return the set value.

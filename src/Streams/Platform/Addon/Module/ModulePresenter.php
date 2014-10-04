@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\Module;
 
-use Streams\Platform\Addon\AddonPresenterAbstract;
+use Streams\Platform\Addon\AddonPresenter;
 
-class ModulePresenter extends AddonPresenterAbstract
+class ModulePresenter extends AddonPresenter
 {
 }
  

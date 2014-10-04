@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\Block;
 
-use Streams\Platform\Addon\AddonPresenterAbstract;
+use Streams\Platform\Addon\AddonPresenter;
 
-class BlockPresenter extends AddonPresenterAbstract
+class BlockPresenter extends AddonPresenter
 {
 }
  
