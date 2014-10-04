@@ -36,6 +36,17 @@ class AddonTypeClassResolver
     }
 
     /**
+     * Resolve a presenter.
+     *
+     * @param $type
+     * @return string
+     */
+    public function resolvePresenter($type)
+    {
+        return $this->resolve($type, 'Presenter');
+    }
+
+    /**
      * Resolve a class.
      *
      * @param $type

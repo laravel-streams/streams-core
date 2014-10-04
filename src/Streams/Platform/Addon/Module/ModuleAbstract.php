@@ -74,20 +74,4 @@ abstract class ModuleAbstract extends AddonAbstract
     {
         return new ModuleModel();
     }
-
-    /**
-     * Return a new ModuleTag instance.
-     *
-     * @return ModuleTag
-     */
-    public function newTag()
-    {
-        $tag = get_called_class() . 'Tag';
-
-        if (class_exists($tag)) {
-            return new $tag;
-        }
-
-        return new ModuleTag();
-    }
 }

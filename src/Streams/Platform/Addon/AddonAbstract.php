@@ -19,9 +19,7 @@ abstract class AddonAbstract implements PresenterInterface
 
     public function getSlug()
     {
-        $class = (new \ReflectionClass($this))->getShortName();
-
-        return strtolower(str_replace(studly_case($this->getType()), '', $class));
+        return basename($this->getPath());
     }
 
     public function getType()
@@ -42,7 +40,9 @@ abstract class AddonAbstract implements PresenterInterface
      */
     public function newPresenter($resource)
     {
-        return new AddonPresenter($resource);
+        $presenter = (new AddonTypeClassResolver())->resolvePresenter($this->getType());
+
+        return new $presenter($resource);
     }
 
     /**
