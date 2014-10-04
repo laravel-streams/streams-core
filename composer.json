@@ -27,7 +27,8 @@
         "artdarek/oauth-4-laravel": "dev-master"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.0"
+        "phpspec/phpspec": "~2.0",
+        "henrikbjorn/phpspec-code-coverage": "~0.2"
     },
     "autoload": {
         "psr-0": {
