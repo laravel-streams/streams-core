@@ -1,9 +1,11 @@
 <?php namespace Streams\Platform\Addon\Module;
 
-use Streams\Platform\Addon\AddonCollection;
+use Streams\Platform\Addon\AddonCollectionAbstract;
 
-class ModuleCollection extends AddonCollection
+class ModuleCollection extends AddonCollectionAbstract
 {
+    protected $type = 'module';
+
     /**
      * Return only installed addons.
      *
