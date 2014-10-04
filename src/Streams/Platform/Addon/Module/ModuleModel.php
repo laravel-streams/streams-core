@@ -12,17 +12,6 @@ class ModuleModel extends EloquentModel
     protected $table = 'addons_modules';
 
     /**
-     * Find an addon by it's slug.
-     *
-     * @param $slug
-     * @return mixed
-     */
-    public function findBySlug($slug)
-    {
-        return $this->whereSlug($slug)->first();
-    }
-
-    /**
      * Mark an addon as installed.
      *
      * @param $slug
