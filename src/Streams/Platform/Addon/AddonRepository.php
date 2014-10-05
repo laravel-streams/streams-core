@@ -28,9 +28,7 @@ class AddonRepository
      */
     public function all()
     {
-        $collection = $this->getCollection();
-
-        return new $collection(
+        return $this->newCollection(
             array_map(
                 function ($abstract) {
                     return app('streams.decorator')->decorate(app($abstract));
@@ -38,10 +36,5 @@ class AddonRepository
                 app("streams.{$this->type}.loaded")
             )
         );
-    }
-
-    protected function getCollection()
-    {
-        return (new AddonTypeClassResolver())->resolveCollection($this->type);
     }
 }

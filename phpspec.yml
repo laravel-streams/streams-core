@@ -1,2 +1,2 @@
 extensions:
-    - PhpSpec\Extension\CodeCoverageExtension
+  - PhpSpec\Laravel\Extension\LaravelExtension

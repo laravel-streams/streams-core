@@ -64,4 +64,9 @@ class Addon implements PresenterInterface
     {
         return new AddonPresenter($this);
     }
+
+    public function newServiceProvider()
+    {
+        return new AddonServiceProvider();
+    }
 }

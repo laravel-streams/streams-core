@@ -2,10 +2,11 @@
 
 namespace spec\Streams\Platform\Addon;
 
+use PhpSpec\Laravel\LaravelObjectBehavior;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class AddonSpec extends ObjectBehavior
+class AddonSpec extends LaravelObjectBehavior
 {
     function it_is_initializable()
     {
