@@ -4,72 +4,71 @@ use Streams\Platform\Addon\Addon;
 
 class ModuleAddon extends Addon
 {
-    /**
-     * The group string.
-     *
-     * @var null
-     */
-    protected $group = null;
+    protected $nav = null;
 
-    /**
-     * The module menu.
-     *
-     * @var array
-     */
     protected $menu = [];
 
-    /**
-     * An array of module sections.
-     *
-     * @var array
-     */
     protected $sections = [];
 
-    /**
-     * Get the group string.
-     *
-     * @return null
-     */
-    public function getGroup()
+    protected $installed = false;
+
+    protected $enabled = false;
+
+    public function getNav()
     {
-        return $this->group;
+        return $this->nav;
     }
 
-    /**
-     * Get the module menu.
-     *
-     * @return null
-     */
     public function getMenu()
     {
         return $this->menu;
     }
 
-    /**
-     * Get the module sections.
-     *
-     * @return null
-     */
     public function getSections()
     {
         return $this->sections;
     }
 
-    /**
-     * Return whether the module is active or not.
-     *
-     * @return bool
-     */
-    public function isActive()
+    public function getActiveSection()
     {
-        return ($this->slug == app('streams.modules')->getActive());
+        foreach ($this->sections as $section) {
+            if (strpos($_SERVER['REQUEST_URI'], $section['url']) !== false) {
+                return $section;
+            }
+        }
+
+        return null;
     }
 
-    /**
-     * Return a new ModuleModel instance.
-     *
-     * @return null|ModuleModel
-     */
+    public function setInstalled($installed)
+    {
+        $this->installed = $installed;
+
+        return $this;
+    }
+
+    public function isInstalled()
+    {
+        return $this->installed;
+    }
+
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    public function isEnabled()
+    {
+        return $this->enabled;
+    }
+
+    public function newTag()
+    {
+        return new ModuleTag($this->app);
+    }
+
     public function newModel()
     {
         return new ModuleModel();
@@ -78,6 +77,11 @@ class ModuleAddon extends Addon
     public function newPresenter()
     {
         return new ModulePresenter($this);
+    }
+
+    public function newInstaller()
+    {
+        return new ModuleInstaller();
     }
 
     public function newServiceProvider()

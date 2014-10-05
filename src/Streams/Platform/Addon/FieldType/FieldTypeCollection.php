@@ -4,5 +4,4 @@ use Streams\Platform\Addon\AddonCollection;
 
 class FieldTypeCollection extends AddonCollection
 {
-    protected $type = 'field_type';
 }

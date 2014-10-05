@@ -28,14 +28,14 @@ class AddonSpec extends ObjectBehavior
         $this->setPath('core/addons/modules/foo')->isCore()->shouldReturn(true);
     }
 
-    function it_can_set_and_get_type()
+    function it_can_get_type()
     {
-        $this->setType('addon')->getType()->shouldReturn('addon');
+        $this->getType()->shouldReturn('addon');
     }
 
-    function it_can_set_and_get_slug()
+    function it_can_get_slug()
     {
-        $this->setSlug('test')->getSlug()->shouldReturn('test');
+        $this->getSlug()->shouldReturn('abstract');
     }
 
     function it_can_set_and_get_path()
@@ -50,7 +50,7 @@ class AddonSpec extends ObjectBehavior
 
     function it_can_get_abstract()
     {
-        $this->setType('foo')->setSlug('bar')->getAbstract()->shouldReturn('streams.foo.bar');
+        $this->getAbstract()->shouldReturn('streams.addon.abstract');
     }
 
     function it_can_return_new_presenter()

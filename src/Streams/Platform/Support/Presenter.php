@@ -192,11 +192,6 @@ class Presenter implements ArrayableInterface
         }
     }
 
-    /**
-     * Get the resource.
-     *
-     * @return mixed
-     */
     public function getResource()
     {
         return $this->resource;

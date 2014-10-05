@@ -37,4 +37,9 @@ class AddonRepository
             )
         );
     }
+
+    public function getType()
+    {
+        return $this->type;
+    }
 }

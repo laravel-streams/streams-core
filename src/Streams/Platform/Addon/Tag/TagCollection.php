@@ -4,6 +4,5 @@ use Streams\Platform\Addon\AddonCollection;
 
 class TagCollection extends AddonCollection
 {
-    protected $type = 'tag';
 }
  

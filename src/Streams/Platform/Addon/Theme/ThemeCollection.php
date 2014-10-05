@@ -4,6 +4,5 @@ use Streams\Platform\Addon\AddonCollection;
 
 class ThemeCollection extends AddonCollection
 {
-    protected $type = 'theme';
 }
  

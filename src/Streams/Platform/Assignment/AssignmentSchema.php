@@ -40,8 +40,6 @@ class AssignmentSchema
 
         $columnTypeMethod = camel_case($fieldType->getColumnType());
 
-        $constraint = $this->getColumnConstraint($assignment);
-
         if ($assignment->stream->is_translatable and $assignment->is_translatable) {
             if (!\Schema::hasColumn($translatableTable, $columnName)) {
                 $this->addColumn(
@@ -49,8 +47,7 @@ class AssignmentSchema
                     $assignment,
                     $fieldType,
                     $columnName,
-                    $columnTypeMethod,
-                    $constraint
+                    $columnTypeMethod
                 );
             }
             if (!\Schema::hasColumn($entryTable, $columnName)) {
@@ -59,8 +56,7 @@ class AssignmentSchema
                     $assignment,
                     $fieldType,
                     $columnName,
-                    $columnTypeMethod,
-                    $constraint
+                    $columnTypeMethod
                 );
             }
         } else {
@@ -70,8 +66,7 @@ class AssignmentSchema
                     $assignment,
                     $fieldType,
                     $columnName,
-                    $columnTypeMethod,
-                    $constraint
+                    $columnTypeMethod
                 );
             }
         }
@@ -140,8 +135,7 @@ class AssignmentSchema
         $assignment,
         $fieldType,
         $columnName,
-        $columnTypeMethod,
-        $constraint
+        $columnTypeMethod
     ) {
         \Schema::table(
             $table,
@@ -149,18 +143,10 @@ class AssignmentSchema
                 $assignment,
                 $fieldType,
                 $columnName,
-                $columnTypeMethod,
-                $constraint
+                $columnTypeMethod
             ) {
 
-                // Only the string method cares about a constraint
-                if ($columnTypeMethod === 'string' and $constraint) {
-                    $column = $table->{$columnTypeMethod}($columnName, $constraint);
-                } else {
-                    $column = $table->{$columnTypeMethod}($columnName);
-                }
-
-                $column->nullable(true);
+                $table->{$columnTypeMethod}($columnName)->nullable(true);
             }
         );
 

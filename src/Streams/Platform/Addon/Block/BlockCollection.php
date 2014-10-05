@@ -4,6 +4,5 @@ use Streams\Platform\Addon\AddonCollection;
 
 class BlockCollection extends AddonCollection
 {
-    protected $type = 'block';
 }
  

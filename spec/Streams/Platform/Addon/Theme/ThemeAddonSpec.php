@@ -1,4 +1,6 @@
-<?php namespace spec\Streams\Platform\Addon\Theme;
+<?php
+
+namespace spec\Streams\Platform\Addon\Theme;
 
 use Illuminate\Foundation\Application;
 use PhpSpec\ObjectBehavior;
@@ -11,9 +13,19 @@ class ThemeAddonSpec extends ObjectBehavior
         $this->beConstructedWith($app);
     }
 
+    function it_can_return_is_admin()
+    {
+        $this->isAdmin()->shouldReturn(false);
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType('Streams\Platform\Addon\Theme\ThemeAddon');
+    }
+
+    function it_can_return_new_tag()
+    {
+        $this->newTag()->shouldHaveType('Streams\Platform\Addon\Theme\ThemeTag');
     }
 
     function it_can_return_new_presenter()

@@ -4,13 +4,6 @@ use Streams\Platform\Addon\AddonCollection;
 
 class ModuleCollection extends AddonCollection
 {
-    protected $type = 'module';
-
-    /**
-     * Return only installed addons.
-     *
-     * @return Collection
-     */
     public function installed()
     {
         $installed = [];
@@ -24,11 +17,6 @@ class ModuleCollection extends AddonCollection
         return self::make($installed);
     }
 
-    /**
-     * Return only enabled addons (which must be installed).
-     *
-     * @return Collection
-     */
     public function enabled()
     {
         $enabled = [];

@@ -6,15 +6,11 @@ class FieldTypeAddon extends Addon
 {
     protected $columnType = 'string';
 
-    protected $columnConstraint = null;
+    protected $colunmName = null;
 
-    protected $elementView = 'html/partials/element';
-
-    protected $entry = null;
+    protected $fieldName = null;
 
     protected $value = null;
-
-    protected $assignment = null;
 
     public function input()
     {
@@ -22,26 +18,16 @@ class FieldTypeAddon extends Addon
             'class' => 'form-control',
         ];
 
-        return \Form::text($this->fieldName(), $this->value, $options);
+        return \Form::text($this->getFieldName(), $this->value, $options);
     }
 
     public function element()
     {
-        $for   = $this->fieldName();
+        $for   = $this->getFieldName();
         $name  = $this->assignment->field->name;
         $input = $this->input();
 
-        return \View::make($this->elementView, compact('for', 'name', 'input'));
-    }
-
-    public function columnName()
-    {
-        return $this->assignment->field->slug;
-    }
-
-    public function fieldName()
-    {
-        return $this->assignment->field->slug;
+        return \View::make('html/partials/element', compact('for', 'name', 'input'));
     }
 
     public function mutate($value)
@@ -54,26 +40,28 @@ class FieldTypeAddon extends Addon
         return $this->columnType;
     }
 
-    public function getColumnConstraint()
+    public function setColumnName($columnName)
     {
-        return $this->columnConstraint;
-    }
-
-    public function getEntry()
-    {
-        return $this->entry;
-    }
-
-    public function setEntry($entry)
-    {
-        $this->entry = $entry;
+        $this->colunmName = $columnName;
 
         return $this;
     }
 
-    public function getValue()
+    public function getColumnName()
     {
-        return $this->value;
+        return $this->colunmName;
+    }
+
+    public function setFieldName($fieldName)
+    {
+        $this->fieldName = $fieldName;
+
+        return $this;
+    }
+
+    public function getFieldName()
+    {
+        return $this->fieldName;
     }
 
     public function setValue($value)
@@ -83,16 +71,9 @@ class FieldTypeAddon extends Addon
         return $this;
     }
 
-    public function getAssignment()
+    public function getValue()
     {
-        return $this->assignment;
-    }
-
-    public function setAssignment($assignment)
-    {
-        $this->assignment = $assignment;
-
-        return $this;
+        return $this->value;
     }
 
     public function newPresenter()

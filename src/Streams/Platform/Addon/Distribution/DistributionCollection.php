@@ -4,6 +4,5 @@ use Streams\Platform\Addon\AddonCollection;
 
 class DistributionCollection extends AddonCollection
 {
-    protected $type = 'distribution';
 }
  
