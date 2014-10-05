@@ -9,9 +9,4 @@ class ExtensionRepositorySpec extends ObjectBehavior
     {
         $this->shouldHaveType('Streams\Platform\Addon\Extension\ExtensionRepository');
     }
-
-    function it_has_its_type_set_to_block()
-    {
-        $this->getType()->shouldReturn('extension');
-    }
 }

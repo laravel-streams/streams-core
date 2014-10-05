@@ -11,4 +11,9 @@ class AddonRepositorySpec extends ObjectBehavior
     {
         $this->shouldHaveType('Streams\Platform\Addon\AddonRepository');
     }
+
+    function it_can_return_new_collection()
+    {
+        $this->newCollection([])->shouldHaveType('Streams\Platform\Addon\AddonCollection');
+    }
 }

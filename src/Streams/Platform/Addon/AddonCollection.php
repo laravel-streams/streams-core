@@ -13,7 +13,7 @@ class AddonCollection extends Collection
     public function findBySlug($slug)
     {
         foreach ($this->items as $item) {
-            if ($item->slug === $slug) {
+            if ($item->getSlug() == $slug) {
                 return $item;
             }
         }

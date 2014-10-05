@@ -38,8 +38,8 @@ class AddonRepository
         );
     }
 
-    public function getType()
+    public function newCollection(array $items)
     {
-        return $this->type;
+        return new AddonCollection($items);
     }
 }

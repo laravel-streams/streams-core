@@ -9,9 +9,4 @@ class ThemeRepositorySpec extends ObjectBehavior
     {
         $this->shouldHaveType('Streams\Platform\Addon\Theme\ThemeRepository');
     }
-
-    function it_has_its_type_set_to_block()
-    {
-        $this->getType()->shouldReturn('theme');
-    }
 }

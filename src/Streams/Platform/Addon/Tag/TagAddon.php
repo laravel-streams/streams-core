@@ -6,61 +6,15 @@ use Anomaly\Lexicon\Contract\LexiconInterface;
 
 class TagAddon extends Addon implements PluginInterface
 {
-    /**
-     * Attributes that have been passed into the tag.
-     *
-     * @var array
-     */
+    protected $slug = null;
+
     protected $attributes = [];
 
-    /**
-     * Content inside the tag block.
-     *
-     * @var
-     */
     protected $content = null;
 
-    /**
-     * Get an attribute or it's default by name or offset.
-     *
-     * @param      $name
-     * @param null $default
-     * @param int  $offset
-     * @return null
-     */
-    public function getAttribute($name, $offset = 0, $default = null)
-    {
-        if (isset($this->attributes[$name])) {
-            return $this->attributes[$name];
-        } elseif (isset($this->attributes[$offset])) {
-            return $this->attributes[$offset];
-        }
+    protected $lexicon = null;
 
-        return $default;
-    }
-
-    /**
-     * Get an attribute as an array or it's default by name or offset.
-     *
-     * @param      $attribute
-     * @param int  $offset
-     * @param null $default
-     * @return array
-     */
-    public function asArray($attribute, $offset = 0, $default = null)
-    {
-        $attribute = $this->getAttribute($attribute, $offset, $default);
-
-        return $this->toArray($attribute);
-    }
-
-    /**
-     * Return an string as an array.
-     *
-     * @param $string
-     * @return array
-     */
-    public function toArray($string)
+    public function parseIntoArray($string)
     {
         $values = explode('|', $string);
 
@@ -76,42 +30,18 @@ class TagAddon extends Addon implements PluginInterface
         return $array;
     }
 
-    /**
-     * Get an attribute as a boolean value or it's default by name or offset.
-     *
-     * @param      $attribute
-     * @param int  $offset
-     * @param null $default
-     */
-    public function asBoolean($attribute, $offset = 0, $default = null)
+    public function setAttributes(array $attributes)
     {
-        return filter_var($this->getAttribute($attribute, $offset, $default), FILTER_VALIDATE_BOOLEAN);
+        $this->attributes = $attributes;
+
+        return $this;
     }
 
-    /**
-     * Return attributes except select keys.
-     *
-     * @param $keys
-     * @return array
-     */
-    public function except($keys = [])
+    public function getAttributes()
     {
-        $attributes = $this->attributes;
-
-        foreach ($attributes as $key => $attribute) {
-            if (in_array($key, $keys) or isset($keys[$key])) {
-                unset($attributes[$key]);
-            }
-        }
-
-        return $attributes;
+        return $this->attributes;
     }
 
-    /**
-     * Set the content of the plugin.
-     *
-     * @param string $content
-     */
     public function setContent($content = '')
     {
         $this->content = $content;
@@ -119,16 +49,32 @@ class TagAddon extends Addon implements PluginInterface
         return $this;
     }
 
-    /**
-     * Set attributes for the plugin.
-     *
-     * @param array $attributes
-     */
-    public function setAttributes(array $attributes)
+    public function getContent()
     {
-        $this->attributes = $attributes;
+        return $this->content;
+    }
 
-        return $this;
+    public function getAttribute($name, $offset = 0, $default = null)
+    {
+        if (isset($this->attributes[$name])) {
+            return $this->attributes[$name];
+        } elseif (isset($this->attributes[$offset])) {
+            return $this->attributes[$offset];
+        }
+
+        return $default;
+    }
+
+    public function getAttributeAsArray($attribute, $offset = 0, $default = null)
+    {
+        $attribute = $this->getAttribute($attribute, $offset, $default);
+
+        return $this->parseIntoArray($attribute);
+    }
+
+    public function getAttributeAsBoolean($attribute, $offset = 0, $default = null)
+    {
+        return filter_var($this->getAttribute($attribute, $offset, $default), FILTER_VALIDATE_BOOLEAN);
     }
 
     /**

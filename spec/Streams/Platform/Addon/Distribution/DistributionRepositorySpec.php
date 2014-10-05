@@ -9,9 +9,4 @@ class DistributionRepositorySpec extends ObjectBehavior
     {
         $this->shouldHaveType('Streams\Platform\Addon\Distribution\DistributionRepository');
     }
-
-    function it_has_its_type_set_to_block()
-    {
-        $this->getType()->shouldReturn('distribution');
-    }
 }

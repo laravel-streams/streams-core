@@ -9,9 +9,4 @@ class FieldTypeRepositorySpec extends ObjectBehavior
     {
         $this->shouldHaveType('Streams\Platform\Addon\FieldType\FieldTypeRepository');
     }
-
-    function it_has_its_type_set_to_block()
-    {
-        $this->getType()->shouldReturn('field_type');
-    }
 }
