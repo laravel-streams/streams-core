@@ -31,11 +31,6 @@ class ThemeAddon extends Addon
         return new ThemeModel();
     }
 
-    /**
-     * Return a new ThemeTag instance.
-     *
-     * @return ThemeTag
-     */
     public function newTag()
     {
         $tag = get_called_class() . 'Tag';
@@ -44,6 +39,16 @@ class ThemeAddon extends Addon
             return new $tag;
         }
 
-        return new ThemeTag();
+        return null;
+    }
+
+    public function newPresenter()
+    {
+        return new ThemePresenter($this);
+    }
+
+    public function newServiceProvider()
+    {
+        return new ThemeServiceProvider($this->app);
     }
 }

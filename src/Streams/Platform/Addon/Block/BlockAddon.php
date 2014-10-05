@@ -8,4 +8,9 @@ class BlockAddon extends Addon
     {
         return new BlockPresenter($this);
     }
+
+    public function newServiceProvider()
+    {
+        return new BlockServiceProvider($this->app);
+    }
 }

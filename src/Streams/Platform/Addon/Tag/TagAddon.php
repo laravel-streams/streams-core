@@ -168,6 +168,16 @@ class TagAddon extends Addon implements PluginInterface
         return $this;
     }
 
+    public function newPresenter()
+    {
+        return new TagPresenter($this);
+    }
+
+    public function newServiceProvider()
+    {
+        return new TagServiceProvider($this->app);
+    }
+
     /**
      * If a method does not exist - fail silently.
      *

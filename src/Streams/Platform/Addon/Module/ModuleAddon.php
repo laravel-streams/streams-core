@@ -74,4 +74,14 @@ class ModuleAddon extends Addon
     {
         return new ModuleModel();
     }
+
+    public function newPresenter()
+    {
+        return new ModulePresenter($this);
+    }
+
+    public function newServiceProvider()
+    {
+        return new ModuleServiceProvider($this->app);
+    }
 }

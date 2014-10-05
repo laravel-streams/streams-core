@@ -2,21 +2,30 @@
 
 namespace spec\Streams\Platform\Addon;
 
-use PhpSpec\Laravel\LaravelObjectBehavior;
+use Illuminate\Foundation\Application;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class AddonSpec extends LaravelObjectBehavior
+class AddonSpec extends ObjectBehavior
 {
+    function let(Application $app)
+    {
+        $this->beConstructedWith($app);
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType('Streams\Platform\Addon\Addon');
     }
 
-    function it_can_determine_if_is_core()
+    function it_returns_false_if_not_core()
+    {
+        $this->setPath('addons/shared/modules/foo')->isCore()->shouldReturn(false);
+    }
+
+    function it_returns_true_if_is_core()
     {
         $this->setPath('core/addons/modules/foo')->isCore()->shouldReturn(true);
-        $this->setPath('addons/shared/modules/foo')->isCore()->shouldReturn(false);
     }
 
     function it_can_set_and_get_type()
@@ -47,5 +56,10 @@ class AddonSpec extends LaravelObjectBehavior
     function it_can_return_new_presenter()
     {
         $this->newPresenter()->shouldHaveType('Streams\Platform\Addon\AddonPresenter');
+    }
+
+    function it_can_return_new_service_provider()
+    {
+        $this->newServiceProvider()->shouldHaveType('Streams\Platform\Addon\AddonServiceProvider');
     }
 }

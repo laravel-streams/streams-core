@@ -14,6 +14,13 @@ class Addon implements PresenterInterface
 
     protected $path = null;
 
+    protected $app;
+
+    function __construct(Application $app)
+    {
+        $this->app = $app;
+    }
+
     public function isCore()
     {
         return str_contains($this->getPath(), 'core/addons');
@@ -67,6 +74,11 @@ class Addon implements PresenterInterface
 
     public function newServiceProvider()
     {
-        return new AddonServiceProvider();
+        return new AddonServiceProvider($this->app);
     }
+
+    /*public static function stub()
+    {
+        return new static(Bootstrap::application());
+    }*/
 }

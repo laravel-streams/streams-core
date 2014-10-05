@@ -99,4 +99,9 @@ class FieldTypeAddon extends Addon
     {
         return new FieldTypePresenter($this);
     }
+
+    public function newServiceProvider()
+    {
+        return new FieldTypeServiceProvider($this->app);
+    }
 }
