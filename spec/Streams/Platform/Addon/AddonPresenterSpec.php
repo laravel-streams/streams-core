@@ -19,6 +19,11 @@ class AddonPresenterSpec extends ObjectBehavior
         $this->shouldHaveType('Streams\Platform\Addon\AddonPresenter');
     }
 
+    /*function it_can_return_addon_name()
+    {
+        $this->name()->shouldReturn('addon.abstract::addon.name');
+    }*/
+
     function it_can_return_addon_slug()
     {
         $this->slug()->shouldReturn('abstract');

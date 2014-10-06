@@ -14,6 +14,19 @@ class ModuleInstaller
     protected $installers = [];
 
     /**
+     * Set the installers to run.
+     *
+     * @param $installers
+     * @return $this
+     */
+    public function setInstallers($installers)
+    {
+        $this->installers = $installers;
+
+        return $this;
+    }
+
+    /**
      * Get the installers to run.
      *
      * @return array

@@ -13,22 +13,14 @@ class EventDispatcher
     protected $event;
 
     /**
-     * The writer instance.
-     *
-     * @var Writer
-     */
-    protected $log;
-
-    /**
      * Create a new EventDispatcher instance.
      *
      * @param Dispatcher $event
      * @param Writer     $log
      */
-    function __construct(Dispatcher $event, Writer $log)
+    function __construct(Dispatcher $event)
     {
         $this->event = $event;
-        $this->log   = $log;
     }
 
     /**
@@ -42,8 +34,6 @@ class EventDispatcher
             $eventName = $this->getEventName($event);
 
             $this->event->fire($eventName, $event);
-
-            $this->log->info("{$eventName} was fired.");
         }
     }
 

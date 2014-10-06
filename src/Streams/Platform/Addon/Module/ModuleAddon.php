@@ -19,9 +19,23 @@ class ModuleAddon extends Addon
         return $this->nav;
     }
 
+    public function setMenu($menu)
+    {
+        $this->menu = $menu;
+
+        return $this;
+    }
+
     public function getMenu()
     {
         return $this->menu;
+    }
+
+    public function setSections($sections)
+    {
+        $this->sections = $sections;
+
+        return $this;
     }
 
     public function getSections()

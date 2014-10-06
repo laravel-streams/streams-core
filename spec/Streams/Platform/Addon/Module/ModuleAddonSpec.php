@@ -23,17 +23,24 @@ class ModuleAddonSpec extends ObjectBehavior
         $this->getNav()->shouldReturn(null);
     }
 
-    function it_can_get_menu()
+    function it_can_set_and_get_menu()
     {
-        $this->getMenu()->shouldReturn([]);
+        $this->setMenu(['foo'])->getMenu()->shouldReturn(['foo']);
     }
 
-    function it_can_get_sections()
+    function it_can_set_and_get_sections()
     {
-        $this->getSections()->shouldReturn([]);
+        $this->setSections(['foo'])->getSections()->shouldReturn(['foo']);
     }
 
     function it_can_get_active_section()
+    {
+        $_SERVER['REQUEST_URI'] = 'admin/foo/bar';
+
+        $this->setSections([['url' => 'admin/foo']])->getActiveSection()->shouldReturn(['url' => 'admin/foo']);
+    }
+
+    function it_returns_null_if_no_active_section()
     {
         $this->getActiveSection()->shouldReturn(null);
     }
