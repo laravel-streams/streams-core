@@ -14,10 +14,7 @@ class EntryPresenter extends EloquentPresenter
     {
         if ($assignment = $this->resource->findAssignmentByFieldSlug($key)) {
             if ($assignment) {
-                $type = $assignment->field->type
-                    ->setAssignment($assignment)
-                    ->setEntry($this->resource)
-                    ->setValue($this->resource->{$assignment->field->slug});
+                $type = $assignment->field->type->setValue($this->resource->{$assignment->field->slug});
 
                 return app('streams.decorator')->decorate($type);
             }

@@ -197,7 +197,7 @@ class Asset
 
         $path = 'assets/' . $reference . '/' . $extension . '/' . $filename;
 
-        if (!$file->exists($path) or isset($_GET['_compile'])) {
+        if (!$this->files->exists($path) or isset($_GET['_compile'])) {
             try {
                 $this->publish($identifier, $path);
             } catch (\Exception $e) {
