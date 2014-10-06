@@ -62,9 +62,4 @@ class Addon implements PresenterInterface
     {
         return new AddonServiceProvider($this->app);
     }
-
-    /*public static function stub()
-    {
-        return new static(Bootstrap::application());
-    }*/
 }
