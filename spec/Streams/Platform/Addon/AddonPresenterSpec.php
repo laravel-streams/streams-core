@@ -2,12 +2,12 @@
 
 namespace spec\Streams\Platform\Addon;
 
+use PhpSpec\Laravel\LaravelObjectBehavior;
 use Illuminate\Foundation\Application;
 use Streams\Platform\Addon\Addon;
-use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class AddonPresenterSpec extends ObjectBehavior
+class AddonPresenterSpec extends LaravelObjectBehavior
 {
     function let()
     {
@@ -19,10 +19,10 @@ class AddonPresenterSpec extends ObjectBehavior
         $this->shouldHaveType('Streams\Platform\Addon\AddonPresenter');
     }
 
-    /*function it_can_return_addon_name()
+    function it_can_return_addon_name()
     {
         $this->name()->shouldReturn('addon.abstract::addon.name');
-    }*/
+    }
 
     function it_can_return_addon_slug()
     {
