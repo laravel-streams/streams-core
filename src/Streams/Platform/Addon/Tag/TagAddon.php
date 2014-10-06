@@ -6,6 +6,8 @@ use Anomaly\Lexicon\Contract\LexiconInterface;
 
 class TagAddon extends Addon implements PluginInterface
 {
+    protected $type = 'tag';
+
     protected $slug = null;
 
     protected $attributes = [];

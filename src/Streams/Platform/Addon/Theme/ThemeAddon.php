@@ -4,6 +4,8 @@ use Streams\Platform\Addon\Addon;
 
 class ThemeAddon extends Addon
 {
+    protected $type = 'theme';
+
     protected $admin = false;
 
     public function isAdmin()

@@ -4,6 +4,8 @@ use Streams\Platform\Addon\Addon;
 
 class DistributionAddon extends Addon
 {
+    protected $type = 'distribution';
+
     public function newPresenter()
     {
         return new DistributionPresenter($this);

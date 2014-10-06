@@ -4,6 +4,8 @@ use Streams\Platform\Addon\Addon;
 
 class ModuleAddon extends Addon
 {
+    protected $type = 'module';
+
     protected $nav = null;
 
     protected $menu = [];

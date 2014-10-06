@@ -4,6 +4,8 @@ use Streams\Platform\Addon\Addon;
 
 class FieldTypeAddon extends Addon
 {
+    protected $type = 'field_type';
+
     protected $columnType = 'string';
 
     protected $colunmName = null;
