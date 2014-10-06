@@ -16,6 +16,11 @@ class Addon implements PresenterInterface
 
     protected $app;
 
+    function __construct(Application $app)
+    {
+        $this->app = $app;
+    }
+
     public function isCore()
     {
         return str_contains($this->getPath(), 'core/addons');
@@ -57,6 +62,6 @@ class Addon implements PresenterInterface
 
     public function newServiceProvider()
     {
-        return app('Streams\Platform\Addon\AddonServiceProvider');
+        return new AddonServiceProvider($this->app);
     }
 }
