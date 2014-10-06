@@ -84,11 +84,13 @@ class Application
         return true;
     }
 
-    /**
-     * Get the current app ref
-     *
-     * @return null
-     */
+    public function setReference($reference)
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
     public function getReference()
     {
         return $this->reference;

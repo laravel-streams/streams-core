@@ -53,9 +53,4 @@ class ModuleService
 
         return true;
     }
-
-    public static function stub()
-    {
-        throw new \BadMethodCallException("Mismatch between the number of arguments of the factory method and constructor");
-    }
 }
