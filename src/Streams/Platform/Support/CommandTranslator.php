@@ -30,7 +30,7 @@ class CommandTranslator
      * @return mixed
      * @throws \Exception
      */
-    public function toCommandValidator($command)
+    /*public function toCommandValidator($command)
     {
         $commandClass = get_class($command);
         $validator    = substr_replace($commandClass, 'CommandValidator', strrpos($commandClass, 'Command'));
@@ -42,5 +42,5 @@ class CommandTranslator
         }
 
         return $validator;
-    }
+    }*/
 }

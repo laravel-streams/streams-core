@@ -1,6 +1,7 @@
 <?php namespace Streams\Platform\Addon\Module;
 
 use Illuminate\Foundation\Application;
+use Streams\Platform\Traits\DispatchableTrait;
 use Streams\Platform\Traits\EventableTrait;
 use Streams\Platform\Traits\CommandableTrait;
 use Streams\Platform\Support\EventDispatcher;
@@ -11,16 +12,13 @@ class ModuleService
 {
     use EventableTrait;
     use CommandableTrait;
+    use DispatchableTrait;
 
     protected $app;
 
-    protected $dispatcher;
-
-    function __construct(Application $app, EventDispatcher $dispatcher)
+    function __construct(Application $app)
     {
         $this->app = $app;
-
-        $this->dispatcher = $dispatcher;
     }
 
 
@@ -32,7 +30,7 @@ class ModuleService
 
         $this->raise(new ModuleWasInstalledEvent($module));
 
-        $this->dispatcher->dispatch($this->releaseEvents());
+        $this->dispatchEventsFor($this);
 
         $module->fire('after_install');
 
@@ -47,7 +45,7 @@ class ModuleService
 
         $this->raise(new ModuleWasUninstalledEvent($module));
 
-        $this->dispatcher->dispatch($this->releaseEvents());
+        $this->dispatchEventsFor($this);
 
         $module->fire('after_uninstall');
 

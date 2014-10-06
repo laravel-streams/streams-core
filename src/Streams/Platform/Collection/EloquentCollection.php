@@ -10,7 +10,7 @@ class EloquentCollection extends Collection
      *
      * @param array $models
      */
-    public function __construct($models)
+    public function __construct($models = [])
     {
         foreach ($models as &$model) {
             $model = app('streams.decorator')->decorate($model);

@@ -98,6 +98,11 @@ class CacheCollection extends Collection
         return $this;
     }
 
+    public function getKey()
+    {
+        return $this->key;
+    }
+
     /**
      * Filter cached items as unique only.
      *

@@ -7,7 +7,7 @@ use Prophecy\Argument;
 
 class AddonCollectionSpec extends ObjectBehavior
 {
-    function let($items = [])
+    function let()
     {
         $items = [
             new Addon(new Application()),
