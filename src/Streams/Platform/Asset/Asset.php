@@ -42,7 +42,7 @@ class Asset
      * @param      $asset
      * @param null $filters
      */
-    public function add($collection, $asset, $filters = [])
+    public function add($collection, $asset, array $filters = [])
     {
         if (is_array($asset) and $assets = $asset) {
             foreach ($assets as $asset => $filters) {
@@ -295,7 +295,8 @@ class Asset
         return null;
     }
 
-    public function setFilters($collection, $filters) {
+    public function setFilters($collection, $filters)
+    {
         $this->filters[$collection] = $filters;
 
         return $this;
