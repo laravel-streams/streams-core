@@ -3,11 +3,13 @@
 use Assetic\Asset\GlobAsset;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\AssetCollection;
+use Illuminate\Filesystem\Filesystem;
 use Streams\Platform\Asset\Filter\JSMinFilter;
 use Streams\Platform\Asset\Filter\CssMinFilter;
 use Streams\Platform\Asset\Filter\LessphpFilter;
 use Streams\Platform\Asset\Filter\ScssphpFilter;
 use Streams\Platform\Asset\Filter\PhpCssEmbedFilter;
+use Streams\Platform\Foundation\Application;
 
 class Asset
 {
@@ -18,12 +20,20 @@ class Asset
      */
     protected $namespaces = [];
 
-    /**
-     * Collections of assets by [collection][asset] = filters.
-     *
-     * @var array
-     */
     protected $collections = [];
+
+    protected $filters = [];
+
+    protected $files;
+
+    protected $application;
+
+    function __construct(Filesystem $files, Application $application)
+    {
+        $this->files       = $files;
+        $this->application = $application;
+    }
+
 
     /**
      * Add an asset to a collection.
@@ -168,6 +178,11 @@ class Asset
         return $filters;
     }
 
+    protected function getExtension($path)
+    {
+        $this->files->extension($path);
+    }
+
     /**
      * Pipe the input and return it's public path.
      *
@@ -176,14 +191,11 @@ class Asset
      */
     protected function pipe($identifier)
     {
-        $file        = app('files');
-        $application = app('streams.application');
+        $filename  = $this->filename($identifier);
+        $extension = $this->files->extension($filename);
+        $reference = $this->application->getReference();
 
-        $filename = $this->filename($identifier);
-
-        $extension = $file->extension($filename);
-
-        $path = 'assets/' . $application->getReference() . '/' . $extension . '/' . $filename;
+        $path = 'assets/' . $reference . '/' . $extension . '/' . $filename;
 
         if (!$file->exists($path) or isset($_GET['_compile'])) {
             try {
@@ -267,31 +279,34 @@ class Asset
         return \HTML::image($path, $alt, $attributes, $secure or \Request::isSecure());
     }
 
-    /**
-     * Set the namespaces property.
-     *
-     * @param $namespaces
-     * @return $this
-     */
-    public function setNamespaces($namespaces)
-    {
-        foreach ($namespaces as $binding => $path) {
-            $this->addNamespace($binding, $path);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Add a single namespace path by it's binding.
-     *
-     * @param $binding
-     * @param $path
-     */
     public function addNamespace($binding, $path)
     {
         $this->namespaces[$binding] = $path;
 
         return $this;
+    }
+
+    public function getNamespace($binding)
+    {
+        if (isset($this->namespaces[$binding])) {
+            return $this->namespaces[$binding];
+        }
+
+        return null;
+    }
+
+    public function setFilters($collection, $filters) {
+        $this->filters[$collection] = $filters;
+
+        return $this;
+    }
+
+    public function getFilters($collection)
+    {
+        if (isset($this->filters[$collection])) {
+            return $this->filters[$collection];
+        }
+
+        return null;
     }
 }
