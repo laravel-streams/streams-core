@@ -17,11 +17,9 @@ class AddonProviderServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $translator = new AddonTranslator();
-
         foreach (config('streams::addons.types') as $type) {
             foreach (app("streams.{$type}.loaded") as $abstract) {
-                if ($provider = $translator->toServiceProvider(app($abstract))) {
+                if ($provider = app($abstract)->newServiceProvider()) {
                     $this->app->register($provider);
                 }
             }

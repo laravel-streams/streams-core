@@ -17,10 +17,11 @@ class AddonRepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $resolver = new AddonTypeClassResolver();
-
         foreach (config('streams::addons.types') as $type) {
-            $repository = $resolver->resolveRepository($type);
+
+            $studly = studly_case($type);
+
+            $repository = 'Streams\Platform\Addon\\' . $studly . '\\' . $studly . 'Repository';
 
             $this->app->singleton(
                 'streams.' . str_plural($type),

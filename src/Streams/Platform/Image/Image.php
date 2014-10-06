@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Asset;
+<?php namespace Streams\Platform\Image;
 
 use Intervention\Image\ImageManager;
 

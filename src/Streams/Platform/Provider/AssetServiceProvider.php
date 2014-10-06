@@ -1,5 +1,6 @@
 <?php namespace Streams\Platform\Provider;
 
+use Illuminate\Filesystem\Filesystem;
 use Streams\Platform\Asset\Asset;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,7 +23,7 @@ class AssetServiceProvider extends ServiceProvider
         $this->app->singleton(
             'streams.asset',
             function () {
-                return new Asset();
+                return new Asset(new Filesystem(), app('streams.application'));
             }
         );
     }
