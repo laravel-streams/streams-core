@@ -18,6 +18,11 @@ class ModuleAddonSpec extends ObjectBehavior
         $this->shouldHaveType('Streams\Platform\Addon\Module\ModuleAddon');
     }
 
+    function it_should_return_correct_type()
+    {
+        $this->getType()->shouldReturn('module');
+    }
+
     function it_can_get_nav()
     {
         $this->getNav()->shouldReturn(null);

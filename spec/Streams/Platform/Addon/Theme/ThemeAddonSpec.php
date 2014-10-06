@@ -13,14 +13,19 @@ class ThemeAddonSpec extends ObjectBehavior
         $this->beConstructedWith($app);
     }
 
-    function it_can_return_is_admin()
+    function it_is_initializable()
+    {
+        $this->shouldHaveType('Streams\Platform\Addon\Theme\ThemeAddon');
+    }
+
+    function it_can_return_admin_flag()
     {
         $this->isAdmin()->shouldReturn(false);
     }
 
-    function it_is_initializable()
+    function it_should_return_correct_type()
     {
-        $this->shouldHaveType('Streams\Platform\Addon\Theme\ThemeAddon');
+        $this->getType()->shouldReturn('theme');
     }
 
     function it_can_return_new_tag()

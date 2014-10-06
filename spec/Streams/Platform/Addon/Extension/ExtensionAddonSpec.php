@@ -18,6 +18,11 @@ class ExtensionAddonSpec extends ObjectBehavior
         $this->shouldHaveType('Streams\Platform\Addon\Extension\ExtensionAddon');
     }
 
+    function it_should_return_correct_type()
+    {
+        $this->getType()->shouldReturn('extension');
+    }
+
     function it_can_return_new_presenter()
     {
         $this->newPresenter()->shouldHaveType('Streams\Platform\Addon\Extension\ExtensionPresenter');

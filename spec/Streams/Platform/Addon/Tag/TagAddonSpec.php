@@ -18,6 +18,11 @@ class TagAddonSpec extends ObjectBehavior
         $this->shouldHaveType('Streams\Platform\Addon\Tag\TagAddon');
     }
 
+    function it_should_return_correct_type()
+    {
+        $this->getType()->shouldReturn('tag');
+    }
+
     function it_can_parse_a_string_into_an_array()
     {
         $this->parseIntoArray('foo=bar|baz=foo')->shouldReturn(['foo' => 'bar', 'baz' => 'foo']);

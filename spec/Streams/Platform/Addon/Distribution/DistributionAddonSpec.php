@@ -18,6 +18,11 @@ class DistributionAddonSpec extends ObjectBehavior
         $this->shouldHaveType('Streams\Platform\Addon\Distribution\DistributionAddon');
     }
 
+    function it_should_return_correct_type()
+    {
+        $this->getType()->shouldReturn('distribution');
+    }
+
     function it_can_return_new_presenter()
     {
         $this->newPresenter()->shouldHaveType('Streams\Platform\Addon\Distribution\DistributionPresenter');

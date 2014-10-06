@@ -18,6 +18,11 @@ class FieldTypeAddonSpec extends ObjectBehavior
         $this->shouldHaveType('Streams\Platform\Addon\FieldType\FieldTypeAddon');
     }
 
+    function it_should_return_correct_type()
+    {
+        $this->getType()->shouldReturn('field_type');
+    }
+
     function it_can_mutate_value()
     {
         $this->mutate('value')->shouldReturn('value');
