@@ -82,8 +82,10 @@ class Image extends ImageManager
 
         $image = parent::make($this->image);
 
-        foreach ($this->filters[$this->image] as $method => $arguments) {
-            $image = call_user_func_array([$image, $method], $arguments);
+        foreach ($this->applied[$this->image] as $method => $arguments) {
+            if (method_exists($image, $method)) {
+                $image = call_user_func_array([$image, $method], $arguments);
+            }
         }
 
         $image->save($path);
@@ -137,7 +139,7 @@ class Image extends ImageManager
      */
     protected function filename()
     {
-        return hashify([$this->image, $this->filters[$this->image]]) . '.' . \File::extension($this->image);
+        return hashify([$this->image, $this->applied[$this->image]]) . '.' . \File::extension($this->image);
     }
 
     /**

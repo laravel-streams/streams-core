@@ -48,12 +48,10 @@ class AddonServiceProvider extends ServiceProvider
     {
         $class = $this->getClass($slug);
 
-        $type = $this->type;
-
         $this->app->{$this->binding}(
             $this->getAbstract($slug),
-            function () use ($class, $type, $slug, $path) {
-                return (new $class($this->app))->setType($type)->setSlug($slug)->setPath($path);
+            function () use ($class, $path) {
+                return (new $class())->setPath($path);
             }
         );
     }
@@ -124,7 +122,7 @@ class AddonServiceProvider extends ServiceProvider
 
     protected function getNamespace($slug)
     {
-        return 'Streams\Addon\\' . studly_case(basename($this->getType())) . '\\' . studly_case($slug);
+        return 'Streams\Addon\\' . studly_case($this->getType()) . '\\' . studly_case($slug);
     }
 
     protected function getClass($slug)

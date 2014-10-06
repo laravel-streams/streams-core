@@ -14,6 +14,19 @@ class TagAddon extends Addon implements PluginInterface
 
     protected $lexicon = null;
 
+    public function except($keys = [])
+    {
+        $attributes = $this->attributes;
+
+        foreach ($attributes as $key => $attribute) {
+            if (in_array($key, $keys) or isset($keys[$key])) {
+                unset($attributes[$key]);
+            }
+        }
+
+        return $attributes;
+    }
+
     public function parseIntoArray($string)
     {
         $values = explode('|', $string);

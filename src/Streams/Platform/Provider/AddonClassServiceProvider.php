@@ -18,7 +18,9 @@ class AddonClassServiceProvider extends ServiceProvider
     {
         foreach (config('streams::addons.types') as $type) {
 
-            $provider = 'Streams\Platform\Addon\\' . studly_case($type) . '\\' . studly_case($type) . 'ServiceProvider';
+            $type = studly_case($type);
+            
+            $provider = 'Streams\Platform\Addon\\' . $type . '\\' . $type . 'ServiceProvider';
 
             $this->app->register($provider);
 
