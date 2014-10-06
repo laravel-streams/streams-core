@@ -51,7 +51,7 @@ class AddonServiceProvider extends ServiceProvider
         $this->app->{$this->binding}(
             $this->getAbstract($slug),
             function () use ($class, $path) {
-                return (new $class())->setPath($path);
+                return (new $class($this->app))->setPath($path);
             }
         );
     }
