@@ -67,14 +67,14 @@ class Asset
     {
         $directory = dirname(public_path($path));
 
-        if (!\File::isDirectory($directory)) {
-            \File::makeDirectory($directory, 777, true);
+        if (!$this->files->isDirectory($directory)) {
+            $this->files->makeDirectory($directory, 777, true);
         }
 
         $data = $this->get($identifier);
 
         if ($data) {
-            \File::put($path, $data);
+            $this->files->put($path, $data);
         }
     }
 
@@ -92,7 +92,7 @@ class Asset
             $filename = hashify($identifier);
         }
 
-        return $filename . '.' . \File::extension($identifier);
+        return $filename . '.' . $this->files->extension($identifier);
     }
 
     /**
@@ -114,7 +114,7 @@ class Asset
 
             return $collection->dump();
         } else {
-            return \File::get($this->locate($identifier));
+            return $this->files->get($this->locate($identifier));
         }
     }
 
@@ -129,7 +129,7 @@ class Asset
             list($namespace, $path) = explode('::', $asset);
         } else {
             $namespace = 'theme';
-            $path      = \File::extension($asset) . '/' . $asset;
+            $path      = $this->files->extension($asset) . '/' . $asset;
         }
 
         return $this->namespaces[$namespace] . '/' . $path;
@@ -144,7 +144,7 @@ class Asset
      */
     protected function filters($asset, $filters = [])
     {
-        switch ($extension = \File::extension($asset)) {
+        switch ($extension = $this->files->extension($asset)) {
             case 'less':
                 $filters[] = new LessphpFilter();
                 break;
