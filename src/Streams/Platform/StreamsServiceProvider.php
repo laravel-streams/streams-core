@@ -87,11 +87,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Streams\Platform\Provider\TranslationServiceProvider');
 
         // Register addon components.
-        $this->app->register('Streams\Platform\Provider\AddonClassServiceProvider');
-        $this->app->register('Streams\Platform\Provider\AddonRepositoryServiceProvider');
-        $this->app->register('Streams\Platform\Provider\AddonProviderServiceProvider');
-        $this->app->register('Streams\Platform\Provider\AddonVendorServiceProvider');
-        $this->app->register('Streams\Platform\Provider\AddonHintsServiceProvider');
+        $this->app->register('Streams\Platform\Provider\AddonServiceProvider');
 
         // Setup some application components.
         $this->app->register('Streams\Platform\Provider\ModuleServiceProvider');
