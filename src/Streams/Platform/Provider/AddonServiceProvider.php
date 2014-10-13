@@ -115,7 +115,7 @@ class AddonServiceProvider extends ServiceProvider
 
                 app('streams.asset')->addNamespace($abstract, $addon->getPath('resources'));
                 app('streams.image')->addNamespace($abstract, $addon->getPath('resources'));
-                
+
             }
         }
     }

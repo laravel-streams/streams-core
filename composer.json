@@ -26,11 +26,7 @@
         "lmammino/jsmin4assetic": "1.0.*@dev",
         "artdarek/oauth-4-laravel": "dev-master"
     },
-    "require-dev": {
-        "phpspec/phpspec": "~2.0",
-        "henrikbjorn/phpspec-code-coverage": "~0.2",
-        "benconstable/phpspec-laravel": "~1.0"
-    },
+    "require-dev": {},
     "autoload": {
         "psr-0": {
             "Streams\\Platform": "src/"
