@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\Tag;
 
 use Streams\Platform\Addon\Addon;
-use Anomaly\Lexicon\Contract\PluginInterface;
 use Anomaly\Lexicon\Contract\LexiconInterface;
+use Anomaly\Lexicon\Contract\Plugin\PluginInterface;
 
 class TagAddon extends Addon implements PluginInterface
 {
@@ -140,13 +140,24 @@ class TagAddon extends Addon implements PluginInterface
     }
 
     /**
-     * If a method does not exist - fail silently.
-     *
-     * @param $name
-     * @param $arguments
-     * @return null
+     * @param $key
+     * @return mixed
      */
-    public function __call($name, $arguments)
+    public function isFilter($key)
+    {
+        //
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function isParse($key)
+    {
+        //
+    }
+
+    public function __call($key, array $params = [])
     {
         return null;
     }
