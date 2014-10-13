@@ -2,7 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 
-class AddonClassServiceProvider extends ServiceProvider
+class AddonServiceProvider extends ServiceProvider
 {
     /**
      * Defer loading this service provider.
