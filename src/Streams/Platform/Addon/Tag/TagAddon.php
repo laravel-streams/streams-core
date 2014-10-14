@@ -84,7 +84,7 @@ class TagAddon extends Addon implements PluginInterface
     {
         $attribute = $this->getAttribute($attribute, $offset, $default);
 
-        return $this->parseIntoArray($attribute);
+        return $attribute ? $this->parseIntoArray($attribute) : [];
     }
 
     public function getAttributeAsBoolean($attribute, $offset = 0, $default = null)

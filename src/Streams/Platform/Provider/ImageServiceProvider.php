@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Provider;
 
-use Streams\Platform\Image\Image;
+use Streams\Platform\Asset\Image;
 use Illuminate\Support\ServiceProvider;
 
 class ImageServiceProvider extends ServiceProvider

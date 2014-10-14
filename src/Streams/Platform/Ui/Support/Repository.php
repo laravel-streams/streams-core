@@ -47,12 +47,12 @@ class Repository
 
         $filters = $this->ui->filters();
 
-        $paginator = $this->ui->newPaginator()->make([], $total, $this->ui->getLimit());
+        /*$paginator = $this->ui->newPaginator()->make([], $total, $this->ui->getLimit());
 
-        $this->ui->setPaginator($paginator);
+        $this->ui->setPaginator($paginator);*/
 
-        $limit  = $paginator->getPerPage();
-        $offset = ($paginator->getCurrentPage() - 1) * $limit;
+        $limit  = 5;//$paginator->getPerPage();
+        $offset = 0;//($paginator->getCurrentPage() - 1) * $limit;
 
         $query = $query->take($limit)->skip($offset);
 

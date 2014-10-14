@@ -18,5 +18,7 @@ class ApplicationServiceProvider extends ServiceProvider
         app('streams.application')->locate();
 
         app('streams.application')->setup();
+
+        define('APP_REF', app('streams.application')->getReference());
     }
 }

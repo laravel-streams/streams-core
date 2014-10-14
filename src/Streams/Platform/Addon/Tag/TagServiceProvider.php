@@ -12,7 +12,7 @@ class TagServiceProvider extends AddonServiceProvider
 
             $tag = $this->app->make($abstract);
 
-            $this->app->make('anomaly.lexicon')->registerPlugin($tag->getSlug(), $tag);
+            $this->app->make('anomaly.lexicon')->registerPlugin($tag->getSlug(), $abstract);
 
         }
     }

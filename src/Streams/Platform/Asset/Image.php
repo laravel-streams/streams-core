@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Image;
+<?php namespace Streams\Platform\Asset;
 
 use Intervention\Image\ImageManager;
 
@@ -121,9 +121,7 @@ class Image extends ImageManager
 
         $filename = $this->filename();
 
-        $extension = $file->extension($filename);
-
-        $path = 'assets/' . $application->getReference() . '/' . $extension . '/' . $filename;
+        $path = 'assets/' . $application->getReference() . '/' . $filename;
 
         if (!$file->exists($path) or isset($_GET['_compile'])) {
             $this->publish($path);

@@ -3,280 +3,192 @@
 use Assetic\Asset\GlobAsset;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\AssetCollection;
-use Illuminate\Filesystem\Filesystem;
+use Streams\Platform\Asset\Exception\GroupNameDoesNotContainFileExtensionException;
+use Streams\Platform\Asset\Filter\CoffeeScriptFilter;
 use Streams\Platform\Asset\Filter\JSMinFilter;
 use Streams\Platform\Asset\Filter\CssMinFilter;
 use Streams\Platform\Asset\Filter\LessphpFilter;
 use Streams\Platform\Asset\Filter\ScssphpFilter;
 use Streams\Platform\Asset\Filter\PhpCssEmbedFilter;
-use Streams\Platform\Foundation\Application;
 
 class Asset
 {
-    /**
-     * Asset paths by binding.
-     *
-     * @var array
-     */
     protected $namespaces = [];
 
-    protected $collections = [];
+    protected $groups = [];
 
-    protected $filters = [];
-
-    protected $files;
-
-    protected $application;
-
-    function __construct(Filesystem $files, Application $application)
+    public function add($group, $asset, array $filters = [])
     {
-        $this->files       = $files;
-        $this->application = $application;
+        if (!$this->getExtension($group)) {
+            throw new GroupNameDoesNotContainFileExtensionException;
+        }
+
+        if (!isset($this->groups[$group])) {
+            $this->groups[$group] = [];
+        }
+
+        $filters = $this->addConvenientFilters($asset, $filters);
+
+        $asset = $this->replaceNamespace($asset);
+
+        if (file_exists($asset)) {
+            $this->groups[$group][$asset] = $filters;
+        }
+
+        return $this;
     }
 
-
-    /**
-     * Add an asset to a collection.
-     *
-     * @param      $collection
-     * @param      $asset
-     * @param null $filters
-     */
-    public function add($collection, $asset, array $filters = [])
+    public function path($group, array $filters = [])
     {
-        if (is_array($asset) and $assets = $asset) {
-            foreach ($assets as $asset => $filters) {
-                $this->add($asset, $collection, $filters);
-            }
+        if (!isset($this->groups[$group])) {
+            $this->add($group, $group, $filters);
         }
 
-        if (!isset($this->collections[$collection])) {
-            $this->collections[$collection] = [];
-        }
-
-        $this->collections[$collection][$asset] = $filters;
+        return $this->getPath($group, $filters);
     }
 
-    /**
-     * Publish an asset or collection.
-     *
-     * @param      $identifier
-     * @param null $path
-     */
-    protected function publish($identifier, $path)
+    public function paths($group, array $additionalFilters = [])
     {
-        $directory = dirname(public_path($path));
+        return array_filter(
+            array_map(
+                function ($asset, $filters) use ($additionalFilters) {
 
-        if (!$this->files->isDirectory($directory)) {
-            $this->files->makeDirectory($directory, 777, true);
-        }
+                    $filters = array_filter(array_unique(array_merge($filters, $additionalFilters)));
 
-        $data = $this->get($identifier);
-
-        if ($data) {
-            $this->files->put($path, $data);
-        }
+                    echo $this->path($asset, $filters);
+                    die;
+                },
+                array_keys($this->groups[$group]),
+                array_values($this->groups[$group])
+            )
+        );
     }
 
-    /**
-     * Return a filename per the identifier.
-     *
-     * @param $identifier
-     * @return string
-     */
-    protected function filename($identifier)
+    protected function getPath($group, $filters)
     {
-        if (isset($this->collections[$identifier])) {
-            $filename = hashify($this->collections[$identifier]);
-        } else {
-            $filename = hashify($identifier);
-        }
+        $hash = hashify($this->groups[$group]);
 
-        return $filename . '.' . $this->files->extension($identifier);
-    }
+        $hint = $this->getHint($group);
 
-    /**
-     * Get the contents of an identifier.
-     *
-     * @param $identifier
-     * @return mixed
-     */
-    protected function get($identifier)
-    {
-        if (isset($this->collections[$identifier]) and $collection = new AssetCollection()) {
-            foreach ($this->collections[$identifier] as $asset => $filters) {
-                if (strpos($asset, '*') !== false) {
-                    $collection->add(new GlobAsset($this->locate($asset), $this->filters($asset, $filters)));
-                } else {
-                    $collection->add(new FileAsset($this->locate($asset), $this->filters($asset, $filters)));
-                }
-            }
+        $path = 'assets/' . APP_REF . '/' . $hash . '.' . $hint;
 
-            return $collection->dump();
-        } else {
-            return $this->files->get($this->locate($identifier));
-        }
-    }
-
-    /**
-     * Locate the path of an asset.
-     *
-     * @param $asset
-     */
-    protected function locate($asset)
-    {
-        if (strpos($asset, '::') !== false) {
-            list($namespace, $path) = explode('::', $asset);
-        } else {
-            $namespace = 'theme';
-            $path      = $this->files->extension($asset) . '/' . $asset;
-        }
-
-        return $this->namespaces[$namespace] . '/' . $path;
-    }
-
-    /**
-     * Return an array of filters based on the asset and flags.
-     *
-     * @param       $asset
-     * @param array $filters
-     * @return mixed
-     */
-    protected function filters($asset, $filters = [])
-    {
-        switch ($extension = $this->files->extension($asset)) {
-            case 'less':
-                $filters[] = new LessphpFilter();
-                break;
-            case 'scss':
-                $filters[] = new ScssphpFilter();
-                break;
-        }
-
-        foreach ($filters as $k => &$filter) {
-            if (is_string($filter)) {
-                switch ($filter) {
-                    case 'min':
-                        if (in_array($extension, ['css', 'less', 'scss'])) {
-                            $filter = new CssMinFilter();
-                        } else {
-                            $filter = new JSMinFilter();
-                        }
-                        break;
-
-                    case 'embed':
-                        $filter = new PhpCssEmbedFilter();
-                        break;
-
-                    default:
-                        unset($filters[$k]);
-                        break;
-                }
-            }
-        }
-
-        return $filters;
-    }
-
-    protected function getExtension($path)
-    {
-        $this->files->extension($path);
-    }
-
-    /**
-     * Pipe the input and return it's public path.
-     *
-     * @param $identifier
-     * @return string
-     */
-    protected function pipe($identifier)
-    {
-        $filename  = $this->filename($identifier);
-        $extension = $this->files->extension($filename);
-        $reference = $this->application->getReference();
-
-        $path = 'assets/' . $reference . '/' . $extension . '/' . $filename;
-
-        if (!$this->files->exists($path) or isset($_GET['_compile'])) {
-            try {
-                $this->publish($identifier, $path);
-            } catch (\Exception $e) {
-                return null;
-            }
+        if (isset($_GET['_publish'])) {
+            $this->publish($path, $group, $filters);
         }
 
         return $path;
     }
 
-    /**
-     * Return the public path by identifier.
-     *
-     * @param $identifier
-     */
-    public function path($identifier)
+    protected function publish($path, $group, $additionalFilters)
     {
-        return $this->pipe($identifier);
+        $collection = new AssetCollection();
+
+        $hint = $this->getHint($group);
+
+        foreach ($this->groups[$group] as $asset => $filters) {
+
+            $filters = array_filter(array_unique(array_merge($filters, $additionalFilters)));
+
+            $filters = $this->transformFilters($filters, $hint);
+
+            if (ends_with($asset, '*')) {
+                $asset = new GlobAsset($asset, $filters);
+            } else {
+                $asset = new FileAsset($asset, $filters);
+            }
+
+            $collection->add($asset);
+
+        }
+
+        file_put_contents(public_path($path), $collection->dump());
     }
 
-    /**
-     * Get the URL of a collection file.
-     *
-     * @param      $identifier
-     * @param null $extra
-     * @param null $secure
-     * @return string
-     */
-    public function url($identifier, $extra = [], $secure = null)
+    protected function transformFilters($filters, $hint)
     {
-        $path = $this->pipe($identifier);
+        foreach ($filters as &$filter) {
 
-        return \URL::to($path, $extra, $secure or \Request::isSecure());
+            switch ($filter) {
+                case 'less':
+                    $filter = new LessphpFilter();
+                    break;
+
+                case 'scss':
+                    $filter = new ScssphpFilter();
+                    break;
+
+                case 'coffee':
+                    $filter = new CoffeeScriptFilter();
+                    break;
+
+                case 'embed':
+                    $filter = new PhpCssEmbedFilter();
+                    break;
+
+                case 'min':
+                    if ($hint == 'js') {
+                        $filter = new JSMinFilter();
+                    } elseif ($hint == 'css') {
+                        $filter = new CssMinFilter();
+                    }
+                    break;
+            }
+
+        }
+
+        return $filters;
     }
 
-    /**
-     * Return a script tag to a collection.
-     *
-     * @param      $collection
-     * @param null $attributes
-     * @param null $secure
-     * @return string
-     */
-    public function script($collection, $attributes = [], $secure = null)
+    protected function addConvenientFilters($asset, $filters)
     {
-        $path = $this->pipe($collection);
+        if (ends_with($asset, '.less')) {
+            $filters[] = 'less';
+        }
 
-        return \HTML::script($path, $attributes, $secure or \Request::isSecure());
+        if (ends_with($asset, '.scss')) {
+            $filters[] = 'scss';
+        }
+
+        if (ends_with($asset, '.coffee')) {
+            $filters[] = 'coffee';
+        }
+
+        return array_unique($filters);
     }
 
-    /**
-     * Return a style tag to a collection.
-     *
-     * @param      $collection
-     * @param null $attributes
-     * @param null $secure
-     * @return string
-     */
-    public function style($collection, $attributes = [], $secure = null)
+    protected function getExtension($path)
     {
-        $path = $this->pipe($collection);
-
-        return \HTML::style($path, $attributes, $secure or \Request::isSecure());
+        return pathinfo($path, PATHINFO_EXTENSION);
     }
 
-    /**
-     * Render an image tag.
-     *
-     * @param       $asset
-     * @param null  $alt
-     * @param array $attributes
-     * @param null  $secure
-     * @return string
-     */
-    public function image($asset, $alt = null, $attributes = [], $secure = null)
+    protected function getHint($path)
     {
-        $path = $this->pipe($asset);
+        $hint = $this->getExtension($path);
 
-        return \HTML::image($path, $alt, $attributes, $secure or \Request::isSecure());
+        if ($hint == 'less') {
+            $hint = 'css';
+        }
+
+        if ($hint == 'coffee') {
+            $hint = 'js';
+        }
+
+        return $hint;
+    }
+
+    protected function replaceNamespace($path)
+    {
+        if (str_contains($path, '::')) {
+
+            list ($namespace, $path) = explode('::', $path);
+
+            if (isset($this->namespaces[$namespace]) and $location = $this->namespaces[$namespace]) {
+                $path = $location . '/' . $path;
+            }
+
+        }
+
+        return $path;
     }
 
     public function addNamespace($binding, $path)
@@ -284,30 +196,5 @@ class Asset
         $this->namespaces[$binding] = $path;
 
         return $this;
-    }
-
-    public function getNamespace($binding)
-    {
-        if (isset($this->namespaces[$binding])) {
-            return $this->namespaces[$binding];
-        }
-
-        return null;
-    }
-
-    public function setFilters($collection, $filters)
-    {
-        $this->filters[$collection] = $filters;
-
-        return $this;
-    }
-
-    public function getFilters($collection)
-    {
-        if (isset($this->filters[$collection])) {
-            return $this->filters[$collection];
-        }
-
-        return null;
     }
 }

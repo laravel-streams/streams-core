@@ -150,7 +150,7 @@ class Table
      */
     protected function buildPagination()
     {
-        $paginator = $this->ui->getPaginator();
+        /*$paginator = $this->ui->getPaginator();
 
         $links = $paginator->appends($_GET)->links();
 
@@ -158,6 +158,6 @@ class Table
 
         $pagination['links'] = $links;
 
-        return $pagination;
+        return $pagination;*/
     }
 }
