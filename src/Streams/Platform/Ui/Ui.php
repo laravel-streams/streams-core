@@ -58,12 +58,13 @@ class Ui
     }
 
     /**
+     * @param $event
      * @param $listener
-     * return $this
+     * @return $this
      */
-    public function addListener($listener)
+    public function listen($event, $listener)
     {
-        app('events')->listen('Streams.Platform.Ui.Table.*', $listener);
+        app('events')->listen($event, $listener);
 
         return $this;
     }

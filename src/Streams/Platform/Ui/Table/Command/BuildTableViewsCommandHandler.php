@@ -31,10 +31,16 @@ class BuildTableViewsCommandHandler implements CommandInterface
 
     protected function addListener($view, $ui)
     {
-        $listener = evaluate_key($view, 'listener', null, [$ui]);
+        if (isset($view['listener']) and $listener = $view['listener']) {
+            if (is_string($listener)) {
 
-        if ($listener) {
-            $ui->addListener($listener);
+                $ui->listen('Streams.Platform.Ui.Table.*', $listener);
+
+            } elseif ($listener instanceof \Closure) {
+
+                $ui->listen('Streams.Platform.Ui.Table.Repository.whenHookingViewQuery', $listener);
+
+            }
         }
     }
 
