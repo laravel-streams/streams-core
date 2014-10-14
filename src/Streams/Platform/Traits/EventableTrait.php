@@ -15,6 +15,8 @@ trait EventableTrait
     public function raise($event)
     {
         $this->pendingEvents[] = $event;
+
+        return $this;
     }
 
     /**
