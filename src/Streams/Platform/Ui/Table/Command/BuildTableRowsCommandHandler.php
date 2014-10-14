@@ -1,0 +1,42 @@
+<?php namespace Streams\Platform\Ui\Table\Command;
+
+use Streams\Platform\Traits\CommandableTrait;
+use Streams\Platform\Contract\CommandInterface;
+
+class BuildTableRowsCommandHandler implements CommandInterface
+{
+    use CommandableTrait;
+
+    public function handle($command)
+    {
+        $rows = [];
+
+        $ui = $command->getUi();
+
+        foreach ($ui->getEntries() as $entry) {
+
+            $columns = $this->makeColumns($entry, $ui);
+            $buttons = $this->makeButtons($entry, $ui);
+
+            $rows[] = compact('columns', 'buttons');
+
+        }
+
+        return $rows;
+    }
+
+    protected function makeColumns($entry, $ui)
+    {
+        $command = new BuildTableColumnsCommand($ui, $entry);
+
+        return $this->execute($command);
+    }
+
+    private function makeButtons($entry, $ui)
+    {
+        $command = new BuildTableButtonsCommand($ui, $entry);
+
+        return $this->execute($command);
+    }
+}
+ 
