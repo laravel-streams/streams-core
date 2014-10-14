@@ -58,18 +58,6 @@ class Ui
     }
 
     /**
-     * @param $event
-     * @param $listener
-     * @return $this
-     */
-    public function listen($event, $listener)
-    {
-        app('events')->listen($event, $listener);
-
-        return $this;
-    }
-
-    /**
      * @return null
      */
     public function getOutput()

@@ -34,11 +34,11 @@ class BuildTableViewsCommandHandler implements CommandInterface
         if (isset($view['listener']) and $listener = $view['listener']) {
             if (is_string($listener)) {
 
-                $ui->listen('Streams.Platform.Ui.Table.*', $listener);
+                app('events')->listen('Streams.Platform.Ui.Table.*', $listener);
 
             } elseif ($listener instanceof \Closure) {
 
-                $ui->listen('Streams.Platform.Ui.Table.Repository.whenHookingViewQuery', $listener);
+                app('events')->listen('Streams.Platform.Ui.Table.Repository.whenHookingViewQuery', $listener);
 
             }
         }

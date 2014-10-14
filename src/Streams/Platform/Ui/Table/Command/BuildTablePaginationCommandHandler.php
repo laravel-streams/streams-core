@@ -7,6 +7,10 @@ class BuildTablePaginationCommandHandler implements CommandInterface
     public function handle($command)
     {
         $ui = $command->getUi();
+
+        $pagination = ['links' => 'LINKS'];
+
+        return compact('pagination');
     }
 }
  

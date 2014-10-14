@@ -7,6 +7,10 @@ class BuildTableOptionsCommandHandler implements CommandInterface
     public function handle($command)
     {
         $ui = $command->getUi();
+
+        $paginate = evaluate($ui->getPaginate(), [$ui]);
+
+        return compact('paginate');
     }
 }
  
