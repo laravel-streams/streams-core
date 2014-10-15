@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Assignment;
 
-use Streams\Platform\Model\Presenter\EloquentPresenter;
+use Streams\Platform\Model\EloquentPresenter;
 
 class AssignmentPresenter extends EloquentPresenter
 {

@@ -10,8 +10,6 @@ use Streams\Platform\Traits\TranslatableTrait;
 use Streams\Platform\Contract\PresenterInterface;
 use Streams\Platform\Contract\ArrayableInterface;
 use Streams\Platform\Collection\EloquentCollection;
-use Streams\Platform\Model\Observer\EloquentObserver;
-use Streams\Platform\Model\Presenter\EloquentPresenter;
 
 class EloquentModel extends Model implements ArrayableInterface, PresenterInterface
 {

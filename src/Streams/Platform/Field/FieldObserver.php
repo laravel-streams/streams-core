@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Field;
 
-use Streams\Platform\Model\Observer\EloquentObserver;
+use Streams\Platform\Model\EloquentObserver;
 
 class FieldObserver extends EloquentObserver
 {

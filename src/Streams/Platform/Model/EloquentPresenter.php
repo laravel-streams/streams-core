@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Model\Presenter;
+<?php namespace Streams\Platform\Model;
 
 use Streams\Platform\Support\Presenter;
 

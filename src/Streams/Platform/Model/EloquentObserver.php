@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Model\Observer;
+<?php namespace Streams\Platform\Model;
 
 class EloquentObserver
 {
