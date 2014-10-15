@@ -52,6 +52,7 @@ class CommandBus
      */
     public function execute($command)
     {
+        $this->validateCommand($command); // First!
         $this->executeDecorators($command);
 
         $handler = $this->transformer->toHandler($command);
@@ -69,6 +70,33 @@ class CommandBus
     {
         foreach ($this->decorators as $className) {
             $this->app->make($className)->execute($command);
+        }
+    }
+
+    /**
+     * Try validating the command first and foremost.
+     *
+     * @param $command
+     */
+    protected function validateCommand($command)
+    {
+        try {
+
+            // If the validator doesn't exist this bombs - so we try..
+            $validator = $this->transformer->toValidator($command);
+
+            /**
+             * If this fails it should set messages and then throw an exception.
+             *
+             * Classes utilizing the bus should catch and handle validation
+             * exceptions on their own. Messages should be in the bag.
+             */
+            $this->app->make($validator)->validate($command);
+
+        } catch (\Exception $e) {
+
+            // If the validator doesn't exist just move along.
+
         }
     }
 }
