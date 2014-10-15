@@ -2,9 +2,8 @@
 
 use Streams\Platform\Field\FieldModel;
 use Streams\Platform\Traits\DispatchableTrait;
-use Streams\Platform\Contract\HandlerInterface;
 
-class AddFieldHandlerHandler implements HandlerInterface
+class AddFieldHandlerHandler
 {
     use DispatchableTrait;
 
@@ -31,7 +30,7 @@ class AddFieldHandlerHandler implements HandlerInterface
      * @param $command
      * @return $this|mixed
      */
-    public function handle($command)
+    public function handle(AddFieldCommand $command)
     {
         $field = $this->field->add(
             $command->getNamespace(),
