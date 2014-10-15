@@ -68,12 +68,15 @@ class CommandBus
     protected function executeDecorators($command)
     {
         foreach ($this->decorators as $className) {
+
             $instance = $this->app->make($className);
 
             if (!$instance instanceof CommandBus) {
-                $message = 'The class to decorate must be an implementation of Streams\Platform\Contract\CommandBus';
+
+                $message = "The decorator [$className] must implement Streams\\Platform\\Contract\\CommandBusInterface";
 
                 throw new \Exception($message);
+
             }
 
             $instance->execute($command);
