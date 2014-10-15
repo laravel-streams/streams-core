@@ -68,18 +68,7 @@ class CommandBus
     protected function executeDecorators($command)
     {
         foreach ($this->decorators as $className) {
-
-            $instance = $this->app->make($className);
-
-            if (!$instance instanceof CommandBus) {
-
-                $message = "The decorator [$className] must implement Streams\\Platform\\Contract\\CommandBusInterface";
-
-                throw new \Exception($message);
-
-            }
-
-            $instance->execute($command);
+            $this->app->make($className)->execute($command);
         }
     }
 }
