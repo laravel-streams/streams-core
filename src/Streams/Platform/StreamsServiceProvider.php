@@ -36,9 +36,10 @@ class StreamsServiceProvider extends ServiceProvider
     {
         // We'll leave core aliases in tact though they are not used in core.
         // People will expect these to be available based on past experience.
+
         // Be warned these will likely be making their exit in future
         // releases of the Laravel framework. They are a somewhat
-        // poor practice in pattern.
+        // poor practice in pattern so let's just ignore them..
         $this->loader->alias('Debugbar', 'Barryvdh\Debugbar\Facade');
         $this->loader->alias('Agent', 'Jenssegers\Agent\Facades\Agent');
         $this->loader->alias('Sentry', 'Cartalyst\Sentry\Facades\Laravel\Sentry');
