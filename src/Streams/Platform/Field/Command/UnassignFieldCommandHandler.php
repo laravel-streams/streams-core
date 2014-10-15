@@ -3,10 +3,10 @@
 use Streams\Platform\Field\FieldModel;
 use Streams\Platform\Stream\StreamModel;
 use Streams\Platform\Traits\DispatchableTrait;
-use Streams\Platform\Contract\CommandInterface;
+use Streams\Platform\Contract\HandlerInterface;
 use Streams\Platform\Assignment\AssignmentModel;
 
-class UnassignFieldCommandHandler implements CommandInterface
+class UnassignFieldHandlerHandler implements HandlerInterface
 {
     use DispatchableTrait;
 
@@ -32,7 +32,7 @@ class UnassignFieldCommandHandler implements CommandInterface
     protected $assignment;
 
     /**
-     * Create a new UnassignFieldCommandHandler instance.
+     * Create a new UnassignFieldHandlerHandler instance.
      *
      * @param StreamModel     $stream
      * @param FieldModel      $field

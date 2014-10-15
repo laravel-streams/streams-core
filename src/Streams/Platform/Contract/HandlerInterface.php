@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Contract;
 
-interface CommandInterface
+interface HandlerInterface
 {
     /**
      * Handle the command.

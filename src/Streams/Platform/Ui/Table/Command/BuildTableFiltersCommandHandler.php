@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Ui\Table\Command;
 
-use Streams\Platform\Contract\CommandInterface;
+use Streams\Platform\Contract\HandlerInterface;
 
-class BuildTableFiltersCommandHandler implements CommandInterface
+class BuildTableFiltersHandlerHandler implements HandlerInterface
 {
     /**
      * @param $command

@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Ui\Form\Command;
 
-use Streams\Platform\Contract\CommandInterface;
+use Streams\Platform\Contract\HandlerInterface;
 
-class BuildFormActionsCommandHandler implements CommandInterface
+class BuildFormActionsHandlerHandler implements HandlerInterface
 {
     public function handle($command)
     {

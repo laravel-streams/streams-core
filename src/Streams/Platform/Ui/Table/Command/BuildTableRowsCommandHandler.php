@@ -1,9 +1,9 @@
 <?php namespace Streams\Platform\Ui\Table\Command;
 
 use Streams\Platform\Traits\CommandableTrait;
-use Streams\Platform\Contract\CommandInterface;
+use Streams\Platform\Contract\HandlerInterface;
 
-class BuildTableRowsCommandHandler implements CommandInterface
+class BuildTableRowsHandlerHandler implements HandlerInterface
 {
     use CommandableTrait;
 

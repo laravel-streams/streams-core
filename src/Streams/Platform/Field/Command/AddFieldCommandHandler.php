@@ -2,9 +2,9 @@
 
 use Streams\Platform\Field\FieldModel;
 use Streams\Platform\Traits\DispatchableTrait;
-use Streams\Platform\Contract\CommandInterface;
+use Streams\Platform\Contract\HandlerInterface;
 
-class AddFieldCommandHandler implements CommandInterface
+class AddFieldHandlerHandler implements HandlerInterface
 {
     use DispatchableTrait;
 

@@ -2,9 +2,9 @@
 
 use Streams\Platform\Stream\StreamModel;
 use Streams\Platform\Traits\DispatchableTrait;
-use Streams\Platform\Contract\CommandInterface;
+use Streams\Platform\Contract\HandlerInterface;
 
-class RemoveStreamCommandHandler implements CommandInterface
+class RemoveStreamHandlerHandler implements HandlerInterface
 {
     use DispatchableTrait;
 

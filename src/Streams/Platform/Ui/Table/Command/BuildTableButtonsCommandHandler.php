@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Ui\Table\Command;
 
-use Streams\Platform\Contract\CommandInterface;
+use Streams\Platform\Contract\HandlerInterface;
 
-class BuildTableButtonsCommandHandler implements CommandInterface
+class BuildTableButtonsHandlerHandler implements HandlerInterface
 {
     public function handle($command)
     {
