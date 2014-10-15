@@ -10,9 +10,9 @@ class CommandBus
     protected $app;
 
     /**
-     * @var CommandTranslator
+     * @var Transformer
      */
-    protected $commandTranslator;
+    protected $transformer;
 
     /**
      * List of optional decorators for command bus.
@@ -22,13 +22,13 @@ class CommandBus
     protected $decorators = [];
 
     /**
-     * @param Application       $app
-     * @param CommandTranslator $commandTranslator
+     * @param Application $app
+     * @param Transformer $transformer
      */
-    function __construct(Application $app, CommandTranslator $commandTranslator)
+    function __construct(Application $app, Transformer $transformer)
     {
-        $this->app               = $app;
-        $this->commandTranslator = $commandTranslator;
+        $this->app         = $app;
+        $this->transformer = $transformer;
     }
 
     /**
@@ -54,7 +54,7 @@ class CommandBus
     {
         $this->executeDecorators($command);
 
-        $handler = $this->commandTranslator->toCommandHandler($command);
+        $handler = $this->transformer->toHandler($command);
 
         return $this->app->make($handler)->handle($command);
     }
