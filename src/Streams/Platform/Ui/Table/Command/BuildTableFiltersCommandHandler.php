@@ -4,6 +4,10 @@ use Streams\Platform\Contract\CommandInterface;
 
 class BuildTableFiltersCommandHandler implements CommandInterface
 {
+    /**
+     * @param $command
+     * @return mixed|null
+     */
     public function handle($command)
     {
         $ui = $command->getUi();
@@ -21,6 +25,11 @@ class BuildTableFiltersCommandHandler implements CommandInterface
         return $filters;
     }
 
+    /**
+     * @param $filter
+     * @param $ui
+     * @return null
+     */
     protected function makeInput($filter, $ui)
     {
         $type = evaluate_key($filter, 'type', 'text', [$ui]);
@@ -44,15 +53,21 @@ class BuildTableFiltersCommandHandler implements CommandInterface
         return null;
     }
 
+    /**
+     * @param $filter
+     * @param $ui
+     * @return mixed
+     */
     protected function makeSelectInput($filter, $ui)
     {
-        $form = app('form');
+        $form  = app('form');
+        $input = app('input');
 
         $list        = evaluate_key($filter, 'list', [], [$ui]);
         $name        = evaluate_key($filter, 'name', null, [$ui]);
         $placeholder = evaluate_key($filter, 'placeholder', null, [$ui]);
 
-        $selected = null;
+        $selected = $input->get($name);
 
         $options = [
             'class'       => 'form-control',
@@ -62,14 +77,21 @@ class BuildTableFiltersCommandHandler implements CommandInterface
         return $form->select($name, $list, $selected, $options);
     }
 
+    /**
+     * @param $filter
+     * @param $type
+     * @param $ui
+     * @return mixed
+     */
     protected function makeTextInput($filter, $type, $ui)
     {
-        $form = app('form');
+        $form  = app('form');
+        $input = app('input');
 
         $name        = evaluate_key($filter, 'name', null, [$ui]);
         $placeholder = evaluate_key($filter, 'placeholder', null, [$ui]);
 
-        $value = null;
+        $value = $input->get($name);
 
         $options = [
             'class'       => 'form-control',
