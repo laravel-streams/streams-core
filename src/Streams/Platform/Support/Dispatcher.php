@@ -1,9 +1,8 @@
 <?php namespace Streams\Platform\Support;
 
 use Illuminate\Log\Writer;
-use Illuminate\Events\Dispatcher;
 
-class EventDispatcher
+class Dispatcher
 {
     /**
      * The Dispatcher instance.
@@ -13,12 +12,12 @@ class EventDispatcher
     protected $event;
 
     /**
-     * Create a new EventDispatcher instance.
+     * Create a new Dispatcher instance.
      *
      * @param Dispatcher $event
      * @param Writer     $log
      */
-    function __construct(Dispatcher $event)
+    function __construct(\Illuminate\Events\Dispatcher $event)
     {
         $this->event = $event;
     }

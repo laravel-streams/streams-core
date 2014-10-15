@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Addon\Module;
 
-use Streams\Platform\Support\EventListener;
+use Streams\Platform\Support\Listener;
 
-class ModuleListener extends EventListener
+class ModuleListener extends Listener
 {
     protected $module;
 

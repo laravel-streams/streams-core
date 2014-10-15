@@ -4,7 +4,7 @@ use Illuminate\Foundation\Application;
 use Streams\Platform\Traits\DispatchableTrait;
 use Streams\Platform\Traits\EventableTrait;
 use Streams\Platform\Traits\CommandableTrait;
-use Streams\Platform\Support\EventDispatcher;
+use Streams\Platform\Support\Dispatcher;
 use Streams\Platform\Addon\Module\Event\ModuleWasInstalledEvent;
 use Streams\Platform\Addon\Module\Event\ModuleWasUninstalledEvent;
 

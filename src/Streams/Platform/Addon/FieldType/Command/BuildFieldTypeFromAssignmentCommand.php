@@ -1,6 +1,7 @@
 <?php namespace Streams\Platform\Addon\FieldType\Command;
 
 use Streams\Platform\Assignment\AssignmentModel;
+use Streams\Platform\Entry\EntryModel;
 
 class BuildFieldTypeFromAssignmentCommand
 {
@@ -10,11 +11,17 @@ class BuildFieldTypeFromAssignmentCommand
     protected $assignment;
 
     /**
+     * @var \Streams\Platform\Entry\EntryModel
+     */
+    protected $entry;
+
+    /**
      * @param AssignmentModel $assignment
      */
-    function __construct(AssignmentModel $assignment)
+    function __construct(AssignmentModel $assignment, EntryModel $entry = null)
     {
         $this->assignment = $assignment;
+        $this->entry      = $entry;
     }
 
     /**
@@ -23,6 +30,14 @@ class BuildFieldTypeFromAssignmentCommand
     public function getAssignment()
     {
         return $this->assignment;
+    }
+
+    /**
+     * @return EntryModel
+     */
+    public function getEntry()
+    {
+        return $this->entry;
     }
 }
  

@@ -4,13 +4,15 @@ use Streams\Platform\Addon\Addon;
 
 class FieldTypeAddon extends Addon
 {
+
+    // TODO: use terms like slug and reserve name for logic returns (get name = slug."_id")
+    // TODO: basically stick to terms used in DB
+
     protected $type = 'field_type';
 
     protected $columnType = 'string';
 
-    protected $colunmName = null;
-
-    protected $fieldName = null;
+    protected $name = null;
 
     protected $value = null;
 
@@ -20,13 +22,13 @@ class FieldTypeAddon extends Addon
             'class' => 'form-control',
         ];
 
-        return \Form::text($this->getFieldName(), $this->value, $options);
+        return \Form::text($this->name, $this->value, $options);
     }
 
     public function element()
     {
-        $for   = $this->getFieldName();
-        $name  = $this->assignment->field->name;
+        $for   = $this->name;
+        $name  = $this->name;
         $input = $this->input();
 
         return \View::make('html/partials/element', compact('for', 'name', 'input'));
@@ -42,28 +44,21 @@ class FieldTypeAddon extends Addon
         return $this->columnType;
     }
 
-    public function setColumnName($columnName)
-    {
-        $this->colunmName = $columnName;
-
-        return $this;
-    }
-
     public function getColumnName()
     {
-        return $this->colunmName;
+        return $this->name;
     }
 
-    public function setFieldName($fieldName)
+    public function setName($name)
     {
-        $this->fieldName = $fieldName;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getFieldName()
+    public function getName()
     {
-        return $this->fieldName;
+        return $this->name;
     }
 
     public function setValue($value)

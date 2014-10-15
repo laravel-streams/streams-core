@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Ui\Form;
 
-use Streams\Platform\Support\EventListener;
+use Streams\Platform\Support\Listener;
 
-class FormListener extends EventListener
+class FormListener extends Listener
 {
 }
  

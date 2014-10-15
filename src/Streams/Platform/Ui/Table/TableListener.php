@@ -1,8 +1,8 @@
 <?php namespace Streams\Platform\Ui\Table;
 
-use Streams\Platform\Support\EventListener;
+use Streams\Platform\Support\Listener;
 
-class TableListener extends EventListener
+class TableListener extends Listener
 {
 }
  

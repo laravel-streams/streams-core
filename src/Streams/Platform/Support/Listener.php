@@ -2,7 +2,7 @@
 
 use ReflectionClass;
 
-abstract class EventListener
+abstract class Listener
 {
     /**
      * Handle the event
