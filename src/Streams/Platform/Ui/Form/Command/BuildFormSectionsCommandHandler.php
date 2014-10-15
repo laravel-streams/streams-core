@@ -1,10 +1,8 @@
 <?php namespace Streams\Platform\Ui\Form\Command;
 
-use Streams\Platform\Contract\HandlerInterface;
-
-class BuildFormSectionsHandlerHandler implements HandlerInterface
+class BuildFormSectionsCommandHandler
 {
-    public function handle($command)
+    public function handle(BuildFormSectionsCommand $command)
     {
         $ui = $command->getUi();
     }

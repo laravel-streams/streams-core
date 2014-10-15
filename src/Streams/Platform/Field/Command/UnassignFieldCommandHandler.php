@@ -3,10 +3,9 @@
 use Streams\Platform\Field\FieldModel;
 use Streams\Platform\Stream\StreamModel;
 use Streams\Platform\Traits\DispatchableTrait;
-use Streams\Platform\Contract\HandlerInterface;
 use Streams\Platform\Assignment\AssignmentModel;
 
-class UnassignFieldHandlerHandler implements HandlerInterface
+class UnassignFieldCommandHandler
 {
     use DispatchableTrait;
 
@@ -32,7 +31,7 @@ class UnassignFieldHandlerHandler implements HandlerInterface
     protected $assignment;
 
     /**
-     * Create a new UnassignFieldHandlerHandler instance.
+     * Create a new UnassignFieldCommandHandler instance.
      *
      * @param StreamModel     $stream
      * @param FieldModel      $field
@@ -54,7 +53,7 @@ class UnassignFieldHandlerHandler implements HandlerInterface
      * @param $command
      * @return $this|mixed
      */
-    public function handle($command)
+    public function handle(UnassignFieldCommand $command)
     {
         $stream = $this->stream->findByNamespaceAndSlug($command->getNamespace(), $command->getStream());
         $field  = $this->field->findByNamespaceAndSlug($command->getNamespace(), $command->getField());

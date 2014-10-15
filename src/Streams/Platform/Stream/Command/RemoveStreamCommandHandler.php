@@ -2,9 +2,8 @@
 
 use Streams\Platform\Stream\StreamModel;
 use Streams\Platform\Traits\DispatchableTrait;
-use Streams\Platform\Contract\HandlerInterface;
 
-class RemoveStreamHandlerHandler implements HandlerInterface
+class RemoveStreamCommandHandler
 {
     use DispatchableTrait;
 
@@ -31,7 +30,7 @@ class RemoveStreamHandlerHandler implements HandlerInterface
      * @param $command
      * @return $this|mixed
      */
-    public function handle($command)
+    public function handle(RemoveStreamCommand $command)
     {
         $stream = $this->stream->remove(
             $command->getNamespace(),

@@ -1,10 +1,8 @@
 <?php namespace Streams\Platform\Ui\Table\Command;
 
-use Streams\Platform\Contract\HandlerInterface;
-
-class BuildTableActionsHandlerHandler implements HandlerInterface
+class BuildTableActionsCommandHandler
 {
-    public function handle($command)
+    public function handle(BuildTableActionsCommand $command)
     {
         $ui = $command->getUi();
 

@@ -2,9 +2,8 @@
 
 use Streams\Platform\Stream\StreamModel;
 use Streams\Platform\Traits\DispatchableTrait;
-use Streams\Platform\Contract\HandlerInterface;
 
-class AddStreamHandlerHandler implements HandlerInterface
+class AddStreamCommandHandler
 {
     use DispatchableTrait;
 
@@ -31,7 +30,7 @@ class AddStreamHandlerHandler implements HandlerInterface
      * @param $command
      * @return $this|mixed
      */
-    public function handle($command)
+    public function handle(AddStreamCommand $command)
     {
         $stream = $this->stream->findByNamespaceAndSlug($command->getNamespace(), $command->getSlug());
 

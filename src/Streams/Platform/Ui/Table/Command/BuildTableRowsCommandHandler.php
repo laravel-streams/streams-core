@@ -1,13 +1,12 @@
 <?php namespace Streams\Platform\Ui\Table\Command;
 
 use Streams\Platform\Traits\CommandableTrait;
-use Streams\Platform\Contract\HandlerInterface;
 
-class BuildTableRowsHandlerHandler implements HandlerInterface
+class BuildTableRowsCommandHandler
 {
     use CommandableTrait;
 
-    public function handle($command)
+    public function handle(BuildTableRowsCommand $command)
     {
         $rows = [];
 

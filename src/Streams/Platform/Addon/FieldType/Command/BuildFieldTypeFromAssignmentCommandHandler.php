@@ -1,10 +1,8 @@
 <?php namespace Streams\Platform\Addon\FieldType\Command;
 
-use Streams\Platform\Contract\HandlerInterface;
-
-class BuildFieldTypeFromAssignmentHandlerHandler implements HandlerInterface
+class BuildFieldTypeFromAssignmentCommandHandler
 {
-    public function handle($command)
+    public function handle(BuildFieldTypeFromAssignmentCommand $command)
     {
         $assignment = $command->getAssignment();
 

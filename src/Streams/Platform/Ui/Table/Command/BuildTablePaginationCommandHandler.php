@@ -1,10 +1,8 @@
 <?php namespace Streams\Platform\Ui\Table\Command;
 
-use Streams\Platform\Contract\HandlerInterface;
-
-class BuildTablePaginationHandlerHandler implements HandlerInterface
+class BuildTablePaginationCommandHandler
 {
-    public function handle($command)
+    public function handle(BuildTablePaginationCommand $command)
     {
         $ui = $command->getUi();
 

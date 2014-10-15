@@ -2,9 +2,8 @@
 
 use Streams\Platform\Field\FieldModel;
 use Streams\Platform\Traits\DispatchableTrait;
-use Streams\Platform\Contract\HandlerInterface;
 
-class RemoveFieldHandlerHandler implements HandlerInterface
+class RemoveFieldCommandHandler
 {
     use DispatchableTrait;
 
@@ -31,7 +30,7 @@ class RemoveFieldHandlerHandler implements HandlerInterface
      * @param $command
      * @return $this|mixed
      */
-    public function handle($command)
+    public function handle(RemoveFieldCommand $command)
     {
         $field = $this->field->remove(
             $command->getNamespace(),

@@ -3,7 +3,7 @@
 use Streams\Platform\Field\FieldModel;
 use Streams\Platform\Traits\DispatchableTrait;
 
-class AddFieldHandlerHandler
+class AddFieldCommandHandler
 {
     use DispatchableTrait;
 

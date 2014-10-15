@@ -1,14 +1,12 @@
 <?php namespace Streams\Platform\Ui\Table\Command;
 
-use Streams\Platform\Contract\HandlerInterface;
-
-class BuildTableFiltersHandlerHandler implements HandlerInterface
+class BuildTableFiltersCommandHandler
 {
     /**
      * @param $command
      * @return mixed|null
      */
-    public function handle($command)
+    public function handle(BuildTableFiltersCommand $command)
     {
         $ui = $command->getUi();
 

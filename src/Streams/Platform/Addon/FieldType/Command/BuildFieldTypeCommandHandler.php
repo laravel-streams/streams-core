@@ -1,8 +1,6 @@
 <?php namespace Streams\Platform\Addon\FieldType\Command;
 
-use Streams\Platform\Contract\HandlerInterface;
-
-class BuildFieldTypeHandlerHandler implements HandlerInterface
+class BuildFieldTypeCommandHandler
 {
     /**
      * Handle the command.
@@ -10,7 +8,7 @@ class BuildFieldTypeHandlerHandler implements HandlerInterface
      * @param $command
      * @return mixed
      */
-    public function handle($command)
+    public function handle(BuildFieldTypeCommand $command)
     {
         // TODO: Implement handle() method.
     }
