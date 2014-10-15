@@ -18,7 +18,7 @@ class Decorator
         }
 
         if ($value instanceof PresentableInterface) {
-            return $value->newPresenter($value);
+            return $value->newPresenter();
         }
 
         return $value;
