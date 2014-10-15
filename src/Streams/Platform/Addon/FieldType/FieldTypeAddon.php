@@ -4,63 +4,120 @@ use Streams\Platform\Addon\Addon;
 
 class FieldTypeAddon extends Addon
 {
+    /**
+     * @var null
+     */
+    protected $slug = null;
 
-    // TODO: use terms like slug and reserve name for logic returns (get name = slug."_id")
-    // TODO: basically stick to terms used in DB
-
+    /**
+     * @var string
+     */
     protected $type = 'field_type';
 
+    /**
+     * @var string
+     */
     protected $columnType = 'string';
 
-    protected $name = null;
+    /**
+     * @var null
+     */
+    protected $prefix = null;
 
+    /**
+     * @var null
+     */
+    protected $locale = null;
+
+    /**
+     * @var null
+     */
+    protected $field = null;
+
+    /**
+     * @var null
+     */
     protected $value = null;
 
+    /**
+     * @return mixed
+     */
     public function input()
     {
+        $builder = app('form');
+
         $options = [
             'class' => 'form-control',
         ];
 
-        return \Form::text($this->name, $this->value, $options);
+        return $builder->text($this->getName(), $this->getValue(), $options);
     }
 
+    /**
+     * TODO: Change this to "elements" and have it loop through available locales
+     * @return mixed
+     */
     public function element()
     {
-        $for   = $this->name;
-        $name  = $this->name;
+        $config = app('config');
+
+        //foreach ($config->get('streams::locale.available') as $locale):
+
+        $for   = $this->getName();
+        $name  = $this->getName();
         $input = $this->input();
 
-        return \View::make('html/partials/element', compact('for', 'name', 'input'));
+        return view('html/partials/element', compact('for', 'name', 'input'));
     }
 
+    /**
+     * @param $value
+     * @return mixed
+     */
     public function mutate($value)
     {
         return $value;
     }
 
+    /**
+     * @return string
+     */
     public function getColumnType()
     {
         return $this->columnType;
     }
 
+    /**
+     * @return null
+     */
     public function getColumnName()
     {
-        return $this->name;
+        return $this->field;
     }
 
-    public function setName($name)
+    /**
+     * @return string
+     */
+    public function getName()
     {
-        $this->name = $name;
+        return "{$this->prefix}-{$this->slug}-{$this->locale}";
+    }
+
+    /**
+     * @param null $field
+     * return $this
+     */
+    public function setField($field)
+    {
+        $this->field = $field;
 
         return $this;
     }
 
-    public function getName()
-    {
-        return $this->name;
-    }
-
+    /**
+     * @param $value
+     * @return $this
+     */
     public function setValue($value)
     {
         $this->value = $value;
@@ -68,16 +125,25 @@ class FieldTypeAddon extends Addon
         return $this;
     }
 
+    /**
+     * @return null
+     */
     public function getValue()
     {
         return $this->value;
     }
 
+    /**
+     * @return FieldTypePresenter
+     */
     public function newPresenter()
     {
         return new FieldTypePresenter($this);
     }
 
+    /**
+     * @return FieldTypeServiceProvider
+     */
     public function newServiceProvider()
     {
         return new FieldTypeServiceProvider($this->app);

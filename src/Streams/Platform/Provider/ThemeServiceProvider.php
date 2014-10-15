@@ -16,13 +16,13 @@ class ThemeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $request    = app('request');
+        $request      = app('request');
+        $distribution = app('streams.distribution');
 
-        // @todo - get this from settings.
         if ($request->segment(1) == 'admin') {
-            $theme = app('streams.themes')->get('streams');
+            $theme = $distribution->getAdminTheme();
         } else {
-            $theme = app('streams.themes')->get('streams');
+            $theme = $distribution->getPublicTheme();
         }
 
         // Register the active theme.

@@ -12,7 +12,7 @@ class CommandTranslator
     public function toCommandHandler($command)
     {
         $commandClass = get_class($command);
-        $handler      = substr_replace($commandClass, 'CommandHandler', strrpos($commandClass, 'Command'));
+        $handler      = $commandClass . 'Handler';
 
         if (!class_exists($handler)) {
             $message = "Command handler [$handler] does not exist.";
@@ -30,10 +30,10 @@ class CommandTranslator
      * @return mixed
      * @throws \Exception
      */
-    /*public function toCommandValidator($command)
+    public function toCommandValidator($command)
     {
         $commandClass = get_class($command);
-        $validator    = substr_replace($commandClass, 'CommandValidator', strrpos($commandClass, 'Command'));
+        $validator    = $commandClass . 'Validator';
 
         if (!class_exists($validator)) {
             $message = "Command validator [$validator] does not exist.";
@@ -42,5 +42,5 @@ class CommandTranslator
         }
 
         return $validator;
-    }*/
+    }
 }
