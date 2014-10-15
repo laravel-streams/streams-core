@@ -19,7 +19,7 @@ class Transformer
             $message = "Handler [$handler] does not exist.";
 
             throw new \Exception($message);
-            
+
         }
 
         return $handler;
@@ -32,7 +32,7 @@ class Transformer
      * @return mixed
      * @throws \Exception
      */
-    public function toCommandValidator($class)
+    public function toValidator($class)
     {
         $class     = get_class($class);
         $validator = $class . 'Validator';
