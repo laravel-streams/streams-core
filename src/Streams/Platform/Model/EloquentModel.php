@@ -7,11 +7,11 @@ use Streams\Platform\Traits\CacheableTrait;
 use Streams\Platform\Traits\EventableTrait;
 use Streams\Platform\Traits\RevisionableTrait;
 use Streams\Platform\Traits\TranslatableTrait;
-use Streams\Platform\Contract\PresenterInterface;
+use Streams\Platform\Contract\PresentableInterface;
 use Streams\Platform\Contract\ArrayableInterface;
 use Streams\Platform\Collection\EloquentCollection;
 
-class EloquentModel extends Model implements ArrayableInterface, PresenterInterface
+class EloquentModel extends Model implements ArrayableInterface, PresentableInterface
 {
     use TranslatableTrait {
         TranslatableTrait::save as translatableSave;

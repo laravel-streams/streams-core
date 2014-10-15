@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Contract;
 
-interface PresenterInterface
+interface PresentableInterface
 {
     /**
      * Return a new presenter instance.

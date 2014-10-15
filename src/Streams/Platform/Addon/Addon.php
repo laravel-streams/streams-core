@@ -2,9 +2,9 @@
 
 use Illuminate\Foundation\Application;
 use Streams\Platform\Traits\CallableTrait;
-use Streams\Platform\Contract\PresenterInterface;
+use Streams\Platform\Contract\PresentableInterface;
 
-class Addon implements PresenterInterface
+class Addon implements PresentableInterface
 {
     use CallableTrait;
 

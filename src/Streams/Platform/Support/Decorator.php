@@ -1,7 +1,7 @@
 <?php namespace Streams\Platform\Support;
 
 use Streams\Platform\Model\EloquentModel;
-use Streams\Platform\Contract\PresenterInterface;
+use Streams\Platform\Contract\PresentableInterface;
 
 class Decorator
 {
@@ -17,7 +17,7 @@ class Decorator
             $value = $this->decorateRelations($value);
         }
 
-        if ($value instanceof PresenterInterface) {
+        if ($value instanceof PresentableInterface) {
             return $value->newPresenter($value);
         }
 
