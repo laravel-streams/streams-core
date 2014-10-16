@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Http\Filter;
+<?php namespace Streams\Platform\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;

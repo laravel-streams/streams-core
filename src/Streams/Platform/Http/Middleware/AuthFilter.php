@@ -1,9 +1,8 @@
-<?php namespace Streams\Platform\Http\Filter;
+<?php namespace Streams\Platform\Http\Middleware;
 
-use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
+use Illuminate\Contracts\Routing\Middleware;
 
-class AuthFilter
+class AuthMiddleware extends Middleware
 {
     /**
      * Authorize the request.
