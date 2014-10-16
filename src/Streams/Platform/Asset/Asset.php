@@ -13,6 +13,10 @@ use Streams\Platform\Asset\Filter\PhpCssEmbedFilter;
 
 class Asset
 {
+    protected $directory = null;
+
+    protected $publish = false;
+
     protected $namespaces = [];
 
     protected $groups = [];
@@ -72,7 +76,7 @@ class Asset
 
         $path = 'assets/' . APP_REF . '/' . $hash . '.' . $hint;
 
-        if (isset($_GET['_publish'])) {
+        if (isset($_GET['_publish']) or $this->publish) {
             $this->publish($path, $group, $filters);
         }
 
@@ -100,6 +104,8 @@ class Asset
             $collection->add($asset);
 
         }
+
+        mkdir(dirname(public_path($path)), 777, true);
 
         file_put_contents(public_path($path), $collection->dump());
     }
@@ -194,6 +200,20 @@ class Asset
     public function addNamespace($binding, $path)
     {
         $this->namespaces[$binding] = $path;
+
+        return $this;
+    }
+
+    public function setDirectory($directory)
+    {
+        $this->directory = $directory;
+
+        return $this;
+    }
+
+    public function setPublish($publish)
+    {
+        $this->publish = $publish;
 
         return $this;
     }
