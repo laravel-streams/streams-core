@@ -25,7 +25,8 @@
         "barryvdh/laravel-debugbar": "1.*",
         "kriswallsmith/assetic": "1.2.*@dev",
         "lmammino/jsmin4assetic": "1.0.*@dev",
-        "artdarek/oauth-4-laravel": "dev-master"
+        "artdarek/oauth-4-laravel": "dev-master",
+        "coffeescript/coffeescript": "dev-master"
     },
     "require-dev": {},
     "autoload": {
