@@ -17,8 +17,8 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
         $target = __DIR__ . '/../../../../public/' . $expected;
 
-        $expected = "var foo = 'test';\nvar bar = 'test';";
-        $actual   = file_get_contents($target);
+        $expected = '91f7035c17cf1e8272518f05a75fbabe';
+        $actual   = md5(file_get_contents($target));
 
         // Make sure the data written is correct.
         $this->assertEquals($expected, $actual);
@@ -38,8 +38,8 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
         $target = __DIR__ . '/../../../../public/' . $expected;
 
-        $expected = "var bar = 'test';\nvar baz = 'test';\nvar foo = 'test';\nvar foo = 'test';\n\nvar bar = 'test';";
-        $actual   = file_get_contents($target);
+        $expected = '8aa2c6716a377c30c00da03062b9240a';
+        $actual   = md5(file_get_contents($target));
 
         // Make sure the data written is correct.
         $this->assertEquals($expected, $actual);
@@ -85,8 +85,8 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
         $target = __DIR__ . '/../../../../public/' . $expected;
 
-        $expected = ".test {\n  color: #ffffff;\n}\n";
-        $actual   = file_get_contents($target);
+        $expected = '8762a1cd65143fe8b3c3c8a69f63edd6';
+        $actual   = md5(file_get_contents($target));
 
         // Make sure the data written is correct.
         $this->assertEquals($expected, $actual);
@@ -106,8 +106,8 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
         $target = __DIR__ . '/../../../../public/' . $expected;
 
-        $expected = ".test {\n  color: #fff; }\n";
-        $actual   = file_get_contents($target);
+        $expected = 'cc57a1bf03e290b28bb727e18e7b7413';
+        $actual   = md5(file_get_contents($target));
 
         // Make sure the data written is correct.
         $this->assertEquals($expected, $actual);
@@ -127,10 +127,11 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
         $target = __DIR__ . '/../../../../public/' . $expected;
 
-        $actual = file_get_contents($target);
+        $expected = '984fd2d4cd10f175ac91c88c07cde663';
+        $actual   = md5(file_get_contents($target));
 
         // Make sure the data written is correct.
-        $this->assertTrue(str_contains($actual, 'alert("You da foo!");'));
+        $this->assertEquals($expected, $actual);
     }
 
     public function testItCanApplyEmbedFilter()
@@ -147,8 +148,8 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
         $target = __DIR__ . '/../../../../public/' . $expected;
 
-        $expected = ".test {\n    background: url(data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAABkAAD/4QMtaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjMtYzAxMSA2Ni4xNDU2NjEsIDIwMTIvMDIvMDYtMTQ6NTY6MjcgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzYgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NTQwQjdGMDM0RDY2MTFFNEIyQjlBNDQ5NDBGMDEyMEEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NTQwQjdGMDQ0RDY2MTFFNEIyQjlBNDQ5NDBGMDEyMEEiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo1NDBCN0YwMTRENjYxMUU0QjJCOUE0NDk0MEYwMTIwQSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo1NDBCN0YwMjRENjYxMUU0QjJCOUE0NDk0MEYwMTIwQSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pv/uAA5BZG9iZQBkwAAAAAH/2wCEAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQECAgICAgICAgICAgMDAwMDAwMDAwMBAQEBAQEBAgEBAgICAQICAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA//AABEIAAoACgMBEQACEQEDEQH/xABNAAEBAAAAAAAAAAAAAAAAAAAACQEBAQEAAAAAAAAAAAAAAAAAAAkKEAEAAAAAAAAAAAAAAAAAAAAAEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCMKU7f4AAA/9k=);\n}";
-        $actual   = file_get_contents($target);
+        $expected = '5fa5400e6b2dbac7b4d36203039e8d85';
+        $actual   = md5(file_get_contents($target));
 
         // Make sure the data written is correct.
         $this->assertEquals($expected, $actual);
@@ -168,8 +169,8 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
         $target = __DIR__ . '/../../../../public/' . $expected;
 
-        $expected = "var foo='test';var bar='test';";
-        $actual   = file_get_contents($target);
+        $expected = '0c5d5f7981ad03eb4f4dbe8341b4076d';
+        $actual   = md5(file_get_contents($target));
 
         // Make sure the data written is correct.
         $this->assertEquals($expected, $actual);
@@ -189,8 +190,8 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
         $target = __DIR__ . '/../../../../public/' . $expected;
 
-        $expected = ".color{color:#ffffff}";
-        $actual   = file_get_contents($target);
+        $expected = 'a4bac243a55ed51a4628bad9ec8dc418';
+        $actual   = md5(file_get_contents($target));
 
         // Make sure the data written is correct.
         $this->assertEquals($expected, $actual);

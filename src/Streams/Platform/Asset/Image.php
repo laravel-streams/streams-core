@@ -55,6 +55,8 @@ class Image extends ImageManager
             }
         }
 
+        app('files')->makeDirectory((new \SplFileInfo($path))->getPath(), 777, true, true);
+
         $image->save($this->directory . $path);
     }
 
@@ -77,7 +79,7 @@ class Image extends ImageManager
     {
         $file = app('files');
 
-        $filename = $this->filename();
+        $filename = hashify([$this->image, $this->applied]) . '.' . $this->getExtension($this->image);
 
         $path = 'assets/' . APP_REF . '/' . $filename;
 
@@ -88,9 +90,9 @@ class Image extends ImageManager
         return $path;
     }
 
-    protected function filename()
+    protected function getExtension($path)
     {
-        return hashify([$this->image, $this->applied]) . '.' . \File::extension($this->image);
+        return pathinfo($path, PATHINFO_EXTENSION);
     }
 
     public function blur($pixels)
@@ -114,11 +116,6 @@ class Image extends ImageManager
     }
 
     public function crop($width, $height, $x = null, $y = null)
-    {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
-    }
-
-    public function encode($mime)
     {
         return $this->applyFilter(__FUNCTION__, func_get_args());
     }
@@ -168,17 +165,17 @@ class Image extends ImageManager
         return $this->applyFilter(__FUNCTION__, func_get_args());
     }
 
+    public function quality($quality)
+    {
+        return $this->applyFilter('encode', [$this->getExtension($this->image), $quality]);
+    }
+
     public function resize($width, $height)
     {
         return $this->applyFilter(__FUNCTION__, func_get_args());
     }
 
     public function rotate($angle, $background = null)
-    {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
-    }
-
-    public function amount($amount)
     {
         return $this->applyFilter(__FUNCTION__, func_get_args());
     }
