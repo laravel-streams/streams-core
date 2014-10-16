@@ -1,6 +1,6 @@
-<?php
+<?php namespace Streams\Platform\Asset;
 
-class Test extends PHPUnit_Framework_TestCase
+class AssetTest extends \PHPUnit_Framework_TestCase
 {
     public function testHelloWorld()
     {
