@@ -31,7 +31,7 @@ class Asset
 
         $asset = $this->replaceNamespace($asset);
 
-        if (file_exists($asset)) {
+        if (file_exists($asset) or is_dir(trim($asset, '*'))) {
             $this->groups[$group][$asset] = $filters;
         }
 
@@ -55,7 +55,7 @@ class Asset
 
                     $filters = array_filter(array_unique(array_merge($filters, $additionalFilters)));
 
-                    $this->path($asset, $filters);
+                    return $this->path($asset, $filters);
                 },
                 array_keys($this->groups[$group]),
                 array_values($this->groups[$group])
