@@ -22,7 +22,7 @@
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="false">
-            <directory suffix=".php">src/streams/platform/</directory>
+            <directory suffix=".php">src/Streams/Platform/</directory>
         </whitelist>
     </filter>
 </phpunit>
