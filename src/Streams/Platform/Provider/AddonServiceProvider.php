@@ -23,11 +23,29 @@ class AddonServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->registerAddonCollections(); // First
+
         $this->registerAddonClasses();
         $this->registerAddonRepositories();
         $this->registerAddonServiceProviders();
         $this->registerAddonVendorAutoloaders();
-        $this->registerAddonNamespaceHints();
+
+        $this->registerAddonNamespaceHints(); // Last
+    }
+
+    protected function registerAddonCollections()
+    {
+        foreach ($this->types as $type) {
+
+            $studly = studly_case($type);
+
+            $plural = str_plural($type);
+
+            $collection = 'Streams\Platform\Addon\\' . $studly . '\\' . $studly . 'Collection';
+
+            $this->app->singleton("streams.{$plural}", new $collection);
+
+        }
     }
 
     protected function registerAddonClasses()

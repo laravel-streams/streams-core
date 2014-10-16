@@ -16,6 +16,8 @@ class ModuleAddon extends Addon
 
     protected $enabled = false;
 
+    protected $active = false;
+
     public function getNav()
     {
         return $this->nav;
@@ -78,6 +80,18 @@ class ModuleAddon extends Addon
     public function isEnabled()
     {
         return $this->enabled;
+    }
+
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    public function isActive()
+    {
+        return $this->active;
     }
 
     public function newTag()

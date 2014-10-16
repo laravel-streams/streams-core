@@ -8,9 +8,23 @@ class ThemeAddon extends Addon
 
     protected $admin = false;
 
+    protected $active = false;
+
     public function isAdmin()
     {
         return $this->admin;
+    }
+
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    public function isActive()
+    {
+        return $this->active;
     }
 
     public function newTag()

@@ -4,6 +4,15 @@ use Streams\Platform\Addon\AddonCollection;
 
 class ModuleCollection extends AddonCollection
 {
+    public function active()
+    {
+        foreach ($this->items as $item) {
+            if ($item->isActive()) {
+                return $item;
+            }
+        }
+    }
+
     public function installed()
     {
         $installed = [];

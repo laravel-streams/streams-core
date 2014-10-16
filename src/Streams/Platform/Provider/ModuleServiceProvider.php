@@ -20,20 +20,25 @@ class ModuleServiceProvider extends ServiceProvider
 
         // Determine the active module.
         if ($request->segment(1) == 'admin') {
-            $module = app('streams.modules')->get($request->segment(2));
+
+            $module = app('streams.modules')->findBySlug($request->segment(2));
+
         } else {
-            $module = app('streams.modules')->get($request->segment(1));
+
+            $module = app('streams.modules')->findBySlug($request->segment(1));
+
         }
 
-        // Bind the active module.
-        $this->app['streams.module.active'] = $module;
+        $module->setActive(true);
 
-        // Setup namespace hints with short namespace.
         if ($module) {
+
+            // Setup namespace hints for a short namespace.
             app('view')->addNamespace('module', $module->getPath('resources/views'));
             app('streams.asset')->addNamespace('module', $module->getPath('resources'));
             app('streams.image')->addNamespace('module', $module->getPath('resources'));
             app('translator')->addNamespace('module', $module->getPath('resources/lang'));
+
         }
     }
 }

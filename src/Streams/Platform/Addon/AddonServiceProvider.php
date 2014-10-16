@@ -24,14 +24,10 @@ class AddonServiceProvider extends ServiceProvider
             $this->registerSrcFolder($slug, $path);
 
             // Register the addon class to the container.
-            $this->registerAddonClass($slug, $path);
-
-            $loaded[] = $this->getAbstract($slug);
+            $addon = $this->registerAddonClass($slug, $path);
         }
 
-        // Register loaded addon abstracts
-        // so we can access them later.
-        $this->registerLoadedAddons($loaded);
+        $this->pushToCollection($addon);
 
         $this->fire('after_register');
     }
@@ -48,22 +44,21 @@ class AddonServiceProvider extends ServiceProvider
     {
         $class = $this->getClass($slug);
 
+        $addon = (new $class($this->app))->setPath($path);
+
         $this->app->{$this->binding}(
-            $this->getAbstract($slug),
-            function () use ($class, $path) {
-                return (new $class($this->app))->setPath($path);
+            $addon->getAbstract(),
+            function () use ($addon) {
+                return $addon;
             }
         );
+
+        return $addon;
     }
 
-    protected function registerLoadedAddons($loaded)
+    protected function pushToCollection($addon)
     {
-        $this->app->singleton(
-            "streams.{$this->getType()}.loaded",
-            function () use ($loaded) {
-                return array_unique($loaded);
-            }
-        );
+        app("streams.{$this->getFolder()}")->push($addon);
     }
 
     protected function getAddonPaths()

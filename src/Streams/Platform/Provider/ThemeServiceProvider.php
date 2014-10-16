@@ -20,13 +20,16 @@ class ThemeServiceProvider extends ServiceProvider
         $distribution = app('streams.distribution');
 
         if ($request->segment(1) == 'admin') {
-            $theme = $distribution->getAdminTheme();
+
+            $theme = app('streams.themes')->findBySlug($distribution->getAdminTheme());
+
         } else {
-            $theme = $distribution->getPublicTheme();
+
+            $theme = app('streams.themes')->findBySlug($distribution->getPublicTheme());
+            
         }
 
-        // Register the active theme.
-        $this->app['streams.theme.active'] = $theme;
+        $theme->setActive(true);
 
         // Setup namespace hints for a short namespace.
         app('view')->addNamespace('theme', $theme->getPath('resources/views'));
