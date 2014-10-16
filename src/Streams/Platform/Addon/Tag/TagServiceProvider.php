@@ -8,11 +8,9 @@ class TagServiceProvider extends AddonServiceProvider
 
     protected function onAfterRegister()
     {
-        foreach ($this->app->make('streams.tag.loaded') as $abstract) {
+        foreach ($this->app->make('streams.tags')->all() as $tag) {
 
-            $tag = $this->app->make($abstract);
-
-            $this->app->make('anomaly.lexicon')->registerPlugin($tag->getSlug(), $abstract);
+            $this->app->make('anomaly.lexicon')->registerPlugin($tag->getSlug(), $tag->getAbstract());
 
         }
     }

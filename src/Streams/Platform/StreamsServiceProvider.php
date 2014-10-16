@@ -68,16 +68,15 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerCore()
     {
         $this->app->register('Streams\Platform\Provider\ApplicationServiceProvider');
+        $this->app->register('Streams\Platform\Provider\MiddlewareServiceProvider');
         $this->app->register('Streams\Platform\Provider\DecoratorServiceProvider');
         $this->app->register('Streams\Platform\Provider\PresenterServiceProvider');
         $this->app->register('Streams\Platform\Provider\MessagesServiceProvider');
         $this->app->register('Streams\Platform\Provider\ListenerServiceProvider');
         $this->app->register('Streams\Platform\Provider\HelpersServiceProvider');
-        $this->app->register('Streams\Platform\Provider\FilterServiceProvider');
         $this->app->register('Streams\Platform\Provider\LoaderServiceProvider');
         $this->app->register('Streams\Platform\Provider\AssetServiceProvider');
         $this->app->register('Streams\Platform\Provider\ImageServiceProvider');
-        $this->app->register('Streams\Platform\Provider\ErrorServiceProvider');
         $this->app->register('Streams\Platform\Provider\RouteServiceProvider');
         $this->app->register('Streams\Platform\Provider\ModelServiceProvider');
         $this->app->register('Streams\Platform\Provider\ViewServiceProvider');

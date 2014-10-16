@@ -1,6 +1,6 @@
 <?php namespace Streams\Platform\Provider;
 
-class RouteServiceProvider extends \Illuminate\Routing\RouteServiceProvider
+class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\RouteServiceProvider
 {
     /**
      * Run before the app is booted.

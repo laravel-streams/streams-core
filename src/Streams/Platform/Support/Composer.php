@@ -74,9 +74,11 @@ class Composer
 
             } else {
 
+                $plural = str_plural($namespace);
+
                 // If the namespace is a shortcut for an "active" addon
                 // then resolve it through the IoC registered addon.
-                $addon = app("streams.{$namespace}.collection")->active();
+                $addon = app("streams.{$plural}")->active();
 
                 $type = $addon->getType();
                 $slug = $addon->getSlug();

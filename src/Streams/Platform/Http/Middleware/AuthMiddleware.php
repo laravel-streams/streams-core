@@ -1,7 +1,5 @@
 <?php namespace Streams\Platform\Http\Middleware;
 
-use Illuminate\Contracts\Routing\Middleware;
-
 class AuthMiddleware extends Middleware
 {
     /**
@@ -9,7 +7,7 @@ class AuthMiddleware extends Middleware
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function filter()
+    public function handle(Request $request, \Closure $next)
     {
         $request = app('request');
         $ignore  = array('login', 'logout');
@@ -19,5 +17,7 @@ class AuthMiddleware extends Middleware
 
             return redirect('admin/login');
         }
+
+        return $next($request);
     }
 }

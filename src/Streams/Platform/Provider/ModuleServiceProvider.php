@@ -29,9 +29,9 @@ class ModuleServiceProvider extends ServiceProvider
 
         }
 
-        $module->setActive(true);
-
         if ($module) {
+
+            $module->setActive(true);
 
             // Setup namespace hints for a short namespace.
             app('view')->addNamespace('module', $module->getPath('resources/views'));

@@ -2,14 +2,14 @@
 
 use Illuminate\Http\Request;
 
-class LocaleFilter
+class LocaleMiddleware
 {
     /**
      * Setup the application.
      *
      * @param Request $request
      */
-    public function filter(Request $request)
+    public function handle(Request $request, \Closure $next)
     {
         $auth        = app('auth');
         $config      = app('config');
@@ -38,5 +38,7 @@ class LocaleFilter
         }
 
         app()->setLocale($locale);
+
+        return $next($request);
     }
 }

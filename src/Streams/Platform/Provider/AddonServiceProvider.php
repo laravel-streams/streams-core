@@ -26,7 +26,6 @@ class AddonServiceProvider extends ServiceProvider
         $this->registerAddonCollections(); // First
 
         $this->registerAddonClasses();
-        $this->registerAddonRepositories();
         $this->registerAddonServiceProviders();
         $this->registerAddonVendorAutoloaders();
 
@@ -43,7 +42,12 @@ class AddonServiceProvider extends ServiceProvider
 
             $collection = 'Streams\Platform\Addon\\' . $studly . '\\' . $studly . 'Collection';
 
-            $this->app->singleton("streams.{$plural}", new $collection);
+            $this->app->singleton(
+                "streams.{$plural}",
+                function () use ($collection) {
+                    return new $collection;
+                }
+            );
 
         }
     }
@@ -61,40 +65,31 @@ class AddonServiceProvider extends ServiceProvider
         }
     }
 
-    protected function registerAddonRepositories()
-    {
-        foreach ($this->types as $type) {
-
-            $studly = studly_case($type);
-
-            $repository = 'Streams\Platform\Addon\\' . $studly . '\\' . $studly . 'Repository';
-
-            $this->app->singleton(
-                'streams.' . str_plural($type),
-                function () use ($repository, $type) {
-                    return new $repository(app("streams.{$type}.loaded"));
-                }
-            );
-        }
-    }
-
     protected function registerAddonServiceProviders()
     {
         foreach ($this->types as $type) {
-            foreach (app("streams.{$type}.loaded") as $abstract) {
-                if ($provider = app($abstract)->newServiceProvider()) {
+
+            $plural = str_plural($type);
+
+            foreach (app("streams.{$plural}")->all() as $addon) {
+
+                if ($provider = $addon->newServiceProvider()) {
+
                     $this->app->register($provider);
+
                 }
+
             }
+
         }
     }
 
     protected function registerAddonVendorAutoloaders()
     {
         foreach ($this->types as $type) {
-            foreach (app("streams.{$type}.loaded") as $abstract) {
+            $plural = str_plural($type);
 
-                $addon = app($abstract);
+            foreach (app("streams.{$plural}")->all() as $addon) {
 
                 $vendorPath = $addon->getPath() . '/vendor/';
                 $vendorFile = 'streams.vendor.autoload.php';
@@ -121,9 +116,10 @@ class AddonServiceProvider extends ServiceProvider
     protected function registerAddonNamespaceHints()
     {
         foreach ($this->types as $type) {
-            foreach (app("streams.{$type}.loaded") as $abstract) {
+            
+            $plural = str_plural($type);
 
-                $addon = app($abstract);
+            foreach (app("streams.{$plural}")->all() as $addon) {
 
                 $abstract = str_replace('streams.', null, $addon->getAbstract());
 

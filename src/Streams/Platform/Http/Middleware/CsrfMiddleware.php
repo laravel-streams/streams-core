@@ -3,17 +3,19 @@
 use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
 
-class CsrfFilter
+class CsrfMiddleware
 {
     /**
      * Run the request filter.
      *
      * @throws \Illuminate\Session\TokenMismatchException
      */
-    public function filter(Request $request)
+    public function handle(Request $request, \Closure $next)
     {
         if (app('session')->token() != $request->input('_token')) {
             throw new TokenMismatchException;
         }
+
+        return $next($request);
     }
 }

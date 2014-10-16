@@ -25,9 +25,9 @@ class AddonServiceProvider extends ServiceProvider
 
             // Register the addon class to the container.
             $addon = $this->registerAddonClass($slug, $path);
-        }
 
-        $this->pushToCollection($addon);
+            $this->pushToCollection($addon);
+        }
 
         $this->fire('after_register');
     }
@@ -58,7 +58,9 @@ class AddonServiceProvider extends ServiceProvider
 
     protected function pushToCollection($addon)
     {
-        app("streams.{$this->getFolder()}")->push($addon);
+        $plural = str_plural($this->getType());
+
+        app("streams.{$plural}")->push($addon);
     }
 
     protected function getAddonPaths()

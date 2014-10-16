@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 
-class InstallerFilter
+class InstallerMiddleware
 {
     /**
      * Redirect to the installer if the
@@ -11,10 +11,12 @@ class InstallerFilter
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function filter(Request $request)
+    public function handle(Request $request, \Closure $next)
     {
         if ($request->segment(1) !== 'installer' and !app('streams.application')->isInstalled()) {
             return redirect('installer');
         }
+
+        return $next($request);
     }
 }
