@@ -64,7 +64,7 @@ class Asset
 
     protected function getPath($group, $filters)
     {
-        $hash = hashify($this->groups[$group]);
+        $hash = hashify([$this->groups[$group], $filters]);
 
         $hint = $this->getHint($group);
 

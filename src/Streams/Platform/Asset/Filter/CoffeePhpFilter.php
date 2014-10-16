@@ -17,13 +17,7 @@ class CoffeePhpFilter implements FilterInterface
 
         $content = $asset->getContent(app('view')->parse($asset->getContent()));
 
-        try {
-            if (trim($content)) {
-                $content = Compiler::compile($content, array('filename' => $asset->getSourcePath()));
-            }
-        } catch (\Exception $e) {
-            $content = $e->getMessage();
-        }
+        $content = trim(Compiler::compile($content, array('filename' => $asset->getSourcePath())));
 
         $asset->setContent($content);
     }
