@@ -23,10 +23,6 @@ class Asset
 
     public function add($group, $asset, array $filters = [])
     {
-        if (!$this->getExtension($group)) {
-            throw new GroupNameDoesNotContainFileExtensionException;
-        }
-
         if (!isset($this->groups[$group])) {
             $this->groups[$group] = [];
         }

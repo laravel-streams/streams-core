@@ -2,20 +2,27 @@
 
 class AssetTest extends \PHPUnit_Framework_TestCase
 {
-    public function testHelloWorld()
+    public function testItCanInstantiatedAndSetup()
     {
-        app('files')->deleteDirectory(__DIR__ . '/../public/');
+        $asset = $this->stub();
 
-        $asset = new \Streams\Platform\Asset\Asset();
+        $this->assertEquals('Streams\Platform\Asset\Asset', get_class($asset));
+    }
 
-        $asset
+    public function testItCanPublishASingleFile()
+    {
+        $asset = $this->stub();
+
+        $asset->add('foo.js', 'phpunit::js/foo.js');
+
+        $this->assertEquals('assets/default/7f12f8d975916098a1b891fecbcea629.js', $asset->path('foo.js'));
+    }
+
+    protected function stub()
+    {
+        return (new \Streams\Platform\Asset\Asset())
             ->setPublish(true)
             ->setDirectory(__DIR__ . '/../public/')
-            ->addNamespace('phpunit', __DIR__ . '/../resources/')
-            ->add('foo.js', 'phpunit::js/test.js');
-
-        $asset->path('foo.js');
-
-        $this->assertTrue(true);
+            ->addNamespace('phpunit', __DIR__ . '/../resources/');
     }
 }
