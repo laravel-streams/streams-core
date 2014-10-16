@@ -59,12 +59,12 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function testItCanBlurAnImage()
+    public function testItCanApplyBlurFilter()
     {
         $image = $this->stub();
 
         $expected = 'assets/default/4ab2464a0bcc6156ad7cd8c64a9314ec.jpg';
-        $actual   = $image->blur(10)->path('phpunit::img/bar.jpg');
+        $actual   = $image->blur(10)->path('phpunit::img/foo.jpg');
 
         // Make sure the path is correct.
         $this->assertEquals($expected, $actual);
@@ -72,6 +72,25 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $target = __DIR__ . '/../../../../public/' . $expected;
 
         $expected = '1cfcb0ea2f7e72a1e48724f96e6382bd';
+        $actual   = md5(file_get_contents($target));
+
+        // Make sure the filter modified the image.
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testItCanApplyBrightnessFilter()
+    {
+        $image = $this->stub();
+
+        $expected = 'assets/default/230326e24c7a0f23e7c8e0f9b8a427fe.jpg';
+        $actual   = $image->brightness(10)->path('phpunit::img/foo.jpg');
+
+        // Make sure the path is correct.
+        $this->assertEquals($expected, $actual);
+
+        $target = __DIR__ . '/../../../../public/' . $expected;
+
+        $expected = '02e2062e44aead40921416ce93083b13';
         $actual   = md5(file_get_contents($target));
 
         // Make sure the filter modified the image.

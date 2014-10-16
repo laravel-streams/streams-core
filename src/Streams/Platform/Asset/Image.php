@@ -194,7 +194,12 @@ class Image extends ImageManager
             $this->setImage($image);
         }
 
-        return $this->getPath();
+        $path = $this->getPath();
+
+        $this->image   = null;
+        $this->applied = [];
+
+        return $path;
     }
 
     protected function applyFilter($method, $arguments)
