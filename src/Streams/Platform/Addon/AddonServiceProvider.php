@@ -11,6 +11,8 @@ class AddonServiceProvider extends ServiceProvider
 
     protected $binding = 'singleton';
 
+    protected $locations = [];
+
     public function register()
     {
         $loaded = [];
@@ -68,43 +70,67 @@ class AddonServiceProvider extends ServiceProvider
         $corePaths        = $this->getCoreAddonPaths();
         $sharedPaths      = $this->getSharedAddonPaths();
         $applicationPaths = $this->getApplicationAddonPaths();
+        $otherPaths       = $this->getOtherPaths();
 
-        return array_merge($corePaths, $sharedPaths, $applicationPaths);
+        return array_merge($corePaths, $sharedPaths, $applicationPaths, $otherPaths);
     }
 
     protected function getCoreAddonPaths()
     {
+        $paths = [];
+
         $path = base_path('core/addons/' . $this->getFolder());
 
         if (is_dir($path)) {
-            return app('files')->directories($path);
+            $paths = app('files')->directories($path);
         }
 
-        return [];
+        return $paths;
     }
 
     protected function getSharedAddonPaths()
     {
+        $paths = [];
+
         $path = base_path('addons/shared/' . $this->getFolder());
 
         if (is_dir($path)) {
-            return app('files')->directories($path);
+            $paths = app('files')->directories($path);
         }
 
-        return [];
+        return $paths;
     }
 
     protected function getApplicationAddonPaths()
     {
-        $reference = app('streams.application')->getReference();
+        $paths = [];
 
-        $path = base_path('addons/' . $reference . '/' . $this->getFolder());
+        $path = base_path('addons/' . APP_REF . '/' . $this->getFolder());
 
         if (is_dir($path)) {
-            return app('files')->directories($path);
+            $paths = app('files')->directories($path);
         }
 
-        return [];
+        return $paths;
+    }
+
+    protected function getOtherPaths()
+    {
+        $paths = [];
+
+        foreach ($this->locations as $location) {
+
+            $path = base_path($location . '/' . $this->getFolder());
+
+            if (is_dir($path)) {
+
+                $paths = array_merge($paths, app('files')->directories($path));
+
+            }
+
+        }
+
+        return $paths;
     }
 
     protected function getType()
@@ -127,8 +153,10 @@ class AddonServiceProvider extends ServiceProvider
         return $this->getNamespace($slug) . '\\' . studly_case($slug) . studly_case($this->getType());
     }
 
-    protected function getAbstract($slug)
+    public function addLocation($location)
     {
-        return "streams.{$this->getType()}.{$slug}";
+        $this->locations[] = $location;
+
+        return $this;
     }
 }

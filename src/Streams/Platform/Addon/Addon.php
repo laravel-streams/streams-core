@@ -21,9 +21,11 @@ class Addon implements PresentableInterface
         $this->app = $app;
     }
 
-    public function isCore()
+    public function setPath($path)
     {
-        return str_contains($this->getPath(), 'core/addons');
+        $this->path = $path;
+
+        return $this;
     }
 
     public function getPath($path = null)
@@ -31,11 +33,9 @@ class Addon implements PresentableInterface
         return $this->path . ($path ? '/' . ltrim($path, '/') : null);
     }
 
-    public function setPath($path)
+    public function isCore()
     {
-        $this->path = $path;
-
-        return $this;
+        return str_contains($this->getPath(), 'core/addons');
     }
 
     public function getSlug()

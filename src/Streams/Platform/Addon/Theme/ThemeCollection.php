@@ -6,11 +6,15 @@ class ThemeCollection extends AddonCollection
 {
     public function active()
     {
+        $active = null;
+
         foreach ($this->items as $item) {
             if ($item->isActive()) {
-                return $item;
+                $active = $item;
             }
         }
+
+        return $active;
     }
 }
  
