@@ -59,8 +59,7 @@ class Asset
 
                     $filters = array_filter(array_unique(array_merge($filters, $additionalFilters)));
 
-                    echo $this->path($asset, $filters);
-                    die;
+                    $this->path($asset, $filters);
                 },
                 array_keys($this->groups[$group]),
                 array_values($this->groups[$group])
@@ -105,9 +104,13 @@ class Asset
 
         }
 
-        mkdir(dirname(public_path($path)), 777, true);
+        $path = $this->directory . $path;
 
-        file_put_contents(public_path($path), $collection->dump());
+        $files = app('files');
+
+        $files->makeDirectory((new \SplFileInfo($path))->getPath(), 777, true, true);
+
+        $files->put($path, $collection->dump());
     }
 
     protected function transformFilters($filters, $hint)
