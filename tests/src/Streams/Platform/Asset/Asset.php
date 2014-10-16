@@ -127,21 +127,20 @@ class AssetTest extends \PHPUnit_Framework_TestCase
     {
         $asset = $this->stub();
 
-        $asset->add('foo.css', 'phpunit::coffee/foo.coffee');
+        $asset->add('foo.js', 'phpunit::coffee/foo.coffee');
 
-        $expectedPath = 'assets/default/095d98064422583c2a634bd6c7249923.js';
-        $actualPath   = $asset->path('foo.css');
+        $expectedPath = 'assets/default/02b1c449a97928a6d884197ae2b8b646.js';
+        $actualPath   = $asset->path('foo.js');
 
         // Make sure the path is correct.
         $this->assertEquals($expectedPath, $actualPath);
 
         $target = __DIR__ . '/../../../../public/' . $expectedPath;
 
-        $expectedData = "alert('You da foo!');";
-        $actualData   = file_get_contents($target);
+        $actualData = file_get_contents($target);
 
         // Make sure the data written is correct.
-        $this->assertEquals($expectedData, $actualData);
+        $this->assertTrue(str_contains($actualData, 'alert("You da foo!");'));
     }
 
     protected function stub()
