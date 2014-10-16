@@ -3,12 +3,11 @@
 use Assetic\Asset\GlobAsset;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\AssetCollection;
-use Streams\Platform\Asset\Exception\GroupNameDoesNotContainFileExtensionException;
-use Streams\Platform\Asset\Filter\CoffeeScriptFilter;
 use Streams\Platform\Asset\Filter\JSMinFilter;
 use Streams\Platform\Asset\Filter\CssMinFilter;
 use Streams\Platform\Asset\Filter\LessphpFilter;
 use Streams\Platform\Asset\Filter\ScssphpFilter;
+use Streams\Platform\Asset\Filter\CoffeePhpFilter;
 use Streams\Platform\Asset\Filter\PhpCssEmbedFilter;
 
 class Asset
@@ -123,7 +122,7 @@ class Asset
                     break;
 
                 case 'coffee':
-                    $filter = new CoffeeScriptFilter();
+                    $filter = new CoffeePhpFilter();
                     break;
 
                 case 'embed':
