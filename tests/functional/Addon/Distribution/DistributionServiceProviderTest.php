@@ -4,19 +4,15 @@ class DistributionServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
     public static function setUpBeforeClass()
     {
-        $provider = new \Streams\Platform\Provider\AddonServiceProvider(app());
+        $provider = new DistributionServiceProvider(app());
+
+        $provider->addLocation(__DIR__ . '/../../../../tests/addons');
 
         $provider->register();
     }
 
     public function testItRegistersDistributionsToContainer()
     {
-        $provider = new DistributionServiceProvider(app());
-
-        $provider->addLocation(__DIR__ . '/../../../../tests/addons');
-
-        $provider->register();
-
         $expected = 'Streams\Platform\Addon\Distribution\DistributionPresenter';
         $actual   = app('streams.distribution.testable');
 
@@ -25,14 +21,16 @@ class DistributionServiceProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testItPushesDistributionsToCollection()
     {
-        $provider = new DistributionServiceProvider(app());
-
-        $provider->addLocation(__DIR__ . '/../../../../tests/addons');
-
-        $provider->register();
-
         $expected = 'Streams\Platform\Addon\Distribution\DistributionPresenter';
         $actual   = app('streams.distributions')->findBySlug('testable');
+
+        $this->assertInstanceOf($expected, $actual);
+    }
+
+    public function testItRegistersTheApplicationDistributionToContainer()
+    {
+        $expected = 'Streams\Addon\Distribution\Testable\TestableDistribution';
+        $actual   = app('streams.distribution')->getResource();
 
         $this->assertInstanceOf($expected, $actual);
     }
