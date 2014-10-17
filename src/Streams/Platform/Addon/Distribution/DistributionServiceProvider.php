@@ -9,7 +9,7 @@ class DistributionServiceProvider extends AddonServiceProvider
         $this->app->singleton(
             'streams.distribution',
             function () {
-                return app('streams.distributions')->first();
+                return app('streams.distributions')->findBySlug(getenv('DISTRIBUTION'));
             }
         );
     }
