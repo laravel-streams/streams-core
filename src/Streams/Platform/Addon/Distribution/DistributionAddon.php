@@ -8,12 +8,12 @@ class DistributionAddon extends Addon
 
     public function getAdminTheme()
     {
-        return 'streams';
+        return app('streams.theme.testable');
     }
 
     public function getPublicTheme()
     {
-        return 'streams';
+        return app('streams.theme.testable');
     }
 
     public function newPresenter()
