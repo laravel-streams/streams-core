@@ -27,6 +27,7 @@
     </filter>
 
     <php>
-        <env name="RUNNING_TESTS" value="true"/>
+        <env name="TEST" value="true"/>
+        <env name="PUBLISH" value="true"/>
     </php>
 </phpunit>
