@@ -5,8 +5,6 @@ use Streams\Platform\Contract\PresentableInterface;
 
 class BlockAddon extends Addon implements PresentableInterface
 {
-    protected $type = 'block';
-
     public function newPresenter()
     {
         return new BlockPresenter($this);

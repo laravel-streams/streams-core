@@ -7,17 +7,17 @@ class FieldTypeAddon extends Addon implements PresentableInterface
 {
     protected $slug = null;
 
-    protected $type = 'field_type';
+    protected $value = null;
 
-    protected $columnType = 'string';
+    protected $label = null;
 
-    protected $prefix = null;
+    protected $instructions = null;
 
     protected $locale = null;
 
-    protected $field = null;
+    protected $prefix = 'default';
 
-    protected $value = null;
+    protected $columnType = 'string';
 
     public function input()
     {
@@ -27,46 +27,27 @@ class FieldTypeAddon extends Addon implements PresentableInterface
             'class' => 'form-control',
         ];
 
-        return $builder->text($this->getName(), $this->getValue(), $options);
+        return $builder->text($this->getFieldName(), $this->getValue(), $options);
     }
 
-    // TODO: Change this to "elements" and have it loop through available locales
     public function element()
     {
-        $config = app('config');
+        $id = $this->getFieldName();
 
-        //foreach ($config->get('streams::locale.available') as $locale):
+        $label        = trans($this->label);
+        $instructions = trans($this->instructions);
+        $language     = trans("language.{$this->locale}");
 
-        $for   = $this->getName();
-        $name  = $this->getName();
         $input = $this->input();
 
-        return view('html/partials/element', compact('for', 'name', 'input'));
+        $data = compact('id', 'label', 'language', 'instructions', 'input');
+
+        return view('html/partials/element', $data);
     }
 
-    public function mutate($value)
+    public function setSlug($slug)
     {
-        return $value;
-    }
-
-    public function getColumnType()
-    {
-        return $this->columnType;
-    }
-
-    public function getColumnName()
-    {
-        return $this->field;
-    }
-
-    public function getName()
-    {
-        return "{$this->prefix}-{$this->slug}-{$this->locale}";
-    }
-
-    public function setField($field)
-    {
-        $this->field = $field;
+        $this->slug = $slug;
 
         return $this;
     }
@@ -81,6 +62,49 @@ class FieldTypeAddon extends Addon implements PresentableInterface
     public function getValue()
     {
         return $this->value;
+    }
+
+    public function setLabel($label)
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    public function setInstructions($instructions)
+    {
+        $this->instructions = $instructions;
+
+        return $this;
+    }
+
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    public function getFieldName()
+    {
+        return "{$this->prefix}-{$this->slug}-{$this->locale}";
+    }
+
+    public function getColumnName()
+    {
+        return $this->slug;
+    }
+
+    public function getColumnType()
+    {
+        return $this->columnType;
     }
 
     public function newPresenter()

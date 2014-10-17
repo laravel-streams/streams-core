@@ -1,43 +1,8 @@
-<div class="form-group">
-
-    <div class="locale-en">
-        <label for="{{ for }}">
-            {{ name }}
-            <small class="text-muted"><i class="fa fa-language"></i> English</small>
-        </label>
-        {{ input }}
-    </div>
-
-    <div class="locale-fr hidden">
-        <label for="{{ for }}">
-            {{ name }} French
-            <small class="text-muted"><i class="fa fa-language"></i> French</small>
-        </label>
-        {{ input }}
-    </div>
-
-    <div class="locale-de hidden">
-        <label for="{{ for }}">
-            {{ name }} German
-            <small class="text-muted"><i class="fa fa-language"></i> German</small>
-        </label>
-        {{ input }}
-    </div>
-
-    <div class="locale-it hidden">
-        <label for="{{ for }}">
-            {{ name }} Italian
-            <small class="text-muted"><i class="fa fa-language"></i> Italian</small>
-        </label>
-        {{ input }}
-    </div>
-
-    <div class="locale-ae hidden">
-        <label for="{{ for }}">
-            {{ name }} Arabic
-            <small class="text-muted"><i class="fa fa-language"></i> Arabic</small>
-        </label>
-        {{ input }}
-    </div>
-
+<div class="{{ id }}">
+    <label for="{{ id }}">
+        {{ label }}
+        <small class="text-muted"><i class="fa fa-language"></i> {{ language }}</small>
+    </label>
+    {{{ input }}}
+    <p class="help-block">{{ instructions }}</p>
 </div>
