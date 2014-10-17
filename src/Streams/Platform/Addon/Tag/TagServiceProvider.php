@@ -4,8 +4,6 @@ use Streams\Platform\Addon\AddonServiceProvider;
 
 class TagServiceProvider extends AddonServiceProvider
 {
-    protected $type = 'tag';
-
     protected function onAfterRegister()
     {
         foreach ($this->app->make('streams.tags')->all() as $tag) {

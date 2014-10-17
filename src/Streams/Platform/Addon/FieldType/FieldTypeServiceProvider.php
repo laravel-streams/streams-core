@@ -4,7 +4,5 @@ use Streams\Platform\Addon\AddonServiceProvider;
 
 class FieldTypeServiceProvider extends AddonServiceProvider
 {
-    protected $type = 'field_type';
-
     protected $binding = 'bind';
 }

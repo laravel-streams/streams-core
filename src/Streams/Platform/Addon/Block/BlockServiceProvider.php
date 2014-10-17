@@ -4,5 +4,4 @@ use Streams\Platform\Addon\AddonServiceProvider;
 
 class BlockServiceProvider extends AddonServiceProvider
 {
-    protected $type = 'block';
 }

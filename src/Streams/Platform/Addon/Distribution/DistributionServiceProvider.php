@@ -4,8 +4,6 @@ use Streams\Platform\Addon\AddonServiceProvider;
 
 class DistributionServiceProvider extends AddonServiceProvider
 {
-    protected $type = 'distribution';
-
     protected function onAfterRegister()
     {
         $this->app->singleton(

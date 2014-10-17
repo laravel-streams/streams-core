@@ -4,5 +4,4 @@ use Streams\Platform\Addon\AddonServiceProvider;
 
 class ModuleServiceProvider extends AddonServiceProvider
 {
-    protected $type = 'module';
 }

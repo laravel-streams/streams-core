@@ -4,5 +4,4 @@ use Streams\Platform\Addon\AddonServiceProvider;
 
 class ThemeServiceProvider extends AddonServiceProvider
 {
-    protected $type = 'theme';
 }

@@ -1,5 +1,6 @@
 <?php namespace Streams\Platform\Addon;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Streams\Platform\Traits\CallableTrait;
 
@@ -7,9 +8,20 @@ class AddonServiceProvider extends ServiceProvider
 {
     use CallableTrait;
 
-    protected $type = null;
-
     protected $binding = 'singleton';
+
+    protected $type;
+    protected $folder;
+
+    public function __construct(Application $app)
+    {
+        parent::__construct($app);
+
+        $type = snake_case(str_replace('ServiceProvider', '', substr(__CLASS__, strrpos(__CLASS__, "\\") + 1)));
+
+        $this->type   = $type;
+        $this->folder = str_plural($type);
+    }
 
     public function register()
     {
@@ -56,7 +68,7 @@ class AddonServiceProvider extends ServiceProvider
 
     protected function pushToCollection($addon)
     {
-        $plural = str_plural($this->getType());
+        $plural = str_plural($this->type);
 
         app("streams.{$plural}")->push($addon);
     }
@@ -75,7 +87,7 @@ class AddonServiceProvider extends ServiceProvider
     {
         $paths = [];
 
-        $path = base_path('core/addons/' . $this->getFolder());
+        $path = base_path('core/addons/' . $this->folder);
 
         if (is_dir($path)) {
             $paths = app('files')->directories($path);
@@ -88,7 +100,7 @@ class AddonServiceProvider extends ServiceProvider
     {
         $paths = [];
 
-        $path = base_path('addons/shared/' . $this->getFolder());
+        $path = base_path('addons/shared/' . $this->folder);
 
         if (is_dir($path)) {
             $paths = app('files')->directories($path);
@@ -101,7 +113,7 @@ class AddonServiceProvider extends ServiceProvider
     {
         $paths = [];
 
-        $path = base_path('addons/' . APP_REF . '/' . $this->getFolder());
+        $path = base_path('addons/' . APP_REF . '/' . $this->folder);
 
         if (is_dir($path)) {
 
@@ -117,13 +129,13 @@ class AddonServiceProvider extends ServiceProvider
         $paths     = [];
         $locations = [];
 
-        if (getenv('RUNNING_TESTS')) {
+        if (getenv('TEST')) {
             $locations[] = __DIR__ . '/../../../../tests/addons';
         }
 
         foreach ($locations as $location) {
 
-            $path = $location . '/' . $this->getFolder();
+            $path = $location . '/' . $this->folder;
 
             if (is_dir($path)) {
 
@@ -136,23 +148,13 @@ class AddonServiceProvider extends ServiceProvider
         return $paths;
     }
 
-    protected function getType()
-    {
-        return $this->type;
-    }
-
-    protected function getFolder()
-    {
-        return str_plural($this->getType());
-    }
-
     protected function getNamespace($slug)
     {
-        return 'Streams\Addon\\' . studly_case($this->getType()) . '\\' . studly_case($slug);
+        return 'Streams\Addon\\' . studly_case($this->type) . '\\' . studly_case($slug);
     }
 
     protected function getClass($slug)
     {
-        return $this->getNamespace($slug) . '\\' . studly_case($slug) . studly_case($this->getType());
+        return $this->getNamespace($slug) . '\\' . studly_case($slug) . studly_case($this->type);
     }
 }
