@@ -13,7 +13,7 @@ class BlockServiceProviderTest extends \PHPUnit_Framework_TestCase
     {
         $provider = new BlockServiceProvider(app());
 
-        $provider->addLocation(__DIR__ . '/../../../tests/addons');
+        $provider->addLocation(__DIR__ . '/../../../../tests/addons');
 
         $provider->register();
 
@@ -27,7 +27,7 @@ class BlockServiceProviderTest extends \PHPUnit_Framework_TestCase
     {
         $provider = new BlockServiceProvider(app());
 
-        $provider->addLocation(__DIR__ . '/../../../tests/addons');
+        $provider->addLocation(__DIR__ . '/../../../../tests/addons');
 
         $provider->register();
 

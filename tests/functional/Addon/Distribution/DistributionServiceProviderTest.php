@@ -13,7 +13,7 @@ class DistributionServiceProviderTest extends \PHPUnit_Framework_TestCase
     {
         $provider = new DistributionServiceProvider(app());
 
-        $provider->addLocation(__DIR__ . '/../../../tests/addons');
+        $provider->addLocation(__DIR__ . '/../../../../tests/addons');
 
         $provider->register();
 
@@ -27,7 +27,7 @@ class DistributionServiceProviderTest extends \PHPUnit_Framework_TestCase
     {
         $provider = new DistributionServiceProvider(app());
 
-        $provider->addLocation(__DIR__ . '/../../../tests/addons');
+        $provider->addLocation(__DIR__ . '/../../../../tests/addons');
 
         $provider->register();
 
