@@ -6,8 +6,6 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        require_once __DIR__ . '/stubs/Asset.php';
-
         self::$asset = (new Asset())
             ->setPublish(true)
             ->setDirectory(__DIR__ . '/../../public/')
