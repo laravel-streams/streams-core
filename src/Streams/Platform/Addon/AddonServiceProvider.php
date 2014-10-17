@@ -89,11 +89,7 @@ class AddonServiceProvider extends ServiceProvider
     {
         $paths = [];
 
-        if (getenv('TEST')) {
-            $path = __DIR__ . '/../../../../tests/core/addons/' . $this->folder;
-        } else {
-            $path = base_path('core/addons/' . $this->folder);
-        }
+        $path = base_path('core/addons/' . $this->folder);
 
         if (is_dir($path)) {
             $paths = app('files')->directories($path);
@@ -106,11 +102,7 @@ class AddonServiceProvider extends ServiceProvider
     {
         $paths = [];
 
-        if (getenv('TEST')) {
-            $path = __DIR__ . '/../../../../tests/addons/shared/' . $this->folder;
-        } else {
-            $path = base_path('addons/shared/' . $this->folder);
-        }
+        $path = base_path('addons/shared/' . $this->folder);
 
         if (is_dir($path)) {
             $paths = app('files')->directories($path);
@@ -123,11 +115,7 @@ class AddonServiceProvider extends ServiceProvider
     {
         $paths = [];
 
-        if (getenv('TEST')) {
-            $path = __DIR__ . '/../../../../tests/addons/' . APP_REF . '/' . $this->folder;
-        } else {
-            $path = base_path('addons/' . APP_REF . '/' . $this->folder);
-        }
+        $path = base_path('addons/' . APP_REF . '/' . $this->folder);
 
         if (is_dir($path)) {
 
@@ -144,7 +132,7 @@ class AddonServiceProvider extends ServiceProvider
         $locations = [];
 
         if (getenv('TEST')) {
-            $locations[] = __DIR__ . '/../../../../tests/addons/other';
+            $locations[] = __DIR__ . '/../../../../tests/addons';
         }
 
         foreach ($locations as $location) {
