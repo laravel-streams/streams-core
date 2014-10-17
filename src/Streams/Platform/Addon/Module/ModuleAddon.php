@@ -5,9 +5,7 @@ use Streams\Platform\Contract\PresentableInterface;
 
 class ModuleAddon extends Addon implements PresentableInterface
 {
-    protected $type = 'module';
-
-    protected $nav = null;
+    protected $navigation = null;
 
     protected $menu = [];
 
@@ -19,16 +17,9 @@ class ModuleAddon extends Addon implements PresentableInterface
 
     protected $active = false;
 
-    public function getNav()
+    public function getNavigation()
     {
-        return $this->nav;
-    }
-
-    public function setMenu($menu)
-    {
-        $this->menu = $menu;
-
-        return $this;
+        return $this->navigation;
     }
 
     public function getMenu()
@@ -36,27 +27,9 @@ class ModuleAddon extends Addon implements PresentableInterface
         return $this->menu;
     }
 
-    public function setSections($sections)
-    {
-        $this->sections = $sections;
-
-        return $this;
-    }
-
     public function getSections()
     {
         return $this->sections;
-    }
-
-    public function getActiveSection()
-    {
-        foreach ($this->sections as $section) {
-            if (strpos($_SERVER['REQUEST_URI'], $section['url']) !== false) {
-                return $section;
-            }
-        }
-
-        return null;
     }
 
     public function setInstalled($installed)
@@ -80,7 +53,7 @@ class ModuleAddon extends Addon implements PresentableInterface
 
     public function isEnabled()
     {
-        return $this->enabled;
+        return $this->enabled and $this->installed;
     }
 
     public function setActive($active)
@@ -98,11 +71,6 @@ class ModuleAddon extends Addon implements PresentableInterface
     public function newTag()
     {
         return new ModuleTag($this->app);
-    }
-
-    public function newModel()
-    {
-        return new ModuleModel();
     }
 
     public function newPresenter()

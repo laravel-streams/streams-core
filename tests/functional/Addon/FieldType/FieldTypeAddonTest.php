@@ -100,7 +100,6 @@ class FieldTypeAddonTest extends \PHPUnit_Framework_TestCase
 
         $fieldType->setPrefix('foo')->setSlug('bar')->setLocale('fr');
 
-        // <input class="form-control" name="foo-bar-fr" type="text" value="foo">
         $expected = '5ae8ea58e6de09f45828ee878056f0cd';
         $actual   = md5($fieldType->input());
 
@@ -118,12 +117,6 @@ class FieldTypeAddonTest extends \PHPUnit_Framework_TestCase
             ->setLabel('Foo')
             ->setInstructions('Foo instructions.');
 
-        /* <div class="foo-bar-fr">
-        <label for="foo-bar-fr">
-    Foo        <small class="text-muted"><i class="fa fa-language"></i> French</small>
-    </label>
-    <input class="form-control" name="foo-bar-fr" type="text" value="foo">    <p class="help-block">Foo instructions.</p>
-</div>*/
         $expected = '011e279e5f0137bf4f97ceca29e4e751';
         $actual   = md5($fieldType->element());
 

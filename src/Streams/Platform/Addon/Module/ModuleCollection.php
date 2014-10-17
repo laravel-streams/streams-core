@@ -6,11 +6,19 @@ class ModuleCollection extends AddonCollection
 {
     public function active()
     {
+        $active = null;
+
         foreach ($this->items as $item) {
+
             if ($item->isActive()) {
-                return $item;
+
+                $active = $item;
+
             }
+
         }
+
+        return $active;
     }
 
     public function installed()
@@ -18,8 +26,11 @@ class ModuleCollection extends AddonCollection
         $installed = [];
 
         foreach ($this->items as $item) {
+
             if ($item->isInstalled()) {
+
                 $installed[] = $item;
+
             }
         }
 
@@ -31,9 +42,13 @@ class ModuleCollection extends AddonCollection
         $enabled = [];
 
         foreach ($this->items as $item) {
+
             if ($item->isInstalled() and $item->isEnabled()) {
+
                 $enabled[] = $item;
+
             }
+
         }
 
         return self::make($enabled);
