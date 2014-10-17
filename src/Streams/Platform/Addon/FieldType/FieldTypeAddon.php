@@ -1,8 +1,9 @@
 <?php namespace Streams\Platform\Addon\FieldType;
 
 use Streams\Platform\Addon\Addon;
+use Streams\Platform\Contract\PresentableInterface;
 
-class FieldTypeAddon extends Addon
+class FieldTypeAddon extends Addon implements PresentableInterface
 {
     protected $slug = null;
 

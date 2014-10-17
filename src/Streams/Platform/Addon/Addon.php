@@ -2,30 +2,30 @@
 
 use Illuminate\Foundation\Application;
 use Streams\Platform\Traits\CallableTrait;
-use Streams\Platform\Contract\PresentableInterface;
 
-class Addon implements PresentableInterface
+class Addon
 {
     use CallableTrait;
 
-    protected $type = 'addon'; // For testing
-
-    protected $slug = 'abstract'; // For testing
-
     protected $path = null;
+
+    protected $type;
+
+    protected $slug;
 
     protected $app;
 
     function __construct(Application $app)
     {
         $this->app = $app;
-    }
 
-    public function setPath($path)
-    {
-        $this->path = $path;
+        $class = get_class($this);
+        $parts = explode("\\", $class);
 
-        return $this;
+        $this->slug = snake_case($parts[count($parts) - 2]);
+        $this->type = snake_case($parts[count($parts) - 3]);
+
+        $this->path = dirname(dirname((new \ReflectionClass($this))->getFileName()));
     }
 
     public function getPath($path = null)
@@ -51,17 +51,5 @@ class Addon implements PresentableInterface
     public function getAbstract()
     {
         return "streams.{$this->getType()}.{$this->getSlug()}";
-    }
-
-    public function newPresenter()
-    {
-        $resource = $this;
-
-        return app()->make('Streams\Platform\Addon\AddonPresenter', compact('resource'));
-    }
-
-    public function newServiceProvider()
-    {
-        return new AddonServiceProvider($this->app);
     }
 }

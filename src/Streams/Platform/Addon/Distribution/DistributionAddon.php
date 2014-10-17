@@ -1,8 +1,9 @@
 <?php namespace Streams\Platform\Addon\Distribution;
 
 use Streams\Platform\Addon\Addon;
+use Streams\Platform\Contract\PresentableInterface;
 
-class DistributionAddon extends Addon
+class DistributionAddon extends Addon implements PresentableInterface
 {
     protected $type = 'distribution';
 

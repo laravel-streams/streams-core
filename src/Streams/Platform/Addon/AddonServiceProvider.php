@@ -58,7 +58,7 @@ class AddonServiceProvider extends ServiceProvider
     {
         $class = $this->getClass($slug);
 
-        $addon = app('streams.decorator')->decorate((new $class($this->app))->setPath($path));
+        $addon = app('streams.decorator')->decorate(new $class($this->app));
 
         $this->app->{$this->binding}(
             $addon->getAbstract(),

@@ -2,9 +2,10 @@
 
 use Streams\Platform\Addon\Addon;
 use Anomaly\Lexicon\Contract\LexiconInterface;
+use Streams\Platform\Contract\PresentableInterface;
 use Anomaly\Lexicon\Contract\Plugin\PluginInterface;
 
-class TagAddon extends Addon implements PluginInterface
+class TagAddon extends Addon implements PluginInterface, PresentableInterface
 {
     protected $type = 'tag';
 

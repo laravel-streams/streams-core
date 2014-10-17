@@ -1,8 +1,9 @@
 <?php namespace Streams\Platform\Addon\Theme;
 
 use Streams\Platform\Addon\Addon;
+use Streams\Platform\Contract\PresentableInterface;
 
-class ThemeAddon extends Addon
+class ThemeAddon extends Addon implements PresentableInterface
 {
     protected $type = 'theme';
 

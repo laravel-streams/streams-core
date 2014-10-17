@@ -1,8 +1,9 @@
 <?php namespace Streams\Platform\Addon\Module;
 
 use Streams\Platform\Addon\Addon;
+use Streams\Platform\Contract\PresentableInterface;
 
-class ModuleAddon extends Addon
+class ModuleAddon extends Addon implements PresentableInterface
 {
     protected $type = 'module';
 
