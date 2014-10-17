@@ -36,9 +36,4 @@ class ThemeAddon extends Addon
     {
         return new ThemePresenter($this);
     }
-
-    public function newServiceProvider()
-    {
-        return new ThemeServiceProvider($this->app);
-    }
 }

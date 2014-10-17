@@ -10,9 +10,4 @@ class ExtensionAddon extends Addon
     {
         return new ExtensionPresenter($this);
     }
-
-    public function newServiceProvider()
-    {
-        return new ExtensionServiceProvider($this->app);
-    }
 }

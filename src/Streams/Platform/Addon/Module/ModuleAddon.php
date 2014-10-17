@@ -113,9 +113,4 @@ class ModuleAddon extends Addon
     {
         return new ModuleInstaller();
     }
-
-    public function newServiceProvider()
-    {
-        return new ModuleServiceProvider($this->app);
-    }
 }

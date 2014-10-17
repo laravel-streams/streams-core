@@ -134,11 +134,6 @@ class TagAddon extends Addon implements PluginInterface
         return new TagPresenter($this);
     }
 
-    public function newServiceProvider()
-    {
-        return new TagServiceProvider($this->app);
-    }
-
     /**
      * @param $key
      * @return mixed
