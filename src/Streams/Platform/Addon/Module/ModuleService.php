@@ -1,10 +1,10 @@
 <?php namespace Streams\Platform\Addon\Module;
 
 use Illuminate\Foundation\Application;
-use Streams\Platform\Traits\DispatchableTrait;
+use Streams\Platform\Support\Dispatcher;
 use Streams\Platform\Traits\EventableTrait;
 use Streams\Platform\Traits\CommandableTrait;
-use Streams\Platform\Support\Dispatcher;
+use Streams\Platform\Traits\DispatchableTrait;
 use Streams\Platform\Addon\Module\Event\ModuleWasInstalledEvent;
 use Streams\Platform\Addon\Module\Event\ModuleWasUninstalledEvent;
 
@@ -21,8 +21,7 @@ class ModuleService
         $this->app = $app;
     }
 
-
-    public function install(ModuleAddon $module)
+    public function install($module)
     {
         foreach ($module->newInstaller()->getInstallers() as $installer) {
             $this->app->make($installer)->install();
@@ -37,7 +36,7 @@ class ModuleService
         return true;
     }
 
-    public function uninstall(ModuleAddon $module)
+    public function uninstall($module)
     {
         foreach ($module->newInstaller()->getInstallers() as $installer) {
             $this->app->make($installer)->uninstall();

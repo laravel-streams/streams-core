@@ -1,6 +1,7 @@
 <?php namespace Streams\Platform\Addon\Module;
 
 use Streams\Platform\Addon\Addon;
+use Streams\Platform\Support\Transformer;
 use Streams\Platform\Contract\PresentableInterface;
 
 class ModuleAddon extends Addon implements PresentableInterface
@@ -68,6 +69,11 @@ class ModuleAddon extends Addon implements PresentableInterface
         return $this->active;
     }
 
+    protected function getTransformer()
+    {
+        return new Transformer();
+    }
+
     public function newTag()
     {
         return new ModuleTag($this->app);
@@ -80,6 +86,16 @@ class ModuleAddon extends Addon implements PresentableInterface
 
     public function newInstaller()
     {
-        return new ModuleInstaller();
+        $transformer = $this->getTransformer();
+
+        try {
+
+            return app($transformer->toInstaller($this));
+
+        } catch (\Exception $e) {
+
+            return new ModuleInstaller();
+
+        }
     }
 }

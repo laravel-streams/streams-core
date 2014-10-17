@@ -9,7 +9,7 @@ trait DispatchableTrait
 
     public function getDispatcher()
     {
-        return app('Streams\Platform\Support\EventDispatcher');
+        return app('Streams\Platform\Support\Dispatcher');
     }
 }
  

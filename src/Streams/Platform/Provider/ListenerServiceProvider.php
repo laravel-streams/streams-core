@@ -17,6 +17,6 @@ class ListenerServiceProvider extends ServiceProvider
      */
     protected function registerAddonListeners()
     {
-        app('events')->listen('Streams.Platform.Addon.ModuleAddon.Event.*', 'Streams\Platform\Addon\Module\ModuleListener');
+        app('events')->listen('Streams.Platform.Addon.Module.Event.*', 'Streams\Platform\Addon\Module\ModuleListener');
     }
 }

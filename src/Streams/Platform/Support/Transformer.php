@@ -2,13 +2,6 @@
 
 class Transformer
 {
-    /**
-     * Transform a class to its handler counterpart.
-     *
-     * @param $class
-     * @return mixed
-     * @throws \Exception
-     */
     public function toHandler($class)
     {
         $class   = get_class($class);
@@ -25,13 +18,6 @@ class Transformer
         return $handler;
     }
 
-    /**
-     * Transform a class to its validator counterpart.
-     *
-     * @param $class
-     * @return mixed
-     * @throws \Exception
-     */
     public function toValidator($class)
     {
         $class     = get_class($class);
@@ -46,5 +32,21 @@ class Transformer
         }
 
         return $validator;
+    }
+
+    public function toInstaller($class)
+    {
+        $class     = get_class($class);
+        $installer = $class . 'Installer';
+
+        if (!class_exists($installer)) {
+
+            $message = "Installer [$installer] does not exist.";
+
+            throw new \Exception($message);
+
+        }
+
+        return $installer;
     }
 }

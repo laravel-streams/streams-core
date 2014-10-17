@@ -8,5 +8,23 @@ class ModuleInstallerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEmpty($installer->getInstallers());
     }
+
+    public function testItCanInstallModule()
+    {
+        $module = app('streams.module.testable');
+
+        $service = new ModuleService(app());
+
+        $service->install($module);
+    }
+
+    public function testItCanUninstallModule()
+    {
+        $module = app('streams.module.testable');
+
+        $service = new ModuleService(app());
+
+        $service->uninstall($module);
+    }
 }
  
