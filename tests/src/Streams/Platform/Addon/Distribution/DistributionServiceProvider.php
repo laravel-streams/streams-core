@@ -14,6 +14,6 @@ class DistributionServiceProviderTest extends \PHPUnit_Framework_TestCase
 
     protected function stub()
     {
-        return new \Streams\Platform\Addon\Distribution\DistributionServiceProvider(app());
+        return (new \Streams\Platform\Addon\Distribution\DistributionServiceProvider(app()));
     }
 }

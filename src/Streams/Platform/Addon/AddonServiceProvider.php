@@ -11,12 +11,8 @@ class AddonServiceProvider extends ServiceProvider
 
     protected $binding = 'singleton';
 
-    protected $locations = [];
-
     public function register()
     {
-        $loaded = [];
-
         foreach ($this->getAddonPaths() as $path) {
 
             $slug = basename($path);
@@ -108,7 +104,9 @@ class AddonServiceProvider extends ServiceProvider
         $path = base_path('addons/' . APP_REF . '/' . $this->getFolder());
 
         if (is_dir($path)) {
+
             $paths = app('files')->directories($path);
+
         }
 
         return $paths;
@@ -116,11 +114,16 @@ class AddonServiceProvider extends ServiceProvider
 
     protected function getOtherPaths()
     {
-        $paths = [];
+        $paths     = [];
+        $locations = [];
 
-        foreach ($this->locations as $location) {
+        if (getenv('RUNNING_TESTS')) {
+            $locations[] = __DIR__ . '/../../../../tests/addons';
+        }
 
-            $path = base_path($location . '/' . $this->getFolder());
+        foreach ($locations as $location) {
+
+            $path = $location . '/' . $this->getFolder();
 
             if (is_dir($path)) {
 
@@ -151,12 +154,5 @@ class AddonServiceProvider extends ServiceProvider
     protected function getClass($slug)
     {
         return $this->getNamespace($slug) . '\\' . studly_case($slug) . studly_case($this->getType());
-    }
-
-    public function addLocation($location)
-    {
-        $this->locations[] = $location;
-
-        return $this;
     }
 }

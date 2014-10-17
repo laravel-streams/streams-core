@@ -25,4 +25,8 @@
             <directory suffix=".php">src/Streams/Platform/</directory>
         </whitelist>
     </filter>
+
+    <php>
+        <env name="RUNNING_TESTS" value="true"/>
+    </php>
 </phpunit>

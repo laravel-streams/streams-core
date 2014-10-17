@@ -61,7 +61,6 @@ class AddonServiceProvider extends ServiceProvider
             $provider = 'Streams\Platform\Addon\\' . $type . '\\' . $type . 'ServiceProvider';
 
             $this->app->register($provider);
-
         }
     }
 
@@ -76,6 +75,8 @@ class AddonServiceProvider extends ServiceProvider
                 if ($provider = $addon->newServiceProvider()) {
 
                     $this->app->register($provider);
+
+                    $provider->register();
 
                 }
 
@@ -116,7 +117,7 @@ class AddonServiceProvider extends ServiceProvider
     protected function registerAddonNamespaceHints()
     {
         foreach ($this->types as $type) {
-            
+
             $plural = str_plural($type);
 
             foreach (app("streams.{$plural}")->all() as $addon) {
