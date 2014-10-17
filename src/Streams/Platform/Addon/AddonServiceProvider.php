@@ -17,7 +17,9 @@ class AddonServiceProvider extends ServiceProvider
     {
         parent::__construct($app);
 
-        $type = snake_case(str_replace('ServiceProvider', '', substr(__CLASS__, strrpos(__CLASS__, "\\") + 1)));
+        $class = get_class($this);
+
+        $type = snake_case(str_replace('ServiceProvider', '', substr($class, strrpos($class, "\\") + 1)));
 
         $this->type   = $type;
         $this->folder = str_plural($type);
@@ -54,7 +56,7 @@ class AddonServiceProvider extends ServiceProvider
     {
         $class = $this->getClass($slug);
 
-        $addon = (new $class($this->app))->setPath($path);
+        $addon = app('streams.decorator')->decorate((new $class($this->app))->setPath($path));
 
         $this->app->{$this->binding}(
             $addon->getAbstract(),
@@ -87,7 +89,11 @@ class AddonServiceProvider extends ServiceProvider
     {
         $paths = [];
 
-        $path = base_path('core/addons/' . $this->folder);
+        if (getenv('TEST')) {
+            $path = __DIR__ . '/../../../../tests/core/addons/' . $this->folder;
+        } else {
+            $path = base_path('core/addons/' . $this->folder);
+        }
 
         if (is_dir($path)) {
             $paths = app('files')->directories($path);
@@ -100,7 +106,11 @@ class AddonServiceProvider extends ServiceProvider
     {
         $paths = [];
 
-        $path = base_path('addons/shared/' . $this->folder);
+        if (getenv('TEST')) {
+            $path = __DIR__ . '/../../../../tests/addons/shared/' . $this->folder;
+        } else {
+            $path = base_path('addons/shared/' . $this->folder);
+        }
 
         if (is_dir($path)) {
             $paths = app('files')->directories($path);
@@ -113,7 +123,11 @@ class AddonServiceProvider extends ServiceProvider
     {
         $paths = [];
 
-        $path = base_path('addons/' . APP_REF . '/' . $this->folder);
+        if (getenv('TEST')) {
+            $path = __DIR__ . '/../../../../tests/addons/' . APP_REF . '/' . $this->folder;
+        } else {
+            $path = base_path('addons/' . APP_REF . '/' . $this->folder);
+        }
 
         if (is_dir($path)) {
 
@@ -130,7 +144,7 @@ class AddonServiceProvider extends ServiceProvider
         $locations = [];
 
         if (getenv('TEST')) {
-            $locations[] = __DIR__ . '/../../../../tests/addons';
+            $locations[] = __DIR__ . '/../../../../tests/addons/other';
         }
 
         foreach ($locations as $location) {
