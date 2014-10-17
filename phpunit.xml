@@ -29,5 +29,6 @@
     <php>
         <env name="TEST" value="true"/>
         <env name="PUBLISH" value="true"/>
+        <env name="DISTRIBUTION" value="testable"/>
     </php>
 </phpunit>
