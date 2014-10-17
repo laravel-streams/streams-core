@@ -20,9 +20,4 @@ class DistributionAddon extends Addon
     {
         return new DistributionPresenter($this);
     }
-
-    public function newServiceProvider()
-    {
-        return new DistributionServiceProvider($this->app);
-    }
 }
