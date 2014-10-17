@@ -1,6 +1,8 @@
 <?php namespace Streams\Platform\Addon\Tag\Attribute;
 
-class TagAttributeCollection
+use Streams\Platform\Support\Collection;
+
+class TagAttributeCollection extends Collection
 {
 }
  
