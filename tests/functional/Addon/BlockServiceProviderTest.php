@@ -13,6 +13,8 @@ class BlockServiceProviderTest extends \PHPUnit_Framework_TestCase
     {
         $provider = new BlockServiceProvider(app());
 
+        $provider->addLocation(__DIR__ . '/../../../tests/addons');
+
         $provider->register();
 
         $expected = 'Streams\Platform\Addon\Block\BlockPresenter';
@@ -24,6 +26,8 @@ class BlockServiceProviderTest extends \PHPUnit_Framework_TestCase
     public function testItPushesBlocksToCollection()
     {
         $provider = new BlockServiceProvider(app());
+
+        $provider->addLocation(__DIR__ . '/../../../tests/addons');
 
         $provider->register();
 

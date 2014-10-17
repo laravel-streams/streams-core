@@ -10,6 +10,8 @@ class AddonServiceProvider extends ServiceProvider
 
     protected $binding = 'singleton';
 
+    protected $locations = [];
+
     protected $type;
     protected $folder;
 
@@ -128,14 +130,9 @@ class AddonServiceProvider extends ServiceProvider
 
     protected function getOtherPaths()
     {
-        $paths     = [];
-        $locations = [];
+        $paths = [];
 
-        if (getenv('TEST')) {
-            $locations[] = __DIR__ . '/../../../../tests/addons';
-        }
-
-        foreach ($locations as $location) {
+        foreach ($this->locations as $location) {
 
             $path = $location . '/' . $this->folder;
 
@@ -148,6 +145,13 @@ class AddonServiceProvider extends ServiceProvider
         }
 
         return $paths;
+    }
+
+    public function addLocation($location)
+    {
+        $this->locations[] = $location;
+
+        return $this;
     }
 
     protected function getNamespace($slug)
