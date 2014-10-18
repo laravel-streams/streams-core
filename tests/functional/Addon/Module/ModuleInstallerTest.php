@@ -11,20 +11,35 @@ class ModuleInstallerTest extends \PHPUnit_Framework_TestCase
 
     public function testItCanInstallModule()
     {
-        $module = app('streams.module.testable');
+        /*$module = app('streams.module.testable');
 
         $service = new ModuleService(app());
 
-        $service->install($module);
+        $service->install($module);*/
+
+        $this->assertTrue(false);
     }
 
     public function testItCanUninstallModule()
     {
-        $module = app('streams.module.testable');
+        /*$module = app('streams.module.testable');
 
         $service = new ModuleService(app());
 
-        $service->uninstall($module);
+        $service->uninstall($module);*/
+
+        $this->assertTrue(false);
+    }
+
+    public function testItDefaultsToModuleInstallerIfInstallerDoesNotExist()
+    {
+        /*$module = app('streams.module.no_installer');
+
+        $service = new ModuleService(app());
+
+        $service->uninstall($module);*/
+
+        $this->assertTrue(false);
     }
 }
  
