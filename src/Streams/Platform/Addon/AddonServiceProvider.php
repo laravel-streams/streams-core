@@ -13,6 +13,7 @@ class AddonServiceProvider extends ServiceProvider
     protected $locations = [];
 
     protected $type;
+
     protected $folder;
 
     public function __construct(Application $app)
@@ -84,7 +85,7 @@ class AddonServiceProvider extends ServiceProvider
         $applicationPaths = $this->getApplicationAddonPaths();
         $otherPaths       = $this->getOtherPaths();
 
-        return array_merge($corePaths, $sharedPaths, $applicationPaths, $otherPaths);
+        return array_filter(array_merge($corePaths, $sharedPaths, $applicationPaths, $otherPaths));
     }
 
     protected function getCoreAddonPaths()
@@ -131,6 +132,12 @@ class AddonServiceProvider extends ServiceProvider
     protected function getOtherPaths()
     {
         $paths = [];
+
+        if (getenv('TEST')) {
+
+            $this->locations[] = __DIR__ . '/../../../../tests/addons';
+
+        }
 
         foreach ($this->locations as $location) {
 

@@ -5,6 +5,11 @@ use Streams\Platform\Support\Collection;
 
 class AddonCollection extends Collection
 {
+    public function push($addon)
+    {
+        $this->items[$addon->slug] = $addon;
+    }
+
     public function findBySlug($slug)
     {
         $addon = null;

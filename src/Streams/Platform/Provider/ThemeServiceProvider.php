@@ -21,11 +21,11 @@ class ThemeServiceProvider extends ServiceProvider
 
         if ($request->segment(1) == 'admin') {
 
-            $theme = app('streams.themes')->findBySlug($distribution->getAdminTheme());
+            $theme = $distribution->getAdminTheme();
 
         } else {
 
-            $theme = app('streams.themes')->findBySlug($distribution->getPublicTheme());
+            $theme = $distribution->getPublicTheme();
             
         }
 

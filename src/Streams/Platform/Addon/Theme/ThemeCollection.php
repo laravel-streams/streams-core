@@ -9,9 +9,13 @@ class ThemeCollection extends AddonCollection
         $active = null;
 
         foreach ($this->items as $item) {
+
             if ($item->isActive()) {
+
                 $active = $item;
+
             }
+
         }
 
         return $active;

@@ -35,8 +35,8 @@ class FieldTypePresenterTest extends \PHPUnit_Framework_TestCase
     {
         $fieldType = self::$fieldType;
 
-        $this->assertEquals('field_type.testable::addon.name', $fieldType->name);
-        $this->assertEquals('field_type.testable::addon.description', $fieldType->description);
+        $this->assertEquals('Testable', $fieldType->name);
+        $this->assertEquals('Testable description', $fieldType->description);
     }
 }
  
