@@ -9,9 +9,7 @@ class Transformer
 
         if (!class_exists($handler)) {
 
-            $message = "Handler [$handler] does not exist.";
-
-            throw new \Exception($message);
+            $handler = null;
 
         }
 
@@ -25,9 +23,7 @@ class Transformer
 
         if (!class_exists($validator)) {
 
-            $message = "Validator [$validator] does not exist.";
-
-            throw new \Exception($message);
+            $validator = null;
 
         }
 
@@ -41,9 +37,7 @@ class Transformer
 
         if (!class_exists($installer)) {
 
-            $message = "Installer [$installer] does not exist.";
-
-            throw new \Exception($message);
+            $installer = null;
 
         }
 
