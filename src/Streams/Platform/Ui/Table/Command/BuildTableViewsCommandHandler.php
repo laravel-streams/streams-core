@@ -10,17 +10,17 @@ class BuildTableViewsCommandHandler
     {
         $ui = $command->getUi();
 
-        $views = evaluate($ui->getViews(), [$ui]);
+        $views = [];
 
-        foreach ($views as &$view) {
+        foreach ($ui->getViews() as $order => $view) {
 
-            $this->addListender($view, $ui);
+            $this->addListener($view, $ui);
 
             $url   = $this->makeUrl($view);
             $title = $this->makeTitle($view, $ui);
-            $class = $this->makeClass($view, $ui);
+            $class = $this->makeClass($view, $order, $ui);
 
-            $view = compact('url', 'title', 'class');
+            $views[] = compact('url', 'title', 'class');
 
         }
 
@@ -61,18 +61,13 @@ class BuildTableViewsCommandHandler
         return trans(evaluate_key($view, 'title', 'misc.untitled', [$ui]));
     }
 
-    /**
-     * @param $view
-     * @param $ui
-     * @return mixed|null|string
-     */
-    protected function makeClass($view, $ui)
+    protected function makeClass($view, $order, $ui)
     {
-        $input = app('input');
+        $input = app('request');
 
         $class = evaluate_key($view, 'class', '', [$ui]);
 
-        if ($input->get('view') == $view['slug']) {
+        if (($input->get('view') == $view['slug']) or (!$input->get('view') and $order == 0)) {
 
             $class .= ' active';
 

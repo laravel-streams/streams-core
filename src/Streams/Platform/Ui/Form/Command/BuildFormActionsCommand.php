@@ -12,14 +12,6 @@ class BuildFormActionsCommand
     }
 
     /**
-     * @param mixed $ui
-     */
-    public function setUi($ui)
-    {
-        $this->ui = $ui;
-    }
-
-    /**
      * @return mixed
      */
     public function getUi()

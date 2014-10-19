@@ -28,15 +28,7 @@ class Ui
     /**
      * @var
      */
-    protected $model;
-
-    /**
-     * @param null $model
-     */
-    function __construct($model = null)
-    {
-        $this->model = $model;
-    }
+    protected $model = null;
 
     /**
      * Do the rendering logic in extending classes.
@@ -95,6 +87,11 @@ class Ui
         $this->title = $title;
 
         return $this;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**

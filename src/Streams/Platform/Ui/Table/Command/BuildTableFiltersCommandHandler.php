@@ -10,13 +10,15 @@ class BuildTableFiltersCommandHandler
     {
         $ui = $command->getUi();
 
-        $filters = evaluate($ui->getFilters(), [$ui]);
+        $filters = [];
 
-        foreach ($filters as &$filter) {
+        foreach ($ui->getFilters() as $filter) {
 
-            $input = $this->makeInput($filter, $ui);
+            if ($input = $this->makeInput($filter, $ui)) {
 
-            $filter = compact('input');
+                $filters[] = compact('input');
+
+            }
 
         }
 
@@ -30,25 +32,30 @@ class BuildTableFiltersCommandHandler
      */
     protected function makeInput($filter, $ui)
     {
+        $input = null;
+
         $type = evaluate_key($filter, 'type', 'text', [$ui]);
 
         switch ($type) {
             case 'select':
-                return $this->makeSelectInput($filter, $ui);
+                $input = $this->makeSelectInput($filter, $ui);
                 break;
 
             case 'url':
             case 'text':
             case 'email':
             case 'password':
-                return $this->makeTextInput($filter, $type, $ui);
+                $input = $this->makeTextInput($filter, $type, $ui);
+                break;
+
+            case 'field':
                 break;
 
             default:
                 break;
         }
 
-        return null;
+        return $input;
     }
 
     /**
@@ -58,21 +65,20 @@ class BuildTableFiltersCommandHandler
      */
     protected function makeSelectInput($filter, $ui)
     {
-        $form  = app('form');
-        $input = app('input');
+        $form = app('form');
 
-        $list        = evaluate_key($filter, 'list', [], [$ui]);
-        $name        = evaluate_key($filter, 'name', null, [$ui]);
+        $options     = evaluate_key($filter, 'options', [], [$ui]);
+        $slug        = evaluate_key($filter, 'slug', null, [$ui]);
         $placeholder = evaluate_key($filter, 'placeholder', null, [$ui]);
 
-        $selected = $input->get($name);
+        $value = $this->getInput($filter, $slug);
 
-        $options = [
+        $attributes = [
             'class'       => 'form-control',
             'placeholder' => $placeholder,
         ];
 
-        return $form->select($name, $list, $selected, $options);
+        return $form->select($slug, $options, $value, $attributes);
     }
 
     /**
@@ -83,20 +89,32 @@ class BuildTableFiltersCommandHandler
      */
     protected function makeTextInput($filter, $type, $ui)
     {
-        $form  = app('form');
-        $input = app('input');
+        $form = app('form');
 
-        $name        = evaluate_key($filter, 'name', null, [$ui]);
+        $slug        = evaluate_key($filter, 'slug', null, [$ui]);
         $placeholder = evaluate_key($filter, 'placeholder', null, [$ui]);
 
-        $value = $input->get($name);
+        $value = $this->getInput($filter, $slug);
 
         $options = [
             'class'       => 'form-control',
             'placeholder' => $placeholder,
         ];
 
-        return $form->{$type}($name, $value, $options);
+        return $form->{$type}($slug, $value, $options);
+    }
+
+    protected function getInput($filter, $slug)
+    {
+        $input = app('request');
+
+        if (isset($_GET[$slug])) {
+            $value = $_GET[$slug];
+        } else {
+            $value = evaluate_key($filter, 'default_value', null);
+        }
+
+        return $value;
     }
 }
  

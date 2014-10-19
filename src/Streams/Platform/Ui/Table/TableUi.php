@@ -113,11 +113,7 @@ class TableUi extends Ui
         return $this;
     }
 
-    /**
-     * @param array $actions
-     * return $this
-     */
-    public function setActions($actions)
+    public function setActions(array $actions)
     {
         $this->actions = $actions;
 
@@ -132,11 +128,7 @@ class TableUi extends Ui
         return $this->actions;
     }
 
-    /**
-     * @param array $buttons
-     * return $this
-     */
-    public function setButtons($buttons)
+    public function setButtons(array $buttons)
     {
         $this->buttons = $buttons;
 
@@ -151,11 +143,7 @@ class TableUi extends Ui
         return $this->buttons;
     }
 
-    /**
-     * @param array $columns
-     * return $this
-     */
-    public function setColumns($columns)
+    public function setColumns(array $columns)
     {
         $this->columns = $columns;
 
@@ -170,11 +158,7 @@ class TableUi extends Ui
         return $this->columns;
     }
 
-    /**
-     * @param null $entries
-     * return $this
-     */
-    public function setEntries($entries)
+    public function setEntries(array $entries)
     {
         $this->entries = $entries;
 
@@ -189,11 +173,7 @@ class TableUi extends Ui
         return $this->entries;
     }
 
-    /**
-     * @param array $filters
-     * return $this
-     */
-    public function setFilters($filters)
+    public function setFilters(array $filters)
     {
         $this->filters = $filters;
 
@@ -269,10 +249,6 @@ class TableUi extends Ui
         return $this->orderBy;
     }
 
-    /**
-     * @param boolean $paginate
-     * return $this
-     */
     public function setPaginate($paginate)
     {
         $this->paginate = $paginate;
@@ -346,25 +322,6 @@ class TableUi extends Ui
     }
 
     /**
-     * @param string $title
-     * return $this
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
      * @param string $view
      * return $this
      */
@@ -375,19 +332,7 @@ class TableUi extends Ui
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getView()
-    {
-        return $this->view;
-    }
-
-    /**
-     * @param array $views
-     * return $this
-     */
-    public function setViews($views)
+    public function setViews(array $views)
     {
         $this->views = $views;
 
@@ -411,14 +356,6 @@ class TableUi extends Ui
         $this->wrapper = $wrapper;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getWrapper()
-    {
-        return $this->wrapper;
     }
 
     /**

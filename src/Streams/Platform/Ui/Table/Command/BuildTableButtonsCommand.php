@@ -21,5 +21,13 @@ class BuildTableButtonsCommand
     {
         return $this->ui;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEntry()
+    {
+        return $this->entry;
+    }
 }
  

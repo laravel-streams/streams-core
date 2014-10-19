@@ -49,9 +49,10 @@ class FormUi extends Ui
      * @param array $actions
      * return $this
      */
-    public function setActions($actions)
+    public function setActions(array $actions)
     {
         $this->actions = $actions;
+
         return $this;
     }
 
@@ -67,9 +68,10 @@ class FormUi extends Ui
      * @param array $sections
      * return $this
      */
-    public function setSections($sections)
+    public function setSections(array $sections)
     {
         $this->sections = $sections;
+
         return $this;
     }
 
@@ -85,9 +87,10 @@ class FormUi extends Ui
      * @param array $skips
      * return $this
      */
-    public function setSkips($skips)
+    public function setSkips(array $skips)
     {
         $this->skips = $skips;
+
         return $this;
     }
 
@@ -100,57 +103,14 @@ class FormUi extends Ui
     }
 
     /**
-     * @param string $title
-     * return $this
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
      * @param string $view
      * return $this
      */
     public function setView($view)
     {
         $this->view = $view;
+        
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getView()
-    {
-        return $this->view;
-    }
-
-    /**
-     * @param string $wrapper
-     * return $this
-     */
-    public function setWrapper($wrapper)
-    {
-        $this->wrapper = $wrapper;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getWrapper()
-    {
-        return $this->wrapper;
     }
 
     /**
