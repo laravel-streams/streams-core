@@ -31,7 +31,15 @@ class FormUi extends Ui
     {
         $this->fire('trigger');
 
+        $request = app('request');
+
         $repository = $this->newRepository();
+
+        if ($request->is('post')) {
+
+            return $this->newFormRequest();
+
+        }
 
         $form = $this->newFormService();
 
@@ -109,7 +117,7 @@ class FormUi extends Ui
     public function setView($view)
     {
         $this->view = $view;
-        
+
         return $this;
     }
 
@@ -124,9 +132,17 @@ class FormUi extends Ui
     /**
      * @return FormRepository
      */
-    private function newRepository()
+    protected function newRepository()
     {
         return new FormRepository($this, $this->model);
+    }
+
+    /**
+     * @return FormRequest
+     */
+    protected function newFormRequest()
+    {
+        return new FormRequest($this);
     }
 }
  

@@ -10,7 +10,7 @@ class DistributionServiceProvider extends AddonServiceProvider
             'streams.distribution',
             function () {
 
-                return app('streams.distributions')->findBySlug(getenv('DISTRIBUTION'));
+                return app('streams.distributions')->findBySlug('base');
 
             }
         );

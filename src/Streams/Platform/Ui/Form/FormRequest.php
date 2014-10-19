@@ -2,24 +2,40 @@
 
 class FormRequest extends \Illuminate\Foundation\Http\FormRequest
 {
+    /**
+     * @var FormUi
+     */
     protected $ui;
 
+    /**
+     * @param FormUi $ui
+     */
     function __construct(FormUi $ui)
     {
         $this->ui = $ui;
     }
 
-
+    /**
+     * @return mixed
+     */
     public function rules()
     {
-        return [];
+        $model = $this->ui->getModel();
+
+        return $model::$rules;
     }
 
+    /**
+     * @return bool
+     */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
+    /**
+     * @return \Illuminate\Http\Response
+     */
     public function forbiddenResponse()
     {
         return parent::forbiddenResponse();
