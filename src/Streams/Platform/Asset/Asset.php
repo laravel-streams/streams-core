@@ -114,7 +114,7 @@ class Asset
 
     protected function transformFilters($filters, $hint)
     {
-        foreach ($filters as &$filter) {
+        foreach ($filters as $k => &$filter) {
 
             switch ($filter) {
                 case 'less':
@@ -139,6 +139,10 @@ class Asset
                     } elseif ($hint == 'css') {
                         $filter = new CssMinFilter();
                     }
+                    break;
+
+                default:
+                    unset($filters[$k]);
                     break;
             }
 
