@@ -30,6 +30,7 @@ class AddonServiceProvider extends ServiceProvider
         $this->registerAddonVendorAutoloaders();
 
         $this->registerAddonNamespaceHints(); // Last
+
     }
 
     protected function registerAddonCollections()
@@ -45,7 +46,9 @@ class AddonServiceProvider extends ServiceProvider
             $this->app->singleton(
                 "streams.{$plural}",
                 function () use ($collection) {
+
                     return new $collection;
+
                 }
             );
 
@@ -79,15 +82,14 @@ class AddonServiceProvider extends ServiceProvider
                     $provider->register();
 
                 }
-
             }
-
         }
     }
 
     protected function registerAddonVendorAutoloaders()
     {
         foreach ($this->types as $type) {
+
             $plural = str_plural($type);
 
             foreach (app("streams.{$plural}")->all() as $addon) {
@@ -96,16 +98,21 @@ class AddonServiceProvider extends ServiceProvider
                 $vendorFile = 'streams.vendor.autoload.php';
 
                 if (is_file($vendorPath . $vendorFile)) {
+
                     $autoload = require $vendorPath . $vendorFile;
 
                     if (!empty($autoload['psr-0'])) {
+
                         foreach ($autoload['psr-0'] as $namespace => $path) {
+
                             app('streams.loader')->add($namespace, $this->getVendorPsrPath($vendorPath, $path));
                         }
                     }
 
                     if (!empty($autoload['psr-4'])) {
+
                         foreach ($autoload['psr-4'] as $namespace => $path) {
+
                             app('streams.loader')->addPsr4($namespace, $this->getVendorPsrPath($vendorPath, $path));
                         }
                     }
@@ -122,7 +129,7 @@ class AddonServiceProvider extends ServiceProvider
 
             foreach (app("streams.{$plural}")->all() as $addon) {
 
-                $abstract = str_replace('streams.', null, $addon->getAbstract());
+                $abstract = str_replace('streams.', null, $addon->abstract);
 
                 app('view')->addNamespace($abstract, $addon->getPath('resources/views'));
                 app('config')->addNamespace($abstract, $addon->getPath('resources/config'));
