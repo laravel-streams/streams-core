@@ -41,10 +41,10 @@ class Presenter implements ArrayableInterface
      * @param $args
      * @return mixed
      */
-    public function __call($key, $args)
+    public function __call($key, array $params = [])
     {
         if (method_exists($this->resource, $key)) {
-            return call_user_func_array(array($this->resource, $key), $args);
+            return call_user_func_array(array($this->resource, $key), $params);
         }
     }
 
