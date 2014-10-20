@@ -36,15 +36,6 @@ class Image extends ImageManager
         'widen',
     ];
 
-    public function make($path)
-    {
-        $instance = new self;
-
-        $instance->setImage($path);
-
-        return $instance;
-    }
-
     protected function publish($path)
     {
         $image = parent::make($this->image);
