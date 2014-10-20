@@ -129,7 +129,7 @@ class AddonServiceProvider extends ServiceProvider
 
             foreach (app("streams.{$plural}")->all() as $addon) {
 
-                $abstract = str_replace('streams.', null, $addon->abstract);
+                $abstract = str_replace('streams.', null, $addon->getAbstract());
 
                 app('view')->addNamespace($abstract, $addon->getPath('resources/views'));
                 app('config')->addNamespace($abstract, $addon->getPath('resources/config'));
