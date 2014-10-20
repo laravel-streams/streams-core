@@ -2,7 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 
-class ModuleServiceProvider extends ServiceProvider
+class ActiveModuleServiceProvider extends ServiceProvider
 {
     /**
      * Defer loading this service provider.
