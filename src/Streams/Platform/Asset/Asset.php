@@ -52,6 +52,10 @@ class Asset
 
     public function paths($group, array $additionalFilters = [])
     {
+        if (!isset($this->groups[$group])) {
+            return [];
+        }
+
         return array_filter(
             array_map(
                 function ($asset, $filters) use ($additionalFilters) {
