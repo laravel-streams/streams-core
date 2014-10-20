@@ -8,7 +8,12 @@ class TagServiceProvider extends AddonServiceProvider
     {
         foreach ($this->app->make('streams.tags')->all() as $tag) {
 
-            $this->app->make('anomaly.lexicon')->registerPlugin($tag->getSlug(), $tag->getAbstract());
+            $tag = $tag->getResource();
+
+            $slug     = $tag->getSlug();
+            $abstract = $tag->getAbstract();
+
+            $this->app->make('anomaly.lexicon')->registerPlugin($slug, $abstract);
 
         }
     }
