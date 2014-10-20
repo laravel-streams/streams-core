@@ -16,16 +16,12 @@ class ActiveDistributionServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // TODO: get the slug from somewhere better than hard code
-        $distribution = app('streams.distributions')->findBySlug('base');
+        $distribution = app('streams.distribution');
 
-        $this->app->singleton(
-            'streams.distribution',
-            function () use ($distribution) {
-
-                return $distribution;
-
-            }
-        );
+        // Setup namespace hints for a short namespace.
+        app('view')->addNamespace('module', $distribution->getPath('resources/views'));
+        app('streams.asset')->addNamespace('module', $distribution->getPath('resources'));
+        app('streams.image')->addNamespace('module', $distribution->getPath('resources'));
+        app('translator')->addNamespace('module', $distribution->getPath('resources/lang'));
     }
 }
