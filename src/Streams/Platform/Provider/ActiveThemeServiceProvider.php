@@ -26,7 +26,7 @@ class ActiveThemeServiceProvider extends ServiceProvider
         } else {
 
             $theme = $distribution->getPublicTheme();
-            
+
         }
 
         $theme->setActive(true);
