@@ -23,7 +23,9 @@ class Asset
     public function add($group, $asset, array $filters = [])
     {
         if (!isset($this->groups[$group])) {
+
             $this->groups[$group] = [];
+
         }
 
         $filters = $this->addConvenientFilters($asset, $filters);
@@ -31,7 +33,9 @@ class Asset
         $asset = $this->replaceNamespace($asset);
 
         if (file_exists($asset) or is_dir(trim($asset, '*'))) {
+
             $this->groups[$group][$asset] = $filters;
+
         }
 
         return $this;
