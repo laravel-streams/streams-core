@@ -9,7 +9,7 @@ class Application
      *
      * @var null
      */
-    protected $reference = 'default';
+    protected $reference = null;
 
     /**
      * Keep installed status around.
