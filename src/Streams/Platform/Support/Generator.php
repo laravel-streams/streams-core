@@ -4,77 +4,30 @@ use Illuminate\Filesystem\Filesystem as File;
 
 class Generator
 {
-    /**
-     * File path to generate.
-     *
-     * @var string
-     */
-    protected $path = null;
+    protected $file;
+    protected $compiler;
 
-    /**
-     * File system instance.
-     *
-     * @var File
-     */
-    protected $file = null;
-
-    /**
-     * The template file name.
-     *
-     * @var Cache
-     */
-    protected $templateFilename = null;
-
-    /**
-     * Create a new Generator instance.
-     */
-    public function __construct()
+    function __construct()
     {
-        $this->file = new File;
+        $this->file = app('files');
+
+        $this->compiler = $this->newCompiler();
     }
 
-    /**
-     * Compile template and generate
-     *
-     * @param  string $path
-     * @param         $data
-     * @param bool    $update
-     * @return boolean
-     */
-    public function make($path, $data, $update = false)
+    public function make($template, $data, $path)
     {
-        $this->path = $this->getPath($path);
+        $template = $this->compile($template, $data);
 
-        $template = $this->template($data);
-
-        if (!$this->file->exists($this->path) or $update) {
-            return $this->file->put($this->path, $template) !== false;
-        }
-
-        return false;
+        $this->file->put($path, $template);
     }
 
-    /**
-     * Get the path to the file that should be generated.
-     *
-     * @param  string $path
-     * @return string
-     */
-    protected function getPath($path)
+    public function compile($template, $data)
     {
-        // By default, we won't do anything, but
-        // it can be overridden from a child class
-        return $path;
+        return $this->compiler->compile($template, $data);
     }
 
-    /**
-     * Get compiled template.
-     *
-     * @param $data
-     * @return null
-     */
-    protected function template($data)
+    protected function newCompiler()
     {
-        return null;
+        return new Compiler();
     }
 }
