@@ -30,6 +30,10 @@ class MiddlewareServiceProvider extends RouteServiceProvider
     {
     }
 
+    public function map()
+    {
+    }
+
     /**
      * Build the application stack based on the provider properties.
      *
@@ -37,7 +41,7 @@ class MiddlewareServiceProvider extends RouteServiceProvider
      */
     public function stack()
     {
-        $this->app->stack(
+        /*$this->app->stack(
             function (Builder $stack, Router $router) {
                 return $stack->middleware($this->stack)->then(
                     function ($request) use ($router) {
@@ -45,6 +49,6 @@ class MiddlewareServiceProvider extends RouteServiceProvider
                     }
                 );
             }
-        );
+        );*/
     }
 }
