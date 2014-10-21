@@ -58,6 +58,11 @@ class Application
      */
     public function locate($domain = null)
     {
+        // TODO: This needs to be fixed..
+        if (\Request::segment(1) == 'installer') {
+            return false;
+        }
+
         if (\Schema::hasTable('applications')) {
             if (!$this->reference) {
                 if (!$domain) {
