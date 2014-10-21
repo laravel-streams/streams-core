@@ -23,8 +23,10 @@ class ModuleService
 
     public function install($module)
     {
-        foreach ($module->newInstaller()->getInstallers() as $installer) {
-            $this->app->make($installer)->install();
+        if ($installer = $module->newInstaller()) {
+            foreach (app($installer)->getInstallers() as $installer) {
+                $this->app->make($installer)->install();
+            }
         }
 
         $this->raise(new ModuleWasInstalledEvent($module));

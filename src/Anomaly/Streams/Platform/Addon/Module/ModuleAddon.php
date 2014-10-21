@@ -88,14 +88,6 @@ class ModuleAddon extends Addon implements PresentableInterface
     {
         $transformer = $this->getTransformer();
 
-        try {
-
-            return app($transformer->toInstaller($this));
-
-        } catch (\Exception $e) {
-
-            return new ModuleInstaller();
-
-        }
+        return $transformer->toInstaller($this);
     }
 }
