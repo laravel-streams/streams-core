@@ -92,7 +92,7 @@ class AddonServiceProvider extends ServiceProvider
     {
         $paths = [];
 
-        $path = base_path('core/addons/' . $this->folder);
+        $path = base_path('core/' . $this->folder);
 
         if (is_dir($path)) {
             $paths = app('files')->directories($path);
