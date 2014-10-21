@@ -2,9 +2,9 @@
 
 use Illuminate\Routing\Router;
 use Illuminate\Routing\Stack\Builder;
-use Illuminate\Foundation\Support\Providers\AppServiceProvider;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 
-class MiddlewareServiceProvider extends AppServiceProvider
+class MiddlewareServiceProvider extends RouteServiceProvider
 {
     /**
      * All of the application's route middleware keys.
