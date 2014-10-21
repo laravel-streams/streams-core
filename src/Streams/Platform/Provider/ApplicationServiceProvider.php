@@ -11,14 +11,23 @@ class ApplicationServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $request = app('request');
+
         $this->app->instance('streams.application', new Application(new ApplicationModel(), $this->app));
 
         app('config')->addNamespace('streams', __DIR__ . '/../../../../resources/config');
 
-        app('streams.application')->locate();
+        if ($request->segment(1) !== 'installer') {
 
-        app('streams.application')->setup();
+            app('streams.application')->locate();
+            app('streams.application')->setup();
 
-        define('APP_REF', app('streams.application')->getReference());
+            define('APP_REF', app('streams.application')->getReference());
+
+        } else {
+
+            define('APP_REF', 'default');
+
+        }
     }
 }
