@@ -50,15 +50,25 @@ function boolean($value, $arguments = [])
 function evaluate($value, $arguments = [])
 {
     if ($value instanceof \Closure) {
+
         try {
+
             return call_user_func_array($value, $arguments);
+
         } catch (\Exception $e) {
+
             return null;
+
         }
+
     } elseif (is_array($value)) {
+
         foreach ($value as &$val) {
+
             $val = evaluate($val, $arguments);
+
         }
+
     }
 
     return $value;
@@ -140,26 +150,37 @@ function request_time()
 function merge($string, $data)
 {
     if (!is_array($data)) {
+
         if (!$data instanceof \Streams\Platform\Contract\ArrayableInterface) {
+
             return null;
+
         } else {
+
             $data = $data->toArray();
+
         }
+
     }
 
     preg_match_all('/\{([a-z._)]*)\}/', $string, $matches);
 
     if (isset($matches[0])) {
+
         foreach ($matches[0] as $match) {
+
             $value = $data;
             $parts = explode('.', substr($match, 1, -1));
 
             foreach ($parts as $attribute) {
+
                 $value = evaluate_key($value, $attribute);
+
             }
 
             $string = str_replace($match, $value, $string);
         }
+
     }
 
     return $string;
@@ -188,7 +209,9 @@ function crud($base, $controller)
 function referer($fallback = null)
 {
     if (!$fallback) {
+
         $fallback = url();
+
     }
 
     return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $fallback;
@@ -203,4 +226,27 @@ function referer($fallback = null)
 function streams_path($path = null)
 {
     return dirname(__DIR__) . ($path ? '/' . $path : null);
+}
+
+/**
+ * Create a random hash string based on microtime.
+ *
+ * @param int $length
+ * @return string
+ */
+function rand_string($length = 10)
+{
+    $chars  = 'ABCDEFGHKLMNOPQRSTWXYZabcdefghjkmnpqrstwxyz';
+    $max    = strlen($chars) - 1;
+    $string = '';
+
+    mt_srand((double)microtime() * 1000000);
+
+    while (strlen($string) < $length) {
+
+        $string .= $chars{mt_rand(0, $max)};
+
+    }
+
+    return $string;
 }
