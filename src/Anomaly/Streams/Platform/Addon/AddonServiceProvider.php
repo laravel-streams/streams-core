@@ -163,7 +163,7 @@ class AddonServiceProvider extends ServiceProvider
 
     protected function getNamespace($slug)
     {
-        return 'Streams\Addon\\' . studly_case($this->type) . '\\' . studly_case($slug);
+        return 'Anomaly\Streams\Addon\\' . studly_case($this->type) . '\\' . studly_case($slug);
     }
 
     protected function getClass($slug)
