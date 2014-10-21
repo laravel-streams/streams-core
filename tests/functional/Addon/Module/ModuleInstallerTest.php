@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Addon\Module;
+<?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 class ModuleInstallerTest extends \PHPUnit_Framework_TestCase
 {

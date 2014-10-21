@@ -1,6 +1,6 @@
 <?php namespace Streams\Addon\FieldType\Testable;
 
-class TestableFieldType extends \Streams\Platform\Addon\FieldType\FieldTypeAddon
+class TestableFieldType extends \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon
 {
 }
  

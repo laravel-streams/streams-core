@@ -1,10 +1,10 @@
-<?php namespace Streams\Platform\Addon\Block;
+<?php namespace Anomaly\Streams\Platform\Addon\Block;
 
 class BlockServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
     public static function setUpBeforeClass()
     {
-        $provider = new \Streams\Platform\Provider\AddonServiceProvider(app());
+        $provider = new \Anomaly\Streams\Platform\Provider\AddonServiceProvider(app());
 
         $provider->register();
     }
@@ -17,7 +17,7 @@ class BlockServiceProviderTest extends \PHPUnit_Framework_TestCase
 
         $provider->register();
 
-        $expected = 'Streams\Platform\Addon\Block\BlockPresenter';
+        $expected = 'Anomaly\Streams\Platform\Addon\Block\BlockPresenter';
         $actual   = app('streams.block.testable');
 
         $this->assertInstanceOf($expected, $actual);
@@ -31,7 +31,7 @@ class BlockServiceProviderTest extends \PHPUnit_Framework_TestCase
 
         $provider->register();
 
-        $expected = 'Streams\Platform\Addon\Block\BlockPresenter';
+        $expected = 'Anomaly\Streams\Platform\Addon\Block\BlockPresenter';
         $actual   = app('streams.blocks')->findBySlug('testable');
 
         $this->assertInstanceOf($expected, $actual);

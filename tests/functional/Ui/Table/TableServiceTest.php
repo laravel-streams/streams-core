@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Ui\Table;
+<?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 class TableServiceTest extends \PHPUnit_Framework_TestCase
 {

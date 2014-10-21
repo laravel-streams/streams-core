@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Addon\Module;
+<?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 class ModuleAddonTest extends \PHPUnit_Framework_TestCase
 {
@@ -6,7 +6,7 @@ class ModuleAddonTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        $provider = new \Streams\Platform\Provider\AddonServiceProvider(app());
+        $provider = new \Anomaly\Streams\Platform\Provider\AddonServiceProvider(app());
 
         $provider->register();
 
@@ -65,7 +65,7 @@ class ModuleAddonTest extends \PHPUnit_Framework_TestCase
     {
         $module = self::$module;
 
-        $expected = 'Streams\Platform\Addon\Module\ModuleTag';
+        $expected = 'Anomaly\Streams\Platform\Addon\Module\ModuleTag';
         $actual   = $module->newTag();
 
         $this->assertInstanceOf($expected, $actual);
@@ -75,7 +75,7 @@ class ModuleAddonTest extends \PHPUnit_Framework_TestCase
     {
         $module = self::$module;
 
-        $expected = 'Streams\Platform\Addon\Module\ModulePresenter';
+        $expected = 'Anomaly\Streams\Platform\Addon\Module\ModulePresenter';
         $actual   = $module->newPresenter();
 
         $this->assertInstanceOf($expected, $actual);
@@ -85,7 +85,7 @@ class ModuleAddonTest extends \PHPUnit_Framework_TestCase
     {
         $module = self::$module;
 
-        $expected = 'Streams\Platform\Addon\Module\ModuleInstaller';
+        $expected = 'Anomaly\Streams\Platform\Addon\Module\ModuleInstaller';
         $actual   = $module->newInstaller();
 
         $this->assertInstanceOf($expected, $actual);

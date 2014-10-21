@@ -151,7 +151,7 @@ function merge($string, $data)
 {
     if (!is_array($data)) {
 
-        if (!$data instanceof \Streams\Platform\Contract\ArrayableInterface) {
+        if (!$data instanceof \Anomaly\Streams\Platform\Contract\ArrayableInterface) {
 
             return null;
 

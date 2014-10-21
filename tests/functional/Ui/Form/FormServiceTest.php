@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Ui\Form;
+<?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 class FormServiceTest extends \PHPUnit_Framework_TestCase
 {

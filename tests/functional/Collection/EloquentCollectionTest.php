@@ -1,19 +1,19 @@
 <?php
 
-use Streams\Platform\Collection\EloquentCollection;
+use Anomaly\Streams\Platform\Collection\EloquentCollection;
 
 class EloquentCollectionTest extends \PHPUnit_Framework_TestCase
 {
     protected function stub()
     {
-        return new EloquentCollection([new \Streams\Platform\Model\EloquentModel]);
+        return new EloquentCollection([new \Anomaly\Streams\Platform\Model\EloquentModel]);
     }
 
     public function testItDecoratesModels()
     {
         $collection = $this->stub();
 
-        $this->assertInstanceOf('Streams\Platform\Model\EloquentPresenter', $collection->first());
+        $this->assertInstanceOf('Anomaly\Streams\Platform\Model\EloquentPresenter', $collection->first());
     }
 }
  

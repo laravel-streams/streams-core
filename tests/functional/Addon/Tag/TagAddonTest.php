@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Addon\Tag;
+<?php namespace Anomaly\Streams\Platform\Addon\Tag;
 
 use Anomaly\Lexicon\Lexicon;
 
@@ -8,7 +8,7 @@ class TagAddonTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        $provider = new \Streams\Platform\Provider\AddonServiceProvider(app());
+        $provider = new \Anomaly\Streams\Platform\Provider\AddonServiceProvider(app());
 
         $provider->register();
 
@@ -67,7 +67,7 @@ class TagAddonTest extends \PHPUnit_Framework_TestCase
     {
         $tag = self::$tag;
 
-        $expected = 'Streams\Platform\Addon\Tag\TagPresenter';
+        $expected = 'Anomaly\Streams\Platform\Addon\Tag\TagPresenter';
         $actual   = $tag->newPresenter();
 
         $this->assertInstanceOf($expected, $actual);

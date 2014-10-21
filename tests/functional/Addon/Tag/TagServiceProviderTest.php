@@ -1,12 +1,12 @@
-<?php namespace Streams\Platform\Addon\Tag;
+<?php namespace Anomaly\Streams\Platform\Addon\Tag;
 
-use Streams\Platform\Addon\Theme\ThemeServiceProvider;
+use Anomaly\Streams\Platform\Addon\Theme\ThemeServiceProvider;
 
 class TagServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
     public static function setUpBeforeClass()
     {
-        $provider = new \Streams\Platform\Provider\AddonServiceProvider(app());
+        $provider = new \Anomaly\Streams\Platform\Provider\AddonServiceProvider(app());
 
         $provider->register();
     }
@@ -19,7 +19,7 @@ class TagServiceProviderTest extends \PHPUnit_Framework_TestCase
 
         $provider->register();
 
-        $expected = 'Streams\Platform\Addon\Tag\TagPresenter';
+        $expected = 'Anomaly\Streams\Platform\Addon\Tag\TagPresenter';
         $actual   = app('streams.tag.testable');
 
         $this->assertInstanceOf($expected, $actual);

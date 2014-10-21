@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Asset;
+<?php namespace Anomaly\Streams\Platform\Asset;
 
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $image2 = $image->make('phpunit::img/foo.jpg');
 
-        $this->assertInstanceOf('Streams\Platform\Asset\Image', $image2);
+        $this->assertInstanceOf('Anomaly\Streams\Platform\Asset\Image', $image2);
     }
 
     public function testItCanGetSupportedFilters()
@@ -416,7 +416,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     protected function stub()
     {
-        return (new \Streams\Platform\Asset\Image())
+        return (new \Anomaly\Streams\Platform\Asset\Image())
             ->setPublish(true)
             ->setDirectory(__DIR__ . '/../../public/')
             ->addNamespace('phpunit', __DIR__ . '/../../resources');

@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Support;
+<?php namespace Anomaly\Streams\Platform\Support;
 
 use Foo\Bar\Baz;
 use Foo\Bar\FooBar;

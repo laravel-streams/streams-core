@@ -1,6 +1,6 @@
 <?php
 
-use Streams\Platform\Collection\CacheCollection;
+use Anomaly\Streams\Platform\Collection\CacheCollection;
 
 class CacheCollectionTest extends \PHPUnit_Framework_TestCase
 {

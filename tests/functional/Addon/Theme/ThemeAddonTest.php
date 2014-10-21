@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Addon\Theme;
+<?php namespace Anomaly\Streams\Platform\Addon\Theme;
 
 class ThemeAddonTest extends \PHPUnit_Framework_TestCase
 {
@@ -6,7 +6,7 @@ class ThemeAddonTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        $provider = new \Streams\Platform\Provider\AddonServiceProvider(app());
+        $provider = new \Anomaly\Streams\Platform\Provider\AddonServiceProvider(app());
 
         $provider->register();
 
@@ -37,7 +37,7 @@ class ThemeAddonTest extends \PHPUnit_Framework_TestCase
     {
         $theme = self::$theme;
 
-        $expected = 'Streams\Platform\Addon\Theme\ThemeTag';
+        $expected = 'Anomaly\Streams\Platform\Addon\Theme\ThemeTag';
         $actual   = $theme->newTag();
 
         $this->assertInstanceOf($expected, $actual);
@@ -47,7 +47,7 @@ class ThemeAddonTest extends \PHPUnit_Framework_TestCase
     {
         $theme = self::$theme;
 
-        $expected = 'Streams\Platform\Addon\Theme\ThemePresenter';
+        $expected = 'Anomaly\Streams\Platform\Addon\Theme\ThemePresenter';
         $actual   = $theme->newPresenter();
 
         $this->assertInstanceOf($expected, $actual);

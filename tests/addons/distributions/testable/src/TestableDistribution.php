@@ -1,6 +1,6 @@
 <?php namespace Streams\Addon\Distribution\Testable;
 
-class TestableDistribution extends \Streams\Platform\Addon\Distribution\DistributionAddon
+class TestableDistribution extends \Anomaly\Streams\Platform\Addon\Distribution\DistributionAddon
 {
 }
  

@@ -1,10 +1,10 @@
-<?php namespace Streams\Platform\Addon\Extension;
+<?php namespace Anomaly\Streams\Platform\Addon\Extension;
 
 class ExtensionCollectionTest extends \PHPUnit_Framework_TestCase
 {
     public static function setUpBeforeClass()
     {
-        $provider = new \Streams\Platform\Provider\AddonServiceProvider(app());
+        $provider = new \Anomaly\Streams\Platform\Provider\AddonServiceProvider(app());
 
         $provider->register();
     }

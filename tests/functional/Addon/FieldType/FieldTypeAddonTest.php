@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Addon\FieldType;
+<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 class FieldTypeAddonTest extends \PHPUnit_Framework_TestCase
 {
@@ -6,7 +6,7 @@ class FieldTypeAddonTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        $provider = new \Streams\Platform\Provider\AddonServiceProvider(app());
+        $provider = new \Anomaly\Streams\Platform\Provider\AddonServiceProvider(app());
 
         $provider->register();
 

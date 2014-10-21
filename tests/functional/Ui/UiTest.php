@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Ui;
+<?php namespace Anomaly\Streams\Platform\Ui;
 
 class UiTest extends \PHPUnit_Framework_TestCase
 {

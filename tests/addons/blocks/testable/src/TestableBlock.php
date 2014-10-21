@@ -1,6 +1,6 @@
 <?php namespace Streams\Addon\Block\Testable;
 
-class TestableBlock extends \Streams\Platform\Addon\Block\BlockAddon
+class TestableBlock extends \Anomaly\Streams\Platform\Addon\Block\BlockAddon
 {
 }
  

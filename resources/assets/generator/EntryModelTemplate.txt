@@ -1,6 +1,6 @@
-<?php namespace Streams\Platform\Model\{namespacePrefix};
+<?php namespace Anomaly\Streams\Platform\Model\{namespacePrefix};
 
-use Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Entry\EntryModel;
 
 class {className} extends EntryModel
 {

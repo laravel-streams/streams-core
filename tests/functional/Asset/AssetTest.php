@@ -1,4 +1,4 @@
-<?php namespace Streams\Platform\Asset;
+<?php namespace Anomaly\Streams\Platform\Asset;
 
 class AssetTest extends \PHPUnit_Framework_TestCase
 {

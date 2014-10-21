@@ -1,6 +1,6 @@
 <?php namespace Streams\Addon\Theme\Testable;
 
-class TestableTheme extends \Streams\Platform\Addon\Theme\ThemeAddon
+class TestableTheme extends \Anomaly\Streams\Platform\Addon\Theme\ThemeAddon
 {
 }
  

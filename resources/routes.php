@@ -4,8 +4,8 @@
 Route::when('admin*', 'auth');
 
 // Login routes
-Route::get('admin/login', 'Streams\Platform\Http\Controller\AdminController@login');
-Route::post('admin/login', 'Streams\Platform\Http\Controller\AdminController@attemptLogin');
+Route::get('admin/login', 'Anomaly\Streams\Platform\Http\Controller\AdminController@login');
+Route::post('admin/login', 'Anomaly\Streams\Platform\Http\Controller\AdminController@attemptLogin');
 
 Route::get('admin/addons/modules', 'Streams\Addon\Module\Addons\Controller\Admin\ModulesController@index');
 Route::get('admin/addons/modules/create', 'Streams\Addon\Module\Addons\Controller\Admin\ModulesController@create');

@@ -123,7 +123,7 @@ return [
 		/**
          * Streams Platform Service Provider...
          */
-        'Streams\Platform\StreamsServiceProvider'
+        'Anomaly\Streams\Platform\StreamsServiceProvider'
 
 	],
 

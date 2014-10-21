@@ -1,12 +1,12 @@
-<?php namespace Streams\Platform\Addon\Distribution;
+<?php namespace Anomaly\Streams\Platform\Addon\Distribution;
 
-use Streams\Platform\Addon\Theme\ThemeServiceProvider;
+use Anomaly\Streams\Platform\Addon\Theme\ThemeServiceProvider;
 
 class DistributionServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
     public static function setUpBeforeClass()
     {
-        $provider = new \Streams\Platform\Provider\AddonServiceProvider(app());
+        $provider = new \Anomaly\Streams\Platform\Provider\AddonServiceProvider(app());
 
         $provider->register();
     }
@@ -19,7 +19,7 @@ class DistributionServiceProviderTest extends \PHPUnit_Framework_TestCase
 
         $provider->register();
 
-        $expected = 'Streams\Platform\Addon\Distribution\DistributionPresenter';
+        $expected = 'Anomaly\Streams\Platform\Addon\Distribution\DistributionPresenter';
         $actual   = app('streams.distribution.testable');
 
         $this->assertInstanceOf($expected, $actual);
@@ -33,7 +33,7 @@ class DistributionServiceProviderTest extends \PHPUnit_Framework_TestCase
 
         $provider->register();
 
-        $expected = 'Streams\Platform\Addon\Distribution\DistributionPresenter';
+        $expected = 'Anomaly\Streams\Platform\Addon\Distribution\DistributionPresenter';
         $actual   = app('streams.distributions')->findBySlug('testable');
 
         $this->assertInstanceOf($expected, $actual);
