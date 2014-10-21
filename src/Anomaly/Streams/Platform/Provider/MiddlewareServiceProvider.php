@@ -26,6 +26,10 @@ class MiddlewareServiceProvider extends RouteServiceProvider
         'Anomaly\Streams\Platform\Http\Middleware\InstallerMiddleware',
     ];
 
+    public function before()
+    {
+    }
+
     /**
      * Build the application stack based on the provider properties.
      *
