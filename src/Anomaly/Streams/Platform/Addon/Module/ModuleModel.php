@@ -9,7 +9,7 @@ class ModuleModel extends EloquentModel
      *
      * @var string
      */
-    protected $table = 'addons_modules';
+    protected $table = 'streams_modules';
 
     /**
      * Mark an addon as installed.
