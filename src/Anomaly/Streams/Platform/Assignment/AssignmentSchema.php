@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-
 class AssignmentSchema
 {
     /**
@@ -30,9 +28,9 @@ class AssignmentSchema
     {
         $assignment = $this->model;
 
-        $fieldType = $assignment->field->type->setAssignment($assignment);
+        $fieldType = app('streams.field_types')->findBySlug($assignment->field->type);
 
-        $columnName = $fieldType->columnName();
+        $columnName = $fieldType->getColumnName();
 
         $entryTable = $assignment->stream->entryTable();
 
@@ -90,7 +88,7 @@ class AssignmentSchema
 
         $fieldType = $assignment->field->type->setAssignment($assignment);
 
-        $columnName = $fieldType->columnName();
+        $columnName = $fieldType->getColumnName();
 
         $entryTable = $assignment->stream->entryTable();
 

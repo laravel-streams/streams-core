@@ -23,7 +23,7 @@ class FieldService
         $namespace = $field['namespace'];
 
         $name = isset($field['name']) ? $field['name'] : null;
-        
+
         $rules    = isset($field['rules']) ? $field['rules'] : [];
         $settings = isset($field['settings']) ? $field['settings'] : [];
         $isLocked = isset($field['is_locked']) ? $field['is_locked'] : false;
@@ -65,22 +65,7 @@ class FieldService
         $settings       = isset($assignment['settings']) ? $assignment['settings'] : [];
         $rules          = isset($assignment['rules']) ? $assignment['rules'] : [];
 
-        // Determine the assignment name.
-        if (!isset($assignment['name'])) {
-            if (isset($assignment['lang'])) {
-                $assignment['name'] = "{$assignment['lang']}::field.{$field}.name";
-            }
-        }
-
-        $name = isset($assignment['name']) ? $assignment['name'] : null;
-
-        // Determine the assignment instructions.
-        if (!isset($assignment['instructions'])) {
-            if (isset($assignment['lang'])) {
-                $assignment['instructions'] = "{$assignment['lang']}::field.{$field}.name";
-            }
-        }
-
+        $name         = isset($assignment['name']) ? $assignment['name'] : null;
         $instructions = isset($assignment['instructions']) ? $assignment['instructions'] : null;
 
         $command = new AssignFieldCommand(

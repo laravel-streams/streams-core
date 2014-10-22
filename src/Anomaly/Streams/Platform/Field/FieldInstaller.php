@@ -2,24 +2,20 @@
 
 class FieldInstaller
 {
+    protected $addonType = null;
+
     protected $namespace = null;
 
     protected $fields = [];
 
-    protected $service;
+    protected $fieldService;
 
-    public function __construct(FieldService $service)
+    public function __construct(FieldService $fieldService)
     {
-        $this->service = $service;
+        $this->fieldService = $fieldService;
 
-        if (!$this->namespace) {
-
-            $namespace = (new \ReflectionClass($this))->getShortName();
-            $namespace = str_replace('FieldInstaller', null, $namespace);
-
-            $this->namespace = snake_case($namespace);
-
-        }
+        $this->setAddonType();
+        $this->setNamespace();
     }
 
     public function install()
@@ -32,7 +28,7 @@ class FieldInstaller
             $field['namespace'] = $this->getNamespace($field);
             $field['name']      = $this->getName($field);
 
-            $this->service->add($field);
+            $this->fieldService->add($field);
 
         }
 
@@ -45,7 +41,7 @@ class FieldInstaller
 
             $namespace = $this->getNamespace($field);
 
-            $this->service->remove($namespace, $slug);
+            $this->fieldService->remove($namespace, $slug);
 
         }
 
@@ -59,8 +55,31 @@ class FieldInstaller
 
     protected function getName($field)
     {
-        $default = 'module.' . $field['namespace'] . "::field.{$field['slug']}.name";
+        $default = "{$this->addonType}." . $field['namespace'] . "::field.{$field['slug']}.name";
 
         return isset($field['name']) ? $field['name'] : $default;
+    }
+
+    protected function setAddonType()
+    {
+        if (!$this->addonType) {
+
+            $addonType = explode('\\', (new \ReflectionClass($this))->getName());
+
+            $this->addonType = snake_case($addonType[3]);
+
+        }
+    }
+
+    protected function setNamespace()
+    {
+        if (!$this->namespace) {
+
+            $namespace = (new \ReflectionClass($this))->getShortName();
+            $namespace = str_replace('FieldInstaller', null, $namespace);
+
+            $this->namespace = snake_case($namespace);
+
+        }
     }
 }

@@ -178,28 +178,11 @@ class FieldModel extends EloquentModel
         $this->attributes['rules'] = json_encode($rules);
     }
 
-    /**
-     * Return the type attribute.
-     *
-     * @param $type
-     * @return mixed
-     */
-    public function getTypeAttribute($type)
-    {
-        return app('streams.field_types')->get($type);
-    }
-
     public function newPresenter()
     {
         return new FieldPresenter($this);
     }
 
-    /**
-     * Return a new collection instance.
-     *
-     * @param array $items
-     * @return \Illuminate\Database\Eloquent\Collection|FieldCollection
-     */
     public function newCollection(array $items = [])
     {
         return new FieldCollection($items);
