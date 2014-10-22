@@ -12,6 +12,13 @@ class ModuleModel extends EloquentModel
     protected $table = 'streams_modules';
 
     /**
+     * Disable timestamps for this model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * Mark an addon as installed.
      *
      * @param $slug
