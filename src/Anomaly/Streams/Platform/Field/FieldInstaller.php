@@ -2,60 +2,65 @@
 
 class FieldInstaller
 {
-    /**
-     * The default field namespace.
-     *
-     * @var null
-     */
     protected $namespace = null;
 
-    /**
-     * Fields to install.
-     *
-     * @var array
-     */
     protected $fields = [];
 
-    protected $fieldService;
+    protected $service;
 
-    public function __construct(FieldService $fieldService)
+    public function __construct(FieldService $service)
     {
-        $this->fieldService = $fieldService;
+        $this->service = $service;
+
+        if (!$this->namespace) {
+
+            $namespace = (new \ReflectionClass($this))->getShortName();
+            $namespace = str_replace('FieldInstaller', null, $namespace);
+
+            $this->namespace = snake_case($namespace);
+
+        }
     }
 
-    /**
-     * Install the fields.
-     *
-     * @return bool
-     */
     public function install()
     {
         foreach ($this->fields as $slug => $field) {
 
             // Catch some convenient defaults.
-            $field['namespace'] = isset($field['namespace']) ? $field['namespace'] : $this->namespace;
-            $field['lang']      = isset($field['lang']) ? $field['lang'] : 'module.' . $field['namespace'];
-            $field['slug']      = $slug;
+            $field['slug'] = $slug;
 
-            $this->fieldService->add($field);
+            $field['namespace'] = $this->getNamespace($field);
+            $field['name']      = $this->getName($field);
+
+            $this->service->add($field);
+
         }
 
         return true;
     }
 
-    /**
-     * Uninstall the fields.
-     *
-     * @return bool
-     */
     public function uninstall()
     {
         foreach ($this->fields as $slug => $field) {
-            $namespace = isset($field['namespace']) ? $field['namespace'] : $this->namespace;
 
-            $this->fieldService->remove($namespace, $slug);
+            $namespace = $this->getNamespace($field);
+
+            $this->service->remove($namespace, $slug);
+
         }
 
         return true;
+    }
+
+    protected function getNamespace($field)
+    {
+        return isset($field['namespace']) ? $field['namespace'] : $this->namespace;
+    }
+
+    protected function getName($field)
+    {
+        $default = 'module.' . $field['namespace'] . "::field.{$field['slug']}.name";
+
+        return isset($field['name']) ? $field['name'] : $default;
     }
 }

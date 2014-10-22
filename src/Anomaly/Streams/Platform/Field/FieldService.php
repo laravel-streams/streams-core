@@ -18,24 +18,15 @@ class FieldService
      */
     public function add(array $field)
     {
-        // Mandatory properties.
         $slug      = $field['slug'];
         $type      = $field['type'];
         $namespace = $field['namespace'];
 
-        // Optional properties
+        $name = isset($field['name']) ? $field['name'] : null;
+        
         $rules    = isset($field['rules']) ? $field['rules'] : [];
         $settings = isset($field['settings']) ? $field['settings'] : [];
         $isLocked = isset($field['is_locked']) ? $field['is_locked'] : false;
-
-        // Determine the field name.
-        if (!isset($field['name'])) {
-            if (isset($field['lang'])) {
-                $field['name'] = "{$field['lang']}::field.{$field['slug']}.name";
-            }
-        }
-
-        $name = isset($field['name']) ? $field['name'] : null;
 
         $command = new AddFieldCommand($namespace, $slug, $type, $name, $settings, $rules, $isLocked);
 
