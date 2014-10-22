@@ -1,10 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Illuminate\Foundation\Application;
-use Anomaly\Streams\Platform\Support\Dispatcher;
 use Anomaly\Streams\Platform\Traits\EventableTrait;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
+use Anomaly\Streams\Platform\Addon\Module\Command\SyncModulesCommand;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalledEvent;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalledEvent;
 
@@ -51,5 +51,12 @@ class ModuleService
         $module->fire('after_uninstall');
 
         return true;
+    }
+
+    public function sync()
+    {
+        $command = new SyncModulesCommand();
+
+        $this->execute($command);
     }
 }

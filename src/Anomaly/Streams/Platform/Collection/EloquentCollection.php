@@ -13,9 +13,35 @@ class EloquentCollection extends Collection
     public function __construct($models = [])
     {
         foreach ($models as &$model) {
+
             $model = app('streams.decorator')->decorate($model);
+
         }
 
         return parent::__construct($models);
+    }
+
+    /**
+     * Return an item by it's slug.
+     * This is very common so let's do it!
+     *
+     * @param $slug
+     * @return null
+     */
+    public function findBySlug($slug)
+    {
+        $match = null;
+
+        foreach ($this->items as $item) {
+
+            if ($item->slug == $slug) {
+
+                $match = $item;
+
+            }
+
+        }
+
+        return $match;
     }
 }
