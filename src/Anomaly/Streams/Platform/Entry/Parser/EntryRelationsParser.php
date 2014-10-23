@@ -8,7 +8,7 @@ class EntryRelationsParser
     {
         $string = '';
 
-        foreach ($this->relationFields($stream) as $assignment) {
+        foreach ($stream->assignments->relations() as $assignment) {
 
             $type = $assignment->getType();
 
@@ -18,7 +18,7 @@ class EntryRelationsParser
 
             $relationArray = $type->relation();
 
-            $method = Str::camel($assignment->field->field_slug);
+            $method = camel_case($assignment->field->field_slug);
 
             $relationMethod = $relationArray['method'];
 

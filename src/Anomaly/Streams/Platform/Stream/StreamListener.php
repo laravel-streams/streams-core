@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelCommand;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasDeletedEvent;
 use Anomaly\Streams\Platform\Support\Listener;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
@@ -30,6 +31,10 @@ class StreamListener extends Listener
             $this->execute($command);
 
         }
+
+        $command = new GenerateEntryModelCommand($event->getStream());
+
+        $this->execute($command);
     }
 
     public function whenStreamWasDeleted(StreamWasDeletedEvent $event)

@@ -15,6 +15,8 @@ class Generator
     {
         $template = $this->compile($template, $data);
 
+        $this->file->makeDirectory(dirname($path), 0755, true, true);
+
         $this->file->put($path, $template);
     }
 

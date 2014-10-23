@@ -4,8 +4,6 @@ use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
-use Anomaly\Streams\Platform\Stream\Event\StreamWasAddedEvent;
-use Anomaly\Streams\Platform\Stream\Event\StreamWasRemovedEvent;
 
 class StreamModel extends EloquentModel
 {
@@ -76,7 +74,7 @@ class StreamModel extends EloquentModel
 
         $this->save();
 
-        $this->raise(new StreamWasAddedEvent($this));
+        //$this->raise(new StreamWasAddedEvent($this));
 
         return $this;
     }
@@ -94,7 +92,7 @@ class StreamModel extends EloquentModel
 
             $stream->delete();
 
-            $this->raise(new StreamWasRemovedEvent($stream));
+            //$this->raise(new StreamWasRemovedEvent($stream));
 
             return $stream;
 

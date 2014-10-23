@@ -40,14 +40,15 @@ class EntryGenerator extends Generator
 
     public function compile($template, $data)
     {
-        $class     = $this->class->parse($data);
-        $table     = $this->table->parse($data);
-        $rules     = $this->rules->parse($data);
-        $stream    = $this->stream->parse($data);
-        $relations = $this->relations->parse($data);
-        $namespace = $this->namespace->parse($data);
+        $class          = $this->class->parse($data);
+        $table          = $this->table->parse($data);
+        $rules          = $this->rules->parse($data);
+        $stream         = $this->stream->parse($data);
+        $relations      = $this->relations->parse($data);
+        $namespace      = $this->namespace->parse($data);
+        $relationFields = $this->relationFields->parse($data);
 
-        $data = compact('class', 'table', 'rules', 'stream', 'relations', 'namespace');
+        $data = compact('class', 'table', 'rules', 'stream', 'relations', 'namespace', 'relationFields');
 
         return parent::compile($template, $data);
     }

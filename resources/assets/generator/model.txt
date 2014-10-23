@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Entry\EntryModel;
 
 class {class} extends EntryModel
 {
-    protected $table = {table};
+    protected $table = '{table}';
 
     public static $rules = {rules};
 
