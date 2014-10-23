@@ -23,6 +23,8 @@ class AssignmentObserver extends EloquentObserver
      */
     public function saved($model)
     {
+        $model->stream->save();
+
         parent::saved($model);
     }
 

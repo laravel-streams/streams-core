@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
 class EloquentObserver
 {
-    use EventableTrait;
     use DispatchableTrait;
 
     /**

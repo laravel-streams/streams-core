@@ -11,6 +11,8 @@ class AssignmentListener extends Listener
 
     public function whenFieldWasAssigned(FieldWasAssignedEvent $event)
     {
+        // TODO: The command should be more dumb and ONLY do one thing.
+        // this command actually does two.
         $command = new AddAssignmentColumnCommand($event->getAssignment());
 
         $this->execute($command);

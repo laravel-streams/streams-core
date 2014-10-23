@@ -1,8 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Stream\Event\StreamWasDeletedEvent;
 use Anomaly\Streams\Platform\Support\Listener;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Anomaly\Streams\Platform\Stream\Event\StreamWasAddedEvent;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasCreatedEvent;
 use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTableCommand;
 use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTranslationsTableCommand;
 
@@ -10,7 +11,7 @@ class StreamListener extends Listener
 {
     use CommandableTrait;
 
-    public function whenStreamWasAdded(StreamWasAddedEvent $event)
+    public function whenStreamWasCreated(StreamWasCreatedEvent $event)
     {
         $stream = $event->getStream();
 
@@ -29,6 +30,11 @@ class StreamListener extends Listener
             $this->execute($command);
 
         }
+    }
+
+    public function whenStreamWasDeleted(StreamWasDeletedEvent $event)
+    {
+        //
     }
 }
  

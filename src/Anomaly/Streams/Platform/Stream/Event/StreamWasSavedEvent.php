@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Stream\StreamModel;
 
-class StreamWasAddedEvent
+class StreamWasSavedEvent
 {
     protected $stream;
 
