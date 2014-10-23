@@ -12,9 +12,7 @@ class AssignmentObserver extends EloquentObserver
      */
     public function saving($model)
     {
-        parent::saving($model);
-
-        return true;
+        return parent::saving($model);
     }
 
     /**
