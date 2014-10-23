@@ -1,17 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Filesystem\Filesystem as File;
-
 class Generator
 {
     protected $file;
+
     protected $compiler;
 
     function __construct()
     {
         $this->file = app('files');
-
-        $this->compiler = $this->newCompiler();
     }
 
     public function make($template, $data, $path)
@@ -23,11 +20,12 @@ class Generator
 
     public function compile($template, $data)
     {
-        return $this->compiler->compile($template, $data);
-    }
+        foreach ($data as $key => $value) {
 
-    protected function newCompiler()
-    {
-        return new Compiler();
+            $template = preg_replace("/\{(" . $key . "*)\}/", $value, $template);
+
+        }
+
+        return $template;
     }
 }

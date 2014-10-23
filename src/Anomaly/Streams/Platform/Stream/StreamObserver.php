@@ -20,7 +20,6 @@ class StreamObserver extends EloquentObserver
      */
     public function creating($model)
     {
-        $model->newSchema()->create();
     }
 
     /**
@@ -31,8 +30,6 @@ class StreamObserver extends EloquentObserver
     public function saved($model)
     {
         parent::saved($model);
-
-        $this->generator->compileEntryModel($model);
     }
 
     /**
@@ -44,8 +41,6 @@ class StreamObserver extends EloquentObserver
     public function updating($model)
     {
         parent::updating($model);
-
-        $model->newSchema()->update();
     }
 
     /**
@@ -56,9 +51,5 @@ class StreamObserver extends EloquentObserver
     public function deleted($model)
     {
         parent::deleted($model);
-
-        $model->assignments()->delete();
-
-        $model->newSchema()->delete();
     }
 }

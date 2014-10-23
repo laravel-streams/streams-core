@@ -30,9 +30,11 @@ class Dispatcher
     public function dispatch(array $events)
     {
         foreach ($events as $event) {
-            $eventName = $this->getEventName($event);
+
+            echo $eventName = $this->getEventName($event).'<br>';
 
             $this->event->fire($eventName, $event);
+
         }
     }
 
@@ -47,7 +49,9 @@ class Dispatcher
         $event = str_replace('\\', '.', get_class($event));
 
         if (substr($event, -5) == 'Event') {
+
             $event = substr($event, 0, -5);
+
         }
 
         return $event;

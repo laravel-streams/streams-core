@@ -9,14 +9,17 @@ class ListenerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerAddonListeners();
-    }
-
-    /**
-     * Register addon.* listeners.
-     */
-    protected function registerAddonListeners()
-    {
-        app('events')->listen('Anomaly.Streams.Platform.Addon.Module.Event.*', 'Anomaly\Streams\Platform\Addon\Module\ModuleListener');
+        app('events')->listen(
+            'Anomaly.Streams.Platform.Addon.Module.Event.*',
+            'Anomaly\Streams\Platform\Addon\Module\ModuleListener'
+        );
+        app('events')->listen(
+            'Anomaly.Streams.Platform.Stream.Event.*',
+            'Anomaly\Streams\Platform\Stream\StreamListener'
+        );
+        app('events')->listen(
+            'Anomaly.Streams.Platform.Assignment.Event.*',
+            'Anomaly\Streams\Platform\Assignment\AssignmentListener'
+        );
     }
 }

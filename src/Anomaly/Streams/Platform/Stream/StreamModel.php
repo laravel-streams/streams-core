@@ -4,6 +4,8 @@ use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasAddedEvent;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasRemovedEvent;
 
 class StreamModel extends EloquentModel
 {
@@ -74,7 +76,7 @@ class StreamModel extends EloquentModel
 
         $this->save();
 
-        //$this->raise();
+        $this->raise(new StreamWasAddedEvent($this));
 
         return $this;
     }
@@ -89,67 +91,36 @@ class StreamModel extends EloquentModel
     public function remove($namespace, $slug)
     {
         if ($stream = $this->whereNamespace($namespace)->whereSlug($slug)->first()) {
+
             $stream->delete();
 
-            //$this->raise();
+            $this->raise(new StreamWasRemovedEvent($stream));
 
             return $stream;
+
         }
 
         return false;
     }
 
-    /**
-     * Return all streams with given namespace.
-     *
-     * @param $namespace
-     * @return mixed
-     */
     public function findAllByNamespace($namespace)
     {
         return $this->whereNamespace($namespace)->get();
     }
 
-    /**
-     * Find by namespace and slug.
-     *
-     * @param $namespace
-     * @param $slug
-     * @return mixed
-     */
     public function findByNamespaceAndSlug($namespace, $slug)
     {
         return $this->whereNamespace($namespace)->whereSlug($slug)->first();
     }
 
-    /**
-     * Return the entry table name.
-     *
-     * @return string
-     */
-    public function entryTable()
+    public function getEntryTableName()
     {
         return $this->prefix . $this->slug;
     }
 
-    /**
-     * Return the translatable table name.
-     *
-     * @return string
-     */
-    public function translatableTable()
+    public function getEntryTranslationsTableName()
     {
-        return $this->entryTable() . '_translations';
-    }
-
-    /**
-     * Return the singular slug inflection.
-     *
-     * @return string
-     */
-    public function singular()
-    {
-        return str_singular($this->slug);
+        return $this->getEntryTableName() . '_translations';
     }
 
     public function object($data)
@@ -161,8 +132,11 @@ class StreamModel extends EloquentModel
         $streamModel->setRawAttributes($data);
 
         if (isset($data['assignments'])) {
+
             foreach ($data['assignments'] as $assignment) {
+
                 if (isset($assignment['field'])) {
+
                     $fieldModel = new FieldModel($assignment['field']);
 
                     unset($assignment['field']);
@@ -175,8 +149,11 @@ class StreamModel extends EloquentModel
                     $assignmentModel->setRelation('stream', $streamModel);
 
                     $assignments[] = $assignmentModel;
+
                 }
+
             }
+
         }
 
         $assignmentsCollection = new AssignmentCollection($assignments);
@@ -188,55 +165,33 @@ class StreamModel extends EloquentModel
         return $streamModel;
     }
 
-    /**
-     * Get the view options attribute.
-     *
-     * @param  string $viewOptions
-     * @return array
-     */
-    public function getViewOptionsAttribute(
-        $viewOptions
-    ) {
+    public function assignments()
+    {
+        return $this->hasMany('Anomaly\Streams\Platform\Assignment\AssignmentModel', 'stream_id')->orderBy(
+            'sort_order'
+        );
+    }
+
+    public function getViewOptionsAttribute($viewOptions)
+    {
         return json_decode($viewOptions);
     }
 
-    /**
-     * Set the view options attribute.
-     *
-     * @param array $viewOptions
-     */
     public function setViewOptionsAttribute($viewOptions)
     {
         $this->attributes['view_options'] = json_encode($viewOptions);
     }
 
-    /**
-     * Get the permissions attribute.
-     *
-     * @param  string $permissions
-     * @return array
-     */
     public function getPermissionsAttribute($permissions)
     {
         return json_decode($permissions);
     }
 
-    /**
-     * Set the permissions attribute.
-     *
-     * @param array $permissions
-     */
     public function setPermissionsAttribute($permissions)
     {
         $this->attributes['permissions'] = json_encode($permissions);
     }
 
-    /**
-     * Return a new collection instance.
-     *
-     * @param array $items
-     * @return \Illuminate\Database\Eloquent\Collection|StreamCollection
-     */
     public function newCollection(array $items = [])
     {
         return new StreamCollection($items);
@@ -245,25 +200,5 @@ class StreamModel extends EloquentModel
     public function newPresenter()
     {
         return new StreamPresenter($this);
-    }
-
-    /**
-     * Return a new stream schema instance.
-     *
-     * @return StreamSchema
-     */
-    public function newSchema()
-    {
-        return new StreamSchema($this);
-    }
-
-    /**
-     * Return the assignments relationship.
-     *
-     * @return object
-     */
-    public function assignments()
-    {
-        return $this->hasMany('Anomaly\Streams\Platform\Assignment\AssignmentModel', 'stream_id')->orderBy('sort_order');
     }
 }

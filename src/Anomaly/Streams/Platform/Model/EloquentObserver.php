@@ -1,7 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\Streams\Platform\Traits\EventableTrait;
+use Anomaly\Streams\Platform\Traits\DispatchableTrait;
+
 class EloquentObserver
 {
+    use DispatchableTrait;
+
     /**
      * Run before attempting to save a record.
      *
@@ -10,6 +15,8 @@ class EloquentObserver
      */
     public function saving($model)
     {
+        $this->dispatchEventsFor($model);
+
         return true;
     }
 
@@ -20,6 +27,7 @@ class EloquentObserver
      */
     public function saved($model)
     {
+        $this->dispatchEventsFor($model);
     }
 
     /**
@@ -29,6 +37,7 @@ class EloquentObserver
      */
     public function updating($model)
     {
+        $this->dispatchEventsFor($model);
     }
 
     /**
@@ -38,6 +47,8 @@ class EloquentObserver
      */
     public function updated($model)
     {
+        $this->dispatchEventsFor($model);
+
         $model->flushCacheCollection();
     }
 
@@ -48,6 +59,7 @@ class EloquentObserver
      */
     public function creating($model)
     {
+        $this->dispatchEventsFor($model);
     }
 
     /**
@@ -57,6 +69,8 @@ class EloquentObserver
      */
     public function created($model)
     {
+        $this->dispatchEventsFor($model);
+
         $model->flushCacheCollection();
     }
 
@@ -67,6 +81,7 @@ class EloquentObserver
      */
     public function deleting($model)
     {
+        $this->dispatchEventsFor($model);
     }
 
     /**
@@ -76,6 +91,8 @@ class EloquentObserver
      */
     public function deleted($model)
     {
+        $this->dispatchEventsFor($model);
+
         $model->flushCacheCollection();
     }
 
@@ -86,6 +103,7 @@ class EloquentObserver
      */
     public function restoring($model)
     {
+        $this->dispatchEventsFor($model);
     }
 
     /**
@@ -95,6 +113,8 @@ class EloquentObserver
      */
     public function restored($model)
     {
+        $this->dispatchEventsFor($model);
+
         $model->flushCacheCollection();
     }
 }

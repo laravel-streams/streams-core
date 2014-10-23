@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
+use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Assignment\Event\FieldWasAssignedEvent;
 use Anomaly\Streams\Platform\Assignment\Event\FieldWasUnassignedEvent;
@@ -111,84 +112,36 @@ class AssignmentModel extends EloquentModel
             ->get();
     }
 
-    /**
-     * Return the field type.
-     *
-     * @return mixed
-     */
-    public function fieldType()
-    {
-        return $this->field->type;
-    }
-
-    /**
-     * Return the stream relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function stream()
     {
         return $this->belongsTo('Anomaly\Streams\Platform\Stream\StreamModel', 'stream_id');
     }
 
-    /**
-     * Return the field relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function field()
     {
         return $this->belongsTo('Anomaly\Streams\Platform\Field\FieldModel');
     }
 
-    /**
-     * Return the decoded settings attribute.
-     *
-     * @param $settings
-     * @return mixed
-     */
     public function getSettingsAttribute($settings)
     {
         return json_decode($settings);
     }
 
-    /**
-     * Set settings attribute.
-     *
-     * @param array $settings
-     */
     public function setSettingsAttribute($settings)
     {
         $this->attributes['settings'] = json_encode($settings);
     }
 
-    /**
-     * Return the decoded rules attribute.
-     *
-     * @param $rules
-     * @return mixed
-     */
     public function getRulesAttribute($rules)
     {
         return json_decode($rules);
     }
 
-    /**
-     * Set rules attribute.
-     *
-     * @param array $rules
-     */
     public function setRulesAttribute($rules)
     {
         $this->attributes['rules'] = json_encode($rules);
     }
 
-    /**
-     * Return a new collection instance.
-     *
-     * @param array $items
-     * @return \Illuminate\Database\Eloquent\Collection|AssignmentCollection
-     */
     public function newCollection(array $items = [])
     {
         return new AssignmentCollection($items);
@@ -197,15 +150,5 @@ class AssignmentModel extends EloquentModel
     public function newPresenter()
     {
         return new AssignmentPresenter($this);
-    }
-
-    /**
-     * Return a new assignment schema instance.
-     *
-     * @return AssignmentSchema
-     */
-    public function newSchema()
-    {
-        return new AssignmentSchema($this);
     }
 }

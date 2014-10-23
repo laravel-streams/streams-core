@@ -1,10 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Event;
 
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+
 class FieldWasUnassignedEvent
 {
     protected $assignment;
 
-    function __construct($assignment)
+    function __construct(AssignmentModel $assignment)
     {
         $this->assignment = $assignment;
     }
