@@ -17,6 +17,8 @@ class FieldTypeAddon extends Addon implements PresentableInterface
 
     protected $placeholder = null;
 
+    protected $readOnly = false;
+
     protected $prefix = 'default';
 
     protected $columnType = 'string';
@@ -85,7 +87,13 @@ class FieldTypeAddon extends Addon implements PresentableInterface
     public function setPlaceholder($placeholder)
     {
         $this->placeholder = $placeholder;
-        
+
+        return $this;
+    }
+
+    public function setReadOnly($readOnly)
+    {
+        $this->readOnly = $readOnly;
         return $this;
     }
 
