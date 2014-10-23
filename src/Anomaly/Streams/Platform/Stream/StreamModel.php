@@ -190,6 +190,11 @@ class StreamModel extends EloquentModel
         $this->attributes['permissions'] = json_encode($permissions);
     }
 
+    public function getForeignKey()
+    {
+        return str_singular($this->slug) . '_id';
+    }
+
     public function newCollection(array $items = [])
     {
         return new StreamCollection($items);

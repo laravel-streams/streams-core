@@ -25,22 +25,12 @@ class AssignFieldCommand
     /**
      * @var
      */
-    protected $name;
+    protected $label;
 
     /**
      * @var
      */
     protected $instructions;
-
-    /**
-     * @var array
-     */
-    protected $settings;
-
-    /**
-     * @var array
-     */
-    protected $rules;
 
     /**
      * @var
@@ -59,7 +49,7 @@ class AssignFieldCommand
      * @param       $namespace
      * @param       $stream
      * @param       $field
-     * @param       $name
+     * @param       $label
      * @param       $instructions
      * @param array $settings
      * @param array $rules
@@ -71,18 +61,14 @@ class AssignFieldCommand
         $namespace,
         $stream,
         $field,
-        $name,
+        $label,
         $instructions,
-        array $settings,
-        array $rules,
         $isTranslatable,
         $isRevisionable
     ) {
-        $this->name           = $name;
-        $this->rules          = $rules;
+        $this->label           = $label;
         $this->field          = $field;
         $this->stream         = $stream;
-        $this->settings       = $settings;
         $this->sortOrder      = $sortOrder;
         $this->namespace      = $namespace;
         $this->instructions   = $instructions;
@@ -117,9 +103,9 @@ class AssignFieldCommand
     /**
      * @return mixed
      */
-    public function getName()
+    public function getLabel()
     {
-        return $this->name;
+        return $this->label;
     }
 
     /**
@@ -128,22 +114,6 @@ class AssignFieldCommand
     public function getNamespace()
     {
         return $this->namespace;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRules()
-    {
-        return $this->rules;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSettings()
-    {
-        return $this->settings;
     }
 
     /**

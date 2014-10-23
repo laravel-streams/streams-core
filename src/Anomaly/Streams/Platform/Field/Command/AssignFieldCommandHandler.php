@@ -62,10 +62,8 @@ class AssignFieldCommandHandler
             $command->getSortOrder(),
             $stream->getKey(),
             $field->getKey(),
-            $command->getName(),
+            $command->getLabel(),
             $command->getInstructions(),
-            $command->getSettings(),
-            $command->getRules(),
             $command->getIsTranslatable(),
             $command->getIsRevisionable()
         );

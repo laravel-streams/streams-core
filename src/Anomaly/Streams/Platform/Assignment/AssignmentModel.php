@@ -39,10 +39,8 @@ class AssignmentModel extends EloquentModel
      * @param $sortOrder
      * @param $streamId
      * @param $fieldId
-     * @param $name
+     * @param $label
      * @param $instructions
-     * @param $settings
-     * @param $rules
      * @param $isTranslatable
      * @param $isRevisionable
      * @return $this
@@ -51,17 +49,13 @@ class AssignmentModel extends EloquentModel
         $sortOrder,
         $streamId,
         $fieldId,
-        $name,
+        $label,
         $instructions,
-        $settings,
-        $rules,
         $isTranslatable,
         $isRevisionable
     ) {
-        $this->name            = $name;
-        $this->rules           = $rules;
+        $this->label           = $label;
         $this->field_id        = $fieldId;
-        $this->settings        = $settings;
         $this->stream_id       = $streamId;
         $this->sort_order      = $sortOrder;
         $this->instructions    = $instructions;

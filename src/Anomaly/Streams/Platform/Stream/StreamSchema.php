@@ -28,16 +28,17 @@ class StreamSchema
         );
     }
 
-    public function createTranslationsTable($table)
+    public function createTranslationsTable($table, $foreignKey)
     {
         $this->schema->dropIfExists($table);
 
         $this->schema->create(
             $table,
-            function ($table) {
+            function ($table) use ($foreignKey) {
 
                 $table->increments('id');
-                $table->string('iso')->nullable();
+                $table->integer($foreignKey);
+                $table->string('locale')->index();
 
             }
         );

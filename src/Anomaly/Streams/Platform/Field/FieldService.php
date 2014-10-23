@@ -62,10 +62,8 @@ class FieldService
         $isTranslatable = isset($assignment['is_translatable']) ? $assignment['is_translatable'] : false;
         $isRevisionable = isset($assignment['is_revisionable']) ? $assignment['is_revisionable'] : false;
         $sortOrder      = isset($assignment['sort_order']) ? $assignment['sort_order'] : 0;
-        $settings       = isset($assignment['settings']) ? $assignment['settings'] : [];
-        $rules          = isset($assignment['rules']) ? $assignment['rules'] : [];
 
-        $name         = isset($assignment['name']) ? $assignment['name'] : null;
+        $label        = isset($assignment['label']) ? $assignment['label'] : null;
         $instructions = isset($assignment['instructions']) ? $assignment['instructions'] : null;
 
         $command = new AssignFieldCommand(
@@ -73,10 +71,8 @@ class FieldService
             $namespace,
             $stream,
             $field,
-            $name,
+            $label,
             $instructions,
-            $settings,
-            $rules,
             $isTranslatable,
             $isRevisionable
         );

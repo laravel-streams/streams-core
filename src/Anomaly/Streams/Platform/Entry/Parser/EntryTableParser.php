@@ -6,7 +6,7 @@ class EntryTableParser
 {
     public function parse(StreamModel $stream)
     {
-        return "{$stream->prefix}_{$stream->slug}";
+        return "{$stream->prefix}{$stream->slug}";
     }
 }
  

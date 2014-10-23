@@ -13,7 +13,21 @@ class CreateStreamsEntryTableCommandHandler
 
     public function handle(CreateStreamsEntryTableCommand $command)
     {
-        $this->schema->createTable($command->getTable());
+        $stream = $command->getStream();
+
+        $table = $stream->getEntryTableName();
+
+        $this->schema->createTable($table);
+
+        if ($stream->is_translatable) {
+
+            $table = $stream->getEntryTranslationsTableName();
+
+            $foreignKey = $stream->getForeignKey();
+
+            $this->schema->createTranslationsTable($table, $foreignKey);
+
+        }
     }
 }
  

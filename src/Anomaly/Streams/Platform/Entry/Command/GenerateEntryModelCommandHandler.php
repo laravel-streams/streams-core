@@ -26,9 +26,9 @@ class GenerateEntryModelCommandHandler
     {
         $path = storage_path('models/streams/');
 
-        $path .= $namespace = studly_case($stream->namespace) . '/';
+        $path .= studly_case($stream->namespace) . '/';
 
-        return $path . $namespace . studly_case($stream->slug) . 'EntryModel.php';
+        return $path . studly_case($stream->namespace) . studly_case($stream->slug) . 'EntryModel.php';
     }
 }
  

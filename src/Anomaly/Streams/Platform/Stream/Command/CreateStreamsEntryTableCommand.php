@@ -1,17 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Command;
 
+use Anomaly\Streams\Platform\Stream\StreamModel;
+
 class CreateStreamsEntryTableCommand
 {
-    protected $table;
+    protected $stream;
 
-    function __construct($table)
+    function __construct(StreamModel $stream)
     {
-        $this->table = $table;
+        $this->stream = $stream;
     }
 
-    public function getTable()
+    public function getStream()
     {
-        return $this->table;
+        return $this->stream;
     }
 }
  
