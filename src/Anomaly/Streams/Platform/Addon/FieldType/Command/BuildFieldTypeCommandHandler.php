@@ -2,15 +2,25 @@
 
 class BuildFieldTypeCommandHandler
 {
-    /**
-     * Handle the command.
-     *
-     * @param $command
-     * @return mixed
-     */
     public function handle(BuildFieldTypeCommand $command)
     {
-        // TODO: Implement handle() method.
+        $collection = app('streams.field_types');
+
+        if ($fieldType = $collection->findBySlug($command->getType())) {
+
+            $fieldType
+                ->setField($command->getField())
+                ->setValue($command->getValue())
+                ->setLabel($command->getLabel())
+                ->setLocale($command->getLocale())
+                ->setInstructions($command->getInstructions())
+                ->setPlaceholder($command->getPlaceholder())
+                ->setPrefix($command->getPrefix())
+                ->setView($command->getView());
+
+        }
+
+        return $fieldType;
     }
 }
  
