@@ -1,19 +1,26 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumnCommand;
 use Anomaly\Streams\Platform\Support\Listener;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Anomaly\Streams\Platform\Assignment\Event\FieldWasAssignedEvent;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreatedEvent;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeletedEvent;
+use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumnCommand;
+use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumnCommand;
 
 class AssignmentListener extends Listener
 {
     use CommandableTrait;
 
-    public function whenFieldWasAssigned(FieldWasAssignedEvent $event)
+    public function whenAssignmentWasCreated(AssignmentWasCreatedEvent $event)
     {
-        // TODO: The command should be more dumb and ONLY do one thing.
-        // this command actually does two.
         $command = new AddAssignmentColumnCommand($event->getAssignment());
+
+        $this->execute($command);
+    }
+
+    public function whenAssignmentWasDeleted(AssignmentWasDeletedEvent $event)
+    {
+        $command = new DropAssignmentColumnCommand($event->getAssignment());
 
         $this->execute($command);
     }

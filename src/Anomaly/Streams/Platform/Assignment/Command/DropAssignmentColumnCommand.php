@@ -1,8 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Event;
+<?php namespace Anomaly\Streams\Platform\Assignment\Command;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 
-class FieldWasAssignedEvent
+class DropAssignmentColumnCommand
 {
     protected $assignment;
 
@@ -11,9 +11,6 @@ class FieldWasAssignedEvent
         $this->assignment = $assignment;
     }
 
-    /**
-     * @return mixed
-     */
     public function getAssignment()
     {
         return $this->assignment;

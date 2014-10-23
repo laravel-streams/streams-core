@@ -1,8 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Command;
+<?php namespace Anomaly\Streams\Platform\Assignment\Event;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 
-class AddAssignmentColumnCommand
+class AssignmentWasCreatedEvent
 {
     protected $assignment;
 

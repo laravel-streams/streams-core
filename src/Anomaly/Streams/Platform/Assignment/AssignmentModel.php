@@ -70,8 +70,6 @@ class AssignmentModel extends EloquentModel
 
         $this->save();
 
-        $this->raise(new FieldWasAssignedEvent($this));
-
         return $this;
     }
 
@@ -88,8 +86,6 @@ class AssignmentModel extends EloquentModel
 
         if ($assignment) {
             $assignment->delete();
-
-            $this->raise(new FieldWasUnassignedEvent($assignment));
 
             return $this;
         }

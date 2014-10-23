@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
 use Anomaly\Streams\Platform\Assignment\AssignmentService;
 
-class AddAssignmentColumnCommandHandler
+class DropAssignmentColumnCommandHandler
 {
     protected $schema;
 
@@ -15,7 +15,7 @@ class AddAssignmentColumnCommandHandler
         $this->service = $service;
     }
 
-    public function handle(AddAssignmentColumnCommand $command)
+    public function handle(DropAssignmentColumnCommand $command)
     {
         $assignment = $command->getAssignment();
 
@@ -23,15 +23,14 @@ class AddAssignmentColumnCommandHandler
 
         $table      = $assignment->stream->getEntryTableName();
         $columnName = $fieldType->getColumnName();
-        $columnType = $fieldType->getColumnType();
 
-        $this->schema->addColumn($table, $columnName, $columnType);
+        $this->schema->dropColumn($table, $columnName);
 
         if ($assignment->stream->is_translatable and $assignment->is_translatable) {
 
             $table = $assignment->stream->getEntryTranslationsTableName();
 
-            $this->schema->addColumn($table, $columnName, $columnType);
+            $this->schema->dropColumn($table, $columnName);
 
         }
     }

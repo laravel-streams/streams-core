@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 
-class FieldWasUnassignedEvent
+class AssignmentWasDeletedEvent
 {
     protected $assignment;
 
@@ -11,9 +11,6 @@ class FieldWasUnassignedEvent
         $this->assignment = $assignment;
     }
 
-    /**
-     * @return mixed
-     */
     public function getAssignment()
     {
         return $this->assignment;

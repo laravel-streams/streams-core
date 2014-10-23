@@ -1,7 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasSaved;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreatedEvent;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeletedEvent;
 
 class AssignmentObserver extends EloquentObserver
 {
@@ -65,6 +66,8 @@ class AssignmentObserver extends EloquentObserver
      */
     public function created($model)
     {
+        $model->raise(new AssignmentWasCreatedEvent($model));
+
         parent::created($model);
     }
 
@@ -85,6 +88,8 @@ class AssignmentObserver extends EloquentObserver
      */
     public function deleted($model)
     {
+        $model->raise(new AssignmentWasDeletedEvent($model));
+
         parent::deleted($model);
     }
 
