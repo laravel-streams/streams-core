@@ -1,8 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Model\{namespacePrefix};
+<?php namespace Anomaly\Streams\Platform\Model\{namespace};
 
 use Anomaly\Streams\Platform\Entry\EntryModel;
 
-class {className} extends EntryModel
+class {class} extends EntryModel
 {
     protected $table = {table};
 
