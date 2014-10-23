@@ -5,19 +5,23 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
 class FieldTypeAddon extends Addon implements PresentableInterface
 {
-    protected $slug = null;
+    protected $field = null;
 
     protected $value = null;
 
     protected $label = null;
 
+    protected $locale = null;
+
     protected $instructions = null;
 
-    protected $locale = null;
+    protected $placeholder = null;
 
     protected $prefix = 'default';
 
     protected $columnType = 'string';
+
+    protected $view = 'html/partials/element';
 
     public function input()
     {
@@ -42,12 +46,12 @@ class FieldTypeAddon extends Addon implements PresentableInterface
 
         $data = compact('id', 'label', 'language', 'instructions', 'input');
 
-        return view('html/partials/element', $data);
+        return view($this->view, $data);
     }
 
-    public function setSlug($slug)
+    public function setField($field)
     {
-        $this->slug = $slug;
+        $this->field = $field;
 
         return $this;
     }
@@ -78,6 +82,13 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         return $this;
     }
 
+    public function setPlaceholder($placeholder)
+    {
+        $this->placeholder = $placeholder;
+        
+        return $this;
+    }
+
     public function setLocale($locale)
     {
         $this->locale = $locale;
@@ -94,17 +105,24 @@ class FieldTypeAddon extends Addon implements PresentableInterface
 
     public function getFieldName()
     {
-        return "{$this->prefix}-{$this->slug}-{$this->locale}";
+        return "{$this->prefix}-{$this->field}-{$this->locale}";
     }
 
     public function getColumnName()
     {
-        return $this->slug;
+        return $this->field;
     }
 
     public function getColumnType()
     {
         return $this->columnType;
+    }
+
+    public function setView($view)
+    {
+        $this->view = $view;
+
+        return $this;
     }
 
     public function newPresenter()
