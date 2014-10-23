@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasSaved;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
 
 class AssignmentObserver extends EloquentObserver
