@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class RevisionModel extends Eloquent
 {
-    public $table = 'revisions_history';
+    public $table = 'revision_history';
 
     protected $revisionFormattedFields = array();
 
