@@ -21,17 +21,21 @@ class AddAssignmentColumnCommandHandler
 
         $fieldType = $this->service->buildFieldType($assignment);
 
-        $table      = $assignment->stream->getEntryTableName();
-        $columnName = $fieldType->getColumnName();
-        $columnType = $fieldType->getColumnType();
+        if ($fieldType->getColumnType()) {
 
-        $this->schema->addColumn($table, $columnName, $columnType);
-
-        if ($assignment->stream->is_translatable and $assignment->is_translatable) {
-
-            $table = $assignment->stream->getEntryTranslationsTableName();
+            $table      = $assignment->stream->getEntryTableName();
+            $columnName = $fieldType->getColumnName();
+            $columnType = $fieldType->getColumnType();
 
             $this->schema->addColumn($table, $columnName, $columnType);
+
+            if ($assignment->stream->is_translatable and $assignment->is_translatable) {
+
+                $table = $assignment->stream->getEntryTranslationsTableName();
+
+                $this->schema->addColumn($table, $columnName, $columnType);
+
+            }
 
         }
     }
