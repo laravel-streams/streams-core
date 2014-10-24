@@ -6,6 +6,8 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
 class FieldTypeAddon extends Addon implements PresentableInterface
 {
+    protected $rules = [];
+
     protected $field = null;
 
     protected $value = null;
@@ -50,6 +52,11 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         $data = compact('id', 'label', 'language', 'instructions', 'input');
 
         return view($this->view, $data);
+    }
+
+    public function getRules()
+    {
+        return $this->rules;
     }
 
     public function setField($field)
