@@ -31,7 +31,7 @@ class Dispatcher
     {
         foreach ($events as $event) {
 
-            echo $eventName = $this->getEventName($event).'<br>';
+            $eventName = $this->getEventName($event);
 
             $this->event->fire($eventName, $event);
 
