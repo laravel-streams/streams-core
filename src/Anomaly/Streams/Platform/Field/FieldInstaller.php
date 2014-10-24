@@ -20,7 +20,7 @@ class FieldInstaller
 
     public function install()
     {
-        foreach ($this->fields as $slug => $field) {
+        foreach ($this->getFields() as $slug => $field) {
 
             // Catch some convenient defaults.
             $field['slug'] = $slug;
@@ -37,7 +37,7 @@ class FieldInstaller
 
     public function uninstall()
     {
-        foreach ($this->fields as $slug => $field) {
+        foreach ($this->getFields() as $slug => $field) {
 
             $namespace = $this->getNamespace($field);
 
@@ -46,6 +46,11 @@ class FieldInstaller
         }
 
         return true;
+    }
+
+    protected function getFields()
+    {
+        return $this->fields;
     }
 
     protected function getNamespace($field)

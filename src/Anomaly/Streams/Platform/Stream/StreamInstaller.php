@@ -40,7 +40,7 @@ class StreamInstaller
         $this->streamService->add($this->stream);
 
         // Assign each of the assignments.
-        foreach ($this->assignments as $field => $assignment) {
+        foreach ($this->getAssignments() as $field => $assignment) {
 
             $assignment['instructions'] = $this->getAssignmentInstructions($assignment, $field);
 
@@ -59,7 +59,7 @@ class StreamInstaller
         $namespace = $this->stream['namespace'];
 
         // Unassign each of the assignments.
-        foreach ($this->assignments as $field => $assignment) {
+        foreach ($this->getAssignments() as $field => $assignment) {
             $this->fieldService->unassign(
                 $namespace,
                 $slug,
@@ -70,6 +70,11 @@ class StreamInstaller
 
         // Remove the stream.
         $this->streamService->remove($namespace, $slug);
+    }
+
+    protected function getAssignments()
+    {
+        return $this->assignments;
     }
 
     protected function getStreamSlug()
