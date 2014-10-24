@@ -24,7 +24,7 @@ class GenerateEntryModelCommandHandler
 
     protected function getPath($stream)
     {
-        $path = storage_path('models/streams/');
+        $path = storage_path('models/streams/' . APP_REF . '/');
 
         $path .= studly_case($stream->namespace) . '/';
 
