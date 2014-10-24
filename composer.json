@@ -14,7 +14,6 @@
         "barryvdh/laravel-debugbar": "1.*",
         "coffeescript/coffeescript": "dev-master",
         "dropbox/dropbox-sdk": "1.1.*",
-        "cartalyst/sentry": "2.1.*",
         "cebe/markdown": "*",
         "doctrine/dbal": "dev-master",
         "guzzlehttp/guzzle": "~4.0",

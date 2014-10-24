@@ -42,7 +42,6 @@ class StreamsServiceProvider extends ServiceProvider
         // poor practice in pattern so let's just ignore them..
         $this->loader->alias('Debugbar', 'Barryvdh\Debugbar\Facade');
         $this->loader->alias('Agent', 'Jenssegers\Agent\Facades\Agent');
-        $this->loader->alias('Sentry', 'Cartalyst\Sentry\Facades\Laravel\Sentry');
 
         $this->loader->alias('Form', 'Illuminate\Html\FormFacade');
         $this->loader->alias('HTML', 'Illuminate\Html\HtmlFacade');
@@ -56,7 +55,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Barryvdh\Debugbar\ServiceProvider');
         $this->app->register('Jenssegers\Agent\AgentServiceProvider');
         $this->app->register('Anomaly\Lexicon\LexiconServiceProvider');
-        $this->app->register('Cartalyst\Sentry\SentryServiceProvider');
         $this->app->register('Intervention\Image\ImageServiceProvider');
 
         $this->app->register('Illuminate\Html\HtmlServiceProvider');

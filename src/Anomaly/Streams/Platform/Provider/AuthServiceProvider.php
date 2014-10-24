@@ -1,29 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
-use Cartalyst\Sentry\Sentry;
-use Cartalyst\Sentry\SentryServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
-class AuthServiceProvider extends SentryServiceProvider
+class AuthServiceProvider extends ServiceProvider
 {
-    /**
-     * Takes all the components of Sentry and glues them
-     * together to create Sentry under "auth".
-     *
-     * @return void
-     */
-    protected function registerSentry()
+    public function register()
     {
-        $this->app['auth'] = $this->app['sentry'] = $this->app->share(
-            function ($app) {
-                return new Sentry(
-                    $app['sentry.user'],
-                    $app['sentry.group'],
-                    $app['sentry.throttle'],
-                    $app['sentry.session'],
-                    $app['sentry.cookie'],
-                    $app['request']->getClientIp()
-                );
-            }
-        );
+        //
     }
 }
