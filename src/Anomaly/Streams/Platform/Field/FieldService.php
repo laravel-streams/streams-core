@@ -26,7 +26,7 @@ class FieldService
 
         $rules    = isset($field['rules']) ? $field['rules'] : [];
         $settings = isset($field['settings']) ? $field['settings'] : [];
-        $isLocked = isset($field['is_locked']) ? $field['is_locked'] : false;
+        $isLocked = isset($field['is_locked']) ? $field['is_locked'] : true;
 
         $command = new AddFieldCommand($namespace, $slug, $type, $name, $settings, $rules, $isLocked);
 
