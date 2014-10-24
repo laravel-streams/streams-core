@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Field\Command\AddFieldCommand;
 use Anomaly\Streams\Platform\Field\Command\AssignFieldCommand;
 use Anomaly\Streams\Platform\Field\Command\RemoveFieldCommand;
-use Anomaly\Streams\Platform\Assignment\Command\UnassignFieldCommand;
+use Anomaly\Streams\Platform\Field\Command\UnassignFieldCommand;
 
 class FieldService
 {
@@ -61,7 +61,9 @@ class FieldService
         // Determine some optional properties.
         $isTranslatable = isset($assignment['is_translatable']) ? $assignment['is_translatable'] : false;
         $isRevisionable = isset($assignment['is_revisionable']) ? $assignment['is_revisionable'] : false;
+        $isRequired     = isset($assignment['is_required']) ? $assignment['is_required'] : false;
         $sortOrder      = isset($assignment['sort_order']) ? $assignment['sort_order'] : 0;
+        $isUnique       = isset($assignment['is_unique']) ? $assignment['is_unique'] : false;
 
         $label        = isset($assignment['label']) ? $assignment['label'] : null;
         $instructions = isset($assignment['instructions']) ? $assignment['instructions'] : null;
@@ -73,6 +75,8 @@ class FieldService
             $field,
             $label,
             $instructions,
+            $isUnique,
+            $isRequired,
             $isTranslatable,
             $isRevisionable
         );

@@ -51,13 +51,17 @@ class AssignmentModel extends EloquentModel
         $fieldId,
         $label,
         $instructions,
+        $isUnique,
+        $isRequired,
         $isTranslatable,
         $isRevisionable
     ) {
         $this->label           = $label;
         $this->field_id        = $fieldId;
         $this->stream_id       = $streamId;
+        $this->is_unique       = $isUnique;
         $this->sort_order      = $sortOrder;
+        $this->is_required     = $isRequired;
         $this->instructions    = $instructions;
         $this->is_translatable = $isTranslatable;
         $this->is_revisionable = $isRevisionable;

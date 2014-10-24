@@ -35,6 +35,16 @@ class AssignFieldCommand
     /**
      * @var
      */
+    protected $isUnique;
+
+    /**
+     * @var
+     */
+    protected $isRequired;
+
+    /**
+     * @var
+     */
     protected $isTranslatable;
 
     /**
@@ -51,8 +61,8 @@ class AssignFieldCommand
      * @param       $field
      * @param       $label
      * @param       $instructions
-     * @param array $settings
-     * @param array $rules
+     * @param       $isUnique
+     * @param       $isRequired
      * @param       $isTranslatable
      * @param       $isRevisionable
      */
@@ -63,17 +73,37 @@ class AssignFieldCommand
         $field,
         $label,
         $instructions,
+        $isUnique,
+        $isRequired,
         $isTranslatable,
         $isRevisionable
     ) {
-        $this->label           = $label;
+        $this->label          = $label;
         $this->field          = $field;
         $this->stream         = $stream;
+        $this->isUnique       = $isUnique;
         $this->sortOrder      = $sortOrder;
         $this->namespace      = $namespace;
+        $this->isRequired     = $isRequired;
         $this->instructions   = $instructions;
         $this->isRevisionable = $isRevisionable;
         $this->isTranslatable = $isTranslatable;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsRequired()
+    {
+        return $this->isRequired;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsUnique()
+    {
+        return $this->isUnique;
     }
 
     /**

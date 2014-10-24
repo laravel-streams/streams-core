@@ -64,6 +64,8 @@ class AssignFieldCommandHandler
             $field->getKey(),
             $command->getLabel(),
             $command->getInstructions(),
+            $command->getIsUnique(),
+            $command->getIsRequired(),
             $command->getIsTranslatable(),
             $command->getIsRevisionable()
         );
