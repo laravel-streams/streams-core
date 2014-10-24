@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Addon\Addon;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
 class FieldTypeAddon extends Addon implements PresentableInterface
@@ -13,11 +14,11 @@ class FieldTypeAddon extends Addon implements PresentableInterface
 
     protected $locale = null;
 
-    protected $instructions = null;
+    protected $readOnly = false;
 
     protected $placeholder = null;
 
-    protected $readOnly = false;
+    protected $instructions = null;
 
     protected $prefix = 'default';
 
@@ -136,5 +137,15 @@ class FieldTypeAddon extends Addon implements PresentableInterface
     public function newPresenter()
     {
         return new FieldTypePresenter($this);
+    }
+
+    protected function onAssignmentCreated(AssignmentModel $assignment)
+    {
+        // Run after an assignment is created.
+    }
+
+    protected function onAssignmentDeleted(AssignmentModel $assignment)
+    {
+        // Run after an assignment is deleted.
     }
 }
