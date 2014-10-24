@@ -9,7 +9,7 @@ class ModuleModel extends EloquentModel
      *
      * @var string
      */
-    protected $table = 'streams_modules';
+    protected $table = 'addons_modules';
 
     /**
      * Disable timestamps for this model.
