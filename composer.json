@@ -33,7 +33,7 @@
         "phpseclib/phpseclib": "dev-master",
         "rackspace/php-opencloud": "dev-master",
         "robclancy/presenter": "1.3.*",
-        "filp/whoops:": "~1.0"
+        "filp/whoops": "~1.0"
     },
     "require-dev": {
 
