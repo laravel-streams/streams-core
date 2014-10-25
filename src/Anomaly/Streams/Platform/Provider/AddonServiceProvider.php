@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
-use Anomaly\Streams\Platform\Support\Transformer;
 use Illuminate\Support\ServiceProvider;
+use Anomaly\Streams\Platform\Support\Transformer;
 
 class AddonServiceProvider extends ServiceProvider
 {
