@@ -80,10 +80,7 @@ class CommandBus
      */
     protected function validateCommand($command)
     {
-        try {
-
-            // If the validator doesn't exist this bombs - so we try..
-            $validator = $this->transformer->toValidator($command);
+        if ($validator = $this->transformer->toValidator($command)) {
 
             /**
              * If this fails it should set messages and then throw an exception.
@@ -92,10 +89,6 @@ class CommandBus
              * exceptions on their own. Messages should be in the bag.
              */
             $this->app->make($validator)->validate($command);
-
-        } catch (\Exception $e) {
-
-            // If the validator doesn't exist just move along.
 
         }
     }
