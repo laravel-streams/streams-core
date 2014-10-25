@@ -22,17 +22,16 @@ class Messages extends MessageBag
     /**
      * Create a new Messages instance.
      *
-     * @param Store $session
      * @param array $messages
      */
-    public function __construct(Store $session, $messages = [])
+    public function __construct($messages = [])
     {
-        $this->session = $session;
+        $this->session = app('session');
 
-        if ($session->has($this->sessionKey)) {
+        if ($this->session->has($this->sessionKey)) {
 
-            $messages = array_merge_recursive($session->get($this->sessionKey), $messages);
-            
+            $messages = array_merge_recursive($this->session->get($this->sessionKey), $messages);
+
         }
 
         parent::__construct($messages);
