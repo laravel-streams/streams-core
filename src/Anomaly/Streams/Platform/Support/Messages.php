@@ -30,7 +30,9 @@ class Messages extends MessageBag
         $this->session = $session;
 
         if ($session->has($this->sessionKey)) {
+
             $messages = array_merge_recursive($session->get($this->sessionKey), $messages);
+            
         }
 
         parent::__construct($messages);
