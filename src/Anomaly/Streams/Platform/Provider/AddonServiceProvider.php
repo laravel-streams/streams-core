@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
+use Anomaly\Streams\Platform\Support\Transformer;
 use Illuminate\Support\ServiceProvider;
 
 class AddonServiceProvider extends ServiceProvider
@@ -69,13 +70,18 @@ class AddonServiceProvider extends ServiceProvider
 
     protected function registerAddonServiceProviders()
     {
+        $transformer = new Transformer();
+
         foreach ($this->types as $type) {
 
             $plural = str_plural($type);
 
             foreach (app("streams.{$plural}")->all() as $addon) {
 
-                if ($provider = $addon->newServiceProvider()) {
+                if ($provider = $transformer->toServiceProvider($addon->getResource())) {
+
+                    $app      = $this->app;
+                    $provider = $this->app->make($provider, [$app]);
 
                     $this->app->register($provider);
 

@@ -43,4 +43,18 @@ class Transformer
 
         return $installer;
     }
+
+    public function toServiceProvider($class)
+    {
+        $class    = get_class($class);
+        $provider = $class . 'ServiceProvider';
+
+        if (!class_exists($provider)) {
+
+            $provider = null;
+
+        }
+
+        return $provider;
+    }
 }
