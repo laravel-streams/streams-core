@@ -102,8 +102,10 @@ class TableUi extends Ui
         $actions    = $table->actions();
         $options    = $table->options();
         $pagination = $table->pagination();
-        print_r($headers);
-        die;
+
+        /*print_r($options);
+        die;*/
+
         $data = compact('views', 'filters', 'headers', 'rows', 'actions', 'pagination', 'options');
 
         $this->fire('render');

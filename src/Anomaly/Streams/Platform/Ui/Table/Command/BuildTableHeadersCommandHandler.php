@@ -30,44 +30,51 @@ class BuildTableHeadersCommandHandler
 
     protected function makeTitle($column, TableUi $ui)
     {
-        $title = null;
+        $title = evaluate_key($column, 'title', null, [$ui]);
 
-        if ($model = $ui->getModel() and $model instanceof EntryInterface) {
+        if (!$title and $model = $ui->getModel() and $model instanceof EntryInterface) {
 
-            $title = $this->makeFieldTitle($column, $model);
+            $title = $this->makeTitleFromField($column, $model);
 
         }
 
         if (!$title) {
 
-            $title = evaluate_key($column, 'title', evaluate_key($column, 'field', null), [$ui]);
-
-            $translated = trans($title);
-
-            if ($translated == $title) {
-
-                $title = humanize($title);
-
-            } else {
-
-                $title = $translated;
-
-            }
+            $this->makeTitleFromColumn($column, $ui);
 
         }
 
         return $title;
     }
 
-    protected function makeFieldTitle($column, $model)
+    protected function makeTitleFromField($column, $model)
     {
         if ($assignment = $model->getStream()->assignments->findByFieldSlug($column['field'])) {
 
-            return trans($assignment->field->name);
+            return $assignment->field->name;
 
         }
 
         return null;
+    }
+
+    protected function makeTitleFromColumn($column, $ui)
+    {
+        $title = evaluate_key($column, 'title', evaluate_key($column, 'field', null), [$ui]);
+
+        $translated = trans($title);
+
+        if ($translated == $title) {
+
+            $title = humanize($title);
+
+        } else {
+
+            $title = $translated;
+
+        }
+
+        return $title;
     }
 }
  

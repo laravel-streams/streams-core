@@ -1,13 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
+use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand;
 
 class AssignmentService
 {
     use CommandableTrait;
 
-    public function buildFieldType($assignment)
+    public function buildFieldType($assignment, $entry = null)
     {
         $type         = $assignment->field->type;
         $field        = $assignment->field->slug;
@@ -16,7 +16,15 @@ class AssignmentService
 
         $command = new BuildFieldTypeCommand($type, $field, $value = null, $label, $instructions);
 
-        return $this->execute($command);
+        $fieldType = $this->execute($command);
+
+        if ($entry) {
+
+            $fieldType->setValue($entry->{$field});
+
+        }
+
+        return $fieldType;
     }
 }
  

@@ -53,7 +53,7 @@
 
         {{ if rows }}
         <form method="post">
-            <table class="{{ options.tableClass }}">
+            <table class="table table-hover{{ options.tableClass }}">
 
                 <!-- Table Head -->
                 <thead>
@@ -99,7 +99,7 @@
 
                     {{ columns }}
                     <td class="{{ class }}">
-                        {{ data }}
+                        {{ value }}
                     </td>
                     {{ /columns }}
 

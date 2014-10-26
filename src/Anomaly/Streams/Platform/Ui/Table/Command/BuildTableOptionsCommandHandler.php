@@ -6,9 +6,10 @@ class BuildTableOptionsCommandHandler
     {
         $ui = $command->getUi();
 
-        $paginate = evaluate($ui->getPaginate(), [$ui]);
+        $paginate   = evaluate($ui->getPaginate(), [$ui]);
+        $tableClass = evaluate($ui->getTableClass(), [$ui]);
 
-        return compact('paginate');
+        return compact('paginate', 'tableClass');
     }
 }
  

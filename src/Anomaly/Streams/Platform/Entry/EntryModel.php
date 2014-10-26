@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 
 class EntryModel extends EloquentModel implements EntryInterface
 {
