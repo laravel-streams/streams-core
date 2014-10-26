@@ -27,10 +27,8 @@ class FormUi extends Ui
     /**
      * @return $this
      */
-    public function trigger()
+    public function build()
     {
-        $this->fire('trigger');
-
         $request = app('request');
 
         $repository = $this->newRepository();
@@ -48,9 +46,7 @@ class FormUi extends Ui
 
         $data = compact('sections', 'actions');
 
-        $this->content = view($this->view, $data);
-
-        return $this;
+        return view($this->view, $data);
     }
 
     /**

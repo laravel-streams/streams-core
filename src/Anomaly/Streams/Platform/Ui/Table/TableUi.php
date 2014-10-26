@@ -85,10 +85,8 @@ class TableUi extends Ui
     /**
      * @return $this|void
      */
-    public function trigger()
+    public function build()
     {
-        $this->fire('trigger');
-
         $repository = $this->newRepository();
 
         if (!$this->entries) {
@@ -108,9 +106,7 @@ class TableUi extends Ui
 
         $this->fire('render');
 
-        $this->content = view($this->view, $data);
-
-        return $this;
+        return view($this->view, $data)->render();
     }
 
     public function setActions(array $actions)

@@ -11,11 +11,6 @@ class Ui
     use DispatchableTrait;
 
     /**
-     * @var null
-     */
-    protected $output = null;
-
-    /**
      * @var string
      */
     protected $wrapper = 'html/blank';
@@ -30,33 +25,37 @@ class Ui
      */
     protected $model = null;
 
-    /**
-     * Do the rendering logic in extending classes.
-     */
-    protected function trigger()
+    public function __construct()
     {
+        $this->boot();
+    }
+
+    /**
+     * Setup the class.
+     */
+    protected function boot()
+    {
+        //
+    }
+
+    /**
+     * Build the content.
+     */
+    protected function build()
+    {
+        return null;
     }
 
     /**
      * @return \Illuminate\View\View
      */
-    public function render()
+    public function make()
     {
-        $content = $this->getOutput();
+        $content = $this->build();
 
         $title = trans(evaluate($this->title, [$this]));
 
         return view($this->wrapper, compact('content', 'title'));
-    }
-
-    /**
-     * @return null
-     */
-    public function getOutput()
-    {
-        $this->trigger();
-
-        return $this->output;
     }
 
     /**
