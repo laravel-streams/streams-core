@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
+use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand;
 
@@ -7,7 +8,7 @@ class AssignmentService
 {
     use CommandableTrait;
 
-    public function buildFieldType($assignment, $entry = null)
+    public function buildFieldType($assignment, EntryInterface $entry = null)
     {
         $type         = $assignment->field->type;
         $field        = $assignment->field->slug;

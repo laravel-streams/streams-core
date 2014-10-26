@@ -42,20 +42,24 @@ class BuildTableColumnsCommandHandler
         $value = evaluate_key($column, 'value', null, [$ui, $entry]);
 
         // TODO: Presenters are fucking annoying outside of views.. Fix this.
-        if (!$value and $entry->getResource() instanceof EntryInterface) {
+        if ($entry->getResource() instanceof EntryInterface) {
 
-            $value = $this->makeValueFromEntry($column, $ui, $entry);
+            $value = $this->makeValueFromEntry($column, $ui, $entry->getResource(), $value);
 
         }
 
         return $value;
     }
 
-    protected function makeValueFromEntry($column, $ui, $entry)
+    protected function makeValueFromEntry($column, $ui, $entry, $value)
     {
-        if ($assignment = $entry->getStream()->assignments->findByFieldSlug($column['field'])) {
+        if (!$value and $assignment = $entry->getStream()->assignments->findByFieldSlug($column['field'])) {
 
             return $this->service->buildFieldType($assignment, $entry)->getValue();
+
+        } else {
+
+            return merge($value, $entry->toArray());
 
         }
     }
