@@ -25,9 +25,11 @@ class FormUi extends Ui
     protected $view = 'html/form';
 
     /**
-     * @return $this
+     * Trigger logic to build content.
+     *
+     * @return null|string
      */
-    public function build()
+    protected function trigger()
     {
         $request = app('request');
 

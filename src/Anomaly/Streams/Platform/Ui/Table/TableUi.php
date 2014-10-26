@@ -83,9 +83,11 @@ class TableUi extends Ui
     protected $model;
 
     /**
-     * @return $this|void
+     * Trigger logic to build content.
+     *
+     * @return null|string
      */
-    public function build()
+    protected function trigger()
     {
         $repository = $this->newRepository();
 

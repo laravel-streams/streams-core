@@ -39,9 +39,9 @@ class Ui
     }
 
     /**
-     * Build the content.
+     * Trigger logic to build content.
      */
-    protected function build()
+    protected function trigger()
     {
         return null;
     }
@@ -51,7 +51,7 @@ class Ui
      */
     public function make()
     {
-        $content = $this->build();
+        $content = $this->trigger();
 
         $title = trans(evaluate($this->title, [$this]));
 
