@@ -6,17 +6,30 @@ class BuildTableActionsCommandHandler
     {
         $ui = $command->getUi();
 
-        $actions = evaluate($ui->getActions(), [$ui]);
+        $actions = [];
 
-        foreach ($actions as &$action) {
+        foreach ($ui->getActions() as $action) {
 
-            $title = 'test';
+            $text  = $this->makeText($action, $ui);
+            $class = $this->makeClass($action, $ui);
 
-            $action = compact('title');
+            $actions[] = compact('text', 'class');
 
         }
 
         return $actions;
+    }
+
+    protected function makeText($action, $ui)
+    {
+        return trans(evaluate_key($action, 'text', null, [$ui]));
+    }
+
+    protected function makeClass($action, $ui)
+    {
+        $class = evaluate_key($action, 'class', 'btn btn btn-default', [$ui]);
+
+        return $class;
     }
 }
  

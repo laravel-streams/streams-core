@@ -85,17 +85,13 @@
                 <tbody>
                 {{ rows }}
                 <tr class="{{ class }}">
-                    {{ if data.options.sortable }}
                     <td>
                         <i class="fa fa-reorder" style="cursor: move;"></i>
                     </td>
-                    {{ endif }}
 
-                    {{ if data.actions }}
                     <td>
                         <input type="checkbox" name="id[]" value="{{ entry.id }}"/>
                     </td>
-                    {{ endif }}
 
                     {{ columns }}
                     <td class="{{ class }}">
@@ -106,8 +102,7 @@
                     <td class="text-right">
                         {{ buttons }}
                         <div class="btn-group">
-                            {{ if display }}
-                            <a href="{{ url }}" class="{{ class }}">{{ title }}</a>
+                            <a href="{{ href }}" class="{{ class }}">{{ text }}</a>
                             {{ if dropdown }}
                             <button type="button" class="{{ class }} dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>
@@ -118,7 +113,6 @@
                                 <li><a href="{{ url }}">{{ title }}</a></li>
                                 {{ /dropdown }}
                             </ul>
-                            {{ endif }}
                             {{ endif }}
                         </div>
                         {{ /buttons }}
@@ -136,7 +130,7 @@
 
                         <div class="btn-group actions">
                             {{ actions }}
-                            <button class="{{ class }}" data-action="{{ action }}" disabled>{{ title }}</button>
+                            <button type="submit" name="action" class="{{ class }}" value="test-{{ action }}">{{ text }}</button>
                             {{ if dropdown }}
                             <button class="{{ class }} dropdown-toggle" data-toggle="dropdown" disabled>
                                 <span class="caret"></span>
