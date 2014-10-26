@@ -62,7 +62,7 @@ class BuildTableHeadersCommandHandler
     {
         $title = evaluate_key($column, 'title', evaluate_key($column, 'field', null), [$ui]);
 
-        echo $translated = trans($title);
+        $translated = trans($title);
 
         if ($translated == $title) {
 
