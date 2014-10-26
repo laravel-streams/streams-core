@@ -1,51 +1,73 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Entry\EntryInterface;
+use Anomaly\Streams\Platform\Ui\Table\TableUi;
+
 class BuildTableHeadersCommandHandler
 {
     public function handle(BuildTableHeadersCommand $command)
     {
         $ui = $command->getUi();
 
-        $columns = evaluate($ui->getColumns(), [$ui]);
+        $columns = [];
 
-        foreach ($columns as &$column) {
+        foreach ($ui->getColumns() as $column) {
+
+            if (is_string($column)) {
+
+                $column = ['field' => $column];
+
+            }
 
             $title = $this->makeTitle($column, $ui);
 
-            $column = compact('title');
+            $columns[] = compact('title');
 
         }
 
         return $columns;
     }
 
-    protected function makeTitle($column, $ui)
+    protected function makeTitle($column, TableUi $ui)
     {
-        if (is_string($column)) {
+        $title = null;
 
-            $default = $column;
+        if ($model = $ui->getModel() and $model instanceof EntryInterface) {
 
-        } else {
-
-            $default = null;
+            $title = $this->makeFieldTitle($column, $model);
 
         }
 
-        $title = evaluate_key($column, 'title', $default, [$ui]);
+        if (!$title) {
 
-        $translated = trans($title);
+            $title = evaluate_key($column, 'title', evaluate_key($column, 'field', null), [$ui]);
 
-        if ($translated == $title) {
+            $translated = trans($title);
 
-            $title = humanize($title);
+            if ($translated == $title) {
 
-        } else {
+                $title = humanize($title);
 
-            $title = $translated;
+            } else {
+
+                $title = $translated;
+
+            }
 
         }
 
         return $title;
+    }
+
+    protected function makeFieldTitle($column, $model)
+    {
+        if ($assignment = $model->getStream()->assignments->findByFieldSlug($column['field'])) {
+
+            return trans($assignment->field->name);
+
+        }
+
+        return null;
     }
 }
  

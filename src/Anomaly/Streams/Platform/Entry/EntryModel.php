@@ -2,11 +2,8 @@
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\StreamModel;
-use Anomaly\Streams\Platform\Entry\EntryObserver;
-use Anomaly\Streams\Platform\Entry\EntryPresenter;
-use Anomaly\Streams\Platform\Entry\EntryCollection;
 
-class EntryModel extends EloquentModel
+class EntryModel extends EloquentModel implements EntryInterface
 {
     /**
      * Stream data
