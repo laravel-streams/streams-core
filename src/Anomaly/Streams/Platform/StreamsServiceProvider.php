@@ -77,6 +77,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Provider\AssetServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ImageServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ModelServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Provider\RouteServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ViewServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\LogServiceProvider');
 
