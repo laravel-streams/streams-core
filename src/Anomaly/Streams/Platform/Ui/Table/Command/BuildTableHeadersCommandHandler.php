@@ -30,7 +30,7 @@ class BuildTableHeadersCommandHandler
 
     protected function makeTitle($column, TableUi $ui)
     {
-        $title = evaluate_key($column, 'title', null, [$ui]);
+        $title = trans(evaluate_key($column, 'title', null, [$ui]));
 
         if (!$title and $model = $ui->getModel() and $model instanceof EntryInterface) {
 
@@ -62,7 +62,7 @@ class BuildTableHeadersCommandHandler
     {
         $title = evaluate_key($column, 'title', evaluate_key($column, 'field', null), [$ui]);
 
-        $translated = trans($title);
+        echo $translated = trans($title);
 
         if ($translated == $title) {
 
