@@ -1,0 +1,20 @@
+suites:
+    acme_suite:
+        spec_path: ./tests
+
+extensions:
+  - PhpSpec\Laravel\Extension\LaravelExtension
+  #- PhpSpec\Extension\CodeCoverageExtension
+
+laravel_extension:
+  framework_path: ../laravel/laravel
+
+code_coverage:
+  format:
+    - html
+    - clover
+  output:
+    html: build/phpspec/coverage
+    clover: build/phpspec/logs/clover.xml
+
+formatter.name: pretty
