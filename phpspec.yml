@@ -7,7 +7,9 @@ extensions:
   #- PhpSpec\Extension\CodeCoverageExtension
 
 laravel_extension:
-  framework_path: ../laravel/laravel
+  framework_path: ../anomaly/streams
+  http_kernel_class: Anomaly\Streams\Platform\Http\Kernel
+  console_kernel_class: Anomaly\Streams\Platform\Console\Kernel
 
 code_coverage:
   format:
