@@ -78,7 +78,7 @@ class AddonServiceProvider extends ServiceProvider
 
             foreach (app("streams.{$plural}")->all() as $addon) {
 
-                if ($provider = $transformer->toServiceProvider($addon->getResource())) {
+                if ($provider = $transformer->toServiceProvider($addon)) {
 
                     $app      = $this->app;
                     $provider = $this->app->make($provider, [$app]);

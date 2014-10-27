@@ -143,6 +143,12 @@ class FieldTypeAddon extends Addon implements PresentableInterface
 
     public function decorate()
     {
+        if ($presenter = app('streams.transformer')->toPresenter($this)) {
+
+            return new $presenter($this);
+
+        }
+
         return new FieldTypePresenter($this);
     }
 

@@ -1,9 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Assignment\Event\FieldWasAssignedEvent;
-use Anomaly\Streams\Platform\Assignment\Event\FieldWasUnassignedEvent;
+use Anomaly\Streams\Platform\Entry\EntryInterface;
 
 class AssignmentModel extends EloquentModel
 {
@@ -114,6 +113,26 @@ class AssignmentModel extends EloquentModel
     public function field()
     {
         return $this->belongsTo('Anomaly\Streams\Platform\Field\FieldModel');
+    }
+
+    public function type(EntryInterface $entry = null)
+    {
+        $type  = $this->field->type;
+        $field = $this->field->slug;
+
+        $data = compact('type', 'field');
+
+        $command = 'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand';
+
+        $fieldType = $this->execute($command, $data);
+
+        if ($entry and $fieldType instanceof FieldTypeAddon) {
+
+            $fieldType->setValue($entry->{$fieldType->getColumnName()});
+
+        }
+
+        return $fieldType;
     }
 
     public function getSettingsAttribute($settings)

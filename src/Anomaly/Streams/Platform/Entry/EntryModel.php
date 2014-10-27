@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 
 class EntryModel extends EloquentModel implements EntryInterface
 {
@@ -166,5 +167,24 @@ class EntryModel extends EloquentModel implements EntryInterface
     public function decorate()
     {
         return new EntryPresenter($this);
+    }
+
+    /**
+     * Return a value from a field.
+     *
+     * @param $field
+     * @return mixed
+     */
+    public function getValueFromField($field)
+    {
+        $assignment = $this->stream->assignments->findByFieldSlug($field);
+
+        if ($assignment instanceof AssignmentModel) {
+
+            return $assignment->type($this)->decorate();
+
+        }
+
+        return null;
     }
 }

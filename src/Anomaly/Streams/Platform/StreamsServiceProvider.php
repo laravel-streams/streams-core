@@ -68,6 +68,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Provider\ExceptionServiceProvider');
 
         $this->app->register('Anomaly\Streams\Platform\Provider\ApplicationServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Provider\TransformerServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\DecoratorServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\PresenterServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\MessagesServiceProvider');

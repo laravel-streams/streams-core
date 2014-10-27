@@ -57,4 +57,18 @@ class Transformer
 
         return $provider;
     }
+
+    public function toPresenter($class)
+    {
+        $class     = get_class($class);
+        $presenter = $class . 'Presenter';
+
+        if (!class_exists($presenter)) {
+
+            $presenter = null;
+
+        }
+
+        return $presenter;
+    }
 }

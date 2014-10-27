@@ -69,11 +69,6 @@ class ModuleAddon extends Addon implements PresentableInterface
         return $this->active;
     }
 
-    protected function getTransformer()
-    {
-        return new Transformer();
-    }
-
     public function newTag()
     {
         return new ModuleTag($this->app);
@@ -86,8 +81,6 @@ class ModuleAddon extends Addon implements PresentableInterface
 
     public function newInstaller()
     {
-        $transformer = $this->getTransformer();
-
-        return $transformer->toInstaller($this);
+        return app('streams.transformer')->toInstaller($this);
     }
 }

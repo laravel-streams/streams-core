@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Contract\ArrayableInterface;
+use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Assignment\AssignmentService;
 
 /**
@@ -90,7 +90,7 @@ class BuildTableColumnsCommandHandler
 
             if (is_string($value) and str_contains($value, '{')) {
 
-                if ($entry instanceof ArrayableInterface) {
+                if ($entry instanceof EntryInterface) {
 
                     $value = merge($value, $entry->toArray());
 
@@ -107,14 +107,7 @@ class BuildTableColumnsCommandHandler
         return $column;
     }
 
-    /**
-     * Get the value.
-     *
-     * @param $column
-     * @param $entry
-     * @return mixed
-     */
-    protected function getValue($column, $entry)
+    protected function getValue($column, EntryInterface $entry)
     {
         if (isset($column['value'])) {
 
@@ -122,31 +115,11 @@ class BuildTableColumnsCommandHandler
 
         } else {
 
-            $value = $this->getValueFromField($column, $entry);
+            $value = $column['field'];
 
         }
 
-        return $value;
-    }
-
-    /**
-     * Get the value from a streams field.
-     *
-     * @param $column
-     * @param $entry
-     * @return mixed
-     */
-    protected function getValueFromField($column, $entry)
-    {
-        $assignment = $entry->getStream()->assignments->findByFieldSlug($column['field']);
-
-        if ($assignment) {
-
-            return $this->service->buildFieldType($assignment, $entry)->getValue();
-
-        }
-
-        return $column['field'];
+        return $entry->getValueFromField($value)->getValue();
     }
 
 }

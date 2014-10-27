@@ -1,25 +1,46 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Support\Decorator;
+use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Support\Collection;
 
 class AddonCollection extends Collection
 {
+
+    /**
+     * Create a new collection.
+     *
+     * @param  mixed $items
+     * @return void
+     */
+    public function __construct($items = array())
+    {
+        $items = is_null($items) ? [] : $this->getArrayableItems($items);
+
+        foreach ($items as $item) {
+
+            if ($item instanceof Addon) {
+
+                $this->items[$item->getSlug()] = $item;
+                
+            }
+
+        }
+    }
+
     public function push($addon)
     {
-        $this->items[$addon->slug] = $addon;
+        $this->items[$addon->getSlug()] = $addon;
     }
 
     public function findBySlug($slug)
     {
-        $addon = null;
+        if (isset($this->items[$slug])) {
 
-        foreach ($this->items as $item) {
-            if ($item->slug == $slug) {
-                $addon = $item;
-            }
+            return $this->items[$slug];
+
         }
 
-        return $addon;
+        return null;
     }
+
 }
