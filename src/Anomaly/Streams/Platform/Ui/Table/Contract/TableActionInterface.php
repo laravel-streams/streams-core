@@ -27,5 +27,12 @@ interface TableActionInterface
      */
     public function handle();
 
+    /**
+     * Authorize the user to process the action.
+     *
+     * @return mixed
+     */
+    public function authorize();
+
 }
  

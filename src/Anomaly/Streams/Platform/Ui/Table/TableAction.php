@@ -37,7 +37,17 @@ class TableAction implements TableActionInterface
      */
     public function handle()
     {
-        throw new \Exception("The handle method should be overridden.");
+        throw new \Exception("The handle() and authorize() method should be overridden.");
+    }
+
+    /**
+     * Authorize the user to process the action.
+     *
+     * @return mixed
+     */
+    public function authorize()
+    {
+        throw new \Exception("The handle() and authorize() method should be overridden.");
     }
 
 }

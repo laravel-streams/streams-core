@@ -78,14 +78,18 @@ class HandleActionRequestCommandHandler
             }
 
             /**
-             * The table action should either do it's thing
-             * and set some messages or throw an \Exception
-             * telling us what went wrong. This message will
-             * get flashed later to the UI.
+             * The table action should either authorize and do it's thing
+             * and set some success messages or throw an \Exception
+             * telling us what went wrong. This message will get
+             * flashed later to the UI when redirecting.
              */
             try {
 
-                $response = $handler->handle();
+                if ($handler->authorize()) {
+
+                    $response = $handler->handle();
+
+                }
 
             } catch (\Exception $e) {
 
