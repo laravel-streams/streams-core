@@ -1,10 +1,25 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableUi;
+use Anomaly\Streams\Platform\Entry\EntryInterface;
 
+/**
+ * Class BuildTableHeadersCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Command
+ */
 class BuildTableHeadersCommandHandler
 {
+
+    /**
+     * Create a new BuildTableHeadersCommandHandler instance.
+     *
+     * @param BuildTableHeadersCommand $command
+     * @return array
+     */
     public function handle(BuildTableHeadersCommand $command)
     {
         $ui = $command->getUi();
@@ -19,7 +34,12 @@ class BuildTableHeadersCommandHandler
 
             }
 
-            $title = $this->makeTitle($column, $ui);
+            // Evaluate everything in the array.
+            // All closures are gone now.
+            $column = $this->evaluate($column, $ui);
+
+            // Build out our required data.
+            $title = $this->getTitle($column, $ui);
 
             $columns[] = compact('title');
 
@@ -28,26 +48,52 @@ class BuildTableHeadersCommandHandler
         return $columns;
     }
 
-    protected function makeTitle($column, TableUi $ui)
+    /**
+     * Evaluate each array item for closures.
+     *
+     * @param $column
+     * @param $ui
+     * @return mixed|null
+     */
+    protected function evaluate($column, $ui)
+    {
+        return evaluate($column, [$ui]);
+    }
+
+    /**
+     * Get the title.
+     *
+     * @param $column
+     * @param $ui
+     * @return null|string
+     */
+    protected function getTitle($column, $ui)
     {
         $title = trans(evaluate_key($column, 'title', null, [$ui]));
 
         if (!$title and $model = $ui->getModel() and $model instanceof EntryInterface) {
 
-            $title = $this->makeTitleFromField($column, $model);
+            $title = $this->getTitleFromField($column, $model);
 
         }
 
         if (!$title) {
 
-            $this->makeTitleFromColumn($column, $ui);
+            $this->guessTitle($column, $ui);
 
         }
 
         return $title;
     }
 
-    protected function makeTitleFromField($column, $model)
+    /**
+     * Get the title from a field.
+     *
+     * @param $column
+     * @param $model
+     * @return null
+     */
+    protected function getTitleFromField($column, $model)
     {
         if ($assignment = $model->getStream()->assignments->findByFieldSlug($column['field'])) {
 
@@ -58,7 +104,14 @@ class BuildTableHeadersCommandHandler
         return null;
     }
 
-    protected function makeTitleFromColumn($column, $ui)
+    /**
+     * Make our best guess at the title.
+     *
+     * @param $column
+     * @param $ui
+     * @return mixed|null|string
+     */
+    protected function guessTitle($column, $ui)
     {
         $title = evaluate_key($column, 'title', evaluate_key($column, 'field', null), [$ui]);
 
@@ -76,5 +129,6 @@ class BuildTableHeadersCommandHandler
 
         return $title;
     }
+
 }
  

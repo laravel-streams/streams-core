@@ -70,6 +70,7 @@ class BuildTableButtonsCommandHandler
             }
 
             // Evaluate everything in the array.
+            // All closures are gone now.
             $button = $this->evaluate($button, $ui, $entry);
 
             // Get our defaults and merge them in.
