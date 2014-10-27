@@ -6,28 +6,48 @@ use Anomaly\Streams\Platform\Traits\EventableTrait;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
+/**
+ * Class Ui
+ * The base UI class. All other UI classes extend this one.
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui
+ */
 class Ui
 {
+
     use CallableTrait;
     use EventableTrait;
     use CommandableTrait;
     use DispatchableTrait;
 
     /**
+     * The rendering wrapper view.
+     *
      * @var string
      */
     protected $wrapper = 'html/blank';
 
     /**
+     * The page title.
+     *
      * @var string
      */
-    protected $title = 'misc.untitled';
+    protected $title = 'misc.untitled'; // TODO: Could pry do better than this default.
 
     /**
+     * The working model object if any.
+     *
      * @var
      */
     protected $model = null;
 
+    /**
+     * Create a new Ui instance.
+
+     */
     public function __construct()
     {
         $this->boot();
@@ -42,7 +62,7 @@ class Ui
     }
 
     /**
-     * Trigger logic to build content.
+     * Trigger to make content.
      */
     protected function trigger()
     {
@@ -70,6 +90,8 @@ class Ui
     }
 
     /**
+     * Set the model object.
+     *
      * @param mixed $model
      * return $this
      */
@@ -81,6 +103,8 @@ class Ui
     }
 
     /**
+     * Get the model object.
+     *
      * @return mixed
      */
     public function getModel()
@@ -89,6 +113,8 @@ class Ui
     }
 
     /**
+     * Set the title.
+     *
      * @param $title
      * @return $this
      */
@@ -99,12 +125,19 @@ class Ui
         return $this;
     }
 
+    /**
+     * Get the title.
+     *
+     * @return string
+     */
     public function getTitle()
     {
         return $this->title;
     }
 
     /**
+     * Set the view wrapper.
+     *
      * @param $wrapper
      * @return $this
      */
@@ -114,4 +147,5 @@ class Ui
 
         return $this;
     }
+
 }
