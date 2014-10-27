@@ -83,11 +83,11 @@ class BuildTableActionsCommandHandler
 
             $action = array_merge($defaults, $action);
 
-            // Build out our required configuration.
-            $title      = $this->getTitle($action, $ui);
-            $class      = $this->getClass($action, $ui);
-            $attributes = $this->getAttributes($action);
+            // Build out our required data.
+            $title      = $this->getTitle($action);
+            $class      = $this->getClass($action);
             $value      = $this->getValue($action);
+            $attributes = $this->getAttributes($action);
 
             $action = compact('title', 'class', 'value', 'attributes');
 
@@ -146,24 +146,22 @@ class BuildTableActionsCommandHandler
      * Get the translated title.
      *
      * @param $action
-     * @param $ui
      * @return string
      */
-    protected function getTitle($action, $ui)
+    protected function getTitle($action)
     {
-        return trans(evaluate_key($action, 'title', null, [$ui]));
+        return trans(evaluate_key($action, 'title', null));
     }
 
     /**
      * Get the class.
      *
      * @param $action
-     * @param $ui
      * @return mixed|null
      */
-    protected function getClass($action, $ui)
+    protected function getClass($action)
     {
-        return evaluate_key($action, 'class', 'btn btn-sm btn-default', [$ui]);
+        return evaluate_key($action, 'class', 'btn btn-sm btn-default');
     }
 
     /**

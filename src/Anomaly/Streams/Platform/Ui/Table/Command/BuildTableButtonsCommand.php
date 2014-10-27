@@ -15,7 +15,7 @@ class BuildTableButtonsCommand
 {
 
     /**
-     * The UI class.
+     * The table UI object.
      *
      * @var \Anomaly\Streams\Platform\Ui\Table\TableUi
      */
@@ -41,7 +41,7 @@ class BuildTableButtonsCommand
     }
 
     /**
-     * Get the UI class.
+     * Get the table UI object.
      *
      * @return mixed
      */

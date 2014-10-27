@@ -13,8 +13,9 @@ use Anomaly\Streams\Platform\Ui\Table\TableUi;
  */
 class BuildTableActionsCommand
 {
+
     /**
-     * The UI class.
+     * The table UI object.
      *
      * @var \Anomaly\Streams\Platform\Ui\Table\TableUi
      */
@@ -31,7 +32,7 @@ class BuildTableActionsCommand
     }
 
     /**
-     * Get the UI class.
+     * Get the UI object.
      *
      * @return mixed
      */
@@ -39,5 +40,6 @@ class BuildTableActionsCommand
     {
         return $this->ui;
     }
+
 }
  

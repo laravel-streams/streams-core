@@ -59,25 +59,33 @@ class BuildTableButtonsCommandHandler
 
         foreach ($ui->getButtons() as $button) {
 
+            /**
+             * If only the type is sent along
+             * we default everything like bad asses.
+             */
             if (is_string($button)) {
 
                 $button = ['type' => $button];
 
             }
 
+            // Evaluate everything in the array.
             $button = $this->evaluate($button, $ui, $entry);
 
+            // Get our defaults and merge them in.
             $defaults = $this->getDefaults($button, $ui, $entry);
 
             $button = array_merge($defaults, $button);
 
-            $title      = $this->getTitle($button, $ui, $entry);
-            $class      = $this->getClass($button, $ui, $entry);
-            $attributes = $this->getAttributes($button);
+            // Build out our required data.
+            $title      = $this->getTitle($button);
+            $class      = $this->getClass($button);
             $dropdown   = $this->getDropdown($button);
+            $attributes = $this->getAttributes($button);
 
             $button = compact('title', 'class', 'attributes', 'dropdown');
 
+            // Normalize things a bit before proceeding.
             $button = $this->normalize($button);
 
             $buttons[] = $button;
@@ -100,6 +108,10 @@ class BuildTableButtonsCommandHandler
     {
         $button = evaluate($button, [$ui, $entry]);
 
+        /**
+         * In addition to evaluating we need
+         * to merge in entry data as best we can.
+         */
         foreach ($button as &$value) {
 
             if (is_string($value) and str_contains($value, '{')) {
@@ -145,26 +157,22 @@ class BuildTableButtonsCommandHandler
      * Get the translated title.
      *
      * @param $button
-     * @param $ui
-     * @param $entry
      * @return string
      */
-    protected function getTitle($button, $ui, $entry)
+    protected function getTitle($button)
     {
-        return trans(evaluate_key($button, 'title', null, [$ui, $entry]));
+        return trans(evaluate_key($button, 'title', null));
     }
 
     /**
      * Get the class.
      *
      * @param $button
-     * @param $ui
-     * @param $entry
      * @return mixed|null
      */
-    protected function getClass($button, $ui, $entry)
+    protected function getClass($button)
     {
-        return evaluate_key($button, 'class', 'btn btn-sm btn-default', [$ui, $entry]);
+        return evaluate_key($button, 'class', 'btn btn-sm btn-default');
     }
 
     /**
@@ -219,6 +227,10 @@ class BuildTableButtonsCommandHandler
      */
     protected function normalize($button)
     {
+        /**
+         * If a URL is present but not absolute
+         * then we need to make it so.
+         */
         if (isset($button['attributes']['url'])) {
 
             if (!starts_with($button['attributes']['url'], 'http')) {
@@ -233,6 +245,10 @@ class BuildTableButtonsCommandHandler
 
         }
 
+        /**
+         * Implode all the attributes left over
+         * into an HTML attribute string.
+         */
         if (isset($button['attributes'])) {
 
             $button['attributes'] = $this->utility->attributes($button['attributes']);

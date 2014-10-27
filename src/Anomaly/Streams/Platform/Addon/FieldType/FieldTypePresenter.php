@@ -4,8 +4,9 @@ use Anomaly\Streams\Platform\Addon\AddonPresenter;
 
 class FieldTypePresenter extends AddonPresenter
 {
+
     /**
-     * By default return the set value.
+     * By default return the value.
      *
      * @return string
      */
@@ -13,4 +14,5 @@ class FieldTypePresenter extends AddonPresenter
     {
         return (string)$this->resource->getValue();
     }
+
 }

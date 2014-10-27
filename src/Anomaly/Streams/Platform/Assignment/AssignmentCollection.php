@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Collection\EloquentCollection;
 
 class AssignmentCollection extends EloquentCollection
 {
+
     /**
      * Find an assignment by it's field slug.
      *
@@ -55,22 +56,4 @@ class AssignmentCollection extends EloquentCollection
         return self::make($relations);
     }
 
-    /**
-     * Return fields less skips.
-     *
-     * @param $skips
-     * @return static
-     */
-    public function skip($skips)
-    {
-        $fields = [];
-
-        foreach ($this->items as $item) {
-            if (!in_array($item->slug, $skips)) {
-                $fields[] = $item;
-            }
-        }
-
-        return self::make($fields);
-    }
 }
