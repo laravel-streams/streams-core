@@ -1,8 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Addon\AddonPresenter;
+use Anomaly\Streams\Platform\Contract\StringableInterface;
 
-class FieldTypePresenter extends AddonPresenter
+/**
+ * Class FieldTypePresenter
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon\FieldType
+ */
+class FieldTypePresenter extends AddonPresenter implements StringableInterface
 {
 
     /**
@@ -14,6 +23,16 @@ class FieldTypePresenter extends AddonPresenter
      * @return string
      */
     public function __toString()
+    {
+        return $this->resource->getValue();
+    }
+
+    /**
+     * Return the instance as a string.
+     *
+     * @return mixed
+     */
+    public function toString()
     {
         return $this->resource->getValue();
     }
