@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableActionInterface;
 
 /**
  * Class HandleActionRequestCommandHandler
@@ -43,8 +44,13 @@ class HandleActionRequestCommandHandler
 
         $ui = $command->getUi();
 
+        // Resolve the handler out of the IoC that we registered earlier.
         $handler = app(get_class($ui) . '@action-' . $this->request->get('_action'));
 
+        /**
+         * If the handler is a closure just run
+         * it and pass the table UI object along.
+         */
         if ($handler instanceof \Closure) {
 
             try {
@@ -59,9 +65,27 @@ class HandleActionRequestCommandHandler
 
         } else {
 
+            /**
+             * If it's not a closure it MUST be an instance
+             * of the TableActionInterface. Tell em about it.
+             */
+            if (!$handler instanceof TableActionInterface) {
+
+                $class = get_class($handler);
+
+                throw new \Exception("[{$class}] should implement Anomaly\\Streams\\Platform\\Ui\\Table\\Contract\\TableActionInterface");
+
+            }
+
+            /**
+             * The table action should either do it's thing
+             * and set some messages or throw an \Exception
+             * telling us what went wrong. This message will
+             * get flashed later to the UI.
+             */
             try {
 
-                $response = (new $handler($ui))->handle();
+                $response = $handler->handle();
 
             } catch (\Exception $e) {
 

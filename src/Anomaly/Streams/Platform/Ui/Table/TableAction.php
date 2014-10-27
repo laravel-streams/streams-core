@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableActionInterface;
+
 /**
  * Class TableAction
  *
@@ -8,7 +10,7 @@
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table
  */
-class TableAction
+class TableAction implements TableActionInterface
 {
 
     /**
@@ -37,6 +39,6 @@ class TableAction
     {
         throw new \Exception("The handle method should be overridden.");
     }
-    
+
 }
  

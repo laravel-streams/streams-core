@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\TableAction;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
-use Illuminate\Foundation\Application;
 
 /**
  * Class BuildTableActionsCommandHandler
@@ -15,8 +13,11 @@ use Illuminate\Foundation\Application;
  */
 class BuildTableActionsCommandHandler
 {
+
     /**
      * These are not attributes.
+     * Everything else will end up
+     * in the attribute string.
      *
      * @var array
      */
@@ -59,23 +60,30 @@ class BuildTableActionsCommandHandler
 
         foreach ($ui->getActions() as $action) {
 
+            /**
+             * If only the type is sent along
+             * we default everything like bad asses.
+             */
             if (is_string($action)) {
 
                 $action = ['type' => $action];
 
             }
 
-            // Get this before evaluating
+            // Get this before evaluating!!
             $handler = $this->getHandler($action);
 
             unset($action['handler']);
 
+            // Evaluate everything in the array.
             $action = $this->evaluate($action, $ui);
 
+            // Get our defaults and merge them in.
             $defaults = $this->getDefaults($action, $ui);
 
             $action = array_merge($defaults, $action);
 
+            // Build out our required configuration.
             $title      = $this->getTitle($action, $ui);
             $class      = $this->getClass($action, $ui);
             $attributes = $this->getAttributes($action);
@@ -83,8 +91,14 @@ class BuildTableActionsCommandHandler
 
             $action = compact('title', 'class', 'value', 'attributes');
 
+            // Normalize things a bit before proceeding.
             $action = $this->normalize($action);
 
+            /**
+             * Every action should have a handler to handle the post
+             * request if selected. Register them to the IoC so
+             * we can look out for them later.
+             */
             $this->registerHandler($action, $handler, $ui);
 
             $actions[] = $action;
@@ -203,6 +217,10 @@ class BuildTableActionsCommandHandler
      */
     protected function normalize($action)
     {
+        /**
+         * If a URL is present but not absolute
+         * then we need to make it so.
+         */
         if (isset($action['attributes']['url'])) {
 
             if (!starts_with($action['attributes']['url'], 'http')) {
@@ -217,6 +235,10 @@ class BuildTableActionsCommandHandler
 
         }
 
+        /**
+         * Implode all the attributes left over
+         * into an HTML attribute string.
+         */
         if (isset($action['attributes'])) {
 
             $action['attributes'] = $this->utility->attributes($action['attributes']);
@@ -237,10 +259,17 @@ class BuildTableActionsCommandHandler
     {
         $abstract = get_class($ui) . '@action-' . $action['value'];
 
+        /**
+         * If the handler is a closure we need
+         * to wrap it in a closure so it won't
+         * run when we resolve it later on.
+         */
         if ($handler instanceof \Closure) {
 
             $handler = function () use ($handler) {
+
                 return $handler;
+
             };
 
         }
