@@ -17,7 +17,7 @@ class BuildTableRowsCommandHandler
             $columns = $this->makeColumns($entry, $ui);
             $buttons = $this->makeButtons($entry, $ui);
 
-            $rows[] = compact('columns', 'buttons');
+            $rows[] = compact('columns', 'buttons', 'entry');
 
         }
 
