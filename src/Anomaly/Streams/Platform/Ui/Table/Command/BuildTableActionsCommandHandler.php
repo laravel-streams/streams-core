@@ -27,7 +27,7 @@ class BuildTableActionsCommandHandler
 
     protected function makeClass($action, $ui)
     {
-        $class = evaluate_key($action, 'class', 'btn btn btn-default', [$ui]);
+        $class = evaluate_key($action, 'class', 'btn btn-sm btn-default', [$ui]);
 
         return $class;
     }
