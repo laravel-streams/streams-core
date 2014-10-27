@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui;
 
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Anomaly\Streams\Platform\Traits\CallableTrait;
 use Anomaly\Streams\Platform\Traits\EventableTrait;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;

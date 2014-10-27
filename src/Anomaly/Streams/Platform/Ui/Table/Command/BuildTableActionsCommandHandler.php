@@ -65,6 +65,11 @@ class BuildTableActionsCommandHandler
 
             }
 
+            // Get this before evaluating
+            $handler = $this->getHandler($action);
+
+            unset($action['handler']);
+
             $action = $this->evaluate($action, $ui);
 
             $defaults = $this->getDefaults($action, $ui);
@@ -73,7 +78,6 @@ class BuildTableActionsCommandHandler
 
             $title      = $this->getTitle($action, $ui);
             $class      = $this->getClass($action, $ui);
-            $handler    = $this->getHandler($action, $ui);
             $attributes = $this->getAttributes($action);
             $value      = $this->getValue($action);
 
@@ -177,24 +181,17 @@ class BuildTableActionsCommandHandler
      * or a valid closure. Defaults to bitching.
      *
      * @param $action
-     * @param $ui
      * @return callable
      */
-    protected function getHandler($action, $ui)
+    protected function getHandler($action)
     {
-        $handler = function ($ui) {
+        if (!isset($action['handler'])) {
 
-            throw new \Exception('No action handler defined. Please provide a closure or valid class path to your handler.');
-
-        };
-
-        if (isset($action['handler'])) {
-
-            $handler = $action['handler'];
+            throw new \Exception("No action handler defined. Please provide a closure or valid class path to your handler [{$action['title']}]");
 
         }
 
-        return $handler;
+        return $action['handler'];
     }
 
     /**
@@ -242,7 +239,9 @@ class BuildTableActionsCommandHandler
 
         if ($handler instanceof \Closure) {
 
-            $handler = new TableAction($handler);
+            $handler = function () use ($handler) {
+                return $handler;
+            };
 
         }
 

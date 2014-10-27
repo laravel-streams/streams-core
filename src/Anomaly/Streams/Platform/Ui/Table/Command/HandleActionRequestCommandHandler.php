@@ -43,21 +43,33 @@ class HandleActionRequestCommandHandler
 
         $ui = $command->getUi();
 
-        $action = $this->request->get('_action');
+        $handler = app(get_class($ui) . '@action-' . $this->request->get('_action'));
 
-        $abstract = get_class($ui) . '@action-' . $action;
+        if ($handler instanceof \Closure) {
 
-        $response = app($abstract)->setUi($ui)->handle();
+            try {
 
-        /*try {
+                $response = $handler($ui);
 
+            } catch (\Exception $e) {
 
+                app('streams.messages')->add('error', $e->getMessage());
 
-        } catch (\Exception $e) {
+            }
 
-            app('streams.messages')->add('error', $e->getMessage());
+        } else {
 
-        }*/
+            try {
+
+                $response = (new $handler($ui))->handle();
+
+            } catch (\Exception $e) {
+
+                app('streams.messages')->add('error', $e->getMessage());
+
+            }
+
+        }
 
         return $response;
     }
