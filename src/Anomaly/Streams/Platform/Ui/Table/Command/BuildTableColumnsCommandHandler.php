@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Assignment\AssignmentService;
 
@@ -107,19 +108,105 @@ class BuildTableColumnsCommandHandler
         return $column;
     }
 
+    /**
+     * Get the value.
+     *
+     * @param                $column
+     * @param EntryInterface $entry
+     * @return string
+     */
     protected function getValue($column, EntryInterface $entry)
     {
         if (isset($column['value'])) {
 
+            /**
+             * Chances are if the value is set
+             * then the user is making their own.
+             */
             $value = $column['value'];
 
         } else {
 
+            /**
+             * If the value is NOT set then chances are
+             * the user is using dot notation or
+             * getting the value from the entry
+             * by field slug.
+             */
             $value = $column['field'];
 
         }
 
-        return $entry->getValueFromField($value)->getValue();
+        /**
+         * Try getting the value from the entry.
+         * This returns the value passed if N/A.
+         */
+        $value = $this->getValueFromEntry($value, $entry);
+
+        return (string)$value;
+    }
+
+    /**
+     * Try getting the value from the entry object.
+     * If nothing is found then pass back the value
+     * as it was passed in originally.
+     *
+     * @param                $value
+     * @param EntryInterface $entry
+     * @return mixed
+     */
+    protected function getValueFromEntry($value, EntryInterface $entry)
+    {
+        $parts = explode('.', $value);
+
+        /**
+         * If the field is or starts with a valid property
+         * this will return the value or the FieldType
+         * presenter for said field.
+         */
+        if ($fieldValue = $entry->getValueFromField($parts[0])) {
+
+            $value = $fieldValue;
+
+            /**
+             * If the value was a field slug and dot notated then
+             * try and parse the values inward on the entry / presenter.
+             */
+            if (count($parts) > 1 and $value instanceof Presenter) {
+
+                $value = $this->parseDotNotation($value, $parts);
+
+            }
+
+        }
+
+        return $value;
+    }
+
+    /**
+     * Recur into a value object to extract the dot
+     * notated value that has been exploded into parts.
+     *
+     * @param $value
+     * @param $parts
+     * @return mixed
+     */
+    protected function parseDotNotation($value, $parts)
+    {
+        foreach (array_slice($parts, 1) as $part) {
+
+            try {
+
+                $value = $value->$part;
+
+            } catch (\Exception $e) {
+
+                // Shh..
+            }
+
+        }
+
+        return $value;
     }
 
 }

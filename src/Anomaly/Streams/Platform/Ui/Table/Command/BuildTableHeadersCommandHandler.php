@@ -28,6 +28,10 @@ class BuildTableHeadersCommandHandler
 
         foreach ($ui->getColumns() as $column) {
 
+            /**
+             * If the column is a string
+             * then assume it's the field.
+             */
             if (is_string($column)) {
 
                 $column = ['field' => $column];
@@ -95,7 +99,9 @@ class BuildTableHeadersCommandHandler
      */
     protected function getTitleFromField($column, $model)
     {
-        if ($assignment = $model->getStream()->assignments->findByFieldSlug($column['field'])) {
+        $parts = explode('.', $column['field']);
+
+        if ($assignment = $model->getStream()->assignments->findByFieldSlug($parts[0])) {
 
             return $assignment->field->decorate()->name;
 
