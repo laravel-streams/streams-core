@@ -12,14 +12,22 @@ trait CallableTrait
     /**
      * Register a callback.
      *
-     * @param $method
+     * @param $trigger
      * @param $callable
      * @return $this
      */
-    public function on($method, \Closure $callable = null)
+    public function on($trigger, \Closure $callable = null)
     {
         if ($callable) {
-            $this->callbacks[$method] = $callable;
+
+            if (!isset($this->callbacks[$trigger])) {
+
+                $this->callbacks[$trigger] = [];
+
+            }
+
+            $this->callbacks[$trigger][] = $callable;
+
         }
 
         return $this;
@@ -28,23 +36,29 @@ trait CallableTrait
     /**
      * Fire a callback or return a default value.
      *
-     * @param       $method
+     * @param       $trigger
      * @param array $arguments
      * @return mixed|null
      */
-    public function fire($method, $arguments = [])
+    public function fire($trigger, $arguments = [])
     {
-        if (isset($this->callbacks[$method])) {
-            return call_user_func_array($this->callbacks[$method], $arguments);
+        if (isset($this->callbacks[$trigger]) and $callbacks = $this->callbacks[$trigger]) {
+
+            foreach ($callbacks as $callback) {
+
+                call_user_func_array($callback, $arguments);
+
+            }
+
         }
 
-        $method = camel_case('on_' . $method);
+        $trigger = camel_case('on_' . $trigger);
 
-        if (method_exists($this, $method)) {
-            return call_user_func_array([$this, $method], $arguments);
+        if (method_exists($this, $trigger)) {
+
+            return call_user_func_array([$this, $trigger], $arguments);
+
         }
-
-        return null;
     }
 
     /**

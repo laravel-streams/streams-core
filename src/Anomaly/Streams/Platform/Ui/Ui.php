@@ -1,13 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Ui;
 
+use Illuminate\Http\Response;
 use Anomaly\Streams\Platform\Traits\CallableTrait;
 use Anomaly\Streams\Platform\Traits\EventableTrait;
+use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
 class Ui
 {
     use CallableTrait;
     use EventableTrait;
+    use CommandableTrait;
     use DispatchableTrait;
 
     /**
@@ -47,6 +50,8 @@ class Ui
     }
 
     /**
+     * Make the UI response.
+     *
      * @return \Illuminate\View\View
      */
     public function make()
@@ -54,6 +59,12 @@ class Ui
         $content = $this->trigger();
 
         $title = trans(evaluate($this->title, [$this]));
+
+        if ($response = $this->fire('response') and $response instanceof Response) {
+
+            return $response;
+
+        }
 
         return view($this->wrapper, compact('content', 'title'));
     }

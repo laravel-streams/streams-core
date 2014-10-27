@@ -2,12 +2,38 @@
 
 use Anomaly\Streams\Platform\Ui\Table\TableUi;
 
+/**
+ * Class BuildTableButtonsCommand
+ * DTO for creating table button configuration.
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Command
+ */
 class BuildTableButtonsCommand
 {
+
+    /**
+     * The UI class.
+     *
+     * @var \Anomaly\Streams\Platform\Ui\Table\TableUi
+     */
     protected $ui;
 
+    /**
+     * The entry payload.
+     *
+     * @var
+     */
     protected $entry;
 
+    /**
+     * Create a new BuildTableButtonsCommand instance.
+     *
+     * @param TableUi $ui
+     * @param         $entry
+     */
     function __construct(TableUi $ui, $entry)
     {
         $this->ui    = $ui;
@@ -15,6 +41,8 @@ class BuildTableButtonsCommand
     }
 
     /**
+     * Get the UI class.
+     *
      * @return mixed
      */
     public function getUi()
@@ -23,11 +51,14 @@ class BuildTableButtonsCommand
     }
 
     /**
+     * Get the entry payload.
+     *
      * @return mixed
      */
     public function getEntry()
     {
         return $this->entry;
     }
+
 }
  

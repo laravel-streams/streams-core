@@ -1,7 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Anomaly\Streams\Platform\Ui\Table\Command\HandleActionRequestCommand;
+use Anomaly\Streams\Platform\Ui\Table\Event\RenderingTableEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
 
+/**
+ * Class TableUi
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table
+ */
 class TableUi extends Ui
 {
     /**
@@ -107,11 +117,15 @@ class TableUi extends Ui
 
         $data = compact('views', 'filters', 'headers', 'rows', 'actions', 'pagination', 'options');
 
-        $this->fire('render');
+        $this->fire('rendering', [$data]);
 
         return view($this->view, $data)->render();
     }
 
+    /**
+     * @param array $actions
+     * @return $this
+     */
     public function setActions(array $actions)
     {
         $this->actions = $actions;
@@ -127,6 +141,10 @@ class TableUi extends Ui
         return $this->actions;
     }
 
+    /**
+     * @param array $buttons
+     * @return $this
+     */
     public function setButtons(array $buttons)
     {
         $this->buttons = $buttons;
@@ -142,6 +160,10 @@ class TableUi extends Ui
         return $this->buttons;
     }
 
+    /**
+     * @param array $columns
+     * @return $this
+     */
     public function setColumns(array $columns)
     {
         $this->columns = $columns;
@@ -157,6 +179,10 @@ class TableUi extends Ui
         return $this->columns;
     }
 
+    /**
+     * @param array $entries
+     * @return $this
+     */
     public function setEntries(array $entries)
     {
         $this->entries = $entries;
@@ -172,6 +198,10 @@ class TableUi extends Ui
         return $this->entries;
     }
 
+    /**
+     * @param array $filters
+     * @return $this
+     */
     public function setFilters(array $filters)
     {
         $this->filters = $filters;
@@ -248,6 +278,10 @@ class TableUi extends Ui
         return $this->orderBy;
     }
 
+    /**
+     * @param $paginate
+     * @return $this
+     */
     public function setPaginate($paginate)
     {
         $this->paginate = $paginate;
@@ -331,6 +365,10 @@ class TableUi extends Ui
         return $this;
     }
 
+    /**
+     * @param array $views
+     * @return $this
+     */
     public function setViews(array $views)
     {
         $this->views = $views;
@@ -371,5 +409,37 @@ class TableUi extends Ui
     protected function newTable()
     {
         return new TableService($this);
+    }
+
+    /**
+     * Fire just before rendering table view.
+     *
+     * @param $data
+     */
+    protected function onRendering($data)
+    {
+        $this->dispatch(new RenderingTableEvent($this, $data));
+    }
+
+    /**
+     * Fire just before responding with a view.
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|null
+     */
+    protected function onResponse()
+    {
+        if (app('request')->has('_action')) {
+
+            $command = new HandleActionRequestCommand($this);
+
+            $this->execute($command);
+
+            app('streams.messages')->flash();
+
+            return redirect(app('request')->path());
+
+        }
+
+        return null;
     }
 }

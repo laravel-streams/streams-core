@@ -2,6 +2,11 @@
 
 trait DispatchableTrait
 {
+    public function dispatch($event)
+    {
+        $this->getDispatcher()->dispatch([$event]);
+    }
+
     public function dispatchEventsFor($object)
     {
         $this->getDispatcher()->dispatch($object->releaseEvents());

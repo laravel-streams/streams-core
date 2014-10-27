@@ -3,25 +3,24 @@
 use Anomaly\Streams\Platform\Ui\Table\TableUi;
 
 /**
- * Class BuildTableActionsCommand
- * DTO for creating table action configuration.
+ * Class HandleActionRequestCommand
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Command
  */
-class BuildTableActionsCommand
+class HandleActionRequestCommand
 {
     /**
-     * The UI class.
+     * The table UI class.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TableUi
+     * @var
      */
     protected $ui;
 
     /**
-     * Create a new BuildTableActionsCommand instance.
+     * Create a new HandleActionRequestCommand instance.
      *
      * @param TableUi $ui
      */
@@ -31,7 +30,7 @@ class BuildTableActionsCommand
     }
 
     /**
-     * Get the UI class.
+     * Get the table UI class.
      *
      * @return mixed
      */

@@ -3,8 +3,10 @@
 return [
     'add'           => 'Add',
     'edit'          => 'Edit',
+    'view'          => 'View',
     'delete'        => 'Delete',
     'cancel'        => 'Cancel',
+    'options'       => 'Options',
     'continue'      => 'Continue',
     'save'          => 'Save',
     'save_exit'     => 'Save &amp; Exit',
