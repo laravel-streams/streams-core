@@ -71,13 +71,13 @@ class BuildTableHeadersCommandHandler
      * @param $ui
      * @return null|string
      */
-    protected function getTitle($column, $ui)
+    protected function getTitle($column, TableUi $ui)
     {
         $title = trans(evaluate_key($column, 'title', null, [$ui]));
 
-        if (!$title and $model = $ui->getModel() and $model instanceof EntryInterface) {
+        if (!$title and $entry = $ui->getModel() and $entry instanceof EntryInterface) {
 
-            $title = $this->getTitleFromField($column, $model);
+            $title = $this->getTitleFromField($column, $entry);
 
         }
 
@@ -94,16 +94,16 @@ class BuildTableHeadersCommandHandler
      * Get the title from a field.
      *
      * @param $column
-     * @param $model
+     * @param $entry
      * @return null
      */
-    protected function getTitleFromField($column, $model)
+    protected function getTitleFromField($column, EntryInterface $entry)
     {
         $parts = explode('.', $column['field']);
 
-        if ($assignment = $model->getStream()->assignments->findByFieldSlug($parts[0])) {
+        if ($name = $entry->getNameFromField($parts[0])) {
 
-            return $assignment->field->decorate()->name;
+            return $name;
 
         }
 

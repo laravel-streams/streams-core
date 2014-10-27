@@ -14,10 +14,20 @@ interface EntryInterface extends ArrayableInterface
 {
 
     /**
+     * Get value from field.
+     *
      * @param $field
      * @return mixed
      */
     public function getValueFromField($field);
+
+    /**
+     * Get the name from field.
+     *
+     * @param $int
+     * @return mixed
+     */
+    public function getNameFromField($int);
 
 }
  

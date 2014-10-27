@@ -187,4 +187,21 @@ class EntryModel extends EloquentModel implements EntryInterface
 
         return null;
     }
+
+    /**
+     * Get the name from a field.
+     *
+     * @param $field
+     * @return mixed
+     */
+    public function getNameFromField($field)
+    {
+        $assignment = $this->stream->assignments->findByFieldSlug($field);
+
+        if ($assignment) {
+
+            return $assignment->field->decorate()->name;
+
+        }
+    }
 }
