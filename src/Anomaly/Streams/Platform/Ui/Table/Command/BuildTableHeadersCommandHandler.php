@@ -97,7 +97,7 @@ class BuildTableHeadersCommandHandler
     {
         if ($assignment = $model->getStream()->assignments->findByFieldSlug($column['field'])) {
 
-            return $assignment->field->name;
+            return $assignment->field->decorate()->name;
 
         }
 

@@ -178,7 +178,7 @@ class FieldModel extends EloquentModel
         $this->attributes['rules'] = json_encode($rules);
     }
 
-    public function newPresenter()
+    public function decorate()
     {
         return new FieldPresenter($this);
     }

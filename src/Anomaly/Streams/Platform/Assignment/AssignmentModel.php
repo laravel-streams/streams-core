@@ -141,7 +141,7 @@ class AssignmentModel extends EloquentModel
         return new AssignmentCollection($items);
     }
 
-    public function newPresenter()
+    public function decorate()
     {
         return new AssignmentPresenter($this);
     }

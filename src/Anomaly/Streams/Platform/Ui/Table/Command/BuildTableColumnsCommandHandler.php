@@ -142,7 +142,7 @@ class BuildTableColumnsCommandHandler
 
         if ($assignment) {
 
-            return $this->service->buildFieldType($assignment, $entry->getResource())->getValue();
+            return $this->service->buildFieldType($assignment, $entry)->getValue();
 
         }
 

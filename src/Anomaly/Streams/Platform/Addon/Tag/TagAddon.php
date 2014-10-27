@@ -77,7 +77,7 @@ class TagAddon extends Addon implements PluginInterface, PresentableInterface
         return $this->content;
     }
 
-    public function newPresenter()
+    public function decorate()
     {
         return new TagPresenter($this);
     }

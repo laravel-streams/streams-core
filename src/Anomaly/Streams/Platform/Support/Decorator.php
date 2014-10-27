@@ -21,7 +21,7 @@ class Decorator
 
         if ($value instanceof PresentableInterface) {
 
-            $value = $value->newPresenter();
+            $value = $value->decorate();
 
         }
 
@@ -44,9 +44,9 @@ class Decorator
 
                 $resource->setRelation($relationName, $model);
 
-            } elseif (!$model instanceof Presenter) {
+            } elseif ($model instanceof PresentableInterface) {
 
-                $resource->setRelation($relationName, $model->newPresenter($model));
+                $resource->setRelation($relationName, $model->decorate($model));
 
             } else {
 
@@ -69,8 +69,12 @@ class Decorator
     {
         foreach ($collection as $resource) {
 
-            $collection->put($resource, $resource->newPresenter($resource));
-            
+            if ($resource instanceof PresentableInterface) {
+
+                $collection->put($resource, $resource->decorate($resource));
+
+            }
+
         }
 
         return $collection;

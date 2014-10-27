@@ -2,46 +2,36 @@
 
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class EloquentCollection
+ * The base eloquent collection used by all our models.
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Collection
+ */
 class EloquentCollection extends Collection
 {
-    /**
-     * Create a new EloquentCollection instance.
-     * Decorate models on the way in.
-     *
-     * @param array $models
-     */
-    public function __construct($models = [])
-    {
-        foreach ($models as &$model) {
-
-            $model = app('streams.decorator')->decorate($model);
-
-        }
-
-        return parent::__construct($models);
-    }
 
     /**
-     * Return an item by it's slug.
-     * This is very common so let's do it!
+     * Return a collection of decorated items.
      *
-     * @param $slug
-     * @return null
+     * @return static
      */
-    public function findBySlug($slug)
+    public function decorated()
     {
-        $match = null;
+        $items = [];
+
+        $decorator = app('streams.decorator');
 
         foreach ($this->items as $item) {
 
-            if ($item->slug == $slug) {
-
-                $match = $item;
-
-            }
+            $items[] = $decorator->decorate($item);
 
         }
 
-        return $match;
+        return self::make($items);
     }
+
 }

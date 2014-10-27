@@ -200,7 +200,7 @@ class StreamModel extends EloquentModel
         return new StreamCollection($items);
     }
 
-    public function newPresenter()
+    public function decorate()
     {
         return new StreamPresenter($this);
     }

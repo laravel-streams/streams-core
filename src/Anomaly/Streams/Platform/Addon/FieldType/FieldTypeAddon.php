@@ -141,7 +141,7 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         return $this;
     }
 
-    public function newPresenter()
+    public function decorate()
     {
         return new FieldTypePresenter($this);
     }

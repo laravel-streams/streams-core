@@ -163,7 +163,7 @@ class EntryModel extends EloquentModel implements EntryInterface
         return new EntryCollection($items);
     }
 
-    public function newPresenter()
+    public function decorate()
     {
         return new EntryPresenter($this);
     }

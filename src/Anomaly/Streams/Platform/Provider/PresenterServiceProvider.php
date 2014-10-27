@@ -18,6 +18,7 @@ class PresenterServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        //
     }
 
     /**

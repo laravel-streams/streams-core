@@ -33,7 +33,7 @@ class ThemeAddon extends Addon implements PresentableInterface
         return new ThemeTag($this->app);
     }
 
-    public function newPresenter()
+    public function decorate()
     {
         return new ThemePresenter($this);
     }

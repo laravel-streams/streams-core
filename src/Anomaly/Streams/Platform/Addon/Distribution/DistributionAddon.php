@@ -15,7 +15,7 @@ class DistributionAddon extends Addon implements PresentableInterface
         return app('streams.theme.testable');
     }
 
-    public function newPresenter()
+    public function decorate()
     {
         return new DistributionPresenter($this);
     }

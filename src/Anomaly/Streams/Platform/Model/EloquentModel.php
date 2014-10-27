@@ -100,6 +100,11 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
         }
     }
 
+    public function decorate()
+    {
+        return new EloquentPresenter($this);
+    }
+
     /**
      * Return an identifiable name.
      *
@@ -152,10 +157,5 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
         $this->validate = ($validate);
 
         return $this;
-    }
-
-    public function newPresenter()
-    {
-        return new EloquentPresenter($this);
     }
 }

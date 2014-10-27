@@ -79,7 +79,7 @@ class ModuleAddon extends Addon implements PresentableInterface
         return new ModuleTag($this->app);
     }
 
-    public function newPresenter()
+    public function decorate()
     {
         return new ModulePresenter($this);
     }

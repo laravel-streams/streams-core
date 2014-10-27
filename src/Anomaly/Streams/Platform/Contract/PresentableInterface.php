@@ -3,9 +3,9 @@
 interface PresentableInterface
 {
     /**
-     * Return a new presenter instance.
+     * Return the decorated object.
      *
      * @return mixed
      */
-    public function newPresenter();
+    public function decorate();
 }
