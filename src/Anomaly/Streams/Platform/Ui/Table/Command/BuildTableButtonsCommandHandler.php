@@ -12,11 +12,11 @@ class BuildTableButtonsCommandHandler
 
         foreach ($ui->getButtons() as $button) {
 
+            $url   = $this->makeUrl($button, $ui, $entry);
             $text  = $this->makeText($button, $ui, $entry);
             $class = $this->makeClass($button, $ui, $entry);
-            $href  = $this->makeUrl($button, $ui, $entry);
 
-            $buttons[] = compact('text', 'href', 'class');
+            $buttons[] = compact('text', 'url', 'class');
 
         }
 
