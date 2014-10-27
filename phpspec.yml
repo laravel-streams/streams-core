@@ -1,0 +1,22 @@
+suites:
+    acme_suite:
+        spec_path: ./tests
+
+extensions:
+  - PhpSpec\Laravel\Extension\LaravelExtension
+  #- PhpSpec\Extension\CodeCoverageExtension
+
+laravel_extension:
+  framework_path: ../anomaly/streams
+  http_kernel_class: Anomaly\Streams\Platform\Http\Kernel
+  console_kernel_class: Anomaly\Streams\Platform\Console\Kernel
+
+code_coverage:
+  format:
+    - html
+    - clover
+  output:
+    html: build/phpspec/coverage
+    clover: build/phpspec/logs/clover.xml
+
+formatter.name: pretty

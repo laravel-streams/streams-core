@@ -35,8 +35,15 @@
         "robclancy/presenter": "1.3.*",
         "filp/whoops": "~1.0"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@github.com:anomalylabs/phpspec-laravel.git"
+        }
+    ],
     "require-dev": {
-
+        "anomaly/streams" : "dev-master",
+        "benconstable/phpspec-laravel": "dev-fix-laravel-5-compatibility"
     },
     "autoload": {
         "psr-0": {
