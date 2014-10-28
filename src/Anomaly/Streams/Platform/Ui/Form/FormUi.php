@@ -1,9 +1,29 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Ui\Ui;
+use Anomaly\Streams\Platform\Entry\EntryInterface;
 
+/**
+ * Class FormUi
+ *
+ * This class is responsible for rendering entry
+ * forms and handling their primary features.
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form
+ */
 class FormUi extends Ui
 {
+
+    /**
+     * The entry, id or null.
+     *
+     * @var null
+     */
+    protected $entry = null;
+
     /**
      * @var array
      */
@@ -25,21 +45,26 @@ class FormUi extends Ui
     protected $view = 'html/form';
 
     /**
+     * Make the UI response.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function make($entry = null)
+    {
+        $this->entry = $entry;
+
+        return parent::make();
+    }
+
+
+    /**
      * Trigger logic to build content.
      *
      * @return null|string
      */
     protected function trigger()
     {
-        $request = app('request');
-
-        $repository = $this->newRepository();
-
-        if ($request->is('post')) {
-
-            return $this->newFormRequest();
-
-        }
+        $this->fire('trigger');
 
         $form = $this->newFormService();
 
@@ -49,6 +74,25 @@ class FormUi extends Ui
         $data = compact('sections', 'actions');
 
         return view($this->view, $data);
+    }
+
+    /**
+     * @param $entry
+     * @return $this
+     */
+    public function setEntry($entry)
+    {
+        $this->entry = $entry;
+
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getEntry()
+    {
+        return $this->entry;
     }
 
     /**
@@ -141,6 +185,21 @@ class FormUi extends Ui
     protected function newFormRequest()
     {
         return new FormRequest($this);
+    }
+
+    protected function onTrigger()
+    {
+        if (!$this->entry instanceof EntryInterface) {
+
+            $this->entry = $this->newRepository()->get();
+
+        }
+
+        if (app('request')->is('post')) {
+
+
+
+        }
     }
 }
  
