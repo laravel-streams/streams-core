@@ -121,10 +121,6 @@ class BuildTableButtonsCommandHandler
 
                     $value = merge($value, $entry->toArray());
 
-                } else {
-
-                    $value = merge($value, (array)$entry);
-
                 }
 
             }
