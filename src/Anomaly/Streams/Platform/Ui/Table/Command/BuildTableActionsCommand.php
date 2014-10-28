@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableUi;
 
 /**
  * Class BuildTableActionsCommand
+ *
  * DTO for creating table action configuration.
  *
  * @link          http://anomaly.is/streams-platform

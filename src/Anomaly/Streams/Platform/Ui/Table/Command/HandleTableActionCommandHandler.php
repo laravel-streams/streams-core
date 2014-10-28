@@ -114,7 +114,7 @@ class HandleTableActionCommandHandler
 
             app('streams.messages')->flash();
 
-            return redirect(app('request')->path());
+            return redirect(referer(url(app('request')->path())));
 
         }
 

@@ -16,13 +16,6 @@ interface TableRepositoryInterface
 {
 
     /**
-     * Get the total number of matching entries.
-     *
-     * @return integer
-     */
-    public function total();
-
-    /**
      * Get entry interfaces.
      *
      * @return mixed

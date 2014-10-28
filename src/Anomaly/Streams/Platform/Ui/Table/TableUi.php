@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Anomaly\Streams\Platform\Contract\PaginatorInterface;
 use Anomaly\Streams\Platform\Ui\Ui;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableViewCommand;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableActionCommand;
@@ -91,6 +92,11 @@ class TableUi extends Ui
      * @var string
      */
     protected $view = 'html/table';
+
+    /**
+     * @var null
+     */
+    protected $paginator = null;
 
     /**
      * @var
@@ -238,6 +244,12 @@ class TableUi extends Ui
      */
     public function getLimit()
     {
+        if (!$this->limit) {
+
+            $this->limit = 2;
+
+        }
+
         return $this->limit;
     }
 
@@ -398,6 +410,25 @@ class TableUi extends Ui
         $this->wrapper = $wrapper;
 
         return $this;
+    }
+
+    /**
+     * @param null $paginator
+     * return $this
+     */
+    public function setPaginator(PaginatorInterface $paginator)
+    {
+        $this->paginator = $paginator;
+
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getPaginator()
+    {
+        return $this->paginator;
     }
 
     /**
