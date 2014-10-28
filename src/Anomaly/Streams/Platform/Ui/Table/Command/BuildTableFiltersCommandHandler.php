@@ -52,7 +52,7 @@ class BuildTableFiltersCommandHandler
 
     protected function getSlug($filter)
     {
-        return 'f-' . slugify(evaluate_key($filter, 'slug', hashify($filter)), '-');
+        return evaluate_key($filter, 'slug');
     }
 
     protected function getInput($filter, $slug, TableUi $ui)

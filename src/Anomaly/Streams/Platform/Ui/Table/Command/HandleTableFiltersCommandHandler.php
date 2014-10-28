@@ -53,12 +53,13 @@ class HandleTableFiltersCommandHandler
          */
         foreach ($filters as $filter) {
 
-            $slug = 'f-' . slugify(evaluate_key($filter, 'slug', hashify($filter)), '-');
+            $slug = evaluate_key($filter, 'slug');
 
             /**
              * IF there is a value to work with
              * then pass it to the filter handler.
              */
+
             if ($value = $this->request->get($slug)) {
 
                 if ($filter['type'] != 'field') {

@@ -14,13 +14,17 @@ class FieldTypeAddon extends Addon implements PresentableInterface
 
     protected $label = null;
 
+    protected $locale = null;
+
     protected $readOnly = false;
 
     protected $placeholder = null;
 
     protected $instructions = null;
 
-    protected $prefix = 'default';
+    protected $prefix = '';
+
+    protected $suffix = '';
 
     protected $columnType = 'string';
 
@@ -116,16 +120,31 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         return $this;
     }
 
-    public function setPrefix($prefix)
+    public function setPrefix($prefix = null)
     {
-        $this->prefix = $prefix;
+        if ($prefix) {
+
+            $this->prefix = $prefix . ends_with($prefix, '-') ? : '-';
+
+        }
+
+        return $this;
+    }
+
+    public function setSuffix($suffix = null)
+    {
+        if ($suffix) {
+
+            $this->suffix = $suffix . ends_with($suffix, '-') ? : '-';
+            
+        }
 
         return $this;
     }
 
     public function getFieldName()
     {
-        return "{$this->prefix}-{$this->field}-{$this->locale}";
+        return "{$this->prefix}{$this->field}{$this->suffix}";
     }
 
     public function getColumnName()
