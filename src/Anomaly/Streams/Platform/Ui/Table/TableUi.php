@@ -110,6 +110,8 @@ class TableUi extends Ui
      */
     protected function trigger()
     {
+        $this->fire('trigger');
+
         $repository = $this->newRepository();
 
         if (!$this->entries) {
