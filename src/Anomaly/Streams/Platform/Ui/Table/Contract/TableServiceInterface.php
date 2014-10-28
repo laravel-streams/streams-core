@@ -4,7 +4,7 @@
  * Interface TableServiceInterface
  *
  * This interface helps assure that the table service
- * being used can at least return the required data for core.
+ * being used can at least return the required data.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
