@@ -63,7 +63,9 @@ class HandleTableFiltersCommandHandler
             if ($value = $this->request->get($slug) or is_string($filter)) {
 
                 if (is_string($filter)) {
+
                     $value = $this->request->get($filter);
+
                 }
 
                 if (isset($filter['type']) and $filter['type'] != 'field') {

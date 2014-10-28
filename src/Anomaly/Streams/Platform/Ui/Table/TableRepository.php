@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Support\Paginator;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 
 /**
@@ -126,6 +126,18 @@ class TableRepository implements TableRepositoryInterface
         $this->ui->setPaginator($paginator);
     }
 
+    /**
+     * If the request attempts to access a set
+     * of entries that is outside of the total
+     * available set then try and redirect to an
+     * applicable page until on page 1.
+     *
+     * This is really helpful when manipulating an
+     * entire page of entries using a table action
+     * like delete or move.
+     *
+     * @param $total
+     */
     protected function assurePageExists($total)
     {
         $limit  = $this->ui->getLimit();
@@ -134,7 +146,9 @@ class TableRepository implements TableRepositoryInterface
 
         if ($total < $offset and $page > 1) {
 
-            header('Location: ' . url(app('request')->path()) . '/?page=' . ($page - 1));
+            $url = str_replace('page=' . $page, 'page=' . ($page - 1), app('request')->fullUrl());
+
+            header('Location: ' . $url);
 
         }
     }
