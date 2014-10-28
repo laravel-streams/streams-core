@@ -1,5 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Ui\Table\TableUi;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
+
 class BuildTableFiltersCommandHandler
 {
     public function handle(BuildTableFiltersCommand $command)
@@ -9,6 +13,20 @@ class BuildTableFiltersCommandHandler
         $filters = [];
 
         foreach ($ui->getFilters() as $filter) {
+
+            /**
+             * If the filter is a string then
+             * default to a field type with the
+             * string being the field slug.
+             */
+            if (is_string($filter)) {
+
+                $filter = [
+                    'type'  => 'field',
+                    'field' => $filter,
+                ];
+
+            }
 
             // Evaluate everything in the array.
             // All closures are gone now.
@@ -27,7 +45,7 @@ class BuildTableFiltersCommandHandler
         return array_filter($filters);
     }
 
-    protected function evaluate($filter, $ui)
+    protected function evaluate($filter, TableUi $ui)
     {
         return evaluate($filter, [$ui]);
     }
@@ -37,7 +55,7 @@ class BuildTableFiltersCommandHandler
         return 'f-' . slugify(evaluate_key($filter, 'slug', hashify($filter)), '-');
     }
 
-    protected function getInput($filter, $slug, $ui)
+    protected function getInput($filter, $slug, TableUi $ui)
     {
         $type = evaluate_key($filter, 'type', 'text', [$ui]);
 
@@ -64,7 +82,7 @@ class BuildTableFiltersCommandHandler
              * Build a field type filter input.
              */
             case 'field':
-                return null;
+                return $this->getFieldInput($filter, $ui);
                 break;
 
             /**
@@ -76,7 +94,7 @@ class BuildTableFiltersCommandHandler
         }
     }
 
-    protected function getSelectInput($filter, $slug, $ui)
+    protected function getSelectInput($filter, $slug, TableUi $ui)
     {
         $form    = app('form');
         $request = app('request');
@@ -92,7 +110,7 @@ class BuildTableFiltersCommandHandler
         return $form->select($slug, $options, $value, $attributes);
     }
 
-    protected function getTextInput($filter, $type, $slug, $ui)
+    protected function getTextInput($filter, $type, $slug, TableUi $ui)
     {
         $form    = app('form');
         $request = app('request');
@@ -107,6 +125,27 @@ class BuildTableFiltersCommandHandler
         ];
 
         return $form->{$type}($slug, $value, $options);
+    }
+
+    protected function getFieldInput($filter, TableUi $ui)
+    {
+        $assignment = $ui->getModel()->getStream()->assignments->findByFieldSlug($filter['field']);
+
+        if ($assignment instanceof AssignmentModel) {
+
+            $fieldType = $assignment->type();
+
+            if ($fieldType instanceof FieldTypeAddon) {
+
+                $fieldType->setPlaceholder(trans($assignment->field->name));
+
+                return $fieldType->filter();
+
+            }
+
+        }
+
+        return null;
     }
 
 }

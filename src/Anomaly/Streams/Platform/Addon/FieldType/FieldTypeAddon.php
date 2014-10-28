@@ -14,8 +14,6 @@ class FieldTypeAddon extends Addon implements PresentableInterface
 
     protected $label = null;
 
-    protected $locale = null;
-
     protected $readOnly = false;
 
     protected $placeholder = null;
@@ -33,10 +31,16 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         $builder = app('form');
 
         $options = [
-            'class' => 'form-control',
+            'class'       => 'form-control',
+            'placeholder' => $this->placeholder,
         ];
 
         return $builder->text($this->getFieldName(), $this->getValue(), $options);
+    }
+
+    public function filter()
+    {
+        return $this->input();
     }
 
     public function element()
@@ -150,6 +154,17 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         }
 
         return new FieldTypePresenter($this);
+    }
+
+    public function toFilter()
+    {
+        if ($filter = app('streams.transformer')->toFilter($this)) {
+
+            return new $filter();
+
+        }
+
+        return new FieldTypeFilter($this);
     }
 
     protected function onAssignmentCreated(AssignmentModel $assignment)

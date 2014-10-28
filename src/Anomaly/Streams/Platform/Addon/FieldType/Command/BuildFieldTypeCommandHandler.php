@@ -12,35 +12,15 @@ class BuildFieldTypeCommandHandler
 
             if ($fieldType instanceof FieldTypeAddon) {
 
-                $fieldType->setField($command->getField());
-
-                if ($value = $command->getValue()) {
-                    $fieldType->setValue($value);
-                }
-
-                if ($label = $command->getLabel()) {
-                    $fieldType->setLabel($label);
-                }
-
-                if ($locale = $command->getLocale()) {
-                    $fieldType->setLocale($locale);
-                }
-
-                if ($instructions = $command->getInstructions()) {
-                    $fieldType->setInstructions($instructions);
-                }
-
-                if ($placeholder = $command->getPlaceholder()) {
-                    $fieldType->setPlaceholder($placeholder);
-                }
-
-                if ($prefix = $command->getPrefix()) {
-                    $fieldType->setPrefix($prefix);
-                }
-
-                if ($view = $command->getView()) {
-                    $fieldType->setView($view);
-                }
+                $fieldType
+                    ->setView($command->getView())
+                    ->setField($command->getField())
+                    ->setValue($command->getValue())
+                    ->setLabel($command->getLabel())
+                    ->setLocale($command->getLocale())
+                    ->setPrefix($command->getPrefix())
+                    ->setPlaceholder($command->getPlaceholder())
+                    ->setInstructions($command->getInstructions());
 
             }
 

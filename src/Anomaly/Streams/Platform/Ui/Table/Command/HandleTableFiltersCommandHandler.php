@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableFilterInterface;
 use Illuminate\Http\Request;
 
@@ -59,7 +61,37 @@ class HandleTableFiltersCommandHandler
              */
             if ($value = $this->request->get($slug)) {
 
-                $handler = $filter['handler'];
+                if ($filter['type'] != 'field') {
+
+                    $handler = $filter['handler'];
+
+                } else {
+
+                    $assignment = $ui->getModel()->getStream()->assignments->findByFieldSlug($filter['field']);
+
+                    if ($assignment instanceof AssignmentModel) {
+
+                        $fieldType = $assignment->type();
+
+                        if ($fieldType instanceof FieldTypeAddon) {
+
+                            $handler = $fieldType->toFilter();
+
+                        }
+
+                    } else {
+
+                        $handler = null;
+
+                    }
+
+                }
+
+                if (is_string($handler)) {
+
+                    $handler = app($handler);
+
+                }
 
                 if ($handler instanceof \Closure) {
 
@@ -69,7 +101,7 @@ class HandleTableFiltersCommandHandler
 
                     }
 
-                } elseif ($handler = app($handler) and $handler instanceof TableFilterInterface) {
+                } elseif ($handler instanceof TableFilterInterface) {
 
                     /**
                      * If it's not a closure it MUST be an instance
