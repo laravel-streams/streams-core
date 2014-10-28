@@ -58,6 +58,7 @@ class BuildTableColumnsCommandHandler
             }
 
             // Evaluate the column.
+            // All closures are gone now.
             $column = $this->evaluate($column, $ui, $entry);
 
             // Build out our required data.
@@ -94,10 +95,6 @@ class BuildTableColumnsCommandHandler
                 if ($entry instanceof EntryInterface) {
 
                     $value = merge($value, $entry->toArray());
-
-                } else {
-
-                    $value = merge($value, (array)$entry);
 
                 }
 
