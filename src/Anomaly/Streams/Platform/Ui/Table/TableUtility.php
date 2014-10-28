@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Illuminate\Routing\Router;
 use Anomaly\Streams\Platform\Ui\Utility;
 
 /**
@@ -15,6 +16,60 @@ use Anomaly\Streams\Platform\Ui\Utility;
  */
 class TableUtility extends Utility
 {
+
+    /**
+     * Available button type configuration defaults.
+     *
+     * @var array
+     */
+    protected $buttons = [
+        'success' => [
+            'class' => 'btn btn-sm btn-success',
+        ],
+        'info'    => [
+            'class' => 'btn btn-sm btn-info',
+        ],
+        'warning' => [
+            'class' => 'btn btn-sm btn-warning',
+        ],
+        'danger'  => [
+            'class' => 'btn btn-sm btn-danger',
+        ],
+        'view'    => [
+            'title' => 'button.view',
+            'class' => 'btn btn-sm btn-default',
+        ],
+        'options' => [
+            'title' => 'button.options',
+            'class' => 'btn btn-sm btn-default',
+        ],
+        'edit'    => [
+            'title' => 'button.edit',
+            'class' => 'btn btn-sm btn-warning',
+        ],
+        'delete'  => [
+            'title'        => 'button.delete',
+            'class'        => 'btn btn-sm btn-danger',
+            'data-confirm' => 'confirm.delete',
+        ],
+    ];
+
+    /**
+     * The router class.
+     *
+     * @var \Illuminate\Routing\Router
+     */
+    protected $router;
+
+    /**
+     * Create a new Utility instance.
+     *
+     * @param Router $router
+     */
+    function __construct(Router $router)
+    {
+        $this->router = $router;
+    }
 
     /**
      * Return default button configuration for

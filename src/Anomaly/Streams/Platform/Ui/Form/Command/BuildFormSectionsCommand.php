@@ -2,29 +2,43 @@
 
 use Anomaly\Streams\Platform\Ui\Form\FormUi;
 
+/**
+ * Class BuildFormSectionsCommand
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Command
+ */
 class BuildFormSectionsCommand
 {
+
+    /**
+     * The form UI object.
+     *
+     * @var
+     */
     protected $ui;
 
+    /**
+     * Create a new BuildFormSectionsCommand instance.
+     *
+     * @param FormUi $ui
+     */
     function __construct(FormUi $ui)
     {
         $this->ui = $ui;
     }
 
     /**
-     * @param mixed $ui
-     */
-    public function setUi($ui)
-    {
-        $this->ui = $ui;
-    }
-
-    /**
+     * Get the form UI object.
+     *
      * @return mixed
      */
     public function getUi()
     {
         return $this->ui;
     }
+
 }
  

@@ -37,24 +37,9 @@
 
 <section class="panel panel-default actions">
     <div class="panel-body">
-        {{ actions }}
-        {{ if value }}
-        <button value="{{ value }}" class="{{ class }}" type="submit">{{ title }}</button>
-        {{ else }}
-        {{ if dropdown }}
-        <button type="button" class="{{ class }} dropdown-toggle" data-toggle="dropdown">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <ul class="dropdown-menu pull-right">
-            {{ dropdown }}
-            <li><a href="{{ url }}">{{ title }}</a></li>
-            {{ /dropdown }}
-        </ul>
-        {{ endif }}
-        <a href="{{ url }}" class="{{ class }}">{{ title }}</a>
-        {{ endif }}
-        {{ /actions }}
+        {{ redirects }}
+        <button type="submit" name="redirect" value="{{ value }}" class="{{ class }}" {{{ attribtues }}}>{{ title }}</button>
+        {{ /redirects }}
     </div>
 </section>
 

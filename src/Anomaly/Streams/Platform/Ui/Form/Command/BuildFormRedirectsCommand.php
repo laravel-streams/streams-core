@@ -3,25 +3,25 @@
 use Anomaly\Streams\Platform\Ui\Form\FormUi;
 
 /**
- * Class HandleFormSubmissionCommand
+ * Class BuildFormRedirectsCommand
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class HandleFormSubmissionCommand
+class BuildFormRedirectsCommand
 {
 
     /**
      * The form UI object.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Form\FormUi
+     * @var
      */
     protected $ui;
 
     /**
-     * Create new HandleFormSubmissionCommand instance.
+     * Create a new BuildFormRedirectsCommand instance.
      *
      * @param FormUi $ui
      */
@@ -33,7 +33,7 @@ class HandleFormSubmissionCommand
     /**
      * Get the form UI object.
      *
-     * @return \Anomaly\Streams\Platform\Ui\Form\FormUi
+     * @return mixed
      */
     public function getUi()
     {

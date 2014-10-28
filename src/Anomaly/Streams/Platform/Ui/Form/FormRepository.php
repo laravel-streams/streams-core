@@ -48,11 +48,13 @@ class FormRepository implements FormRepositoryInterface
      */
     public function get()
     {
-        $entry = $this->model->find($this->ui->getEntry());
+        $id = $this->ui->getEntry();
+
+        $entry = $this->model->find($id);
 
         if (!$entry) {
 
-            throw new \Exception("User not found.");
+            throw new \Exception("Entry [{$id}] not found.");
 
         }
 

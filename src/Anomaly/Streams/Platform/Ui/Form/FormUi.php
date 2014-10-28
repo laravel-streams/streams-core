@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Ui\Form\Command\HandleFormSubmissionCommand;
 use Anomaly\Streams\Platform\Ui\Ui;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
 
@@ -37,7 +38,7 @@ class FormUi extends Ui
     /**
      * @var array
      */
-    protected $actions = [];
+    protected $redirects = [];
 
     /**
      * @var string
@@ -68,10 +69,10 @@ class FormUi extends Ui
 
         $form = $this->newFormService();
 
-        $sections = $form->sections();
-        $actions  = $form->actions();
+        $sections  = $form->sections();
+        $redirects = $form->redirects();
 
-        $data = compact('sections', 'actions');
+        $data = compact('sections', 'redirects');
 
         return view($this->view, $data);
     }
@@ -96,12 +97,12 @@ class FormUi extends Ui
     }
 
     /**
-     * @param array $actions
+     * @param array $redirects
      * return $this
      */
-    public function setActions(array $actions)
+    public function setRedirects(array $redirects)
     {
-        $this->actions = $actions;
+        $this->redirects = $redirects;
 
         return $this;
     }
@@ -109,9 +110,9 @@ class FormUi extends Ui
     /**
      * @return array
      */
-    public function getActions()
+    public function getRedirects()
     {
-        return $this->actions;
+        return $this->redirects;
     }
 
     /**
@@ -187,6 +188,9 @@ class FormUi extends Ui
         return new FormRequest($this);
     }
 
+    /**
+     * Fire when triggering the
+     */
     protected function onTrigger()
     {
         if (!$this->entry instanceof EntryInterface) {
@@ -197,7 +201,9 @@ class FormUi extends Ui
 
         if (app('request')->is('post')) {
 
+            $command = new HandleFormSubmissionCommand($this);
 
+            $this->execute($command);
 
         }
     }

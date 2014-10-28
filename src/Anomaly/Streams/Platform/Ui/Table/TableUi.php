@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Anomaly\Streams\Platform\Contract\PaginatorInterface;
 use Anomaly\Streams\Platform\Ui\Ui;
+use Anomaly\Streams\Platform\Contract\PaginatorInterface;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableViewCommand;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableActionCommand;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableFiltersCommand;
