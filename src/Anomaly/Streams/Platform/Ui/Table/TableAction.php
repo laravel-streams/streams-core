@@ -33,6 +33,7 @@ class TableAction implements TableActionInterface
     /**
      * Handle the table action.
      *
+     * @return mixed|void
      * @throws \Exception
      */
     public function handle()
@@ -43,7 +44,8 @@ class TableAction implements TableActionInterface
     /**
      * Authorize the user to process the action.
      *
-     * @return mixed
+     * @return mixed|void
+     * @throws \Exception
      */
     public function authorize()
     {

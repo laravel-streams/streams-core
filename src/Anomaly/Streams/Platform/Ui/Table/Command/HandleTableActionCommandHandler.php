@@ -91,7 +91,7 @@ class HandleTableActionCommandHandler
                      */
                     try {
 
-                        if ($handler->authorize()) {
+                        if ($handler->authorize() !== false) {
 
                             $response = $handler->handle();
 
