@@ -43,9 +43,9 @@ class BuildTableHeadersCommandHandler
             $column = $this->evaluate($column, $ui);
 
             // Build out our required data.
-            $title = $this->getTitle($column, $ui);
+            $heading = $this->getHeading($column, $ui);
 
-            $columns[] = compact('title');
+            $columns[] = compact('heading');
 
         }
 
@@ -65,43 +65,43 @@ class BuildTableHeadersCommandHandler
     }
 
     /**
-     * Get the title.
+     * Get the heading.
      *
      * @param $column
      * @param $ui
      * @return null|string
      */
-    protected function getTitle($column, TableUi $ui)
+    protected function getHeading($column, TableUi $ui)
     {
-        $title = trans(evaluate_key($column, 'title', null, [$ui]));
+        $heading = trans(evaluate_key($column, 'heading', null, [$ui]));
 
-        if (!$title and $entry = $ui->getModel() and $entry instanceof EntryInterface) {
+        if (!$heading and $entry = $ui->getModel() and $entry instanceof EntryInterface) {
 
-            $title = $this->getTitleFromField($column, $entry);
-
-        }
-
-        if (!$title) {
-
-            $this->guessTitle($column, $ui);
+            $heading = $this->getHeadingFromField($column, $entry);
 
         }
 
-        return $title;
+        if (!$heading) {
+
+            $this->guessHeading($column, $ui);
+
+        }
+
+        return $heading;
     }
 
     /**
-     * Get the title from a field.
+     * Get the heading from a field.
      *
      * @param $column
      * @param $entry
      * @return null
      */
-    protected function getTitleFromField($column, EntryInterface $entry)
+    protected function getHeadingFromField($column, EntryInterface $entry)
     {
         $parts = explode('.', $column['field']);
 
-        if ($name = $entry->getNameFromField($parts[0])) {
+        if ($name = $entry->getFieldName($parts[0])) {
 
             return $name;
 
@@ -111,29 +111,29 @@ class BuildTableHeadersCommandHandler
     }
 
     /**
-     * Make our best guess at the title.
+     * Make our best guess at the heading.
      *
      * @param $column
      * @param $ui
      * @return mixed|null|string
      */
-    protected function guessTitle($column, $ui)
+    protected function guessHeading($column, $ui)
     {
-        $title = evaluate_key($column, 'title', evaluate_key($column, 'field', null), [$ui]);
+        $heading = evaluate_key($column, 'heading', evaluate_key($column, 'field', null), [$ui]);
 
-        $translated = trans($title);
+        $translated = trans($heading);
 
-        if ($translated == $title) {
+        if ($translated == $heading) {
 
-            $title = humanize($title);
+            $heading = humanize($heading);
 
         } else {
 
-            $title = $translated;
+            $heading = $translated;
 
         }
 
-        return $title;
+        return $heading;
     }
 
 }
