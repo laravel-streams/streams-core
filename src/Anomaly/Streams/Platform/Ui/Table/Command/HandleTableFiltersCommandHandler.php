@@ -1,0 +1,94 @@
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableFilterInterface;
+use Illuminate\Http\Request;
+
+/**
+ * Class HandleTableFiltersCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Command
+ */
+class HandleTableFiltersCommandHandler
+{
+
+    /**
+     * The HTTP request object.
+     *
+     * @var \Illuminate\Http\Request
+     */
+    protected $request;
+
+    /**
+     * Create a new HandleTableFiltersCommandHandler instance.
+     *
+     * @param Request $request
+     */
+    function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
+
+    /**
+     * Handle the command.
+     *
+     * @param HandleTableFiltersCommand $command
+     * @return mixed
+     */
+    public function handle(HandleTableFiltersCommand $command)
+    {
+        $ui    = $command->getUi();
+        $query = $command->getQuery();
+
+        $filters = $ui->getFilters();
+
+        /**
+         * Loop through all the filters and look
+         * for input with value according to each
+         * filter's slug.
+         */
+        foreach ($filters as $filter) {
+
+            $slug = 'f-' . slugify(evaluate_key($filter, 'slug', hashify($filter)), '-');
+
+            /**
+             * IF there is a value to work with
+             * then pass it to the filter handler.
+             */
+            if ($value = $this->request->get($slug)) {
+
+                $handler = $filter['handler'];
+
+                if ($handler instanceof \Closure) {
+
+                    if ($result = $handler($query, $value)) {
+
+                        $query = $result;
+
+                    }
+
+                } elseif ($handler = app($handler) and $handler instanceof TableFilterInterface) {
+
+                    /**
+                     * If it's not a closure it MUST be an instance
+                     * of the TableFilterInterface.
+                     */
+                    if ($result = $handler->handle($query, $value)) {
+
+                        $query = $result;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        return $query;
+    }
+
+}
+ 

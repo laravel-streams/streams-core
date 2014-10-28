@@ -22,12 +22,28 @@ interface EntryInterface extends ArrayableInterface
     public function getValueFromField($field);
 
     /**
-     * Get the name from field.
+     * Get the name of a field.
      *
-     * @param $int
+     * @param $field
      * @return mixed
      */
-    public function getNameFromField($int);
+    public function getFieldName($field);
+
+    /**
+     * Get the label for a field.
+     *
+     * @param $field
+     * @return mixed
+     */
+    public function getFieldLabel($field);
+
+    /**
+     * Get the heading for a field.
+     *
+     * @param $field
+     * @return mixed
+     */
+    public function getFieldHeading($field);
 
 }
  

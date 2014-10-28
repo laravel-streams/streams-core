@@ -3,15 +3,16 @@
 use Anomaly\Streams\Platform\Ui\Table\TableUi;
 
 /**
- * Class HandleActionRequestCommand
+ * Class HandleTableActionCommand
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Command
  */
-class HandleActionRequestCommand
+class HandleTableActionCommand
 {
+
     /**
      * The table UI class.
      *
@@ -20,7 +21,7 @@ class HandleActionRequestCommand
     protected $ui;
 
     /**
-     * Create a new HandleActionRequestCommand instance.
+     * Create a new HandleTableActionCommand instance.
      *
      * @param TableUi $ui
      */
@@ -38,5 +39,6 @@ class HandleActionRequestCommand
     {
         return $this->ui;
     }
+
 }
  

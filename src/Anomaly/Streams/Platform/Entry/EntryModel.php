@@ -189,12 +189,12 @@ class EntryModel extends EloquentModel implements EntryInterface
     }
 
     /**
-     * Get the name from a field.
+     * Get the name of a field.
      *
      * @param $field
      * @return mixed
      */
-    public function getNameFromField($field)
+    public function getFieldName($field)
     {
         $assignment = $this->stream->assignments->findByFieldSlug($field);
 
@@ -204,4 +204,40 @@ class EntryModel extends EloquentModel implements EntryInterface
 
         }
     }
+
+    /**
+     * Get the heading for a field.
+     *
+     * @param $field
+     * @return mixed
+     */
+    public function getFieldHeading($field)
+    {
+        $assignment = $this->stream->assignments->findByFieldSlug($field);
+
+        if ($assignment) {
+
+            return $assignment->field->decorate()->heading;
+
+        }
+    }
+
+    /**
+     * Get the label for a field.
+     *
+     * @param $field
+     * @return mixed
+     */
+    public function getFieldLabel($field)
+    {
+        $assignment = $this->stream->assignments->findByFieldSlug($field);
+
+        if ($assignment) {
+
+            return $assignment->label;
+
+        }
+    }
+
+
 }

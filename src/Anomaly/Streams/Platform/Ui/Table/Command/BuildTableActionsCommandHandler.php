@@ -70,11 +70,6 @@ class BuildTableActionsCommandHandler
 
             }
 
-            // Get this before evaluating!!
-            $handler = $this->getHandler($action);
-
-            unset($action['handler']);
-
             // Evaluate everything in the array.
             // All closures are gone now.
             $action = $this->evaluate($action, $ui);
@@ -85,22 +80,15 @@ class BuildTableActionsCommandHandler
             $action = array_merge($defaults, $action);
 
             // Build out our required data.
+            $value      = $this->getSlug($action);
             $title      = $this->getTitle($action);
             $class      = $this->getClass($action);
-            $value      = $this->getValue($action);
             $attributes = $this->getAttributes($action);
 
             $action = compact('title', 'class', 'value', 'attributes');
 
             // Normalize things a bit before proceeding.
             $action = $this->normalize($action);
-
-            /**
-             * Every action should have a handler to handle the post
-             * request if selected. Register them to the IoC so
-             * we can look out for them later.
-             */
-            $this->registerHandler($action, $handler, $ui);
 
             $actions[] = $action;
 
@@ -178,33 +166,14 @@ class BuildTableActionsCommandHandler
     }
 
     /**
-     * Get the submit button value.
+     * Get the action slug.
      *
      * @param $action
      * @return mixed|null
      */
-    protected function getValue($action)
+    protected function getSlug($action)
     {
-        return hashify($action);
-    }
-
-    /**
-     * Get the action handler.
-     * This can be a class path to a handler
-     * or a valid closure. Defaults to bitching.
-     *
-     * @param $action
-     * @return callable
-     */
-    protected function getHandler($action)
-    {
-        if (!isset($action['handler'])) {
-
-            throw new \Exception("No action handler defined. Please provide a closure or valid class path to your handler [{$action['title']}]");
-
-        }
-
-        return $action['handler'];
+        return evaluate_key($action, 'slug');
     }
 
     /**
@@ -245,35 +214,6 @@ class BuildTableActionsCommandHandler
         }
 
         return $action;
-    }
-
-    /**
-     * Register the handler to the IoC container.
-     *
-     * @param $action
-     * @param $handler
-     * @param $ui
-     */
-    protected function registerHandler($action, $handler, $ui)
-    {
-        $abstract = get_class($ui) . '@action-' . $action['value'];
-
-        /**
-         * If the handler is a closure we need
-         * to wrap it in a closure so it won't
-         * run when we resolve it later on.
-         */
-        if ($handler instanceof \Closure) {
-
-            $handler = function () use ($handler) {
-
-                return $handler;
-
-            };
-
-        }
-
-        app()->bind($abstract, $handler);
     }
 
 }

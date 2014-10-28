@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Anomaly\Streams\Platform\Ui\Table\Command\HandleActionRequestCommand;
+use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableActionCommand;
+use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableFiltersCommand;
 use Anomaly\Streams\Platform\Ui\Table\Event\RenderingTableEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
 
@@ -430,9 +431,7 @@ class TableUi extends Ui
     {
         if (app('request')->has('_action')) {
 
-            $command = new HandleActionRequestCommand($this);
-
-            $this->execute($command);
+            $this->execute(new HandleTableActionCommand($this));
 
             app('streams.messages')->flash();
 
@@ -441,5 +440,16 @@ class TableUi extends Ui
         }
 
         return null;
+    }
+
+    /**
+     * Fire just before querying.
+     *
+     * @param $query
+     * @return mixed
+     */
+    protected function onQuery(&$query)
+    {
+        $query = $this->execute(new HandleTableFiltersCommand($this, $query));
     }
 }

@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Illuminate\Database\Eloquent\Builder;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 
 class TableRepository implements TableRepositoryInterface
@@ -9,7 +9,7 @@ class TableRepository implements TableRepositoryInterface
 
     protected $model;
 
-    function __construct(TableUi $ui, $model = null)
+    function __construct(TableUi $ui, EloquentModel $model = null)
     {
         $this->ui    = $ui;
         $this->model = $model;
@@ -19,9 +19,7 @@ class TableRepository implements TableRepositoryInterface
     {
         $query = $this->model->newInstance();
 
-        if ($result = $this->ui->fire('query', [$query]) and $result instanceof Builder) {
-            $query = $result;
-        }
+        $this->ui->fire('query', [&$query]);
 
         // Do other logic here.
 
