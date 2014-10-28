@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableActionCommand;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableFiltersCommand;
+use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableViewCommand;
 use Anomaly\Streams\Platform\Ui\Table\Event\RenderingTableEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
 
@@ -450,6 +451,8 @@ class TableUi extends Ui
      */
     protected function onQuery(&$query)
     {
+        // TODO: Move this stuff to an event.
+        $query = $this->execute(new HandleTableViewCommand($this, $query));
         $query = $this->execute(new HandleTableFiltersCommand($this, $query));
     }
 }

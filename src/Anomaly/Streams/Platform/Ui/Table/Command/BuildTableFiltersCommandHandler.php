@@ -28,6 +28,8 @@ class BuildTableFiltersCommandHandler
 
             }
 
+            unset($filter['handler']);
+
             // Evaluate everything in the array.
             // All closures are gone now.
             $this->evaluate($filter, $ui);

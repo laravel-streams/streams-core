@@ -70,6 +70,8 @@ class BuildTableActionsCommandHandler
 
             }
 
+            unset($action['handler']);
+
             // Evaluate everything in the array.
             // All closures are gone now.
             $action = $this->evaluate($action, $ui);

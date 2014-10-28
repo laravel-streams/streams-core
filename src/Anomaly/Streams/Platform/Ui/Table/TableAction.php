@@ -38,7 +38,7 @@ class TableAction implements TableActionInterface
      */
     public function handle()
     {
-        throw new \Exception("The handle() and authorize() method should be overridden.");
+        //
     }
 
     /**
@@ -49,7 +49,7 @@ class TableAction implements TableActionInterface
      */
     public function authorize()
     {
-        throw new \Exception("The handle() and authorize() method should be overridden.");
+        //
     }
 
 }
