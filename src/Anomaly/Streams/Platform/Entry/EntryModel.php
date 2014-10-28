@@ -75,7 +75,7 @@ class EntryModel extends EloquentModel implements EntryInterface
         // Lastly if we have a type for this key - use the field type
         // mutate method to transform the value to storage format.
         elseif ($assignment = $this->findAssignmentByFieldSlug($key)) {
-            if ($type = $assignment->fieldType()) {
+            if ($type = $assignment->type($this)) {
                 $value = $type->mutate($value);
             }
         }

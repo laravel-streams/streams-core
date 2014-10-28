@@ -1,13 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Anomaly\Streams\Platform\Ui\Ui;
+use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableViewCommand;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableActionCommand;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableFiltersCommand;
-use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableViewCommand;
-use Anomaly\Streams\Platform\Ui\Table\Event\RenderingTableEvent;
-use Anomaly\Streams\Platform\Ui\Ui;
 
 /**
  * Class TableUi
+ * This class is responsible for rendering tables
+ * and handling it's primary features.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,6 +17,7 @@ use Anomaly\Streams\Platform\Ui\Ui;
  */
 class TableUi extends Ui
 {
+
     /**
      * @var array
      */
@@ -420,27 +422,17 @@ class TableUi extends Ui
      */
     protected function onRendering($data)
     {
-        $this->dispatch(new RenderingTableEvent($this, $data));
+        //
     }
 
     /**
      * Fire just before responding with a view.
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|null
+     * @return mixed
      */
     protected function onResponse()
     {
-        if (app('request')->has('_action')) {
-
-            $this->execute(new HandleTableActionCommand($this));
-
-            app('streams.messages')->flash();
-
-            return redirect(app('request')->path());
-
-        }
-
-        return null;
+        return $this->execute(new HandleTableActionCommand($this));
     }
 
     /**
@@ -451,8 +443,9 @@ class TableUi extends Ui
      */
     protected function onQuery(&$query)
     {
-        // TODO: Move this stuff to an event.
+        // TODO: Move this stuff to an event?
         $query = $this->execute(new HandleTableViewCommand($this, $query));
         $query = $this->execute(new HandleTableFiltersCommand($this, $query));
     }
+
 }

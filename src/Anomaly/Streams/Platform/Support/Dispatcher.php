@@ -1,21 +1,30 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Log\Writer;
-
+/**
+ * Class Dispatcher
+ *
+ * This is a simple dispatch class that wraps
+ * the Laravel dispatcher.
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Support
+ */
 class Dispatcher
 {
+
     /**
-     * The Dispatcher instance.
+     * Laravel's dispatcher object.
      *
-     * @var Dispatcher
+     * @var \Illuminate\Events\Dispatcher
      */
     protected $event;
 
     /**
-     * Create a new Dispatcher instance.
+     * Create a new Dispatcher object.
      *
-     * @param Dispatcher $event
-     * @param Writer     $log
+     * @param \Illuminate\Events\Dispatcher $event
      */
     function __construct(\Illuminate\Events\Dispatcher $event)
     {
@@ -23,7 +32,7 @@ class Dispatcher
     }
 
     /**
-     * Dispatch all raised events.
+     * Fire an array of events.
      *
      * @param array $events
      */
@@ -39,10 +48,10 @@ class Dispatcher
     }
 
     /**
-     * Make the fired event name look more object-oriented.
+     * Get the event name from a given event object.
      *
      * @param $event
-     * @return string
+     * @return mixed|string
      */
     protected function getEventName($event)
     {
@@ -56,4 +65,5 @@ class Dispatcher
 
         return $event;
     }
+
 }

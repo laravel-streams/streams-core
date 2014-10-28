@@ -44,68 +44,77 @@ class HandleTableActionCommandHandler
 
         $ui = $command->getUi();
 
-        /**
-         * Look through actions and find a matching slug.
-         */
-        foreach ($ui->getActions() as $action) {
+        if ($this->request->has('_action')) {
 
-            if ($action['slug'] == $this->request->get('_action')) {
+            /**
+             * Look through actions and find a matching slug.
+             */
+            foreach ($ui->getActions() as $action) {
 
-                $handler = $action['handler'];
+                if ($action['slug'] == $this->request->get('_action')) {
 
-                /**
-                 * If the handler is a closure just run
-                 * it and pass the table UI object along.
-                 */
-                if ($handler instanceof \Closure) {
-
-                    try {
-
-                        $response = $handler($ui);
-
-                    } catch (\Exception $e) {
-
-                        app('streams.messages')->add('error', $e->getMessage());
-
-                    }
-
-                } elseif (is_string($handler) and $handler = app($handler)) {
+                    $handler = $action['handler'];
 
                     /**
-                     * If it's not a closure it MUST be an instance
-                     * of the TableActionInterface. Tell em about it.
+                     * If the handler is a closure just run
+                     * it and pass the table UI object along.
                      */
-                    if (!$handler instanceof TableActionInterface) {
+                    if ($handler instanceof \Closure) {
 
-                        $class = get_class($handler);
+                        try {
 
-                        throw new \Exception("[{$class}] should implement Anomaly\\Streams\\Platform\\Ui\\Table\\Contract\\TableActionInterface");
+                            $response = $handler($ui);
 
-                    }
+                        } catch (\Exception $e) {
 
-                    /**
-                     * The table action should either authorize and do it's thing
-                     * and set some success messages or throw an \Exception
-                     * telling us what went wrong. This message will get
-                     * flashed later to the UI when redirecting.
-                     */
-                    try {
-
-                        if ($handler->authorize() !== false) {
-
-                            $response = $handler->handle();
+                            app('streams.messages')->add('error', $e->getMessage());
 
                         }
 
-                    } catch (\Exception $e) {
+                    } elseif (is_string($handler) and $handler = app($handler)) {
 
-                        app('streams.messages')->add('error', $e->getMessage());
+                        /**
+                         * If it's not a closure it MUST be an instance
+                         * of the TableActionInterface. Tell em about it.
+                         */
+                        if (!$handler instanceof TableActionInterface) {
+
+                            $class = get_class($handler);
+
+                            throw new \Exception("[{$class}] should implement Anomaly\\Streams\\Platform\\Ui\\Table\\Contract\\TableActionInterface");
+
+                        }
+
+                        /**
+                         * The table action should either authorize and do it's thing
+                         * and set some success messages or throw an \Exception
+                         * telling us what went wrong. This message will get
+                         * flashed later to the UI when redirecting.
+                         */
+                        try {
+
+                            if ($handler->authorize() !== false) {
+
+                                $response = $handler->handle();
+
+                            }
+
+                        } catch (\Exception $e) {
+
+                            app('streams.messages')->add('error', $e->getMessage());
+
+                        }
 
                     }
 
                 }
 
             }
+
+
+            app('streams.messages')->flash();
+
+            return redirect(app('request')->path());
 
         }
 

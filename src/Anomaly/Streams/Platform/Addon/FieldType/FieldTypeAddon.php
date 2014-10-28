@@ -62,6 +62,11 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         return view($this->view, $data);
     }
 
+    public function mutate($value)
+    {
+        return $value;
+    }
+
     public function getRules()
     {
         return $this->rules;
@@ -136,7 +141,7 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         if ($suffix) {
 
             $this->suffix = $suffix . ends_with($suffix, '-') ? : '-';
-            
+
         }
 
         return $this;
