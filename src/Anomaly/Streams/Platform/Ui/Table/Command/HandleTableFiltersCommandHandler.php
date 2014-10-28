@@ -60,15 +60,19 @@ class HandleTableFiltersCommandHandler
              * then pass it to the filter handler.
              */
 
-            if ($value = $this->request->get($slug)) {
+            if ($value = $this->request->get($slug) or is_string($filter)) {
 
-                if ($filter['type'] != 'field') {
+                if (is_string($filter)) {
+                    $value = $this->request->get($filter);
+                }
+
+                if (isset($filter['type']) and $filter['type'] != 'field') {
 
                     $handler = $filter['handler'];
 
                 } else {
 
-                    $assignment = $ui->getModel()->getStream()->assignments->findByFieldSlug($filter['field']);
+                    $assignment = $ui->getModel()->getStream()->assignments->findByFieldSlug($filter);
 
                     if ($assignment instanceof AssignmentModel) {
 
