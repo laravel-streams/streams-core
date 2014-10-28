@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
@@ -56,31 +57,19 @@ class EntryModel extends EloquentModel implements EntryInterface
      */
     public function setAttribute($key, $value)
     {
-        // First we will check for the presence of a mutator for the set operation
-        // which simply lets the developers tweak the attribute as it is set on
-        // the model, such as "json_encoding" an listing of data for storage.
-        if ($key and $this->hasSetMutator($key)) {
-            $method = 'set' . studly_case($key) . 'Attribute';
-
-            $value = $this->{$method}($value);
-        }
-
-        // If an attribute is listed as a "date", we'll convert it from a DateTime
-        // instance into a form proper for storage on the database tables using
-        // the connection grammar's date format. We will auto set the values.
-        elseif (in_array($key, $this->getDates()) && $value) {
-            $value = $this->fromDateTime($value);
-        }
-
-        // Lastly if we have a type for this key - use the field type
+        // If we have a field type for this key - use the field type
         // mutate method to transform the value to storage format.
-        elseif ($assignment = $this->findAssignmentByFieldSlug($key)) {
-            if ($type = $assignment->type($this)) {
+        if ($assignment = $this->findAssignmentByFieldSlug($key)) {
+
+            if ($type = $assignment->type($this) and $type instanceof FieldTypeAddon) {
+
                 $value = $type->mutate($value);
+
             }
+
         }
 
-        $this->attributes[$key] = $value;
+        parent::setAttribute($key, $value);
     }
 
     /**

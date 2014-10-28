@@ -3,6 +3,9 @@
 /**
  * Interface TableViewInterface
  *
+ * This interface helps assure that table view
+ * handlers can at least handle the view query.
+ *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>

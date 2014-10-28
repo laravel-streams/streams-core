@@ -4,7 +4,9 @@ use Anomaly\Streams\Platform\Ui\Utility;
 
 /**
  * Class TableUtility
- * Simple utility methods to assist table command handlers.
+ *
+ * This is a simple utility methods to
+ * assist table command handlers.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>

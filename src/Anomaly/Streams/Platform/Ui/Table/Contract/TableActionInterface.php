@@ -5,6 +5,9 @@ use Anomaly\Streams\Platform\Ui\Table\TableUi;
 /**
  * Interface TableActionInterface
  *
+ * This interface helps assure that table action
+ * handlers can at least handle the action.
+ *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>

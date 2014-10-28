@@ -3,6 +3,9 @@
 /**
  * Interface TableFilterInterface
  *
+ * This interface helps assure that table filter
+ * handlers can at least handle the filter request.
+ *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>

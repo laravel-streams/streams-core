@@ -10,16 +10,35 @@ use Anomaly\Streams\Platform\Ui\Table\Command\BuildTableHeadersCommand;
 use Anomaly\Streams\Platform\Ui\Table\Command\BuildTablePaginationCommand;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableServiceInterface;
 
+/**
+ * Class TableService
+ *
+ * This class returns prepared data for the TableUi in
+ * order to send it then to the rendered view.
+ *
+ * The data coming from here should be as an array
+ * preferably and pretty dumb. Stupid views = good views.
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table
+ */
 class TableService implements TableServiceInterface
 {
+
     use CommandableTrait;
 
     /**
+     * The table UI object.
+     *
      * @var TableUi
      */
     protected $ui;
 
     /**
+     * Create a new TableService instance.
+     *
      * @param TableUi $ui
      */
     function __construct(TableUi $ui)
@@ -28,6 +47,8 @@ class TableService implements TableServiceInterface
     }
 
     /**
+     * Return the views data.
+     *
      * @return mixed
      */
     public function views()
@@ -38,6 +59,8 @@ class TableService implements TableServiceInterface
     }
 
     /**
+     * Return the filters data.
+     *
      * @return mixed
      */
     public function filters()
@@ -48,6 +71,8 @@ class TableService implements TableServiceInterface
     }
 
     /**
+     * Return the headers data.
+     *
      * @return mixed
      */
     public function headers()
@@ -58,6 +83,8 @@ class TableService implements TableServiceInterface
     }
 
     /**
+     * Return the row data.
+     *
      * @return mixed
      */
     public function rows()
@@ -68,6 +95,8 @@ class TableService implements TableServiceInterface
     }
 
     /**
+     * Return the actions data.
+     *
      * @return mixed
      */
     public function actions()
@@ -78,6 +107,8 @@ class TableService implements TableServiceInterface
     }
 
     /**
+     * Return the pagination data.
+     *
      * @return mixed
      */
     public function pagination()
@@ -88,6 +119,8 @@ class TableService implements TableServiceInterface
     }
 
     /**
+     * Return the options data.
+     *
      * @return mixed
      */
     public function options()
@@ -96,5 +129,6 @@ class TableService implements TableServiceInterface
 
         return $this->execute($command);
     }
+
 }
  

@@ -5,6 +5,10 @@ use Anomaly\Streams\Platform\Ui\Table\Contract\TableActionInterface;
 /**
  * Class TableAction
  *
+ * This is the default table action class that
+ * can be extended or used for reference as long
+ * as the TableActionInterface is implemented.
+ *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>

@@ -7,8 +7,9 @@ use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableFiltersCommand;
 
 /**
  * Class TableUi
- * This class is responsible for rendering tables
- * and handling it's primary features.
+ *
+ * This class is responsible for rendering entry
+ * tables and handling their primary features.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
