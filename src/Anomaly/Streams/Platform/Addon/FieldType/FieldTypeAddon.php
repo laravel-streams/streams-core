@@ -57,9 +57,9 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         $instructions = trans($this->instructions);
         $language     = trans("language.{$locale}");
 
-        $_input = $this->input();
+        $input = $this->input();
 
-        $data = compact('id', 'label', 'language', 'instructions', '_input');
+        $data = compact('id', 'label', 'language', 'instructions', 'input');
 
         return view($this->view, $data);
     }
