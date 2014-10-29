@@ -86,7 +86,7 @@ class BuildTableButtonsCommandHandler
             $button = compact('title', 'class', 'attributes', 'dropdown');
 
             // Normalize things a bit before proceeding.
-            $button = $this->normalize($button);
+            $button = $this->utility->normalize($button);
 
             $buttons[] = $button;
 
@@ -178,46 +178,6 @@ class BuildTableButtonsCommandHandler
         }
 
         return $dropdowns;
-    }
-
-    /**
-     * Normalize the data. Convert paths to full URLs
-     * and make parse the attributes to a string, etc.
-     *
-     * @param $button
-     * @return mixed
-     */
-    protected function normalize($button)
-    {
-        /**
-         * If a URL is present but not absolute
-         * then we need to make it so.
-         */
-        if (isset($button['attributes']['url'])) {
-
-            if (!starts_with($button['attributes']['url'], 'http')) {
-
-                $button['attributes']['url'] = url($button['attributes']['url']);
-
-            }
-
-            $button['attributes']['href'] = $button['attributes']['url'];
-
-            unset($button['attributes']['url']);
-
-        }
-
-        /**
-         * Implode all the attributes left over
-         * into an HTML attribute string.
-         */
-        if (isset($button['attributes'])) {
-
-            $button['attributes'] = $this->utility->attributes($button['attributes']);
-
-        }
-
-        return $button;
     }
 
 }

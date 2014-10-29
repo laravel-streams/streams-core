@@ -90,7 +90,7 @@ class BuildTableActionsCommandHandler
             $action = compact('title', 'class', 'value', 'attributes');
 
             // Normalize things a bit before proceeding.
-            $action = $this->normalize($action);
+            $action = $this->utility->normalize($action);
 
             $actions[] = $action;
 
@@ -163,46 +163,6 @@ class BuildTableActionsCommandHandler
     protected function getSlug($action)
     {
         return evaluate_key($action, 'slug');
-    }
-
-    /**
-     * Normalize the data. Convert paths to full URLs
-     * and make parse the attributes to a string, etc.
-     *
-     * @param $action
-     * @return mixed
-     */
-    protected function normalize($action)
-    {
-        /**
-         * If a URL is present but not absolute
-         * then we need to make it so.
-         */
-        if (isset($action['attributes']['url'])) {
-
-            if (!starts_with($action['attributes']['url'], 'http')) {
-
-                $action['attributes']['url'] = url($action['attributes']['url']);
-
-            }
-
-            $action['attributes']['href'] = $action['attributes']['url'];
-
-            unset($action['attributes']['url']);
-
-        }
-
-        /**
-         * Implode all the attributes left over
-         * into an HTML attribute string.
-         */
-        if (isset($action['attributes'])) {
-
-            $action['attributes'] = $this->utility->attributes($action['attributes']);
-
-        }
-
-        return $action;
     }
 
 }

@@ -65,7 +65,7 @@ class BuildTableFiltersCommandHandler
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $this->utility->utility->evaluate($filter, [$ui]);
+            $this->utility->evaluate($filter, [$ui]);
 
             // Build out required data.
             $slug   = $this->getSlug($filter);
