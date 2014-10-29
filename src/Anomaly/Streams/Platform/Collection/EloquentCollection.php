@@ -15,6 +15,30 @@ class EloquentCollection extends Collection
 {
 
     /**
+     * Find by slug.
+     *
+     * This is not always applicable but
+     * many streams utilize a slug.
+     *
+     * @param $slug
+     * @return null
+     */
+    public function findBySlug($slug)
+    {
+        foreach ($this->items as $item) {
+
+            if ($item->slug == $slug) {
+
+                return $item;
+
+            }
+
+        }
+
+        return null;
+    }
+
+    /**
      * Return a collection of decorated items.
      *
      * @return static
