@@ -120,7 +120,7 @@ class Ui
     {
         if ($this->prefix) {
 
-            return $this->prefix . ends_with($this->prefix, '_') ? : '_';
+            return $this->prefix . (ends_with($this->prefix, '_') ? : '_');
 
         }
 

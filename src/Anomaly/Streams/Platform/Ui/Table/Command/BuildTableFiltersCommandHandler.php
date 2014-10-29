@@ -91,6 +91,7 @@ class BuildTableFiltersCommandHandler
             $filter = [
                 'type'  => 'field',
                 'field' => $filter,
+                'slug'  => $filter,
             ];
 
         }
