@@ -58,11 +58,11 @@ class FormUi extends Ui
 
         $form = $this->newFormService();
 
+        $actions   = $form->actions();
         $sections  = $form->sections();
         $redirects = $form->redirects();
-        $actions   = $form->actions();
 
-        $data = compact('sections', 'redirects', 'actions');
+        $data = compact('actions', 'sections', 'redirects');
 
         return view($this->view, $data);
     }

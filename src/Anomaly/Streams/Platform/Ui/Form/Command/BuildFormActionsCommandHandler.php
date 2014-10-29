@@ -85,6 +85,9 @@ class BuildFormActionsCommandHandler
 
             $action = compact('title', 'class', 'value', 'attributes');
 
+            // Normalize things a bit before proceeding.
+            $action = $this->normalize($action);
+
             $actions[] = $action;
 
         }

@@ -55,23 +55,6 @@ class TableUtility extends Utility
     ];
 
     /**
-     * The router class.
-     *
-     * @var \Illuminate\Routing\Router
-     */
-    protected $router;
-
-    /**
-     * Create a new Utility instance.
-     *
-     * @param Router $router
-     */
-    function __construct(Router $router)
-    {
-        $this->router = $router;
-    }
-
-    /**
      * Return default button configuration for
      * a given button type.
      *
@@ -125,14 +108,23 @@ class TableUtility extends Utility
 
         switch ($type) {
 
+            /**
+             * Suggest best practices for view URLs
+             */
             case 'view':
                 $defaults['url'] = $path .= '/show/{id}';
                 break;
 
+            /**
+             * Suggest best practices for edit URLs
+             */
             case 'edit':
                 $defaults['url'] = $path .= '/edit/{id}';
                 break;
 
+            /**
+             * Suggest best practices for delete URLs
+             */
             case 'delete':
                 $defaults['url'] = $path .= '/delete/{id}';
                 break;

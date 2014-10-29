@@ -9,14 +9,14 @@ class DefaultFormSection extends FormSection
     {
         $title = $this->getTitle();
 
-        $data = compact('title');
-
-        return view('html/form/default_section/heading', $data);
+        return view('html/section/default/heading', compact('title'));
     }
 
     public function body()
     {
-        return 'Testing...';
+        $body = 'FOO BAR BITCH';
+
+        return view('html/section/default/body', compact('body'));
     }
 
     protected function getTitle()

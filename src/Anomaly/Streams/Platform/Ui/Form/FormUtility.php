@@ -61,13 +61,11 @@ class FormUtility extends Utility
         ],
     ];
 
-    /**
-     * Create new FormUtility instance.
-     */
-    function __construct()
-    {
-        $this->dispatch(new ConstructingFormUtilityEvent($this));
-    }
+    protected $sections = [
+        'default' => [
+            'handler' => 'Anomaly\Streams\Platform\Ui\Form\Section\DefaultFormSection',
+        ],
+    ];
 
     /**
      * Get redirect default for a given type.
@@ -96,11 +94,68 @@ class FormUtility extends Utility
     {
         if (isset($this->actions[$type]) and $defaults = $this->actions[$type]) {
 
+            $defaults['url'] = $this->guessRedirectUrl($type);
+
             return $defaults;
 
         }
 
         return null;
+    }
+
+    public function getSectionDefaults($type)
+    {
+        if (isset($this->sections[$type]) and $defaults = $this->sections[$type]) {
+
+            return $defaults;
+
+        }
+
+        return null;
+    }
+
+    /**
+     * Suggest best practices for URLs.
+     *
+     * URLs should be like: admin/module{/stream}/action/id
+     * {/stream} is optional if the module slug == stream slug
+     * like admin/users (would not be admin/users/users)
+     *
+     * @param $type
+     * @return string
+     */
+    protected function guessRedirectUrl($type)
+    {
+        switch ($type) {
+
+            /**
+             * Lop off the last two segments.
+             * This should leave the index action.
+             */
+            case 'cancel':
+                $segments = explode('/', $this->request->path());
+                return url(implode('/', array_slice($segments, 0, count($segments) - 2)));
+                break;
+
+            /**
+             * Lop off the last two segments
+             * and append /show/{id}
+             */
+            case 'view':
+                $segments = explode('/', $this->request->path());
+                return url(implode('/', array_slice($segments, 0, count($segments) - 2)) . '/show/{id}');
+                break;
+
+            /**
+             * Lop off the last two segments
+             * and append /delete/{id}
+             */
+            case 'delete':
+                $segments = explode('/', $this->request->path());
+                return url(implode('/', array_slice($segments, 0, count($segments) - 2)) . '/delete/{id}');
+                break;
+
+        }
     }
 
 }

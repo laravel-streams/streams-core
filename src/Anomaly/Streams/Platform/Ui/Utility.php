@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui;
 
+use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
 /**
@@ -16,6 +18,32 @@ class Utility
 {
 
     use DispatchableTrait;
+
+    /**
+     * The request object.
+     *
+     * @var \Illuminate\Http\Request
+     */
+    protected $request;
+
+    /**
+     * The router object.
+     *
+     * @var \Illuminate\Routing\Router
+     */
+    protected $router;
+
+    /**
+     * Create a new Utility instance.
+     *
+     * @param Request $request
+     * @param Router  $router
+     */
+    function __construct(Request $request, Router $router)
+    {
+        $this->router  = $router;
+        $this->request = $request;
+    }
 
     /**
      * Return an array parsed into a string of attributes.

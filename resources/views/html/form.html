@@ -18,21 +18,16 @@
 
 {{ sections }}
 <section class="panel panel-default">
-    <!--<div class="panel-heading">
-        <h3 class="panel-title">
-            {{ section.title }}
-        </h3>
-    </div>-->
-    <div class="panel-body" style="padding-top: 0; padding-bottom: 0;">
-        {{ body }}
-    </div>
+    {{{ heading }}}
+    {{{ body }}}
+    {{{ footer }}}
 </section>
 {{ /sections }}
 
 <section class="panel panel-default actions">
     <div class="panel-body">
 
-        <div class="row-fluid">
+        <div class="row">
 
             <div class="col-lg-12">
                 {{ redirects }}
@@ -44,7 +39,7 @@
 
             <div class="col-lg-12 text-right">
                 {{ actions }}
-                <a class="{{ class }}" {{{ attribtues }}}>
+                <a class="{{ class }}" {{{ attributes }}}>
                     {{{ title }}}
                 </a>
                 {{ /actions }}

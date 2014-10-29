@@ -1,11 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormUi;
+use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
 
 class BuildFormSectionsCommandHandler
 {
+
+    protected $utility;
+
+    function __construct(FormUtility $utility)
+    {
+        $this->utility = $utility;
+    }
 
     public function handle(BuildFormSectionsCommand $command)
     {
@@ -17,17 +25,29 @@ class BuildFormSectionsCommandHandler
 
         foreach ($ui->getSections() as $section) {
 
+
             // Evaluate the column.
             // All closures are gone now.
             $section = $this->evaluate($section, $ui, $entry);
 
-            $section = $this->getSectionObject($section, $ui);
+            // Get our defaults and merge them in.
+            $defaults = $this->getDefaults($section, $ui, $entry);
 
-            if ($section instanceof FormSectionInterface) {
+            $section = array_merge($defaults, $section);
 
-                $body = $section->body();
+            // Get the object responsible for handling the section.
+            $handler = $this->getSectionHandler($section, $ui);
 
-                $sections[] = compact('body');
+            if ($handler instanceof FormSectionInterface) {
+
+                // Build out the required data.
+                $body    = $handler->body();
+                $footer  = $handler->footer();
+                $heading = $handler->heading();
+
+                $slug = $this->getSlug($section);
+
+                $sections[] = compact('slug', 'body', 'footer', 'heading');
 
             }
 
@@ -61,11 +81,29 @@ class BuildFormSectionsCommandHandler
         return $section;
     }
 
-    protected function getSectionObject($section, $ui)
+    protected function getDefaults($section, $ui, $entry)
+    {
+        $defaults = [];
+
+        if (isset($section['type']) and $defaults = $this->utility->getSectionDefaults($section['type'])) {
+
+            $defaults = $this->evaluate($defaults, $ui, $entry);
+
+        }
+
+        return $defaults;
+    }
+
+    protected function getSlug($section)
+    {
+        return evaluate_key($section, 'slug', evaluate_key($section, 'type'));
+    }
+
+    protected function getSectionHandler($section, $ui)
     {
         $default = 'Anomaly\Streams\Platform\Ui\Form\Section\DefaultFormSection';
 
-        return app()->make(evaluate_key($section, 'type', $default, [$ui]), compact('section', 'ui'));
+        return app()->make(evaluate_key($section, 'handler', $default, [$ui]), compact('section', 'ui'));
     }
 
 }
