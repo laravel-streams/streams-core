@@ -30,6 +30,11 @@ class AssignFieldCommand
     /**
      * @var
      */
+    protected $placeholder;
+
+    /**
+     * @var
+     */
     protected $instructions;
 
     /**
@@ -60,6 +65,7 @@ class AssignFieldCommand
      * @param       $stream
      * @param       $field
      * @param       $label
+     * @param       $placeholder
      * @param       $instructions
      * @param       $isUnique
      * @param       $isRequired
@@ -72,6 +78,7 @@ class AssignFieldCommand
         $stream,
         $field,
         $label,
+        $placeholder,
         $instructions,
         $isUnique,
         $isRequired,
@@ -85,6 +92,7 @@ class AssignFieldCommand
         $this->sortOrder      = $sortOrder;
         $this->namespace      = $namespace;
         $this->isRequired     = $isRequired;
+        $this->placeholder    = $placeholder;
         $this->instructions   = $instructions;
         $this->isRevisionable = $isRevisionable;
         $this->isTranslatable = $isTranslatable;
@@ -96,6 +104,14 @@ class AssignFieldCommand
     public function getIsRequired()
     {
         return $this->isRequired;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlaceholder()
+    {
+        return $this->placeholder;
     }
 
     /**

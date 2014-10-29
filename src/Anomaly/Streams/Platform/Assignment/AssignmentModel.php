@@ -39,7 +39,10 @@ class AssignmentModel extends EloquentModel
      * @param $streamId
      * @param $fieldId
      * @param $label
+     * @param $placeholder
      * @param $instructions
+     * @param $isUnique
+     * @param $isRequired
      * @param $isTranslatable
      * @param $isRevisionable
      * @return $this
@@ -49,6 +52,7 @@ class AssignmentModel extends EloquentModel
         $streamId,
         $fieldId,
         $label,
+        $placeholder,
         $instructions,
         $isUnique,
         $isRequired,
@@ -61,6 +65,7 @@ class AssignmentModel extends EloquentModel
         $this->is_unique       = $isUnique;
         $this->sort_order      = $sortOrder;
         $this->is_required     = $isRequired;
+        $this->placeholder     = $placeholder;
         $this->instructions    = $instructions;
         $this->is_translatable = $isTranslatable;
         $this->is_revisionable = $isRevisionable;
