@@ -24,6 +24,15 @@ class Ui
     use DispatchableTrait;
 
     /**
+     * The UI prefix. This helps us
+     * distinguish logic for multiple
+     * instances of a UI.
+     *
+     * @var string
+     */
+    protected $prefix = 'ui';
+
+    /**
      * The rendering wrapper view.
      *
      * @var string
@@ -87,6 +96,29 @@ class Ui
         }
 
         return view($this->wrapper, compact('content', 'title'));
+    }
+
+    /**
+     * Set the UI prefix.
+     *
+     * @param string $prefix
+     * return $this
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    /**
+     * Get the UI prefix.
+     *
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
     }
 
     /**
