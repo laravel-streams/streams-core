@@ -25,7 +25,7 @@ class TableView implements TableViewInterface
      */
     public function handle($query)
     {
-        //
+        return $query;
     }
 
 }

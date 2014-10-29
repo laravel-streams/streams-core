@@ -39,11 +39,7 @@ class FieldTypeFilter implements TableFilterInterface
      */
     public function handle($query, $value)
     {
-        if ($value) {
-
-            return $query->where($this->type->getColumnName(), 'LIKE', "%{$value}%");
-
-        }
+        return $query->where($this->type->getColumnName(), 'LIKE', "%{$value}%");
     }
 
 }

@@ -16,7 +16,7 @@ class HandleTableFiltersCommand
     /**
      * The table UI object.
      *
-     * @var
+     * @var \Anomaly\Streams\Platform\Ui\Table\TableUi
      */
     protected $ui;
 
@@ -52,7 +52,7 @@ class HandleTableFiltersCommand
     /**
      * Get the table UI object.
      *
-     * @return mixed
+     * @return TableUi
      */
     public function getUi()
     {

@@ -82,7 +82,7 @@ class BuildTableViewsCommandHandler
      */
     protected function getTitle($view, $ui)
     {
-        return trans(evaluate_key($view, 'title', 'misc.untitled', [$ui]));
+        return trans(evaluate_key($view, 'title', 'misc.all', [$ui]));
     }
 
     /**

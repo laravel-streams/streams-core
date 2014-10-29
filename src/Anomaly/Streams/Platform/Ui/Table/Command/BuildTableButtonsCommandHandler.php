@@ -58,15 +58,8 @@ class BuildTableButtonsCommandHandler
 
         foreach ($ui->getButtons() as $button) {
 
-            /**
-             * If only the type is sent along
-             * we default everything like bad asses.
-             */
-            if (is_string($button)) {
-
-                $button = ['type' => $button];
-
-            }
+            // Standardize for processing.
+            $button = $this->standardize($button);
 
             // Evaluate everything in the array.
             // All closures are gone now.
@@ -96,6 +89,25 @@ class BuildTableButtonsCommandHandler
     }
 
     /**
+     * Standardize minimum input to the proper data
+     * structure we actually expect.
+     *
+     * @param $button
+     * @return array
+     */
+    protected function standardize($button)
+    {
+        // If the button is a string set as type.
+        if (is_string($button)) {
+
+            $button = ['type' => $button];
+
+        }
+
+        return $button;
+    }
+
+    /**
      * Get default configuration if any.
      * Then run everything back through evaluation.
      *
@@ -106,13 +118,15 @@ class BuildTableButtonsCommandHandler
      */
     protected function getDefaults($button, $ui, $entry)
     {
+        $defaults = [];
+
         if (isset($button['type']) and $defaults = $this->utility->getButtonDefaults($button['type'])) {
 
             return $this->utility->evaluate($defaults, [$ui, $entry], $entry);
 
         }
 
-        return [];
+        return $defaults;
     }
 
     /**
@@ -161,23 +175,40 @@ class BuildTableButtonsCommandHandler
 
         if (isset($button['dropdown'])) {
 
-            foreach ($button['dropdown'] as $dropdown) {
-
-                $dropdown['title'] = trans($dropdown['title']);
-
-                if (!starts_with($dropdown['url'], 'http')) {
-
-                    $dropdown['url'] = url($dropdown['url']);
-
-                }
-
-                $dropdowns[] = $dropdown;
-
-            }
+            $dropdowns = $this->getDropdownItems($button['dropdown']);
 
         }
 
         return $dropdowns;
+    }
+
+    /**
+     * Get the items for a dropdown.
+     *
+     * @param array $dropdown
+     * @return array
+     */
+    protected function getDropdownItems(array $dropdown)
+    {
+        $items = [];
+
+        foreach ($dropdown as $item) {
+
+            $item['title'] = trans($item['title']);
+
+            // Normalize this here. It won't be reached
+            // in the normalizing done later.
+            if (!starts_with($item['url'], 'http')) {
+
+                $item['url'] = url($item['url']);
+
+            }
+
+            $items[] = $item;
+
+        }
+
+        return $items;
     }
 
 }

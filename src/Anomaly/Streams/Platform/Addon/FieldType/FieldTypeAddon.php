@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableFilterInterface;
 
 class FieldTypeAddon extends Addon implements PresentableInterface
 {
@@ -140,24 +141,38 @@ class FieldTypeAddon extends Addon implements PresentableInterface
 
     public function setPrefix($prefix = null)
     {
-        if ($prefix) {
-
-            $this->prefix = $prefix . ends_with($prefix, '-') ? : '-';
-
-        }
+        $this->prefix = $prefix;
 
         return $this;
     }
 
-    public function setSuffix($suffix = null)
+    public function getPrefix()
     {
-        if ($suffix) {
+        if ($this->prefix) {
 
-            $this->suffix = starts_with($suffix, '-') ? : '-' . $suffix;
+            return $this->prefix . ends_with($this->prefix, '_') ? : '_';
 
         }
 
+        return $this->prefix;
+    }
+
+    public function setSuffix($suffix = null)
+    {
+        $this->suffix = $suffix;
+
         return $this;
+    }
+
+    public function getSuffix()
+    {
+        if ($this->suffix) {
+
+            return starts_with($this->suffix, '_') ? : '_' . $this->suffix;
+
+        }
+
+        return null;
     }
 
     public function getFieldName()
