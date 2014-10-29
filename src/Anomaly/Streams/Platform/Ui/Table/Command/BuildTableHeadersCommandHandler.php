@@ -109,7 +109,7 @@ class BuildTableHeadersCommandHandler
 
         if ($name = $entry->getFieldName($parts[0])) {
 
-            return $name;
+            return trans($name);
 
         }
 
