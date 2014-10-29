@@ -16,25 +16,31 @@ class ActiveThemeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $request      = app('request');
-        $distribution = app('streams.distribution');
+        $request = app('request');
+        $theme   = null;
 
-        if ($request->segment(1) == 'admin') {
+        if ($distribution = app('streams.distribution')) {
 
-            $theme = $distribution->getAdminTheme();
+            if ($request->segment(1) == 'admin') {
 
-        } else {
+                $theme = $distribution->getAdminTheme();
 
-            $theme = $distribution->getPublicTheme();
+            } else {
 
+                $theme = $distribution->getPublicTheme();
+
+            }
+
+            if ($theme) {
+                $theme->setActive(true);
+
+                // Setup namespace hints for a short namespace.
+                app('view')->addNamespace('theme', $theme->getPath('resources/views'));
+                app('streams.asset')->addNamespace('theme', $theme->getPath('resources'));
+                app('streams.image')->addNamespace('theme', $theme->getPath('resources'));
+                app('translator')->addNamespace('theme', $theme->getPath('resources/lang'));
+            }
         }
-
-        $theme->setActive(true);
-
-        // Setup namespace hints for a short namespace.
-        app('view')->addNamespace('theme', $theme->getPath('resources/views'));
-        app('streams.asset')->addNamespace('theme', $theme->getPath('resources'));
-        app('streams.image')->addNamespace('theme', $theme->getPath('resources'));
-        app('translator')->addNamespace('theme', $theme->getPath('resources/lang'));
     }
+
 }
