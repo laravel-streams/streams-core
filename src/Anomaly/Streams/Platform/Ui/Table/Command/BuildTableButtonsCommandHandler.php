@@ -4,7 +4,9 @@ use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 
 /**
  * Class BuildTableButtonsCommandHandler
- * Builds button data to send to the table view for each row.
+ *
+ * This class builds button data to send
+ * to the table view for each row.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -118,15 +120,13 @@ class BuildTableButtonsCommandHandler
      */
     protected function getDefaults($button, $ui, $entry)
     {
-        $defaults = [];
-
         if (isset($button['type']) and $defaults = $this->utility->getButtonDefaults($button['type'])) {
 
             return $this->utility->evaluate($defaults, [$ui, $entry], $entry);
 
         }
 
-        return $defaults;
+        return [];
     }
 
     /**
@@ -171,15 +171,13 @@ class BuildTableButtonsCommandHandler
      */
     protected function getDropdown($button)
     {
-        $dropdowns = [];
-
         if (isset($button['dropdown'])) {
 
-            $dropdowns = $this->getDropdownItems($button['dropdown']);
+            return $this->getDropdownItems($button['dropdown']);
 
         }
 
-        return $dropdowns;
+        return [];
     }
 
     /**

@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
 /**
  * Class BuildTableRowsCommandHandler
- * Build the row data for the table view.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>

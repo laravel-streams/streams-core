@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableUi;
 
 /**
  * Class BuildTableFiltersCommand
- * DTO for creating table filter configuration.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>

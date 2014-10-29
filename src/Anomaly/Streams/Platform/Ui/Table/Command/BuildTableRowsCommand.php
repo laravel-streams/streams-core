@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableUi;
 
 /**
  * Class BuildTableRowsCommand
- * DTO for creating table row configuration.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -34,7 +33,7 @@ class BuildTableRowsCommand
     /**
      * Get the table UI object.
      *
-     * @return mixed
+     * @return \Anomaly\Streams\Platform\Ui\Table\TableUi
      */
     public function getUi()
     {

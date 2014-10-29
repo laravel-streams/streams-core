@@ -44,6 +44,10 @@ class BuildTableViewsCommandHandler
 
         foreach ($ui->getViews() as $order => $view) {
 
+            /**
+             * Remove the handler or it
+             * might fire in evaluation.
+             */
             unset($view['handler']);
 
             // Evaluate everything in the array.
@@ -51,11 +55,11 @@ class BuildTableViewsCommandHandler
             $view = $this->utility->evaluate($view, [$ui]);
 
             // Build out required data.
-            $_url  = $this->getUrl($view);
+            $url   = $this->getUrl($view);
             $title = $this->getTitle($view, $ui);
             $class = $this->getClass($view, $order, $ui);
 
-            $views[] = compact('_url', 'title', 'class');
+            $views[] = compact('url', 'title', 'class');
 
         }
 

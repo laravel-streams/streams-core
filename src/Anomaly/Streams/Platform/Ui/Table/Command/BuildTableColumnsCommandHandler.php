@@ -57,15 +57,8 @@ class BuildTableColumnsCommandHandler
 
         foreach ($ui->getColumns() as $column) {
 
-            /**
-             * If the column is a string it means
-             * they just passed in the field slug.
-             */
-            if (is_string($column)) {
-
-                $column = ['field' => $column];
-
-            }
+            // Standardize input.
+            $column = $this->standardize($column);
 
             // Evaluate the column.
             // All closures are gone now.
@@ -82,6 +75,27 @@ class BuildTableColumnsCommandHandler
     }
 
     /**
+     * Standardize minimum input to the proper data
+     * structure we actually expect.
+     *
+     * @param $column
+     */
+    protected function standardize($column)
+    {
+        /**
+         * If the column is a string it means
+         * they just passed in the field slug.
+         */
+        if (is_string($column)) {
+
+            $column = ['field' => $column];
+
+        }
+
+        return $column;
+    }
+
+    /**
      * Get the value.
      *
      * @param                $column
@@ -90,22 +104,26 @@ class BuildTableColumnsCommandHandler
      */
     protected function getValue($column, EntryInterface $entry)
     {
+        $value = null;
+
+        /**
+         * Chances are if the value is set
+         * then the user is making their own.
+         */
         if (isset($column['value'])) {
 
-            /**
-             * Chances are if the value is set
-             * then the user is making their own.
-             */
             $value = $column['value'];
 
-        } else {
+        }
 
-            /**
-             * If the value is NOT set then chances are
-             * the user is using dot notation or
-             * getting the value from the entry
-             * by field slug.
-             */
+        /**
+         * If the value is NOT set then chances are
+         * the user is using dot notation or
+         * getting the value from the entry
+         * by field slug.
+         */
+        if (isset($column['field'])) {
+
             $value = $column['field'];
 
         }
@@ -137,19 +155,31 @@ class BuildTableColumnsCommandHandler
          * this will return the value or the FieldType
          * presenter for said field.
          */
-        if ($fieldValue = $entry->getValueFromField($parts[0])) {
+        if ($value = $entry->getValueFromField($parts[0])) {
 
-            $value = $fieldValue;
+            $value = $this->parseValue($value, $parts);
 
-            /**
-             * If the value was a field slug and dot notated then
-             * try and parse the values inward on the entry / presenter.
-             */
-            if (count($parts) > 1 and $value instanceof Presenter) {
+        }
 
-                $value = $this->parseDotNotation($value, $parts);
+        return $value;
+    }
 
-            }
+    /**
+     * Parse the value into any decorating standards.
+     *
+     * @param       $value
+     * @param array $parts
+     * @return mixed
+     */
+    protected function parseValue($value, array $parts)
+    {
+        /**
+         * If the value is dot notated then try and parse
+         * the values inward on the entry / presenter.
+         */
+        if (count($parts) > 1 and $value instanceof Presenter) {
+
+            $value = $this->parseDotNotation($value, $parts);
 
         }
 

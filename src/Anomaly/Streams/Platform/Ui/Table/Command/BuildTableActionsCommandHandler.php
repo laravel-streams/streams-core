@@ -60,16 +60,13 @@ class BuildTableActionsCommandHandler
 
         foreach ($ui->getActions() as $action) {
 
+            // Standardize input.
+            $action = $this->standardize($action);
+
             /**
-             * If only the type is sent along
-             * we default everything like bad asses.
+             * Remove the handler or it
+             * might fire in evaluation.
              */
-            if (is_string($action)) {
-
-                $action = ['type' => $action];
-
-            }
-
             unset($action['handler']);
 
             // Evaluate everything in the array.
@@ -97,6 +94,27 @@ class BuildTableActionsCommandHandler
         }
 
         return $actions;
+    }
+
+    /**
+     * Standardize minimum input to the proper data
+     * structure we actually expect.
+     *
+     * @param $action
+     */
+    protected function standardize($action)
+    {
+        /**
+         * If only the type is sent along
+         * we default everything like bad asses.
+         */
+        if (is_string($action)) {
+
+            $action = ['type' => $action];
+
+        }
+
+        return $action;
     }
 
     /**

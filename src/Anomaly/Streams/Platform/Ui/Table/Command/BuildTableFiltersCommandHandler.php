@@ -19,7 +19,7 @@ class BuildTableFiltersCommandHandler
     /**
      * The table utility object.
      *
-     * @var
+     * @var \Anomaly\Streams\Platform\Ui\Table\TableUtility
      */
     protected $utility;
 
@@ -47,20 +47,13 @@ class BuildTableFiltersCommandHandler
 
         foreach ($ui->getFilters() as $filter) {
 
+            // Standardize input.
+            $filter = $this->standardize($filter);
+
             /**
-             * If the filter is a string then
-             * default to a field type with the
-             * string being the field slug.
+             * Remove the handler or it
+             * might fire in evaluation.
              */
-            if (is_string($filter)) {
-
-                $filter = [
-                    'type'  => 'field',
-                    'field' => $filter,
-                ];
-
-            }
-
             unset($filter['handler']);
 
             // Evaluate everything in the array.
@@ -68,16 +61,41 @@ class BuildTableFiltersCommandHandler
             $this->utility->evaluate($filter, [$ui]);
 
             // Build out required data.
-            $slug   = $this->getSlug($filter);
-            $_input = $this->getInput($filter, $slug, $ui); // TODO: Lexicon bug.
+            $slug  = $this->getSlug($filter);
+            $input = $this->getInput($filter, $slug, $ui);
 
-            $filter = compact('_input');
+            $filter = compact('input');
 
             $filters[] = $filter;
 
         }
 
         return array_filter($filters);
+    }
+
+    /**
+     * Standardize minimum input to the proper data
+     * structure we actually expect.
+     *
+     * @param $filter
+     */
+    protected function standardize($filter)
+    {
+        /**
+         * If the filter is a string then
+         * default to a field type with the
+         * string being the field slug.
+         */
+        if (is_string($filter)) {
+
+            $filter = [
+                'type'  => 'field',
+                'field' => $filter,
+            ];
+
+        }
+
+        return $filter;
     }
 
     /**
@@ -201,15 +219,28 @@ class BuildTableFiltersCommandHandler
 
         if ($assignment instanceof AssignmentModel) {
 
-            $fieldType = $assignment->type();
+            return $this->getFieldInputFromAssignment($assignment);
 
-            if ($fieldType instanceof FieldTypeAddon) {
+        }
 
-                $fieldType->setPlaceholder(trans($assignment->field->name));
+        return null;
+    }
 
-                return $fieldType->filter();
+    /**
+     * Get the field input from an assignment.
+     *
+     * @param $assignment
+     * @return null
+     */
+    protected function getFieldInputFromAssignment($assignment)
+    {
+        $fieldType = $assignment->type();
 
-            }
+        if ($fieldType instanceof FieldTypeAddon) {
+
+            $fieldType->setPlaceholder(trans($assignment->field->name));
+
+            return $fieldType->filter();
 
         }
 

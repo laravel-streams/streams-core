@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableUi;
 
 /**
  * Class BuildTableButtonsCommand
- * DTO for creating table button configuration.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -43,7 +42,7 @@ class BuildTableButtonsCommand
     /**
      * Get the table UI object.
      *
-     * @return mixed
+     * @return \Anomaly\Streams\Platform\Ui\Table\TableUi
      */
     public function getUi()
     {

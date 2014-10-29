@@ -35,7 +35,7 @@ class BuildTableActionsCommand
     /**
      * Get the UI object.
      *
-     * @return mixed
+     * @return \Anomaly\Streams\Platform\Ui\Table\TableUi
      */
     public function getUi()
     {

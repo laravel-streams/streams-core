@@ -23,7 +23,7 @@ class BuildTableOptionsCommand
     /**
      * Create a new BuildTableOptionsCommand instance.
      *
-     * @param TableUi $ui
+     * @param \Anomaly\Streams\Platform\Ui\Table\TableUi $ui
      */
     function __construct(TableUi $ui)
     {
@@ -33,7 +33,7 @@ class BuildTableOptionsCommand
     /**
      * Get the table UI object.
      *
-     * @return mixed
+     * @return \Anomaly\Streams\Platform\Ui\Table\TableUi
      */
     public function getUi()
     {

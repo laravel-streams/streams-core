@@ -18,7 +18,7 @@ class BuildTableHeadersCommandHandler
     /**
      * The table utility object.
      *
-     * @var
+     * @var \Anomaly\Streams\Platform\Ui\Table\TableUtility
      */
     protected $utility;
 
@@ -46,15 +46,7 @@ class BuildTableHeadersCommandHandler
 
         foreach ($ui->getColumns() as $column) {
 
-            /**
-             * If the column is a string
-             * then assume it's the field.
-             */
-            if (is_string($column)) {
-
-                $column = ['field' => $column];
-
-            }
+            $column = $this->standardize($column);
 
             // Evaluate everything in the array.
             // All closures are gone now.
@@ -68,6 +60,27 @@ class BuildTableHeadersCommandHandler
         }
 
         return $columns;
+    }
+
+    /**
+     * Standardize minimum input to the proper data
+     * structure we actually expect.
+     *
+     * @param $column
+     */
+    protected function standardize($column)
+    {
+        /**
+         * If the column is a string
+         * then assume it's the field.
+         */
+        if (is_string($column)) {
+
+            $column = ['field' => $column];
+
+        }
+
+        return $column;
     }
 
     /**
@@ -133,7 +146,9 @@ class BuildTableHeadersCommandHandler
 
             $heading = humanize($heading);
 
-        } else {
+        }
+
+        if ($translated != $heading) {
 
             $heading = $translated;
 
