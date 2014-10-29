@@ -116,7 +116,7 @@ class HandleTableActionCommandHandler
 
         if ($handler instanceof TableActionInterface) {
 
-            if ($handler->authorize()) {
+            if ($handler->authorize() !== false) {
 
                 $handler->handle();
 
