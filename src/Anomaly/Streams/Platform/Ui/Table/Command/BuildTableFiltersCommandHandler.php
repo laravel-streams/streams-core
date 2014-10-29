@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
@@ -217,7 +218,10 @@ class BuildTableFiltersCommandHandler
      */
     protected function getInputFromField(array $filter, TableUi $ui)
     {
-        $assignment = $ui->getModel()->getStream()->assignments->findByFieldSlug($filter['field']);
+        $entryModel = $ui->getModel();
+
+        $stream     = $entryModel->getStream();
+        $assignment = $stream->assignments->findByFieldSlug($filter['field']);
 
         if ($assignment instanceof AssignmentModel) {
 
@@ -238,8 +242,10 @@ class BuildTableFiltersCommandHandler
      */
     protected function getFieldInputFromAssignment(AssignmentModel $assignment, array $filter, TableUi $ui)
     {
-        $fieldType   = $assignment->type();
-        $prefix      = $this->getPrefix($ui);
+        $fieldType = $assignment->type();
+
+        $prefix = $this->getPrefix($ui);
+
         $placeholder = evaluate_key($filter, 'placeholder');
 
         if ($fieldType instanceof FieldTypeAddon) {
