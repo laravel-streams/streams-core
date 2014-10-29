@@ -27,11 +27,16 @@ class DefaultFormSection extends FormSection
 
     private function getBody()
     {
-        $command = new BuildFormSectionLayoutCommand($this->ui, $this->section);
-
-        $layout = $this->execute($command);
+        $layout = $this->getLayout();
 
         return view('html/section/layout', compact('layout'));
+    }
+
+    protected function getLayout()
+    {
+        $command = new BuildFormSectionLayoutCommand($this->ui, $this->section);
+
+        return $this->execute($command);
     }
 
 }
