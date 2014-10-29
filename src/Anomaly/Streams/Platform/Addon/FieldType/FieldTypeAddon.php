@@ -153,7 +153,7 @@ class FieldTypeAddon extends Addon implements PresentableInterface
     {
         if ($suffix) {
 
-            $this->suffix = $suffix . ends_with($suffix, '-') ? : '-';
+            $this->suffix = starts_with($suffix, '-') ? : '-' . $suffix;
 
         }
 
