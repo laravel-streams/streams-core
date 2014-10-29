@@ -85,13 +85,17 @@
                 <tbody>
                 {{ rows }}
                 <tr class="{{ class }}">
+                    {{ if options.sortable }}
                     <td>
                         <i class="fa fa-reorder" style="cursor: move;"></i>
                     </td>
+                    {{ endif }}
 
+                    {{ if actions }}
                     <td>
                         <input type="checkbox" name="id[]" value="{{ entry.id }}"/>
                     </td>
+                    {{ endif }}
 
                     {{ columns }}
                     <td class="{{ class }}">
@@ -123,7 +127,7 @@
 
 
                 <!-- Table Foot -->
-                {{ if actions or pagination }}
+                {{ if actions or pagination.links }}
                 <tfoot>
                 <tr>
                     <td colspan="100%" style="padding: 10px;">
