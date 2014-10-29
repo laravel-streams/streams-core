@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
 
 /**
@@ -17,6 +18,15 @@ use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
 class FormSection implements FormSectionInterface
 {
 
+    use CommandableTrait;
+
+    /**
+     * The form UI object.
+     *
+     * @var FormUi
+     */
+    protected $ui;
+
     /**
      * The evaluated section data
      * from the UI / command handler.
@@ -28,10 +38,12 @@ class FormSection implements FormSectionInterface
     /**
      * Create a new FormSection instance.
      *
-     * @param array $section
+     * @param FormUi $ui
+     * @param array  $section
      */
-    function __construct(array $section)
+    function __construct(FormUi $ui, array $section)
     {
+        $this->ui      = $ui;
         $this->section = $section;
     }
 

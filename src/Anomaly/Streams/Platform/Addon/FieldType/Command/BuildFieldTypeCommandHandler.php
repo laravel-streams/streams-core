@@ -13,7 +13,6 @@ class BuildFieldTypeCommandHandler
             if ($fieldType instanceof FieldTypeAddon) {
 
                 $fieldType
-                    ->setView($command->getView())
                     ->setField($command->getField())
                     ->setValue($command->getValue())
                     ->setLabel($command->getLabel())
@@ -21,6 +20,12 @@ class BuildFieldTypeCommandHandler
                     ->setPrefix($command->getPrefix())
                     ->setPlaceholder($command->getPlaceholder())
                     ->setInstructions($command->getInstructions());
+
+                if ($view = $command->getView()) {
+
+                    $fieldType->setView($command->getView());
+
+                }
 
             }
 

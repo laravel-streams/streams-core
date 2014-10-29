@@ -51,13 +51,15 @@ class FieldTypeAddon extends Addon implements PresentableInterface
     {
         $id = $this->getFieldName();
 
+        $locale = $this->getLocale();
+
         $label        = trans($this->label);
         $instructions = trans($this->instructions);
-        $language     = trans("language.{$this->locale}");
+        $language     = trans("language.{$locale}");
 
-        $input = $this->input();
+        $_input = $this->input();
 
-        $data = compact('id', 'label', 'language', 'instructions', 'input');
+        $data = compact('id', 'label', 'language', 'instructions', '_input');
 
         return view($this->view, $data);
     }
@@ -123,6 +125,17 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         $this->locale = $locale;
 
         return $this;
+    }
+
+    private function getLocale()
+    {
+        if (!$this->locale) {
+
+            $this->locale = setting('module.settings::default_locale', 'en');
+
+        }
+
+        return $this->locale;
     }
 
     public function setPrefix($prefix = null)

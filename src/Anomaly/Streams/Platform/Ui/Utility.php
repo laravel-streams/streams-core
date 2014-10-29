@@ -103,5 +103,44 @@ class Utility
         return $data;
     }
 
+    /**
+     * Normalize and clean things up before returning.
+     *
+     * @param $data
+     * @return mixed
+     */
+    public function normalize(array $data)
+    {
+        /**
+         * If a URL is present but not absolute
+         * then we need to make it so.
+         */
+        if (isset($data['attributes']['url'])) {
+
+            if (!starts_with($data['attributes']['url'], 'http')) {
+
+                $data['attributes']['url'] = url($data['attributes']['url']);
+
+            }
+
+            $data['attributes']['href'] = $data['attributes']['url'];
+
+            unset($data['attributes']['url']);
+
+        }
+
+        /**
+         * Implode all the attributes left over
+         * into an HTML attribute string.
+         */
+        if (isset($data['attributes'])) {
+
+            $data['attributes'] = $this->attributes($data['attributes']);
+
+        }
+
+        return $data;
+    }
+
 }
  
