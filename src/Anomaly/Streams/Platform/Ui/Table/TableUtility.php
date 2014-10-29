@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Illuminate\Routing\Router;
 use Anomaly\Streams\Platform\Ui\Utility;
 
 /**
@@ -35,9 +34,12 @@ class TableUtility extends Utility
         'danger'  => [
             'class' => 'btn btn-sm btn-danger',
         ],
+        'default' => [
+            'class' => 'btn btn-sm btn-default',
+        ],
         'view'    => [
             'title' => 'button.view',
-            'class' => 'btn btn-sm btn-default',
+            'class' => 'btn btn-sm btn-info',
         ],
         'options' => [
             'title' => 'button.options',
