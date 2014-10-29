@@ -70,13 +70,18 @@ class Asset
         );
     }
 
+    protected function getAppRef()
+    {
+        return defined('APP_REF') ? APP_REF : 'default';
+    }
+
     protected function getPath($group, $filters)
     {
-        $hash = hashify([$this->groups[$group], $filters]);
+        $hash = \hashify([$this->groups[$group], $filters]);
 
         $hint = $this->getHint($group);
 
-        $path = 'assets/' . APP_REF . '/' . $hash . '.' . $hint;
+        $path = 'assets/' . $this->getAppRef() . '/' . $hash . '.' . $hint;
 
         if (isset($_GET['_publish']) or $this->publish) {
             $this->publish($path, $group, $filters);
