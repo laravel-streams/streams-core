@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Section;
 
-use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormSectionLayoutCommand;
 use Anomaly\Streams\Platform\Ui\Form\FormSection;
+use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormSectionLayoutCommand;
 
 class DefaultFormSection extends FormSection
 {
@@ -31,8 +31,7 @@ class DefaultFormSection extends FormSection
 
         $layout = $this->execute($command);
 
-        // TODO: Send in compact('layout') when Lexicon is fixed.
-        return view('html/section/layout', $layout);
+        return view('html/section/layout', compact('layout'));
     }
 
 }
