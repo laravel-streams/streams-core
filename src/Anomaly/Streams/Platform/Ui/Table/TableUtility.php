@@ -6,7 +6,7 @@ use Anomaly\Streams\Platform\Ui\Utility;
 /**
  * Class TableUtility
  *
- * This is a simple utility methods to
+ * This is a simple utility object to
  * assist table command handlers.
  *
  * @link          http://anomaly.is/streams-platform
@@ -18,7 +18,7 @@ class TableUtility extends Utility
 {
 
     /**
-     * Available button type configuration defaults.
+     * Default button configurations.
      *
      * @var array
      */

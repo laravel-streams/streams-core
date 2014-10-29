@@ -14,6 +14,11 @@ class DefaultFormSection extends FormSection
         return view('html/form/default_section/heading', $data);
     }
 
+    public function body()
+    {
+        return 'Testing...';
+    }
+
     protected function getTitle()
     {
         return trans(evaluate_key($this->section, 'title', 'misc.untitled'));

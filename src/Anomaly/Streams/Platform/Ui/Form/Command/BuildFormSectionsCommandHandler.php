@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormUi;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
 
@@ -22,7 +23,13 @@ class BuildFormSectionsCommandHandler
 
             $section = $this->getSectionObject($section, $ui);
 
-            $sections[] = $section;
+            if ($section instanceof FormSectionInterface) {
+
+                $body = $section->body();
+
+                $sections[] = compact('body');
+
+            }
 
         }
 
@@ -56,7 +63,9 @@ class BuildFormSectionsCommandHandler
 
     protected function getSectionObject($section, $ui)
     {
-        return evaluate_key($section, 'type', 'Anomaly\Streams\Platform\Ui\Form\Section\DefaultFormSection', [$ui]);
+        $default = 'Anomaly\Streams\Platform\Ui\Form\Section\DefaultFormSection';
+
+        return app()->make(evaluate_key($section, 'type', $default, [$ui]), compact('section', 'ui'));
     }
 
 }

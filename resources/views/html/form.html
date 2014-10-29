@@ -16,30 +16,42 @@
     </a>
 </div>
 
-{{ sections as section }}
+{{ sections }}
 <section class="panel panel-default">
-    {{ if section.title }}
-    <div class="panel-heading">
+    <!--<div class="panel-heading">
         <h3 class="panel-title">
             {{ section.title }}
         </h3>
-    </div>
-    {{ else }}
-    <br><!-- @todo - this is ugly as sin, fix it. -->
-    {{ endif }}
+    </div>-->
     <div class="panel-body" style="padding-top: 0; padding-bottom: 0;">
-        {{ fields }}
-        {{{ element }}}
-        {{ /fields }}
+        {{ body }}
     </div>
 </section>
 {{ /sections }}
 
 <section class="panel panel-default actions">
     <div class="panel-body">
-        {{ redirects }}
-        <button type="submit" name="redirect" value="{{ value }}" class="{{ class }}" {{{ attribtues }}}>{{ title }}</button>
-        {{ /redirects }}
+
+        <div class="row-fluid">
+
+            <div class="col-lg-12">
+                {{ redirects }}
+                <button type="submit" name="redirect" value="{{ value }}" class="{{ class }}" {{{ attribtues }}}>
+                    {{{ title }}}
+                </button>
+                {{ /redirects }}
+            </div>
+
+            <div class="col-lg-12 text-right">
+                {{ actions }}
+                <a class="{{ class }}" {{{ attribtues }}}>
+                    {{{ title }}}
+                </a>
+                {{ /actions }}
+            </div>
+
+        </div>
+
     </div>
 </section>
 

@@ -25,24 +25,14 @@ class FormUi extends Ui
      */
     protected $entry = null;
 
-    /**
-     * @var array
-     */
     protected $skips = [];
 
-    /**
-     * @var array
-     */
     protected $sections = [];
 
-    /**
-     * @var array
-     */
     protected $redirects = [];
 
-    /**
-     * @var string
-     */
+    protected $actions = [];
+
     protected $view = 'html/form';
 
     /**
@@ -57,7 +47,6 @@ class FormUi extends Ui
         return parent::make();
     }
 
-
     /**
      * Trigger logic to build content.
      *
@@ -71,16 +60,14 @@ class FormUi extends Ui
 
         $sections  = $form->sections();
         $redirects = $form->redirects();
+        $actions   = $form->actions();
 
-        $data = compact('sections', 'redirects');
+        $data = compact('sections', 'redirects', 'actions');
 
         return view($this->view, $data);
     }
 
-    /**
-     * @param $entry
-     * @return $this
-     */
+
     public function setEntry($entry)
     {
         $this->entry = $entry;
@@ -88,18 +75,11 @@ class FormUi extends Ui
         return $this;
     }
 
-    /**
-     * @return null
-     */
     public function getEntry()
     {
         return $this->entry;
     }
 
-    /**
-     * @param array $redirects
-     * return $this
-     */
     public function setRedirects(array $redirects)
     {
         $this->redirects = $redirects;
@@ -107,18 +87,23 @@ class FormUi extends Ui
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getRedirects()
     {
         return $this->redirects;
     }
 
-    /**
-     * @param array $sections
-     * return $this
-     */
+    public function setActions(array $actions)
+    {
+        $this->actions = $actions;
+
+        return $this;
+    }
+
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
     public function setSections(array $sections)
     {
         $this->sections = $sections;
@@ -126,18 +111,11 @@ class FormUi extends Ui
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getSections()
     {
         return $this->sections;
     }
 
-    /**
-     * @param array $skips
-     * return $this
-     */
     public function setSkips(array $skips)
     {
         $this->skips = $skips;
@@ -145,18 +123,11 @@ class FormUi extends Ui
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getSkips()
     {
         return $this->skips;
     }
 
-    /**
-     * @param string $view
-     * return $this
-     */
     public function setView($view)
     {
         $this->view = $view;
@@ -164,33 +135,21 @@ class FormUi extends Ui
         return $this;
     }
 
-    /**
-     * @return FormService
-     */
     protected function newFormService()
     {
         return new FormService($this);
     }
 
-    /**
-     * @return FormRepository
-     */
     protected function newRepository()
     {
         return new FormRepository($this, $this->model);
     }
 
-    /**
-     * @return FormRequest
-     */
     protected function newFormRequest()
     {
         return new FormRequest($this);
     }
 
-    /**
-     * Fire when triggering the
-     */
     protected function onTrigger()
     {
         if (!$this->entry instanceof EntryInterface) {
@@ -207,5 +166,6 @@ class FormUi extends Ui
 
         }
     }
+
 }
  

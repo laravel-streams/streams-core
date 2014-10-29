@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui;
 
+use Anomaly\Streams\Platform\Traits\DispatchableTrait;
+
 /**
  * Class Utility
  *
@@ -12,6 +14,8 @@
  */
 class Utility
 {
+
+    use DispatchableTrait;
 
     /**
      * Return an array parsed into a string of attributes.

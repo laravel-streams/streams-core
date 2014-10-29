@@ -1,9 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormRedirectsCommand;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormServiceInterface;
+use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormActionsCommand;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormSectionsCommand;
+use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormRedirectsCommand;
 
 /**
  * Class FormService
@@ -65,5 +66,16 @@ class FormService implements FormServiceInterface
         return $this->execute($command);
     }
 
+    /**
+     * Return the actions data.
+     *
+     * @return mixed
+     */
+    public function actions()
+    {
+        $command = new BuildFormActionsCommand($this->ui);
+
+        return $this->execute($command);
+    }
 }
  

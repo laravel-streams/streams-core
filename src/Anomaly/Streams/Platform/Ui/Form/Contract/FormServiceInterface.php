@@ -28,5 +28,12 @@ interface FormServiceInterface
      */
     public function redirects();
 
+    /**
+     * Return the actions data.
+     *
+     * @return mixed
+     */
+    public function actions();
+
 }
  
