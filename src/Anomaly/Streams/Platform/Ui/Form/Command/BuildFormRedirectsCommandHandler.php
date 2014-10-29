@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Form\FormUi;
 use Anomaly\Streams\Platform\Ui\Form\FormUtility;
-use Anomaly\Streams\Platform\Entry\EntryInterface;
 
 /**
  * Class BuildFormRedirectsCommandHandler
@@ -71,7 +70,7 @@ class BuildFormRedirectsCommandHandler
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $redirect = $this->evaluate($redirect, $ui, $entry);
+            $redirect = $this->utility->evaluate($redirect, [$ui, $entry], $entry);
 
             // Get our defaults and merge them in.
             $defaults = $this->getDefaults($redirect, $ui, $entry);
@@ -94,54 +93,20 @@ class BuildFormRedirectsCommandHandler
     }
 
     /**
-     * Evaluate closures in the entire array.
-     * Merge in entry data now as well.
+     * Get the defaults for the redirect's type if any.
      *
      * @param        $redirect
      * @param FormUi $ui
      * @param        $entry
-     * @return mixed|null
-     */
-    protected function evaluate($redirect, FormUi $ui, $entry)
-    {
-        $redirect = evaluate($redirect, [$ui, $ui->getEntry()]);
-
-        /**
-         * In addition to evaluating we need
-         * to merge in entry data as best we can.
-         */
-        foreach ($redirect as &$value) {
-
-            if (is_string($value) and str_contains($value, '{')) {
-
-                if ($entry instanceof EntryInterface) {
-
-                    $value = merge($value, $entry->toArray());
-
-                }
-
-            }
-
-        }
-
-        return $redirect;
-    }
-
-    /**
-     * Get the defaults for the redirect's type if any.
-     *
-     * @param $redirect
-     * @param $ui
-     * @param $entry
      * @return array|mixed|null
      */
-    protected function getDefaults($redirect, $ui, $entry)
+    protected function getDefaults($redirect, FormUi $ui, $entry)
     {
         $defaults = [];
 
         if (isset($redirect['type']) and $defaults = $this->utility->getRedirectDefaults($redirect['type'])) {
 
-            $defaults = $this->evaluate($defaults, $ui, $entry);
+            $defaults = $this->utility->evaluate($defaults, [$ui, $entry], $entry);
 
         }
 
@@ -191,28 +156,6 @@ class BuildFormRedirectsCommandHandler
     protected function getAttributes($redirect)
     {
         return array_diff_key($redirect, array_flip($this->notAttributes));
-    }
-
-    /**
-     * Normalize the resulting data and clean things up
-     * before sending it back for the view.
-     *
-     * @param $redirect
-     * @return mixed
-     */
-    protected function normalize($redirect)
-    {
-        /**
-         * Implode all the attributes left over
-         * into an HTML attribute string.
-         */
-        if (isset($redirect['attributes'])) {
-
-            $redirect['attributes'] = $this->utility->attributes($redirect['attributes']);
-
-        }
-
-        return $redirect;
     }
 
 }

@@ -71,7 +71,7 @@ class BuildFormActionsCommandHandler
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $action = $this->evaluate($action, $ui, $entry);
+            $action = $this->utility->evaluate($action, [$ui, $entry], $entry);
 
             // Get our defaults and merge them in.
             $defaults = $this->getDefaults($action, $ui, $entry);
@@ -86,47 +86,13 @@ class BuildFormActionsCommandHandler
             $action = compact('title', 'class', 'value', 'attributes');
 
             // Normalize things a bit before proceeding.
-            $action = $this->normalize($action);
+            $action = $this->utility->normalize($action);
 
             $actions[] = $action;
 
         }
 
         return $actions;
-    }
-
-    /**
-     * Evaluate closures in the entire configuration array.
-     * Merge in entry data at this point as well.
-     *
-     * @param        $action
-     * @param FormUi $ui
-     * @param        $entry
-     * @return mixed|null
-     */
-    protected function evaluate($action, FormUi $ui, $entry)
-    {
-        $action = evaluate($action, [$ui, $ui->getEntry()]);
-
-        /**
-         * In addition to evaluating we need
-         * to merge in entry data as best we can.
-         */
-        foreach ($action as &$value) {
-
-            if (is_string($value) and str_contains($value, '{')) {
-
-                if ($entry instanceof EntryInterface) {
-
-                    $value = merge($value, $entry->toArray());
-
-                }
-
-            }
-
-        }
-
-        return $action;
     }
 
     /**
@@ -144,7 +110,7 @@ class BuildFormActionsCommandHandler
         if (isset($action['type']) and $defaults = $this->utility->getActionDefaults($action['type'])) {
 
             // Be sure to run the defaults back through evaluate.
-            $defaults = $this->evaluate($defaults, $ui, $entry);
+            $defaults = $this->utility->evaluate($defaults, [$ui, $entry], $entry);
 
         }
 
@@ -194,46 +160,6 @@ class BuildFormActionsCommandHandler
     protected function getAttributes($action)
     {
         return array_diff_key($action, array_flip($this->notAttributes));
-    }
-
-    /**
-     * Normalize the resulting data and clean things up
-     * before sending it back for the view.
-     *
-     * @param $action
-     * @return mixed
-     */
-    protected function normalize($action)
-    {
-        /**
-         * If a URL is present but not absolute
-         * then we need to make it so.
-         */
-        if (isset($action['attributes']['url'])) {
-
-            if (!starts_with($action['attributes']['url'], 'http')) {
-
-                $action['attributes']['url'] = url($action['attributes']['url']);
-
-            }
-
-            $action['attributes']['href'] = $action['attributes']['url'];
-
-            unset($action['attributes']['url']);
-
-        }
-
-        /**
-         * Implode all the attributes left over
-         * into an HTML attribute string.
-         */
-        if (isset($action['attributes'])) {
-
-            $action['attributes'] = $this->utility->attributes($action['attributes']);
-
-        }
-
-        return $action;
     }
 
 }

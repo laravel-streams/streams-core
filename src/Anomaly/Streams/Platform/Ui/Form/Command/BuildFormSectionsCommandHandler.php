@@ -2,19 +2,46 @@
 
 use Anomaly\Streams\Platform\Ui\Form\FormUi;
 use Anomaly\Streams\Platform\Ui\Form\FormUtility;
-use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
 
+/**
+ * Class BuildFormSectionsCommandHandler
+ *
+ * This class basically just resolves the type of
+ * section to be used, passes off the data and
+ * get's the rendered chunks back.
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Command
+ */
 class BuildFormSectionsCommandHandler
 {
 
+    /**
+     * The form utility object.
+     *
+     * @var \Anomaly\Streams\Platform\Ui\Form\FormUtility
+     */
     protected $utility;
 
+    /**
+     * Create a new BuildFormSectionsCommandHandler instance.
+     *
+     * @param FormUtility $utility
+     */
     function __construct(FormUtility $utility)
     {
         $this->utility = $utility;
     }
 
+    /**
+     * Handle the command.
+     *
+     * @param BuildFormSectionsCommand $command
+     * @return array
+     */
     public function handle(BuildFormSectionsCommand $command)
     {
         $ui = $command->getUi();
@@ -28,12 +55,16 @@ class BuildFormSectionsCommandHandler
 
             // Evaluate the column.
             // All closures are gone now.
-            $section = $this->evaluate($section, $ui, $entry);
+            $section = $this->utility->evaluate($section, [$ui, $entry], $entry);
 
             // Get our defaults and merge them in.
             $defaults = $this->getDefaults($section, $ui, $entry);
 
             $section = array_merge($defaults, $section);
+
+            // Standardize the section layout data being sent.
+            // This includes moving fields into blank rows / columns / etc.
+            $section = $this->standardizeLayout($section);
 
             // Get the object responsible for handling the section.
             $handler = $this->getSectionHandler($section, $ui);
@@ -45,9 +76,9 @@ class BuildFormSectionsCommandHandler
                 $footer  = $handler->footer();
                 $heading = $handler->heading();
 
-                $slug = $this->getSlug($section);
+                $class = $this->getClass($section);
 
-                $sections[] = compact('slug', 'body', 'footer', 'heading');
+                $sections[] = compact('class', 'body', 'footer', 'heading');
 
             }
 
@@ -56,54 +87,66 @@ class BuildFormSectionsCommandHandler
         return $sections;
     }
 
-    protected function evaluate($section, FormUi $ui, $entry)
-    {
-        $section = evaluate($section, [$ui, $ui->getEntry()]);
-
-        /**
-         * In addition to evaluating we need
-         * to merge in entry data as best we can.
-         */
-        foreach ($section as &$value) {
-
-            if (is_string($value) and str_contains($value, '{')) {
-
-                if ($entry instanceof EntryInterface) {
-
-                    $value = merge($value, $entry->toArray());
-
-                }
-
-            }
-
-        }
-
-        return $section;
-    }
-
-    protected function getDefaults($section, $ui, $entry)
+    /**
+     * Get the default data by the given type.
+     *
+     * @param        $section
+     * @param FormUi $ui
+     * @param        $entry
+     * @return array|mixed|null
+     */
+    protected function getDefaults($section, FormUi $ui, $entry)
     {
         $defaults = [];
 
         if (isset($section['type']) and $defaults = $this->utility->getSectionDefaults($section['type'])) {
 
-            $defaults = $this->evaluate($defaults, $ui, $entry);
+            $defaults = $this->utility->evaluate($defaults, [$ui, $entry], $entry);
 
         }
 
         return $defaults;
     }
 
-    protected function getSlug($section)
+    /**
+     * Get the class.
+     *
+     * @param $section
+     * @return mixed|null
+     */
+    protected function getClass($section)
     {
-        return evaluate_key($section, 'slug', evaluate_key($section, 'type'));
+        return evaluate_key($section, 'class', evaluate_key($section, 'type') . '-section');
     }
 
-    protected function getSectionHandler($section, $ui)
+    /**
+     * @param        $section
+     * @param FormUi $ui
+     * @return mixed
+     */
+    protected function getSectionHandler($section, FormUi $ui)
     {
         $default = 'Anomaly\Streams\Platform\Ui\Form\Section\DefaultFormSection';
 
         return app()->make(evaluate_key($section, 'handler', $default, [$ui]), compact('section', 'ui'));
+    }
+
+    protected function standardizeLayout($section)
+    {
+        if (!isset($section['layout'])) {
+
+            $fields  = evaluate_key($section, 'fields', []);
+            $columns = evaluate_key($section, 'columns', [compact('fields')]);
+            $rows    = evaluate_key($section, 'rows', [compact('columns')]);
+            $layout  = evaluate_key($section, 'layout', compact('rows'));
+
+            $section['layout'] = $layout;
+
+            unset($section['fields'], $section['columns'], $section['rows']);
+
+        }
+
+        return $section;
     }
 
 }
