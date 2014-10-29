@@ -159,6 +159,36 @@ class EntryModel extends EloquentModel implements EntryInterface
     }
 
     /**
+     * Get the assignment object for a field.
+     *
+     * @param $field
+     * @return mixed
+     */
+    public function getAssignmentFromField($field)
+    {
+        return $this->stream->assignments->findByFieldSlug($field);
+    }
+
+    /**
+     * Get the field from a field.
+     *
+     * @param $field
+     * @return mixed|null
+     */
+    public function getTypeFromField($field)
+    {
+        $assignment = $this->getAssignmentFromField($field);
+
+        if ($assignment instanceof AssignmentModel) {
+
+            return $assignment->type($this);
+
+        }
+
+        return null;
+    }
+
+    /**
      * Return a value from a field.
      *
      * @param $field
@@ -166,11 +196,11 @@ class EntryModel extends EloquentModel implements EntryInterface
      */
     public function getValueFromField($field)
     {
-        $assignment = $this->stream->assignments->findByFieldSlug($field);
+        $fieldType = $this->getTypeFromField($field);
 
-        if ($assignment instanceof AssignmentModel) {
+        if ($fieldType instanceof FieldTypeAddon) {
 
-            return $assignment->type($this)->decorate();
+            return $fieldType->decorate();
 
         }
 
@@ -185,11 +215,11 @@ class EntryModel extends EloquentModel implements EntryInterface
      */
     public function getFieldName($field)
     {
-        $assignment = $this->stream->assignments->findByFieldSlug($field);
+        $assignment = $this->getAssignmentFromField($field);
 
         if ($assignment) {
 
-            return $assignment->field->decorate()->name;
+            return $assignment->field->name;
 
         }
     }
@@ -202,11 +232,11 @@ class EntryModel extends EloquentModel implements EntryInterface
      */
     public function getFieldHeading($field)
     {
-        $assignment = $this->stream->assignments->findByFieldSlug($field);
+        $assignment = $this->getAssignmentFromField($field);
 
         if ($assignment) {
 
-            return $assignment->field->decorate()->heading;
+            return $assignment->field->name;
 
         }
     }
@@ -219,11 +249,11 @@ class EntryModel extends EloquentModel implements EntryInterface
      */
     public function getFieldLabel($field)
     {
-        $assignment = $this->stream->assignments->findByFieldSlug($field);
+        $assignment = $this->getAssignmentFromField($field);
 
         if ($assignment) {
 
-            return $assignment->label;
+            return $assignment->field->name;
 
         }
     }

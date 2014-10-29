@@ -45,5 +45,21 @@ interface EntryInterface extends ArrayableInterface
      */
     public function getFieldHeading($field);
 
+    /**
+     * Get the type for a field.
+     *
+     * @param $field
+     * @return mixed
+     */
+    public function getTypeFromField($field);
+
+    /**
+     * Get the assignment object for a field.
+     *
+     * @param $field
+     * @return mixed
+     */
+    public function getAssignmentFromField($field);
+
 }
  
