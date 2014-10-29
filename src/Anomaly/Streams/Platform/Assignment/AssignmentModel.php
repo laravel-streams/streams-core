@@ -117,10 +117,11 @@ class AssignmentModel extends EloquentModel
 
     public function type(EntryInterface $entry = null)
     {
-        $type  = $this->field->type;
-        $field = $this->field->slug;
+        $type         = $this->field->type;
+        $field        = $this->field->slug;
+        $instructions = $this->instructions;
 
-        $data = compact('type', 'field');
+        $data = compact('type', 'field', 'instructions');
 
         $command = 'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand';
 
@@ -153,6 +154,21 @@ class AssignmentModel extends EloquentModel
     public function setRulesAttribute($rules)
     {
         $this->attributes['rules'] = json_encode($rules);
+    }
+
+    public function getFieldName()
+    {
+        return $this->field->name;
+    }
+
+    public function getFieldLabel()
+    {
+        return $this->label != trans($this->label) ? $this->label : $this->field->name;
+    }
+
+    public function getFieldPlaceholder()
+    {
+        return $this->placeholder != trans($this->placeholder) ? $this->placeholder : null;
     }
 
     public function newCollection(array $items = [])
