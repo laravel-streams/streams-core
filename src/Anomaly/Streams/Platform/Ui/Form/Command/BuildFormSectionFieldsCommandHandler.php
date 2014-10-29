@@ -1,10 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormUtility;
+use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 
 class BuildFormSectionFieldsCommandHandler
 {
@@ -44,17 +44,31 @@ class BuildFormSectionFieldsCommandHandler
 
             if ($entry instanceof EntryInterface) {
 
+                /**
+                 * Get the assignment model from the field.
+                 * If it's not found then we'll be skipping it.
+                 */
                 $assignment = $entry->getAssignmentFromField($field['field']);
 
                 if ($assignment instanceof AssignmentModel) {
 
+                    /**
+                     * Get the type object spawned from the assignment
+                     * next. Again if not found we're going to skip it.
+                     */
                     $type = $assignment->type($entry);
 
                     if ($type instanceof FieldTypeAddon) {
 
-                        // Set the label
+                        /**
+                         * Now that we're here set some options
+                         * that might have been passed along in
+                         * the configuration for the field.
+                         */
                         $type->setLabel(trans($entry->getFieldLabel($field['field']), [], '', 'en'));
+                        $type->setPlaceholder(trans($entry->getFieldPlaceholder($field['field']), [], '', 'en'));
 
+                        // Render the input element.
                         $element = $type->element();
 
                         $fields[] = compact('element');
@@ -65,8 +79,9 @@ class BuildFormSectionFieldsCommandHandler
 
             }
 
-            return $fields;
         }
+
+        return $fields;
     }
 
 }
