@@ -65,6 +65,9 @@ class FormUtility extends Utility
         'default' => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Form\Section\DefaultFormSection',
         ],
+        'tabbed' => [
+            'handler' => 'Anomaly\Streams\Platform\Ui\Form\Section\TabbedFormSection',
+        ],
     ];
 
     /**
