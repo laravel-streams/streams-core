@@ -123,7 +123,7 @@ class BuildTableViewsCommandHandler
 
         if (($executing == $view['slug']) or (!$executing and $order == 0)) {
 
-            return 'active';
+            return true;
 
         }
 

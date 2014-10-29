@@ -20,7 +20,7 @@
             {{ if views }}
             <ul class="table-views">
                 {{ views }}
-                <li class="{{ class }}">
+                <li class="{{ class }} {{ if active }}active{{ endif }}">
                     <a href="{{ url }}">{{ title }}</a>
                 </li>
                 {{ /views }}
