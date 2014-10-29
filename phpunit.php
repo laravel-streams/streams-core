@@ -1,4 +1,4 @@
 <?php
 
 include '../../../bootstrap/autoload.php';
-include '../../../bootstrap/start.php';
+include '../../../bootstrap/app.php';

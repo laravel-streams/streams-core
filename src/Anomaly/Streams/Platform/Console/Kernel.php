@@ -19,6 +19,10 @@ class Kernel extends \Illuminate\Foundation\Console\Kernel
      */
     public function handle($input, $output = null)
     {
+        if ($input->getFirstArgument() === 'run') {
+            return 1;
+        }
+
         try {
 
             return parent::handle($input, $output);
