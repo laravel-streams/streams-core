@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Ui\Table\TableUtility;
+
 /**
  * Class BuildTableViewsCommandHandler
  *
@@ -10,6 +12,23 @@
  */
 class BuildTableViewsCommandHandler
 {
+
+    /**
+     * The table utility object.
+     *
+     * @var \Anomaly\Streams\Platform\Ui\Table\TableUtility
+     */
+    protected $utility;
+
+    /**
+     * Create a new BuildTableViewsCommandHandler instance.
+     *
+     * @param TableUtility $utility
+     */
+    function __construct(TableUtility $utility)
+    {
+        $this->utility = $utility;
+    }
 
     /**
      * Handle the command.
@@ -29,7 +48,7 @@ class BuildTableViewsCommandHandler
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $view = $this->evaluate($view, $ui);
+            $view = $this->utility->evaluate($view, [$ui]);
 
             // Build out required data.
             $_url  = $this->getUrl($view);
@@ -41,18 +60,6 @@ class BuildTableViewsCommandHandler
         }
 
         return $views;
-    }
-
-    /**
-     * Evaluate each array item for closures.
-     *
-     * @param $view
-     * @param $ui
-     * @return mixed|null
-     */
-    protected function evaluate($view, $ui)
-    {
-        return evaluate($view, [$ui]);
     }
 
     /**

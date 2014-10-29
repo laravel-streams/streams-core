@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableViewInterface;
 use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableViewInterface;
 
 class HandleTableViewCommandHandler
 {

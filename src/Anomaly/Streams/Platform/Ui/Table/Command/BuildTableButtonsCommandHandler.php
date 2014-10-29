@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
-use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 
 /**
  * Class BuildTableButtonsCommandHandler
@@ -71,7 +70,7 @@ class BuildTableButtonsCommandHandler
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $button = $this->evaluate($button, $ui, $entry);
+            $button = $this->utility->evaluate($button, [$ui, $entry], $entry);
 
             // Get our defaults and merge them in.
             $defaults = $this->getDefaults($button, $ui, $entry);
@@ -97,40 +96,6 @@ class BuildTableButtonsCommandHandler
     }
 
     /**
-     * Evaluate each array item for closures.
-     * Merge in entry data at this point too.
-     *
-     * @param $button
-     * @param $ui
-     * @param $entry
-     * @return mixed|null
-     */
-    protected function evaluate($button, $ui, $entry)
-    {
-        $button = evaluate($button, [$ui, $entry]);
-
-        /**
-         * In addition to evaluating we need
-         * to merge in entry data as best we can.
-         */
-        foreach ($button as &$value) {
-
-            if (is_string($value) and str_contains($value, '{')) {
-
-                if ($entry instanceof ArrayableInterface) {
-
-                    $value = merge($value, $entry->toArray());
-
-                }
-
-            }
-
-        }
-
-        return $button;
-    }
-
-    /**
      * Get default configuration if any.
      * Then run everything back through evaluation.
      *
@@ -143,7 +108,7 @@ class BuildTableButtonsCommandHandler
     {
         if (isset($button['type']) and $defaults = $this->utility->getButtonDefaults($button['type'])) {
 
-            return $this->evaluate($defaults, $ui, $entry);
+            return $this->utility->evaluate($defaults, [$ui, $entry], $entry);
 
         }
 

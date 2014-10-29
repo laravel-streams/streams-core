@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
+use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
 /**
@@ -65,6 +66,41 @@ class Utility
                 array_keys($attributes)
             )
         );
+    }
+
+    /**
+     * Evaluate closures in the entire data array.
+     * Merge in entry data at this point as well if available.
+     *
+     * @param array $data
+     * @param array $arguments
+     * @param null  $entry
+     * @return mixed|null
+     */
+    public function evaluate(array $data, $arguments = [], $entry = null)
+    {
+
+        $data = evaluate($data, $arguments);
+
+        /**
+         * In addition to evaluating we need
+         * to merge in entry data as best we can.
+         */
+        foreach ($data as &$value) {
+
+            if (is_string($value) and str_contains($value, '{')) {
+
+                if ($entry instanceof EntryInterface) {
+
+                    $value = merge($value, $entry->toArray());
+
+                }
+
+            }
+
+        }
+
+        return $data;
     }
 
 }

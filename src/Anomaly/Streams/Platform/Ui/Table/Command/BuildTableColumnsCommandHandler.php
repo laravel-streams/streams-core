@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
+use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 use Anomaly\Streams\Platform\Assignment\AssignmentService;
 
 /**
@@ -23,13 +24,22 @@ class BuildTableColumnsCommandHandler
     protected $service;
 
     /**
+     * The table utility object.
+     *
+     * @var \Anomaly\Streams\Platform\Ui\Table\TableUtility
+     */
+    protected $utility;
+
+    /**
      * Create a new BuildTableColumnsCommandHandler instance.
      *
      * @param AssignmentService $service
+     * @param TableUtility      $utility
      */
-    function __construct(AssignmentService $service)
+    function __construct(AssignmentService $service, TableUtility $utility)
     {
         $this->service = $service;
+        $this->utility = $utility;
     }
 
     /**
@@ -59,7 +69,7 @@ class BuildTableColumnsCommandHandler
 
             // Evaluate the column.
             // All closures are gone now.
-            $column = $this->evaluate($column, $ui, $entry);
+            $column = $this->utility->evaluate($column, [$ui, $entry], $entry);
 
             // Build out our required data.
             $value = $this->getValue($column, $entry);
@@ -69,40 +79,6 @@ class BuildTableColumnsCommandHandler
         }
 
         return $columns;
-    }
-
-    /**
-     * Evaluate each array item for closures.
-     * Merge in entry data at this point too.
-     *
-     * @param $column
-     * @param $ui
-     * @param $entry
-     * @return mixed|null
-     */
-    protected function evaluate($column, $ui, $entry)
-    {
-        $column = evaluate($column, [$ui, $entry]);
-
-        /**
-         * In addition to evaluating we need
-         * to merge in entry data as best we can.
-         */
-        foreach ($column as &$value) {
-
-            if (is_string($value) and str_contains($value, '{')) {
-
-                if ($entry instanceof EntryInterface) {
-
-                    $value = merge($value, $entry->toArray());
-
-                }
-
-            }
-
-        }
-
-        return $column;
     }
 
     /**

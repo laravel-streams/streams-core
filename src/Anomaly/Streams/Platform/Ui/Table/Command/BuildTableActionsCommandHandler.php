@@ -74,7 +74,7 @@ class BuildTableActionsCommandHandler
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $action = $this->evaluate($action, $ui);
+            $action = $this->utility->evaluate($action, [$ui]);
 
             // Get our defaults and merge them in.
             $defaults = $this->getDefaults($action, $ui);
@@ -100,19 +100,6 @@ class BuildTableActionsCommandHandler
     }
 
     /**
-     * Evaluate each array item for closures.
-     * Merge in entry data at this point too.
-     *
-     * @param $action
-     * @param $ui
-     * @return mixed|null
-     */
-    protected function evaluate($action, $ui)
-    {
-        return evaluate($action, [$ui]);
-    }
-
-    /**
      * Get default configuration if any.
      * Then run everything back through evaluation.
      *
@@ -126,7 +113,7 @@ class BuildTableActionsCommandHandler
 
         if (isset($action['type']) and $defaults = $this->utility->getActionDefaults($action['type'])) {
 
-            $defaults = $this->evaluate($defaults, $ui);
+            $defaults = $this->utility->evaluate($defaults, [$ui]);
 
         }
 

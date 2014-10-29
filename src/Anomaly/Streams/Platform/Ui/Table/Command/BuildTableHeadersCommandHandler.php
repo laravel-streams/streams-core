@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
+use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 
 /**
  * Class BuildTableHeadersCommandHandler
@@ -15,7 +16,24 @@ class BuildTableHeadersCommandHandler
 {
 
     /**
+     * The table utility object.
+     *
+     * @var
+     */
+    protected $utility;
+
+    /**
      * Create a new BuildTableHeadersCommandHandler instance.
+     *
+     * @param TableUtility $utility
+     */
+    function __construct(TableUtility $utility)
+    {
+        $this->utility = $utility;
+    }
+
+    /**
+     * Handle the command.
      *
      * @param BuildTableHeadersCommand $command
      * @return array
@@ -40,7 +58,7 @@ class BuildTableHeadersCommandHandler
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $column = $this->evaluate($column, $ui);
+            $column = $this->utility->evaluate($column, [$ui]);
 
             // Build out our required data.
             $heading = $this->getHeading($column, $ui);
@@ -50,18 +68,6 @@ class BuildTableHeadersCommandHandler
         }
 
         return $columns;
-    }
-
-    /**
-     * Evaluate each array item for closures.
-     *
-     * @param $column
-     * @param $ui
-     * @return mixed|null
-     */
-    protected function evaluate($column, $ui)
-    {
-        return evaluate($column, [$ui]);
     }
 
     /**

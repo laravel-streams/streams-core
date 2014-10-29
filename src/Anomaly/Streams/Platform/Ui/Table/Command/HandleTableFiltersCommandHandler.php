@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableFilterInterface;
 use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableFilterInterface;
 
 /**
  * Class HandleTableFiltersCommandHandler
