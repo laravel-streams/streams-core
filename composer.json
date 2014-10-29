@@ -43,12 +43,16 @@
     ],
     "require-dev": {
         "anomaly/streams" : "dev-master",
-        "benconstable/phpspec-laravel": "dev-fix-laravel-5-compatibility"
+        "benconstable/phpspec-laravel": "dev-fix-laravel-5-compatibility",
+        "henrikbjorn/phpspec-code-coverage": "~0.2"
     },
     "autoload": {
         "psr-0": {
             "Anomaly\\Streams\\Platform": "src/"
-        }
+        },
+        "files": [
+            "resources/helpers.php"
+        ]
     },
     "minimum-stability": "dev",
     "config": {
