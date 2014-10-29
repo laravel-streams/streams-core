@@ -42,6 +42,8 @@ class StreamInstaller
         // Assign each of the assignments.
         foreach ($this->getAssignments() as $field => $assignment) {
 
+            $assignment['label']        = $this->getAssignmentLabel($assignment, $field);
+            $assignment['placeholder']  = $this->getAssignmentPlaceholder($assignment, $field);
             $assignment['instructions'] = $this->getAssignmentInstructions($assignment, $field);
 
             $this->fieldService->assign(
@@ -99,6 +101,20 @@ class StreamInstaller
         $default = "{$this->addonType}.{$this->stream['namespace']}::stream.{$this->stream['slug']}.description";
 
         return isset($stream['description']) ? $stream['description'] : $default;
+    }
+
+    protected function getAssignmentLabel($assignment, $field)
+    {
+        $default = "{$this->addonType}.{$this->stream['namespace']}::field.{$field}.label";
+
+        return isset($assignment['label']) ? $assignment['label'] : $default;
+    }
+
+    protected function getAssignmentPlaceholder($assignment, $field)
+    {
+        $default = "{$this->addonType}.{$this->stream['namespace']}::field.{$field}.placeholder";
+
+        return isset($assignment['placeholder']) ? $assignment['placeholder'] : $default;
     }
 
     protected function getAssignmentInstructions($assignment, $field)

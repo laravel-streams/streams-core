@@ -66,6 +66,7 @@ class FieldService
         $isUnique       = isset($assignment['is_unique']) ? $assignment['is_unique'] : false;
 
         $label        = isset($assignment['label']) ? $assignment['label'] : null;
+        $placeholder  = isset($assignment['placeholder']) ? $assignment['placeholder'] : null;
         $instructions = isset($assignment['instructions']) ? $assignment['instructions'] : null;
 
         $command = new AssignFieldCommand(
@@ -74,6 +75,7 @@ class FieldService
             $stream,
             $field,
             $label,
+            $placeholder,
             $instructions,
             $isUnique,
             $isRequired,
