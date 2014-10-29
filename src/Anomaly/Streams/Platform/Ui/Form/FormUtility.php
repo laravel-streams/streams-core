@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Ui\Utility;
-use Anomaly\Streams\Platform\Ui\Form\Event\ConstructingFormUtilityEvent;
 
 /**
  * Class FormUtility
