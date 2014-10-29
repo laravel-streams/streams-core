@@ -83,9 +83,10 @@ class BuildTableActionsCommandHandler
             $title      = $this->getTitle($action);
             $class      = $this->getClass($action);
             $value      = $this->getSlug($action, $ui);
+            $name       = $this->getName($action, $ui);
             $attributes = $this->getAttributes($action);
 
-            $action = compact('title', 'class', 'value', 'attributes');
+            $action = compact('title', 'class', 'value', 'name', 'attributes');
 
             // Normalize things a bit before proceeding.
             $action = $this->utility->normalize($action);
@@ -183,6 +184,18 @@ class BuildTableActionsCommandHandler
     protected function getSlug(array $action, TableUi $ui)
     {
         return $ui->getPrefix() . $action['slug'];
+    }
+
+    /**
+     * Get the name of the submit input.
+     *
+     * @param array   $action
+     * @param TableUi $ui
+     * @return string
+     */
+    protected function getName(array $action, TableUi $ui)
+    {
+        return $ui->getPrefix() . 'action';
     }
 
 }
