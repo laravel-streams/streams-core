@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableActionInterface;
 
 /**
@@ -66,11 +66,11 @@ class HandleTableActionCommandHandler
     /**
      * Get the handler.
      *
-     * @param $action
-     * @param $ui
+     * @param array                                      $action
+     * @param \Anomaly\Streams\Platform\Ui\Table\TableUi $ui
      * @return mixed
      */
-    protected function getHandler($action, $ui)
+    protected function getHandler(array $action, TableUi $ui)
     {
         if (is_string($action['handler'])) {
 

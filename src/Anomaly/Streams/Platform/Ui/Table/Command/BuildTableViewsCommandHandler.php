@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 
 /**
@@ -55,11 +56,12 @@ class BuildTableViewsCommandHandler
             $view = $this->utility->evaluate($view, [$ui]);
 
             // Build out required data.
-            $url   = $this->getUrl($view);
-            $title = $this->getTitle($view, $ui);
-            $class = $this->getClass($view, $order, $ui);
+            $url    = $this->getUrl($view, $ui);
+            $title  = $this->getTitle($view, $ui);
+            $class  = $this->getClass($view, $ui);
+            $active = $this->getActive($view, $order, $ui);
 
-            $views[] = compact('url', 'title', 'class');
+            $views[] = compact('url', 'title', 'class', 'active');
 
         }
 
@@ -69,22 +71,23 @@ class BuildTableViewsCommandHandler
     /**
      * Get the view URL.
      *
-     * @param $view
+     * @param array   $view
+     * @param TableUi $ui
      * @return string
      */
-    protected function getUrl($view)
+    protected function getUrl(array $view, TableUi $ui)
     {
-        return url(app('request')->path()) . '?_view=' . $view['slug'];
+        return url(app('request')->path()) . '?' . $ui->getPrefix() . 'view=' . $view['slug'];
     }
 
     /**
      * Get the translated view title.
      *
-     * @param $view
-     * @param $ui
+     * @param array                                      $view
+     * @param \Anomaly\Streams\Platform\Ui\Table\TableUi $ui
      * @return string
      */
-    protected function getTitle($view, $ui)
+    protected function getTitle(array $view, TableUi $ui)
     {
         return trans(evaluate_key($view, 'title', 'misc.all', [$ui]));
     }
@@ -92,24 +95,39 @@ class BuildTableViewsCommandHandler
     /**
      * Get the view class.
      *
-     * @param $view
-     * @param $order
-     * @param $ui
+     * @param array   $view
+     * @param         $order
+     * @param TableUi $ui
      * @return mixed|null|string
      */
-    protected function getClass($view, $order, $ui)
+    protected function getClass(array $view, TableUi $ui)
+    {
+        $class = evaluate_key($view, 'class', '', [$ui]);
+
+        return $class;
+    }
+
+    /**
+     * Get active flag.
+     *
+     * @param array   $view
+     * @param         $order
+     * @param TableUi $ui
+     * @return string
+     */
+    protected function getActive(array $view, $order, TableUi $ui)
     {
         $input = app('request');
 
-        $class = evaluate_key($view, 'class', '', [$ui]);
+        $executing = $input->get($ui->getPrefix() . 'view');
 
-        if (($input->get('_view') == $view['slug']) or (!$input->get('_view') and $order == 0)) {
+        if (($executing == $view['slug']) or (!$executing and $order == 0)) {
 
-            $class .= ' active';
+            return 'active';
 
         }
 
-        return $class;
+        return null;
     }
 
 }

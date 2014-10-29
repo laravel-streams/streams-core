@@ -61,7 +61,7 @@ class BuildTableFiltersCommandHandler
             $this->utility->evaluate($filter, [$ui]);
 
             // Build out required data.
-            $slug  = $this->getSlug($filter);
+            $slug  = $this->getSlug($filter, $ui);
             $input = $this->getInput($filter, $slug, $ui);
 
             $filter = compact('input');
@@ -101,23 +101,24 @@ class BuildTableFiltersCommandHandler
     /**
      * Get the slug.
      *
-     * @param $filter
-     * @return mixed|null
+     * @param array   $filter
+     * @param TableUi $ui
+     * @return string
      */
-    protected function getSlug($filter)
+    protected function getSlug(array $filter, TableUi $ui)
     {
-        return evaluate_key($filter, 'slug');
+        return $ui->getPrefix() . $filter['slug'];
     }
 
     /**
      * Get the input HTML.
      *
-     * @param         $filter
+     * @param array   $filter
      * @param         $slug
      * @param TableUi $ui
-     * @return null
+     * @return mixed|null
      */
-    protected function getInput($filter, $slug, TableUi $ui)
+    protected function getInput(array $filter, $slug, TableUi $ui)
     {
         $type = evaluate_key($filter, 'type', 'text', [$ui]);
 
@@ -159,12 +160,12 @@ class BuildTableFiltersCommandHandler
     /**
      * Get HTML for a select input.
      *
-     * @param         $filter
+     * @param array   $filter
      * @param         $slug
      * @param TableUi $ui
      * @return mixed
      */
-    protected function getSelectInput($filter, $slug, TableUi $ui)
+    protected function getSelectInput(array $filter, $slug, TableUi $ui)
     {
         $form    = app('form');
         $request = app('request');
@@ -183,13 +184,13 @@ class BuildTableFiltersCommandHandler
     /**
      * Get the HTML for a text input.
      *
-     * @param         $filter
+     * @param array   $filter
      * @param         $type
      * @param         $slug
      * @param TableUi $ui
      * @return mixed
      */
-    protected function getTextInput($filter, $type, $slug, TableUi $ui)
+    protected function getTextInput(array $filter, $type, $slug, TableUi $ui)
     {
         $form    = app('form');
         $request = app('request');
@@ -209,11 +210,11 @@ class BuildTableFiltersCommandHandler
     /**
      * Get the HTML for a field input.
      *
-     * @param         $filter
+     * @param array   $filter
      * @param TableUi $ui
      * @return null
      */
-    protected function getFieldInput($filter, TableUi $ui)
+    protected function getFieldInput(array $filter, TableUi $ui)
     {
         $assignment = $ui->getModel()->getStream()->assignments->findByFieldSlug($filter['field']);
 
@@ -229,10 +230,10 @@ class BuildTableFiltersCommandHandler
     /**
      * Get the field input from an assignment.
      *
-     * @param $assignment
+     * @param AssignmentModel $assignment
      * @return null
      */
-    protected function getFieldInputFromAssignment($assignment)
+    protected function getFieldInputFromAssignment(AssignmentModel $assignment)
     {
         $fieldType = $assignment->type();
 
