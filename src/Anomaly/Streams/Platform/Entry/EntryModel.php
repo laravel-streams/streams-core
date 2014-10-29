@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 
 class EntryModel extends EloquentModel implements EntryInterface
 {
@@ -217,9 +217,9 @@ class EntryModel extends EloquentModel implements EntryInterface
     {
         $assignment = $this->getAssignmentFromField($field);
 
-        if ($assignment) {
+        if ($assignment instanceof AssignmentModel) {
 
-            return $assignment->field->name;
+            return $assignment->getFieldName();
 
         }
     }
@@ -232,13 +232,7 @@ class EntryModel extends EloquentModel implements EntryInterface
      */
     public function getFieldHeading($field)
     {
-        $assignment = $this->getAssignmentFromField($field);
-
-        if ($assignment) {
-
-            return $assignment->field->name;
-
-        }
+        return $this->getFieldName($field);
     }
 
     /**
@@ -251,11 +245,38 @@ class EntryModel extends EloquentModel implements EntryInterface
     {
         $assignment = $this->getAssignmentFromField($field);
 
-        if ($assignment) {
+        if ($assignment instanceof AssignmentModel) {
 
-            return $assignment->field->name;
+            if ($label = $assignment->getFieldLabel()) {
+
+                return $label;
+
+            }
 
         }
+
+        return $this->getFieldName($field);
+    }
+
+    /**
+     * Get the placeholder for a field.
+     *
+     * @param $field
+     * @return mixed
+     */
+    public function getFieldPlaceholder($field)
+    {
+        $name = $this->getFieldName($field);
+
+        $placeholder = str_replace('.name', '.placeholder', $name);
+
+        if ($translated = trans($placeholder) and $translated != $placeholder) {
+
+            return $placeholder;
+
+        }
+
+        return null;
     }
 
 
