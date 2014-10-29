@@ -46,6 +46,14 @@ interface EntryInterface extends ArrayableInterface
     public function getFieldHeading($field);
 
     /**
+     * Get the placeholder for a field.
+     *
+     * @param $field
+     * @return mixed
+     */
+    public function getFieldPlaceholder($field);
+
+    /**
      * Get the type for a field.
      *
      * @param $field
