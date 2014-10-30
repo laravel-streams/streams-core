@@ -31,6 +31,8 @@ class TabbedFormSection extends FormSection implements FormSectionInterface
      */
     public function body()
     {
+        //$layout = $this->getLayout();
+
         return view('html/section/tabbed/body');
     }
 

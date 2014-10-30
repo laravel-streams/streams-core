@@ -56,6 +56,8 @@ class HandleTableActionCommandHandler
 
             $this->handleAction($ui);
 
+            app('streams.messages')->flash();
+
             return redirect(referer(url(app('request')->path())));
 
         }

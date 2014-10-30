@@ -39,6 +39,12 @@ class FormUi extends Ui
     {
         $this->entry = $entry;
 
+        if ($response = $this->fire('make')) {
+
+            return $response;
+
+        }
+
         return parent::make();
     }
 
@@ -140,19 +146,13 @@ class FormUi extends Ui
         return new FormRepository($this, $this->model);
     }
 
-    protected function onTrigger()
+    protected function onMake()
     {
-        if (!$this->entry instanceof EntryInterface) {
+        $this->entry = $this->newRepository()->get();
 
-            $this->entry = $this->newRepository()->get();
+        if (app('request')->isMethod('post')) {
 
-        }
-
-        if (app('request')->is('post')) {
-
-            $command = new HandleFormSubmissionCommand($this);
-
-            $this->execute($command);
+            return $this->execute(new HandleFormSubmissionCommand($this));
 
         }
     }

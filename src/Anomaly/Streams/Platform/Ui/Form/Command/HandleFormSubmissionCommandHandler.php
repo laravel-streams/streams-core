@@ -33,11 +33,19 @@ class HandleFormSubmissionCommandHandler
     /**
      * Handle the command.
      *
-     * @param HandleFormSubmissionCommandHandler $command
+     * @param HandleFormSubmissionCommand $command
      */
-    public function handle(HandleFormSubmissionCommandHandler $command)
+    public function handle(HandleFormSubmissionCommand $command)
     {
-        die('Handling that form sucka!');
+        $ui = $command->getUi();
+
+        $entry = $ui->getEntry();
+
+        app('streams.messages')->add('success', $entry->email . ' was saved.');
+
+        app('streams.messages')->flash();
+
+        return redirect(referer(url(app('request')->path())));
     }
 
 }
