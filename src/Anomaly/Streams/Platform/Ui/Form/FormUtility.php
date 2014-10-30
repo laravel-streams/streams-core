@@ -84,6 +84,8 @@ class FormUtility extends Utility
     {
         if (isset($this->redirects[$type]) and $defaults = $this->redirects[$type]) {
 
+            $defaults['url'] = $this->guessRedirectUrl($type);
+
             return $defaults;
 
         }
@@ -101,7 +103,7 @@ class FormUtility extends Utility
     {
         if (isset($this->actions[$type]) and $defaults = $this->actions[$type]) {
 
-            $defaults['url'] = $this->guessRedirectUrl($type);
+            $defaults['url'] = $this->guessActionUrl($type);
 
             return $defaults;
 
@@ -141,30 +143,67 @@ class FormUtility extends Utility
     {
         switch ($type) {
 
-            /**
-             * Lop off the last two segments.
-             * This should leave the index action.
-             */
+            // Change the last two segments.
+            case 'cancel':
+                $segments = explode('/', $this->request->path());
+                $offset   = is_integer(end($segments)) ? 2 : 1;
+
+                return url(implode('/', array_slice($segments, 0, count($segments) - $offset)));
+                break;
+
+            // Change the last two segments
+            case 'view':
+                $segments = explode('/', $this->request->path());
+                $offset   = is_integer(end($segments)) ? 2 : 1;
+
+                return url(implode('/', array_slice($segments, 0, count($segments) - $offset)) . '/show/{id}');
+                break;
+
+            // Change the URI action.
+            case 'delete':
+                $segments = explode('/', $this->request->path());
+                $offset   = is_integer(end($segments)) ? 2 : 1;
+                $suffix   = is_infinite(end($segments)) ? '/delete/{id}' : null;
+
+                return url(implode('/', array_slice($segments, 0, count($segments) - $offset)) . $suffix);
+                break;
+
+            default:
+                return null;
+                break;
+
+        }
+    }
+
+    /**
+     * Suggest best practices for URLs.
+     *
+     * URLs should be like: admin/module{/stream}/action/id
+     * {/stream} is optional if the module slug == stream slug
+     * like admin/users (would not be admin/users/users)
+     *
+     * @param $type
+     * @return string
+     */
+    protected function guessActionUrl($type)
+    {
+        switch ($type) {
+
+            // Change the last two segments.
             case 'cancel':
                 $segments = explode('/', $this->request->path());
 
                 return url(implode('/', array_slice($segments, 0, count($segments) - 2)));
                 break;
 
-            /**
-             * Lop off the last two segments
-             * and append /show/{id}
-             */
+            // Change the last two segments
             case 'view':
                 $segments = explode('/', $this->request->path());
 
                 return url(implode('/', array_slice($segments, 0, count($segments) - 2)) . '/show/{id}');
                 break;
 
-            /**
-             * Lop off the last two segments
-             * and append /delete/{id}
-             */
+            // Change the last two segments
             case 'delete':
                 $segments = explode('/', $this->request->path());
 
