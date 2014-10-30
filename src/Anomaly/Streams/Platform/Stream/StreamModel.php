@@ -13,6 +13,20 @@ class StreamModel extends EloquentModel
     public $timestamps = false;
 
     /**
+     * This model is translatable.
+     *
+     * @var bool
+     */
+    protected $translatable = true;
+
+    /**
+     * The foreign key for translations.
+     *
+     * @var string
+     */
+    protected $translationForeignKey = 'stream_id';
+
+    /**
      * The model's database table name.
      *
      * @var string

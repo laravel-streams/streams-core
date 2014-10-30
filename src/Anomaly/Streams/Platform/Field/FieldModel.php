@@ -12,7 +12,21 @@ class FieldModel extends EloquentModel
     public $timestamps = false;
 
     /**
-     * Define the table name
+     * This model is translatable.
+     *
+     * @var bool
+     */
+    protected $translatable = true;
+
+    /**
+     * The foreign key for translations.
+     *
+     * @var string
+     */
+    protected $translationForeignKey = 'field_id';
+
+    /**
+     * The database table name.
      *
      * @var string
      */

@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 
 class AssignmentModel extends EloquentModel
 {
@@ -13,8 +13,23 @@ class AssignmentModel extends EloquentModel
      */
     public $timestamps = false;
 
+
     /**
-     * Define the table name
+     * This model is translatable.
+     *
+     * @var bool
+     */
+    protected $translatable = true;
+
+    /**
+     * The foreign key for translations.
+     *
+     * @var string
+     */
+    protected $translationForeignKey = 'assignment_id';
+
+    /**
+     * The database table name.
      *
      * @var string
      */
