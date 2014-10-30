@@ -219,9 +219,7 @@ class BuildTableFiltersCommandHandler
     {
         $entryModel = $ui->getModel();
 
-        $stream = $entryModel->getStream();
-
-        $assignment = $stream->assignments->findByFieldSlug($filter['field']);
+        $assignment = $entryModel->findAssignmentByFieldSlug($filter['field']);
 
         if ($assignment instanceof AssignmentModel) {
 
