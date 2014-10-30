@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormUi;
 use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 
@@ -59,15 +58,8 @@ class BuildFormActionsCommandHandler
 
         foreach ($ui->getActions() as $action) {
 
-            /**
-             * If only the type is sent along
-             * we default everything like bad asses.
-             */
-            if (is_string($action)) {
-
-                $action = ['type' => $action];
-
-            }
+            // Standardize input.
+            $action = $this->standardize($action);
 
             // Evaluate everything in the array.
             // All closures are gone now.
@@ -96,17 +88,37 @@ class BuildFormActionsCommandHandler
     }
 
     /**
-     * Get default data for the action's type if any.
+     * Standardize minimum input to the proper data
+     * structure we actually expect.
      *
      * @param $action
-     * @param $ui
-     * @param $entry
+     * @return array
+     */
+    protected function standardize($action)
+    {
+        /**
+         * If only the type is sent along
+         * we default everything like bad asses.
+         */
+        if (is_string($action)) {
+
+            $action = ['type' => $action];
+
+        }
+
+        return $action;
+    }
+
+    /**
+     * Get default data for the action's type if any.
+     *
+     * @param array  $action
+     * @param FormUi $ui
+     * @param        $entry
      * @return array|mixed|null
      */
-    protected function getDefaults($action, $ui, $entry)
+    protected function getDefaults(array $action, FormUi $ui, $entry)
     {
-        $defaults = [];
-
         if (isset($action['type']) and $defaults = $this->utility->getActionDefaults($action['type'])) {
 
             // Be sure to run the defaults back through evaluate.
@@ -114,16 +126,16 @@ class BuildFormActionsCommandHandler
 
         }
 
-        return $defaults;
+        return [];
     }
 
     /**
      * Get the translated title.
      *
-     * @param $action
+     * @param array $action
      * @return string
      */
-    protected function getTitle($action)
+    protected function getTitle(array $action)
     {
         return trans(evaluate_key($action, 'title'));
     }
@@ -131,10 +143,10 @@ class BuildFormActionsCommandHandler
     /**
      * Get the class.
      *
-     * @param $action
+     * @param array $action
      * @return mixed|null
      */
-    protected function getClass($action)
+    protected function getClass(array $action)
     {
         return evaluate_key($action, 'class', 'btn btn-sm btn-success');
     }
@@ -142,10 +154,10 @@ class BuildFormActionsCommandHandler
     /**
      * Get the url.
      *
-     * @param $action
+     * @param array $action
      * @return string
      */
-    protected function getUrl($action)
+    protected function getUrl(array $action)
     {
         return url(evaluate_key($action, 'url'));
     }
@@ -154,10 +166,10 @@ class BuildFormActionsCommandHandler
      * Get the attributes. This is the entire array
      * less the keys marked as "not attributes".
      *
-     * @param $action
+     * @param array $action
      * @return array
      */
-    protected function getAttributes($action)
+    protected function getAttributes(array $action)
     {
         return array_diff_key($action, array_flip($this->notAttributes));
     }

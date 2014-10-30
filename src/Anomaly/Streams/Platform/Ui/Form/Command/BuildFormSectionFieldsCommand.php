@@ -30,8 +30,8 @@ class BuildFormSectionFieldsCommand
     /**
      * Create a new BuildFormSectionFieldsCommand instance.
      *
-     * @param $ui
-     * @param $fields
+     * @param FormUi $ui
+     * @param array  $fields
      */
     function __construct(FormUi $ui, array $fields)
     {
@@ -58,5 +58,6 @@ class BuildFormSectionFieldsCommand
     {
         return $this->ui;
     }
+
 }
  

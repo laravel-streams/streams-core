@@ -52,6 +52,8 @@ class BuildFormSectionsCommandHandler
 
         foreach ($ui->getSections() as $section) {
 
+            // Standardize input.
+            $section = $this->standardize($section);
 
             // Evaluate the column.
             // All closures are gone now.
@@ -88,14 +90,37 @@ class BuildFormSectionsCommandHandler
     }
 
     /**
+     * Standardize minimum input to the proper data
+     * structure we actually expect.
+     *
+     * @param $section
+     */
+    protected function standardize($section)
+    {
+        /**
+         * If this is a string it is one
+         * of the few default section types.
+         */
+        if (is_string($section)) {
+
+            $section = [
+                'type' => $section,
+            ];
+
+        }
+
+        return $section;
+    }
+
+    /**
      * Get the default data by the given type.
      *
-     * @param        $section
+     * @param array  $section
      * @param FormUi $ui
      * @param        $entry
      * @return array|mixed|null
      */
-    protected function getDefaults($section, FormUi $ui, $entry)
+    protected function getDefaults(array $section, FormUi $ui, $entry)
     {
         $defaults = [];
 
@@ -111,27 +136,33 @@ class BuildFormSectionsCommandHandler
     /**
      * Get the class.
      *
-     * @param $section
+     * @param array $section
      * @return mixed|null
      */
-    protected function getClass($section)
+    protected function getClass(array $section)
     {
         return evaluate_key($section, 'class', evaluate_key($section, 'type') . '-section');
     }
 
     /**
-     * @param        $section
+     * @param array  $section
      * @param FormUi $ui
      * @return mixed
      */
-    protected function getSectionHandler($section, FormUi $ui)
+    protected function getSectionHandler(array $section, FormUi $ui)
     {
         $default = 'Anomaly\Streams\Platform\Ui\Form\Section\DefaultFormSection';
 
         return app()->make(evaluate_key($section, 'handler', $default, [$ui]), compact('section', 'ui'));
     }
 
-    protected function standardizeLayout($section)
+    /**
+     * Standardize the layout value.
+     *
+     * @param array $section
+     * @return mixed
+     */
+    protected function standardizeLayout(array $section)
     {
         if (!isset($section['layout'])) {
 

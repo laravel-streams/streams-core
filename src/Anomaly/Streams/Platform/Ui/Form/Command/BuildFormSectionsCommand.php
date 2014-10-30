@@ -16,7 +16,7 @@ class BuildFormSectionsCommand
     /**
      * The form UI object.
      *
-     * @var
+     * @var \Anomaly\Streams\Platform\Ui\Form\FormUi
      */
     protected $ui;
 
@@ -33,7 +33,7 @@ class BuildFormSectionsCommand
     /**
      * Get the form UI object.
      *
-     * @return mixed
+     * @return FormUi
      */
     public function getUi()
     {

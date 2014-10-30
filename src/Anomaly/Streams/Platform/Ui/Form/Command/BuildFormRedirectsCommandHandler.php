@@ -58,15 +58,8 @@ class BuildFormRedirectsCommandHandler
 
         foreach ($ui->getRedirects() as $redirect) {
 
-            /**
-             * If only the type is sent along
-             * we default everything like bad asses.
-             */
-            if (is_string($redirect)) {
-
-                $redirect = ['type' => $redirect];
-
-            }
+            // Standardize input.
+            $redirect = $this->standardize($redirect);
 
             // Evaluate everything in the array.
             // All closures are gone now.
@@ -93,14 +86,36 @@ class BuildFormRedirectsCommandHandler
     }
 
     /**
+     * Standardize minimum input to the proper data
+     * structure we actually expect.
+     *
+     * @param $redirect
+     * @return array
+     */
+    protected function standardize($redirect)
+    {
+        /**
+         * If only the type is sent along
+         * we default everything like bad asses.
+         */
+        if (is_string($redirect)) {
+
+            $redirect = ['type' => $redirect];
+
+        }
+
+        return $redirect;
+    }
+
+    /**
      * Get the defaults for the redirect's type if any.
      *
-     * @param        $redirect
+     * @param array  $redirect
      * @param FormUi $ui
      * @param        $entry
      * @return array|mixed|null
      */
-    protected function getDefaults($redirect, FormUi $ui, $entry)
+    protected function getDefaults(array $redirect, FormUi $ui, $entry)
     {
         $defaults = [];
 
@@ -116,10 +131,10 @@ class BuildFormRedirectsCommandHandler
     /**
      * Get the translated title.
      *
-     * @param $redirect
+     * @param array $redirect
      * @return string
      */
-    protected function getTitle($redirect)
+    protected function getTitle(array $redirect)
     {
         return trans(evaluate_key($redirect, 'title'));
     }
@@ -127,10 +142,10 @@ class BuildFormRedirectsCommandHandler
     /**
      * Get the class.
      *
-     * @param $redirect
+     * @param array $redirect
      * @return mixed|null
      */
-    protected function getClass($redirect)
+    protected function getClass(array $redirect)
     {
         return evaluate_key($redirect, 'class', 'btn btn-sm btn-success');
     }
@@ -138,10 +153,10 @@ class BuildFormRedirectsCommandHandler
     /**
      * Get the URL.
      *
-     * @param $redirect
+     * @param array $redirect
      * @return string
      */
-    protected function getUrl($redirect)
+    protected function getUrl(array $redirect)
     {
         return url(evaluate_key($redirect, 'url'));
     }
@@ -150,10 +165,10 @@ class BuildFormRedirectsCommandHandler
      * Get the attribute string. This is the entire array
      * passed less the keys marked as "not attributes".
      *
-     * @param $redirect
+     * @param array $redirect
      * @return array
      */
-    protected function getAttributes($redirect)
+    protected function getAttributes(array $redirect)
     {
         return array_diff_key($redirect, array_flip($this->notAttributes));
     }

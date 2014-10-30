@@ -3,18 +3,42 @@
 use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 
+/**
+ * Class BuildFormSectionRowsCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Command
+ */
 class BuildFormSectionRowsCommandHandler
 {
 
     use CommandableTrait;
 
+    /**
+     * The form utility object.
+     *
+     * @var \Anomaly\Streams\Platform\Ui\Form\FormUtility
+     */
     protected $utility;
 
+    /**
+     * Create a new BuildFormSectionRowsCommandHandler instance.
+     *
+     * @param FormUtility $utility
+     */
     function __construct(FormUtility $utility)
     {
         $this->utility = $utility;
     }
 
+    /**
+     * Handle the command.
+     *
+     * @param BuildFormSectionRowsCommand $command
+     * @return array
+     */
     public function handle(BuildFormSectionRowsCommand $command)
     {
         $ui = $command->getUi();
