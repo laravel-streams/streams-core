@@ -147,15 +147,11 @@ trait TranslatableTrait
     public function save(array $options = array())
     {
         if ($this->exists) {
-            if (count($this->getDirty()) > 0) {
-                if (parent::save($options)) {
-                    return $this->saveTranslations();
-                }
-
-                return false;
-            } else {
+            if (parent::save($options)) {
                 return $this->saveTranslations();
             }
+
+            return false;
         } elseif (parent::save($options)) {
             return $this->saveTranslations();
         }
