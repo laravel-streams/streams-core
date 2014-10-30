@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Anomaly\Streams\Platform\Ui\Table\TableUi;
+use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableViewInterface;
 
 /**
@@ -25,13 +26,22 @@ class HandleTableViewCommandHandler
     protected $request;
 
     /**
+     * The table utility object.
+     *
+     * @var \Anomaly\Streams\Platform\Ui\Table\TableUtility
+     */
+    protected $utility;
+
+    /**
      * Create a new HandleTableViewCommandHandler instance.
      *
-     * @param Request $request
+     * @param Request      $request
+     * @param TableUtility $utility
      */
-    function __construct(Request $request)
+    function __construct(Request $request, TableUtility $utility)
     {
         $this->request = $request;
+        $this->utility = $utility;
     }
 
     /**
@@ -51,6 +61,11 @@ class HandleTableViewCommandHandler
 
             // Standardize input.
             $view = $this->standardize($view);
+
+            // Get our defaults and merge them in.
+            $defaults = $this->getDefaults($view, $ui);
+
+            $view = array_merge($defaults, $view);
 
             // If the view is applied then handle it.
             if ($view['slug'] == $appliedView or !$appliedView and $order == 0) {
@@ -85,6 +100,25 @@ class HandleTableViewCommandHandler
         }
 
         return $view;
+    }
+
+    /**
+     * Get default configuration if any.
+     * Then run everything back through evaluation.
+     *
+     * @param $view
+     * @param $ui
+     * @return array|mixed|null
+     */
+    protected function getDefaults($view, $ui)
+    {
+        if (isset($view['type']) and $defaults = $this->utility->getViewDefaults($view['type'])) {
+
+            return $this->utility->evaluate($defaults, [$ui]);
+
+        }
+
+        return [];
     }
 
     /**

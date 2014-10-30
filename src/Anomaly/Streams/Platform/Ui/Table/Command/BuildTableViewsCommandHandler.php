@@ -45,6 +45,9 @@ class BuildTableViewsCommandHandler
 
         foreach ($ui->getViews() as $order => $view) {
 
+            // Standardize input.
+            $view = $this->standardize($view);
+
             /**
              * Remove the handler or it
              * might fire in evaluation.
@@ -54,6 +57,11 @@ class BuildTableViewsCommandHandler
             // Evaluate everything in the array.
             // All closures are gone now.
             $view = $this->utility->evaluate($view, [$ui]);
+
+            // Get our defaults and merge them in.
+            $defaults = $this->getDefaults($view, $ui);
+
+            $view = array_merge($defaults, $view);
 
             // Build out required data.
             $url    = $this->getUrl($view, $ui);
@@ -66,6 +74,50 @@ class BuildTableViewsCommandHandler
         }
 
         return $views;
+    }
+
+    /**
+     * Standardize minimum input to the proper data
+     * structure we actually expect.
+     *
+     * @param $view
+     * @return array
+     */
+    protected function standardize($view)
+    {
+        /**
+         * If only the type is sent along
+         * we default everything like bad asses.
+         */
+        if (is_string($view)) {
+
+            $view = [
+                'type' => $view,
+                'slug' => $view,
+            ];
+
+        }
+
+        return $view;
+    }
+
+    /**
+     * Get default configuration if any.
+     * Then run everything back through evaluation.
+     *
+     * @param $view
+     * @param $ui
+     * @return array|mixed|null
+     */
+    protected function getDefaults($view, $ui)
+    {
+        if (isset($view['type']) and $defaults = $this->utility->getViewDefaults($view['type'])) {
+
+            return $this->utility->evaluate($defaults, [$ui]);
+
+        }
+
+        return [];
     }
 
     /**

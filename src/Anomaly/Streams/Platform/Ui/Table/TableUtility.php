@@ -57,6 +57,39 @@ class TableUtility extends Utility
     ];
 
     /**
+     * Default view configurations.
+     *
+     * @var array
+     */
+    protected $views = [
+        'all'               => [
+            'title'   => 'misc.all',
+            'slug'    => 'all',
+            'handler' => 'Anomaly\Streams\Platform\Ui\Table\View\ViewAllTableView',
+        ],
+        'latest'            => [
+            'title'   => 'misc.latest',
+            'slug'    => 'latest',
+            'handler' => 'Anomaly\Streams\Platform\Ui\Table\View\RecentlyCreatedTableView',
+        ],
+        'newest'            => [
+            'title'   => 'misc.newest',
+            'slug'    => 'newest',
+            'handler' => 'Anomaly\Streams\Platform\Ui\Table\View\RecentlyCreatedTableView',
+        ],
+        'recently_created'  => [
+            'title'   => 'misc.recently_created',
+            'slug'    => 'recently_created',
+            'handler' => 'Anomaly\Streams\Platform\Ui\Table\View\RecentlyCreatedTableView',
+        ],
+        'recently_modified' => [
+            'title'   => 'misc.recently_modified',
+            'slug'    => 'recently_modified',
+            'handler' => 'Anomaly\Streams\Platform\Ui\Table\View\RecentlyModifiedTableView',
+        ]
+    ];
+
+    /**
      * Return default button configuration for
      * a given button type.
      *
@@ -96,6 +129,24 @@ class TableUtility extends Utility
     }
 
     /**
+     * Return default view configuration for
+     * a given view type.
+     *
+     * @param $type
+     * @return null
+     */
+    public function getViewDefaults($type)
+    {
+        if (isset($this->views[$type]) and $defaults = $this->views[$type]) {
+
+            return $defaults;
+
+        }
+
+        return null;
+    }
+
+    /**
      * Try and guess a URL because we're awesome.
      * This of course can be overridden by setting one.
      *
@@ -125,7 +176,7 @@ class TableUtility extends Utility
             default:
                 return null;
                 break;
-            
+
         }
     }
 
