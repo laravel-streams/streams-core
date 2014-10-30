@@ -12,6 +12,6 @@ use Anomaly\Streams\Platform\Support\Listener;
  */
 class FormListener extends Listener
 {
-    //
+
 }
  
