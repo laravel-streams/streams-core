@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Ui\Table\TableUi;
+
 /**
  * Class BuildTableButtonsCommand
  *
@@ -14,7 +16,7 @@ class BuildTableButtonsCommand
     /**
      * The table UI object.
      *
-     * @var
+     * @var \Anomaly\Streams\Platform\Ui\Table\TableUi
      */
     protected $ui;
 
@@ -28,10 +30,10 @@ class BuildTableButtonsCommand
     /**
      * Create a new BuildTableButtonsCommand instance.
      *
-     * @param $ui
-     * @param $entry
+     * @param TableUi $ui
+     * @param         $entry
      */
-    function __construct($ui, $entry)
+    function __construct(TableUi $ui, $entry)
     {
         $this->ui    = $ui;
         $this->entry = $entry;
@@ -40,7 +42,7 @@ class BuildTableButtonsCommand
     /**
      * Get the table UI object.
      *
-     * @return mixed
+     * @return \Anomaly\Streams\Platform\Ui\Table\TableUi
      */
     public function getUi()
     {

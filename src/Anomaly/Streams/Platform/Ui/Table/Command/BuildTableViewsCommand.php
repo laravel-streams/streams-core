@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Ui\Table\TableUi;
+
 /**
  * Class BuildTableViewsCommand
  *
@@ -14,14 +16,14 @@ class BuildTableViewsCommand
     /**
      * The table UI object.
      *
-     * @var
+     * @var \Anomaly\Streams\Platform\Ui\Table\TableUi
      */
     protected $ui;
 
     /**
-     * @param $ui
+     * @param TableUi $ui
      */
-    function __construct($ui)
+    function __construct(TableUi $ui)
     {
         $this->ui = $ui;
     }
@@ -29,7 +31,7 @@ class BuildTableViewsCommand
     /**
      * Get the table UI object.
      *
-     * @return mixed
+     * @return TableUi
      */
     public function getUi()
     {

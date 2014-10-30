@@ -36,10 +36,10 @@ class HandleTableViewCommandHandler
     /**
      * Handle the command.
      *
-     * @param $command
+     * @param HandleTableViewCommand $command
      * @return mixed
      */
-    public function handle($command)
+    public function handle(HandleTableViewCommand $command)
     {
         $ui    = $command->getUi();
         $query = $command->getQuery();
@@ -91,13 +91,13 @@ class HandleTableViewCommandHandler
     {
         if ($handler instanceof \Closure) {
 
-            return $handler($query);
+            $query = $handler($query);
 
         }
 
         if ($handler instanceof TableViewInterface) {
 
-            return $handler->handle($query);
+            $query = $handler->handle($query);
 
         }
 

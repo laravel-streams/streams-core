@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Ui\Table\TableUi;
+
 /**
  * Class BuildTableColumnsCommand
  *
@@ -14,7 +16,7 @@ class BuildTableColumnsCommand
     /**
      * The table UI object.
      *
-     * @var
+     * @var \Anomaly\Streams\Platform\Ui\Table\TableUi
      */
     protected $ui;
 
@@ -28,10 +30,10 @@ class BuildTableColumnsCommand
     /**
      * Create a new BuildTableColumnsCommand instance.
      *
-     * @param $ui
-     * @param $entry
+     * @param TableUi $ui
+     * @param         $entry
      */
-    function __construct($ui, $entry)
+    function __construct(TableUi $ui, $entry)
     {
         $this->ui    = $ui;
         $this->entry = $entry;

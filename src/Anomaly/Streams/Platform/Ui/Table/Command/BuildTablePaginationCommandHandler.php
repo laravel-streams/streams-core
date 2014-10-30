@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Contract\ArrayableInterface;
+use Anomaly\Streams\Platform\Contract\PaginatorInterface;
+
 /**
  * Class BuildTablePaginationCommandHandler
  *
@@ -18,16 +21,16 @@ class BuildTablePaginationCommandHandler
     /**
      * Handle the command.
      *
-     * @param $command
+     * @param BuildTablePaginationCommand $command
      * @return array|null
      */
-    public function handle($command)
+    public function handle(BuildTablePaginationCommand $command)
     {
         $ui = $command->getUi();
 
         $paginator = $ui->getPaginator();
 
-        if ($paginator) {
+        if ($paginator instanceof PaginatorInterface and $paginator instanceof ArrayableInterface) {
 
             $data = $paginator->toArray();
 

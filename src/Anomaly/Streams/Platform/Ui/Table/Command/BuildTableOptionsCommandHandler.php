@@ -14,10 +14,10 @@ class BuildTableOptionsCommandHandler
     /**
      * Handle the command.
      *
-     * @param $command
+     * @param BuildTableOptionsCommand $command
      * @return array
      */
-    public function handle($command)
+    public function handle(BuildTableOptionsCommand $command)
     {
         $ui = $command->getUi();
 
