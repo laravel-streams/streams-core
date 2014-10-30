@@ -2,6 +2,7 @@
 
 class FieldFormatter
 {
+
     /**
      * Format the value according to the provided formats
      *
@@ -30,7 +31,6 @@ class FieldFormatter
         }
 
         return $value;
-
     }
 
     /**
@@ -83,5 +83,4 @@ class FieldFormatter
 
         return sprintf($format, $value);
     }
-
 }

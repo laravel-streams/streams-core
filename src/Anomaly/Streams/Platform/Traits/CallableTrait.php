@@ -2,6 +2,7 @@
 
 trait CallableTrait
 {
+
     /**
      * An array of registered callbacks.
      *
@@ -23,11 +24,9 @@ trait CallableTrait
             if (!isset($this->callbacks[$trigger])) {
 
                 $this->callbacks[$trigger] = [];
-
             }
 
             $this->callbacks[$trigger][] = $callable;
-
         }
 
         return $this;
@@ -47,9 +46,7 @@ trait CallableTrait
             foreach ($callbacks as $callback) {
 
                 call_user_func_array($callback, $arguments);
-
             }
-
         }
 
         $trigger = camel_case('on_' . $trigger);
@@ -57,7 +54,6 @@ trait CallableTrait
         if (method_exists($this, $trigger)) {
 
             return call_user_func_array([$this, $trigger], $arguments);
-
         }
     }
 

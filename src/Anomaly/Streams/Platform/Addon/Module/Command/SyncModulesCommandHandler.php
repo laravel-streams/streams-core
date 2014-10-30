@@ -1,12 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
-use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Addon\Module\ModuleAddon;
+use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Anomaly\Streams\Platform\Collection\EloquentCollection;
+use Anomaly\Streams\Platform\Traits\CommandableTrait;
 
 class SyncModulesCommandHandler
 {
+
     use CommandableTrait;
 
     protected $modules;
@@ -31,11 +32,8 @@ class SyncModulesCommandHandler
                     $command = new InsertModuleCommand($module->getSlug());
 
                     $this->execute($command);
-
                 }
-
             }
-
         }
     }
 }

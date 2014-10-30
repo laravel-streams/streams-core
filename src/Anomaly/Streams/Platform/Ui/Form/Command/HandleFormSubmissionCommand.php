@@ -39,6 +39,5 @@ class HandleFormSubmissionCommand
     {
         return $this->ui;
     }
-
 }
  

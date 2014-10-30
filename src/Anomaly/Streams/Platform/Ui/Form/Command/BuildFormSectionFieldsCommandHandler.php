@@ -1,11 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\FormUi;
-use Anomaly\Streams\Platform\Ui\Form\FormUtility;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
+use Anomaly\Streams\Platform\Ui\Form\FormUi;
+use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 
 /**
  * Class BuildFormSectionFieldsCommandHandler
@@ -61,9 +61,7 @@ class BuildFormSectionFieldsCommandHandler
             if ($entry instanceof EntryInterface) {
 
                 $fields[] = $this->getField($field, $ui, $entry);
-
             }
-
         }
 
         return array_filter($fields);
@@ -85,7 +83,6 @@ class BuildFormSectionFieldsCommandHandler
         if (is_string($field)) {
 
             $field = compact('field');
-
         }
 
         return $field;
@@ -112,7 +109,6 @@ class BuildFormSectionFieldsCommandHandler
             $element = $this->getElement($field, $ui, $entry, $assignment);
 
             return compact('element');
-
         }
 
         return null;
@@ -163,10 +159,8 @@ class BuildFormSectionFieldsCommandHandler
             }
 
             return $element;
-
         }
 
         return null;
     }
-
 }

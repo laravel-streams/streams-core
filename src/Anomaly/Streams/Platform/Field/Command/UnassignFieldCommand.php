@@ -2,6 +2,7 @@
 
 class UnassignFieldCommand
 {
+
     /**
      * The field namespace to unassign.
      *

@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui;
 
-use Illuminate\Http\Request;
-use Illuminate\Routing\Router;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 
 /**
  * Class Utility
@@ -60,7 +60,6 @@ class Utility
                 function ($v, $k) {
 
                     return $k . '=' . '"' . trans($v) . '"';
-
                 },
                 $attributes,
                 array_keys($attributes)
@@ -93,11 +92,8 @@ class Utility
                 if ($entry) {
 
                     $value = merge($value, $entry->toArray());
-
                 }
-
             }
-
         }
 
         return $data;
@@ -120,13 +116,11 @@ class Utility
             if (!starts_with($data['attributes']['url'], 'http')) {
 
                 $data['attributes']['url'] = url($data['attributes']['url']);
-
             }
 
             $data['attributes']['href'] = $data['attributes']['url'];
 
             unset($data['attributes']['url']);
-
         }
 
         /**
@@ -136,11 +130,9 @@ class Utility
         if (isset($data['attributes'])) {
 
             $data['attributes'] = $this->attributes($data['attributes']);
-
         }
 
         return $data;
     }
-
 }
  

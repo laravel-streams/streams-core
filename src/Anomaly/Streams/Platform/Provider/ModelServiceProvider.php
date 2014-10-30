@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 
 class ModelServiceProvider extends ServiceProvider
 {
+
     /**
      * Register the service provider.
      */

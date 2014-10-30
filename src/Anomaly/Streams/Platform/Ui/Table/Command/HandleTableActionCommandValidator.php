@@ -26,7 +26,6 @@ class HandleTableActionCommandValidator
 
             $this->validateSlug($action);
             $this->validateHandler($action);
-
         }
     }
 
@@ -41,7 +40,6 @@ class HandleTableActionCommandValidator
         if (!is_string($action) and !isset($action['slug'])) {
 
             throw new \Exception("Custom table actions require the slug parameter.");
-
         }
     }
 
@@ -62,28 +60,24 @@ class HandleTableActionCommandValidator
         if (is_string($action)) {
 
             return;
-
         }
 
         // The handler must be set.
         if (!isset($action['handler'])) {
 
             throw new \Exception("Custom table actions require the handler parameter.");
-
         }
 
         // If not a class the handler must be a closure.
         if (!is_string($action['handler']) and !$action['handler'] instanceof \Closure) {
 
             throw new \Exception("Table action handlers must be a closure or instance of {$instance}.");
-
         }
 
         // If it is a class the handler must exist.
         if (is_string($action['handler']) and !class_exists($action['handler'])) {
 
             throw new \Exception("Table action class handler [{$action['handler']}] does not exist.");
-
         }
 
         // If it is a class and exists it must implement the interface.
@@ -94,9 +88,7 @@ class HandleTableActionCommandValidator
         ) {
 
             throw new \Exception("Table action class handler [{$action['handler']}] must implement TableActionInterface.");
-
         }
     }
-
 }
  

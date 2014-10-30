@@ -3,10 +3,10 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableFilterInterface;
 
 class FieldTypeAddon extends Addon implements PresentableInterface
 {
+
     protected $rules = [];
 
     protected $field = null;
@@ -118,6 +118,7 @@ class FieldTypeAddon extends Addon implements PresentableInterface
     public function setReadOnly($readOnly)
     {
         $this->readOnly = $readOnly;
+
         return $this;
     }
 
@@ -133,7 +134,6 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         if (!$this->locale) {
 
             $this->locale = setting('module.settings::default_locale', 'en');
-
         }
 
         return $this->locale;
@@ -151,7 +151,6 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         if ($this->prefix) {
 
             return $this->prefix . (ends_with($this->prefix, '_') ? : '_');
-
         }
 
         return $this->prefix;
@@ -169,7 +168,6 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         if ($this->suffix) {
 
             return (starts_with($this->suffix, '_') ? : '_') . $this->suffix;
-
         }
 
         return null;
@@ -202,7 +200,6 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         if ($presenter = app('streams.transformer')->toPresenter($this)) {
 
             return new $presenter($this);
-
         }
 
         return new FieldTypePresenter($this);
@@ -213,7 +210,6 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         if ($filter = app('streams.transformer')->toFilter($this)) {
 
             return new $filter();
-
         }
 
         return new FieldTypeFilter($this);

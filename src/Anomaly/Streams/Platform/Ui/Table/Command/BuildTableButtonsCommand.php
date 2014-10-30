@@ -58,6 +58,5 @@ class BuildTableButtonsCommand
     {
         return $this->entry;
     }
-
 }
  

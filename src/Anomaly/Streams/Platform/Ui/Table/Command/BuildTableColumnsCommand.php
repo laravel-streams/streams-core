@@ -58,6 +58,5 @@ class BuildTableColumnsCommand
     {
         return $this->entry;
     }
-
 }
  

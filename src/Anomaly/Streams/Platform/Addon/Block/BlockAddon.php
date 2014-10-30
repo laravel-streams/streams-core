@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
 class BlockAddon extends Addon implements PresentableInterface
 {
+
     public function decorate()
     {
         return new BlockPresenter($this);

@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 
 class PresenterServiceProvider extends ServiceProvider
 {
+
     /**
      * Auto decorate objects.
      */

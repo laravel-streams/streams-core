@@ -55,6 +55,5 @@ class TableAction implements TableActionInterface
     {
         //
     }
-
 }
  

@@ -4,6 +4,7 @@ use Illuminate\Support\Collection;
 
 class CacheCollection extends Collection
 {
+
     protected $key;
 
     public function __construct(array $items, $key = null)

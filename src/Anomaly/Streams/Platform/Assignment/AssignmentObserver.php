@@ -1,11 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Model\EloquentObserver;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreatedEvent;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeletedEvent;
+use Anomaly\Streams\Platform\Model\EloquentObserver;
 
 class AssignmentObserver extends EloquentObserver
 {
+
     /**
      * Run before attempting to save a record.
      *

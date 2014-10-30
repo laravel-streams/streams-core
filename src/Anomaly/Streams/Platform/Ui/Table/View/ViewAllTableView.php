@@ -23,6 +23,5 @@ class ViewAllTableView implements TableViewInterface
     {
         return $query;
     }
-
 }
  

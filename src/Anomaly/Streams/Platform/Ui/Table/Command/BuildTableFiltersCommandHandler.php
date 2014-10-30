@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 
 /**
  * Class BuildTableFiltersCommandHandler
@@ -66,7 +66,6 @@ class BuildTableFiltersCommandHandler
             $filter = compact('input');
 
             $filters[] = $filter;
-
         }
 
         return array_filter($filters);
@@ -92,7 +91,6 @@ class BuildTableFiltersCommandHandler
                 'field' => $filter,
                 'slug'  => $filter,
             ];
-
         }
 
         return $filter;
@@ -211,7 +209,6 @@ class BuildTableFiltersCommandHandler
         if ($assignment instanceof AssignmentModel) {
 
             return $this->getFieldInputFromAssignment($filter, $ui, $assignment);
-
         }
 
         return null;
@@ -241,7 +238,6 @@ class BuildTableFiltersCommandHandler
             $fieldType->setPlaceholder($placeholder ? : trans($assignment->field->name));
 
             return $fieldType->filter();
-
         }
 
         return null;
@@ -271,6 +267,5 @@ class BuildTableFiltersCommandHandler
     {
         return $ui->getPrefix() . 'filter_';
     }
-
 }
  

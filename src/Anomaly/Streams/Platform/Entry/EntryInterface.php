@@ -68,6 +68,5 @@ interface EntryInterface extends ArrayableInterface
      * @return mixed
      */
     public function getAssignmentFromField($field);
-
 }
  

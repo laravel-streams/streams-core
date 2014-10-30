@@ -2,6 +2,7 @@
 
 class FieldInstaller
 {
+
     protected $addonType = null;
 
     protected $namespace = null;
@@ -29,7 +30,6 @@ class FieldInstaller
             $field['name']      = $this->getName($field);
 
             $this->fieldService->add($field);
-
         }
 
         return true;
@@ -42,7 +42,6 @@ class FieldInstaller
             $namespace = $this->getNamespace($field);
 
             $this->fieldService->remove($namespace, $slug);
-
         }
 
         return true;
@@ -72,7 +71,6 @@ class FieldInstaller
             $addonType = explode('\\', (new \ReflectionClass($this))->getName());
 
             $this->addonType = snake_case($addonType[3]);
-
         }
     }
 
@@ -84,7 +82,6 @@ class FieldInstaller
             $namespace = str_replace('FieldInstaller', null, $namespace);
 
             $this->namespace = snake_case($namespace);
-
         }
     }
 }

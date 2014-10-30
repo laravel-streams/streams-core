@@ -2,6 +2,7 @@
 
 class ModuleWasInstalledEvent
 {
+
     protected $module;
 
     function __construct($module)

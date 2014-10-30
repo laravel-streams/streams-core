@@ -36,6 +36,5 @@ interface TableActionInterface
      * @return mixed
      */
     public function authorize();
-
 }
  

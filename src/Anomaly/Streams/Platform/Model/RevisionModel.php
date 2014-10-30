@@ -1,11 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 
 class RevisionModel extends Eloquent
 {
+
     public $table = 'revision_history';
 
     protected $revisionFormattedFields = array();
@@ -71,7 +72,6 @@ class RevisionModel extends Eloquent
     public function oldValue()
     {
         return $this->getValue('old');
-
     }
 
 
@@ -85,7 +85,6 @@ class RevisionModel extends Eloquent
     public function newValue()
     {
         return $this->getValue('new');
-
     }
 
 
@@ -146,7 +145,6 @@ class RevisionModel extends Eloquent
 
                     return $this->format($this->key, $item->identifiableName());
                 }
-
             } catch (\Exception $e) {
                 // Just a failsafe, in the case the data setup isn't as expected
                 // Nothing to do here.
@@ -160,11 +158,9 @@ class RevisionModel extends Eloquent
             if (method_exists($main_model, $mutator)) {
                 return $this->format($this->key, $main_model->$mutator($this->$which_value));
             }
-
         }
 
         return $this->format($this->key, $this->$which_value);
-
     }
 
     /**

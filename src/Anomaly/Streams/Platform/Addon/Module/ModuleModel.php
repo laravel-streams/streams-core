@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 
 class ModuleModel extends EloquentModel
 {
+
     /**
      * Define the table name.
      *

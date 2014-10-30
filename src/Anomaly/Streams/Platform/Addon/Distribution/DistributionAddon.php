@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
 class DistributionAddon extends Addon implements PresentableInterface
 {
+
     public function getAdminTheme()
     {
         return app('streams.theme.testable');

@@ -1,12 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasCreatedEvent;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasDeletedEvent;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasSavedEvent;
-use Anomaly\Streams\Platform\Stream\Event\StreamWasCreatedEvent;
 
 class StreamObserver extends EloquentObserver
 {
+
     /**
      * Run before attempting to save a record.
      *

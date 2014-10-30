@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
+use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 
 /**
@@ -56,7 +56,6 @@ class BuildTableHeadersCommandHandler
             $heading = $this->getHeading($column, $ui);
 
             $columns[] = compact('heading');
-
         }
 
         return $columns;
@@ -77,7 +76,6 @@ class BuildTableHeadersCommandHandler
         if (is_string($column)) {
 
             $column = ['field' => $column];
-
         }
 
         return $column;
@@ -97,13 +95,11 @@ class BuildTableHeadersCommandHandler
         if (!$heading and $entry = $ui->getModel() and $entry instanceof EntryInterface) {
 
             $heading = $this->getHeadingFromField($column, $entry);
-
         }
 
         if (!$heading) {
 
             $this->guessHeading($column, $ui);
-
         }
 
         return $heading;
@@ -123,7 +119,6 @@ class BuildTableHeadersCommandHandler
         if ($name = $entry->getFieldName($parts[0])) {
 
             return trans($name);
-
         }
 
         return null;
@@ -145,17 +140,14 @@ class BuildTableHeadersCommandHandler
         if ($translated == $heading) {
 
             $heading = humanize($heading);
-
         }
 
         if ($translated != $heading) {
 
             $heading = $translated;
-
         }
 
         return $heading;
     }
-
 }
  

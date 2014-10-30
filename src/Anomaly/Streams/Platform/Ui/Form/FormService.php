@@ -2,8 +2,8 @@
 
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormActionsCommand;
-use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormSectionsCommand;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormRedirectsCommand;
+use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormSectionsCommand;
 
 /**
  * Class FormService

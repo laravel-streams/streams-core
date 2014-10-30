@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormUi;
 use Anomaly\Streams\Platform\Ui\Form\FormUtility;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
 
 /**
  * Class BuildFormSectionsCommandHandler
@@ -81,9 +81,7 @@ class BuildFormSectionsCommandHandler
                 $class = $this->getClass($section);
 
                 $sections[] = compact('class', 'body', 'footer', 'heading');
-
             }
-
         }
 
         return $sections;
@@ -106,7 +104,6 @@ class BuildFormSectionsCommandHandler
             $section = [
                 'type' => $section,
             ];
-
         }
 
         return $section;
@@ -127,7 +124,6 @@ class BuildFormSectionsCommandHandler
         if (isset($section['type']) and $defaults = $this->utility->getSectionDefaults($section['type'])) {
 
             $defaults = $this->utility->evaluate($defaults, [$ui, $entry], $entry);
-
         }
 
         return $defaults;
@@ -174,11 +170,9 @@ class BuildFormSectionsCommandHandler
             $section['layout'] = $layout;
 
             unset($section['fields'], $section['columns'], $section['rows']);
-
         }
 
         return $section;
     }
-
 }
  

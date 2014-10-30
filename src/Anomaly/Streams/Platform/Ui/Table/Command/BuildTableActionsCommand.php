@@ -41,6 +41,5 @@ class BuildTableActionsCommand
     {
         return $this->ui;
     }
-
 }
  

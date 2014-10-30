@@ -2,6 +2,7 @@
 
 class Installer
 {
+
     public function install()
     {
         //

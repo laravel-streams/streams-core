@@ -14,5 +14,4 @@ class FieldPresenter extends EloquentPresenter
     {
         return trans($this->resource->name);
     }
-
 }

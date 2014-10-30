@@ -5,6 +5,7 @@ use Illuminate\Support\ServiceProvider;
 
 class TransformerServiceProvider extends ServiceProvider
 {
+
     /**
      * Register the service provider.
      */
@@ -15,7 +16,6 @@ class TransformerServiceProvider extends ServiceProvider
             function () {
 
                 return new Transformer();
-
             }
         );
     }

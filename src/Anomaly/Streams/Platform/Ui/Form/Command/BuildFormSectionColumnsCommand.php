@@ -58,6 +58,5 @@ class BuildFormSectionColumnsCommand
     {
         return $this->ui;
     }
-
 }
  

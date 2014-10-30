@@ -9,5 +9,4 @@ class EntryPresenter extends EloquentPresenter
     {
         return $this->resource->getValueFromField($key);
     }
-    
 }

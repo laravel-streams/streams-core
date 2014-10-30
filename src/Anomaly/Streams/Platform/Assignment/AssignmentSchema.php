@@ -2,6 +2,7 @@
 
 class AssignmentSchema
 {
+
     protected $schema;
 
     function __construct()
@@ -18,10 +19,8 @@ class AssignmentSchema
                 function ($table) use ($columnName) {
 
                     $table->dropColumn($columnName);
-
                 }
             );
-
         }
 
         return true;
@@ -36,10 +35,8 @@ class AssignmentSchema
                 function ($table) use ($columnName, $columnType) {
 
                     $table->{$columnType}($columnName)->nullable(true);
-
                 }
             );
-
         }
     }
 }

@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Traits\EventableTrait;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
+use Anomaly\Streams\Platform\Traits\EventableTrait;
 
 class EloquentObserver
 {
+
     use DispatchableTrait;
 
     /**

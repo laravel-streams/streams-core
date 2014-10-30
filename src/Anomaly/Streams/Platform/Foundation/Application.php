@@ -1,9 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Foundation;
 
-use Illuminate\Container\Container;
-
 class Application
 {
+
     /**
      * The application reference.
      *

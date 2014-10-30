@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Support\Listener;
 
 class ModuleListener extends Listener
 {
+
     protected $module;
 
     function __construct(ModuleModel $module)

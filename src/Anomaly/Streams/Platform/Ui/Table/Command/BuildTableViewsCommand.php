@@ -37,6 +37,5 @@ class BuildTableViewsCommand
     {
         return $this->ui;
     }
-
 }
  

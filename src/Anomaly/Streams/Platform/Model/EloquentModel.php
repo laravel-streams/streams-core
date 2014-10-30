@@ -1,18 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Collection;
-use Anomaly\Streams\Platform\Traits\CacheableTrait;
-use Anomaly\Streams\Platform\Traits\EventableTrait;
-use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Anomaly\Streams\Platform\Traits\RevisionableTrait;
-use Anomaly\Streams\Platform\Traits\TranslatableTrait;
+use Anomaly\Streams\Platform\Collection\EloquentCollection;
 use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
-use Anomaly\Streams\Platform\Collection\EloquentCollection;
+use Anomaly\Streams\Platform\Traits\CacheableTrait;
+use Anomaly\Streams\Platform\Traits\CommandableTrait;
+use Anomaly\Streams\Platform\Traits\EventableTrait;
+use Anomaly\Streams\Platform\Traits\RevisionableTrait;
+use Anomaly\Streams\Platform\Traits\TranslatableTrait;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 class EloquentModel extends Model implements ArrayableInterface, PresentableInterface
 {
+
     use TranslatableTrait {
         TranslatableTrait::save as translatableSave;
     }

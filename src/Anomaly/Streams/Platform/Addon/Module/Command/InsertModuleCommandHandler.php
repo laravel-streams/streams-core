@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 
 class InsertModuleCommandHandler
 {
+
     protected $module;
 
     function __construct(ModuleModel $module)

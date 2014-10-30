@@ -26,7 +26,6 @@ class HandleTableFiltersCommandValidator
 
             $this->validateSlug($filter);
             $this->validateHandler($filter);
-
         }
     }
 
@@ -41,7 +40,6 @@ class HandleTableFiltersCommandValidator
         if (!is_string($filter) and !isset($filter['slug'])) {
 
             throw new \Exception("Custom table filters require the slug parameter.");
-
         }
     }
 
@@ -62,37 +60,31 @@ class HandleTableFiltersCommandValidator
         if (is_string($filter)) {
 
             return;
-
         }
 
         // Otherwise the handler is required.
         if (!isset($filter['handler'])) {
 
             throw new \Exception("Table views require the handler parameter.");
-
         }
 
         // If it is not a string it must be a closure.
         if (!is_string($filter['handler']) and !$filter['handler'] instanceof \Closure) {
 
             throw new \Exception("Table view handlers must be a closure or instance of {$instance}.");
-
         }
 
         // If it is a class the class must exist.
         if (is_string($filter['handler']) and !class_exists($filter['handler'])) {
 
             throw new \Exception("Table view class handler [{$filter['handler']}] does not exist.");
-
         }
 
         // If it is a class and it exists it must implement the interface.
         if (is_string($filter['handler']) and !class_implements($filter['handler'], $instance)) {
 
             throw new \Exception("Table view class handler [{$filter['handler']}] must implement TableViewInterface.");
-
         }
     }
-
 }
  

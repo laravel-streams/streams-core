@@ -5,6 +5,7 @@ use Illuminate\Session\TokenMismatchException;
 
 class CsrfMiddleware
 {
+
     /**
      * Run the request filter.
      *

@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 
 class ViewServiceProvider extends ServiceProvider
 {
+
     /**
      * Setup view rendering services.
      */

@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Traits\CallableTrait;
 
 class ModuleInstaller
 {
+
     /**
      * Installers to run.
      *

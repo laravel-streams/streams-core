@@ -18,6 +18,5 @@ class StreamModelTranslation extends EloquentModel
      * @var string
      */
     protected $table = 'streams_streams_translations';
-
 }
  

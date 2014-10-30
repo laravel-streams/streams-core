@@ -5,6 +5,7 @@ use Jenssegers\Agent\Agent;
 
 class Composer
 {
+
     /**
      * The user agent detection class.
      *
@@ -35,7 +36,6 @@ class Composer
         if ($this->agent->isMobile()) {
 
             $view = $this->overloadMobileView($view);
-
         }
 
         return $view;
@@ -63,7 +63,6 @@ class Composer
             // If there is no namespace the default
             // hint / location is streams.
             $path = "streams/{$view->getName()}";
-
         } else {
 
             list($namespace, $path) = explode('::', $view->getName());
@@ -71,7 +70,6 @@ class Composer
             if (str_contains($namespace, '.')) {
 
                 list($type, $slug) = explode('.', $namespace);
-
             } else {
 
                 $plural = str_plural($namespace);
@@ -82,11 +80,9 @@ class Composer
 
                 $type = $addon->getType();
                 $slug = $addon->getSlug();
-
             }
 
             $path = "{$type}/{$slug}/{$path}";
-
         }
 
         $path = "theme::overload/{$path}";
@@ -94,7 +90,6 @@ class Composer
         if ($path and $environment->exists($path)) {
 
             $view->setPath($environment->getFinder()->find($path));
-
         }
 
         return $view;

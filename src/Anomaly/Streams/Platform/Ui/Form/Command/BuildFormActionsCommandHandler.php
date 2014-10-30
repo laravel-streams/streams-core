@@ -81,7 +81,6 @@ class BuildFormActionsCommandHandler
             $action = $this->utility->normalize($action);
 
             $actions[] = $action;
-
         }
 
         return $actions;
@@ -103,7 +102,6 @@ class BuildFormActionsCommandHandler
         if (is_string($action)) {
 
             $action = ['type' => $action];
-
         }
 
         return $action;
@@ -123,7 +121,6 @@ class BuildFormActionsCommandHandler
 
             // Be sure to run the defaults back through evaluate.
             return $this->utility->evaluate($defaults, [$ui, $entry], $entry);
-
         }
 
         return [];
@@ -173,6 +170,5 @@ class BuildFormActionsCommandHandler
     {
         return array_diff_key($action, array_flip($this->notAttributes));
     }
-
 }
  

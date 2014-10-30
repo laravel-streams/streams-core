@@ -2,8 +2,9 @@
 
 class BuildFieldTypeCommand
 {
+
     protected $type;
-    
+
     protected $field;
 
     protected $value;

@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Model\EloquentPresenter;
 
 class AssignmentPresenter extends EloquentPresenter
 {
+
     /**
      * Return the translated instructions string.
      *

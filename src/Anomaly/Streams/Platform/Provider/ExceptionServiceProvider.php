@@ -18,6 +18,5 @@ class ExceptionServiceProvider extends ServiceProvider
 
         $whoops->register();
     }
-
 }
  

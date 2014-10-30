@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Entry\EntryGenerator;
 
 class GenerateEntryModelCommandHandler
 {
+
     protected $generator;
 
     function __construct(EntryGenerator $generator)

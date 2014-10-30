@@ -2,6 +2,7 @@
 
 class AddFieldCommand
 {
+
     /**
      * The fields namespace.
      *

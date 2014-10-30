@@ -2,6 +2,7 @@
 
 class Generator
 {
+
     protected $file;
 
     protected $compiler;
@@ -25,7 +26,6 @@ class Generator
         foreach ($data as $key => $value) {
 
             $template = preg_replace("/\{(" . $key . "*)\}/", $value, $template);
-
         }
 
         return $template;

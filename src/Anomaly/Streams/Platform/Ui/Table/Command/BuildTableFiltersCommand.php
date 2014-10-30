@@ -39,6 +39,5 @@ class BuildTableFiltersCommand
     {
         return $this->ui;
     }
-
 }
  

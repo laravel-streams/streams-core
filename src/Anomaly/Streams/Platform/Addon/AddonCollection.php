@@ -20,9 +20,7 @@ class AddonCollection extends Collection
             if ($item instanceof Addon) {
 
                 $this->items[$item->getSlug()] = $item;
-                
             }
-
         }
     }
 
@@ -36,10 +34,8 @@ class AddonCollection extends Collection
         if (isset($this->items[$slug])) {
 
             return $this->items[$slug];
-
         }
 
         return null;
     }
-
 }

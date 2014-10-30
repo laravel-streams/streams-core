@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Anomaly\Streams\Platform\Support\Paginator;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Support\Paginator;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 
 /**
@@ -150,9 +150,7 @@ class TableRepository implements TableRepositoryInterface
             $url = str_replace('page=' . $page, 'page=' . ($page - 1), app('request')->fullUrl());
 
             header('Location: ' . $url);
-
         }
     }
-
 }
  

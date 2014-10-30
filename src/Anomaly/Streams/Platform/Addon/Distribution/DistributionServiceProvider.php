@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 
 class DistributionServiceProvider extends AddonServiceProvider
 {
+
     protected function onAfterRegister()
     {
         $this->app->singleton(
@@ -11,7 +12,6 @@ class DistributionServiceProvider extends AddonServiceProvider
             function () {
 
                 return app('streams.distributions')->first();
-
             }
         );
     }

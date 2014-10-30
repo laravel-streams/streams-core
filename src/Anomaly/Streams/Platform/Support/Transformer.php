@@ -28,7 +28,6 @@ class Transformer
         if (!class_exists($handler)) {
 
             $handler = null;
-
         }
 
         return $handler;
@@ -49,7 +48,6 @@ class Transformer
         if (!class_exists($validator)) {
 
             $validator = null;
-
         }
 
         return $validator;
@@ -70,7 +68,6 @@ class Transformer
         if (!class_exists($installer)) {
 
             $installer = null;
-
         }
 
         return $installer;
@@ -91,7 +88,6 @@ class Transformer
         if (!class_exists($provider)) {
 
             $provider = null;
-
         }
 
         return $provider;
@@ -112,7 +108,6 @@ class Transformer
         if (!class_exists($presenter)) {
 
             $presenter = null;
-
         }
 
         return $presenter;
@@ -133,7 +128,6 @@ class Transformer
         if (!class_exists($filter)) {
 
             $filter = null;
-
         }
 
         return $filter;

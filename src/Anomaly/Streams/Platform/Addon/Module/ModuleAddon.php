@@ -1,11 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Support\Transformer;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
 class ModuleAddon extends Addon implements PresentableInterface
 {
+
     protected $navigation = null;
 
     protected $menu = [];

@@ -36,11 +36,9 @@ class AssignmentCollection extends EloquentCollection
             if ($type = $item->type() and (method_exists($type, 'relation') or method_exists($type, 'relations'))) {
 
                 $relations[] = $item;
-
             }
         }
 
         return self::make($relations);
     }
-
 }

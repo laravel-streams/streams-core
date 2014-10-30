@@ -57,6 +57,5 @@ class HandleTableViewCommand
     {
         return $this->ui;
     }
-
 }
  

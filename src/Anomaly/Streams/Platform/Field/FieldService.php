@@ -1,13 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
-use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Field\Command\AddFieldCommand;
 use Anomaly\Streams\Platform\Field\Command\AssignFieldCommand;
 use Anomaly\Streams\Platform\Field\Command\RemoveFieldCommand;
 use Anomaly\Streams\Platform\Field\Command\UnassignFieldCommand;
+use Anomaly\Streams\Platform\Traits\CommandableTrait;
 
 class FieldService
 {
+
     use CommandableTrait;
 
     /**

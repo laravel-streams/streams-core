@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 
 class ListenerServiceProvider extends ServiceProvider
 {
+
     /**
      * Register the service provider.
      */

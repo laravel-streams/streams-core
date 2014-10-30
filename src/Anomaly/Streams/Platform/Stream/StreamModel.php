@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 
 class StreamModel extends EloquentModel
 {
@@ -112,7 +112,6 @@ class StreamModel extends EloquentModel
             //$this->raise(new StreamWasRemovedEvent($stream));
 
             return $stream;
-
         }
 
         return false;
@@ -164,11 +163,8 @@ class StreamModel extends EloquentModel
                     $assignmentModel->setRelation('stream', $streamModel);
 
                     $assignments[] = $assignmentModel;
-
                 }
-
             }
-
         }
 
         $assignmentsCollection = new AssignmentCollection($assignments);

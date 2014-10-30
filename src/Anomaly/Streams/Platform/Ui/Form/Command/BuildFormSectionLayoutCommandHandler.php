@@ -34,6 +34,5 @@ class BuildFormSectionLayoutCommandHandler
 
         return compact('rows');
     }
-
 }
  

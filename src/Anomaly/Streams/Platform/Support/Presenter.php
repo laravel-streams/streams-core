@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 
 class Presenter implements ArrayableInterface
 {
+
     /**
      * The resource payload to present.
      *

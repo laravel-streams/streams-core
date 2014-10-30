@@ -1,11 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
-use Illuminate\Filesystem\Filesystem;
 use Anomaly\Streams\Platform\Asset\Asset;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 
 class AssetServiceProvider extends ServiceProvider
 {
+
     /**
      * Register the asset utility.
      */

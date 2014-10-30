@@ -22,6 +22,5 @@ interface TableFilterInterface
      * @return mixed
      */
     public function handle($query, $value);
-
 }
  

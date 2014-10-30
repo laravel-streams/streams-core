@@ -4,5 +4,6 @@ use Anomaly\Streams\Platform\Addon\AddonPresenter;
 
 class ThemePresenter extends AddonPresenter
 {
+
 }
  

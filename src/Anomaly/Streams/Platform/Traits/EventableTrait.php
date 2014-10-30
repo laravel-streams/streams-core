@@ -2,6 +2,7 @@
 
 trait EventableTrait
 {
+
     /**
      * @var array
      */

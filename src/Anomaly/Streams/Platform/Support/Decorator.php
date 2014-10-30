@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 
 class Decorator
 {
+
     /**
      * Decorate a value.
      *
@@ -16,13 +17,11 @@ class Decorator
         if ($value instanceOf EloquentModel) {
 
             $value = $this->decorateRelations($value);
-
         }
 
         if ($value instanceof PresentableInterface) {
 
             $value = $value->decorate();
-
         }
 
         return $value;
@@ -43,17 +42,13 @@ class Decorator
                 $model = $this->decorateCollection($model);
 
                 $resource->setRelation($relationName, $model);
-
             } elseif ($model instanceof PresentableInterface) {
 
                 $resource->setRelation($relationName, $model->decorate($model));
-
             } else {
 
                 $resource->setRelation($relationName, $model);
-
             }
-
         }
 
         return $resource;
@@ -72,9 +67,7 @@ class Decorator
             if ($resource instanceof PresentableInterface) {
 
                 $collection->put($resource, $resource->decorate($resource));
-
             }
-
         }
 
         return $collection;

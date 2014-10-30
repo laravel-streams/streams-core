@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
 class ThemeAddon extends Addon implements PresentableInterface
 {
+
     protected $type = 'theme';
 
     protected $admin = false;

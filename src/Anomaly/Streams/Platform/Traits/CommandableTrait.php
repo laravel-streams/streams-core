@@ -4,6 +4,7 @@ use ReflectionClass;
 
 trait CommandableTrait
 {
+
     /**
      * Execute a command.
      *

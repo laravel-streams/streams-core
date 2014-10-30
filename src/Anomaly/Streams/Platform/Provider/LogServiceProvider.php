@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 
 class LogServiceProvider extends ServiceProvider
 {
+
     /**
      * Register the service provider.
      *

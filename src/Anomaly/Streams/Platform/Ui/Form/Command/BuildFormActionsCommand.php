@@ -39,6 +39,5 @@ class BuildFormActionsCommand
     {
         return $this->ui;
     }
-
 }
  

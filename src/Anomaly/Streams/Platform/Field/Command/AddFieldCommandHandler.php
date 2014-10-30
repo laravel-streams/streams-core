@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
 class AddFieldCommandHandler
 {
+
     use DispatchableTrait;
 
     /**

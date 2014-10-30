@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Illuminate\Http\Request;
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableFilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\TableUi;
+use Illuminate\Http\Request;
 
 /**
  * Class HandleTableFiltersCommandHandler
@@ -66,9 +66,7 @@ class HandleTableFiltersCommandHandler
 
                 $handler = $this->getHandler($filter, $ui);
                 $query   = $this->runHandler($slug, $handler, $query, $value);
-
             }
-
         }
 
         return $query;
@@ -94,7 +92,6 @@ class HandleTableFiltersCommandHandler
                 'field' => $filter,
                 'slug'  => $filter,
             ];
-
         }
 
         return $filter;
@@ -136,13 +133,11 @@ class HandleTableFiltersCommandHandler
         if ($filter['type'] == 'field') {
 
             return $this->getHandlerFromField($filter, $ui);
-
         }
 
         if (is_string($filter['handler'])) {
 
             return app()->make($filter['handler'], compact('ui'));
-
         }
 
         return $filter['handler'];
@@ -164,7 +159,6 @@ class HandleTableFiltersCommandHandler
         if ($type instanceof FieldTypeAddon) {
 
             return $type->toFilter();
-
         }
 
         return null;
@@ -185,23 +179,19 @@ class HandleTableFiltersCommandHandler
         if ($handler instanceof \Closure) {
 
             $query = $handler($query);
-
         }
 
         if ($handler instanceof TableFilterInterface) {
 
             $query = $handler->handle($query, $value);
-
         }
 
         if (!$query) {
 
             throw new \Exception("Table filter handler [{$slug}] must return the query object.");
-
         }
 
         return $query;
     }
-
 }
  

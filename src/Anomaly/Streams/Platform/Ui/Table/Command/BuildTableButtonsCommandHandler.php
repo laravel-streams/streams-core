@@ -84,7 +84,6 @@ class BuildTableButtonsCommandHandler
             $button = $this->utility->normalize($button);
 
             $buttons[] = $button;
-
         }
 
         return $buttons;
@@ -103,7 +102,6 @@ class BuildTableButtonsCommandHandler
         if (is_string($button)) {
 
             $button = ['type' => $button];
-
         }
 
         return $button;
@@ -123,7 +121,6 @@ class BuildTableButtonsCommandHandler
         if (isset($button['type']) and $defaults = $this->utility->getButtonDefaults($button['type'])) {
 
             return $this->utility->evaluate($defaults, [$ui, $entry], $entry);
-
         }
 
         return [];
@@ -174,7 +171,6 @@ class BuildTableButtonsCommandHandler
         if (isset($button['dropdown'])) {
 
             return $this->getDropdownItems($button['dropdown']);
-
         }
 
         return [];
@@ -199,15 +195,12 @@ class BuildTableButtonsCommandHandler
             if (!starts_with($item['url'], 'http')) {
 
                 $item['url'] = url($item['url']);
-
             }
 
             $items[] = $item;
-
         }
 
         return $items;
     }
-
 }
  

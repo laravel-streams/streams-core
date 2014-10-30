@@ -2,6 +2,7 @@
 
 class StreamSchema
 {
+
     protected $schema;
 
     public function __construct()
@@ -23,7 +24,6 @@ class StreamSchema
                 $table->integer('created_by')->nullable();
                 $table->datetime('updated_at')->nullable();
                 $table->integer('updated_by')->nullable();
-
             }
         );
     }
@@ -39,7 +39,6 @@ class StreamSchema
                 $table->increments('id');
                 $table->integer($foreignKey);
                 $table->string('locale')->index();
-
             }
         );
     }

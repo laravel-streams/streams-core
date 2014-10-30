@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Model\EloquentObserver;
 
 class FieldObserver extends EloquentObserver
 {
+
     /**
      * Run before attempting to save a record.
      *

@@ -5,6 +5,7 @@ use Illuminate\Support\ServiceProvider;
 
 class LoaderServiceProvider extends ServiceProvider
 {
+
     /**
      * Register the class loader used in Streams.
      */

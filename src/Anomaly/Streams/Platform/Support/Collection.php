@@ -2,4 +2,5 @@
 
 class Collection extends \Illuminate\Support\Collection
 {
+
 }

@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 
 class AddAssignmentColumnCommand
 {
+
     protected $assignment;
 
     function __construct(AssignmentModel $assignment)

@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Tag;
 
-use Anomaly\Streams\Platform\Addon\AddonPresenter;
 use Anomaly\Lexicon\Contract\Plugin\PluginInterface;
+use Anomaly\Streams\Platform\Addon\AddonPresenter;
 
 class TagPresenter extends AddonPresenter implements PluginInterface
 {
@@ -45,6 +45,5 @@ class TagPresenter extends AddonPresenter implements PluginInterface
     {
         return parent::__call($key, $params);
     }
-
 }
  

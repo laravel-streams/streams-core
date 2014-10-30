@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Collection\CacheCollection;
 
 trait CacheableTrait
 {
+
     /**
      * Get a cache collection of keys or set the keys to be indexed.
      *

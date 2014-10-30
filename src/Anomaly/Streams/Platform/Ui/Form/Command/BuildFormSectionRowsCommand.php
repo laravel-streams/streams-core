@@ -58,6 +58,5 @@ class BuildFormSectionRowsCommand
     {
         return $this->ui;
     }
-
 }
  

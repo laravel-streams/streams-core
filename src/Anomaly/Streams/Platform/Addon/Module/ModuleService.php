@@ -1,15 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
-use Illuminate\Foundation\Application;
-use Anomaly\Streams\Platform\Traits\EventableTrait;
-use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Anomaly\Streams\Platform\Addon\Module\Command\SyncModulesCommand;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalledEvent;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalledEvent;
+use Anomaly\Streams\Platform\Traits\CommandableTrait;
+use Anomaly\Streams\Platform\Traits\DispatchableTrait;
+use Anomaly\Streams\Platform\Traits\EventableTrait;
+use Illuminate\Foundation\Application;
 
 class ModuleService
 {
+
     use EventableTrait;
     use CommandableTrait;
     use DispatchableTrait;

@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 
 class ActiveModuleServiceProvider extends ServiceProvider
 {
+
     /**
      * Defer loading this service provider.
      *
@@ -22,11 +23,9 @@ class ActiveModuleServiceProvider extends ServiceProvider
         if ($request->segment(1) == 'admin') {
 
             $module = app('streams.modules')->findBySlug($request->segment(2));
-
         } else {
 
             $module = app('streams.modules')->findBySlug($request->segment(1));
-
         }
 
         if ($module) {
@@ -38,7 +37,6 @@ class ActiveModuleServiceProvider extends ServiceProvider
             app('streams.asset')->addNamespace('module', $module->getPath('resources'));
             app('streams.image')->addNamespace('module', $module->getPath('resources'));
             app('translator')->addNamespace('module', $module->getPath('resources/lang'));
-
         }
     }
 }

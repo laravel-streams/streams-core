@@ -26,7 +26,6 @@ class HandleTableViewCommandValidator
 
             $this->validateSlug($view);
             $this->validateHandler($view);
-
         }
     }
 
@@ -41,7 +40,6 @@ class HandleTableViewCommandValidator
         if (!is_string($view) and !isset($view['slug'])) {
 
             throw new \Exception("Custom table views require the slug parameter.");
-
         }
     }
 
@@ -62,37 +60,31 @@ class HandleTableViewCommandValidator
         if (is_string($view)) {
 
             return;
-
         }
 
         // The handler must be set.
         if (!isset($view['handler'])) {
 
             throw new \Exception("Custom table views require the handler parameter.");
-
         }
 
         // If not a class the handler must be a closure.
         if (!is_string($view['handler']) and !$view['handler'] instanceof \Closure) {
 
             throw new \Exception("Table view handlers must be a closure or instance of {$instance}.");
-
         }
 
         // If it is a class the handler must exist.
         if (is_string($view['handler']) and !class_exists($view['handler'])) {
 
             throw new \Exception("Table view class handler [{$view['handler']}] does not exist.");
-
         }
 
         // If it is a class and exists it must implement the interface.
         if (is_string($view['handler']) and !class_implements($view['handler'], $instance)) {
 
             throw new \Exception("Table view class handler [{$view['handler']}] must implement TableViewInterface.");
-
         }
     }
-
 }
  

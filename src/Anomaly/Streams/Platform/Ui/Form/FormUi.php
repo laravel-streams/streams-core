@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Command\HandleFormSubmissionCommand;
 use Anomaly\Streams\Platform\Ui\Ui;
-use Anomaly\Streams\Platform\Entry\EntryInterface;
 
 /**
  * Class FormUi
@@ -42,7 +41,6 @@ class FormUi extends Ui
         if ($response = $this->fire('make')) {
 
             return $response;
-
         }
 
         return parent::make();
@@ -153,9 +151,7 @@ class FormUi extends Ui
         if (app('request')->isMethod('post')) {
 
             return $this->execute(new HandleFormSubmissionCommand($this));
-
         }
     }
-
 }
  

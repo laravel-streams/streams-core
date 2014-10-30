@@ -103,7 +103,6 @@ class TableUtility extends Utility
             $defaults['url'] = $this->guessUrl($type);
 
             return $defaults;
-
         }
 
         return null;
@@ -122,7 +121,6 @@ class TableUtility extends Utility
         if (isset($this->buttons[$type]) and $defaults = $this->buttons[$type]) {
 
             return $defaults;
-
         }
 
         return null;
@@ -140,7 +138,6 @@ class TableUtility extends Utility
         if (isset($this->views[$type]) and $defaults = $this->views[$type]) {
 
             return $defaults;
-
         }
 
         return null;
@@ -176,9 +173,7 @@ class TableUtility extends Utility
             default:
                 return null;
                 break;
-
         }
     }
-
 }
  

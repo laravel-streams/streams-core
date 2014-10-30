@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
+use Anomaly\Streams\Platform\Traits\CommandableTrait;
 
 /**
  * Class BuildTableRowsCommandHandler
@@ -36,7 +36,6 @@ class BuildTableRowsCommandHandler
             $entry   = $this->getDecoratedEntry($entry);
 
             $rows[] = compact('columns', 'buttons', 'entry');
-
         }
 
         return $rows;
@@ -83,11 +82,9 @@ class BuildTableRowsCommandHandler
         if ($entry instanceof PresentableInterface) {
 
             $entry = $entry->decorate();
-
         }
 
         return $entry;
     }
-
 }
  

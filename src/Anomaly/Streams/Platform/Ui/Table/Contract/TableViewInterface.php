@@ -21,6 +21,5 @@ interface TableViewInterface
      * @return mixed
      */
     public function handle($query);
-
 }
  

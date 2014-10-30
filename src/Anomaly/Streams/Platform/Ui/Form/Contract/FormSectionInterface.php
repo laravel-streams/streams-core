@@ -34,6 +34,5 @@ interface FormSectionInterface
      * @return mixed|null
      */
     public function footer();
-
 }
  

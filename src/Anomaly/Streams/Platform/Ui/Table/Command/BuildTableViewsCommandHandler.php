@@ -70,7 +70,6 @@ class BuildTableViewsCommandHandler
             $active = $this->getActive($view, $order, $ui);
 
             $views[] = compact('url', 'title', 'class', 'active');
-
         }
 
         return $views;
@@ -95,7 +94,6 @@ class BuildTableViewsCommandHandler
                 'type' => $view,
                 'slug' => $view,
             ];
-
         }
 
         return $view;
@@ -114,7 +112,6 @@ class BuildTableViewsCommandHandler
         if (isset($view['type']) and $defaults = $this->utility->getViewDefaults($view['type'])) {
 
             return $this->utility->evaluate($defaults, [$ui]);
-
         }
 
         return [];
@@ -176,11 +173,9 @@ class BuildTableViewsCommandHandler
         if (($executing == $view['slug']) or (!$executing and $order == 0)) {
 
             return true;
-
         }
 
         return null;
     }
-
 }
  

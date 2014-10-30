@@ -2,6 +2,7 @@
 
 class ModuleWasUninstalledEvent
 {
+
     protected $module;
 
     function __construct($module)

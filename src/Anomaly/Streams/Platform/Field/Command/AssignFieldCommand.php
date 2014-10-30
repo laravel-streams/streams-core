@@ -2,6 +2,7 @@
 
 class AssignFieldCommand
 {
+
     /**
      * @var
      */

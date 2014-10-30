@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Field\FieldModel;
 
 class StreamUtility
 {
+
     /**
      * Create a new StreamSchemaUtility instance.
      */

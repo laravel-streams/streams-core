@@ -4,5 +4,6 @@ use Anomaly\Streams\Platform\Support\Collection;
 
 class TagAttributeCollection extends Collection
 {
+
 }
  

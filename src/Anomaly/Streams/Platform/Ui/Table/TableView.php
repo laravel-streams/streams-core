@@ -30,6 +30,5 @@ class TableView implements TableViewInterface
     {
         return $query;
     }
-
 }
  

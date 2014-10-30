@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Model\EloquentObserver;
 
 class EntryObserver extends EloquentObserver
 {
+
     /**
      * Run before attempting to save a record.
      *

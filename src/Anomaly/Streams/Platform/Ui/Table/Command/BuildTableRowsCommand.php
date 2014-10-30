@@ -39,6 +39,5 @@ class BuildTableRowsCommand
     {
         return $this->ui;
     }
-
 }
  

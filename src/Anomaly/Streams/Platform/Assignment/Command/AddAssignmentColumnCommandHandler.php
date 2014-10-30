@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Assignment\AssignmentService;
 
 class AddAssignmentColumnCommandHandler
 {
+
     protected $schema;
 
     protected $service;
@@ -34,9 +35,7 @@ class AddAssignmentColumnCommandHandler
                 $table = $assignment->stream->getEntryTranslationsTableName();
 
                 $this->schema->addColumn($table, $columnName, $columnType);
-
             }
-
         }
     }
 }

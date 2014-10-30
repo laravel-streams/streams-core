@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
+use Anomaly\Streams\Platform\Entry\EntryInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 
 class AssignmentModel extends EloquentModel
 {
@@ -151,7 +151,6 @@ class AssignmentModel extends EloquentModel
         if ($entry and $fieldType instanceof FieldTypeAddon) {
 
             $fieldType->setValue($entry->{$fieldType->getColumnName()});
-
         }
 
         return $fieldType;

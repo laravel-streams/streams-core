@@ -4,6 +4,7 @@ use Intervention\Image\ImageManager;
 
 class Image extends ImageManager
 {
+
     protected $publish = false;
 
     protected $directory = null;
@@ -60,7 +61,6 @@ class Image extends ImageManager
             if (isset($this->namespaces[$namespace]) and $location = $this->namespaces[$namespace]) {
                 $path = $location . '/' . $path;
             }
-
         }
 
         return $path;

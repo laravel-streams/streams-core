@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Stream\StreamSchema;
 
 class CreateStreamsEntryTableCommandHandler
 {
+
     protected $schema;
 
     function __construct(StreamSchema $schema)
@@ -26,7 +27,6 @@ class CreateStreamsEntryTableCommandHandler
             $foreignKey = $stream->getForeignKey();
 
             $this->schema->createTranslationsTable($table, $foreignKey);
-
         }
     }
 }

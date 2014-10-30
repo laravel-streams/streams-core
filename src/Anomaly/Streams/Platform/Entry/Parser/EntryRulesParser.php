@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Stream\StreamModel;
 
 class EntryRulesParser
 {
+
     public function parse(StreamModel $stream)
     {
         $string = '[';
@@ -17,15 +18,12 @@ class EntryRulesParser
                 foreach ($assignment->field->rules as $rule) {
 
                     $rules[] = $rule;
-
                 }
-
             }
 
             if ($assignment->is_required) {
 
                 $rules[] = 'required';
-
             }
 
             if (is_array($rules)) {
@@ -33,9 +31,7 @@ class EntryRulesParser
                 $rules = implode('|', array_filter($rules));
 
                 $string .= "\n{$this->s(8)}'{$assignment->field->slug}' => '{$rules}',";
-
             }
-
         }
 
         $string .= "\n{$this->s(4)}]";

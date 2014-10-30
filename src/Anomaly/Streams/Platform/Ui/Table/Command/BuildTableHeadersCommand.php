@@ -39,6 +39,5 @@ class BuildTableHeadersCommand
     {
         return $this->ui;
     }
-
 }
  

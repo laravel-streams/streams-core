@@ -4,6 +4,7 @@ use Assetic\Asset\AssetInterface;
 
 class LessphpFilter extends \Assetic\Filter\LessphpFilter
 {
+
     /**
      * Override the filter dump method.
      *

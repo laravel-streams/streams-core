@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Support\Presenter;
-use Anomaly\Streams\Platform\Entry\EntryInterface;
-use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 use Anomaly\Streams\Platform\Assignment\AssignmentService;
+use Anomaly\Streams\Platform\Entry\EntryInterface;
+use Anomaly\Streams\Platform\Support\Presenter;
+use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 
 /**
  * Class BuildTableColumnsCommandHandler
@@ -68,7 +68,6 @@ class BuildTableColumnsCommandHandler
             $value = $this->getValue($column, $entry);
 
             $columns[] = compact('value');
-
         }
 
         return $columns;
@@ -89,7 +88,6 @@ class BuildTableColumnsCommandHandler
         if (is_string($column)) {
 
             $column = ['field' => $column];
-
         }
 
         return $column;
@@ -113,7 +111,6 @@ class BuildTableColumnsCommandHandler
         if (isset($column['value'])) {
 
             $value = $column['value'];
-
         }
 
         /**
@@ -125,7 +122,6 @@ class BuildTableColumnsCommandHandler
         if (isset($column['field'])) {
 
             $value = $column['field'];
-
         }
 
         /**
@@ -158,7 +154,6 @@ class BuildTableColumnsCommandHandler
         if ($value = $entry->getValueFromField($parts[0])) {
 
             $value = $this->parseValue($value, $parts);
-
         }
 
         return $value;
@@ -180,7 +175,6 @@ class BuildTableColumnsCommandHandler
         if (count($parts) > 1 and $value instanceof Presenter) {
 
             $value = $this->parseDotNotation($value, $parts);
-
         }
 
         return $value;
@@ -201,16 +195,12 @@ class BuildTableColumnsCommandHandler
             try {
 
                 $value = $value->$part;
-
             } catch (\Exception $e) {
-
                 // Shh..
             }
-
         }
 
         return $value;
     }
-
 }
  

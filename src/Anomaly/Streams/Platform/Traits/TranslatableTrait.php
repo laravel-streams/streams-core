@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\MassAssignmentException;
 
 trait TranslatableTrait
 {
+
     /**
      * Alias for getTranslation()
      */
@@ -279,6 +280,7 @@ trait TranslatableTrait
     {
         $dirtyAttributes = $translation->getDirty();
         unset($dirtyAttributes[$this->getLocaleKey()]);
+
         return count($dirtyAttributes) > 0;
     }
 
@@ -322,5 +324,4 @@ trait TranslatableTrait
     {
         return (in_array($key, $this->translatedAttributes) or parent::__isset($key));
     }
-
 }

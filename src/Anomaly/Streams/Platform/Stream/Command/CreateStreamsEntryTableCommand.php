@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Stream\StreamModel;
 
 class CreateStreamsEntryTableCommand
 {
+
     protected $stream;
 
     function __construct(StreamModel $stream)

@@ -1,17 +1,18 @@
 <?php namespace Anomaly\Streams\Platform\Asset;
 
-use Assetic\Asset\GlobAsset;
-use Assetic\Asset\FileAsset;
-use Assetic\Asset\AssetCollection;
-use Anomaly\Streams\Platform\Asset\Filter\JSMinFilter;
-use Anomaly\Streams\Platform\Asset\Filter\CssMinFilter;
-use Anomaly\Streams\Platform\Asset\Filter\LessphpFilter;
-use Anomaly\Streams\Platform\Asset\Filter\ScssphpFilter;
 use Anomaly\Streams\Platform\Asset\Filter\CoffeePhpFilter;
+use Anomaly\Streams\Platform\Asset\Filter\CssMinFilter;
+use Anomaly\Streams\Platform\Asset\Filter\JSMinFilter;
+use Anomaly\Streams\Platform\Asset\Filter\LessphpFilter;
 use Anomaly\Streams\Platform\Asset\Filter\PhpCssEmbedFilter;
+use Anomaly\Streams\Platform\Asset\Filter\ScssphpFilter;
+use Assetic\Asset\AssetCollection;
+use Assetic\Asset\FileAsset;
+use Assetic\Asset\GlobAsset;
 
 class Asset
 {
+
     protected $directory = null;
 
     protected $publish = false;
@@ -25,7 +26,6 @@ class Asset
         if (!isset($this->groups[$group])) {
 
             $this->groups[$group] = [];
-
         }
 
         $filters = $this->addConvenientFilters($asset, $filters);
@@ -35,7 +35,6 @@ class Asset
         if (file_exists($asset) or is_dir(trim($asset, '*'))) {
 
             $this->groups[$group][$asset] = $filters;
-
         }
 
         return $this;
@@ -109,7 +108,6 @@ class Asset
             }
 
             $collection->add($asset);
-
         }
 
         $path = $this->directory . $path;
@@ -154,7 +152,6 @@ class Asset
                     unset($filters[$k]);
                     break;
             }
-
         }
 
         return $filters;
@@ -206,7 +203,6 @@ class Asset
             if (isset($this->namespaces[$namespace]) and $location = $this->namespaces[$namespace]) {
                 $path = $location . '/' . $path;
             }
-
         }
 
         return $path;

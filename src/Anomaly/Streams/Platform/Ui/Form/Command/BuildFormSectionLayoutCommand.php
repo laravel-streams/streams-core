@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\FormUi;
  */
 class BuildFormSectionLayoutCommand
 {
+
     /**
      * The form UI object.
      *
@@ -57,6 +58,5 @@ class BuildFormSectionLayoutCommand
     {
         return $this->ui;
     }
-
 }
  

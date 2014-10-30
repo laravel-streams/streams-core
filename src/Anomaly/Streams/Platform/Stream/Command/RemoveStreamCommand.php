@@ -2,6 +2,7 @@
 
 class RemoveStreamCommand
 {
+
     /**
      * The stream namespace.
      *

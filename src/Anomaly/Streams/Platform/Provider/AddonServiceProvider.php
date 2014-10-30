@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
-use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Support\Transformer;
+use Illuminate\Support\ServiceProvider;
 
 class AddonServiceProvider extends ServiceProvider
 {
+
     /**
      * Defer loading this service provider.
      *
@@ -49,10 +50,8 @@ class AddonServiceProvider extends ServiceProvider
                 function () use ($collection) {
 
                     return new $collection;
-
                 }
             );
-
         }
     }
 
@@ -86,7 +85,6 @@ class AddonServiceProvider extends ServiceProvider
                     $this->app->register($provider);
 
                     $provider->register();
-
                 }
             }
         }
@@ -143,7 +141,6 @@ class AddonServiceProvider extends ServiceProvider
 
                 app('streams.asset')->addNamespace($abstract, $addon->getPath('resources'));
                 app('streams.image')->addNamespace($abstract, $addon->getPath('resources'));
-
             }
         }
     }

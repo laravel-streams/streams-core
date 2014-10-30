@@ -47,6 +47,5 @@ class HandleFormSubmissionCommandHandler
 
         return redirect(referer(url(app('request')->path())));
     }
-
 }
  

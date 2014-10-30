@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 
 class ActiveDistributionServiceProvider extends ServiceProvider
 {
+
     /**
      * Defer loading this service provider.
      *

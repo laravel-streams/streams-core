@@ -1,11 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Stream\Command\AddStreamCommand;
 use Anomaly\Streams\Platform\Stream\Command\RemoveStreamCommand;
+use Anomaly\Streams\Platform\Traits\CommandableTrait;
 
 class StreamService
 {
+
     use CommandableTrait;
 
     /**

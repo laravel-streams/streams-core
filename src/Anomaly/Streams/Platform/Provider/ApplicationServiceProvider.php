@@ -1,11 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
-use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Foundation\Application;
 use Anomaly\Streams\Platform\Foundation\ApplicationModel;
+use Illuminate\Support\ServiceProvider;
 
 class ApplicationServiceProvider extends ServiceProvider
 {
+
     /**
      * Register and setup the application.
      */
@@ -23,11 +24,9 @@ class ApplicationServiceProvider extends ServiceProvider
             app('streams.application')->setup();
 
             define('APP_REF', app('streams.application')->getReference());
-
         } else {
 
             define('APP_REF', 'default');
-
         }
     }
 }

@@ -58,6 +58,5 @@ class HandleTableFiltersCommand
     {
         return $this->ui;
     }
-
 }
  

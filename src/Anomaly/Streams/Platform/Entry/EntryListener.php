@@ -4,5 +4,6 @@ use Anomaly\Streams\Platform\Support\Listener;
 
 class EntryListener extends Listener
 {
+
 }
  

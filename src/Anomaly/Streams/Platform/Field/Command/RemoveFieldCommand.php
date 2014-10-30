@@ -2,6 +2,7 @@
 
 class RemoveFieldCommand
 {
+
     /**
      * The field namespace.
      *

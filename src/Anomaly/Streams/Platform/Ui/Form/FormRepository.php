@@ -55,7 +55,6 @@ class FormRepository implements FormRepositoryInterface
         if (!$entry) {
 
             throw new \Exception("Entry [{$id}] not found.");
-
         }
 
         return $entry;
@@ -70,6 +69,5 @@ class FormRepository implements FormRepositoryInterface
     {
         return true;
     }
-
 }
  

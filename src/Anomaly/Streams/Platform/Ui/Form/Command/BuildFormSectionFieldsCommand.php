@@ -58,6 +58,5 @@ class BuildFormSectionFieldsCommand
     {
         return $this->ui;
     }
-
 }
  

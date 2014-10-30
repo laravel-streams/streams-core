@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Stream\StreamModel;
 
 class EntryRelationsParser
 {
+
     public function parse(StreamModel $stream)
     {
         $string = '';
@@ -51,29 +52,23 @@ class EntryRelationsParser
         if (is_null($value)) {
 
             $value = 'null';
-
         } elseif (is_bool($value)) {
 
             if ($value) {
 
                 $value = 'true';
-
             } else {
 
                 $value = 'false';
-
             }
-
         } elseif (!is_numeric($value) and !is_bool($value)) {
 
             if ($escape) {
 
                 $value = addslashes($value);
-
             }
 
             $value = "'" . $value . "'";
-
         }
 
         return $value;

@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Stream\StreamModel;
 
 class StreamWasCreatedEvent
 {
+
     protected $stream;
 
     function __construct(StreamModel $stream)

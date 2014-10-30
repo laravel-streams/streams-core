@@ -30,9 +30,7 @@ class EloquentCollection extends Collection
             if ($item->slug == $slug) {
 
                 return $item;
-
             }
-
         }
 
         return null;
@@ -52,10 +50,8 @@ class EloquentCollection extends Collection
         foreach ($this->items as $item) {
 
             $items[] = $decorator->decorate($item);
-
         }
 
         return self::make($items);
     }
-
 }

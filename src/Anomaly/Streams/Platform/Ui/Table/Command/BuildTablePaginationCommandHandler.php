@@ -37,7 +37,6 @@ class BuildTablePaginationCommandHandler
             $data['links'] = $paginator->appends($_GET)->render();
 
             return $data;
-
         }
 
         return null;

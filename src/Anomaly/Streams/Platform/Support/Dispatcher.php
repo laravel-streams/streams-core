@@ -43,7 +43,6 @@ class Dispatcher
             $eventName = $this->getEventName($event);
 
             $this->event->fire($eventName, $event);
-
         }
     }
 
@@ -60,10 +59,8 @@ class Dispatcher
         if (substr($event, -5) == 'Event') {
 
             $event = substr($event, 0, -5);
-
         }
 
         return $event;
     }
-
 }

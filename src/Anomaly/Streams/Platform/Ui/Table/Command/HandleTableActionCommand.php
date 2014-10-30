@@ -39,6 +39,5 @@ class HandleTableActionCommand
     {
         return $this->ui;
     }
-
 }
  

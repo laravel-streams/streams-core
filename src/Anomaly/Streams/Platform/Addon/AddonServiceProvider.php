@@ -1,11 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Traits\CallableTrait;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
-use Anomaly\Streams\Platform\Traits\CallableTrait;
 
 class AddonServiceProvider extends ServiceProvider
 {
+
     use CallableTrait;
 
     protected $binding = 'singleton';
@@ -123,7 +124,6 @@ class AddonServiceProvider extends ServiceProvider
         if (is_dir($path)) {
 
             $paths = app('files')->directories($path);
-
         }
 
         return $paths;
@@ -136,7 +136,6 @@ class AddonServiceProvider extends ServiceProvider
         if (getenv('TEST')) {
 
             $this->locations[] = __DIR__ . '/../../../../tests/addons';
-
         }
 
         foreach ($this->locations as $location) {
@@ -146,9 +145,7 @@ class AddonServiceProvider extends ServiceProvider
             if (is_dir($path)) {
 
                 $paths = array_merge($paths, app('files')->directories($path));
-
             }
-
         }
 
         return $paths;

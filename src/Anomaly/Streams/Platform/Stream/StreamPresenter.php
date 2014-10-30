@@ -4,4 +4,5 @@ use Anomaly\Streams\Platform\Model\EloquentPresenter;
 
 class StreamPresenter extends EloquentPresenter
 {
+
 }

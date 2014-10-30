@@ -19,6 +19,5 @@ class FieldModelTranslation extends EloquentModel
      * @var string
      */
     protected $table = 'streams_fields_translations';
-
 }
  

@@ -4,6 +4,7 @@ use Assetic\Asset\AssetInterface;
 
 class ScssphpFilter extends \Assetic\Filter\ScssphpFilter
 {
+
     /**
      * Override the filter dump method.
      *

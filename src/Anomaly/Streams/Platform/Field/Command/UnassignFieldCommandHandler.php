@@ -1,12 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command;
 
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 
 class UnassignFieldCommandHandler
 {
+
     use DispatchableTrait;
 
     /**

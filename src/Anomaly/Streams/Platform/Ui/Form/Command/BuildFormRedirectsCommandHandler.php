@@ -80,7 +80,6 @@ class BuildFormRedirectsCommandHandler
             $redirect = compact('title', 'class', 'value', 'attributes', 'name');
 
             $redirects[] = $redirect;
-
         }
 
         return $redirects;
@@ -102,7 +101,6 @@ class BuildFormRedirectsCommandHandler
         if (is_string($redirect)) {
 
             $redirect = ['type' => $redirect];
-
         }
 
         return $redirect;
@@ -123,7 +121,6 @@ class BuildFormRedirectsCommandHandler
         if (isset($redirect['type']) and $defaults = $this->utility->getRedirectDefaults($redirect['type'])) {
 
             $defaults = $this->utility->evaluate($defaults, [$ui, $entry], $entry);
-
         }
 
         return $defaults;
@@ -184,6 +181,5 @@ class BuildFormRedirectsCommandHandler
     {
         return array_diff_key($redirect, array_flip($this->notAttributes));
     }
-
 }
  

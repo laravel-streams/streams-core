@@ -4,5 +4,6 @@ use Anomaly\Streams\Platform\Addon\AddonPresenter;
 
 class ExtensionPresenter extends AddonPresenter
 {
+
 }
  

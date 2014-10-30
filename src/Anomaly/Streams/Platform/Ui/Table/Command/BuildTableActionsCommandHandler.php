@@ -92,7 +92,6 @@ class BuildTableActionsCommandHandler
             $action = $this->utility->normalize($action);
 
             $actions[] = $action;
-
         }
 
         return $actions;
@@ -113,7 +112,6 @@ class BuildTableActionsCommandHandler
         if (is_string($action)) {
 
             $action = ['type' => $action];
-
         }
 
         return $action;
@@ -134,7 +132,6 @@ class BuildTableActionsCommandHandler
         if (isset($action['type']) and $defaults = $this->utility->getActionDefaults($action['type'])) {
 
             $defaults = $this->utility->evaluate($defaults, [$ui]);
-
         }
 
         return $defaults;
@@ -196,6 +193,5 @@ class BuildTableActionsCommandHandler
     {
         return $ui->getPrefix() . 'action';
     }
-
 }
  

@@ -1,16 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Support\Generator;
 use Anomaly\Streams\Platform\Entry\Parser\EntryClassParser;
-use Anomaly\Streams\Platform\Entry\Parser\EntryRulesParser;
-use Anomaly\Streams\Platform\Entry\Parser\EntryTableParser;
-use Anomaly\Streams\Platform\Entry\Parser\EntryStreamParser;
-use Anomaly\Streams\Platform\Entry\Parser\EntryRelationsParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryNamespaceParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryRelationFieldsParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryRelationsParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryRulesParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryStreamParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryTableParser;
+use Anomaly\Streams\Platform\Support\Generator;
 
 class EntryGenerator extends Generator
 {
+
     protected $class;
 
     protected $table;

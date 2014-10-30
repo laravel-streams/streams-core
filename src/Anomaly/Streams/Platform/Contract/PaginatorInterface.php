@@ -15,5 +15,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  */
 interface PaginatorInterface extends LengthAwarePaginator
 {
+
 }
  

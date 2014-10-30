@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Illuminate\Http\Request;
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableActionInterface;
+use Anomaly\Streams\Platform\Ui\Table\TableUi;
+use Illuminate\Http\Request;
 
 /**
  * Class HandleTableActionCommandHandler
@@ -59,7 +59,6 @@ class HandleTableActionCommandHandler
             app('streams.messages')->flash();
 
             return redirect(referer(url(app('request')->path())));
-
         }
 
         return null;
@@ -77,7 +76,6 @@ class HandleTableActionCommandHandler
         if (is_string($action['handler'])) {
 
             return app()->make($action['handler'], compact('ui'));
-
         }
 
         return $action['handler'];
@@ -97,9 +95,7 @@ class HandleTableActionCommandHandler
                 $handler = $this->getHandler($action, $ui);
 
                 $this->runHandler($handler);
-
             }
-
         }
     }
 
@@ -113,7 +109,6 @@ class HandleTableActionCommandHandler
         if ($handler instanceof \Closure) {
 
             $handler();
-
         }
 
         if ($handler instanceof TableActionInterface) {
@@ -121,11 +116,8 @@ class HandleTableActionCommandHandler
             if ($handler->authorize() !== false) {
 
                 $handler->handle();
-
             }
-
         }
     }
-
 }
  

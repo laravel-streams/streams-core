@@ -4,5 +4,6 @@ use Anomaly\Streams\Platform\Addon\Tag\TagAddon;
 
 class ModuleTag extends TagAddon
 {
+
 }
  

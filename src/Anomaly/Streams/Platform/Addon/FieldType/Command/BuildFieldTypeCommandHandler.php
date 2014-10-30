@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 
 class BuildFieldTypeCommandHandler
 {
+
     public function handle(BuildFieldTypeCommand $command)
     {
         $collection = app('streams.field_types');
@@ -24,11 +25,8 @@ class BuildFieldTypeCommandHandler
                 if ($view = $command->getView()) {
 
                     $fieldType->setView($command->getView());
-
                 }
-
             }
-
         }
 
         return $fieldType;

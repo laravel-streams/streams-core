@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Foundation;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ApplicationModel extends Model
 {
+
     /**
      * Find an application record by domain.
      *

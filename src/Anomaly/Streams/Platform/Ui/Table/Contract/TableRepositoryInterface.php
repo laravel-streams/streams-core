@@ -21,6 +21,5 @@ interface TableRepositoryInterface
      * @return mixed
      */
     public function get();
-
 }
  

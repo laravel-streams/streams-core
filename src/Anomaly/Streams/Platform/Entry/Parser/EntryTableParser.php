@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Stream\StreamModel;
 
 class EntryTableParser
 {
+
     public function parse(StreamModel $stream)
     {
         return "{$stream->prefix}{$stream->slug}";

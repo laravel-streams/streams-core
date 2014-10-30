@@ -23,6 +23,5 @@ class RecentlyCreatedTableView implements TableViewInterface
     {
         return $query;
     }
-
 }
  

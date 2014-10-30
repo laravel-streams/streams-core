@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
-use Illuminate\Support\ServiceProvider;
 use Anomaly\Streams\Platform\Support\Decorator;
+use Illuminate\Support\ServiceProvider;
 
 class DecoratorServiceProvider extends ServiceProvider
 {
+
     /**
      * Register the decorator service.
      */

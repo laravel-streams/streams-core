@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Support\Presenter;
 
 class AddonPresenter extends Presenter
 {
+
     /**
      * Return the name of the addon.
      *

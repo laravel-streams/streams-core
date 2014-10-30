@@ -23,5 +23,4 @@ class EloquentPresenter extends Presenter
     {
         return $this->resource->getKey();
     }
-
 }

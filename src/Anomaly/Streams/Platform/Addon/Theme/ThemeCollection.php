@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
 
 class ThemeCollection extends AddonCollection
 {
+
     public function active()
     {
         $active = null;
@@ -13,9 +14,7 @@ class ThemeCollection extends AddonCollection
             if ($item->isActive()) {
 
                 $active = $item;
-
             }
-
         }
 
         return $active;

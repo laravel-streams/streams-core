@@ -5,6 +5,7 @@ use Illuminate\Support\MessageBag;
 
 class Messages extends MessageBag
 {
+
     /**
      * The session key for our session store.
      *

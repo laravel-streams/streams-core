@@ -4,6 +4,7 @@ use Illuminate\Routing\Router;
 
 class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\RouteServiceProvider
 {
+
     /**
      * All of the application's route middleware keys.
      * These have to be provided by the platform itself

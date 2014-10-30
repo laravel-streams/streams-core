@@ -1,10 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Anomaly\Streams\Platform\Ui\Ui;
 use Anomaly\Streams\Platform\Contract\PaginatorInterface;
-use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableViewCommand;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableActionCommand;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableFiltersCommand;
+use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableViewCommand;
+use Anomaly\Streams\Platform\Ui\Ui;
 
 /**
  * Class TableUi
@@ -249,7 +249,6 @@ class TableUi extends Ui
         if (!$this->limit) {
 
             $this->limit = 2;
-
         }
 
         return $this->limit;
@@ -481,5 +480,4 @@ class TableUi extends Ui
         $query = $this->execute(new HandleTableViewCommand($this, $query));
         $query = $this->execute(new HandleTableFiltersCommand($this, $query));
     }
-
 }

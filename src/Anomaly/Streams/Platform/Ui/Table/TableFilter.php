@@ -28,6 +28,5 @@ class TableFilter implements TableFilterInterface
     {
         //
     }
-
 }
  

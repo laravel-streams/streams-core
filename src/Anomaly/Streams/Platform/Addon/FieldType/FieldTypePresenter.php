@@ -36,5 +36,4 @@ class FieldTypePresenter extends AddonPresenter implements StringableInterface
     {
         return $this->resource->getValue();
     }
-
 }

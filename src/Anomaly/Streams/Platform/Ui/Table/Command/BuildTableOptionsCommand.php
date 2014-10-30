@@ -39,6 +39,5 @@ class BuildTableOptionsCommand
     {
         return $this->ui;
     }
-
 }
  

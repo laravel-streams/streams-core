@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
 
 class ModuleCollection extends AddonCollection
 {
+
     public function active()
     {
         $active = null;
@@ -13,9 +14,7 @@ class ModuleCollection extends AddonCollection
             if ($item->isActive()) {
 
                 $active = $item;
-
             }
-
         }
 
         return $active;
@@ -30,7 +29,6 @@ class ModuleCollection extends AddonCollection
             if ($item->isInstalled()) {
 
                 $installed[] = $item;
-
             }
         }
 
@@ -46,9 +44,7 @@ class ModuleCollection extends AddonCollection
             if ($item->isInstalled() and $item->isEnabled()) {
 
                 $enabled[] = $item;
-
             }
-
         }
 
         return self::make($enabled);

@@ -5,6 +5,7 @@ use Illuminate\Support\ServiceProvider;
 
 class StreamsServiceProvider extends ServiceProvider
 {
+
     /**
      * Create a new StreamsServiceProvider instance.
      *

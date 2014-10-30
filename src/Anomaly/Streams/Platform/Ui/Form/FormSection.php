@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormSectionLayoutCommand;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
 
 /**
  * Class FormSection
@@ -90,6 +90,5 @@ class FormSection implements FormSectionInterface
 
         return $this->execute($command);
     }
-
 }
  

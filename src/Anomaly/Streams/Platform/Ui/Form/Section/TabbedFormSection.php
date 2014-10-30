@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Section;
 
-use Anomaly\Streams\Platform\Ui\Form\FormSection;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
+use Anomaly\Streams\Platform\Ui\Form\FormSection;
 
 /**
  * Class TabbedFormSection
@@ -35,6 +35,5 @@ class TabbedFormSection extends FormSection implements FormSectionInterface
 
         return view('html/section/tabbed/body');
     }
-
 }
  

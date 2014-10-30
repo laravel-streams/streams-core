@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Field\FieldService;
 
 class StreamInstaller
 {
+
     protected $addonType = null;
 
     protected $namespace = null;
@@ -136,7 +137,6 @@ class StreamInstaller
             $addonType = explode('\\', (new \ReflectionClass($this))->getName());
 
             $this->addonType = snake_case($addonType[3]);
-
         }
     }
 
@@ -147,7 +147,6 @@ class StreamInstaller
             $namespace = explode('\\', (new \ReflectionClass($this))->getName());
 
             $this->namespace = snake_case($namespace[4]);
-
         }
     }
 
@@ -159,7 +158,6 @@ class StreamInstaller
             $slug = str_replace('StreamInstaller', null, $slug);
 
             $this->slug = snake_case($slug);
-
         }
     }
 }

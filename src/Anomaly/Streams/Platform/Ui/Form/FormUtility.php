@@ -87,7 +87,6 @@ class FormUtility extends Utility
             $defaults['url'] = $this->guessRedirectUrl($type);
 
             return $defaults;
-
         }
 
         return null;
@@ -106,7 +105,6 @@ class FormUtility extends Utility
             $defaults['url'] = $this->guessActionUrl($type);
 
             return $defaults;
-
         }
 
         return null;
@@ -123,7 +121,6 @@ class FormUtility extends Utility
         if (isset($this->sections[$type]) and $defaults = $this->sections[$type]) {
 
             return $defaults;
-
         }
 
         return null;
@@ -171,7 +168,6 @@ class FormUtility extends Utility
             default:
                 return null;
                 break;
-
         }
     }
 
@@ -213,9 +209,7 @@ class FormUtility extends Utility
             default:
                 return null;
                 break;
-
         }
     }
-
 }
  

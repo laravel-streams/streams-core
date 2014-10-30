@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 
 class CommandBus
 {
+
     /**
      * @var Application
      */
@@ -89,7 +90,6 @@ class CommandBus
              * exceptions on their own. Messages should be in the bag.
              */
             $this->app->make($validator)->validate($command);
-
         }
     }
 }

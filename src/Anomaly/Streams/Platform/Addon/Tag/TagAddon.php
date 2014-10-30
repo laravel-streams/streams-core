@@ -1,12 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Tag;
 
-use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Lexicon\Contract\LexiconInterface;
-use Anomaly\Streams\Platform\Contract\PresentableInterface;
 use Anomaly\Lexicon\Contract\Plugin\PluginInterface;
+use Anomaly\Streams\Platform\Addon\Addon;
+use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
 class TagAddon extends Addon implements PluginInterface, PresentableInterface
 {
+
     protected $pluginName = null;
 
     protected $attributes = [];
@@ -27,7 +28,6 @@ class TagAddon extends Addon implements PluginInterface, PresentableInterface
 
             // If there is no key - use the original index.
             $array[count($item) > 1 ? $item[0] : $k] = count($item) > 1 ? $item[1] : $item[0];
-
         }
 
         return $array;
@@ -50,11 +50,9 @@ class TagAddon extends Addon implements PluginInterface, PresentableInterface
         if (isset($this->attributes[$name])) {
 
             return $this->attributes[$name];
-
         } elseif (isset($this->attributes[$offset])) {
 
             return $this->attributes[$offset];
-
         }
 
         return $default;

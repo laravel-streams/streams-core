@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Model\Revision;
 
 trait RevisionableTrait
 {
+
     /**
      * Original data.
      *

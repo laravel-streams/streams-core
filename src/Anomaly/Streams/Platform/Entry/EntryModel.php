@@ -1,12 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Stream\StreamModel;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\StreamModel;
 
 class EntryModel extends EloquentModel implements EntryInterface
 {
+
     /**
      * Stream data
      *
@@ -64,9 +65,7 @@ class EntryModel extends EloquentModel implements EntryInterface
             if ($type = $assignment->type($this) and $type instanceof FieldTypeAddon) {
 
                 $value = $type->mutate($value);
-
             }
-
         }
 
         parent::setAttribute($key, $value);
@@ -182,7 +181,6 @@ class EntryModel extends EloquentModel implements EntryInterface
         if ($assignment instanceof AssignmentModel) {
 
             return $assignment->type($this);
-
         }
 
         return null;
@@ -201,7 +199,6 @@ class EntryModel extends EloquentModel implements EntryInterface
         if ($fieldType instanceof FieldTypeAddon) {
 
             return $fieldType->decorate();
-
         }
 
         return null;
@@ -220,7 +217,6 @@ class EntryModel extends EloquentModel implements EntryInterface
         if ($assignment instanceof AssignmentModel) {
 
             return $assignment->getFieldName();
-
         }
     }
 
@@ -250,9 +246,7 @@ class EntryModel extends EloquentModel implements EntryInterface
             if ($label = $assignment->getFieldLabel()) {
 
                 return $label;
-
             }
-
         }
 
         return $this->getFieldName($field);
@@ -273,11 +267,8 @@ class EntryModel extends EloquentModel implements EntryInterface
         if ($translated = trans($placeholder) and $translated != $placeholder) {
 
             return $placeholder;
-
         }
 
         return null;
     }
-
-
 }

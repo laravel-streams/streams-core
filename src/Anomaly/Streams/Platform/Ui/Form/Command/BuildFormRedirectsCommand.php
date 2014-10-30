@@ -39,6 +39,5 @@ class BuildFormRedirectsCommand
     {
         return $this->ui;
     }
-
 }
  

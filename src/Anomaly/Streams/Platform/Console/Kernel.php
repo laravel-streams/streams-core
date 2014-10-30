@@ -26,14 +26,11 @@ class Kernel extends \Illuminate\Foundation\Console\Kernel
         try {
 
             return parent::handle($input, $output);
-
         } catch (\Exception $e) {
 
             $output->writeln((string)$e);
 
             return 1;
-            
         }
     }
-
 }

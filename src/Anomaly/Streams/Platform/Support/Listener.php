@@ -4,6 +4,7 @@ use ReflectionClass;
 
 abstract class Listener
 {
+
     /**
      * Handle the event
      *
@@ -53,5 +54,4 @@ abstract class Listener
 
         return method_exists($this, $method);
     }
-
 }

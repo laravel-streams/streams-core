@@ -1,11 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Ui;
 
-use Symfony\Component\HttpFoundation\Response;
-use Anomaly\Streams\Platform\Traits\CallableTrait;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
-use Anomaly\Streams\Platform\Traits\EventableTrait;
+use Anomaly\Streams\Platform\Traits\CallableTrait;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
+use Anomaly\Streams\Platform\Traits\EventableTrait;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Ui
@@ -94,7 +94,6 @@ class Ui
         if ($response = $this->fire('response') and $response instanceof Response) {
 
             return $response;
-
         }
 
         return view($this->wrapper, compact('content', 'title'));
@@ -123,7 +122,6 @@ class Ui
         if ($this->prefix) {
 
             return $this->prefix . (ends_with($this->prefix, '_') ? : '_');
-
         }
 
         return $this->prefix;
@@ -187,5 +185,4 @@ class Ui
 
         return $this;
     }
-
 }

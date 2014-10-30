@@ -22,6 +22,5 @@ interface FormRepositoryInterface
      * @return mixed
      */
     public function store();
-
 }
  

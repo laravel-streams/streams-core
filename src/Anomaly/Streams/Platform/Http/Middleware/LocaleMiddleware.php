@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 
 class LocaleMiddleware
 {
+
     /**
      * Setup the application.
      *

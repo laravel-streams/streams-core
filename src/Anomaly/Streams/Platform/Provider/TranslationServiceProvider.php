@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Support\Translator;
 
 class TranslationServiceProvider extends \Illuminate\Translation\TranslationServiceProvider
 {
+
     /**
      * Setup translation services.
      */

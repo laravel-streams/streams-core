@@ -4,4 +4,5 @@ use Anomaly\Streams\Platform\Collection\EloquentCollection;
 
 class StreamCollection extends EloquentCollection
 {
+
 }

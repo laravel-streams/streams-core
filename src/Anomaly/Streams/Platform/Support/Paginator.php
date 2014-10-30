@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Pagination\LengthAwarePaginator;
 use Anomaly\Streams\Platform\Contract\PaginatorInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class Paginator
@@ -17,5 +17,6 @@ use Anomaly\Streams\Platform\Contract\PaginatorInterface;
  */
 class Paginator extends LengthAwarePaginator implements PaginatorInterface
 {
+
 }
  

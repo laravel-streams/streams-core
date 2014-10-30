@@ -2,6 +2,7 @@
 
 interface PresentableInterface
 {
+
     /**
      * Return the decorated object.
      *

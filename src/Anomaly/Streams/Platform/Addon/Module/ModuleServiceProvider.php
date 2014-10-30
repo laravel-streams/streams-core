@@ -4,4 +4,5 @@ use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 
 class ModuleServiceProvider extends AddonServiceProvider
 {
+
 }

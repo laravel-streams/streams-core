@@ -23,6 +23,5 @@ class RecentlyModifiedTableView implements TableViewInterface
     {
         return $query;
     }
-
 }
  

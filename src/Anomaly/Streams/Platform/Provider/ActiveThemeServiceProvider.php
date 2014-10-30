@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 
 class ActiveThemeServiceProvider extends ServiceProvider
 {
+
     /**
      * Defer loading this service provider.
      *
@@ -24,11 +25,9 @@ class ActiveThemeServiceProvider extends ServiceProvider
             if ($request->segment(1) == 'admin') {
 
                 $theme = $distribution->getAdminTheme();
-
             } else {
 
                 $theme = $distribution->getPublicTheme();
-
             }
 
             if ($theme) {
@@ -42,5 +41,4 @@ class ActiveThemeServiceProvider extends ServiceProvider
             }
         }
     }
-
 }

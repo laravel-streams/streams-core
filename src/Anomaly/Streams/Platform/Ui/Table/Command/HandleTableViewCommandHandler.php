@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableViewInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableViewInterface;
+use Illuminate\Http\Request;
 
 /**
  * Class HandleTableViewCommandHandler
@@ -72,9 +72,7 @@ class HandleTableViewCommandHandler
 
                 $handler = $this->getHandler($view, $ui);
                 $query   = $this->runHandler($view, $handler, $query);
-
             }
-
         }
 
         return $query;
@@ -96,7 +94,6 @@ class HandleTableViewCommandHandler
                 'type' => $view,
                 'slug' => $view,
             ];
-
         }
 
         return $view;
@@ -115,7 +112,6 @@ class HandleTableViewCommandHandler
         if (isset($view['type']) and $defaults = $this->utility->getViewDefaults($view['type'])) {
 
             return $this->utility->evaluate($defaults, [$ui]);
-
         }
 
         return [];
@@ -133,7 +129,6 @@ class HandleTableViewCommandHandler
         if (is_string($view['handler'])) {
 
             return app()->make($view['handler'], compact('ui'));
-
         }
 
         return $view['handler'];
@@ -153,23 +148,19 @@ class HandleTableViewCommandHandler
         if ($handler instanceof \Closure) {
 
             $query = $handler($query);
-
         }
 
         if ($handler instanceof TableViewInterface) {
 
             $query = $handler->handle($query);
-
         }
 
         if (!$query) {
 
             throw new \Exception("Table view handler [{$view['slug']}] must return the query object.");
-
         }
 
         return $query;
     }
-
 }
  

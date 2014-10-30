@@ -17,6 +17,5 @@ interface StringableInterface
      * @return mixed
      */
     public function toString();
-
 }
  

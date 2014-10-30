@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Asset\Filter;
 
-use CoffeeScript\Compiler;
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\FilterInterface;
+use CoffeeScript\Compiler;
 
 class CoffeePhpFilter implements FilterInterface
 {
@@ -21,5 +21,4 @@ class CoffeePhpFilter implements FilterInterface
 
         $asset->setContent($content);
     }
-
 }

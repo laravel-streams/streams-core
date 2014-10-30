@@ -27,6 +27,5 @@ class BuildTableOptionsCommandHandler
 
         return compact('paginate', 'sortable', 'tableClass');
     }
-
 }
  

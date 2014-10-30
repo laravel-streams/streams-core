@@ -14,27 +14,22 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         'Illuminate\Session\Middleware\ReadSession',
         'Illuminate\Session\Middleware\WriteSession',
         'Illuminate\View\Middleware\ShareErrorsFromSession',
-
         'Anomaly\Streams\Platform\Http\Middleware\FlashMessagesMiddleware',
     ];
 
     /**
      * Handle an incoming HTTP request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function handle($request)
     {
-        try
-        {
+        try {
             return parent::handle($request);
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             throw $e;
         }
     }
-
 }
  

@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Illuminate\Foundation\Application;
 use Anomaly\Streams\Platform\Traits\CallableTrait;
+use Illuminate\Foundation\Application;
 
 class Addon
 {
+
     use CallableTrait;
 
     protected $path = null;

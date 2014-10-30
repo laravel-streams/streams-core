@@ -4,6 +4,7 @@ use Illuminate\Translation\Translator as BaseTranslator;
 
 class Translator extends BaseTranslator
 {
+
     public function get($key, array $replace = [], $locale = null)
     {
         list($namespace, $group, $item) = $this->parseKey($key);

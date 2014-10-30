@@ -41,6 +41,5 @@ class BuildTablePaginationCommand
     {
         return $this->ui;
     }
-
 }
  

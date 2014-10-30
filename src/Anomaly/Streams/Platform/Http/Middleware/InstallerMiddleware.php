@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 
 class InstallerMiddleware
 {
+
     /**
      * Redirect to the installer if the
      * application is not installed.
@@ -16,7 +17,6 @@ class InstallerMiddleware
         if ($request->segment(1) !== 'installer' and !app('streams.application')->isInstalled()) {
 
             return redirect('installer');
-            
         }
 
         return $next($request);

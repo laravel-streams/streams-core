@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
+use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 
 /**
  * Class BuildFormSectionRowsCommandHandler
@@ -58,11 +58,9 @@ class BuildFormSectionRowsCommandHandler
             $columns = $this->execute($command);
 
             $rows[] = compact('columns');
-
         }
 
         return $rows;
     }
-
 }
  

@@ -2,6 +2,7 @@
 
 class AddStreamCommand
 {
+
     /**
      * The stream namespace.
      *
