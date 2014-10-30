@@ -123,6 +123,17 @@ trait TranslatableTrait
         return parent::getAttribute($key);
     }
 
+    public function getTranslatedAttributeOrAttribute($key, $locale)
+    {
+        $default = parent::getAttribute($key);
+
+        $translation = $this->translate($locale);
+
+        $translated = $translation->getAttribute($key);
+
+        return $translated ? : $default;
+    }
+
     /**
      * Set an attribute value.
      *
@@ -284,6 +295,9 @@ trait TranslatableTrait
         $translation = new $modelName;
 
         $translation->setAttribute($this->getLocaleKey(), $locale);
+
+        // TODO: not sure of the entire consequences here.
+        $translation->assignment_id = $this->id;
 
         return $translation;
     }
