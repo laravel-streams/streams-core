@@ -49,10 +49,10 @@ class Utility
     /**
      * Return an array parsed into a string of attributes.
      *
-     * @param $attributes
+     * @param array $attributes
      * @return string
      */
-    public function attributes($attributes)
+    public function attributes(array $attributes)
     {
         return implode(
             ' ',
@@ -72,14 +72,14 @@ class Utility
      * Evaluate closures in the entire data array.
      * Merge in entry data at this point as well if available.
      *
-     * @param array $data
-     * @param array $arguments
-     * @param null  $entry
-     * @return mixed|null
+     * @param array          $data
+     * @param array          $arguments
+     * @param EntryInterface $entry
+     * @return array|mixed|null
      */
-    public function evaluate(array $data, $arguments = [], $entry = null)
+    public function evaluate(array $data, array $arguments = [], EntryInterface $entry = null)
     {
-
+        // Evaluate closures.
         $data = evaluate($data, $arguments);
 
         /**
@@ -90,7 +90,7 @@ class Utility
 
             if (is_string($value) and str_contains($value, '{')) {
 
-                if ($entry instanceof EntryInterface) {
+                if ($entry) {
 
                     $value = merge($value, $entry->toArray());
 
@@ -106,7 +106,7 @@ class Utility
     /**
      * Normalize and clean things up before returning.
      *
-     * @param $data
+     * @param array $data
      * @return mixed
      */
     public function normalize(array $data)

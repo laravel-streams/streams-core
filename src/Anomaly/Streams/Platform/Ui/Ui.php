@@ -2,13 +2,16 @@
 
 use Symfony\Component\HttpFoundation\Response;
 use Anomaly\Streams\Platform\Traits\CallableTrait;
+use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Traits\EventableTrait;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
 /**
  * Class Ui
- * The base UI class. All other UI classes extend this one.
+ *
+ * The base UI class.
+ * All other UI classes extend this one.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -55,7 +58,6 @@ class Ui
 
     /**
      * Create a new Ui instance.
-
      */
     public function __construct()
     {
@@ -71,7 +73,7 @@ class Ui
     }
 
     /**
-     * Trigger to make content.
+     * Trigger creation of the content.
      */
     protected function trigger()
     {
@@ -79,7 +81,7 @@ class Ui
     }
 
     /**
-     * Make the UI response.
+     * Make the response.
      *
      * @return \Illuminate\View\View
      */
@@ -130,10 +132,10 @@ class Ui
     /**
      * Set the model object.
      *
-     * @param mixed $model
-     * return $this
+     * @param EntryInterface $model
+     * @return $this
      */
-    public function setModel($model)
+    public function setModel(EntryInterface $model)
     {
         $this->model = $model;
 
@@ -143,7 +145,7 @@ class Ui
     /**
      * Get the model object.
      *
-     * @return mixed
+     * @return null
      */
     public function getModel()
     {
