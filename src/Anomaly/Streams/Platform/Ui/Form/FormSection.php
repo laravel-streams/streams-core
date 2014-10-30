@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
+use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormSectionLayoutCommand;
 
 /**
  * Class FormSection
@@ -75,6 +76,19 @@ class FormSection implements FormSectionInterface
     public function footer()
     {
         return null;
+    }
+
+    /**
+     * Get the layout. This is pretty common
+     * so let's keep it here for now.
+     *
+     * @return mixed
+     */
+    protected function getLayout()
+    {
+        $command = new BuildFormSectionLayoutCommand($this->ui, $this->section);
+
+        return $this->execute($command);
     }
 
 }

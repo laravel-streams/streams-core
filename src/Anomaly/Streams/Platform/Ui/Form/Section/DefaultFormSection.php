@@ -1,11 +1,24 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Section;
 
 use Anomaly\Streams\Platform\Ui\Form\FormSection;
-use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormSectionLayoutCommand;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
 
-class DefaultFormSection extends FormSection
+/**
+ * Class DefaultFormSection
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Section
+ */
+class DefaultFormSection extends FormSection implements FormSectionInterface
 {
 
+    /**
+     * Return the heading.
+     *
+     * @return \Illuminate\View\View
+     */
     public function heading()
     {
         $title = $this->getTitle();
@@ -13,6 +26,11 @@ class DefaultFormSection extends FormSection
         return view('html/section/default/heading', compact('title'));
     }
 
+    /**
+     * Return the body.
+     *
+     * @return \Illuminate\View\View
+     */
     public function body()
     {
         $body = $this->getBody();
@@ -20,23 +38,26 @@ class DefaultFormSection extends FormSection
         return view('html/section/default/body', compact('body'));
     }
 
+    /**
+     * Get the title.
+     *
+     * @return string
+     */
     protected function getTitle()
     {
         return trans(evaluate_key($this->section, 'title', 'misc.untitled'));
     }
 
+    /**
+     * Get the body.
+     *
+     * @return \Illuminate\View\View
+     */
     private function getBody()
     {
         $layout = $this->getLayout();
 
         return view('html/section/layout', compact('layout'));
-    }
-
-    protected function getLayout()
-    {
-        $command = new BuildFormSectionLayoutCommand($this->ui, $this->section);
-
-        return $this->execute($command);
     }
 
 }
