@@ -126,6 +126,8 @@ class BuildFormSectionFieldsCommandHandler
      */
     protected function getElement(array $field, EntryInterface $entry, AssignmentModel $assignment)
     {
+        $element = '';
+
         /**
          * Get the type object spawned from the assignment
          * next. Again if not found we're going to skip it.
@@ -134,16 +136,24 @@ class BuildFormSectionFieldsCommandHandler
 
         if ($type instanceof FieldTypeAddon) {
 
-            /**
-             * Now that we're here set some options
-             * that might have been passed along in
-             * the configuration for the field.
-             */
-            $type->setLabel(trans($entry->getFieldLabel($field['field']), [], '', 'en'));
-            $type->setPlaceholder(trans($entry->getFieldPlaceholder($field['field']), [], '', 'en'));
+            // TODO: Testing this out..
+            foreach (['en', 'fr'] as $locale) {
 
-            // Render the input element.
-            return $type->element();
+                /**
+                 * Now that we're here set some options
+                 * that might have been passed along in
+                 * the configuration for the field.
+                 */
+                $type->setLocale($locale);
+                $type->setSuffix($locale);
+                $type->setLabel(trans($entry->getFieldLabel($field['field']), [], '', $locale));
+                $type->setPlaceholder(trans($entry->getFieldPlaceholder($field['field']), [], '', $locale));
+
+                // Render the input element.
+                $element .= $type->element();
+            }
+
+            return $element;
 
         }
 
