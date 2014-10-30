@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableServiceInterface;
 use Anomaly\Streams\Platform\Ui\Table\Command\BuildTableRowsCommand;
 use Anomaly\Streams\Platform\Ui\Table\Command\BuildTableViewsCommand;
 use Anomaly\Streams\Platform\Ui\Table\Command\BuildTableOptionsCommand;
@@ -24,7 +23,7 @@ use Anomaly\Streams\Platform\Ui\Table\Command\BuildTablePaginationCommand;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table
  */
-class TableService implements TableServiceInterface
+class TableService
 {
 
     use CommandableTrait;
