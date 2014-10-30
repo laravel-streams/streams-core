@@ -147,6 +147,7 @@ class FormUtility extends Utility
              */
             case 'cancel':
                 $segments = explode('/', $this->request->path());
+
                 return url(implode('/', array_slice($segments, 0, count($segments) - 2)));
                 break;
 
@@ -156,6 +157,7 @@ class FormUtility extends Utility
              */
             case 'view':
                 $segments = explode('/', $this->request->path());
+
                 return url(implode('/', array_slice($segments, 0, count($segments) - 2)) . '/show/{id}');
                 break;
 
@@ -165,6 +167,7 @@ class FormUtility extends Utility
              */
             case 'delete':
                 $segments = explode('/', $this->request->path());
+
                 return url(implode('/', array_slice($segments, 0, count($segments) - 2)) . '/delete/{id}');
                 break;
 
