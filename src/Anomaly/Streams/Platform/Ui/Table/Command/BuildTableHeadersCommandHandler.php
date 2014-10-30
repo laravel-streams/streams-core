@@ -86,11 +86,11 @@ class BuildTableHeadersCommandHandler
     /**
      * Get the heading.
      *
-     * @param $column
-     * @param $ui
+     * @param array   $column
+     * @param TableUi $ui
      * @return null|string
      */
-    protected function getHeading($column, TableUi $ui)
+    protected function getHeading(array $column, TableUi $ui)
     {
         $heading = trans(evaluate_key($column, 'heading', null, [$ui]));
 
@@ -112,11 +112,11 @@ class BuildTableHeadersCommandHandler
     /**
      * Get the heading from a field.
      *
-     * @param $column
-     * @param $entry
+     * @param array          $column
+     * @param EntryInterface $entry
      * @return null
      */
-    protected function getHeadingFromField($column, EntryInterface $entry)
+    protected function getHeadingFromField(array $column, EntryInterface $entry)
     {
         $parts = explode('.', $column['field']);
 
@@ -132,11 +132,11 @@ class BuildTableHeadersCommandHandler
     /**
      * Make our best guess at the heading.
      *
-     * @param $column
-     * @param $ui
+     * @param array   $column
+     * @param TableUi $ui
      * @return mixed|null|string
      */
-    protected function guessHeading($column, $ui)
+    protected function guessHeading(array $column, TableUi $ui)
     {
         $heading = evaluate_key($column, 'heading', evaluate_key($column, 'field', null), [$ui]);
 

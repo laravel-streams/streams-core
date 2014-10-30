@@ -42,7 +42,7 @@ class BuildTableColumnsCommand
     /**
      * Get the table UI object.
      *
-     * @return mixed
+     * @return TableUi
      */
     public function getUi()
     {

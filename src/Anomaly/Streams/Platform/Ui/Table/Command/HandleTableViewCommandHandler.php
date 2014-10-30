@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableViewInterface;
 
 /**
@@ -48,6 +49,10 @@ class HandleTableViewCommandHandler
 
         foreach ($ui->getViews() as $order => $view) {
 
+            // Standardize input.
+            $view = $this->standardize($view);
+
+            // If the view is applied then handle it.
             if ($view['slug'] == $appliedView or !$appliedView and $order == 0) {
 
                 $handler = $this->getHandler($view, $ui);
@@ -61,13 +66,35 @@ class HandleTableViewCommandHandler
     }
 
     /**
-     * Get the handler.
+     * Standardize minimum input to the proper data
+     * structure we actually expect.
      *
      * @param $view
-     * @param $ui
+     * @return array
+     */
+    protected function standardize($view)
+    {
+        // If the view is a string set as type / slug.
+        if (is_string($view)) {
+
+            $view = [
+                'type' => $view,
+                'slug' => $view,
+            ];
+
+        }
+
+        return $view;
+    }
+
+    /**
+     * Get the handler.
+     *
+     * @param array   $view
+     * @param TableUi $ui
      * @return mixed
      */
-    protected function getHandler($view, $ui)
+    protected function getHandler(array $view, TableUi $ui)
     {
         if (is_string($view['handler'])) {
 
@@ -81,13 +108,13 @@ class HandleTableViewCommandHandler
     /**
      * Run the query handler.
      *
-     * @param $view
-     * @param $handler
-     * @param $query
+     * @param array $view
+     * @param       $handler
+     * @param       $query
      * @return mixed
      * @throws \Exception
      */
-    protected function runHandler($view, $handler, $query)
+    protected function runHandler(array $view, $handler, $query)
     {
         if ($handler instanceof \Closure) {
 

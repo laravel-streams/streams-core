@@ -83,8 +83,8 @@ class BuildTableViewsCommandHandler
     /**
      * Get the translated view title.
      *
-     * @param array                                      $view
-     * @param \Anomaly\Streams\Platform\Ui\Table\TableUi $ui
+     * @param array   $view
+     * @param TableUi $ui
      * @return string
      */
     protected function getTitle(array $view, TableUi $ui)

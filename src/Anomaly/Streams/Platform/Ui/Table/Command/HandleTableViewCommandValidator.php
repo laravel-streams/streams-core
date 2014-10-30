@@ -33,14 +33,14 @@ class HandleTableViewCommandValidator
     /**
      * Require the view slug.
      *
-     * @param array $view
+     * @param $view
      * @throws \Exception
      */
-    protected function validateSlug(array $view)
+    protected function validateSlug($view)
     {
-        if (!isset($view['slug'])) {
+        if (!is_string($view) and !isset($view['slug'])) {
 
-            throw new \Exception("Table views required the slug parameter.");
+            throw new \Exception("Custom table views require the slug parameter.");
 
         }
     }
@@ -51,17 +51,24 @@ class HandleTableViewCommandValidator
      * The handler must also either be a closure
      * or an instance of the required interface.
      *
-     * @param array $view
+     * @param $view
      * @throws \Exception
      */
-    protected function validateHandler(array $view)
+    protected function validateHandler($view)
     {
         $instance = 'Anomaly\Streams\Platform\Ui\Table\Contract\TableViewInterface';
+
+        // If this is a string it's a view type.
+        if (is_string($view)) {
+
+            return;
+
+        }
 
         // The handler must be set.
         if (!isset($view['handler'])) {
 
-            throw new \Exception("Table views required the handler parameter.");
+            throw new \Exception("Custom table views require the handler parameter.");
 
         }
 

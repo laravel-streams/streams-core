@@ -38,9 +38,9 @@ class HandleTableActionCommandValidator
      */
     protected function validateSlug(array $action)
     {
-        if (!isset($action['slug'])) {
+        if (!is_string($action) and !isset($action['slug'])) {
 
-            throw new \Exception("Table actions required the slug parameter.");
+            throw new \Exception("Custom table actions require the slug parameter.");
 
         }
     }
@@ -58,10 +58,17 @@ class HandleTableActionCommandValidator
     {
         $instance = 'Anomaly\Streams\Platform\Ui\Table\Contract\TableActionInterface';
 
+        // If this is a string it's an action type.
+        if (is_string($action)) {
+
+            return;
+
+        }
+
         // The handler must be set.
         if (!isset($action['handler'])) {
 
-            throw new \Exception("Table actions required the handler parameter.");
+            throw new \Exception("Custom table actions require the handler parameter.");
 
         }
 
@@ -80,7 +87,11 @@ class HandleTableActionCommandValidator
         }
 
         // If it is a class and exists it must implement the interface.
-        if (is_string($action['handler']) and !class_implements($action['handler'], $instance)) {
+        if (is_string($action['handler']) and !class_implements(
+                $action['handler'],
+                $instance
+            )
+        ) {
 
             throw new \Exception("Table action class handler [{$action['handler']}] must implement TableActionInterface.");
 

@@ -61,8 +61,7 @@ class BuildTableFiltersCommandHandler
             $this->utility->evaluate($filter, [$ui]);
 
             // Build out required data.
-            $slug  = $this->getSlug($filter, $ui);
-            $input = $this->getInput($filter, $slug, $ui);
+            $input = $this->getInput($filter, $ui);
 
             $filter = compact('input');
 
@@ -115,26 +114,21 @@ class BuildTableFiltersCommandHandler
      * Get the input HTML.
      *
      * @param array   $filter
-     * @param         $slug
      * @param TableUi $ui
      * @return mixed|null
      */
-    protected function getInput(array $filter, $slug, TableUi $ui)
+    protected function getInput(array $filter, TableUi $ui)
     {
         $type = evaluate_key($filter, 'type', 'text', [$ui]);
 
         switch ($type) {
 
-            /**
-             * Build a generic select filter input.
-             */
+            // Build a generic select filter input.
             case 'select':
                 return $this->getSelectInput($filter, $ui);
                 break;
 
-            /**
-             * Build a generic type style filter input.
-             */
+            // Build a generic type style filter input.
             case 'url':
             case 'text':
             case 'email':
@@ -142,16 +136,11 @@ class BuildTableFiltersCommandHandler
                 return $this->getTextInput($filter, $type, $ui);
                 break;
 
-            /**
-             * Build a field type filter input.
-             */
+            // Build a field type filter input.
             case 'field':
                 return $this->getInputFromField($filter, $ui);
                 break;
 
-            /**
-             * Don't do shit by default.
-             */
             default:
                 return null;
                 break;
@@ -162,7 +151,6 @@ class BuildTableFiltersCommandHandler
      * Get HTML for a select input.
      *
      * @param array   $filter
-     * @param         $slug
      * @param TableUi $ui
      * @return mixed
      */
@@ -186,8 +174,7 @@ class BuildTableFiltersCommandHandler
      * Get the HTML for a text input.
      *
      * @param array   $filter
-     * @param         $type
-     * @param         $slug
+     * @param string  $type
      * @param TableUi $ui
      * @return mixed
      */
@@ -223,7 +210,7 @@ class BuildTableFiltersCommandHandler
 
         if ($assignment instanceof AssignmentModel) {
 
-            return $this->getFieldInputFromAssignment($assignment, $filter, $ui);
+            return $this->getFieldInputFromAssignment($filter, $ui, $assignment);
 
         }
 
@@ -233,12 +220,12 @@ class BuildTableFiltersCommandHandler
     /**
      * Get the field input from an assignment.
      *
-     * @param AssignmentModel $assignment
      * @param array           $filter
      * @param TableUi         $ui
+     * @param AssignmentModel $assignment
      * @return null
      */
-    protected function getFieldInputFromAssignment(AssignmentModel $assignment, array $filter, TableUi $ui)
+    protected function getFieldInputFromAssignment(array $filter, TableUi $ui, AssignmentModel $assignment)
     {
         $fieldType = $assignment->type();
 

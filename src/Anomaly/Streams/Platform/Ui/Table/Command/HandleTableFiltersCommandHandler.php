@@ -46,8 +46,6 @@ class HandleTableFiltersCommandHandler
 
         $filters = $ui->getFilters();
 
-        $prefix = $ui->getPrefix() . 'filter_';
-
         /**
          * Loop through all the filters and look
          * for input with value according to each
@@ -55,7 +53,10 @@ class HandleTableFiltersCommandHandler
          */
         foreach ($filters as $filter) {
 
-            $slug = $this->getFilterSlug($filter, $prefix, $ui);
+            // Standardize the input.
+            $filter = $this->standardize($filter);
+
+            $slug = $this->getSlug($filter, $ui);
 
             /**
              * IF there is a value to work with
@@ -74,45 +75,65 @@ class HandleTableFiltersCommandHandler
     }
 
     /**
+     * Standardize minimum input to the proper data
+     * structure we actually expect.
+     *
+     * @param $filter
+     */
+    protected function standardize($filter)
+    {
+        /**
+         * If the filter is a string then
+         * default to a field type with the
+         * string being the field slug.
+         */
+        if (is_string($filter)) {
+
+            $filter = [
+                'type'  => 'field',
+                'field' => $filter,
+                'slug'  => $filter,
+            ];
+
+        }
+
+        return $filter;
+    }
+
+    /**
      * Get the filter slug.
      *
-     * @param         $filter
-     * @param         $prefix
+     * @param array   $filter
      * @param TableUi $ui
      * @return string
      * @throws \Exception
      */
-    protected function getFilterSlug($filter, $prefix, TableUi $ui)
+    protected function getSlug(array $filter, TableUi $ui)
     {
-        if (is_string($filter)) {
+        return $this->getPrefix($ui) . $filter['slug'];
+    }
 
-            $stream = $ui->getModel();
-
-            $assignment = $stream->getAssignmentFromField($filter);
-
-            if (!$field = $assignment->field) {
-
-                throw new \Exception("Filter field [{$filter}] does not exist.");
-
-            }
-
-            return $prefix . $field->slug;
-
-        }
-
-        return $prefix . $filter['slug'];
+    /**
+     * Get the prefix.
+     *
+     * @param TableUi $ui
+     * @return string
+     */
+    protected function getPrefix(TableUi $ui)
+    {
+        return $ui->getPrefix() . 'filter_';
     }
 
     /**
      * Get the filter handler.
      *
-     * @param $filter
-     * @param $ui
+     * @param array   $filter
+     * @param TableUi $ui
      * @return \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeFilter|mixed|null
      */
-    protected function getHandler($filter, $ui)
+    protected function getHandler(array $filter, TableUi $ui)
     {
-        if (is_string($filter)) {
+        if ($filter['type'] == 'filter') {
 
             return $this->getHandlerFromField($filter, $ui);
 
@@ -130,15 +151,15 @@ class HandleTableFiltersCommandHandler
     /**
      * Get the handler object from a field slug.
      *
-     * @param $filter
-     * @param $ui
+     * @param array   $filter
+     * @param TableUi $ui
      * @return \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeFilter|null
      */
-    protected function getHandlerFromField($filter, $ui)
+    protected function getHandlerFromField(array $filter, TableUi $ui)
     {
         $stream = $ui->getModel();
 
-        $type = $stream->getTypeFromField($filter);
+        $type = $stream->getTypeFromField($filter['field']);
 
         if ($type instanceof FieldTypeAddon) {
 

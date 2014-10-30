@@ -98,11 +98,11 @@ class BuildTableColumnsCommandHandler
     /**
      * Get the value.
      *
-     * @param                $column
+     * @param array          $column
      * @param EntryInterface $entry
      * @return string
      */
-    protected function getValue($column, EntryInterface $entry)
+    protected function getValue(array $column, EntryInterface $entry)
     {
         $value = null;
 
@@ -142,7 +142,7 @@ class BuildTableColumnsCommandHandler
      * If nothing is found then pass back the value
      * as it was passed in originally.
      *
-     * @param                $value
+     * @param mixed          $value
      * @param EntryInterface $entry
      * @return mixed
      */
@@ -167,7 +167,7 @@ class BuildTableColumnsCommandHandler
     /**
      * Parse the value into any decorating standards.
      *
-     * @param       $value
+     * @param mixed $value
      * @param array $parts
      * @return mixed
      */
@@ -190,11 +190,11 @@ class BuildTableColumnsCommandHandler
      * Recur into a value object to extract the dot
      * notated value that has been exploded into parts.
      *
-     * @param $value
-     * @param $parts
+     * @param mixed $value
+     * @param array $parts
      * @return mixed
      */
-    protected function parseDotNotation($value, $parts)
+    protected function parseDotNotation($value, array $parts)
     {
         foreach (array_slice($parts, 1) as $part) {
 

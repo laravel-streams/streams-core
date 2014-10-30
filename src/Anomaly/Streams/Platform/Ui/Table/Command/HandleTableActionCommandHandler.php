@@ -20,7 +20,7 @@ class HandleTableActionCommandHandler
     /**
      * The HTTP request class.
      *
-     * @var
+     * @var \Illuminate\Http\Request
      */
     protected $request;
 
@@ -66,8 +66,8 @@ class HandleTableActionCommandHandler
     /**
      * Get the handler.
      *
-     * @param array                                      $action
-     * @param \Anomaly\Streams\Platform\Ui\Table\TableUi $ui
+     * @param array   $action
+     * @param TableUi $ui
      * @return mixed
      */
     protected function getHandler(array $action, TableUi $ui)

@@ -68,7 +68,7 @@ class HandleTableFiltersCommandValidator
         // Otherwise the handler is required.
         if (!isset($filter['handler'])) {
 
-            throw new \Exception("Table views required the handler parameter.");
+            throw new \Exception("Table views require the handler parameter.");
 
         }
 

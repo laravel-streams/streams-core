@@ -80,10 +80,10 @@ class BuildTableActionsCommandHandler
             $action = array_merge($defaults, $action);
 
             // Build out our required data.
+            $name       = $this->getName($ui);
             $title      = $this->getTitle($action);
             $class      = $this->getClass($action);
             $value      = $this->getSlug($action, $ui);
-            $name       = $this->getName($action, $ui);
             $attributes = $this->getAttributes($action);
 
             $action = compact('title', 'class', 'value', 'name', 'attributes');
@@ -189,11 +189,10 @@ class BuildTableActionsCommandHandler
     /**
      * Get the name of the submit input.
      *
-     * @param array   $action
      * @param TableUi $ui
      * @return string
      */
-    protected function getName(array $action, TableUi $ui)
+    protected function getName(TableUi $ui)
     {
         return $ui->getPrefix() . 'action';
     }
