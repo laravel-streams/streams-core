@@ -61,9 +61,14 @@ class FormRepository implements FormRepositoryInterface
         return $entry;
     }
 
+    /**
+     * Store the form changes.
+     *
+     * @return bool
+     */
     public function store()
     {
-        //
+        return true;
     }
 
 }

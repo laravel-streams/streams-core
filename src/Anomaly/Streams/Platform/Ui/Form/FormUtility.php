@@ -60,17 +60,22 @@ class FormUtility extends Utility
         ],
     ];
 
+    /**
+     * Default section configurations.
+     *
+     * @var array
+     */
     protected $sections = [
         'default' => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Form\Section\DefaultFormSection',
         ],
-        'tabbed' => [
+        'tabbed'  => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Form\Section\TabbedFormSection',
         ],
     ];
 
     /**
-     * Get redirect default for a given type.
+     * Get redirect defaults for a given type.
      *
      * @param $type
      * @return null
@@ -87,7 +92,7 @@ class FormUtility extends Utility
     }
 
     /**
-     * Get action default for a given type.
+     * Get action defaults for a given type.
      *
      * @param $type
      * @return null
@@ -105,6 +110,12 @@ class FormUtility extends Utility
         return null;
     }
 
+    /**
+     * Get section defaults for a given type.
+     *
+     * @param $type
+     * @return null
+     */
     public function getSectionDefaults($type)
     {
         if (isset($this->sections[$type]) and $defaults = $this->sections[$type]) {
@@ -155,6 +166,10 @@ class FormUtility extends Utility
             case 'delete':
                 $segments = explode('/', $this->request->path());
                 return url(implode('/', array_slice($segments, 0, count($segments) - 2)) . '/delete/{id}');
+                break;
+
+            default:
+                return null;
                 break;
 
         }
