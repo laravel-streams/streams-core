@@ -14,7 +14,7 @@ class ExtensionCollection extends AddonCollection
 
         if ($extension != '*') {
 
-            list($extensionType, $extensionSlug) = explode('.', $extension);
+            list($extensionSlug, $extensionType) = explode('.', $extension);
 
         } else {
             $extensionType = '*';
@@ -23,7 +23,9 @@ class ExtensionCollection extends AddonCollection
 
         foreach ($this->items as $item) {
 
-            list($itemAddonSlug, $itemAddonType, $itemExtensionSlug, $itemExtensionType) = explode('_', $item->slug);
+            $slug = $item->getSlug();
+
+            list($itemAddonSlug, $itemAddonType, $itemExtensionSlug, $itemExtensionType) = explode('_', $slug);
 
             if ($addonType == $itemAddonType and $addonSlug == $itemAddonSlug) {
 
