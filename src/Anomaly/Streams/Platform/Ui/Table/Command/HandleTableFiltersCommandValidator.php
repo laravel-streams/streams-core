@@ -14,9 +14,9 @@ class HandleTableFiltersCommandValidator
     /**
      * Validate the command.
      *
-     * @param HandleTableFiltersCommand $command
+     * @param $command
      */
-    public function validate(HandleTableFiltersCommand $command)
+    public function validate($command)
     {
         $ui = $command->getUi();
 

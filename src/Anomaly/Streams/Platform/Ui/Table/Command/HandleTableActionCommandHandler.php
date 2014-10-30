@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Illuminate\Http\Request;
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableActionInterface;
 
 /**
@@ -37,10 +36,10 @@ class HandleTableActionCommandHandler
     /**
      * Handle the command.
      *
-     * @param HandleTableActionCommand $command
-     * @return null
+     * @param $command
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|null
      */
-    public function handle(HandleTableActionCommand $command)
+    public function handle($command)
     {
         $response = null;
 
@@ -66,11 +65,11 @@ class HandleTableActionCommandHandler
     /**
      * Get the handler.
      *
-     * @param array                                      $action
-     * @param \Anomaly\Streams\Platform\Ui\Table\TableUi $ui
+     * @param $action
+     * @param $ui
      * @return mixed
      */
-    protected function getHandler(array $action, TableUi $ui)
+    protected function getHandler($action, $ui)
     {
         if (is_string($action['handler'])) {
 
@@ -84,9 +83,9 @@ class HandleTableActionCommandHandler
     /**
      * Handle the action.
      *
-     * @param TableUi $ui
+     * @param $ui
      */
-    protected function handleAction(TableUi $ui)
+    protected function handleAction($ui)
     {
         foreach ($ui->getActions() as $action) {
 

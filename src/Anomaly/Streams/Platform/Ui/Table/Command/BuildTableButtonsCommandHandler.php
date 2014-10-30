@@ -48,10 +48,10 @@ class BuildTableButtonsCommandHandler
     /**
      * Handle the command.
      *
-     * @param BuildTableButtonsCommand $command
+     * @param $command
      * @return array
      */
-    public function handle(BuildTableButtonsCommand $command)
+    public function handle($command)
     {
         $ui    = $command->getUi();
         $entry = $command->getEntry();
@@ -183,10 +183,10 @@ class BuildTableButtonsCommandHandler
     /**
      * Get the items for a dropdown.
      *
-     * @param array $dropdown
+     * @param $dropdown
      * @return array
      */
-    protected function getDropdownItems(array $dropdown)
+    protected function getDropdownItems($dropdown)
     {
         $items = [];
 

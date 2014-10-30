@@ -19,10 +19,10 @@ class BuildTableRowsCommandHandler
     /**
      * Handle the command.
      *
-     * @param BuildTableRowsCommand $command
+     * @param $command
      * @return array
      */
-    public function handle(BuildTableRowsCommand $command)
+    public function handle($command)
     {
         $rows = [];
 

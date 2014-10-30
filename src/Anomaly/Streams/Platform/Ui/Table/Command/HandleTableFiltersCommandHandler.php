@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Illuminate\Http\Request;
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableFilterInterface;
 
 /**
@@ -36,17 +34,16 @@ class HandleTableFiltersCommandHandler
     /**
      * Handle the command.
      *
-     * @param HandleTableFiltersCommand $command
+     * @param $command
      * @return mixed
      */
-    public function handle(HandleTableFiltersCommand $command)
+    public function handle($command)
     {
         $ui    = $command->getUi();
         $query = $command->getQuery();
 
         $filters = $ui->getFilters();
-
-        $prefix = $ui->getPrefix() . 'filter_';
+        $prefix  = $this->getPrefix($ui);
 
         /**
          * Loop through all the filters and look
@@ -55,7 +52,9 @@ class HandleTableFiltersCommandHandler
          */
         foreach ($filters as $filter) {
 
-            $slug = $this->getFilterSlug($filter, $prefix, $ui);
+            $filter = $this->standardize($filter);
+
+            $slug = $prefix . $this->getSlug($filter, $ui);
 
             /**
              * IF there is a value to work with
@@ -74,17 +73,51 @@ class HandleTableFiltersCommandHandler
     }
 
     /**
-     * Get the filter slug.
+     * Get the prefix.
      *
-     * @param         $filter
-     * @param         $prefix
-     * @param TableUi $ui
+     * @param $ui
      * @return string
+     */
+    protected function getPrefix($ui)
+    {
+        return $ui->getPrefix() . 'filter_';
+    }
+
+    /**
+     * Standardize minimum input to the proper data
+     * structure we actually expect.
+     *
+     * @param $filter
+     */
+    protected function standardize($filter)
+    {
+        /**
+         * If the filter is a string it
+         * is a field slug.
+         */
+        if (is_string($filter)) {
+
+            $filter = [
+                'type' => 'field',
+                'slug' => 'field',
+            ];
+
+        }
+
+        return $filter;
+    }
+
+    /**
+     * Get the slug.
+     *
+     * @param $filter
+     * @param $ui
+     * @return mixed
      * @throws \Exception
      */
-    protected function getFilterSlug($filter, $prefix, TableUi $ui)
+    protected function getSlug($filter, $ui)
     {
-        if (is_string($filter)) {
+        if ($filter['type'] == 'field') {
 
             $stream = $ui->getModel();
 
@@ -96,11 +129,11 @@ class HandleTableFiltersCommandHandler
 
             }
 
-            return $prefix . $field->slug;
+            return $field->slug;
 
         }
 
-        return $prefix . $filter['slug'];
+        return $filter['slug'];
     }
 
     /**
@@ -108,11 +141,11 @@ class HandleTableFiltersCommandHandler
      *
      * @param $filter
      * @param $ui
-     * @return \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeFilter|mixed|null
+     * @return \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeFilter|null
      */
     protected function getHandler($filter, $ui)
     {
-        if (is_string($filter)) {
+        if ($filter['type'] == 'field') {
 
             return $this->getHandlerFromField($filter, $ui);
 
@@ -140,7 +173,7 @@ class HandleTableFiltersCommandHandler
 
         $type = $stream->getTypeFromField($filter);
 
-        if ($type instanceof FieldTypeAddon) {
+        if ($type) {
 
             return $type->toFilter();
 

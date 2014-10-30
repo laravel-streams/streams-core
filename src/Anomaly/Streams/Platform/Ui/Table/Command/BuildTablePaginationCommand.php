@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
-
 /**
  * Class BuildTablePaginationCommand
  *
@@ -18,16 +16,16 @@ class BuildTablePaginationCommand
     /**
      * The table UI object.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TableUi
+     * @var
      */
     protected $ui;
 
     /**
      * Create a new BuildTablePaginationCommand instance.
      *
-     * @param TableUi $ui
+     * @param $ui
      */
-    function __construct(TableUi $ui)
+    function __construct($ui)
     {
         $this->ui = $ui;
     }
@@ -35,7 +33,7 @@ class BuildTablePaginationCommand
     /**
      * Get the table UI object.
      *
-     * @return TableUi
+     * @return mixed
      */
     public function getUi()
     {

@@ -14,9 +14,9 @@ class HandleTableViewCommandValidator
     /**
      * Validate the command.
      *
-     * @param HandleTableViewCommand $command
+     * @param $command
      */
-    public function validate(HandleTableViewCommand $command)
+    public function validate($command)
     {
         $ui = $command->getUi();
 
@@ -33,10 +33,10 @@ class HandleTableViewCommandValidator
     /**
      * Require the view slug.
      *
-     * @param array $view
+     * @param $view
      * @throws \Exception
      */
-    protected function validateSlug(array $view)
+    protected function validateSlug($view)
     {
         if (!isset($view['slug'])) {
 
@@ -51,10 +51,10 @@ class HandleTableViewCommandValidator
      * The handler must also either be a closure
      * or an instance of the required interface.
      *
-     * @param array $view
+     * @param $view
      * @throws \Exception
      */
-    protected function validateHandler(array $view)
+    protected function validateHandler($view)
     {
         $instance = 'Anomaly\Streams\Platform\Ui\Table\Contract\TableViewInterface';
 

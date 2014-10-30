@@ -14,9 +14,9 @@ class HandleTableActionCommandValidator
     /**
      * Validate the command.
      *
-     * @param HandleTableActionCommand $command
+     * @param $command
      */
-    public function validate(HandleTableActionCommand $command)
+    public function validate($command)
     {
         $ui = $command->getUi();
 
@@ -36,7 +36,7 @@ class HandleTableActionCommandValidator
      * @param array $action
      * @throws \Exception
      */
-    protected function validateSlug(array $action)
+    protected function validateSlug($action)
     {
         if (!isset($action['slug'])) {
 
@@ -51,10 +51,10 @@ class HandleTableActionCommandValidator
      * The handler must also either be a closure
      * or an instance of the required interface.
      *
-     * @param array $action
+     * @param $action
      * @throws \Exception
      */
-    protected function validateHandler(array $action)
+    protected function validateHandler($action)
     {
         $instance = 'Anomaly\Streams\Platform\Ui\Table\Contract\TableActionInterface';
 

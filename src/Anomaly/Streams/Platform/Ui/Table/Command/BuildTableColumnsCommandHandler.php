@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Support\Presenter;
-use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 use Anomaly\Streams\Platform\Assignment\AssignmentService;
 
@@ -45,10 +44,10 @@ class BuildTableColumnsCommandHandler
     /**
      * Handle the command.
      *
-     * @param BuildTableColumnsCommand $command
+     * @param $command
      * @return array
      */
-    public function handle(BuildTableColumnsCommand $command)
+    public function handle($command)
     {
         $ui    = $command->getUi();
         $entry = $command->getEntry();
@@ -79,6 +78,7 @@ class BuildTableColumnsCommandHandler
      * structure we actually expect.
      *
      * @param $column
+     * @return array
      */
     protected function standardize($column)
     {
@@ -98,11 +98,11 @@ class BuildTableColumnsCommandHandler
     /**
      * Get the value.
      *
-     * @param                $column
-     * @param EntryInterface $entry
+     * @param $column
+     * @param $entry
      * @return string
      */
-    protected function getValue($column, EntryInterface $entry)
+    protected function getValue($column, $entry)
     {
         $value = null;
 
@@ -142,11 +142,11 @@ class BuildTableColumnsCommandHandler
      * If nothing is found then pass back the value
      * as it was passed in originally.
      *
-     * @param                $value
-     * @param EntryInterface $entry
+     * @param $value
+     * @param $entry
      * @return mixed
      */
-    protected function getValueFromEntry($value, EntryInterface $entry)
+    protected function getValueFromEntry($value, $entry)
     {
         $parts = explode('.', $value);
 
@@ -167,17 +167,17 @@ class BuildTableColumnsCommandHandler
     /**
      * Parse the value into any decorating standards.
      *
-     * @param       $value
-     * @param array $parts
+     * @param $value
+     * @param $parts
      * @return mixed
      */
-    protected function parseValue($value, array $parts)
+    protected function parseValue($value, $parts)
     {
         /**
          * If the value is dot notated then try and parse
-         * the values inward on the entry / presenter.
+         * the values inward on the entry.
          */
-        if (count($parts) > 1 and $value instanceof Presenter) {
+        if (count($parts) > 1 and $value) {
 
             $value = $this->parseDotNotation($value, $parts);
 

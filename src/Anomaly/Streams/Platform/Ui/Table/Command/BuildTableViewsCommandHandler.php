@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 
 /**
@@ -34,10 +33,10 @@ class BuildTableViewsCommandHandler
     /**
      * Handle the command.
      *
-     * @param BuildTableViewsCommand $command
+     * @param $command
      * @return array
      */
-    public function handle(BuildTableViewsCommand $command)
+    public function handle($command)
     {
         $views = [];
 
@@ -71,11 +70,11 @@ class BuildTableViewsCommandHandler
     /**
      * Get the view URL.
      *
-     * @param array   $view
-     * @param TableUi $ui
+     * @param $view
+     * @param $ui
      * @return string
      */
-    protected function getUrl(array $view, TableUi $ui)
+    protected function getUrl($view, $ui)
     {
         return url(app('request')->path()) . '?' . $ui->getPrefix() . 'view=' . $view['slug'];
     }
@@ -83,11 +82,11 @@ class BuildTableViewsCommandHandler
     /**
      * Get the translated view title.
      *
-     * @param array                                      $view
-     * @param \Anomaly\Streams\Platform\Ui\Table\TableUi $ui
+     * @param $view
+     * @param $ui
      * @return string
      */
-    protected function getTitle(array $view, TableUi $ui)
+    protected function getTitle($view, $ui)
     {
         return trans(evaluate_key($view, 'title', 'misc.all', [$ui]));
     }
@@ -95,12 +94,11 @@ class BuildTableViewsCommandHandler
     /**
      * Get the view class.
      *
-     * @param array   $view
-     * @param         $order
-     * @param TableUi $ui
-     * @return mixed|null|string
+     * @param $view
+     * @param $ui
+     * @return mixed|null
      */
-    protected function getClass(array $view, TableUi $ui)
+    protected function getClass($view, $ui)
     {
         $class = evaluate_key($view, 'class', '', [$ui]);
 
@@ -110,12 +108,12 @@ class BuildTableViewsCommandHandler
     /**
      * Get active flag.
      *
-     * @param array   $view
-     * @param         $order
-     * @param TableUi $ui
-     * @return string
+     * @param $view
+     * @param $order
+     * @param $ui
+     * @return bool|null
      */
-    protected function getActive(array $view, $order, TableUi $ui)
+    protected function getActive($view, $order, $ui)
     {
         $input = app('request');
 

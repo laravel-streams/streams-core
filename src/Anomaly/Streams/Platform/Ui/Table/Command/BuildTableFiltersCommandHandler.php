@@ -1,9 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 
 /**
  * Class BuildTableFiltersCommandHandler
@@ -36,10 +33,10 @@ class BuildTableFiltersCommandHandler
     /**
      * Handle the command.
      *
-     * @param BuildTableFiltersCommand $command
+     * @param $command
      * @return array
      */
-    public function handle(BuildTableFiltersCommand $command)
+    public function handle($command)
     {
         $ui = $command->getUi();
 
@@ -61,8 +58,7 @@ class BuildTableFiltersCommandHandler
             $this->utility->evaluate($filter, [$ui]);
 
             // Build out required data.
-            $slug  = $this->getSlug($filter, $ui);
-            $input = $this->getInput($filter, $slug, $ui);
+            $input = $this->getInput($filter, $ui);
 
             $filter = compact('input');
 
@@ -78,6 +74,7 @@ class BuildTableFiltersCommandHandler
      * structure we actually expect.
      *
      * @param $filter
+     * @return array
      */
     protected function standardize($filter)
     {
@@ -100,26 +97,13 @@ class BuildTableFiltersCommandHandler
     }
 
     /**
-     * Get the slug.
-     *
-     * @param array   $filter
-     * @param TableUi $ui
-     * @return string
-     */
-    protected function getSlug(array $filter, TableUi $ui)
-    {
-        return $ui->getPrefix() . $filter['slug'];
-    }
-
-    /**
      * Get the input HTML.
      *
-     * @param array   $filter
-     * @param         $slug
-     * @param TableUi $ui
+     * @param $filter
+     * @param $ui
      * @return mixed|null
      */
-    protected function getInput(array $filter, $slug, TableUi $ui)
+    protected function getInput($filter, $ui)
     {
         $type = evaluate_key($filter, 'type', 'text', [$ui]);
 
@@ -161,12 +145,11 @@ class BuildTableFiltersCommandHandler
     /**
      * Get HTML for a select input.
      *
-     * @param array   $filter
-     * @param         $slug
-     * @param TableUi $ui
+     * @param $filter
+     * @param $ui
      * @return mixed
      */
-    protected function getSelectInput(array $filter, TableUi $ui)
+    protected function getSelectInput($filter, $ui)
     {
         $form = app('form');
 
@@ -185,13 +168,12 @@ class BuildTableFiltersCommandHandler
     /**
      * Get the HTML for a text input.
      *
-     * @param array   $filter
-     * @param         $type
-     * @param         $slug
-     * @param TableUi $ui
+     * @param $filter
+     * @param $type
+     * @param $ui
      * @return mixed
      */
-    protected function getTextInput(array $filter, $type, TableUi $ui)
+    protected function getTextInput($filter, $type, $ui)
     {
         $form = app('form');
 
@@ -211,17 +193,17 @@ class BuildTableFiltersCommandHandler
     /**
      * Get the HTML for a field input.
      *
-     * @param array   $filter
-     * @param TableUi $ui
+     * @param $filter
+     * @param $ui
      * @return null
      */
-    protected function getInputFromField(array $filter, TableUi $ui)
+    protected function getInputFromField($filter, $ui)
     {
         $entryModel = $ui->getModel();
 
         $assignment = $entryModel->findAssignmentByFieldSlug($filter['field']);
 
-        if ($assignment instanceof AssignmentModel) {
+        if ($assignment) {
 
             return $this->getFieldInputFromAssignment($assignment, $filter, $ui);
 
@@ -233,12 +215,12 @@ class BuildTableFiltersCommandHandler
     /**
      * Get the field input from an assignment.
      *
-     * @param AssignmentModel $assignment
-     * @param array           $filter
-     * @param TableUi         $ui
+     * @param $assignment
+     * @param $filter
+     * @param $ui
      * @return null
      */
-    protected function getFieldInputFromAssignment(AssignmentModel $assignment, array $filter, TableUi $ui)
+    protected function getFieldInputFromAssignment($assignment, $filter, $ui)
     {
         $fieldType = $assignment->type();
 
@@ -246,11 +228,13 @@ class BuildTableFiltersCommandHandler
 
         $placeholder = evaluate_key($filter, 'placeholder');
 
-        if ($fieldType instanceof FieldTypeAddon) {
+        if ($fieldType) {
+
+            $value = $this->getValue($filter, $ui);
 
             // Load the field type with some options.
+            $fieldType->setValue($value);
             $fieldType->setPrefix($prefix);
-            $fieldType->setValue($this->getValue($filter, $ui));
             $fieldType->setPlaceholder($placeholder ? : trans($assignment->field->name));
 
             return $fieldType->filter();
@@ -263,11 +247,11 @@ class BuildTableFiltersCommandHandler
     /**
      * Get the filter's value.
      *
-     * @param array   $filter
-     * @param TableUi $ui
+     * @param $filter
+     * @param $ui
      * @return mixed
      */
-    protected function getValue(array $filter, TableUi $ui)
+    protected function getValue($filter, $ui)
     {
         $prefix = $this->getPrefix($ui);
 
@@ -275,12 +259,24 @@ class BuildTableFiltersCommandHandler
     }
 
     /**
-     * Get the prefix.
+     * Get the slug.
      *
-     * @param TableUi $ui
+     * @param $filter
+     * @param $ui
      * @return string
      */
-    protected function getPrefix(TableUi $ui)
+    protected function getSlug($filter, $ui)
+    {
+        return $this->getPrefix($ui) . $filter['slug'];
+    }
+
+    /**
+     * Get the prefix.
+     *
+     * @param $ui
+     * @return string
+     */
+    protected function getPrefix($ui)
     {
         return $ui->getPrefix() . 'filter_';
     }

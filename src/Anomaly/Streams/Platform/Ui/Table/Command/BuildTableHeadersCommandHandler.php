@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
-use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 
 /**
@@ -35,10 +33,10 @@ class BuildTableHeadersCommandHandler
     /**
      * Handle the command.
      *
-     * @param BuildTableHeadersCommand $command
+     * @param $command
      * @return array
      */
-    public function handle(BuildTableHeadersCommand $command)
+    public function handle($command)
     {
         $ui = $command->getUi();
 
@@ -90,11 +88,11 @@ class BuildTableHeadersCommandHandler
      * @param $ui
      * @return null|string
      */
-    protected function getHeading($column, TableUi $ui)
+    protected function getHeading($column, $ui)
     {
         $heading = trans(evaluate_key($column, 'heading', null, [$ui]));
 
-        if (!$heading and $entry = $ui->getModel() and $entry instanceof EntryInterface) {
+        if (!$heading and $entry = $ui->getModel()) {
 
             $heading = $this->getHeadingFromField($column, $entry);
 
@@ -114,9 +112,9 @@ class BuildTableHeadersCommandHandler
      *
      * @param $column
      * @param $entry
-     * @return null
+     * @return null|string
      */
-    protected function getHeadingFromField($column, EntryInterface $entry)
+    protected function getHeadingFromField($column, $entry)
     {
         $parts = explode('.', $column['field']);
 

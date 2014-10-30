@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
-
 /**
  * Class HandleTableActionCommand
  *
@@ -16,16 +14,16 @@ class HandleTableActionCommand
     /**
      * The table UI class.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TableUi
+     * @var
      */
     protected $ui;
 
     /**
      * Create a new HandleTableActionCommand instance.
      *
-     * @param TableUi $ui
+     * @param $ui
      */
-    function __construct(TableUi $ui)
+    function __construct($ui)
     {
         $this->ui = $ui;
     }
@@ -33,7 +31,7 @@ class HandleTableActionCommand
     /**
      * Get the table UI class.
      *
-     * @return TableUi
+     * @return mixed
      */
     public function getUi()
     {

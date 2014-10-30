@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 
 /**
@@ -50,10 +49,10 @@ class BuildTableActionsCommandHandler
     /**
      * Handle the command.
      *
-     * @param BuildTableActionsCommand $command
+     * @param $command
      * @return array
      */
-    public function handle(BuildTableActionsCommand $command)
+    public function handle($command)
     {
         $ui = $command->getUi();
 
@@ -80,10 +79,10 @@ class BuildTableActionsCommandHandler
             $action = array_merge($defaults, $action);
 
             // Build out our required data.
+            $name       = $this->getName($ui);
             $title      = $this->getTitle($action);
             $class      = $this->getClass($action);
             $value      = $this->getSlug($action, $ui);
-            $name       = $this->getName($action, $ui);
             $attributes = $this->getAttributes($action);
 
             $action = compact('title', 'class', 'value', 'name', 'attributes');
@@ -103,6 +102,7 @@ class BuildTableActionsCommandHandler
      * structure we actually expect.
      *
      * @param $action
+     * @return array
      */
     protected function standardize($action)
     {
@@ -123,11 +123,11 @@ class BuildTableActionsCommandHandler
      * Get default configuration if any.
      * Then run everything back through evaluation.
      *
-     * @param array   $action
-     * @param TableUi $ui
+     * @param $action
+     * @param $ui
      * @return array|mixed|null
      */
-    protected function getDefaults(array $action, TableUi $ui)
+    protected function getDefaults($action, $ui)
     {
         $defaults = [];
 
@@ -143,10 +143,10 @@ class BuildTableActionsCommandHandler
     /**
      * Get the translated title.
      *
-     * @param array $action
+     * @param $action
      * @return string
      */
-    protected function getTitle(array $action)
+    protected function getTitle($action)
     {
         return trans(evaluate_key($action, 'title', null));
     }
@@ -154,10 +154,10 @@ class BuildTableActionsCommandHandler
     /**
      * Get the class.
      *
-     * @param array $action
+     * @param $action
      * @return mixed|null
      */
-    protected function getClass(array $action)
+    protected function getClass($action)
     {
         return evaluate_key($action, 'class', 'btn btn-sm btn-default');
     }
@@ -166,10 +166,10 @@ class BuildTableActionsCommandHandler
      * Get the attributes less the keys that are
      * defined as NOT attributes.
      *
-     * @param array $action
+     * @param $action
      * @return array
      */
-    protected function getAttributes(array $action)
+    protected function getAttributes($action)
     {
         return array_diff_key($action, array_flip($this->notAttributes));
     }
@@ -177,11 +177,11 @@ class BuildTableActionsCommandHandler
     /**
      * Get the action slug.
      *
-     * @param array   $action
-     * @param TableUi $ui
+     * @param $action
+     * @param $ui
      * @return string
      */
-    protected function getSlug(array $action, TableUi $ui)
+    protected function getSlug($action, $ui)
     {
         return $ui->getPrefix() . $action['slug'];
     }
@@ -189,11 +189,10 @@ class BuildTableActionsCommandHandler
     /**
      * Get the name of the submit input.
      *
-     * @param array   $action
-     * @param TableUi $ui
+     * @param $ui
      * @return string
      */
-    protected function getName(array $action, TableUi $ui)
+    protected function getName($ui)
     {
         return $ui->getPrefix() . 'action';
     }
