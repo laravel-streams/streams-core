@@ -51,7 +51,7 @@ class BuildFormSectionFieldsCommandHandler
         foreach ($command->getFields() as $field) {
 
             // Standardize the input.
-            $this->standardize($field);
+            $field = $this->standardize($field);
 
             // Evaluate the entire row.
             // All first level closures on are gone now.
@@ -59,7 +59,7 @@ class BuildFormSectionFieldsCommandHandler
 
             if ($entry instanceof EntryInterface) {
 
-                $fields[] = $this->getField($field, $ui, $entry);
+                $fields[] = $this->getField($field, $entry);
 
             }
 
@@ -109,7 +109,7 @@ class BuildFormSectionFieldsCommandHandler
 
             $element = $this->getElement($field, $entry, $assignment);
 
-            return compact($element);
+            return compact('element');
 
         }
 
