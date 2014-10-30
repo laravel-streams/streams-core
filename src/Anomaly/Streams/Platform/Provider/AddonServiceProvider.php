@@ -13,10 +13,10 @@ class AddonServiceProvider extends ServiceProvider
     protected $defer = true;
 
     protected $types = [
-        'distribution',
+        'distribution', // Distributions always first
+        'module', // Modules always second
         'field_type',
         'extension',
-        'module',
         'block',
         'theme',
         'tag',
