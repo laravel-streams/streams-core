@@ -15,7 +15,7 @@ interface TableViewInterface
 {
 
     /**
-     * Handle the view query.
+     * Handle the table view.
      *
      * @param $query
      * @return mixed

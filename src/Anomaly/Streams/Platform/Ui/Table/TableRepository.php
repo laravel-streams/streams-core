@@ -66,7 +66,8 @@ class TableRepository implements TableRepositoryInterface
      */
     public function get()
     {
-        $query = $this->model->newInstance();
+        $model = $this->model->newInstance();
+        $query = $model->newQuery();
 
         /**
          * This hook is used for views / actions
