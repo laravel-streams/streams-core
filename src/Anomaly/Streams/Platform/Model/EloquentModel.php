@@ -158,4 +158,9 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
 
         return $this;
     }
+
+    public function isTranslatable()
+    {
+        return ($this->translatable);
+    }
 }

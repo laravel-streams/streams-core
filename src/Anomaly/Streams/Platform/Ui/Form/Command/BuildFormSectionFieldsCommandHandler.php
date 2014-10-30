@@ -140,7 +140,12 @@ class BuildFormSectionFieldsCommandHandler
         if ($type instanceof FieldTypeAddon) {
 
             // TODO: Testing this out..
-            foreach (['en', 'fr'] as $locale) {
+            if (!$entry->getStream()->is_translatable) {
+                $availableLocales = ['en', 'fr'];
+            } else {
+                $availableLocales = ['en'];
+            }
+            foreach ($availableLocales as $locale) {
 
                 /**
                  * Now that we're here set some options
