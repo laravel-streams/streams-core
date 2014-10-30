@@ -122,7 +122,7 @@ class BuildFormActionsCommandHandler
         if (isset($action['type']) and $defaults = $this->utility->getActionDefaults($action['type'])) {
 
             // Be sure to run the defaults back through evaluate.
-            $defaults = $this->utility->evaluate($defaults, [$ui, $entry], $entry);
+            return $this->utility->evaluate($defaults, [$ui, $entry], $entry);
 
         }
 
