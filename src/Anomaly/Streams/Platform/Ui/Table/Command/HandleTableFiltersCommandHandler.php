@@ -133,7 +133,7 @@ class HandleTableFiltersCommandHandler
      */
     protected function getHandler(array $filter, TableUi $ui)
     {
-        if ($filter['type'] == 'filter') {
+        if ($filter['type'] == 'field') {
 
             return $this->getHandlerFromField($filter, $ui);
 
