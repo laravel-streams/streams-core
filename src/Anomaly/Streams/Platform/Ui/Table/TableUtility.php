@@ -67,7 +67,7 @@ class TableUtility extends Utility
     {
         if (isset($this->buttons[$type]) and $defaults = $this->buttons[$type]) {
 
-            $this->guessUrl($type, $defaults);
+            $defaults['url'] = $this->guessUrl($type);
 
             return $defaults;
 
@@ -88,8 +88,6 @@ class TableUtility extends Utility
     {
         if (isset($this->buttons[$type]) and $defaults = $this->buttons[$type]) {
 
-            //$this->guessAction($type, $defaults);
-
             return $defaults;
 
         }
@@ -102,34 +100,32 @@ class TableUtility extends Utility
      * This of course can be overridden by setting one.
      *
      * @param $type
-     * @param $defaults
      */
-    protected function guessUrl($type, &$defaults)
+    protected function guessUrl($type)
     {
         $path = $this->router->getCurrentRoute()->getPath();
 
         switch ($type) {
 
-            /**
-             * Suggest best practices for view URLs
-             */
+            // Suggest best practices for view URLs
             case 'view':
-                $defaults['url'] = $path .= '/show/{id}';
+                return $path .= '/show/{id}';
                 break;
 
-            /**
-             * Suggest best practices for edit URLs
-             */
+            // Suggest best practices for edit URLs
             case 'edit':
-                $defaults['url'] = $path .= '/edit/{id}';
+                return $path .= '/edit/{id}';
                 break;
 
-            /**
-             * Suggest best practices for delete URLs
-             */
+            // Suggest best practices for delete URLs
             case 'delete':
-                $defaults['url'] = $path .= '/delete/{id}';
+                return $path .= '/delete/{id}';
                 break;
+
+            default:
+                return null;
+                break;
+            
         }
     }
 

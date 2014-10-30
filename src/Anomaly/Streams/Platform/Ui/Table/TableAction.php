@@ -20,7 +20,7 @@ class TableAction implements TableActionInterface
     /**
      * The table UI class.
      *
-     * @var
+     * @var TableUi
      */
     protected $ui;
 
