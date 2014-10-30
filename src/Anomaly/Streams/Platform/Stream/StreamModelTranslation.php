@@ -6,6 +6,13 @@ class StreamModelTranslation extends EloquentModel
 {
 
     /**
+     * Do not use timestamps.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The database table name.
      *
      * @var string

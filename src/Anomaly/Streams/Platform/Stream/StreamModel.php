@@ -7,8 +7,11 @@ use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 
 class StreamModel extends EloquentModel
 {
+
     /**
-     * Use timestamp and meta columns.
+     * Do not use timestamps.
+     *
+     * @var bool
      */
     public $timestamps = false;
 

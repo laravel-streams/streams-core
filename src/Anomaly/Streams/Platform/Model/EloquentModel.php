@@ -30,6 +30,13 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     protected $translatable = false;
 
     /**
+     * Default translatable models to allow fallback.
+     *
+     * @var bool
+     */
+    protected $useTranslationFallback = true;
+
+    /**
      * Translatable attributes.
      *
      * @var array

@@ -6,8 +6,9 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 
 class AssignmentModel extends EloquentModel
 {
+
     /**
-     * Do not use timestamp columns.
+     * Do not use timestamps.
      *
      * @var bool
      */

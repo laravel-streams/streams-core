@@ -4,8 +4,9 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 
 class FieldModel extends EloquentModel
 {
+
     /**
-     * Don't use timestamp / meta columns.
+     * Do not use timestamps.
      *
      * @var bool
      */
