@@ -18,11 +18,6 @@ use Anomaly\Streams\Platform\Entry\EntryInterface;
 class FormUi extends Ui
 {
 
-    /**
-     * The entry, id or null.
-     *
-     * @var null
-     */
     protected $entry = null;
 
     protected $skips = [];
@@ -36,7 +31,7 @@ class FormUi extends Ui
     protected $view = 'html/form';
 
     /**
-     * Make the UI response.
+     * Make the response.
      *
      * @return \Illuminate\View\View
      */
@@ -143,11 +138,6 @@ class FormUi extends Ui
     protected function newRepository()
     {
         return new FormRepository($this, $this->model);
-    }
-
-    protected function newFormRequest()
-    {
-        return new FormRequest($this);
     }
 
     protected function onTrigger()
