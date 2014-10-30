@@ -177,7 +177,7 @@ class FieldTypeAddon extends Addon implements PresentableInterface
 
     public function getFieldName()
     {
-        return "{$this->prefix}{$this->field}{$this->suffix}";
+        return "{$this->getPrefix()}{$this->field}{$this->getSuffix()}";
     }
 
     public function getColumnName()

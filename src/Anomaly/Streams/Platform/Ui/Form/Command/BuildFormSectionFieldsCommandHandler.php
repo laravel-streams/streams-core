@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Ui\Form\FormUi;
 use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
@@ -59,7 +60,7 @@ class BuildFormSectionFieldsCommandHandler
 
             if ($entry instanceof EntryInterface) {
 
-                $fields[] = $this->getField($field, $entry);
+                $fields[] = $this->getField($field, $ui, $entry);
 
             }
 
@@ -94,10 +95,11 @@ class BuildFormSectionFieldsCommandHandler
      * Get field data.
      *
      * @param array          $field
+     * @param FormUi         $ui
      * @param EntryInterface $entry
      * @return array|null
      */
-    protected function getField(array $field, EntryInterface $entry)
+    protected function getField(array $field, FormUi $ui, EntryInterface $entry)
     {
         /**
          * Get the assignment model from the field.
@@ -107,7 +109,7 @@ class BuildFormSectionFieldsCommandHandler
 
         if ($assignment instanceof AssignmentModel) {
 
-            $element = $this->getElement($field, $entry, $assignment);
+            $element = $this->getElement($field, $ui, $entry, $assignment);
 
             return compact('element');
 
@@ -120,11 +122,12 @@ class BuildFormSectionFieldsCommandHandler
      * Get the form element for a field.
      *
      * @param array           $field
+     * @param FormUi          $ui
      * @param EntryInterface  $entry
      * @param AssignmentModel $assignment
      * @return \Illuminate\View\View|null
      */
-    protected function getElement(array $field, EntryInterface $entry, AssignmentModel $assignment)
+    protected function getElement(array $field, FormUi $ui, EntryInterface $entry, AssignmentModel $assignment)
     {
         $element = '';
 
@@ -146,6 +149,7 @@ class BuildFormSectionFieldsCommandHandler
                  */
                 $type->setLocale($locale);
                 $type->setSuffix($locale);
+                $type->setPrefix($ui->getPrefix());
                 $type->setLabel(trans($entry->getFieldLabel($field['field']), [], '', $locale));
                 $type->setPlaceholder(trans($entry->getFieldPlaceholder($field['field']), [], '', $locale));
 
