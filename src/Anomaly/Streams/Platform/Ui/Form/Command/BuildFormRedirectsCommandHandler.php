@@ -71,12 +71,13 @@ class BuildFormRedirectsCommandHandler
             $redirect = array_merge($defaults, $redirect);
 
             // Build out our required data.
+            $name       = $this->getName($ui);
             $value      = $this->getUrl($redirect);
             $title      = $this->getTitle($redirect);
             $class      = $this->getClass($redirect);
             $attributes = $this->getAttributes($redirect);
 
-            $redirect = compact('title', 'class', 'value', 'attributes');
+            $redirect = compact('title', 'class', 'value', 'attributes', 'name');
 
             $redirects[] = $redirect;
 
@@ -126,6 +127,17 @@ class BuildFormRedirectsCommandHandler
         }
 
         return $defaults;
+    }
+
+    /**
+     * Get the name for the redirect button.
+     *
+     * @param FormUi $ui
+     * @return string
+     */
+    protected function getName(FormUi $ui)
+    {
+        return $ui->getPrefix() . 'redirect';
     }
 
     /**
