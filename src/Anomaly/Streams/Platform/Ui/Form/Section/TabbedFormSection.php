@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Section;
 
 use Anomaly\Streams\Platform\Ui\Form\FormSection;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
 
 /**
  * Class TabbedFormSection
@@ -10,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Form\FormSection;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Section
  */
-class TabbedFormSection extends FormSection
+class TabbedFormSection extends FormSection implements FormSectionInterface
 {
 
     /**
