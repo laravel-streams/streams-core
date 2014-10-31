@@ -75,7 +75,7 @@ class HandleTableActionCommandHandler
     {
         if (is_string($action['handler'])) {
 
-            return app()->make($action['handler'], compact('ui'));
+            return app()->make($action['handler'], compact('ui', 'action'));
         }
 
         return $action['handler'];
