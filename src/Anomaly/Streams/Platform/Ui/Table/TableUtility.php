@@ -50,7 +50,10 @@ class TableUtility extends Utility
             'class' => 'btn btn-sm btn-warning',
         ],
         'delete'  => [
-            'title'        => 'button.delete',
+            'title' => 'button.delete',
+            'class' => 'btn btn-sm btn-danger',
+        ],
+        'confirm' => [
             'class'        => 'btn btn-sm btn-danger',
             'data-confirm' => 'confirm.delete',
         ],
