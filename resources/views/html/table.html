@@ -93,7 +93,7 @@
 
                     {{ if actions }}
                     <td>
-                        <input type="checkbox" name="id[]" value="{{ entry.id }}"/>
+                        <input type="checkbox" name="{{ .data.options.prefix }}id[]" value="{{ entry.id }}"/>
                     </td>
                     {{ endif }}
 
