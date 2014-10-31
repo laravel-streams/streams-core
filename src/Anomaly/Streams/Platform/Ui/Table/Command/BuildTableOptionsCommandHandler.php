@@ -21,12 +21,13 @@ class BuildTableOptionsCommandHandler
     {
         $ui = $command->getUi();
 
-        $prefix     = evaluate($ui->getPrefix(), [$ui]);
-        $paginate   = evaluate($ui->getPaginate(), [$ui]);
-        $sortable   = evaluate($ui->getSortable(), [$ui]);
-        $tableClass = evaluate($ui->getTableClass(), [$ui]);
+        $prefix           = evaluate($ui->getPrefix(), [$ui]);
+        $paginate         = evaluate($ui->getPaginate(), [$ui]);
+        $sortable         = evaluate($ui->getSortable(), [$ui]);
+        $tableClass       = evaluate($ui->getTableClass(), [$ui]);
+        $noResultsMessage = trans(evaluate($ui->getNoResultsMessage()));
 
-        return compact('paginate', 'sortable', 'tableClass', 'prefix');
+        return compact('paginate', 'sortable', 'tableClass', 'prefix', 'noResultsMessage');
     }
 }
  

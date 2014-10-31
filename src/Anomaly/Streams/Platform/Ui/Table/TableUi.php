@@ -56,7 +56,7 @@ class TableUi extends Ui
     /**
      * @var string
      */
-    protected $noResultsMessage = 'streams::message.no_results';
+    protected $noResultsMessage = 'error.no_results';
 
     /**
      * @var null
