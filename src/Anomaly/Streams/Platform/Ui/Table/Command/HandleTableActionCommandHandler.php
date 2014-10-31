@@ -52,9 +52,9 @@ class HandleTableActionCommandHandler
          * If there is a submitted action to execute
          * then go ahead and handle it.
          */
-        if ($executing = $this->request->has($flag)) {
+        if ($executing = $this->request->get($flag)) {
 
-            $this->handleAction($ui);
+            $this->handleAction($executing, $ui);
 
             app('streams.messages')->flash();
 
@@ -84,13 +84,14 @@ class HandleTableActionCommandHandler
     /**
      * Handle the action.
      *
+     * @param         $executing
      * @param TableUi $ui
      */
-    protected function handleAction(TableUi $ui)
+    protected function handleAction($executing, TableUi $ui)
     {
         foreach ($ui->getActions() as $action) {
 
-            if ($executing = $action['slug']) {
+            if ($executing == $ui->getPrefix() . $action['slug']) {
 
                 $handler = $this->getHandler($action, $ui);
 
@@ -116,7 +117,7 @@ class HandleTableActionCommandHandler
 
             if ($handler->authorize() !== false) {
 
-                $handler->handle(app('request')->get((array)$ui->getPrefix() . 'id'));
+                $handler->handle((array)app('request')->get($ui->getPrefix() . 'id'));
             }
         }
     }
