@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreatedEvent;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeletedEvent;
 use Anomaly\Streams\Platform\Model\EloquentModelObserver;
 
-class AssignmentModelModelObserver extends EloquentModelObserver
+class AssignmentModelObserver extends EloquentModelObserver
 {
 
     /**

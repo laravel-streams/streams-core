@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\Streams\Platform\Support\Observer;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Anomaly\Streams\Platform\Traits\EventableTrait;
 
@@ -11,10 +12,8 @@ use Anomaly\Streams\Platform\Traits\EventableTrait;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Model
  */
-class EloquentModelObserver
+class EloquentModelObserver extends Observer
 {
-
-    use DispatchableTrait;
 
     /**
      * Run before attempting to save a record.
