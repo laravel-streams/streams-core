@@ -37,23 +37,20 @@ class TableAction implements TableActionInterface
     /**
      * Handle the table action.
      *
-     * @return mixed|void
-     * @throws \Exception
+     * @param array $ids
+     * @return mixed
      */
-    public function handle()
+    public function handle(array $ids)
     {
-        //
     }
 
     /**
      * Authorize the user to process the action.
      *
      * @return mixed|void
-     * @throws \Exception
      */
     public function authorize()
     {
-        //
     }
 }
  
