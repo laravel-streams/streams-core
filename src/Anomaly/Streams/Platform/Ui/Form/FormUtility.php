@@ -89,7 +89,7 @@ class FormUtility extends Utility
             return $defaults;
         }
 
-        return null;
+        return [];
     }
 
     /**
@@ -107,7 +107,7 @@ class FormUtility extends Utility
             return $defaults;
         }
 
-        return null;
+        return [];
     }
 
     /**
@@ -123,7 +123,7 @@ class FormUtility extends Utility
             return $defaults;
         }
 
-        return null;
+        return [];
     }
 
     /**

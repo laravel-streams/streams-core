@@ -105,7 +105,7 @@ class TableUtility extends Utility
             return $defaults;
         }
 
-        return null;
+        return [];
     }
 
 
@@ -123,7 +123,7 @@ class TableUtility extends Utility
             return $defaults;
         }
 
-        return null;
+        return [];
     }
 
     /**
@@ -140,7 +140,7 @@ class TableUtility extends Utility
             return $defaults;
         }
 
-        return null;
+        return [];
     }
 
     /**
