@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Support\Transformer;
 use Anomaly\Streams\Platform\Traits\CallableTrait;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
@@ -42,6 +43,9 @@ class AddonServiceProvider extends ServiceProvider
             // Register the addon class to the container.
             $addon = $this->registerAddonClass($slug, $path);
 
+            // Register the addon service provider.
+            $this->registerServiceProvider($addon);
+
             $this->pushToCollection($addon);
         }
 
@@ -70,6 +74,21 @@ class AddonServiceProvider extends ServiceProvider
         );
 
         return $addon;
+    }
+
+    protected function registerServiceProvider($addon)
+    {
+        $transformer = new Transformer();
+
+        if ($provider = $transformer->toServiceProvider($addon)) {
+
+            $app      = $this->app;
+            $provider = $this->app->make($provider, [$app]);
+
+            $this->app->register($provider);
+
+            $provider->register();
+        }
     }
 
     protected function pushToCollection($addon)
