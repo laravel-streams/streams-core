@@ -94,7 +94,7 @@ class HandleTableActionCommandHandler
 
                 $handler = $this->getHandler($action, $ui);
 
-                $this->runHandler($handler);
+                $this->runHandler($handler, $ui);
             }
         }
     }
@@ -102,9 +102,10 @@ class HandleTableActionCommandHandler
     /**
      * Run the handler.
      *
-     * @param $handler
+     * @param         $handler
+     * @param TableUi $ui
      */
-    protected function runHandler($handler)
+    protected function runHandler($handler, TableUi $ui)
     {
         if ($handler instanceof \Closure) {
 
@@ -115,7 +116,7 @@ class HandleTableActionCommandHandler
 
             if ($handler->authorize() !== false) {
 
-                $handler->handle();
+                $handler->handle(app('request')->get((array)$ui->getPrefix() . 'id'));
             }
         }
     }
