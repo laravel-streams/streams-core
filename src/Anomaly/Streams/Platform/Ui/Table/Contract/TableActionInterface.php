@@ -17,9 +17,10 @@ interface TableActionInterface
     /**
      * Handle the table action.
      *
+     * @param array $ids
      * @return mixed
      */
-    public function handle();
+    public function handle(array $ids);
 
     /**
      * Authorize the user to process the action.
