@@ -25,17 +25,15 @@ class ExtensionCollection extends AddonCollection
 
             $slug = $item->getSlug();
 
-            list($itemAddonSlug, $itemAddonType, $itemExtensionSlug, $itemExtensionType) = explode('_', $slug);
-
-            if ($addonType == $itemAddonType and $addonSlug == $itemAddonSlug) {
+            if (starts_with($slug, "{$addonSlug}_{$addonType}_")) {
 
                 if ($extensionType == '*' and $extensionSlug == '*') {
 
                     $matches[] = $item;
-                } elseif ($extensionSlug == '*' and $extensionType == $itemExtensionType) {
+                } elseif ($extensionSlug == '*' and ends_with($slug, "_{$extensionType}")) {
 
                     $matches[] = $item;
-                } elseif ($extensionSlug == $itemExtensionSlug and $extensionType == $itemExtensionType) {
+                } elseif (ends_with($slug, "_{$addonSlug}_{$addonType}")) {
 
                     $matches[] = $item;
                 }
