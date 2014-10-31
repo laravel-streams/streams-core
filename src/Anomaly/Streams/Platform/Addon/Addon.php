@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Traits\CallableTrait;
-use Illuminate\Foundation\Application;
 
 class Addon
 {
@@ -14,23 +13,13 @@ class Addon
 
     protected $slug;
 
-    protected $app;
-
-    function __construct(Application $app)
-    {
-        $this->app = $app;
-
-        $class = get_class($this);
-        $parts = explode("\\", $class);
-
-        $this->slug = snake_case($parts[count($parts) - 2]);
-        $this->type = snake_case($parts[count($parts) - 3]);
-
-        $this->path = dirname(dirname((new \ReflectionClass($this))->getFileName()));
-    }
-
     public function getPath($path = null)
     {
+        if (!$this->path) {
+
+            $this->path = dirname(dirname((new \ReflectionClass($this))->getFileName()));
+        }
+
         return $this->path . ($path ? '/' . ltrim($path, '/') : null);
     }
 
@@ -41,11 +30,27 @@ class Addon
 
     public function getSlug()
     {
+        if (!$this->slug) {
+
+            $class = get_class($this);
+            $parts = explode("\\", $class);
+
+            $this->slug = snake_case($parts[count($parts) - 2]);
+        }
+
         return $this->slug;
     }
 
     public function getType()
     {
+        if (!$this->type) {
+
+            $class = get_class($this);
+            $parts = explode("\\", $class);
+
+            $this->type = snake_case($parts[count($parts) - 3]);
+        }
+
         return $this->type;
     }
 
