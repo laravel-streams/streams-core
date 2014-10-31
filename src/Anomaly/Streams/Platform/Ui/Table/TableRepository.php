@@ -67,7 +67,9 @@ class TableRepository implements TableRepositoryInterface
     public function get()
     {
         $model = $this->model->newInstance();
-        $query = $model->newQuery();
+
+        // Prevent joins from overriding values.
+        $query = $model->select($model->getTable() . '.*');
 
         /**
          * This hook is used for views / actions
