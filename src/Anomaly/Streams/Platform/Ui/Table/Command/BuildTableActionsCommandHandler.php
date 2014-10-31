@@ -74,6 +74,12 @@ class BuildTableActionsCommandHandler
             // All closures are gone now.
             $action = $this->utility->evaluate($action, [$ui]);
 
+            // If not enabled then skip it.
+            if (!evaluate_key($action, 'enabled', true)) {
+
+                continue;
+            }
+
             // Get our defaults and merge them in.
             $defaults = $this->getDefaults($action, $ui);
 

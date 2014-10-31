@@ -61,6 +61,12 @@ class BuildTableFiltersCommandHandler
             // All closures are gone now.
             $this->utility->evaluate($filter, [$ui]);
 
+            // If not enabled then skip it.
+            if (!evaluate_key($filter, 'enabled', true)) {
+
+                continue;
+            }
+
             // Build out required data.
             $input = $this->getInput($filter, $ui);
 
