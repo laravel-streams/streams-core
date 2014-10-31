@@ -1,11 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\Model\EloquentModelObserver;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasCreatedEvent;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasDeletedEvent;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasSavedEvent;
 
-class StreamObserver extends EloquentObserver
+class StreamModelObserver extends EloquentModelObserver
 {
 
     /**

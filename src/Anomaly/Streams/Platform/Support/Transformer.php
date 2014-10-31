@@ -2,6 +2,7 @@
 
 /**
  * Class Transformer
+ *
  * A utility to return transformed classes
  * or NULL if the class does not exist.
  *
@@ -27,7 +28,7 @@ class Transformer
 
         if (!class_exists($handler)) {
 
-            $handler = null;
+            return null;
         }
 
         return $handler;
@@ -47,7 +48,7 @@ class Transformer
 
         if (!class_exists($validator)) {
 
-            $validator = null;
+            return null;
         }
 
         return $validator;
@@ -67,7 +68,7 @@ class Transformer
 
         if (!class_exists($installer)) {
 
-            $installer = null;
+            return null;
         }
 
         return $installer;
@@ -87,7 +88,7 @@ class Transformer
 
         if (!class_exists($provider)) {
 
-            $provider = null;
+            return null;
         }
 
         return $provider;
@@ -107,7 +108,7 @@ class Transformer
 
         if (!class_exists($presenter)) {
 
-            $presenter = null;
+            return null;
         }
 
         return $presenter;
@@ -127,9 +128,33 @@ class Transformer
 
         if (!class_exists($filter)) {
 
-            $filter = null;
+            return null;
         }
 
         return $filter;
+    }
+
+    /**
+     * Transform a class to
+     * it's corresponding observer.
+     *
+     * @param $class
+     * @return null|string
+     */
+    public function toObserver($class)
+    {
+        if (!is_string($class)) {
+
+            $class = get_class($class);
+        }
+
+        $observer = $class . 'Observer';
+
+        if (!class_exists($observer)) {
+
+            return null;
+        }
+
+        return $observer;
     }
 }

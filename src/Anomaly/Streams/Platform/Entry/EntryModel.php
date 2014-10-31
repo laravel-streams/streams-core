@@ -28,18 +28,6 @@ class EntryModel extends EloquentModel implements EntryInterface
     }
 
     /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        self::observe(new EntryObserver());
-    }
-
-    /**
      * Return the default columns.
      *
      * @return array

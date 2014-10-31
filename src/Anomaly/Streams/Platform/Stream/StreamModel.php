@@ -37,18 +37,6 @@ class StreamModel extends EloquentModel
     protected $table = 'streams_streams';
 
     /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        self::observe(new StreamObserver());
-    }
-
-    /**
      * Add a stream.
      *
      * @param $namespace

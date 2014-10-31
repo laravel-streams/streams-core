@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Anomaly\Streams\Platform\Traits\EventableTrait;
 
-class EloquentObserver
+class EloquentModelObserver
 {
 
     use DispatchableTrait;

@@ -34,18 +34,6 @@ class FieldModel extends EloquentModel
     protected $table = 'streams_fields';
 
     /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        self::observe(new FieldObserver());
-    }
-
-    /**
      * Add a field.
      *
      * @param       $slug

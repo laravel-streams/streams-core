@@ -37,18 +37,6 @@ class AssignmentModel extends EloquentModel
     protected $table = 'streams_assignments';
 
     /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        self::observe(new AssignmentObserver());
-    }
-
-    /**
      * Add an assignment.
      *
      * @param $sortOrder

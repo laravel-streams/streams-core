@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Collection\EloquentCollection;
 use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
+use Anomaly\Streams\Platform\Support\Transformer;
 use Anomaly\Streams\Platform\Traits\CacheableTrait;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\EventableTrait;
@@ -81,7 +82,12 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     {
         parent::boot();
 
-        self::observe(new EloquentObserver());
+        $transformer = new Transformer();
+
+        if ($observer = $transformer->toObserver(get_called_class())) {
+
+            self::observe(new $observer);
+        }
     }
 
     /**

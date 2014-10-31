@@ -2,9 +2,9 @@
 
 use Anomaly\Streams\Platform\Entry\Event\SavedEntryEvent;
 use Anomaly\Streams\Platform\Entry\Event\SavingEntryEvent;
-use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\Model\EloquentModelObserver;
 
-class EntryObserver extends EloquentObserver
+class EntryModelModelObserver extends EloquentModelObserver
 {
 
     /**
