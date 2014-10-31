@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 
@@ -136,7 +137,7 @@ class BuildTableFiltersCommandHandler
 
             // Build a field type filter input.
             case 'field':
-                return $this->getInputFromField($filter, $ui);
+                return $this->getInputFromField($filter, $ui, $ui->getModel());
                 break;
 
             default:
@@ -200,11 +201,9 @@ class BuildTableFiltersCommandHandler
      * @param TableUi $ui
      * @return null
      */
-    protected function getInputFromField(array $filter, TableUi $ui)
+    protected function getInputFromField(array $filter, TableUi $ui, EntryInterface $model)
     {
-        $entryModel = $ui->getModel();
-
-        $assignment = $entryModel->findAssignmentByFieldSlug($filter['field']);
+        $assignment = $model->getAssignmentFromField($filter['field']);
 
         if ($assignment instanceof AssignmentModel) {
 

@@ -150,7 +150,7 @@ class FieldTypeAddon extends Addon implements PresentableInterface
     {
         if ($this->prefix) {
 
-            return $this->prefix . (ends_with($this->prefix, '_') ? : '_');
+            return $this->prefix . (ends_with($this->prefix, '_') ? null : '_');
         }
 
         return $this->prefix;
@@ -167,7 +167,7 @@ class FieldTypeAddon extends Addon implements PresentableInterface
     {
         if ($this->suffix) {
 
-            return (starts_with($this->suffix, '_') ? : '_') . $this->suffix;
+            return (starts_with($this->suffix, '_') ? null : '_') . $this->suffix;
         }
 
         return null;
