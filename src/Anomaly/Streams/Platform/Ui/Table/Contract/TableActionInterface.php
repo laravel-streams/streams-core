@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Contract;
 
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
-
 /**
  * Interface TableActionInterface
  *
@@ -15,13 +13,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableUi;
  */
 interface TableActionInterface
 {
-
-    /**
-     * Create a new TableActionInterface instance.
-     *
-     * @param TableUi $ui
-     */
-    public function __construct(TableUi $ui);
 
     /**
      * Handle the table action.
