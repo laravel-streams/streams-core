@@ -122,13 +122,13 @@ class BuildTableColumnsCommandHandler
         if (isset($column['field'])) {
 
             $value = $column['field'];
-        }
 
-        /**
-         * Try getting the value from the entry.
-         * This returns the value passed if N/A.
-         */
-        $value = $this->getValueFromEntry($value, $entry);
+            /**
+             * Try getting the value from the entry.
+             * This returns the value passed if N/A.
+             */
+            $value = $this->getValueFromEntry($value, $entry);
+        }
 
         return (string)$value;
     }
