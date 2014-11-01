@@ -65,8 +65,9 @@ class BuildTableColumnsCommandHandler
 
             // Build out our required data.
             $value = $this->getValue($column, $entry);
+            $class = $this->getClass($column);
 
-            $columns[] = compact('value');
+            $columns[] = compact('value', 'class');
         }
 
         return $columns;
@@ -145,6 +146,17 @@ class BuildTableColumnsCommandHandler
         }
 
         return (string)$value;
+    }
+
+    /**
+     * Get the class.
+     *
+     * @param $column
+     * @return mixed|null
+     */
+    protected function getClass($column)
+    {
+        return evaluate_key($column, 'class');
     }
 
     /**
