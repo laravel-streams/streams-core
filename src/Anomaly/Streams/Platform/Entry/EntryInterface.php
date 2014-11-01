@@ -68,5 +68,13 @@ interface EntryInterface extends ArrayableInterface
      * @return mixed
      */
     public function getAssignmentFromField($field);
+
+    /**
+     * Get a specified relationship.
+     *
+     * @param  string $relation
+     * @return mixed
+     */
+    public function getRelation($int);
 }
  
