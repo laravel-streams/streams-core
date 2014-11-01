@@ -146,7 +146,7 @@ class Asset
 
         $path = 'assets/' . APP_REF . '/' . $hash . '.' . $hint;
 
-        if (isset($_GET['_publish']) or $this->publish or (config('app.debug') and !file_exists($path))) {
+        if ($this->shouldPublish($path)) {
             $this->publish($path, $group, $filters);
         }
 
@@ -315,6 +315,33 @@ class Asset
         }
 
         return $path;
+    }
+
+    /**
+     * Decide whether we need to publish the file
+     * to the path or not.
+     *
+     * @param $path
+     * @return bool
+     */
+    protected function shouldPublish($path)
+    {
+        if (isset($_GET['_publish'])) {
+
+            return true;
+        }
+
+        if ($this->publish === true) {
+
+            return true;
+        }
+
+        if (config('app.debug') and !file_exists($path)) {
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
