@@ -6,8 +6,6 @@ use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 class AddStreamCommandHandler
 {
 
-    use DispatchableTrait;
-
     /**
      * The stream model.
      *
@@ -41,7 +39,7 @@ class AddStreamCommandHandler
             );
         }
 
-        $stream = $this->stream->add(
+        return $this->stream->add(
             $command->getNamespace(),
             $command->getSlug(),
             $command->getPrefix(),
@@ -54,10 +52,6 @@ class AddStreamCommandHandler
             $command->getIsTranslatable(),
             $command->getIsRevisionable()
         );
-
-        $this->dispatchEventsFor($stream);
-
-        return $stream;
     }
 }
  
