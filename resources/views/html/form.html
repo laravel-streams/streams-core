@@ -5,14 +5,19 @@
 {{{ form.open }}}
 
 <div class="toolbar">
-    <a href="#" class="flag-icon flag-icon-us active" data-toggle="tooltip" data-locale="en" title="English"></a>
-    <a href="#" class="flag-icon flag-icon-fr" data-toggle="tooltip" data-locale="fr" title="French"></a>
-    <a href="#" class="flag-icon flag-icon-de" data-toggle="tooltip" data-locale="de" title="German"></a>
-    <a href="#" class="flag-icon flag-icon-it" data-toggle="tooltip" data-locale="it" title="Italian"></a>
-    <a href="#" class="flag-icon flag-icon-ae" data-toggle="tooltip" data-locale="ae" title="Arabic"></a>
+    <div class="dropdown" style="display: inline-block;">
+        <button class="btn btn-sm btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+            <i class="fa fa-language"></i>&nbsp;Language
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">English</a></li>
+            <li><a href="#">French</a></li>
+            <li><a href="#">German</a></li>
+        </ul>
+    </div>
 
     <a href="#" class="btn btn-xs btn-link history">
-        <i class="fa fa-history"></i>History
+        <i class="fa fa-history"></i>&nbsp;History
     </a>
 </div>
 
