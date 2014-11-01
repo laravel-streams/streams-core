@@ -138,7 +138,7 @@ class AssignmentModel extends EloquentModel
 
         if ($entry and $fieldType instanceof FieldTypeAddon) {
 
-            $fieldType->setValue($entry->{$fieldType->getColumnName()});
+            $fieldType->setValue($entry->getAttribute($fieldType->getColumnName(), false));
         }
 
         return $fieldType;
