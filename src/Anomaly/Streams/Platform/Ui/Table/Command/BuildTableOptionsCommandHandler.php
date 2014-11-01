@@ -26,8 +26,10 @@ class BuildTableOptionsCommandHandler
         $sortable         = evaluate($ui->getSortable(), [$ui]);
         $tableClass       = evaluate($ui->getTableClass(), [$ui]);
         $noResultsMessage = trans(evaluate($ui->getNoResultsMessage()));
+        $activeView       = app('request')->get($ui->getPrefix() . 'view', 'all');
+        $filterState      = app('request')->get($ui->getPrefix() . 'filter', null);
 
-        return compact('paginate', 'sortable', 'tableClass', 'prefix', 'noResultsMessage');
+        return compact('paginate', 'sortable', 'tableClass', 'prefix', 'noResultsMessage', 'activeView', 'filterState');
     }
 }
  

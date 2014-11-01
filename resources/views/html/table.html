@@ -27,7 +27,7 @@
             </ul>
             {{ endif }}
 
-            <a href="#" class="pull-right table-filter-toggle active {{ options.filter_state }}" data-toggle="filters">
+            <a href="#" class="pull-right table-filter-toggle {{ options.filterState }}" data-toggle="filters">
                 <i class="fa fa-filter"></i> Filter
             </a>
         </h3>
@@ -35,10 +35,10 @@
     {{ endif }}
     <div class="panel-body" style="padding: 0;">
 
-        <div class="table-filters active {{ options.filter_state }}">
+        <div class="table-filters {{ options.filterState }}">
             <form class="form-inline" method="get">
-                <input type="hidden" name="filter" value="true">
-                <input type="hidden" name="view" value="{{ input.view }}">
+                <input type="hidden" name="{{ options.prefix }}filter" value="active">
+                <input type="hidden" name="{{ options.prefix }}view" value="{{ options.activeView }}">
 
                 {{ filters }}
                 <div class="form-group">
