@@ -336,7 +336,7 @@ class Asset
             return true;
         }
 
-        if (config('app.debug') and !file_exists($path)) {
+        if (!file_exists($path)) {
 
             return true;
         }
