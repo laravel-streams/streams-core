@@ -261,6 +261,16 @@ class EntryModel extends EloquentModel implements EntryInterface
     }
 
     /**
+     * Get the default foreign key name for the model.
+     *
+     * @return string
+     */
+    public function getForeignKey()
+    {
+        return str_singular($this->stream->slug) . '_id';
+    }
+
+    /**
      * Get a specified relationship.
      *
      * @param  string $relation
