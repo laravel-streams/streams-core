@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Anomaly\Streams\Platform\Contract\PaginatorInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -15,7 +16,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Support
  */
-class Paginator extends LengthAwarePaginator implements PaginatorInterface
+class Paginator extends LengthAwarePaginator implements PaginatorInterface, ArrayableInterface
 {
 
 }
