@@ -10,17 +10,63 @@ use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\GlobAsset;
 
+/**
+ * Class Asset
+ *
+ * This is the asset management class. It handles front
+ * and backend asset's for everything.
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Asset
+ */
 class Asset
 {
 
+    /**
+     * The public base directory.
+     *
+     * @var null
+     */
     protected $directory = null;
 
+    /**
+     * If true force publishing.
+     *
+     * @var bool
+     */
     protected $publish = false;
 
+    /**
+     * Namespace path hints.
+     *
+     * 'module.users' => 'the/resources/path'
+     *
+     * @var array
+     */
     protected $namespaces = [];
 
+    /**
+     * Groups of assets. Groups can
+     * be single files as well.
+     *
+     * @var array
+     */
     protected $groups = [];
 
+    /**
+     * Add an asset or glob pattern to an asset group.
+     *
+     * This should support the asset being the group
+     * and the asset (for single files) internally
+     * so asset.links / asset.scripts will work.
+     *
+     * @param       $group
+     * @param       $asset
+     * @param array $filters
+     * @return $this
+     */
     public function add($group, $asset, array $filters = [])
     {
         if (!isset($this->groups[$group])) {
@@ -40,6 +86,13 @@ class Asset
         return $this;
     }
 
+    /**
+     * Return the path to a compiled asset group.
+     *
+     * @param       $group
+     * @param array $filters
+     * @return string
+     */
     public function path($group, array $filters = [])
     {
         if (!isset($this->groups[$group])) {
@@ -49,6 +102,17 @@ class Asset
         return $this->getPath($group, $filters);
     }
 
+    /**
+     * Return an array of paths to an asset group.
+     *
+     * This instead of combining the group contents
+     * just returns an array of individual processed
+     * paths instead.
+     *
+     * @param       $group
+     * @param array $additionalFilters
+     * @return array
+     */
     public function paths($group, array $additionalFilters = [])
     {
         if (!isset($this->groups[$group])) {
@@ -69,18 +133,18 @@ class Asset
         );
     }
 
-    protected function getAppRef()
-    {
-        return defined('APP_REF') ? APP_REF : 'default';
-    }
-
+    /**
+     * @param $group
+     * @param $filters
+     * @return string
+     */
     protected function getPath($group, $filters)
     {
         $hash = \hashify([$this->groups[$group], $filters]);
 
         $hint = $this->getHint($group);
 
-        $path = 'assets/' . $this->getAppRef() . '/' . $hash . '.' . $hint;
+        $path = 'assets/' . APP_REF . '/' . $hash . '.' . $hint;
 
         if (isset($_GET['_publish']) or $this->publish) {
             $this->publish($path, $group, $filters);
@@ -89,6 +153,13 @@ class Asset
         return $path;
     }
 
+    /**
+     * Publish the group of assets to the path.
+     *
+     * @param $path
+     * @param $group
+     * @param $additionalFilters
+     */
     protected function publish($path, $group, $additionalFilters)
     {
         $collection = new AssetCollection();
@@ -119,6 +190,14 @@ class Asset
         $files->put($path, $collection->dump());
     }
 
+    /**
+     * Transform an array of filters to
+     * an array of assetic filters.
+     *
+     * @param $filters
+     * @param $hint
+     * @return mixed
+     */
     protected function transformFilters($filters, $hint)
     {
         foreach ($filters as $k => &$filter) {
@@ -157,6 +236,14 @@ class Asset
         return $filters;
     }
 
+    /**
+     * Add filters that we can assume based
+     * on the asset's file name.
+     *
+     * @param $asset
+     * @param $filters
+     * @return array
+     */
     protected function addConvenientFilters($asset, $filters)
     {
         if (ends_with($asset, '.less')) {
@@ -174,11 +261,26 @@ class Asset
         return array_unique($filters);
     }
 
+    /**
+     * Get the extension of a path.
+     *
+     * @param $path
+     * @return mixed
+     */
     protected function getExtension($path)
     {
         return pathinfo($path, PATHINFO_EXTENSION);
     }
 
+    /**
+     * Get the compile hint from a path.
+     * Group names MUST contain either a
+     * JS / CSS extension to hint at what
+     * to do with some automation.
+     *
+     * @param $path
+     * @return mixed|string
+     */
     protected function getHint($path)
     {
         $hint = $this->getExtension($path);
@@ -194,6 +296,13 @@ class Asset
         return $hint;
     }
 
+    /**
+     * Replace the namespace string in a path
+     * with the actual path prefix.
+     *
+     * @param $path
+     * @return string
+     */
     protected function replaceNamespace($path)
     {
         if (str_contains($path, '::')) {
@@ -208,6 +317,13 @@ class Asset
         return $path;
     }
 
+    /**
+     * Add a namespace path hint.
+     *
+     * @param $binding
+     * @param $path
+     * @return $this
+     */
     public function addNamespace($binding, $path)
     {
         $this->namespaces[$binding] = $path;
@@ -215,6 +331,12 @@ class Asset
         return $this;
     }
 
+    /**
+     * Set the public base directory.
+     *
+     * @param $directory
+     * @return $this
+     */
     public function setDirectory($directory)
     {
         $this->directory = $directory;
@@ -222,6 +344,12 @@ class Asset
         return $this;
     }
 
+    /**
+     * Set the publish flag.
+     *
+     * @param $publish
+     * @return $this
+     */
     public function setPublish($publish)
     {
         $this->publish = $publish;
