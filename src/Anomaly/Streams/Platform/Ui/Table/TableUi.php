@@ -21,11 +21,17 @@ class TableUi extends Ui
 {
 
     /**
+     * Eager loaded relationships.
+     *
+     * @var array
+     */
+    protected $eager = [];
+
+    /**
      * @var array
      */
     protected $orderBy = [
-        'column'    => 'id',
-        'direction' => 'asc',
+        'id' => 'asc',
     ];
 
     /**
@@ -133,6 +139,25 @@ class TableUi extends Ui
         $this->fire('rendering', [$data]);
 
         return view($this->view, $data)->render();
+    }
+
+    /**
+     * @param array $eager
+     * return $this
+     */
+    public function setEager($eager)
+    {
+        $this->eager = $eager;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getEager()
+    {
+        return $this->eager;
     }
 
     /**
