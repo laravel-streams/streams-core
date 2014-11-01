@@ -259,4 +259,20 @@ class EntryModel extends EloquentModel implements EntryInterface
 
         return null;
     }
+
+    /**
+     * Get a specified relationship.
+     *
+     * @param  string $relation
+     * @return mixed
+     */
+    public function getRelation($relation)
+    {
+        if (isset($this->relations[$relation])) {
+
+            return parent::getRelation($relation);
+        }
+
+        return null;
+    }
 }
