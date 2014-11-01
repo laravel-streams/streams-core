@@ -17,11 +17,11 @@ class FieldTypeAddon extends Addon implements PresentableInterface
 
     protected $locale = null;
 
-    protected $readOnly = false;
-
     protected $placeholder = null;
 
     protected $instructions = null;
+
+    protected $hidden = false;
 
     protected $prefix = '';
 
@@ -57,10 +57,11 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         $label        = trans($this->label);
         $instructions = trans($this->instructions);
         $language     = trans("language.{$locale}");
+        $hidden       = $this->hidden ? 'hidden' : null;
 
         $input = $this->input();
 
-        $data = compact('id', 'label', 'language', 'instructions', 'input', 'locale');
+        $data = compact('id', 'label', 'language', 'instructions', 'input', 'locale', 'hidden');
 
         return view($this->view, $data);
     }
@@ -115,13 +116,6 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         return $this;
     }
 
-    public function setReadOnly($readOnly)
-    {
-        $this->readOnly = $readOnly;
-
-        return $this;
-    }
-
     public function setLocale($locale)
     {
         $this->locale = $locale;
@@ -171,6 +165,13 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         }
 
         return null;
+    }
+
+    public function setHidden($hidden)
+    {
+        $this->hidden = ($hidden);
+
+        return $this;
     }
 
     public function getFieldName()
