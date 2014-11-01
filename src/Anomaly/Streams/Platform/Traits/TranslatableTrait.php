@@ -156,15 +156,17 @@ trait TranslatableTrait
      * @param array $options
      * @return bool
      */
-    public function save(array $options = array())
+    public function save(array $options = [])
     {
         if ($this->exists) {
             if (parent::save($options)) {
+
                 return $this->saveTranslations();
             }
 
             return false;
         } elseif (parent::save($options)) {
+
             return $this->saveTranslations();
         }
 
@@ -264,6 +266,8 @@ trait TranslatableTrait
                 $translation->setAttribute($this->getRelationKey(), $this->getKey());
 
                 $saved = $translation->save();
+
+                $this->fireModelEvent('saved');
             }
         }
 
