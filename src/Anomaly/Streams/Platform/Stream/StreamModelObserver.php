@@ -1,23 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Model\EloquentModelObserver;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasCreatedEvent;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasDeletedEvent;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasSavedEvent;
+use Anomaly\Streams\Platform\Support\Observer;
 
-class StreamModelObserver extends EloquentModelObserver
+/**
+ * Class StreamModelObserver
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Stream
+ */
+class StreamModelObserver extends Observer
 {
-
-    /**
-     * Run before attempting to save a record.
-     *
-     * @param $model
-     * @return bool
-     */
-    public function saving($model)
-    {
-        return parent::saving($model);
-    }
 
     /**
      * Run after saving a record.
@@ -26,39 +23,9 @@ class StreamModelObserver extends EloquentModelObserver
      */
     public function saved($model)
     {
-        $model->raise(new StreamWasSavedEvent($model));
+        $this->dispatch(new StreamWasSavedEvent($model));
 
         parent::saved($model);
-    }
-
-    /**
-     * Run before a record is updated.
-     *
-     * @param $model
-     */
-    public function updating($model)
-    {
-        parent::updating($model);
-    }
-
-    /**
-     * Run after a record has been updated.
-     *
-     * @param $model
-     */
-    public function updated($model)
-    {
-        parent::updated($model);
-    }
-
-    /**
-     * Run before creating a record.
-     *
-     * @param $model
-     */
-    public function creating($model)
-    {
-        parent::creating($model);
     }
 
     /**
@@ -68,19 +35,9 @@ class StreamModelObserver extends EloquentModelObserver
      */
     public function created($model)
     {
-        $model->raise(new StreamWasCreatedEvent($model));
+        $this->dispatch(new StreamWasCreatedEvent($model));
 
         parent::created($model);
-    }
-
-    /**
-     * Run before deleting a record.
-     *
-     * @param $model
-     */
-    public function deleting($model)
-    {
-        parent::deleting($model);
     }
 
     /**
@@ -90,28 +47,8 @@ class StreamModelObserver extends EloquentModelObserver
      */
     public function deleted($model)
     {
-        $model->raise(new StreamWasDeletedEvent($model));
+        $this->dispatch(new StreamWasDeletedEvent($model));
 
         parent::deleted($model);
-    }
-
-    /**
-     * Run before restoring a record.
-     *
-     * @param $model
-     */
-    public function restoring($model)
-    {
-        parent::restoring($model);
-    }
-
-    /**
-     * Run after a record has been restored.
-     *
-     * @param $model
-     */
-    public function restored($model)
-    {
-        parent::restored($model);
     }
 }
