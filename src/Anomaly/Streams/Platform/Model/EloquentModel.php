@@ -74,6 +74,16 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     protected $guarded = ['id'];
 
     /**
+     * Observable model events.
+     *
+     * These are merged with the parent
+     * observable events.
+     *
+     * @var array
+     */
+    protected $observables = [];
+
+    /**
      * The "booting" method of the model.
      *
      * @return void
@@ -81,6 +91,9 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     protected static function boot()
     {
         parent::boot();
+
+        // TODO: This looses persistence for some reason if not set here.
+        self::$dispatcher = app('Illuminate\Contracts\Events\Dispatcher');
 
         $transformer = new Transformer();
 
@@ -158,6 +171,11 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     public function getValidate()
     {
         return $this->validate;
+    }
+
+    public function getObservableEvents()
+    {
+        return array_unique(array_merge(parent::getObservableEvents(), $this->observables));
     }
 
     /**
