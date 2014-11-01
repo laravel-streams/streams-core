@@ -216,6 +216,11 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         return $value;
     }
 
+    public function onAfterSet($entry)
+    {
+        //
+    }
+
     public function onGet($value)
     {
         return $value;

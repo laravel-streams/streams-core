@@ -54,6 +54,8 @@ class EntryModel extends EloquentModel implements EntryInterface
         if ($type = $this->getTypeFromField($key)) {
 
             $value = $type->fire('set', [$value]);
+
+            $type->fire('after_set', [$this])
         }
 
         parent::setAttribute($key, $value);
