@@ -146,7 +146,7 @@ class Asset
 
         $path = 'assets/' . APP_REF . '/' . $hash . '.' . $hint;
 
-        if (isset($_GET['_publish']) or $this->publish or !file_exists($path)) {
+        if (isset($_GET['_publish']) or $this->publish or (config('app.debug') and !file_exists($path))) {
             $this->publish($path, $group, $filters);
         }
 
