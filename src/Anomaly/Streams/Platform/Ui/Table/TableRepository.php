@@ -71,6 +71,9 @@ class TableRepository implements TableRepositoryInterface
         // Prevent joins from overriding values.
         $query = $model->select($model->getTable() . '.*');
 
+        // Eager load desired relations.
+        $query = $query->with($this->ui->getEager());
+
         /**
          * This hook is used for views / actions
          * and any other query hooks the developer
@@ -84,7 +87,10 @@ class TableRepository implements TableRepositoryInterface
          */
         $total = $query->count();
 
-        // Make sure the page exists.
+        /**
+         * Make sure the page exists
+         * before going any further.
+         */
         $this->assurePageExists($total);
 
         /**
@@ -95,6 +101,14 @@ class TableRepository implements TableRepositoryInterface
         $offset = $limit * ($this->request->get('page', 1) - 1);
 
         $query = $query->take($limit)->offset($offset);
+
+        /**
+         * Order the query results.
+         */
+        foreach ($this->ui->getOrderBy() as $column => $direction) {
+
+            $query = $query->orderBy($column, $direction);
+        }
 
         /**
          * Finally get the resulting entries.
