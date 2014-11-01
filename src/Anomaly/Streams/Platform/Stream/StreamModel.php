@@ -79,8 +79,6 @@ class StreamModel extends EloquentModel
 
         $this->save();
 
-        //$this->raise(new StreamWasAddedEvent($this));
-
         return $this;
     }
 
