@@ -46,17 +46,40 @@ class EntryModel extends EloquentModel implements EntryInterface
      */
     public function setAttribute($key, $value)
     {
-        // If we have a field type for this key - use the field type
-        // mutate method to transform the value to storage format.
-        if ($assignment = $this->findAssignmentByFieldSlug($key)) {
+        /**
+         * If we have a field type for this key fire it's
+         * onSet callback to allow changing the value
+         * before storage.
+         */
+        if ($type = $this->getTypeFromField($key)) {
 
-            if ($type = $assignment->type($this) and $type instanceof FieldTypeAddon) {
-
-                $value = $type->mutate($value);
-            }
+            $value = $type->fire('set', [$value]);
         }
 
         parent::setAttribute($key, $value);
+    }
+
+    /**
+     * Get a given attribute on the model.
+     *
+     * @param  string $key
+     * @return void
+     */
+    public function getAttribute($key)
+    {
+        $value = parent::getAttribute($key);
+
+        /**
+         * If we have a field type for this key fire it's
+         * onGet callback to allow changing the value
+         * retrieved from storage.
+         */
+        if ($this->getTypeFromField($key)) {
+
+            $value = $type->fire('get', [$value]);
+        }
+
+        return $value;
     }
 
     /**

@@ -66,11 +66,6 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         return view($this->view, $data);
     }
 
-    public function mutate($value)
-    {
-        return $value;
-    }
-
     public function getRules()
     {
         return $this->rules;
@@ -214,6 +209,16 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         }
 
         return new FieldTypeFilter($this);
+    }
+
+    public function onSet($value)
+    {
+        return $value;
+    }
+
+    public function onGet($value)
+    {
+        return $value;
     }
 
     protected function onAssignmentCreated(AssignmentModel $assignment)
