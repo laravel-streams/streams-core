@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Model\EloquentModelObserver;
 
-class FieldModelModelObserver extends EloquentModelObserver
+class FieldModelObserver extends EloquentModelObserver
 {
 
     /**
