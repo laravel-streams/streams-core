@@ -16,6 +16,21 @@ class BuildTableColumnsCommandHandler
 {
 
     /**
+     * These are not attributes and should
+     * not make it to the attribute string.
+     *
+     * @var array
+     */
+    protected $notAttributes = [
+        'heading',
+        'handler',
+        'value',
+        'relation',
+        'field',
+        'class',
+    ];
+
+    /**
      * The assignment service object.
      *
      * @var \Anomaly\Streams\Platform\Assignment\AssignmentService
@@ -64,10 +79,16 @@ class BuildTableColumnsCommandHandler
             $column = $this->utility->evaluate($column, [$ui, $entry], $entry);
 
             // Build out our required data.
-            $value = $this->getValue($column, $entry);
-            $class = $this->getClass($column);
+            $class      = $this->getClass($column);
+            $attributes = $this->getAttributes($column);
+            $value      = $this->getValue($column, $entry);
 
-            $columns[] = compact('value', 'class');
+            $column = compact('value', 'class', 'attributes');
+
+            // Normalize things a bit before proceeding.
+            $column = $this->utility->normalize($column);
+
+            $columns[] = $column;
         }
 
         return $columns;
@@ -151,12 +172,24 @@ class BuildTableColumnsCommandHandler
     /**
      * Get the class.
      *
-     * @param $column
+     * @param array $column
      * @return mixed|null
      */
-    protected function getClass($column)
+    protected function getClass(array $column)
     {
         return evaluate_key($column, 'class');
+    }
+
+    /**
+     * Get the attributes less the keys that are
+     * defined as NOT attributes.
+     *
+     * @param array $column
+     * @return array
+     */
+    protected function getAttributes(array $column)
+    {
+        return array_diff_key($column, array_flip($this->notAttributes));
     }
 
     /**
