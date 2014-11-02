@@ -1,5 +1,7 @@
 {{ extends "theme::layouts/default" }}
 
+{{ asset.add "streams.js" "streams::js/form/form.js" "live" }}
+
 {{ section "content" }}
 
 {{{ form.open }}}
@@ -10,9 +12,9 @@
             <i class="fa fa-language"></i>&nbsp;Language
         </button>
         <ul class="dropdown-menu">
-            <li><a href="#">English</a></li>
-            <li><a href="#">French</a></li>
-            <li><a href="#">German</a></li>
+            <li><a href="#" data-toggle="form-locale" data-locale="en">English</a></li>
+            <li><a href="#" data-toggle="form-locale" data-locale="fr">French</a></li>
+            <li><a href="#" data-toggle="form-locale" data-locale="de">German</a></li>
         </ul>
     </div>
 
