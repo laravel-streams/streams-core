@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
@@ -127,21 +126,15 @@ class BuildFormSectionFieldsCommandHandler
     {
         $element = '';
 
-        /**
-         * Get the type object spawned from the assignment
-         * next. Again if not found we're going to skip it.
-         */
-        $type = $assignment->type($entry);
+        foreach (setting('module.settings::available_locales', ['en', 'fr']) as $locale) {
 
-        if ($type instanceof FieldTypeAddon) {
+            if ($assignment->isTranslatable() or config('app.locale') == $locale) {
 
-            // TODO: Testing this out..
-            if (!$entry->getStream()->is_translatable) {
-                $availableLocales = ['en', 'fr'];
-            } else {
-                $availableLocales = ['en'];
-            }
-            foreach ($availableLocales as $locale) {
+                /**
+                 * Get the type object spawned from the assignment
+                 * next. Again if not found we're going to skip it.
+                 */
+                $type = $assignment->type($entry, $locale);
 
                 /**
                  * Now that we're here set some options
@@ -151,16 +144,14 @@ class BuildFormSectionFieldsCommandHandler
                 $type->setLocale($locale);
                 $type->setSuffix($locale);
                 $type->setPrefix($ui->getPrefix());
-                $type->setLabel(trans($entry->getFieldLabel($field['field']), [], '', $locale));
+                //$type->setLabel(trans($entry->getFieldLabel($field['field']), [], '', $locale));
                 $type->setPlaceholder(trans($entry->getFieldPlaceholder($field['field']), [], '', $locale));
 
                 // Render the input element.
                 $element .= $type->element();
             }
-
-            return $element;
         }
 
-        return null;
+        return $element;
     }
 }

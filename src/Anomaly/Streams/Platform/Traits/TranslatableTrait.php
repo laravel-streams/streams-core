@@ -30,22 +30,27 @@ trait TranslatableTrait
      */
     public function getTranslation($locale = null, $withFallback = false)
     {
-        $locale       = $locale ? : \App::getLocale();
-        $withFallback = isset($this->useTranslationFallback) ? $this->useTranslationFallback : $withFallback;
+        if ($this->translatable) {
 
-        if ($this->getTranslationByLocaleKey($locale)) {
-            $translation = $this->getTranslationByLocaleKey($locale);
-        } elseif ($withFallback
-            and \App::make('config')->has('app.fallback_locale')
-            and $this->getTranslationByLocaleKey(\App::make('config')->get('app.fallback_locale'))
-        ) {
-            $translation = $this->getTranslationByLocaleKey(\App::make('config')->get('app.fallback_locale'));
-        } else {
-            $translation = $this->newTranslationInstance($locale);
-            $this->translations->add($translation);
+            $locale       = $locale ? : \App::getLocale();
+            $withFallback = isset($this->useTranslationFallback) ? $this->useTranslationFallback : $withFallback;
+
+            if ($this->getTranslationByLocaleKey($locale)) {
+                $translation = $this->getTranslationByLocaleKey($locale);
+            } elseif ($withFallback
+                and \App::make('config')->has('app.fallback_locale')
+                and $this->getTranslationByLocaleKey(\App::make('config')->get('app.fallback_locale'))
+            ) {
+                $translation = $this->getTranslationByLocaleKey(\App::make('config')->get('app.fallback_locale'));
+            } else {
+                $translation = $this->newTranslationInstance($locale);
+                $this->translations->add($translation);
+            }
+
+            return $translation;
         }
 
-        return $translation;
+        return $this;
     }
 
     /**

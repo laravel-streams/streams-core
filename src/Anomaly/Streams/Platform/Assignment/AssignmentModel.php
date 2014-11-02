@@ -114,23 +114,17 @@ class AssignmentModel extends EloquentModel
             ->get();
     }
 
-    public function stream()
+    public function type(EntryInterface $entry = null, $locale = null)
     {
-        return $this->belongsTo('Anomaly\Streams\Platform\Stream\StreamModel', 'stream_id');
-    }
+        $locale = $locale ? : config('app.locale');
 
-    public function field()
-    {
-        return $this->belongsTo('Anomaly\Streams\Platform\Field\FieldModel');
-    }
-
-    public function type(EntryInterface $entry = null)
-    {
         $type         = $this->field->type;
         $field        = $this->field->slug;
-        $instructions = $this->instructions;
+        $label        = $this->getFieldLabel($locale);
+        $placehoder   = $this->getFieldPlaceholder($locale);
+        $instructions = $this->getFieldInstructions($locale);
 
-        $data = compact('type', 'field', 'instructions');
+        $data = compact('type', 'field', 'instructions', 'label', 'placeholder');
 
         $command = 'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand';
 
@@ -138,7 +132,7 @@ class AssignmentModel extends EloquentModel
 
         if ($entry and $fieldType instanceof FieldTypeAddon) {
 
-            $fieldType->setValue($entry->getAttribute($fieldType->getColumnName(), false));
+            $fieldType->setValue($entry->translate($locale)->getAttribute($fieldType->getColumnName(), false));
         }
 
         return $fieldType;
@@ -164,19 +158,47 @@ class AssignmentModel extends EloquentModel
         $this->attributes['rules'] = json_encode($rules);
     }
 
-    public function getFieldName()
+    public function getFieldName($locale = null)
     {
-        return $this->field->name;
+        $locale = $locale ? : config('app.locale');
+
+        return trans($this->field->name, [], null, $locale);
     }
 
-    public function getFieldLabel()
+    public function getFieldLabel($locale = null)
     {
-        return $this->label != trans($this->label) ? $this->label : $this->field->name;
+        $locale = $locale ? : config('app.locale');
+
+        if ($label = $this->translate($locale)->label) {
+
+            return trans($label, [], null, $locale);
+        }
+
+        return $this->getFieldName($locale);
     }
 
-    public function getFieldPlaceholder()
+    public function getFieldPlaceholder($locale = null)
     {
-        return $this->placeholder != trans($this->placeholder) ? $this->placeholder : null;
+        $locale = $locale ? : config('app.locale');
+
+        if ($placeholder = $this->translate($locale)->placeholder) {
+
+            return trans($placeholder, [], null, $locale);
+        }
+
+        return null;
+    }
+
+    public function getFieldInstructions($locale = null)
+    {
+        $locale = $locale ? : config('app.locale');
+
+        if ($instructions = $this->translate($locale)->instructions) {
+
+            return trans($instructions, [], null, $locale);
+        }
+
+        return trans($this->instructions, [], null, $locale);
     }
 
     public function newCollection(array $items = [])
@@ -184,8 +206,27 @@ class AssignmentModel extends EloquentModel
         return new AssignmentCollection($items);
     }
 
+    public function stream()
+    {
+        return $this->belongsTo('Anomaly\Streams\Platform\Stream\StreamModel', 'stream_id');
+    }
+
+    public function field()
+    {
+        return $this->belongsTo('Anomaly\Streams\Platform\Field\FieldModel');
+    }
+
     public function decorate()
     {
         return new AssignmentPresenter($this);
+    }
+
+    public function isTranslatable()
+    {
+        if ($this->field->slug == 'first_name') {
+            return true;
+        }
+
+        return ($this->field->translatable and $this->stream->translatable);
     }
 }
