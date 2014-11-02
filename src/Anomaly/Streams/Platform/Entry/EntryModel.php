@@ -310,4 +310,9 @@ class EntryModel extends EloquentModel implements EntryInterface
 
         return null;
     }
+
+    public function isTranslatable()
+    {
+        return ($this->stream->is_translatable);
+    }
 }
