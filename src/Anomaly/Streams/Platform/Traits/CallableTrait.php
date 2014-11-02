@@ -45,13 +45,15 @@ trait CallableTrait
 
             foreach ($callbacks as $callback) {
 
-                call_user_func_array($callback, $arguments);
+                app()->call($callback, $arguments);
             }
         }
 
         $trigger = camel_case('on_' . $trigger);
 
         if (method_exists($this, $trigger)) {
+
+            //app()->call(get_class($this) . '@' . $trigger, $arguments); TODO: Evaluate this..
 
             return call_user_func_array([$this, $trigger], $arguments);
         }
