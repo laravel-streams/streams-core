@@ -144,6 +144,7 @@ class BuildFormSectionFieldsCommandHandler
                 $type->setLocale($locale);
                 $type->setSuffix($locale);
                 $type->setPrefix($ui->getPrefix());
+                $type->setHidden(config('app.locale') !== $locale);
                 //$type->setLabel(trans($entry->getFieldLabel($field['field']), [], '', $locale));
                 //$type->setPlaceholder(trans($entry->getFieldPlaceholder($field['field']), [], '', $locale));
 
