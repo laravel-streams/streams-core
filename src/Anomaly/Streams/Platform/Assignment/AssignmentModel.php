@@ -132,7 +132,9 @@ class AssignmentModel extends EloquentModel
 
         if ($entry and $fieldType instanceof FieldTypeAddon) {
 
-            $fieldType->setValue($entry->translate($locale, false, false)->getAttribute($fieldType->getColumnName(), false));
+            $fieldType->setValue(
+                $entry->translate($locale, false, false)->getAttribute($fieldType->getColumnName(), false)
+            );
         }
 
         return $fieldType;
@@ -167,6 +169,8 @@ class AssignmentModel extends EloquentModel
 
     public function getFieldLabel($locale = null)
     {
+        $translator = app('translator');
+
         $locale = $locale ? : config('app.locale');
 
         if ($label = $this->translate($locale)->label) {
