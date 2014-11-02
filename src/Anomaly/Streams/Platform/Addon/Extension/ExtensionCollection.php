@@ -2,14 +2,22 @@
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 
+/**
+ * Class ExtensionCollection
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon\Extension
+ */
 class ExtensionCollection extends AddonCollection
 {
-
-    public function find($key)
+    
+    public function find($pattern)
     {
         $matches = [];
 
-        list($namespace, $extension) = explode('::', $key);
+        list($namespace, $extension) = explode('::', $pattern);
 
         list($addonType, $addonSlug) = explode('.', $namespace);
 
@@ -40,7 +48,29 @@ class ExtensionCollection extends AddonCollection
             }
         }
 
-        return $matches;
+        return self::make($matches);
+    }
+
+    public function prioritized()
+    {
+        $expidited = [];
+        $normal    = [];
+        $deferred  = [];
+
+        foreach ($this->items as $item) {
+
+            if ($this->isExpedited()) {
+
+                $expidited[] = $item;
+            } elseif ($this->isDeferred()) {
+
+                $deferred[] = $item;
+            } else {
+
+                $normal[] = $item;
+            }
+        }
+
+        return self::make($expidited + $normal + $deferred);
     }
 }
- 
