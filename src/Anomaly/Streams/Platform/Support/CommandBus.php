@@ -58,7 +58,7 @@ class CommandBus
 
         $handler = $this->transformer->toHandler($command);
 
-        return $this->app->make($handler)->handle($command);
+        return $this->app->call($handler . '@handle', compact('command'));
     }
 
     /**
@@ -70,7 +70,7 @@ class CommandBus
     protected function executeDecorators($command)
     {
         foreach ($this->decorators as $className) {
-            $this->app->make($className)->execute($command);
+            $this->app->call($className . '@execute', compact('command'));
         }
     }
 
@@ -89,7 +89,7 @@ class CommandBus
              * Classes utilizing the bus should catch and handle validation
              * exceptions on their own. Messages should be in the bag.
              */
-            $this->app->make($validator)->validate($command);
+            $this->app->call($validator . '@validate', compact('command'));
         }
     }
 }

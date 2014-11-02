@@ -24,6 +24,7 @@ trait CommandableTrait
         // If any decorators are passed, we'll filter through and register them
         // with the CommandBus, so that they are executed first.
         foreach ($decorators as $decorator) {
+
             $bus->decorate($decorator);
         }
 
@@ -62,11 +63,14 @@ trait CommandableTrait
             $name = $parameter->getName();
 
             if (array_key_exists($name, $input)) {
+
                 $dependencies[] = $input[$name];
             } elseif ($parameter->isDefaultValueAvailable()) {
+
                 $dependencies[] = $parameter->getDefaultValue();
             } else {
-                throw new \Exception("Unable to map input to command: {$name}");
+
+                throw new \Exception("Unable to map variable to command: {$name}");
             }
         }
 
