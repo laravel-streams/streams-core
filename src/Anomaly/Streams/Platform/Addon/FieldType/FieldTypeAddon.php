@@ -54,8 +54,8 @@ class FieldTypeAddon extends Addon implements PresentableInterface
 
         $locale = $this->getLocale();
 
-        $label        = trans($this->label);
-        $instructions = trans($this->instructions);
+        $label        = $this->label;
+        $instructions = $this->instructions;
         $language     = trans("language.{$locale}");
         $hidden       = $this->hidden ? 'hidden' : null;
 
