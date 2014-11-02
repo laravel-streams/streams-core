@@ -107,10 +107,23 @@ class Utility
      */
     public function normalize(array $data)
     {
-        /**
-         * If a URL is present but not absolute
-         * then we need to make it so.
-         */
+        $data = $this->normalizeUrl($data);
+        $data = $this->normalizeTooltip($data);
+        $data = $this->normalizeAttributes($data);
+
+        return $data;
+    }
+
+    /**
+     * If a URL is present but not absolute
+     * then we need to make it so.
+     *
+     * TODO: Inspect URL -> HREF problems?
+     *
+     * @param array $data
+     */
+    protected function normalizeUrl(array $data = [])
+    {
         if (isset($data['attributes']['url'])) {
 
             if (!starts_with($data['attributes']['url'], 'http')) {
@@ -123,10 +136,64 @@ class Utility
             unset($data['attributes']['url']);
         }
 
-        /**
-         * Implode all the attributes left over
-         * into an HTML attribute string.
-         */
+        return $data;
+    }
+
+    /**
+     * If the tooltip-{direction} attribute is set
+     * automate Bootstrap tooltip data attributes.
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function normalizeTooltip(array $data = [])
+    {
+        $tooltip   = null;
+        $placement = null;
+
+        if (isset($data['attributes']['tooltip'])) {
+
+            $placement = 'top';
+            $tooltip   = $data['attributes']['tooltip'];
+        } elseif (isset($data['attributes']['tooltip-left'])) {
+
+            $placement = 'tooltip-left';
+            $tooltip   = $data['attributes']['tooltip'];
+        } elseif (isset($data['attributes']['tooltip-right'])) {
+
+            $placement = 'right';
+            $tooltip   = $data['attributes']['tooltip-right'];
+        } elseif (isset($data['attributes']['tooltip-top'])) {
+
+            $placement = 'top';
+            $tooltip   = $data['attributes']['tooltip-top'];
+        } elseif (isset($data['attributes']['tooltip-bottom'])) {
+
+            $placement = 'bottom';
+            $tooltip   = $data['attributes']['tooltip-bottom'];
+        }
+
+        if ($tooltip and $placement) {
+
+            $data['attributes']['data-toggle']         = 'tooltip';
+            $data['attributes']['data-placement']      = $placement;
+            $data['attributes']['data-original-title'] = trans($tooltip);
+
+            unset($data['attributes']['tooltip'], $data['attributes']['tooltip-' . $placement]);
+        }
+
+        return $data;
+    }
+
+    /**
+     * Implode all the attributes left over
+     * into an HTML attribute string.
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function normalizeAttributes(array $data = [])
+    {
         if (isset($data['attributes'])) {
 
             $data['attributes'] = $this->attributes($data['attributes']);

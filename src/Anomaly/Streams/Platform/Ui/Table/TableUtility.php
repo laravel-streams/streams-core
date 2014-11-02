@@ -59,7 +59,7 @@ class TableUtility extends Utility
         ],
         'trash-icon' => [
             'class' => 'btn btn-sm btn-link',
-            'title' => '<i class="fa fa-trash-o"></i>',
+            'title' => '<i class="fa fa-trash"></i>',
         ],
     ];
 
