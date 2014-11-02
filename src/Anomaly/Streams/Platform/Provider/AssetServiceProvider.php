@@ -34,6 +34,6 @@ class AssetServiceProvider extends ServiceProvider
      */
     protected function addStreamsNamespaceHint()
     {
-        app('streams.asset')->addNamespace('streams', __DIR__ . '/../../../../resources');
+        app('streams.asset')->addNamespace('streams', __DIR__ . '/../../../../../resources');
     }
 }
