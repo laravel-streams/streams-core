@@ -146,7 +146,7 @@ class Asset
 
         $path = 'assets/' . APP_REF . '/' . $hash . '.' . $hint;
 
-        if ($this->shouldPublish($path)) {
+        if ($this->shouldPublish($path, $filters)) {
             $this->publish($path, $group, $filters);
         }
 
@@ -321,10 +321,11 @@ class Asset
      * Decide whether we need to publish the file
      * to the path or not.
      *
-     * @param $path
+     * @param       $path
+     * @param array $filters
      * @return bool
      */
-    protected function shouldPublish($path)
+    protected function shouldPublish($path, array $filters = [])
     {
         if (isset($_GET['_publish'])) {
 
@@ -337,6 +338,11 @@ class Asset
         }
 
         if (!file_exists($path)) {
+
+            return true;
+        }
+
+        if (in_array('live', $filters)) {
 
             return true;
         }
