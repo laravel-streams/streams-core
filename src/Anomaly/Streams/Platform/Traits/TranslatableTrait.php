@@ -308,9 +308,7 @@ trait TranslatableTrait
         $translation = new $modelName;
 
         $translation->setAttribute($this->getLocaleKey(), $locale);
-
-        // TODO: not sure of the entire consequences here.
-        $translation->assignment_id = $this->id;
+        $translation->setAttribute($this->getRelationKey(), $this->id);
 
         return $translation;
     }
