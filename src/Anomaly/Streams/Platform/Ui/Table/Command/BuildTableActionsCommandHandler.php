@@ -87,12 +87,13 @@ class BuildTableActionsCommandHandler
 
             // Build out our required data.
             $name       = $this->getName($ui);
+            $icon       = $this->getIcon($action);
             $title      = $this->getTitle($action);
             $class      = $this->getClass($action);
             $value      = $this->getSlug($action, $ui);
             $attributes = $this->getAttributes($action);
 
-            $action = compact('title', 'class', 'value', 'name', 'attributes');
+            $action = compact('title', 'class', 'icon', 'value', 'name', 'attributes');
 
             // Normalize things a bit before proceeding.
             $action = $this->utility->normalize($action);
@@ -152,6 +153,24 @@ class BuildTableActionsCommandHandler
     protected function getTitle(array $action)
     {
         return trans(evaluate_key($action, 'title', null));
+    }
+
+    /**
+     * Get the icon.
+     *
+     * @param $action
+     * @return null|string
+     */
+    protected function getIcon($action)
+    {
+        $icon = evaluate_key($action, 'icon', null);
+
+        if ($icon) {
+
+            return '<i class="' . $icon . '"></i>';
+        }
+
+        return null;
     }
 
     /**

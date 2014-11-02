@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Support\Messages;
+use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Illuminate\Http\Request;
 
 /**
@@ -13,21 +15,16 @@ use Illuminate\Http\Request;
 class HandleFormSubmissionCommandHandler
 {
 
-    /**
-     * The HTTP request object.
-     *
-     * @var \Illuminate\Http\Request
-     */
+    use CommandableTrait;
+
     protected $request;
 
-    /**
-     * Create a new HandleFormSubmissionCommandHandler instance.
-     *
-     * @param Request $request
-     */
-    function __construct(Request $request)
+    protected $messages;
+
+    function __construct(Request $request, Messages $messages)
     {
-        $this->request = $request;
+        $this->request  = $request;
+        $this->messages = $messages;
     }
 
     /**
@@ -39,13 +36,25 @@ class HandleFormSubmissionCommandHandler
     {
         $ui = $command->getUi();
 
-        $entry = $ui->getEntry();
+        $back = redirect(referer(url($this->request->path())));
 
-        app('streams.messages')->add('success', trans($entry->getStream()->name) . ' was saved.');
+        if (!$this->execute(new HandleFormSubmissionAuthorizationCommand($ui))) {
 
-        app('streams.messages')->flash();
+            $this->messages->add('error', $ui->getAuthorizationFailedMessage())->flash();
 
-        return redirect(referer(url(app('request')->path())));
+            $this->messages->flash();
+
+            return $back;
+        }
+
+        if (!$this->execute(new HandleFormSubmissionValidationCommand($ui))) {
+
+            $this->messages->flash();
+
+            return $back;
+        }
+
+        return $this->execute(new HandleFormSubmissionRedirectCommand($ui));
     }
 }
  

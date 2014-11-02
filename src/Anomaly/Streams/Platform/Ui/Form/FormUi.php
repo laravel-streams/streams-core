@@ -29,6 +29,8 @@ class FormUi extends Ui
 
     protected $view = 'html/form';
 
+    protected $authorizationFailedMessage = 'error.not_authorized';
+
     /**
      * Make the response.
      *
@@ -66,7 +68,6 @@ class FormUi extends Ui
         return view($this->view, $data);
     }
 
-
     public function setEntry($entry)
     {
         $this->entry = $entry;
@@ -78,6 +79,7 @@ class FormUi extends Ui
     {
         return $this->entry;
     }
+
 
     public function setRedirects(array $redirects)
     {
@@ -134,6 +136,11 @@ class FormUi extends Ui
         return $this;
     }
 
+    public function getAuthorizationFailedMessage()
+    {
+        return $this->authorizationFailedMessage;
+    }
+
     protected function newFormService()
     {
         return new FormService($this);
@@ -142,6 +149,16 @@ class FormUi extends Ui
     protected function newRepository()
     {
         return new FormRepository($this, $this->model);
+    }
+
+    public function toValidator()
+    {
+        if (!$validator = $this->transform(__METHOD__)) {
+
+            $validator = 'Anomaly\Streams\Platform\Ui\Form\FormUiValidator';
+        }
+
+        return $validator;
     }
 
     protected function onMake()

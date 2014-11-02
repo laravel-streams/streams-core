@@ -141,28 +141,11 @@ class FormUtility extends Utility
         switch ($type) {
 
             // Change the last two segments.
-            case 'cancel':
+            case 'save':
                 $segments = explode('/', $this->request->path());
-                $offset   = is_integer(end($segments)) ? 2 : 1;
+                $offset   = is_numeric(end($segments)) ? 2 : 1;
 
                 return url(implode('/', array_slice($segments, 0, count($segments) - $offset)));
-                break;
-
-            // Change the last two segments
-            case 'view':
-                $segments = explode('/', $this->request->path());
-                $offset   = is_integer(end($segments)) ? 2 : 1;
-
-                return url(implode('/', array_slice($segments, 0, count($segments) - $offset)) . '/show/{id}');
-                break;
-
-            // Change the URI action.
-            case 'delete':
-                $segments = explode('/', $this->request->path());
-                $offset   = is_integer(end($segments)) ? 2 : 1;
-                $suffix   = is_infinite(end($segments)) ? '/delete/{id}' : null;
-
-                return url(implode('/', array_slice($segments, 0, count($segments) - $offset)) . $suffix);
                 break;
 
             default:

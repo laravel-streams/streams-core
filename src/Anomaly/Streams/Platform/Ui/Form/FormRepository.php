@@ -50,9 +50,14 @@ class FormRepository implements FormRepositoryInterface
     {
         $id = $this->ui->getEntry();
 
+        if (!$id) {
+
+            return $this->model->newInstance();
+        }
+
         $entry = $this->model->find($id);
 
-        if (!$entry) {
+        if ($id and !$entry) {
 
             throw new \Exception("Entry [{$id}] not found.");
         }
