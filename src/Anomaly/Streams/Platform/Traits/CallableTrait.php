@@ -53,9 +53,13 @@ trait CallableTrait
 
         if (method_exists($this, $trigger)) {
 
-            //app()->call(get_class($this) . '@' . $trigger, $arguments); TODO: Evaluate this..
+            try {
 
-            return call_user_func_array([$this, $trigger], $arguments);
+                return app()->call(get_class($this) . '@' . $trigger, $arguments);
+            } catch (\Exception $e) {
+
+                return call_user_func_array([$this, $trigger], $arguments);
+            }
         }
     }
 
