@@ -33,16 +33,17 @@
         "phpseclib/phpseclib": "dev-master",
         "rackspace/php-opencloud": "dev-master",
         "robclancy/presenter": "1.3.*",
-        "filp/whoops": "~1.0"
+        "filp/whoops": "~1.0",
+        "symfony/yaml": "2.6.*@dev"
     },
     "repositories": [
         {
             "type": "vcs",
-            "url":  "git@github.com:anomalylabs/phpspec-laravel.git"
+            "url": "git@github.com:anomalylabs/phpspec-laravel.git"
         }
     ],
     "require-dev": {
-        "anomaly/streams" : "dev-master",
+        "anomaly/streams": "dev-master",
         "benconstable/phpspec-laravel": "dev-fix-laravel-5-compatibility",
         "henrikbjorn/phpspec-code-coverage": "~0.2"
     },

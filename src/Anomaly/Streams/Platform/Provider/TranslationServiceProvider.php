@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
+use Anomaly\Streams\Platform\Support\YamlFileLoader;
 use Anomaly\Streams\Platform\Support\Translator;
+use Symfony\Component\Yaml\Yaml;
 
 class TranslationServiceProvider extends \Illuminate\Translation\TranslationServiceProvider
 {
@@ -10,12 +12,25 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
      */
     public function register()
     {
-        // Called on parent.
         $this->registerLoader();
-
         $this->registerTranslator();
         $this->addStreamsLangPath();
     }
+
+    /**
+     * Register the loader for language files.
+     */
+    /*protected function registerLoader()
+    {
+        $parser = new Yaml();
+
+        $this->app->bindShared(
+            'translation.loader',
+            function ($app) {
+                return new YamlFileLoader($app['files'], $parser, $app['path'] . '/lang');
+            }
+        );
+    }*/
 
     /**
      * Use our own translator class.
