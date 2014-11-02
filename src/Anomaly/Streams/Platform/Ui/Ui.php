@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Traits\CallableTrait;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Anomaly\Streams\Platform\Traits\EventableTrait;
+use Anomaly\Streams\Platform\Traits\TransformableTrait;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -25,6 +26,7 @@ class Ui
     use EventableTrait;
     use CommandableTrait;
     use DispatchableTrait;
+    use TransformableTrait;
 
     /**
      * The UI prefix. This helps us
