@@ -41,7 +41,7 @@ class HandleFormSubmissionCommandHandler
 
         $entry = $ui->getEntry();
 
-        app('streams.messages')->add('success', $entry->email . ' was saved.');
+        app('streams.messages')->add('success', trans($entry->getStream()->name) . ' was saved.');
 
         app('streams.messages')->flash();
 
