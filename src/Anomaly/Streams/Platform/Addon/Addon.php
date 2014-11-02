@@ -1,11 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Traits\CallableTrait;
+use Anomaly\Streams\Platform\Traits\TransformableTrait;
 
 class Addon
 {
 
     use CallableTrait;
+    use TransformableTrait;
 
     protected $path = null;
 
@@ -57,5 +59,10 @@ class Addon
     public function getAbstract()
     {
         return "streams.{$this->getType()}.{$this->getSlug()}";
+    }
+
+    public function toServiceProvider()
+    {
+        return $this->transform(__FUNCTION__);
     }
 }

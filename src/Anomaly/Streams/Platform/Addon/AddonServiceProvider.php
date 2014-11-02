@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+
 use Anomaly\Streams\Platform\Support\Transformer;
 use Anomaly\Streams\Platform\Traits\CallableTrait;
+use Anomaly\Streams\Platform\Traits\TransformableTrait;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
@@ -9,6 +11,7 @@ class AddonServiceProvider extends ServiceProvider
 {
 
     use CallableTrait;
+    use TransformableTrait;
 
     protected $binding = 'singleton';
 
@@ -78,9 +81,7 @@ class AddonServiceProvider extends ServiceProvider
 
     protected function registerServiceProvider($addon)
     {
-        $transformer = new Transformer();
-
-        if ($provider = $transformer->toServiceProvider($addon)) {
+        if ($provider = $addon->toServiceProvider()) {
 
             $app      = $this->app;
             $provider = $this->app->make($provider, [$app]);

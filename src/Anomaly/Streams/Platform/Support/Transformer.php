@@ -21,140 +21,35 @@ class Transformer
      * @param $class
      * @return null|string
      */
-    public function toHandler($class)
-    {
-        $class   = get_class($class);
-        $handler = $class . 'Handler';
-
-        if (!class_exists($handler)) {
-
-            return null;
-        }
-
-        return $handler;
-    }
-
-    /**
-     * Transform a class to
-     * it's corresponding validator.
-     *
-     * @param $class
-     * @return null|string
-     */
-    public function toValidator($class)
-    {
-        $class     = get_class($class);
-        $validator = $class . 'Validator';
-
-        if (!class_exists($validator)) {
-
-            return null;
-        }
-
-        return $validator;
-    }
-
-    /**
-     * Transform a class to
-     * it's corresponding installer.
-     *
-     * @param $class
-     * @return null|string
-     */
-    public function toInstaller($class)
-    {
-        $class     = get_class($class);
-        $installer = $class . 'Installer';
-
-        if (!class_exists($installer)) {
-
-            return null;
-        }
-
-        return $installer;
-    }
-
-    /**
-     * Transform a class to
-     * it's corresponding service provider.
-     *
-     * @param $class
-     * @return null|string
-     */
-    public function toServiceProvider($class)
-    {
-        $class    = get_class($class);
-        $provider = $class . 'ServiceProvider';
-
-        if (!class_exists($provider)) {
-
-            return null;
-        }
-
-        return $provider;
-    }
-
-    /**
-     * Transform a class to
-     * it's corresponding presenter.
-     *
-     * @param $class
-     * @return null|string
-     */
-    public function toPresenter($class)
-    {
-        $class     = get_class($class);
-        $presenter = $class . 'Presenter';
-
-        if (!class_exists($presenter)) {
-
-            return null;
-        }
-
-        return $presenter;
-    }
-
-    /**
-     * Transform a class to
-     * it's corresponding filter.
-     *
-     * @param $class
-     * @return null|string
-     */
-    public function toFilter($class)
-    {
-        $class  = get_class($class);
-        $filter = $class . 'Filter';
-
-        if (!class_exists($filter)) {
-
-            return null;
-        }
-
-        return $filter;
-    }
-
-    /**
-     * Transform a class to
-     * it's corresponding observer.
-     *
-     * @param $class
-     * @return null|string
-     */
-    public function toObserver($class)
+    public function to($class, $suffix)
     {
         if (!is_string($class)) {
 
             $class = get_class($class);
         }
 
-        $observer = $class . 'Observer';
+        $class = $class . $suffix;
 
-        if (!class_exists($observer)) {
+        if (class_exists($class)) {
 
-            return null;
+            return $class;
         }
 
-        return $observer;
+        return null;
+    }
+
+    /**
+     * Handle dynamic calls like toServiceProvider($class)
+     *
+     * @param       $method
+     * @param array $arguments
+     * @return null|string
+     */
+    public function __call($method, array $arguments = [])
+    {
+        if (starts_with($method, 'to')) {
+
+            return $this->to($arguments[0], substr($method, 2));
+        }
     }
 }
