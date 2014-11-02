@@ -22,40 +22,44 @@ class TableUtility extends Utility
      * @var array
      */
     protected $buttons = [
-        'success' => [
+        'success'    => [
             'class' => 'btn btn-sm btn-success',
         ],
-        'info'    => [
+        'info'       => [
             'class' => 'btn btn-sm btn-info',
         ],
-        'warning' => [
+        'warning'    => [
             'class' => 'btn btn-sm btn-warning',
         ],
-        'danger'  => [
+        'danger'     => [
             'class' => 'btn btn-sm btn-danger',
         ],
-        'default' => [
+        'default'    => [
             'class' => 'btn btn-sm btn-default',
         ],
-        'view'    => [
+        'view'       => [
             'title' => 'button.view',
             'class' => 'btn btn-sm btn-info',
         ],
-        'options' => [
+        'options'    => [
             'title' => 'button.options',
             'class' => 'btn btn-sm btn-default',
         ],
-        'edit'    => [
+        'edit'       => [
             'title' => 'button.edit',
             'class' => 'btn btn-sm btn-warning',
         ],
-        'delete'  => [
+        'delete'     => [
             'title' => 'button.delete',
             'class' => 'btn btn-sm btn-danger',
         ],
-        'confirm' => [
+        'confirm'    => [
             'class'        => 'btn btn-sm btn-danger',
             'data-confirm' => 'confirm.delete',
+        ],
+        'trash-icon' => [
+            'class' => 'btn btn-sm btn-link',
+            'title' => '<i class="fa fa-trash-o"></i>',
         ],
     ];
 
