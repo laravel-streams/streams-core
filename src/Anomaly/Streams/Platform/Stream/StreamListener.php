@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelCommand;
+use Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModelCommand;
 use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTableCommand;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasCreatedEvent;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasDeletedEvent;
@@ -28,9 +29,7 @@ class StreamListener extends Listener
      */
     public function whenStreamWasSaved(StreamWasSavedEvent $event)
     {
-        $command = new GenerateEntryModelCommand($event->getStream());
-
-        $this->execute($command);
+        $this->generateEntryModels($event->getStream());
     }
 
     /**
@@ -40,9 +39,8 @@ class StreamListener extends Listener
      */
     public function whenStreamWasCreated(StreamWasCreatedEvent $event)
     {
-        $command = new CreateStreamsEntryTableCommand($event->getStream());
-
-        $this->execute($command);
+        $this->createStreamsTable($event->getStream());
+        $this->generateEntryModels($event->getStream());
     }
 
     /**
@@ -53,6 +51,36 @@ class StreamListener extends Listener
     public function whenStreamWasDeleted(StreamWasDeletedEvent $event)
     {
         //
+    }
+
+    /**
+     * Create the entry table for a stream.
+     *
+     * @param $stream
+     */
+    protected function createStreamsTable($stream)
+    {
+        $this->execute(new CreateStreamsEntryTableCommand($stream));
+    }
+
+    /**
+     * Generate entry models for the stream.
+     *
+     * @param StreamModel $stream
+     */
+    protected function generateEntryModels(StreamModel $stream)
+    {
+        // Generate the base model.
+        $this->execute(new GenerateEntryModelCommand($stream));
+
+        /**
+         * If the stream is translatable generate
+         * the translations model too.
+         */
+        if ($stream->isTranslatable()) {
+
+            $this->execute(new GenerateEntryTranslationsModelCommand($stream));
+        }
     }
 }
  

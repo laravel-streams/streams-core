@@ -4,9 +4,14 @@ use Anomaly\Streams\Platform\Entry\EntryModel;
 
 class {class} extends EntryModel
 {
+
     protected $table = '{table}';
 
     public static $rules = {rules};
+
+    {translationForeignKey}
+
+    {translationModel}
 
     protected $stream = {stream};
 
