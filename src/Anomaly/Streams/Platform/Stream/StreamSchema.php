@@ -38,6 +38,10 @@ class StreamSchema
 
                 $table->increments('id');
                 $table->integer($foreignKey);
+                $table->datetime('created_at');
+                $table->integer('created_by')->nullable();
+                $table->datetime('updated_at')->nullable();
+                $table->integer('updated_by')->nullable();
                 $table->string('locale')->index();
             }
         );
