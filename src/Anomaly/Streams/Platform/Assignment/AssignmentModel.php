@@ -121,7 +121,7 @@ class AssignmentModel extends EloquentModel
         $type         = $this->field->type;
         $field        = $this->field->slug;
         $label        = $this->getFieldLabel($locale);
-        $placehoder   = $this->getFieldPlaceholder($locale);
+        $placeholder  = $this->getFieldPlaceholder($locale);
         $instructions = $this->getFieldInstructions($locale);
 
         $data = compact('type', 'field', 'instructions', 'label', 'placeholder');
@@ -186,6 +186,12 @@ class AssignmentModel extends EloquentModel
             return trans($placeholder, [], null, $locale);
         }
 
+        if ($translated = trans($this->placeholder, [], null, $locale) and $translated != $this->placeholder) {
+
+            return $translated;
+        }
+
+
         return null;
     }
 
@@ -223,10 +229,6 @@ class AssignmentModel extends EloquentModel
 
     public function isTranslatable()
     {
-        if ($this->field->slug == 'first_name') {
-            return true;
-        }
-
         return ($this->field->translatable and $this->stream->translatable);
     }
 }

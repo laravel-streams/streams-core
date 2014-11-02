@@ -145,7 +145,7 @@ class BuildFormSectionFieldsCommandHandler
                 $type->setSuffix($locale);
                 $type->setPrefix($ui->getPrefix());
                 //$type->setLabel(trans($entry->getFieldLabel($field['field']), [], '', $locale));
-                $type->setPlaceholder(trans($entry->getFieldPlaceholder($field['field']), [], '', $locale));
+                //$type->setPlaceholder(trans($entry->getFieldPlaceholder($field['field']), [], '', $locale));
 
                 // Render the input element.
                 $element .= $type->element();
