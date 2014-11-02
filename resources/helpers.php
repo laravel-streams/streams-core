@@ -54,21 +54,16 @@ function evaluate($value, $arguments = [])
         try {
 
             return call_user_func_array($value, $arguments);
-
         } catch (\Exception $e) {
 
             return null;
-
         }
-
     } elseif (is_array($value)) {
 
         foreach ($value as &$val) {
 
             $val = evaluate($val, $arguments);
-
         }
-
     }
 
     return $value;
@@ -154,13 +149,10 @@ function merge($string, $data)
         if (!$data instanceof \Anomaly\Streams\Platform\Contract\ArrayableInterface) {
 
             return null;
-
         } else {
 
             $data = $data->toArray();
-
         }
-
     }
 
     preg_match_all('/\{([a-z._)]*)\}/', $string, $matches);
@@ -175,12 +167,10 @@ function merge($string, $data)
             foreach ($parts as $attribute) {
 
                 $value = evaluate_key($value, $attribute);
-
             }
 
             $string = str_replace($match, $value, $string);
         }
-
     }
 
     return $string;
@@ -211,7 +201,6 @@ function referer($fallback = null)
     if (!$fallback) {
 
         $fallback = url();
-
     }
 
     return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $fallback;
@@ -245,8 +234,34 @@ function rand_string($length = 10)
     while (strlen($string) < $length) {
 
         $string .= $chars{mt_rand(0, $max)};
-
     }
 
     return $string;
+}
+
+/**
+ * Determine if a string is translatable.
+ *
+ * This is helpful for defaulting and
+ * cascading translatable strings.
+ *
+ * @param $string
+ * @return bool
+ */
+function is_translatable($string)
+{
+    $translated = trans($string);
+
+    return (is_lang($string) and $string !== $translated);
+}
+
+/**
+ * Determine if a string is a lang key.
+ *
+ * @param $string
+ * @return bool
+ */
+function is_lang($string)
+{
+    return str_is('*::*.*', $string);
 }

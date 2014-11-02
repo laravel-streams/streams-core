@@ -173,7 +173,7 @@ class AssignmentModel extends EloquentModel
 
         $locale = $locale ? : config('app.locale');
 
-        if ($label = $this->translate($locale)->label) {
+        if ($label = $this->translate($locale)->label and is_translatable($label)) {
 
             return trans($label, [], null, $locale);
         }
@@ -185,14 +185,9 @@ class AssignmentModel extends EloquentModel
     {
         $locale = $locale ? : config('app.locale');
 
-        if ($placeholder = $this->translate($locale)->placeholder) {
+        if ($placeholder = $this->translate($locale)->placeholder and is_translatable($placeholder)) {
 
             return trans($placeholder, [], null, $locale);
-        }
-
-        if ($translated = trans($this->placeholder, [], null, $locale) and $translated != $this->placeholder) {
-
-            return $translated;
         }
 
         return null;
@@ -202,7 +197,7 @@ class AssignmentModel extends EloquentModel
     {
         $locale = $locale ? : config('app.locale');
 
-        if ($instructions = $this->translate($locale)->instructions) {
+        if ($instructions = $this->translate($locale)->instructions and is_translatable($instructions)) {
 
             return trans($instructions, [], null, $locale);
         }
