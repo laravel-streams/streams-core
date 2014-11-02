@@ -60,7 +60,7 @@ class TagAddon extends Addon implements PluginInterface, PresentableInterface
 
     public function getAttributeAsArray($name, $offset = 0, $default = null)
     {
-        return $this->parse($this->getAttribute($name, $offset = 0, $default = null));
+        return $this->parse($this->getAttribute($name, $offset, $default));
     }
 
     public function setContent($content = '')
