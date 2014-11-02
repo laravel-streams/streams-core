@@ -191,7 +191,6 @@ class AssignmentModel extends EloquentModel
             return $translated;
         }
 
-
         return null;
     }
 
@@ -229,6 +228,14 @@ class AssignmentModel extends EloquentModel
 
     public function isTranslatable()
     {
+        if ($this->field->slug == 'first_name') {
+            return true;
+        }
+
+        if ($this->field->slug == 'last_name') {
+            return true;
+        }
+
         return ($this->field->translatable and $this->stream->translatable);
     }
 }
