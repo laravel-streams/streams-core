@@ -203,4 +203,9 @@ class StreamModel extends EloquentModel
     {
         return new StreamPresenter($this);
     }
+
+    public function isTranslatable()
+    {
+        return ($this->is_translatable);
+    }
 }
