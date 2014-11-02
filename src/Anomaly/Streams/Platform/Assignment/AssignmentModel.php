@@ -132,7 +132,7 @@ class AssignmentModel extends EloquentModel
 
         if ($entry and $fieldType instanceof FieldTypeAddon) {
 
-            $fieldType->setValue($entry->translate($locale)->getAttribute($fieldType->getColumnName(), false));
+            $fieldType->setValue($entry->translate($locale, false, false)->getAttribute($fieldType->getColumnName(), false));
         }
 
         return $fieldType;
@@ -228,14 +228,6 @@ class AssignmentModel extends EloquentModel
 
     public function isTranslatable()
     {
-        if ($this->field->slug == 'first_name') {
-            return true;
-        }
-
-        if ($this->field->slug == 'last_name') {
-            return true;
-        }
-
-        return ($this->field->translatable and $this->stream->translatable);
+        return ($this->is_translatable and $this->stream->is_translatable);
     }
 }
