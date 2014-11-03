@@ -22,5 +22,9 @@ class ListenerServiceProvider extends ServiceProvider
             'Anomaly.Streams.Platform.Assignment.Event.*',
             'Anomaly\Streams\Platform\Assignment\AssignmentListener'
         );
+        app('events')->listen(
+            'Anomaly.Streams.Platform.Ui.Form.*',
+            'Anomaly\Streams\Platform\Ui\Form\FormListener'
+        );
     }
 }

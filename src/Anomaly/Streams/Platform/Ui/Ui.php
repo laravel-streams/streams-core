@@ -28,6 +28,8 @@ class Ui
     use DispatchableTrait;
     use TransformableTrait;
 
+    protected $response;
+
     /**
      * The UI prefix. This helps us
      * distinguish logic for multiple
@@ -99,6 +101,17 @@ class Ui
         }
 
         return view($this->wrapper, compact('content', 'title'));
+    }
+
+    /**
+     * @param mixed $response
+     * return $this
+     */
+    public function setResponse($response)
+    {
+        $this->response = $response;
+
+        return $this;
     }
 
     /**

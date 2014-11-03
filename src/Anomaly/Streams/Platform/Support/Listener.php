@@ -6,7 +6,7 @@ abstract class Listener
 {
 
     /**
-     * Handle the event
+     * Handle the event through the container.
      *
      * @param $event
      * @return mixed
@@ -16,7 +16,9 @@ abstract class Listener
         $eventName = $this->getEventName($event);
 
         if ($this->listenerIsRegistered($eventName)) {
-            return call_user_func([$this, 'when' . $eventName], $event);
+
+            // Run the method through the container.
+            return app()->call(get_class($this) . '@when' . $eventName, compact('event'));
         }
     }
 
@@ -31,6 +33,7 @@ abstract class Listener
         $name = (new ReflectionClass($event))->getShortName();
 
         if (substr($name, -5) == 'Event') {
+
             $name = substr($name, 0, -5);
         }
 

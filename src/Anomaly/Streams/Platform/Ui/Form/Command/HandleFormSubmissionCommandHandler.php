@@ -40,21 +40,15 @@ class HandleFormSubmissionCommandHandler
 
         if (!$this->execute(new HandleFormSubmissionAuthorizationCommand($ui))) {
 
-            $this->messages->add('error', $ui->getAuthorizationFailedMessage())->flash();
-
-            $this->messages->flash();
-
-            return $back;
+            return $ui->setResponse($back);
         }
 
         if (!$this->execute(new HandleFormSubmissionValidationCommand($ui))) {
 
-            $this->messages->flash();
-
-            return $back;
+            return $ui->setResponse($back);
         }
 
-        return $this->execute(new HandleFormSubmissionRedirectCommand($ui));
+        return $ui->setResponse($this->execute(new HandleFormSubmissionRedirectCommand($ui)));
     }
 }
  

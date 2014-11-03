@@ -17,17 +17,23 @@ trait TransformableTrait
      * Transform a class to a counterpart with
      * the specified class suffix.
      *
-     * @param $suffix
+     * @param      $suffix
+     * @param null $class
      * @return null|string
      */
-    public function transform($suffix)
+    public function transform($suffix, $class = null)
     {
-        if (substr($suffix, 0, 2) === 'to') {
+        if (substr($suffix, 0, 2) == 'to') {
 
             $suffix = substr($suffix, 2);
         }
 
-        return (new Transformer())->to($this, $suffix);
+        if (!$class) {
+
+            $class = $this;
+        }
+
+        return (new Transformer())->to($class, $suffix);
     }
 }
  

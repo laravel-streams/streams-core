@@ -41,16 +41,6 @@ class FormUiValidator
         return false;
     }
 
-    /**
-     * Authorize the form request.
-     *
-     * @param array $input
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
     protected function localizeRules($ui, $rules)
     {
         $localizedRules = [];

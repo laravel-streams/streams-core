@@ -1,6 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Ui\Form\Command\HandleFormSubmissionCommand;
+use Anomaly\Streams\Platform\Ui\Form\Event\AuthorizationFailedEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\AuthorizationPassedEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\FormWasSubmittedEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\ValidationFailedEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\ValidationPassedEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
 
 /**
@@ -29,6 +33,8 @@ class FormUi extends Ui
 
     protected $view = 'html/form';
 
+    protected $errors = [];
+
     protected $authorizationFailedMessage = 'error.not_authorized';
 
     /**
@@ -40,12 +46,7 @@ class FormUi extends Ui
     {
         $this->entry = $entry;
 
-        if ($response = $this->fire('make')) {
-
-            return $response;
-        }
-
-        return parent::make();
+        return $this->fire('make');
     }
 
     /**
@@ -80,13 +81,13 @@ class FormUi extends Ui
         return $this->entry;
     }
 
-
     public function setRedirects(array $redirects)
     {
         $this->redirects = $redirects;
 
         return $this;
     }
+
 
     public function getRedirects()
     {
@@ -136,6 +137,18 @@ class FormUi extends Ui
         return $this;
     }
 
+    public function setErrors($errors)
+    {
+        $this->errors = $errors;
+
+        return $this;
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
     public function getAuthorizationFailedMessage()
     {
         return $this->authorizationFailedMessage;
@@ -161,14 +174,29 @@ class FormUi extends Ui
         return $validator;
     }
 
+    public function toAuthorizer()
+    {
+        if (!$authorizer = $this->transform(__METHOD__)) {
+
+            $authorizer = 'Anomaly\Streams\Platform\Ui\Form\FormUiAuthorizer';
+        }
+
+        return $authorizer;
+    }
+
     protected function onMake()
     {
         $this->entry = $this->newRepository()->get();
 
         if (app('request')->isMethod('post')) {
 
-            return $this->execute(new HandleFormSubmissionCommand($this));
+            $this->dispatch(new FormWasSubmittedEvent($this));
+        } else {
+
+            $this->setResponse(parent::make());
         }
+
+        return $this->response;
     }
 }
  

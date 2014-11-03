@@ -1,5 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Traits\DispatchableTrait;
+use Anomaly\Streams\Platform\Ui\Form\Event\ValidationFailedEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\ValidationPassedEvent;
+
 /**
  * Class HandleFormSubmissionValidationCommandHandler
  *
@@ -11,6 +15,8 @@
 class HandleFormSubmissionValidationCommandHandler
 {
 
+    use DispatchableTrait;
+
     /**
      * Handle the command.
      *
@@ -21,7 +27,15 @@ class HandleFormSubmissionValidationCommandHandler
     {
         $ui = $command->getUi();
 
-        return (app()->call($ui->toValidator() . '@validate', compact('ui')));
+        $passes = (app()->call($ui->toValidator() . '@validate', compact('ui')));
+
+        if ($passes) {
+
+            $this->dispatch(new ValidationPassedEvent($ui));
+        } else {
+
+            $this->dispatch(new ValidationFailedEvent($ui));
+        }
     }
 }
  
