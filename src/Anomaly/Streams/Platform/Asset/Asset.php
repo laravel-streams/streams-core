@@ -96,7 +96,7 @@ class Asset
     public function path($group, array $filters = [])
     {
         if (!isset($this->groups[$group])) {
-            
+
             $this->add($group, $group, $filters);
         }
 
@@ -174,8 +174,10 @@ class Asset
             $filters = $this->transformFilters($filters, $hint);
 
             if (ends_with($file, '*')) {
+
                 $file = new GlobAsset($file, $filters);
             } else {
+
                 $file = new FileAsset($file, $filters);
             }
 
@@ -282,11 +284,11 @@ class Asset
      * @param $path
      * @return mixed|string
      */
-    protected function getHint($path)
+    public function getHint($path)
     {
         $hint = $this->getExtension($path);
 
-        if ($hint == 'less') {
+        if (in_array($hint, ['less', 'scss'])) {
             $hint = 'css';
         }
 
