@@ -96,6 +96,7 @@ class Asset
     public function path($group, array $filters = [])
     {
         if (!isset($this->groups[$group])) {
+            
             $this->add($group, $group, $filters);
         }
 
