@@ -77,7 +77,7 @@ class Ui
     }
 
     /**
-     * Trigger creation of the content.
+     * Trigger the response.
      */
     protected function trigger()
     {
@@ -85,7 +85,7 @@ class Ui
     }
 
     /**
-     * Make the response.
+     * Get the response.
      *
      * @return \Illuminate\View\View
      */
@@ -101,6 +101,11 @@ class Ui
         }
 
         return view($this->wrapper, compact('content', 'title'));
+    }
+
+    public function render()
+    {
+        return $this->make()->render();
     }
 
     /**

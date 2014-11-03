@@ -1,10 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Ui\Form\Event\AuthorizationFailedEvent;
-use Anomaly\Streams\Platform\Ui\Form\Event\AuthorizationPassedEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasSubmittedEvent;
-use Anomaly\Streams\Platform\Ui\Form\Event\ValidationFailedEvent;
-use Anomaly\Streams\Platform\Ui\Form\Event\ValidationPassedEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
 
 /**
@@ -38,21 +34,30 @@ class FormUi extends Ui
     protected $authorizationFailedMessage = 'error.not_authorized';
 
     /**
-     * Make the response.
+     * Get the response.
      *
-     * @return \Illuminate\View\View
+     * @param null $entry
+     * @return \Illuminate\View\View|mixed|null
      */
     public function make($entry = null)
     {
-        $this->entry = $entry;
+        if ($entry) {
+
+            $this->entry = $entry;
+        }
 
         return $this->fire('make');
     }
 
+    public function render($entry = null)
+    {
+        return $this->make($entry)->render();
+    }
+
     /**
-     * Trigger logic to build content.
+     * Trigger the response.
      *
-     * @return null|string
+     * @return \Illuminate\View\View|null
      */
     protected function trigger()
     {

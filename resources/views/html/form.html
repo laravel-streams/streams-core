@@ -1,6 +1,6 @@
 {{ extends "theme::layouts/default" }}
 
-{{ asset.add "streams.js" "streams::js/form/form.js" "live" }}
+{{ asset.add group="streams.js" file="streams::js/form/form.js" filters="live" }}
 
 {{ section "content" }}
 

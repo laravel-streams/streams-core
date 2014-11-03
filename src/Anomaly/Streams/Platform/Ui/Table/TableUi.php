@@ -110,7 +110,7 @@ class TableUi extends Ui
     protected $model;
 
     /**
-     * Trigger logic to build content.
+     * Trigger the response.
      *
      * @return null|string
      */
