@@ -67,20 +67,20 @@ class Asset
      * @param array $filters
      * @return $this
      */
-    public function add($group, $asset, array $filters = [])
+    public function add($group, $file, array $filters = [])
     {
         if (!isset($this->groups[$group])) {
 
             $this->groups[$group] = [];
         }
 
-        $filters = $this->addConvenientFilters($asset, $filters);
+        $filters = $this->addConvenientFilters($file, $filters);
 
-        $asset = $this->replaceNamespace($asset);
+        $file = $this->replaceNamespace($file);
 
-        if (file_exists($asset) or is_dir(trim($asset, '*'))) {
+        if (file_exists($file) or is_dir(trim($file, '*'))) {
 
-            $this->groups[$group][$asset] = $filters;
+            $this->groups[$group][$file] = $filters;
         }
 
         return $this;
@@ -121,11 +121,11 @@ class Asset
 
         return array_filter(
             array_map(
-                function ($asset, $filters) use ($additionalFilters) {
+                function ($file, $filters) use ($additionalFilters) {
 
                     $filters = array_filter(array_unique(array_merge($filters, $additionalFilters)));
 
-                    return $this->path($asset, $filters);
+                    return $this->path($file, $filters);
                 },
                 array_keys($this->groups[$group]),
                 array_values($this->groups[$group])
@@ -166,19 +166,19 @@ class Asset
 
         $hint = $this->getHint($group);
 
-        foreach ($this->groups[$group] as $asset => $filters) {
+        foreach ($this->groups[$group] as $file => $filters) {
 
             $filters = array_filter(array_unique(array_merge($filters, $additionalFilters)));
 
             $filters = $this->transformFilters($filters, $hint);
 
-            if (ends_with($asset, '*')) {
-                $asset = new GlobAsset($asset, $filters);
+            if (ends_with($file, '*')) {
+                $file = new GlobAsset($file, $filters);
             } else {
-                $asset = new FileAsset($asset, $filters);
+                $file = new FileAsset($file, $filters);
             }
 
-            $collection->add($asset);
+            $collection->add($file);
         }
 
         $path = $this->directory . $path;
@@ -240,21 +240,21 @@ class Asset
      * Add filters that we can assume based
      * on the asset's file name.
      *
-     * @param $asset
+     * @param $file
      * @param $filters
      * @return array
      */
-    protected function addConvenientFilters($asset, $filters)
+    protected function addConvenientFilters($file, $filters)
     {
-        if (ends_with($asset, '.less')) {
+        if (ends_with($file, '.less')) {
             $filters[] = 'less';
         }
 
-        if (ends_with($asset, '.scss')) {
+        if (ends_with($file, '.scss')) {
             $filters[] = 'scss';
         }
 
-        if (ends_with($asset, '.coffee')) {
+        if (ends_with($file, '.coffee')) {
             $filters[] = 'coffee';
         }
 
