@@ -111,6 +111,11 @@ class FieldTypeAddon extends Addon implements PresentableInterface
         return $this;
     }
 
+    protected function getPlaceholder()
+    {
+        return $this->placeholder;
+    }
+
     public function setLocale($locale)
     {
         $this->locale = $locale;
