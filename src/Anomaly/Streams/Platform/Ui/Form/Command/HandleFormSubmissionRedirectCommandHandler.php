@@ -22,9 +22,9 @@ class HandleFormSubmissionRedirectCommandHandler
      */
     public function handle(HandleFormSubmissionRedirectCommand $command, Request $request)
     {
-        $ui = $command->getUi();
+        $form = $command->getForm();
 
-        return redirect($request->get($ui->getPrefix() . 'redirect'));
+        return redirect($request->get($form->getPrefix() . 'redirect'));
     }
 }
  

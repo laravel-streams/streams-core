@@ -42,9 +42,9 @@ class BuildFormSectionFieldsCommandHandler
      */
     public function handle(BuildFormSectionFieldsCommand $command)
     {
-        $ui = $command->getUi();
+        $form = $command->getForm();
 
-        $entry = $ui->getEntry();
+        $entry = $form->getEntry();
 
         $fields = [];
 
@@ -55,11 +55,11 @@ class BuildFormSectionFieldsCommandHandler
 
             // Evaluate the entire row.
             // All first level closures on are gone now.
-            $field = $this->utility->evaluate($field, [$ui, $entry], $entry);
+            $field = $this->utility->evaluate($field, [$form, $entry], $entry);
 
             if ($entry instanceof EntryInterface) {
 
-                $fields[] = $this->getField($field, $ui, $entry);
+                $fields[] = $this->getField($field, $form, $entry);
             }
         }
 
@@ -91,11 +91,11 @@ class BuildFormSectionFieldsCommandHandler
      * Get field data.
      *
      * @param array          $field
-     * @param Form         $ui
+     * @param Form         $form
      * @param EntryInterface $entry
      * @return array|null
      */
-    protected function getField(array $field, Form $ui, EntryInterface $entry)
+    protected function getField(array $field, Form $form, EntryInterface $entry)
     {
         /**
          * Get the assignment model from the field.
@@ -105,7 +105,7 @@ class BuildFormSectionFieldsCommandHandler
 
         if ($assignment instanceof AssignmentModel) {
 
-            $element = $this->getElement($field, $ui, $entry, $assignment);
+            $element = $this->getElement($field, $form, $entry, $assignment);
 
             return compact('element');
         }
@@ -117,12 +117,12 @@ class BuildFormSectionFieldsCommandHandler
      * Get the form element for a field.
      *
      * @param array           $field
-     * @param Form          $ui
+     * @param Form          $form
      * @param EntryInterface  $entry
      * @param AssignmentModel $assignment
      * @return \Illuminate\View\View|null
      */
-    protected function getElement(array $field, Form $ui, EntryInterface $entry, AssignmentModel $assignment)
+    protected function getElement(array $field, Form $form, EntryInterface $entry, AssignmentModel $assignment)
     {
         $element = '';
 
@@ -143,7 +143,7 @@ class BuildFormSectionFieldsCommandHandler
                  */
                 $type->setLocale($locale);
                 $type->setSuffix($locale);
-                $type->setPrefix($ui->getPrefix());
+                $type->setPrefix($form->getPrefix());
                 $type->setHidden(config('app.locale') !== $locale);
                 //$type->setLabel(trans($entry->getFieldLabel($field['field']), [], '', $locale));
                 //$type->setPlaceholder(trans($entry->getFieldPlaceholder($field['field']), [], '', $locale));

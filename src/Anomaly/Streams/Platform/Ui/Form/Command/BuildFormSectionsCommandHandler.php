@@ -44,23 +44,23 @@ class BuildFormSectionsCommandHandler
      */
     public function handle(BuildFormSectionsCommand $command)
     {
-        $ui = $command->getUi();
+        $form = $command->getForm();
 
-        $entry = $ui->getEntry();
+        $entry = $form->getEntry();
 
         $sections = [];
 
-        foreach ($ui->getSections() as $section) {
+        foreach ($form->getSections() as $section) {
 
             // Standardize input.
             $section = $this->standardize($section);
 
             // Evaluate the column.
             // All closures are gone now.
-            $section = $this->utility->evaluate($section, [$ui, $entry], $entry);
+            $section = $this->utility->evaluate($section, [$form, $entry], $entry);
 
             // Get our defaults and merge them in.
-            $defaults = $this->getDefaults($section, $ui, $entry);
+            $defaults = $this->getDefaults($section, $form, $entry);
 
             $section = array_merge($defaults, $section);
 
@@ -69,7 +69,7 @@ class BuildFormSectionsCommandHandler
             $section = $this->standardizeLayout($section);
 
             // Get the object responsible for handling the section.
-            $handler = $this->getSectionHandler($section, $ui);
+            $handler = $this->getSectionHandler($section, $form);
 
             if ($handler instanceof FormSectionInterface) {
 
@@ -113,17 +113,17 @@ class BuildFormSectionsCommandHandler
      * Get the default data by the given type.
      *
      * @param array  $section
-     * @param Form $ui
+     * @param Form $form
      * @param        $entry
      * @return array|mixed|null
      */
-    protected function getDefaults(array $section, Form $ui, $entry)
+    protected function getDefaults(array $section, Form $form, $entry)
     {
         $defaults = [];
 
         if (isset($section['type']) and $defaults = $this->utility->getSectionDefaults($section['type'])) {
 
-            $defaults = $this->utility->evaluate($defaults, [$ui, $entry], $entry);
+            $defaults = $this->utility->evaluate($defaults, [$form, $entry], $entry);
         }
 
         return $defaults;
@@ -142,14 +142,14 @@ class BuildFormSectionsCommandHandler
 
     /**
      * @param array  $section
-     * @param Form $ui
+     * @param Form $form
      * @return mixed
      */
-    protected function getSectionHandler(array $section, Form $ui)
+    protected function getSectionHandler(array $section, Form $form)
     {
         $default = 'Anomaly\Streams\Platform\Ui\Form\Section\DefaultFormSection';
 
-        return app()->make(evaluate_key($section, 'handler', $default, [$ui]), compact('section', 'ui'));
+        return app()->make(evaluate_key($section, 'handler', $default, [$form]), compact('section', 'ui', 'form'));
     }
 
     /**

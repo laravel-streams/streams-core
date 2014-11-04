@@ -19,29 +19,29 @@ class FormValidator
      *
      * @param array $input
      */
-    public function validate(Form $ui, Request $request, Factory $factory)
+    public function validate(Form $form, Request $request, Factory $factory)
     {
-        $model = $ui->getModel();
+        $model = $form->getModel();
         $data  = $request->all();
-        $rules = $this->localizeRules($ui, $model::$rules);
+        $rules = $this->localizeRules($form, $model::$rules);
 
         $validator = $factory->make($data, $rules);
 
         if ($validator->passes()) {
 
-            $ui->fire('validation_passes');
+            $form->fire('validation_passes');
 
             return true;
         }
 
         $messages = $validator->messages()->all();
 
-        $ui->fire('validation_fails', compact('messages'));
+        $form->fire('validation_fails', compact('messages'));
 
         return false;
     }
 
-    protected function localizeRules($ui, $rules)
+    protected function localizeRules($form, $rules)
     {
         $localizedRules = [];
 
@@ -51,7 +51,7 @@ class FormValidator
                 continue;
             }
 
-            $localizedRules[$ui->getPrefix() . $field . '_en'] = $rules;
+            $localizedRules[$form->getPrefix() . $field . '_en'] = $rules;
         }
 
         return $localizedRules;

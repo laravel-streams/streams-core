@@ -17,11 +17,11 @@ class FormRepository implements FormRepositoryInterface
 {
 
     /**
-     * The form UI object.
+     * The form object.
      *
      * @var Form
      */
-    protected $ui;
+    protected $form;
 
     /**
      * The model if any.
@@ -31,12 +31,12 @@ class FormRepository implements FormRepositoryInterface
     protected $model;
 
     /**
-     * @param Form $ui
+     * @param Form $form
      * @param null   $model
      */
-    function __construct(Form $ui, $model = null)
+    function __construct(Form $form, $model = null)
     {
-        $this->ui    = $ui;
+        $this->form    = $form;
         $this->model = $model;
     }
 
@@ -48,7 +48,7 @@ class FormRepository implements FormRepositoryInterface
      */
     public function get()
     {
-        $id = $this->ui->getEntry();
+        $id = $this->form->getEntry();
 
         if (!$id) {
 

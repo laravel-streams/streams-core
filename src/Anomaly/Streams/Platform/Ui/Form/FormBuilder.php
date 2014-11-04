@@ -25,20 +25,20 @@ class FormBuilder
     use CommandableTrait;
 
     /**
-     * The form UI object.
+     * The form object.
      *
      * @var Form
      */
-    protected $ui;
+    protected $form;
 
     /**
      * Create a new FormBuilder instance.
      *
-     * @param Form $ui
+     * @param Form $form
      */
-    function __construct(Form $ui)
+    function __construct(Form $form)
     {
-        $this->ui = $ui;
+        $this->form = $form;
     }
 
     /**
@@ -48,7 +48,7 @@ class FormBuilder
      */
     public function sections()
     {
-        $command = new BuildFormSectionsCommand($this->ui);
+        $command = new BuildFormSectionsCommand($this->form);
 
         return $this->execute($command);
     }
@@ -60,7 +60,7 @@ class FormBuilder
      */
     public function redirects()
     {
-        $command = new BuildFormRedirectsCommand($this->ui);
+        $command = new BuildFormRedirectsCommand($this->form);
 
         return $this->execute($command);
     }
@@ -72,7 +72,7 @@ class FormBuilder
      */
     public function actions()
     {
-        $command = new BuildFormActionsCommand($this->ui);
+        $command = new BuildFormActionsCommand($this->form);
 
         return $this->execute($command);
     }

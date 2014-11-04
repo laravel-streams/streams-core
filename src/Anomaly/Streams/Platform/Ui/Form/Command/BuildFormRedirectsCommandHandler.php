@@ -50,28 +50,28 @@ class BuildFormRedirectsCommandHandler
      */
     public function handle(BuildFormRedirectsCommand $command)
     {
-        $ui = $command->getUi();
+        $form = $command->getForm();
 
-        $entry = $ui->getEntry();
+        $entry = $form->getEntry();
 
         $redirects = [];
 
-        foreach ($ui->getRedirects() as $redirect) {
+        foreach ($form->getRedirects() as $redirect) {
 
             // Standardize input.
             $redirect = $this->standardize($redirect);
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $redirect = $this->utility->evaluate($redirect, [$ui, $entry], $entry);
+            $redirect = $this->utility->evaluate($redirect, [$form, $entry], $entry);
 
             // Get our defaults and merge them in.
-            $defaults = $this->getDefaults($redirect, $ui, $entry);
+            $defaults = $this->getDefaults($redirect, $form, $entry);
 
             $redirect = array_merge($defaults, $redirect);
 
             // Build out our required data.
-            $name       = $this->getName($ui);
+            $name       = $this->getName($form);
             $value      = $this->getUrl($redirect);
             $title      = $this->getTitle($redirect);
             $class      = $this->getClass($redirect);
@@ -110,17 +110,17 @@ class BuildFormRedirectsCommandHandler
      * Get the defaults for the redirect's type if any.
      *
      * @param array  $redirect
-     * @param Form $ui
+     * @param Form $form
      * @param        $entry
      * @return array|mixed|null
      */
-    protected function getDefaults(array $redirect, Form $ui, $entry)
+    protected function getDefaults(array $redirect, Form $form, $entry)
     {
         $defaults = [];
 
         if (isset($redirect['type']) and $defaults = $this->utility->getRedirectDefaults($redirect['type'])) {
 
-            $defaults = $this->utility->evaluate($defaults, [$ui, $entry], $entry);
+            $defaults = $this->utility->evaluate($defaults, [$form, $entry], $entry);
         }
 
         return $defaults;
@@ -129,12 +129,12 @@ class BuildFormRedirectsCommandHandler
     /**
      * Get the name for the redirect button.
      *
-     * @param Form $ui
+     * @param Form $form
      * @return string
      */
-    protected function getName(Form $ui)
+    protected function getName(Form $form)
     {
-        return $ui->getPrefix() . 'redirect';
+        return $form->getPrefix() . 'redirect';
     }
 
     /**

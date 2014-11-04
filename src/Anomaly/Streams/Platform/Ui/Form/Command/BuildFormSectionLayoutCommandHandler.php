@@ -23,12 +23,12 @@ class BuildFormSectionLayoutCommandHandler
      */
     public function handle(BuildFormSectionLayoutCommand $command)
     {
-        $ui      = $command->getUi();
+        $form      = $command->getForm();
         $section = $command->getSection();
 
         // Delegate the building of the rows.
         // If we need to build more here later we can.
-        $command = new BuildFormSectionRowsCommand($ui, $section['layout']['rows']);
+        $command = new BuildFormSectionRowsCommand($form, $section['layout']['rows']);
 
         $rows = $this->execute($command);
 

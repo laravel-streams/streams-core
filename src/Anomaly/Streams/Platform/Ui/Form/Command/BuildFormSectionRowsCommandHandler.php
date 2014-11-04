@@ -41,9 +41,9 @@ class BuildFormSectionRowsCommandHandler
      */
     public function handle(BuildFormSectionRowsCommand $command)
     {
-        $ui = $command->getUi();
+        $form = $command->getForm();
 
-        $entry = $ui->getEntry();
+        $entry = $form->getEntry();
 
         $rows = [];
 
@@ -51,9 +51,9 @@ class BuildFormSectionRowsCommandHandler
 
             // Evaluate the entire row.
             // All first level closures on are gone now.
-            $row = $this->utility->evaluate($row, [$ui, $entry], $entry);
+            $row = $this->utility->evaluate($row, [$form, $entry], $entry);
 
-            $command = new BuildFormSectionColumnsCommand($ui, $row['columns']);
+            $command = new BuildFormSectionColumnsCommand($form, $row['columns']);
 
             $columns = $this->execute($command);
 

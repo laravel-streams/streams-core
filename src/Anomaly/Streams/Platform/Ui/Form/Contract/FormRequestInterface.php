@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
 interface FormRequestInterface
 {
 
-    public function __construct(Form $ui);
+    public function __construct(Form $form);
 
     public function validate(array $input);
 

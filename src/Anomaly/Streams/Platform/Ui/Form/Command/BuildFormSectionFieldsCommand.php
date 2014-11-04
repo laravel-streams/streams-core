@@ -14,11 +14,11 @@ class BuildFormSectionFieldsCommand
 {
 
     /**
-     * The form UI object.
+     * The form object.
      *
      * @var \Anomaly\Streams\Platform\Ui\Form\Form
      */
-    protected $ui;
+    protected $form;
 
     /**
      * The fields data.
@@ -30,12 +30,12 @@ class BuildFormSectionFieldsCommand
     /**
      * Create a new BuildFormSectionFieldsCommand instance.
      *
-     * @param Form $ui
+     * @param Form $form
      * @param array  $fields
      */
-    function __construct(Form $ui, array $fields)
+    function __construct(Form $form, array $fields)
     {
-        $this->ui     = $ui;
+        $this->form     = $form;
         $this->fields = $fields;
     }
 
@@ -54,9 +54,9 @@ class BuildFormSectionFieldsCommand
      *
      * @return Form
      */
-    public function getUi()
+    public function getForm()
     {
-        return $this->ui;
+        return $this->form;
     }
 }
  

@@ -14,11 +14,11 @@ class BuildFormSectionColumnsCommand
 {
 
     /**
-     * The form UI object.
+     * The form object.
      *
      * @var \Anomaly\Streams\Platform\Ui\Form\Form
      */
-    protected $ui;
+    protected $form;
 
     /**
      * The columns data.
@@ -30,12 +30,12 @@ class BuildFormSectionColumnsCommand
     /**
      * Create a new BuildFormSectionColumnsCommand instance.
      *
-     * @param Form $ui
+     * @param Form $form
      * @param array  $columns
      */
-    function __construct(Form $ui, array $columns)
+    function __construct(Form $form, array $columns)
     {
-        $this->ui      = $ui;
+        $this->form      = $form;
         $this->columns = $columns;
     }
 
@@ -54,9 +54,9 @@ class BuildFormSectionColumnsCommand
      *
      * @return \Anomaly\Streams\Platform\Ui\Form\Form
      */
-    public function getUi()
+    public function getForm()
     {
-        return $this->ui;
+        return $this->form;
     }
 }
  

@@ -14,11 +14,11 @@ class BuildFormSectionRowsCommand
 {
 
     /**
-     * The form UI object.
+     * The form object.
      *
      * @var \Anomaly\Streams\Platform\Ui\Form\Form
      */
-    protected $ui;
+    protected $form;
 
     /**
      * The section rows configuration.
@@ -30,12 +30,12 @@ class BuildFormSectionRowsCommand
     /**
      * Create a new BuildFormSectionRowsCommand instance.
      *
-     * @param Form $ui
+     * @param Form $form
      * @param array  $rows
      */
-    function __construct(Form $ui, array $rows)
+    function __construct(Form $form, array $rows)
     {
-        $this->ui   = $ui;
+        $this->form   = $form;
         $this->rows = $rows;
     }
 
@@ -54,9 +54,9 @@ class BuildFormSectionRowsCommand
      *
      * @return \Anomaly\Streams\Platform\Ui\Form\Form
      */
-    public function getUi()
+    public function getForm()
     {
-        return $this->ui;
+        return $this->form;
     }
 }
  

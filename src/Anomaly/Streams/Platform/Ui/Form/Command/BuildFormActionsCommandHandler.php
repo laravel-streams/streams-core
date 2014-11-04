@@ -50,23 +50,23 @@ class BuildFormActionsCommandHandler
      */
     public function handle(BuildFormActionsCommand $command)
     {
-        $ui = $command->getUi();
+        $form = $command->getForm();
 
-        $entry = $ui->getEntry();
+        $entry = $form->getEntry();
 
         $actions = [];
 
-        foreach ($ui->getActions() as $action) {
+        foreach ($form->getActions() as $action) {
 
             // Standardize input.
             $action = $this->standardize($action);
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $action = $this->utility->evaluate($action, [$ui, $entry], $entry);
+            $action = $this->utility->evaluate($action, [$form, $entry], $entry);
 
             // Get our defaults and merge them in.
-            $defaults = $this->getDefaults($action, $ui, $entry);
+            $defaults = $this->getDefaults($action, $form, $entry);
 
             $action = array_merge($defaults, $action);
 
@@ -111,16 +111,16 @@ class BuildFormActionsCommandHandler
      * Get default data for the action's type if any.
      *
      * @param array  $action
-     * @param Form $ui
+     * @param Form $form
      * @param        $entry
      * @return array|mixed|null
      */
-    protected function getDefaults(array $action, Form $ui, $entry)
+    protected function getDefaults(array $action, Form $form, $entry)
     {
         if (isset($action['type']) and $defaults = $this->utility->getActionDefaults($action['type'])) {
 
             // Be sure to run the defaults back through evaluate.
-            return $this->utility->evaluate($defaults, [$ui, $entry], $entry);
+            return $this->utility->evaluate($defaults, [$form, $entry], $entry);
         }
 
         return [];

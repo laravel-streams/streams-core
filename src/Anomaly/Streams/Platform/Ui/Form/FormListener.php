@@ -30,37 +30,37 @@ class FormListener extends Listener
      */
     public function whenFormWasSubmitted(FormWasSubmittedEvent $event)
     {
-        $ui = $event->getUi();
+        $form = $event->getForm();
 
-        $this->execute(new HandleFormSubmissionCommand($ui));
+        $this->execute(new HandleFormSubmissionCommand($form));
     }
 
     public function whenValidationPassed(ValidationPassedEvent $event, Messages $messages)
     {
-        $ui = $event->getUi();
+        $form = $event->getForm();
 
         $messages->add('success', 'YES!!!')->flash();
     }
 
     public function whenValidationFailed(ValidationFailedEvent $event, Messages $messages)
     {
-        $ui = $event->getUi();
+        $form = $event->getForm();
 
         $messages->add('error', 'hell')->flash();
     }
 
     public function whenAuthorizationFailed(AuthorizationFailedEvent $event, Messages $messages)
     {
-        $ui = $event->getUi();
+        $form = $event->getForm();
 
-        $messages->add('error', $ui->getAuthorizationFailedMessage())->flash();
+        $messages->add('error', $form->getAuthorizationFailedMessage())->flash();
     }
 
     public function whenAuthorizationPassed(AuthorizationPassedEvent $event, Messages $messages)
     {
-        $ui = $event->getUi();
+        $form = $event->getForm();
 
-        $messages->add('error', $ui->getAuthorizationFailedMessage())->flash();
+        $messages->add('error', $form->getAuthorizationFailedMessage())->flash();
     }
 }
  

@@ -34,21 +34,21 @@ class HandleFormSubmissionCommandHandler
      */
     public function handle(HandleFormSubmissionCommand $command)
     {
-        $ui = $command->getUi();
+        $form = $command->getForm();
 
         $back = redirect(referer(url($this->request->path())));
 
-        if (!$this->execute(new HandleFormSubmissionAuthorizationCommand($ui))) {
+        if (!$this->execute(new HandleFormSubmissionAuthorizationCommand($form))) {
 
-            return $ui->setResponse($back);
+            return $form->setResponse($back);
         }
 
-        if (!$this->execute(new HandleFormSubmissionValidationCommand($ui))) {
+        if (!$this->execute(new HandleFormSubmissionValidationCommand($form))) {
 
-            return $ui->setResponse($back);
+            return $form->setResponse($back);
         }
 
-        return $ui->setResponse($this->execute(new HandleFormSubmissionRedirectCommand($ui)));
+        return $form->setResponse($this->execute(new HandleFormSubmissionRedirectCommand($form)));
     }
 }
  

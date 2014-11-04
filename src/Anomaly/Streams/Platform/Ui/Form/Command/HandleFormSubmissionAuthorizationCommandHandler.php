@@ -25,16 +25,16 @@ class HandleFormSubmissionAuthorizationCommandHandler
      */
     public function handle(HandleFormSubmissionAuthorizationCommand $command)
     {
-        $ui = $command->getUi();
+        $form = $command->getForm();
 
-        $authorized = (app()->call($ui->toAuthorizer() . '@authorize', compact('ui')));
+        $authorized = (app()->call($form->toAuthorizer() . '@authorize', compact('ui')));
 
         if ($authorized) {
 
-            $this->dispatch(new AuthorizationPassedEvent($ui));
+            $this->dispatch(new AuthorizationPassedEvent($form));
         } else {
 
-            $this->dispatch(new AuthorizationFailedEvent($ui));
+            $this->dispatch(new AuthorizationFailedEvent($form));
         }
 
         return $authorized;

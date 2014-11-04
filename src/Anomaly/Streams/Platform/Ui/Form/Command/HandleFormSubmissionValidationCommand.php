@@ -14,20 +14,20 @@ class HandleFormSubmissionValidationCommand
 {
 
     /**
-     * The form UI object.
+     * The form object.
      *
      * @var
      */
-    protected $ui;
+    protected $form;
 
     /**
      * Create a new HandleFormSubmissionValidationCommand instance.
      *
-     * @param Form $ui
+     * @param Form $form
      */
-    function __construct(Form $ui)
+    function __construct(Form $form)
     {
-        $this->ui = $ui;
+        $this->form = $form;
     }
 
     /**
@@ -35,9 +35,9 @@ class HandleFormSubmissionValidationCommand
      *
      * @return mixed
      */
-    public function getUi()
+    public function getForm()
     {
-        return $this->ui;
+        return $this->form;
     }
 }
  

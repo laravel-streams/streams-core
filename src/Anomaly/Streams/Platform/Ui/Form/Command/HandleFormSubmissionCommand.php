@@ -14,20 +14,20 @@ class HandleFormSubmissionCommand
 {
 
     /**
-     * The form UI object.
+     * The form object.
      *
      * @var \Anomaly\Streams\Platform\Ui\Form\Form
      */
-    protected $ui;
+    protected $form;
 
     /**
      * Create new HandleFormSubmissionCommand instance.
      *
-     * @param Form $ui
+     * @param Form $form
      */
-    function __construct(Form $ui)
+    function __construct(Form $form)
     {
-        $this->ui = $ui;
+        $this->form = $form;
     }
 
     /**
@@ -35,9 +35,9 @@ class HandleFormSubmissionCommand
      *
      * @return \Anomaly\Streams\Platform\Ui\Form\Form
      */
-    public function getUi()
+    public function getForm()
     {
-        return $this->ui;
+        return $this->form;
     }
 }
  

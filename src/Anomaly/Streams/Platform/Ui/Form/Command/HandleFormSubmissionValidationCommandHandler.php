@@ -25,16 +25,16 @@ class HandleFormSubmissionValidationCommandHandler
      */
     public function handle(HandleFormSubmissionValidationCommand $command)
     {
-        $ui = $command->getUi();
+        $form = $command->getForm();
 
-        $passes = (app()->call($ui->toValidator() . '@validate', compact('ui')));
+        $passes = (app()->call($form->toValidator() . '@validate', compact('ui')));
 
         if ($passes) {
 
-            $this->dispatch(new ValidationPassedEvent($ui));
+            $this->dispatch(new ValidationPassedEvent($form));
         } else {
 
-            $this->dispatch(new ValidationFailedEvent($ui));
+            $this->dispatch(new ValidationFailedEvent($form));
         }
     }
 }

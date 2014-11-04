@@ -22,11 +22,11 @@ class FormSection implements FormSectionInterface
     use CommandableTrait;
 
     /**
-     * The form UI object.
+     * The form object.
      *
      * @var Form
      */
-    protected $ui;
+    protected $form;
 
     /**
      * The evaluated section data
@@ -39,12 +39,12 @@ class FormSection implements FormSectionInterface
     /**
      * Create a new FormSection instance.
      *
-     * @param Form $ui
+     * @param Form $form
      * @param array  $section
      */
-    function __construct(Form $ui, array $section)
+    function __construct(Form $form, array $section)
     {
-        $this->ui      = $ui;
+        $this->form      = $form;
         $this->section = $section;
     }
 
@@ -86,7 +86,7 @@ class FormSection implements FormSectionInterface
      */
     protected function getLayout()
     {
-        $command = new BuildFormSectionLayoutCommand($this->ui, $this->section);
+        $command = new BuildFormSectionLayoutCommand($this->form, $this->section);
 
         return $this->execute($command);
     }
