@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
-class BlockAddon extends Addon implements PresentableInterface
+class Block extends Addon implements PresentableInterface
 {
 
     public function decorate()
