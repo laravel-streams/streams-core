@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
-class ThemeAddon extends Addon implements PresentableInterface
+class Theme extends Addon implements PresentableInterface
 {
 
     protected $type = 'theme';
