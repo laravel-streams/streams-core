@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\StreamModel;
@@ -209,7 +209,7 @@ class EntryModel extends EloquentModel implements EntryInterface
     {
         $fieldType = $this->getTypeFromField($field);
 
-        if ($fieldType instanceof FieldTypeAddon) {
+        if ($fieldType instanceof FieldType) {
 
             return $fieldType->decorate();
         }

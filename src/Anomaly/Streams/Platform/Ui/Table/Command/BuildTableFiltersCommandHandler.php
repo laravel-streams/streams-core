@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableUi;
@@ -235,7 +235,7 @@ class BuildTableFiltersCommandHandler
 
         $placeholder = evaluate_key($filter, 'placeholder');
 
-        if ($fieldType instanceof FieldTypeAddon) {
+        if ($fieldType instanceof FieldType) {
 
             // Load the field type with some options.
             $fieldType->setPrefix($prefix);

@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableUi;
 use Illuminate\Http\Request;
@@ -156,7 +156,7 @@ class HandleTableFiltersCommandHandler
 
         $type = $stream->getTypeFromField($filter['field']);
 
-        if ($type instanceof FieldTypeAddon) {
+        if ($type instanceof FieldType) {
 
             return $type->toFilter();
         }

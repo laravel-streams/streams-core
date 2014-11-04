@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
-class FieldTypeAddon extends Addon implements PresentableInterface
+class FieldType extends Addon implements PresentableInterface
 {
 
     protected $rules = [];

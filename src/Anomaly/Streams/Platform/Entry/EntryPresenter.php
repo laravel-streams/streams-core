@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Model\EloquentPresenter;
 
@@ -21,7 +21,7 @@ class EntryPresenter extends EloquentPresenter
 
                 $type = $assignment->type($this->resource);
 
-                if ($type instanceof FieldTypeAddon) {
+                if ($type instanceof FieldType) {
 
                     return $type->decorate();
                 }

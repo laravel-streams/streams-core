@@ -23,9 +23,9 @@ class FieldTypeFilter implements TableFilterInterface
     /**
      * Create a new FieldTypeFilter instance.
      *
-     * @param FieldTypeAddon $type
+     * @param FieldType $type
      */
-    function __construct(FieldTypeAddon $type)
+    function __construct(FieldType $type)
     {
         $this->type = $type;
     }

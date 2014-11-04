@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType\Command;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAddon;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 
 class BuildFieldTypeCommandHandler
 {
@@ -11,7 +11,7 @@ class BuildFieldTypeCommandHandler
 
         if ($fieldType = $collection->findBySlug($command->getType())) {
 
-            if ($fieldType instanceof FieldTypeAddon) {
+            if ($fieldType instanceof FieldType) {
 
                 $fieldType
                     ->setField($command->getField())
