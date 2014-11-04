@@ -31,7 +31,7 @@ class FormServiceTest extends \PHPUnit_Framework_TestCase
     {
         $form = self::$form;
 
-        $service = new FormService($form);
+        $service = new FormBuilder($form);
 
         $expected = '162b7d05c9b8c332906d933ccaf269ca';
         $actual   = hashify($service->sections());
@@ -43,7 +43,7 @@ class FormServiceTest extends \PHPUnit_Framework_TestCase
     {
         $form = self::$form;
 
-        $service = new FormService($form);
+        $service = new FormBuilder($form);
 
         $expected = '618603c55bf8ff027c9bfdfeb85a4d4e';
         $actual   = hashify($service->actions());

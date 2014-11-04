@@ -11,7 +11,7 @@ use Illuminate\Validation\Factory;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form
  */
-class FormUiValidator
+class FormValidator
 {
 
     /**

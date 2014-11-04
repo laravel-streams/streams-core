@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormBuilderInterface;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasSubmittedEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
 
@@ -63,11 +64,11 @@ class Form extends Ui
     {
         $this->fire('trigger');
 
-        $form = $this->newFormService();
+        $builder = $this->toBuilder();
 
-        $actions   = $form->actions();
-        $sections  = $form->sections();
-        $redirects = $form->redirects();
+        $actions   = $builder->actions();
+        $sections  = $builder->sections();
+        $redirects = $builder->redirects();
 
         $data = compact('actions', 'sections', 'redirects');
 
@@ -159,9 +160,14 @@ class Form extends Ui
         return $this->authorizationFailedMessage;
     }
 
-    protected function newFormService()
+    protected function toBuilder()
     {
-        return new FormService($this);
+        if (!$builder = $this->transform(__METHOD__)) {
+
+            $builder = 'Anomaly\Streams\Platform\Ui\Form\FormBuilder';
+        }
+
+        return app()->make($builder, [$this]);
     }
 
     protected function newRepository()

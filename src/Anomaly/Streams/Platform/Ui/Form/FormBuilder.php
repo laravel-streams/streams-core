@@ -6,7 +6,7 @@ use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormRedirectsCommand;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormSectionsCommand;
 
 /**
- * Class FormService
+ * Class FormBuilder
  *
  * This class returns prepared data for the Form in
  * order to send it then to the rendered view.
@@ -19,7 +19,7 @@ use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormSectionsCommand;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form
  */
-class FormService
+class FormBuilder
 {
 
     use CommandableTrait;
@@ -32,7 +32,7 @@ class FormService
     protected $ui;
 
     /**
-     * Create a new FormService instance.
+     * Create a new FormBuilder instance.
      *
      * @param Form $ui
      */
@@ -42,7 +42,7 @@ class FormService
     }
 
     /**
-     * Return the sections data.
+     * Build the sections data.
      *
      * @return mixed
      */
@@ -54,7 +54,7 @@ class FormService
     }
 
     /**
-     * Return the redirects data.
+     * Build the redirects data.
      *
      * @return mixed
      */
@@ -66,7 +66,7 @@ class FormService
     }
 
     /**
-     * Return the actions data.
+     * Build the actions data.
      *
      * @return mixed
      */
