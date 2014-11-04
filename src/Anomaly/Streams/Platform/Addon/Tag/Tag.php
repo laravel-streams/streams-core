@@ -6,14 +6,14 @@ use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
 /**
- * Class TagAddon
+ * Class Tag
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Tag
  */
-class TagAddon extends Addon implements PluginInterface, PresentableInterface
+class Tag extends Addon implements PluginInterface, PresentableInterface
 {
 
     /**

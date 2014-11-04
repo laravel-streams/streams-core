@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme;
 
-use Anomaly\Streams\Platform\Addon\Tag\TagAddon;
+use Anomaly\Streams\Platform\Addon\Tag\Tag;
 
-class ThemeTag extends TagAddon
+class ThemeTag extends Tag
 {
 
 }

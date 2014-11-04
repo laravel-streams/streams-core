@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
-use Anomaly\Streams\Platform\Addon\Tag\TagAddon;
+use Anomaly\Streams\Platform\Addon\Tag\Tag;
 
-class ModuleTag extends TagAddon
+class ModuleTag extends Tag
 {
 
     protected $module;
