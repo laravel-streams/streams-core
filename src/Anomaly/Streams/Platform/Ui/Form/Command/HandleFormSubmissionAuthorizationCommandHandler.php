@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
-use Anomaly\Streams\Platform\Ui\Form\Event\AuthorizationFailedEventAbstract;
+use Anomaly\Streams\Platform\Ui\Form\Event\AuthorizationFailedEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\AuthorizationPassedEvent;
 
 /**
@@ -34,7 +34,7 @@ class HandleFormSubmissionAuthorizationCommandHandler
             $this->dispatch(new AuthorizationPassedEvent($form));
         } else {
 
-            $this->dispatch(new AuthorizationFailedEventAbstract($form));
+            $this->dispatch(new AuthorizationFailedEvent($form));
         }
 
         return $authorized;

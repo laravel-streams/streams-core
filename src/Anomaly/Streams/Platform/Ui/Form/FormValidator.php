@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Factory;
+use Illuminate\Validation\Validator;
 
 /**
  * Class FormRequest
@@ -27,16 +28,19 @@ class FormValidator
 
         $validator = $factory->make($data, $rules);
 
+        $this->setAttributeNames($validator, $form);
+
         if ($validator->passes()) {
 
-            $form->fire('validation_passes');
+            $form->fire('validation_passed');
 
             return true;
         }
 
-        $messages = $validator->messages()->all();
-
-        $form->fire('validation_fails', compact('messages'));
+        $form->setErrors($validator->messages());
+        print_r($validator->messages()->all());
+        die;
+        $form->fire('validation_failed');
 
         return false;
     }
@@ -55,5 +59,21 @@ class FormValidator
         }
 
         return $localizedRules;
+    }
+
+    protected function setAttributeNames(Validator $validator, Form $form)
+    {
+        $attributes = [];
+
+        $model = $form->getModel();
+
+        $stream = $model->getStream();
+
+        foreach ($stream->assignments as $assignment) {
+
+            $attributes[$form->getPrefix() . $assignment->field->slug . '_en'] = $assignment->getFieldName();
+        }
+
+        $validator->setAttributeNames($attributes);
     }
 }

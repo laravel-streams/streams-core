@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormBuilderInterface;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasSubmittedEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
+use Illuminate\Contracts\Support\MessageBag;
 
 class Form extends Ui
 {
@@ -18,7 +20,7 @@ class Form extends Ui
 
     protected $view = 'html/form';
 
-    protected $errors = [];
+    protected $errors = null;
 
     protected $authorizationFailedMessage = 'error.not_authorized';
 
@@ -134,7 +136,7 @@ class Form extends Ui
         return $this;
     }
 
-    public function setErrors($errors)
+    public function setErrors(MessageBag $errors)
     {
         $this->errors = $errors;
 
