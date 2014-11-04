@@ -19,6 +19,7 @@ class FieldTypePresenter extends AddonPresenter implements StringableInterface
      * TODO: This can be dangerous if used in a loop!
      *       There is a PHP bug that caches it's
      *       output when used in a loop.
+     *       Take heed.
      *
      * @return string
      */
