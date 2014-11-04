@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
- * Class FormEvent
+ * Class AbstractFormEvent
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Event
  */
-class FormEvent
+abstract class AbstractFormEvent
 {
 
     /**
@@ -21,7 +21,7 @@ class FormEvent
     protected $form;
 
     /**
-     * Create a new FormWasSubmittedEvent instance.
+     * Create a new form event instance.
      *
      * @param Form $form
      */

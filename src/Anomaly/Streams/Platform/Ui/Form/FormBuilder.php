@@ -48,9 +48,7 @@ class FormBuilder
      */
     public function sections()
     {
-        $command = new BuildFormSectionsCommand($this->form);
-
-        return $this->execute($command);
+        return $this->execute(new BuildFormSectionsCommand($this->form));
     }
 
     /**
@@ -60,9 +58,7 @@ class FormBuilder
      */
     public function redirects()
     {
-        $command = new BuildFormRedirectsCommand($this->form);
-
-        return $this->execute($command);
+        return $this->execute(new BuildFormRedirectsCommand($this->form));
     }
 
     /**
@@ -72,9 +68,7 @@ class FormBuilder
      */
     public function actions()
     {
-        $command = new BuildFormActionsCommand($this->form);
-
-        return $this->execute($command);
+        return $this->execute(new BuildFormActionsCommand($this->form));
     }
 }
  

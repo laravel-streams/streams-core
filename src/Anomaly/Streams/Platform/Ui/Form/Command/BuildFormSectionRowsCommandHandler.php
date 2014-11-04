@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 
 /**
  * Class BuildFormSectionRowsCommandHandler
@@ -17,23 +16,6 @@ class BuildFormSectionRowsCommandHandler
     use CommandableTrait;
 
     /**
-     * The form utility object.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Form\FormUtility
-     */
-    protected $utility;
-
-    /**
-     * Create a new BuildFormSectionRowsCommandHandler instance.
-     *
-     * @param FormUtility $utility
-     */
-    function __construct(FormUtility $utility)
-    {
-        $this->utility = $utility;
-    }
-
-    /**
      * Handle the command.
      *
      * @param BuildFormSectionRowsCommand $command
@@ -43,7 +25,8 @@ class BuildFormSectionRowsCommandHandler
     {
         $form = $command->getForm();
 
-        $entry = $form->getEntry();
+        $entry   = $form->getEntry();
+        $utility = $form->getUtility();
 
         $rows = [];
 
@@ -51,7 +34,7 @@ class BuildFormSectionRowsCommandHandler
 
             // Evaluate the entire row.
             // All first level closures on are gone now.
-            $row = $this->utility->evaluate($row, [$form, $entry], $entry);
+            $row = $utility->evaluate($row, [$form, $entry], $entry);
 
             $command = new BuildFormSectionColumnsCommand($form, $row['columns']);
 

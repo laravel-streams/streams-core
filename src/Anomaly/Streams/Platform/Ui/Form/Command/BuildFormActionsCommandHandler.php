@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\Form;
-use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 
 /**
  * Class BuildFormActionsCommandHandler
@@ -26,23 +25,6 @@ class BuildFormActionsCommandHandler
     ];
 
     /**
-     * The form utility object.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Form\FormUtility
-     */
-    protected $utility;
-
-    /**
-     * Create a new BuildFormActionsCommandHandler instance.
-     *
-     * @param FormUtility $utility
-     */
-    function __construct(FormUtility $utility)
-    {
-        $this->utility = $utility;
-    }
-
-    /**
      * Handle the command.
      *
      * @param BuildFormActionsCommand $command
@@ -52,7 +34,8 @@ class BuildFormActionsCommandHandler
     {
         $form = $command->getForm();
 
-        $entry = $form->getEntry();
+        $entry   = $form->getEntry();
+        $utility = $form->getUtility();
 
         $actions = [];
 
@@ -63,7 +46,7 @@ class BuildFormActionsCommandHandler
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $action = $this->utility->evaluate($action, [$form, $entry], $entry);
+            $action = $utility->evaluate($action, [$form, $entry], $entry);
 
             // Get our defaults and merge them in.
             $defaults = $this->getDefaults($action, $form, $entry);
@@ -78,7 +61,7 @@ class BuildFormActionsCommandHandler
             $action = compact('title', 'class', 'value', 'attributes');
 
             // Normalize things a bit before proceeding.
-            $action = $this->utility->normalize($action);
+            $action = $utility->normalize($action);
 
             $actions[] = $action;
         }
@@ -111,16 +94,18 @@ class BuildFormActionsCommandHandler
      * Get default data for the action's type if any.
      *
      * @param array  $action
-     * @param Form $form
+     * @param Form   $form
      * @param        $entry
      * @return array|mixed|null
      */
     protected function getDefaults(array $action, Form $form, $entry)
     {
-        if (isset($action['type']) and $defaults = $this->utility->getActionDefaults($action['type'])) {
+        $utility = $form->getUtility();
+
+        if (isset($action['type']) and $defaults = $utility->getActionDefaults($action['type'])) {
 
             // Be sure to run the defaults back through evaluate.
-            return $this->utility->evaluate($defaults, [$form, $entry], $entry);
+            return $utility->evaluate($defaults, [$form, $entry], $entry);
         }
 
         return [];

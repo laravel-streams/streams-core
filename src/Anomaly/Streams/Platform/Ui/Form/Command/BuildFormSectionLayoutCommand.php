@@ -30,12 +30,12 @@ class BuildFormSectionLayoutCommand
     /**
      * Create a new BuildFormSectionLayoutCommand instance.
      *
-     * @param Form $form
-     * @param array  $section
+     * @param Form  $form
+     * @param array $section
      */
     function __construct(Form $form, array $section)
     {
-        $this->form      = $form;
+        $this->form    = $form;
         $this->section = $section;
     }
 

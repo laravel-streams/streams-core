@@ -1,20 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormBuilderInterface;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasSubmittedEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
 
-/**
- * Class Form
- *
- * This class is responsible for rendering entry
- * forms and handling their primary features.
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form
- */
 class Form extends Ui
 {
 
@@ -34,12 +22,22 @@ class Form extends Ui
 
     protected $authorizationFailedMessage = 'error.not_authorized';
 
-    /**
-     * Get the response.
-     *
-     * @param null $entry
-     * @return \Illuminate\View\View|mixed|null
-     */
+    protected $builder;
+
+    protected $utility;
+
+    protected $repository;
+
+    function __construct()
+    {
+        $this->builder    = $this->newBuilder();
+        $this->utility    = $this->newUtility();
+        $this->repository = $this->newRepository();
+
+        parent::__construct();
+    }
+
+
     public function make($entry = null)
     {
         if ($entry) {
@@ -52,23 +50,16 @@ class Form extends Ui
 
     public function render($entry = null)
     {
-        return $this->make($entry)->render();
+        return $this->make($entry);
     }
 
-    /**
-     * Trigger the response.
-     *
-     * @return \Illuminate\View\View|null
-     */
     protected function trigger()
     {
         $this->fire('trigger');
 
-        $builder = $this->toBuilder();
-
-        $actions   = $builder->actions();
-        $sections  = $builder->sections();
-        $redirects = $builder->redirects();
+        $actions   = $this->builder->actions();
+        $sections  = $this->builder->sections();
+        $redirects = $this->builder->redirects();
 
         $data = compact('actions', 'sections', 'redirects');
 
@@ -160,26 +151,46 @@ class Form extends Ui
         return $this->authorizationFailedMessage;
     }
 
-    protected function toBuilder()
+    public function getUtility()
+    {
+        return $this->utility;
+    }
+
+    protected function newBuilder()
     {
         if (!$builder = $this->transform(__METHOD__)) {
 
             $builder = 'Anomaly\Streams\Platform\Ui\Form\FormBuilder';
         }
 
-        return app()->make($builder, [$this]);
+        return app()->make($builder, ['form' => $this]);
+    }
+
+    protected function newUtility()
+    {
+        if (!$utility = $this->transform(__METHOD__)) {
+
+            $utility = 'Anomaly\Streams\Platform\Ui\Form\FormUtility';
+        }
+
+        return app()->make($utility, ['form' => $this]);
     }
 
     protected function newRepository()
     {
-        return new FormRepository($this, $this->model);
+        if (!$builder = $this->transform(__METHOD__)) {
+
+            $builder = 'Anomaly\Streams\Platform\Ui\Form\FormRepository';
+        }
+
+        return app()->make($builder, ['form' => $this]);
     }
 
     public function toValidator()
     {
         if (!$validator = $this->transform(__METHOD__)) {
 
-            $validator = 'Anomaly\Streams\Platform\Ui\Form\FormUiValidator';
+            $validator = 'Anomaly\Streams\Platform\Ui\Form\FormValidator';
         }
 
         return $validator;
@@ -189,7 +200,7 @@ class Form extends Ui
     {
         if (!$authorizer = $this->transform(__METHOD__)) {
 
-            $authorizer = 'Anomaly\Streams\Platform\Ui\Form\FormUiAuthorizer';
+            $authorizer = 'Anomaly\Streams\Platform\Ui\Form\FormAuthorizer';
         }
 
         return $authorizer;
@@ -197,7 +208,7 @@ class Form extends Ui
 
     protected function onMake()
     {
-        $this->entry = $this->newRepository()->get();
+        $this->entry = $this->repository->get();
 
         if (app('request')->isMethod('post')) {
 

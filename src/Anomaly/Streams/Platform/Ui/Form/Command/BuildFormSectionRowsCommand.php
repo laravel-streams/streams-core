@@ -30,12 +30,12 @@ class BuildFormSectionRowsCommand
     /**
      * Create a new BuildFormSectionRowsCommand instance.
      *
-     * @param Form $form
-     * @param array  $rows
+     * @param Form  $form
+     * @param array $rows
      */
     function __construct(Form $form, array $rows)
     {
-        $this->form   = $form;
+        $this->form = $form;
         $this->rows = $rows;
     }
 

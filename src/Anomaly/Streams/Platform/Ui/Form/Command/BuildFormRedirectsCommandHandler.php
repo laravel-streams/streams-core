@@ -39,7 +39,7 @@ class BuildFormRedirectsCommandHandler
      */
     function __construct(FormUtility $utility)
     {
-        $this->utility = $utility;
+        $utility = $utility;
     }
 
     /**
@@ -52,7 +52,8 @@ class BuildFormRedirectsCommandHandler
     {
         $form = $command->getForm();
 
-        $entry = $form->getEntry();
+        $entry   = $form->getEntry();
+        $utility = $form->getUtility();
 
         $redirects = [];
 
@@ -63,7 +64,7 @@ class BuildFormRedirectsCommandHandler
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $redirect = $this->utility->evaluate($redirect, [$form, $entry], $entry);
+            $redirect = $utility->evaluate($redirect, [$form, $entry], $entry);
 
             // Get our defaults and merge them in.
             $defaults = $this->getDefaults($redirect, $form, $entry);
@@ -110,7 +111,7 @@ class BuildFormRedirectsCommandHandler
      * Get the defaults for the redirect's type if any.
      *
      * @param array  $redirect
-     * @param Form $form
+     * @param Form   $form
      * @param        $entry
      * @return array|mixed|null
      */
@@ -118,9 +119,11 @@ class BuildFormRedirectsCommandHandler
     {
         $defaults = [];
 
-        if (isset($redirect['type']) and $defaults = $this->utility->getRedirectDefaults($redirect['type'])) {
+        $utility = $form->getUtility();
 
-            $defaults = $this->utility->evaluate($defaults, [$form, $entry], $entry);
+        if (isset($redirect['type']) and $defaults = $utility->getRedirectDefaults($redirect['type'])) {
+
+            $defaults = $utility->evaluate($defaults, [$form, $entry], $entry);
         }
 
         return $defaults;

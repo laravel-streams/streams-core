@@ -27,7 +27,7 @@ class HandleFormSubmissionValidationCommandHandler
     {
         $form = $command->getForm();
 
-        $passes = (app()->call($form->toValidator() . '@validate', compact('ui')));
+        $passes = (app()->call($form->toValidator() . '@validate', compact('form')));
 
         if ($passes) {
 

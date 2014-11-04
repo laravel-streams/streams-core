@@ -14,11 +14,15 @@ interface FormRepositoryInterface
 {
 
     /**
+     * Get an entry or return a new one.
+     *
      * @return mixed
      */
     public function get();
 
     /**
+     * Store save the entry data from the form.
+     *
      * @return mixed
      */
     public function store();

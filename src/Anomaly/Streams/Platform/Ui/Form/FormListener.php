@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Support\Listener;
 use Anomaly\Streams\Platform\Support\Messages;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Ui\Form\Command\HandleFormSubmissionCommand;
-use Anomaly\Streams\Platform\Ui\Form\Event\AuthorizationFailedEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\AuthorizationFailedEventAbstract;
 use Anomaly\Streams\Platform\Ui\Form\Event\AuthorizationPassedEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasSubmittedEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\ValidationFailedEvent;
@@ -49,7 +49,7 @@ class FormListener extends Listener
         $messages->add('error', 'hell')->flash();
     }
 
-    public function whenAuthorizationFailed(AuthorizationFailedEvent $event, Messages $messages)
+    public function whenAuthorizationFailed(AuthorizationFailedEventAbstract $event, Messages $messages)
     {
         $form = $event->getForm();
 

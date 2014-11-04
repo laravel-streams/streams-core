@@ -8,7 +8,7 @@
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Event
  */
-class FormWasSubmittedEvent extends FormEvent
+class FormWasSubmittedEvent extends AbstractFormEvent
 {
 
 }

@@ -39,12 +39,12 @@ class FormSection implements FormSectionInterface
     /**
      * Create a new FormSection instance.
      *
-     * @param Form $form
-     * @param array  $section
+     * @param Form  $form
+     * @param array $section
      */
     function __construct(Form $form, array $section)
     {
-        $this->form      = $form;
+        $this->form    = $form;
         $this->section = $section;
     }
 
@@ -80,7 +80,7 @@ class FormSection implements FormSectionInterface
 
     /**
      * Get the layout. This is pretty common
-     * so let's keep it here for now.
+     * so let's keep it here for now. Recycle.
      *
      * @return mixed
      */

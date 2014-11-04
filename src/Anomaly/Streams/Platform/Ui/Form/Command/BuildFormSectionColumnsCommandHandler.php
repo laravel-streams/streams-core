@@ -30,7 +30,7 @@ class BuildFormSectionColumnsCommandHandler
      */
     function __construct(FormUtility $utility)
     {
-        $this->utility = $utility;
+        $utility = $utility;
     }
 
     /**
@@ -43,7 +43,8 @@ class BuildFormSectionColumnsCommandHandler
     {
         $form = $command->getForm();
 
-        $entry = $form->getEntry();
+        $entry   = $form->getEntry();
+        $utility = $form->getUtility();
 
         $columns = [];
 
@@ -51,7 +52,7 @@ class BuildFormSectionColumnsCommandHandler
 
             // Evaluate the entire row.
             // All first level closures on are gone now.
-            $column = $this->utility->evaluate($column, [$form, $entry], $entry);
+            $column = $utility->evaluate($column, [$form, $entry], $entry);
 
             $command = new BuildFormSectionFieldsCommand($form, $column['fields']);
 

@@ -24,20 +24,11 @@ class FormRepository implements FormRepositoryInterface
     protected $form;
 
     /**
-     * The model if any.
-     *
-     * @var null
-     */
-    protected $model;
-
-    /**
      * @param Form $form
-     * @param null   $model
      */
-    function __construct(Form $form, $model = null)
+    function __construct(Form $form)
     {
-        $this->form    = $form;
-        $this->model = $model;
+        $this->form = $form;
     }
 
     /**
@@ -50,12 +41,14 @@ class FormRepository implements FormRepositoryInterface
     {
         $id = $this->form->getEntry();
 
+        $model = $this->form->getModel();
+
         if (!$id) {
 
-            return $this->model->newInstance();
+            return $model->newInstance();
         }
 
-        $entry = $this->model->find($id);
+        $entry = $model->find($id);
 
         if ($id and !$entry) {
 

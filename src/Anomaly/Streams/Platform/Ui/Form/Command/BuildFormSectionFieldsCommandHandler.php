@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Ui\Form\Form;
-use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 
 /**
  * Class BuildFormSectionFieldsCommandHandler
@@ -20,21 +19,6 @@ class BuildFormSectionFieldsCommandHandler
     use CommandableTrait;
 
     /**
-     * The form utility object.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Form\FormUtility
-     */
-    protected $utility;
-
-    /**
-     * @param FormUtility $utility
-     */
-    function __construct(FormUtility $utility)
-    {
-        $this->utility = $utility;
-    }
-
-    /**
      * Create a new BuildFormSectionFieldsCommandHandler instance.
      *
      * @param BuildFormSectionFieldsCommand $command
@@ -44,7 +28,8 @@ class BuildFormSectionFieldsCommandHandler
     {
         $form = $command->getForm();
 
-        $entry = $form->getEntry();
+        $entry   = $form->getEntry();
+        $utility = $form->getUtility();
 
         $fields = [];
 
@@ -55,7 +40,7 @@ class BuildFormSectionFieldsCommandHandler
 
             // Evaluate the entire row.
             // All first level closures on are gone now.
-            $field = $this->utility->evaluate($field, [$form, $entry], $entry);
+            $field = $utility->evaluate($field, [$form, $entry], $entry);
 
             if ($entry instanceof EntryInterface) {
 
@@ -91,7 +76,7 @@ class BuildFormSectionFieldsCommandHandler
      * Get field data.
      *
      * @param array          $field
-     * @param Form         $form
+     * @param Form           $form
      * @param EntryInterface $entry
      * @return array|null
      */
@@ -117,7 +102,7 @@ class BuildFormSectionFieldsCommandHandler
      * Get the form element for a field.
      *
      * @param array           $field
-     * @param Form          $form
+     * @param Form            $form
      * @param EntryInterface  $entry
      * @param AssignmentModel $assignment
      * @return \Illuminate\View\View|null
