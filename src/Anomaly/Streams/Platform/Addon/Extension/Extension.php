@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
 /**
- * Class ExtensionAddon
+ * Class Extension
  *
  * This is the default authenticator for the Users module.
  * Extensions generally return a handler to do their business
@@ -15,7 +15,7 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Extension
  */
-class ExtensionAddon extends Addon implements PresentableInterface
+class Extension extends Addon implements PresentableInterface
 {
 
     /**
