@@ -6,7 +6,7 @@ class TableUiTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$table = new TableUi;
+        self::$table = new Table;
     }
 
     public function testTrigger()

@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Entry\EntryInterface;
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 
 /**
@@ -85,10 +85,10 @@ class BuildTableHeadersCommandHandler
      * Get the heading.
      *
      * @param array   $column
-     * @param TableUi $ui
+     * @param Table $ui
      * @return null|string
      */
-    protected function getHeading(array $column, TableUi $ui)
+    protected function getHeading(array $column, Table $ui)
     {
         $heading = trans(evaluate_key($column, 'heading', null, [$ui]));
 
@@ -128,10 +128,10 @@ class BuildTableHeadersCommandHandler
      * Make our best guess at the heading.
      *
      * @param array   $column
-     * @param TableUi $ui
+     * @param Table $ui
      * @return mixed|null|string
      */
-    protected function guessHeading(array $column, TableUi $ui)
+    protected function guessHeading(array $column, Table $ui)
     {
         $heading = evaluate_key($column, 'heading', evaluate_key($column, 'field', null), [$ui]);
 

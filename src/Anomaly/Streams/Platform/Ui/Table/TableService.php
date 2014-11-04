@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Command\BuildTableViewsCommand;
 /**
  * Class TableService
  *
- * This class returns prepared data for the TableUi in
+ * This class returns prepared data for the Table in
  * order to send it then to the rendered view.
  *
  * The data coming from here should be as an array
@@ -31,16 +31,16 @@ class TableService
     /**
      * The table UI object.
      *
-     * @var TableUi
+     * @var Table
      */
     protected $ui;
 
     /**
      * Create a new TableService instance.
      *
-     * @param TableUi $ui
+     * @param Table $ui
      */
-    function __construct(TableUi $ui)
+    function __construct(Table $ui)
     {
         $this->ui = $ui;
     }

@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableViewInterface;
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 use Illuminate\Http\Request;
 
@@ -121,10 +121,10 @@ class HandleTableViewCommandHandler
      * Get the handler.
      *
      * @param array   $view
-     * @param TableUi $ui
+     * @param Table $ui
      * @return mixed
      */
-    protected function getHandler(array $view, TableUi $ui)
+    protected function getHandler(array $view, Table $ui)
     {
         if (is_string($view['handler'])) {
 

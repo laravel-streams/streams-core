@@ -20,16 +20,16 @@ class TableAction implements TableActionInterface
     /**
      * The table UI class.
      *
-     * @var TableUi
+     * @var Table
      */
     protected $ui;
 
     /**
      * Create a new TableAction instance.
      *
-     * @param TableUi $ui
+     * @param Table $ui
      */
-    function __construct(TableUi $ui)
+    function __construct(Table $ui)
     {
         $this->ui = $ui;
     }

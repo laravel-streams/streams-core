@@ -7,7 +7,7 @@ use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 /**
  * Class TableRepository
  *
- * This class provides entry data for the TableUi class
+ * This class provides entry data for the Table class
  * in a way that can be replicated with another provider
  * like a 3rd party API service.
  *
@@ -22,7 +22,7 @@ class TableRepository implements TableRepositoryInterface
     /**
      * The table UI object.
      *
-     * @var TableUi
+     * @var Table
      */
     protected $ui;
 
@@ -43,10 +43,10 @@ class TableRepository implements TableRepositoryInterface
     /**
      * Create a new TableRepository instance.
      *
-     * @param TableUi       $ui
+     * @param Table       $ui
      * @param EloquentModel $model
      */
-    function __construct(TableUi $ui, EloquentModel $model = null)
+    function __construct(Table $ui, EloquentModel $model = null)
     {
         $this->ui    = $ui;
         $this->model = $model;

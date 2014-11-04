@@ -8,7 +8,7 @@ class TableServiceTest extends \PHPUnit_Framework_TestCase
     {
         $_GET['bar'] = 'foo';
 
-        $table = self::$table = new TableUi;
+        $table = self::$table = new Table;
 
         $table
             ->setEntries(

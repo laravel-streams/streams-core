@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableActionInterface;
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Http\Request;
 
 /**
@@ -68,10 +68,10 @@ class HandleTableActionCommandHandler
      * Get the handler.
      *
      * @param array   $action
-     * @param TableUi $ui
+     * @param Table $ui
      * @return mixed
      */
-    protected function getHandler(array $action, TableUi $ui)
+    protected function getHandler(array $action, Table $ui)
     {
         if (is_string($action['handler'])) {
 
@@ -85,9 +85,9 @@ class HandleTableActionCommandHandler
      * Handle the action.
      *
      * @param         $executing
-     * @param TableUi $ui
+     * @param Table $ui
      */
-    protected function handleAction($executing, TableUi $ui)
+    protected function handleAction($executing, Table $ui)
     {
         foreach ($ui->getActions() as $action) {
 
@@ -104,9 +104,9 @@ class HandleTableActionCommandHandler
      * Run the handler.
      *
      * @param         $handler
-     * @param TableUi $ui
+     * @param Table $ui
      */
-    protected function runHandler($handler, TableUi $ui)
+    protected function runHandler($handler, Table $ui)
     {
         if ($handler instanceof \Closure) {
 

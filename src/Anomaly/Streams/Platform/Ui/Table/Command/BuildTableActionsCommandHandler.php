@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 
 /**
@@ -129,10 +129,10 @@ class BuildTableActionsCommandHandler
      * Then run everything back through evaluation.
      *
      * @param array   $action
-     * @param TableUi $ui
+     * @param Table $ui
      * @return array|mixed|null
      */
-    protected function getDefaults(array $action, TableUi $ui)
+    protected function getDefaults(array $action, Table $ui)
     {
         $defaults = [];
 
@@ -200,10 +200,10 @@ class BuildTableActionsCommandHandler
      * Get the action slug.
      *
      * @param array   $action
-     * @param TableUi $ui
+     * @param Table $ui
      * @return string
      */
-    protected function getSlug(array $action, TableUi $ui)
+    protected function getSlug(array $action, Table $ui)
     {
         return $ui->getPrefix() . $action['slug'];
     }
@@ -211,10 +211,10 @@ class BuildTableActionsCommandHandler
     /**
      * Get the name of the submit input.
      *
-     * @param TableUi $ui
+     * @param Table $ui
      * @return string
      */
-    protected function getName(TableUi $ui)
+    protected function getName(Table $ui)
     {
         return $ui->getPrefix() . 'action';
     }

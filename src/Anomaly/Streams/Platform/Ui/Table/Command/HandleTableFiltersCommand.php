@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
  * Class HandleTableFiltersCommand
@@ -16,7 +16,7 @@ class HandleTableFiltersCommand
     /**
      * The table UI object.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TableUi
+     * @var \Anomaly\Streams\Platform\Ui\Table\Table
      */
     protected $ui;
 
@@ -30,10 +30,10 @@ class HandleTableFiltersCommand
     /**
      * Create a new HandleTableFiltersCommand instance.
      *
-     * @param TableUi $ui
+     * @param Table $ui
      * @param         $query
      */
-    function __construct(TableUi $ui, $query)
+    function __construct(Table $ui, $query)
     {
         $this->ui    = $ui;
         $this->query = $query;
@@ -52,7 +52,7 @@ class HandleTableFiltersCommand
     /**
      * Get the table UI object.
      *
-     * @return TableUi
+     * @return Table
      */
     public function getUi()
     {

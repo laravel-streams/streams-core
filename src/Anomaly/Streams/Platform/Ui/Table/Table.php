@@ -7,7 +7,7 @@ use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableViewCommand;
 use Anomaly\Streams\Platform\Ui\Ui;
 
 /**
- * Class TableUi
+ * Class Table
  *
  * This class is responsible for rendering entry
  * tables and handling their primary features.
@@ -17,7 +17,7 @@ use Anomaly\Streams\Platform\Ui\Ui;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table
  */
-class TableUi extends Ui
+class Table extends Ui
 {
 
     /**

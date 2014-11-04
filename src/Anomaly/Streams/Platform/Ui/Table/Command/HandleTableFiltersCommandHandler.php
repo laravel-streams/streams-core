@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableFilterInterface;
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Http\Request;
 
 /**
@@ -101,11 +101,11 @@ class HandleTableFiltersCommandHandler
      * Get the filter slug.
      *
      * @param array   $filter
-     * @param TableUi $ui
+     * @param Table $ui
      * @return string
      * @throws \Exception
      */
-    protected function getSlug(array $filter, TableUi $ui)
+    protected function getSlug(array $filter, Table $ui)
     {
         return $this->getPrefix($ui) . $filter['slug'];
     }
@@ -113,10 +113,10 @@ class HandleTableFiltersCommandHandler
     /**
      * Get the prefix.
      *
-     * @param TableUi $ui
+     * @param Table $ui
      * @return string
      */
-    protected function getPrefix(TableUi $ui)
+    protected function getPrefix(Table $ui)
     {
         return $ui->getPrefix() . 'filter_';
     }
@@ -125,10 +125,10 @@ class HandleTableFiltersCommandHandler
      * Get the filter handler.
      *
      * @param array   $filter
-     * @param TableUi $ui
+     * @param Table $ui
      * @return \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeFilter|mixed|null
      */
-    protected function getHandler(array $filter, TableUi $ui)
+    protected function getHandler(array $filter, Table $ui)
     {
         if ($filter['type'] == 'field') {
 
@@ -147,10 +147,10 @@ class HandleTableFiltersCommandHandler
      * Get the handler object from a field slug.
      *
      * @param array   $filter
-     * @param TableUi $ui
+     * @param Table $ui
      * @return \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeFilter|null
      */
-    protected function getHandlerFromField(array $filter, TableUi $ui)
+    protected function getHandlerFromField(array $filter, Table $ui)
     {
         $stream = $ui->getModel();
 

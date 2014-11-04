@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\TableUi;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 
 /**
@@ -121,10 +121,10 @@ class BuildTableViewsCommandHandler
      * Get the view URL.
      *
      * @param array   $view
-     * @param TableUi $ui
+     * @param Table $ui
      * @return string
      */
-    protected function getUrl(array $view, TableUi $ui)
+    protected function getUrl(array $view, Table $ui)
     {
         return url(app('request')->path()) . '?' . $ui->getPrefix() . 'view=' . $view['slug'];
     }
@@ -133,10 +133,10 @@ class BuildTableViewsCommandHandler
      * Get the translated view title.
      *
      * @param array   $view
-     * @param TableUi $ui
+     * @param Table $ui
      * @return string
      */
-    protected function getTitle(array $view, TableUi $ui)
+    protected function getTitle(array $view, Table $ui)
     {
         return trans(evaluate_key($view, 'title', 'misc.all', [$ui]));
     }
@@ -146,10 +146,10 @@ class BuildTableViewsCommandHandler
      *
      * @param array   $view
      * @param         $order
-     * @param TableUi $ui
+     * @param Table $ui
      * @return mixed|null|string
      */
-    protected function getClass(array $view, TableUi $ui)
+    protected function getClass(array $view, Table $ui)
     {
         $class = evaluate_key($view, 'class', '', [$ui]);
 
@@ -161,10 +161,10 @@ class BuildTableViewsCommandHandler
      *
      * @param array   $view
      * @param         $order
-     * @param TableUi $ui
+     * @param Table $ui
      * @return string
      */
-    protected function getActive(array $view, $order, TableUi $ui)
+    protected function getActive(array $view, $order, Table $ui)
     {
         $input = app('request');
 
