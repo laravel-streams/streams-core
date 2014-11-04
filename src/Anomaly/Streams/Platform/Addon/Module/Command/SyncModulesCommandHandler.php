@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleAddon;
+use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Anomaly\Streams\Platform\Collection\EloquentCollection;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
@@ -25,7 +25,7 @@ class SyncModulesCommandHandler
 
         foreach ($collection as $module) {
 
-            if ($module instanceof ModuleAddon and $modules instanceof EloquentCollection) {
+            if ($module instanceof Module and $modules instanceof EloquentCollection) {
 
                 if (!$match = $modules->findBySlug($module->getSlug())) {
 

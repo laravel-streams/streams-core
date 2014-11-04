@@ -7,7 +7,7 @@ class ModuleTag extends TagAddon
 
     protected $module;
 
-    function __construct(ModuleAddon $module)
+    function __construct(Module $module)
     {
         $this->module = $module;
     }
