@@ -1,8 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\Streams\Platform\Contract\ArrayableInterface;
+use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
-class Presenter implements ArrayableInterface
+class Presenter implements ArrayableInterface, \ArrayAccess
 {
 
     /**
@@ -45,6 +46,7 @@ class Presenter implements ArrayableInterface
     public function __call($key, array $params = [])
     {
         if (method_exists($this->resource, $key)) {
+
             return call_user_func_array(array($this->resource, $key), $params);
         }
     }
@@ -80,6 +82,7 @@ class Presenter implements ArrayableInterface
     public function __unset($name)
     {
         if (is_array($this->resource)) {
+
             unset($this->resource[$name]);
 
             return;
@@ -96,6 +99,7 @@ class Presenter implements ArrayableInterface
     public function __toString()
     {
         if (is_object($this->resource) and method_exists($this->resource, '__toString')) {
+
             return $this->resource->__toString();
         }
 
@@ -110,8 +114,10 @@ class Presenter implements ArrayableInterface
     public function toArray()
     {
         if ($this->resource instanceof ArrayableInterface) {
+
             return $this->resource->toArray();
         } else {
+
             return null;
         }
     }
@@ -125,12 +131,15 @@ class Presenter implements ArrayableInterface
     public function offsetExists($key)
     {
         if (method_exists($this, $key)) {
+
             return true;
         }
 
         if (is_array($this->resource) or $this->resource instanceof \ArrayAccess) {
+
             return isset($this->resource[$key]);
         } elseif (is_object($this->resource)) {
+
             return property_exists($this->resource, $key);
         }
 
@@ -146,12 +155,20 @@ class Presenter implements ArrayableInterface
     public function offsetGet($key)
     {
         if (method_exists($this, $key)) {
+
             return $this->{$key}();
         }
 
         if (is_array($this->resource) or $this->resource instanceof \ArrayAccess) {
+
+            if ($this->resource instanceof PresentableInterface) {
+
+                return $this->resource->decorate()->{$key};
+            }
+
             return $this->resource[$key];
         } elseif (is_object($this->resource) and isset($this->resource->{$key})) {
+
             return $this->resource->{$key};
         }
 
@@ -167,14 +184,18 @@ class Presenter implements ArrayableInterface
     public function offsetSet($key, $value)
     {
         if (is_array($this->resource) or $this->resource instanceof \ArrayAccess) {
+
             if (is_null($key)) {
+
                 $this->resource[] = $value;
             } else {
+
                 $this->resource[$key] = $value;
             }
         } elseif (is_object($this->resource) and
             (property_exists($this->resource, $key) or isset($this->resource->{$key}))
         ) {
+
             $this->resource->{$key} = $value;
         }
     }
@@ -187,14 +208,17 @@ class Presenter implements ArrayableInterface
     public function offsetUnset($key)
     {
         if (is_array($this->resource) or $this->resource instanceof \ArrayAccess) {
+
             unset($this->resource[$key]);
         } elseif (is_object($this->resource) and isset($this->resource->{$key})) {
+
             unset($this->resource->{$key});
         }
     }
 
     public function getResource()
     {
+        
         return $this->resource;
     }
 }
