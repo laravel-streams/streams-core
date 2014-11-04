@@ -69,9 +69,24 @@ class ModuleAddon extends Addon implements PresentableInterface
         return $this->active;
     }
 
-    public function newTag()
+    public function toTag()
     {
-        return new ModuleTag($this->app);
+        if (!$tag = $this->transform(__METHOD__)) {
+
+            $tag = 'Anomaly\Streams\Platform\Addon\Module\ModuleTag';
+        }
+
+        return app()->make($tag, ['module' => $this]);
+    }
+
+    public function toPresenter()
+    {
+        if (!$presenter = $this->transform(__METHOD__)) {
+
+            $presenter = 'Anomaly\Streams\Platform\Addon\Module\ModulePresenter';
+        }
+
+        return app()->make($presenter, ['module' => $this]);
     }
 
     public function decorate()

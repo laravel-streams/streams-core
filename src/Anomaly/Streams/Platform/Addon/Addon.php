@@ -61,6 +61,11 @@ class Addon
         return "streams.{$this->getType()}.{$this->getSlug()}";
     }
 
+    public function getName()
+    {
+        return $this->getType() . '.' . $this->getSlug() . '::addon.name';
+    }
+
     public function toServiceProvider()
     {
         return $this->transform(__FUNCTION__);
