@@ -30,8 +30,4 @@ class EntryPresenter extends EloquentPresenter
 
         return parent::__get($key);
     }
-    /*public function __get($key)
-    {
-        return $this->resource->getValueFromField($key);
-    }*/
 }
