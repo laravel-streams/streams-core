@@ -38,8 +38,7 @@ class FormValidator
         }
 
         $form->setErrors($validator->messages());
-        print_r($validator->messages()->all());
-        die;
+
         $form->fire('validation_failed');
 
         return false;
@@ -71,7 +70,9 @@ class FormValidator
 
         foreach ($stream->assignments as $assignment) {
 
-            $attributes[$form->getPrefix() . $assignment->field->slug . '_en'] = $assignment->getFieldName();
+            $localized = $form->getPrefix() . $assignment->field->slug . '_en';
+            
+            $attributes[$localized] = strtolower($assignment->getFieldName());
         }
 
         $validator->setAttributeNames($attributes);
