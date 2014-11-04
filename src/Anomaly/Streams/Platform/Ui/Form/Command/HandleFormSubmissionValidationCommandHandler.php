@@ -36,6 +36,8 @@ class HandleFormSubmissionValidationCommandHandler
 
             $this->dispatch(new ValidationFailedEvent($form));
         }
+
+        return $passes;
     }
 }
  

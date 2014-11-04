@@ -25,7 +25,7 @@ class FieldTypePresenter extends AddonPresenter implements StringableInterface
      */
     public function __toString()
     {
-        return $this->resource->getValue();
+        return (string)$this->resource->getValue();
     }
 
     /**
@@ -35,6 +35,6 @@ class FieldTypePresenter extends AddonPresenter implements StringableInterface
      */
     public function toString()
     {
-        return $this->resource->getValue();
+        return (string)$this->resource->getValue();
     }
 }

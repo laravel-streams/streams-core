@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Support\Listener;
-use Anomaly\Streams\Platform\Support\Messages;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Ui\Form\Command\HandleFormSubmissionCommand;
 use Anomaly\Streams\Platform\Ui\Form\Event\AuthorizationFailedEvent;
@@ -24,7 +23,7 @@ class FormListener extends Listener
     use CommandableTrait;
 
     /**
-     * Fire when the form request is a POST.
+     * Fired when the form's request is a POST.
      *
      * @param FormWasSubmittedEvent $event
      */
@@ -35,29 +34,43 @@ class FormListener extends Listener
         $this->execute(new HandleFormSubmissionCommand($form));
     }
 
-    public function whenValidationPassed(ValidationPassedEvent $event, Messages $messages)
+    /**
+     * Fired after form validation passes.
+     *
+     * @param ValidationPassedEvent $event
+     */
+    public function whenValidationPassed(ValidationPassedEvent $event)
     {
-        $form = $event->getForm();
-
-        $messages->add('success', 'YES!!!')->flash();
+        app('streams.messages')->add('success', 'YOU ROCK!')->flash();
     }
 
+    /**
+     * Fired after form validation fails.
+     *
+     * @param ValidationFailedEvent $event
+     */
     public function whenValidationFailed(ValidationFailedEvent $event)
     {
-        $form = $event->getForm();
-
-        app('streams.messages')->add('error', $form->getErrors()->all())->flash();
+        app('streams.messages')->add('error', $event->getForm()->getErrors()->all())->flash();
     }
 
-    public function whenAuthorizationFailed(AuthorizationFailedEvent $event, Messages $messages)
+    /**
+     * Fired after form authorization passes.
+     *
+     * @param AuthorizationPassedEvent $event
+     */
+    public function whenAuthorizationPassed(AuthorizationPassedEvent $event)
     {
-        $form = $event->getForm();
-
-        $messages->add('error', $form->getAuthorizationFailedMessage())->flash();
     }
 
-    public function whenAuthorizationPassed(AuthorizationPassedEvent $event, Messages $messages)
+    /**
+     * Fired after form authorization fails.
+     *
+     * @param AuthorizationFailedEvent $event
+     */
+    public function whenAuthorizationFailed(AuthorizationFailedEvent $event)
     {
+        app('streams.messages')->add('error', $event->getForm()->getAuthorizationFailedMessage())->flash();
     }
 }
  

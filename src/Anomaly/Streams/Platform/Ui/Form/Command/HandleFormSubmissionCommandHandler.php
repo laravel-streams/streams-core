@@ -48,6 +48,8 @@ class HandleFormSubmissionCommandHandler
             return $form->setResponse($back);
         }
 
+        $form->fire('submit');
+
         return $form->setResponse($this->execute(new HandleFormSubmissionRedirectCommand($form)));
     }
 }

@@ -222,5 +222,10 @@ class Form extends Ui
 
         return $this->response;
     }
+
+    protected function onSubmit()
+    {
+        $this->repository->store();
+    }
 }
  
