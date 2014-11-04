@@ -33,14 +33,12 @@ class FieldTypeAddon extends Addon implements PresentableInterface
 
     public function input()
     {
-        $builder = app('form');
-
         $options = [
             'class'       => 'form-control',
-            'placeholder' => $this->placeholder,
+            'placeholder' => $this->getPlaceholder(),
         ];
 
-        return $builder->text($this->getFieldName(), $this->getValue(), $options);
+        return app('form')->text($this->getFieldName(), $this->getValue(), $options);
     }
 
     public function filter()
@@ -127,7 +125,7 @@ class FieldTypeAddon extends Addon implements PresentableInterface
     {
         if (!$this->locale) {
 
-            $this->locale = setting('module.settings::default_locale', 'en');
+            $this->locale = setting('module.settings::default_locale', config('app.locale', 'en'));
         }
 
         return $this->locale;
