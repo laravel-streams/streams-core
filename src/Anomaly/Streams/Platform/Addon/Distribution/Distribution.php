@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
-class DistributionAddon extends Addon implements PresentableInterface
+class Distribution extends Addon implements PresentableInterface
 {
 
     public function getAdminTheme()
