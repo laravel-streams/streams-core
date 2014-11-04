@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\FormUi;
+use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
  * Class HandleFormSubmissionAuthorization
@@ -23,9 +23,9 @@ class HandleFormSubmissionAuthorizationCommand
     /**
      * Create a new HandleFormSubmissionAuthorization instance.
      *
-     * @param FormUi $ui
+     * @param Form $ui
      */
-    function __construct(FormUi $ui)
+    function __construct(Form $ui)
     {
         $this->ui = $ui;
     }

@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Anomaly\Streams\Platform\Ui\Form\FormUi;
+use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 
 /**
@@ -91,11 +91,11 @@ class BuildFormSectionFieldsCommandHandler
      * Get field data.
      *
      * @param array          $field
-     * @param FormUi         $ui
+     * @param Form         $ui
      * @param EntryInterface $entry
      * @return array|null
      */
-    protected function getField(array $field, FormUi $ui, EntryInterface $entry)
+    protected function getField(array $field, Form $ui, EntryInterface $entry)
     {
         /**
          * Get the assignment model from the field.
@@ -117,12 +117,12 @@ class BuildFormSectionFieldsCommandHandler
      * Get the form element for a field.
      *
      * @param array           $field
-     * @param FormUi          $ui
+     * @param Form          $ui
      * @param EntryInterface  $entry
      * @param AssignmentModel $assignment
      * @return \Illuminate\View\View|null
      */
-    protected function getElement(array $field, FormUi $ui, EntryInterface $entry, AssignmentModel $assignment)
+    protected function getElement(array $field, Form $ui, EntryInterface $entry, AssignmentModel $assignment)
     {
         $element = '';
 

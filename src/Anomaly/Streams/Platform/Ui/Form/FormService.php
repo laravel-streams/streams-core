@@ -8,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormSectionsCommand;
 /**
  * Class FormService
  *
- * This class returns prepared data for the FormUi in
+ * This class returns prepared data for the Form in
  * order to send it then to the rendered view.
  *
  * The data coming from here should be as an array
@@ -27,16 +27,16 @@ class FormService
     /**
      * The form UI object.
      *
-     * @var FormUi
+     * @var Form
      */
     protected $ui;
 
     /**
      * Create a new FormService instance.
      *
-     * @param FormUi $ui
+     * @param Form $ui
      */
-    function __construct(FormUi $ui)
+    function __construct(Form $ui)
     {
         $this->ui = $ui;
     }

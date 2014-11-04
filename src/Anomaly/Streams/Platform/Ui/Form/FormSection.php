@@ -24,7 +24,7 @@ class FormSection implements FormSectionInterface
     /**
      * The form UI object.
      *
-     * @var FormUi
+     * @var Form
      */
     protected $ui;
 
@@ -39,10 +39,10 @@ class FormSection implements FormSectionInterface
     /**
      * Create a new FormSection instance.
      *
-     * @param FormUi $ui
+     * @param Form $ui
      * @param array  $section
      */
-    function __construct(FormUi $ui, array $section)
+    function __construct(Form $ui, array $section)
     {
         $this->ui      = $ui;
         $this->section = $section;

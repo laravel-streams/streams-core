@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
-use Anomaly\Streams\Platform\Ui\Form\FormUi;
+use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 
 /**
@@ -113,11 +113,11 @@ class BuildFormSectionsCommandHandler
      * Get the default data by the given type.
      *
      * @param array  $section
-     * @param FormUi $ui
+     * @param Form $ui
      * @param        $entry
      * @return array|mixed|null
      */
-    protected function getDefaults(array $section, FormUi $ui, $entry)
+    protected function getDefaults(array $section, Form $ui, $entry)
     {
         $defaults = [];
 
@@ -142,10 +142,10 @@ class BuildFormSectionsCommandHandler
 
     /**
      * @param array  $section
-     * @param FormUi $ui
+     * @param Form $ui
      * @return mixed
      */
-    protected function getSectionHandler(array $section, FormUi $ui)
+    protected function getSectionHandler(array $section, Form $ui)
     {
         $default = 'Anomaly\Streams\Platform\Ui\Form\Section\DefaultFormSection';
 

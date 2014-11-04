@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\FormUi;
+use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 
 /**
@@ -111,11 +111,11 @@ class BuildFormActionsCommandHandler
      * Get default data for the action's type if any.
      *
      * @param array  $action
-     * @param FormUi $ui
+     * @param Form $ui
      * @param        $entry
      * @return array|mixed|null
      */
-    protected function getDefaults(array $action, FormUi $ui, $entry)
+    protected function getDefaults(array $action, Form $ui, $entry)
     {
         if (isset($action['type']) and $defaults = $this->utility->getActionDefaults($action['type'])) {
 

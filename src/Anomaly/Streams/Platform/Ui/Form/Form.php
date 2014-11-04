@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Ui\Form\Event\FormWasSubmittedEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
 
 /**
- * Class FormUi
+ * Class Form
  *
  * This class is responsible for rendering entry
  * forms and handling their primary features.
@@ -14,7 +14,7 @@ use Anomaly\Streams\Platform\Ui\Ui;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form
  */
-class FormUi extends Ui
+class Form extends Ui
 {
 
     protected $entry = null;

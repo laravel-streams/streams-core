@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\FormUi;
+use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
  * Class HandleFormSubmissionCommand
@@ -16,16 +16,16 @@ class HandleFormSubmissionCommand
     /**
      * The form UI object.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Form\FormUi
+     * @var \Anomaly\Streams\Platform\Ui\Form\Form
      */
     protected $ui;
 
     /**
      * Create new HandleFormSubmissionCommand instance.
      *
-     * @param FormUi $ui
+     * @param Form $ui
      */
-    function __construct(FormUi $ui)
+    function __construct(Form $ui)
     {
         $this->ui = $ui;
     }
@@ -33,7 +33,7 @@ class HandleFormSubmissionCommand
     /**
      * Get the form UI object.
      *
-     * @return \Anomaly\Streams\Platform\Ui\Form\FormUi
+     * @return \Anomaly\Streams\Platform\Ui\Form\Form
      */
     public function getUi()
     {

@@ -8,7 +8,7 @@ class FormServiceTest extends \PHPUnit_Framework_TestCase
     {
         $_GET['bar'] = 'foo';
 
-        $form = self::$form = new FormUi;
+        $form = self::$form = new Form;
 
         $form
             ->setSections(

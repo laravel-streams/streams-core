@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\FormUi;
+use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 
 /**
@@ -110,11 +110,11 @@ class BuildFormRedirectsCommandHandler
      * Get the defaults for the redirect's type if any.
      *
      * @param array  $redirect
-     * @param FormUi $ui
+     * @param Form $ui
      * @param        $entry
      * @return array|mixed|null
      */
-    protected function getDefaults(array $redirect, FormUi $ui, $entry)
+    protected function getDefaults(array $redirect, Form $ui, $entry)
     {
         $defaults = [];
 
@@ -129,10 +129,10 @@ class BuildFormRedirectsCommandHandler
     /**
      * Get the name for the redirect button.
      *
-     * @param FormUi $ui
+     * @param Form $ui
      * @return string
      */
-    protected function getName(FormUi $ui)
+    protected function getName(Form $ui)
     {
         return $ui->getPrefix() . 'redirect';
     }

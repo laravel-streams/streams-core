@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\FormUi;
+use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
  * Class BuildFormSectionFieldsCommand
@@ -16,7 +16,7 @@ class BuildFormSectionFieldsCommand
     /**
      * The form UI object.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Form\FormUi
+     * @var \Anomaly\Streams\Platform\Ui\Form\Form
      */
     protected $ui;
 
@@ -30,10 +30,10 @@ class BuildFormSectionFieldsCommand
     /**
      * Create a new BuildFormSectionFieldsCommand instance.
      *
-     * @param FormUi $ui
+     * @param Form $ui
      * @param array  $fields
      */
-    function __construct(FormUi $ui, array $fields)
+    function __construct(Form $ui, array $fields)
     {
         $this->ui     = $ui;
         $this->fields = $fields;
@@ -52,7 +52,7 @@ class BuildFormSectionFieldsCommand
     /**
      * Get the form UI object.
      *
-     * @return FormUi
+     * @return Form
      */
     public function getUi()
     {

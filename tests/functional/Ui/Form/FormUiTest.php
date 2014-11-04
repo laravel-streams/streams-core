@@ -6,7 +6,7 @@ class FormUiTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$form = new FormUi;
+        self::$form = new Form;
     }
 
     public function testItCanSetAndGetSkips()

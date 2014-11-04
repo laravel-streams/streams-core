@@ -1,11 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Contract;
 
-use Anomaly\Streams\Platform\Ui\Form\FormUi;
+use Anomaly\Streams\Platform\Ui\Form\Form;
 
 interface FormRequestInterface
 {
 
-    public function __construct(FormUi $ui);
+    public function __construct(Form $ui);
 
     public function validate(array $input);
 

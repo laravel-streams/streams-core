@@ -19,7 +19,7 @@ class FormUiValidator
      *
      * @param array $input
      */
-    public function validate(FormUi $ui, Request $request, Factory $factory)
+    public function validate(Form $ui, Request $request, Factory $factory)
     {
         $model = $ui->getModel();
         $data  = $request->all();
