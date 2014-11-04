@@ -11,6 +11,9 @@ class EntryRelationFieldsParser
 
         foreach ($stream->assignments->relations() as $assignment) {
 
+            // TODO: Fix meh!
+            continue;
+
             $relationArray = $assignment->getType()->relation();
 
             $key = $this->adjustValue($assignment->fieldSlug);

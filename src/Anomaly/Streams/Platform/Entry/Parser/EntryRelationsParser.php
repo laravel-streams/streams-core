@@ -11,6 +11,9 @@ class EntryRelationsParser
 
         foreach ($stream->assignments->relations() as $assignment) {
 
+            // TODO: Fix relations
+            continue;
+
             $type = $assignment->getType();
 
             $type->setStream($stream);
