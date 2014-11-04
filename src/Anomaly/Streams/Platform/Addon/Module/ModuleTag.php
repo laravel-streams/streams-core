@@ -14,8 +14,7 @@ class ModuleTag extends TagAddon
 
     public function name()
     {
-        return 'Test';
-        $this->module->toPresenter()->name;
+        return $this->module->toPresenter()->name;
     }
 }
  

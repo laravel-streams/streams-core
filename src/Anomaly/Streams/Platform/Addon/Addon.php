@@ -66,6 +66,11 @@ class Addon
         return $this->getType() . '.' . $this->getSlug() . '::addon.name';
     }
 
+    public function getDescription()
+    {
+        return $this->getType() . '.' . $this->getSlug() . '::addon.description';
+    }
+
     public function toServiceProvider()
     {
         return $this->transform(__FUNCTION__);

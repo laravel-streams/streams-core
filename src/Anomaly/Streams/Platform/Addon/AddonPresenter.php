@@ -22,7 +22,7 @@ class AddonPresenter extends Presenter
      */
     public function description()
     {
-        return trans($this->resource->getType() . '.' . $this->resource->getSlug() . '::addon.description');
+        return trans($this->resource->getDescription());
     }
 
     /**

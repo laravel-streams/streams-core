@@ -86,7 +86,7 @@ class ModuleAddon extends Addon implements PresentableInterface
             $presenter = 'Anomaly\Streams\Platform\Addon\Module\ModulePresenter';
         }
 
-        return app()->make($presenter, ['module' => $this]);
+        return app()->make($presenter, [$this]);
     }
 
     public function decorate()
