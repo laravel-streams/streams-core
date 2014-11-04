@@ -73,7 +73,6 @@ class Ui
      */
     protected function boot()
     {
-        //
     }
 
     /**
@@ -105,7 +104,7 @@ class Ui
 
     public function render()
     {
-        return $this->make()->render();
+        return $this->fire('make');
     }
 
     /**
@@ -204,5 +203,10 @@ class Ui
         $this->wrapper = $wrapper;
 
         return $this;
+    }
+
+    protected function onMake()
+    {
+        return $this->make();
     }
 }
