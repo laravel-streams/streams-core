@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui;
 
-use Anomaly\Streams\Platform\Entry\EntryInterface;
+use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
@@ -71,12 +71,12 @@ class Utility
      * Evaluate closures in the entire data array.
      * Merge in entry data at this point as well if available.
      *
-     * @param array          $data
-     * @param array          $arguments
-     * @param EntryInterface $entry
+     * @param array $data
+     * @param array $arguments
+     * @param null  $entry
      * @return array|mixed|null
      */
-    public function evaluate(array $data, array $arguments = [], EntryInterface $entry = null)
+    public function evaluate(array $data, array $arguments = [], $entry = null)
     {
         // Evaluate closures.
         $data = evaluate($data, $arguments);
@@ -89,7 +89,7 @@ class Utility
 
             if (is_string($value) and str_contains($value, '{')) {
 
-                if ($entry) {
+                if ($entry instanceof ArrayableInterface) {
 
                     $value = merge($value, $entry->toArray());
                 }

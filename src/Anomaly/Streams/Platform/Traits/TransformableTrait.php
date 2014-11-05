@@ -26,6 +26,9 @@ trait TransformableTrait
         if (substr($suffix, 0, 2) == 'to') {
 
             $suffix = substr($suffix, 2);
+        } elseif (substr($suffix, 0, 3) == 'new') {
+
+            $suffix = substr($suffix, 3);
         }
 
         if (!$class) {

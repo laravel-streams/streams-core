@@ -120,7 +120,8 @@ class Table extends Ui
 
         $repository = $this->newRepository();
 
-        if ($this->entries != null) {
+        if ($this->entries == null) {
+
             $this->entries = $repository->get();
         }
 
@@ -457,12 +458,14 @@ class Table extends Ui
         return $this->paginator;
     }
 
-    /**
-     * @return TableRepository
-     */
-    private function newRepository()
+    protected function newRepository()
     {
-        return new TableRepository($this, $this->model);
+        if (!$repository = $this->transform(__FUNCTION__)) {
+
+            $repository = 'Anomaly\Streams\Platform\Ui\Table\TableRepository';
+        }
+
+        return app()->make($repository, ['table' => $this]);
     }
 
     /**

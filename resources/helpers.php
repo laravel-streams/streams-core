@@ -53,7 +53,7 @@ function evaluate($value, $arguments = [])
 
         try {
 
-            return call_user_func_array($value, $arguments);
+            return app()->call($value, $arguments);
         } catch (\Exception $e) {
 
             return null;

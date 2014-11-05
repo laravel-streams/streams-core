@@ -76,7 +76,7 @@ class BuildTableColumnsCommandHandler
 
             // Evaluate the column.
             // All closures are gone now.
-            $column = $this->utility->evaluate($column, [$ui, $entry], $entry);
+            $column = $this->utility->evaluate($column, compact('ui', 'entry'), $entry);
 
             // Build out our required data.
             $class      = $this->getClass($column);
@@ -117,11 +117,11 @@ class BuildTableColumnsCommandHandler
     /**
      * Get the value.
      *
-     * @param array          $column
-     * @param EntryInterface $entry
+     * @param array $column
+     * @param mixed $entry
      * @return string
      */
-    protected function getValue(array $column, EntryInterface $entry)
+    protected function getValue(array $column, $entry)
     {
         $value = null;
 
