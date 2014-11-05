@@ -120,7 +120,7 @@ class Table extends Ui
 
         $repository = $this->newRepository();
 
-        if (!$this->entries) {
+        if ($this->entries != null) {
             $this->entries = $repository->get();
         }
 
