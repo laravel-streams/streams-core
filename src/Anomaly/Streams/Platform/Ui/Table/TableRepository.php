@@ -46,10 +46,9 @@ class TableRepository implements TableRepositoryInterface
      * @param Table         $ui
      * @param EloquentModel $model
      */
-    function __construct(Table $ui, EloquentModel $model = null)
+    function __construct(Table $table)
     {
-        $this->ui    = $ui;
-        $this->model = $model;
+        $this->table = $table;
 
         $this->request = app('request');
     }
@@ -66,20 +65,20 @@ class TableRepository implements TableRepositoryInterface
      */
     public function get()
     {
-        $model = $this->model->newInstance();
+        $model = $this->table->getModel();
 
         // Prevent joins from overriding values.
         $query = $model->select($model->getTable() . '.*');
 
         // Eager load desired relations.
-        $query = $query->with($this->ui->getEager());
+        $query = $query->with($this->table->getEager());
 
         /**
          * This hook is used for views / actions
          * and any other query hooks the developer
          * want's to implement.
          */
-        $this->ui->fire('query', [&$query]);
+        $this->table->fire('query', [&$query]);
 
         /**
          * Save the total of the basic query
@@ -97,7 +96,7 @@ class TableRepository implements TableRepositoryInterface
          * Return only the page's entries based
          * on configured limit and the current page.
          */
-        $limit  = $this->ui->getLimit();
+        $limit  = $this->table->getLimit();
         $offset = $limit * ($this->request->get('page', 1) - 1);
 
         $query = $query->take($limit)->offset($offset);
@@ -105,7 +104,7 @@ class TableRepository implements TableRepositoryInterface
         /**
          * Order the query results.
          */
-        foreach ($this->ui->getOrderBy() as $column => $direction) {
+        foreach ($this->table->getOrderBy() as $column => $direction) {
 
             $query = $query->orderBy($column, $direction);
         }
@@ -135,12 +134,12 @@ class TableRepository implements TableRepositoryInterface
 
         $items   = [];
         $page    = $request->get('page');
-        $perPage = $this->ui->getLimit();
+        $perPage = $this->table->getLimit();
         $path    = '/' . $request->path();
 
         $paginator = new Paginator($items, $total, $perPage, $page, compact('path'));
 
-        $this->ui->setPaginator($paginator);
+        $this->table->setPaginator($paginator);
     }
 
     /**
@@ -157,7 +156,7 @@ class TableRepository implements TableRepositoryInterface
      */
     protected function assurePageExists($total)
     {
-        $limit  = $this->ui->getLimit();
+        $limit  = $this->table->getLimit();
         $page   = $this->request->get('page', 1);
         $offset = $limit * ($page - 1);
 
