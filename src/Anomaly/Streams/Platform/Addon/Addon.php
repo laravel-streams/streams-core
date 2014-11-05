@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Anomaly\Streams\Platform\Traits\CallableTrait;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
 
@@ -11,7 +12,7 @@ use Anomaly\Streams\Platform\Traits\TransformableTrait;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon
  */
-class Addon
+class Addon implements ArrayableInterface
 {
 
     use CallableTrait;
@@ -153,5 +154,20 @@ class Addon
     public function toServiceProvider()
     {
         return $this->transform(__FUNCTION__);
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'slug'        => $this->getSlug(),
+            'path'        => $this->getPath(),
+            'name'        => $this->getName(),
+            'description' => $this->getDescription(),
+        ];
     }
 }
