@@ -71,7 +71,7 @@ class Module extends Addon implements PresentableInterface
 
     public function toTag()
     {
-        if (!$tag = $this->transform(__METHOD__)) {
+        if (!$tag = $this->transform(__FUNCTION__)) {
 
             $tag = 'Anomaly\Streams\Platform\Addon\Module\ModuleTag';
         }
@@ -81,7 +81,7 @@ class Module extends Addon implements PresentableInterface
 
     public function toPresenter()
     {
-        if (!$presenter = $this->transform(__METHOD__)) {
+        if (!$presenter = $this->transform(__FUNCTION__)) {
 
             $presenter = 'Anomaly\Streams\Platform\Addon\Module\ModulePresenter';
         }
