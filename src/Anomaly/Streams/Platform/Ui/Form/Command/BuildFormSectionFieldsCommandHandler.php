@@ -111,7 +111,7 @@ class BuildFormSectionFieldsCommandHandler
     {
         $element = '';
 
-        foreach (setting('module.settings::available_locales', ['en', 'fr']) as $locale) {
+        foreach (setting('module.settings::available_locales', config('streams.available_locales')) as $locale) {
 
             if ($assignment->isTranslatable() or config('app.locale') == $locale) {
 

@@ -74,7 +74,7 @@ class FormRepository implements FormRepositoryInterface
 
     protected function saveTranslations($stream, $entry)
     {
-        foreach (setting('module.settings::available_locales', ['en', 'fr']) as $locale) {
+        foreach (setting('module.settings::available_locales', config('streams.available_locales')) as $locale) {
 
             if ($stream->isTranslatable() and config('app.locale') != $locale) {
 
