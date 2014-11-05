@@ -2,33 +2,33 @@
 
 use Anomaly\Streams\Platform\Support\Collection;
 
+/**
+ * Class AddonCollection
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon
+ */
 class AddonCollection extends Collection
 {
 
     /**
-     * Create a new collection.
+     * Push an addon to the collection.
      *
-     * @param  mixed $items
-     * @return void
+     * @param mixed $addon
      */
-    public function __construct($items = array())
-    {
-        $items = is_null($items) ? [] : $this->getArrayableItems($items);
-
-        foreach ($items as $item) {
-
-            if ($item instanceof Addon) {
-
-                $this->items[$item->getSlug()] = $item;
-            }
-        }
-    }
-
     public function push($addon)
     {
         $this->items[$addon->getSlug()] = $addon;
     }
 
+    /**
+     * Find an addon by it's slug.
+     *
+     * @param $slug
+     * @return null
+     */
     public function findBySlug($slug)
     {
         if (isset($this->items[$slug])) {

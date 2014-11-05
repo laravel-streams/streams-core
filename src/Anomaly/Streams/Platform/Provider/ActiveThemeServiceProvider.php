@@ -20,15 +20,17 @@ class ActiveThemeServiceProvider extends ServiceProvider
         $request = app('request');
         $theme   = null;
 
-        if ($distribution = app('streams.distribution')) {
+        if ($distribution = app('streams.distributions')->active()) {
 
             if ($request->segment(1) == 'admin') {
 
-                $theme = $distribution->getAdminTheme();
+                $theme = $distribution->getDefaultAdminTheme();
             } else {
 
-                $theme = $distribution->getPublicTheme();
+                $theme = $distribution->getDefaultPublicTheme();
             }
+
+            $theme = app('streams.theme.' . $theme);
 
             if ($theme) {
                 $theme->setActive(true);

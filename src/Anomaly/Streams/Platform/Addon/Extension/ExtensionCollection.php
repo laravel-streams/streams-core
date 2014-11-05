@@ -12,22 +12,23 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class ExtensionCollection extends AddonCollection
 {
-    
-    public function find($pattern)
+
+    /**
+     * Get all extensions matching a pattern.
+     *
+     * @param $pattern
+     * @return static
+     */
+    public function getAll($pattern)
     {
         $matches = [];
 
+        /**
+         * Break up our pattern into components we can match up
+         * with our available extensions.
+         */
         list($namespace, $extension) = explode('::', $pattern);
-
         list($addonType, $addonSlug) = explode('.', $namespace);
-
-        if ($extension != '*') {
-
-            list($extensionSlug, $extensionType) = explode('.', $extension);
-        } else {
-            $extensionType = '*';
-            $extensionSlug = '*';
-        }
 
         foreach ($this->items as $item) {
 
@@ -35,13 +36,7 @@ class ExtensionCollection extends AddonCollection
 
             if (starts_with($slug, "{$addonSlug}_{$addonType}_")) {
 
-                if ($extensionType == '*' and $extensionSlug == '*') {
-
-                    $matches[] = $item;
-                } elseif ($extensionSlug == '*' and ends_with($slug, "_{$extensionType}")) {
-
-                    $matches[] = $item;
-                } elseif (ends_with($slug, "_{$addonSlug}_{$addonType}")) {
+                if (ends_with($slug, "_{$extension}")) {
 
                     $matches[] = $item;
                 }
@@ -51,26 +46,28 @@ class ExtensionCollection extends AddonCollection
         return self::make($matches);
     }
 
-    public function prioritized()
+    /**
+     * Find a specific extension by it's reference.
+     *
+     * @param mixed $reference
+     * @return null
+     */
+    public function find($reference)
     {
-        $expidited = [];
-        $normal    = [];
-        $deferred  = [];
+        /**
+         * We can simply replace with underscores here
+         * and we are left with the addon slug.
+         */
+        $slug = str_replace(['.', '::'], '_', $reference);
 
         foreach ($this->items as $item) {
 
-            if ($this->isExpedited()) {
+            if ($item->getSlug() == $slug) {
 
-                $expidited[] = $item;
-            } elseif ($this->isDeferred()) {
-
-                $deferred[] = $item;
-            } else {
-
-                $normal[] = $item;
+                return $item;
             }
         }
 
-        return self::make($expidited + $normal + $deferred);
+        return null;
     }
 }

@@ -3,18 +3,51 @@
 use Anomaly\Streams\Platform\Traits\CallableTrait;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
 
+/**
+ * Class Addon
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon
+ */
 class Addon
 {
 
     use CallableTrait;
     use TransformableTrait;
 
+    /**
+     * The addon path.
+     * This is set automatically.
+     *
+     * @var null
+     */
     protected $path = null;
 
+    /**
+     * The addon type.
+     * This is set automatically.
+     *
+     * @var
+     */
     protected $type;
 
+    /**
+     * The addon slug.
+     * This is set automatically.
+     *
+     * @var
+     */
     protected $slug;
 
+    /**
+     * Get the addon path. Optionally include an
+     * additional path suffix.
+     *
+     * @param null $path
+     * @return string
+     */
     public function getPath($path = null)
     {
         if (!$this->path) {
@@ -25,11 +58,21 @@ class Addon
         return $this->path . ($path ? '/' . ltrim($path, '/') : null);
     }
 
+    /**
+     * Get the core addon flag.
+     *
+     * @return bool
+     */
     public function isCore()
     {
         return str_contains($this->getPath(), 'core/addons');
     }
 
+    /**
+     * Get the addon slug.
+     *
+     * @return string
+     */
     public function getSlug()
     {
         if (!$this->slug) {
@@ -43,6 +86,11 @@ class Addon
         return $this->slug;
     }
 
+    /**
+     * Get the addon type.
+     *
+     * @return string
+     */
     public function getType()
     {
         if (!$this->type) {
@@ -56,21 +104,41 @@ class Addon
         return $this->type;
     }
 
+    /**
+     * Get the addon abstract string.
+     *
+     * @return string
+     */
     public function getAbstract()
     {
         return "streams.{$this->getType()}.{$this->getSlug()}";
     }
 
+    /**
+     * Get the addon name string.
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->getType() . '.' . $this->getSlug() . '::addon.name';
     }
 
+    /**
+     * Get the addon description string.
+     *
+     * @return string
+     */
     public function getDescription()
     {
         return $this->getType() . '.' . $this->getSlug() . '::addon.description';
     }
 
+    /**
+     * Return the addons service provider counterpart.
+     *
+     * @return null|string
+     */
     public function toServiceProvider()
     {
         return $this->transform(__FUNCTION__);

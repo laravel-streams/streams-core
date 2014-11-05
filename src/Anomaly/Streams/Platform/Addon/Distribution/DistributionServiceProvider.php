@@ -2,17 +2,15 @@
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 
+/**
+ * Class DistributionServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon\Distribution
+ */
 class DistributionServiceProvider extends AddonServiceProvider
 {
 
-    protected function onAfterRegister()
-    {
-        $this->app->singleton(
-            'streams.distribution',
-            function () {
-
-                return app('streams.distributions')->first();
-            }
-        );
-    }
 }
