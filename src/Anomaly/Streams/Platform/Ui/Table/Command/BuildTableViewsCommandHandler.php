@@ -43,10 +43,13 @@ class BuildTableViewsCommandHandler
 
         $ui = $command->getUi();
 
-        foreach ($ui->getViews() as $order => $view) {
+        foreach ($ui->getViews() as $slug => $view) {
 
             // Standardize input.
-            $view = $this->standardize($view);
+            $view = $this->standardize($slug, $view);
+
+            // We care about the first by default.
+            $order = array_search('blah', array_keys($ui->getViews()));
 
             /**
              * Remove the handler or it
@@ -77,23 +80,47 @@ class BuildTableViewsCommandHandler
 
     /**
      * Standardize minimum input to the proper data
-     * structure we actually expect.
+     * structure that we actually need.
      *
+     * @param $slug
      * @param $view
      * @return array
      */
-    protected function standardize($view)
+    protected function standardize($slug, $view)
     {
-        /**
-         * If only the type is sent along
-         * we default everything like bad asses.
-         */
-        if (is_string($view)) {
 
-            $view = [
+        /**
+         * If the slug is numerical and the view
+         * is a string then use view for both.
+         */
+        if (is_numeric($slug) and is_string($view)) {
+
+            return [
                 'type' => $view,
                 'slug' => $view,
             ];
+        }
+
+        /**
+         * If the slug is a string and the view
+         * is too then use the slug as slug and
+         * the view as the type.
+         */
+        if (is_string($view)) {
+
+            return [
+                'type' => $view,
+                'slug' => $slug,
+            ];
+        }
+
+        /**
+         * If the slug is not explicitly set
+         * then default it to the slug inferred.
+         */
+        if (is_array($view) and !isset($view['slug'])) {
+
+            $view['slug'] = $slug;
         }
 
         return $view;
@@ -120,7 +147,7 @@ class BuildTableViewsCommandHandler
     /**
      * Get the view URL.
      *
-     * @param array   $view
+     * @param array $view
      * @param Table $ui
      * @return string
      */
@@ -132,7 +159,7 @@ class BuildTableViewsCommandHandler
     /**
      * Get the translated view title.
      *
-     * @param array   $view
+     * @param array $view
      * @param Table $ui
      * @return string
      */
@@ -146,7 +173,7 @@ class BuildTableViewsCommandHandler
      *
      * @param array   $view
      * @param         $order
-     * @param Table $ui
+     * @param Table   $ui
      * @return mixed|null|string
      */
     protected function getClass(array $view, Table $ui)
@@ -161,7 +188,7 @@ class BuildTableViewsCommandHandler
      *
      * @param array   $view
      * @param         $order
-     * @param Table $ui
+     * @param Table   $ui
      * @return string
      */
     protected function getActive(array $view, $order, Table $ui)
