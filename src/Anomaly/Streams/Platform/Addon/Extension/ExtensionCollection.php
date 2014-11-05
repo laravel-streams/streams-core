@@ -16,10 +16,10 @@ class ExtensionCollection extends AddonCollection
     /**
      * Get all extensions matching a pattern.
      *
-     * @param $pattern
+     * @param $key
      * @return static
      */
-    public function getAll($pattern)
+    public function search($key, $strict = true)
     {
         $matches = [];
 
@@ -27,18 +27,49 @@ class ExtensionCollection extends AddonCollection
          * Break up our pattern into components we can match up
          * with our available extensions.
          */
-        list($namespace, $extension) = explode('::', $pattern);
+        list($namespace, $extension) = explode('::', $key);
         list($addonType, $addonSlug) = explode('.', $namespace);
+
+        if ($key == '*') {
+
+            $extension = false;
+        }
 
         foreach ($this->items as $item) {
 
             $slug = $item->getSlug();
 
-            if (starts_with($slug, "{$addonSlug}_{$addonType}_")) {
+            if ($strict) {
 
-                if (ends_with($slug, "_{$extension}")) {
+                /**
+                 * If searching strict then look only at the
+                 * beginning and ending of the extension slug.
+                 */
+                if (starts_with($slug, "{$addonSlug}_{$addonType}_")) {
 
-                    $matches[] = $item;
+                    if ($extension) {
+
+                        if (ends_with($slug, "_{$extension}")) {
+
+                            $matches[] = $item;
+                        }
+                    }
+                }
+            } else {
+
+                /**
+                 * If not searching strict than just do simple string
+                 * matches on the extension slug.
+                 */
+                if (str_contains($slug, "{$addonSlug}_{$addonType}")) {
+
+                    if ($extension) {
+
+                        if (str_contains($slug, "_{$extension}")) {
+
+                            $matches[] = $item;
+                        }
+                    }
                 }
             }
         }
@@ -47,18 +78,18 @@ class ExtensionCollection extends AddonCollection
     }
 
     /**
-     * Find a specific extension by it's reference.
+     * Get an extension by it's reference.
      *
-     * @param mixed $reference
+     * @param mixed $key
      * @return null
      */
-    public function find($reference)
+    public function get($key, $default = null)
     {
         /**
          * We can simply replace with underscores here
          * and we are left with the addon slug.
          */
-        $slug = str_replace(['.', '::'], '_', $reference);
+        $slug = str_replace(['.', '::'], '_', $key);
 
         foreach ($this->items as $item) {
 
@@ -68,6 +99,6 @@ class ExtensionCollection extends AddonCollection
             }
         }
 
-        return null;
+        return $this->get($default);
     }
 }
