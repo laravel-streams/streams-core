@@ -6,7 +6,7 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
 class Module extends Addon implements PresentableInterface
 {
 
-    protected $navigation = null;
+    protected $nav = null;
 
     protected $menu = [];
 
@@ -18,9 +18,9 @@ class Module extends Addon implements PresentableInterface
 
     protected $active = false;
 
-    public function getNavigation()
+    public function getNav()
     {
-        return $this->navigation;
+        return $this->nav;
     }
 
     public function getMenu()
