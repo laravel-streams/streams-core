@@ -61,9 +61,12 @@ class FormRepository implements FormRepositoryInterface
     {
         foreach ($stream->assignments as $assignment) {
 
-            $entry->{$assignment->field->slug} = $this->request->get(
-                $this->form->getPrefix() . $assignment->field->slug . '_' . config('app.locale')
-            );
+            $key = $this->form->getPrefix() . $assignment->field->slug . '_' . config('app.locale');
+
+            if ($this->request->has($key)) {
+
+                $entry->{$assignment->field->slug} = $this->request->get($key);
+            }
         }
 
         $entry->save();
@@ -81,9 +84,12 @@ class FormRepository implements FormRepositoryInterface
 
                     if ($assignment->isTranslatable() or config('app.locale') == $locale) {
 
-                        $entry->{$assignment->field->slug} = $this->request->get(
-                            $this->form->getPrefix() . $assignment->field->slug . '_' . $locale
-                        );
+                        $key = $this->form->getPrefix() . $assignment->field->slug . '_' . $locale;
+
+                        if ($this->request->has($key)) {
+
+                            $entry->{$assignment->field->slug} = $this->request->get($key);
+                        }
                     }
                 }
 

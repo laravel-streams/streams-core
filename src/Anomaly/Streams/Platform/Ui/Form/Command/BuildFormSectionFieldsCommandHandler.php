@@ -116,6 +116,15 @@ class BuildFormSectionFieldsCommandHandler
             if ($assignment->isTranslatable() or config('app.locale') == $locale) {
 
                 /**
+                 * If the field is being skipped make sure it never
+                 * get's to the form.
+                 */
+                if (in_array($assignment->field->slug, $form->getSkips())) {
+
+                    continue;
+                }
+
+                /**
                  * Get the type object spawned from the assignment
                  * next. Again if not found we're going to skip it.
                  */
