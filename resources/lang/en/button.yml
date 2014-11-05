@@ -2,6 +2,7 @@ add: Add
 edit: Edit
 view: View
 delete: Delete
+create: Create
 cancel: Cancel
 options: Options
 continue: Continue

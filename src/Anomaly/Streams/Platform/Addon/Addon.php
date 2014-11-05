@@ -42,6 +42,17 @@ class Addon
     protected $slug;
 
     /**
+     * Get the lang string for a given key.
+     *
+     * @param $key
+     * @return string
+     */
+    public function lang($key)
+    {
+        return "{$this->getType()}.{$this->getSlug()}::{$key}";
+    }
+
+    /**
      * Get the addon path. Optionally include an
      * additional path suffix.
      *

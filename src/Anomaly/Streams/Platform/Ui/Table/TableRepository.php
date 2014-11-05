@@ -43,7 +43,7 @@ class TableRepository implements TableRepositoryInterface
     /**
      * Create a new TableRepository instance.
      *
-     * @param Table       $ui
+     * @param Table         $ui
      * @param EloquentModel $model
      */
     function __construct(Table $ui, EloquentModel $model = null)

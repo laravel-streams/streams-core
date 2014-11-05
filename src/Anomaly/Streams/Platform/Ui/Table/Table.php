@@ -273,7 +273,7 @@ class Table extends Ui
     {
         if (!$this->limit) {
 
-            $this->limit = 2;
+            $this->limit = setting('results_per_page', 15);
         }
 
         return $this->limit;
