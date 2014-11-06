@@ -2,14 +2,28 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 
+/**
+ * Class BuildFieldTypeCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon\FieldType\Command
+ */
 class BuildFieldTypeCommandHandler
 {
 
+    /**
+     * Handle the command.
+     *
+     * @param BuildFieldTypeCommand $command
+     * @return mixed
+     */
     public function handle(BuildFieldTypeCommand $command)
     {
-        $collection = app('streams.field_types');
+        $fieldType = $this->getFieldType($command);
 
-        if ($fieldType = $collection->findBySlug($command->getType())) {
+        if ($fieldType) {
 
             if ($fieldType instanceof FieldType) {
 
@@ -30,6 +44,22 @@ class BuildFieldTypeCommandHandler
         }
 
         return $fieldType;
+    }
+
+    /**
+     * Get the field type class.
+     *
+     * @param BuildFieldTypeCommand $command
+     * @return mixed
+     */
+    protected function getFieldType(BuildFieldTypeCommand $command)
+    {
+        if (class_exists($command->getType())) {
+
+            return app($command->getType());
+        }
+
+        return app('streams.field_types')->findBySlug($command->getType());
     }
 }
  
