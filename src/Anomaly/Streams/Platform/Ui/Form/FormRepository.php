@@ -63,7 +63,7 @@ class FormRepository implements FormRepositoryInterface
 
             $key = $this->form->getPrefix() . $assignment->field->slug . '_' . config('app.locale');
 
-            if ($this->request->has($key)) {
+            if (array_key_exists($assignment->field->slug, $this->form->getIntendedFields())) {
 
                 $entry->{$assignment->field->slug} = $this->request->get($key);
             }
@@ -86,7 +86,7 @@ class FormRepository implements FormRepositoryInterface
 
                         $key = $this->form->getPrefix() . $assignment->field->slug . '_' . $locale;
 
-                        if ($this->request->has($key)) {
+                        if (array_key_exists($assignment->field->slug, $this->form->getIntendedFields())) {
 
                             $entry->{$assignment->field->slug} = $this->request->get($key);
                         }

@@ -140,7 +140,7 @@ class BuildTableColumnsCommandHandler
          * getting the value from the entry
          * by field slug.
          */
-        if (isset($column['field'])) {
+        if (!$value and isset($column['field'])) {
 
             $value = $column['field'];
 

@@ -96,6 +96,15 @@ class Form extends Ui
     protected $data = [];
 
     /**
+     * Fields intended to be submitted.
+     * As fields as added to the form this
+     * array is populated.
+     *
+     * @var array
+     */
+    protected $intendedFields = [];
+
+    /**
      * The form builder object.
      *
      * @var FormBuilder
@@ -144,7 +153,6 @@ class Form extends Ui
         return $this->fire('make');
     }
 
-
     /**
      * Render the form response.
      *
@@ -161,6 +169,7 @@ class Form extends Ui
             return $this->make($entry)->render();
         }
     }
+
 
     /**
      * Trigger the view response.
@@ -226,7 +235,6 @@ class Form extends Ui
         return $this->redirects;
     }
 
-
     /**
      * Set the actions configuration.
      *
@@ -239,6 +247,7 @@ class Form extends Ui
 
         return $this;
     }
+
 
     /**
      * Get the actions configuration.
@@ -402,6 +411,28 @@ class Form extends Ui
     }
 
     /**
+     * Add an intended field to the form.
+     * This is used internally.
+     *
+     * @param array $intendedFields
+     * return $this
+     */
+    public function addIntendedField($field)
+    {
+        $this->intendedFields[$field] = true;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getIntendedFields()
+    {
+        return $this->intendedFields;
+    }
+
+    /**
      * Get the form utility object.
      *
      * @return mixed
@@ -495,12 +526,11 @@ class Form extends Ui
     {
         $this->entry = $this->repository->get();
 
+        $this->setResponse(parent::make());
+
         if (app('request')->isMethod('post')) {
 
             $this->dispatch(new FormWasSubmittedEvent($this));
-        } else {
-
-            $this->setResponse(parent::make());
         }
 
         return $this->response;
