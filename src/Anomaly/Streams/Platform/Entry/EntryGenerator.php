@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Parser\EntryClassParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryDatesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryNamespaceParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryRelationFieldsParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryRelationsParser;
@@ -19,6 +20,8 @@ class EntryGenerator extends Generator
     protected $table;
 
     protected $rules;
+
+    protected $dates;
 
     protected $stream;
 
@@ -39,6 +42,7 @@ class EntryGenerator extends Generator
         $this->class                 = new EntryClassParser();
         $this->table                 = new EntryTableParser();
         $this->rules                 = new EntryRulesParser();
+        $this->dates                 = new EntryDatesParser();
         $this->stream                = new EntryStreamParser();
         $this->relations             = new EntryRelationsParser();
         $this->namespace             = new EntryNamespaceParser();
@@ -52,6 +56,7 @@ class EntryGenerator extends Generator
         $class                 = $this->class->parse($data);
         $table                 = $this->table->parse($data);
         $rules                 = $this->rules->parse($data);
+        $dates                 = $this->dates->parse($data);
         $stream                = $this->stream->parse($data);
         $relations             = $this->relations->parse($data);
         $namespace             = $this->namespace->parse($data);
@@ -63,6 +68,7 @@ class EntryGenerator extends Generator
             'class',
             'table',
             'rules',
+            'dates',
             'stream',
             'relations',
             'namespace',

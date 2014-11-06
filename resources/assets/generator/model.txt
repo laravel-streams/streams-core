@@ -9,6 +9,8 @@ class {class} extends EntryModel
 
     public static $rules = {rules};
 
+    public $dates = {dates};
+
     {translationForeignKey}
 
     {translationModel}
