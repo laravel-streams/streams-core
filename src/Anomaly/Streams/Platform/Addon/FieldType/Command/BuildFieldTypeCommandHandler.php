@@ -54,12 +54,14 @@ class BuildFieldTypeCommandHandler
      */
     protected function getFieldType(BuildFieldTypeCommand $command)
     {
-        if (class_exists($command->getType())) {
+        $fieldType = $command->getType();
+
+        if (str_contains('\\', $fieldType) and class_exists($fieldType)) {
 
             return app($command->getType());
         }
 
-        return app('streams.field_types')->findBySlug($command->getType());
+        return app('streams.field_types')->findBySlug($fieldType);
     }
 }
  
