@@ -69,6 +69,8 @@ class FormRepository implements FormRepositoryInterface
             }
         }
 
+        $this->form->fire('saving');
+
         $entry->save();
     }
 
@@ -92,6 +94,8 @@ class FormRepository implements FormRepositoryInterface
                         }
                     }
                 }
+
+                $this->form->fire('saving_' . $locale);
 
                 $entry->save();
             }
