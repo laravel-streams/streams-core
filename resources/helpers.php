@@ -7,12 +7,12 @@
  * @param string $separator
  * @return mixed|string
  */
-function slugify($string, $separator = '-')
+function slugify($string, $separator = '_')
 {
     $string = trim($string);
     $string = strtolower($string);
-    $string = preg_replace('/[\s-]+/', $separator, $string);
-    $string = preg_replace("/[^0-9a-zA-Z-]/", '', $string);
+    $string = preg_replace("/[\s{$separator}]+/", $separator, $string);
+    $string = preg_replace("/[^0-9a-zA-Z{$separator}]/", '', $string);
 
     return $string;
 }
