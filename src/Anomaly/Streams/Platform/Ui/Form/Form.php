@@ -22,7 +22,11 @@ class Form extends Ui
 
     protected $errors = null;
 
+    protected $successMessage = 'message.entry_saved';
+
     protected $authorizationFailedMessage = 'error.not_authorized';
+
+    protected $data = [];
 
     protected $builder;
 
@@ -39,7 +43,6 @@ class Form extends Ui
         parent::__construct();
     }
 
-
     public function make($entry = null)
     {
         if ($entry) {
@@ -49,6 +52,7 @@ class Form extends Ui
 
         return $this->fire('make');
     }
+
 
     public function render($entry = null)
     {
@@ -87,11 +91,11 @@ class Form extends Ui
         return $this;
     }
 
-
     public function getRedirects()
     {
         return $this->redirects;
     }
+
 
     public function setActions(array $actions)
     {
@@ -148,9 +152,40 @@ class Form extends Ui
         return $this->errors;
     }
 
+    public function setSuccessMessage($message)
+    {
+        $this->successMessage = $message;
+
+        return $this;
+    }
+
+    public function getSuccessMessage()
+    {
+        return $this->successMessage;
+    }
+
+    public function setAuthorizationFailedMessage($message)
+    {
+        $this->authorizationFailedMessage = $message;
+
+        return $this;
+    }
+
     public function getAuthorizationFailedMessage()
     {
         return $this->authorizationFailedMessage;
+    }
+
+    public function setData(array $data)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    public function getData()
+    {
+        return $this->data;
     }
 
     public function getUtility()
