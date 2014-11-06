@@ -36,20 +36,30 @@ class HandleFormSubmissionCommandHandler
     {
         $form = $command->getForm();
 
+        // Set a redirect to where we came from as a default.
         $back = redirect(referer(url($this->request->path())));
 
+        /**
+         * Check that the user has proper authorization
+         * to submit the form.
+         */
         if (!$this->execute(new HandleFormSubmissionAuthorizationCommand($form))) {
 
             return $form->setResponse($back);
         }
 
+        /**
+         * Check that the form passes validation.
+         */
         if (!$this->execute(new HandleFormSubmissionValidationCommand($form))) {
 
             return $form->setResponse($back);
         }
 
+        // Let the form submit.
         $form->fire('submit');
 
+        // Let the intended redirect handle the.. redirect.
         return $form->setResponse($this->execute(new HandleFormSubmissionRedirectCommand($form)));
     }
 }

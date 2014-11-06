@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 
 /**
  * Class BuildFormSectionColumnsCommandHandler
@@ -15,23 +14,6 @@ class BuildFormSectionColumnsCommandHandler
 {
 
     use CommandableTrait;
-
-    /**
-     * The form utility object.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Form\FormUtility
-     */
-    protected $utility;
-
-    /**
-     *Create a new BuildFormSectionColumnsCommandHandler instance.
-     *
-     * @param FormUtility $utility
-     */
-    function __construct(FormUtility $utility)
-    {
-        $utility = $utility;
-    }
 
     /**
      * Handle the command.
@@ -54,6 +36,7 @@ class BuildFormSectionColumnsCommandHandler
             // All first level closures on are gone now.
             $column = $utility->evaluate($column, [$form, $entry], $entry);
 
+            // Delegate the building of the column fields.
             $command = new BuildFormSectionFieldsCommand($form, $column['fields']);
 
             $fields = $this->execute($command);

@@ -134,7 +134,7 @@ class BuildFormSectionsCommandHandler
     {
         $default = 'Anomaly\Streams\Platform\Ui\Form\Section\DefaultFormSection';
 
-        return app()->make(evaluate_key($section, 'handler', $default, [$form]), compact('section', 'ui', 'form'));
+        return app()->make(evaluate_key($section, 'handler', $default, [$form]), compact('section', 'form'));
     }
 
     /**

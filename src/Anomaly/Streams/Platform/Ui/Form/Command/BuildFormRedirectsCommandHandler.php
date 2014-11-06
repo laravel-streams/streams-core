@@ -26,23 +26,6 @@ class BuildFormRedirectsCommandHandler
     ];
 
     /**
-     * The form utility object.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Form\FormUtility
-     */
-    protected $utility;
-
-    /**
-     * Create a new BuildFormRedirectsCommandHandler instance.
-     *
-     * @param FormUtility $utility
-     */
-    function __construct(FormUtility $utility)
-    {
-        $utility = $utility;
-    }
-
-    /**
      * Handle the command.
      *
      * @param BuildFormRedirectsCommand $command

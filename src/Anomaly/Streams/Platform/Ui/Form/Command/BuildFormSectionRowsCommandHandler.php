@@ -36,6 +36,7 @@ class BuildFormSectionRowsCommandHandler
             // All first level closures on are gone now.
             $row = $utility->evaluate($row, [$form, $entry], $entry);
 
+            // Delegate the building of the columns.
             $command = new BuildFormSectionColumnsCommand($form, $row['columns']);
 
             $columns = $this->execute($command);
