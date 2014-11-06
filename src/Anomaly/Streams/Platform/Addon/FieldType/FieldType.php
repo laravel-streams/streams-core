@@ -214,17 +214,17 @@ class FieldType extends Addon implements PresentableInterface
         return new FieldTypeFilter($this);
     }
 
-    public function onSet($value)
+    protected function onSet($value)
     {
         return $value;
     }
 
-    public function onAfterSet($entry)
+    protected function onAfterSet($entry)
     {
         //
     }
 
-    public function onGet($value)
+    protected function onGet($value)
     {
         return $value;
     }
