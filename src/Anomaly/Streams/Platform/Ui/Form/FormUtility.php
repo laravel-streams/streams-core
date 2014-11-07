@@ -217,5 +217,62 @@ class FormUtility extends Utility
 
         return $container;
     }
+
+    /**
+     * Register a redirect default.
+     *
+     * @param $type
+     * @param $redirect
+     */
+    public function registerRedirect($type, $redirect)
+    {
+        $this->redirects[$type] = $redirect;
+    }
+
+    /**
+     * Register an action default.
+     *
+     * @param $type
+     * @param $action
+     */
+    public function registerAction($type, $action)
+    {
+        $this->actions[$type] = $action;
+    }
+
+    /**
+     * Register a section default.
+     *
+     * @param $type
+     * @param $section
+     */
+    public function registerSection($type, $section)
+    {
+        $this->sections[$type] = $section;
+    }
+
+    /**
+     * @return array
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRedirects()
+    {
+        return $this->redirects;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSections()
+    {
+        return $this->sections;
+    }
 }
  
