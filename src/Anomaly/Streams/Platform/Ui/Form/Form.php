@@ -180,8 +180,9 @@ class Form extends Ui
         $actions   = $this->builder->actions();
         $sections  = $this->builder->sections();
         $redirects = $this->builder->redirects();
+        $options   = $this->builder->options();
 
-        $data = compact('actions', 'sections', 'redirects');
+        $data = compact('actions', 'sections', 'redirects', 'options');
 
         return view($this->view, $data);
     }

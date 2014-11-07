@@ -6,10 +6,12 @@
 
 {{{ form.open }}}
 
+{{ if options.translatable }}
 <div class="toolbar">
+    {{ if options.translatable }}
     <div class="dropdown" style="display: inline-block;">
         <button class="btn btn-sm btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-            <i class="fa fa-language"></i>&nbsp;Language
+            <i class="fa fa-language"></i>&nbsp;Translations
         </button>
         <ul class="dropdown-menu">
             <li><a href="#" data-toggle="form-locale" data-locale="en">English</a></li>
@@ -17,7 +19,9 @@
             <li><a href="#" data-toggle="form-locale" data-locale="de">German</a></li>
         </ul>
     </div>
+    {{ endif }}
 </div>
+{{ endif }}
 
 {{ sections }}
 <section class="panel panel-default {{ class }}">

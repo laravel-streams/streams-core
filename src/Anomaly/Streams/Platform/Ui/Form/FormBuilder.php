@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormActionsCommand;
+use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormOptionsCommand;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormRedirectsCommand;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormSectionsCommand;
 
@@ -69,6 +70,16 @@ class FormBuilder
     public function actions()
     {
         return $this->execute(new BuildFormActionsCommand($this->form));
+    }
+
+    /**
+     * Build the options data.
+     *
+     * @return mixed
+     */
+    public function options()
+    {
+        return $this->execute(new BuildFormOptionsCommand($this->form));
     }
 }
  
