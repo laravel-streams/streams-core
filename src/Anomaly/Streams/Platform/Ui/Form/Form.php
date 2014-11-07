@@ -88,6 +88,13 @@ class Form extends Ui
     protected $authorizationFailedMessage = 'error.not_authorized';
 
     /**
+     * The rules to apply to validation.
+     *
+     * @var array
+     */
+    protected $rules = [];
+
+    /**
      * The submitted data payload
      * by locale ready for storage.
      *
@@ -179,7 +186,6 @@ class Form extends Ui
         return view($this->view, $data);
     }
 
-
     /**
      * Set the entry object.
      *
@@ -192,6 +198,7 @@ class Form extends Ui
 
         return $this;
     }
+
 
     /**
      * Get the entry object.
@@ -249,7 +256,6 @@ class Form extends Ui
         return $this->actions;
     }
 
-
     /**
      * Set the sections configuration.
      *
@@ -262,6 +268,7 @@ class Form extends Ui
 
         return $this;
     }
+
 
     /**
      * Get the sections configuration.
@@ -376,6 +383,31 @@ class Form extends Ui
     public function getAuthorizationFailedMessage()
     {
         return $this->authorizationFailedMessage;
+    }
+
+
+    /**
+     * Set the rules for the form. This is
+     * done during form submission automatically.
+     *
+     * @param array $rules
+     * return $this
+     */
+    public function setRules($rules)
+    {
+        $this->rules = $rules;
+
+        return $this;
+    }
+
+    /**
+     * Get the rules for the form.
+     *
+     * @return array
+     */
+    public function getRules()
+    {
+        return $this->rules;
     }
 
     /**

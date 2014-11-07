@@ -27,6 +27,12 @@ class HandleFormSubmissionCommandHandler
         // Set a redirect to where we came from as a default.
         $back = redirect(referer(url(app('request')->path())));
 
+        // Organize data into nifty array ready to consume.
+        $this->execute(new BuildSubmissionDataCommand($form));
+
+        // Compile all of our rules for validation.
+        $this->execute(new BuildSubmissionValidationRulesCommand($form));
+
         /**
          * Check that the user has proper authorization
          * to submit the form.
@@ -43,9 +49,6 @@ class HandleFormSubmissionCommandHandler
 
             return $form->setResponse($back);
         }
-
-        // Organize data into nifty array ready to consume.
-        $this->execute(new BuildSubmissionDataCommand($form));
 
         // Let the form submit.
         $form->fire('submit');

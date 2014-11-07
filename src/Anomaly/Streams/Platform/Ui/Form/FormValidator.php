@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Illuminate\Http\Request;
 use Illuminate\Validation\Factory;
 use Illuminate\Validation\Validator;
 
@@ -20,13 +19,12 @@ class FormValidator
      *
      * @param array $input
      */
-    public function validate(Form $form, Request $request, Factory $factory)
+    public function validate(Form $form, Factory $factory)
     {
+        $data  = $form->getData();
         $model = $form->getModel();
-        $data  = $request->all();
-        $rules = $this->localizeRules($form, $model::$rules);
 
-        $validator = $factory->make($data, $rules);
+        $validator = $factory->make($data[config('app.locale')], $form->getRules());
 
         $this->setAttributeNames($validator, $form);
 
@@ -44,35 +42,21 @@ class FormValidator
         return false;
     }
 
-    protected function localizeRules($form, $rules)
-    {
-        $localizedRules = [];
-
-        foreach ($rules as $field => $rules) {
-
-            if ($field == 'password') {
-                continue;
-            }
-
-            $localizedRules[$form->getPrefix() . $field . '_en'] = $rules;
-        }
-
-        return $localizedRules;
-    }
-
+    /**
+     * Set attribute names from the assignment.
+     *
+     * @param Validator $validator
+     * @param Form      $form
+     */
     protected function setAttributeNames(Validator $validator, Form $form)
     {
         $attributes = [];
 
-        $model = $form->getModel();
-
-        $stream = $model->getStream();
+        $stream = $form->getStream();
 
         foreach ($stream->assignments as $assignment) {
 
-            $localized = $form->getPrefix() . $assignment->field->slug . '_en';
-            
-            $attributes[$localized] = strtolower($assignment->getFieldName());
+            $attributes[$assignment->field->slug] = strtolower($assignment->getFieldName());
         }
 
         $validator->setAttributeNames($attributes);
