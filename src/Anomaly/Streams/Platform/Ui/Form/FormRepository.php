@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -51,55 +52,42 @@ class FormRepository implements FormRepositoryInterface
     {
         $entry = $this->form->getEntry();
 
-        $stream = $entry->getStream();
-
-        $this->saveDefaultLocale($stream, $entry);
-        $this->saveTranslations($stream, $entry);
+        $this->saveDefaultLocale($entry);
+        $this->saveTranslations($entry);
     }
 
-    protected function saveDefaultLocale($stream, $entry)
+    protected function saveDefaultLocale(EntryInterface $entry)
     {
-        foreach ($stream->assignments as $assignment) {
+        foreach ($this->form->getData() as $locale => $data) {
 
-            $key = $this->form->getPrefix() . $assignment->field->slug . '_' . config('app.locale');
+            if ($locale == config('app.locale')) {
 
-            if (array_key_exists($assignment->field->slug, $this->form->getIntendedFields())) {
+                foreach ($data as $field => $value) {
 
-                $entry->{$assignment->field->slug} = $this->request->get($key);
+                    $entry->{$field} = $value;
+                }
             }
         }
-
-        $this->form->fire('saving');
 
         $entry->save();
     }
 
-    protected function saveTranslations($stream, $entry)
+    protected function saveTranslations($entry)
     {
-        foreach (setting('module.settings::available_locales', config('streams.available_locales')) as $locale) {
+        foreach ($this->form->getData() as $locale => $data) {
 
-            if ($stream->isTranslatable() and config('app.locale') != $locale) {
+            if ($locale != config('app.locale')) {
 
                 $entry = $entry->translate($locale);
 
-                foreach ($stream->assignments as $assignment) {
+                foreach ($data as $field => $value) {
 
-                    if ($assignment->isTranslatable() or config('app.locale') == $locale) {
-
-                        $key = $this->form->getPrefix() . $assignment->field->slug . '_' . $locale;
-
-                        if (array_key_exists($assignment->field->slug, $this->form->getIntendedFields())) {
-
-                            $entry->{$assignment->field->slug} = $this->request->get($key);
-                        }
-                    }
+                    $entry->{$field} = $value;
                 }
-
-                $this->form->fire('saving_' . $locale);
-
-                $entry->save();
             }
         }
+
+        $entry->save();
     }
 }
  

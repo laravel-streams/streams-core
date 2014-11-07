@@ -28,6 +28,12 @@ class Ui
     use DispatchableTrait;
     use TransformableTrait;
 
+    /**
+     * The response object sent back
+     * to the controller or wherever.
+     *
+     * @var
+     */
     protected $response;
 
     /**
@@ -84,7 +90,7 @@ class Ui
     }
 
     /**
-     * Get the response.
+     * Make the response.
      *
      * @return \Illuminate\View\View
      */
@@ -102,12 +108,21 @@ class Ui
         return view($this->wrapper, compact('content', 'title'));
     }
 
+    /**
+     * Render the response.
+     *
+     * @return mixed|null
+     */
     public function render()
     {
         return $this->fire('make');
     }
 
     /**
+     * Set the response object. This is really
+     * helpful when the response is decided
+     * miles away in an event or something.
+     *
      * @param mixed $response
      * return $this
      */
@@ -167,6 +182,16 @@ class Ui
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * Get the model stream.
+     *
+     * @return mixed
+     */
+    public function getStream()
+    {
+        return $this->model->getStream();
     }
 
     /**

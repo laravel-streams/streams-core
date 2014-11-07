@@ -96,15 +96,6 @@ class Form extends Ui
     protected $data = [];
 
     /**
-     * Fields intended to be submitted.
-     * As fields as added to the form this
-     * array is populated.
-     *
-     * @var array
-     */
-    protected $intendedFields = [];
-
-    /**
      * The form builder object.
      *
      * @var FormBuilder
@@ -170,7 +161,6 @@ class Form extends Ui
         }
     }
 
-
     /**
      * Trigger the view response.
      *
@@ -188,6 +178,7 @@ class Form extends Ui
 
         return view($this->view, $data);
     }
+
 
     /**
      * Set the entry object.
@@ -248,7 +239,6 @@ class Form extends Ui
         return $this;
     }
 
-
     /**
      * Get the actions configuration.
      *
@@ -258,6 +248,7 @@ class Form extends Ui
     {
         return $this->actions;
     }
+
 
     /**
      * Set the sections configuration.
@@ -388,14 +379,21 @@ class Form extends Ui
     }
 
     /**
-     * Set the data payload.
+     * Add a value to the data payload.
      *
-     * @param array $data
+     * @param null $locale
+     * @param      $field
+     * @param      $value
      * @return $this
      */
-    public function setData(array $data)
+    public function addData($locale = null, $field, $value)
     {
-        $this->data = $data;
+        if (!isset($this->data[$locale])) {
+
+            $this->data[$locale] = [];
+        }
+
+        $this->data[$locale][$field] = $value;
 
         return $this;
     }
@@ -408,28 +406,6 @@ class Form extends Ui
     public function getData()
     {
         return $this->data;
-    }
-
-    /**
-     * Add an intended field to the form.
-     * This is used internally.
-     *
-     * @param array $intendedFields
-     * return $this
-     */
-    public function addIntendedField($field)
-    {
-        $this->intendedFields[$field] = true;
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getIntendedFields()
-    {
-        return $this->intendedFields;
     }
 
     /**
@@ -526,11 +502,14 @@ class Form extends Ui
     {
         $this->entry = $this->repository->get();
 
-        $this->setResponse(parent::make());
-
         if (app('request')->isMethod('post')) {
 
             $this->dispatch(new FormWasSubmittedEvent($this));
+        }
+
+        if (!$this->response) {
+
+            $this->setResponse(parent::make());
         }
 
         return $this->response;

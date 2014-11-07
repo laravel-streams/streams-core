@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Support\Messages;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Illuminate\Http\Request;
 
 /**
  * Class HandleFormSubmissionCommandHandler
@@ -17,16 +15,6 @@ class HandleFormSubmissionCommandHandler
 
     use CommandableTrait;
 
-    protected $request;
-
-    protected $messages;
-
-    function __construct(Request $request, Messages $messages)
-    {
-        $this->request  = $request;
-        $this->messages = $messages;
-    }
-
     /**
      * Handle the command.
      *
@@ -37,7 +25,7 @@ class HandleFormSubmissionCommandHandler
         $form = $command->getForm();
 
         // Set a redirect to where we came from as a default.
-        $back = redirect(referer(url($this->request->path())));
+        $back = redirect(referer(url(app('request')->path())));
 
         /**
          * Check that the user has proper authorization
@@ -55,6 +43,9 @@ class HandleFormSubmissionCommandHandler
 
             return $form->setResponse($back);
         }
+
+        // Organize data into nifty array ready to consume.
+        $this->execute(new BuildSubmissionDataCommand($form));
 
         // Let the form submit.
         $form->fire('submit');

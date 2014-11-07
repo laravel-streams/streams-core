@@ -145,8 +145,6 @@ class BuildFormSectionFieldsCommandHandler
                 // Render the input element.
                 $element .= $type->element();
             }
-
-            $form->addIntendedField($assignment->field->slug);
         }
 
         return $element;
