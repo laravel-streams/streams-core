@@ -60,7 +60,7 @@ class Form extends Ui
      *
      * @var string
      */
-    protected $view = 'html/form';
+    protected $view = 'ui/form/index';
 
     /**
      * A message bag of errors generated

@@ -30,7 +30,7 @@ class TabbedFormSection extends FormSection implements FormSectionInterface
             unset($tab['body']);
         }
 
-        return view('html/section/tabbed/heading', $this->section);
+        return view('ui/form/sections/tabbed/heading', $this->section);
     }
 
     /**
@@ -50,7 +50,7 @@ class TabbedFormSection extends FormSection implements FormSectionInterface
             $tab['active'] = $k == 0 ? 'active' : null;
         }
 
-        return view('html/section/tabbed/body', $this->section);
+        return view('ui/form/sections/tabbed/body', $this->section);
     }
 
     /**
@@ -60,7 +60,7 @@ class TabbedFormSection extends FormSection implements FormSectionInterface
      */
     protected function getBody($layout)
     {
-        return view('html/section/layout', compact('layout'));
+        return view('ui/form/sections/layout', compact('layout'));
     }
 }
  

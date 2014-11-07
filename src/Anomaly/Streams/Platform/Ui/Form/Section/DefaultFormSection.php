@@ -23,7 +23,7 @@ class DefaultFormSection extends FormSection implements FormSectionInterface
     {
         $title = $this->getTitle();
 
-        return view('html/section/default/heading', compact('title'));
+        return view('ui/form/sections/default/heading', compact('title'));
     }
 
     /**
@@ -35,7 +35,7 @@ class DefaultFormSection extends FormSection implements FormSectionInterface
     {
         $body = $this->getBody();
 
-        return view('html/section/default/body', compact('body'));
+        return view('ui/form/sections/default/body', compact('body'));
     }
 
     /**
@@ -57,7 +57,7 @@ class DefaultFormSection extends FormSection implements FormSectionInterface
     {
         $layout = $this->getLayout($this->section);
 
-        return view('html/section/layout', compact('layout'));
+        return view('ui/form/sections/layout', compact('layout'));
     }
 }
  

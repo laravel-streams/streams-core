@@ -50,7 +50,7 @@ class Ui
      *
      * @var string
      */
-    protected $wrapper = 'html/blank';
+    protected $wrapper = 'wrappers/blank';
 
     /**
      * The page title.

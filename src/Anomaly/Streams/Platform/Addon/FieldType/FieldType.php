@@ -33,7 +33,7 @@ class FieldType extends Addon implements PresentableInterface
 
     protected $columnType = 'string';
 
-    protected $view = 'html/partials/element';
+    protected $view = 'ui/form/partials/element';
 
     public function input()
     {
