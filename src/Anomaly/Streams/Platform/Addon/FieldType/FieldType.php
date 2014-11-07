@@ -21,6 +21,8 @@ class FieldType extends Addon implements PresentableInterface
 
     protected $instructions = null;
 
+    protected $translatable = false;
+
     protected $hidden = false;
 
     protected $prefix = '';
@@ -48,18 +50,19 @@ class FieldType extends Addon implements PresentableInterface
 
     public function element()
     {
-        $id = $this->getFieldName();
-
         $locale = $this->getLocale();
 
-        $label        = $this->label;
-        $instructions = $this->instructions;
+        $hidden       = ($this->hidden);
+        $translatable = $this->translatable;
+        $class        = $this->getSlug() . '-field-type';
+
         $language     = trans("language.{$locale}");
-        $hidden       = $this->hidden ? 'hidden' : null;
+        $label        = trans($this->label, [], null, $locale);
+        $instructions = trans($this->instructions, [], null, $locale);
 
         $input = $this->input();
 
-        $data = compact('id', 'label', 'language', 'instructions', 'input', 'locale', 'hidden');
+        $data = compact('label', 'language', 'instructions', 'input', 'locale', 'hidden', 'class', 'translatable');
 
         return view($this->view, $data);
     }
@@ -129,6 +132,18 @@ class FieldType extends Addon implements PresentableInterface
         }
 
         return $this->locale;
+    }
+
+    public function setTranslatable($translatable)
+    {
+        $this->translatable = $translatable;
+
+        return $this;
+    }
+
+    public function getTranslatable()
+    {
+        return $this->translatable;
     }
 
     public function setPrefix($prefix = null)

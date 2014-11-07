@@ -120,11 +120,12 @@ class AssignmentModel extends EloquentModel
 
         $type         = $this->field->type;
         $field        = $this->field->slug;
+        $translatable = $this->isTranslatable();
         $label        = $this->getFieldLabel($locale);
         $placeholder  = $this->getFieldPlaceholder($locale);
         $instructions = $this->getFieldInstructions($locale);
 
-        $data = compact('type', 'field', 'instructions', 'label', 'placeholder');
+        $data = compact('type', 'field', 'instructions', 'label', 'placeholder', 'translatable');
 
         $command = 'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand';
 

@@ -34,6 +34,7 @@ class BuildFieldTypeCommandHandler
                     ->setLocale($command->getLocale())
                     ->setPrefix($command->getPrefix())
                     ->setPlaceholder($command->getPlaceholder())
+                    ->setTranslatable($command->getTranslatable())
                     ->setInstructions($command->getInstructions());
 
                 if ($view = $command->getView()) {

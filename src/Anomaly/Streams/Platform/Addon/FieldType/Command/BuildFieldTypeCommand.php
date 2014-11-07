@@ -13,6 +13,8 @@ class BuildFieldTypeCommand
 
     protected $locale;
 
+    protected $translatable;
+
     protected $instructions;
 
     protected $placeholder;
@@ -27,6 +29,7 @@ class BuildFieldTypeCommand
         $value = null,
         $label = null,
         $instructions = null,
+        $translatable = null,
         $placeholder = null,
         $locale = null,
         $prefix = null,
@@ -39,6 +42,7 @@ class BuildFieldTypeCommand
         $this->value        = $value;
         $this->locale       = $locale;
         $this->prefix       = $prefix;
+        $this->translatable = $translatable;
         $this->instructions = $instructions;
         $this->placeholder  = $placeholder;
     }
@@ -113,6 +117,12 @@ class BuildFieldTypeCommand
     public function getView()
     {
         return $this->view;
+    }
+
+
+    public function getTranslatable()
+    {
+        return $this->translatable;
     }
 }
  
