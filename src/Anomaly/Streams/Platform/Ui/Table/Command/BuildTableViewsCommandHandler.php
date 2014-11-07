@@ -41,15 +41,14 @@ class BuildTableViewsCommandHandler
     {
         $views = [];
 
+        $count = 0;
+
         $ui = $command->getUi();
 
         foreach ($ui->getViews() as $slug => $view) {
 
             // Standardize input.
             $view = $this->standardize($slug, $view);
-
-            // We care about the first by default.
-            $order = array_search('blah', array_keys($ui->getViews()));
 
             /**
              * Remove the handler or it
@@ -70,9 +69,11 @@ class BuildTableViewsCommandHandler
             $url    = $this->getUrl($view, $ui);
             $title  = $this->getTitle($view, $ui);
             $class  = $this->getClass($view, $ui);
-            $active = $this->getActive($view, $order, $ui);
+            $active = $this->getActive($view, $count, $ui);
 
             $views[] = compact('url', 'title', 'class', 'active');
+
+            $count++;
         }
 
         return $views;
@@ -187,17 +188,17 @@ class BuildTableViewsCommandHandler
      * Get active flag.
      *
      * @param array   $view
-     * @param         $order
+     * @param         $count
      * @param Table   $ui
      * @return string
      */
-    protected function getActive(array $view, $order, Table $ui)
+    protected function getActive(array $view, $count, Table $ui)
     {
         $input = app('request');
 
         $executing = $input->get($ui->getPrefix() . 'view');
 
-        if (($executing == $view['slug']) or (!$executing and $order == 0)) {
+        if (($executing == $view['slug']) or (!$executing and $count == 0)) {
 
             return true;
         }
