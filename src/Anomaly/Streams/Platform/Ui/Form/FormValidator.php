@@ -21,8 +21,7 @@ class FormValidator
      */
     public function validate(Form $form, Factory $factory)
     {
-        $data  = $form->getData();
-        $model = $form->getModel();
+        $data = $form->getData();
 
         $validator = $factory->make($data[config('app.locale')], $form->getRules());
 
