@@ -30,7 +30,7 @@ class ModuleService
 
                 if (!str_contains($installer, '\\')) {
 
-                    $installer = (new \ReflectionClass($this))->getNamespaceName() . '\Installer\\' . $installer;
+                    $installer = $this->guessInstaller($module, $installer);
                 }
 
                 $this->app->make($installer)->install();
@@ -66,5 +66,12 @@ class ModuleService
         $command = new SyncModulesCommand();
 
         $this->execute($command);
+    }
+
+    protected function guessInstaller($module, $installer)
+    {
+        $addon = new \ReflectionClass($module);
+
+        return $addon->getNamespaceName() . '\Installer\\' . $installer;
     }
 }
