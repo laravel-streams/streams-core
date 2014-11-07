@@ -19,6 +19,8 @@ class BuildFieldTypeCommand
 
     protected $placeholder;
 
+    protected $required;
+
     protected $prefix;
 
     protected $view;
@@ -26,14 +28,15 @@ class BuildFieldTypeCommand
     function __construct(
         $type,
         $field,
+        $view = null,
         $value = null,
         $label = null,
-        $instructions = null,
-        $translatable = null,
-        $placeholder = null,
-        $locale = null,
         $prefix = null,
-        $view = null
+        $locale = null,
+        $required = false,
+        $placeholder = null,
+        $instructions = null,
+        $translatable = null
     ) {
         $this->view         = $view;
         $this->type         = $type;
@@ -42,9 +45,10 @@ class BuildFieldTypeCommand
         $this->value        = $value;
         $this->locale       = $locale;
         $this->prefix       = $prefix;
+        $this->required     = $required;
+        $this->placeholder  = $placeholder;
         $this->translatable = $translatable;
         $this->instructions = $instructions;
-        $this->placeholder  = $placeholder;
     }
 
     /**
@@ -53,6 +57,14 @@ class BuildFieldTypeCommand
     public function getField()
     {
         return $this->field;
+    }
+
+    /**
+     * @return null
+     */
+    public function getRequired()
+    {
+        return $this->required;
     }
 
     /**

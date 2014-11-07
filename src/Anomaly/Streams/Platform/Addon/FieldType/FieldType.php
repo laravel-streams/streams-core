@@ -23,6 +23,8 @@ class FieldType extends Addon implements PresentableInterface
 
     protected $translatable = false;
 
+    protected $required = false;
+
     protected $hidden = false;
 
     protected $prefix = '';
@@ -53,7 +55,8 @@ class FieldType extends Addon implements PresentableInterface
         $locale = $this->getLocale();
 
         $hidden       = ($this->hidden);
-        $translatable = $this->translatable;
+        $required     = $this->getRequired();
+        $translatable = $this->getTranslatable();
         $class        = $this->getSlug() . '-field-type';
 
         $language     = trans("language.{$locale}");
@@ -62,7 +65,17 @@ class FieldType extends Addon implements PresentableInterface
 
         $input = $this->input();
 
-        $data = compact('label', 'language', 'instructions', 'input', 'locale', 'hidden', 'class', 'translatable');
+        $data = compact(
+            'label',
+            'language',
+            'instructions',
+            'input',
+            'locale',
+            'hidden',
+            'class',
+            'translatable',
+            'required'
+        );
 
         return view($this->view, $data);
     }
@@ -185,6 +198,18 @@ class FieldType extends Addon implements PresentableInterface
         $this->hidden = ($hidden);
 
         return $this;
+    }
+
+    public function setRequired($required)
+    {
+        $this->required = $required;
+
+        return $this;
+    }
+
+    public function getRequired()
+    {
+        return $this->required;
     }
 
     public function getFieldName()

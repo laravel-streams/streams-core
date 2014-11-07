@@ -139,8 +139,13 @@ class BuildFormSectionFieldsCommandHandler
                 $type->setSuffix($locale);
                 $type->setPrefix($form->getPrefix());
                 $type->setHidden(config('app.locale') !== $locale);
-                //$type->setLabel(trans($entry->getFieldLabel($field['field']), [], '', $locale));
-                //$type->setPlaceholder(trans($entry->getFieldPlaceholder($field['field']), [], '', $locale));
+
+                // Only default locale required fields
+                // are required. For sanity's sake.
+                if (config('app.locale') != $locale) {
+
+                    $type->setRequired(false);
+                }
 
                 // Render the input element.
                 $element .= $type->element();
