@@ -1,0 +1,19 @@
+{{ if views or filters }}
+<div class="panel-heading">
+    <h3 class="panel-title">
+        {{ if views }}
+        <ul class="table-views">
+            {{ views }}
+            <li class="{{ class }} {{ if active }}active{{ endif }}">
+                <a href="{{ url }}">{{ title }}</a>
+            </li>
+            {{ /views }}
+        </ul>
+        {{ endif }}
+
+        <a href="#" class="pull-right table-filter-toggle {{ options.filterState }}" data-toggle="filters">
+            <i class="fa fa-filter"></i> Filter
+        </a>
+    </h3>
+</div>
+{{ endif }}

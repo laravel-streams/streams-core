@@ -1,0 +1,28 @@
+{{ asset.add "streams.js" "streams::js/table/actions.js" }}
+
+<section class="panel panel-default">
+
+    {{ include "ui/table/partials/heading" }}
+
+    <div class="panel-body" style="padding: 0;">
+
+        {{ include "ui/table/partials/filters" }}
+
+        {{ if rows }}
+        <form method="post">
+            <table class="table table-hover{{ options.tableClass }}">
+
+                {{ include "ui/table/partials/thead" }}
+                {{ include "ui/table/partials/tbody" }}
+                {{ include "ui/table/partials/tfoot" }}
+
+            </table>
+        </form>
+        {{ else }}
+        <div class="no-results">
+            <h3>{{ options.noResultsMessage }}</h3>
+        </div>
+        {{ endif }}
+
+    </div>
+</section>

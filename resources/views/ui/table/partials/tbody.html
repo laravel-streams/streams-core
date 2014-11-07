@@ -1,0 +1,43 @@
+<!-- Table Body -->
+<tbody>
+{{ rows }}
+<tr class="{{ class }}">
+    {{ if options.sortable }}
+    <td>
+        <i class="fa fa-reorder" style="cursor: move;"></i>
+    </td>
+    {{ endif }}
+
+    {{ if .data.actions }}
+    <td>
+        <input type="checkbox" name="{{ .data.options.prefix }}id[]" value="{{ entry.id }}"/>
+    </td>
+    {{ endif }}
+
+    {{ columns }}
+    <td class="{{ class }}" {{{ attributes }}}>
+    {{{ value }}}
+    </td>
+    {{ /columns }}
+
+    <td class="text-right">
+        {{ buttons }}
+        <div class="btn-group">
+            <a class="{{ class }}" {{{ attributes }}}>{{{ title }}}</a>
+            {{ if dropdown }}
+            <button type="button" class="{{ class }} dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu pull-right">
+                {{ dropdown }}
+                <li><a href="{{ url }}">{{ title }}</a></li>
+                {{ /dropdown }}
+            </ul>
+            {{ endif }}
+        </div>
+        {{ /buttons }}
+    </td>
+</tr>
+{{ /rows }}
+</tbody>

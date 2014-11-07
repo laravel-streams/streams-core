@@ -1,0 +1,26 @@
+<!-- Table Foot -->
+{{ if actions or pagination.links }}
+<tfoot>
+<tr>
+    <td colspan="100%" style="padding: 10px;">
+
+        <div class="actions">
+            {{ actions }}
+            <button type="submit" name="{{ name }}" value="{{ value }}" class="{{ class }}"
+            {{{ attributes }}}>
+            {{{ icon }}}
+            {{{ title }}}
+            </button>
+            {{ /actions }}
+        </div>
+
+        {{ if pagination.links }}
+        <div class="btn-group pull-right">
+            {{{ pagination.links }}}
+        </div>
+        {{ endif }}
+
+    </td>
+</tr>
+</tfoot>
+{{ endif }}

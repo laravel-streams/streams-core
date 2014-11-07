@@ -1,0 +1,15 @@
+<div class="table-filters {{ options.filterState }}">
+    <form class="form-inline" method="get">
+        <input type="hidden" name="{{ options.prefix }}filter" value="active">
+        <input type="hidden" name="{{ options.prefix }}view" value="{{ options.activeView }}">
+
+        {{ filters }}
+        <div class="form-group">
+            {{{ input }}}
+        </div>
+        {{ /filters }}
+
+        <button type="submit" class="btn btn-success">Filter</button>
+        <a href="{{ url.current }}" class="btn btn-link">Clear</a>
+    </form>
+</div>

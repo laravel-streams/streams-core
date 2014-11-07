@@ -1,0 +1,24 @@
+<!-- Table Head -->
+<thead>
+<tr>
+    {{ if options.sortable }}
+    <th>
+        <i class="fa fa-reorder" style="color: #dadada"></i>
+    </th>
+    {{ endif }}
+
+    {{ if actions }}
+    <th>
+        <input type="checkbox" data-toggle="all"/>
+    </th>
+    {{ endif }}
+
+    {{ headers }}
+    <th>
+        {{{ heading }}}
+    </th>
+    {{ /headers }}
+
+    <th>&nbsp;</th>
+</tr>
+</thead>

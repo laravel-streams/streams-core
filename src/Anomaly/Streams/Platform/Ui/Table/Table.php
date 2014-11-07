@@ -97,7 +97,7 @@ class Table extends Ui
     /**
      * @var string
      */
-    protected $view = 'html/table';
+    protected $view = 'ui/table/index';
 
     /**
      * @var null
