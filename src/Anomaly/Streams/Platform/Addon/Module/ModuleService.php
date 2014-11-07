@@ -25,7 +25,14 @@ class ModuleService
     public function install($module)
     {
         if ($installer = $module->newInstaller()) {
+
             foreach (app($installer)->getInstallers() as $installer) {
+
+                if (!str_contains($installer, '\\')) {
+
+                    $installer = (new \ReflectionClass($this))->getNamespaceName() . '\Installer\\' . $installer;
+                }
+
                 $this->app->make($installer)->install();
             }
         }
