@@ -21,7 +21,16 @@ class TabbedFormSection extends FormSection implements FormSectionInterface
      */
     public function heading()
     {
-        return view('html/section/tabbed/heading');
+        foreach ($this->section['tabs'] as $k => &$tab) {
+
+            $tab['id']     = $k;
+            $tab['active'] = $k == 0 ? 'active' : null;
+            $tab['title']  = trans(evaluate_key($tab, 'title', 'misc.untitled'));
+
+            unset($tab['body']);
+        }
+
+        return view('html/section/tabbed/heading', $this->section);
     }
 
     /**
@@ -31,9 +40,27 @@ class TabbedFormSection extends FormSection implements FormSectionInterface
      */
     public function body()
     {
-        //$layout = $this->getLayout();
 
-        return view('html/section/tabbed/body');
+        foreach ($this->section['tabs'] as $k => &$tab) {
+
+            $tab['layout'] = $this->getLayout($tab);
+
+            $tab['id']     = $k;
+            $tab['body']   = $this->getBody($tab['layout']);
+            $tab['active'] = $k == 0 ? 'active' : null;
+        }
+
+        return view('html/section/tabbed/body', $this->section);
+    }
+
+    /**
+     * Get the body.
+     *
+     * @return \Illuminate\View\View
+     */
+    protected function getBody($layout)
+    {
+        return view('html/section/layout', compact('layout'));
     }
 }
  

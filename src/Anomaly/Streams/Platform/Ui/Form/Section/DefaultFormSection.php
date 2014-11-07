@@ -53,9 +53,9 @@ class DefaultFormSection extends FormSection implements FormSectionInterface
      *
      * @return \Illuminate\View\View
      */
-    private function getBody()
+    protected function getBody()
     {
-        $layout = $this->getLayout();
+        $layout = $this->getLayout($this->section);
 
         return view('html/section/layout', compact('layout'));
     }

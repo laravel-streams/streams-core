@@ -1,10 +1,11 @@
 <div class="panel-body">
 
     <div class="tab-content">
-        <div class="tab-pane active" id="home">This is the home section.</div>
-        <div class="tab-pane" id="profile">This is the profile section.</div>
-        <div class="tab-pane" id="messages">This is the messages section.</div>
-        <div class="tab-pane" id="settings">This is the settings section.</div>
+        {{ tabs }}
+        <div class="tab-pane {{ active }}" id="{{ id }}">
+            {{{ body }}}
+        </div>
+        {{ /tabs }}
     </div>
 
 </div>

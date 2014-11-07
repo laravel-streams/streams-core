@@ -22,7 +22,6 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     use EventableTrait;
     use CacheableTrait;
     use CommandableTrait;
-    use RevisionableTrait;
 
     /**
      * Translatable flag.
@@ -44,13 +43,6 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
      * @var array
      */
     protected $translatedAttributes = [];
-
-    /**
-     * Revisionable flag.
-     *
-     * @var bool
-     */
-    protected $revisionable = false;
 
     /**
      * Validate the model by default.
@@ -140,16 +132,6 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     public function getIdentifiableName()
     {
         return $this->getKey();
-    }
-
-    /**
-     * Return the is revisionable attribute.
-     *
-     * @return bool
-     */
-    public function getIsRevisionableAttribute()
-    {
-        return isset($this->attributes['is_revisionable']) ? $this->attributes['is_revisionable'] : false;
     }
 
     /**

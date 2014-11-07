@@ -82,11 +82,15 @@ class FormSection implements FormSectionInterface
      * Get the layout. This is pretty common
      * so let's keep it here for now. Recycle.
      *
+     * @param array $container
      * @return mixed
      */
-    protected function getLayout()
+    protected function getLayout(array $container)
     {
-        $command = new BuildFormSectionLayoutCommand($this->form, $this->section);
+        $utility   = $this->form->getUtility();
+        $container = $utility->standardizeLayout($container);
+
+        $command = new BuildFormSectionLayoutCommand($this->form, $container);
 
         return $this->execute($command);
     }

@@ -194,5 +194,28 @@ class FormUtility extends Utility
                 break;
         }
     }
+
+    /**
+     * Standardize the layout of an area.
+     *
+     * @param array $section
+     * @return mixed
+     */
+    public function standardizeLayout(array $container)
+    {
+        if (!isset($container['layout'])) {
+
+            $fields  = evaluate_key($container, 'fields', []);
+            $columns = evaluate_key($container, 'columns', [compact('fields')]);
+            $rows    = evaluate_key($container, 'rows', [compact('columns')]);
+            $layout  = evaluate_key($container, 'layout', compact('rows'));
+
+            $container['layout'] = $layout;
+
+            unset($container['fields'], $container['columns'], $container['rows']);
+        }
+
+        return $container;
+    }
 }
  

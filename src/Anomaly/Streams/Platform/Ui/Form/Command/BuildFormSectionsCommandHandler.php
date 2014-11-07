@@ -47,10 +47,6 @@ class BuildFormSectionsCommandHandler
 
             $section = array_merge($defaults, $section);
 
-            // Standardize the section layout data being sent.
-            // This includes moving fields into blank rows / columns / etc.
-            $section = $this->standardizeLayout($section);
-
             // Get the object responsible for handling the section.
             $handler = $this->getSectionHandler($section, $form);
 
@@ -135,29 +131,6 @@ class BuildFormSectionsCommandHandler
         $default = 'Anomaly\Streams\Platform\Ui\Form\Section\DefaultFormSection';
 
         return app()->make(evaluate_key($section, 'handler', $default, [$form]), compact('section', 'form'));
-    }
-
-    /**
-     * Standardize the layout value.
-     *
-     * @param array $section
-     * @return mixed
-     */
-    protected function standardizeLayout(array $section)
-    {
-        if (!isset($section['layout'])) {
-
-            $fields  = evaluate_key($section, 'fields', []);
-            $columns = evaluate_key($section, 'columns', [compact('fields')]);
-            $rows    = evaluate_key($section, 'rows', [compact('columns')]);
-            $layout  = evaluate_key($section, 'layout', compact('rows'));
-
-            $section['layout'] = $layout;
-
-            unset($section['fields'], $section['columns'], $section['rows']);
-        }
-
-        return $section;
     }
 }
  
