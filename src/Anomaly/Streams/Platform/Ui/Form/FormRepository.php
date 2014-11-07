@@ -18,16 +18,32 @@ use Illuminate\Http\Request;
 class FormRepository implements FormRepositoryInterface
 {
 
+    /**
+     * @var Form
+     */
     protected $form;
 
+    /**
+     * @var \Illuminate\Http\Request
+     */
     protected $request;
 
+    /**
+     * @param Form    $form
+     * @param Request $request
+     */
     function __construct(Form $form, Request $request)
     {
         $this->form    = $form;
         $this->request = $request;
     }
 
+    /**
+     * Get the new or exiting entry.
+     *
+     * @return mixed
+     * @throws \Exception
+     */
     public function get()
     {
         $id    = $this->form->getEntry();
@@ -48,6 +64,9 @@ class FormRepository implements FormRepositoryInterface
         return $entry;
     }
 
+    /**
+     * Store the data to the database.
+     */
     public function store()
     {
         $entry = $this->form->getEntry();
@@ -56,6 +75,11 @@ class FormRepository implements FormRepositoryInterface
         $this->saveTranslations($entry);
     }
 
+    /**
+     * Save data for the default locale.
+     *
+     * @param EntryInterface $entry
+     */
     protected function saveDefaultLocale(EntryInterface $entry)
     {
         foreach ($this->form->getData() as $locale => $data) {
@@ -72,6 +96,11 @@ class FormRepository implements FormRepositoryInterface
         $entry->save();
     }
 
+    /**
+     * Save the translated data.
+     *
+     * @param $entry
+     */
     protected function saveTranslations($entry)
     {
         foreach ($this->form->getData() as $locale => $data) {
