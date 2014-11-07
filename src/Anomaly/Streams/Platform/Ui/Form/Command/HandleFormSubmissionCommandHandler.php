@@ -39,7 +39,7 @@ class HandleFormSubmissionCommandHandler
          */
         if (!$this->execute(new HandleFormSubmissionAuthorizationCommand($form))) {
 
-            return $form->setResponse($back);
+            return false;
         }
 
         /**
@@ -47,7 +47,7 @@ class HandleFormSubmissionCommandHandler
          */
         if (!$this->execute(new HandleFormSubmissionValidationCommand($form))) {
 
-            return $form->setResponse($back);
+            return false;
         }
 
         // Let the form submit.

@@ -113,6 +113,8 @@ class BuildFormSectionFieldsCommandHandler
 
         foreach (setting('module.settings::available_locales', config('streams.available_locales')) as $locale) {
 
+            $key = $form->getPrefix() . $assignment->field->slug . '_' . $locale;
+
             if ($assignment->isTranslatable() or config('app.locale') == $locale) {
 
                 /**
@@ -139,6 +141,11 @@ class BuildFormSectionFieldsCommandHandler
                 $type->setSuffix($locale);
                 $type->setPrefix($form->getPrefix());
                 $type->setHidden(config('app.locale') !== $locale);
+
+                if (app('request')->has($key)) {
+
+                    $type->setValue(app('request')->get($key));
+                }
 
                 // Only default locale required fields
                 // are required. For sanity's sake.

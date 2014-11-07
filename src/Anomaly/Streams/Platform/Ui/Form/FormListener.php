@@ -51,7 +51,7 @@ class FormListener extends Listener
      */
     public function whenValidationFailed(ValidationFailedEvent $event)
     {
-        app('streams.messages')->add('error', $event->getForm()->getErrors()->all())->flash();
+        app('streams.messages')->add('error', $event->getForm()->getErrors()->all());
     }
 
     /**
@@ -70,7 +70,7 @@ class FormListener extends Listener
      */
     public function whenAuthorizationFailed(AuthorizationFailedEvent $event)
     {
-        app('streams.messages')->add('error', $event->getForm()->getAuthorizationFailedMessage())->flash();
+        app('streams.messages')->add('error', $event->getForm()->getAuthorizationFailedMessage());
     }
 }
  
