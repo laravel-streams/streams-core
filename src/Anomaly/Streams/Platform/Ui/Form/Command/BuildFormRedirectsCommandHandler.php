@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\Form;
-use Anomaly\Streams\Platform\Ui\Form\FormUtility;
 
 /**
  * Class BuildFormRedirectsCommandHandler
