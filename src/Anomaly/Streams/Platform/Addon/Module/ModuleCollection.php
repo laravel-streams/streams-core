@@ -2,24 +2,40 @@
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 
+/**
+ * Class ModuleCollection
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon\Module
+ */
 class ModuleCollection extends AddonCollection
 {
 
+    /**
+     * Return the active module.
+     *
+     * @return null
+     */
     public function active()
     {
-        $active = null;
-
         foreach ($this->items as $item) {
 
             if ($item->isActive()) {
 
-                $active = $item;
+                return $item;
             }
         }
 
-        return $active;
+        return null;
     }
 
+    /**
+     * Return installed modules.
+     *
+     * @return static
+     */
     public function installed()
     {
         $installed = [];
@@ -35,18 +51,40 @@ class ModuleCollection extends AddonCollection
         return self::make($installed);
     }
 
+    /**
+     * Return enabled modules.
+     *
+     * @return static
+     */
     public function enabled()
     {
         $enabled = [];
 
         foreach ($this->items as $item) {
 
-            if ($item->isInstalled() and $item->isEnabled()) {
+            if ($item->isEnabled()) {
 
                 $enabled[] = $item;
             }
         }
 
         return self::make($enabled);
+    }
+
+    /**
+     * Set the installed and enabled states.
+     *
+     * @param array $installed
+     */
+    public function setStates(array $states)
+    {
+        foreach ($states as $state) {
+
+            if ($module = $this->findBySlug($state->slug) and $module instanceof Module) {
+
+                $module->setEnabled($state->is_enabled);
+                $module->setInstalled($state->is_installed);
+            }
+        }
     }
 }
