@@ -3,11 +3,19 @@
 use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
 
+/**
+ * Class Composer
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Support
+ */
 class Composer
 {
 
     /**
-     * The user agent detection class.
+     * The user agent object.
      *
      * @var
      */
@@ -33,11 +41,6 @@ class Composer
     {
         $view = $this->overloadView($view);
 
-        if ($this->agent->isMobile()) {
-
-            $view = $this->overloadMobileView($view);
-        }
-
         return $view;
     }
 
@@ -49,24 +52,52 @@ class Composer
      */
     public function overloadView(View $view)
     {
-        // If this is a theme view just return as is.
-        if (starts_with('theme::', $view->getName())) {
+        $environment = $view->getFactory();
+
+        /**
+         * If the view is already in the theme just
+         * do a quick check to see if the mobile
+         * override comes into play.
+         */
+        if (starts_with($view->getName(), 'theme::')) {
+
+            $mobilePath = str_replace('theme::', 'theme::mobile/', $view->getName());
+
+            if ($this->agent->isMobile() and $mobilePath and $environment->exists($mobilePath)) {
+
+                $view->setPath($environment->getFinder()->find($mobilePath));
+            }
+
             return $view;
         }
 
-        $environment = $view->getFactory();
+        $path       = null;
+        $mobilePath = null;
 
-        $path = null;
-
+        /**
+         * If the view path does not contain a namespace
+         * separator then it is a core streams view.
+         *
+         * Otherwise it is an addon view and needs to be
+         * split up into it's addon / type components.
+         */
         if (!str_contains($view->getName(), '::')) {
 
             // If there is no namespace the default
             // hint / location is streams.
-            $path = "streams/{$view->getName()}";
+            $path       = "streams/{$view->getName()}";
+            $mobilePath = "streams/mobile/{$view->getName()}";
         } else {
 
             list($namespace, $path) = explode('::', $view->getName());
 
+            /**
+             * If the namespace contains a dot it is a
+             * typical type.slug notation.
+             *
+             * If it does not then it is a shortcut for
+             * the active module / theme.
+             */
             if (str_contains($namespace, '.')) {
 
                 list($type, $slug) = explode('.', $namespace);
@@ -82,21 +113,30 @@ class Composer
                 $slug = $addon->getSlug();
             }
 
-            $path = "{$type}/{$slug}/{$path}";
+            // Create the override paths.
+            $path       = "{$type}/{$slug}/{$path}";
+            $mobilePath = "{$type}/{$slug}/mobile/{$path}";
         }
 
-        $path = "theme::overload/{$path}";
+        /**
+         * Look for the override paths in the theme.
+         * If the agent says we have got a mobile
+         * visitor then look for the mobile version
+         * at this time too.
+         */
+        $path       = "theme::overload/{$path}";
+        $mobilePath = "theme::overload/{$mobilePath}";
 
         if ($path and $environment->exists($path)) {
 
             $view->setPath($environment->getFinder()->find($path));
         }
 
-        return $view;
-    }
+        if ($this->agent->isMobile() and $mobilePath and $environment->exists($mobilePath)) {
 
-    protected function overloadMobileView(View $view)
-    {
+            $view->setPath($environment->getFinder()->find($mobilePath));
+        }
+
         return $view;
     }
 }
