@@ -44,9 +44,9 @@ class BuildTableHeadersCommandHandler
 
         $columns = [];
 
-        foreach ($table->getColumns() as $column) {
+        foreach ($table->getColumns() as $slug => $column) {
 
-            $column = $this->standardize($column);
+            $column = $this->standardize($slug, $column);
 
             // Evaluate everything in the array.
             // All closures are gone now.
@@ -54,8 +54,10 @@ class BuildTableHeadersCommandHandler
 
             // Build out our required data.
             $heading = $this->getHeading($column, $table);
+            $sorting = $this->getSorting($column, $table);
+            $url     = $this->getUrl($column, $table, $sorting);
 
-            $columns[] = compact('heading');
+            $columns[] = compact('heading', 'sorting', 'url');
         }
 
         return $columns;
@@ -65,17 +67,45 @@ class BuildTableHeadersCommandHandler
      * Standardize minimum input to the proper data
      * structure we actually expect.
      *
+     * @param $slug
      * @param $column
+     * @return array
      */
-    protected function standardize($column)
+    protected function standardize($slug, $column)
     {
+
         /**
-         * If the column is a string
-         * then assume it's the field.
+         * If the slug is numerical and the column
+         * is a string then use view for both.
+         */
+        if (is_numeric($slug) and is_string($column)) {
+
+            return [
+                'field' => $column,
+                'slug'  => $column,
+            ];
+        }
+
+        /**
+         * If the slug is a string and the view
+         * is too then use the slug as slug and
+         * the view as the type.
          */
         if (is_string($column)) {
 
-            $column = ['field' => $column];
+            return [
+                'field' => $column,
+                'slug'  => $slug,
+            ];
+        }
+
+        /**
+         * If the slug is not explicitly set
+         * then default it to the slug inferred.
+         */
+        if (is_array($column) and !isset($column['slug'])) {
+
+            $column['slug'] = $slug;
         }
 
         return $column;
@@ -84,7 +114,7 @@ class BuildTableHeadersCommandHandler
     /**
      * Get the heading.
      *
-     * @param array   $column
+     * @param array $column
      * @param Table $table
      * @return null|string
      */
@@ -92,9 +122,9 @@ class BuildTableHeadersCommandHandler
     {
         $heading = trans(evaluate_key($column, 'heading', null, [$table]));
 
-        if (!$heading and $entry = $table->getModel() and $entry instanceof EntryInterface) {
+        if (!$heading and $model = $table->getModel() and $model instanceof EntryInterface) {
 
-            $heading = $this->getHeadingFromField($column, $entry);
+            $heading = $this->getHeadingFromField($column, $model);
         }
 
         if (!$heading) {
@@ -109,14 +139,14 @@ class BuildTableHeadersCommandHandler
      * Get the heading from a field.
      *
      * @param array          $column
-     * @param EntryInterface $entry
+     * @param EntryInterface $model
      * @return null
      */
-    protected function getHeadingFromField(array $column, EntryInterface $entry)
+    protected function getHeadingFromField(array $column, EntryInterface $model)
     {
         $parts = explode('.', $column['field']);
 
-        if ($name = $entry->getFieldName($parts[0])) {
+        if ($name = $model->getFieldName($parts[0])) {
 
             return trans($name);
         }
@@ -127,7 +157,7 @@ class BuildTableHeadersCommandHandler
     /**
      * Make our best guess at the heading.
      *
-     * @param array   $column
+     * @param array $column
      * @param Table $table
      * @return mixed|null|string
      */
@@ -148,6 +178,72 @@ class BuildTableHeadersCommandHandler
         }
 
         return $heading;
+    }
+
+    /**
+     * Get the sorting status if any of the column.
+     *
+     * @param array $column
+     * @param Table $table
+     * @return null
+     */
+    protected function getSorting(array $column, Table $table)
+    {
+        $parts = explode('.', $column['slug']);
+
+        if ($model = $table->getModel() and $model instanceof EntryInterface) {
+
+            if ($type = $model->fieldType($parts[0])) {
+
+                $key = $table->getPrefix() . 'order_by';
+
+                if (app('request')->has($key)) {
+
+                    list($column, $direction) = explode('|', app('request')->get($key));
+
+                    if ($column == $type->getColumnName()) {
+
+                        return $direction;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    protected function getUrl(array $column, Table $table, $sorting)
+    {
+        $parts = explode('.', $column['slug']);
+
+        $orderBy   = null;
+        $direction = null;
+
+        $key   = $table->getPrefix() . 'order_by';
+        $value = app('request')->get($key);
+
+        if ($model = $table->getModel() and $model instanceof EntryInterface) {
+
+            if ($type = $model->fieldType($parts[0])) {
+
+                $orderBy = $type->getColumnName();
+            }
+        }
+
+        if (!$orderBy) {
+
+            $orderBy = $column['slug'];
+        }
+
+        $direction = ends_with($value, 'asc') ? 'desc' : 'asc';
+
+        $query = app('request')->all();
+
+        $query[$key] = $orderBy . '|' . $direction;
+
+        $query = http_build_query($query);
+
+        return app('request')->url('/') . '?' . $query;
     }
 }
  

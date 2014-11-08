@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Contract\PaginatorInterface;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableActionCommand;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableFiltersCommand;
+use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableSortingCommand;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableViewCommand;
 use Anomaly\Streams\Platform\Ui\Ui;
 use Symfony\Component\HttpFoundation\Response;
@@ -760,7 +761,7 @@ class Table extends Ui
     {
         // TODO: Move this stuff to an event?
         $query = $this->execute(new HandleTableViewCommand($this, $query));
-        //$query = $this->execute(new HandleTableSortingCommand($this, $query));
+        $query = $this->execute(new HandleTableSortingCommand($this, $query));
         $query = $this->execute(new HandleTableFiltersCommand($this, $query));
     }
 }

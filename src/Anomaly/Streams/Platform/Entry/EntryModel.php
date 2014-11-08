@@ -129,7 +129,12 @@ class EntryModel extends EloquentModel implements EntryInterface
      */
     public function fieldType($slug)
     {
-        return $this->findAssignmentByFieldSlug($slug)->fieldType();
+        if ($assignment = $this->findAssignmentByFieldSlug($slug)) {
+
+            return $assignment->type();
+        }
+
+        return null;
     }
 
     /**

@@ -15,7 +15,14 @@
 
     {{ headers }}
     <th>
-        <a href="#">{{{ heading }}} <i class="fa fa-caret-down text-muted"></i></a>
+        <a href="{{ url }}">
+            {{{ heading }}}
+            {{ if sorting == "desc" }}
+            <i class="fa fa-caret-down text-muted"></i>
+            {{ elseif sorting == "asc" }}
+            <i class="fa fa-caret-up text-muted"></i>
+            {{ endif }}
+        </a>
     </th>
     {{ /headers }}
 
