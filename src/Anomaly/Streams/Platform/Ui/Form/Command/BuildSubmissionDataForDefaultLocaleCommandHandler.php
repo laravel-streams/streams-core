@@ -29,11 +29,9 @@ class BuildSubmissionDataForDefaultLocaleCommandHandler
 
         foreach ($stream->assignments as $assignment) {
 
-            $key = $this->getKey($form, $assignment);
-
             if ($field = $assignment->field->slug and !in_array($field, $form->getSkips())) {
 
-                $form->addData(config('app.locale'), $field, $request->get($key));
+                $form->addData(config('app.locale'), $field, $request->get($this->getKey($form, $assignment)));
             }
         }
     }

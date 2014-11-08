@@ -142,6 +142,11 @@ class AssignmentModel extends EloquentModel
         return $fieldType;
     }
 
+    public function getColumnName()
+    {
+        return $this->type()->getColumnName();
+    }
+
     public function getSettingsAttribute($settings)
     {
         return json_decode($settings);

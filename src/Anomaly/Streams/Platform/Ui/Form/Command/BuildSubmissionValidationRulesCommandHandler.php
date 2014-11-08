@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Entry\EntryInterface;
+
 /**
  * Class BuildSubmissionValidationRulesCommandHandler
  *
@@ -21,6 +24,7 @@ class BuildSubmissionValidationRulesCommandHandler
         $form = $command->getForm();
 
         $model  = $form->getModel();
+        $entry  = $form->getEntry();
         $stream = $form->getStream();
 
         $rules = $model::$rules;
@@ -40,11 +44,12 @@ class BuildSubmissionValidationRulesCommandHandler
 
             if (isset($rules[$assignment->field->slug]) and $type = $assignment->type()) {
 
+                $assignmentRules = $this->getAssignmentRules($entry, $assignment, $rules);
 
                 $rules[$assignment->field->slug] = implode(
                     '|',
                     array_merge(
-                        explode('|', $rules[$assignment->field->slug]),
+                        $assignmentRules,
                         $type->getRules()
                     )
                 );
@@ -52,6 +57,24 @@ class BuildSubmissionValidationRulesCommandHandler
         }
 
         $form->setRules($rules);
+    }
+
+    protected function getAssignmentRules(EntryInterface $entry, AssignmentModel $assignment, array $rules)
+    {
+        $rules = explode('|', $rules[$assignment->field->slug]);
+
+        if ($id = $entry->getKey()) {
+
+            foreach ($rules as &$rule) {
+
+                if (starts_with($rule, 'unique:')) {
+
+                    $rule .= ',' . $id;
+                }
+            }
+        }
+
+        return $rules;
     }
 }
  
