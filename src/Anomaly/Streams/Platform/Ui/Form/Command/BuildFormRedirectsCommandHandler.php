@@ -49,6 +49,12 @@ class BuildFormRedirectsCommandHandler
             // All closures are gone now.
             $redirect = $utility->evaluate($redirect, [$form, $entry], $entry);
 
+            // Skip if disabled.
+            if (!evaluate_key($redirect, 'enabled', true)) {
+
+                continue;
+            }
+
             // Get our defaults and merge them in.
             $defaults = $this->getDefaults($redirect, $form, $entry);
 

@@ -48,6 +48,12 @@ class BuildFormActionsCommandHandler
             // All closures are gone now.
             $action = $utility->evaluate($action, [$form, $entry], $entry);
 
+            // Skip if disabled.
+            if (!evaluate_key($action, 'enabled', true)) {
+
+                continue;
+            }
+
             // Get our defaults and merge them in.
             $defaults = $this->getDefaults($action, $form, $entry);
 
