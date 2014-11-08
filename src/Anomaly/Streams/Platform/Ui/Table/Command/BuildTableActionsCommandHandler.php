@@ -59,10 +59,10 @@ class BuildTableActionsCommandHandler
 
         $actions = [];
 
-        foreach ($ui->getActions() as $action) {
+        foreach ($ui->getActions() as $slug => $action) {
 
             // Standardize input.
-            $action = $this->standardize($action);
+            $action = $this->standardize($slug, $action);
 
             /**
              * Remove the handler or it
@@ -108,17 +108,45 @@ class BuildTableActionsCommandHandler
      * Standardize minimum input to the proper data
      * structure we actually expect.
      *
+     * @param $slug
      * @param $action
+     * @return array
      */
-    protected function standardize($action)
+    protected function standardize($slug, $action)
     {
+
         /**
-         * If only the type is sent along
-         * we default everything like bad asses.
+         * If the slug is numerical and the action
+         * is a string then use action for both.
+         */
+        if (is_numeric($slug) and is_string($action)) {
+
+            return [
+                'type' => $action,
+                'slug' => $action,
+            ];
+        }
+
+        /**
+         * If the slug is a string and the action
+         * is too then use the slug as slug and
+         * the action as the type.
          */
         if (is_string($action)) {
 
-            $action = ['type' => $action];
+            return [
+                'type' => $action,
+                'slug' => $slug,
+            ];
+        }
+
+        /**
+         * If the slug is not explicitly set
+         * then default it to the slug inferred.
+         */
+        if (is_array($action) and !isset($action['slug'])) {
+
+            $action['slug'] = $slug;
         }
 
         return $action;
@@ -128,7 +156,7 @@ class BuildTableActionsCommandHandler
      * Get default configuration if any.
      * Then run everything back through evaluation.
      *
-     * @param array   $action
+     * @param array $action
      * @param Table $ui
      * @return array|mixed|null
      */
@@ -199,7 +227,7 @@ class BuildTableActionsCommandHandler
     /**
      * Get the action slug.
      *
-     * @param array   $action
+     * @param array $action
      * @param Table $ui
      * @return string
      */
