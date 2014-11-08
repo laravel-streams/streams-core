@@ -26,6 +26,11 @@ class EntryRulesParser
                 $rules[] = 'required';
             }
 
+            if ($assignment->is_unique) {
+
+                $rules[] = 'unique:' . $stream->getTable();
+            }
+
             if (is_array($rules)) {
 
                 $rules = implode('|', array_filter($rules));
