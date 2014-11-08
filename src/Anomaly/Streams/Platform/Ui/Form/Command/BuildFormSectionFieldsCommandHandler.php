@@ -42,6 +42,12 @@ class BuildFormSectionFieldsCommandHandler
             // All first level closures on are gone now.
             $field = $utility->evaluate($field, [$form, $entry], $entry);
 
+            // Skip if disabled.
+            if (!evaluate_key($field, 'enabled', true)) {
+
+                continue;
+            }
+
             if ($entry instanceof EntryInterface) {
 
                 $fields[] = $this->getField($field, $form, $entry);
