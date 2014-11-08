@@ -100,11 +100,6 @@ class Ui
 
         $title = trans(evaluate($this->title, [$this]));
 
-        if ($response = $this->fire('response') and $response instanceof Response) {
-
-            return $response;
-        }
-
         return view($this->wrapper, compact('content', 'title'));
     }
 

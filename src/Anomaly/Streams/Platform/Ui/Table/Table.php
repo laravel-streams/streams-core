@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableActionCommand;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableFiltersCommand;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableViewCommand;
 use Anomaly\Streams\Platform\Ui\Ui;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Table
@@ -107,7 +108,33 @@ class Table extends Ui
     /**
      * @var
      */
-    protected $model;
+    protected $model = null;
+
+    protected $builder;
+
+    protected $repository;
+
+    /**
+     * Create a new Table instance.
+     */
+    public function __construct()
+    {
+        $this->builder    = $this->newBuilder();
+        $this->repository = $repository = $this->newRepository();
+
+        parent::__construct();
+    }
+
+    /**
+     * Make the table response.
+     *
+     * @return \Illuminate\View\View|mixed|null
+     */
+    public function make()
+    {
+        return $this->fire('make');
+    }
+
 
     /**
      * Trigger the response.
@@ -118,26 +145,20 @@ class Table extends Ui
     {
         $this->fire('trigger');
 
-        $repository = $this->newRepository();
-
         if ($this->entries == null) {
 
-            $this->entries = $repository->get();
+            $this->entries = $this->repository->get();
         }
 
-        $table = $this->newTable();
-
-        $rows       = $table->rows();
-        $views      = $table->views();
-        $filters    = $table->filters();
-        $headers    = $table->headers();
-        $actions    = $table->actions();
-        $options    = $table->options();
-        $pagination = $table->pagination();
+        $rows       = $this->builder->rows();
+        $views      = $this->builder->views();
+        $filters    = $this->builder->filters();
+        $headers    = $this->builder->headers();
+        $actions    = $this->builder->actions();
+        $options    = $this->builder->options();
+        $pagination = $this->builder->pagination();
 
         $data = compact('views', 'filters', 'headers', 'rows', 'actions', 'pagination', 'options');
-
-        $this->fire('rendering', [$data]);
 
         return view($this->view, $data)->render();
     }
@@ -468,32 +489,35 @@ class Table extends Ui
         return app()->make($repository, ['table' => $this]);
     }
 
-    /**
-     * @return TableService
-     */
-    protected function newTable()
+    protected function newBuilder()
     {
-        return new TableService($this);
+        if (!$builder = $this->transform(__METHOD__)) {
+
+            $builder = 'Anomaly\Streams\Platform\Ui\Table\TableBuilder';
+        }
+
+        return app()->make($builder, ['table' => $this]);
     }
 
     /**
-     * Fire just before rendering table view.
+     * Fire when making the response.
      *
      * @param $data
      */
-    protected function onRendering($data)
+    protected function onMake()
     {
-        //
-    }
+        if (app('request')->isMethod('post')) {
 
-    /**
-     * Fire just before responding with a view.
-     *
-     * @return mixed
-     */
-    protected function onResponse()
-    {
-        return $this->execute(new HandleTableActionCommand($this));
+            // TODO: This should set the response internally.
+            return $this->execute(new HandleTableActionCommand($this));
+        }
+
+        if (!$this->response) {
+
+            $this->setResponse(parent::make());
+        }
+
+        return $this->response;
     }
 
     /**

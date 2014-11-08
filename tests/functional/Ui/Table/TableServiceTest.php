@@ -90,7 +90,7 @@ class TableServiceTest extends \PHPUnit_Framework_TestCase
     {
         $table = self::$table;
 
-        $service = new TableService($table);
+        $service = new TableBuilder($table);
 
         $expected = '52674801ba3669f046e67789a358e4a8';
         $actual   = hashify($service->views());
@@ -102,7 +102,7 @@ class TableServiceTest extends \PHPUnit_Framework_TestCase
     {
         $table = self::$table;
 
-        $service = new TableService($table);
+        $service = new TableBuilder($table);
 
         $expected = 'bc1346509fa2035ae2fc6b3fdd67f7b3';
         $actual   = hashify($service->filters());
@@ -114,7 +114,7 @@ class TableServiceTest extends \PHPUnit_Framework_TestCase
     {
         $table = self::$table;
 
-        $service = new TableService($table);
+        $service = new TableBuilder($table);
 
         $expected = 'd9e5448b0e4af791453f222d575eebb8';
         $actual   = hashify($service->headers());
@@ -126,7 +126,7 @@ class TableServiceTest extends \PHPUnit_Framework_TestCase
     {
         $table = self::$table;
 
-        $service = new TableService($table);
+        $service = new TableBuilder($table);
 
         $expected = '904d153b44e14e159350730abaebe66d';
         $actual   = hashify($service->rows());
@@ -138,7 +138,7 @@ class TableServiceTest extends \PHPUnit_Framework_TestCase
     {
         $table = self::$table;
 
-        $service = new TableService($table);
+        $service = new TableBuilder($table);
 
         $expected = '765cbd348eafdd43b208baf57c2532f7';
         $actual   = hashify($service->actions());
@@ -150,7 +150,7 @@ class TableServiceTest extends \PHPUnit_Framework_TestCase
     {
         $table = self::$table;
 
-        $service = new TableService($table);
+        $service = new TableBuilder($table);
 
         $expected = '4f7147196401e85b5765423d97e8e99b';
         $actual   = hashify($service->pagination());
@@ -162,7 +162,7 @@ class TableServiceTest extends \PHPUnit_Framework_TestCase
     {
         $table = self::$table;
 
-        $service = new TableService($table);
+        $service = new TableBuilder($table);
 
         $expected = '8f3c2b7106d0c478b314cadd2d404c4d';
         $actual   = hashify($service->options());
