@@ -28,7 +28,7 @@ class EntryRulesParser
 
             if ($assignment->is_unique) {
 
-                $rules[] = 'unique:' . $stream->getTable();
+                $rules[] = 'unique:' . $stream->getEntryTableName();
             }
 
             if (is_array($rules)) {
