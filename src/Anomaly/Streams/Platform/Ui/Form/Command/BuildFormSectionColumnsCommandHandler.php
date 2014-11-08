@@ -36,6 +36,12 @@ class BuildFormSectionColumnsCommandHandler
             // All first level closures on are gone now.
             $column = $utility->evaluate($column, [$form, $entry], $entry);
 
+            // Skip if disabled.
+            if (!evaluate_key($column, 'enabled', true)) {
+
+                continue;
+            }
+
             // Delegate the building of the column fields.
             $command = new BuildFormSectionFieldsCommand($form, $column['fields']);
 
