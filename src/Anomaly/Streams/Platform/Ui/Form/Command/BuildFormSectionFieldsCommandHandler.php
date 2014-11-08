@@ -48,9 +48,12 @@ class BuildFormSectionFieldsCommandHandler
                 continue;
             }
 
-            if ($entry instanceof EntryInterface) {
+            if ($entry instanceof EntryInterface and isset($field['field'])) {
 
                 $fields[] = $this->getField($field, $form, $entry);
+            } else {
+
+                $fields[] = app('form')->text('test', 'test');
             }
         }
 
