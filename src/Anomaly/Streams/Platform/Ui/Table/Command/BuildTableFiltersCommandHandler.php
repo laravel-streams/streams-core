@@ -61,7 +61,7 @@ class BuildTableFiltersCommandHandler
             // All closures are gone now.
             $this->utility->evaluate($filter, [$ui]);
 
-            // If not enabled then skip it.
+            // Skip if disabled.
             if (!evaluate_key($filter, 'enabled', true)) {
 
                 continue;
@@ -106,7 +106,7 @@ class BuildTableFiltersCommandHandler
     /**
      * Get the slug.
      *
-     * @param array   $filter
+     * @param array $filter
      * @param Table $ui
      * @return string
      */
@@ -118,7 +118,7 @@ class BuildTableFiltersCommandHandler
     /**
      * Get the input HTML.
      *
-     * @param array   $filter
+     * @param array $filter
      * @param Table $ui
      * @return mixed|null
      */
@@ -155,7 +155,7 @@ class BuildTableFiltersCommandHandler
     /**
      * Get HTML for a select input.
      *
-     * @param array   $filter
+     * @param array $filter
      * @param Table $ui
      * @return mixed
      */
@@ -178,9 +178,9 @@ class BuildTableFiltersCommandHandler
     /**
      * Get the HTML for a text input.
      *
-     * @param array   $filter
-     * @param string  $type
-     * @param Table $ui
+     * @param array  $filter
+     * @param string $type
+     * @param Table  $ui
      * @return mixed
      */
     protected function getTextInput(array $filter, $type, Table $ui)
@@ -203,7 +203,7 @@ class BuildTableFiltersCommandHandler
     /**
      * Get the HTML for a field input.
      *
-     * @param array   $filter
+     * @param array $filter
      * @param Table $ui
      * @return null
      */
@@ -223,7 +223,7 @@ class BuildTableFiltersCommandHandler
      * Get the field input from an assignment.
      *
      * @param array           $filter
-     * @param Table         $ui
+     * @param Table           $ui
      * @param AssignmentModel $assignment
      * @return null
      */
@@ -251,7 +251,7 @@ class BuildTableFiltersCommandHandler
     /**
      * Get the filter's value.
      *
-     * @param array   $filter
+     * @param array $filter
      * @param Table $ui
      * @return mixed
      */
