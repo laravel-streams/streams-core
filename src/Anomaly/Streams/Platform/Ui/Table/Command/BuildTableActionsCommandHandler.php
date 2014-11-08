@@ -74,7 +74,7 @@ class BuildTableActionsCommandHandler
             // All closures are gone now.
             $action = $this->utility->evaluate($action, [$ui]);
 
-            // If not enabled then skip it.
+            // Skip if disabled.
             if (!evaluate_key($action, 'enabled', true)) {
 
                 continue;
