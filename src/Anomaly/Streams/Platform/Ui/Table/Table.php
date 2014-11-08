@@ -29,6 +29,8 @@ class Table extends Ui
     protected $eager = [];
 
     /**
+     * Ordering config.
+     *
      * @var array
      */
     protected $orderBy = [
@@ -36,82 +38,135 @@ class Table extends Ui
     ];
 
     /**
+     * The query limit.
+     *
      * @var null
      */
     protected $limit = null;
 
     /**
+     * The paginate flag. If false
+     * pagination will be skipped.
+     *
      * @var bool
      */
     protected $paginate = true;
 
     /**
+     * The sortable flag. If true
+     * enable custom draggable sorting.
+     *
      * @var bool
      */
     protected $sortable = false;
 
     /**
+     * The table class.
+     *
      * @var string
      */
     protected $tableClass = 'table table-hover';
 
     /**
+     * The row class.
+     *
      * @var null
      */
     protected $rowClass = null;
 
     /**
+     * The message displayed when
+     * no results are found.
+     *
      * @var string
      */
     protected $noResultsMessage = 'error.no_results';
 
     /**
+     * The table entries. These can be
+     * set manually to bypass the repository.
+     *
      * @var null
      */
     protected $entries = null;
 
     /**
+     * Table views. These allow you to override
+     * the query and configuration of the table
+     * during runtime operation.
+     *
      * @var array
      */
     protected $views = [];
 
     /**
+     * Table filters. These allow you to
+     * filter the table results.
+     *
      * @var array
      */
     protected $filters = [];
 
     /**
+     * Table columns. This is a simple
+     * config for table columns.
+     *
      * @var array
      */
     protected $columns = [];
 
     /**
+     * Column buttons. These are a simple
+     * config for buttons rendered on
+     * each table column.
+     *
      * @var array
      */
     protected $buttons = [];
 
     /**
+     * Table actions. These allow users to
+     * apply mass actions to selected entries
+     * in the table.
+     *
      * @var array
      */
     protected $actions = [];
 
     /**
+     * The table view.
+     *
      * @var string
      */
     protected $view = 'ui/table/index';
 
     /**
+     * The table paginator object. This
+     * is used internally.
+     *
      * @var null
      */
     protected $paginator = null;
 
     /**
+     * The model object used by the table.
+     *
      * @var
      */
     protected $model = null;
 
+    /**
+     * The table builder object.
+     *
+     * @var
+     */
     protected $builder;
 
+    /**
+     * The table repository object.
+     *
+     * @var
+     */
     protected $repository;
 
     /**
@@ -164,6 +219,8 @@ class Table extends Ui
     }
 
     /**
+     * Set the eager loaded relationships.
+     *
      * @param array $eager
      * return $this
      */
@@ -175,6 +232,8 @@ class Table extends Ui
     }
 
     /**
+     * Get the eager loaded relationships.
+     *
      * @return array
      */
     public function getEager()
@@ -183,6 +242,8 @@ class Table extends Ui
     }
 
     /**
+     * Set the actions configuration.
+     *
      * @param array $actions
      * @return $this
      */
@@ -194,6 +255,8 @@ class Table extends Ui
     }
 
     /**
+     * Get the actions configuration.
+     *
      * @return array
      */
     public function getActions()
@@ -202,6 +265,8 @@ class Table extends Ui
     }
 
     /**
+     * Set the buttons configuration.
+     *
      * @param array $buttons
      * @return $this
      */
@@ -213,6 +278,8 @@ class Table extends Ui
     }
 
     /**
+     * Get the buttons configuration.
+     *
      * @return array
      */
     public function getButtons()
@@ -221,6 +288,8 @@ class Table extends Ui
     }
 
     /**
+     * Set the columns configuration.
+     *
      * @param array $columns
      * @return $this
      */
@@ -232,6 +301,8 @@ class Table extends Ui
     }
 
     /**
+     * Get the columns configuration.
+     *
      * @return array
      */
     public function getColumns()
@@ -240,25 +311,8 @@ class Table extends Ui
     }
 
     /**
-     * @param array $entries
-     * @return $this
-     */
-    public function setEntries(array $entries)
-    {
-        $this->entries = $entries;
-
-        return $this;
-    }
-
-    /**
-     * @return null
-     */
-    public function getEntries()
-    {
-        return $this->entries;
-    }
-
-    /**
+     * Set the filters configuration.
+     *
      * @param array $filters
      * @return $this
      */
@@ -270,6 +324,8 @@ class Table extends Ui
     }
 
     /**
+     * Get the filters configuration.
+     *
      * @return array
      */
     public function getFilters()
@@ -278,6 +334,31 @@ class Table extends Ui
     }
 
     /**
+     * Set the table entries.
+     *
+     * @param array $entries
+     * @return $this
+     */
+    public function setEntries(array $entries)
+    {
+        $this->entries = $entries;
+
+        return $this;
+    }
+
+    /**
+     * Get the table entries.
+     *
+     * @return null
+     */
+    public function getEntries()
+    {
+        return $this->entries;
+    }
+
+    /**
+     * Set the limit.
+     *
      * @param null $limit
      * return $this
      */
@@ -289,6 +370,8 @@ class Table extends Ui
     }
 
     /**
+     * Get the limit.
+     *
      * @return null
      */
     public function getLimit()
@@ -302,17 +385,21 @@ class Table extends Ui
     }
 
     /**
+     * Set the no results message.
+     *
      * @param string $noResultsMessage
      * return $this
      */
-    public function setNoResultsMessage($noResultsMessage)
+    public function setNoResultsMessage($message)
     {
-        $this->noResultsMessage = $noResultsMessage;
+        $this->noResultsMessage = $message;
 
         return $this;
     }
 
     /**
+     * Get the no results message.
+     *
      * @return string
      */
     public function getNoResultsMessage()
@@ -321,21 +408,21 @@ class Table extends Ui
     }
 
     /**
-     * @param $column
-     * @param $direction
+     * Set the order by configuration.
+     *
+     * @param $orderBy
      * @return $this
      */
-    public function setOrderBy($column, $direction)
+    public function setOrderBy($orderBy)
     {
-        $this->orderBy = [
-            'column'    => $column,
-            'direction' => $direction,
-        ];
+        $this->orderBy = $orderBy;
 
         return $this;
     }
 
     /**
+     * Get the order by configuration.
+     *
      * @return array
      */
     public function getOrderBy()
@@ -344,6 +431,8 @@ class Table extends Ui
     }
 
     /**
+     * Set the paginate flag.
+     *
      * @param $paginate
      * @return $this
      */
@@ -355,6 +444,8 @@ class Table extends Ui
     }
 
     /**
+     * Get the paginate flag.
+     *
      * @return boolean
      */
     public function getPaginate()
@@ -363,25 +454,8 @@ class Table extends Ui
     }
 
     /**
-     * @param null $rowClass
-     * return $this
-     */
-    public function setRowClass($rowClass)
-    {
-        $this->rowClass = $rowClass;
-
-        return $this;
-    }
-
-    /**
-     * @return null
-     */
-    public function getRowClass()
-    {
-        return $this->rowClass;
-    }
-
-    /**
+     * Set the sortable flag.
+     *
      * @param boolean $sortable
      * return $this
      */
@@ -393,6 +467,8 @@ class Table extends Ui
     }
 
     /**
+     * get the sortable flag.
+     *
      * @return boolean
      */
     public function getSortable()
@@ -401,6 +477,31 @@ class Table extends Ui
     }
 
     /**
+     * Set the row class.
+     *
+     * @param null $rowClass
+     * return $this
+     */
+    public function setRowClass($rowClass)
+    {
+        $this->rowClass = $rowClass;
+
+        return $this;
+    }
+
+    /**
+     * Get the row class.
+     *
+     * @return null
+     */
+    public function getRowClass()
+    {
+        return $this->rowClass;
+    }
+
+    /**
+     * Set the table class.
+     *
      * @param string $tableClass
      * return $this
      */
@@ -412,6 +513,8 @@ class Table extends Ui
     }
 
     /**
+     * Get the table class.
+     *
      * @return string
      */
     public function getTableClass()
@@ -420,6 +523,8 @@ class Table extends Ui
     }
 
     /**
+     * Set the table view.
+     *
      * @param string $view
      * return $this
      */
@@ -431,6 +536,8 @@ class Table extends Ui
     }
 
     /**
+     * Set the views configuration.
+     *
      * @param array $views
      * @return $this
      */
@@ -442,6 +549,8 @@ class Table extends Ui
     }
 
     /**
+     * Get the views configuration.
+     *
      * @return array
      */
     public function getViews()
@@ -450,6 +559,8 @@ class Table extends Ui
     }
 
     /**
+     * Set the wrapper view.
+     *
      * @param string $wrapper
      * return $this
      */
@@ -461,6 +572,8 @@ class Table extends Ui
     }
 
     /**
+     * Set the paginator object.
+     *
      * @param null $paginator
      * return $this
      */
@@ -472,13 +585,20 @@ class Table extends Ui
     }
 
     /**
-     * @return null
+     * Get the paginator object.
+     *
+     * @return PaginatorInterface
      */
     public function getPaginator()
     {
         return $this->paginator;
     }
 
+    /**
+     * Return a new repository instance.
+     *
+     * @return TableRepository
+     */
     protected function newRepository()
     {
         if (!$repository = $this->transform(__FUNCTION__)) {
@@ -489,6 +609,11 @@ class Table extends Ui
         return app()->make($repository, ['table' => $this]);
     }
 
+    /**
+     * Return a new builder instance.
+     *
+     * @return TableBuilder
+     */
     protected function newBuilder()
     {
         if (!$builder = $this->transform(__METHOD__)) {
@@ -502,7 +627,7 @@ class Table extends Ui
     /**
      * Fire when making the response.
      *
-     * @param $data
+     * @return \Illuminate\View\View
      */
     protected function onMake()
     {
