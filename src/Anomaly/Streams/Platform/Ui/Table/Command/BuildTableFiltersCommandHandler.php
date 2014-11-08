@@ -46,10 +46,10 @@ class BuildTableFiltersCommandHandler
 
         $filters = [];
 
-        foreach ($ui->getFilters() as $filter) {
+        foreach ($ui->getFilters() as $slug => $filter) {
 
             // Standardize input.
-            $filter = $this->standardize($filter);
+            $filter = $this->standardize($slug, $filter);
 
             /**
              * Remove the handler or it
@@ -82,22 +82,47 @@ class BuildTableFiltersCommandHandler
      * Standardize minimum input to the proper data
      * structure we actually expect.
      *
+     * @param $slug
      * @param $filter
+     * @return array
      */
-    protected function standardize($filter)
+    protected function standardize($slug, $filter)
     {
-        /**
-         * If the filter is a string then
-         * default to a field type with the
-         * string being the field slug.
-         */
-        if (is_string($filter)) {
 
-            $filter = [
+        /**
+         * If the slug is numerical and the view
+         * is a string then use view for both.
+         */
+        if (is_numeric($slug) and is_string($filter)) {
+
+            return [
                 'type'  => 'field',
                 'field' => $filter,
                 'slug'  => $filter,
             ];
+        }
+
+        /**
+         * If the slug is a string and the view
+         * is too then use the slug as slug and
+         * the view as the type.
+         */
+        if (is_string($filter)) {
+
+            return [
+                'type'  => 'field',
+                'field' => $filter,
+                'slug'  => $slug,
+            ];
+        }
+
+        /**
+         * If the slug is not explicitly set
+         * then default it to the slug inferred.
+         */
+        if (is_array($filter) and !isset($filter['slug'])) {
+
+            $filter['slug'] = $slug;
         }
 
         return $filter;
