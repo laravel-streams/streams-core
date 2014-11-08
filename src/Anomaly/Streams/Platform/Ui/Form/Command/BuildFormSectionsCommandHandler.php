@@ -42,6 +42,12 @@ class BuildFormSectionsCommandHandler
             // All closures are gone now.
             $section = $utility->evaluate($section, [$form, $entry], $entry);
 
+            // Skip if disabled.
+            if (!evaluate_key($section, 'enabled', true)) {
+
+                continue;
+            }
+
             // Get our defaults and merge them in.
             $defaults = $this->getDefaults($section, $form, $entry);
 
