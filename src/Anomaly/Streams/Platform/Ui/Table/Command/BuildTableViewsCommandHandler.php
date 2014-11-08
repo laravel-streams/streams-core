@@ -60,6 +60,12 @@ class BuildTableViewsCommandHandler
             // All closures are gone now.
             $view = $this->utility->evaluate($view, [$ui]);
 
+            // Skip if disabled.
+            if (!evaluate_key($view, 'enabled', true)) {
+
+                continue;
+            }
+
             // Get our defaults and merge them in.
             $defaults = $this->getDefaults($view, $ui);
 
