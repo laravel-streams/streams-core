@@ -67,6 +67,12 @@ class BuildTableButtonsCommandHandler
             // All closures are gone now.
             $button = $this->utility->evaluate($button, [$ui, $entry], $entry);
 
+            // Skip if disabled.
+            if (evaluate_key($button, 'enabled', true) == false) {
+
+                continue;
+            }
+
             // Get our defaults and merge them in.
             $defaults = $this->getDefaults($button, $ui, $entry);
 
