@@ -55,11 +55,11 @@ class BuildTableActionsCommandHandler
      */
     public function handle(BuildTableActionsCommand $command)
     {
-        $ui = $command->getUi();
+        $table = $command->getTable();
 
         $actions = [];
 
-        foreach ($ui->getActions() as $slug => $action) {
+        foreach ($table->getActions() as $slug => $action) {
 
             // Standardize input.
             $action = $this->standardize($slug, $action);
@@ -72,7 +72,7 @@ class BuildTableActionsCommandHandler
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $action = $this->utility->evaluate($action, [$ui]);
+            $action = $this->utility->evaluate($action, [$table]);
 
             // Skip if disabled.
             if (!evaluate_key($action, 'enabled', true)) {
@@ -81,16 +81,16 @@ class BuildTableActionsCommandHandler
             }
 
             // Get our defaults and merge them in.
-            $defaults = $this->getDefaults($action, $ui);
+            $defaults = $this->getDefaults($action, $table);
 
             $action = array_merge($defaults, $action);
 
             // Build out our required data.
-            $name       = $this->getName($ui);
+            $name       = $this->getName($table);
             $icon       = $this->getIcon($action);
             $title      = $this->getTitle($action);
             $class      = $this->getClass($action);
-            $value      = $this->getSlug($action, $ui);
+            $value      = $this->getSlug($action, $table);
             $attributes = $this->getAttributes($action);
 
             $action = compact('title', 'class', 'icon', 'value', 'name', 'attributes');
@@ -157,16 +157,16 @@ class BuildTableActionsCommandHandler
      * Then run everything back through evaluation.
      *
      * @param array $action
-     * @param Table $ui
+     * @param Table $table
      * @return array|mixed|null
      */
-    protected function getDefaults(array $action, Table $ui)
+    protected function getDefaults(array $action, Table $table)
     {
         $defaults = [];
 
         if (isset($action['type']) and $defaults = $this->utility->getActionDefaults($action['type'])) {
 
-            $defaults = $this->utility->evaluate($defaults, [$ui]);
+            $defaults = $this->utility->evaluate($defaults, [$table]);
         }
 
         return $defaults;
@@ -228,23 +228,23 @@ class BuildTableActionsCommandHandler
      * Get the action slug.
      *
      * @param array $action
-     * @param Table $ui
+     * @param Table $table
      * @return string
      */
-    protected function getSlug(array $action, Table $ui)
+    protected function getSlug(array $action, Table $table)
     {
-        return $ui->getPrefix() . $action['slug'];
+        return $table->getPrefix() . $action['slug'];
     }
 
     /**
      * Get the name of the submit input.
      *
-     * @param Table $ui
+     * @param Table $table
      * @return string
      */
-    protected function getName(Table $ui)
+    protected function getName(Table $table)
     {
-        return $ui->getPrefix() . 'action';
+        return $table->getPrefix() . 'action';
     }
 }
  

@@ -24,7 +24,7 @@ class TableRepository implements TableRepositoryInterface
      *
      * @var Table
      */
-    protected $ui;
+    protected $table;
 
     /**
      * The model object if any.
@@ -43,7 +43,7 @@ class TableRepository implements TableRepositoryInterface
     /**
      * Create a new TableRepository instance.
      *
-     * @param Table         $ui
+     * @param Table         $table
      * @param EloquentModel $model
      */
     function __construct(Table $table)

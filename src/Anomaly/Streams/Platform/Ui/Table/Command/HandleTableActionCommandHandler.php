@@ -44,9 +44,9 @@ class HandleTableActionCommandHandler
     {
         $response = null;
 
-        $ui = $command->getUi();
+        $table = $command->getTable();
 
-        $flag = $ui->getPrefix() . 'action';
+        $flag = $table->getPrefix() . 'action';
 
         /**
          * If there is a submitted action to execute
@@ -54,7 +54,7 @@ class HandleTableActionCommandHandler
          */
         if ($executing = $this->request->get($flag)) {
 
-            $this->handleAction($executing, $ui);
+            $this->handleAction($executing, $table);
 
             app('streams.messages')->flash();
 
@@ -68,10 +68,10 @@ class HandleTableActionCommandHandler
      * Get the handler.
      *
      * @param array   $action
-     * @param Table $ui
+     * @param Table $table
      * @return mixed
      */
-    protected function getHandler(array $action, Table $ui)
+    protected function getHandler(array $action, Table $table)
     {
         if (is_string($action['handler'])) {
 
@@ -85,17 +85,17 @@ class HandleTableActionCommandHandler
      * Handle the action.
      *
      * @param         $executing
-     * @param Table $ui
+     * @param Table $table
      */
-    protected function handleAction($executing, Table $ui)
+    protected function handleAction($executing, Table $table)
     {
-        foreach ($ui->getActions() as $action) {
+        foreach ($table->getActions() as $action) {
 
-            if ($executing == $ui->getPrefix() . $action['slug']) {
+            if ($executing == $table->getPrefix() . $action['slug']) {
 
-                $handler = $this->getHandler($action, $ui);
+                $handler = $this->getHandler($action, $table);
 
-                $this->runHandler($handler, $ui);
+                $this->runHandler($handler, $table);
             }
         }
     }
@@ -104,9 +104,9 @@ class HandleTableActionCommandHandler
      * Run the handler.
      *
      * @param         $handler
-     * @param Table $ui
+     * @param Table $table
      */
-    protected function runHandler($handler, Table $ui)
+    protected function runHandler($handler, Table $table)
     {
         if ($handler instanceof \Closure) {
 
@@ -117,7 +117,7 @@ class HandleTableActionCommandHandler
 
             if ($handler->authorize() !== false) {
 
-                $handler->handle((array)app('request')->get($ui->getPrefix() . 'id'));
+                $handler->handle((array)app('request')->get($table->getPrefix() . 'id'));
             }
         }
     }

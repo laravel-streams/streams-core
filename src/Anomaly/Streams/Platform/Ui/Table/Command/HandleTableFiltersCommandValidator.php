@@ -18,9 +18,9 @@ class HandleTableFiltersCommandValidator
      */
     public function validate(HandleTableFiltersCommand $command)
     {
-        $ui = $command->getUi();
+        $table = $command->getTable();
 
-        $filters = $ui->getFilters();
+        $filters = $table->getFilters();
 
         foreach ($filters as $filter) {
 

@@ -18,16 +18,16 @@ class BuildTableFiltersCommand
      *
      * @var \Anomaly\Streams\Platform\Ui\Table\Table
      */
-    protected $ui;
+    protected $table;
 
     /**
      * Create a new BuildTableFiltersCommand instance.
      *
-     * @param Table $ui
+     * @param Table $table
      */
-    function __construct(Table $ui)
+    function __construct(Table $table)
     {
-        $this->ui = $ui;
+        $this->table = $table;
     }
 
     /**
@@ -35,9 +35,9 @@ class BuildTableFiltersCommand
      *
      * @return Table
      */
-    public function getUi()
+    public function getTable()
     {
-        return $this->ui;
+        return $this->table;
     }
 }
  

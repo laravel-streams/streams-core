@@ -64,12 +64,12 @@ class BuildTableColumnsCommandHandler
      */
     public function handle(BuildTableColumnsCommand $command)
     {
-        $ui    = $command->getUi();
+        $table    = $command->getTable();
         $entry = $command->getEntry();
 
         $columns = [];
 
-        foreach ($ui->getColumns() as $column) {
+        foreach ($table->getColumns() as $column) {
 
             // Standardize input.
             $column = $this->standardize($column);

@@ -19,15 +19,15 @@ class BuildTableOptionsCommandHandler
      */
     public function handle(BuildTableOptionsCommand $command)
     {
-        $ui = $command->getUi();
+        $table = $command->getTable();
 
-        $prefix           = evaluate($ui->getPrefix(), [$ui]);
-        $paginate         = evaluate($ui->getPaginate(), [$ui]);
-        $sortable         = evaluate($ui->getSortable(), [$ui]);
-        $tableClass       = evaluate($ui->getTableClass(), [$ui]);
-        $noResultsMessage = trans(evaluate($ui->getNoResultsMessage()));
-        $activeView       = app('request')->get($ui->getPrefix() . 'view', 'all');
-        $filterState      = app('request')->get($ui->getPrefix() . 'filter', null);
+        $prefix           = evaluate($table->getPrefix(), [$table]);
+        $paginate         = evaluate($table->getPaginate(), [$table]);
+        $sortable         = evaluate($table->getSortable(), [$table]);
+        $tableClass       = evaluate($table->getTableClass(), [$table]);
+        $noResultsMessage = trans(evaluate($table->getNoResultsMessage()));
+        $activeView       = app('request')->get($table->getPrefix() . 'view', 'all');
+        $filterState      = app('request')->get($table->getPrefix() . 'filter', null);
 
         return compact('paginate', 'sortable', 'tableClass', 'prefix', 'noResultsMessage', 'activeView', 'filterState');
     }

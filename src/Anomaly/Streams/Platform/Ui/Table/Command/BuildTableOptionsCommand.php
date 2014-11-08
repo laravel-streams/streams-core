@@ -18,16 +18,16 @@ class BuildTableOptionsCommand
      *
      * @var \Anomaly\Streams\Platform\Ui\Table\Table
      */
-    protected $ui;
+    protected $table;
 
     /**
      * Create a new BuildTableOptionsCommand instance.
      *
-     * @param \Anomaly\Streams\Platform\Ui\Table\Table $ui
+     * @param \Anomaly\Streams\Platform\Ui\Table\Table $table
      */
-    function __construct(Table $ui)
+    function __construct(Table $table)
     {
-        $this->ui = $ui;
+        $this->table = $table;
     }
 
     /**
@@ -35,9 +35,9 @@ class BuildTableOptionsCommand
      *
      * @return \Anomaly\Streams\Platform\Ui\Table\Table
      */
-    public function getUi()
+    public function getTable()
     {
-        return $this->ui;
+        return $this->table;
     }
 }
  

@@ -52,25 +52,25 @@ class HandleTableViewCommandHandler
      */
     public function handle(HandleTableViewCommand $command)
     {
-        $ui    = $command->getUi();
+        $table    = $command->getTable();
         $query = $command->getQuery();
 
-        $appliedView = $this->request->get($ui->getPrefix() . 'view');
+        $appliedView = $this->request->get($table->getPrefix() . 'view');
 
-        foreach ($ui->getViews() as $order => $view) {
+        foreach ($table->getViews() as $order => $view) {
 
             // Standardize input.
             $view = $this->standardize($view);
 
             // Get our defaults and merge them in.
-            $defaults = $this->getDefaults($view, $ui);
+            $defaults = $this->getDefaults($view, $table);
 
             $view = array_merge($defaults, $view);
 
             // If the view is applied then handle it.
             if ($view['slug'] == $appliedView or !$appliedView and $order == 0) {
 
-                $handler = $this->getHandler($view, $ui);
+                $handler = $this->getHandler($view, $table);
                 $query   = $this->runHandler($view, $handler, $query);
             }
         }
@@ -104,14 +104,14 @@ class HandleTableViewCommandHandler
      * Then run everything back through evaluation.
      *
      * @param $view
-     * @param $ui
+     * @param $table
      * @return array|mixed|null
      */
-    protected function getDefaults($view, $ui)
+    protected function getDefaults($view, $table)
     {
         if (isset($view['type']) and $defaults = $this->utility->getViewDefaults($view['type'])) {
 
-            return $this->utility->evaluate($defaults, [$ui]);
+            return $this->utility->evaluate($defaults, [$table]);
         }
 
         return [];
@@ -121,10 +121,10 @@ class HandleTableViewCommandHandler
      * Get the handler.
      *
      * @param array   $view
-     * @param Table $ui
+     * @param Table $table
      * @return mixed
      */
-    protected function getHandler(array $view, Table $ui)
+    protected function getHandler(array $view, Table $table)
     {
         if (is_string($view['handler'])) {
 

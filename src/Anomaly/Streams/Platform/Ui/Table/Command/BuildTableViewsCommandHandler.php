@@ -43,9 +43,9 @@ class BuildTableViewsCommandHandler
 
         $count = 0;
 
-        $ui = $command->getUi();
+        $table = $command->getTable();
 
-        foreach ($ui->getViews() as $slug => $view) {
+        foreach ($table->getViews() as $slug => $view) {
 
             // Standardize input.
             $view = $this->standardize($slug, $view);
@@ -58,7 +58,7 @@ class BuildTableViewsCommandHandler
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $view = $this->utility->evaluate($view, [$ui]);
+            $view = $this->utility->evaluate($view, [$table]);
 
             // Skip if disabled.
             if (!evaluate_key($view, 'enabled', true)) {
@@ -67,15 +67,15 @@ class BuildTableViewsCommandHandler
             }
 
             // Get our defaults and merge them in.
-            $defaults = $this->getDefaults($view, $ui);
+            $defaults = $this->getDefaults($view, $table);
 
             $view = array_merge($defaults, $view);
 
             // Build out required data.
-            $url    = $this->getUrl($view, $ui);
-            $title  = $this->getTitle($view, $ui);
-            $class  = $this->getClass($view, $ui);
-            $active = $this->getActive($view, $count, $ui);
+            $url    = $this->getUrl($view, $table);
+            $title  = $this->getTitle($view, $table);
+            $class  = $this->getClass($view, $table);
+            $active = $this->getActive($view, $count, $table);
 
             $views[] = compact('url', 'title', 'class', 'active');
 
@@ -138,14 +138,14 @@ class BuildTableViewsCommandHandler
      * Then run everything back through evaluation.
      *
      * @param $view
-     * @param $ui
+     * @param $table
      * @return array|mixed|null
      */
-    protected function getDefaults($view, $ui)
+    protected function getDefaults($view, $table)
     {
         if (isset($view['type']) and $defaults = $this->utility->getViewDefaults($view['type'])) {
 
-            return $this->utility->evaluate($defaults, [$ui]);
+            return $this->utility->evaluate($defaults, [$table]);
         }
 
         return [];
@@ -155,24 +155,24 @@ class BuildTableViewsCommandHandler
      * Get the view URL.
      *
      * @param array $view
-     * @param Table $ui
+     * @param Table $table
      * @return string
      */
-    protected function getUrl(array $view, Table $ui)
+    protected function getUrl(array $view, Table $table)
     {
-        return url(app('request')->path()) . '?' . $ui->getPrefix() . 'view=' . $view['slug'];
+        return url(app('request')->path()) . '?' . $table->getPrefix() . 'view=' . $view['slug'];
     }
 
     /**
      * Get the translated view title.
      *
      * @param array $view
-     * @param Table $ui
+     * @param Table $table
      * @return string
      */
-    protected function getTitle(array $view, Table $ui)
+    protected function getTitle(array $view, Table $table)
     {
-        return trans(evaluate_key($view, 'title', 'misc.all', [$ui]));
+        return trans(evaluate_key($view, 'title', 'misc.all', [$table]));
     }
 
     /**
@@ -180,12 +180,12 @@ class BuildTableViewsCommandHandler
      *
      * @param array   $view
      * @param         $order
-     * @param Table   $ui
+     * @param Table   $table
      * @return mixed|null|string
      */
-    protected function getClass(array $view, Table $ui)
+    protected function getClass(array $view, Table $table)
     {
-        $class = evaluate_key($view, 'class', '', [$ui]);
+        $class = evaluate_key($view, 'class', '', [$table]);
 
         return $class;
     }
@@ -195,14 +195,14 @@ class BuildTableViewsCommandHandler
      *
      * @param array   $view
      * @param         $count
-     * @param Table   $ui
+     * @param Table   $table
      * @return string
      */
-    protected function getActive(array $view, $count, Table $ui)
+    protected function getActive(array $view, $count, Table $table)
     {
         $input = app('request');
 
-        $executing = $input->get($ui->getPrefix() . 'view');
+        $executing = $input->get($table->getPrefix() . 'view');
 
         if (($executing == $view['slug']) or (!$executing and $count == 0)) {
 

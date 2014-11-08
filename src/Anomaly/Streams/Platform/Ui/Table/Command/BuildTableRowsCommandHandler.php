@@ -26,13 +26,13 @@ class BuildTableRowsCommandHandler
     {
         $rows = [];
 
-        $ui = $command->getUi();
+        $table = $command->getTable();
 
-        foreach ($ui->getEntries() as $entry) {
+        foreach ($table->getEntries() as $entry) {
 
             // Build out our required data.
-            $columns = $this->getColumns($entry, $ui);
-            $buttons = $this->getButtons($entry, $ui);
+            $columns = $this->getColumns($entry, $table);
+            $buttons = $this->getButtons($entry, $table);
             $entry   = $this->getDecoratedEntry($entry);
 
             $rows[] = compact('columns', 'buttons', 'entry');
@@ -45,12 +45,12 @@ class BuildTableRowsCommandHandler
      * Get our column data for each row.
      *
      * @param $entry
-     * @param $ui
+     * @param $table
      * @return mixed
      */
-    protected function getColumns($entry, $ui)
+    protected function getColumns($entry, $table)
     {
-        $command = new BuildTableColumnsCommand($ui, $entry);
+        $command = new BuildTableColumnsCommand($table, $entry);
 
         return $this->execute($command);
     }
@@ -59,12 +59,12 @@ class BuildTableRowsCommandHandler
      * Get our button data for each row.
      *
      * @param $entry
-     * @param $ui
+     * @param $table
      * @return mixed
      */
-    protected function getButtons($entry, $ui)
+    protected function getButtons($entry, $table)
     {
-        $command = new BuildTableButtonsCommand($ui, $entry);
+        $command = new BuildTableButtonsCommand($table, $entry);
 
         return $this->execute($command);
     }

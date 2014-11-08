@@ -41,10 +41,10 @@ class HandleTableFiltersCommandHandler
      */
     public function handle(HandleTableFiltersCommand $command)
     {
-        $ui    = $command->getUi();
+        $table    = $command->getTable();
         $query = $command->getQuery();
 
-        $filters = $ui->getFilters();
+        $filters = $table->getFilters();
 
         /**
          * Loop through all the filters and look
@@ -56,7 +56,7 @@ class HandleTableFiltersCommandHandler
             // Standardize the input.
             $filter = $this->standardize($filter);
 
-            $slug = $this->getSlug($filter, $ui);
+            $slug = $this->getSlug($filter, $table);
 
             /**
              * IF there is a value to work with
@@ -64,7 +64,7 @@ class HandleTableFiltersCommandHandler
              */
             if ($value = $this->request->get($slug)) {
 
-                $handler = $this->getHandler($filter, $ui);
+                $handler = $this->getHandler($filter, $table);
                 $query   = $this->runHandler($slug, $handler, $query, $value);
             }
         }
@@ -101,38 +101,38 @@ class HandleTableFiltersCommandHandler
      * Get the filter slug.
      *
      * @param array   $filter
-     * @param Table $ui
+     * @param Table $table
      * @return string
      * @throws \Exception
      */
-    protected function getSlug(array $filter, Table $ui)
+    protected function getSlug(array $filter, Table $table)
     {
-        return $this->getPrefix($ui) . $filter['slug'];
+        return $this->getPrefix($table) . $filter['slug'];
     }
 
     /**
      * Get the prefix.
      *
-     * @param Table $ui
+     * @param Table $table
      * @return string
      */
-    protected function getPrefix(Table $ui)
+    protected function getPrefix(Table $table)
     {
-        return $ui->getPrefix() . 'filter_';
+        return $table->getPrefix() . 'filter_';
     }
 
     /**
      * Get the filter handler.
      *
      * @param array   $filter
-     * @param Table $ui
+     * @param Table $table
      * @return \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeFilter|mixed|null
      */
-    protected function getHandler(array $filter, Table $ui)
+    protected function getHandler(array $filter, Table $table)
     {
         if ($filter['type'] == 'field') {
 
-            return $this->getHandlerFromField($filter, $ui);
+            return $this->getHandlerFromField($filter, $table);
         }
 
         if (is_string($filter['handler'])) {
@@ -147,12 +147,12 @@ class HandleTableFiltersCommandHandler
      * Get the handler object from a field slug.
      *
      * @param array   $filter
-     * @param Table $ui
+     * @param Table $table
      * @return \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeFilter|null
      */
-    protected function getHandlerFromField(array $filter, Table $ui)
+    protected function getHandlerFromField(array $filter, Table $table)
     {
-        $stream = $ui->getModel();
+        $stream = $table->getModel();
 
         $type = $stream->getTypeFromField($filter['field']);
 

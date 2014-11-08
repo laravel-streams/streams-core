@@ -40,20 +40,20 @@ class BuildTableHeadersCommandHandler
      */
     public function handle(BuildTableHeadersCommand $command)
     {
-        $ui = $command->getUi();
+        $table = $command->getTable();
 
         $columns = [];
 
-        foreach ($ui->getColumns() as $column) {
+        foreach ($table->getColumns() as $column) {
 
             $column = $this->standardize($column);
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $column = $this->utility->evaluate($column, [$ui]);
+            $column = $this->utility->evaluate($column, [$table]);
 
             // Build out our required data.
-            $heading = $this->getHeading($column, $ui);
+            $heading = $this->getHeading($column, $table);
 
             $columns[] = compact('heading');
         }
@@ -85,21 +85,21 @@ class BuildTableHeadersCommandHandler
      * Get the heading.
      *
      * @param array   $column
-     * @param Table $ui
+     * @param Table $table
      * @return null|string
      */
-    protected function getHeading(array $column, Table $ui)
+    protected function getHeading(array $column, Table $table)
     {
-        $heading = trans(evaluate_key($column, 'heading', null, [$ui]));
+        $heading = trans(evaluate_key($column, 'heading', null, [$table]));
 
-        if (!$heading and $entry = $ui->getModel() and $entry instanceof EntryInterface) {
+        if (!$heading and $entry = $table->getModel() and $entry instanceof EntryInterface) {
 
             $heading = $this->getHeadingFromField($column, $entry);
         }
 
         if (!$heading) {
 
-            $this->guessHeading($column, $ui);
+            $this->guessHeading($column, $table);
         }
 
         return $heading;
@@ -128,12 +128,12 @@ class BuildTableHeadersCommandHandler
      * Make our best guess at the heading.
      *
      * @param array   $column
-     * @param Table $ui
+     * @param Table $table
      * @return mixed|null|string
      */
-    protected function guessHeading(array $column, Table $ui)
+    protected function guessHeading(array $column, Table $table)
     {
-        $heading = evaluate_key($column, 'heading', evaluate_key($column, 'field', null), [$ui]);
+        $heading = evaluate_key($column, 'heading', evaluate_key($column, 'field', null), [$table]);
 
         $translated = trans($heading);
 

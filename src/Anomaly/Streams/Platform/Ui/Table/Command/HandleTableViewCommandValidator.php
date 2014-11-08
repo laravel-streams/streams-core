@@ -18,9 +18,9 @@ class HandleTableViewCommandValidator
      */
     public function validate(HandleTableViewCommand $command)
     {
-        $ui = $command->getUi();
+        $table = $command->getTable();
 
-        $views = $ui->getViews();
+        $views = $table->getViews();
 
         foreach ($views as $view) {
 

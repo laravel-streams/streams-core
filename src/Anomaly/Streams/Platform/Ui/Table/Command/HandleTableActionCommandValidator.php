@@ -18,9 +18,9 @@ class HandleTableActionCommandValidator
      */
     public function validate(HandleTableActionCommand $command)
     {
-        $ui = $command->getUi();
+        $table = $command->getTable();
 
-        $actions = $ui->getActions();
+        $actions = $table->getActions();
 
         foreach ($actions as $action) {
 

@@ -53,19 +53,19 @@ class BuildTableButtonsCommandHandler
      */
     public function handle(BuildTableButtonsCommand $command)
     {
-        $ui    = $command->getUi();
+        $table    = $command->getTable();
         $entry = $command->getEntry();
 
         $buttons = [];
 
-        foreach ($ui->getButtons() as $button) {
+        foreach ($table->getButtons() as $button) {
 
             // Standardize for processing.
             $button = $this->standardize($button);
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $button = $this->utility->evaluate($button, [$ui, $entry], $entry);
+            $button = $this->utility->evaluate($button, [$table, $entry], $entry);
 
             // Skip if disabled.
             if (evaluate_key($button, 'enabled', true) == false) {
@@ -74,7 +74,7 @@ class BuildTableButtonsCommandHandler
             }
 
             // Get our defaults and merge them in.
-            $defaults = $this->getDefaults($button, $ui, $entry);
+            $defaults = $this->getDefaults($button, $table, $entry);
 
             $button = array_merge($defaults, $button);
 
@@ -118,15 +118,15 @@ class BuildTableButtonsCommandHandler
      * Then run everything back through evaluation.
      *
      * @param $button
-     * @param $ui
+     * @param $table
      * @param $entry
      * @return array|mixed|null
      */
-    protected function getDefaults($button, $ui, $entry)
+    protected function getDefaults($button, $table, $entry)
     {
         if (isset($button['type']) and $defaults = $this->utility->getButtonDefaults($button['type'])) {
 
-            return $this->utility->evaluate($defaults, [$ui, $entry], $entry);
+            return $this->utility->evaluate($defaults, [$table, $entry], $entry);
         }
 
         return [];

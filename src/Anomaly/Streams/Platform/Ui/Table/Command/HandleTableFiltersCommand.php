@@ -18,7 +18,7 @@ class HandleTableFiltersCommand
      *
      * @var \Anomaly\Streams\Platform\Ui\Table\Table
      */
-    protected $ui;
+    protected $table;
 
     /**
      * The query object. Likely a query builder.
@@ -30,12 +30,12 @@ class HandleTableFiltersCommand
     /**
      * Create a new HandleTableFiltersCommand instance.
      *
-     * @param Table $ui
+     * @param Table $table
      * @param         $query
      */
-    function __construct(Table $ui, $query)
+    function __construct(Table $table, $query)
     {
-        $this->ui    = $ui;
+        $this->table    = $table;
         $this->query = $query;
     }
 
@@ -54,9 +54,9 @@ class HandleTableFiltersCommand
      *
      * @return Table
      */
-    public function getUi()
+    public function getTable()
     {
-        return $this->ui;
+        return $this->table;
     }
 }
  

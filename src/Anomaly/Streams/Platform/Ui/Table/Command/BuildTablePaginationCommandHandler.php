@@ -26,9 +26,9 @@ class BuildTablePaginationCommandHandler
      */
     public function handle(BuildTablePaginationCommand $command)
     {
-        $ui = $command->getUi();
+        $table = $command->getTable();
 
-        $paginator = $ui->getPaginator();
+        $paginator = $table->getPaginator();
 
         if ($paginator instanceof PaginatorInterface and $paginator instanceof ArrayableInterface) {
 

@@ -18,7 +18,7 @@ class BuildTableColumnsCommand
      *
      * @var \Anomaly\Streams\Platform\Ui\Table\Table
      */
-    protected $ui;
+    protected $table;
 
     /**
      * The entry payload.
@@ -30,12 +30,12 @@ class BuildTableColumnsCommand
     /**
      * Create a new BuildTableColumnsCommand instance.
      *
-     * @param Table $ui
+     * @param Table $table
      * @param         $entry
      */
-    function __construct(Table $ui, $entry)
+    function __construct(Table $table, $entry)
     {
-        $this->ui    = $ui;
+        $this->table    = $table;
         $this->entry = $entry;
     }
 
@@ -44,9 +44,9 @@ class BuildTableColumnsCommand
      *
      * @return Table
      */
-    public function getUi()
+    public function getTable()
     {
-        return $this->ui;
+        return $this->table;
     }
 
     /**
