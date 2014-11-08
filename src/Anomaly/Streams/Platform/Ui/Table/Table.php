@@ -506,7 +506,7 @@ class Table extends Ui
      */
     protected function onMake()
     {
-        if (app('request')->isMethod('post')) {
+        if (!$this->response and app('request')->isMethod('post')) {
 
             // TODO: This should set the response internally.
             return $this->execute(new HandleTableActionCommand($this));
