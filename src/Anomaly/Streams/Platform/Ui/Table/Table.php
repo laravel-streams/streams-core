@@ -508,8 +508,7 @@ class Table extends Ui
     {
         if (!$this->response and app('request')->isMethod('post')) {
 
-            // TODO: This should set the response internally.
-            return $this->execute(new HandleTableActionCommand($this));
+            $this->execute(new HandleTableActionCommand($this));
         }
 
         if (!$this->response) {
@@ -530,6 +529,7 @@ class Table extends Ui
     {
         // TODO: Move this stuff to an event?
         $query = $this->execute(new HandleTableViewCommand($this, $query));
+        //$query = $this->execute(new HandleTableSortingCommand($this, $query));
         $query = $this->execute(new HandleTableFiltersCommand($this, $query));
     }
 }

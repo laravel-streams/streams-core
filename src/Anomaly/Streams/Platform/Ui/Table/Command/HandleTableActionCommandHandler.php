@@ -58,10 +58,8 @@ class HandleTableActionCommandHandler
 
             app('streams.messages')->flash();
 
-            return redirect(referer(url(app('request')->path())));
+            $table->setResponse(redirect(referer(url(app('request')->path()))));
         }
-
-        return null;
     }
 
     /**
