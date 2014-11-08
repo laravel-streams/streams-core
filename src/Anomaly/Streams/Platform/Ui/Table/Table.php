@@ -221,12 +221,25 @@ class Table extends Ui
     /**
      * Set the eager loaded relationships.
      *
-     * @param array $eager
+     * @param array $relationships
      * return $this
      */
-    public function setEager($eager)
+    public function setEager($relationships)
     {
-        $this->eager = $eager;
+        $this->eager = $relationships;
+
+        return $this;
+    }
+
+    /**
+     * Add an eager loaded relationship.
+     *
+     * @param $relationship
+     * @return $this
+     */
+    public function addEager($relationship)
+    {
+        $this->eager[] = $relationship;
 
         return $this;
     }
@@ -255,6 +268,19 @@ class Table extends Ui
     }
 
     /**
+     * Add an action configuration.
+     *
+     * @param $action
+     * @return $this
+     */
+    public function addAction($action)
+    {
+        $this->actions[] = $action;
+
+        return $this;
+    }
+
+    /**
      * Get the actions configuration.
      *
      * @return array
@@ -273,6 +299,19 @@ class Table extends Ui
     public function setButtons(array $buttons)
     {
         $this->buttons = $buttons;
+
+        return $this;
+    }
+
+    /**
+     * Add a button configuration.
+     *
+     * @param $button
+     * @return $this
+     */
+    public function addButton($button)
+    {
+        $this->buttons[] = $button;
 
         return $this;
     }
@@ -301,6 +340,20 @@ class Table extends Ui
     }
 
     /**
+     * Add a column configuration.
+     *
+     * @param $column
+     * @return $this
+     */
+    public function addColumn($column)
+    {
+        $this->columns[] = $column;
+
+        return $this;
+    }
+
+
+    /**
      * Get the columns configuration.
      *
      * @return array
@@ -324,6 +377,19 @@ class Table extends Ui
     }
 
     /**
+     * Add a filter configuration.
+     *
+     * @param $filter
+     * @return $this
+     */
+    public function addFilter($filter)
+    {
+        $this->filters[] = $filter;
+
+        return $this;
+    }
+
+    /**
      * Get the filters configuration.
      *
      * @return array
@@ -342,6 +408,19 @@ class Table extends Ui
     public function setEntries(array $entries)
     {
         $this->entries = $entries;
+
+        return $this;
+    }
+
+    /**
+     * Add an entry to the table.
+     *
+     * @param $entry
+     * @return $this
+     */
+    public function addEntry($entry)
+    {
+        $this->entries[] = $entry;
 
         return $this;
     }
@@ -416,6 +495,20 @@ class Table extends Ui
     public function setOrderBy($orderBy)
     {
         $this->orderBy = $orderBy;
+
+        return $this;
+    }
+
+    /**
+     * Add an order by configuration.
+     *
+     * @param $column
+     * @param $direction
+     * @return $this
+     */
+    public function addOrderBy($column, $direction)
+    {
+        $this->orderBy[$column] = $direction;
 
         return $this;
     }
@@ -544,6 +637,19 @@ class Table extends Ui
     public function setViews(array $views)
     {
         $this->views = $views;
+
+        return $this;
+    }
+
+    /**
+     * Add a view configuration.
+     *
+     * @param $view
+     * @return $this
+     */
+    public function addView($view)
+    {
+        $this->views[] = $view;
 
         return $this;
     }

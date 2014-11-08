@@ -225,6 +225,19 @@ class Form extends Ui
     }
 
     /**
+     * Add a redirect configuration.
+     *
+     * @param $redirect
+     * @return $this
+     */
+    public function addRedirect($redirect)
+    {
+        $this->redirects[] = $redirect;
+
+        return $this;
+    }
+
+    /**
      * Get the redirects configuration.
      *
      * @return array
@@ -243,6 +256,19 @@ class Form extends Ui
     public function setActions(array $actions)
     {
         $this->actions = $actions;
+
+        return $this;
+    }
+
+    /**
+     * Add an action configuration.
+     *
+     * @param $action
+     * @return $this
+     */
+    public function addAction($action)
+    {
+        $this->actions[] = $action;
 
         return $this;
     }
@@ -270,6 +296,18 @@ class Form extends Ui
         return $this;
     }
 
+    /**
+     * Add a section configuration.
+     *
+     * @param $section
+     * @return $this
+     */
+    public function addSection($section)
+    {
+        $this->sections[] = $section;
+
+        return $this;
+    }
 
     /**
      * Get the sections configuration.
@@ -284,12 +322,25 @@ class Form extends Ui
     /**
      * Set fields to skip.
      *
-     * @param array $skips
+     * @param array $fields
      * @return $this
      */
-    public function setSkips(array $skips)
+    public function setSkips(array $fields)
     {
-        $this->skips = $skips;
+        $this->skips = $fields;
+
+        return $this;
+    }
+
+    /**
+     * Add a field to skip.
+     *
+     * @param $field
+     * @return $this
+     */
+    public function addSkip($field)
+    {
+        $this->skips[] = $field;
 
         return $this;
     }
@@ -399,6 +450,22 @@ class Form extends Ui
         $this->rules = $rules;
 
         return $this;
+    }
+
+    /**
+     * Add a rule to a field.
+     *
+     * @param $field
+     * @param $rule
+     */
+    public function addRule($field, $rule)
+    {
+        if (!isset($this->rules[$field])) {
+
+            $this->rules[$field] = [];
+        }
+
+        $this->rules[$field] = $rule;
     }
 
     /**
@@ -549,7 +616,8 @@ class Form extends Ui
     }
 
     /**
-     * Fire after authorized and valid submit.
+     * Fire after authorized and
+     * validated submission.
      */
     protected function onSubmit()
     {
