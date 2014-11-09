@@ -126,7 +126,7 @@ class Application
      *
      * @return null
      */
-    protected function isLocated()
+    public function isLocated()
     {
         return $this->installed;
     }

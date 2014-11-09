@@ -18,6 +18,9 @@ class ModuleServiceProvider extends AddonServiceProvider
      */
     protected function onAfterRegister()
     {
-        app('streams.modules')->setStates(app('db')->table('addons_modules')->where('is_installed', 1)->get());
+        if (app('streams.application')->isLocated()) {
+
+            app('streams.modules')->setStates(app('db')->table('addons_modules')->where('is_installed', 1)->get());
+        }
     }
 }
