@@ -15,6 +15,7 @@
 
     {{ headers }}
     <th>
+        {{ if heading }}
         <a href="{{ url }}">
             {{{ heading }}}
             {{ if sorting == "desc" }}
@@ -23,6 +24,7 @@
             <i class="fa fa-caret-up text-muted"></i>
             {{ endif }}
         </a>
+        {{ endif }}
     </th>
     {{ /headers }}
 
