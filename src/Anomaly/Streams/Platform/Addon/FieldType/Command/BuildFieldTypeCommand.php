@@ -13,6 +13,8 @@ class BuildFieldTypeCommand
 
     protected $locale;
 
+    protected $hidden;
+
     protected $translatable;
 
     protected $instructions;
@@ -23,6 +25,8 @@ class BuildFieldTypeCommand
 
     protected $prefix;
 
+    protected $suffix;
+
     protected $view;
 
     function __construct(
@@ -32,7 +36,9 @@ class BuildFieldTypeCommand
         $value = null,
         $label = null,
         $prefix = null,
+        $suffix = null,
         $locale = null,
+        $hidden = false,
         $required = false,
         $placeholder = null,
         $instructions = null,
@@ -44,11 +50,29 @@ class BuildFieldTypeCommand
         $this->label        = $label;
         $this->value        = $value;
         $this->locale       = $locale;
+        $this->hidden       = $hidden;
         $this->prefix       = $prefix;
+        $this->suffix       = $suffix;
         $this->required     = $required;
         $this->placeholder  = $placeholder;
         $this->translatable = $translatable;
         $this->instructions = $instructions;
+    }
+
+    /**
+     * @return null
+     */
+    public function getSuffix()
+    {
+        return $this->suffix;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getHidden()
+    {
+        return $this->hidden;
     }
 
     /**

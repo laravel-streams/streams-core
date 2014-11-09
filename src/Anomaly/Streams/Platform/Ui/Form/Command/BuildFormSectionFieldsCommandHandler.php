@@ -33,7 +33,7 @@ class BuildFormSectionFieldsCommandHandler
 
         $fields = [];
 
-        foreach ($command->getFields() as $field) {
+        foreach ($command->getFields() as $slug => $field) {
 
             // Standardize the input.
             $field = $this->standardize($field);
@@ -53,7 +53,7 @@ class BuildFormSectionFieldsCommandHandler
                 $fields[] = $this->getField($field, $form, $entry);
             } else {
 
-                $fields[] = app('form')->text('test', 'test');
+                $fields[] = $this->getFieldFromArray($slug, $field, $form);
             }
         }
 
@@ -164,10 +164,23 @@ class BuildFormSectionFieldsCommandHandler
                 }
 
                 // Render the input element.
-                $element .= $type->element();
+                $element .= $type->element()->render();
             }
         }
 
         return $element;
+    }
+
+    protected function getFieldFromArray($slug, array $field, Form $form)
+    {
+        $field['field'] = $slug;
+
+        $field['prefix'] = $form->getPrefix();
+
+        $field['suffix'] = $field['locale'] = config('app.locale');
+
+        $type = $this->execute('Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand', $field);
+
+        return $type->element()->render();
     }
 }

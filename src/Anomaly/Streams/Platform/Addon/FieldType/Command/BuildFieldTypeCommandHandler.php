@@ -33,6 +33,8 @@ class BuildFieldTypeCommandHandler
                     ->setLabel($command->getLabel())
                     ->setLocale($command->getLocale())
                     ->setPrefix($command->getPrefix())
+                    ->setSuffix($command->getSuffix())
+                    ->setHidden($command->getHidden())
                     ->setRequired($command->getRequired())
                     ->setPlaceholder($command->getPlaceholder())
                     ->setTranslatable($command->getTranslatable())

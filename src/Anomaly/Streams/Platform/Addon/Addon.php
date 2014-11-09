@@ -157,6 +157,21 @@ class Addon implements ArrayableInterface
     }
 
     /**
+     * Return the permissions class for the addon.
+     *
+     * @return null
+     */
+    public function newPermissions()
+    {
+        if (!$permissions = $this->transform(__FUNCTION__)) {
+
+            return null;
+        }
+
+        return app()->make($permissions, [$this]);
+    }
+
+    /**
      * Get the instance as an array.
      *
      * @return array
