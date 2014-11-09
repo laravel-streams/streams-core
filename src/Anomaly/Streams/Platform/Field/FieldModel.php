@@ -72,9 +72,8 @@ class FieldModel extends EloquentModel
     public function remove($namespace, $slug)
     {
         if ($field = $this->whereNamespace($namespace)->whereSlug($slug)->first()) {
-            $field->delete();
 
-            //$this->raise(new FieldUninstalledEvent($this));
+            $field->delete();
 
             return $this;
         }

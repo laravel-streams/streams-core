@@ -91,6 +91,7 @@ class AssignmentModel extends EloquentModel
         $assignment = $this->whereStreamId($streamId)->whereFieldId($fieldId)->first();
 
         if ($assignment) {
+
             $assignment->delete();
 
             return $this;

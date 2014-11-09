@@ -43,9 +43,7 @@ class FieldService
      */
     public function remove($namespace, $slug)
     {
-        $command = new RemoveFieldCommand($namespace, $slug);
-
-        return $this->execute($command);
+        return $this->execute(new RemoveFieldCommand($namespace, $slug));
     }
 
     /**

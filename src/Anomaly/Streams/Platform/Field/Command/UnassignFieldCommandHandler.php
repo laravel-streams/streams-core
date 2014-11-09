@@ -59,6 +59,11 @@ class UnassignFieldCommandHandler
         $stream = $this->stream->findByNamespaceAndSlug($command->getNamespace(), $command->getStream());
         $field  = $this->field->findByNamespaceAndSlug($command->getNamespace(), $command->getField());
 
+        if (!$field) {
+
+            return false;
+        }
+
         $assignment = $this->assignment->remove($stream->getKey(), $field->getKey());
 
         $this->dispatchEventsFor($assignment);

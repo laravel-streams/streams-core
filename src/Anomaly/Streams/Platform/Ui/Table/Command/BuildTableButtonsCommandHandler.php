@@ -53,7 +53,7 @@ class BuildTableButtonsCommandHandler
      */
     public function handle(BuildTableButtonsCommand $command)
     {
-        $table    = $command->getTable();
+        $table = $command->getTable();
         $entry = $command->getEntry();
 
         $buttons = [];
@@ -65,7 +65,7 @@ class BuildTableButtonsCommandHandler
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $button = $this->utility->evaluate($button, [$table, $entry], $entry);
+            $button = $this->utility->evaluate($button, compact('table', 'entry'), $entry);
 
             // Skip if disabled.
             if (evaluate_key($button, 'enabled', true) == false) {

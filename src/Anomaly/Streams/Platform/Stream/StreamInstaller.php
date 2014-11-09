@@ -58,21 +58,21 @@ class StreamInstaller
 
     public function uninstall()
     {
-        $slug      = $this->stream['slug'];
-        $namespace = $this->stream['namespace'];
+        $this->stream['slug']      = $this->getStreamSlug();
+        $this->stream['namespace'] = $this->getStreamNamespace();
 
         // Unassign each of the assignments.
         foreach ($this->getAssignments() as $field => $assignment) {
             $this->fieldService->unassign(
-                $namespace,
-                $slug,
+                $this->stream['namespace'],
+                $this->stream['slug'],
                 $field,
                 $assignment
             );
         }
 
         // Remove the stream.
-        $this->streamService->remove($namespace, $slug);
+        $this->streamService->remove($this->stream['namespace'], $this->stream['slug']);
     }
 
     protected function getAssignments()
