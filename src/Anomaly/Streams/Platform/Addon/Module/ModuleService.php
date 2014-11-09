@@ -48,8 +48,17 @@ class ModuleService
 
     public function uninstall($module)
     {
-        foreach ($module->newInstaller()->getInstallers() as $installer) {
-            $this->app->make($installer)->uninstall();
+        if ($installer = $module->newInstaller()) {
+
+            foreach (app($installer)->getInstallers() as $installer) {
+
+                if (!str_contains($installer, '\\')) {
+
+                    $installer = $this->guessInstaller($module, $installer);
+                }
+
+                $this->app->make($installer)->uninstall();
+            }
         }
 
         $this->raise(new ModuleWasUninstalledEvent($module));
