@@ -16,14 +16,20 @@
     {{ headers }}
     <th>
         {{ if heading }}
+        {{ if url }}
         <a href="{{ url }}">
+        {{ endif }}
+
             {{{ heading }}}
             {{ if sorting == "desc" }}
             <i class="fa fa-caret-down text-muted"></i>
             {{ elseif sorting == "asc" }}
             <i class="fa fa-caret-up text-muted"></i>
             {{ endif }}
+
+        {{ if url }}
         </a>
+        {{ endif }}
         {{ endif }}
     </th>
     {{ /headers }}

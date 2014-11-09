@@ -243,6 +243,11 @@ class BuildTableHeadersCommandHandler
 
         $query = http_build_query($query);
 
+        if (is_numeric($orderBy)) {
+
+            return null;
+        }
+
         return app('request')->url('/') . '?' . $query;
     }
 }
