@@ -22,7 +22,7 @@ class ActiveThemeServiceProvider extends ServiceProvider
 
         if ($distribution = app('streams.distributions')->active()) {
 
-            if ($request->segment(1) == 'admin') {
+            if ($request->segment(1) == 'admin' or $request->segment(1) == 'installer') {
 
                 $theme = $distribution->getDefaultAdminTheme();
             } else {
