@@ -133,11 +133,16 @@ class AssignmentModel extends EloquentModel
 
         $fieldType = $this->execute($command, $data);
 
-        if ($entry and $fieldType instanceof FieldType) {
+        if ($fieldType instanceof FieldType) {
 
-            $fieldType->setValue(
-                $entry->translate($locale, false, false)->getAttribute($fieldType->getColumnName(), false)
-            );
+            $fieldType->setAssignment($this);
+
+            if ($entry) {
+
+                $fieldType->setValue(
+                    $entry->translate($locale, false, false)->getAttribute($fieldType->getColumnName(), false)
+                );
+            }
         }
 
         return $fieldType;

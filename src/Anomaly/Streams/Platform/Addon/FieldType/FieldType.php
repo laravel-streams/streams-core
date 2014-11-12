@@ -7,6 +7,8 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
 class FieldType extends Addon implements PresentableInterface
 {
 
+    protected $assignment = null;
+
     protected $rules = [];
 
     protected $field = null;
@@ -78,6 +80,18 @@ class FieldType extends Addon implements PresentableInterface
         );
 
         return view($this->view, $data);
+    }
+
+    public function setAssignment($assignment)
+    {
+        $this->assignment = $assignment;
+
+        return $this;
+    }
+
+    public function getAssignment()
+    {
+        return $this->assignment;
     }
 
     public function getRules()
