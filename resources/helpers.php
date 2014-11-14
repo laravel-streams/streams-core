@@ -265,3 +265,24 @@ function is_lang($string)
 {
     return str_is('*::*.*', $string);
 }
+
+/**
+ * Return the client's IP address.
+ *
+ * @return mixed
+ */
+function ip()
+{
+    return app('request')->ip();
+}
+
+/**
+ * Determine if we have a lotto winner.
+ *
+ * @param  array $lottery [2, 100]
+ * @return bool
+ */
+function hit(array $lottery = [2, 100])
+{
+    return mt_rand(1, $lottery[1]) <= $lottery[0];
+}
