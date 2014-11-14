@@ -34,7 +34,6 @@ class ActiveModuleServiceProvider extends ServiceProvider
 
             // Setup namespace hints for a short namespace.
             app('view')->addNamespace('module', $module->getPath('resources/views'));
-            app('config')->addNamespace('theme', $module->getPath('resources/config'));
             app('streams.asset')->addNamespace('module', $module->getPath('resources'));
             app('streams.image')->addNamespace('module', $module->getPath('resources'));
             app('translator')->addNamespace('module', $module->getPath('resources/lang'));
