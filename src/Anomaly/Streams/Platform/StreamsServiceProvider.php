@@ -92,5 +92,8 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Provider\ActiveDistributionServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ActiveModuleServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ActiveThemeServiceProvider');
+
+        // Lastly let config cascade nicely back to themes.
+        $this->app->register('Anomaly\Streams\Platform\Provider\ConfigServiceProvider');
     }
 }
