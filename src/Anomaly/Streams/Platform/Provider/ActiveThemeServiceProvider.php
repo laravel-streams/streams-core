@@ -37,6 +37,7 @@ class ActiveThemeServiceProvider extends ServiceProvider
 
                 // Setup namespace hints for a short namespace.
                 app('view')->addNamespace('theme', $theme->getPath('resources/views'));
+                app('config')->addNamespace('theme', $theme->getPath('resources/config'));
                 app('streams.asset')->addNamespace('theme', $theme->getPath('resources'));
                 app('streams.image')->addNamespace('theme', $theme->getPath('resources'));
                 app('translator')->addNamespace('theme', $theme->getPath('resources/lang'));
