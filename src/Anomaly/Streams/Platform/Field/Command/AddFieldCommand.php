@@ -32,11 +32,11 @@ class AddFieldCommand
     protected $name;
 
     /**
-     * The field settings.
+     * The field config.
      *
      * @var
      */
-    protected $settings;
+    protected $config;
 
     /**
      * The field validation rules.
@@ -58,17 +58,17 @@ class AddFieldCommand
      * @param       $namespace
      * @param       $slug
      * @param       $type
-     * @param array $settings
+     * @param array $config
      * @param array $rules
      * @param       $isLocked
      */
-    function __construct($namespace, $slug, $type, $name, array $settings, array $rules, $isLocked)
+    function __construct($namespace, $slug, $type, $name, array $config, array $rules, $isLocked)
     {
         $this->slug      = $slug;
         $this->type      = $type;
         $this->name      = $name;
         $this->rules     = $rules;
-        $this->settings  = $settings;
+        $this->config    = $config;
         $this->isLocked  = $isLocked;
         $this->namespace = $namespace;
     }
@@ -114,13 +114,13 @@ class AddFieldCommand
     }
 
     /**
-     * Get the field settings.
+     * Get the field config.
      *
      * @return array
      */
-    public function getSettings()
+    public function getConfig()
     {
-        return $this->settings;
+        return $this->config;
     }
 
     /**

@@ -39,7 +39,7 @@ class AddFieldCommandHandler
             $command->getName(),
             $command->getType(),
             $command->getRules(),
-            $command->getSettings(),
+            $command->getConfig(),
             $command->getIsLocked()
         );
 
