@@ -11,14 +11,13 @@ class EntryRelationFieldsParser
 
         foreach ($stream->assignments->relations() as $assignment) {
 
-            // TODO: Fix meh!
-            continue;
+            $type = $assignment->type();
 
-            $relationArray = $assignment->getType()->relation();
+            $relationArray = $type->relation();
 
-            $key = $this->adjustValue($assignment->fieldSlug);
+            $key = $this->toString($assignment->field->slug);
 
-            $value = $this->adjustValue($relationArray['method']);
+            $value = $this->toString($relationArray['method']);
 
             $string .= "\n{$this->s(8)}{$key} => {$value},";
         }

@@ -11,18 +11,13 @@ class EntryRelationsParser
 
         foreach ($stream->assignments->relations() as $assignment) {
 
-            // TODO: Fix relations
-            continue;
-
-            $type = $assignment->getType();
-
-            $type->setStream($stream);
+            $type = $assignment->type();
 
             $relationString = '';
 
             $relationArray = $type->relation();
 
-            $method = camel_case($assignment->field->field_slug);
+            $method = camel_case($assignment->field->slug);
 
             $relationMethod = $relationArray['method'];
 
@@ -33,7 +28,7 @@ class EntryRelationsParser
             $relationString .= "\n{$this->s(8)}return \$this->{$relationMethod}(";
 
             foreach ($relationArray['arguments'] as &$argument) {
-                $argument = $this->adjustValue($argument);
+                $argument = $this->toString($argument);
             }
 
             $relationString .= implode(', ', $relationArray['arguments']);
