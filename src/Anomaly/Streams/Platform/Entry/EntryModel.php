@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\Streams\Addon\Module\Users\User\Contract\UserInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -91,16 +92,19 @@ class EntryModel extends EloquentModel implements EntryInterface
      */
     public function setMetaAttributes()
     {
-        if (!$this->exists) {
-            $createdBy = app('auth')->getUser()->getKey() or null;
+        $userId = null;
 
-            $this->setAttribute('created_by', $createdBy);
+        if ($user = app('auth')->check() and $user instanceof UserInterface) {
+
+            $userId = $user->getId();
+        }
+
+        if (!$this->exists) {
+            $this->setAttribute('created_by', $userId);
             $this->setAttribute('updated_at', null);
             $this->setAttribute('ordering_count', $this->count('id') + 1);
         } else {
-            $updatedBy = app('auth')->getUser()->getKey() or null;
-
-            $this->setAttribute('updated_by', $updatedBy);
+            $this->setAttribute('updated_by', $userId);
             $this->setAttribute('updated_at', time());
         }
 
