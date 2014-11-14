@@ -55,7 +55,7 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
      *
      * @var null
      */
-    protected $cacheMinutes = 0;
+    protected $cacheMinutes = false;
 
     /**
      * The attributes that are not mass assignable
