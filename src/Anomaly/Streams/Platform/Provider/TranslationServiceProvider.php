@@ -63,7 +63,7 @@ class TranslationServiceProvider extends \Illuminate\Translation\TranslationServ
     {
         $this->app->bind(
             'path.lang',
-            function ($app) {
+            function () {
                 return __DIR__ . '/../../../../../resources/lang';
             }
         );
