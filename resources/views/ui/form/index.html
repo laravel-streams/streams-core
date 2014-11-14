@@ -6,56 +6,9 @@
 
 {{{ form.open }}}
 
-{{ if options.translatable }}
-<div class="toolbar">
-    {{ if options.translatable }}
-    <div class="dropdown" style="display: inline-block;">
-        <button class="btn btn-sm btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-            <i class="fa fa-language"></i>&nbsp;Translations
-        </button>
-        <ul class="dropdown-menu">
-            <li><a href="#" data-toggle="form-locale" data-locale="en">English</a></li>
-            <li><a href="#" data-toggle="form-locale" data-locale="fr">French</a></li>
-            <li><a href="#" data-toggle="form-locale" data-locale="de">German</a></li>
-        </ul>
-    </div>
-    {{ endif }}
-</div>
-{{ endif }}
-
-{{ sections }}
-<section class="panel panel-default {{ class }}">
-    {{{ heading }}}
-    {{{ body }}}
-    {{{ footer }}}
-</section>
-{{ /sections }}
-
-<section class="panel panel-default actions">
-    <div class="panel-body">
-
-        <div class="row">
-
-            <div class="col-lg-12">
-                {{ redirects }}
-                <button type="submit" name="{{ name }}" value="{{ value }}" class="{{ class }}" {{{ attributes }}}>
-                    {{{ title }}}
-                </button>
-                {{ /redirects }}
-            </div>
-
-            <div class="col-lg-12 text-right">
-                {{ actions }}
-                <a class="{{ class }}" {{{ attributes }}}>
-                    {{{ title }}}
-                </a>
-                {{ /actions }}
-            </div>
-
-        </div>
-
-    </div>
-</section>
+{{ include "ui/form/partials/toolbar" }}
+{{ include "ui/form/partials/sections" }}
+{{ include "ui/form/partials/footer" }}
 
 {{{ form.close }}}
 {{ stop }}

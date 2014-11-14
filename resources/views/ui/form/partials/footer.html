@@ -1,0 +1,26 @@
+<section class="panel panel-default">
+    <div class="panel-body">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                {{ redirects }}
+                <button type="submit" name="{{ name }}" value="{{ value }}" class="{{ class }}"
+                {{{ attributes }}}>
+                {{{ title }}}
+                </button>
+                {{ /redirects }}
+            </div>
+
+            <div class="col-lg-12 text-right">
+                {{ actions }}
+                <a class="{{ class }}" {{{ attributes }}}>
+                {{{ title }}}
+                </a>
+                {{ /actions }}
+            </div>
+
+        </div>
+
+    </div>
+</section>
