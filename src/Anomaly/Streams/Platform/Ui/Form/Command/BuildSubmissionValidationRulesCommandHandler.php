@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
+use Anomaly\Streams\Platform\Stream\StreamModel;
 
 /**
  * Class BuildSubmissionValidationRulesCommandHandler
@@ -27,7 +28,12 @@ class BuildSubmissionValidationRulesCommandHandler
         $entry  = $form->getEntry();
         $stream = $form->getStream();
 
-        $rules = $model::$rules;
+        $rules = [];
+
+        if ($stream instanceof StreamModel) {
+
+            $rules = $model::$rules;
+        }
 
         /**
          * Remove skips from validation entirely.
@@ -40,19 +46,22 @@ class BuildSubmissionValidationRulesCommandHandler
         /**
          * Merge in field type rules.
          */
-        foreach ($stream->assignments as $assignment) {
+        if ($stream instanceof StreamModel) {
 
-            if (isset($rules[$assignment->field->slug]) and $type = $assignment->type()) {
+            foreach ($stream->assignments as $assignment) {
 
-                $assignmentRules = $this->getAssignmentRules($entry, $assignment, $rules);
+                if (isset($rules[$assignment->field->slug]) and $type = $assignment->type()) {
 
-                $rules[$assignment->field->slug] = implode(
-                    '|',
-                    array_merge(
-                        $assignmentRules,
-                        $type->getRules()
-                    )
-                );
+                    $assignmentRules = $this->getAssignmentRules($entry, $assignment, $rules);
+
+                    $rules[$assignment->field->slug] = implode(
+                        '|',
+                        array_merge(
+                            $assignmentRules,
+                            $type->getRules()
+                        )
+                    );
+                }
             }
         }
 

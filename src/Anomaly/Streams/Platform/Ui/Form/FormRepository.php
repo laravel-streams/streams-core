@@ -105,7 +105,7 @@ class FormRepository implements FormRepositoryInterface
     {
         foreach ($this->form->getData() as $locale => $data) {
 
-            if ($locale != config('app.locale')) {
+            if ($locale != config('app.locale') and $locale != 'include') {
 
                 $entry = $entry->translate($locale);
 

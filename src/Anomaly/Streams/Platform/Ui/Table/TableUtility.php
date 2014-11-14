@@ -57,6 +57,10 @@ class TableUtility extends Utility
             'class'        => 'btn btn-sm btn-danger',
             'data-confirm' => 'confirm.delete',
         ],
+        'gear-icon' => [
+            'class' => 'btn btn-sm btn-link',
+            'title' => '<i class="fa fa-gear"></i>',
+        ],
         'trash-icon' => [
             'class' => 'btn btn-sm btn-link',
             'title' => '<i class="fa fa-trash"></i>',

@@ -30,6 +30,16 @@ class Form extends Ui
     protected $skips = [];
 
     /**
+     * Fields to include. These are usually
+     * custom fields sent to the form that
+     * would otherwise get skipped because
+     * they are not an "streams" field.
+     *
+     * @var array
+     */
+    protected $include = [];
+
+    /**
      * Form sections.
      *
      * @var array
@@ -356,6 +366,42 @@ class Form extends Ui
     }
 
     /**
+     * Set included fields.
+     *
+     * @param array $fields
+     * return $this
+     */
+    public function setInclude($fields)
+    {
+        $this->include = $fields;
+
+        return $this;
+    }
+
+    /**
+     * Add an included field.
+     *
+     * @param $field
+     * @return $this
+     */
+    public function addInclude($field)
+    {
+        $this->include[] = $field;
+
+        return $this;
+    }
+
+    /**
+     * Get included fields.
+     *
+     * @return array
+     */
+    public function getInclude()
+    {
+        return $this->include;
+    }
+
+    /**
      * Set the view.
      *
      * @param $view
@@ -481,19 +527,19 @@ class Form extends Ui
     /**
      * Add a value to the data payload.
      *
-     * @param null $locale
-     * @param      $field
-     * @param      $value
+     * @param $group
+     * @param $field
+     * @param $value
      * @return $this
      */
-    public function addData($locale = null, $field, $value)
+    public function addData($group, $field, $value)
     {
-        if (!isset($this->data[$locale])) {
+        if (!isset($this->data[$group])) {
 
-            $this->data[$locale] = [];
+            $this->data[$group] = [];
         }
 
-        $this->data[$locale][$field] = $value;
+        $this->data[$group][$field] = $value;
 
         return $this;
     }
@@ -501,10 +547,16 @@ class Form extends Ui
     /**
      * Get the data payload.
      *
+     * @param null $group
      * @return array
      */
-    public function getData()
+    public function getData($group = null)
     {
+        if ($group) {
+
+            return $this->data[$group];
+        }
+
         return $this->data;
     }
 
@@ -525,7 +577,7 @@ class Form extends Ui
      */
     protected function newBuilder()
     {
-        if (!$builder = $this->transform(__METHOD__)) {
+        if (!$builder = $this->transform(__FUNCTION__)) {
 
             $builder = 'Anomaly\Streams\Platform\Ui\Form\FormBuilder';
         }
@@ -540,7 +592,7 @@ class Form extends Ui
      */
     protected function newUtility()
     {
-        if (!$utility = $this->transform(__METHOD__)) {
+        if (!$utility = $this->transform(__FUNCTION__)) {
 
             $utility = 'Anomaly\Streams\Platform\Ui\Form\FormUtility';
         }
@@ -555,7 +607,7 @@ class Form extends Ui
      */
     protected function newRepository()
     {
-        if (!$builder = $this->transform(__METHOD__)) {
+        if (!$builder = $this->transform(__FUNCTION__)) {
 
             $builder = 'Anomaly\Streams\Platform\Ui\Form\FormRepository';
         }
@@ -570,7 +622,7 @@ class Form extends Ui
      */
     public function toValidator()
     {
-        if (!$validator = $this->transform(__METHOD__)) {
+        if (!$validator = $this->transform(__FUNCTION__)) {
 
             $validator = 'Anomaly\Streams\Platform\Ui\Form\FormValidator';
         }
@@ -585,7 +637,7 @@ class Form extends Ui
      */
     public function toAuthorizer()
     {
-        if (!$authorizer = $this->transform(__METHOD__)) {
+        if (!$authorizer = $this->transform(__FUNCTION__)) {
 
             $authorizer = 'Anomaly\Streams\Platform\Ui\Form\FormAuthorizer';
         }
@@ -613,6 +665,16 @@ class Form extends Ui
         }
 
         return $this->response;
+    }
+
+    /**
+     * Fire just before validating.
+     *
+     * @param array $data
+     */
+    protected function onValidating(array $data)
+    {
+        return $data;
     }
 
     /**

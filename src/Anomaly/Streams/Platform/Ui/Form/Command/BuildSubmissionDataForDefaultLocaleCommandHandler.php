@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Illuminate\Http\Request;
 
@@ -27,11 +28,14 @@ class BuildSubmissionDataForDefaultLocaleCommandHandler
 
         $stream = $form->getStream();
 
-        foreach ($stream->assignments as $assignment) {
+        if ($stream instanceof StreamModel) {
 
-            if ($field = $assignment->field->slug and !in_array($field, $form->getSkips())) {
+            foreach ($stream->assignments as $assignment) {
 
-                $form->addData(config('app.locale'), $field, $request->get($this->getKey($form, $assignment)));
+                if ($field = $assignment->field->slug and !in_array($field, $form->getSkips())) {
+
+                    $form->addData(config('app.locale'), $field, $request->get($this->getKey($form, $assignment)));
+                }
             }
         }
     }

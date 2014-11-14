@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Illuminate\Http\Request;
 
@@ -27,19 +28,22 @@ class BuildSubmissionDataForTranslationsCommandHandler
 
         $stream = $form->getStream();
 
-        foreach (setting('module.settings::available_locales', config('streams.available_locales')) as $locale) {
+        if ($stream instanceof StreamModel) {
 
-            if ($stream->isTranslatable() or config('app.locale') != $locale) {
+            foreach (setting('module.settings::available_locales', config('streams.available_locales')) as $locale) {
 
-                foreach ($stream->assignments as $assignment) {
+                if ($stream->isTranslatable() or config('app.locale') != $locale) {
 
-                    if ($assignment->isTranslatable()) {
+                    foreach ($stream->assignments as $assignment) {
 
-                        $key = $this->getKey($form, $assignment, $locale);
+                        if ($assignment->isTranslatable()) {
 
-                        if ($field = $assignment->field->slug and !in_array($field, $form->getSkips())) {
+                            $key = $this->getKey($form, $assignment, $locale);
 
-                            $form->addData($locale, $field, $request->get($key));
+                            if ($field = $assignment->field->slug and !in_array($field, $form->getSkips())) {
+
+                                $form->addData($locale, $field, $request->get($key));
+                            }
                         }
                     }
                 }

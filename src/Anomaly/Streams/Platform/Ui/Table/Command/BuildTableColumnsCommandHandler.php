@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Assignment\AssignmentService;
 use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableUtility;
 
@@ -31,13 +30,6 @@ class BuildTableColumnsCommandHandler
     ];
 
     /**
-     * The assignment service object.
-     *
-     * @var \Anomaly\Streams\Platform\Assignment\AssignmentService
-     */
-    protected $service;
-
-    /**
      * The table utility object.
      *
      * @var \Anomaly\Streams\Platform\Ui\Table\TableUtility
@@ -47,12 +39,10 @@ class BuildTableColumnsCommandHandler
     /**
      * Create a new BuildTableColumnsCommandHandler instance.
      *
-     * @param AssignmentService $service
      * @param TableUtility      $utility
      */
-    function __construct(AssignmentService $service, TableUtility $utility)
+    function __construct(TableUtility $utility)
     {
-        $this->service = $service;
         $this->utility = $utility;
     }
 

@@ -120,17 +120,19 @@ class BuildTableHeadersCommandHandler
      */
     protected function getHeading(array $column, Table $table)
     {
-        $heading = trans(evaluate_key($column, 'heading', null, [$table]));
+        $heading = trans(evaluate_key($column, 'heading', null, compact('table')));
 
-        if (!$heading and $model = $table->getModel() and $model instanceof EntryInterface) {
+        if (!$heading and isset($column['field']) and $model = $table->getModel() and $model instanceof EntryInterface
+        ) {
 
             $heading = $this->getHeadingFromField($column, $model);
         }
 
-        if (!$heading) {
+        // TODO: Is this really that helpful?
+        /*if (!$heading) {
 
             $this->guessHeading($column, $table);
-        }
+        }*/
 
         return $heading;
     }

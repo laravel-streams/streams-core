@@ -1,12 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Ui;
 
 use Anomaly\Streams\Platform\Entry\EntryInterface;
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Traits\CallableTrait;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Anomaly\Streams\Platform\Traits\EventableTrait;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Ui
@@ -186,7 +186,12 @@ class Ui
      */
     public function getStream()
     {
-        return $this->model->getStream();
+        if ($this->model instanceof EntryModel) {
+
+            return $this->model->getStream();
+        }
+
+        return null;
     }
 
     /**

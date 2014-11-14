@@ -41,7 +41,7 @@ class HandleTableFiltersCommandHandler
      */
     public function handle(HandleTableFiltersCommand $command)
     {
-        $table    = $command->getTable();
+        $table = $command->getTable();
         $query = $command->getQuery();
 
         $filters = $table->getFilters();
@@ -100,7 +100,7 @@ class HandleTableFiltersCommandHandler
     /**
      * Get the filter slug.
      *
-     * @param array   $filter
+     * @param array $filter
      * @param Table $table
      * @return string
      * @throws \Exception
@@ -124,7 +124,7 @@ class HandleTableFiltersCommandHandler
     /**
      * Get the filter handler.
      *
-     * @param array   $filter
+     * @param array $filter
      * @param Table $table
      * @return \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeFilter|mixed|null
      */
@@ -132,7 +132,9 @@ class HandleTableFiltersCommandHandler
     {
         if ($filter['type'] == 'field') {
 
-            return $this->getHandlerFromField($filter, $table);
+            $stream = $table->getStream();
+
+            return $stream->assignments->findByFieldSlug($filter['field'])->type();
         }
 
         if (is_string($filter['handler'])) {
@@ -141,27 +143,6 @@ class HandleTableFiltersCommandHandler
         }
 
         return $filter['handler'];
-    }
-
-    /**
-     * Get the handler object from a field slug.
-     *
-     * @param array   $filter
-     * @param Table $table
-     * @return \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeFilter|null
-     */
-    protected function getHandlerFromField(array $filter, Table $table)
-    {
-        $stream = $table->getModel();
-
-        $type = $stream->getTypeFromField($filter['field']);
-
-        if ($type instanceof FieldType) {
-
-            return $type->toFilter();
-        }
-
-        return null;
     }
 
     /**
@@ -184,6 +165,11 @@ class HandleTableFiltersCommandHandler
         if ($handler instanceof TableFilterInterface) {
 
             $query = $handler->handle($query, $value);
+        }
+
+        if ($handler instanceof FieldType) {
+
+            $query = $handler->where($query, $value);
         }
 
         if (!$query) {

@@ -23,6 +23,8 @@ class FormValidator
     {
         $data = $form->getData();
 
+        $data = $form->fire('validating', compact('data'));
+
         $validator = $factory->make($data[config('app.locale')], $form->getRules());
 
         $this->setAttributeNames($validator, $form);
@@ -49,15 +51,16 @@ class FormValidator
      */
     protected function setAttributeNames(Validator $validator, Form $form)
     {
-        $attributes = [];
+        if ($stream = $form->getStream()) {
 
-        $stream = $form->getStream();
+            $attributes = [];
 
-        foreach ($stream->assignments as $assignment) {
+            foreach ($stream->assignments as $assignment) {
 
-            $attributes[$assignment->field->slug] = strtolower($assignment->getFieldName());
+                $attributes[$assignment->field->slug] = strtolower($assignment->getFieldName());
+            }
+
+            $validator->setAttributeNames($attributes);
         }
-
-        $validator->setAttributeNames($attributes);
     }
 }
