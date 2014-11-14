@@ -22,8 +22,11 @@ class BuildSubmissionDataCommandHandler
      */
     public function handle(BuildSubmissionDataCommand $command)
     {
+        $this->execute(new BuildSubmissionDataForIncludedFieldsCommand($command->getForm()));
         $this->execute(new BuildSubmissionDataForDefaultLocaleCommand($command->getForm()));
         $this->execute(new BuildSubmissionDataForTranslationsCommand($command->getForm()));
+
+        //print_r($command->getForm()->getData());die;
     }
 }
  
