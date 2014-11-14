@@ -43,6 +43,11 @@ class StreamInstaller
         // Assign each of the assignments.
         foreach ($this->getAssignments() as $field => $assignment) {
 
+            if (is_string($assignment)) {
+                $field      = $assignment;
+                $assignment = [];
+            }
+
             $assignment['label']        = $this->getAssignmentLabel($assignment, $field);
             $assignment['placeholder']  = $this->getAssignmentPlaceholder($assignment, $field);
             $assignment['instructions'] = $this->getAssignmentInstructions($assignment, $field);
