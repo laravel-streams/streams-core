@@ -7,7 +7,6 @@ use Anomaly\Streams\Platform\Support\Transformer;
 use Anomaly\Streams\Platform\Traits\CacheableTrait;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\EventableTrait;
-use Anomaly\Streams\Platform\Traits\RevisionableTrait;
 use Anomaly\Streams\Platform\Traits\TranslatableTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -54,9 +53,9 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     /**
      * The number of minutes to cache query results.
      *
-     * @var boolean/int
+     * @var null
      */
-    protected $cacheMinutes = false;
+    protected $cacheMinutes = 0;
 
     /**
      * The attributes that are not mass assignable
@@ -85,14 +84,24 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
         parent::boot();
 
         // TODO: This looses persistence for some reason if not set here.
-        self::$dispatcher = app('Illuminate\Contracts\Events\Dispatcher');
+        //self::$dispatcher = app('Illuminate\Contracts\Events\Dispatcher');
 
-        $transformer = new Transformer();
+        // Observing is a must.
+        $observer = 'Anomaly\Streams\Platform\Model\EloquentModelObserver';
 
-        if ($observer = $transformer->toObserver(get_called_class())) {
+        // If this class has it's own use it.
+        if ($override = (new Transformer())->toObserver(__CLASS__)) {
 
-            self::observe(new $observer);
+            $observer = $override;
         }
+
+        // If the called class has it's own use it.
+        if ($override = (new Transformer())->toObserver(get_called_class())) {
+
+            $observer = $override;
+        }
+
+        self::observe(new $observer);
     }
 
     /**
@@ -176,5 +185,51 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     public function isTranslatable()
     {
         return ($this->translatable);
+    }
+
+    public function setCacheMinutes($cacheMinutes)
+    {
+        $this->cacheMinutes = $cacheMinutes;
+
+        return $this;
+    }
+
+    public function getCacheMinutes()
+    {
+        return $this->cacheMinutes;
+    }
+
+    public function getCacheCollectionKey($suffix = null)
+    {
+        return $this->getCacheCollectionPrefix() . $suffix;
+    }
+
+    public function getCacheCollectionPrefix()
+    {
+        return get_called_class();
+    }
+
+    public function flushCacheCollection()
+    {
+        app('streams.cache.collection')->setKey($this->getCacheCollectionKey())->flush();
+
+        return $this;
+    }
+
+    /**
+     * Get a new query builder for the model's table.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function newQuery()
+    {
+        $builder = new EloquentQueryBuilder($this->newBaseQueryBuilder());
+
+        // Once we have the query builders, we will set the model instances so the
+        // builder can easily access any information it may need from the model
+        // while it is constructing and executing various queries against it.
+        $builder->setModel($this)->with($this->with);
+
+        return $this->applyGlobalScopes($builder);
     }
 }

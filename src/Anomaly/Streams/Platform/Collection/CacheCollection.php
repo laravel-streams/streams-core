@@ -7,7 +7,7 @@ class CacheCollection extends Collection
 
     protected $key;
 
-    public function __construct(array $items, $key = null)
+    public function __construct(array $items = [], $key = null)
     {
         $this->key   = $key;
         $this->items = $items;
@@ -27,6 +27,7 @@ class CacheCollection extends Collection
     public function index()
     {
         if ($keys = app('cache')->get($this->key)) {
+
             $this->addKeys($keys);
         }
 
