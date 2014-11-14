@@ -24,13 +24,17 @@ class AddonServiceProvider extends ServiceProvider
 
     public function register()
     {
+
         $this->registerAddonCollections(); // First
 
         $this->registerAddonClasses();
         $this->registerAddonVendorAutoloaders();
 
+        $this->registerAddonTypes();
+
         $this->registerAddonNamespaceHints(); // Last
 
+        $this->registerAddonServiceProviders();
     }
 
     protected function registerAddonCollections()
@@ -131,5 +135,37 @@ class AddonServiceProvider extends ServiceProvider
         }
 
         return $path;
+    }
+
+    protected function registerAddonTypes()
+    {
+        $this->app->singleton(
+            'streams.addon_types',
+            function () {
+
+                return $this->types;
+            }
+        );
+    }
+
+    protected function registerAddonServiceProviders()
+    {
+        foreach ($this->types as $type) {
+
+            $plural = str_plural($type);
+
+            foreach (app("streams.{$plural}")->all() as $addon) {
+
+                if ($provider = $addon->toServiceProvider()) {
+
+                    $app      = $this->app;
+                    $provider = $this->app->make($provider, [$app]);
+
+                    $this->app->register($provider);
+
+                    $provider->register();
+                }
+            }
+        }
     }
 }

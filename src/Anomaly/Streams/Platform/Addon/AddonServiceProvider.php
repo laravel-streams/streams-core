@@ -78,7 +78,7 @@ class AddonServiceProvider extends ServiceProvider
             $addon = $this->registerAddonClass($slug, $path);
 
             // Register the addon service provider.
-            $this->registerServiceProvider($addon);
+            //$this->registerServiceProvider($addon);
 
             $this->pushToCollection($addon);
         }
