@@ -1,4 +1,5 @@
 all: All
+any: Any
 latest: Latest
 newest: Newest
 untitled: Untitled
