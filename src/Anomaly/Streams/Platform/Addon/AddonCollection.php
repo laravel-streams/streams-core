@@ -38,4 +38,14 @@ class AddonCollection extends Collection
 
         return null;
     }
+
+    public function decorated()
+    {
+        foreach ($this->items as &$item) {
+
+            $item = app('streams.decorator')->decorate($item);
+        }
+
+        return $this;
+    }
 }
