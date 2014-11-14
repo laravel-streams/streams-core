@@ -72,6 +72,27 @@ class ModuleCollection extends AddonCollection
     }
 
     /**
+     * Determine if a module is installed or not.
+     *
+     * @param $slug
+     * @return bool
+     */
+    public function isInstalled($slug)
+    {
+        if (!isset($this->items[$slug])) {
+
+            return false;
+        }
+
+        if (!$this->items[$slug]->isInstalled()) {
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Set the installed and enabled states.
      *
      * @param array $installed
