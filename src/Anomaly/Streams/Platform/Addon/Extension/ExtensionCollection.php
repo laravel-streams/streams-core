@@ -89,16 +89,22 @@ class ExtensionCollection extends AddonCollection
          * We can simply replace with underscores here
          * and we are left with the addon slug.
          */
-        $slug = str_replace(['.', '::'], '_', $key);
+        list($namespace, $extension) = explode('::', $key);
+        list($addonType, $addonSlug) = explode('.', $namespace);
+        list($extensionSlug, $extensionType) = explode('.', $extension);
 
-        foreach ($this->items as $item) {
+        $slug = "{$addonSlug}_{$addonType}_{$extensionSlug}_{$extensionType}";
 
-            if ($item->getSlug() == $slug) {
+        if (isset($this->items[$slug])) {
 
-                return $item;
-            }
+            return $this->items[$slug];
         }
 
-        return $this->get($default);
+        if ($default) {
+
+            $this->get($default);
+        }
+
+        return null;
     }
 }
