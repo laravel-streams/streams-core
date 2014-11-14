@@ -23,27 +23,24 @@ class BuildFieldTypeCommandHandler
     {
         $fieldType = $this->getFieldType($command);
 
-        if ($fieldType) {
+        if ($fieldType instanceof FieldType) {
 
-            if ($fieldType instanceof FieldType) {
+            $fieldType
+                ->setField($command->getField())
+                ->setValue($command->getValue())
+                ->setLabel($command->getLabel())
+                ->setLocale($command->getLocale())
+                ->setPrefix($command->getPrefix())
+                ->setSuffix($command->getSuffix())
+                ->setHidden($command->getHidden())
+                ->setRequired($command->getRequired())
+                ->setPlaceholder($command->getPlaceholder())
+                ->setTranslatable($command->getTranslatable())
+                ->setInstructions($command->getInstructions());
 
-                $fieldType
-                    ->setField($command->getField())
-                    ->setValue($command->getValue())
-                    ->setLabel($command->getLabel())
-                    ->setLocale($command->getLocale())
-                    ->setPrefix($command->getPrefix())
-                    ->setSuffix($command->getSuffix())
-                    ->setHidden($command->getHidden())
-                    ->setRequired($command->getRequired())
-                    ->setPlaceholder($command->getPlaceholder())
-                    ->setTranslatable($command->getTranslatable())
-                    ->setInstructions($command->getInstructions());
+            if ($view = $command->getView()) {
 
-                if ($view = $command->getView()) {
-
-                    $fieldType->setView($command->getView());
-                }
+                $fieldType->setView($command->getView());
             }
         }
 
@@ -60,7 +57,12 @@ class BuildFieldTypeCommandHandler
     {
         $fieldType = $command->getType();
 
-        if (str_contains('\\', $fieldType) and class_exists($fieldType)) {
+        if ($fieldType instanceof FieldType) {
+
+            return $fieldType;
+        }
+
+        if (starts_with($fieldType, 'Anomaly') and class_exists($fieldType)) {
 
             return app($command->getType());
         }

@@ -26,10 +26,10 @@ class FieldService
         $name = isset($field['name']) ? $field['name'] : null;
 
         $rules    = isset($field['rules']) ? $field['rules'] : [];
-        $settings = isset($field['settings']) ? $field['settings'] : [];
+        $config   = isset($field['config']) ? $field['config'] : [];
         $isLocked = isset($field['is_locked']) ? $field['is_locked'] : true;
 
-        $command = new AddFieldCommand($namespace, $slug, $type, $name, $settings, $rules, $isLocked);
+        $command = new AddFieldCommand($namespace, $slug, $type, $name, $config, $rules, $isLocked);
 
         return $this->execute($command);
     }

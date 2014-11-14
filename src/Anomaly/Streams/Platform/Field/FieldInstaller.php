@@ -23,6 +23,11 @@ class FieldInstaller
     {
         foreach ($this->getFields() as $slug => $field) {
 
+            if (is_string($field)) {
+
+                $field = ['type' => $field];
+            }
+
             // Catch some convenient defaults.
             $field['slug'] = $slug;
 

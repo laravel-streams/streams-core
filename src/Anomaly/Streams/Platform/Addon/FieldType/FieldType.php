@@ -7,9 +7,9 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
 class FieldType extends Addon implements PresentableInterface
 {
 
-    protected $assignment = null;
-
     protected $rules = [];
+
+    protected $config = [];
 
     protected $field = null;
 
@@ -82,21 +82,43 @@ class FieldType extends Addon implements PresentableInterface
         return view($this->view, $data);
     }
 
-    public function setAssignment($assignment)
+    public function where($query, $value)
     {
-        $this->assignment = $assignment;
-
-        return $this;
-    }
-
-    public function getAssignment()
-    {
-        return $this->assignment;
+        return $query->where($this->getColumnName(), 'LIKE', "%{$value}%");
     }
 
     public function getRules()
     {
         return $this->rules;
+    }
+
+    public function setConfig(array $config)
+    {
+        $this->config = $config;
+
+        return $this;
+    }
+
+    public function addConfig($key, $value)
+    {
+        $this->config[$key] = $value;
+
+        return $this;
+    }
+
+    public function getConfig($key = null, $default = null)
+    {
+        if (!$key) {
+
+            return $this->config;
+        }
+
+        if (isset($this->config[$key])) {
+
+            return $this->config[$key];
+        }
+
+        return $default;
     }
 
     public function setField($field)
@@ -258,16 +280,6 @@ class FieldType extends Addon implements PresentableInterface
         return new FieldTypePresenter($this);
     }
 
-    public function toFilter()
-    {
-        if ($filter = app('streams.transformer')->toFilter($this)) {
-
-            return new $filter();
-        }
-
-        return new FieldTypeFilter($this);
-    }
-
     protected function onSet($value)
     {
         return $value;
@@ -291,5 +303,70 @@ class FieldType extends Addon implements PresentableInterface
     protected function onAssignmentDeleted(AssignmentModel $assignment)
     {
         // Run after an assignment is deleted.
+    }
+
+
+    public function hasOne($related, $foreignKey = null, $localKey = null)
+    {
+        return array(
+            'method'    => __FUNCTION__,
+            'arguments' => func_get_args(),
+        );
+    }
+
+    public function morphOne($related, $name, $type = null, $id = null, $localKey = null)
+    {
+        return array(
+            'method'    => __FUNCTION__,
+            'arguments' => func_get_args(),
+        );
+    }
+
+    public function belongsTo($related, $foreignKey = null)
+    {
+        return array(
+            'method'    => __FUNCTION__,
+            'arguments' => func_get_args(),
+        );
+    }
+
+    public function morphTo($name = null, $type = null, $id = null)
+    {
+        return array(
+            'method'    => __FUNCTION__,
+            'arguments' => func_get_args(),
+        );
+    }
+
+    public function hasMany($related, $foreignKey = null)
+    {
+        return array(
+            'method'    => __FUNCTION__,
+            'arguments' => func_get_args(),
+        );
+    }
+
+    public function morphMany($related, $name, $type = null, $id = null, $localKey = null)
+    {
+        return array(
+            'method'    => __FUNCTION__,
+            'arguments' => func_get_args(),
+        );
+    }
+
+    public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null)
+    {
+        return array(
+            'method'    => __FUNCTION__,
+            'arguments' => func_get_args(),
+        );
+    }
+
+    public function morphToMany($related, $name, $table = null, $foreignKey = null, $otherKey = null, $inverse = false)
+    {
+        return array(
+            'method'    => __FUNCTION__,
+            'arguments' => func_get_args(),
+        );
     }
 }

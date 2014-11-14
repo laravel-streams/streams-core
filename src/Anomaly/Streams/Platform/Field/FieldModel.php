@@ -41,17 +41,17 @@ class FieldModel extends EloquentModel
      * @param       $name
      * @param       $type
      * @param array $rules
-     * @param array $settings
+     * @param array $config
      * @param       $isLocked
      * @return $this
      */
-    public function add($namespace, $slug, $name, $type, array $rules, array $settings, $isLocked)
+    public function add($namespace, $slug, $name, $type, array $rules, array $config, $isLocked)
     {
         $this->slug      = $slug;
         $this->name      = $name;
         $this->type      = $type;
         $this->rules     = $rules;
-        $this->settings  = $settings;
+        $this->config    = $config;
         $this->is_locked = $isLocked;
         $this->namespace = $namespace;
 
@@ -139,24 +139,24 @@ class FieldModel extends EloquentModel
     }
 
     /**
-     * Return the decoded settings attribute.
+     * Return the decoded config attribute.
      *
-     * @param $settings
+     * @param $config
      * @return mixed
      */
-    public function getSettingsAttribute($settings)
+    public function getConfigAttribute($config)
     {
-        return json_decode($settings);
+        return json_decode($config);
     }
 
     /**
-     * Set settings attribute.
+     * Set config attribute.
      *
-     * @param array $settings
+     * @param array $config
      */
-    public function setSettingsAttribute($settings)
+    public function setConfigAttribute($config)
     {
-        $this->attributes['settings'] = json_encode($settings);
+        $this->attributes['config'] = json_encode($config);
     }
 
     /**
