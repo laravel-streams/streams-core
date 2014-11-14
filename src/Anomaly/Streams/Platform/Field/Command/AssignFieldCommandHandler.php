@@ -59,6 +59,11 @@ class AssignFieldCommandHandler
         $stream = $this->stream->findByNamespaceAndSlug($command->getNamespace(), $command->getStream());
         $field  = $this->field->findByNamespaceAndSlug($command->getNamespace(), $command->getField());
 
+        if (!$field) {
+
+            throw new \Exception("The [{$command->getField()}] does not exist.");
+        }
+
         $assignment = $this->assignment->add(
             $command->getSortOrder(),
             $stream->getKey(),
