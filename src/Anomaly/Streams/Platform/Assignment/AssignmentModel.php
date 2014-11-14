@@ -122,20 +122,19 @@ class AssignmentModel extends EloquentModel
         $type         = $this->field->type;
         $field        = $this->field->slug;
         $required     = $this->is_required;
+        $config       = $this->field->config;
         $translatable = $this->isTranslatable();
         $label        = $this->getFieldLabel($locale);
         $placeholder  = $this->getFieldPlaceholder($locale);
         $instructions = $this->getFieldInstructions($locale);
 
-        $data = compact('type', 'field', 'instructions', 'label', 'placeholder', 'translatable', 'required');
+        $data = compact('type', 'field', 'instructions', 'label', 'placeholder', 'translatable', 'required', 'config');
 
         $command = 'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand';
 
         $fieldType = $this->execute($command, $data);
 
         if ($fieldType instanceof FieldType) {
-
-            $fieldType->setAssignment($this);
 
             if ($entry) {
 
