@@ -1,26 +1,22 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Command;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
-use Anomaly\Streams\Platform\Assignment\AssignmentService;
 
 class AddAssignmentColumnCommandHandler
 {
 
     protected $schema;
 
-    protected $service;
-
-    function __construct(AssignmentSchema $schema, AssignmentService $service)
+    function __construct(AssignmentSchema $schema)
     {
-        $this->schema  = $schema;
-        $this->service = $service;
+        $this->schema = $schema;
     }
 
     public function handle(AddAssignmentColumnCommand $command)
     {
         $assignment = $command->getAssignment();
 
-        $fieldType = $this->service->buildFieldType($assignment);
+        $fieldType = $assignment->type();
 
         if ($fieldType->getColumnType()) {
 
