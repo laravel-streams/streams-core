@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\StreamModel;
-use Anomaly\Streams\Platform\Support\Transformer;
 
 class EntryModel extends EloquentModel implements EntryInterface
 {
@@ -27,29 +26,6 @@ class EntryModel extends EloquentModel implements EntryInterface
         $this->stream = (new StreamModel())->object($this->stream);
 
         $this->stream->parent = $this;
-    }
-
-    public static function boot()
-    {
-        parent::boot();
-
-        /**
-         * We HAVE to override observing here
-         * because we have a construct.
-         *
-         * Mock similar behavior.
-         */
-
-        // Observing is a must.
-        $observer = 'Anomaly\Streams\Platform\Entry\EntryModelObserver';
-
-        // If the called class has it's own use it.
-        if ($override = (new Transformer())->toObserver(get_called_class())) {
-
-            $observer = $override;
-        }
-
-        self::observe(new $observer);
     }
 
     /**

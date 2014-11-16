@@ -1,9 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use ReflectionClass;
 
 abstract class Listener
 {
+
+    use CommandableTrait;
 
     /**
      * Handle the event through the container.
