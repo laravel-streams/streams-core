@@ -85,6 +85,9 @@ class BuildTableActionsCommandHandler
 
             $action = array_merge($defaults, $action);
 
+            // All actions start off as disabled.
+            $action['disabled'] = 'disabled';
+
             // Build out our required data.
             $name       = $this->getName($table);
             $icon       = $this->getIcon($action);
