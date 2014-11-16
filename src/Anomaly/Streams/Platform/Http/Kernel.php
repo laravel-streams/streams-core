@@ -10,9 +10,8 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      */
     protected $middleware = [
         'Illuminate\Cookie\Middleware\EncryptCookies',
-        'Illuminate\Cookie\Middleware\AddQueuedCookiesToRequest',
-        'Illuminate\Session\Middleware\ReadSession',
-        'Illuminate\Session\Middleware\WriteSession',
+        'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
+        'Illuminate\Session\Middleware\StartSession',
         'Illuminate\View\Middleware\ShareErrorsFromSession',
         'Anomaly\Streams\Platform\Http\Middleware\FlashMessagesMiddleware',
     ];
