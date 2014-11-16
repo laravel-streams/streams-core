@@ -252,18 +252,7 @@ function is_translatable($string)
 {
     $translated = trans($string);
 
-    return (is_lang($string) and $string !== $translated);
-}
-
-/**
- * Determine if a string is a lang key.
- *
- * @param $string
- * @return bool
- */
-function is_lang($string)
-{
-    return str_is('*::*.*', $string);
+    return ($string !== $translated);
 }
 
 /**

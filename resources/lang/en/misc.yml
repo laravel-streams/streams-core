@@ -1,5 +1,6 @@
 all: All
 any: Any
+empty: Empty
 latest: Latest
 newest: Newest
 untitled: Untitled

@@ -23,19 +23,19 @@ class FormUtility extends Utility
      */
     protected $redirects = [
         'save'          => [
-            'title' => 'button.save',
+            'title' => 'admin.button.save',
             'class' => 'btn btn-sm btn-primary',
         ],
         'save_exit'     => [
-            'title' => 'button.save_exit',
+            'title' => 'admin.button.save_exit',
             'class' => 'btn btn-sm btn-success',
         ],
         'save_create'   => [
-            'title' => 'button.save_create',
+            'title' => 'admin.button.save_create',
             'class' => 'btn btn-sm btn-success',
         ],
         'save_continue' => [
-            'title' => 'button.save_continue',
+            'title' => 'admin.button.save_continue',
             'class' => 'btn btn-sm btn-success',
         ],
     ];
@@ -47,15 +47,15 @@ class FormUtility extends Utility
      */
     protected $actions = [
         'cancel' => [
-            'title' => 'button.cancel',
+            'title' => 'admin.button.cancel',
             'class' => 'btn btn-sm btn-default',
         ],
         'view'   => [
-            'title' => 'button.view',
+            'title' => 'admin.button.view',
             'class' => 'btn btn-sm btn-info',
         ],
         'delete' => [
-            'title' => 'button.delete',
+            'title' => 'admin.button.delete',
             'class' => 'btn btn-sm btn-danger',
         ],
     ];

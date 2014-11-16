@@ -38,19 +38,19 @@ class TableUtility extends Utility
             'class' => 'btn btn-sm btn-default',
         ],
         'view'       => [
-            'title' => 'button.view',
+            'title' => 'admin.button.view',
             'class' => 'btn btn-sm btn-info',
         ],
         'options'    => [
-            'title' => 'button.options',
+            'title' => 'admin.button.options',
             'class' => 'btn btn-sm btn-default',
         ],
         'edit'       => [
-            'title' => 'button.edit',
+            'title' => 'admin.button.edit',
             'class' => 'btn btn-sm btn-warning',
         ],
         'delete'     => [
-            'title' => 'button.delete',
+            'title' => 'admin.button.delete',
             'class' => 'btn btn-sm btn-danger',
         ],
         'confirm'    => [
@@ -89,19 +89,19 @@ class TableUtility extends Utility
             'class' => 'btn btn-sm btn-default',
         ],
         'view'       => [
-            'title' => 'button.view',
+            'title' => 'admin.button.view',
             'class' => 'btn btn-sm btn-info',
         ],
         'options'    => [
-            'title' => 'button.options',
+            'title' => 'admin.button.options',
             'class' => 'btn btn-sm btn-default',
         ],
         'edit'       => [
-            'title' => 'button.edit',
+            'title' => 'admin.button.edit',
             'class' => 'btn btn-sm btn-warning',
         ],
         'delete'     => [
-            'title' => 'button.delete',
+            'title' => 'admin.button.delete',
             'class' => 'btn btn-sm btn-danger',
         ],
         'confirm'    => [

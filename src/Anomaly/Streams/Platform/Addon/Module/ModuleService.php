@@ -1,86 +1,50 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
+use Anomaly\Streams\Platform\Addon\Module\Command\InstallModuleCommand;
 use Anomaly\Streams\Platform\Addon\Module\Command\SyncModulesCommand;
-use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalledEvent;
-use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalledEvent;
+use Anomaly\Streams\Platform\Addon\Module\Command\UninstallModuleCommand;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Anomaly\Streams\Platform\Traits\DispatchableTrait;
-use Anomaly\Streams\Platform\Traits\EventableTrait;
-use Illuminate\Foundation\Application;
 
+/**
+ * Class ModuleService
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon\Module
+ */
 class ModuleService
 {
 
-    use EventableTrait;
     use CommandableTrait;
-    use DispatchableTrait;
 
-    protected $app;
-
-    function __construct(Application $app)
+    /**
+     * Install a module.
+     *
+     * @param Module $module
+     * @return mixed
+     */
+    public function install(Module $module)
     {
-        $this->app = $app;
+        return $this->execute(new InstallModuleCommand($module));
     }
 
-    public function install($module)
+    /**
+     * Uninstall a module.
+     *
+     * @param Module $module
+     * @return mixed
+     */
+    public function uninstall(Module $module)
     {
-        if ($installer = $module->newInstaller()) {
-
-            foreach (app($installer)->getInstallers() as $installer) {
-
-                if (!str_contains($installer, '\\')) {
-
-                    $installer = $this->guessInstaller($module, $installer);
-                }
-
-                $this->app->make($installer)->install();
-            }
-        }
-
-        $this->raise(new ModuleWasInstalledEvent($module));
-
-        $this->dispatchEventsFor($this);
-
-        $module->fire('after_install');
-
-        return true;
+        return $this->execute(new UninstallModuleCommand($module));
     }
 
-    public function uninstall($module)
-    {
-        if ($installer = $module->newInstaller()) {
-
-            foreach (app($installer)->getInstallers() as $installer) {
-
-                if (!str_contains($installer, '\\')) {
-
-                    $installer = $this->guessInstaller($module, $installer);
-                }
-
-                $this->app->make($installer)->uninstall();
-            }
-        }
-
-        $this->raise(new ModuleWasUninstalledEvent($module));
-
-        $this->dispatchEventsFor($this);
-
-        $module->fire('after_uninstall');
-
-        return true;
-    }
-
+    /**
+     * Sync modules to the database.
+     */
     public function sync()
     {
-        $command = new SyncModulesCommand();
-
-        $this->execute($command);
-    }
-
-    protected function guessInstaller($module, $installer)
-    {
-        $addon = new \ReflectionClass($module);
-
-        return $addon->getNamespaceName() . '\Installer\\' . $installer;
+        $this->execute(new SyncModulesCommand());
     }
 }
