@@ -146,7 +146,7 @@ class FieldModel extends EloquentModel
      */
     public function getConfigAttribute($config)
     {
-        return json_decode($config);
+        return unserialize($config);
     }
 
     /**
@@ -156,7 +156,7 @@ class FieldModel extends EloquentModel
      */
     public function setConfigAttribute($config)
     {
-        $this->attributes['config'] = json_encode($config);
+        $this->attributes['config'] = serialize($config);
     }
 
     /**
@@ -167,7 +167,7 @@ class FieldModel extends EloquentModel
      */
     public function getRulesAttribute($rules)
     {
-        return json_decode($rules);
+        return unserialize($rules);
     }
 
     /**
@@ -177,7 +177,7 @@ class FieldModel extends EloquentModel
      */
     public function setRulesAttribute($rules)
     {
-        $this->attributes['rules'] = json_encode($rules);
+        $this->attributes['rules'] = serialize($rules);
     }
 
     public function decorate()

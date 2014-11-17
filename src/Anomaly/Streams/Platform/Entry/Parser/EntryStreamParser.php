@@ -27,7 +27,7 @@ class EntryStreamParser
 
             foreach ($assignment->getAttributes() as $key => $value) {
 
-                $value = $this->toString($value, in_array($key, ['instructions']));
+                $value = $this->toString($assignment->getAttribute($key), in_array($key, ['instructions']));
 
                 $string .= "\n{$this->s(16)}'{$key}' => {$value},";
             }
@@ -37,7 +37,7 @@ class EntryStreamParser
 
             foreach ($assignment->field->getAttributes() as $key => $value) {
 
-                $value = $this->toString($value, in_array($key, ['field_name']));
+                $value = $this->toString($assignment->field->getAttribute($key), in_array($key, ['field_name']));
 
                 $string .= "\n{$this->s(20)}'{$key}' => {$value},";
             }
@@ -62,27 +62,27 @@ class EntryStreamParser
     {
         if (is_null($value)) {
 
-            $value = 'null';
+            return 'null';
         } elseif (is_bool($value)) {
 
             if ($value) {
 
-                $value = 'true';
+                return 'true';
             } else {
 
-                $value = 'false';
+                return 'false';
             }
-        } elseif (!is_numeric($value) and !is_bool($value)) {
+        } elseif (is_array($value)) {
 
-            if ($escape) {
-
-                $value = addslashes($value);
-            }
-
-            $value = "'" . $value . "'";
+            return "'" . serialize($value) . "'";
         }
 
-        return $value;
+        if ($escape) {
+
+            $value = addslashes($value);
+        }
+
+        return "'" . $value . "'";
     }
 
     protected function s($n)

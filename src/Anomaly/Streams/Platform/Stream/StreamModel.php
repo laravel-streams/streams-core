@@ -129,6 +129,8 @@ class StreamModel extends EloquentModel
 
         $streamModel = new StreamModel();
 
+        $data['view_options'] = serialize($data['view_options']);
+
         $streamModel->setRawAttributes($data);
 
         if (isset($data['assignments'])) {
@@ -136,6 +138,9 @@ class StreamModel extends EloquentModel
             foreach ($data['assignments'] as $assignment) {
 
                 if (isset($assignment['field'])) {
+
+                    $assignment['field']['rules']  = unserialize($assignment['field']['rules']);
+                    $assignment['field']['config'] = unserialize($assignment['field']['config']);
 
                     $fieldModel = new FieldModel($assignment['field']);
 
@@ -171,22 +176,22 @@ class StreamModel extends EloquentModel
 
     public function getViewOptionsAttribute($viewOptions)
     {
-        return json_decode($viewOptions);
+        return unserialize($viewOptions);
     }
 
     public function setViewOptionsAttribute($viewOptions)
     {
-        $this->attributes['view_options'] = json_encode($viewOptions);
+        $this->attributes['view_options'] = serialize($viewOptions);
     }
 
     public function getPermissionsAttribute($permissions)
     {
-        return json_decode($permissions);
+        return unserialize($permissions);
     }
 
     public function setPermissionsAttribute($permissions)
     {
-        $this->attributes['permissions'] = json_encode($permissions);
+        $this->attributes['permissions'] = serialize($permissions);
     }
 
     public function getForeignKey()

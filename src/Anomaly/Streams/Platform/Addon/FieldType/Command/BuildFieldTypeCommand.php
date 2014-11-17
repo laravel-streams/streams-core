@@ -27,6 +27,8 @@ class BuildFieldTypeCommand
 
     protected $suffix;
 
+    protected $config;
+
     protected $view;
 
     function __construct(
@@ -42,7 +44,8 @@ class BuildFieldTypeCommand
         $required = false,
         $placeholder = null,
         $instructions = null,
-        $translatable = null
+        $translatable = null,
+        array $config = []
     ) {
         $this->view         = $view;
         $this->type         = $type;
@@ -50,6 +53,7 @@ class BuildFieldTypeCommand
         $this->label        = $label;
         $this->value        = $value;
         $this->locale       = $locale;
+        $this->config       = $config;
         $this->hidden       = $hidden;
         $this->prefix       = $prefix;
         $this->suffix       = $suffix;
@@ -65,6 +69,14 @@ class BuildFieldTypeCommand
     public function getSuffix()
     {
         return $this->suffix;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     /**

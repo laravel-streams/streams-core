@@ -152,24 +152,14 @@ class AssignmentModel extends EloquentModel
         return $this->type()->getColumnName();
     }
 
-    public function getSettingsAttribute($settings)
-    {
-        return json_decode($settings);
-    }
-
-    public function setSettingsAttribute($settings)
-    {
-        $this->attributes['settings'] = json_encode($settings);
-    }
-
     public function getRulesAttribute($rules)
     {
-        return json_decode($rules);
+        return unserialize($rules);
     }
 
     public function setRulesAttribute($rules)
     {
-        $this->attributes['rules'] = json_encode($rules);
+        $this->attributes['rules'] = serialize($rules);
     }
 
     public function getFieldName($locale = null)

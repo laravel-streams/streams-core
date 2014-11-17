@@ -49,27 +49,27 @@ class EntryRelationsParser
     {
         if (is_null($value)) {
 
-            $value = 'null';
+            return 'null';
         } elseif (is_bool($value)) {
 
             if ($value) {
 
-                $value = 'true';
+                return 'true';
             } else {
 
-                $value = 'false';
+                return 'false';
             }
-        } elseif (!is_numeric($value) and !is_bool($value)) {
+        } elseif (is_array($value)) {
 
-            if ($escape) {
-
-                $value = addslashes($value);
-            }
-
-            $value = "'" . $value . "'";
+            return "'" . serialize($value) . "'";
         }
 
-        return $value;
+        if ($escape) {
+
+            $value = addslashes($value);
+        }
+
+        return "'" . $value . "'";
     }
 
     protected function s($n)

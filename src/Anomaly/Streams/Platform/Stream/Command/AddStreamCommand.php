@@ -197,14 +197,6 @@ class AddStreamCommand
     /**
      * @return mixed
      */
-    public function getSortBy()
-    {
-        return $this->sortBy;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getTitleColumn()
     {
         return $this->titleColumn;
