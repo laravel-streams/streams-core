@@ -43,20 +43,23 @@ class EntryModel extends EloquentModel implements EntryInterface
      *
      * @param  string $key
      * @param  mixed  $value
+     * @param bool    $mutate
      * @return void
      */
     public function setAttribute($key, $value, $mutate = true)
     {
         /**
-         * If we have a field type for this key fire it's
-         * onSet callback to allow changing the value
-         * before storage.
+         * If we have a field type for this key use
+         * it's setAttribute method to set the value.
          */
         if ($mutate and $type = $this->getTypeFromField($key)) {
 
-            $value = $type->fire('set', [$value]);
+            if ($type->setAttribute($this->attributes, $value)) {
 
-            $type->fire('after_set', [$this]);
+                return;
+            }
+
+            $value = $type->mutate($value);
         }
 
         parent::setAttribute($key, $value);
@@ -66,6 +69,7 @@ class EntryModel extends EloquentModel implements EntryInterface
      * Get a given attribute on the model.
      *
      * @param  string $key
+     * @param bool    $mutate
      * @return void
      */
     public function getAttribute($key, $mutate = true)
@@ -73,13 +77,12 @@ class EntryModel extends EloquentModel implements EntryInterface
         $value = parent::getAttribute($key);
 
         /**
-         * If we have a field type for this key fire it's
-         * onGet callback to allow changing the value
-         * retrieved from storage.
+         * If we have a field type for this key use
+         * it's unmutate method to modify the value.
          */
         if ($mutate and $type = $this->getTypeFromField($key)) {
 
-            $value = $type->fire('get', [$value]);
+            $value = $type->unmutate($value);
         }
 
         return $value;

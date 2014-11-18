@@ -142,6 +142,11 @@ class BuildFormSectionFieldsCommandHandler
                  */
                 $type = $assignment->type($entry, $locale);
 
+                if (!$type instanceof FieldType) {
+
+                    continue;
+                }
+
                 /**
                  * Now that we're here set some options
                  * that might have been passed along in
@@ -164,8 +169,8 @@ class BuildFormSectionFieldsCommandHandler
                     $type->setRequired(false);
                 }
 
-                // Render the input element.
-                $element .= $type->element()->render();
+                // Render the input and wrapper.
+                $element .= $type->render();
             }
         }
 
@@ -182,6 +187,6 @@ class BuildFormSectionFieldsCommandHandler
 
         $type = $this->execute('Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand', $field);
 
-        return $type->element()->render();
+        return $type->render();
     }
 }

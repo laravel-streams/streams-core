@@ -13,7 +13,7 @@ class EntryRelationFieldsParser
 
             $type = $assignment->type();
 
-            $relationArray = $type->relation();
+            $relationArray = $type->getRelation();
 
             $key = $this->toString($assignment->field->slug);
 

@@ -267,7 +267,7 @@ class BuildTableFiltersCommandHandler
             $fieldType->setValue($this->getValue($filter, $table));
             $fieldType->setPlaceholder($placeholder ? : trans($assignment->field->name));
 
-            return $fieldType->filter();
+            return $fieldType->renderFilter();
         }
 
         return null;

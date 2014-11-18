@@ -2,6 +2,14 @@
 
 use Anomaly\Streams\Platform\Collection\EloquentCollection;
 
+/**
+ * Class AssignmentCollection
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Assignment
+ */
 class AssignmentCollection extends EloquentCollection
 {
 
@@ -33,12 +41,32 @@ class AssignmentCollection extends EloquentCollection
 
         foreach ($this->items as $item) {
 
-            if ($type = $item->type() and (method_exists($type, 'relation') or method_exists($type, 'relations'))) {
+            if ($type = $item->type() and $type->getRelation()) {
 
                 $relations[] = $item;
             }
         }
 
         return self::make($relations);
+    }
+
+    /**
+     * Return only assignments that have dates fields.
+     *
+     * @return static
+     */
+    public function dates()
+    {
+        $dates = [];
+
+        foreach ($this->items as $item) {
+
+            if ($type = $item->type() and $type->getColumnType() == 'datetime') {
+
+                $dates[] = $item;
+            }
+        }
+
+        return self::make($dates);
     }
 }
