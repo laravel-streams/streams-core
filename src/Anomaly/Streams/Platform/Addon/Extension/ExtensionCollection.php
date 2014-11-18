@@ -30,9 +30,21 @@ class ExtensionCollection extends AddonCollection
         list($namespace, $extension) = explode('::', $key);
         list($addonType, $addonSlug) = explode('.', $namespace);
 
-        if ($key == '*') {
+        if ($extension == '*') {
 
             $extension = false;
+        }
+
+        if ($extension != '*') {
+
+            list($extensionSlug, $extensionType) = explode('.', $extension);
+
+            $extension = "_{$extensionSlug}_{$extensionType}";
+
+            if ($extensionSlug == '*') {
+
+                $extension = "_{$extensionType}";
+            }
         }
 
         foreach ($this->items as $item) {
@@ -49,9 +61,11 @@ class ExtensionCollection extends AddonCollection
 
                     if ($extension) {
 
-                        if (ends_with($slug, "_{$extension}")) {
+                        if (ends_with($slug, $extension)) {
 
                             $matches[] = $item;
+
+                            continue;
                         }
                     }
                 }
@@ -65,7 +79,7 @@ class ExtensionCollection extends AddonCollection
 
                     if ($extension) {
 
-                        if (str_contains($slug, "_{$extension}")) {
+                        if (str_contains($slug, $extension)) {
 
                             $matches[] = $item;
                         }
