@@ -2,6 +2,14 @@
 
 use Assetic\Asset\AssetInterface;
 
+/**
+ * Class CssMinFilter
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Asset\Filter
+ */
 class CssMinFilter extends \Assetic\Filter\CssMinFilter
 {
 
@@ -13,7 +21,5 @@ class CssMinFilter extends \Assetic\Filter\CssMinFilter
     public function filterDump(AssetInterface $asset)
     {
         $asset->setContent(app('view')->parse($asset->getContent()));
-
-        return parent::filterDump($asset);
     }
 }
