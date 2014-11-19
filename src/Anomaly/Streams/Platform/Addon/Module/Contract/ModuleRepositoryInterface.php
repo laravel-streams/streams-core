@@ -14,6 +14,13 @@ interface ModuleRepositoryInterface
 {
 
     /**
+     * Return all modules in the database.
+     *
+     * @return mixed
+     */
+    public function all();
+
+    /**
      * Mark a module as installed.
      *
      * @param Module $module

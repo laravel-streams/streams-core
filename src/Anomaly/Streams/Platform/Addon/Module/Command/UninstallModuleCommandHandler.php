@@ -41,8 +41,6 @@ class UninstallModuleCommandHandler
 
         $this->dispatch(new ModuleUninstalledEvent($module));
 
-        $module->fire('after_uninstall');
-
         return true;
     }
 

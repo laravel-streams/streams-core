@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\AddonListener;
 use Anomaly\Streams\Platform\Addon\Event\AllRegistered;
+use Anomaly\Streams\Platform\Addon\Module\Command\SetModuleStatesCommand;
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleInstalledEvent;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalledEvent;
@@ -47,12 +48,9 @@ class ModuleListener extends AddonListener
      */
     public function whenAllRegistered(AllRegistered $event)
     {
-        if ($event->getType() == 'module') {
+        if ($event->getType() == 'module' and app('streams.application')->isLocated()) {
 
-            if (app('streams.application')->isLocated()) {
-
-                app('streams.modules')->setStates(app('db')->table('addons_modules')->where('is_installed', 1)->get());
-            }
+            $this->execute(new SetModuleStatesCommand());
         }
     }
 }

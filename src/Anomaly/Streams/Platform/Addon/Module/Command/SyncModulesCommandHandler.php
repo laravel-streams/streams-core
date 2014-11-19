@@ -5,35 +5,47 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Anomaly\Streams\Platform\Collection\EloquentCollection;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 
+/**
+ * Class SyncModulesCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon\Module\Command
+ */
 class SyncModulesCommandHandler
 {
 
     use CommandableTrait;
 
-    protected $modules;
-
-    function __construct(ModuleModel $modules)
+    /**
+     * Handle the command.
+     *
+     * @param ModuleModel $modules
+     */
+    public function handle(ModuleModel $modules)
     {
-        $this->modules = $modules;
+        $modules = $modules->all();
+
+        foreach (app('streams.modules')->all() as $module) {
+
+            $this->sync($modules, $module);
+        }
     }
 
-    public function handle(SyncModulesCommand $command)
+    /**
+     * Sync a module.
+     *
+     * @param EloquentCollection $modules
+     * @param Module             $module
+     */
+    protected function sync(EloquentCollection $modules, Module $module)
     {
-        $collection = app('streams.modules');
+        if (!$match = $modules->findBySlug($module->getSlug())) {
 
-        $modules = $this->modules->all();
+            $command = new InsertModuleCommand($module->getSlug());
 
-        foreach ($collection as $module) {
-
-            if ($module instanceof Module and $modules instanceof EloquentCollection) {
-
-                if (!$match = $modules->findBySlug($module->getSlug())) {
-
-                    $command = new InsertModuleCommand($module->getSlug());
-
-                    $this->execute($command);
-                }
-            }
+            $this->execute($command);
         }
     }
 }

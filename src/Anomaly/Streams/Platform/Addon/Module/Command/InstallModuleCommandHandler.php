@@ -41,8 +41,6 @@ class InstallModuleCommandHandler
 
         $this->dispatch(new ModuleInstalledEvent($module));
 
-        $module->fire('after_install');
-
         return true;
     }
 

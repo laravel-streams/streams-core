@@ -28,17 +28,6 @@ class ModuleModel extends EloquentModel
     public $timestamps = false;
 
     /**
-     * Find a module by it's slug.
-     *
-     * @param $slug
-     * @return mixed
-     */
-    public function findBySlug($slug)
-    {
-        return $this->where('slug', $slug)->first();
-    }
-
-    /**
      * Find a module by it's slug or return a new
      * module with the given slug.
      *
@@ -61,5 +50,16 @@ class ModuleModel extends EloquentModel
         $module->save();
 
         return $module;
+    }
+
+    /**
+     * Find a module by it's slug.
+     *
+     * @param $slug
+     * @return mixed
+     */
+    protected function findBySlug($slug)
+    {
+        return $this->where('slug', $slug)->first();
     }
 }

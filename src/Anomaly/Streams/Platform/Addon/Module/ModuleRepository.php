@@ -31,6 +31,16 @@ class ModuleRepository implements ModuleRepositoryInterface
     }
 
     /**
+     * Return all modules in the database.
+     *
+     * @return mixed
+     */
+    public function all()
+    {
+        return $this->model->all();
+    }
+
+    /**
      * Mark a module as installed.
      *
      * @param Module $module
