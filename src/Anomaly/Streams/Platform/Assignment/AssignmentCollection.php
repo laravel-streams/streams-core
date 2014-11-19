@@ -22,7 +22,9 @@ class AssignmentCollection extends EloquentCollection
     public function findByFieldSlug($slug)
     {
         foreach ($this->items as $item) {
+
             if ($item->field->slug == $slug) {
+
                 return $item;
             }
         }
@@ -33,7 +35,7 @@ class AssignmentCollection extends EloquentCollection
     /**
      * Return only assignments that have relation fields.
      *
-     * @return \Illuminate\Support\Collection
+     * @return static
      */
     public function relations()
     {
@@ -51,7 +53,7 @@ class AssignmentCollection extends EloquentCollection
     }
 
     /**
-     * Return only assignments that have dates fields.
+     * Return only assignments that have date fields.
      *
      * @return static
      */
@@ -59,9 +61,11 @@ class AssignmentCollection extends EloquentCollection
     {
         $dates = [];
 
+        $compatible = ['datetime', 'date'];
+
         foreach ($this->items as $item) {
 
-            if ($type = $item->type() and $type->getColumnType() == 'datetime') {
+            if ($type = $item->type() and in_array($type->getColumnType(), $compatible)) {
 
                 $dates[] = $item;
             }
