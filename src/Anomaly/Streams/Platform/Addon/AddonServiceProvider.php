@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 
+use Anomaly\Streams\Platform\Addon\Event\AllRegistered;
 use Anomaly\Streams\Platform\Addon\Event\RegisteredEvent;
 use Anomaly\Streams\Platform\Traits\CallableTrait;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
@@ -86,14 +87,9 @@ class AddonServiceProvider extends ServiceProvider
             );
 
             $this->dispatch(new RegisteredEvent($addon));
-
-            // Register the addon service provider.
-            //$this->registerServiceProvider($addon);
-
-            $this->pushToCollection($addon);
         }
 
-        $this->fire('after_register');
+        $this->dispatch(new AllRegistered($this->type));
     }
 
     /**
@@ -151,18 +147,6 @@ class AddonServiceProvider extends ServiceProvider
 
             $provider->register();
         }
-    }
-
-    /**
-     * Push the addon class to it's respective collection class.
-     *
-     * @param $addon
-     */
-    protected function pushToCollection($addon)
-    {
-        $plural = str_plural($this->type);
-
-        app("streams.{$plural}")->push($addon);
     }
 
     /**

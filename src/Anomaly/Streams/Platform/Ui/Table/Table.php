@@ -81,7 +81,7 @@ class Table extends Ui
      *
      * @var string
      */
-    protected $noResultsMessage = 'error.no_results';
+    protected $noResultsMessage = 'message.error.no_results';
 
     /**
      * The table entries. These can be

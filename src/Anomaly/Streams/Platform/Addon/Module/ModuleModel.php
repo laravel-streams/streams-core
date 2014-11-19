@@ -2,6 +2,14 @@
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
+/**
+ * Class ModuleModel
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon\Module
+ */
 class ModuleModel extends EloquentModel
 {
 
@@ -13,42 +21,42 @@ class ModuleModel extends EloquentModel
     protected $table = 'addons_modules';
 
     /**
-     * Disable timestamps for this model.
+     * Disable timestamps for modules.
      *
      * @var bool
      */
     public $timestamps = false;
 
     /**
-     * Mark an addon as installed.
+     * Find a module by it's slug.
      *
      * @param $slug
      * @return mixed
      */
-    public function installed($slug)
+    public function findBySlug($slug)
     {
-        $module = $this->whereSlug($slug)->first();
-
-        $module->is_enabled   = true;
-        $module->is_installed = true;
-
-        $module->save();
-
-        return $module;
+        return $this->where('slug', $slug)->first();
     }
 
     /**
-     * Mark an addon as uninstalled.
+     * Find a module by it's slug or return a new
+     * module with the given slug.
      *
      * @param $slug
-     * @return mixed
+     * @return ModuleModel
      */
-    public function uninstalled($slug)
+    public function findBySlugOrCreate($slug)
     {
-        $module = $this->whereSlug($slug)->first();
+        $module = $this->findBySlug($slug);
 
-        $module->is_enabled   = false;
-        $module->is_installed = false;
+        if ($module instanceof ModuleModel) {
+
+            return $module;
+        }
+
+        $module = $this->newInstance();
+
+        $module->slug = $slug;
 
         $module->save();
 

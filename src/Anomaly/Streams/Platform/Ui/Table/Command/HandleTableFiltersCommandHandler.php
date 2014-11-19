@@ -169,7 +169,7 @@ class HandleTableFiltersCommandHandler
 
         if ($handler instanceof FieldType) {
 
-            $query = $handler->where($query, $value);
+            $query = $handler->filter($query, $value);
         }
 
         if (!$query) {

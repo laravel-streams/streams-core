@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
-use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalledEvent;
+use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalledEvent;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
 /**
@@ -39,7 +39,7 @@ class UninstallModuleCommandHandler
             }
         }
 
-        $this->dispatch(new ModuleWasUninstalledEvent($module));
+        $this->dispatch(new ModuleUninstalledEvent($module));
 
         $module->fire('after_uninstall');
 

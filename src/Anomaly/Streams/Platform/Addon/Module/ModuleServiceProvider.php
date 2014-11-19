@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
+use Illuminate\Foundation\Application;
 
 /**
  * Class ModuleServiceProvider
@@ -14,13 +15,17 @@ class ModuleServiceProvider extends AddonServiceProvider
 {
 
     /**
-     * Bind database statuses to loaded modules.
+     * Create a new ModuleServiceProvider instance.
+     *
+     * @param Application $app
      */
-    protected function onAfterRegister()
+    public function __construct(Application $app)
     {
-        if (app('streams.application')->isLocated()) {
+        parent::__construct($app);
 
-            app('streams.modules')->setStates(app('db')->table('addons_modules')->where('is_installed', 1)->get());
-        }
+        $this->app->bind(
+            'Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface',
+            config('streams.modules.repository')
+        );
     }
 }

@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
-use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalledEvent;
+use Anomaly\Streams\Platform\Addon\Module\Event\ModuleInstalledEvent;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
 /**
@@ -39,7 +39,7 @@ class InstallModuleCommandHandler
             }
         }
 
-        $this->dispatch(new ModuleWasInstalledEvent($module));
+        $this->dispatch(new ModuleInstalledEvent($module));
 
         $module->fire('after_install');
 
