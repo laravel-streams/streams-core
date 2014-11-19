@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
 /**
  * Class Theme
@@ -11,7 +10,7 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Theme
  */
-class Theme extends Addon implements PresentableInterface
+class Theme extends Addon
 {
 
     /**
@@ -68,36 +67,13 @@ class Theme extends Addon implements PresentableInterface
      *
      * @return mixed
      */
-    public function toTag()
+    public function newTag()
     {
         if (!$tag = $this->transform(__FUNCTION__)) {
 
             $tag = 'Anomaly\Streams\Platform\Addon\Theme\ThemeTag';
         }
 
-        return app()->make($tag, ['module' => $this]);
-    }
-
-    /**
-     * Return the theme's presenter counterpart.
-     *
-     * @return mixed
-     */
-    public function toPresenter()
-    {
-        if (!$presenter = $this->transform(__FUNCTION__)) {
-
-            $presenter = 'Anomaly\Streams\Platform\Addon\Theme\ThemePresenter';
-        }
-
-        return app()->make($presenter, [$this]);
-    }
-
-    /**
-     * @return ThemePresenter
-     */
-    public function decorate()
-    {
-        return $this->toPresenter();
+        return app()->make($tag, [$this]);
     }
 }
