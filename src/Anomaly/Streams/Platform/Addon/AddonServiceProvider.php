@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-
 use Anomaly\Streams\Platform\Addon\Event\AllRegistered;
 use Anomaly\Streams\Platform\Addon\Event\RegisteredEvent;
 use Anomaly\Streams\Platform\Traits\CallableTrait;

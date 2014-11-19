@@ -3,7 +3,6 @@
 use Anomaly\Lexicon\Contract\LexiconInterface;
 use Anomaly\Lexicon\Contract\Plugin\PluginInterface;
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
 /**
  * Class Tag
@@ -13,7 +12,7 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Tag
  */
-class Tag extends Addon implements PluginInterface, PresentableInterface
+class Tag extends Addon implements PluginInterface
 {
 
     /**
@@ -216,16 +215,6 @@ class Tag extends Addon implements PluginInterface, PresentableInterface
         }
 
         return $array;
-    }
-
-    /**
-     * Return the decorated tag.
-     *
-     * @return TagPresenter
-     */
-    public function decorate()
-    {
-        return new TagPresenter($this);
     }
 
     /**

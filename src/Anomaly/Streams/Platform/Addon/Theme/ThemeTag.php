@@ -33,21 +33,21 @@ class ThemeTag extends Tag
     /**
      * Return the translated theme name.
      *
-     * @return mixed
+     * @return string
      */
     public function name()
     {
-        return $this->theme->toPresenter()->name;
+        return trans($this->theme->getName());
     }
 
     /**
      * Return the translated theme description.
      *
-     * @return mixed
+     * @return string
      */
     public function description()
     {
-        return $this->theme->toPresenter()->description;
+        return trans($this->theme->getDescription());
     }
 }
  

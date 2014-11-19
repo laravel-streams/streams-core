@@ -16,9 +16,9 @@ class AddonCollection extends Collection
     /**
      * Push an addon to the collection.
      *
-     * @param mixed $addon
+     * @param Addon $addon
      */
-    public function push($addon)
+    public function push(Addon $addon)
     {
         $this->items[$addon->getSlug()] = $addon;
     }
@@ -37,15 +37,5 @@ class AddonCollection extends Collection
         }
 
         return null;
-    }
-
-    public function decorated()
-    {
-        foreach ($this->items as &$item) {
-
-            $item = app('streams.decorator')->decorate($item);
-        }
-
-        return $this;
     }
 }
