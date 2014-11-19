@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Distribution;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
 /**
  * Class Distribution
@@ -11,7 +10,7 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Distribution
  */
-class Distribution extends Addon implements PresentableInterface
+class Distribution extends Addon
 {
 
     /**
@@ -32,13 +31,5 @@ class Distribution extends Addon implements PresentableInterface
     public function getDefaultPublicTheme()
     {
         return 'streams';
-    }
-
-    /**
-     * @return DistributionPresenter
-     */
-    public function decorate()
-    {
-        return new DistributionPresenter($this);
     }
 }
