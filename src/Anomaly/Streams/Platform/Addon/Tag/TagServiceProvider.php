@@ -2,14 +2,15 @@
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 
+/**
+ * Class TagServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon\Tag
+ */
 class TagServiceProvider extends AddonServiceProvider
 {
 
-    protected function onAfterRegister()
-    {
-        foreach ($this->app->make('streams.tags')->all() as $tag) {
-
-            $this->app->make('anomaly.lexicon')->registerPlugin($tag->getSlug(), $tag->getAbstract());
-        }
-    }
 }

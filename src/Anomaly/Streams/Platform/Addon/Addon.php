@@ -157,18 +157,20 @@ class Addon implements ArrayableInterface
     }
 
     /**
-     * Return the permissions class for the addon.
+     * Return the listener class.
      *
      * @return null
      */
-    public function newPermissions()
+    public function toListener()
     {
-        if (!$permissions = $this->transform(__FUNCTION__)) {
+        if (!$listener = $this->transform(__FUNCTION__)) {
 
-            return null;
+            $type = studly_case($this->getType());
+
+            return "Anomaly\\Streams\\Platform\\Addon\\{$type}\\{$type}Listener";
         }
 
-        return app()->make($permissions, [$this]);
+        return app()->make($listener, [$this]);
     }
 
     /**

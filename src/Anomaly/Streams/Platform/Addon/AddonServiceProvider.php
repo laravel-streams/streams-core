@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 
+use Anomaly\Streams\Platform\Addon\Event\RegisteredEvent;
 use Anomaly\Streams\Platform\Traits\CallableTrait;
+use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
@@ -18,6 +20,7 @@ class AddonServiceProvider extends ServiceProvider
 {
 
     use CallableTrait;
+    use DispatchableTrait;
     use TransformableTrait;
 
     /**
@@ -76,6 +79,13 @@ class AddonServiceProvider extends ServiceProvider
 
             // Register the addon class to the container.
             $addon = $this->registerAddonClass($slug, $path);
+
+            app('events')->listen(
+                'Anomaly.Streams.Platform.Addon.*',
+                $addon->toListener()
+            );
+
+            $this->dispatch(new RegisteredEvent($addon));
 
             // Register the addon service provider.
             //$this->registerServiceProvider($addon);
