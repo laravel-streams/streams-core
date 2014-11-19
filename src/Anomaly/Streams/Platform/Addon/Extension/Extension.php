@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
 /**
  * Class Extension
@@ -15,16 +14,7 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Extension
  */
-class Extension extends Addon implements PresentableInterface
+class Extension extends Addon
 {
 
-    /**
-     * Return a decorated addon.
-     *
-     * @return ExtensionPresenter
-     */
-    public function decorate()
-    {
-        return new ExtensionPresenter($this);
-    }
 }
