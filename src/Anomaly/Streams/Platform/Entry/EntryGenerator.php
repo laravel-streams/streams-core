@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Entry\Parser\EntryRelationsParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryRulesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryStreamParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTableParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryTitleParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationForeignKeyParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
 use Anomaly\Streams\Platform\Support\Generator;
@@ -16,6 +17,8 @@ class EntryGenerator extends Generator
 {
 
     protected $class;
+
+    protected $title;
 
     protected $table;
 
@@ -40,6 +43,7 @@ class EntryGenerator extends Generator
         parent::__construct();
 
         $this->class                 = new EntryClassParser();
+        $this->title                 = new EntryTitleParser();
         $this->table                 = new EntryTableParser();
         $this->rules                 = new EntryRulesParser();
         $this->dates                 = new EntryDatesParser();
@@ -54,6 +58,7 @@ class EntryGenerator extends Generator
     public function compile($template, $data)
     {
         $class                 = $this->class->parse($data);
+        $title                 = $this->title->parse($data);
         $table                 = $this->table->parse($data);
         $rules                 = $this->rules->parse($data);
         $dates                 = $this->dates->parse($data);
@@ -66,6 +71,7 @@ class EntryGenerator extends Generator
 
         $data = compact(
             'class',
+            'title',
             'table',
             'rules',
             'dates',
