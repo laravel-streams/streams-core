@@ -39,9 +39,19 @@ class BuildFieldTypeCommandHandler
                 ->setTranslatable($command->getTranslatable())
                 ->setInstructions($command->getInstructions());
 
-            if ($view = $command->getView()) {
+            if ($inputView = $command->getInputView()) {
 
-                $fieldType->setView($command->getView());
+                $fieldType->setInputView($inputView);
+            }
+
+            if ($filterView = $command->getFilterView()) {
+
+                $fieldType->setFilterView($filterView);
+            }
+
+            if ($wrapperView = $command->getWrapperView()) {
+
+                $fieldType->setWrapperView($wrapperView);
             }
         }
 

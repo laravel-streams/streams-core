@@ -1,40 +1,151 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType\Command;
 
+/**
+ * Class BuildFieldTypeCommand
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon\FieldType\Command
+ */
 class BuildFieldTypeCommand
 {
 
+    /**
+     * The field type to build.
+     *
+     * @var
+     */
     protected $type;
 
+    /**
+     * The field slug.
+     *
+     * @var
+     */
     protected $field;
 
+    /**
+     * The input value.
+     *
+     * @var null
+     */
     protected $value;
 
+    /**
+     * The input label.
+     *
+     * @var null
+     */
     protected $label;
 
+    /**
+     * The locale.
+     *
+     * @var null
+     */
     protected $locale;
 
+    /**
+     * The hidden flag.
+     *
+     * @var bool
+     */
     protected $hidden;
 
+    /**
+     * The translatable flag.
+     *
+     * @var null
+     */
     protected $translatable;
 
+    /**
+     * The input instructions.
+     *
+     * @var null
+     */
     protected $instructions;
 
+    /**
+     * The input placeholder.
+     *
+     * @var null
+     */
     protected $placeholder;
 
+    /**
+     * The required flag.
+     *
+     * @var bool
+     */
     protected $required;
 
+    /**
+     * The field name prefix.
+     *
+     * @var null
+     */
     protected $prefix;
 
+    /**
+     * The field name suffix.
+     *
+     * @var null
+     */
     protected $suffix;
 
+    /**
+     * The field type configuration.
+     *
+     * @var array
+     */
     protected $config;
 
-    protected $view;
+    /**
+     * The input view.
+     *
+     * @var null
+     */
+    protected $inputView;
 
+    /**
+     * The filter view.
+     *
+     * @var null
+     */
+    protected $filterView;
+
+    /**
+     * The wrapper view.
+     *
+     * @var null
+     */
+    protected $wrapperView;
+
+    /**
+     * Create a new BuildFieldTypeCommand instance.
+     *
+     * @param       $type
+     * @param       $field
+     * @param null  $value
+     * @param null  $label
+     * @param null  $prefix
+     * @param null  $suffix
+     * @param null  $locale
+     * @param bool  $hidden
+     * @param bool  $required
+     * @param null  $inputView
+     * @param null  $filterView
+     * @param null  $wrapperView
+     * @param null  $placeholder
+     * @param null  $instructions
+     * @param null  $translatable
+     * @param array $config
+     */
     function __construct(
         $type,
         $field,
-        $view = null,
         $value = null,
         $label = null,
         $prefix = null,
@@ -42,12 +153,14 @@ class BuildFieldTypeCommand
         $locale = null,
         $hidden = false,
         $required = false,
+        $inputView = null,
+        $filterView = null,
+        $wrapperView = null,
         $placeholder = null,
         $instructions = null,
         $translatable = null,
         array $config = []
     ) {
-        $this->view         = $view;
         $this->type         = $type;
         $this->field        = $field;
         $this->label        = $label;
@@ -58,12 +171,17 @@ class BuildFieldTypeCommand
         $this->prefix       = $prefix;
         $this->suffix       = $suffix;
         $this->required     = $required;
+        $this->inputView    = $inputView;
+        $this->filterView   = $filterView;
+        $this->wrapperView  = $wrapperView;
         $this->placeholder  = $placeholder;
         $this->translatable = $translatable;
         $this->instructions = $instructions;
     }
 
     /**
+     * Get the field name suffix.
+     *
      * @return null
      */
     public function getSuffix()
@@ -72,6 +190,8 @@ class BuildFieldTypeCommand
     }
 
     /**
+     * Get the field type configuration.
+     *
      * @return boolean
      */
     public function getConfig()
@@ -80,6 +200,8 @@ class BuildFieldTypeCommand
     }
 
     /**
+     * Get the hidden flag.
+     *
      * @return boolean
      */
     public function getHidden()
@@ -88,6 +210,8 @@ class BuildFieldTypeCommand
     }
 
     /**
+     * Get the field slug.
+     *
      * @return mixed
      */
     public function getField()
@@ -96,6 +220,8 @@ class BuildFieldTypeCommand
     }
 
     /**
+     * Get the required flag.
+     *
      * @return null
      */
     public function getRequired()
@@ -104,6 +230,8 @@ class BuildFieldTypeCommand
     }
 
     /**
+     * Get the input instructions.
+     *
      * @return mixed
      */
     public function getInstructions()
@@ -112,6 +240,8 @@ class BuildFieldTypeCommand
     }
 
     /**
+     * Get the input placeholder.
+     *
      * @return null
      */
     public function getPlaceholder()
@@ -120,6 +250,8 @@ class BuildFieldTypeCommand
     }
 
     /**
+     * Get the input label.
+     *
      * @return mixed
      */
     public function getLabel()
@@ -128,6 +260,8 @@ class BuildFieldTypeCommand
     }
 
     /**
+     * Get the locale.
+     *
      * @return mixed
      */
     public function getLocale()
@@ -136,6 +270,8 @@ class BuildFieldTypeCommand
     }
 
     /**
+     * Get the field name prefix.
+     *
      * @return mixed
      */
     public function getPrefix()
@@ -144,6 +280,8 @@ class BuildFieldTypeCommand
     }
 
     /**
+     * Get the field type to build.
+     *
      * @return mixed
      */
     public function getType()
@@ -152,6 +290,8 @@ class BuildFieldTypeCommand
     }
 
     /**
+     * Get the input value.
+     *
      * @return mixed
      */
     public function getValue()
@@ -160,17 +300,44 @@ class BuildFieldTypeCommand
     }
 
     /**
+     * Get the translatable flag.
+     *
      * @return null
      */
-    public function getView()
-    {
-        return $this->view;
-    }
-
-
     public function getTranslatable()
     {
         return $this->translatable;
+    }
+
+
+    /**
+     * Get the input view.
+     *
+     * @return null
+     */
+    public function getInputView()
+    {
+        return $this->inputView;
+    }
+
+    /**
+     * Get the filter view.
+     *
+     * @return null
+     */
+    public function getFilterView()
+    {
+        return $this->filterView;
+    }
+
+    /**
+     * Get the wrapper view.
+     *
+     * @return null
+     */
+    public function getWrapperView()
+    {
+        return $this->wrapperView;
     }
 }
  
