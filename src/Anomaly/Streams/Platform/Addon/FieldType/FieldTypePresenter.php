@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Addon\AddonPresenter;
 use Anomaly\Streams\Platform\Contract\StringableInterface;
+use Anomaly\Streams\Platform\Support\Presenter;
 
 /**
  * Class FieldTypePresenter
@@ -11,8 +11,21 @@ use Anomaly\Streams\Platform\Contract\StringableInterface;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\FieldType
  */
-class FieldTypePresenter extends AddonPresenter implements StringableInterface
+class FieldTypePresenter extends Presenter implements StringableInterface
 {
+
+    /**
+     * Create a new Presenter instance.
+     *
+     * @param $resource
+     */
+    public function __construct($resource)
+    {
+        if ($resource instanceof FieldType) {
+
+            $this->resource = $resource;
+        }
+    }
 
     /**
      * By default return the value.

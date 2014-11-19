@@ -16,11 +16,14 @@ class AddonCollection extends Collection
     /**
      * Push an addon to the collection.
      *
-     * @param Addon $addon
+     * @param mixed $addon
      */
-    public function push(Addon $addon)
+    public function push($addon)
     {
-        $this->items[$addon->getSlug()] = $addon;
+        if ($addon instanceof Addon) {
+
+            $this->items[$addon->getSlug()] = $addon;
+        }
     }
 
     /**
