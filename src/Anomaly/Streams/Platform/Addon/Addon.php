@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Contract\ArrayableInterface;
-use Anomaly\Streams\Platform\Traits\CallableTrait;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
 
 /**
@@ -15,7 +14,6 @@ use Anomaly\Streams\Platform\Traits\TransformableTrait;
 class Addon implements ArrayableInterface
 {
 
-    use CallableTrait;
     use TransformableTrait;
 
     /**
