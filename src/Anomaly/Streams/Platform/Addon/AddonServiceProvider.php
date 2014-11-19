@@ -131,25 +131,6 @@ class AddonServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the addon's service provider and
-     * run it's register method.
-     *
-     * @param $addon
-     */
-    protected function registerServiceProvider($addon)
-    {
-        if ($provider = $addon->toServiceProvider()) {
-
-            $app      = $this->app;
-            $provider = $this->app->make($provider, [$app]);
-
-            $this->app->register($provider);
-
-            $provider->register();
-        }
-    }
-
-    /**
      * Get the paths to look for addons in.
      *
      * @return array
