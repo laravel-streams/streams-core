@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Contract;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 
 /**
  * Interface StreamInterface
@@ -16,35 +19,35 @@ interface StreamInterface
     /**
      * Get the namespace.
      *
-     * @return mixed
+     * @return string
      */
     public function getNamespace();
 
     /**
      * Get the slug.
      *
-     * @return mixed
+     * @return string
      */
     public function getSlug();
 
     /**
      * Get the prefix.
      *
-     * @return mixed
+     * @return string
      */
     public function getPrefix();
 
     /**
      * Get the name.
      *
-     * @return mixed
+     * @return string
      */
     public function getName();
 
     /**
      * Get the translatable flag.
      *
-     * @return mixed
+     * @return bool
      */
     public function isTranslatable();
 
@@ -59,7 +62,7 @@ interface StreamInterface
      * Get an assignment by it's field's slug.
      *
      * @param $fieldSlug
-     * @return mixed
+     * @return AssignmentInterface
      */
     public function getAssignment($fieldSlug);
 
@@ -67,7 +70,7 @@ interface StreamInterface
      * Get a stream field by it's slug.
      *
      * @param $slug
-     * @return mixed
+     * @return FieldInterface
      */
     public function getField($slug);
 
@@ -75,7 +78,7 @@ interface StreamInterface
      * Get a field's type by the field's slug.
      *
      * @param $fieldSlug
-     * @return mixed
+     * @return FieldType
      */
     public function getFieldType($fieldSlug);
 }
