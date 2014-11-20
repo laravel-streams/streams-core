@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableActionCommand;
 use Anomaly\Streams\Platform\Ui\Table\Event\BootedEvent;
 use Anomaly\Streams\Platform\Ui\Table\Event\MadeEvent;
@@ -220,7 +221,6 @@ class Table extends Ui
         return $this->response;
     }
 
-
     /**
      * Trigger the response.
      *
@@ -249,6 +249,7 @@ class Table extends Ui
 
         return view($this->view, $this->getData())->render();
     }
+
 
     /**
      * Set the eager loaded relationships.
@@ -384,7 +385,6 @@ class Table extends Ui
         return $this;
     }
 
-
     /**
      * Get the columns configuration.
      *
@@ -394,6 +394,7 @@ class Table extends Ui
     {
         return $this->columns;
     }
+
 
     /**
      * Set the filters configuration.
@@ -753,6 +754,32 @@ class Table extends Ui
     public function getQuery()
     {
         return $this->query;
+    }
+
+
+    /**
+     * Return the stream from the model if applicable.
+     *
+     * @return \Anomaly\Streams\Platform\Stream\Contract\StreamInterface|null
+     */
+    public function getStream()
+    {
+        if ($this->model instanceof EntryInterface) {
+
+            return $this->model->getStream();
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the presets object.
+     *
+     * @return \Anomaly\Streams\Platform\Ui\Table\TablePresets
+     */
+    public function getPresets()
+    {
+        return $this->presets;
     }
 
     /**
