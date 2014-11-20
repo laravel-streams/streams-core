@@ -18,6 +18,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
+        $this->bindDispatcher();
+
         $this->bindFields();
         $this->bindStreams();
         $this->bindAssignments();
@@ -69,6 +71,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             '\Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface',
             config('streams.assignments.repository')
         );
+    }
+
+    /**
+     * Bind the dispatcher.
+     */
+    protected function bindDispatcher()
+    {
+        $this->app->singleton('streams.dispatcher', 'Anomaly\Streams\Platform\Support\Dispatcher');
     }
 }
  
