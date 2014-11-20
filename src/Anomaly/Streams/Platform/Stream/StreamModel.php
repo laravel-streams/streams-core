@@ -47,11 +47,15 @@ class StreamModel extends EloquentModel implements StreamInterface
                     $assignment['field']['rules']  = unserialize($assignment['field']['rules']);
                     $assignment['field']['config'] = unserialize($assignment['field']['config']);
 
-                    $fieldModel = app()->make('Anomaly\Streams\Platform\Field\FieldModel', $assignment['field']);
+                    $fieldModel = app()->make('Anomaly\Streams\Platform\Field\FieldModel');
+
+                    $fieldModel->fill($assignment['field']);
 
                     unset($assignment['field']);
 
-                    $assignmentModel = app()->make('Anomaly\Streams\Platform\Assignment\AssignmentModel', $assignment);
+                    $assignmentModel = app()->make('Anomaly\Streams\Platform\Assignment\AssignmentModel');
+
+                    $assignmentModel->fill($assignment);
 
                     $assignmentModel->setRawAttributes($assignment);
 
@@ -170,6 +174,7 @@ class StreamModel extends EloquentModel implements StreamInterface
     public function getFieldType($fieldSlug)
     {
         if (!$assignment = $this->getAssignment($fieldSlug)) {
+            echo $fieldSlug . '<br>';
 
             return null;
         }
