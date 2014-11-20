@@ -1,49 +1,43 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
-use Anomaly\Streams\Platform\Field\Command\AddFieldCommand;
-use Anomaly\Streams\Platform\Field\Command\AssignFieldCommand;
-use Anomaly\Streams\Platform\Field\Command\RemoveFieldCommand;
+use Anomaly\Streams\Platform\Field\Command\DeleteFieldCommand;
 use Anomaly\Streams\Platform\Field\Command\UnassignFieldCommand;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 
+/**
+ * Class FieldService
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Field
+ */
 class FieldService
 {
 
     use CommandableTrait;
 
     /**
-     * Add a field.
+     * Create a field.
      *
      * @param array $field
      * @return mixed
      */
-    public function add(array $field)
+    public function create(array $field)
     {
-        $slug      = $field['slug'];
-        $type      = $field['type'];
-        $namespace = $field['namespace'];
-
-        $name = isset($field['name']) ? $field['name'] : null;
-
-        $rules    = isset($field['rules']) ? $field['rules'] : [];
-        $config   = isset($field['config']) ? $field['config'] : [];
-        $isLocked = isset($field['is_locked']) ? $field['is_locked'] : true;
-
-        $command = new AddFieldCommand($namespace, $slug, $type, $name, $config, $rules, $isLocked);
-
-        return $this->execute($command);
+        return $this->execute('Anomaly\Streams\Platform\Field\Command\CreateFieldCommand', $field);
     }
 
     /**
-     * Remove a field.
+     * Delete a field.
      *
      * @param $namespace
      * @param $slug
      * @return mixed
      */
-    public function remove($namespace, $slug)
+    public function delete($namespace, $slug)
     {
-        return $this->execute(new RemoveFieldCommand($namespace, $slug));
+        return $this->execute(new DeleteFieldCommand($namespace, $slug));
     }
 
     /**
@@ -57,32 +51,9 @@ class FieldService
      */
     public function assign($namespace, $stream, $field, array $assignment)
     {
-        // Determine some optional properties.
-        $isTranslatable = isset($assignment['is_translatable']) ? $assignment['is_translatable'] : false;
-        $isRevisionable = isset($assignment['is_revisionable']) ? $assignment['is_revisionable'] : false;
-        $isRequired     = isset($assignment['is_required']) ? $assignment['is_required'] : false;
-        $sortOrder      = isset($assignment['sort_order']) ? $assignment['sort_order'] : 0;
-        $isUnique       = isset($assignment['is_unique']) ? $assignment['is_unique'] : false;
+        $data = array_merge($assignment, compact('namespace', 'stream', 'field'));
 
-        $label        = isset($assignment['label']) ? $assignment['label'] : null;
-        $placeholder  = isset($assignment['placeholder']) ? $assignment['placeholder'] : null;
-        $instructions = isset($assignment['instructions']) ? $assignment['instructions'] : null;
-
-        $command = new AssignFieldCommand(
-            $sortOrder,
-            $namespace,
-            $stream,
-            $field,
-            $label,
-            $placeholder,
-            $instructions,
-            $isUnique,
-            $isRequired,
-            $isTranslatable,
-            $isRevisionable
-        );
-
-        return $this->execute($command);
+        return $this->execute('Anomaly\Streams\Platform\Field\Command\AssignFieldCommand', $data);
     }
 
     /**
@@ -95,8 +66,6 @@ class FieldService
      */
     public function unassign($namespace, $stream, $field)
     {
-        $command = new UnassignFieldCommand($namespace, $stream, $field);
-
-        return $this->execute($command);
+        return $this->execute(new UnassignFieldCommand($namespace, $stream, $field));
     }
 }
