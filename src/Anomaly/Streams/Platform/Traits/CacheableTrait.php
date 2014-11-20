@@ -2,6 +2,14 @@
 
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 
+/**
+ * Class CacheableTrait
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Traits
+ */
 trait CacheableTrait
 {
 
@@ -15,10 +23,12 @@ trait CacheableTrait
     public function cacheCollection($collectionKey, $keys = [])
     {
         if (is_string($keys)) {
+
             $keys = [$keys];
         }
 
-        if ($cached = \Cache::get($collectionKey) and is_array($cached)) {
+        if ($cached = app('cache')->get($collectionKey) and is_array($cached)) {
+
             $keys = array_merge($keys, $cached);
         }
 
@@ -30,7 +40,7 @@ trait CacheableTrait
     /**
      * Flush a cache collection.
      *
-     * @return \Streams\Model\EloquentModel
+     * @return $this
      */
     public function flushCacheCollection()
     {

@@ -1,5 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Traits;
 
+/**
+ * Class CallableTrait
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Traits
+ */
 trait CallableTrait
 {
 
@@ -64,16 +72,6 @@ trait CallableTrait
     }
 
     /**
-     * Get the callbacks array.
-     *
-     * @return array
-     */
-    public function getCallbacks()
-    {
-        return $this->callbacks;
-    }
-
-    /**
      * Set the callbacks array.
      *
      * @param $callbacks
@@ -84,5 +82,15 @@ trait CallableTrait
         $this->callbacks = $callbacks;
 
         return $this;
+    }
+
+    /**
+     * Get the callbacks array.
+     *
+     * @return array
+     */
+    public function getCallbacks()
+    {
+        return $this->callbacks;
     }
 }

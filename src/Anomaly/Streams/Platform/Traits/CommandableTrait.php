@@ -2,6 +2,14 @@
 
 use ReflectionClass;
 
+/**
+ * Class CommandableTrait
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Traits
+ */
 trait CommandableTrait
 {
 
@@ -32,16 +40,6 @@ trait CommandableTrait
     }
 
     /**
-     * Fetch the command bus
-     *
-     * @return mixed
-     */
-    public function resolveCommandBus()
-    {
-        return app('Anomaly\Streams\Platform\Support\CommandBus');
-    }
-
-    /**
      * Map an array of input to a command's properties.
      *
      * @param  string $command
@@ -52,6 +50,7 @@ trait CommandableTrait
     protected function mapInputToCommand($command, array $input)
     {
         if (is_object($command)) {
+
             return $command;
         }
 
@@ -60,6 +59,7 @@ trait CommandableTrait
         $class = new ReflectionClass($command);
 
         foreach ($class->getConstructor()->getParameters() as $parameter) {
+
             $name = $parameter->getName();
 
             if (array_key_exists($name, $input)) {
@@ -75,5 +75,15 @@ trait CommandableTrait
         }
 
         return $class->newInstanceArgs($dependencies);
+    }
+
+    /**
+     * Fetch the command bus
+     *
+     * @return mixed
+     */
+    public function resolveCommandBus()
+    {
+        return app('Anomaly\Streams\Platform\Support\CommandBus');
     }
 }

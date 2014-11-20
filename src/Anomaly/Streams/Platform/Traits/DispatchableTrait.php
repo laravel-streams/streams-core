@@ -1,21 +1,22 @@
 <?php namespace Anomaly\Streams\Platform\Traits;
 
+/**
+ * Class DispatchableTrait
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Traits
+ */
 trait DispatchableTrait
 {
 
+    /**
+     * @param $event
+     */
     public function dispatch($event)
     {
-        $this->getDispatcher()->dispatch([$event]);
-    }
-
-    public function dispatchEventsFor($object)
-    {
-        $this->getDispatcher()->dispatch($object->releaseEvents());
-    }
-
-    public function getDispatcher()
-    {
-        return app('Anomaly\Streams\Platform\Support\Dispatcher');
+        app('events')->dispatch([$event]);
     }
 }
  

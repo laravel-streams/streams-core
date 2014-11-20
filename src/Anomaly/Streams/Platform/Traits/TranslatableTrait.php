@@ -2,6 +2,14 @@
 
 use Illuminate\Database\Eloquent\MassAssignmentException;
 
+/**
+ * Class TranslatableTrait
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Traits
+ */
 trait TranslatableTrait
 {
 
@@ -36,16 +44,20 @@ trait TranslatableTrait
             $withFallback = isset($this->useTranslationFallback) ? $this->useTranslationFallback : $withFallback;
 
             if ($this->getTranslationByLocaleKey($locale)) {
+
                 $translation = $this->getTranslationByLocaleKey($locale);
             } elseif ($withFallback
                 and \App::make('config')->has('app.fallback_locale')
                 and $this->getTranslationByLocaleKey(\App::make('config')->get('app.fallback_locale'))
             ) {
+
                 $translation = $this->getTranslationByLocaleKey(\App::make('config')->get('app.fallback_locale'));
             } elseif ($createNew) {
+
                 $translation = $this->newTranslationInstance($locale);
                 $this->translations->add($translation);
             } else {
+
                 $translation = $this;
             }
 
@@ -66,7 +78,9 @@ trait TranslatableTrait
         $locale = $locale ? : \App::getLocale();
 
         foreach ($this->translations as $translation) {
+
             if ($translation->getAttribute($this->getLocaleKey()) == $locale) {
+
                 return true;
             }
         }
@@ -125,12 +139,18 @@ trait TranslatableTrait
     public function getAttribute($key)
     {
         if ($this->isKeyReturningTranslationText($key)) {
+
             return $this->getTranslation()->$key;
         }
 
         return parent::getAttribute($key);
     }
 
+    /**
+     * @param $key
+     * @param $locale
+     * @return mixed
+     */
     public function getTranslatedAttributeOrAttribute($key, $locale)
     {
         $default = parent::getAttribute($key);
@@ -151,8 +171,10 @@ trait TranslatableTrait
     public function setAttribute($key, $value)
     {
         if (in_array($key, $this->translatedAttributes)) {
+
             $this->getTranslation()->$key = $value;
         } else {
+
             parent::setAttribute($key, $value);
         }
     }
@@ -166,6 +188,7 @@ trait TranslatableTrait
     public function save(array $options = [])
     {
         if ($this->exists) {
+
             if (parent::save($options)) {
 
                 return $this->saveTranslations();
@@ -192,13 +215,18 @@ trait TranslatableTrait
         $totallyGuarded = $this->totallyGuarded();
 
         foreach ($attributes as $key => $values) {
+
             if ($this->isKeyALocale($key)) {
+
                 $translation = $this->getTranslation($key);
 
                 foreach ($values as $translationAttribute => $translationValue) {
+
                     if ($this->isFillable($translationAttribute)) {
+
                         $translation->$translationAttribute = $translationValue;
                     } elseif ($totallyGuarded) {
+
                         throw new MassAssignmentException($key);
                     }
                 }
@@ -219,7 +247,9 @@ trait TranslatableTrait
     private function getTranslationByLocaleKey($key)
     {
         foreach ($this->translations as $translation) {
+
             if ($translation->getAttribute($this->getLocaleKey()) == $key) {
+
                 return $translation;
             }
         }
@@ -269,7 +299,9 @@ trait TranslatableTrait
         $saved = true;
 
         foreach ($this->translations as $translation) {
+
             if ($saved and $this->isTranslationDirty($translation)) {
+
                 $translation->setAttribute($this->getRelationKey(), $this->getKey());
 
                 $saved = $translation->save();
@@ -290,6 +322,7 @@ trait TranslatableTrait
     protected function isTranslationDirty($translation)
     {
         $dirtyAttributes = $translation->getDirty();
+
         unset($dirtyAttributes[$this->getLocaleKey()]);
 
         return count($dirtyAttributes) > 0;
