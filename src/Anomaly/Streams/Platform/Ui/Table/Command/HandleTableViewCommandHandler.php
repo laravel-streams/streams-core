@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableViewInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Anomaly\Streams\Platform\Ui\Table\TableUtility;
+use Anomaly\Streams\Platform\Ui\Table\TablePresets;
 use Illuminate\Http\Request;
 
 /**
@@ -28,7 +28,7 @@ class HandleTableViewCommandHandler
     /**
      * The table utility object.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TableUtility
+     * @var \Anomaly\Streams\Platform\Ui\Table\TablePresets
      */
     protected $utility;
 
@@ -36,9 +36,9 @@ class HandleTableViewCommandHandler
      * Create a new HandleTableViewCommandHandler instance.
      *
      * @param Request      $request
-     * @param TableUtility $utility
+     * @param TablePresets $utility
      */
-    function __construct(Request $request, TableUtility $utility)
+    function __construct(Request $request, TablePresets $utility)
     {
         $this->request = $request;
         $this->utility = $utility;
@@ -52,7 +52,7 @@ class HandleTableViewCommandHandler
      */
     public function handle(HandleTableViewCommand $command)
     {
-        $table    = $command->getTable();
+        $table = $command->getTable();
         $query = $command->getQuery();
 
         $appliedView = $this->request->get($table->getPrefix() . 'view');
@@ -120,7 +120,7 @@ class HandleTableViewCommandHandler
     /**
      * Get the handler.
      *
-     * @param array   $view
+     * @param array $view
      * @param Table $table
      * @return mixed
      */
