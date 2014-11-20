@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Support\Presenter;
 
 /**
- * Class EloquentPresenter
+ * Class EloquentModelPresenter
  * The base presenter for all our models.
  *
  * @link          http://anomaly.is/streams-platform
@@ -11,8 +11,21 @@ use Anomaly\Streams\Platform\Support\Presenter;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Model
  */
-class EloquentPresenter extends Presenter
+class EloquentModelPresenter extends Presenter
 {
+
+    /**
+     * Create a new EloquentModelPresenter instance.
+     *
+     * @param $resource
+     */
+    public function __construct($resource)
+    {
+        if ($resource instanceof EloquentModel) {
+
+            $this->resource = $resource;
+        }
+    }
 
     /**
      * Return the ID.

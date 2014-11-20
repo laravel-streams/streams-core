@@ -1,12 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Collection\EloquentCollection;
 use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
 use Anomaly\Streams\Platform\Support\Transformer;
 use Anomaly\Streams\Platform\Traits\CacheableTrait;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\EventableTrait;
+use Anomaly\Streams\Platform\Traits\TransformableTrait;
 use Anomaly\Streams\Platform\Traits\TranslatableTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +21,7 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     use EventableTrait;
     use CacheableTrait;
     use CommandableTrait;
+    use TransformableTrait;
 
     /**
      * Translatable flag.
@@ -44,13 +45,6 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     protected $translatedAttributes = [];
 
     /**
-     * Validate the model by default.
-     *
-     * @var boolean
-     */
-    protected $validate = true;
-
-    /**
      * The number of minutes to cache query results.
      *
      * @var null
@@ -65,16 +59,6 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     protected $guarded = ['id'];
 
     /**
-     * Observable model events.
-     *
-     * These are merged with the parent
-     * observable events.
-     *
-     * @var array
-     */
-    protected $observables = [];
-
-    /**
      * The "booting" method of the model.
      *
      * @return void
@@ -83,7 +67,7 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     {
         parent::boot();
 
-        // TODO: This looses persistence for some reason if not set here.
+        // TODO: This looses persistence for some reason if not set here. Or.. it did. Don't give an iFuck
         //self::$dispatcher = app('Illuminate\Contracts\Events\Dispatcher');
 
         // Observing is a must.
@@ -128,58 +112,37 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
         }
     }
 
-    public function decorate()
+    public function flushCacheCollection()
     {
-        return new EloquentPresenter($this);
+        app('streams.cache.collection')->setKey($this->getCacheCollectionKey())->flush();
+
+        return $this;
     }
 
-    /**
-     * Return an identifiable name.
-     *
-     * @return string
-     */
-    public function getIdentifiableName()
+    public function newPresenter()
     {
-        return $this->getKey();
+        if (!$collection = $this->transform(__FUNCTION__)) {
+
+            $collection = 'Anomaly\Streams\Platform\Model\EloquentModelPresenter';
+        }
+
+        return app()->make($collection, [$this]);
     }
 
     /**
      * Return a new collection class with our models.
      *
-     * @param array $models
+     * @param array $items
      * @return Collection
      */
-    public function newCollection(array $models = array())
+    public function newCollection(array $items = array())
     {
-        return new EloquentCollection($models);
-    }
+        if (!$collection = $this->transform(__FUNCTION__)) {
 
-    /**
-     * Get the validate property.
-     *
-     * @return bool
-     */
-    public function getValidate()
-    {
-        return $this->validate;
-    }
+            $collection = 'Anomaly\Streams\Platform\Collection\EloquentCollection';
+        }
 
-    public function getObservableEvents()
-    {
-        return array_unique(array_merge(parent::getObservableEvents(), $this->observables));
-    }
-
-    /**
-     * Set the validate property.
-     *
-     * @param $validate
-     * @return $this
-     */
-    public function setValidate($validate)
-    {
-        $this->validate = ($validate);
-
-        return $this;
+        return app()->make($collection, [$items]);
     }
 
     public function isTranslatable()
@@ -201,19 +164,7 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
 
     public function getCacheCollectionKey($suffix = null)
     {
-        return $this->getCacheCollectionPrefix() . $suffix;
-    }
-
-    public function getCacheCollectionPrefix()
-    {
-        return get_called_class();
-    }
-
-    public function flushCacheCollection()
-    {
-        app('streams.cache.collection')->setKey($this->getCacheCollectionKey())->flush();
-
-        return $this;
+        return get_called_class() . $suffix;
     }
 
     /**
