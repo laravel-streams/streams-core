@@ -137,17 +137,17 @@ class TablePresets extends Presets
 
             // Suggest best practices for view URLs
             case 'view':
-                return $path .= '/show/{id}';
+                return $path .= '/show/{{id}}';
                 break;
 
             // Suggest best practices for edit URLs
             case 'edit':
-                return $path .= '/edit/{id}';
+                return $path .= '/edit/{{id}}';
                 break;
 
             // Suggest best practices for delete URLs
             case 'delete':
-                return $path .= '/delete/{id}';
+                return $path .= '/delete/{{id}}';
                 break;
 
             default:
