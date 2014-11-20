@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Interface FieldInterface
@@ -23,9 +24,11 @@ interface FieldInterface
     /**
      * Get the field type.
      *
+     * @param EntryInterface $entry
+     * @param null           $locale
      * @return FieldType
      */
-    public function getType();
+    public function getType(EntryInterface $entry = null, $locale = null);
 
     /**
      * Get the configuration.

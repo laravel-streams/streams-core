@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -59,11 +60,18 @@ class FieldModel extends EloquentModel implements FieldInterface
 
         $locale = $locale ? : config('app.locale');
 
-        $data = compact('type', 'field', 'label', 'config', 'locale', 'entry');
+        $data = compact('type', 'field', 'label', 'config', 'locale');
 
         $command = 'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand';
 
-        return $this->execute($command, $data);
+        $type = $this->execute($command, $data);
+
+        if ($entry and $type instanceof FieldType) {
+
+            $type->setValue($entry->getFieldValue($field, $locale, false));
+        }
+
+        return $type;
     }
 
     /**
