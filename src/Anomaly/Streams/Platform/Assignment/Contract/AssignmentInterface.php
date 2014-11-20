@@ -77,4 +77,11 @@ interface AssignmentInterface
      * @return mixed
      */
     public function getFieldType(EntryInterface $entry = null, $locale = null);
+
+    /**
+     * Get the field slug.
+     *
+     * @return mixed
+     */
+    public function getFieldSlug();
 }

@@ -24,7 +24,7 @@ class AssignmentCollection extends EloquentCollection
     {
         foreach ($this->items as $item) {
 
-            if ($item->field->slug == $slug) {
+            if ($item->getFieldSlug() == $slug) {
 
                 return $item;
             }

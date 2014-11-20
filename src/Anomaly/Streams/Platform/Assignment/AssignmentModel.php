@@ -47,6 +47,16 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     protected $table = 'streams_assignments';
 
     /**
+     * Get the field slug.
+     *
+     * @return mixed
+     */
+    public function getFieldSlug()
+    {
+        return $this->field->slug;
+    }
+
+    /**
      * Get the assignment's field's type.
      *
      * @param EntryInterface $entry
