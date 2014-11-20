@@ -24,6 +24,13 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     use TransformableTrait;
 
     /**
+     * Disable timestamps for this model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * Translatable flag.
      *
      * @var bool

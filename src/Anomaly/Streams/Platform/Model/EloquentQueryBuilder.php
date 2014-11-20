@@ -13,6 +13,18 @@ use Illuminate\Database\Eloquent\Builder;
 class EloquentQueryBuilder extends Builder
 {
 
+    /**
+     * The model being queried.
+     *
+     * @var EloquentModel
+     */
+    protected $model;
+
+    /**
+     * The cache key for the current query.
+     *
+     * @var null
+     */
     protected $cacheKey = null;
 
     /**
@@ -21,7 +33,7 @@ class EloquentQueryBuilder extends Builder
      * @param  array $columns
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function get($columns = array('*'))
+    public function get($columns = ['*'])
     {
         $this->rememberIndex();
 
@@ -40,6 +52,11 @@ class EloquentQueryBuilder extends Builder
         return parent::get($columns);
     }
 
+    /**
+     * Remember and index.
+     *
+     * @return $this
+     */
     protected function rememberIndex()
     {
         if ($cacheMinutes = $this->model->getCacheMinutes()) {
