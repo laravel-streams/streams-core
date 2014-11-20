@@ -77,6 +77,13 @@ class Ui
     protected $utility;
 
     /**
+     * The expander object.
+     *
+     * @var Expander
+     */
+    protected $expander;
+
+    /**
      * The evaluator object.
      *
      * @var Evaluator
@@ -96,6 +103,7 @@ class Ui
     public function __construct()
     {
         $this->utility    = $this->newUtility();
+        $this->expander   = $this->newExpander();
         $this->evaluator  = $this->newEvaluator();
         $this->normalizer = $this->newNormalizer();
 
@@ -264,6 +272,46 @@ class Ui
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * Get the evaluator object.
+     *
+     * @return \Anomaly\Streams\Platform\Ui\Evaluator
+     */
+    public function getEvaluator()
+    {
+        return $this->evaluator;
+    }
+
+    /**
+     * Get the expander object.
+     *
+     * @return \Anomaly\Streams\Platform\Ui\Expander
+     */
+    public function getExpander()
+    {
+        return $this->expander;
+    }
+
+    /**
+     * Get the normalizer object.
+     *
+     * @return \Anomaly\Streams\Platform\Ui\Normalizer
+     */
+    public function getNormalizer()
+    {
+        return $this->normalizer;
+    }
+
+    /**
+     * Get the utility object.
+     *
+     * @return \Anomaly\Streams\Platform\Ui\Utility
+     */
+    public function getUtility()
+    {
+        return $this->utility;
     }
 
     /**
