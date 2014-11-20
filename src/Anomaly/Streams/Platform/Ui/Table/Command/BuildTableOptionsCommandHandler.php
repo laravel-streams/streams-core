@@ -21,15 +21,16 @@ class BuildTableOptionsCommandHandler
     {
         $table = $command->getTable();
 
-        $prefix           = evaluate($table->getPrefix(), [$table]);
-        $paginate         = evaluate($table->getPaginate(), [$table]);
-        $sortable         = evaluate($table->getSortable(), [$table]);
-        $tableClass       = evaluate($table->getTableClass(), [$table]);
         $noResultsMessage = trans(evaluate($table->getNoResultsMessage()));
-        $activeView       = app('request')->get($table->getPrefix() . 'view', 'all');
-        $filterState      = app('request')->get($table->getPrefix() . 'filter', null);
 
-        return compact('paginate', 'sortable', 'tableClass', 'prefix', 'noResultsMessage', 'activeView', 'filterState');
+        $prefix     = evaluate($table->getPrefix(), compact('table'));
+        $paginate   = evaluate($table->getPaginate(), compact('table'));
+        $sortable   = evaluate($table->getSortable(), compact('table'));
+        $tableClass = evaluate($table->getTableClass(), compact('table'));
+
+        $filterState = app('request')->get($table->getPrefix() . 'filter', false);
+
+        return compact('paginate', 'sortable', 'tableClass', 'prefix', 'noResultsMessage', 'filterState');
     }
 }
  
