@@ -131,7 +131,7 @@ class Normalizer
     {
         if (isset($data['attributes'])) {
 
-            $data['attributes'] = $this->utility->attributeString($data['attributes']);
+            $data['attributes'] = attributes_string($data['attributes']);
         }
 
         return $data;

@@ -26,10 +26,10 @@ class Evaluator
      *
      * @param array $data
      * @param array $arguments
-     * @param null  $entry
+     * @param null  $parseData
      * @return array|mixed|null
      */
-    public function evaluate(array $data, array $arguments = [], $entry = null)
+    public function evaluate(array $data, array $arguments = [], $parseData = null)
     {
         $data = evaluate($data, $arguments);
 
@@ -41,7 +41,7 @@ class Evaluator
 
             if (is_string($value) and str_contains($value, '{{')) {
 
-                $value = $this->parseValue($value, $entry);
+                $value = $this->parseValue($value, $parseData);
             }
         }
 
@@ -57,19 +57,19 @@ class Evaluator
      * Parse the entry data into a string.
      *
      * @param $value
-     * @param $entry
+     * @param $data
      * @return mixed
      */
-    protected function parseValue($value, $entry)
+    protected function parseValue($value, $data)
     {
-        if ($entry instanceof ArrayableInterface) {
+        if ($data instanceof ArrayableInterface) {
 
-            return view()->parse($value, $entry->toArray());
+            return view()->parse($value, $data->toArray());
         }
 
-        if (is_array($entry)) {
+        if (is_array($data)) {
 
-            return view()->parse($value, $entry);
+            return view()->parse($value, $data);
         }
 
         return $value;
