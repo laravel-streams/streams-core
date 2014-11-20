@@ -22,7 +22,6 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         'Illuminate\Session\Middleware\StartSession',
         'Illuminate\View\Middleware\ShareErrorsFromSession',
         'Anomaly\Streams\Platform\Http\Middleware\CheckInstallation',
-        'Anomaly\Streams\Platform\Http\Middleware\CheckCsrfToken',
         'Anomaly\Streams\Platform\Http\Middleware\SetLocale',
         'Anomaly\Streams\Platform\Http\Middleware\FlashMessages',
     ];
