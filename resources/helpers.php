@@ -249,13 +249,10 @@ function hit(array $lottery = [2, 100])
  * Return an array parsed into a string of attributes.
  *
  * @param array $attributes
- * @param array $skip
  * @return string
  */
-function attributes_string(array $attributes, array $skip = [])
+function attributes_string(array $attributes)
 {
-    $attributes = array_diff_key($attributes, array_flip($skip));
-
     return implode(
         ' ',
         array_map(
