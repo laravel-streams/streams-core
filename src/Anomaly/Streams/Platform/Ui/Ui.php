@@ -1,11 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui;
 
-use Anomaly\Streams\Platform\Entry\EntryInterface;
-use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Traits\CallableTrait;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
-use Anomaly\Streams\Platform\Traits\EventableTrait;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
 
 /**
@@ -23,10 +20,16 @@ class Ui
 {
 
     use CallableTrait;
-    use EventableTrait;
     use CommandableTrait;
     use DispatchableTrait;
     use TransformableTrait;
+
+    /**
+     * The view data.
+     *
+     * @var array
+     */
+    protected $data = [];
 
     /**
      * The response object sent back
@@ -34,7 +37,7 @@ class Ui
      *
      * @var
      */
-    protected $response;
+    protected $response = null;
 
     /**
      * The UI prefix. This helps us
@@ -46,11 +49,11 @@ class Ui
     protected $prefix = 'ui';
 
     /**
-     * The rendering wrapper view.
+     * The wrapper view.
      *
      * @var string
      */
-    protected $wrapper = 'wrappers/blank';
+    protected $wrapperView = 'wrappers/blank';
 
     /**
      * The page title.
@@ -60,17 +63,42 @@ class Ui
     protected $title = 'misc.untitled'; // TODO: Could pry do better than this default.
 
     /**
-     * The working model object if any.
+     * The model object.
      *
-     * @var
+     * @var mixed
      */
     protected $model = null;
+
+    /**
+     * The utility object.
+     *
+     * @var Utility
+     */
+    protected $utility;
+
+    /**
+     * The evaluator object.
+     *
+     * @var Evaluator
+     */
+    protected $evaluator;
+
+    /**
+     * The normalizer object.
+     *
+     * @var Normalizer
+     */
+    protected $normalizer;
 
     /**
      * Create a new Ui instance.
      */
     public function __construct()
     {
+        $this->utility    = $this->newUtility();
+        $this->evaluator  = $this->newEvaluator();
+        $this->normalizer = $this->newNormalizer();
+
         $this->boot();
     }
 
@@ -100,7 +128,7 @@ class Ui
 
         $title = trans(evaluate($this->title, [$this]));
 
-        return view($this->wrapper, compact('content', 'title'));
+        return view($this->wrapperView, compact('content', 'title'));
     }
 
     /**
@@ -110,7 +138,7 @@ class Ui
      */
     public function render()
     {
-        return $this->fire('make');
+        return $this->make();
     }
 
     /**
@@ -159,10 +187,10 @@ class Ui
     /**
      * Set the model object.
      *
-     * @param EntryInterface $model
+     * @param $model
      * @return $this
      */
-    public function setModel(EntryInterface $model)
+    public function setModel($model)
     {
         $this->model = $model;
 
@@ -177,21 +205,6 @@ class Ui
     public function getModel()
     {
         return $this->model;
-    }
-
-    /**
-     * Get the model stream.
-     *
-     * @return mixed
-     */
-    public function getStream()
-    {
-        if ($this->model instanceof EntryModel) {
-
-            return $this->model->getStream();
-        }
-
-        return null;
     }
 
     /**
@@ -220,18 +233,81 @@ class Ui
     /**
      * Set the view wrapper.
      *
-     * @param $wrapper
+     * @param $view
      * @return $this
      */
-    public function setWrapper($wrapper)
+    public function setWrapperView($view)
     {
-        $this->wrapper = $wrapper;
+        $this->wrapperView = $view;
 
         return $this;
     }
 
-    protected function onMake()
+    /**
+     * Set the view data.
+     *
+     * @param array $data
+     * return $this
+     */
+    public function setData(array $data)
     {
-        return $this->make();
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * Get the view data.
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * Return a the utility counterpart object.
+     *
+     * @return mixed
+     */
+    protected function newUtility()
+    {
+        if (!$utility = $this->transform(__METHOD__)) {
+
+            $utility = 'Anomaly\Streams\Platform\Ui\Utility';
+        }
+
+        return app($utility);
+    }
+
+    /**
+     * Return a the evaluator counterpart object.
+     *
+     * @return mixed
+     */
+    protected function newEvaluator()
+    {
+        if (!$evaluator = $this->transform(__METHOD__)) {
+
+            $evaluator = 'Anomaly\Streams\Platform\Ui\Evaluator';
+        }
+
+        return app($evaluator);
+    }
+
+    /**
+     * Return a the normalizer counterpart object.
+     *
+     * @return mixed
+     */
+    protected function newNormalizer()
+    {
+        if (!$normalizer = $this->transform(__METHOD__)) {
+
+            $normalizer = 'Anomaly\Streams\Platform\Ui\Normalizer';
+        }
+
+        return app($normalizer);
     }
 }
