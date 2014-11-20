@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Anomaly\Streams\Platform\Ui\Presets;
+
 /**
  * Class TablePresets
  *
@@ -8,59 +10,8 @@
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table
  */
-class TablePresets
+class TablePresets extends Presets
 {
-
-    /**
-     * Button presets.
-     *
-     * @var array
-     */
-    protected $buttons = [
-        'success'    => [
-            'class' => 'btn btn-sm btn-success',
-        ],
-        'info'       => [
-            'class' => 'btn btn-sm btn-info',
-        ],
-        'warning'    => [
-            'class' => 'btn btn-sm btn-warning',
-        ],
-        'danger'     => [
-            'class' => 'btn btn-sm btn-danger',
-        ],
-        'preset'     => [
-            'class' => 'btn btn-sm btn-preset',
-        ],
-        'view'       => [
-            'title' => 'admin.button.view',
-            'class' => 'btn btn-sm btn-info',
-        ],
-        'options'    => [
-            'title' => 'admin.button.options',
-            'class' => 'btn btn-sm btn-preset',
-        ],
-        'edit'       => [
-            'title' => 'admin.button.edit',
-            'class' => 'btn btn-sm btn-warning',
-        ],
-        'delete'     => [
-            'title' => 'admin.button.delete',
-            'class' => 'btn btn-sm btn-danger',
-        ],
-        'confirm'    => [
-            'class'        => 'btn btn-sm btn-danger',
-            'data-confirm' => 'confirm.delete',
-        ],
-        'gear-icon'  => [
-            'class' => 'btn btn-sm btn-link',
-            'title' => '<i class="fa fa-gear"></i>',
-        ],
-        'trash-icon' => [
-            'class' => 'btn btn-sm btn-link',
-            'title' => '<i class="fa fa-trash"></i>',
-        ],
-    ];
 
     /**
      * Preset action configurations.
@@ -122,56 +73,54 @@ class TablePresets
     ];
 
     /**
-     * Return button presets by slug.
+     * Set preset data for a button. Guess it's URL
+     * afterward based on the slug.
      *
-     * @param $slug
-     * @return null
+     * @param array $button
      */
-    public function getButtonPresets($slug)
+    public function setButtonPresets(array $button)
     {
-        if (isset($this->buttons[$slug]) and $presets = $this->buttons[$slug]) {
+        $button = parent::setButtonPresets($button);
 
-            $presets['url'] = $this->guessUrl($slug);
+        if (!isset($button['url'])) {
 
-            return $presets;
+            $button['url'] = $this->guessUrl($button['slug']);
         }
 
-        return [];
+        return $button;
     }
 
 
     /**
-     * Return preset button configuration for
-     * a given action type.
+     * Set preset data for an action.
      *
-     * @param $slug
-     * @return null
+     * @param array $action
+     * @return array
      */
-    public function getActionPresets($slug)
+    public function setActionPresets(array $action)
     {
-        if (isset($this->actions[$slug]) and $presets = $this->actions[$slug]) {
+        if (isset($this->actions[$action['slug']]) and $presets = $this->actions[$action['slug']]) {
 
-            return $presets;
+            return array_merge($presets, $action);
         }
 
-        return [];
+        return $action;
     }
 
     /**
-     * Return preset view configuration for
-     * a given view type.
+     * Set preset data for a view.
      *
-     * @param $slug
-     * @return null
+     * @param array $view
+     * @return array
      */
-    public function getViewPresets($slug)
+    public function setViewPresets(array $view)
     {
-        if (isset($this->views[$slug]) and $presets = $this->views[$slug]) {
+        if (isset($this->views[$view['slug']]) and $presets = $this->views[$view['slug']]) {
 
-            return $presets;
+            return array_merge($presets, $view);
         }
 
-        return [];
+        return $view;
     }
 
     /**
