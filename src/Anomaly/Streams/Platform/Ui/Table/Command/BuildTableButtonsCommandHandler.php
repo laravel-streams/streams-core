@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\TablePresets;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
  * Class BuildTableButtonsCommandHandler
@@ -29,23 +29,6 @@ class BuildTableButtonsCommandHandler
     ];
 
     /**
-     * The table utility class.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TablePresets
-     */
-    protected $utility;
-
-    /**
-     * Create a new BuildTableButtonsCommandHandler instance.
-     *
-     * @param TablePresets $utility
-     */
-    public function __construct(TablePresets $utility)
-    {
-        $this->utility = $utility;
-    }
-
-    /**
      * Handle the command.
      *
      * @param BuildTableButtonsCommand $command
@@ -56,102 +39,68 @@ class BuildTableButtonsCommandHandler
         $table = $command->getTable();
         $entry = $command->getEntry();
 
-        $buttons = [];
+        $presets    = $table->getPresets();
+        $expander   = $table->getExpander();
+        $evaluator  = $table->getEvaluator();
+        $normalizer = $table->getNormalizer();
 
-        foreach ($table->getButtons() as $button) {
+        $buttons = $table->getButtons();
 
-            // Standardize for processing.
-            $button = $this->standardize($button);
+        foreach ($buttons as $slug => &$button) {
 
-            // Evaluate everything in the array.
-            // All closures are gone now.
-            $button = $this->utility->evaluate($button, compact('table', 'entry'), $entry);
+            // Expand and automate.
+            $button = $expander->expand($slug, $button);
+            $button = $presets->setButtonPresets($button);
+
+            // Evaluate the entire button.
+            $button = $evaluator->evaluate($button, compact('table', 'entry'), $entry);
 
             // Skip if disabled.
-            if (evaluate_key($button, 'enabled', true) == false) {
+            if (array_get($button, 'enabled') === false) {
+
+                unset($buttons[$slug]);
 
                 continue;
             }
 
-            // Get our defaults and merge them in.
-            $defaults = $this->getDefaults($button, $table, $entry);
-
-            $button = array_merge($defaults, $button);
-
             // Build out our required data.
-            $title      = $this->getTitle($button);
-            $class      = $this->getClass($button);
-            $dropdown   = $this->getDropdown($button);
-            $attributes = $this->getAttributes($button);
+            $icon       = $this->getIcon($button, $table);
+            $title      = $this->getTitle($button, $table);
+            $class      = $this->getClass($button, $table);
+            $dropdown   = $this->getDropdown($button, $table);
+            $attributes = $this->getAttributes($button, $table);
 
             $button = compact('title', 'class', 'attributes', 'dropdown');
 
-            // Normalize things a bit before proceeding.
-            $button = $this->utility->normalize($button);
-
-            $buttons[] = $button;
+            // Normalize the result.
+            $button = $normalizer->normalize($button);
         }
 
         return $buttons;
     }
 
     /**
-     * Standardize minimum input to the proper data
-     * structure we actually expect.
-     *
-     * @param $button
-     * @return array
-     */
-    protected function standardize($button)
-    {
-        // If the button is a string set as type.
-        if (is_string($button)) {
-
-            $button = ['type' => $button];
-        }
-
-        return $button;
-    }
-
-    /**
-     * Get default configuration if any.
-     * Then run everything back through evaluation.
-     *
-     * @param $button
-     * @param $table
-     * @param $entry
-     * @return array|mixed|null
-     */
-    protected function getDefaults($button, $table, $entry)
-    {
-        if (isset($button['type']) and $defaults = $this->utility->getButtonDefaults($button['type'])) {
-
-            return $this->utility->evaluate($defaults, [$table, $entry], $entry);
-        }
-
-        return [];
-    }
-
-    /**
      * Get the translated title.
      *
-     * @param $button
+     * @param array $button
+     * @param Table $table
      * @return string
      */
-    protected function getTitle($button)
+    protected function getTitle(array $button, Table $table)
     {
-        return trans(evaluate_key($button, 'title', null));
+        return trans(array_get($button, 'title'));
     }
 
     /**
      * Get the class.
      *
-     * @param $button
+     * @param array $button
+     * @param Table $table
      * @return mixed|null
      */
-    protected function getClass($button)
+    protected function getClass(array $button, Table $table)
     {
-        return evaluate_key($button, 'class', 'btn btn-sm btn-default');
+        return array_get($button, 'class', 'btn btn-sm btn-default');
     }
 
     /**
@@ -190,10 +139,10 @@ class BuildTableButtonsCommandHandler
      */
     protected function getDropdownItems(array $dropdown)
     {
-        $items = [];
+        foreach ($dropdown as &$item) {
 
-        foreach ($dropdown as $item) {
-
+            // Translate the title. This is not
+            // processed like the other values later.
             $item['title'] = trans($item['title']);
 
             // Normalize this here. It won't be reached
@@ -202,11 +151,28 @@ class BuildTableButtonsCommandHandler
 
                 $item['url'] = url($item['url']);
             }
-
-            $items[] = $item;
         }
 
-        return $items;
+        return $dropdown;
+    }
+
+    /**
+     * Get the icon.
+     *
+     * @param array $button
+     * @param Table $table
+     * @return null|string
+     */
+    protected function getIcon(array $button, Table $table)
+    {
+        $icon = array_get($button, 'icon', null);
+
+        if (!$icon) {
+
+            return null;
+        }
+
+        return '<i class="' . $icon . '"></i>';
     }
 }
  

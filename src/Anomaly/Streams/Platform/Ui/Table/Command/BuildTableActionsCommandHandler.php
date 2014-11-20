@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Anomaly\Streams\Platform\Ui\Table\TablePresets;
 
 /**
  * Class BuildTableActionsCommandHandler
@@ -31,23 +30,6 @@ class BuildTableActionsCommandHandler
     ];
 
     /**
-     * The table utility class.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TablePresets
-     */
-    protected $utility;
-
-    /**
-     * Create a new BuildTableActionsCommandHandler instance.
-     *
-     * @param TablePresets $utility
-     */
-    public function __construct(TablePresets $utility)
-    {
-        $this->utility = $utility;
-    }
-
-    /**
      * Handle the command.
      *
      * @param BuildTableActionsCommand $command
@@ -57,12 +39,17 @@ class BuildTableActionsCommandHandler
     {
         $table = $command->getTable();
 
-        $actions = [];
+        $actions    = $table->getActions();
+        $presets    = $table->getPresets();
+        $expander   = $table->getExpander();
+        $evaluator  = $table->getEvaluator();
+        $normalizer = $table->getNormalizer();
 
-        foreach ($table->getActions() as $slug => $action) {
+        foreach ($actions as $slug => &$action) {
 
-            // Standardize input.
-            $action = $this->standardize($slug, $action);
+            // Expand and automate.
+            $action = $expander->expand($slug, $action);
+            $action = $presets->setActionPresets($action);
 
             /**
              * Remove the handler or it
@@ -72,136 +59,66 @@ class BuildTableActionsCommandHandler
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $action = $this->utility->evaluate($action, [$table]);
+            $action = $evaluator->evaluate($action, compact('table'));
 
             // Skip if disabled.
-            if (!evaluate_key($action, 'enabled', true)) {
+            if (!array_get($action, 'enabled') === false) {
+
+                unset($actions[$slug]);
 
                 continue;
             }
 
-            // Get our defaults and merge them in.
-            $defaults = $this->getDefaults($action, $table);
-
-            $action = array_merge($defaults, $action);
-
-            // All actions start off as disabled.
+            // All actions start off as disabled="disabled"
             $action['disabled'] = 'disabled';
 
             // Build out our required data.
-            $name       = $this->getName($table);
-            $icon       = $this->getIcon($action);
-            $title      = $this->getTitle($action);
-            $class      = $this->getClass($action);
-            $value      = $this->getSlug($action, $table);
-            $attributes = $this->getAttributes($action);
+            $name  = $this->getName($action, $table);
+            $icon  = $this->getIcon($action, $table);
+            $value = $this->getValue($action, $table);
+            $title = $this->getTitle($action, $table);
+            $class = $this->getClass($action, $table);
+
+            $attributes = $this->getAttributes($action, $table);
 
             $action = compact('title', 'class', 'icon', 'value', 'name', 'attributes');
 
-            // Normalize things a bit before proceeding.
-            $action = $this->utility->normalize($action);
-
-            $actions[] = $action;
+            // Normalize the result.
+            $action = $normalizer->normalize($action);
         }
 
         return $actions;
     }
 
     /**
-     * Standardize minimum input to the proper data
-     * structure we actually expect.
-     *
-     * @param $slug
-     * @param $action
-     * @return array
-     */
-    protected function standardize($slug, $action)
-    {
-
-        /**
-         * If the slug is numerical and the action
-         * is a string then use action for both.
-         */
-        if (is_numeric($slug) and is_string($action)) {
-
-            return [
-                'type' => $action,
-                'slug' => $action,
-            ];
-        }
-
-        /**
-         * If the slug is a string and the action
-         * is too then use the slug as slug and
-         * the action as the type.
-         */
-        if (is_string($action)) {
-
-            return [
-                'type' => $action,
-                'slug' => $slug,
-            ];
-        }
-
-        /**
-         * If the slug is not explicitly set
-         * then default it to the slug inferred.
-         */
-        if (is_array($action) and !isset($action['slug'])) {
-
-            $action['slug'] = $slug;
-        }
-
-        return $action;
-    }
-
-    /**
-     * Get default configuration if any.
-     * Then run everything back through evaluation.
-     *
-     * @param array $action
-     * @param Table $table
-     * @return array|mixed|null
-     */
-    protected function getDefaults(array $action, Table $table)
-    {
-        $defaults = [];
-
-        if (isset($action['type']) and $defaults = $this->utility->getActionDefaults($action['type'])) {
-
-            $defaults = $this->utility->evaluate($defaults, [$table]);
-        }
-
-        return $defaults;
-    }
-
-    /**
      * Get the translated title.
      *
      * @param array $action
+     * @param Table $table
      * @return string
      */
-    protected function getTitle(array $action)
+    protected function getTitle(array $action, Table $table)
     {
-        return trans(evaluate_key($action, 'title', null));
+        return trans(array_get($action, 'title'));
     }
 
     /**
      * Get the icon.
      *
-     * @param $action
+     * @param array $action
+     * @param Table $table
      * @return null|string
      */
-    protected function getIcon($action)
+    protected function getIcon(array $action, Table $table)
     {
-        $icon = evaluate_key($action, 'icon', null);
+        $icon = array_get($action, 'icon', null);
 
-        if ($icon) {
+        if (!$icon) {
 
-            return '<i class="' . $icon . '"></i>';
+            return null;
         }
 
-        return null;
+        return '<i class="' . $icon . '"></i>';
     }
 
     /**
@@ -212,19 +129,7 @@ class BuildTableActionsCommandHandler
      */
     protected function getClass(array $action)
     {
-        return evaluate_key($action, 'class', 'btn btn-sm btn-default');
-    }
-
-    /**
-     * Get the attributes less the keys that are
-     * defined as NOT attributes.
-     *
-     * @param array $action
-     * @return array
-     */
-    protected function getAttributes(array $action)
-    {
-        return array_diff_key($action, array_flip($this->notAttributes));
+        return array_get($action, 'class', 'btn btn-sm btn-default');
     }
 
     /**
@@ -234,7 +139,7 @@ class BuildTableActionsCommandHandler
      * @param Table $table
      * @return string
      */
-    protected function getSlug(array $action, Table $table)
+    protected function getValue(array $action, Table $table)
     {
         return $table->getPrefix() . $action['slug'];
     }
@@ -242,12 +147,26 @@ class BuildTableActionsCommandHandler
     /**
      * Get the name of the submit input.
      *
+     * @param array $action
      * @param Table $table
      * @return string
      */
-    protected function getName(Table $table)
+    protected function getName(array $action, Table $table)
     {
         return $table->getPrefix() . 'action';
+    }
+
+    /**
+     * Get the attributes less the keys that are
+     * defined as NOT attributes.
+     *
+     * @param array $action
+     * @param Table $table
+     * @return array
+     */
+    protected function getAttributes(array $action, Table $table)
+    {
+        return array_diff_key($action, array_flip($this->notAttributes));
     }
 }
  
