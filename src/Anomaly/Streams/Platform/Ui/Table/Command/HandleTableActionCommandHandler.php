@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Illuminate\Http\Request;
 
 /**
  * Class HandleTableActionCommandHandler
@@ -18,23 +17,6 @@ class HandleTableActionCommandHandler
 {
 
     /**
-     * The HTTP request class.
-     *
-     * @var \Illuminate\Http\Request
-     */
-    protected $request;
-
-    /**
-     * Create a new HandleTableActionCommandHandler instance.
-     *
-     * @param Request $request
-     */
-    function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
-    /**
      * Handle the command.
      *
      * @param HandleTableActionCommand $command
@@ -42,22 +24,39 @@ class HandleTableActionCommandHandler
      */
     public function handle(HandleTableActionCommand $command)
     {
-        $response = null;
-
         $table = $command->getTable();
 
-        $flag = $table->getPrefix() . 'action';
+        $key = $table->getPrefix() . 'action';
 
         /**
          * If there is a submitted action to execute
          * then go ahead and handle it.
          */
-        if ($executing = $this->request->get($flag)) {
+        if ($executing = app('request')->get($key)) {
 
-            $this->handleAction($executing, $table);
+            $presets  = $table->getPresets();
+            $expander = $table->getExpander();
 
-            app('streams.messages')->flash();
+            /**
+             * Look through actions and find a match.
+             */
+            foreach ($table->getActions() as $slug => $action) {
 
+                // Expand and automate.
+                $action = $expander->expand($slug, $action);
+                $action = $presets->setActionPresets($action);
+
+                // Found the executing action? Nice, run it.
+                if ($executing == $table->getPrefix() . $action['slug']) {
+
+                    $this->setHandler($action, $table);
+                    $this->runHandler($action, $table);
+
+                    app('streams.messages')->flash();
+                }
+            }
+
+            // Make sure we go back to where we came from.
             $table->setResponse(redirect(referer(url(app('request')->path()))));
         }
     }
@@ -65,57 +64,46 @@ class HandleTableActionCommandHandler
     /**
      * Get the handler.
      *
-     * @param array   $action
+     * @param array $action
      * @param Table $table
      * @return mixed
      */
-    protected function getHandler(array $action, Table $table)
+    protected function setHandler(array &$action, Table $table)
     {
         if (is_string($action['handler'])) {
 
-            return app()->make($action['handler'], compact('ui', 'action'));
-        }
-
-        return $action['handler'];
-    }
-
-    /**
-     * Handle the action.
-     *
-     * @param         $executing
-     * @param Table $table
-     */
-    protected function handleAction($executing, Table $table)
-    {
-        foreach ($table->getActions() as $action) {
-
-            if ($executing == $table->getPrefix() . $action['slug']) {
-
-                $handler = $this->getHandler($action, $table);
-
-                $this->runHandler($handler, $table);
-            }
+            $action['handler'] = app()->make($action['handler'], compact('table'));
         }
     }
 
     /**
      * Run the handler.
      *
-     * @param         $handler
+     * @param array $action
      * @param Table $table
      */
-    protected function runHandler($handler, Table $table)
+    protected function runHandler(array $action, Table $table)
     {
-        if ($handler instanceof \Closure) {
+        $ids = (array)app('request')->get($table->getPrefix() . 'id');
 
-            $handler();
+        /**
+         * If the handler is a closure call it
+         * through the container.
+         */
+        if ($action['handler'] instanceof \Closure) {
+
+            app()->call($action['handler'], compact('table'));
         }
 
-        if ($handler instanceof TableActionInterface) {
+        /**
+         * If the handler is an instance of the interface
+         * then authorize and run it's handle method.
+         */
+        if ($action['handler'] instanceof TableActionInterface) {
 
-            if ($handler->authorize() !== false) {
+            if ($action['handler']->authorize($table) !== false) {
 
-                $handler->handle((array)app('request')->get($table->getPrefix() . 'id'));
+                $action['handler']->handle($table, $ids);
             }
         }
     }

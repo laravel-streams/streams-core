@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Contract;
 
+use Anomaly\Streams\Platform\Ui\Table\Table;
+
 /**
  * Interface TableActionInterface
  *
@@ -17,16 +19,18 @@ interface TableActionInterface
     /**
      * Handle the table action.
      *
+     * @param Table $table
      * @param array $ids
      * @return mixed
      */
-    public function handle(array $ids);
+    public function handle(Table $table, array $ids);
 
     /**
      * Authorize the user to process the action.
      *
+     * @param Table $table
      * @return bool
      */
-    public function authorize();
+    public function authorize(Table $table);
 }
  
