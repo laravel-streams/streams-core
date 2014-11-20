@@ -62,6 +62,8 @@ class BuildTableViewsCommandHandler
             // Skip if disabled.
             if (!array_get($view, 'enabled', true)) {
 
+                unset($view[$slug]);
+
                 continue;
             }
 
@@ -73,7 +75,7 @@ class BuildTableViewsCommandHandler
 
             $attributes = attributes_string($view, $this->notAttributes);
 
-            $views[] = compact('url', 'title', 'class', 'active', 'attributes');
+            $views = compact('url', 'title', 'class', 'active', 'attributes');
         }
 
         return $views;
