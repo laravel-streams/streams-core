@@ -1,10 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Entry\EntryInterface;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
-class AssignmentModel extends EloquentModel
+/**
+ * Class AssignmentModel
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Assignment
+ */
+class AssignmentModel extends EloquentModel implements AssignmentInterface
 {
 
     /**
@@ -37,142 +47,63 @@ class AssignmentModel extends EloquentModel
     protected $table = 'streams_assignments';
 
     /**
-     * Add an assignment.
+     * Get the assignment's field's type.
      *
-     * @param $sortOrder
-     * @param $streamId
-     * @param $fieldId
-     * @param $label
-     * @param $placeholder
-     * @param $instructions
-     * @param $isUnique
-     * @param $isRequired
-     * @param $isTranslatable
-     * @param $isRevisionable
-     * @return $this
+     * @param EntryInterface $entry
+     * @param null           $locale
+     * @return FieldType
      */
-    public function add(
-        $sortOrder,
-        $streamId,
-        $fieldId,
-        $label,
-        $placeholder,
-        $instructions,
-        $isUnique,
-        $isRequired,
-        $isTranslatable,
-        $isRevisionable
-    ) {
-        $this->label           = $label;
-        $this->field_id        = $fieldId;
-        $this->stream_id       = $streamId;
-        $this->is_unique       = $isUnique;
-        $this->sort_order      = $sortOrder;
-        $this->is_required     = $isRequired;
-        $this->placeholder     = $placeholder;
-        $this->instructions    = $instructions;
-        $this->is_translatable = $isTranslatable;
-        $this->is_revisionable = $isRevisionable;
+    public function getFieldType(EntryInterface $entry = null, $locale = null)
+    {
+        // Get the type object from our related field.
+        $type = $this->getField()->getType($entry, $locale);
 
-        $this->save();
+        // These are always on or off so set em.
+        $type->setRequired($this->isRequired());
+        $type->setTranslatable($this->isTranslatable());
 
-        return $this;
+        /**
+         * This is already set as the field name.
+         * If the label is available (translated)
+         * set it as type's label.
+         */
+        if ($label = $this->getLabel($locale)) {
+
+            $type->setLabel($label);
+        }
+
+        /**
+         * This defaults to null but it's translation
+         * string is automated. If the translation is
+         * available set the placeholder on the type.
+         */
+        if ($placeholder = $this->getPlaceholder($locale)) {
+
+            $type->setPlaceholder($placeholder);
+        }
+
+        /**
+         * This defaults to null but it's translation
+         * string is automated. If the translation is
+         * available set the  instructions on the type.
+         */
+        if ($instructions = $this->getInstructions($locale)) {
+
+            $type->setInstructions($instructions);
+        }
+
+        return $type;
     }
 
     /**
-     * Remove an assignment.
+     * Get the label. If it is not translated then
+     * then just return null instead.
      *
-     * @param $streamId
-     * @param $fieldId
-     * @return $this|bool
+     * @param null $locale
+     * @return null|string
      */
-    public function remove($streamId, $fieldId)
+    public function getLabel($locale = null)
     {
-        $assignment = $this->whereStreamId($streamId)->whereFieldId($fieldId)->first();
-
-        if ($assignment) {
-
-            $assignment->delete();
-
-            return $this;
-        }
-
-        return false;
-    }
-
-    /**
-     * Find orphaned assignments.
-     *
-     * @return mixed
-     */
-    public function findAllOrphaned()
-    {
-        return $this->select('streams_assignments.*')
-            ->leftJoin('streams_streams', 'streams_assignments.stream_id', '=', 'streams_streams.id')
-            ->leftJoin('streams_fields', 'streams_assignments.field_id', '=', 'streams_fields.id')
-            ->whereNull('streams_streams.id')
-            ->orWhereNull('streams_fields.id')
-            ->get();
-    }
-
-    public function type(EntryInterface $entry = null, $locale = null)
-    {
-        $locale = $locale ? : config('app.locale');
-
-        $type         = $this->field->type;
-        $field        = $this->field->slug;
-        $required     = $this->is_required;
-        $config       = $this->field->config;
-        $translatable = $this->isTranslatable();
-        $label        = $this->getFieldLabel($locale);
-        $placeholder  = $this->getFieldPlaceholder($locale);
-        $instructions = $this->getFieldInstructions($locale);
-
-        $data = compact('type', 'field', 'instructions', 'label', 'placeholder', 'translatable', 'required', 'config');
-
-        $command = 'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand';
-
-        $fieldType = $this->execute($command, $data);
-
-        if ($fieldType instanceof FieldType) {
-
-            if ($entry) {
-
-                $fieldType->setValue(
-                    $entry->translate($locale, false, false)->getAttribute($fieldType->getColumnName(), false)
-                );
-            }
-        }
-
-        return $fieldType;
-    }
-
-    public function getColumnName()
-    {
-        return $this->type()->getColumnName();
-    }
-
-    public function getRulesAttribute($rules)
-    {
-        return unserialize($rules);
-    }
-
-    public function setRulesAttribute($rules)
-    {
-        $this->attributes['rules'] = serialize($rules);
-    }
-
-    public function getFieldName($locale = null)
-    {
-        $locale = $locale ? : config('app.locale');
-
-        return trans($this->field->name, [], null, $locale);
-    }
-
-    public function getFieldLabel($locale = null)
-    {
-        $translator = app('translator');
-
         $locale = $locale ? : config('app.locale');
 
         if ($label = $this->translate($locale)->label and is_translatable($label)) {
@@ -180,10 +111,17 @@ class AssignmentModel extends EloquentModel
             return trans($label, [], null, $locale);
         }
 
-        return $this->getFieldName($locale);
+        return null;
     }
 
-    public function getFieldPlaceholder($locale = null)
+    /**
+     * Get the placeholder. If it is not translated
+     * then just return null instead.
+     *
+     * @param null $locale
+     * @return null|string
+     */
+    public function getPlaceholder($locale = null)
     {
         $locale = $locale ? : config('app.locale');
 
@@ -195,7 +133,14 @@ class AssignmentModel extends EloquentModel
         return null;
     }
 
-    public function getFieldInstructions($locale = null)
+    /**
+     * Get the instructions. If it is not translated
+     * then just return null instead.
+     *
+     * @param null $locale
+     * @return null|string
+     */
+    public function getInstructions($locale = null)
     {
         $locale = $locale ? : config('app.locale');
 
@@ -204,31 +149,99 @@ class AssignmentModel extends EloquentModel
             return trans($instructions, [], null, $locale);
         }
 
-        return trans($this->instructions, [], null, $locale);
+        return null;
     }
 
-    public function newCollection(array $items = [])
+    /**
+     * Get the related stream.
+     *
+     * @return mixed
+     */
+    public function getStream()
     {
-        return new AssignmentCollection($items);
+        return $this->stream;
     }
 
+    /**
+     * Get the related field.
+     *
+     * @return FieldInterface
+     */
+    public function getField()
+    {
+        return $this->field;
+    }
+
+    /**
+     * Get the unique flag.
+     *
+     * @return mixed
+     */
+    public function isUnique()
+    {
+        return ($this->is_unique);
+    }
+
+    /**
+     * Get the required flag.
+     *
+     * @return mixed
+     */
+    public function isRequired()
+    {
+        return ($this->is_required);
+    }
+
+    /**
+     * Get  the translatable flag.
+     *
+     * @return bool|mixed
+     */
+    public function isTranslatable()
+    {
+        return ($this->is_translatable and $this->stream->is_translatable);
+    }
+
+    /**
+     * Serialize the rules attribute
+     * before setting to the model.
+     *
+     * @param $rules
+     */
+    public function setRulesAttribute($rules)
+    {
+        $this->attributes['rules'] = serialize($rules);
+    }
+
+    /**
+     * Unserialize the rules attribute
+     * after getting from the model.
+     *
+     * @param $rules
+     * @return mixed
+     */
+    public function getRulesAttribute($rules)
+    {
+        return unserialize($rules);
+    }
+
+    /**
+     * Return the stream relation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function stream()
     {
         return $this->belongsTo('Anomaly\Streams\Platform\Stream\StreamModel', 'stream_id');
     }
 
+    /**
+     * Return the field relation.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function field()
     {
         return $this->belongsTo('Anomaly\Streams\Platform\Field\FieldModel');
-    }
-
-    public function decorate()
-    {
-        return new AssignmentPresenter($this);
-    }
-
-    public function isTranslatable()
-    {
-        return ($this->is_translatable and $this->stream->is_translatable);
     }
 }
