@@ -24,18 +24,21 @@ class BuildTableRowsCommandHandler
      */
     public function handle(BuildTableRowsCommand $command)
     {
-        $rows = [];
-
         $table = $command->getTable();
 
-        foreach ($table->getEntries() as $entry) {
+        $rows = $table->getEntries();
 
-            // Build out our required data.
+        /**
+         * Loop and process entry rows.
+         */
+        foreach ($rows as &$entry) {
+
             $columns = $this->getColumns($entry, $table);
             $buttons = $this->getButtons($entry, $table);
-            $entry   = $this->getDecoratedEntry($entry);
 
-            $rows[] = compact('columns', 'buttons', 'entry');
+            $entry = $this->getDecoratedEntry($entry);
+
+            $entry = compact('columns', 'buttons', 'entry');
         }
 
         return $rows;
@@ -50,9 +53,7 @@ class BuildTableRowsCommandHandler
      */
     protected function getColumns($entry, $table)
     {
-        $command = new BuildTableColumnsCommand($table, $entry);
-
-        return $this->execute($command);
+        return $this->execute(new BuildTableColumnsCommand($table, $entry));
     }
 
     /**
@@ -64,9 +65,7 @@ class BuildTableRowsCommandHandler
      */
     protected function getButtons($entry, $table)
     {
-        $command = new BuildTableButtonsCommand($table, $entry);
-
-        return $this->execute($command);
+        return $this->execute(new BuildTableButtonsCommand($table, $entry));
     }
 
     /**
