@@ -75,17 +75,19 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
         // TODO: This looses persistence for some reason if not set here. Or.. it did. Don't give an iFuck
         //self::$dispatcher = app('Illuminate\Contracts\Events\Dispatcher');
 
+        $transformer = new Transformer();
+
         // Observing is a must.
         $observer = 'Anomaly\Streams\Platform\Model\EloquentModelObserver';
 
         // If this class has it's own use it.
-        if ($override = (new Transformer())->toObserver(__CLASS__)) {
+        if ($override = $transformer->toObserver(__CLASS__)) {
 
             $observer = $override;
         }
 
         // If the called class has it's own use it.
-        if ($override = (new Transformer())->toObserver(get_called_class())) {
+        if ($override = $transformer->toObserver(get_called_class())) {
 
             $observer = $override;
         }
