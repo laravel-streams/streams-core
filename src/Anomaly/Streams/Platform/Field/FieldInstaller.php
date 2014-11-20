@@ -34,7 +34,7 @@ class FieldInstaller
             $field['namespace'] = $this->getNamespace($field);
             $field['name']      = $this->getName($field);
 
-            $this->fieldService->add($field);
+            $this->fieldService->create($field);
         }
 
         return true;
@@ -46,7 +46,7 @@ class FieldInstaller
 
             $namespace = $this->getNamespace($field);
 
-            $this->fieldService->remove($namespace, $slug);
+            $this->fieldService->delete($namespace, $slug);
         }
 
         return true;

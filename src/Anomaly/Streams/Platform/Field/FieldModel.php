@@ -1,8 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
-class FieldModel extends EloquentModel
+class FieldModel extends EloquentModel implements FieldInterface
 {
 
     /**
@@ -34,108 +36,84 @@ class FieldModel extends EloquentModel
     protected $table = 'streams_fields';
 
     /**
-     * Add a field.
+     * Get the name.
      *
-     * @param       $slug
-     * @param       $namespace
-     * @param       $name
-     * @param       $type
-     * @param array $rules
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get the field type.
+     *
+     * @return mixed
+     */
+    public function getType(EntryInterface $entry = null, $locale = null)
+    {
+        $type   = $this->type;
+        $field  = $this->slug;
+        $label  = $this->name;
+        $config = $this->config;
+
+        $locale = $locale ? : config('app.locale');
+
+        $data = compact('type', 'field', 'label', 'config', 'locale', 'entry');
+
+        $command = 'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand';
+
+        return $this->execute($command, $data);
+    }
+
+    /**
+     * Get the configuration.
+     *
+     * @return mixed
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * Get the validation rules.
+     *
+     * @return mixed
+     */
+    public function getRules()
+    {
+        return $this->rules;
+    }
+
+    /**
+     * Get the related assignments.
+     *
+     * @return mixed
+     */
+    public function getAssignments()
+    {
+        return $this->assignments;
+    }
+
+    /**
+     * Get the locked flag.
+     *
+     * @return mixed
+     */
+    public function isLocked()
+    {
+        return ($this->is_locked);
+    }
+
+    /**
+     * Set config attribute.
+     *
      * @param array $config
-     * @param       $isLocked
-     * @return $this
      */
-    public function add($namespace, $slug, $name, $type, array $rules, array $config, $isLocked)
+    public function setConfigAttribute($config)
     {
-        $this->slug      = $slug;
-        $this->name      = $name;
-        $this->type      = $type;
-        $this->rules     = $rules;
-        $this->config    = $config;
-        $this->is_locked = $isLocked;
-        $this->namespace = $namespace;
-
-        $this->save();
-
-        //$this->raise(new FieldInstalledEvent($this));
-
-        return $this;
-    }
-
-    /**
-     * Remove a field.
-     *
-     * @param $namespace
-     * @param $slug
-     * @return $this
-     */
-    public function remove($namespace, $slug)
-    {
-        if ($field = $this->whereNamespace($namespace)->whereSlug($slug)->first()) {
-
-            $field->delete();
-
-            return $this;
-        }
-
-        return false;
-    }
-
-    /**
-     * Find a field by namespace and slug.
-     *
-     * @param $namespace
-     * @param $slug
-     * @return mixed
-     */
-    public function findByNamespaceAndSlug($namespace, $slug)
-    {
-        return $this->whereNamespace($namespace)->whereSlug($slug)->first();
-    }
-
-    /**
-     * Find all fields by namespace.
-     *
-     * @param $namespace
-     * @return mixed
-     */
-    public function findAllByNamespace($namespace)
-    {
-        return $this->whereNamespace($namespace)->get();
-    }
-
-    /**
-     * Find all orphaned fields.
-     *
-     * @return mixed
-     */
-    public function findAllOrphaned()
-    {
-        return $this->select('streams_fields.*')
-            ->leftJoin('streams_streams', 'streams_fields.namespace', '=', 'streams_streams.namespace')
-            ->whereNull('streams_streams.id')
-            ->get();
-    }
-
-    /**
-     * Return the assignments relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function assignments()
-    {
-        return $this->hasMany('Anomaly\Streams\Platform\Assignment\AssignmentModel', 'field_id');
-    }
-
-    /**
-     * Get field name attribute.
-     *
-     * @param $name
-     * @return string
-     */
-    public function getFieldNameAttribute($name)
-    {
-        return trans($name);
+        $this->attributes['config'] = serialize($config);
     }
 
     /**
@@ -150,13 +128,13 @@ class FieldModel extends EloquentModel
     }
 
     /**
-     * Set config attribute.
+     * Set rules attribute.
      *
-     * @param array $config
+     * @param array $rules
      */
-    public function setConfigAttribute($config)
+    public function setRulesAttribute($rules)
     {
-        $this->attributes['config'] = serialize($config);
+        $this->attributes['rules'] = serialize($rules);
     }
 
     /**
@@ -171,22 +149,12 @@ class FieldModel extends EloquentModel
     }
 
     /**
-     * Set rules attribute.
+     * Return the assignments relation.
      *
-     * @param array $rules
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function setRulesAttribute($rules)
+    public function assignments()
     {
-        $this->attributes['rules'] = serialize($rules);
-    }
-
-    public function decorate()
-    {
-        return new FieldPresenter($this);
-    }
-
-    public function newCollection(array $items = [])
-    {
-        return new FieldCollection($items);
+        return $this->hasMany('Anomaly\Streams\Platform\Assignment\AssignmentModel', 'field_id');
     }
 }
