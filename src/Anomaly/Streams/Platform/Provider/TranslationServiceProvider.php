@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
 use Anomaly\Streams\Platform\Support\YamlFileLoader;
-use Anomaly\Streams\Platform\Support\Translator;
+use Illuminate\Translation\Translator;
 use Symfony\Component\Yaml\Parser;
 
 class TranslationServiceProvider extends \Illuminate\Translation\TranslationServiceProvider
