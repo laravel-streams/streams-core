@@ -53,7 +53,7 @@ class Decorator
                 $resource->setRelation($relationName, $model);
             } elseif ($model instanceof PresentableInterface) {
 
-                $resource->setRelation($relationName, $model->newPresenter($model));
+                $resource->setRelation($relationName, $model->newPresenter());
             } else {
 
                 $resource->setRelation($relationName, $model);
@@ -75,7 +75,8 @@ class Decorator
 
             if ($resource instanceof PresentableInterface) {
 
-                $collection->put($resource, $resource->newPresenter($resource));
+                // TODO: Translations fuck this up..
+                //$collection->put($resource, $resource->newPresenter());
             }
         }
 
