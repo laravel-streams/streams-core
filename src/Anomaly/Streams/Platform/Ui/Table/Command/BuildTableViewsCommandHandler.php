@@ -60,7 +60,7 @@ class BuildTableViewsCommandHandler
             $view = $evaluator->evaluate($view, compact('table'));
 
             // Skip if disabled.
-            if (!array_get($view, 'enabled', true)) {
+            if (array_get($view, 'enabled') === false) {
 
                 unset($view[$slug]);
 
