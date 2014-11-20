@@ -8,6 +8,14 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 
+/**
+ * Class EntryModel
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Entry
+ */
 class EntryModel extends EloquentModel implements EntryInterface
 {
 
@@ -57,6 +65,21 @@ class EntryModel extends EloquentModel implements EntryInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Get an attribute value by a field slug.
+     *
+     * This is a pretty automated process. Let
+     * the accessor method overriding Eloquent
+     * take care of this whole ordeal.
+     *
+     * @param $fieldSlug
+     * @return mixed
+     */
+    public function getFieldValue($fieldSlug)
+    {
+        return $this->{$fieldSlug};
     }
 
     /**

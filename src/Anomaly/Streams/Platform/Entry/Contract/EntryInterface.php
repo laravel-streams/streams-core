@@ -44,5 +44,21 @@ interface EntryInterface
      * @return AssignmentInterface
      */
     public function getAssignment($fieldSlug);
+
+    /**
+     * Get an attribute value by a field slug.
+     *
+     * @param $fieldSlug
+     * @return mixed
+     */
+    public function getFieldValue($fieldSlug);
+
+    /**
+     * Get a specified relationship.
+     *
+     * @param  string $relation
+     * @return mixed
+     */
+    public function getRelation($relation);
 }
  
