@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Addon\Module\Users\User\Contract\UserInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Contract\PresentableInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -15,7 +17,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry
  */
-class EntryModel extends EloquentModel implements EntryInterface
+class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface
 {
 
     /**
@@ -73,12 +75,16 @@ class EntryModel extends EloquentModel implements EntryInterface
      * the accessor method overriding Eloquent
      * take care of this whole ordeal.
      *
-     * @param $fieldSlug
+     * @param      $fieldSlug
+     * @param null $locale
+     * @param bool $mutate
      * @return mixed
      */
-    public function getFieldValue($fieldSlug)
+    public function getFieldValue($fieldSlug, $locale = null, $mutate = true)
     {
-        return $this->{$fieldSlug};
+        $locale = $locale ? : config('app.locale');
+
+        return $this->translate($locale, false, false)->getAttribute($fieldSlug, false);
     }
 
     /**
@@ -135,7 +141,10 @@ class EntryModel extends EloquentModel implements EntryInterface
 
             $type = $field->getType();
 
-            return $type->unmutate($value);
+            if ($type instanceof FieldType) {
+
+                return $type->unmutate($value);
+            }
         }
 
         return $value;
@@ -182,5 +191,33 @@ class EntryModel extends EloquentModel implements EntryInterface
         $assignments = $stream->getAssignments();
 
         return $assignments->findByFieldSlug($fieldSlug);
+    }
+
+    /**
+     * Get the field type from a field slug.
+     *
+     * @param $fieldSlug
+     * @return mixed
+     */
+    public function getFieldType($fieldSlug)
+    {
+        $assignment = $this->getAssignment($fieldSlug);
+
+        return $assignment->getFieldType($this);
+    }
+
+    /**
+     * Return the presenter counterpart.
+     *
+     * @return mixed
+     */
+    public function newPresenter()
+    {
+        if (!$collection = $this->transform(__FUNCTION__)) {
+
+            $collection = 'Anomaly\Streams\Platform\Entry\EntryModelPresenter';
+        }
+
+        return app()->make($collection, [$this]);
     }
 }
