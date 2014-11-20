@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Stream\StreamModel;
 
 /**
  * Class EntryModel
@@ -33,7 +32,7 @@ class EntryModel extends EloquentModel implements EntryInterface
     {
         parent::__construct($attributes);
 
-        $this->stream = (new StreamModel())->make($this->stream);
+        $this->stream = app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
 
         $this->stream->parent = $this;
     }
