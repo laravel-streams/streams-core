@@ -47,7 +47,7 @@ function boolean($value, $arguments = [])
  * @param array $arguments
  * @return mixed|null
  */
-function evaluate($value, $arguments = [])
+function evaluate($value, array $arguments = [])
 {
     if ($value instanceof \Closure) {
 
@@ -138,45 +138,6 @@ function request_time()
 }
 
 /**
- * Merge data into a string.
- *
- * @return string
- */
-function merge($string, $data)
-{
-    if (!is_array($data)) {
-
-        if (!$data instanceof \Anomaly\Streams\Platform\Contract\ArrayableInterface) {
-
-            return null;
-        } else {
-
-            $data = $data->toArray();
-        }
-    }
-
-    preg_match_all('/\{([a-z._)]*)\}/', $string, $matches);
-
-    if (isset($matches[0])) {
-
-        foreach ($matches[0] as $match) {
-
-            $value = $data;
-            $parts = explode('.', substr($match, 1, -1));
-
-            foreach ($parts as $attribute) {
-
-                $value = evaluate_key($value, $attribute);
-            }
-
-            $string = str_replace($match, $value, $string);
-        }
-    }
-
-    return $string;
-}
-
-/**
  * Shortcut to generate crud routes.
  *
  * @param $base
@@ -185,10 +146,10 @@ function merge($string, $data)
 function crud($base, $controller)
 {
     // Help automate common CRUD routes.
-    Route::any($base, $controller . '@index');
-    Route::any($base . '/create', $controller . '@create');
-    Route::any($base . '/edit/{id}', $controller . '@edit');
-    Route::any($base . '/delete/{id?}', $controller . '@delete');
+    app('router')->any($base, $controller . '@index');
+    app('router')->any($base . '/create', $controller . '@create');
+    app('router')->any($base . '/edit/{id}', $controller . '@edit');
+    app('router')->any($base . '/delete/{id?}', $controller . '@delete');
 }
 
 /**
@@ -220,14 +181,22 @@ function streams_path($path = null)
 /**
  * Create a random hash string based on microtime.
  *
- * @param int $length
+ * @param int  $length
+ * @param bool $secure
  * @return string
  */
-function rand_string($length = 10)
+function rand_string($length = 10, $secure = false)
 {
-    $chars  = 'ABCDEFGHKLMNOPQRSTWXYZabcdefghjkmnpqrstwxyz';
-    $max    = strlen($chars) - 1;
+    $chars = 'ABCDEFGHKLMNOPQRSTWXYZabcdefghjkmnpqrstwxyz';
+    $extra = '`~!@#$%^&*()-_+=[]{}\|;:,.<>?/';
+
+    if ($secure) {
+
+        $chars .= $extra;
+    }
+
     $string = '';
+    $max    = strlen($chars) - 1;
 
     mt_srand((double)microtime() * 1000000);
 
