@@ -25,7 +25,7 @@ interface TableActionInterface
     /**
      * Authorize the user to process the action.
      *
-     * @return mixed
+     * @return bool
      */
     public function authorize();
 }
