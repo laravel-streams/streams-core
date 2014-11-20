@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
@@ -134,7 +135,9 @@ class BuildTableColumnsCommandHandler
 
             $value = $column['field'];
 
-            return view()->parse('{{' . $value . '}}', $entry);
+            $entry = app('streams.decorator')->decorate($entry);
+
+            return $this->parseValue($value, $entry);
         }
 
         /**
@@ -167,6 +170,28 @@ class BuildTableColumnsCommandHandler
                 $column['field'] = $column['slug'];
             }
         }
+    }
+
+    /**
+     * Parse the value.
+     *
+     * @param $value
+     * @param $entry
+     * @return string
+     */
+    protected function parseValue($value, $entry)
+    {
+        foreach (explode('.', $value) as $property) {
+
+            if ($entry instanceof Presenter or $entry instanceof EntryInterface) {
+
+                $entry = $entry->{$property};
+
+                continue;
+            }
+        }
+
+        return (string)$entry;
     }
 }
  
