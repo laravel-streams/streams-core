@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class HandleTableSortingCommand
@@ -22,21 +21,12 @@ class HandleTableSortingCommand
     protected $table;
 
     /**
-     * The query builder object.
-     *
-     * @var
-     */
-    protected $query;
-
-    /**
      * Create a new HandleTableSortingCommand instance.
      *
-     * @param Table   $table
-     * @param Builder $query
+     * @param Table $table
      */
-    function __construct(Table $table, Builder $query)
+    function __construct(Table $table)
     {
-        $this->query = $query;
         $this->table = $table;
     }
 
@@ -48,16 +38,6 @@ class HandleTableSortingCommand
     public function getTable()
     {
         return $this->table;
-    }
-
-    /**
-     * Get query builder object.
-     *
-     * @return mixed
-     */
-    public function getQuery()
-    {
-        return $this->query;
     }
 }
  

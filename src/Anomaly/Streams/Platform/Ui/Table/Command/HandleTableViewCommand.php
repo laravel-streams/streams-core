@@ -14,42 +14,24 @@ class HandleTableViewCommand
 {
 
     /**
-     * The table UI object.
+     * The table object.
      *
      * @var \Anomaly\Streams\Platform\Ui\Table\Table
      */
     protected $table;
 
     /**
-     * The query object. Likely an eloquent query builder.
-     *
-     * @var
-     */
-    protected $query;
-
-    /**
      * Create a new HandleTableViewCommand instance.
      *
      * @param Table $table
      */
-    function __construct(Table $table, $query)
+    function __construct(Table $table)
     {
-        $this->table    = $table;
-        $this->query = $query;
+        $this->table = $table;
     }
 
     /**
-     * Get the query object.
-     *
-     * @return mixed
-     */
-    public function getQuery()
-    {
-        return $this->query;
-    }
-
-    /**
-     * Get the table UI object.
+     * Get the table object.
      *
      * @return Table
      */

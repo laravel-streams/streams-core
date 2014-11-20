@@ -21,32 +21,13 @@ class HandleTableFiltersCommand
     protected $table;
 
     /**
-     * The query object. Likely a query builder.
-     *
-     * @var
-     */
-    protected $query;
-
-    /**
      * Create a new HandleTableFiltersCommand instance.
      *
      * @param Table $table
-     * @param         $query
      */
-    function __construct(Table $table, $query)
+    function __construct(Table $table)
     {
-        $this->table    = $table;
-        $this->query = $query;
-    }
-
-    /**
-     * Get the query object.
-     *
-     * @return mixed
-     */
-    public function getQuery()
-    {
-        return $this->query;
+        $this->table = $table;
     }
 
     /**

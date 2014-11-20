@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
@@ -14,7 +15,7 @@ class BuildTableColumnsCommand
 {
 
     /**
-     * The table UI object.
+     * The table object.
      *
      * @var \Anomaly\Streams\Platform\Ui\Table\Table
      */
@@ -23,24 +24,24 @@ class BuildTableColumnsCommand
     /**
      * The entry payload.
      *
-     * @var
+     * @var \Anomaly\Streams\Platform\Entry\Contract\EntryInterface
      */
     protected $entry;
 
     /**
      * Create a new BuildTableColumnsCommand instance.
      *
-     * @param Table $table
-     * @param         $entry
+     * @param Table          $table
+     * @param EntryInterface $entry
      */
-    function __construct(Table $table, $entry)
+    function __construct(Table $table, EntryInterface $entry)
     {
-        $this->table    = $table;
+        $this->table = $table;
         $this->entry = $entry;
     }
 
     /**
-     * Get the table UI object.
+     * Get the table object.
      *
      * @return Table
      */
@@ -52,7 +53,7 @@ class BuildTableColumnsCommand
     /**
      * Get the entry payload.
      *
-     * @return mixed
+     * @return EntryInterface
      */
     public function getEntry()
     {

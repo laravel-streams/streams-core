@@ -29,13 +29,9 @@ class TableListener extends Listener
     {
         $table = $event->getTable();
 
-        $query = $table->getQuery();
-
-        $query = $this->execute(new HandleTableViewCommand($this, $query));
-        $query = $this->execute(new HandleTableSortingCommand($this, $query));
-        $query = $this->execute(new HandleTableFiltersCommand($this, $query));
-
-        $table->setQuery($query);
+        $this->execute(new HandleTableViewCommand($table));
+        $this->execute(new HandleTableSortingCommand($table));
+        $this->execute(new HandleTableFiltersCommand($table));
     }
 }
  

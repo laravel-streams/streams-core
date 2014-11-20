@@ -14,7 +14,7 @@ class BuildTableViewsCommand
 {
 
     /**
-     * The table UI object.
+     * The table object.
      *
      * @var \Anomaly\Streams\Platform\Ui\Table\Table
      */
@@ -29,7 +29,7 @@ class BuildTableViewsCommand
     }
 
     /**
-     * Get the table UI object.
+     * Get the table object.
      *
      * @return Table
      */

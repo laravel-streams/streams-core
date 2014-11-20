@@ -14,7 +14,7 @@ class BuildTableFiltersCommand
 {
 
     /**
-     * The table UI object.
+     * The table object.
      *
      * @var \Anomaly\Streams\Platform\Ui\Table\Table
      */
@@ -31,7 +31,7 @@ class BuildTableFiltersCommand
     }
 
     /**
-     * Get the table UI object.
+     * Get the table object.
      *
      * @return Table
      */
