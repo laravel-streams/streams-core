@@ -54,5 +54,29 @@ interface StreamInterface
      * @return AssignmentCollection
      */
     public function getAssignments();
+
+    /**
+     * Get an assignment by it's field's slug.
+     *
+     * @param $fieldSlug
+     * @return mixed
+     */
+    public function getAssignment($fieldSlug);
+
+    /**
+     * Get a stream field by it's slug.
+     *
+     * @param $slug
+     * @return mixed
+     */
+    public function getField($slug);
+
+    /**
+     * Get a field's type by the field's slug.
+     *
+     * @param $fieldSlug
+     * @return mixed
+     */
+    public function getFieldType($fieldSlug);
 }
  

@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -129,6 +130,51 @@ class StreamModel extends EloquentModel implements StreamInterface
     public function getAssignments()
     {
         return $this->assignments;
+    }
+
+    /**
+     * Get an assignment by it's field's slug.
+     *
+     * @param $fieldSlug
+     * @return AssignmentInterface
+     */
+    public function getAssignment($fieldSlug)
+    {
+        $assignments = $this->getAssignments();
+
+        return $assignments->findByFieldSlug($fieldSlug);
+    }
+
+    /**
+     * Get a stream field by it's slug.
+     *
+     * @param $slug
+     * @return mixed
+     */
+    public function getField($slug)
+    {
+        if (!$assignment = $this->getAssignment($slug)) {
+
+            return null;
+        }
+
+        return $assignment->getField();
+    }
+
+    /**
+     * Get a field's type by the field's slug.
+     *
+     * @param $fieldSlug
+     * @return mixed
+     */
+    public function getFieldType($fieldSlug)
+    {
+        if (!$assignment = $this->getAssignment($fieldSlug)) {
+
+            return null;
+        }
+
+        return $assignment->getFieldType();
     }
 
     /**
