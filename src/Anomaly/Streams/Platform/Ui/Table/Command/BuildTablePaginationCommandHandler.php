@@ -1,8 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Contract\ArrayableInterface;
-use Anomaly\Streams\Platform\Contract\PaginatorInterface;
-
 /**
  * Class BuildTablePaginationCommandHandler
  *
@@ -30,16 +27,11 @@ class BuildTablePaginationCommandHandler
 
         $paginator = $table->getPaginator();
 
-        if ($paginator instanceof PaginatorInterface and $paginator instanceof ArrayableInterface) {
+        $data = $paginator->toArray();
 
-            $data = $paginator->toArray();
+        $data['links'] = $paginator->appends($_GET)->render();
 
-            $data['links'] = $paginator->appends($_GET)->render();
-
-            return $data;
-        }
-
-        return null;
+        return $data;
     }
 }
  
