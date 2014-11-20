@@ -1,18 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Addon\Module\Users\User\Contract\UserInterface;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 
 class EntryModel extends EloquentModel implements EntryInterface
 {
 
     /**
-     * Stream data
+     * The compiled stream data.
      *
-     * @var array/null
+     * @var array
      */
     protected $stream = [];
 
@@ -23,23 +25,45 @@ class EntryModel extends EloquentModel implements EntryInterface
     {
         parent::__construct($attributes);
 
-        $this->stream = (new StreamModel())->object($this->stream);
+        $this->stream = (new StreamModel())->make($this->stream);
 
         $this->stream->parent = $this;
     }
 
     /**
-     * Return the default columns.
+     * Set entry information that every record needs.
      *
-     * @return array
+     * @return EntryInterface
      */
-    public function defaultColumns()
+    public function touchMeta()
     {
-        return [$this->getKeyName(), $this->CREATED_AT, 'createdByUser'];
+        $userId = null;
+
+        if ($user = app('auth')->check() and $user instanceof UserInterface) {
+
+            $userId = $user->getId();
+        }
+
+        if (!$this->exists) {
+
+            $this->setAttribute('created_at', time());
+            $this->setAttribute('created_by', $userId);
+            $this->setAttribute('updated_at', null);
+            $this->setAttribute('ordering_count', $this->count('id') + 1);
+        } else {
+
+            $this->setAttribute('updated_at', time());
+            $this->setAttribute('updated_by', $userId);
+        }
+
+        return $this;
     }
 
     /**
      * Set a given attribute on the model.
+     *
+     * Override the behavior here to give
+     * the field types a chance to modify things.
      *
      * @param  string $key
      * @param  mixed  $value
@@ -52,9 +76,11 @@ class EntryModel extends EloquentModel implements EntryInterface
          * If we have a field type for this key use
          * it's setAttribute method to set the value.
          */
-        if ($mutate and $type = $this->getTypeFromField($key)) {
+        if ($mutate and $field = $this->getField($key)) {
 
-            if ($type->setAttribute($this->attributes, $value)) {
+            $type = $field->getType();
+
+            if ($type->setAttribute($this->attributes, $value) === true) {
 
                 return;
             }
@@ -68,6 +94,9 @@ class EntryModel extends EloquentModel implements EntryInterface
     /**
      * Get a given attribute on the model.
      *
+     * Override the behavior here to give
+     * the field types a chance to modify things.
+     *
      * @param  string $key
      * @param bool    $mutate
      * @return void
@@ -80,74 +109,20 @@ class EntryModel extends EloquentModel implements EntryInterface
          * If we have a field type for this key use
          * it's unmutate method to modify the value.
          */
-        if ($mutate and $type = $this->getTypeFromField($key)) {
+        if ($mutate and $field = $this->getField($key)) {
 
-            $value = $type->unmutate($value);
+            $type = $field->getType();
+
+            return $type->unmutate($value);
         }
 
         return $value;
     }
 
     /**
-     * Set entry information that every record needs.
+     * Get the stream.
      *
-     * @return $this
-     */
-    public function setMetaAttributes()
-    {
-        $userId = null;
-
-        if ($user = app('auth')->check() and $user instanceof UserInterface) {
-
-            $userId = $user->getId();
-        }
-
-        if (!$this->exists) {
-            $this->setAttribute('created_by', $userId);
-            $this->setAttribute('updated_at', null);
-            $this->setAttribute('ordering_count', $this->count('id') + 1);
-        } else {
-            $this->setAttribute('updated_by', $userId);
-            $this->setAttribute('updated_at', time());
-        }
-
-        return $this;
-    }
-
-    /**
-     * Find an assignment by it's slug.
-     *
-     * @param $slug
-     * @return mixed
-     */
-    public function findAssignmentByFieldSlug($slug)
-    {
-        return $this
-            ->stream
-            ->assignments
-            ->findByFieldSlug($slug);
-    }
-
-    /**
-     * Return a bootstrapped field type object.
-     *
-     * @param $slug
-     * @return mixed
-     */
-    public function fieldType($slug)
-    {
-        if ($assignment = $this->findAssignmentByFieldSlug($slug)) {
-
-            return $assignment->type();
-        }
-
-        return null;
-    }
-
-    /**
-     * Get the stream data.
-     *
-     * @return array
+     * @return StreamInterface
      */
     public function getStream()
     {
@@ -155,176 +130,35 @@ class EntryModel extends EloquentModel implements EntryInterface
     }
 
     /**
-     * Return the table name with the stream prefix.
+     * Get an entry field.
      *
-     * @return string
+     * @param $slug
+     * @return FieldInterface|null
      */
-    public function getTable()
+    public function getField($slug)
+    {
+        $assignment = $this->getAssignment($slug);
+
+        if (!$assignment instanceof AssignmentInterface) {
+
+            return null;
+        }
+
+        return $assignment->getField();
+    }
+
+    /**
+     * Get an assignment by field slug.
+     *
+     * @param $fieldSlug
+     * @return AssignmentInterface
+     */
+    public function getAssignment($fieldSlug)
     {
         $stream = $this->getStream();
 
-        return $stream->prefix . $stream->slug;
-    }
+        $assignments = $stream->getAssignments();
 
-    /**
-     * Return a new collection instance.
-     *
-     * @param array $items
-     * @return \Illuminate\Database\Eloquent\Collection|EntryCollection
-     */
-    public function newCollection(array $items = [])
-    {
-        return new EntryCollection($items);
-    }
-
-    public function decorate()
-    {
-        return new EntryPresenter($this);
-    }
-
-    /**
-     * Get the assignment object for a field.
-     *
-     * @param $field
-     * @return mixed
-     */
-    public function getAssignmentFromField($field)
-    {
-        return $this->stream->assignments->findByFieldSlug($field);
-    }
-
-    /**
-     * Get the field from a field.
-     *
-     * @param $field
-     * @return mixed|null
-     */
-    public function getTypeFromField($field)
-    {
-        $assignment = $this->getAssignmentFromField($field);
-
-        if ($assignment instanceof AssignmentModel) {
-
-            return $assignment->type($this);
-        }
-
-        return null;
-    }
-
-    /**
-     * Return a value from a field.
-     *
-     * @param $field
-     * @return mixed
-     */
-    public function getValueFromField($field)
-    {
-        $fieldType = $this->getTypeFromField($field);
-
-        if ($fieldType instanceof FieldType) {
-
-            return $fieldType->decorate();
-        }
-
-        return null;
-    }
-
-    /**
-     * Get the name of a field.
-     *
-     * @param $field
-     * @return mixed
-     */
-    public function getFieldName($field)
-    {
-        $assignment = $this->getAssignmentFromField($field);
-
-        if ($assignment instanceof AssignmentModel) {
-
-            return $assignment->getFieldName();
-        }
-    }
-
-    /**
-     * Get the heading for a field.
-     *
-     * @param $field
-     * @return mixed
-     */
-    public function getFieldHeading($field)
-    {
-        return $this->getFieldName($field);
-    }
-
-    /**
-     * Get the label for a field.
-     *
-     * @param $field
-     * @return mixed
-     */
-    public function getFieldLabel($field)
-    {
-        $assignment = $this->getAssignmentFromField($field);
-
-        if ($assignment instanceof AssignmentModel) {
-
-            if ($label = $assignment->getFieldLabel()) {
-
-                return $label;
-            }
-        }
-
-        return $this->getFieldName($field);
-    }
-
-    /**
-     * Get the placeholder for a field.
-     *
-     * @param $field
-     * @return mixed
-     */
-    public function getFieldPlaceholder($field)
-    {
-        $name = $this->getFieldName($field);
-
-        $placeholder = str_replace('.name', '.placeholder', $name);
-
-        if ($translated = trans($placeholder) and $translated != $placeholder) {
-
-            return $placeholder;
-        }
-
-        return null;
-    }
-
-    /**
-     * Get the default foreign key name for the model.
-     *
-     * @return string
-     */
-    public function getForeignKey()
-    {
-        return str_singular($this->stream->slug) . '_id';
-    }
-
-    /**
-     * Get a specified relationship.
-     *
-     * @param  string $relation
-     * @return mixed
-     */
-    public function getRelation($relation)
-    {
-        if (isset($this->relations[$relation])) {
-
-            return parent::getRelation($relation);
-        }
-
-        return null;
-    }
-
-    public function isTranslatable()
-    {
-        return ($this->stream->is_translatable);
+        return $assignments->findByFieldSlug($fieldSlug);
     }
 }

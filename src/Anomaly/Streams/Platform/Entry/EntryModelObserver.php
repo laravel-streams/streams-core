@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModelObserver;
 
 /**
@@ -13,4 +14,17 @@ use Anomaly\Streams\Platform\Model\EloquentModelObserver;
 class EntryModelObserver extends EloquentModelObserver
 {
 
+    /**
+     * Before saving an entry touch the
+     * meta information.
+     *
+     * @param EntryInterface $model
+     * @return bool
+     */
+    public function saving($model)
+    {
+        $model->touchMeta();
+
+        return parent::saving($model);
+    }
 }
