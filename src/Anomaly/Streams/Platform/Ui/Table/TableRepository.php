@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\QueryingEvent;
-use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class TableRepository
@@ -148,7 +148,7 @@ class TableRepository implements TableRepositoryInterface
         $perPage = $this->table->getLimit();
         $path    = '/' . $request->path();
 
-        $paginator = new Paginator($items, $total, $perPage, $page, compact('path'));
+        $paginator = new LengthAwarePaginator($items, $total, $perPage, $page, compact('path'));
 
         $this->table->setPaginator($paginator);
     }

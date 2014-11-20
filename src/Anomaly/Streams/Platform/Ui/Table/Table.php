@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Ui\Table\Event\MadeEvent;
 use Anomaly\Streams\Platform\Ui\Table\Event\TriggeredEvent;
 use Anomaly\Streams\Platform\Ui\Table\Event\TriggeringEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 
 /**
@@ -186,13 +187,15 @@ class Table extends Ui
     protected $repository;
 
     /**
-     * Setup the class.
+     * Create a new Table instance.
      */
-    protected function boot()
+    public function __construct()
     {
         $this->builder    = $this->newBuilder();
         $this->presets    = $this->newPresets();
-        $this->repository = $repository = $this->newRepository();
+        $this->repository = $this->newRepository();
+
+        parent::__construct();
 
         $this->dispatch(new BootedEvent($this));
     }
@@ -713,10 +716,10 @@ class Table extends Ui
     /**
      * Set the paginator object.
      *
-     * @param null $paginator
-     * return $this
+     * @param LengthAwarePaginator $paginator
+     * @return $this
      */
-    public function setPaginator(Paginator $paginator)
+    public function setPaginator(LengthAwarePaginator $paginator)
     {
         $this->paginator = $paginator;
 
@@ -819,7 +822,7 @@ class Table extends Ui
      */
     protected function newRepository()
     {
-        if (!$repository = $this->transform(__FUNCTION__)) {
+        if (!$repository = $this->transform(__METHOD__)) {
 
             $repository = 'Anomaly\Streams\Platform\Ui\Table\TableRepository';
         }
