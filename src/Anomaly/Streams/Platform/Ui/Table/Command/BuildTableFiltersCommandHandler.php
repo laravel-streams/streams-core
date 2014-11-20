@@ -25,10 +25,9 @@ class BuildTableFiltersCommandHandler
     {
         $table = $command->getTable();
 
+        $filters   = $table->getFilters();
         $expander  = $table->getExpander();
         $evaluator = $table->getEvaluator();
-
-        $filters = $table->getFilters();
 
         foreach ($filters as $slug => &$filter) {
 
@@ -234,7 +233,7 @@ class BuildTableFiltersCommandHandler
      * @param array $filter
      * @param Table $table
      */
-    protected function guessField(array $filter, Table $table)
+    protected function guessField(array &$filter, Table $table)
     {
         if ($stream = $table->getStream()) {
 

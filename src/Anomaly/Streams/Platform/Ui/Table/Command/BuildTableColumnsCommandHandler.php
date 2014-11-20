@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Entry\EntryInterface;
-use Anomaly\Streams\Platform\Ui\Table\TablePresets;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
  * Class BuildTableColumnsCommandHandler
@@ -30,23 +30,6 @@ class BuildTableColumnsCommandHandler
     ];
 
     /**
-     * The table utility object.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TablePresets
-     */
-    protected $utility;
-
-    /**
-     * Create a new BuildTableColumnsCommandHandler instance.
-     *
-     * @param TablePresets      $utility
-     */
-    function __construct(TablePresets $utility)
-    {
-        $this->utility = $utility;
-    }
-
-    /**
      * Handle the command.
      *
      * @param BuildTableColumnsCommand $command
@@ -54,54 +37,61 @@ class BuildTableColumnsCommandHandler
      */
     public function handle(BuildTableColumnsCommand $command)
     {
-        $table    = $command->getTable();
+        $table = $command->getTable();
         $entry = $command->getEntry();
 
-        $columns = [];
+        $columns    = $table->getColumns();
+        $expander   = $table->getExpander();
+        $evaluator  = $table->getEvaluator();
+        $normalizer = $table->getNormalizer();
 
-        foreach ($table->getColumns() as $column) {
+        foreach ($columns as $slug => &$column) {
 
-            // Standardize input.
-            $column = $this->standardize($column);
+            // Expand minimal input.
+            $column = $expander->expand($slug, $column);
 
-            // Evaluate the column.
-            // All closures are gone now.
-            $column = $this->utility->evaluate($column, compact('ui', 'entry'), $entry);
+            // Evaluate the entire column.
+            $column = $evaluator->evaluate($column, compact('table', 'entry'), $entry);
+
+            // Automate some stuff.
+            $this->guessField($column, $table);
 
             // Build out our required data.
             $class      = $this->getClass($column);
             $attributes = $this->getAttributes($column);
-            $value      = $this->getValue($column, $entry);
+
+            $value = $this->getValue($column, $entry);
 
             $column = compact('value', 'class', 'attributes');
 
-            // Normalize things a bit before proceeding.
-            $column = $this->utility->normalize($column);
-
-            $columns[] = $column;
+            // Normalize the result.
+            $column = $normalizer->normalize($column);
         }
 
         return $columns;
     }
 
     /**
-     * Standardize minimum input to the proper data
-     * structure we actually expect.
+     * Get the class.
      *
-     * @param $column
+     * @param array $column
+     * @return mixed|null
      */
-    protected function standardize($column)
+    protected function getClass(array $column)
     {
-        /**
-         * If the column is a string it means
-         * they just passed in the field slug.
-         */
-        if (is_string($column)) {
+        return array_get($column, 'class');
+    }
 
-            $column = ['field' => $column];
-        }
-
-        return $column;
+    /**
+     * Get the attributes less the keys that are
+     * defined as NOT attributes.
+     *
+     * @param array $column
+     * @return array
+     */
+    protected function getAttributes(array $column)
+    {
+        return array_diff_key($column, array_flip($this->notAttributes));
     }
 
     /**
@@ -121,7 +111,7 @@ class BuildTableColumnsCommandHandler
          */
         if (isset($column['value'])) {
 
-            $value = $column['value'];
+            return (string)$column['value'];
         }
 
         /**
@@ -130,15 +120,11 @@ class BuildTableColumnsCommandHandler
          * getting the value from the entry
          * by field slug.
          */
-        if (!$value and isset($column['field'])) {
+        if (!$value and isset($column['field']) and $entry instanceof EntryInterface) {
 
             $value = $column['field'];
 
-            /**
-             * Try getting the value from the entry.
-             * This returns the value passed if N/A.
-             */
-            $value = $this->getValueFromEntryField($value, $entry);
+            return $this->getValueFromEntryField($value, $entry);
         }
 
         /**
@@ -156,30 +142,7 @@ class BuildTableColumnsCommandHandler
             $value = $this->getValueFromRelation($value, $entry);
         }
 
-        return (string)$value;
-    }
-
-    /**
-     * Get the class.
-     *
-     * @param array $column
-     * @return mixed|null
-     */
-    protected function getClass(array $column)
-    {
-        return evaluate_key($column, 'class');
-    }
-
-    /**
-     * Get the attributes less the keys that are
-     * defined as NOT attributes.
-     *
-     * @param array $column
-     * @return array
-     */
-    protected function getAttributes(array $column)
-    {
-        return array_diff_key($column, array_flip($this->notAttributes));
+        return $value;
     }
 
     /**
@@ -200,7 +163,7 @@ class BuildTableColumnsCommandHandler
          * this will return the value or the FieldType
          * presenter for said field.
          */
-        if ($value = $entry->getValueFromField($parts[0])) {
+        if ($value = $entry->getFieldValue($parts[0])) {
 
             $value = $this->parseValue($value, $parts);
         }
@@ -226,7 +189,7 @@ class BuildTableColumnsCommandHandler
          * this will return the value or the FieldType
          * presenter for said field.
          */
-        if ($value = $entry->getRelation($parts[0]) and $value = $value->decorate()) {
+        if ($value = $entry->getRelation($parts[0])) {
 
             $value = $this->parseValue($value, $parts);
         }
@@ -247,7 +210,7 @@ class BuildTableColumnsCommandHandler
          * If the value is dot notated then try and parse
          * the values inward on the entry / presenter.
          */
-        if (count($parts) > 1 and $value /* instanceof Presenter or $value instanceof EntryModel*/) {
+        if (count($parts) > 1 and $value) {
 
             $value = $this->parseDotNotation($value, $parts);
         }
@@ -279,7 +242,6 @@ class BuildTableColumnsCommandHandler
 
                     /**
                      * You fucked up.
-                     * The value could not be resolved.
                      */
                     $value = null;
                 }
@@ -287,6 +249,23 @@ class BuildTableColumnsCommandHandler
         }
 
         return $value;
+    }
+
+    /**
+     * Set the field to the slug if the slug is a valid field.
+     *
+     * @param array $column
+     * @param Table $table
+     */
+    protected function guessField(array &$column, Table $table)
+    {
+        if ($stream = $table->getStream()) {
+
+            if (!isset($column['field']) and $field = $stream->getField($column['slug'])) {
+
+                $column['field'] = $column['slug'];
+            }
+        }
     }
 }
  

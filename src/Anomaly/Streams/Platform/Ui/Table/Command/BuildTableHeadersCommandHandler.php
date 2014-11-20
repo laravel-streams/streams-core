@@ -25,11 +25,10 @@ class BuildTableHeadersCommandHandler
     {
         $table = $command->getTable();
 
+        $columns   = $table->getColumns();
         $presets   = $table->getPresets();
         $expander  = $table->getExpander();
         $evaluator = $table->getEvaluator();
-
-        $columns = $table->getColumns();
 
         /**
          * Loop and process all of the columns.
