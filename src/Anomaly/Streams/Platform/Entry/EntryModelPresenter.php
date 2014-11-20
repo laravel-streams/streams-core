@@ -2,9 +2,9 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Model\EloquentPresenter;
+use Anomaly\Streams\Platform\Model\EloquentModelPresenter;
 
-class EntryPresenter extends EloquentPresenter
+class EntryModelPresenter extends EloquentModelPresenter
 {
 
     /**
