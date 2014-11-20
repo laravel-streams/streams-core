@@ -55,6 +55,12 @@ class BuildTableColumnsCommandHandler
             // Evaluate the entire column.
             $column = $evaluator->evaluate($column, compact('table', 'entry'), $entry);
 
+            // Assure a field even if it is garbage.
+            if (!isset($column['field'])) {
+
+                $column['field'] = $column['slug'];
+            }
+
             // Automate some stuff.
             $this->guessField($column, $table);
 
@@ -128,7 +134,7 @@ class BuildTableColumnsCommandHandler
 
             $value = $column['field'];
 
-            return $this->getValueFromEntryField($value, $entry);
+            return view()->parse('{{' . $value . '}}', $entry);
         }
 
         /**
@@ -140,116 +146,7 @@ class BuildTableColumnsCommandHandler
 
             $value = $column['relation'];
 
-            /**
-             * Try getting the
-             */
-            $value = $this->getValueFromRelation($value, $entry);
-        }
-
-        return $value;
-    }
-
-    /**
-     * Try getting the value from the entry object.
-     * If nothing is found then pass back the value
-     * as it was passed in originally.
-     *
-     * @param mixed          $value
-     * @param EntryInterface $entry
-     * @return mixed
-     */
-    protected function getValueFromEntryField($value, EntryInterface $entry)
-    {
-        $parts = explode('.', $value);
-
-        /**
-         * If the value is or starts with a valid field
-         * this will return the value or the FieldType
-         * presenter for said field.
-         */
-        if ($value = $entry->getFieldValue($parts[0])) {
-
-            $value = $this->parseValue($value, $parts);
-        }
-
-        return $value;
-    }
-
-    /**
-     * Try getting the value from the entry object
-     * based on a relation on it's model. This could be
-     * a custom relation or a reverse relation compiled
-     * to the base model even.
-     *
-     * @param $value
-     * @param $entry
-     */
-    protected function getValueFromRelation($value, EntryInterface $entry)
-    {
-        $parts = explode('.', $value);
-
-        /**
-         * If the value is or starts with a valid property
-         * this will return the value or the FieldType
-         * presenter for said field.
-         */
-        if ($value = $entry->getRelation($parts[0])) {
-
-            $value = $this->parseValue($value, $parts);
-        }
-
-        return $value;
-    }
-
-    /**
-     * Parse the value into any decorating standards.
-     *
-     * @param mixed $value
-     * @param array $parts
-     * @return mixed
-     */
-    protected function parseValue($value, array $parts)
-    {
-        /**
-         * If the value is dot notated then try and parse
-         * the values inward on the entry / presenter.
-         */
-        if (count($parts) > 1 and $value) {
-
-            $value = $this->parseDotNotation($value, $parts);
-        }
-
-        return $value;
-    }
-
-    /**
-     * Recur into a value object to extract the dot
-     * notated value that has been exploded into parts.
-     *
-     * @param mixed $value
-     * @param array $parts
-     * @return mixed
-     */
-    protected function parseDotNotation($value, array $parts)
-    {
-        foreach (array_slice($parts, 1) as $part) {
-
-            try {
-
-                $value = $value->$part;
-            } catch (\Exception $e) {
-
-                try {
-
-                    $value = $value[$part];
-                } catch (\Exception $e) {
-
-                    /**
-                     * You fucked up.
-                     */
-                    $value = null;
-                }
-            }
+            return view()->parse('{{' . $value . '}}', $entry);
         }
 
         return $value;
