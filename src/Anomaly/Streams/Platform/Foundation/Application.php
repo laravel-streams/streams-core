@@ -116,7 +116,7 @@ class Application
      */
     public function isInstalled()
     {
-        $config = base_path('config/config.php');
+        $config = base_path('config/database.php');
 
         return file_exists($config);
     }
