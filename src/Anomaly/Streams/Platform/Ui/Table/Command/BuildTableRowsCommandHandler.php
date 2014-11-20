@@ -81,7 +81,7 @@ class BuildTableRowsCommandHandler
     {
         if ($entry instanceof PresentableInterface) {
 
-            $entry = $entry->decorate();
+            $entry = $entry->newPresenter();
         }
 
         return $entry;
