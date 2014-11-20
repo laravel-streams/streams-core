@@ -174,7 +174,6 @@ class StreamModel extends EloquentModel implements StreamInterface
     public function getFieldType($fieldSlug)
     {
         if (!$assignment = $this->getAssignment($fieldSlug)) {
-            echo $fieldSlug . '<br>';
 
             return null;
         }
