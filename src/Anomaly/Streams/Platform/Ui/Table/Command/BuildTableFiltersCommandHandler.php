@@ -2,9 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Entry\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Anomaly\Streams\Platform\Ui\Table\TablePresets;
 
 /**
  * Class BuildTableFiltersCommandHandler
@@ -18,23 +16,6 @@ class BuildTableFiltersCommandHandler
 {
 
     /**
-     * The table utility object.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TablePresets
-     */
-    protected $utility;
-
-    /**
-     * Create a new BuildTableFiltersCommandHandler instance.
-     *
-     * @param TablePresets $utility
-     */
-    function __construct(TablePresets $utility)
-    {
-        $this->utility = $utility;
-    }
-
-    /**
      * Handle the command.
      *
      * @param BuildTableFiltersCommand $command
@@ -44,12 +25,18 @@ class BuildTableFiltersCommandHandler
     {
         $table = $command->getTable();
 
-        $filters = [];
+        $expander  = $table->getExpander();
+        $evaluator = $table->getEvaluator();
 
-        foreach ($table->getFilters() as $slug => $filter) {
+        $filters = $table->getFilters();
 
-            // Standardize input.
-            $filter = $this->standardize($slug, $filter);
+        foreach ($filters as $slug => &$filter) {
+
+            // Expand minimal input.
+            $filter = $expander->expand($slug, $filter);
+
+            // Automate some stuff.
+            $this->guessField($filter, $table);
 
             /**
              * Remove the handler or it
@@ -57,88 +44,26 @@ class BuildTableFiltersCommandHandler
              */
             unset($filter['handler']);
 
-            // Evaluate everything in the array.
-            // All closures are gone now.
-            $this->utility->evaluate($filter, [$table]);
+            // Evaluate the entire filter.
+            $evaluator->evaluate($filter, compact('table'));
 
             // Skip if disabled.
-            if (!evaluate_key($filter, 'enabled', true)) {
+            if (array_get($filter, 'enabled') === false) {
+
+                unset($filters[$slug]);
 
                 continue;
             }
 
             // Build out required data.
-            $input = $this->getInput($filter, $table);
+            $input = $this->getFilterInput($filter, $table);
 
             $filter = compact('input');
-
-            $filters[] = $filter;
         }
 
         return array_filter($filters);
     }
 
-    /**
-     * Standardize minimum input to the proper data
-     * structure we actually expect.
-     *
-     * @param $slug
-     * @param $filter
-     * @return array
-     */
-    protected function standardize($slug, $filter)
-    {
-
-        /**
-         * If the slug is numerical and the view
-         * is a string then use view for both.
-         */
-        if (is_numeric($slug) and is_string($filter)) {
-
-            return [
-                'type'  => 'field',
-                'field' => $filter,
-                'slug'  => $filter,
-            ];
-        }
-
-        /**
-         * If the slug is a string and the view
-         * is too then use the slug as slug and
-         * the view as the type.
-         */
-        if (is_string($filter)) {
-
-            return [
-                'type'  => 'field',
-                'field' => $filter,
-                'slug'  => $slug,
-            ];
-        }
-
-        /**
-         * If the slug is not explicitly set
-         * then default it to the slug inferred.
-         */
-        if (is_array($filter) and !isset($filter['slug'])) {
-
-            $filter['slug'] = $slug;
-        }
-
-        return $filter;
-    }
-
-    /**
-     * Get the slug.
-     *
-     * @param array $filter
-     * @param Table $table
-     * @return string
-     */
-    protected function getSlug(array $filter, Table $table)
-    {
-        return $table->getPrefix() . $filter['slug'];
-    }
 
     /**
      * Get the input HTML.
@@ -147,15 +72,15 @@ class BuildTableFiltersCommandHandler
      * @param Table $table
      * @return mixed|null
      */
-    protected function getInput(array $filter, Table $table)
+    protected function getFilterInput(array $filter, Table $table)
     {
-        $type = evaluate_key($filter, 'type', 'text', [$table]);
+        $type = array_get($filter, 'type', 'text');
 
         switch ($type) {
 
             // Build a generic select filter input.
             case 'select':
-                return $this->getSelectInput($filter, $table);
+                return $this->buildSelectInput($filter, $table);
                 break;
 
             // Build a generic type style filter input.
@@ -163,12 +88,12 @@ class BuildTableFiltersCommandHandler
             case 'text':
             case 'email':
             case 'password':
-                return $this->getTextInput($filter, $type, $table);
+                return $this->buildTextInput($filter, $table, $type);
                 break;
 
             // Build a field type filter input.
             case 'field':
-                return $this->getInputFromField($filter, $table, $table->getModel());
+                return $this->buildFieldInput($filter, $table);
                 break;
 
             default:
@@ -178,17 +103,15 @@ class BuildTableFiltersCommandHandler
     }
 
     /**
-     * Get HTML for a select input.
+     * Return the HTML for a generic select input.
      *
      * @param array $filter
      * @param Table $table
-     * @return mixed
+     * @return string
      */
-    protected function getSelectInput(array $filter, Table $table)
+    protected function buildSelectInput(array $filter, Table $table)
     {
-        $form = app('form');
-
-        $slug  = $this->getSlug($filter, $table);
+        $name  = $this->getName($filter, $table);
         $value = $this->getValue($filter, $table);
 
         $options = evaluate_key($filter, 'options', [], [$table]);
@@ -197,22 +120,20 @@ class BuildTableFiltersCommandHandler
             'class' => 'form-control',
         ];
 
-        return $form->select($slug, $options, $value, $attributes);
+        return app('form')->select($name, $options, $value, $attributes);
     }
 
     /**
      * Get the HTML for a text input.
      *
      * @param array  $filter
-     * @param string $type
      * @param Table  $table
-     * @return mixed
+     * @param string $type
+     * @return string
      */
-    protected function getTextInput(array $filter, $type, Table $table)
+    protected function buildTextInput(array $filter, Table $table, $type)
     {
-        $form = app('form');
-
-        $slug  = $this->getSlug($filter, $table);
+        $name  = $this->getName($filter, $table);
         $value = $this->getValue($filter, $table);
 
         $placeholder = evaluate_key($filter, 'placeholder');
@@ -222,26 +143,23 @@ class BuildTableFiltersCommandHandler
             'placeholder' => $placeholder,
         ];
 
-        return $form->{$type}($slug, $value, $options);
+        return app('form')->{$type}($name, $value, $options);
     }
 
     /**
-     * Get the HTML for a field input.
+     * Get the HTML for a field type filter input.
      *
      * @param array $filter
      * @param Table $table
      * @return null
      */
-    protected function getInputFromField(array $filter, Table $table, EntryInterface $model)
+    protected function buildFieldInput(array $filter, Table $table)
     {
-        $assignment = $model->getAssignmentFromField($filter['field']);
+        $stream = $table->getStream();
 
-        if ($assignment instanceof AssignmentModel) {
+        $type = $stream->getFieldType($filter['field']);
 
-            return $this->getFieldInputFromAssignment($filter, $table, $assignment);
-        }
-
-        return null;
+        return $type->renderFilter();
     }
 
     /**
@@ -296,6 +214,35 @@ class BuildTableFiltersCommandHandler
     protected function getPrefix(Table $table)
     {
         return $table->getPrefix() . 'filter_';
+    }
+
+    /**
+     * Get the name.
+     *
+     * @param array $filter
+     * @param Table $table
+     * @return string
+     */
+    protected function getName(array $filter, Table $table)
+    {
+        return $table->getPrefix() . $filter['slug'];
+    }
+
+    /**
+     * Set the field to the slug if the slug is a valid field.
+     *
+     * @param array $filter
+     * @param Table $table
+     */
+    protected function guessField(array $filter, Table $table)
+    {
+        if ($stream = $table->getStream()) {
+
+            if (!isset($filter['field']) and $field = $stream->getField($filter['slug'])) {
+
+                $filter['field'] = $filter['slug'];
+            }
+        }
     }
 }
  
