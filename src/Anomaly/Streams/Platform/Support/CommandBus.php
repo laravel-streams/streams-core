@@ -1,44 +1,30 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Foundation\Application;
-
+/**
+ * Class CommandBus
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Support
+ */
 class CommandBus
 {
 
     /**
-     * @var Application
-     */
-    protected $app;
-
-    /**
-     * @var Transformer
-     */
-    protected $transformer;
-
-    /**
-     * List of optional decorators for command bus.
+     * List of optional decorators.
      *
      * @var array
      */
     protected $decorators = [];
 
     /**
-     * @param Application $app
-     * @param Transformer $transformer
-     */
-    function __construct(Application $app, Transformer $transformer)
-    {
-        $this->app         = $app;
-        $this->transformer = $transformer;
-    }
-
-    /**
-     * Decorate the command bus with any executable actions.
+     * Add a decorator to run.
      *
      * @param  string $className
      * @return mixed
      */
-    public function decorate($className)
+    public function addDecorator($className)
     {
         $this->decorators[] = $className;
 
@@ -53,24 +39,24 @@ class CommandBus
      */
     public function execute($command)
     {
-        $this->validateCommand($command); // First!
+        $this->validateCommand($command);
         $this->executeDecorators($command);
 
-        $handler = $this->transformer->toHandler($command);
+        $handler = app('streams.transformer')->toHandler($command);
 
-        return $this->app->call($handler . '@handle', compact('command'));
+        return app()->call($handler . '@handle', compact('command'));
     }
 
     /**
      * Execute all registered decorators
      *
      * @param  object $command
-     * @return null
      */
     protected function executeDecorators($command)
     {
         foreach ($this->decorators as $className) {
-            $this->app->call($className . '@execute', compact('command'));
+
+            app()->call($className . '@execute', compact('command'));
         }
     }
 
@@ -81,7 +67,7 @@ class CommandBus
      */
     protected function validateCommand($command)
     {
-        if ($validator = $this->transformer->toValidator($command)) {
+        if ($validator = app('streams.transformer')->toValidator($command)) {
 
             /**
              * If this fails it should set messages and then throw an exception.
@@ -89,7 +75,7 @@ class CommandBus
              * Classes utilizing the bus should catch and handle validation
              * exceptions on their own. Messages should be in the bag.
              */
-            $this->app->call($validator . '@validate', compact('command'));
+            app()->call($validator . '@validate', compact('command'));
         }
     }
 }

@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
 /**
@@ -18,7 +19,7 @@ class Observer
     /**
      * Run before creating a record.
      *
-     * @param $model
+     * @param EloquentModel $model
      */
     public function creating($model)
     {
@@ -27,7 +28,7 @@ class Observer
     /**
      * Run after a record is created.
      *
-     * @param $model
+     * @param EloquentModel $model
      */
     public function created($model)
     {
@@ -38,7 +39,7 @@ class Observer
      * Run before attempting to save a record.
      * Return false to cancel the operation.
      *
-     * @param $model
+     * @param EloquentModel $model
      * @return bool
      */
     public function saving($model)
@@ -49,7 +50,7 @@ class Observer
     /**
      * Run after saving a record.
      *
-     * @param $model
+     * @param EloquentModel $model
      */
     public function saved($model)
     {
@@ -58,7 +59,7 @@ class Observer
     /**
      * Run before a record is updated.
      *
-     * @param $model
+     * @param EloquentModel $model
      */
     public function updating($model)
     {
@@ -67,7 +68,7 @@ class Observer
     /**
      * Run after a record has been updated.
      *
-     * @param $model
+     * @param EloquentModel $model
      */
     public function updated($model)
     {
@@ -77,7 +78,7 @@ class Observer
     /**
      * Run before deleting a record.
      *
-     * @param $model
+     * @param EloquentModel $model
      */
     public function deleting($model)
     {
@@ -86,7 +87,7 @@ class Observer
     /**
      * Run after a record has been deleted.
      *
-     * @param $model
+     * @param EloquentModel $model
      */
     public function deleted($model)
     {
@@ -96,7 +97,7 @@ class Observer
     /**
      * Run before restoring a record.
      *
-     * @param $model
+     * @param EloquentModel $model
      */
     public function restoring($model)
     {
@@ -105,7 +106,7 @@ class Observer
     /**
      * Run after a record has been restored.
      *
-     * @param $model
+     * @param EloquentModel $model
      */
     public function restored($model)
     {

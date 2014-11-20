@@ -3,6 +3,14 @@
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
+/**
+ * Class Decorator
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Support
+ */
 class Decorator
 {
 
@@ -21,7 +29,7 @@ class Decorator
 
         if ($value instanceof PresentableInterface) {
 
-            $value = $value->decorate();
+            $value = $value->newPresenter();
         }
 
         return $value;
@@ -44,7 +52,7 @@ class Decorator
                 $resource->setRelation($relationName, $model);
             } elseif ($model instanceof PresentableInterface) {
 
-                $resource->setRelation($relationName, $model->decorate($model));
+                $resource->setRelation($relationName, $model->newPresenter($model));
             } else {
 
                 $resource->setRelation($relationName, $model);
@@ -66,7 +74,7 @@ class Decorator
 
             if ($resource instanceof PresentableInterface) {
 
-                $collection->put($resource, $resource->decorate($resource));
+                $collection->put($resource, $resource->newPresenter($resource));
             }
         }
 

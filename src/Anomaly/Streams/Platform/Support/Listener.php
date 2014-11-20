@@ -3,6 +3,14 @@
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use ReflectionClass;
 
+/**
+ * Class Listener
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Support
+ */
 abstract class Listener
 {
 
@@ -12,7 +20,7 @@ abstract class Listener
      * Handle the event through the container.
      *
      * @param $event
-     * @return mixed
+     * @return null
      */
     public function handle($event)
     {
@@ -20,9 +28,10 @@ abstract class Listener
 
         if ($this->listenerIsRegistered($eventName)) {
 
-            // Run the method through the container.
             return app()->call(get_class($this) . '@when' . $eventName, compact('event'));
         }
+
+        return null;
     }
 
     /**
@@ -55,6 +64,7 @@ abstract class Listener
         $method = "when{$eventName}";
 
         if (substr($method, -5) == 'Event') {
+
             $method = substr($method, 0, -5);
         }
 

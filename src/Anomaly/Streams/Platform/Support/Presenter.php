@@ -3,11 +3,19 @@
 use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
 
+/**
+ * Class Presenter
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Support
+ */
 class Presenter implements ArrayableInterface, \ArrayAccess
 {
 
     /**
-     * The resource payload to present.
+     * The resource payload.
      *
      * @var
      */
@@ -216,9 +224,13 @@ class Presenter implements ArrayableInterface, \ArrayAccess
         }
     }
 
+    /**
+     * Get the resource.
+     *
+     * @return mixed
+     */
     public function getResource()
     {
-        
         return $this->resource;
     }
 }

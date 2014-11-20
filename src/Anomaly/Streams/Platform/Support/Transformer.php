@@ -3,9 +3,6 @@
 /**
  * Class Transformer
  *
- * A utility to return transformed classes
- * or NULL if the class does not exist.
- *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
@@ -15,8 +12,8 @@ class Transformer
 {
 
     /**
-     * Transform a class to
-     * it's corresponding handler.
+     * Transform a class to it's corresponding
+     * class based on the provided suffix.
      *
      * @param $class
      * @return null|string
@@ -39,7 +36,7 @@ class Transformer
     }
 
     /**
-     * Handle dynamic calls like toServiceProvider($class)
+     * Handle dynamic calls like toFooBar($class)
      *
      * @param       $method
      * @param array $arguments
@@ -51,5 +48,7 @@ class Transformer
 
             return $this->to($arguments[0], substr($method, 2));
         }
+
+        return null;
     }
 }

@@ -15,23 +15,6 @@ class Dispatcher
 {
 
     /**
-     * Laravel's dispatcher object.
-     *
-     * @var \Illuminate\Events\Dispatcher
-     */
-    protected $event;
-
-    /**
-     * Create a new Dispatcher object.
-     *
-     * @param \Illuminate\Events\Dispatcher $event
-     */
-    function __construct(\Illuminate\Events\Dispatcher $event)
-    {
-        $this->event = $event;
-    }
-
-    /**
      * Fire an array of events.
      *
      * @param array $events
@@ -42,7 +25,7 @@ class Dispatcher
 
             $eventName = $this->getEventName($event);
 
-            $this->event->fire($eventName, $event);
+            app('events')->fire($eventName, $event);
         }
     }
 

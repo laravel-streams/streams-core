@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Anomaly\Streams\Platform\Addon\Addon;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
 
 /**
  * Class Composer
@@ -13,23 +13,6 @@ use Jenssegers\Agent\Agent;
  */
 class Composer
 {
-
-    /**
-     * The user agent object.
-     *
-     * @var
-     */
-    protected $agent;
-
-    /**
-     * Create a new Composer instance.
-     *
-     * @param Agent $agent
-     */
-    function __construct(Agent $agent)
-    {
-        $this->agent = $agent;
-    }
 
     /**
      * Compose the view before rendering.
@@ -63,7 +46,7 @@ class Composer
 
             $mobilePath = str_replace('theme::', 'theme::mobile/', $view->getName());
 
-            if ($this->agent->isMobile() and $mobilePath and $environment->exists($mobilePath)) {
+            if (app('agent')->isMobile() and $mobilePath and $environment->exists($mobilePath)) {
 
                 $view->setPath($environment->getFinder()->find($mobilePath));
             }
@@ -109,6 +92,11 @@ class Composer
                 // then resolve it through the IoC registered addon.
                 $addon = app("streams.{$plural}")->active();
 
+                if (!$addon instanceof Addon) {
+
+                    return $view;
+                }
+
                 $type = $addon->getType();
                 $slug = $addon->getSlug();
             }
@@ -132,7 +120,7 @@ class Composer
             $view->setPath($environment->getFinder()->find($path));
         }
 
-        if ($this->agent->isMobile() and $mobilePath and $environment->exists($mobilePath)) {
+        if (app('agent')->isMobile() and $mobilePath and $environment->exists($mobilePath)) {
 
             $view->setPath($environment->getFinder()->find($mobilePath));
         }

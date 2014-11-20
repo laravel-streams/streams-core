@@ -1,26 +1,39 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+/**
+ * Class Generator
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Support
+ */
 class Generator
 {
 
-    protected $file;
-
-    protected $compiler;
-
-    function __construct()
-    {
-        $this->file = app('files');
-    }
-
+    /**
+     * Generate a file from using given template.
+     *
+     * @param $template
+     * @param $data
+     * @param $path
+     */
     public function make($template, $data, $path)
     {
         $template = $this->compile($template, $data);
 
-        $this->file->makeDirectory(dirname($path), 0755, true, true);
+        app('files')->makeDirectory(dirname($path), 0755, true, true);
 
-        $this->file->put($path, $template);
+        app('files')->put($path, $template);
     }
 
+    /**
+     * Compile the given template.
+     *
+     * @param $template
+     * @param $data
+     * @return mixed
+     */
     public function compile($template, $data)
     {
         foreach ($data as $key => $value) {
