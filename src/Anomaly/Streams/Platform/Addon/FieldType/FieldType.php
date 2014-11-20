@@ -762,19 +762,20 @@ class FieldType extends Addon implements PresentableInterface
     }
 
     /**
-     * Return a decorated field type class.
+     * Return a new presenter object.
      *
-     * @return FieldTypePresenter
+     * @return mixed
      */
-    public function decorate()
+    public function newPresenter()
     {
-        if ($presenter = app('streams.transformer')->toPresenter($this)) {
+        if (!$presenter = app('streams.transformer')->toPresenter($this)) {
 
-            return new $presenter($this);
+            $presenter = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter';
         }
 
-        return new FieldTypePresenter($this);
+        return app()->make($presenter, ['resource' => $this]);
     }
+
 
     /**
      * Represent Eloquent's hasOne method.
