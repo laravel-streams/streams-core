@@ -244,3 +244,27 @@ function hit(array $lottery = [2, 100])
 {
     return mt_rand(1, $lottery[1]) <= $lottery[0];
 }
+
+/**
+ * Return an array parsed into a string of attributes.
+ *
+ * @param array $attributes
+ * @param array $skip
+ * @return string
+ */
+function attributes_string(array $attributes, array $skip = [])
+{
+    $attributes = array_diff_key($attributes, array_flip($skip));
+
+    return implode(
+        ' ',
+        array_map(
+            function ($v, $k) {
+
+                return $k . '=' . '"' . trans($v) . '"';
+            },
+            $attributes,
+            array_keys($attributes)
+        )
+    );
+}

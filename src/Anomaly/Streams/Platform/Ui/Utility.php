@@ -16,26 +16,5 @@ class Utility
 {
 
     use DispatchableTrait;
-
-    /**
-     * Return an array parsed into a string of attributes.
-     *
-     * @param array $attributes
-     * @return string
-     */
-    public function attributeString(array $attributes)
-    {
-        return implode(
-            ' ',
-            array_map(
-                function ($v, $k) {
-
-                    return $k . '=' . '"' . trans($v) . '"';
-                },
-                $attributes,
-                array_keys($attributes)
-            )
-        );
-    }
 }
  
