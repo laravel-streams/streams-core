@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Anomaly\Streams\Platform\Ui\Table\TableUtility;
+use Anomaly\Streams\Platform\Ui\Table\TablePresets;
 
 /**
  * Class BuildTableActionsCommandHandler
@@ -33,16 +33,16 @@ class BuildTableActionsCommandHandler
     /**
      * The table utility class.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TableUtility
+     * @var \Anomaly\Streams\Platform\Ui\Table\TablePresets
      */
     protected $utility;
 
     /**
      * Create a new BuildTableActionsCommandHandler instance.
      *
-     * @param TableUtility $utility
+     * @param TablePresets $utility
      */
-    public function __construct(TableUtility $utility)
+    public function __construct(TablePresets $utility)
     {
         $this->utility = $utility;
     }

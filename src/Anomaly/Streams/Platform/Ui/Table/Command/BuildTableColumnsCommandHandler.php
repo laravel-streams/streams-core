@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Entry\EntryInterface;
-use Anomaly\Streams\Platform\Ui\Table\TableUtility;
+use Anomaly\Streams\Platform\Ui\Table\TablePresets;
 
 /**
  * Class BuildTableColumnsCommandHandler
@@ -32,16 +32,16 @@ class BuildTableColumnsCommandHandler
     /**
      * The table utility object.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TableUtility
+     * @var \Anomaly\Streams\Platform\Ui\Table\TablePresets
      */
     protected $utility;
 
     /**
      * Create a new BuildTableColumnsCommandHandler instance.
      *
-     * @param TableUtility      $utility
+     * @param TablePresets      $utility
      */
-    function __construct(TableUtility $utility)
+    function __construct(TablePresets $utility)
     {
         $this->utility = $utility;
     }
