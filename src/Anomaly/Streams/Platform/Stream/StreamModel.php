@@ -1,26 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
-class StreamModel extends EloquentModel
+class StreamModel extends EloquentModel implements StreamInterface
 {
-
-    /**
-     * Do not use timestamps.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
-     * This model is translatable.
-     *
-     * @var bool
-     */
-    protected $translatable = true;
 
     /**
      * The foreign key for translations.
@@ -37,97 +22,16 @@ class StreamModel extends EloquentModel
     protected $table = 'streams_streams';
 
     /**
-     * Add a stream.
+     * Make a Stream instance from the provided compile data.
      *
-     * @param $namespace
-     * @param $slug
-     * @param $prefix
-     * @param $name
-     * @param $description
-     * @param $viewOptions
-     * @param $titleColumn
-     * @param $orderBy
-     * @param $isHidden
-     * @param $isTranslatable
-     * @param $isRevisionable
-     * @return $this
+     * @param array $data
+     * @return StreamInterface
      */
-    public function add(
-        $namespace,
-        $slug,
-        $prefix,
-        $name,
-        $description,
-        $viewOptions,
-        $titleColumn,
-        $orderBy,
-        $isHidden,
-        $isTranslatable,
-        $isRevisionable
-    ) {
-        $this->slug            = $slug;
-        $this->name            = $name;
-        $this->prefix          = $prefix;
-        $this->order_by        = $orderBy;
-        $this->is_hidden       = $isHidden;
-        $this->namespace       = $namespace;
-        $this->description     = $description;
-        $this->view_options    = $viewOptions;
-        $this->title_column    = $titleColumn;
-        $this->is_translatable = $isTranslatable;
-        $this->is_revisionable = $isRevisionable;
-
-        $this->save();
-
-        return $this;
-    }
-
-    /**
-     * Remove a stream.
-     *
-     * @param $namespace
-     * @param $slug
-     * @return $this|bool
-     */
-    public function remove($namespace, $slug)
-    {
-        if ($stream = $this->whereNamespace($namespace)->whereSlug($slug)->first()) {
-
-            $stream->delete();
-
-            //$this->raise(new StreamWasRemovedEvent($stream));
-
-            return $stream;
-        }
-
-        return false;
-    }
-
-    public function findAllByNamespace($namespace)
-    {
-        return $this->whereNamespace($namespace)->get();
-    }
-
-    public function findByNamespaceAndSlug($namespace, $slug)
-    {
-        return $this->whereNamespace($namespace)->whereSlug($slug)->first();
-    }
-
-    public function getEntryTableName()
-    {
-        return $this->prefix . $this->slug;
-    }
-
-    public function getEntryTranslationsTableName()
-    {
-        return $this->getEntryTableName() . '_translations';
-    }
-
-    public function object($data)
+    public function make(array $data)
     {
         $assignments = array();
 
-        $streamModel = new StreamModel();
+        $streamModel = app('Anomaly\Streams\Platform\Stream\StreamModel');
 
         $data['view_options'] = serialize($data['view_options']);
 
@@ -142,11 +46,11 @@ class StreamModel extends EloquentModel
                     $assignment['field']['rules']  = unserialize($assignment['field']['rules']);
                     $assignment['field']['config'] = unserialize($assignment['field']['config']);
 
-                    $fieldModel = new FieldModel($assignment['field']);
+                    $fieldModel = app()->make('Anomaly\Streams\Platform\Field\FieldModel', $assignment['field']);
 
                     unset($assignment['field']);
 
-                    $assignmentModel = new AssignmentModel($assignment);
+                    $assignmentModel = app()->make('Anomaly\Streams\Platform\Assignment\AssignmentModel', $assignment);
 
                     $assignmentModel->setRawAttributes($assignment);
 
@@ -167,50 +71,94 @@ class StreamModel extends EloquentModel
         return $streamModel;
     }
 
-    public function assignments()
+    /**
+     * Get the namespace.
+     *
+     * @return mixed
+     */
+    public function getNamespace()
     {
-        return $this->hasMany('Anomaly\Streams\Platform\Assignment\AssignmentModel', 'stream_id')->orderBy(
-            'sort_order'
-        );
+        return $this->namespace;
     }
 
-    public function getViewOptionsAttribute($viewOptions)
+    /**
+     * Get the slug.
+     *
+     * @return mixed
+     */
+    public function getSlug()
     {
-        return unserialize($viewOptions);
+        return $this->slug;
     }
 
+    /**
+     * Get the prefix.
+     *
+     * @return mixed
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * Get the name.
+     *
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get the translatable flag.
+     *
+     * @return mixed
+     */
+    public function isTranslatable()
+    {
+        return ($this->is_translatable);
+    }
+
+    /**
+     * Get the related assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getAssignments()
+    {
+        return $this->assignments;
+    }
+
+    /**
+     * Serialize the view options before setting them on the model.
+     *
+     * @param $viewOptions
+     */
     public function setViewOptionsAttribute($viewOptions)
     {
         $this->attributes['view_options'] = serialize($viewOptions);
     }
 
-    public function getPermissionsAttribute($permissions)
+    /**
+     * Unserialize the view options after getting them off the model.
+     *
+     * @param $viewOptions
+     * @return mixed
+     */
+    public function getViewOptionsAttribute($viewOptions)
     {
-        return unserialize($permissions);
+        return unserialize($viewOptions);
     }
 
-    public function setPermissionsAttribute($permissions)
+    /**
+     * Return the assignments relation.
+     *
+     * @return mixed
+     */
+    public function assignments()
     {
-        $this->attributes['permissions'] = serialize($permissions);
-    }
-
-    public function getForeignKey()
-    {
-        return str_singular($this->slug) . '_id';
-    }
-
-    public function newCollection(array $items = [])
-    {
-        return new StreamCollection($items);
-    }
-
-    public function decorate()
-    {
-        return new StreamPresenter($this);
-    }
-
-    public function isTranslatable()
-    {
-        return ($this->is_translatable);
+        return $this->hasMany(config('streams.assignments.model'), 'stream_id')->orderBy('sort_order');
     }
 }
