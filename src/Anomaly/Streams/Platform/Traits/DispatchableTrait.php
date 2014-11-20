@@ -16,7 +16,7 @@ trait DispatchableTrait
      */
     public function dispatch($event)
     {
-        app('events')->dispatch([$event]);
+        app('streams.dispatcher')->dispatch([$event]);
     }
 }
  
