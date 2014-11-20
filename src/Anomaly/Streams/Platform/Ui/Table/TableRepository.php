@@ -1,8 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Support\Paginator;
+use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
+use Anomaly\Streams\Platform\Ui\Table\Event\QueryingEvent;
+use Illuminate\Pagination\Paginator;
 
 /**
  * Class TableRepository
@@ -18,6 +20,8 @@ use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
  */
 class TableRepository implements TableRepositoryInterface
 {
+
+    use DispatchableTrait;
 
     /**
      * The table UI object.
@@ -78,7 +82,14 @@ class TableRepository implements TableRepositoryInterface
          * and any other query hooks the developer
          * want's to implement.
          */
-        $this->table->fire('query', [&$query]);
+
+        // Set the query so we can modify it.
+        $this->table->setQuery($query);
+
+        $this->dispatch(new QueryingEvent($this->table));
+
+        // This was just modified above (potentially).
+        $query = $this->table->getQuery();
 
         /**
          * Save the total of the basic query

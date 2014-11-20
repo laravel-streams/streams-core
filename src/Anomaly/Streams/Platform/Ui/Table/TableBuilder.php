@@ -52,9 +52,7 @@ class TableBuilder
      */
     public function views()
     {
-        $command = new BuildTableViewsCommand($this->table);
-
-        return $this->execute($command);
+        return $this->execute(new BuildTableViewsCommand($this->table));
     }
 
     /**
@@ -64,9 +62,7 @@ class TableBuilder
      */
     public function filters()
     {
-        $command = new BuildTableFiltersCommand($this->table);
-
-        return $this->execute($command);
+        return $this->execute(new BuildTableFiltersCommand($this->table));
     }
 
     /**
@@ -76,9 +72,7 @@ class TableBuilder
      */
     public function headers()
     {
-        $command = new BuildTableHeadersCommand($this->table);
-
-        return $this->execute($command);
+        return $this->execute(new BuildTableHeadersCommand($this->table));
     }
 
     /**
@@ -88,9 +82,7 @@ class TableBuilder
      */
     public function rows()
     {
-        $command = new BuildTableRowsCommand($this->table);
-
-        return $this->execute($command);
+        return $this->execute(new BuildTableRowsCommand($this->table));
     }
 
     /**
@@ -100,9 +92,7 @@ class TableBuilder
      */
     public function actions()
     {
-        $command = new BuildTableActionsCommand($this->table);
-
-        return $this->execute($command);
+        return $this->execute(new BuildTableActionsCommand($this->table));
     }
 
     /**
@@ -112,9 +102,7 @@ class TableBuilder
      */
     public function pagination()
     {
-        $command = new BuildTablePaginationCommand($this->table);
-
-        return $this->execute($command);
+        return $this->execute(new BuildTablePaginationCommand($this->table));
     }
 
     /**
@@ -124,9 +112,7 @@ class TableBuilder
      */
     public function options()
     {
-        $command = new BuildTableOptionsCommand($this->table);
-
-        return $this->execute($command);
+        return $this->execute(new BuildTableOptionsCommand($this->table));
     }
 }
  

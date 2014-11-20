@@ -1,12 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Anomaly\Streams\Platform\Contract\PaginatorInterface;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableActionCommand;
-use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableFiltersCommand;
-use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableSortingCommand;
-use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableViewCommand;
+use Anomaly\Streams\Platform\Ui\Table\Event\BootedEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\MadeEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TriggeredEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TriggeringEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Pagination\Paginator;
 
 /**
  * Class Table
@@ -92,6 +92,13 @@ class Table extends Ui
     protected $entries = null;
 
     /**
+     * The query object.
+     *
+     * @var null
+     */
+    protected $query = null;
+
+    /**
      * Table views. These allow you to override
      * the query and configuration of the table
      * during runtime operation.
@@ -159,26 +166,34 @@ class Table extends Ui
     /**
      * The table builder object.
      *
-     * @var
+     * @var TableBuilder
      */
     protected $builder;
 
     /**
+     * The table presets object.
+     *
+     * @var TablePresets
+     */
+    protected $presets;
+
+    /**
      * The table repository object.
      *
-     * @var
+     * @var TableRepository
      */
     protected $repository;
 
     /**
-     * Create a new Table instance.
+     * Setup the class.
      */
-    public function __construct()
+    protected function boot()
     {
         $this->builder    = $this->newBuilder();
+        $this->presets    = $this->newPresets();
         $this->repository = $repository = $this->newRepository();
 
-        parent::__construct();
+        $this->dispatch(new BootedEvent($this));
     }
 
     /**
@@ -188,7 +203,21 @@ class Table extends Ui
      */
     public function make()
     {
-        return $this->fire('make');
+        $this->dispatch(new MadeEvent($this));
+
+        if (!$this->response and app('request')->isMethod('post')) {
+
+            $this->execute(new HandleTableActionCommand($this));
+        }
+
+        if (!$this->response) {
+
+            $this->setResponse(parent::make());
+        }
+
+        $this->dispatch(new MadeEvent($this));
+
+        return $this->response;
     }
 
 
@@ -199,7 +228,7 @@ class Table extends Ui
      */
     protected function trigger()
     {
-        $this->fire('trigger');
+        $this->dispatch(new TriggeringEvent($this));
 
         if ($this->entries == null) {
 
@@ -214,9 +243,11 @@ class Table extends Ui
         $options    = $this->builder->options();
         $pagination = $this->builder->pagination();
 
-        $data = compact('views', 'filters', 'headers', 'rows', 'actions', 'pagination', 'options');
+        $this->setData(compact('views', 'filters', 'headers', 'rows', 'actions', 'pagination', 'options'));
 
-        return view($this->view, $data)->render();
+        $this->dispatch(new TriggeredEvent($this));
+
+        return view($this->view, $this->getData())->render();
     }
 
     /**
@@ -671,9 +702,9 @@ class Table extends Ui
      * @param string $wrapper
      * return $this
      */
-    public function setWrapper($wrapper)
+    public function setWrapperView($wrapper)
     {
-        $this->wrapper = $wrapper;
+        $this->wrapperView = $wrapper;
 
         return $this;
     }
@@ -684,7 +715,7 @@ class Table extends Ui
      * @param null $paginator
      * return $this
      */
-    public function setPaginator(PaginatorInterface $paginator)
+    public function setPaginator(Paginator $paginator)
     {
         $this->paginator = $paginator;
 
@@ -694,7 +725,7 @@ class Table extends Ui
     /**
      * Get the paginator object.
      *
-     * @return PaginatorInterface
+     * @return Paginator
      */
     public function getPaginator()
     {
@@ -702,18 +733,26 @@ class Table extends Ui
     }
 
     /**
-     * Return a new repository instance.
+     * Set the query.
      *
-     * @return TableRepository
+     * @param null $query
+     * return $this
      */
-    protected function newRepository()
+    public function setQuery($query)
     {
-        if (!$repository = $this->transform(__FUNCTION__)) {
+        $this->query = $query;
 
-            $repository = 'Anomaly\Streams\Platform\Ui\Table\TableRepository';
-        }
+        return $this;
+    }
 
-        return app()->make($repository, ['table' => $this]);
+    /**
+     * Get the query.
+     *
+     * @return null
+     */
+    public function getQuery()
+    {
+        return $this->query;
     }
 
     /**
@@ -728,40 +767,36 @@ class Table extends Ui
             $builder = 'Anomaly\Streams\Platform\Ui\Table\TableBuilder';
         }
 
-        return app()->make($builder, ['table' => $this]);
+        return app()->make($builder, [$this]);
     }
 
     /**
-     * Fire when making the response.
+     * Return a new presets instance.
      *
-     * @return \Illuminate\View\View
+     * @return TablePresets
      */
-    protected function onMake()
+    protected function newPresets()
     {
-        if (!$this->response and app('request')->isMethod('post')) {
+        if (!$presets = $this->transform(__METHOD__)) {
 
-            $this->execute(new HandleTableActionCommand($this));
+            $presets = 'Anomaly\Streams\Platform\Ui\Table\TablePresets';
         }
 
-        if (!$this->response) {
-
-            $this->setResponse(parent::make());
-        }
-
-        return $this->response;
+        return app()->make($presets, [$this]);
     }
 
     /**
-     * Fire just before querying.
+     * Return a new repository instance.
      *
-     * @param $query
-     * @return mixed
+     * @return TableRepository
      */
-    protected function onQuery(&$query)
+    protected function newRepository()
     {
-        // TODO: Move this stuff to an event?
-        $query = $this->execute(new HandleTableViewCommand($this, $query));
-        $query = $this->execute(new HandleTableSortingCommand($this, $query));
-        $query = $this->execute(new HandleTableFiltersCommand($this, $query));
+        if (!$repository = $this->transform(__FUNCTION__)) {
+
+            $repository = 'Anomaly\Streams\Platform\Ui\Table\TableRepository';
+        }
+
+        return app()->make($repository, [$this]);
     }
 }

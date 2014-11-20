@@ -1,23 +1,18 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Anomaly\Streams\Platform\Ui\Utility;
-
 /**
- * Class TableUtility
- *
- * This is a simple utility object to
- * assist table command handlers.
+ * Class TablePresets
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table
  */
-class TableUtility extends Utility
+class TablePresets
 {
 
     /**
-     * Default button configurations.
+     * Button presets.
      *
      * @var array
      */
@@ -34,8 +29,8 @@ class TableUtility extends Utility
         'danger'     => [
             'class' => 'btn btn-sm btn-danger',
         ],
-        'default'    => [
-            'class' => 'btn btn-sm btn-default',
+        'preset'     => [
+            'class' => 'btn btn-sm btn-preset',
         ],
         'view'       => [
             'title' => 'admin.button.view',
@@ -43,7 +38,7 @@ class TableUtility extends Utility
         ],
         'options'    => [
             'title' => 'admin.button.options',
-            'class' => 'btn btn-sm btn-default',
+            'class' => 'btn btn-sm btn-preset',
         ],
         'edit'       => [
             'title' => 'admin.button.edit',
@@ -57,7 +52,7 @@ class TableUtility extends Utility
             'class'        => 'btn btn-sm btn-danger',
             'data-confirm' => 'confirm.delete',
         ],
-        'gear-icon' => [
+        'gear-icon'  => [
             'class' => 'btn btn-sm btn-link',
             'title' => '<i class="fa fa-gear"></i>',
         ],
@@ -68,7 +63,7 @@ class TableUtility extends Utility
     ];
 
     /**
-     * Default action configurations.
+     * Preset action configurations.
      *
      * @var array
      */
@@ -85,8 +80,8 @@ class TableUtility extends Utility
         'danger'     => [
             'class' => 'btn btn-sm btn-danger',
         ],
-        'default'    => [
-            'class' => 'btn btn-sm btn-default',
+        'preset'     => [
+            'class' => 'btn btn-sm btn-preset',
         ],
         'view'       => [
             'title' => 'admin.button.view',
@@ -94,7 +89,7 @@ class TableUtility extends Utility
         ],
         'options'    => [
             'title' => 'admin.button.options',
-            'class' => 'btn btn-sm btn-default',
+            'class' => 'btn btn-sm btn-preset',
         ],
         'edit'       => [
             'title' => 'admin.button.edit',
@@ -115,52 +110,30 @@ class TableUtility extends Utility
     ];
 
     /**
-     * Default view configurations.
+     * Preset view configurations.
      *
      * @var array
      */
     protected $views = [
-        'all'               => [
+        'all' => [
             'title'   => 'misc.all',
-            'slug'    => 'all',
-            'handler' => 'Anomaly\Streams\Platform\Ui\Table\View\ViewAllTableView',
-        ],
-        'latest'            => [
-            'title'   => 'misc.latest',
-            'slug'    => 'latest',
-            'handler' => 'Anomaly\Streams\Platform\Ui\Table\View\RecentlyCreatedTableView',
-        ],
-        'newest'            => [
-            'title'   => 'misc.newest',
-            'slug'    => 'newest',
-            'handler' => 'Anomaly\Streams\Platform\Ui\Table\View\RecentlyCreatedTableView',
-        ],
-        'recently_created'  => [
-            'title'   => 'misc.recently_created',
-            'slug'    => 'recently_created',
-            'handler' => 'Anomaly\Streams\Platform\Ui\Table\View\RecentlyCreatedTableView',
-        ],
-        'recently_modified' => [
-            'title'   => 'misc.recently_modified',
-            'slug'    => 'recently_modified',
-            'handler' => 'Anomaly\Streams\Platform\Ui\Table\View\RecentlyModifiedTableView',
+            'handler' => 'Anomaly\Streams\Platform\Ui\Table\View\All',
         ]
     ];
 
     /**
-     * Return default button configuration for
-     * a given button type.
+     * Return button presets by slug.
      *
-     * @param $type
+     * @param $slug
      * @return null
      */
-    public function getButtonDefaults($type)
+    public function getButtonPresets($slug)
     {
-        if (isset($this->buttons[$type]) and $defaults = $this->buttons[$type]) {
+        if (isset($this->buttons[$slug]) and $presets = $this->buttons[$slug]) {
 
-            $defaults['url'] = $this->guessUrl($type);
+            $presets['url'] = $this->guessUrl($slug);
 
-            return $defaults;
+            return $presets;
         }
 
         return [];
@@ -168,34 +141,34 @@ class TableUtility extends Utility
 
 
     /**
-     * Return default button configuration for
+     * Return preset button configuration for
      * a given action type.
      *
-     * @param $type
+     * @param $slug
      * @return null
      */
-    public function getActionDefaults($type)
+    public function getActionPresets($slug)
     {
-        if (isset($this->actions[$type]) and $defaults = $this->actions[$type]) {
+        if (isset($this->actions[$slug]) and $presets = $this->actions[$slug]) {
 
-            return $defaults;
+            return $presets;
         }
 
         return [];
     }
 
     /**
-     * Return default view configuration for
+     * Return preset view configuration for
      * a given view type.
      *
-     * @param $type
+     * @param $slug
      * @return null
      */
-    public function getViewDefaults($type)
+    public function getViewPresets($slug)
     {
-        if (isset($this->views[$type]) and $defaults = $this->views[$type]) {
+        if (isset($this->views[$slug]) and $presets = $this->views[$slug]) {
 
-            return $defaults;
+            return $presets;
         }
 
         return [];
@@ -205,13 +178,13 @@ class TableUtility extends Utility
      * Try and guess a URL because we're awesome.
      * This of course can be overridden by setting one.
      *
-     * @param $type
+     * @param $slug
      */
-    protected function guessUrl($type)
+    protected function guessUrl($slug)
     {
-        $path = $this->router->getCurrentRoute()->getPath();
+        $path = app('router')->getCurrentRoute()->getPath();
 
-        switch ($type) {
+        switch ($slug) {
 
             // Suggest best practices for view URLs
             case 'view':
@@ -235,66 +208,36 @@ class TableUtility extends Utility
     }
 
     /**
-     * Register a button default.
+     * Add a button preset.
      *
-     * @param $type
+     * @param $slug
      * @param $button
      */
-    public function registerButton($type, $button)
+    public function addButton($slug, $button)
     {
-        $this->buttons[$type] = $button;
+        $this->buttons[$slug] = $button;
     }
 
     /**
-     * Register an action default.
+     * Add an action preset.
      *
-     * @param $type
+     * @param $slug
      * @param $action
      */
-    public function registerAction($type, $action)
+    public function addAction($slug, $action)
     {
-        $this->actions[$type] = $action;
+        $this->actions[$slug] = $action;
     }
 
     /**
-     * Register a default view.
+     * Add a view preset.
      *
-     * @param $type
+     * @param $slug
      * @param $view
      */
-    public function registerView($type, $view)
+    public function addView($slug, $view)
     {
-        $this->views[$type] = $view;
-    }
-
-    /**
-     * Get the button defaults.
-     *
-     * @return array
-     */
-    public function getButtons()
-    {
-        return $this->buttons;
-    }
-
-    /**
-     * Get the action default.
-     *
-     * @return array
-     */
-    public function getActions()
-    {
-        return $this->actions;
-    }
-
-    /**
-     * Get the view defaults.
-     *
-     * @return array
-     */
-    public function getViews()
-    {
-        return $this->views;
+        $this->views[$slug] = $view;
     }
 }
  
