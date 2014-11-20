@@ -55,7 +55,15 @@ class Expander
             return $data;
         }
 
-        return $data;
+        /**
+         * Even though it is garbage, set a slug for later.
+         */
+        if (is_array($data['slug']) and !isset($data['slug'])) {
+
+            $data['slug'] = $slug;
+        }
+
+        return (array)$data;
     }
 }
  
