@@ -267,9 +267,9 @@ class Ui
     }
 
     /**
-     * Return a the utility counterpart object.
+     * Return the utility counterpart object.
      *
-     * @return mixed
+     * @return Utility
      */
     protected function newUtility()
     {
@@ -282,9 +282,24 @@ class Ui
     }
 
     /**
-     * Return a the evaluator counterpart object.
+     * Return the expander counterpart object.
      *
-     * @return mixed
+     * @return Expander
+     */
+    protected function newExpander()
+    {
+        if (!$expander = $this->transform(__METHOD__)) {
+
+            $expander = 'Anomaly\Streams\Platform\Ui\Expander';
+        }
+
+        return app($expander);
+    }
+
+    /**
+     * Return the evaluator counterpart object.
+     *
+     * @return Evaluator
      */
     protected function newEvaluator()
     {
@@ -297,7 +312,7 @@ class Ui
     }
 
     /**
-     * Return a the normalizer counterpart object.
+     * Return the normalizer counterpart object.
      *
      * @return mixed
      */
