@@ -26,6 +26,8 @@ class SetLocale implements Middleware
         $session     = app('session');
         $application = app('streams.application');
 
+        return $next($request); // TODO: This is fucked up.
+
         // If the application is installed try getting
         // and storing the locale on the user. If the
         // user is not logged in - use the session.

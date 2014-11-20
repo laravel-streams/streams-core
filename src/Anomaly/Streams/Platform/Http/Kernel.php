@@ -17,11 +17,13 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * @var array
      */
     protected $middleware = [
+        'Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode',
         'Illuminate\Cookie\Middleware\EncryptCookies',
         'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
         'Illuminate\Session\Middleware\StartSession',
         'Illuminate\View\Middleware\ShareErrorsFromSession',
-        'Anomaly\Streams\Platform\Http\Middleware\CheckInstallation',
+        'Illuminate\Foundation\Http\Middleware\VerifyCsrfToken',
+        //'Anomaly\Streams\Platform\Http\Middleware\CheckInstallation',
         'Anomaly\Streams\Platform\Http\Middleware\SetLocale',
         'Anomaly\Streams\Platform\Http\Middleware\FlashMessages',
     ];
