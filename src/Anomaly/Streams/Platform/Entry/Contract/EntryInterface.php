@@ -48,10 +48,12 @@ interface EntryInterface
     /**
      * Get an attribute value by a field slug.
      *
-     * @param $fieldSlug
+     * @param      $fieldSlug
+     * @param null $locale
+     * @param bool $mutate
      * @return mixed
      */
-    public function getFieldValue($fieldSlug);
+    public function getFieldValue($fieldSlug, $locale = null, $mutate = true);
 
     /**
      * Get a specified relationship.
