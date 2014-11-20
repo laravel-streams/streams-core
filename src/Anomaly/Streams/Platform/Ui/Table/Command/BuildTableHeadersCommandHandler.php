@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Entry\EntryInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Anomaly\Streams\Platform\Ui\Table\TablePresets;
 
 /**
  * Class BuildTableHeadersCommandHandler
@@ -16,23 +16,6 @@ class BuildTableHeadersCommandHandler
 {
 
     /**
-     * The table utility object.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TablePresets
-     */
-    protected $utility;
-
-    /**
-     * Create a new BuildTableHeadersCommandHandler instance.
-     *
-     * @param TablePresets $utility
-     */
-    function __construct(TablePresets $utility)
-    {
-        $this->utility = $utility;
-    }
-
-    /**
      * Handle the command.
      *
      * @param BuildTableHeadersCommand $command
@@ -42,73 +25,48 @@ class BuildTableHeadersCommandHandler
     {
         $table = $command->getTable();
 
-        $columns = [];
+        $presets   = $table->getPresets();
+        $expander  = $table->getExpander();
+        $evaluator = $table->getEvaluator();
 
-        foreach ($table->getColumns() as $slug => $column) {
+        $columns = $table->getColumns();
 
-            $column = $this->standardize($slug, $column);
+        /**
+         * Loop and process all of the columns.
+         */
+        foreach ($columns as $slug => &$column) {
 
-            // Evaluate everything in the array.
-            // All closures are gone now.
-            $column = $this->utility->evaluate($column, [$table]);
+            // Expand minimal input.
+            $column = $expander->expand($slug, $column);
+
+            if (!isset($column['field'])) {
+
+                $column['field'] = $column['slug'];
+            }
+
+            // Automate what we can.
+            $column = $presets->setViewPresets($column);
+
+            // Evaluate the entire column.
+            $column = $evaluator->evaluate($column, compact('table'));
+
+            // Skip if disabled.
+            if (array_get($column, 'enabled') === false) {
+
+                unset($columns[$slug]);
+
+                continue;
+            }
 
             // Build out our required data.
+            $url     = $this->getUrl($column, $table);
             $heading = $this->getHeading($column, $table);
             $sorting = $this->getSorting($column, $table);
-            $url     = $this->getUrl($column, $table, $sorting);
 
             $columns[] = compact('heading', 'sorting', 'url');
         }
 
         return $columns;
-    }
-
-    /**
-     * Standardize minimum input to the proper data
-     * structure we actually expect.
-     *
-     * @param $slug
-     * @param $column
-     * @return array
-     */
-    protected function standardize($slug, $column)
-    {
-
-        /**
-         * If the slug is numerical and the column
-         * is a string then use view for both.
-         */
-        if (is_numeric($slug) and is_string($column)) {
-
-            return [
-                'field' => $column,
-                'slug'  => $column,
-            ];
-        }
-
-        /**
-         * If the slug is a string and the view
-         * is too then use the slug as slug and
-         * the view as the type.
-         */
-        if (is_string($column)) {
-
-            return [
-                'field' => $column,
-                'slug'  => $slug,
-            ];
-        }
-
-        /**
-         * If the slug is not explicitly set
-         * then default it to the slug inferred.
-         */
-        if (is_array($column) and !isset($column['slug'])) {
-
-            $column['slug'] = $slug;
-        }
-
-        return $column;
     }
 
     /**
@@ -120,19 +78,24 @@ class BuildTableHeadersCommandHandler
      */
     protected function getHeading(array $column, Table $table)
     {
-        $heading = trans(evaluate_key($column, 'heading', null, compact('table')));
+        $heading = trans(array_get($column, 'heading'));
 
-        if (!$heading and isset($column['field']) and $model = $table->getModel() and $model instanceof EntryInterface
-        ) {
+        // No heading desired.
+        if ($heading === false) {
 
-            $heading = $this->getHeadingFromField($column, $model);
+            return null;
         }
 
-        // TODO: Is this really that helpful?
-        /*if (!$heading) {
+        /**
+         * If we have a streams model on the table
+         * try getting the heading from a field type.
+         */
+        if (!$heading and $stream = $table->getStream()) {
 
-            $this->guessHeading($column, $table);
-        }*/
+            $heading = $this->getHeadingFromField($column, $stream);
+        }
+
+        // TODO: Potentially guess a heading if not false
 
         return $heading;
     }
@@ -140,46 +103,20 @@ class BuildTableHeadersCommandHandler
     /**
      * Get the heading from a field.
      *
-     * @param array          $column
-     * @param EntryInterface $model
-     * @return null
+     * @param array           $column
+     * @param StreamInterface $stream
+     * @return null|string
      */
-    protected function getHeadingFromField(array $column, EntryInterface $model)
+    protected function getHeadingFromField(array $column, StreamInterface $stream)
     {
         $parts = explode('.', $column['field']);
 
-        if ($name = $model->getFieldName($parts[0])) {
+        if ($type = $stream->getFieldType($parts[0])) {
 
-            return trans($name);
+            return trans($type->getName());
         }
 
         return null;
-    }
-
-    /**
-     * Make our best guess at the heading.
-     *
-     * @param array $column
-     * @param Table $table
-     * @return mixed|null|string
-     */
-    protected function guessHeading(array $column, Table $table)
-    {
-        $heading = evaluate_key($column, 'heading', evaluate_key($column, 'field', null), [$table]);
-
-        $translated = trans($heading);
-
-        if ($translated == $heading) {
-
-            $heading = humanize($heading);
-        }
-
-        if ($translated != $heading) {
-
-            $heading = $translated;
-        }
-
-        return $heading;
     }
 
     /**
@@ -191,66 +128,121 @@ class BuildTableHeadersCommandHandler
      */
     protected function getSorting(array $column, Table $table)
     {
-        $parts = explode('.', $column['slug']);
+        $parts = explode('.', $column['field']);
 
-        if ($model = $table->getModel() and $model instanceof EntryInterface) {
+        if ($stream = $table->getStream()) {
 
-            if ($type = $model->fieldType($parts[0])) {
+            return $this->getSortingFromField($column, $table, $stream);
+        }
 
-                $key = $table->getPrefix() . 'order_by';
+        return null;
+    }
 
-                if (app('request')->has($key)) {
+    /**
+     * Get the sorting direction from a field.
+     *
+     * @param array           $column
+     * @param Table           $table
+     * @param StreamInterface $stream
+     * @return null
+     */
+    protected function getSortingFromField(array $column, Table $table, StreamInterface $stream)
+    {
+        $parts = explode('.', $column['field']);
 
-                    list($column, $direction) = explode('|', app('request')->get($key));
+        if ($type = $stream->getFieldType($parts[0])) {
 
-                    if ($column == $type->getColumnName()) {
+            return $this->getSortingDirectionFromType($table, $type);
+        }
 
-                        return $direction;
-                    }
-                }
+        return null;
+    }
+
+    /**
+     * Get the sorting direction from a field type.
+     *
+     * @param Table     $table
+     * @param FieldType $type
+     * @return null
+     */
+    protected function getSortingDirectionFromType(Table $table, FieldType $type)
+    {
+        if ($value = app('request')->has($table->getPrefix() . 'order_by')) {
+
+            list($column, $direction) = explode('|', $value);
+
+            // Make sure the field type uses a column.
+            if ($column == $type->getColumnName()) {
+
+                return $direction;
             }
         }
 
         return null;
     }
 
-    protected function getUrl(array $column, Table $table, $sorting)
+    /**
+     * Get the URL.
+     *
+     * This get's the column|direction and
+     * appends the current URL.
+     *
+     * @param array $column
+     * @param Table $table
+     * @return null|string
+     */
+    protected function getUrl(array $column, Table $table)
     {
-        $parts = explode('.', $column['slug']);
+        $parts = explode('.', $column['field']);
 
-        $orderBy   = null;
+        $column    = null;
         $direction = null;
 
         $key   = $table->getPrefix() . 'order_by';
         $value = app('request')->get($key);
 
-        if ($model = $table->getModel() and $model instanceof EntryInterface) {
+        /**
+         * If we're lucky enough to have a stream
+         * model then try getting the column name
+         * based on a field type.
+         */
+        if ($stream = $table->getStream()) {
 
-            if ($type = $model->fieldType($parts[0])) {
+            $type = $stream->getFieldType($parts[0]);
 
-                $orderBy = $type->getColumnName();
+            if ($type) {
+
+                $column = $type->getColumnName();
             }
         }
 
-        if (!$orderBy) {
+        /**
+         * If we don't have a column yet the
+         * just set the slug as the column.
+         */
+        if (!$column) {
 
-            $orderBy = $column['slug'];
+            $column = $column['slug'];
         }
 
-        $direction = ends_with($value, 'asc') ? 'desc' : 'asc';
-
-        $query = app('request')->all();
-
-        $query[$key] = $orderBy . '|' . $direction;
-
-        $query = http_build_query($query);
-
-        if (is_numeric($orderBy)) {
+        if (is_numeric($column)) {
 
             return null;
         }
 
-        return app('request')->url('/') . '?' . $query;
+        /**
+         * Great - we have a column to order by so
+         * let's put the query together based on
+         * our column / direction and merge it
+         * into the existing query string.
+         */
+        $direction = ends_with($value, 'asc') ? 'desc' : 'asc';
+
+        $variables = app('request')->all();
+
+        $variables[$key] = $column . '|' . $direction;
+
+        return app('request')->url('/') . '?' . http_build_query($variables);
     }
 }
  
