@@ -56,11 +56,26 @@ interface EntryInterface
     public function getFieldValue($fieldSlug, $locale = null, $mutate = true);
 
     /**
+     * Get a field's type by the field's slug.
+     *
+     * @param $fieldSlug
+     * @return mixed
+     */
+    public function getFieldType($fieldSlug);
+
+    /**
      * Get a specified relationship.
      *
      * @param  string $relation
      * @return mixed
      */
     public function getRelation($relation);
+
+    /**
+     * Get the translatable flag.
+     *
+     * @return mixed
+     */
+    public function isTranslatable();
 }
  
