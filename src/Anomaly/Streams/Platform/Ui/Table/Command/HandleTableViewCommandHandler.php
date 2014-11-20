@@ -43,7 +43,7 @@ class HandleTableViewCommandHandler
             $view = $presets->setViewPresets($view);
 
             // If the view is applied then handle it.
-            if ($view['slug'] == $appliedView or (!$appliedView and array_search($slug, array_keys($views)))) {
+            if ($view['slug'] == $appliedView or array_search($slug, array_keys($views)) == 0) {
 
                 // Set the handler and run it.
                 $this->setHandler($view, $table);

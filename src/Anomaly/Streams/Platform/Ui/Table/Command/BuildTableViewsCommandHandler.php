@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Anomaly\Streams\Platform\Ui\Table\TablePresets;
 
 /**
  * Class BuildTableViewsCommandHandler
@@ -15,21 +14,16 @@ class BuildTableViewsCommandHandler
 {
 
     /**
-     * The table utility object.
+     * These keys are NOT attributes.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TablePresets
+     * @var array
      */
-    protected $utility;
-
-    /**
-     * Create a new BuildTableViewsCommandHandler instance.
-     *
-     * @param TablePresets $utility
-     */
-    function __construct(TablePresets $utility)
-    {
-        $this->utility = $utility;
-    }
+    protected $notAttributes = [
+        'url',
+        'class',
+        'title',
+        'active',
+    ];
 
     /**
      * Handle the command.
@@ -39,16 +33,22 @@ class BuildTableViewsCommandHandler
      */
     public function handle(BuildTableViewsCommand $command)
     {
-        $views = [];
-
-        $count = 0;
-
         $table = $command->getTable();
 
-        foreach ($table->getViews() as $slug => $view) {
+        $views     = $table->getViews();
+        $presets   = $table->getPresets();
+        $expander  = $table->getExpander();
+        $evaluator = $table->getEvaluator();
 
-            // Standardize input.
-            $view = $this->standardize($slug, $view);
+        /**
+         * Loop through and process the view configurations
+         * for the table view.
+         */
+        foreach ($views as $slug => &$view) {
+
+            // Expand and automate.
+            $view = $expander->expand($slug, $view);
+            $view = $presets->setViewPresets($view);
 
             /**
              * Remove the handler or it
@@ -56,99 +56,53 @@ class BuildTableViewsCommandHandler
              */
             unset($view['handler']);
 
-            // Evaluate everything in the array.
-            // All closures are gone now.
-            $view = $this->utility->evaluate($view, [$table]);
+            // Evaluate the entire view.
+            $view = $evaluator->evaluate($view, compact('table'));
 
             // Skip if disabled.
-            if (!evaluate_key($view, 'enabled', true)) {
+            if (!array_get($view, 'enabled', true)) {
 
                 continue;
             }
-
-            // Get our defaults and merge them in.
-            $defaults = $this->getDefaults($view, $table);
-
-            $view = array_merge($defaults, $view);
 
             // Build out required data.
             $url    = $this->getUrl($view, $table);
             $title  = $this->getTitle($view, $table);
             $class  = $this->getClass($view, $table);
-            $active = $this->getActive($view, $count, $table);
+            $active = $this->getActive($view, $table);
 
-            $views[] = compact('url', 'title', 'class', 'active');
+            $attributes = attributes_string($view, $this->notAttributes);
 
-            $count++;
+            $views[] = compact('url', 'title', 'class', 'active', 'attributes');
         }
 
         return $views;
     }
 
     /**
-     * Standardize minimum input to the proper data
-     * structure that we actually need.
+     * Get the class.
      *
-     * @param $slug
-     * @param $view
-     * @return array
+     * @param array $view
+     * @param Table $table
+     * @return mixed
      */
-    protected function standardize($slug, $view)
+    protected function getClass(array $view, Table $table)
     {
+        $class = array_get($view, 'class');
 
-        /**
-         * If the slug is numerical and the view
-         * is a string then use view for both.
-         */
-        if (is_numeric($slug) and is_string($view)) {
-
-            return [
-                'type' => $view,
-                'slug' => $view,
-            ];
-        }
-
-        /**
-         * If the slug is a string and the view
-         * is too then use the slug as slug and
-         * the view as the type.
-         */
-        if (is_string($view)) {
-
-            return [
-                'type' => $view,
-                'slug' => $slug,
-            ];
-        }
-
-        /**
-         * If the slug is not explicitly set
-         * then default it to the slug inferred.
-         */
-        if (is_array($view) and !isset($view['slug'])) {
-
-            $view['slug'] = $slug;
-        }
-
-        return $view;
+        return $class;
     }
 
     /**
-     * Get default configuration if any.
-     * Then run everything back through evaluation.
+     * Get the translated view title.
      *
-     * @param $view
-     * @param $table
-     * @return array|mixed|null
+     * @param array $view
+     * @param Table $table
+     * @return string
      */
-    protected function getDefaults($view, $table)
+    protected function getTitle(array $view, Table $table)
     {
-        if (isset($view['type']) and $defaults = $this->utility->getViewDefaults($view['type'])) {
-
-            return $this->utility->evaluate($defaults, [$table]);
-        }
-
-        return [];
+        return trans(array_get($view, 'title', 'misc.all', [$table]));
     }
 
     /**
@@ -164,47 +118,17 @@ class BuildTableViewsCommandHandler
     }
 
     /**
-     * Get the translated view title.
+     * Get active flag.
      *
      * @param array $view
      * @param Table $table
-     * @return string
+     * @return bool
      */
-    protected function getTitle(array $view, Table $table)
+    protected function getActive(array $view, Table $table)
     {
-        return trans(evaluate_key($view, 'title', 'misc.all', [$table]));
-    }
+        $executing = app('request')->get($table->getPrefix() . 'view');
 
-    /**
-     * Get the view class.
-     *
-     * @param array   $view
-     * @param         $order
-     * @param Table   $table
-     * @return mixed|null|string
-     */
-    protected function getClass(array $view, Table $table)
-    {
-        $class = evaluate_key($view, 'class', '', [$table]);
-
-        return $class;
-    }
-
-    /**
-     * Get active flag.
-     *
-     * @param array   $view
-     * @param         $count
-     * @param Table   $table
-     * @return string
-     */
-    protected function getActive(array $view, $count, Table $table)
-    {
-        $input = app('request');
-
-        $executing = $input->get($table->getPrefix() . 'view');
-
-        if (($executing == $view['slug']) or (!$executing and $count == 0)) {
+        if ($executing == $view['slug'] or array_search($view['slug'], array_keys($table->getViews()))) {
 
             return true;
         }
