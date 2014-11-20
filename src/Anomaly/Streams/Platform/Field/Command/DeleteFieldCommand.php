@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command;
 
-class RemoveFieldCommand
+class DeleteFieldCommand
 {
 
     /**
@@ -18,7 +18,7 @@ class RemoveFieldCommand
     protected $slug;
 
     /**
-     * Create a new UninstallFieldCommand instance.
+     * Create a new DeleteFieldCommand instance.
      *
      * @param $namespace
      * @param $slug

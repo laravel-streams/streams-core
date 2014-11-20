@@ -4,21 +4,21 @@ class UnassignFieldCommand
 {
 
     /**
-     * The field namespace to unassign.
+     * The field namespace.
      *
      * @var
      */
     protected $namespace;
 
     /**
-     * The field stream to unassign.
+     * The stream slug.
      *
      * @var
      */
     protected $stream;
 
     /**
-     * The field slug to unassign.
+     * The field slug.
      *
      * @var
      */

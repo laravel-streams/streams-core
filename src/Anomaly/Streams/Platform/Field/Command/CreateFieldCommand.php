@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command;
 
-class AddFieldCommand
+class CreateFieldCommand
 {
 
     /**
@@ -53,17 +53,25 @@ class AddFieldCommand
     protected $isLocked;
 
     /**
-     * Create a new InstallFieldCommand instance.
+     * Create a new CreateFieldCommand instance.
      *
      * @param       $namespace
      * @param       $slug
      * @param       $type
+     * @param null  $name
      * @param array $config
      * @param array $rules
-     * @param       $isLocked
+     * @param bool  $isLocked
      */
-    function __construct($namespace, $slug, $type, $name, array $config, array $rules, $isLocked)
-    {
+    function __construct(
+        $namespace,
+        $slug,
+        $type,
+        $name = null,
+        array $config = [],
+        array $rules = [],
+        $isLocked = false
+    ) {
         $this->slug      = $slug;
         $this->type      = $type;
         $this->name      = $name;

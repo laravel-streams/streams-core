@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
-class RemoveFieldCommandHandler
+class CreateFieldCommandHandler
 {
 
     use DispatchableTrait;
@@ -31,20 +31,21 @@ class RemoveFieldCommandHandler
      * @param $command
      * @return $this|mixed
      */
-    public function handle(RemoveFieldCommand $command)
+    public function handle(CreateFieldCommand $command)
     {
-        $field = $this->field->remove(
+        $field = $this->field->add(
             $command->getNamespace(),
-            $command->getSlug()
+            $command->getSlug(),
+            $command->getName(),
+            $command->getType(),
+            $command->getRules(),
+            $command->getConfig(),
+            $command->getIsLocked()
         );
 
-        if ($field) {
-            $this->dispatchEventsFor($field);
+        $this->dispatchEventsFor($field);
 
-            return $field;
-        }
-
-        return false;
+        return $field;
     }
 }
  

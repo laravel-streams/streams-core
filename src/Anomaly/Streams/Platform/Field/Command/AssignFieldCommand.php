@@ -1,90 +1,111 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command;
 
+/**
+ * Class AssignFieldCommand
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Field\Command
+ */
 class AssignFieldCommand
 {
 
     /**
+     * The sort order.
+     *
      * @var
      */
     protected $sortOrder;
 
     /**
+     * The field namespace.
+     *
      * @var
      */
     protected $namespace;
 
     /**
+     * The stream slug.
+     *
      * @var
      */
     protected $stream;
 
     /**
+     * The field slug.
+     *
      * @var
      */
     protected $field;
 
     /**
+     * The label.
+     *
      * @var
      */
     protected $label;
 
     /**
+     * The placeholder.
+     *
      * @var
      */
     protected $placeholder;
 
     /**
+     * The instructions.
+     *
      * @var
      */
     protected $instructions;
 
     /**
+     * The unique flag.
+     *
      * @var
      */
     protected $isUnique;
 
     /**
+     * The required flag.
+     *
      * @var
      */
     protected $isRequired;
 
     /**
+     * The translatable flag.
+     *
      * @var
      */
     protected $isTranslatable;
 
     /**
-     * @var
-     */
-    protected $isRevisionable;
-
-    /**
      * Create a new AssignFieldCommand instance.
      *
-     * @param       $sortOrder
-     * @param       $namespace
-     * @param       $stream
-     * @param       $field
-     * @param       $label
-     * @param       $placeholder
-     * @param       $instructions
-     * @param       $isUnique
-     * @param       $isRequired
-     * @param       $isTranslatable
-     * @param       $isRevisionable
+     * @param      $namespace
+     * @param      $stream
+     * @param      $field
+     * @param null $label
+     * @param int  $sortOrder
+     * @param bool $isUnique
+     * @param bool $isRequired
+     * @param null $placeholder
+     * @param null $instructions
+     * @param bool $isTranslatable
      */
     function __construct(
-        $sortOrder,
         $namespace,
         $stream,
         $field,
-        $label,
-        $placeholder,
-        $instructions,
-        $isUnique,
-        $isRequired,
-        $isTranslatable,
-        $isRevisionable
+        $label = null,
+        $sortOrder = 0,
+        $isUnique = false,
+        $isRequired = false,
+        $placeholder = null,
+        $instructions = null,
+        $isTranslatable = false
     ) {
         $this->label          = $label;
         $this->field          = $field;
@@ -95,11 +116,12 @@ class AssignFieldCommand
         $this->isRequired     = $isRequired;
         $this->placeholder    = $placeholder;
         $this->instructions   = $instructions;
-        $this->isRevisionable = $isRevisionable;
         $this->isTranslatable = $isTranslatable;
     }
 
     /**
+     * Get the required flag.
+     *
      * @return mixed
      */
     public function getIsRequired()
@@ -108,6 +130,8 @@ class AssignFieldCommand
     }
 
     /**
+     * Get the placeholder.
+     *
      * @return mixed
      */
     public function getPlaceholder()
@@ -116,6 +140,8 @@ class AssignFieldCommand
     }
 
     /**
+     * Get the unique flag.
+     *
      * @return mixed
      */
     public function getIsUnique()
@@ -124,6 +150,8 @@ class AssignFieldCommand
     }
 
     /**
+     * Get the instructions.
+     *
      * @return mixed
      */
     public function getInstructions()
@@ -132,14 +160,8 @@ class AssignFieldCommand
     }
 
     /**
-     * @return mixed
-     */
-    public function getIsRevisionable()
-    {
-        return $this->isRevisionable;
-    }
-
-    /**
+     * Get the translatable flag.
+     *
      * @return mixed
      */
     public function getIsTranslatable()
@@ -148,6 +170,8 @@ class AssignFieldCommand
     }
 
     /**
+     * Get the label.
+     *
      * @return mixed
      */
     public function getLabel()
@@ -156,6 +180,8 @@ class AssignFieldCommand
     }
 
     /**
+     * Get the field namespace.
+     *
      * @return mixed
      */
     public function getNamespace()
@@ -164,6 +190,8 @@ class AssignFieldCommand
     }
 
     /**
+     * Get the sort order.
+     *
      * @return mixed
      */
     public function getSortOrder()
@@ -172,6 +200,8 @@ class AssignFieldCommand
     }
 
     /**
+     * Get the stream slug.
+     *
      * @return mixed
      */
     public function getStream()
@@ -180,6 +210,8 @@ class AssignFieldCommand
     }
 
     /**
+     * Get the field slug.
+     *
      * @return mixed
      */
     public function getField()

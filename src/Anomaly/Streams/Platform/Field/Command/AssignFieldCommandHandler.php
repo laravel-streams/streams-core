@@ -1,52 +1,22 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command;
 
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Field\FieldModel;
-use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
+/**
+ * Class AssignFieldCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Field\Command
+ */
 class AssignFieldCommandHandler
 {
 
     use DispatchableTrait;
-
-    /**
-     * The stream model.
-     *
-     * @var \Anomaly\Streams\Platform\Stream\StreamModel
-     */
-    protected $stream;
-
-    /**
-     * The field model.
-     *
-     * @var \Anomaly\Streams\Platform\Field\FieldModel
-     */
-    protected $field;
-
-    /**
-     * The assignment model.
-     *
-     * @var \Anomaly\Streams\Platform\Assignment\AssignmentModel
-     */
-    protected $assignment;
-
-    /**
-     * Create a new AssignFieldCommandHandler instance.
-     *
-     * @param StreamModel     $stream
-     * @param FieldModel      $field
-     * @param AssignmentModel $assignment
-     */
-    function __construct(
-        StreamModel $stream,
-        FieldModel $field,
-        AssignmentModel $assignment
-    ) {
-        $this->field      = $field;
-        $this->stream     = $stream;
-        $this->assignment = $assignment;
-    }
 
     /**
      * Handle the command.
@@ -54,17 +24,16 @@ class AssignFieldCommandHandler
      * @param $command
      * @return $this|mixed
      */
-    public function handle(AssignFieldCommand $command)
-    {
-        $stream = $this->stream->findByNamespaceAndSlug($command->getNamespace(), $command->getStream());
-        $field  = $this->field->findByNamespaceAndSlug($command->getNamespace(), $command->getField());
+    public function handle(
+        AssignFieldCommand $command,
+        StreamRepositoryInterface $streams,
+        FieldRepositoryInterface $fields,
+        AssignmentRepositoryInterface $assignments
+    ) {
+        $stream = $streams->findByNamespaceAndSlug($command->getNamespace(), $command->getStream());
+        $field  = $fields->findByNamespaceAndSlug($command->getNamespace(), $command->getField());
 
-        if (!$field) {
-
-            throw new \Exception("The [{$command->getField()}] does not exist.");
-        }
-
-        $assignment = $this->assignment->add(
+        $assignment = $assignments->create(
             $command->getSortOrder(),
             $stream->getKey(),
             $field->getKey(),
@@ -73,11 +42,8 @@ class AssignFieldCommandHandler
             $command->getInstructions(),
             $command->getIsUnique(),
             $command->getIsRequired(),
-            $command->getIsTranslatable(),
-            $command->getIsRevisionable()
+            $command->getIsTranslatable()
         );
-
-        $this->dispatchEventsFor($assignment);
 
         return $assignment;
     }
