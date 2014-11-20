@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
 use Anomaly\Streams\Platform\Support\Transformer;
 use Anomaly\Streams\Platform\Traits\CacheableTrait;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Anomaly\Streams\Platform\Traits\EventableTrait;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
 use Anomaly\Streams\Platform\Traits\TranslatableTrait;
 use Illuminate\Database\Eloquent\Collection;
@@ -18,7 +17,6 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
         TranslatableTrait::save as translatableSave;
     }
 
-    use EventableTrait;
     use CacheableTrait;
     use CommandableTrait;
     use TransformableTrait;

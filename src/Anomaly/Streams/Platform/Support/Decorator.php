@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Illuminate\Support\Collection;
 
 /**
  * Class Decorator
