@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Illuminate\Http\Request;
 
 /**
  * Class HandleTableFiltersCommandHandler
@@ -17,23 +17,6 @@ class HandleTableFiltersCommandHandler
 {
 
     /**
-     * The HTTP request object.
-     *
-     * @var \Illuminate\Http\Request
-     */
-    protected $request;
-
-    /**
-     * Create a new HandleTableFiltersCommandHandler instance.
-     *
-     * @param Request $request
-     */
-    function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
-    /**
      * Handle the command.
      *
      * @param HandleTableFiltersCommand $command
@@ -42,7 +25,8 @@ class HandleTableFiltersCommandHandler
     public function handle(HandleTableFiltersCommand $command)
     {
         $table = $command->getTable();
-        $query = $command->getQuery();
+
+        $expander = $table->getExpander();
 
         $filters = $table->getFilters();
 
@@ -51,133 +35,106 @@ class HandleTableFiltersCommandHandler
          * for input with value according to each
          * filter's slug.
          */
-        foreach ($filters as $filter) {
+        foreach ($filters as $slug => $filter) {
 
-            // Standardize the input.
-            $filter = $this->standardize($filter);
+            // Expand minimal input into something useful.
+            $filter = $expander->expand($slug, $filter);
 
-            $slug = $this->getSlug($filter, $table);
+            // Get the input key.
+            $key = $this->getKey($filter, $table);
 
             /**
              * IF there is a value to work with
              * then pass it to the filter handler.
              */
-            if ($value = $this->request->get($slug)) {
+            if ($value = app('request')->get($key)) {
 
-                $handler = $this->getHandler($filter, $table);
-                $query   = $this->runHandler($slug, $handler, $query, $value);
+                // Set and run the filter.
+                $this->setHandler($filter, $table);
+                $this->runHandler($filter, $table, $value);
             }
         }
-
-        return $query;
     }
 
     /**
-     * Standardize minimum input to the proper data
-     * structure we actually expect.
-     *
-     * @param $filter
-     */
-    protected function standardize($filter)
-    {
-        /**
-         * If the filter is a string then
-         * default to a field type with the
-         * string being the field slug.
-         */
-        if (is_string($filter)) {
-
-            $filter = [
-                'type'  => 'field',
-                'field' => $filter,
-                'slug'  => $filter,
-            ];
-        }
-
-        return $filter;
-    }
-
-    /**
-     * Get the filter slug.
+     * Get the filter key.
      *
      * @param array $filter
      * @param Table $table
      * @return string
      * @throws \Exception
      */
-    protected function getSlug(array $filter, Table $table)
+    protected function getKey(array $filter, Table $table)
     {
-        return $this->getPrefix($table) . $filter['slug'];
+        return $table->getPrefix() . 'filter_' . $filter['slug'];
     }
 
     /**
-     * Get the prefix.
-     *
-     * @param Table $table
-     * @return string
-     */
-    protected function getPrefix(Table $table)
-    {
-        return $table->getPrefix() . 'filter_';
-    }
-
-    /**
-     * Get the filter handler.
+     * Set the handler.
      *
      * @param array $filter
      * @param Table $table
-     * @return \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeFilter|mixed|null
+     * @return mixed
      */
-    protected function getHandler(array $filter, Table $table)
+    protected function setHandler(array &$filter, Table $table)
     {
-        if ($filter['type'] == 'field') {
+        /**
+         * If the handler is a class path
+         * then make it with the container.
+         */
+        if (isset($filter['handler']) and is_string($filter['handler'])) {
 
-            $stream = $table->getStream();
-
-            return $stream->assignments->findByFieldSlug($filter['field'])->type();
+            $filter['handler'] = app()->make($filter['handler'], compact('ui'));
         }
 
-        if (is_string($filter['handler'])) {
+        /**
+         * If the handler is not set use the slug or field to resolve it.
+         */
+        if (!isset($filter['handler']) and $stream = $table->getStream()) {
 
-            return app()->make($filter['handler'], compact('ui'));
+            $this->setHandlerFromField($filter, $stream);
+        }
+    }
+
+    /**
+     * Set the handler from a field.
+     *
+     * @param array           $filter
+     * @param StreamInterface $stream
+     */
+    protected function setHandlerFromField(array &$filter, StreamInterface $stream)
+    {
+        if (!isset($filter['field'])) {
+
+            $filter['field'] = $filter['slug'];
         }
 
-        return $filter['handler'];
+        $filter['handler'] = $stream->getFieldType($filter['field']);
     }
 
     /**
      * Run the handler.
      *
-     * @param $slug
-     * @param $handler
-     * @param $query
-     * @param $value
-     * @return mixed
-     * @throws \Exception
+     * @param array $filter
+     * @param Table $table
+     * @param       $value
      */
-    protected function runHandler($slug, $handler, $query, $value)
+    protected function runHandler(array $filter, Table $table, $value)
     {
-        if ($handler instanceof \Closure) {
+        if ($filter['handler'] instanceof \Closure) {
 
-            $query = $handler($query);
+            app()->call($filter['handler'], compact('table', 'value'));
         }
 
-        if ($handler instanceof TableFilterInterface) {
+        if ($filter['handler'] instanceof TableFilterInterface) {
 
-            $query = $handler->handle($query, $value);
+            $filter['handler']->handle($table, $value);
         }
 
-        if ($handler instanceof FieldType) {
+        if ($filter['handler'] instanceof FieldType) {
 
-            $query = $handler->filter($query, $value);
+            $table->setQuery($filter['handler']->filter($table->getQuery(), $value));
         }
-
-        if (!$query) {
-
-            throw new \Exception("Table filter handler [{$slug}] must return the query object.");
-        }
-
-        return $query;
     }
 }
  

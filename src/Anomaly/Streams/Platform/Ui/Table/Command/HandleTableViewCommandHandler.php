@@ -2,8 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableViewInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Anomaly\Streams\Platform\Ui\Table\TablePresets;
-use Illuminate\Http\Request;
 
 /**
  * Class HandleTableViewCommandHandler
@@ -19,32 +17,6 @@ class HandleTableViewCommandHandler
 {
 
     /**
-     * The HTTP request object.
-     *
-     * @var \Illuminate\Http\Request
-     */
-    protected $request;
-
-    /**
-     * The table utility object.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TablePresets
-     */
-    protected $utility;
-
-    /**
-     * Create a new HandleTableViewCommandHandler instance.
-     *
-     * @param Request      $request
-     * @param TablePresets $utility
-     */
-    function __construct(Request $request, TablePresets $utility)
-    {
-        $this->request = $request;
-        $this->utility = $utility;
-    }
-
-    /**
      * Handle the command.
      *
      * @param HandleTableViewCommand $command
@@ -53,114 +25,66 @@ class HandleTableViewCommandHandler
     public function handle(HandleTableViewCommand $command)
     {
         $table = $command->getTable();
-        $query = $command->getQuery();
 
-        $appliedView = $this->request->get($table->getPrefix() . 'view');
+        $views    = $table->getViews();
+        $presets  = $table->getPresets();
+        $expander = $table->getExpander();
 
-        foreach ($table->getViews() as $order => $view) {
+        $appliedView = app('request')->get($table->getPrefix() . 'view');
 
-            // Standardize input.
-            $view = $this->standardize($view);
+        /**
+         * Find the applied view and run it.
+         * If nothing is set use the first view.
+         */
+        foreach ($views as $slug => $view) {
 
-            // Get our defaults and merge them in.
-            $defaults = $this->getDefaults($view, $table);
-
-            $view = array_merge($defaults, $view);
+            // Expand and automate.
+            $view = $expander->expand($slug, $view);
+            $view = $presets->setViewPresets($view);
 
             // If the view is applied then handle it.
-            if ($view['slug'] == $appliedView or !$appliedView and $order == 0) {
+            if ($view['slug'] == $appliedView or (!$appliedView and array_search($slug, array_keys($views)))) {
 
-                $handler = $this->getHandler($view, $table);
-                $query   = $this->runHandler($view, $handler, $query);
+                // Set the handler and run it.
+                $this->setHandler($view, $table);
+                $this->runHandler($view, $table);
             }
         }
-
-        return $query;
     }
 
     /**
-     * Standardize minimum input to the proper data
-     * structure we actually expect.
-     *
-     * @param $view
-     * @return array
-     */
-    protected function standardize($view)
-    {
-        // If the view is a string set as type / slug.
-        if (is_string($view)) {
-
-            $view = [
-                'type' => $view,
-                'slug' => $view,
-            ];
-        }
-
-        return $view;
-    }
-
-    /**
-     * Get default configuration if any.
-     * Then run everything back through evaluation.
-     *
-     * @param $view
-     * @param $table
-     * @return array|mixed|null
-     */
-    protected function getDefaults($view, $table)
-    {
-        if (isset($view['type']) and $defaults = $this->utility->getViewDefaults($view['type'])) {
-
-            return $this->utility->evaluate($defaults, [$table]);
-        }
-
-        return [];
-    }
-
-    /**
-     * Get the handler.
+     * Set the handler.
      *
      * @param array $view
      * @param Table $table
      * @return mixed
      */
-    protected function getHandler(array $view, Table $table)
+    protected function setHandler(array &$view, Table $table)
     {
         if (is_string($view['handler'])) {
 
-            return app()->make($view['handler'], compact('ui'));
+            app()->make($view['handler'], compact('table'));
         }
-
-        return $view['handler'];
     }
 
     /**
-     * Run the query handler.
+     * Run the handler.
      *
      * @param array $view
-     * @param       $handler
-     * @param       $query
+     * @param Table $table
      * @return mixed
-     * @throws \Exception
      */
-    protected function runHandler(array $view, $handler, $query)
+    protected function runHandler(array $view, Table $table)
     {
-        if ($handler instanceof \Closure) {
+        if ($view['handler'] instanceof \Closure) {
 
-            $query = $handler($query);
+            app()->call($view['handler'], compact('table'));
         }
 
-        if ($handler instanceof TableViewInterface) {
+        if ($view['handler'] instanceof TableViewInterface) {
 
-            $query = $handler->handle($query);
+            $view['handler']->handle($table);
         }
-
-        if (!$query) {
-
-            throw new \Exception("Table view handler [{$view['slug']}] must return the query object.");
-        }
-
-        return $query;
     }
 }
  

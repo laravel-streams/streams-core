@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Illuminate\Http\Request;
-
 /**
  * Class HandleTableSortingCommandHandler
  *
@@ -15,30 +13,25 @@ class HandleTableSortingCommandHandler
 
     /**
      * @param HandleTableSortingCommand $command
-     * @param Request                   $request
      * @return mixed
      */
-    public function handle(HandleTableSortingCommand $command, Request $request)
+    public function handle(HandleTableSortingCommand $command)
     {
         $table = $command->getTable();
-        $query = $command->getQuery();
 
         $key = $table->getPrefix() . 'order_by';
 
         /**
-         * Set the ordering on the table and
-         * return the query as is. We will hook
-         * into it later for relational joining
-         * and what not.
+         * Set the ordering on the table.
+         * We will hook onto the column later
+         * if it is a field slug.
          */
-        if ($orderBy = $request->get($key)) {
+        if ($orderBy = app('request')->get($key)) {
 
             list($column, $direction) = explode('|', $orderBy);
 
             $table->setOrderBy([$column => $direction]);
         }
-
-        return $query;
     }
 }
  
