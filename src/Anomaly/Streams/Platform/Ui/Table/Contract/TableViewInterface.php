@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Contract;
 
+use Anomaly\Streams\Platform\Ui\Table\Table;
+
 /**
  * Interface TableViewInterface
  *
@@ -15,11 +17,11 @@ interface TableViewInterface
 {
 
     /**
-     * Handle the table view.
+     * Handle the view.
      *
-     * @param $query
+     * @param Table $table
      * @return mixed
      */
-    public function handle($query);
+    public function handle(Table $table);
 }
  

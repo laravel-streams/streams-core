@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Contract;
 
+use Anomaly\Streams\Platform\Ui\Table\Table;
+
 /**
  * Interface TableFilterInterface
  *
@@ -17,10 +19,10 @@ interface TableFilterInterface
     /**
      * Handle the filter query.
      *
-     * @param $query
-     * @param $value
+     * @param Table $table
+     * @param       $value
      * @return mixed
      */
-    public function handle($query, $value);
+    public function handle(Table $table, $value);
 }
  
