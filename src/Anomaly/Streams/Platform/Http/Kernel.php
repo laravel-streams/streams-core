@@ -1,5 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Http;
 
+/**
+ * Class Kernel
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Http
+ */
 class Kernel extends \Illuminate\Foundation\Http\Kernel
 {
 
@@ -13,7 +21,10 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
         'Illuminate\Session\Middleware\StartSession',
         'Illuminate\View\Middleware\ShareErrorsFromSession',
-        'Anomaly\Streams\Platform\Http\Middleware\FlashMessagesMiddleware',
+        'Anomaly\Streams\Platform\Http\Middleware\CheckInstallation',
+        'Anomaly\Streams\Platform\Http\Middleware\CheckCsrfToken',
+        'Anomaly\Streams\Platform\Http\Middleware\SetLocale',
+        'Anomaly\Streams\Platform\Http\Middleware\FlashMessages',
     ];
 
     /**
@@ -25,8 +36,10 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
     public function handle($request)
     {
         try {
+
             return parent::handle($request);
         } catch (\Exception $e) {
+
             throw $e;
         }
     }

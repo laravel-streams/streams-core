@@ -1,16 +1,25 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
+use Illuminate\Contracts\Routing\Middleware;
 use Illuminate\Http\Request;
 
-class LocaleMiddleware
+/**
+ * Class SetLocale
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Http\Middleware
+ */
+class SetLocale implements Middleware
 {
 
     /**
-     * Setup the application.
+     * Handle an incoming request.
      *
      * @param Request $request
      */
-    public function handle(Request $request, \Closure $next)
+    public function handle($request, \Closure $next)
     {
         $auth        = app('auth');
         $config      = app('config');
@@ -25,16 +34,21 @@ class LocaleMiddleware
         // work with the session locale.
 
         if ($locale = $request->get('locale')) {
+
             if ($application->isInstalled() and $auth->check()) {
+
                 $auth->getUser()->changeLocale($locale);
             } else {
+
                 $session->set('locale', $locale);
             }
         }
 
         if ($application->isInstalled() and $auth->check()) {
+
             $locale = $auth->getUser()->getLocale($config->get('locale'));
         } else {
+
             $locale = $session->get('locale', $config->get('locale'));
         }
 
