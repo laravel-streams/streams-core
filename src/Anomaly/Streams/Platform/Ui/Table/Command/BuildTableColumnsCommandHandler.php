@@ -21,12 +21,13 @@ class BuildTableColumnsCommandHandler
      * @var array
      */
     protected $notAttributes = [
-        'heading',
-        'handler',
+        'slug',
         'value',
-        'relation',
         'field',
         'class',
+        'heading',
+        'handler',
+        'relation',
     ];
 
     /**
@@ -37,15 +38,16 @@ class BuildTableColumnsCommandHandler
      */
     public function handle(BuildTableColumnsCommand $command)
     {
+        $columns = [];
+
         $table = $command->getTable();
         $entry = $command->getEntry();
 
-        $columns    = $table->getColumns();
         $expander   = $table->getExpander();
         $evaluator  = $table->getEvaluator();
         $normalizer = $table->getNormalizer();
 
-        foreach ($columns as $slug => &$column) {
+        foreach ($table->getColumns() as $slug => $column) {
 
             // Expand minimal input.
             $column = $expander->expand($slug, $column);
@@ -66,6 +68,8 @@ class BuildTableColumnsCommandHandler
 
             // Normalize the result.
             $column = $normalizer->normalize($column);
+
+            $columns[] = $column;
         }
 
         return $columns;

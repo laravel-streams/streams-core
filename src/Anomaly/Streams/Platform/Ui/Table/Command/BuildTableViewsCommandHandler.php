@@ -20,6 +20,7 @@ class BuildTableViewsCommandHandler
      */
     protected $notAttributes = [
         'url',
+        'slug',
         'class',
         'title',
         'active',
@@ -33,18 +34,20 @@ class BuildTableViewsCommandHandler
      */
     public function handle(BuildTableViewsCommand $command)
     {
+        $views = [];
+
         $table = $command->getTable();
 
-        $views     = $table->getViews();
-        $presets   = $table->getPresets();
-        $expander  = $table->getExpander();
-        $evaluator = $table->getEvaluator();
+        $presets    = $table->getPresets();
+        $expander   = $table->getExpander();
+        $evaluator  = $table->getEvaluator();
+        $normalizer = $table->getNormalizer();
 
         /**
          * Loop through and process the view configurations
          * for the table view.
          */
-        foreach ($views as $slug => &$view) {
+        foreach ($table->getViews() as $slug => $view) {
 
             // Expand and automate.
             $view = $expander->expand($slug, $view);
@@ -68,14 +71,18 @@ class BuildTableViewsCommandHandler
             }
 
             // Build out required data.
-            $url    = $this->getUrl($view, $table);
-            $title  = $this->getTitle($view, $table);
-            $class  = $this->getClass($view, $table);
-            $active = $this->getActive($view, $table);
+            $url        = $this->getUrl($view, $table);
+            $title      = $this->getTitle($view, $table);
+            $class      = $this->getClass($view, $table);
+            $active     = $this->getActive($view, $table);
+            $attributes = $this->getAttributes($view, $table);
 
-            $attributes = attributes_string($view, $this->notAttributes);
+            $view = compact('url', 'title', 'class', 'active', 'attributes');
 
-            $views = compact('url', 'title', 'class', 'active', 'attributes');
+            // Normalize the result.
+            $view = $normalizer->normalize($view);
+
+            $views[] = $view;
         }
 
         return $views;
@@ -136,6 +143,18 @@ class BuildTableViewsCommandHandler
         }
 
         return false;
+    }
+
+    /**
+     * Get the attributes less the keys that are
+     * defined as NOT attributes.
+     *
+     * @param array $view
+     * @return array
+     */
+    protected function getAttributes(array $view)
+    {
+        return array_diff_key($view, array_flip($this->notAttributes));
     }
 }
  

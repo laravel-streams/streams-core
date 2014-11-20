@@ -37,15 +37,16 @@ class BuildTableActionsCommandHandler
      */
     public function handle(BuildTableActionsCommand $command)
     {
+        $actions = [];
+
         $table = $command->getTable();
 
-        $actions    = $table->getActions();
         $presets    = $table->getPresets();
         $expander   = $table->getExpander();
         $evaluator  = $table->getEvaluator();
         $normalizer = $table->getNormalizer();
 
-        foreach ($actions as $slug => &$action) {
+        foreach ($table->getActions() as $slug => $action) {
 
             // Expand and automate.
             $action = $expander->expand($slug, $action);
@@ -73,18 +74,19 @@ class BuildTableActionsCommandHandler
             $action['disabled'] = 'disabled';
 
             // Build out our required data.
-            $name  = $this->getName($action, $table);
-            $icon  = $this->getIcon($action, $table);
-            $value = $this->getValue($action, $table);
-            $title = $this->getTitle($action, $table);
-            $class = $this->getClass($action, $table);
-
+            $name       = $this->getName($action, $table);
+            $icon       = $this->getIcon($action, $table);
+            $value      = $this->getValue($action, $table);
+            $title      = $this->getTitle($action, $table);
+            $class      = $this->getClass($action, $table);
             $attributes = $this->getAttributes($action, $table);
 
             $action = compact('title', 'class', 'icon', 'value', 'name', 'attributes');
 
             // Normalize the result.
             $action = $normalizer->normalize($action);
+
+            $actions[] = $action;
         }
 
         return $actions;

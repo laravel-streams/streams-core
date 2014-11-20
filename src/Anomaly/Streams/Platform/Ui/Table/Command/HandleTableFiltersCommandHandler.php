@@ -26,9 +26,8 @@ class HandleTableFiltersCommandHandler
     {
         $table = $command->getTable();
 
+        $filters  = $table->getFilters();
         $expander = $table->getExpander();
-
-        $filters = $table->getFilters();
 
         /**
          * Loop through all the filters and look

@@ -26,6 +26,8 @@ class HandleTableActionCommandHandler
     {
         $table = $command->getTable();
 
+        $actions = $table->getActions();
+
         $key = $table->getPrefix() . 'action';
 
         /**
@@ -40,7 +42,7 @@ class HandleTableActionCommandHandler
             /**
              * Look through actions and find a match.
              */
-            foreach ($table->getActions() as $slug => $action) {
+            foreach ($actions as $slug => $action) {
 
                 // Expand and automate.
                 $action = $expander->expand($slug, $action);

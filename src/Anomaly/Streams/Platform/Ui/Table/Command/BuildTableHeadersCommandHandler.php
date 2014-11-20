@@ -23,9 +23,10 @@ class BuildTableHeadersCommandHandler
      */
     public function handle(BuildTableHeadersCommand $command)
     {
+        $columns = [];
+
         $table = $command->getTable();
 
-        $columns   = $table->getColumns();
         $presets   = $table->getPresets();
         $expander  = $table->getExpander();
         $evaluator = $table->getEvaluator();
@@ -33,11 +34,13 @@ class BuildTableHeadersCommandHandler
         /**
          * Loop and process all of the columns.
          */
-        foreach ($columns as $slug => &$column) {
+        foreach ($table->getColumns() as $slug => $column) {
 
             // Expand minimal input.
             $column = $expander->expand($slug, $column);
 
+            // Assure we have a field even if
+            // it is a garbage value.
             if (!isset($column['field'])) {
 
                 $column['field'] = $column['slug'];

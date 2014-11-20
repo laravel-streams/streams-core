@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 
@@ -24,21 +25,24 @@ class BuildTableRowsCommandHandler
      */
     public function handle(BuildTableRowsCommand $command)
     {
-        $table = $command->getTable();
+        $rows = [];
 
-        $rows = $table->getEntries();
+        $table = $command->getTable();
 
         /**
          * Loop and process entry rows.
          */
-        foreach ($rows as &$entry) {
+        foreach ($table->getEntries() as $entry) {
 
             $columns = $this->getColumns($entry, $table);
             $buttons = $this->getButtons($entry, $table);
 
-            $entry = $this->getDecoratedEntry($entry);
+            if ($entry instanceof ArrayableInterface) {
 
-            $entry = compact('columns', 'buttons', 'entry');
+                $entry = $entry->toArray();
+            }
+
+            $rows[] = compact('columns', 'buttons', 'entry');
         }
 
         return $rows;

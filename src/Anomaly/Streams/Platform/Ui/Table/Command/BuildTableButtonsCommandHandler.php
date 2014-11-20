@@ -36,6 +36,8 @@ class BuildTableButtonsCommandHandler
      */
     public function handle(BuildTableButtonsCommand $command)
     {
+        $buttons = [];
+
         $table = $command->getTable();
         $entry = $command->getEntry();
 
@@ -44,9 +46,7 @@ class BuildTableButtonsCommandHandler
         $evaluator  = $table->getEvaluator();
         $normalizer = $table->getNormalizer();
 
-        $buttons = $table->getButtons();
-
-        foreach ($buttons as $slug => &$button) {
+        foreach ($table->getButtons() as $slug => $button) {
 
             // Expand and automate.
             $button = $expander->expand($slug, $button);
@@ -70,10 +70,12 @@ class BuildTableButtonsCommandHandler
             $dropdown   = $this->getDropdown($button, $table);
             $attributes = $this->getAttributes($button, $table);
 
-            $button = compact('title', 'class', 'attributes', 'dropdown');
+            $button = compact('title', 'class', 'attributes', 'icon', 'dropdown');
 
             // Normalize the result.
             $button = $normalizer->normalize($button);
+
+            $buttons[] = $button;
         }
 
         return $buttons;

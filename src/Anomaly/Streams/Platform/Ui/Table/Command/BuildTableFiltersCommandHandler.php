@@ -23,13 +23,14 @@ class BuildTableFiltersCommandHandler
      */
     public function handle(BuildTableFiltersCommand $command)
     {
+        $filters = [];
+
         $table = $command->getTable();
 
-        $filters   = $table->getFilters();
         $expander  = $table->getExpander();
         $evaluator = $table->getEvaluator();
 
-        foreach ($filters as $slug => &$filter) {
+        foreach ($table->getFilters() as $slug => $filter) {
 
             // Expand minimal input.
             $filter = $expander->expand($slug, $filter);
@@ -57,7 +58,7 @@ class BuildTableFiltersCommandHandler
             // Build out required data.
             $input = $this->getFilterInput($filter, $table);
 
-            $filter = compact('input');
+            $filters[] = compact('input');
         }
 
         return array_filter($filters);
