@@ -31,7 +31,7 @@ class HandleFormSubmissionValidationCommand
     }
 
     /**
-     * Get the form UI object.
+     * Get the form object.
      *
      * @return mixed
      */

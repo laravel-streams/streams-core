@@ -29,7 +29,7 @@ class HandleFormSubmissionRedirectCommand
     }
 
     /**
-     * Ger the form UI object.
+     * Ger the form object.
      *
      * @return mixed
      */

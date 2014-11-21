@@ -31,7 +31,7 @@ class BuildFormSectionsCommand
     }
 
     /**
-     * Get the form UI object.
+     * Get the form object.
      *
      * @return Form
      */

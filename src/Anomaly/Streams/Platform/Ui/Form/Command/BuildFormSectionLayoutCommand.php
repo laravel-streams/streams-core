@@ -50,7 +50,7 @@ class BuildFormSectionLayoutCommand
     }
 
     /**
-     * Get the form UI object.
+     * Get the form object.
      *
      * @return \Anomaly\Streams\Platform\Ui\Form\Form
      */
