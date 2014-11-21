@@ -1,6 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Ui\Form\Event\FormWasSubmittedEvent;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Ui\Form\Event\MadeEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\MakingEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\SubmittedEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\BootedEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
 use Illuminate\Contracts\Support\MessageBag;
 
@@ -105,12 +109,12 @@ class Form extends Ui
     protected $rules = [];
 
     /**
-     * The submitted data payload
+     * The submitted input payload
      * by locale ready for storage.
      *
      * @var array
      */
-    protected $data = [];
+    protected $input = [];
 
     /**
      * The form builder object.
@@ -143,6 +147,8 @@ class Form extends Ui
         $this->repository = $this->newRepository();
 
         parent::__construct();
+
+        $this->dispatch(new BootedEvent($this));
     }
 
     /**
@@ -153,12 +159,28 @@ class Form extends Ui
      */
     public function make($entry = null)
     {
-        if ($entry) {
+        $this->dispatch(new MakingEvent($this));
+
+        if ($entry and !$this->entry) {
 
             $this->entry = $entry;
         }
 
-        return $this->fire('make');
+        $this->entry = $this->repository->get();
+
+        if (app('request')->isMethod('post')) {
+
+            $this->dispatch(new SubmittedEvent($this));
+        }
+
+        if (!$this->response) {
+
+            $this->setResponse(parent::make());
+        }
+
+        $this->dispatch(new MadeEvent($this));
+
+        return $this->response;
     }
 
     /**
@@ -185,8 +207,6 @@ class Form extends Ui
      */
     protected function trigger()
     {
-        $this->fire('trigger');
-
         $actions   = $this->builder->actions();
         $sections  = $this->builder->sections();
         $redirects = $this->builder->redirects();
@@ -532,14 +552,14 @@ class Form extends Ui
      * @param $value
      * @return $this
      */
-    public function addData($group, $field, $value)
+    public function addInput($group, $field, $value)
     {
-        if (!isset($this->data[$group])) {
+        if (!isset($this->input[$group])) {
 
-            $this->data[$group] = [];
+            $this->input[$group] = [];
         }
 
-        $this->data[$group][$field] = $value;
+        $this->input[$group][$field] = $value;
 
         return $this;
     }
@@ -550,24 +570,29 @@ class Form extends Ui
      * @param null $group
      * @return array
      */
-    public function getData($group = null)
+    public function getInput($group = null)
     {
         if ($group) {
 
-            return $this->data[$group];
+            return $this->input[$group];
         }
 
-        return $this->data;
+        return $this->input;
     }
 
     /**
-     * Get the form utility object.
+     * Return the stream from the model if applicable.
      *
-     * @return mixed
+     * @return \Anomaly\Streams\Platform\Stream\Contract\StreamInterface|null
      */
-    public function getUtility()
+    public function getStream()
     {
-        return $this->utility;
+        if ($this->model instanceof EntryInterface) {
+
+            return $this->model->getStream();
+        }
+
+        return null;
     }
 
     /**
@@ -586,21 +611,6 @@ class Form extends Ui
     }
 
     /**
-     * Return a new FormUtility object.
-     *
-     * @return mixed
-     */
-    protected function newUtility()
-    {
-        if (!$utility = $this->transform(__FUNCTION__)) {
-
-            $utility = 'Anomaly\Streams\Platform\Ui\Form\FormUtility';
-        }
-
-        return app()->make($utility, ['form' => $this]);
-    }
-
-    /**
      * Return a new FormRepository object.
      *
      * @return mixed
@@ -612,7 +622,7 @@ class Form extends Ui
             $builder = 'Anomaly\Streams\Platform\Ui\Form\FormRepository';
         }
 
-        return app()->make($builder, ['form' => $this]);
+        return app()->make($builder, [$this]);
     }
 
     /**
@@ -631,59 +641,18 @@ class Form extends Ui
     }
 
     /**
-     * Return the class path to the corresponding authorizer object.
+     * Return the class path to the corresponding authority object.
      *
      * @return null|string
      */
-    public function toAuthorizer()
+    public function toAuthority()
     {
-        if (!$authorizer = $this->transform(__FUNCTION__)) {
+        if (!$authority = $this->transform(__FUNCTION__)) {
 
-            $authorizer = 'Anomaly\Streams\Platform\Ui\Form\FormAuthorizer';
+            $authority = 'Anomaly\Streams\Platform\Ui\Form\FormAuthority';
         }
 
-        return $authorizer;
-    }
-
-    /**
-     * Fire when making the form response.
-     *
-     * @return mixed
-     */
-    protected function onMake()
-    {
-        $this->entry = $this->repository->get();
-
-        if (app('request')->isMethod('post')) {
-
-            $this->dispatch(new FormWasSubmittedEvent($this));
-        }
-
-        if (!$this->response) {
-
-            $this->setResponse(parent::make());
-        }
-
-        return $this->response;
-    }
-
-    /**
-     * Fire just before validating.
-     *
-     * @param array $data
-     */
-    protected function onValidating(array $data)
-    {
-        return $data;
-    }
-
-    /**
-     * Fire after authorized and
-     * validated submission.
-     */
-    protected function onSubmit()
-    {
-        $this->repository->store();
+        return $authority;
     }
 }
  
