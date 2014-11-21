@@ -15,24 +15,10 @@ interface FormSectionInterface
 {
 
     /**
-     * Return the heading HTML.
+     * Return the rendered HTML
      *
-     * @return mixed|null
+     * @return string
      */
-    public function heading();
-
-    /**
-     * Return the body HTML.
-     *
-     * @return mixed|null
-     */
-    public function body();
-
-    /**
-     * Return the footer HTML.
-     *
-     * @return mixed|null
-     */
-    public function footer();
+    public function render();
 }
  
