@@ -64,6 +64,13 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     protected $guarded = ['id'];
 
     /**
+     * The title key.
+     *
+     * @var string
+     */
+    protected $titleKey = 'id';
+
+    /**
      * The "booting" method of the model.
      *
      * @return void
@@ -172,6 +179,16 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     public function getCacheCollectionKey($suffix = null)
     {
         return get_called_class() . $suffix;
+    }
+
+    public function getTitle()
+    {
+        return $this->{$this->getTitleKey()};
+    }
+
+    public function getTitleKey()
+    {
+        return $this->titleKey ? : 'id';
     }
 
     /**
