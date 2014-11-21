@@ -115,9 +115,14 @@ class FormPresets extends Presets
      */
     public function setSectionPresets($section)
     {
-        if (isset($this->sections[$section['slug']]) and $presets = $this->sections[$section['slug']]) {
+        if (isset($this->sections[$section['type']]) and $presets = $this->sections[$section['type']]) {
 
             return array_merge($presets, $section);
+        }
+
+        if (!isset($section['handler'])) {
+
+            $section['handler'] = 'Anomaly\Streams\Platform\Ui\Form\Section\DefaultFormSection';
         }
 
         return $section;

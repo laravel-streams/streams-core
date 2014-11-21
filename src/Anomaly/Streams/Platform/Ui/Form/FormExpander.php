@@ -19,21 +19,21 @@ class FormExpander extends Expander
      * @param array $section
      * @return mixed
      */
-    public function expandFields(array $container)
+    public function expandLayout(array $section)
     {
-        if (!isset($container['layout'])) {
+        if (!isset($section['layout'])) {
 
-            $fields  = evaluate_key($container, 'fields', []);
-            $columns = evaluate_key($container, 'columns', [compact('fields')]);
-            $rows    = evaluate_key($container, 'rows', [compact('columns')]);
-            $layout  = evaluate_key($container, 'layout', compact('rows'));
+            $fields  = array_get($section, 'fields', []);
+            $columns = array_get($section, 'columns', [compact('fields')]);
+            $rows    = array_get($section, 'rows', [compact('columns')]);
+            $layout  = array_get($section, 'layout', compact('rows'));
 
-            $container['layout'] = $layout;
+            $section['layout'] = $layout;
 
-            unset($container['fields'], $container['columns'], $container['rows']);
+            unset($section['fields'], $section['columns'], $section['rows']);
         }
 
-        return $container;
+        return $section;
     }
 }
  
