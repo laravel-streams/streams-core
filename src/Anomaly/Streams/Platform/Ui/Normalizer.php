@@ -27,6 +27,7 @@ class Normalizer
     public function normalize(array $data)
     {
         $data = $this->normalizeUrl($data);
+        $data = $this->normalizeHref($data);
         $data = $this->normalizeTooltip($data);
         $data = $this->normalizeAttributes($data);
 
@@ -51,6 +52,25 @@ class Normalizer
             if (!starts_with($data['attributes']['url'], 'http')) {
 
                 $data['attributes']['url'] = url($data['attributes']['url']);
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * If a HREF is present but not absolute
+     * then we need to make it so.
+     *
+     * @param array $data
+     */
+    protected function normalizeHref(array $data = [])
+    {
+        if (isset($data['attributes']['href'])) {
+
+            if (!starts_with($data['attributes']['href'], 'http')) {
+
+                $data['attributes']['href'] = url($data['attributes']['href']);
             }
         }
 
