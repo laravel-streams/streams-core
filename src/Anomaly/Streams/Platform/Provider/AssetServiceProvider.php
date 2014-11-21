@@ -4,6 +4,14 @@ use Anomaly\Streams\Platform\Asset\Asset;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class AssetServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Provider
+ */
 class AssetServiceProvider extends ServiceProvider
 {
 
@@ -13,6 +21,8 @@ class AssetServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerServiceProvider();
+
+        $this->addAssetNamespaceHint();
         $this->addStreamsNamespaceHint();
     }
 
@@ -30,7 +40,15 @@ class AssetServiceProvider extends ServiceProvider
     }
 
     /**
-     * Add the "streams" namespace hint to asset.
+     * Add the "asset" namespace to asset class.
+     */
+    protected function addAssetNamespaceHint()
+    {
+        app('streams.asset')->addNamespace('asset', public_path('assets/' . APP_REF));
+    }
+
+    /**
+     * Add the "streams" namespace hint to asset class.
      */
     protected function addStreamsNamespaceHint()
     {

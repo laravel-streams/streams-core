@@ -141,17 +141,35 @@ class Asset
      */
     protected function getPath($group, $filters)
     {
-        $hash = \hashify([$this->groups[$group], $filters]);
-
-        $hint = $this->getHint($group);
-
-        $path = 'assets/' . APP_REF . '/' . $hash . '.' . $hint;
+        $path = $this->getPublicPath($group, $filters);
 
         if ($this->shouldPublish($path, $filters)) {
+
             $this->publish($path, $group, $filters);
         }
 
         return $path;
+    }
+
+    /**
+     * Get the public path.
+     *
+     * @param $group
+     * @param $filters
+     * @return string
+     */
+    protected function getPublicPath($group, $filters)
+    {
+        if (str_contains($group, public_path())) {
+
+            return ltrim(str_replace(public_path(), '', $group), '/');
+        }
+
+        $hash = \hashify([$this->groups[$group], $filters]);
+
+        $hint = $this->getHint($group);
+
+        return 'assets/' . APP_REF . '/' . $hash . '.' . $hint;
     }
 
     /**
@@ -163,6 +181,11 @@ class Asset
      */
     protected function publish($path, $group, $additionalFilters)
     {
+        if (str_contains($group, public_path())) {
+
+            return;
+        }
+
         $collection = new AssetCollection();
 
         $hint = $this->getHint($group);
@@ -224,8 +247,10 @@ class Asset
 
                 case 'min':
                     if ($hint == 'js') {
+
                         $filter = new JSMinFilter();
                     } elseif ($hint == 'css') {
+
                         $filter = new CssMinFilter();
                     }
                     break;
@@ -250,14 +275,17 @@ class Asset
     protected function addConvenientFilters($file, $filters)
     {
         if (ends_with($file, '.less')) {
+
             $filters[] = 'less';
         }
 
         if (ends_with($file, '.scss')) {
+
             $filters[] = 'scss';
         }
 
         if (ends_with($file, '.coffee')) {
+
             $filters[] = 'coffee';
         }
 
@@ -289,10 +317,12 @@ class Asset
         $hint = $this->getExtension($path);
 
         if (in_array($hint, ['less', 'scss'])) {
+
             $hint = 'css';
         }
 
         if ($hint == 'coffee') {
+
             $hint = 'js';
         }
 
@@ -313,6 +343,7 @@ class Asset
             list ($namespace, $path) = explode('::', $path);
 
             if (isset($this->namespaces[$namespace]) and $location = $this->namespaces[$namespace]) {
+
                 $path = $location . '/' . $path;
             }
         }
