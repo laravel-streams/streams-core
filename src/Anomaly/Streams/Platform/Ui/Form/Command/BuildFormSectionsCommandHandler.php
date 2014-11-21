@@ -26,21 +26,23 @@ class BuildFormSectionsCommandHandler
      */
     public function handle(BuildFormSectionsCommand $command)
     {
+        $sections = [];
+
         $form = $command->getForm();
 
         $entry     = $form->getEntry();
+        $presets   = $form->getPresets();
         $expander  = $form->getExpander();
         $evaluator = $form->getEvaluator();
 
-        $sections = [];
+        /**
+         * Loop through and process sections configuration.
+         */
+        foreach ($form->renderSections() as $slug => $section) {
 
-        foreach ($form->getSections() as $slug => $section) {
-
-            // Standardize input.
+            // Expand, automate, and evaluate.
             $section = $expander->expand($slug, $section);
-
-            // Evaluate the column.
-            // All closures are gone now.
+            $section = $presets->setSectionPresets($section);
             $section = $evaluator->evaluate($section, compact('form'), $entry);
 
             // Skip if disabled.
@@ -49,37 +51,15 @@ class BuildFormSectionsCommandHandler
                 continue;
             }
 
-            // Get our defaults and merge them in.
-            //$defaults = $this->getDefaults($section, $form, $entry);
+            // Set the handler.
+            $this->setSectionHandler($section, $form);
 
-            //$section = array_merge($defaults, $section);
+            $section = $this->renderSection($section, $form);
 
-            // Get the object responsible for handling the section.
-            $handler = $this->getSectionHandler($section, $form);
-
-            if ($handler instanceof FormSectionInterface) {
-
-                // Build out the required data.
-                $html = $handler->render();
-
-                $class = $this->getClass($section);
-
-                $sections[] = compact('html');
-            }
+            $sections[] = compact('section');
         }
 
         return $sections;
-    }
-
-    /**
-     * Get the class.
-     *
-     * @param array $section
-     * @return mixed|null
-     */
-    protected function getClass(array $section)
-    {
-        return evaluate_key($section, 'class', evaluate_key($section, 'type') . '-section');
     }
 
     /**
@@ -87,11 +67,42 @@ class BuildFormSectionsCommandHandler
      * @param Form  $form
      * @return mixed
      */
-    protected function getSectionHandler(array $section, Form $form)
+    protected function setSectionHandler(array &$section, Form $form)
     {
-        $default = 'Anomaly\Streams\Platform\Ui\Form\Section\DefaultFormSection';
+        if (is_string($section['handler'])) {
 
-        return app()->make(evaluate_key($section, 'handler', $default, [$form]), compact('section', 'form'));
+            $section['handler'] = app()->make($section['handler'], compact('form'));
+        }
+    }
+
+    /**
+     * Render the section.
+     *
+     * @param array $section
+     * @param Form  $form
+     * @return null|string
+     */
+    protected function renderSection(array $section, Form $form)
+    {
+        /**
+         * If the handler is a closure call it
+         * through the container.
+         */
+        if ($section['handler'] instanceof \Closure) {
+
+            return app()->call($section['handler'], compact('form'));
+        }
+
+        /**
+         * If the handler is an instance of the interface
+         * then authorize and run it's handle method.
+         */
+        if ($section['handler'] instanceof FormSectionInterface) {
+
+            return $section['handler']->render();
+        }
+
+        return null;
     }
 }
  

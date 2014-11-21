@@ -45,9 +45,7 @@ class BuildFormSectionColumnsCommandHandler
             }
 
             // Delegate the building of the column fields.
-            $command = new BuildFormSectionFieldsCommand($form, $column['fields']);
-
-            $fields = $this->execute($command);
+            $fields = $this->execute(new BuildFormSectionFieldsCommand($form, $column['fields']));
 
             $columns[] = compact('fields');
         }

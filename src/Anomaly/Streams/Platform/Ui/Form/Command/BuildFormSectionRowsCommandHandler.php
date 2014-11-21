@@ -23,29 +23,29 @@ class BuildFormSectionRowsCommandHandler
      */
     public function handle(BuildFormSectionRowsCommand $command)
     {
+        $rows = [];
+
         $form = $command->getForm();
 
         $entry     = $form->getEntry();
         $evaluator = $form->getEvaluator();
 
-        $rows = [];
-
+        /**
+         * Loop and process rows in this layout container.
+         */
         foreach ($command->getRows() as $row) {
 
             // Evaluate the entire row.
-            // All first level closures on are gone now.
-            $row = $evaluator->evaluate($row, compact('form', 'entry'), $entry);
+            $row = $evaluator->evaluate($row, compact('form'), $entry);
 
             // Skip if disabled.
-            if (!evaluate_key($row, 'enabled', true)) {
+            if (array_get($row, 'enabled') === false) {
 
                 continue;
             }
 
             // Delegate the building of the columns.
-            $command = new BuildFormSectionColumnsCommand($form, $row['columns']);
-
-            $columns = $this->execute($command);
+            $columns = $this->execute(new BuildFormSectionColumnsCommand($form, $row['columns']));
 
             $rows[] = compact('columns');
         }

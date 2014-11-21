@@ -22,14 +22,19 @@ class BuildSubmissionValidationRulesCommandHandler
      */
     public function handle(BuildSubmissionValidationRulesCommand $command)
     {
+        $rules = [];
+
         $form = $command->getForm();
 
         $model  = $form->getModel();
         $entry  = $form->getEntry();
         $stream = $form->getStream();
 
-        $rules = [];
-
+        /**
+         * If the model implements EntryInterface
+         * then get the rules from it.
+         * TODO: Possibly override form rules here or vice versa.
+         */
         if ($model instanceof EntryInterface) {
 
             $rules = $model->getRules();
@@ -65,7 +70,7 @@ class BuildSubmissionValidationRulesCommandHandler
      * @param array $rules
      * @return array
      */
-    protected function getAssignmentRules($fieldSlug, $id = null, array $rules = [])
+    protected function getAssignmentRules($fieldSlug, $id = null, array $rules)
     {
         $rules = explode('|', $rules[$fieldSlug]);
 
@@ -90,7 +95,7 @@ class BuildSubmissionValidationRulesCommandHandler
      * @param AssignmentInterface $assignment
      * @param array               $rules
      */
-    protected function mergeAssignmentRule(EntryInterface $entry, AssignmentInterface $assignment, array $rules = [])
+    protected function mergeAssignmentRule(EntryInterface $entry, AssignmentInterface $assignment, array $rules)
     {
         $fieldSlug = $assignment->getFieldSlug();
 

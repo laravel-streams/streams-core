@@ -28,30 +28,40 @@ class BuildSubmissionDataForTranslationsCommandHandler
 
         if ($stream instanceof StreamInterface) {
 
-            foreach (setting('module.settings::available_locales', config('streams.available_locales')) as $locale) {
+            $this->addTranslatedInputs($form, $stream);
+        }
+    }
 
-                if ($stream->isTranslatable() or config('app.locale') != $locale) {
+    /**
+     * Add translated inputs to the form input.
+     *
+     * @param Form            $form
+     * @param StreamInterface $stream
+     */
+    protected function addTranslatedInputs(Form $form, StreamInterface $stream)
+    {
+        foreach (setting('module.settings::available_locales', config('streams.available_locales')) as $locale) {
 
-                    foreach ($stream->getAssignments() as $assignment) {
+            if ($stream->isTranslatable() or config('app.locale') != $locale) {
 
-                        $this->addAssignmentInput($form, $assignment, $locale);
-                    }
-                }
+                $this->addTranslatedAssignmentInputs($form, $stream, $locale);
             }
         }
     }
 
     /**
-     * Get the key for the field's post data.
+     * Add translated assignment inputs to the form input.
      *
-     * @param Form                $form
-     * @param AssignmentInterface $assignment
-     * @param                     $locale
-     * @return string
+     * @param Form            $form
+     * @param StreamInterface $stream
+     * @param                 $locale
      */
-    protected function getKey(Form $form, AssignmentInterface $assignment, $locale)
+    protected function addTranslatedAssignmentInputs(Form $form, StreamInterface $stream, $locale)
     {
-        return $form->getPrefix() . $assignment->getFieldSlug() . '_' . $locale;
+        foreach ($stream->getAssignments() as $assignment) {
+
+            $this->addAssignmentInput($form, $assignment, $locale);
+        }
     }
 
     /**
@@ -65,15 +75,39 @@ class BuildSubmissionDataForTranslationsCommandHandler
     {
         if ($assignment->isTranslatable()) {
 
-            $key = $this->getKey($form, $assignment, $locale);
-
             $fieldSlug = $assignment->getFieldSlug();
 
             if (!in_array($fieldSlug, $form->getSkips())) {
 
-                $form->addInput($locale, $fieldSlug, app('request')->get($key));
+                $form->addInput($locale, $fieldSlug, $this->getAssignmentInputValue($form, $assignment, $locale));
             }
         }
+    }
+
+    /**
+     * Get the assignment's input value.
+     *
+     * @param Form                $form
+     * @param AssignmentInterface $assignment
+     * @param                     $locale
+     * @return mixed
+     */
+    protected function getAssignmentInputValue(Form $form, AssignmentInterface $assignment, $locale)
+    {
+        return app('request')->get($key = $this->getKey($form, $assignment, $locale));
+    }
+
+    /**
+     * Get the key for the field's post data.
+     *
+     * @param Form                $form
+     * @param AssignmentInterface $assignment
+     * @param                     $locale
+     * @return string
+     */
+    protected function getKey(Form $form, AssignmentInterface $assignment, $locale)
+    {
+        return $form->getPrefix() . $assignment->getFieldSlug() . '_' . $locale;
     }
 }
  

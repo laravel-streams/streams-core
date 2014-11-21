@@ -47,7 +47,7 @@ class BuildSubmissionDataForDefaultLocaleCommandHandler
 
         if (!in_array($fieldSlug, $form->getSkips())) {
 
-            $form->addInput(config('app.locale'), $fieldSlug, app('request')->get($this->getKey($form, $assignment)));
+            $form->addInput(config('app.locale'), $fieldSlug, $this->getInputValue($form, $assignment));
         }
     }
 
@@ -61,6 +61,18 @@ class BuildSubmissionDataForDefaultLocaleCommandHandler
     protected function getKey(Form $form, AssignmentInterface $assignment)
     {
         return $form->getPrefix() . $assignment->getFieldSlug() . '_' . config('app.locale');
+    }
+
+    /**
+     * Get the input value for an assignment.
+     *
+     * @param Form                $form
+     * @param AssignmentInterface $assignment
+     * @return mixed
+     */
+    protected function getInputValue(Form $form, AssignmentInterface $assignment)
+    {
+        return app('request')->get($this->getKey($form, $assignment));
     }
 }
  

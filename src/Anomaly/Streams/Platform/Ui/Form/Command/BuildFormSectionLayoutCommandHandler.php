@@ -27,9 +27,7 @@ class BuildFormSectionLayoutCommandHandler
         $section = $command->getSection();
 
         // Delegate the building of the rows.
-        $command = new BuildFormSectionRowsCommand($form, $section['layout']['rows']);
-
-        $rows = $this->execute($command);
+        $rows = $this->execute(new BuildFormSectionRowsCommand($form, $section['layout']['rows']));
 
         return compact('rows');
     }
