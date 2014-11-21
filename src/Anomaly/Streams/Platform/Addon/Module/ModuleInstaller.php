@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
-use Anomaly\Streams\Platform\Traits\CallableTrait;
-
 /**
  * Class ModuleInstaller
  *
