@@ -68,46 +68,38 @@ class Ui
     protected $model = null;
 
     /**
-     * The utility object.
-     *
-     * @var Utility
-     */
-    protected $utility;
-
-    /**
-     * The presets object.
+     * The presets object / default.
      *
      * @var Presets
      */
-    protected $presets;
+    protected $presets = 'Anomaly\Streams\Platform\Ui\Presets';
 
     /**
-     * The expander object.
+     * The expander object / default.
      *
      * @var Expander
      */
-    protected $expander;
+    protected $expander = 'Anomaly\Streams\Platform\Ui\Expander';
 
     /**
-     * The evaluator object.
+     * The evaluator object / default.
      *
      * @var Evaluator
      */
-    protected $evaluator;
+    protected $evaluator = 'Anomaly\Streams\Platform\Ui\Evaluator';
 
     /**
-     * The normalizer object.
+     * The normalizer object / default.
      *
      * @var Normalizer
      */
-    protected $normalizer;
+    protected $normalizer = 'Anomaly\Streams\Platform\Ui\Normalizer';
 
     /**
      * Create a new Ui instance.
      */
     public function __construct()
     {
-        $this->utility    = $this->newUtility();
         $this->presets    = $this->newPresets();
         $this->expander   = $this->newExpander();
         $this->evaluator  = $this->newEvaluator();
@@ -121,6 +113,7 @@ class Ui
      */
     protected function boot()
     {
+        //
     }
 
     /**
@@ -321,40 +314,15 @@ class Ui
     }
 
     /**
-     * Get the utility object.
-     *
-     * @return \Anomaly\Streams\Platform\Ui\Utility
-     */
-    public function getUtility()
-    {
-        return $this->utility;
-    }
-
-    /**
-     * Return the utility counterpart object.
-     *
-     * @return Utility
-     */
-    protected function newUtility()
-    {
-        if (!$utility = $this->transform(__METHOD__)) {
-
-            $utility = 'Anomaly\Streams\Platform\Ui\Utility';
-        }
-
-        return app($utility);
-    }
-
-    /**
      * Return a new presets instance.
      *
      * @return Presets
      */
     protected function newPresets()
     {
-        if (!$presets = $this->transform(__METHOD__)) {
+        if (!$presets = $this->transform(__FUNCTION__)) {
 
-            $presets = 'Anomaly\Streams\Platform\Ui\Presets';
+            $presets = $this->presets;
         }
 
         return app()->make($presets, [$this]);
@@ -367,9 +335,9 @@ class Ui
      */
     protected function newExpander()
     {
-        if (!$expander = $this->transform(__METHOD__)) {
+        if (!$expander = $this->transform(__FUNCTION__)) {
 
-            $expander = 'Anomaly\Streams\Platform\Ui\Expander';
+            $expander = $this->expander;
         }
 
         return app($expander);
@@ -382,9 +350,9 @@ class Ui
      */
     protected function newEvaluator()
     {
-        if (!$evaluator = $this->transform(__METHOD__)) {
+        if (!$evaluator = $this->transform(__FUNCTION__)) {
 
-            $evaluator = 'Anomaly\Streams\Platform\Ui\Evaluator';
+            $evaluator = $this->evaluator;
         }
 
         return app($evaluator);
@@ -397,9 +365,9 @@ class Ui
      */
     protected function newNormalizer()
     {
-        if (!$normalizer = $this->transform(__METHOD__)) {
+        if (!$normalizer = $this->transform(__FUNCTION__)) {
 
-            $normalizer = 'Anomaly\Streams\Platform\Ui\Normalizer';
+            $normalizer = $this->normalizer;
         }
 
         return app($normalizer);

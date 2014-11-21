@@ -149,7 +149,7 @@ class Table extends Ui
      *
      * @var string
      */
-    protected $view = 'ui/table/index';
+    protected $tableView = 'ui/table/index';
 
     /**
      * The table paginator object. This
@@ -167,23 +167,30 @@ class Table extends Ui
     protected $model = null;
 
     /**
-     * The table builder object.
+     * The presets object / default.
+     *
+     * @var TablePresets
+     */
+    protected $presets = 'Anomaly\Streams\Platform\Ui\Table\TablePresets';
+
+    /**
+     * The table builder object / default.
      *
      * @var TableBuilder
      */
-    protected $builder;
+    protected $builder = 'Anomaly\Streams\Platform\Ui\Table\TableBuilder';
 
     /**
-     * The table repository object.
+     * The table repository object / default.
      *
      * @var TableRepository
      */
-    protected $repository;
+    protected $repository = 'Anomaly\Streams\Platform\Ui\Table\TableRepository';
 
     /**
      * Create a new Table instance.
      */
-    public function __construct()
+    function __construct()
     {
         $this->builder    = $this->newBuilder();
         $this->repository = $this->newRepository();
@@ -243,7 +250,7 @@ class Table extends Ui
 
         $this->dispatch(new TriggeredEvent($this));
 
-        return view($this->view, $this->getData())->render();
+        return view($this->tableView, $this->getData())->render();
     }
 
 
@@ -650,9 +657,9 @@ class Table extends Ui
      * @param string $view
      * return $this
      */
-    public function setView($view)
+    public function setTableView($view)
     {
-        $this->view = $view;
+        $this->tableView = $view;
 
         return $this;
     }
@@ -777,7 +784,7 @@ class Table extends Ui
     {
         if (!$builder = $this->transform(__METHOD__)) {
 
-            $builder = 'Anomaly\Streams\Platform\Ui\Table\TableBuilder';
+            $builder = $this->builder;
         }
 
         return app()->make($builder, [$this]);
@@ -792,7 +799,7 @@ class Table extends Ui
     {
         if (!$repository = $this->transform(__METHOD__)) {
 
-            $repository = 'Anomaly\Streams\Platform\Ui\Table\TableRepository';
+            $repository = $this->repository;
         }
 
         return app()->make($repository, [$this]);

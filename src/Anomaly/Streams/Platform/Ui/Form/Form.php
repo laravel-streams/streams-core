@@ -1,10 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Ui\Form\Event\BootedEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\MadeEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\MakingEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\SubmittedEvent;
-use Anomaly\Streams\Platform\Ui\Form\Event\BootedEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
 use Illuminate\Contracts\Support\MessageBag;
 
@@ -74,7 +74,7 @@ class Form extends Ui
      *
      * @var string
      */
-    protected $view = 'ui/form/index';
+    protected $formView = 'ui/form/index';
 
     /**
      * A message bag of errors generated
@@ -117,25 +117,18 @@ class Form extends Ui
     protected $input = [];
 
     /**
-     * The form builder object.
+     * The form builder object / default.
      *
      * @var FormBuilder
      */
-    protected $builder;
+    protected $builder = 'Anomaly\Streams\Platform\Ui\Form\FormBuilder';
 
     /**
-     * The form utility object.
-     *
-     * @var FormUtility
-     */
-    protected $utility;
-
-    /**
-     * The form repository object.
+     * The form repository object / default.
      *
      * @var FormRepository
      */
-    protected $repository;
+    protected $repository = 'Anomaly\Streams\Platform\Ui\Form\FormRepository';
 
     /**
      * Create a new Form instance.
@@ -143,7 +136,6 @@ class Form extends Ui
     function __construct()
     {
         $this->builder    = $this->newBuilder();
-        $this->utility    = $this->newUtility();
         $this->repository = $this->newRepository();
 
         parent::__construct();
@@ -214,7 +206,7 @@ class Form extends Ui
 
         $data = compact('actions', 'sections', 'redirects', 'options');
 
-        return view($this->view, $data);
+        return view($this->formView, $data);
     }
 
     /**
@@ -427,9 +419,9 @@ class Form extends Ui
      * @param $view
      * @return $this
      */
-    public function setView($view)
+    public function setFormView($view)
     {
-        $this->view = $view;
+        $this->formView = $view;
 
         return $this;
     }
@@ -604,14 +596,14 @@ class Form extends Ui
     {
         if (!$builder = $this->transform(__FUNCTION__)) {
 
-            $builder = 'Anomaly\Streams\Platform\Ui\Form\FormBuilder';
+            $builder = $this->builder;
         }
 
-        return app()->make($builder, ['form' => $this]);
+        return app()->make($builder, [$this]);
     }
 
     /**
-     * Return a new FormRepository object.
+     * Return the corresponding repository object.
      *
      * @return mixed
      */
@@ -619,40 +611,40 @@ class Form extends Ui
     {
         if (!$builder = $this->transform(__FUNCTION__)) {
 
-            $builder = 'Anomaly\Streams\Platform\Ui\Form\FormRepository';
+            $builder = $this->repository;
         }
 
         return app()->make($builder, [$this]);
     }
 
     /**
-     * Return the class path to the corresponding validator object.
+     * Return the corresponding validator object.
      *
-     * @return null|string
+     * @return FormValidator
      */
-    public function toValidator()
+    public function newValidator()
     {
         if (!$validator = $this->transform(__FUNCTION__)) {
 
             $validator = 'Anomaly\Streams\Platform\Ui\Form\FormValidator';
         }
 
-        return $validator;
+        return app()->make($validator, [$this]);
     }
 
     /**
-     * Return the class path to the corresponding authority object.
+     * Return the corresponding authority object.
      *
-     * @return null|string
+     * @return FormAuthority
      */
-    public function toAuthority()
+    public function newAuthority()
     {
         if (!$authority = $this->transform(__FUNCTION__)) {
 
             $authority = 'Anomaly\Streams\Platform\Ui\Form\FormAuthority';
         }
 
-        return $authority;
+        return app()->make($authority, [$this]);
     }
 }
  
