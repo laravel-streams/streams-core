@@ -75,6 +75,13 @@ class Ui
     protected $utility;
 
     /**
+     * The presets object.
+     *
+     * @var Presets
+     */
+    protected $presets;
+
+    /**
      * The expander object.
      *
      * @var Expander
@@ -101,6 +108,7 @@ class Ui
     public function __construct()
     {
         $this->utility    = $this->newUtility();
+        $this->presets    = $this->newPresets();
         $this->expander   = $this->newExpander();
         $this->evaluator  = $this->newEvaluator();
         $this->normalizer = $this->newNormalizer();
@@ -273,6 +281,16 @@ class Ui
     }
 
     /**
+     * Get the presets object.
+     *
+     * @return \Anomaly\Streams\Platform\Ui\Table\TablePresets
+     */
+    public function getPresets()
+    {
+        return $this->presets;
+    }
+
+    /**
      * Get the evaluator object.
      *
      * @return \Anomaly\Streams\Platform\Ui\Evaluator
@@ -325,6 +343,21 @@ class Ui
         }
 
         return app($utility);
+    }
+
+    /**
+     * Return a new presets instance.
+     *
+     * @return Presets
+     */
+    protected function newPresets()
+    {
+        if (!$presets = $this->transform(__METHOD__)) {
+
+            $presets = 'Anomaly\Streams\Platform\Ui\Presets';
+        }
+
+        return app()->make($presets, [$this]);
     }
 
     /**

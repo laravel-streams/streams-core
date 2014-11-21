@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Command\HandleTableActionCommand;
 use Anomaly\Streams\Platform\Ui\Table\Event\BootedEvent;
 use Anomaly\Streams\Platform\Ui\Table\Event\MadeEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\MakingEvent;
 use Anomaly\Streams\Platform\Ui\Table\Event\TriggeredEvent;
 use Anomaly\Streams\Platform\Ui\Table\Event\TriggeringEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
@@ -173,13 +174,6 @@ class Table extends Ui
     protected $builder;
 
     /**
-     * The table presets object.
-     *
-     * @var TablePresets
-     */
-    protected $presets;
-
-    /**
      * The table repository object.
      *
      * @var TableRepository
@@ -192,7 +186,6 @@ class Table extends Ui
     public function __construct()
     {
         $this->builder    = $this->newBuilder();
-        $this->presets    = $this->newPresets();
         $this->repository = $this->newRepository();
 
         parent::__construct();
@@ -207,7 +200,7 @@ class Table extends Ui
      */
     public function make()
     {
-        $this->dispatch(new MadeEvent($this));
+        $this->dispatch(new MakingEvent($this));
 
         if (!$this->response and app('request')->isMethod('post')) {
 
@@ -776,16 +769,6 @@ class Table extends Ui
     }
 
     /**
-     * Get the presets object.
-     *
-     * @return \Anomaly\Streams\Platform\Ui\Table\TablePresets
-     */
-    public function getPresets()
-    {
-        return $this->presets;
-    }
-
-    /**
      * Return a new builder instance.
      *
      * @return TableBuilder
@@ -798,21 +781,6 @@ class Table extends Ui
         }
 
         return app()->make($builder, [$this]);
-    }
-
-    /**
-     * Return a new presets instance.
-     *
-     * @return TablePresets
-     */
-    protected function newPresets()
-    {
-        if (!$presets = $this->transform(__METHOD__)) {
-
-            $presets = 'Anomaly\Streams\Platform\Ui\Table\TablePresets';
-        }
-
-        return app()->make($presets, [$this]);
     }
 
     /**
