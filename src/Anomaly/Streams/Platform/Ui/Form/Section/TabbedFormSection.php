@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Section;
 
+use Anomaly\Streams\Platform\Traits\CommandableTrait;
+use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormSectionLayoutCommand;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormSectionInterface;
-use Anomaly\Streams\Platform\Ui\Form\FormSection;
+use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
  * Class TabbedFormSection
@@ -11,46 +13,73 @@ use Anomaly\Streams\Platform\Ui\Form\FormSection;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Section
  */
-class TabbedFormSection extends FormSection implements FormSectionInterface
+class TabbedFormSection implements FormSectionInterface
 {
 
+    use CommandableTrait;
+
     /**
-     * Return the heading.
+     * The form object.
      *
-     * @return \Illuminate\View\View
+     * @var \Anomaly\Streams\Platform\Ui\Form\Form
      */
-    public function heading()
+    protected $form;
+
+    /**
+     * The section configuration.
+     *
+     * @var array
+     */
+    protected $section;
+
+    /**
+     * Create a new DefaultFormSection instance.
+     *
+     * @param Form  $form
+     * @param array $section
+     */
+    function __construct(Form $form, array $section)
     {
-        foreach ($this->section['tabs'] as $k => &$tab) {
-
-            $tab['id']     = $k;
-            $tab['active'] = $k == 0 ? 'active' : null;
-            $tab['title']  = trans(evaluate_key($tab, 'title', 'misc.untitled'));
-
-            unset($tab['body']);
-        }
-
-        return view('ui/form/sections/tabbed/heading', $this->section);
+        $this->form    = $form;
+        $this->section = $section;
     }
 
     /**
-     * Return the body.
+     * Render the section.
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $class = array_get($this->section, 'class', 'panel panel-default tabbed-section');
+
+        $body    = $this->getBody();
+        $heading = $this->getHeading();
+
+        return view('ui/form/sections/index', compact('class', 'heading', 'body'));
+    }
+
+    /**
+     * Get the heading.
      *
      * @return \Illuminate\View\View
      */
-    public function body()
+    protected function getHeading()
     {
+        $tabs = [];
 
-        foreach ($this->section['tabs'] as $k => &$tab) {
+        foreach ($this->section['tabs'] as $slug => $tab) {
 
-            $tab['layout'] = $this->getLayout($tab);
+            $id = $slug;
 
-            $tab['id']     = $k;
-            $tab['body']   = $this->getBody($tab['layout']);
-            $tab['active'] = $k == 0 ? 'active' : null;
+            $active = array_search($slug, array_keys($this->section['tabs'])) == 0;
+
+            $title = array_get($tab, 'title', 'misc.untitled');
+
+            $tabs[] = compact('title', 'active', 'id');
         }
 
-        return view('ui/form/sections/tabbed/body', $this->section);
+        return view('ui/form/sections/tabbed/heading', compact('tabs'));
     }
 
     /**
@@ -58,9 +87,28 @@ class TabbedFormSection extends FormSection implements FormSectionInterface
      *
      * @return \Illuminate\View\View
      */
-    protected function getBody($layout)
+    protected function getBody()
     {
-        return view('ui/form/sections/layout', compact('layout'));
+        $tabs = [];
+
+        $expander = $this->form->getExpander();
+
+        foreach ($this->section['tabs'] as $slug => $tab) {
+
+            $section = $expander->expandLayout($tab);
+
+            $layout = $this->execute(new BuildFormSectionLayoutCommand($this->form, $section));
+
+            $id = $slug;
+
+            $active = array_search($slug, array_keys($this->section['tabs'])) == 0;
+
+            $body = view('ui/form/sections/layout', $layout);
+
+            $tabs[] = compact('body', 'active', 'id');
+        }
+
+        return view('ui/form/sections/tabbed/body', compact('tabs'));
     }
 }
  

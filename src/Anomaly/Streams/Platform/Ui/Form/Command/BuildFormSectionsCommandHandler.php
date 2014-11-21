@@ -31,7 +31,6 @@ class BuildFormSectionsCommandHandler
         'type',
         'class',
         'title',
-        'layout',
         'handler',
     ];
 

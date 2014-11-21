@@ -2,7 +2,7 @@
 
     <ul class="nav nav-tabs">
         {{ tabs }}
-        <li class="{{ active }}"><a href="#{{ id }}" data-toggle="tab">{{ title }}</a></li>
+        <li class="{{ active then 'active' }}"><a href="#{{ id }}" data-toggle="tab">{{ title }}</a></li>
         {{ /tabs }}
     </ul>
 

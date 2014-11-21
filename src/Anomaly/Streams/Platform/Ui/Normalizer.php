@@ -168,10 +168,32 @@ class Normalizer
     {
         if (isset($data['attributes'])) {
 
+            $data['attributes'] = $this->cleanAttributes($data['attributes']);
+
             $data['attributes'] = attributes_string($data['attributes']);
         }
 
         return $data;
+    }
+
+    /**
+     * Clean invalid attributes.
+     *
+     * @param $attributes
+     * @return mixed
+     */
+    protected function cleanAttributes($attributes)
+    {
+        // Only strings can be an attribute.
+        foreach ($attributes as $attribute => $value) {
+
+            if (!is_string($value)) {
+
+                unset($attributes[$attribute]);
+            }
+        }
+
+        return $attributes;
     }
 
     /**
