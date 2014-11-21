@@ -19,23 +19,6 @@ class Normalizer
     protected $normalizers = [];
 
     /**
-     * The Ui Utility object.
-     *
-     * @var Utility
-     */
-    protected $utility;
-
-    /**
-     * Create a new Normalizer instance.
-     *
-     * @param Utility $utility
-     */
-    public function __construct(Utility $utility)
-    {
-        $this->utility = $utility;
-    }
-
-    /**
      * Normalize and clean things up before returning.
      *
      * @param array $data
