@@ -13,5 +13,21 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
 class EntryRepository implements EntryRepositoryInterface
 {
 
+    /**
+     * The entry model.
+     *
+     * @var EntryModel
+     */
+    protected $model;
+
+    /**
+     * Create a new EntryRepository instance.
+     *
+     * @param EntryModel $model
+     */
+    function __construct(EntryModel $model)
+    {
+        $this->model = $model;
+    }
 }
  
