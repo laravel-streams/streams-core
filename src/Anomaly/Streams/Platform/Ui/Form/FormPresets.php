@@ -115,6 +115,10 @@ class FormPresets extends Presets
      */
     public function setSectionPresets($section)
     {
+        if (!isset($section['type'])) {
+            $section['type'] = 'default';
+        }
+
         if (isset($this->sections[$section['type']]) and $presets = $this->sections[$section['type']]) {
 
             return array_merge($presets, $section);
