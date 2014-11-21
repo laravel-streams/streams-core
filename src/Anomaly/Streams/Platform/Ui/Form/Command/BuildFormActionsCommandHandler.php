@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\Form;
-
 /**
  * Class BuildFormActionsCommandHandler
  *
@@ -34,19 +32,21 @@ class BuildFormActionsCommandHandler
     {
         $form = $command->getForm();
 
-        $entry   = $form->getEntry();
-        $utility = $form->getUtility();
+        $entry      = $form->getEntry();
+        $expander   = $form->getExpander();
+        $evaluator  = $form->getEvaluator();
+        $normalizer = $form->getNormalizer();
 
         $actions = [];
 
-        foreach ($form->getActions() as $action) {
+        foreach ($form->getActions() as $slug => $action) {
 
             // Standardize input.
-            $action = $this->standardize($action);
+            $action = $expander->expand($slug, $action);
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $action = $utility->evaluate($action, [$form, $entry], $entry);
+            $action = $evaluator->evaluate($action, compact('form', 'entry'), $entry);
 
             // Skip if disabled.
             if (!evaluate_key($action, 'enabled', true)) {
@@ -67,54 +67,12 @@ class BuildFormActionsCommandHandler
             $action = compact('title', 'class', 'value', 'attributes');
 
             // Normalize things a bit before proceeding.
-            $action = $utility->normalize($action);
+            $action = $normalizer->normalize($action);
 
             $actions[] = $action;
         }
 
         return $actions;
-    }
-
-    /**
-     * Standardize minimum input to the proper data
-     * structure we actually expect.
-     *
-     * @param $action
-     * @return array
-     */
-    protected function standardize($action)
-    {
-        /**
-         * If only the type is sent along
-         * we default everything like bad asses.
-         */
-        if (is_string($action)) {
-
-            $action = ['type' => $action];
-        }
-
-        return $action;
-    }
-
-    /**
-     * Get default data for the action's type if any.
-     *
-     * @param array  $action
-     * @param Form   $form
-     * @param        $entry
-     * @return array|mixed|null
-     */
-    protected function getDefaults(array $action, Form $form, $entry)
-    {
-        $utility = $form->getUtility();
-
-        if (isset($action['type']) and $defaults = $utility->getActionDefaults($action['type'])) {
-
-            // Be sure to run the defaults back through evaluate.
-            return $utility->evaluate($defaults, [$form, $entry], $entry);
-        }
-
-        return [];
     }
 
     /**
