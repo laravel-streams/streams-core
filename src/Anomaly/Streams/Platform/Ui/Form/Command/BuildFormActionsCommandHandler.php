@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\Form;
-
 /**
  * Class BuildFormActionsCommandHandler
  *
@@ -21,6 +19,7 @@ class BuildFormActionsCommandHandler
      */
     protected $notAttributes = [
         'url',
+        'slug',
         'title',
         'class',
     ];
@@ -48,11 +47,9 @@ class BuildFormActionsCommandHandler
          */
         foreach ($form->getActions() as $slug => $action) {
 
-            // Expand and automate.
+            // Expand, automate and evaluate.
             $action = $expander->expand($slug, $action);
             $action = $presets->setActionPresets($action);
-
-            // Evaluate the entire action.
             $action = $evaluator->evaluate($action, compact('form'), $entry);
 
             // Skip if disabled.
@@ -62,71 +59,18 @@ class BuildFormActionsCommandHandler
             }
 
             // Build out our required data.
-            $href       = $this->getHref($action, $form);
-            $title      = $this->getTitle($action, $form);
-            $class      = $this->getClass($action, $form);
+            $title = array_get($action, 'title');
+            $class = array_get($action, 'class', 'btn btn-sm btn-success');
+
             $attributes = $this->getAttributes($action, $form);
 
-            $action = compact('title', 'class', 'value', 'href', 'attributes');
-
             // Normalize the result.
-            $action = $normalizer->normalize($action);
+            $action = $normalizer->normalize(compact('title', 'class', 'attributes'));
 
             $actions[] = $action;
         }
 
         return $actions;
-    }
-
-    /**
-     * Get the HREF.
-     *
-     * @param array $action
-     * @param Form  $form
-     */
-    protected function getHref(array $action, Form $form)
-    {
-        $url = array_get($action, 'url');
-
-        if (starts_with($url, 'http')) {
-
-            return url($url);
-        }
-
-        return $url;
-    }
-
-    /**
-     * Get the translated title.
-     *
-     * @param array $action
-     * @return string
-     */
-    protected function getTitle(array $action)
-    {
-        return trans(array_get($action, 'title'));
-    }
-
-    /**
-     * Get the class.
-     *
-     * @param array $action
-     * @return mixed|null
-     */
-    protected function getClass(array $action)
-    {
-        return array_get($action, 'class', 'btn btn-sm btn-success');
-    }
-
-    /**
-     * Get the url.
-     *
-     * @param array $action
-     * @return string
-     */
-    protected function getUrl(array $action)
-    {
-        return url(array_get($action, 'url'));
     }
 
     /**
@@ -138,6 +82,9 @@ class BuildFormActionsCommandHandler
      */
     protected function getAttributes(array $action)
     {
+        // URL is actually the href
+        $action['href'] = array_get($action, 'url', '#');
+
         return array_diff_key($action, array_flip($this->notAttributes));
     }
 }
