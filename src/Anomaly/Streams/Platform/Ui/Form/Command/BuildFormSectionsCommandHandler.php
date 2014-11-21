@@ -38,7 +38,7 @@ class BuildFormSectionsCommandHandler
         /**
          * Loop through and process sections configuration.
          */
-        foreach ($form->renderSections() as $slug => $section) {
+        foreach ($form->getSections() as $slug => $section) {
 
             // Expand, automate, and evaluate.
             $section = $expander->expand($slug, $section);
@@ -69,9 +69,14 @@ class BuildFormSectionsCommandHandler
      */
     protected function setSectionHandler(array &$section, Form $form)
     {
+        if (!isset($section['handler'])) {
+
+            $section['handler'] = 'Anomaly\Streams\Platform\Ui\Form\Section\DefaultFormSection';
+        }
+
         if (is_string($section['handler'])) {
 
-            $section['handler'] = app()->make($section['handler'], compact('form'));
+            $section['handler'] = app()->make($section['handler'], compact('form', 'section'));
         }
     }
 
