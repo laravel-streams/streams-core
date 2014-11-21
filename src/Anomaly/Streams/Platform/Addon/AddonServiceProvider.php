@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\Event\AllRegistered;
 use Anomaly\Streams\Platform\Addon\Event\RegisteredEvent;
-use Anomaly\Streams\Platform\Traits\CallableTrait;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
 use Illuminate\Foundation\Application;
@@ -19,7 +18,6 @@ use Illuminate\Support\ServiceProvider;
 class AddonServiceProvider extends ServiceProvider
 {
 
-    use CallableTrait;
     use DispatchableTrait;
     use TransformableTrait;
 

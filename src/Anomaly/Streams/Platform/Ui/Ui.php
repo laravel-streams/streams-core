@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui;
 
-use Anomaly\Streams\Platform\Traits\CallableTrait;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
@@ -19,7 +18,6 @@ use Anomaly\Streams\Platform\Traits\TransformableTrait;
 class Ui
 {
 
-    use CallableTrait;
     use CommandableTrait;
     use DispatchableTrait;
     use TransformableTrait;
