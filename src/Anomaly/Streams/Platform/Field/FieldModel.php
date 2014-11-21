@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
+use Anomaly\Streams\Platform\Addon\FieldType\Contract\RelationFieldTypeInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
@@ -68,7 +69,11 @@ class FieldModel extends EloquentModel implements FieldInterface
 
         if ($entry and $type instanceof FieldType) {
 
-            $type->setValue($entry->getFieldValue($field, $locale, false));
+            // TODO: This needs work.. Perhaps a base interface.
+            if (!$type instanceof RelationFieldTypeInterface) {
+
+                $type->setValue($entry->getFieldValue($field, $locale, false));
+            }
         }
 
         return $type;
