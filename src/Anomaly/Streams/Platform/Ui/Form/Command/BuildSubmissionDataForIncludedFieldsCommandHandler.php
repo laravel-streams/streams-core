@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Ui\Form\Form;
+
 /**
  * Class BuildSubmissionDataForIncludedFieldsCommandHandler
  *
@@ -22,10 +24,21 @@ class BuildSubmissionDataForIncludedFieldsCommandHandler
 
         foreach ($form->getInclude() as $input) {
 
-            $key = $form->getPrefix() . $input . '_en'; //TODO: Fix this.. seems dumb.
-
-            $form->addInput('include', $input, app('request')->get($key));
+            $this->addIncludedInput($form, $input);
         }
+    }
+
+    /**
+     * Add an included input to the input data.
+     *
+     * @param Form $form
+     * @param      $input
+     */
+    protected function addIncludedInput(Form $form, $input)
+    {
+        $key = $form->getPrefix() . $input . '_en'; //TODO: Fix this.. seems dumb.
+
+        $form->addInput('include', $input, app('request')->get($key));
     }
 }
  

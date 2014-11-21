@@ -37,22 +37,19 @@ class BuildFormSectionFieldsCommandHandler
 
         foreach ($command->getFields() as $slug => $field) {
 
-            // Expand minimum input.
+            // Expand minimum input and evaluate.
             $field = $expander->expand($slug, $field);
-
-            // Evaluate the entire row.
-            // All first level closures on are gone now.
             $field = $evaluator->evaluate($field, compact('form', 'entry'), $entry);
 
             // Skip if disabled.
-            if (!evaluate_key($field, 'enabled', true)) {
+            if (array_get($field, 'enabled') === false) {
 
                 continue;
             }
 
-            if ($entry instanceof EntryInterface and isset($field['field'])) {
+            if ($entry instanceof EntryInterface and $assignment = $entry->getAssignment($field['slug'])) {
 
-                $fields[] = $this->getField($field, $form, $entry);
+                $fields[] = $this->getFieldFromAssignment($field, $form, $entry, $assignment);
             } else {
 
                 $fields[] = $this->getFieldFromArray($slug, $field, $form);
@@ -63,29 +60,23 @@ class BuildFormSectionFieldsCommandHandler
     }
 
     /**
-     * Get field data.
+     * Get a field from an assignment.
      *
-     * @param array          $field
-     * @param Form           $form
-     * @param EntryInterface $entry
+     * @param array               $field
+     * @param Form                $form
+     * @param EntryInterface      $entry
+     * @param AssignmentInterface $assignment
      * @return array|null
      */
-    protected function getField(array $field, Form $form, EntryInterface $entry)
-    {
-        /**
-         * Get the assignment model from the field.
-         * If it's not found then we'll be skipping it.
-         */
-        $assignment = $entry->getAssignment($field['field']);
+    protected function getFieldFromAssignment(
+        array $field,
+        Form $form,
+        EntryInterface $entry,
+        AssignmentInterface $assignment
+    ) {
+        $element = $this->getElement($field, $form, $entry, $assignment);
 
-        if ($assignment instanceof AssignmentInterface) {
-
-            $element = $this->getElement($field, $form, $entry, $assignment);
-
-            return compact('element');
-        }
-
-        return null;
+        return compact('element');
     }
 
     /**

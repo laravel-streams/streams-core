@@ -23,18 +23,20 @@ class BuildFormSectionColumnsCommandHandler
      */
     public function handle(BuildFormSectionColumnsCommand $command)
     {
+        $columns = [];
+
         $form = $command->getForm();
 
         $entry     = $form->getEntry();
         $evaluator = $form->getEvaluator();
 
-        $columns = [];
-
+        /**
+         * Loop and process column configurations.
+         */
         foreach ($command->getColumns() as $column) {
 
             // Evaluate the entire row.
-            // All first level closures on are gone now.
-            $column = $evaluator->evaluate($column, compact('form', 'entry'), $entry);
+            $column = $evaluator->evaluate($column, compact('form'), $entry);
 
             // Skip if disabled.
             if (array_get($column, 'enabled') === false) {

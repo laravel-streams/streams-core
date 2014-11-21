@@ -16,7 +16,7 @@ class HandleFormSubmissionValidationCommand
     /**
      * The form object.
      *
-     * @var
+     * @var \Anomaly\Streams\Platform\Ui\Form\Form
      */
     protected $form;
 
@@ -33,7 +33,7 @@ class HandleFormSubmissionValidationCommand
     /**
      * Get the form object.
      *
-     * @return mixed
+     * @return Form
      */
     public function getForm()
     {

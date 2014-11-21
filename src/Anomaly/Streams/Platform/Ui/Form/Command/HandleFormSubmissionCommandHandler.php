@@ -24,10 +24,7 @@ class HandleFormSubmissionCommandHandler
     {
         $form = $command->getForm();
 
-        // Organize data into nifty array ready to consume.
         $this->execute(new BuildSubmissionDataCommand($form));
-
-        // Compile all of our rules for validation.
         $this->execute(new BuildSubmissionValidationRulesCommand($form));
 
         /**
@@ -47,7 +44,7 @@ class HandleFormSubmissionCommandHandler
             return false;
         }
 
-        // Let the intended redirect handle the.. redirect.
+        // Let the intended redirect handle the form response.
         return $form->setResponse($this->execute(new HandleFormSubmissionRedirectCommand($form)));
     }
 }

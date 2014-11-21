@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Ui\Form\Form;
+
 /**
  * Class BuildFormActionsCommandHandler
  *
@@ -18,6 +20,7 @@ class BuildFormActionsCommandHandler
      * @var array
      */
     protected $notAttributes = [
+        'url',
         'title',
         'class',
     ];
@@ -30,49 +33,67 @@ class BuildFormActionsCommandHandler
      */
     public function handle(BuildFormActionsCommand $command)
     {
+        $actions = [];
+
         $form = $command->getForm();
 
         $entry      = $form->getEntry();
+        $presets    = $form->getPresets();
         $expander   = $form->getExpander();
         $evaluator  = $form->getEvaluator();
         $normalizer = $form->getNormalizer();
 
-        $actions = [];
-
+        /**
+         * Loop through and process actions configurations.
+         */
         foreach ($form->getActions() as $slug => $action) {
 
-            // Standardize input.
+            // Expand and automate.
             $action = $expander->expand($slug, $action);
+            $action = $presets->setActionPresets($action);
 
-            // Evaluate everything in the array.
-            // All closures are gone now.
-            $action = $evaluator->evaluate($action, compact('form', 'entry'), $entry);
+            // Evaluate the entire action.
+            $action = $evaluator->evaluate($action, compact('form'), $entry);
 
             // Skip if disabled.
-            if (!evaluate_key($action, 'enabled', true)) {
+            if (array_get($action, 'enabled') === false) {
 
                 continue;
             }
 
-            // Get our defaults and merge them in.
-            //$defaults = $this->getDefaults($action, $form, $entry);
-
-            //$action = array_merge($defaults, $action);
-
             // Build out our required data.
-            $title      = $this->getTitle($action);
-            $class      = $this->getClass($action);
-            $attributes = $this->getAttributes($action);
+            $href       = $this->getHref($action, $form);
+            $title      = $this->getTitle($action, $form);
+            $class      = $this->getClass($action, $form);
+            $attributes = $this->getAttributes($action, $form);
 
-            $action = compact('title', 'class', 'value', 'attributes');
+            $action = compact('title', 'class', 'value', 'href', 'attributes');
 
-            // Normalize things a bit before proceeding.
+            // Normalize the result.
             $action = $normalizer->normalize($action);
 
             $actions[] = $action;
         }
 
         return $actions;
+    }
+
+    /**
+     * Get the HREF.
+     *
+     * @param array $action
+     * @param Form  $form
+     */
+    protected function getHref(array $action, Form $form)
+    {
+        $url = array_get($action, 'url');
+
+        if (starts_with($url, 'http')) {
+
+            return url($url);
+        }
+
+        return $url;
     }
 
     /**
@@ -83,7 +104,7 @@ class BuildFormActionsCommandHandler
      */
     protected function getTitle(array $action)
     {
-        return trans(evaluate_key($action, 'title'));
+        return trans(array_get($action, 'title'));
     }
 
     /**
@@ -94,7 +115,7 @@ class BuildFormActionsCommandHandler
      */
     protected function getClass(array $action)
     {
-        return evaluate_key($action, 'class', 'btn btn-sm btn-success');
+        return array_get($action, 'class', 'btn btn-sm btn-success');
     }
 
     /**
@@ -105,7 +126,7 @@ class BuildFormActionsCommandHandler
      */
     protected function getUrl(array $action)
     {
-        return url(evaluate_key($action, 'url'));
+        return url(array_get($action, 'url'));
     }
 
     /**

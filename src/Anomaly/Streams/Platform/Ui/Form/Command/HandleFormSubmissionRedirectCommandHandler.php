@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Illuminate\Http\Request;
-
 /**
  * Class HandleFormSubmissionRedirectCommandHandler
  *
@@ -17,14 +15,13 @@ class HandleFormSubmissionRedirectCommandHandler
      * Handle the command.
      *
      * @param HandleFormSubmissionRedirectCommand $command
-     * @param Request                             $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function handle(HandleFormSubmissionRedirectCommand $command, Request $request)
+    public function handle(HandleFormSubmissionRedirectCommand $command)
     {
         $form = $command->getForm();
 
-        return redirect($request->get($form->getPrefix() . 'redirect'));
+        return redirect(app('request')->get($form->getPrefix() . 'redirect'));
     }
 }
  

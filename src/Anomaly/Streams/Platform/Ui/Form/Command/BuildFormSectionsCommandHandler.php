@@ -41,7 +41,7 @@ class BuildFormSectionsCommandHandler
 
             // Evaluate the column.
             // All closures are gone now.
-            $section = $evaluator->evaluate($section, compact('form', 'entry'), $entry);
+            $section = $evaluator->evaluate($section, compact('form'), $entry);
 
             // Skip if disabled.
             if (array_get($section, 'enabled') === false) {

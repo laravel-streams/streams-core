@@ -25,7 +25,6 @@ class BuildSubmissionDataCommandHandler
         $this->execute(new BuildSubmissionDataForIncludedFieldsCommand($command->getForm()));
         $this->execute(new BuildSubmissionDataForDefaultLocaleCommand($command->getForm()));
         $this->execute(new BuildSubmissionDataForTranslationsCommand($command->getForm()));
-        //print_r($command->getForm()->getData());die;
     }
 }
  
