@@ -60,11 +60,21 @@ class DefaultFormSection implements FormSectionInterface
         return view('ui/form/sections/index', compact('class', 'heading', 'body'));
     }
 
+    /**
+     * Get the heading.
+     *
+     * @return \Illuminate\View\View
+     */
     protected function getHeading()
     {
         return view('ui/form/sections/default/heading', ['title' => 'TEST']);
     }
 
+    /**
+     * Get the body.
+     *
+     * @return \Illuminate\View\View
+     */
     protected function getBody()
     {
         $layout = $this->execute(new BuildFormSectionLayoutCommand($this->form, $this->section));
