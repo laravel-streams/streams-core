@@ -21,6 +21,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->bindDispatcher();
 
         $this->bindFields();
+        $this->bindEntries();
         $this->bindStreams();
         $this->bindAssignments();
     }
@@ -70,6 +71,22 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->bind(
             '\Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface',
             config('streams.assignments.repository')
+        );
+    }
+
+    /**
+     * Bind Entries.
+     */
+    protected function bindEntries()
+    {
+        $this->app->bind(
+            'Anomaly\Streams\Platform\Entry\EntryModel',
+            config('streams.entries.model')
+        );
+
+        $this->app->bind(
+            '\Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface',
+            config('streams.entries.repository')
         );
     }
 
