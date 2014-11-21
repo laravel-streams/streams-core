@@ -16,6 +16,20 @@ interface EntryInterface
 {
 
     /**
+     * Get the ID.
+     *
+     * @return mixed
+     */
+    public function getId();
+
+    /**
+     * Get validation rules.
+     *
+     * @return mixed
+     */
+    public function getRules();
+
+    /**
      * Touch meta timestamps and user fields.
      *
      * @return EntryInterface

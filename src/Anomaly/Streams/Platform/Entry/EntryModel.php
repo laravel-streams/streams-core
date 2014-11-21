@@ -21,6 +21,14 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 {
 
     /**
+     * Validation rules. These are overridden
+     * on the compiled models.
+     *
+     * @var array
+     */
+    public static $rules = [];
+
+    /**
      * The compiled stream data.
      *
      * @var array
@@ -67,6 +75,27 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         return $this;
     }
+
+    /**
+     * Get the ID.
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Get validation rules.
+     *
+     * @return mixed
+     */
+    public function getRules()
+    {
+        return self::$rules;
+    }
+
 
     /**
      * Get an attribute value by a field slug.
