@@ -28,6 +28,7 @@ class Normalizer
     {
         $data = $this->normalizeUrl($data);
         $data = $this->normalizeHref($data);
+        $data = $this->normalizeTitle($data);
         $data = $this->normalizeTooltip($data);
         $data = $this->normalizeAttributes($data);
 
@@ -45,7 +46,7 @@ class Normalizer
      *
      * @param array $data
      */
-    protected function normalizeUrl(array $data = [])
+    protected function normalizeUrl(array $data)
     {
         if (isset($data['attributes']['url'])) {
 
@@ -64,7 +65,7 @@ class Normalizer
      *
      * @param array $data
      */
-    protected function normalizeHref(array $data = [])
+    protected function normalizeHref(array $data)
     {
         if (isset($data['attributes']['href'])) {
 
@@ -78,13 +79,29 @@ class Normalizer
     }
 
     /**
+     * Normalize the title.
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function normalizeTitle(array $data)
+    {
+        if (isset($data['title'])) {
+
+            $data['title'] = trans($data['title']);
+        }
+
+        return $data;
+    }
+
+    /**
      * If the tooltip-{direction} attribute is set
      * automate Bootstrap tooltip data attributes.
      *
      * @param array $data
      * @return array
      */
-    protected function normalizeTooltip(array $data = [])
+    protected function normalizeTooltip(array $data)
     {
         $tooltip   = null;
         $placement = null;
@@ -130,7 +147,7 @@ class Normalizer
      * @param array $data
      * @return array
      */
-    protected function normalizeAttributes(array $data = [])
+    protected function normalizeAttributes(array $data)
     {
         if (isset($data['attributes'])) {
 
