@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Addon\Module\Users\User\Contract\UserInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\Contract\SetterFieldTypeInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
@@ -137,7 +138,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
             $type = $field->getType();
 
-            if ($type->setAttribute($this->attributes, $value) === true) {
+            if ($type instanceof SetterFieldTypeInterface) {
+
+                $type->setAttribute($this->attributes, $value);
 
                 return;
             }
@@ -166,14 +169,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
          * If we have a field type for this key use
          * it's unmutate method to modify the value.
          */
-        if ($mutate and $field = $this->getField($key)) {
+        if ($mutate and $type = $this->getFieldType($key)) {
 
-            $type = $field->getType();
-
-            if ($type instanceof FieldType) {
-
-                return $type->unmutate($value);
-            }
+            return $type->unmutate($value);
         }
 
         return $value;
@@ -226,7 +224,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * Get the field type from a field slug.
      *
      * @param $fieldSlug
-     * @return mixed
+     * @return FieldType
      */
     public function getFieldType($fieldSlug)
     {

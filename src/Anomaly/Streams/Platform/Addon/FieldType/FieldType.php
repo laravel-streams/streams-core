@@ -650,16 +650,6 @@ class FieldType extends Addon implements PresentableInterface
     }
 
     /**
-     * Get the type's relation.
-     *
-     * @return null
-     */
-    public function getRelation()
-    {
-        return null;
-    }
-
-    /**
      * Set the attribute on the model's attributes array.
      *
      * @param $attributes
@@ -669,6 +659,7 @@ class FieldType extends Addon implements PresentableInterface
     public function setAttribute(&$attributes, $value)
     {
         // $attributes[$this->getColumnName()] = $value;
+        // return true;
     }
 
     /**
