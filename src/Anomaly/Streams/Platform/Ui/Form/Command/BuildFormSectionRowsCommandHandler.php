@@ -25,8 +25,8 @@ class BuildFormSectionRowsCommandHandler
     {
         $form = $command->getForm();
 
-        $entry   = $form->getEntry();
-        $utility = $form->getUtility();
+        $entry     = $form->getEntry();
+        $evaluator = $form->getEvaluator();
 
         $rows = [];
 
@@ -34,7 +34,7 @@ class BuildFormSectionRowsCommandHandler
 
             // Evaluate the entire row.
             // All first level closures on are gone now.
-            $row = $utility->evaluate($row, [$form, $entry], $entry);
+            $row = $evaluator->evaluate($row, compact('form', 'entry'), $entry);
 
             // Skip if disabled.
             if (!evaluate_key($row, 'enabled', true)) {

@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Entry\EntryInterface;
-use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class BuildSubmissionValidationRulesCommandHandler
@@ -30,9 +30,9 @@ class BuildSubmissionValidationRulesCommandHandler
 
         $rules = [];
 
-        if ($stream instanceof StreamModel) {
+        if ($model instanceof EntryInterface) {
 
-            $rules = $model::$rules;
+            $rules = $model->getRules();
         }
 
         /**
@@ -46,33 +46,30 @@ class BuildSubmissionValidationRulesCommandHandler
         /**
          * Merge in field type rules.
          */
-        if ($stream instanceof StreamModel) {
+        if ($stream instanceof StreamInterface) {
 
-            foreach ($stream->assignments as $assignment) {
+            foreach ($stream->getAssignments() as $assignment) {
 
-                if (isset($rules[$assignment->field->slug]) and $type = $assignment->type()) {
-
-                    $assignmentRules = $this->getAssignmentRules($entry, $assignment, $rules);
-
-                    $rules[$assignment->field->slug] = implode(
-                        '|',
-                        array_merge(
-                            $assignmentRules,
-                            $type->getRules()
-                        )
-                    );
-                }
+                $this->mergeAssignmentRule($entry, $assignment);
             }
         }
 
         $form->setRules($rules);
     }
 
-    protected function getAssignmentRules(EntryInterface $entry, AssignmentModel $assignment, array $rules)
+    /**
+     * Get assignment rules.
+     *
+     * @param       $fieldSlug
+     * @param null  $id
+     * @param array $rules
+     * @return array
+     */
+    protected function getAssignmentRules($fieldSlug, $id = null, array $rules = [])
     {
-        $rules = explode('|', $rules[$assignment->field->slug]);
+        $rules = explode('|', $rules[$fieldSlug]);
 
-        if ($id = $entry->getKey()) {
+        if ($id) {
 
             foreach ($rules as &$rule) {
 
@@ -84,6 +81,31 @@ class BuildSubmissionValidationRulesCommandHandler
         }
 
         return $rules;
+    }
+
+    /**
+     * Merge in an assignment rule.
+     *
+     * @param EntryInterface      $entry
+     * @param AssignmentInterface $assignment
+     * @param array               $rules
+     */
+    protected function mergeAssignmentRule(EntryInterface $entry, AssignmentInterface $assignment, array $rules = [])
+    {
+        $fieldSlug = $assignment->getFieldSlug();
+
+        if (isset($rules[$fieldSlug]) and $type = $assignment->getFieldType()) {
+
+            $assignmentRules = $this->getAssignmentRules($fieldSlug, $entry->getId(), $rules);
+
+            $rules[$fieldSlug] = implode(
+                '|',
+                array_merge(
+                    $assignmentRules,
+                    $type->getRules()
+                )
+            );
+        }
     }
 }
  

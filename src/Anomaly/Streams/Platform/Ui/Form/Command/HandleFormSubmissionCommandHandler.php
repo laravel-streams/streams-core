@@ -24,9 +24,6 @@ class HandleFormSubmissionCommandHandler
     {
         $form = $command->getForm();
 
-        // Set a redirect to where we came from as a default.
-        $back = redirect(referer(url(app('request')->path())));
-
         // Organize data into nifty array ready to consume.
         $this->execute(new BuildSubmissionDataCommand($form));
 
@@ -49,9 +46,6 @@ class HandleFormSubmissionCommandHandler
 
             return false;
         }
-
-        // Let the form submit.
-        $form->fire('submit');
 
         // Let the intended redirect handle the.. redirect.
         return $form->setResponse($this->execute(new HandleFormSubmissionRedirectCommand($form)));

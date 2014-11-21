@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Entry\EntryInterface;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
@@ -29,19 +29,20 @@ class BuildFormSectionFieldsCommandHandler
     {
         $form = $command->getForm();
 
-        $entry   = $form->getEntry();
-        $utility = $form->getUtility();
+        $entry     = $form->getEntry();
+        $expander  = $form->getExpander();
+        $evaluator = $form->getEvaluator();
 
         $fields = [];
 
         foreach ($command->getFields() as $slug => $field) {
 
-            // Standardize the input.
-            $field = $this->standardize($field);
+            // Expand minimum input.
+            $field = $expander->expand($slug, $field);
 
             // Evaluate the entire row.
             // All first level closures on are gone now.
-            $field = $utility->evaluate($field, [$form, $entry], $entry);
+            $field = $evaluator->evaluate($field, compact('form', 'entry'), $entry);
 
             // Skip if disabled.
             if (!evaluate_key($field, 'enabled', true)) {
@@ -62,27 +63,6 @@ class BuildFormSectionFieldsCommandHandler
     }
 
     /**
-     * Standardize minimum input to the proper data
-     * structure we actually expect.
-     *
-     * @param $field
-     * @return array
-     */
-    protected function standardize($field)
-    {
-        /**
-         * If the field is a string then
-         * it is the field slug.
-         */
-        if (is_string($field)) {
-
-            $field = compact('field');
-        }
-
-        return $field;
-    }
-
-    /**
      * Get field data.
      *
      * @param array          $field
@@ -96,9 +76,9 @@ class BuildFormSectionFieldsCommandHandler
          * Get the assignment model from the field.
          * If it's not found then we'll be skipping it.
          */
-        $assignment = $entry->getAssignmentFromField($field['field']);
+        $assignment = $entry->getAssignment($field['field']);
 
-        if ($assignment instanceof AssignmentModel) {
+        if ($assignment instanceof AssignmentInterface) {
 
             $element = $this->getElement($field, $form, $entry, $assignment);
 
@@ -111,19 +91,19 @@ class BuildFormSectionFieldsCommandHandler
     /**
      * Get the form element for a field.
      *
-     * @param array           $field
-     * @param Form            $form
-     * @param EntryInterface  $entry
-     * @param AssignmentModel $assignment
+     * @param array               $field
+     * @param Form                $form
+     * @param EntryInterface      $entry
+     * @param AssignmentInterface $assignment
      * @return \Illuminate\View\View|null
      */
-    protected function getElement(array $field, Form $form, EntryInterface $entry, AssignmentModel $assignment)
+    protected function getElement(array $field, Form $form, EntryInterface $entry, AssignmentInterface $assignment)
     {
         $element = '';
 
         foreach (setting('module.settings::available_locales', config('streams.available_locales')) as $locale) {
 
-            $key = $form->getPrefix() . $assignment->field->slug . '_' . $locale;
+            $key = $form->getPrefix() . $assignment->getFieldSlug() . '_' . $locale;
 
             if ($assignment->isTranslatable() or config('app.locale') == $locale) {
 
@@ -131,7 +111,7 @@ class BuildFormSectionFieldsCommandHandler
                  * If the field is being skipped make sure it never
                  * get's to the form.
                  */
-                if (in_array($assignment->field->slug, $form->getSkips())) {
+                if (in_array($assignment->getFieldSlug(), $form->getSkips())) {
 
                     continue;
                 }
@@ -140,7 +120,7 @@ class BuildFormSectionFieldsCommandHandler
                  * Get the type object spawned from the assignment
                  * next. Again if not found we're going to skip it.
                  */
-                $type = $assignment->type($entry, $locale);
+                $type = $assignment->getFieldType($entry, $locale);
 
                 if (!$type instanceof FieldType) {
 
@@ -177,6 +157,14 @@ class BuildFormSectionFieldsCommandHandler
         return $element;
     }
 
+    /**
+     * Get the field from an array.
+     *
+     * @param       $slug
+     * @param array $field
+     * @param Form  $form
+     * @return mixed
+     */
     protected function getFieldFromArray($slug, array $field, Form $form)
     {
         $field['field'] = $slug;

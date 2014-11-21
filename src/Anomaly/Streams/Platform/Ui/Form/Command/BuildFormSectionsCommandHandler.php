@@ -28,30 +28,31 @@ class BuildFormSectionsCommandHandler
     {
         $form = $command->getForm();
 
-        $entry   = $form->getEntry();
-        $utility = $form->getUtility();
+        $entry     = $form->getEntry();
+        $expander  = $form->getExpander();
+        $evaluator = $form->getEvaluator();
 
         $sections = [];
 
-        foreach ($form->getSections() as $section) {
+        foreach ($form->getSections() as $slug => $section) {
 
             // Standardize input.
-            $section = $this->standardize($section);
+            $section = $expander->expand($slug, $section);
 
             // Evaluate the column.
             // All closures are gone now.
-            $section = $utility->evaluate($section, [$form, $entry], $entry);
+            $section = $evaluator->evaluate($section, compact('form', 'entry'), $entry);
 
             // Skip if disabled.
-            if (!evaluate_key($section, 'enabled', true)) {
+            if (array_get($section, 'enabled') === false) {
 
                 continue;
             }
 
             // Get our defaults and merge them in.
-            $defaults = $this->getDefaults($section, $form, $entry);
+            //$defaults = $this->getDefaults($section, $form, $entry);
 
-            $section = array_merge($defaults, $section);
+            //$section = array_merge($defaults, $section);
 
             // Get the object responsible for handling the section.
             $handler = $this->getSectionHandler($section, $form);
@@ -59,61 +60,15 @@ class BuildFormSectionsCommandHandler
             if ($handler instanceof FormSectionInterface) {
 
                 // Build out the required data.
-                $body    = $handler->body();
-                $footer  = $handler->footer();
-                $heading = $handler->heading();
+                $html = $handler->render();
 
                 $class = $this->getClass($section);
 
-                $sections[] = compact('class', 'body', 'footer', 'heading');
+                $sections[] = compact('html');
             }
         }
 
         return $sections;
-    }
-
-    /**
-     * Standardize minimum input to the proper data
-     * structure we actually expect.
-     *
-     * @param $section
-     */
-    protected function standardize($section)
-    {
-        /**
-         * If this is a string it is one
-         * of the few default section types.
-         */
-        if (is_string($section)) {
-
-            $section = [
-                'type' => $section,
-            ];
-        }
-
-        return $section;
-    }
-
-    /**
-     * Get the default data by the given type.
-     *
-     * @param array  $section
-     * @param Form   $form
-     * @param        $entry
-     * @return array|mixed|null
-     */
-    protected function getDefaults(array $section, Form $form, $entry)
-    {
-        $defaults = [];
-
-        $utility = $form->getUtility();
-
-        if (isset($section['type']) and $defaults = $utility->getSectionDefaults($section['type'])) {
-
-            $defaults = $utility->evaluate($defaults, [$form, $entry], $entry);
-        }
-
-        return $defaults;
     }
 
     /**

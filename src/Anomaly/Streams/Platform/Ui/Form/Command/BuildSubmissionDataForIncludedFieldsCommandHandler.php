@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Illuminate\Http\Request;
-
 /**
  * Class BuildSubmissionDataForIncludedFieldsCommandHandler
  *
@@ -17,17 +15,16 @@ class BuildSubmissionDataForIncludedFieldsCommandHandler
      * Handle the command.
      *
      * @param BuildSubmissionDataForIncludedFieldsCommand $command
-     * @param Request                                     $request
      */
-    public function handle(BuildSubmissionDataForIncludedFieldsCommand $command, Request $request)
+    public function handle(BuildSubmissionDataForIncludedFieldsCommand $command)
     {
         $form = $command->getForm();
 
-        foreach ($form->getInclude() as $include) {
+        foreach ($form->getInclude() as $input) {
 
-            $key = $form->getPrefix() . $include . '_en'; //TODO: Fix this..
+            $key = $form->getPrefix() . $input . '_en'; //TODO: Fix this.. seems dumb.
 
-            $form->addData('include', $include, $request->get($key));
+            $form->addInput('include', $input, app('request')->get($key));
         }
     }
 }
