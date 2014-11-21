@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
+use Anomaly\Streams\Platform\Ui\Form\FormExpander;
 use Anomaly\Streams\Platform\Ui\Form\FormPresets;
 use Anomaly\Streams\Platform\Ui\Table\TablePresets;
 
@@ -298,7 +299,7 @@ class Ui
     /**
      * Get the expander object.
      *
-     * @return \Anomaly\Streams\Platform\Ui\Expander
+     * @return FormExpander
      */
     public function getExpander()
     {
