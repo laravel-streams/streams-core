@@ -117,6 +117,20 @@ class Form extends Ui
     protected $input = [];
 
     /**
+     * The form expander object / default.
+     *
+     * @var FormPresets
+     */
+    protected $presets = 'Anomaly\Streams\Platform\Ui\Form\FormPresets';
+
+    /**
+     * The form expander object / default.
+     *
+     * @var FormExpander
+     */
+    protected $expander = 'Anomaly\Streams\Platform\Ui\Form\FormExpander';
+
+    /**
      * The form builder object / default.
      *
      * @var FormBuilder
