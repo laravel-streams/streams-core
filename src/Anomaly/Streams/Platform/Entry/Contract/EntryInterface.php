@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Contract;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -73,7 +74,7 @@ interface EntryInterface
      * Get a field's type by the field's slug.
      *
      * @param $fieldSlug
-     * @return mixed
+     * @return FieldType
      */
     public function getFieldType($fieldSlug);
 
