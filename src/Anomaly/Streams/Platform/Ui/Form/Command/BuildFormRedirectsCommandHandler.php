@@ -34,30 +34,33 @@ class BuildFormRedirectsCommandHandler
     {
         $form = $command->getForm();
 
-        $entry   = $form->getEntry();
-        $utility = $form->getUtility();
+        $entry      = $form->getEntry();
+        $presets    = $form->getPresets();
+        $expander   = $form->getExpander();
+        $evaluator  = $form->getEvaluator();
+        $normalizer = $form->getNormalizer();
 
         $redirects = [];
 
-        foreach ($form->getRedirects() as $redirect) {
+        foreach ($form->getRedirects() as $slug => $redirect) {
 
             // Standardize input.
-            $redirect = $this->standardize($redirect);
+            $redirect = $expander->expand($slug, $redirect);
 
             // Evaluate everything in the array.
             // All closures are gone now.
-            $redirect = $utility->evaluate($redirect, [$form, $entry], $entry);
+            $redirect = $evaluator->evaluate($redirect, compact('form', 'entry'), $entry);
 
             // Skip if disabled.
-            if (!evaluate_key($redirect, 'enabled', true)) {
+            if (array_get($redirect, 'enabled') === false) {
 
                 continue;
             }
 
             // Get our defaults and merge them in.
-            $defaults = $this->getDefaults($redirect, $form, $entry);
+            //$defaults = $presets->getDefaults($redirect, $form, $entry);
 
-            $redirect = array_merge($defaults, $redirect);
+            //$redirect = array_merge($defaults, $redirect);
 
             // Build out our required data.
             $name       = $this->getName($form);
@@ -68,53 +71,12 @@ class BuildFormRedirectsCommandHandler
 
             $redirect = compact('title', 'class', 'value', 'attributes', 'name');
 
+            $redirect = $normalizer->normalize($redirect);
+
             $redirects[] = $redirect;
         }
 
         return $redirects;
-    }
-
-    /**
-     * Standardize minimum input to the proper data
-     * structure we actually expect.
-     *
-     * @param $redirect
-     * @return array
-     */
-    protected function standardize($redirect)
-    {
-        /**
-         * If only the type is sent along
-         * we default everything like bad asses.
-         */
-        if (is_string($redirect)) {
-
-            $redirect = ['type' => $redirect];
-        }
-
-        return $redirect;
-    }
-
-    /**
-     * Get the defaults for the redirect's type if any.
-     *
-     * @param array  $redirect
-     * @param Form   $form
-     * @param        $entry
-     * @return array|mixed|null
-     */
-    protected function getDefaults(array $redirect, Form $form, $entry)
-    {
-        $defaults = [];
-
-        $utility = $form->getUtility();
-
-        if (isset($redirect['type']) and $defaults = $utility->getRedirectDefaults($redirect['type'])) {
-
-            $defaults = $utility->evaluate($defaults, [$form, $entry], $entry);
-        }
-
-        return $defaults;
     }
 
     /**
@@ -136,7 +98,7 @@ class BuildFormRedirectsCommandHandler
      */
     protected function getTitle(array $redirect)
     {
-        return trans(evaluate_key($redirect, 'title'));
+        return trans(array_get($redirect, 'title'));
     }
 
     /**
@@ -147,7 +109,7 @@ class BuildFormRedirectsCommandHandler
      */
     protected function getClass(array $redirect)
     {
-        return evaluate_key($redirect, 'class', 'btn btn-sm btn-success');
+        return array_get($redirect, 'class', 'btn btn-sm btn-success');
     }
 
     /**
@@ -158,7 +120,7 @@ class BuildFormRedirectsCommandHandler
      */
     protected function getUrl(array $redirect)
     {
-        return url(evaluate_key($redirect, 'url'));
+        return url(array_get($redirect, 'url'));
     }
 
     /**
