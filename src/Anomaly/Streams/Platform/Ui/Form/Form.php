@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Event\MadeEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\MakingEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\SubmittedEvent;
-use Anomaly\Streams\Platform\Ui\Table\Event\BootedEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\BootedEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
 use Illuminate\Contracts\Support\MessageBag;
 
