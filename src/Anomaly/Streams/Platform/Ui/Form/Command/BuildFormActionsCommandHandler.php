@@ -55,9 +55,9 @@ class BuildFormActionsCommandHandler
             }
 
             // Get our defaults and merge them in.
-            $defaults = $this->getDefaults($action, $form, $entry);
+            //$defaults = $this->getDefaults($action, $form, $entry);
 
-            $action = array_merge($defaults, $action);
+            //$action = array_merge($defaults, $action);
 
             // Build out our required data.
             $title      = $this->getTitle($action);
