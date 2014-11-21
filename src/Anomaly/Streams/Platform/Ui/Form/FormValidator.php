@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Illuminate\Validation\Factory;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormValidatorInterface;
 use Illuminate\Validation\Validator;
 
 /**
@@ -11,7 +11,7 @@ use Illuminate\Validation\Validator;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form
  */
-class FormValidator
+class FormValidator implements FormValidatorInterface
 {
 
     /**
@@ -19,26 +19,20 @@ class FormValidator
      *
      * @param array $input
      */
-    public function validate(Form $form, Factory $factory)
+    public function validate(Form $form)
     {
         $data = $form->getData();
 
-        $data = $form->fire('validating', compact('data'));
-
-        $validator = $factory->make($data[config('app.locale')], $form->getRules());
+        $validator = app('validator')->make($data[config('app.locale')], $form->getRules());
 
         $this->setAttributeNames($validator, $form);
 
         if ($validator->passes()) {
 
-            $form->fire('validation_passed');
-
             return true;
         }
 
         $form->setErrors($validator->messages());
-
-        $form->fire('validation_failed');
 
         return false;
     }
@@ -55,9 +49,9 @@ class FormValidator
 
             $attributes = [];
 
-            foreach ($stream->assignments as $assignment) {
+            foreach ($stream->getAssignments() as $assignment) {
 
-                $attributes[$assignment->field->slug] = strtolower($assignment->getFieldName());
+                $attributes[$assignment->field->slug] = strtolower($assignment->getField());
             }
 
             $validator->setAttributeNames($attributes);
