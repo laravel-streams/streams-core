@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Ui\Form\Command\HandleFormSubmissionCommand;
 use Anomaly\Streams\Platform\Ui\Form\Event\AuthorizationFailedEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\AuthorizationPassedEvent;
-use Anomaly\Streams\Platform\Ui\Form\Event\FormWasSubmittedEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\SubmittedEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\ValidationFailedEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\ValidationPassedEvent;
 
@@ -25,9 +25,9 @@ class FormListener extends Listener
     /**
      * Fired when the form's request is a POST.
      *
-     * @param FormWasSubmittedEvent $event
+     * @param SubmittedEvent $event
      */
-    public function whenFormWasSubmitted(FormWasSubmittedEvent $event)
+    public function whenFormWasSubmitted(SubmittedEvent $event)
     {
         $form = $event->getForm();
 
