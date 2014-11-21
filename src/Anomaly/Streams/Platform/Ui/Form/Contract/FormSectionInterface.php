@@ -15,7 +15,7 @@ interface FormSectionInterface
 {
 
     /**
-     * Return the rendered HTML
+     * Render the section.
      *
      * @return string
      */
