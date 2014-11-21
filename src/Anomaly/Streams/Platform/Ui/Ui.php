@@ -3,6 +3,8 @@
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
+use Anomaly\Streams\Platform\Ui\Form\FormPresets;
+use Anomaly\Streams\Platform\Ui\Table\TablePresets;
 
 /**
  * Class Ui
@@ -276,7 +278,7 @@ class Ui
     /**
      * Get the presets object.
      *
-     * @return \Anomaly\Streams\Platform\Ui\Table\TablePresets
+     * @return TablePresets|FormPresets
      */
     public function getPresets()
     {
