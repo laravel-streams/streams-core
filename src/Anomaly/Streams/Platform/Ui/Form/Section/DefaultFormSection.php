@@ -52,22 +52,12 @@ class DefaultFormSection implements FormSectionInterface
      */
     public function render()
     {
+        $title = array_get($this->section, 'title');
         $class = array_get($this->section, 'class', 'panel panel-default');
 
-        $body    = $this->getBody();
-        $heading = $this->getHeading();
+        $body = $this->getBody();
 
-        return view('ui/form/sections/index', compact('class', 'heading', 'body'));
-    }
-
-    /**
-     * Get the heading.
-     *
-     * @return \Illuminate\View\View
-     */
-    protected function getHeading()
-    {
-        return view('ui/form/sections/default/heading', ['title' => 'TEST']);
+        return view('ui/form/sections/default/index', compact('class', 'title', 'body'));
     }
 
     /**
@@ -79,9 +69,7 @@ class DefaultFormSection implements FormSectionInterface
     {
         $layout = $this->execute(new BuildFormSectionLayoutCommand($this->form, $this->section));
 
-        $body = view('ui/form/sections/layout', $layout);
-
-        return view('ui/form/sections/default/body', compact('body'));
+        return view('ui/form/sections/layout', $layout);
     }
 }
  

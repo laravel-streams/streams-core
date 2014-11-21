@@ -51,43 +51,19 @@ class TabbedFormSection implements FormSectionInterface
      */
     public function render()
     {
-        $class = array_get($this->section, 'class', 'panel panel-default tabbed-section');
+        $tabs = $this->getTabs();
 
-        $body    = $this->getBody();
-        $heading = $this->getHeading();
+        $class = array_get($this->section, 'class', 'panel panel-default');
 
-        return view('ui/form/sections/index', compact('class', 'heading', 'body'));
+        return view('ui/form/sections/tabbed/index', compact('class', 'tabs'));
     }
 
     /**
-     * Get the heading.
+     * Get the tabs.
      *
-     * @return \Illuminate\View\View
+     * @return array
      */
-    protected function getHeading()
-    {
-        $tabs = [];
-
-        foreach ($this->section['tabs'] as $slug => $tab) {
-
-            $id = $slug;
-
-            $active = array_search($slug, array_keys($this->section['tabs'])) == 0;
-
-            $title = array_get($tab, 'title', 'misc.untitled');
-
-            $tabs[] = compact('title', 'active', 'id');
-        }
-
-        return view('ui/form/sections/tabbed/heading', compact('tabs'));
-    }
-
-    /**
-     * Get the body.
-     *
-     * @return \Illuminate\View\View
-     */
-    protected function getBody()
+    protected function getTabs()
     {
         $tabs = [];
 
@@ -101,14 +77,16 @@ class TabbedFormSection implements FormSectionInterface
 
             $id = $slug;
 
+            $title = array_get($tab, 'title', 'misc.untitled');
+
             $active = array_search($slug, array_keys($this->section['tabs'])) == 0;
 
             $body = view('ui/form/sections/layout', $layout);
 
-            $tabs[] = compact('body', 'active', 'id');
+            $tabs[] = compact('title', 'body', 'active', 'id');
         }
 
-        return view('ui/form/sections/tabbed/body', compact('tabs'));
+        return $tabs;
     }
 }
  
