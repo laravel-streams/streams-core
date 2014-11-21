@@ -88,6 +88,16 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Get the entries title.
+     *
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->{$this->stream->title_column};
+    }
+
+    /**
      * Get validation rules.
      *
      * @return mixed

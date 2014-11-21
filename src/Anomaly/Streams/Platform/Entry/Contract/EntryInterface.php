@@ -24,6 +24,13 @@ interface EntryInterface
     public function getId();
 
     /**
+     * Get the title.
+     *
+     * @return mixed
+     */
+    public function getTitle();
+
+    /**
      * Get validation rules.
      *
      * @return mixed
