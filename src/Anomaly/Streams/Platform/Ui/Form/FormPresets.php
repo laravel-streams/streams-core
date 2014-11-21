@@ -176,14 +176,14 @@ class FormPresets extends Presets
             case 'view':
                 $segments = explode('/', app('request')->path());
 
-                return url(implode('/', array_slice($segments, 0, count($segments) - 2)) . '/show/{{id}}');
+                return url(implode('/', array_slice($segments, 0, count($segments) - 2)) . '/show/ID');
                 break;
 
             // Change the last two segments
             case 'delete':
                 $segments = explode('/', app('request')->path());
 
-                return url(implode('/', array_slice($segments, 0, count($segments) - 2)) . '/delete/{{id}}');
+                return url(implode('/', array_slice($segments, 0, count($segments) - 2)) . '/delete/ID');
                 break;
 
             default:
