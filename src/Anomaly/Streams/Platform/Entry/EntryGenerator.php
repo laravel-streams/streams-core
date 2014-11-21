@@ -32,8 +32,6 @@ class EntryGenerator extends Generator
 
     protected $namespace;
 
-    protected $relationFields;
-
     protected $translationModel;
 
     protected $translationForeignKey;
@@ -50,7 +48,6 @@ class EntryGenerator extends Generator
         $this->stream                = new EntryStreamParser();
         $this->relations             = new EntryRelationsParser();
         $this->namespace             = new EntryNamespaceParser();
-        $this->relationFields        = new EntryRelationFieldsParser();
         $this->translationModel      = new EntryTranslationModelParser();
         $this->translationForeignKey = new EntryTranslationForeignKeyParser();
     }
@@ -65,7 +62,6 @@ class EntryGenerator extends Generator
         $stream                = $this->stream->parse($data);
         $relations             = $this->relations->parse($data);
         $namespace             = $this->namespace->parse($data);
-        $relationFields        = $this->relationFields->parse($data);
         $translationModel      = $this->translationModel->parse($data);
         $translationForeignKey = $this->translationForeignKey->parse($data);
 
@@ -78,7 +74,6 @@ class EntryGenerator extends Generator
             'stream',
             'relations',
             'namespace',
-            'relationFields',
             'translationModel',
             'translationForeignKey'
         );

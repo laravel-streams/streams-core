@@ -19,7 +19,5 @@ class {class} extends EntryModel
 
     protected $stream = {stream};
 
-    protected $relationFields = {relationFields};
-
     {relations}
 }

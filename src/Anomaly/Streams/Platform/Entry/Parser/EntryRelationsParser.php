@@ -13,31 +13,15 @@ class EntryRelationsParser
 
             $slug = $assignment->field->slug;
 
-            $type = $assignment->type();
-
-            $relationString = '';
-
-            $relationArray = $type->getRelation();
-
             $method = camel_case($slug);
 
-            $relationMethod = $relationArray['method'];
+            $relationString = '';
 
             $relationString .= "\n{$this->s(4)}public function {$method}()";
 
             $relationString .= "\n{$this->s(4)}{";
 
-            $relationString .= "\n{$this->s(8)}\$query = \$this->{$relationMethod}(";
-
-            foreach ($relationArray['arguments'] as &$argument) {
-                $argument = $this->toString($argument);
-            }
-
-            $relationString .= implode(', ', $relationArray['arguments']);
-
-            $relationString .= ")->getQuery();";
-
-            $relationString .= "\n\n{$this->s(8)}return \$this->getTypeFromField('{$slug}')->relation(\$query);";
+            $relationString .= "\n\n{$this->s(8)}return \$this->getFieldType('{$slug}')->getRelation(\$this);";
 
             $relationString .= "\n{$this->s(4)}}";
 
