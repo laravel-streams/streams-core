@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class BuildFormOptionsCommandHandler
@@ -27,7 +27,7 @@ class BuildFormOptionsCommandHandler
 
         $translatable = false;
 
-        if ($stream instanceof StreamModel) {
+        if ($stream instanceof StreamInterface) {
 
             $translatable = $stream->isTranslatable();
         }
