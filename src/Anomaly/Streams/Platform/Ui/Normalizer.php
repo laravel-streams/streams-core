@@ -28,6 +28,7 @@ class Normalizer
     {
         $data = $this->normalizeUrl($data);
         $data = $this->normalizeHref($data);
+        $data = $this->normalizeIcon($data);
         $data = $this->normalizeTitle($data);
         $data = $this->normalizeTooltip($data);
         $data = $this->normalizeAttributes($data);
@@ -73,6 +74,22 @@ class Normalizer
 
                 $data['attributes']['href'] = url($data['attributes']['href']);
             }
+        }
+
+        return $data;
+    }
+
+    /**
+     * Normalize the icon.
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function normalizeIcon(array $data)
+    {
+        if (isset($data['icon'])) {
+
+            $data['icon'] = '<i class="' . $data['icon'] . '"></i>';
         }
 
         return $data;

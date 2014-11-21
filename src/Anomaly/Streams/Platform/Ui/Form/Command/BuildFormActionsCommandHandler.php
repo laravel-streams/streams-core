@@ -60,14 +60,11 @@ class BuildFormActionsCommandHandler
 
             // Build out our required data.
             $title = array_get($action, 'title');
-            $class = array_get($action, 'class', 'btn btn-sm btn-success');
+            $class = array_get($action, 'class');
 
             $attributes = $this->getAttributes($action, $form);
 
-            // Normalize the result.
-            $action = $normalizer->normalize(compact('title', 'class', 'attributes'));
-
-            $actions[] = $action;
+            $actions[] = $normalizer->normalize(compact('title', 'class', 'attributes'));
         }
 
         return $actions;

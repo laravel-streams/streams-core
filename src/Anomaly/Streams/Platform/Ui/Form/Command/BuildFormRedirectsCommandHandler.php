@@ -63,75 +63,15 @@ class BuildFormRedirectsCommandHandler
             }
 
             // Build out our required data.
-            $name       = $this->getName($redirect, $form);
-            $value      = $this->getValue($redirect, $form);
-            $title      = $this->getTitle($redirect, $form);
-            $class      = $this->getClass($redirect, $form);
+            $title = array_get($redirect, 'title');
+            $class = array_get($redirect, 'class');
+
             $attributes = $this->getAttributes($redirect, $form);
 
-            $redirect = compact('title', 'class', 'value', 'attributes', 'name');
-
-            $redirect = $normalizer->normalize($redirect);
-
-            $redirects[] = $redirect;
+            $redirects[] = $normalizer->normalize(compact('title', 'class', 'attributes'));
         }
 
         return $redirects;
-    }
-
-    /**
-     * Get the name for the redirect button.
-     *
-     * @param array $redirect
-     * @param Form  $form
-     * @return string
-     */
-    protected function getName(array $redirect, Form $form)
-    {
-        return $form->getPrefix() . 'redirect';
-    }
-
-    /**
-     * Get the URL.
-     *
-     * @param array $redirect
-     * @param Form  $form
-     * @return string
-     */
-    protected function getValue(array $redirect, Form $form)
-    {
-        $url = array_get($redirect, 'url');
-
-        if (starts_with($url, 'http')) {
-
-            return url($url);
-        }
-
-        return $url;
-    }
-
-    /**
-     * Get the translated title.
-     *
-     * @param array $redirect
-     * @param Form  $form
-     * @return string
-     */
-    protected function getTitle(array $redirect, Form $form)
-    {
-        return trans(array_get($redirect, 'title'));
-    }
-
-    /**
-     * Get the class.
-     *
-     * @param array $redirect
-     * @param Form  $form
-     * @return mixed|null
-     */
-    protected function getClass(array $redirect, Form $form)
-    {
-        return array_get($redirect, 'class', 'btn btn-sm btn-success');
     }
 
     /**
@@ -144,6 +84,10 @@ class BuildFormRedirectsCommandHandler
      */
     protected function getAttributes(array $redirect, Form $form)
     {
+        $redirect['value'] = array_get($redirect, 'url');
+
+        $redirect['name'] = $form->getPrefix() . 'redirect';
+
         return array_diff_key($redirect, array_flip($this->notAttributes));
     }
 }

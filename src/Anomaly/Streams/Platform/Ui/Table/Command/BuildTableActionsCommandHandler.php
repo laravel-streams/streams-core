@@ -46,20 +46,20 @@ class BuildTableActionsCommandHandler
         $evaluator  = $table->getEvaluator();
         $normalizer = $table->getNormalizer();
 
+        /**
+         * Loop through and process action configurations.
+         */
         foreach ($table->getActions() as $slug => $action) {
-
-            // Expand and automate.
-            $action = $expander->expand($slug, $action);
-            $action = $presets->setActionPresets($action);
 
             /**
              * Remove the handler or it
              * might fire in evaluation.
              */
             unset($action['handler']);
-
-            // Evaluate everything in the array.
-            // All closures are gone now.
+            
+            // Expand, automate, and evaluate.
+            $action = $expander->expand($slug, $action);
+            $action = $presets->setActionPresets($action);
             $action = $evaluator->evaluate($action, compact('table'));
 
             // Skip if disabled.
@@ -68,92 +68,20 @@ class BuildTableActionsCommandHandler
                 continue;
             }
 
-            // All actions start off as disabled="disabled"
+            // All actions are disabled at first.
             $action['disabled'] = 'disabled';
 
             // Build out our required data.
-            $name       = $this->getName($action, $table);
-            $icon       = $this->getIcon($action, $table);
-            $value      = $this->getValue($action, $table);
-            $title      = $this->getTitle($action, $table);
-            $class      = $this->getClass($action, $table);
+            $icon  = array_get($action, 'icon');
+            $title = array_get($action, 'title');
+            $class = array_get($action, 'class');
+
             $attributes = $this->getAttributes($action, $table);
 
-            $action = compact('title', 'class', 'icon', 'value', 'name', 'attributes');
-
-            // Normalize the result.
-            $action = $normalizer->normalize($action);
-
-            $actions[] = $action;
+            $actions[] = $normalizer->normalize(compact('title', 'class', 'icon', 'attributes'));
         }
 
         return $actions;
-    }
-
-    /**
-     * Get the translated title.
-     *
-     * @param array $action
-     * @param Table $table
-     * @return string
-     */
-    protected function getTitle(array $action, Table $table)
-    {
-        return trans(array_get($action, 'title'));
-    }
-
-    /**
-     * Get the icon.
-     *
-     * @param array $action
-     * @param Table $table
-     * @return null|string
-     */
-    protected function getIcon(array $action, Table $table)
-    {
-        $icon = array_get($action, 'icon', null);
-
-        if (!$icon) {
-
-            return null;
-        }
-
-        return '<i class="' . $icon . '"></i>';
-    }
-
-    /**
-     * Get the class.
-     *
-     * @param array $action
-     * @return mixed|null
-     */
-    protected function getClass(array $action)
-    {
-        return array_get($action, 'class', 'btn btn-sm btn-default');
-    }
-
-    /**
-     * Get the action slug.
-     *
-     * @param array $action
-     * @param Table $table
-     * @return string
-     */
-    protected function getValue(array $action, Table $table)
-    {
-        return $table->getPrefix() . $action['slug'];
-    }
-
-    /**
-     * Get the name of the submit input.
-     *
-     * @param array $action
-     * @param Table $table
-     * @return string
-     */
-    protected function getName(array $action, Table $table)
-    {
-        return $table->getPrefix() . 'action';
     }
 
     /**
@@ -166,6 +94,9 @@ class BuildTableActionsCommandHandler
      */
     protected function getAttributes(array $action, Table $table)
     {
+        $action['name']  = $table->getPrefix() . 'action';
+        $action['value'] = $table->getPrefix() . $action['slug'];
+
         return array_diff_key($action, array_flip($this->notAttributes));
     }
 }

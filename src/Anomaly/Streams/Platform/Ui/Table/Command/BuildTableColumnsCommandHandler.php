@@ -66,31 +66,15 @@ class BuildTableColumnsCommandHandler
             $this->guessField($column, $table);
 
             // Build out our required data.
-            $class      = $this->getClass($column);
+            $class = array_get($column, 'class');
+
+            $value      = $this->getValue($column, $entry);
             $attributes = $this->getAttributes($column);
 
-            $value = $this->getValue($column, $entry);
-
-            $column = compact('value', 'class', 'attributes');
-
-            // Normalize the result.
-            $column = $normalizer->normalize($column);
-
-            $columns[] = $column;
+            $columns[] = $normalizer->normalize(compact('value', 'class', 'attributes'));
         }
 
         return $columns;
-    }
-
-    /**
-     * Get the class.
-     *
-     * @param array $column
-     * @return mixed|null
-     */
-    protected function getClass(array $column)
-    {
-        return array_get($column, 'class');
     }
 
     /**
@@ -103,6 +87,23 @@ class BuildTableColumnsCommandHandler
     protected function getAttributes(array $column)
     {
         return array_diff_key($column, array_flip($this->notAttributes));
+    }
+
+    /**
+     * Set the field to the slug if the slug is a valid field.
+     *
+     * @param array $column
+     * @param Table $table
+     */
+    protected function guessField(array &$column, Table $table)
+    {
+        if ($stream = $table->getStream()) {
+
+            if (!isset($column['field']) and $field = $stream->getField($column['slug'])) {
+
+                $column['field'] = $column['slug'];
+            }
+        }
     }
 
     /**
@@ -153,23 +154,6 @@ class BuildTableColumnsCommandHandler
         }
 
         return $value;
-    }
-
-    /**
-     * Set the field to the slug if the slug is a valid field.
-     *
-     * @param array $column
-     * @param Table $table
-     */
-    protected function guessField(array &$column, Table $table)
-    {
-        if ($stream = $table->getStream()) {
-
-            if (!isset($column['field']) and $field = $stream->getField($column['slug'])) {
-
-                $column['field'] = $column['slug'];
-            }
-        }
     }
 
     /**

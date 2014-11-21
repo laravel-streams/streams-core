@@ -30,6 +30,9 @@ class BuildTableFiltersCommandHandler
         $expander  = $table->getExpander();
         $evaluator = $table->getEvaluator();
 
+        /**
+         * Loop through and process filter configurations.
+         */
         foreach ($table->getFilters() as $slug => $filter) {
 
             // Expand minimal input.

@@ -55,7 +55,7 @@ class BuildSubmissionValidationRulesCommandHandler
 
             foreach ($stream->getAssignments() as $assignment) {
 
-                $this->mergeAssignmentRule($entry, $assignment);
+                $this->mergeAssignmentRule($entry, $assignment, $rules);
             }
         }
 
@@ -70,7 +70,7 @@ class BuildSubmissionValidationRulesCommandHandler
      * @param array $rules
      * @return array
      */
-    protected function getAssignmentRules($fieldSlug, $id = null, array $rules)
+    protected function getAssignmentRules($fieldSlug, $id = null, array $rules = [])
     {
         $rules = explode('|', $rules[$fieldSlug]);
 
@@ -95,7 +95,7 @@ class BuildSubmissionValidationRulesCommandHandler
      * @param AssignmentInterface $assignment
      * @param array               $rules
      */
-    protected function mergeAssignmentRule(EntryInterface $entry, AssignmentInterface $assignment, array $rules)
+    protected function mergeAssignmentRule(EntryInterface $entry, AssignmentInterface $assignment, array $rules = [])
     {
         $fieldSlug = $assignment->getFieldSlug();
 

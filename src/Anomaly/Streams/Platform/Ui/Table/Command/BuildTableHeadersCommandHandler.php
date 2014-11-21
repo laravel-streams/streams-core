@@ -16,6 +16,17 @@ class BuildTableHeadersCommandHandler
 {
 
     /**
+     * These are not attributes.
+     * Everything else will end up
+     * in the attribute string.
+     *
+     * @var array
+     */
+    protected $notAttributes = [
+
+    ];
+
+    /**
      * Handle the command.
      *
      * @param BuildTableHeadersCommand $command
@@ -27,9 +38,10 @@ class BuildTableHeadersCommandHandler
 
         $table = $command->getTable();
 
-        $presets   = $table->getPresets();
-        $expander  = $table->getExpander();
-        $evaluator = $table->getEvaluator();
+        $presets    = $table->getPresets();
+        $expander   = $table->getExpander();
+        $evaluator  = $table->getEvaluator();
+        $normalizer = $table->getNormalizer();
 
         /**
          * Loop and process all of the columns.
@@ -39,17 +51,17 @@ class BuildTableHeadersCommandHandler
             // Expand minimal input.
             $column = $expander->expand($slug, $column);
 
-            // Assure we have a field even if
-            // it is a garbage value.
+            /**
+             * Assure we have a field even
+             * if it is a garbage value.
+             */
             if (!isset($column['field'])) {
 
                 $column['field'] = $column['slug'];
             }
 
-            // Automate what we can.
+            // Automate and evaluate.
             $column = $presets->setViewPresets($column);
-
-            // Evaluate the entire column.
             $column = $evaluator->evaluate($column, compact('table'));
 
             // Skip if disabled.
@@ -63,7 +75,9 @@ class BuildTableHeadersCommandHandler
             $heading = $this->getHeading($column, $table);
             $sorting = $this->getSorting($column, $table);
 
-            $columns[] = compact('heading', 'sorting', 'url');
+            $attributes = $this->getAttributes($column, $table);
+
+            $columns[] = $normalizer->normalize(compact('heading', 'sorting', 'url', 'attributes'));
         }
 
         return $columns;
@@ -128,8 +142,6 @@ class BuildTableHeadersCommandHandler
      */
     protected function getSorting(array $column, Table $table)
     {
-        $parts = explode('.', $column['field']);
-
         if ($stream = $table->getStream()) {
 
             return $this->getSortingFromField($column, $table, $stream);
@@ -243,6 +255,19 @@ class BuildTableHeadersCommandHandler
         $variables[$key] = $column . '|' . $direction;
 
         return app('request')->url('/') . '?' . http_build_query($variables);
+    }
+
+    /**
+     * Get the attributes less the keys that are
+     * defined as NOT attributes.
+     *
+     * @param array $column
+     * @param Table $table
+     * @return array
+     */
+    protected function getAttributes(array $column, Table $table)
+    {
+        return array_diff_key($column, array_flip($this->notAttributes));
     }
 }
  
