@@ -27,16 +27,10 @@ class BuildFormSectionColumnsCommandHandler
 
         $form = $command->getForm();
 
-        $entry     = $form->getEntry();
-        $evaluator = $form->getEvaluator();
-
         /**
          * Loop and process column configurations.
          */
         foreach ($command->getColumns() as $column) {
-
-            // Evaluate the entire row.
-            $column = $evaluator->evaluate($column, compact('form'), $entry);
 
             // Skip if disabled.
             if (array_get($column, 'enabled') === false) {

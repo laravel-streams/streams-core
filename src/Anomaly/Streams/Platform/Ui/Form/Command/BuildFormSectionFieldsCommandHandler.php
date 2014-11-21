@@ -29,9 +29,8 @@ class BuildFormSectionFieldsCommandHandler
     {
         $form = $command->getForm();
 
-        $entry     = $form->getEntry();
-        $expander  = $form->getExpander();
-        $evaluator = $form->getEvaluator();
+        $entry    = $form->getEntry();
+        $expander = $form->getExpander();
 
         $fields = [];
 
@@ -39,7 +38,6 @@ class BuildFormSectionFieldsCommandHandler
 
             // Expand minimum input and evaluate.
             $field = $expander->expand($slug, $field);
-            $field = $evaluator->evaluate($field, compact('form', 'entry'), $entry);
 
             // Skip if disabled.
             if (array_get($field, 'enabled') === false) {
@@ -166,6 +164,6 @@ class BuildFormSectionFieldsCommandHandler
 
         $type = $this->execute('Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand', $field);
 
-        return $type->render();
+        return (string)$type->render();
     }
 }

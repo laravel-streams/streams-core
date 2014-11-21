@@ -27,16 +27,10 @@ class BuildFormSectionRowsCommandHandler
 
         $form = $command->getForm();
 
-        $entry     = $form->getEntry();
-        $evaluator = $form->getEvaluator();
-
         /**
-         * Loop and process rows in this layout container.
+         * Loop and process rows.
          */
         foreach ($command->getRows() as $row) {
-
-            // Evaluate the entire row.
-            $row = $evaluator->evaluate($row, compact('form'), $entry);
 
             // Skip if disabled.
             if (array_get($row, 'enabled') === false) {
