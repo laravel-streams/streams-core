@@ -49,6 +49,16 @@ class FormSection implements FormSectionInterface
     }
 
     /**
+     * Return the rendered HTML.
+     *
+     * @return null
+     */
+    public function render()
+    {
+        return null;
+    }
+
+    /**
      * Return the heading HTML.
      *
      * @return mixed|null
