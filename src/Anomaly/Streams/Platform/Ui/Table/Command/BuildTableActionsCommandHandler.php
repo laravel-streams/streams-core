@@ -65,8 +65,6 @@ class BuildTableActionsCommandHandler
             // Skip if disabled.
             if (!array_get($action, 'enabled') === false) {
 
-                unset($actions[$slug]);
-
                 continue;
             }
 

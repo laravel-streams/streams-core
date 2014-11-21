@@ -58,8 +58,6 @@ class BuildTableButtonsCommandHandler
             // Skip if disabled.
             if (array_get($button, 'enabled') === false) {
 
-                unset($buttons[$slug]);
-
                 continue;
             }
 

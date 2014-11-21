@@ -50,8 +50,6 @@ class BuildTableFiltersCommandHandler
             // Skip if disabled.
             if (array_get($filter, 'enabled') === false) {
 
-                unset($filters[$slug]);
-
                 continue;
             }
 

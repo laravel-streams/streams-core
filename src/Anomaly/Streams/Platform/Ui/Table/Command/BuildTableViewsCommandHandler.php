@@ -65,8 +65,6 @@ class BuildTableViewsCommandHandler
             // Skip if disabled.
             if (array_get($view, 'enabled') === false) {
 
-                unset($view[$slug]);
-
                 continue;
             }
 

@@ -55,8 +55,6 @@ class BuildTableHeadersCommandHandler
             // Skip if disabled.
             if (array_get($column, 'enabled') === false) {
 
-                unset($columns[$slug]);
-
                 continue;
             }
 
