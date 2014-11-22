@@ -6,6 +6,14 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
+/**
+ * Class FieldModel
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Field
+ */
 class FieldModel extends EloquentModel implements FieldInterface
 {
 
@@ -36,6 +44,16 @@ class FieldModel extends EloquentModel implements FieldInterface
      * @var string
      */
     protected $table = 'streams_fields';
+
+    /**
+     * Get the ID.
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->getKey();
+    }
 
     /**
      * Get the name.
