@@ -38,7 +38,7 @@ interface EntryInterface
     public function getRules();
 
     /**
-     * Touch meta timestamps and user fields.
+     * Touch meta columns.
      *
      * @return EntryInterface
      */
