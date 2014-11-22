@@ -33,10 +33,10 @@ class AssignFieldCommandHandler
         $stream = $streams->findByNamespaceAndSlug($command->getNamespace(), $command->getStream());
         $field  = $fields->findByNamespaceAndSlug($command->getNamespace(), $command->getField());
 
-        $assignment = $assignments->create(
+        return $assignments->create(
             $command->getSortOrder(),
-            $stream->getKey(),
-            $field->getKey(),
+            $stream,
+            $field,
             $command->getLabel(),
             $command->getPlaceholder(),
             $command->getInstructions(),
@@ -44,8 +44,6 @@ class AssignFieldCommandHandler
             $command->getIsRequired(),
             $command->getIsTranslatable()
         );
-
-        return $assignment;
     }
 }
  

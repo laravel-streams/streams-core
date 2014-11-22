@@ -1,50 +1,34 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command;
 
-use Anomaly\Streams\Platform\Field\FieldModel;
+use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
+/**
+ * Class DeleteFieldCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Field\Command
+ */
 class DeleteFieldCommandHandler
 {
 
     use DispatchableTrait;
 
     /**
-     * The field model.
-     *
-     * @var \Anomaly\Streams\Platform\Field\FieldModel
-     */
-    protected $field;
-
-    /**
-     * Create a new InstallFieldCommandHandler instance.
-     *
-     * @param FieldModel $field
-     */
-    function __construct(FieldModel $field)
-    {
-        $this->field = $field;
-    }
-
-    /**
      * Handle the command.
      *
-     * @param $command
-     * @return $this|mixed
+     * @param DeleteFieldCommand       $command
+     * @param FieldRepositoryInterface $fields
+     * @return \Anomaly\Streams\Platform\Field\Contract\FieldInterface
      */
-    public function handle(DeleteFieldCommand $command)
+    public function handle(DeleteFieldCommand $command, FieldRepositoryInterface $fields)
     {
-        $field = $this->field->remove(
+        return $fields->delete(
             $command->getNamespace(),
             $command->getSlug()
         );
-
-        if ($field) {
-            $this->dispatchEventsFor($field);
-
-            return $field;
-        }
-
-        return false;
     }
 }
  

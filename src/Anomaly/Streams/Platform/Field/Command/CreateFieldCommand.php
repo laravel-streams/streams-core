@@ -1,5 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command;
 
+/**
+ * Class CreateFieldCommand
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Field\Command
+ */
 class CreateFieldCommand
 {
 
@@ -68,8 +76,8 @@ class CreateFieldCommand
         $slug,
         $type,
         $name = null,
-        array $config = [],
         array $rules = [],
+        array $config = [],
         $isLocked = false
     ) {
         $this->slug      = $slug;

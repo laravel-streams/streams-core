@@ -1,39 +1,31 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command;
 
-use Anomaly\Streams\Platform\Field\FieldModel;
+use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
+/**
+ * Class CreateFieldCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Field\Command
+ */
 class CreateFieldCommandHandler
 {
 
     use DispatchableTrait;
 
     /**
-     * The field model.
-     *
-     * @var \Anomaly\Streams\Platform\Field\FieldModel
-     */
-    protected $field;
-
-    /**
-     * Create a new InstallFieldCommandHandler instance.
-     *
-     * @param FieldModel $field
-     */
-    function __construct(FieldModel $field)
-    {
-        $this->field = $field;
-    }
-
-    /**
      * Handle the command.
      *
-     * @param $command
-     * @return $this|mixed
+     * @param CreateFieldCommand       $command
+     * @param FieldRepositoryInterface $fields
+     * @return \Anomaly\Streams\Platform\Field\Contract\FieldInterface
      */
-    public function handle(CreateFieldCommand $command)
+    public function handle(CreateFieldCommand $command, FieldRepositoryInterface $fields)
     {
-        $field = $this->field->add(
+        return $fields->create(
             $command->getNamespace(),
             $command->getSlug(),
             $command->getName(),
@@ -42,10 +34,6 @@ class CreateFieldCommandHandler
             $command->getConfig(),
             $command->getIsLocked()
         );
-
-        $this->dispatchEventsFor($field);
-
-        return $field;
     }
 }
  
