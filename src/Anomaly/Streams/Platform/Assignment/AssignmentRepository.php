@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class AssignmentRepository
@@ -70,6 +72,31 @@ class AssignmentRepository implements AssignmentRepositoryInterface
 
         $assignment->save();
     }
+
+    /**
+     * Delete an assignment.
+     *
+     * @param StreamInterface $stream
+     * @param FieldInterface  $field
+     * @return mixed
+     */
+    public function delete(StreamInterface $stream, FieldInterface $field)
+    {
+        $assignment = $this->model
+            ->where('stream_id', $stream->getId())
+            ->where('field_id', $field->getId())
+            ->first();
+
+        if ($assignment) {
+
+            $assignment->delete();
+
+            return $assignment;
+        }
+
+        return null;
+    }
+
 
     /**
      * Delete garbage records.
