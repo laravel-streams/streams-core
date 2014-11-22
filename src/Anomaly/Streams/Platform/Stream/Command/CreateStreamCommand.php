@@ -1,6 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Command;
 
-class AddStreamCommand
+/**
+ * Class CreateStreamCommand
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Stream\Command
+ */
+class CreateStreamCommand
 {
 
     /**
@@ -74,14 +82,7 @@ class AddStreamCommand
     protected $isTranslatable;
 
     /**
-     * The stream's revisionable flag.
-     *
-     * @var
-     */
-    protected $isRevisionable;
-
-    /**
-     * Create a new InstallStreamCommand instance.
+     * Create a new CreateStreamCommand instance.
      *
      * @param       $namespace
      * @param       $slug
@@ -94,7 +95,6 @@ class AddStreamCommand
      * @param       $sortBy
      * @param       $isHidden
      * @param       $isTranslatable
-     * @param       $isRevisionable
      */
     function __construct(
         $namespace,
@@ -106,8 +106,7 @@ class AddStreamCommand
         $titleColumn,
         $orderBy,
         $isHidden,
-        $isTranslatable,
-        $isRevisionable
+        $isTranslatable
     ) {
         $this->name           = $name;
         $this->slug           = $slug;
@@ -118,7 +117,6 @@ class AddStreamCommand
         $this->description    = $description;
         $this->titleColumn    = $titleColumn;
         $this->viewOptions    = $viewOptions;
-        $this->isRevisionable = $isRevisionable;
         $this->isTranslatable = $isTranslatable;
     }
 
@@ -136,14 +134,6 @@ class AddStreamCommand
     public function getIsHidden()
     {
         return $this->isHidden;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIsRevisionable()
-    {
-        return $this->isRevisionable;
     }
 
     /**

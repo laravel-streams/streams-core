@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Stream\Command\AddStreamCommand;
-use Anomaly\Streams\Platform\Stream\Command\RemoveStreamCommand;
+use Anomaly\Streams\Platform\Stream\Command\CreateStreamCommand;
+use Anomaly\Streams\Platform\Stream\Command\DeleteStreamCommand;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 
 class StreamService
@@ -33,7 +33,7 @@ class StreamService
 
         $description = isset($stream['description']) ? $stream['description'] : null;
 
-        $command = new AddStreamCommand(
+        $command = new CreateStreamCommand(
             $namespace,
             $slug,
             $prefix,
@@ -59,7 +59,7 @@ class StreamService
      */
     public function remove($namespace, $slug)
     {
-        $command = new RemoveStreamCommand($namespace, $slug);
+        $command = new DeleteStreamCommand($namespace, $slug);
 
         return $this->execute($command);
     }

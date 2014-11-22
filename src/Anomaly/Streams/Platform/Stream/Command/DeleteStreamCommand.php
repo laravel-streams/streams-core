@@ -1,6 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Command;
 
-class RemoveStreamCommand
+/**
+ * Class DeleteStreamCommand
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Stream\Command
+ */
+class DeleteStreamCommand
 {
 
     /**
@@ -18,7 +26,7 @@ class RemoveStreamCommand
     protected $slug;
 
     /**
-     * Create a new UninstallStreamCommand instance.
+     * Create a new DeleteStreamCommand instance.
      *
      * @param $namespace
      * @param $slug
