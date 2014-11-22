@@ -60,16 +60,16 @@ class StreamRepository implements StreamRepositoryInterface
     ) {
         $stream = $this->model->newInstance();
 
-        $stream->slug           = $slug;
-        $stream->name           = $name;
-        $stream->prefix         = $prefix;
-        $stream->orderBy        = $orderBy;
-        $stream->isHidden       = $isHidden;
-        $stream->namespace      = $namespace;
-        $stream->description    = $description;
-        $stream->viewOptions    = $viewOptions;
-        $stream->titleColumn    = $titleColumn;
-        $stream->isTranslatable = $isTranslatable;
+        $stream->slug            = $slug;
+        $stream->name            = $name;
+        $stream->prefix          = $prefix;
+        $stream->order_by        = $orderBy;
+        $stream->is_hidden       = $isHidden;
+        $stream->namespace       = $namespace;
+        $stream->description     = $description;
+        $stream->view_options    = $viewOptions;
+        $stream->title_column    = $titleColumn;
+        $stream->is_translatable = $isTranslatable;
 
         $stream->save();
 

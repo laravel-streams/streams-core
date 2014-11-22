@@ -81,8 +81,8 @@ class FieldInstaller implements InstallableInterface
             // Catch some convenient defaults.
             $field['slug'] = $slug;
 
-            $field['name']      = $this->getName($field);
             $field['namespace'] = $this->getNamespace($field);
+            $field['name']      = $this->getName($field);
 
             $this->fieldService->create($field);
         }

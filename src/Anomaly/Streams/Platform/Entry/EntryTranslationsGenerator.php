@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Entry\Parser\EntryNamespaceParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationsClassParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationsTableParser;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Generator;
 
 /**
@@ -51,11 +50,11 @@ class EntryTranslationsGenerator extends Generator
     /**
      * Compile the template.
      *
-     * @param                 $template
-     * @param StreamInterface $stream
+     * @param $template
+     * @param $stream
      * @return mixed
      */
-    public function compile($template, StreamInterface $stream)
+    public function compile($template, $stream)
     {
         $class     = $this->class->parse($stream);
         $table     = $this->table->parse($stream);

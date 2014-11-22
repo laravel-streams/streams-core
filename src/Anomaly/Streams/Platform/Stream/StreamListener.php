@@ -28,7 +28,7 @@ class StreamListener extends Listener
      *
      * @param StreamSavedEvent $event
      */
-    public function whenStreamWasSaved(StreamSavedEvent $event)
+    public function whenStreamSaved(StreamSavedEvent $event)
     {
         $this->generateEntryModels($event->getStream());
     }
@@ -38,7 +38,7 @@ class StreamListener extends Listener
      *
      * @param StreamCreatedEvent $event
      */
-    public function whenStreamWasCreated(StreamCreatedEvent $event)
+    public function whenStreamCreated(StreamCreatedEvent $event)
     {
         $this->createStreamsTable($event->getStream());
         $this->generateEntryModels($event->getStream());
@@ -49,7 +49,7 @@ class StreamListener extends Listener
      *
      * @param StreamDeletedEvent $event
      */
-    public function whenStreamWasDeleted(StreamDeletedEvent $event)
+    public function whenStreamDeleted(StreamDeletedEvent $event)
     {
         $this->execute(new DropStreamsEntryTableCommand($event->getStream()));
     }

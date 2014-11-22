@@ -1,8 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command;
 
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-
 /**
  * Class AssignFieldCommand
  *
@@ -87,21 +84,21 @@ class AssignFieldCommand
     /**
      * Create a new AssignFieldCommand instance.
      *
-     * @param                 $namespace
-     * @param StreamInterface $stream
-     * @param FieldInterface  $field
-     * @param null            $label
-     * @param int             $sortOrder
-     * @param bool            $isUnique
-     * @param bool            $isRequired
-     * @param null            $placeholder
-     * @param null            $instructions
-     * @param bool            $isTranslatable
+     * @param      $namespace
+     * @param      $stream
+     * @param      $field
+     * @param null $label
+     * @param int  $sortOrder
+     * @param bool $isUnique
+     * @param bool $isRequired
+     * @param null $placeholder
+     * @param null $instructions
+     * @param bool $isTranslatable
      */
     function __construct(
         $namespace,
-        StreamInterface $stream,
-        FieldInterface $field,
+        $stream,
+        $field,
         $label = null,
         $sortOrder = 0,
         $isUnique = false,

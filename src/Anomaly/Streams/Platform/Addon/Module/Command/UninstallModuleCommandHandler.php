@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalledEvent;
+use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
 /**
@@ -28,15 +30,7 @@ class UninstallModuleCommandHandler
 
         if ($installer = $module->newInstaller()) {
 
-            foreach (app($installer)->getInstallers() as $installer) {
-
-                if (!str_contains($installer, '\\')) {
-
-                    $installer = $this->guessInstaller($module, $installer);
-                }
-
-                app($installer)->uninstall();
-            }
+            $this->runInstaller($module, $installer);
         }
 
         $this->dispatch(new ModuleUninstalledEvent($module));
@@ -45,13 +39,32 @@ class UninstallModuleCommandHandler
     }
 
     /**
+     * Run the installer.
+     *
+     * @param Module          $module
+     * @param ModuleInstaller $installer
+     */
+    protected function runInstaller(Module $module, ModuleInstaller $installer)
+    {
+        foreach ($installer->getInstallers() as $installer) {
+
+            if (!str_contains($installer, '\\')) {
+
+                $installer = $this->guessInstaller($module, $installer);
+            }
+
+            app($installer)->uninstall();
+        }
+    }
+
+    /**
      * Guess the installer if it's shorthand.
      *
-     * @param $module
-     * @param $installer
+     * @param Module $module
+     * @param        $installer
      * @return string
      */
-    protected function guessInstaller($module, $installer)
+    protected function guessInstaller(Module $module, $installer)
     {
         $addon = new \ReflectionClass($module);
 

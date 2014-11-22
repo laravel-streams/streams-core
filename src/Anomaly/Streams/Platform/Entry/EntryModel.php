@@ -67,7 +67,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             $this->setAttribute('created_at', time());
             $this->setAttribute('created_by', $userId);
             $this->setAttribute('updated_at', null);
-            $this->setAttribute('ordering_count', $this->count('id') + 1);
+            $this->setAttribute('sort_order', $this->count('id') + 1);
         } else {
 
             $this->setAttribute('updated_at', time());
