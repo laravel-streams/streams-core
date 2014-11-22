@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Contract;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Interface AssignmentInterface
@@ -16,14 +19,14 @@ interface AssignmentInterface
     /**
      * Get the related stream.
      *
-     * @return mixed
+     * @return StreamInterface
      */
     public function getStream();
 
     /**
      * Get the related field.
      *
-     * @return mixed
+     * @return FieldInterface
      */
     public function getField();
 
@@ -51,21 +54,21 @@ interface AssignmentInterface
     /**
      * Get the unique flag.
      *
-     * @return mixed
+     * @return bool
      */
     public function isUnique();
 
     /**
      * Get the required flag.
      *
-     * @return mixed
+     * @return bool
      */
     public function isRequired();
 
     /**
      * Get the translatable flag.
      *
-     * @return mixed
+     * @return bool
      */
     public function isTranslatable();
 
@@ -81,7 +84,7 @@ interface AssignmentInterface
      *
      * @param EntryInterface $entry
      * @param null           $locale
-     * @return mixed
+     * @return FieldType
      */
     public function getFieldType(EntryInterface $entry = null, $locale = null);
 }

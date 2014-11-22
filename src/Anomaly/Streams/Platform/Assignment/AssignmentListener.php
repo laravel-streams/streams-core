@@ -50,7 +50,9 @@ class AssignmentListener extends Listener
     {
         $assignment = $event->getAssignment();
 
-        $assignment->getStream()->save();
+        $stream = $assignment->getStream();
+
+        $stream->compile();
     }
 }
  

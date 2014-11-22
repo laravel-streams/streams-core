@@ -1,15 +1,23 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentSavedEvent;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreatedEvent;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentDeletedEvent;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentSavedEvent;
 use Anomaly\Streams\Platform\Model\EloquentModelObserver;
 
+/**
+ * Class AssignmentModelObserver
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Assignment
+ */
 class AssignmentModelObserver extends EloquentModelObserver
 {
 
     /**
-     * Run after saving a record.
+     * Run after an assignment is saved.
      *
      * @param $model
      */
@@ -21,7 +29,7 @@ class AssignmentModelObserver extends EloquentModelObserver
     }
 
     /**
-     * Run after a record is created.
+     * Run after an assignment is created.
      *
      * @param $model
      */
@@ -33,7 +41,7 @@ class AssignmentModelObserver extends EloquentModelObserver
     }
 
     /**
-     * Run after a record has been deleted.
+     * Run after an assignment is deleted.
      *
      * @param $model
      */
