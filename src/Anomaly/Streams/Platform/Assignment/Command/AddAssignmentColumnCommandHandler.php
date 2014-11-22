@@ -30,13 +30,16 @@ class AddAssignmentColumnCommandHandler
         $columnName = $type->getColumnName();
         $columnType = $type->getColumnType();
 
-        $schema->addColumn($table, $columnName, $columnType);
-
-        if ($assignment->isTranslatable()) {
-
-            $table = $stream->getEntryTranslationsTableName();
+        if ($columnType) {
 
             $schema->addColumn($table, $columnName, $columnType);
+
+            if ($assignment->isTranslatable()) {
+
+                $table = $stream->getEntryTranslationsTableName();
+
+                $schema->addColumn($table, $columnName, $columnType);
+            }
         }
     }
 }

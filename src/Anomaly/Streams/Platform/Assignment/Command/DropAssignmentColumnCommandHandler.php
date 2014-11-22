@@ -2,32 +2,41 @@
 
 use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
 
+/**
+ * Class DropAssignmentColumnCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Assignment\Command
+ */
 class DropAssignmentColumnCommandHandler
 {
 
-    protected $schema;
-
-    function __construct(AssignmentSchema $schema)
-    {
-        $this->schema  = $schema;
-    }
-
-    public function handle(DropAssignmentColumnCommand $command)
+    /**
+     * Handle the command.
+     *
+     * @param DropAssignmentColumnCommand $command
+     * @param AssignmentSchema            $schema
+     */
+    public function handle(DropAssignmentColumnCommand $command, AssignmentSchema $schema)
     {
         $assignment = $command->getAssignment();
 
-        $fieldType = $assignment->type();
+        $stream = $assignment->getStream();
+        $type   = $assignment->getFieldType();
 
-        $table      = $assignment->stream->getEntryTableName();
-        $columnName = $fieldType->getColumnName();
+        $table = $stream->getEntryTableName();
 
-        $this->schema->dropColumn($table, $columnName);
+        $columnName = $type->getColumnName();
 
-        if ($assignment->stream->is_translatable and $assignment->is_translatable) {
+        $schema->dropColumn($table, $columnName);
 
-            $table = $assignment->stream->getEntryTranslationsTableName();
+        if ($assignment->isTranslatable()) {
 
-            $this->schema->dropColumn($table, $columnName);
+            $table = $stream->getEntryTranslationsTableName();
+
+            $schema->dropColumn($table, $columnName);
         }
     }
 }
