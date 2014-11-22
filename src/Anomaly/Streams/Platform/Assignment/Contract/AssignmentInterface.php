@@ -87,4 +87,26 @@ interface AssignmentInterface
      * @return FieldType
      */
     public function getFieldType(EntryInterface $entry = null, $locale = null);
+
+    /**
+     * Get the column name.
+     *
+     * @return mixed
+     */
+    public function getColumnName();
+
+    /**
+     * Get all attributes.
+     *
+     * @return mixed
+     */
+    public function getAttributes();
+
+    /**
+     * Get an attribute.
+     *
+     * @param $key
+     * @return mixed
+     */
+    public function getAttribute($key);
 }

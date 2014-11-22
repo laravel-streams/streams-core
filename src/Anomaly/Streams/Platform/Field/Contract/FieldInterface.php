@@ -57,5 +57,20 @@ interface FieldInterface
      * @return mixed
      */
     public function isLocked();
+
+    /**
+     * Get all attributes.
+     *
+     * @return mixed
+     */
+    public function getAttributes();
+
+    /**
+     * Get an attribute.
+     *
+     * @param $key
+     * @return mixed
+     */
+    public function getAttribute($key);
 }
  

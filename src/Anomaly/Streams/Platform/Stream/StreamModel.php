@@ -137,6 +137,16 @@ class StreamModel extends EloquentModel implements StreamInterface
     }
 
     /**
+     * Get the title column.
+     *
+     * @return mixed
+     */
+    public function getTitleColumn()
+    {
+        return $this->title_column;
+    }
+
+    /**
      * Get the related assignments.
      *
      * @return AssignmentCollection

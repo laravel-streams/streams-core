@@ -59,6 +59,13 @@ interface StreamInterface
     public function isTranslatable();
 
     /**
+     * Get the title column.
+     *
+     * @return mixed
+     */
+    public function getTitleColumn();
+
+    /**
      * Get the related assignments.
      *
      * @return AssignmentCollection
@@ -102,5 +109,20 @@ interface StreamInterface
      * @return mixed
      */
     public function getEntryTranslationsTableName();
+
+    /**
+     * Get all attributes.
+     *
+     * @return mixed
+     */
+    public function getAttributes();
+
+    /**
+     * Get an attribute.
+     *
+     * @param $key
+     * @return mixed
+     */
+    public function getAttribute($key);
 }
  
