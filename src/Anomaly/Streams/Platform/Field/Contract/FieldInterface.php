@@ -15,6 +15,13 @@ interface FieldInterface
 {
 
     /**
+     * Get the ID.
+     *
+     * @return mixed
+     */
+    public function getId();
+
+    /**
      * Get the name.
      *
      * @return mixed
