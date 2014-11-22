@@ -2,36 +2,41 @@
 
 use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
 
+/**
+ * Class AddAssignmentColumnCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Assignment\Command
+ */
 class AddAssignmentColumnCommandHandler
 {
 
-    protected $schema;
-
-    function __construct(AssignmentSchema $schema)
-    {
-        $this->schema = $schema;
-    }
-
-    public function handle(AddAssignmentColumnCommand $command)
+    /**
+     * Handle the command.
+     *
+     * @param AddAssignmentColumnCommand $command
+     */
+    public function handle(AddAssignmentColumnCommand $command, AssignmentSchema $schema)
     {
         $assignment = $command->getAssignment();
 
-        $fieldType = $assignment->type();
+        $stream = $assignment->getStream();
+        $type   = $assignment->getFieldType();
 
-        if ($fieldType->getColumnType()) {
+        $table = $stream->getEntryTableName();
 
-            $table      = $assignment->stream->getEntryTableName();
-            $columnName = $fieldType->getColumnName();
-            $columnType = $fieldType->getColumnType();
+        $columnName = $type->getColumnName();
+        $columnType = $type->getColumnType();
 
-            $this->schema->addColumn($table, $columnName, $columnType);
+        $schema->addColumn($table, $columnName, $columnType);
 
-            if ($assignment->stream->is_translatable and $assignment->is_translatable) {
+        if ($assignment->isTranslatable()) {
 
-                $table = $assignment->stream->getEntryTranslationsTableName();
+            $table = $stream->getEntryTranslationsTableName();
 
-                $this->schema->addColumn($table, $columnName, $columnType);
-            }
+            $schema->addColumn($table, $columnName, $columnType);
         }
     }
 }
