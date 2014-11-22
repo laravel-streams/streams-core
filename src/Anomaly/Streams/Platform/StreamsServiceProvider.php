@@ -1,7 +1,10 @@
 <?php namespace Anomaly\Streams\Platform;
 
+use Anomaly\Streams\Platform\Support\YamlConfigFileLoader;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Symfony\Component\Yaml\Parser;
 
 /**
  * Class StreamsServiceProvider
@@ -33,9 +36,25 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerConfigLoader();
+
         $this->registerPackageAliases();
         $this->registerPackages();
         $this->registerCore();
+    }
+
+    /**
+     * Register our custom YAML config loader.
+     */
+    protected function registerConfigLoader()
+    {
+        app('config')->setLoader(
+            new YamlConfigFileLoader(
+                new Filesystem(),
+                new Parser(),
+                base_path('config')
+            )
+        );
     }
 
     /**

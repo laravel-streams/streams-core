@@ -5,14 +5,14 @@ use Illuminate\Translation\FileLoader;
 use Symfony\Component\Yaml\Parser;
 
 /**
- * Class YamlFileLoader
+ * Class YamlLangFileLoader
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Support
  */
-class YamlFileLoader extends FileLoader
+class YamlLangFileLoader extends FileLoader
 {
 
     /**
@@ -23,7 +23,7 @@ class YamlFileLoader extends FileLoader
     protected $parser;
 
     /**
-     * Create a new YamlFileLoader instance.
+     * Create a new YamlLangFileLoader instance.
      *
      * @param Filesystem $files
      * @param Parser     $parser
