@@ -70,6 +70,13 @@ interface AssignmentInterface
     public function isTranslatable();
 
     /**
+     * Get the field slug.
+     *
+     * @return mixed
+     */
+    public function getFieldSlug();
+
+    /**
      * Get the assignment's field's type.
      *
      * @param EntryInterface $entry
@@ -77,11 +84,4 @@ interface AssignmentInterface
      * @return mixed
      */
     public function getFieldType(EntryInterface $entry = null, $locale = null);
-
-    /**
-     * Get the field slug.
-     *
-     * @return mixed
-     */
-    public function getFieldSlug();
 }
