@@ -3,37 +3,35 @@
 use Anomaly\Streams\Platform\Stream\StreamSchema;
 
 /**
- * Class CreateStreamsEntryTableCommandHandler
+ * Class DropStreamsEntryTableCommandHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Stream\Command
  */
-class CreateStreamsEntryTableCommandHandler
+class DropStreamsEntryTableCommandHandler
 {
 
     /**
-     * Create a new CreateStreamsEntryTableCommandHandler instance.
+     * Handle the command.
      *
-     * @param CreateStreamsEntryTableCommand $command
-     * @param StreamSchema                   $schema
+     * @param DropStreamsEntryTableCommand $command
+     * @param StreamSchema                 $schema
      */
-    public function handle(CreateStreamsEntryTableCommand $command, StreamSchema $schema)
+    public function handle(DropStreamsEntryTableCommand $command, StreamSchema $schema)
     {
         $stream = $command->getStream();
 
         $table = $stream->getEntryTableName();
 
-        $schema->createTable($table);
+        $schema->dropTable($table);
 
         if ($stream->isTranslatable()) {
 
             $table = $stream->getEntryTranslationsTableName();
 
-            $foreignKey = $stream->getForeignKey();
-
-            $schema->createTranslationsTable($table, $foreignKey);
+            $schema->dropTable($table);
         }
     }
 }

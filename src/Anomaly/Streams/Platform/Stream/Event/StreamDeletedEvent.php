@@ -1,39 +1,39 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Event;
 
-use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class StreamWasSavedEvent
+ * Class StreamDeletedEvent
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Stream\Event
  */
-class StreamWasSavedEvent
+class StreamDeletedEvent
 {
 
     /**
-     * The stream model object.
+     * The stream interface.
      *
-     * @var \Anomaly\Streams\Platform\Stream\StreamModel
+     * @var \Anomaly\Streams\Platform\Stream\Contract\StreamInterface
      */
     protected $stream;
 
     /**
-     * Create a new StreamWasSavedEvent instance.
+     * Create a new StreamDeletedEvent instance.
      *
-     * @param StreamModel $stream
+     * @param StreamInterface $stream
      */
-    function __construct(StreamModel $stream)
+    function __construct(StreamInterface $stream)
     {
         $this->stream = $stream;
     }
 
     /**
-     * Get the stream model object.
+     * Get the stream interface.
      *
-     * @return mixed
+     * @return StreamInterface
      */
     public function getStream()
     {

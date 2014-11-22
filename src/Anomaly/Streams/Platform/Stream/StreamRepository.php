@@ -62,7 +62,7 @@ class StreamRepository implements StreamRepositoryInterface
 
         $stream->slug           = $slug;
         $stream->name           = $name;
-        $this->prefix           = $prefix;
+        $stream->prefix         = $prefix;
         $stream->orderBy        = $orderBy;
         $stream->isHidden       = $isHidden;
         $stream->namespace      = $namespace;

@@ -118,6 +118,13 @@ interface StreamInterface
     public function getEntryTranslationsTableName();
 
     /**
+     * Get the foreign key.
+     *
+     * @return mixed
+     */
+    public function getForeignKey();
+
+    /**
      * Get all attributes.
      *
      * @return mixed

@@ -1,33 +1,68 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Field\FieldModel;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 
+/**
+ * Class StreamUtility
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Stream
+ */
 class StreamUtility
 {
 
     /**
-     * Create a new StreamSchemaUtility instance.
+     * The fields repository interface.
+     *
+     * @var \Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface
      */
-    public function __construct()
-    {
-        $this->streams     = new StreamModel();
-        $this->fields      = new FieldModel();
-        $this->assignments = new AssignmentModel();
+    protected $fields;
+
+    /**
+     * The streams repository interface
+     *
+     * @var Contract\StreamRepositoryInterface
+     */
+    protected $streams;
+
+    /**
+     * The assignments repository interface
+     *
+     * @var \Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface
+     */
+    protected $assignments;
+
+    /**
+     * Create a new StreamUtility instance.
+     *
+     * @param FieldRepositoryInterface      $fields
+     * @param StreamRepositoryInterface     $streams
+     * @param AssignmentRepositoryInterface $assignments
+     */
+    public function __construct(
+        FieldRepositoryInterface $fields,
+        StreamRepositoryInterface $streams,
+        AssignmentRepositoryInterface $assignments
+    ) {
+        $this->fields      = $fields;
+        $this->streams     = $streams;
+        $this->assignments = $assignments;
     }
 
     /**
      * Destroy a stream namespace.
      *
      * @param $namespace
-     * @return bool
      */
     public function destroyNamespace($namespace)
     {
-        $this->streams->findAllByNamespace($namespace)->delete();
-        $this->fields->findAllByNamespace($namespace)->delete();
-
-        return true;
+        // TODO: Verify this deletes each individually.
+        $this->streams->getAllWithNamespace($namespace)->delete();
+        $this->fields->getAllWithNamespace($namespace)->delete();
     }
 
     /**
@@ -35,7 +70,7 @@ class StreamUtility
      */
     public function cleanup()
     {
-        $this->fields->findAllOrphaned()->delete();
-        $this->assignments->findAllOrphaned()->delete();
+        $this->fields->deleteGarbage();
+        $this->assignments->deleteGarbage();
     }
 }

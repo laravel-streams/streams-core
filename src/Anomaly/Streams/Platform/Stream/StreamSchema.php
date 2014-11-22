@@ -1,22 +1,46 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder;
+
+/**
+ * Class StreamSchema
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Stream
+ */
 class StreamSchema
 {
 
+    /**
+     * The schema builder.
+     *
+     * @var Builder
+     */
     protected $schema;
 
+    /**
+     * Create a new StreamSchema instance.
+     */
     public function __construct()
     {
         $this->schema = app('db')->connection()->getSchemaBuilder();
     }
 
+    /**
+     * Create a table.
+     *
+     * @param $table
+     */
     public function createTable($table)
     {
         $this->schema->dropIfExists($table);
 
         $this->schema->create(
             $table,
-            function ($table) {
+            function (Blueprint $table) {
 
                 $table->increments('id');
                 $table->integer('sort_order')->nullable();
@@ -28,13 +52,19 @@ class StreamSchema
         );
     }
 
+    /**
+     * Create translations table.
+     *
+     * @param $table
+     * @param $foreignKey
+     */
     public function createTranslationsTable($table, $foreignKey)
     {
         $this->schema->dropIfExists($table);
 
         $this->schema->create(
             $table,
-            function ($table) use ($foreignKey) {
+            function (Blueprint $table) use ($foreignKey) {
 
                 $table->increments('id');
                 $table->integer($foreignKey);
@@ -45,5 +75,15 @@ class StreamSchema
                 $table->string('locale')->index();
             }
         );
+    }
+
+    /**
+     * Drop a table.
+     *
+     * @param $table
+     */
+    public function dropTable($table)
+    {
+        $this->schema->dropIfExists($table);
     }
 }

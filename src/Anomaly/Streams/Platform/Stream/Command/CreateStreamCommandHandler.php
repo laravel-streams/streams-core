@@ -19,8 +19,7 @@ class CreateStreamCommandHandler
      *
      * @param CreateStreamCommand       $command
      * @param StreamRepositoryInterface $streams
-     * @return mixed
-     * @throws \Exception
+     * @return \Anomaly\Streams\Platform\Stream\Contract\StreamInterface
      */
     public function handle(CreateStreamCommand $command, StreamRepositoryInterface $streams)
     {

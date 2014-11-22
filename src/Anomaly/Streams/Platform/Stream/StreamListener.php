@@ -3,9 +3,10 @@
 use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelCommand;
 use Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModelCommand;
 use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTableCommand;
-use Anomaly\Streams\Platform\Stream\Event\StreamWasCreatedEvent;
-use Anomaly\Streams\Platform\Stream\Event\StreamWasDeletedEvent;
-use Anomaly\Streams\Platform\Stream\Event\StreamWasSavedEvent;
+use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTableCommand;
+use Anomaly\Streams\Platform\Stream\Event\StreamCreatedEvent;
+use Anomaly\Streams\Platform\Stream\Event\StreamDeletedEvent;
+use Anomaly\Streams\Platform\Stream\Event\StreamSavedEvent;
 use Anomaly\Streams\Platform\Support\Listener;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 
@@ -25,9 +26,9 @@ class StreamListener extends Listener
     /**
      * Fire after a stream is saved.
      *
-     * @param StreamWasSavedEvent $event
+     * @param StreamSavedEvent $event
      */
-    public function whenStreamWasSaved(StreamWasSavedEvent $event)
+    public function whenStreamWasSaved(StreamSavedEvent $event)
     {
         $this->generateEntryModels($event->getStream());
     }
@@ -35,9 +36,9 @@ class StreamListener extends Listener
     /**
      * Fire after a stream is created.
      *
-     * @param StreamWasCreatedEvent $event
+     * @param StreamCreatedEvent $event
      */
-    public function whenStreamWasCreated(StreamWasCreatedEvent $event)
+    public function whenStreamWasCreated(StreamCreatedEvent $event)
     {
         $this->createStreamsTable($event->getStream());
         $this->generateEntryModels($event->getStream());
@@ -46,11 +47,11 @@ class StreamListener extends Listener
     /**
      * Fire after a stream is deleted.
      *
-     * @param StreamWasDeletedEvent $event
+     * @param StreamDeletedEvent $event
      */
-    public function whenStreamWasDeleted(StreamWasDeletedEvent $event)
+    public function whenStreamWasDeleted(StreamDeletedEvent $event)
     {
-        //
+        $this->execute(new DropStreamsEntryTableCommand($event->getStream()));
     }
 
     /**

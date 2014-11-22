@@ -5,6 +5,14 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
+/**
+ * Class StreamModel
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Stream
+ */
 class StreamModel extends EloquentModel implements StreamInterface
 {
 
@@ -251,6 +259,17 @@ class StreamModel extends EloquentModel implements StreamInterface
     {
         return $this->getEntryTableName() . '_translations';
     }
+
+    /**
+     * Get the foreign key.
+     *
+     * @return string
+     */
+    public function getForeignKey()
+    {
+        return str_singular($this->getSlug()) . '_id';
+    }
+
 
     /**
      * Return the assignments relation.
