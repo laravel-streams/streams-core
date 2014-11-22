@@ -23,6 +23,7 @@ class Observer
      */
     public function creating($model)
     {
+        //
     }
 
     /**
@@ -54,6 +55,7 @@ class Observer
      */
     public function saved($model)
     {
+        //
     }
 
     /**
@@ -63,6 +65,7 @@ class Observer
      */
     public function updating($model)
     {
+        //
     }
 
     /**
@@ -82,6 +85,7 @@ class Observer
      */
     public function deleting($model)
     {
+        //
     }
 
     /**
@@ -101,6 +105,7 @@ class Observer
      */
     public function restoring($model)
     {
+        //
     }
 
     /**
