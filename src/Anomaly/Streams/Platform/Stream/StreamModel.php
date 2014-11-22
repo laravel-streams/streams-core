@@ -219,7 +219,7 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     public function getEntryTableName()
     {
-        return $this->getPrefix() . $this->getNamespace() . '_' . $this->getSlug();
+        return $this->getPrefix() . $this->getSlug();
     }
 
     /**
@@ -229,7 +229,7 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     public function getEntryTranslationsTableName()
     {
-        return $this->getPrefix() . $this->getNamespace() . '_' . $this->getSlug() . '_translations';
+        return $this->getEntryTableName() . '_translations';
     }
 
     /**
