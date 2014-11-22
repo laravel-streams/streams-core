@@ -203,6 +203,26 @@ class StreamModel extends EloquentModel implements StreamInterface
     }
 
     /**
+     * Get the entry table name.
+     *
+     * @return string
+     */
+    public function getEntryTableName()
+    {
+        return $this->getPrefix() . $this->getNamespace() . '_' . $this->getSlug();
+    }
+
+    /**
+     * Get the entry translations table name.
+     *
+     * @return string
+     */
+    public function getEntryTranslationsTableName()
+    {
+        return $this->getPrefix() . $this->getNamespace() . '_' . $this->getSlug() . '_translations';
+    }
+
+    /**
      * Return the assignments relation.
      *
      * @return mixed

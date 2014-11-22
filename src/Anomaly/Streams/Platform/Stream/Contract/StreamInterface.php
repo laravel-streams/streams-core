@@ -81,5 +81,19 @@ interface StreamInterface
      * @return FieldType
      */
     public function getFieldType($fieldSlug);
+
+    /**
+     * Get the entry table name.
+     *
+     * @return mixed
+     */
+    public function getEntryTableName();
+
+    /**
+     * Get the entry translations table name.
+     *
+     * @return mixed
+     */
+    public function getEntryTranslationsTableName();
 }
  
