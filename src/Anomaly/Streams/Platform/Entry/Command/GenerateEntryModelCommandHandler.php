@@ -1,35 +1,48 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command;
 
 use Anomaly\Streams\Platform\Entry\EntryGenerator;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
+/**
+ * Class GenerateEntryModelCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Entry\Command
+ */
 class GenerateEntryModelCommandHandler
 {
 
-    protected $generator;
-
-    function __construct(EntryGenerator $generator)
+    /**
+     * Handle the command.
+     *
+     * @param GenerateEntryModelCommand $command
+     */
+    public function handle(GenerateEntryModelCommand $command, EntryGenerator $generator)
     {
-        $this->generator = $generator;
-    }
+        $stream = $command->getStream();
 
-    public function handle(GenerateEntryModelCommand $command)
-    {
+        $path = $this->getPath($stream);
+
         $template = file_get_contents(streams_path('resources/assets/generator/model.txt'));
 
-        $data = $command->getStream();
-
-        $path = $this->getPath($data);
-
-        $this->generator->make($template, $data, $path);
+        $generator->make($template, $stream, $path);
     }
 
-    protected function getPath($stream)
+    /**
+     * Get the destination path the compiled entry model.
+     *
+     * @param StreamInterface $stream
+     * @return string
+     */
+    protected function getPath(StreamInterface $stream)
     {
         $path = storage_path('models/streams/' . APP_REF . '/');
 
-        $path .= studly_case($stream->namespace) . '/';
+        $path .= studly_case($stream->getNamespace()) . '/';
 
-        return $path . studly_case($stream->namespace) . studly_case($stream->slug) . 'EntryModel.php';
+        return $path . studly_case($stream->getNamespace()) . studly_case($stream->getSlug()) . 'EntryModel.php';
     }
 }
  
