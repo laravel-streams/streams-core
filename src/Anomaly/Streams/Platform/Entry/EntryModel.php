@@ -94,9 +94,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getTitle()
     {
-        $key = $this->titleKey ? : $this->stream->title_column;
-
-        return $this->{$key};
+        return $this->{$this->titleKey};
     }
 
     /**

@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModelPresenter;
 
@@ -30,9 +29,7 @@ class EntryModelPresenter extends EloquentModelPresenter
      */
     public function __get($key)
     {
-        $type = $this->resource->getFieldType($key);
-
-        if ($type instanceof FieldType) {
+        if ($type = $this->resource->getFieldType($key)) {
 
             return $type->newPresenter();
         }

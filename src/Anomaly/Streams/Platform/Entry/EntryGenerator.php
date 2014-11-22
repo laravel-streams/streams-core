@@ -13,33 +13,92 @@ use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationForeignKeyParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
 use Anomaly\Streams\Platform\Support\Generator;
 
+/**
+ * Class EntryGenerator
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Entry
+ */
 class EntryGenerator extends Generator
 {
 
+    /**
+     * The class parser.
+     *
+     * @var Parser\EntryClassParser
+     */
     protected $class;
 
+    /**
+     * The title parser.
+     *
+     * @var Parser\EntryTitleParser
+     */
     protected $title;
 
+    /**
+     * The table parser.
+     *
+     * @var Parser\EntryTableParser
+     */
     protected $table;
 
+    /**
+     * The rules parser.
+     *
+     * @var Parser\EntryRulesParser
+     */
     protected $rules;
 
+    /**
+     * The dates parser.
+     *
+     * @var Parser\EntryDatesParser
+     */
     protected $dates;
 
+    /**
+     * The stream parser.
+     *
+     * @var Parser\EntryStreamParser
+     */
     protected $stream;
 
+    /**
+     * The relations parser.
+     *
+     * @var Parser\EntryRelationsParser
+     */
     protected $relations;
 
+    /**
+     * The namespace parser.
+     *
+     * @var Parser\EntryNamespaceParser
+     */
     protected $namespace;
 
+    /**
+     * The translation parser.
+     *
+     * @var Parser\EntryTranslationModelParser
+     */
     protected $translationModel;
 
+    /**
+     * The translation foreign key parser.
+     *
+     * @var Parser\EntryTranslationForeignKeyParser
+     */
     protected $translationForeignKey;
 
+    /**
+     * Create a new EntryGenerator instance.
+     */
     public function __construct()
     {
-        parent::__construct();
-
         $this->class                 = new EntryClassParser();
         $this->title                 = new EntryTitleParser();
         $this->table                 = new EntryTableParser();
@@ -52,6 +111,13 @@ class EntryGenerator extends Generator
         $this->translationForeignKey = new EntryTranslationForeignKeyParser();
     }
 
+    /**
+     * Compile the template.
+     *
+     * @param $template
+     * @param $data
+     * @return mixed
+     */
     public function compile($template, $data)
     {
         $class                 = $this->class->parse($data);
