@@ -1,93 +1,114 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Parser;
 
-use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Support\Parser;
 
-class EntryStreamParser
+/**
+ * Class EntryStreamParser
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Entry\Parser
+ */
+class EntryStreamParser extends Parser
 {
 
-    public function parse(StreamModel $stream)
+    /**
+     * Parse the stream data.
+     *
+     * @param StreamInterface $stream
+     * @return string
+     */
+    public function parse(StreamInterface $stream)
     {
-        // Stream attributes array
         $string = '[';
 
-        foreach ($stream->getAttributes() as $key => $value) {
+        $this->parseStream($stream, $string);
+        $this->parseAssignments($stream, $string);
 
-            $value = $this->toString($value, in_array($key, ['stream_name', 'about']));
-
-            $string .= "\n{$this->s(8)}'{$key}' => {$value},";
-        }
-
-        // Assignments array
-        $string .= "\n{$this->s(8)}'assignments' => [";
-
-        foreach ($stream->assignments as $assignment) {
-
-            // Assignment attributes array
-            $string .= "\n{$this->s(12)}[";
-
-            foreach ($assignment->getAttributes() as $key => $value) {
-
-                $value = $this->toString($assignment->getAttribute($key), in_array($key, ['instructions']));
-
-                $string .= "\n{$this->s(16)}'{$key}' => {$value},";
-            }
-
-            // Field attributes array
-            $string .= "\n{$this->s(16)}'field' => [";
-
-            foreach ($assignment->field->getAttributes() as $key => $value) {
-
-                $value = $this->toString($assignment->field->getAttribute($key), in_array($key, ['field_name']));
-
-                $string .= "\n{$this->s(20)}'{$key}' => {$value},";
-            }
-
-            // End field attributes array
-            $string .= "\n{$this->s(16)}],";
-
-            // End assignment attributes array
-            $string .= "\n{$this->s(12)}],";
-        }
-
-        // End assignments array
-        $string .= "\n{$this->s(8)}],";
-
-        // End stream attributes array
         $string .= "\n{$this->s(4)}]";
 
         return $string;
     }
 
-    protected function toString($value, $escape = false)
+    /**
+     * Parse the stream.
+     *
+     * @param StreamInterface $stream
+     * @param                 $string
+     */
+    protected function parseStream(StreamInterface $stream, &$string)
     {
-        if (is_null($value)) {
+        foreach ($stream->getAttributes() as $key => $value) {
 
-            return 'null';
-        } elseif (is_bool($value)) {
+            $value = $this->toString($value, in_array($key, ['name', 'description']));
 
-            if ($value) {
-
-                return 'true';
-            } else {
-
-                return 'false';
-            }
-        } elseif (is_array($value)) {
-
-            return "'" . serialize($value) . "'";
+            $string .= "\n{$this->s(8)}'{$key}' => {$value},";
         }
-
-        if ($escape) {
-
-            $value = addslashes($value);
-        }
-
-        return "'" . $value . "'";
     }
 
-    protected function s($n)
+    /**
+     * Parse the assignments.
+     *
+     * @param StreamInterface $stream
+     * @param                 $string
+     */
+    protected function parseAssignments(StreamInterface $stream, &$string)
     {
-        return str_repeat("\x20", $n);
+        $string .= "\n{$this->s(8)}'assignments' => [";
+
+        foreach ($stream->getAssignments() as $assignment) {
+
+            $this->parseAssignment($assignment, $string);
+        }
+
+        $string .= "\n{$this->s(8)}],";
+    }
+
+    /**
+     * Parse an assignment.
+     *
+     * @param AssignmentInterface $assignment
+     * @param                     $string
+     */
+    protected function parseAssignment(AssignmentInterface $assignment, &$string)
+    {
+        $string .= "\n{$this->s(12)}[";
+
+        foreach ($assignment->getAttributes() as $key => $value) {
+
+            $value = $this->toString($assignment->getAttribute($key), in_array($key, ['instructions']));
+
+            $string .= "\n{$this->s(16)}'{$key}' => {$value},";
+        }
+
+        // Parse this assignment field.
+        $this->parseField($assignment->getField(), $string);
+
+        $string .= "\n{$this->s(12)}],";
+    }
+
+    /**
+     * Parse an assignment field.
+     *
+     * @param FieldInterface $field
+     * @param                $string
+     */
+    protected function parseField(FieldInterface $field, &$string)
+    {
+        $string .= "\n{$this->s(16)}'field' => [";
+
+        foreach ($field->getAttributes() as $key => $value) {
+
+            $value = $this->toString($field->getAttribute($key), in_array($key, ['field_name']));
+
+            $string .= "\n{$this->s(20)}'{$key}' => {$value},";
+        }
+
+        $string .= "\n{$this->s(16)}],";
     }
 }
  

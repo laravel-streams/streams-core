@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Parser;
 
-use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class EntryTitleParser
@@ -14,14 +14,14 @@ class EntryTitleParser
 {
 
     /**
-     * Parse the title key for an entry model.
+     * Return the title key for an entry model.
      *
-     * @param StreamModel $stream
+     * @param StreamInterface $stream
      * @return mixed
      */
-    public function parse(StreamModel $stream)
+    public function parse(StreamInterface $stream)
     {
-        return $stream->title_column;
+        return $stream->getTitleColumn();
     }
 }
  

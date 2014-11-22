@@ -1,68 +1,65 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Parser;
 
-use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Support\Parser;
 
-class EntryRelationsParser
+/**
+ * Class EntryRelationsParser
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Entry\Parser
+ */
+class EntryRelationsParser extends Parser
 {
 
-    public function parse(StreamModel $stream)
+    /**
+     * Parse the relation methods.
+     *
+     * @param StreamInterface $stream
+     * @return string
+     */
+    public function parse(StreamInterface $stream)
     {
         $string = '';
 
-        foreach ($stream->assignments->relations() as $assignment) {
+        $assignments = $stream->getAssignments();
 
-            $slug = $assignment->field->slug;
+        foreach ($assignments->relations() as $assignment) {
 
-            $method = camel_case($slug);
-
-            $relationString = '';
-
-            $relationString .= "\n{$this->s(4)}public function {$method}()";
-
-            $relationString .= "\n{$this->s(4)}{";
-
-            $relationString .= "\n\n{$this->s(8)}return \$this->getFieldType('{$slug}')->getRelation(\$this);";
-
-            $relationString .= "\n{$this->s(4)}}";
-
-            $relationString .= "\n";
-
-            $string .= $relationString;
+            $this->parseAssignment($assignment, $string);
         }
 
         return $string;
     }
 
-    protected function toString($value, $escape = false)
+    /**
+     * Parse an assignment relation.
+     *
+     * @param AssignmentInterface $assignment
+     * @param                     $string
+     */
+    protected function parseAssignment(AssignmentInterface $assignment, &$string)
     {
-        if (is_null($value)) {
+        $fieldSlug = $assignment->getFieldSlug();
 
-            return 'null';
-        } elseif (is_bool($value)) {
+        $method = camel_case($fieldSlug);
 
-            if ($value) {
+        $relationString = '';
 
-                return 'true';
-            } else {
+        $relationString .= "\n{$this->s(4)}public function {$method}()";
 
-                return 'false';
-            }
-        } elseif (is_array($value)) {
+        $relationString .= "\n{$this->s(4)}{";
 
-            return "'" . serialize($value) . "'";
-        }
+        $relationString .= "\n\n{$this->s(8)}return \$this->getFieldType('{$fieldSlug}')->getRelation(\$this);";
 
-        if ($escape) {
+        $relationString .= "\n{$this->s(4)}}";
 
-            $value = addslashes($value);
-        }
+        $relationString .= "\n";
 
-        return "'" . $value . "'";
-    }
-
-    protected function s($n)
-    {
-        return str_repeat("\x20", $n);
+        $string .= $relationString;
     }
 }
  

@@ -1,42 +1,34 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Parser;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Support\Parser;
 
-class EntryRulesParser
+/**
+ * Class EntryRulesParser
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Entry\Parser
+ */
+class EntryRulesParser extends Parser
 {
 
-    public function parse(StreamModel $stream)
+    /**
+     * Return the entry validation rules.
+     *
+     * @param StreamModel $stream
+     * @return string
+     */
+    public function parse(StreamInterface $stream)
     {
         $string = '[';
 
-        foreach ($stream->assignments as $assignment) {
+        foreach ($stream->getAssignments() as $assignment) {
 
-            $rules = [];
-
-            if ($assignment->field->rules) {
-
-                foreach ($assignment->field->rules as $rule) {
-
-                    $rules[] = $rule;
-                }
-            }
-
-            if ($assignment->is_required) {
-
-                $rules[] = 'required';
-            }
-
-            if ($assignment->is_unique) {
-
-                $rules[] = 'unique:' . $stream->getEntryTableName() . ',' . $assignment->getColumnName();
-            }
-
-            if (is_array($rules)) {
-
-                $rules = implode('|', array_filter($rules));
-
-                $string .= "\n{$this->s(8)}'{$assignment->field->slug}' => '{$rules}',";
-            }
+            $this->parseAssignmentRules($stream, $assignment, $string);
         }
 
         $string .= "\n{$this->s(4)}]";
@@ -44,9 +36,43 @@ class EntryRulesParser
         return $string;
     }
 
-    protected function s($n)
+    /**
+     * Parse the assignment rules.
+     *
+     * @param StreamInterface     $stream
+     * @param AssignmentInterface $assignment
+     * @param                     $string
+     */
+    protected function parseAssignmentRules(StreamInterface $stream, AssignmentInterface $assignment, &$string)
     {
-        return str_repeat("\x20", $n);
+        $rules = [];
+
+        $field = $assignment->getField();
+
+        if ($fieldRules = $field->getRules()) {
+
+            foreach ($fieldRules as $rule) {
+
+                $rules[] = $rule;
+            }
+        }
+
+        if ($assignment->isRequired()) {
+
+            $rules[] = 'required';
+        }
+
+        if ($assignment->isUnique()) {
+
+            $rules[] = 'unique:' . $stream->getEntryTableName() . ',' . $assignment->getColumnName();
+        }
+
+        if (is_array($rules)) {
+
+            $rules = implode('|', array_filter($rules));
+
+            $string .= "\n{$this->s(8)}'{$assignment->getFieldSlug()}' => '{$rules}',";
+        }
     }
 }
  
