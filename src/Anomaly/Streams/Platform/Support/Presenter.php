@@ -171,7 +171,7 @@ class Presenter implements ArrayableInterface, \ArrayAccess
 
             if ($this->resource instanceof PresentableInterface) {
 
-                return $this->resource->decorate()->{$key};
+                return $this->resource->newPresenter()->{$key};
             }
 
             return $this->resource[$key];

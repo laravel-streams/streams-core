@@ -150,7 +150,9 @@ class BuildTableColumnsCommandHandler
 
             $value = $column['relation'];
 
-            return view()->parse('{{' . $value . '}}', $entry);
+            $entry = app('streams.decorator')->decorate($entry);
+
+            return $this->parseValue($value, $entry);
         }
 
         return $value;
