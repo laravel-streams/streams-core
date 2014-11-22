@@ -87,6 +87,16 @@ class StreamModel extends EloquentModel implements StreamInterface
     }
 
     /**
+     * Get the ID.
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->getKey();
+    }
+
+    /**
      * Get the namespace.
      *
      * @return mixed

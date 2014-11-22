@@ -24,6 +24,13 @@ interface StreamInterface
     public function compile();
 
     /**
+     * Get the ID.
+     *
+     * @return mixed
+     */
+    public function getId();
+
+    /**
      * Get the namespace.
      *
      * @return string
