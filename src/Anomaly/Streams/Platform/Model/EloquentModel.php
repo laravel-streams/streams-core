@@ -10,6 +10,14 @@ use Anomaly\Streams\Platform\Traits\TranslatableTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class EloquentModel
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Model
+ */
 class EloquentModel extends Model implements ArrayableInterface, PresentableInterface
 {
 
@@ -126,13 +134,11 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
         }
     }
 
-    public function flushCacheCollection()
-    {
-        app('streams.cache.collection')->setKey($this->getCacheCollectionKey())->flush();
-
-        return $this;
-    }
-
+    /**
+     * Return the presenter counterpart object.
+     *
+     * @return mixed
+     */
     public function newPresenter()
     {
         if (!$collection = $this->transform(__FUNCTION__)) {
@@ -159,11 +165,34 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
         return app()->make($collection, [$items]);
     }
 
+    /**
+     * Return the translatable flag.
+     *
+     * @return bool
+     */
     public function isTranslatable()
     {
         return ($this->translatable);
     }
 
+    /**
+     * Flush the cache collection.
+     *
+     * @return $this
+     */
+    public function flushCacheCollection()
+    {
+        app('streams.cache.collection')->setKey($this->getCacheCollectionKey())->flush();
+
+        return $this;
+    }
+
+    /**
+     * Set the cache minutes.
+     *
+     * @param $cacheMinutes
+     * @return $this
+     */
     public function setCacheMinutes($cacheMinutes)
     {
         $this->cacheMinutes = $cacheMinutes;
@@ -171,21 +200,42 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
         return $this;
     }
 
+    /**
+     * Get the cache minutes.
+     *
+     * @return null
+     */
     public function getCacheMinutes()
     {
         return $this->cacheMinutes;
     }
 
+    /**
+     * Get cache collection key.
+     *
+     * @param null $suffix
+     * @return string
+     */
     public function getCacheCollectionKey($suffix = null)
     {
         return get_called_class() . $suffix;
     }
 
+    /**
+     * Get the model title.
+     *
+     * @return mixed
+     */
     public function getTitle()
     {
         return $this->{$this->getTitleKey()};
     }
 
+    /**
+     * Get the title key.
+     *
+     * @return string
+     */
     public function getTitleKey()
     {
         return $this->titleKey ? : 'id';
