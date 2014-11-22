@@ -23,6 +23,16 @@ class StreamModel extends EloquentModel implements StreamInterface
     protected $table = 'streams_streams';
 
     /**
+     * Compile the entry models.
+     *
+     * @return mixed
+     */
+    public function compile()
+    {
+        $this->save(); // Saving triggers the observer compile event.
+    }
+
+    /**
      * Make a Stream instance from the provided compile data.
      *
      * @param array $data

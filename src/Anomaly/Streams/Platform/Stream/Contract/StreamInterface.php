@@ -17,6 +17,13 @@ interface StreamInterface
 {
 
     /**
+     * Compile the entry models.
+     *
+     * @return mixed
+     */
+    public function compile();
+
+    /**
      * Get the namespace.
      *
      * @return string
