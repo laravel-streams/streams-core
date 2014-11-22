@@ -213,6 +213,18 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     }
 
     /**
+     * Get the column name.
+     *
+     * @return mixed
+     */
+    public function getColumnName()
+    {
+        $type = $this->getFieldType();
+
+        return $type->getColumnName();
+    }
+
+    /**
      * Serialize the rules attribute
      * before setting to the model.
      *
