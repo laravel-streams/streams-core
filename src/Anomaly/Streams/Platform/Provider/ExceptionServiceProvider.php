@@ -1,9 +1,21 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
-use Illuminate\Support\ServiceProvider;
-
-class ExceptionServiceProvider extends ServiceProvider
+class ExceptionServiceProvider extends \Illuminate\Support\ServiceProvider
 {
+
+    /**
+     * Register any error handlers
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $whoops = new \Whoops\Run;
+
+        $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+
+        $whoops->register();
+    }
 
     /**
      * Register the service provider.
@@ -12,11 +24,7 @@ class ExceptionServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $whoops = new \Whoops\Run;
-
-        $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-
-        $whoops->register();
+        //
     }
 }
  
