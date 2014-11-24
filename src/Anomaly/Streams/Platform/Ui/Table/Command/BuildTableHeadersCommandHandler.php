@@ -22,9 +22,7 @@ class BuildTableHeadersCommandHandler
      *
      * @var array
      */
-    protected $notAttributes = [
-
-    ];
+    protected $notAttributes = [];
 
     /**
      * Handle the command.
@@ -125,9 +123,9 @@ class BuildTableHeadersCommandHandler
     {
         $parts = explode('.', $column['field']);
 
-        if ($type = $stream->getFieldType($parts[0])) {
+        if ($field = $stream->getField($parts[0])) {
 
-            return trans($type->getName());
+            return trans($field->getName());
         }
 
         return null;
