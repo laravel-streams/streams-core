@@ -24,6 +24,11 @@ class ModuleServiceProvider extends AddonServiceProvider
         parent::__construct($app);
 
         $this->app->bind(
+            'Anomaly\Streams\Platform\Addon\Module\ModuleModel',
+            config('streams.modules.model')
+        );
+
+        $this->app->bind(
             'Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface',
             config('streams.modules.repository')
         );
