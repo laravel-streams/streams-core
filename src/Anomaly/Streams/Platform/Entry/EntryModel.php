@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Addon\Module\Users\User\Contract\UserInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\Contract\DateFieldTypeInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\Contract\RelationFieldTypeInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\Contract\SetterFieldTypeInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -234,7 +236,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * Get the field type from a field slug.
      *
      * @param $fieldSlug
-     * @return FieldType
+     * @return FieldType|RelationFieldTypeInterface|DateFieldTypeInterface
      */
     public function getFieldType($fieldSlug)
     {
