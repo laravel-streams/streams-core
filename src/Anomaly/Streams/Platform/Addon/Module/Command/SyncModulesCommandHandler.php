@@ -43,7 +43,7 @@ class SyncModulesCommandHandler
     {
         if (!$match = $modules->findBySlug($module->getSlug())) {
 
-            $command = new InsertModuleCommand($module->getSlug());
+            $command = new CreateModuleCommand($module->getSlug());
 
             $this->execute($command);
         }

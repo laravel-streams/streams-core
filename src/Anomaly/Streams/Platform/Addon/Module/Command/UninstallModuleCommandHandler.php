@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalledEvent;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
+use Anomaly\Streams\Platform\Contract\InstallableInterface;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 
 /**
@@ -30,7 +31,7 @@ class UninstallModuleCommandHandler
 
         if ($installer = $module->newInstaller()) {
 
-            $this->runInstaller($module, $installer);
+            $this->runInstallers($module, $installer);
         }
 
         $this->dispatch(new ModuleUninstalledEvent($module));
@@ -39,22 +40,46 @@ class UninstallModuleCommandHandler
     }
 
     /**
-     * Run the installer.
+     * Run the installers.
      *
      * @param Module          $module
      * @param ModuleInstaller $installer
      */
-    protected function runInstaller(Module $module, ModuleInstaller $installer)
+    protected function runInstallers(Module $module, ModuleInstaller $installer)
     {
         foreach ($installer->getInstallers() as $installer) {
 
-            if (!str_contains($installer, '\\')) {
+            $installer = $this->resolveInstaller($module, $installer);
 
-                $installer = $this->guessInstaller($module, $installer);
-            }
-
-            app($installer)->uninstall();
+            $this->runInstaller($installer);
         }
+    }
+
+    /**
+     * Run the installer.
+     *
+     * @param InstallableInterface $installer
+     */
+    protected function runInstaller(InstallableInterface $installer)
+    {
+        $installer->install();
+    }
+
+    /**
+     * Resolve the installer.
+     *
+     * @param Module $module
+     * @param        $installer
+     * @return mixed
+     */
+    protected function resolveInstaller(Module $module, $installer)
+    {
+        if (!str_contains($installer, '\\')) {
+
+            $installer = $this->guessInstaller($module, $installer);
+        }
+
+        return app($installer);
     }
 
     /**

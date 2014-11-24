@@ -1,14 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
 /**
- * Class InsertModuleCommand
+ * Class CreateModuleCommand
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Module\Command
  */
-class InsertModuleCommand
+class CreateModuleCommand
 {
 
     /**
@@ -19,7 +19,7 @@ class InsertModuleCommand
     protected $slug;
 
     /**
-     * Create a new InsertModuleCommand instance.
+     * Create a new CreateModuleCommand instance.
      *
      * @param $slug
      */

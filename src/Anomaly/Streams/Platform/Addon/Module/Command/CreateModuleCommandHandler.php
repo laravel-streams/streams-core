@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 
 /**
- * Class InsertModuleCommandHandler
+ * Class CreateModuleCommandHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Module\Command
  */
-class InsertModuleCommandHandler
+class CreateModuleCommandHandler
 {
 
     /**
@@ -21,7 +21,7 @@ class InsertModuleCommandHandler
     protected $module;
 
     /**
-     * Create InsertModuleCommandHandler instance.
+     * Create CreateModuleCommandHandler instance.
      *
      * @param ModuleModel $module
      */
@@ -33,10 +33,10 @@ class InsertModuleCommandHandler
     /**
      * Handle the command.
      *
-     * @param InsertModuleCommand $command
+     * @param CreateModuleCommand $command
      * @return mixed
      */
-    public function handle(InsertModuleCommand $command)
+    public function handle(CreateModuleCommand $command)
     {
         return $this->module->insert(
             [
