@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Contract\InstallableInterface;
 use Anomaly\Streams\Platform\Field\FieldService;
 
 /**
@@ -10,7 +11,7 @@ use Anomaly\Streams\Platform\Field\FieldService;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Stream
  */
-class StreamInstaller
+class StreamInstaller implements InstallableInterface
 {
 
     /**
@@ -110,9 +111,15 @@ class StreamInstaller
                 $assignment = [];
             }
 
-            $assignment['label']        = $this->getAssignmentLabel($assignment, $field);
-            $assignment['placeholder']  = $this->getAssignmentPlaceholder($assignment, $field);
-            $assignment['instructions'] = $this->getAssignmentInstructions($assignment, $field);
+            $isUnique       = array_get($assignment, 'is_unique', false);
+            $isRequired     = array_get($assignment, 'is_required', false);
+            $isTranslatable = array_get($assignment, 'is_translatable', false);
+
+            $label        = $this->getAssignmentLabel($assignment, $field);
+            $placeholder  = $this->getAssignmentPlaceholder($assignment, $field);
+            $instructions = $this->getAssignmentInstructions($assignment, $field);
+
+            $assignment = compact('label', 'placeholder', 'instructions', 'isUnique', 'isRequired', 'isTranslatable');
 
             $this->fieldService->assign(
                 $this->stream['namespace'],
