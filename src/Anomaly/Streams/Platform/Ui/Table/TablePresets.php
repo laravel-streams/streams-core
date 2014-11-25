@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Presets;
 
 /**
@@ -82,9 +83,9 @@ class TablePresets extends Presets
     {
         $button = parent::setButtonPresets($button);
 
-        if (!isset($button['url'])) {
+        if (!isset($button['href'])) {
 
-            $button['url'] = $this->guessUrl($button['slug']);
+            $button['href'] = $this->guessButtonHref($button['slug']);
         }
 
         return $button;
@@ -99,10 +100,7 @@ class TablePresets extends Presets
      */
     public function setActionPresets(array $action)
     {
-        if (isset($this->actions[$action['slug']]) and $presets = $this->actions[$action['slug']]) {
-
-            return array_merge($presets, $action);
-        }
+        $action = parent::setButtonPresets($action);
 
         return $action;
     }
@@ -124,12 +122,13 @@ class TablePresets extends Presets
     }
 
     /**
-     * Try and guess a URL because we're awesome.
-     * This of course can be overridden by setting one.
+     * Try and guess the HREF for preset stuff to propel
+     * best practices and standards. This will be overridden
+     * by any value that's passed in.
      *
      * @param $slug
      */
-    protected function guessUrl($slug)
+    protected function guessButtonHref($slug)
     {
         $path = app('router')->getCurrentRoute()->getPath();
 
@@ -137,17 +136,23 @@ class TablePresets extends Presets
 
             // Suggest best practices for view URLs
             case 'view':
-                return $path .= '/show/{{id}}';
+                return function (EntryInterface $entry) use ($path) {
+                    return $path .= '/show/' . $entry->getId();
+                };
                 break;
 
             // Suggest best practices for edit URLs
             case 'edit':
-                return $path .= '/edit/{{id}}';
+                return function (EntryInterface $entry) use ($path) {
+                    return $path .= '/edit/' . $entry->getId();
+                };
                 break;
 
             // Suggest best practices for delete URLs
             case 'delete':
-                return $path .= '/delete/{{id}}';
+                return function (EntryInterface $entry) use ($path) {
+                    return $path .= '/delete/' . $entry->getId();
+                };
                 break;
 
             default:
