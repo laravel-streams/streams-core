@@ -45,8 +45,8 @@ class HandleTableViewCommandHandler
             // If the view is applied then handle it.
             if ($view['slug'] == $appliedView or array_search($slug, array_keys($views)) == 0) {
 
-                // Set the handler and run it.
-                $this->setHandler($view, $table);
+                $view['handler'] = $this->getHandler($view, $table);
+
                 $this->runHandler($view, $table);
             }
         }
@@ -59,12 +59,16 @@ class HandleTableViewCommandHandler
      * @param Table $table
      * @return mixed
      */
-    protected function setHandler(array &$view, Table $table)
+    protected function getHandler(array $view, Table $table)
     {
         if (is_string($view['handler'])) {
 
-            app()->make($view['handler'], compact('table'));
+            $utility = $table->getUtility();
+
+            return $utility->autoComplete($view['handler'], $table);
         }
+
+        return $view;
     }
 
     /**
@@ -76,11 +80,29 @@ class HandleTableViewCommandHandler
      */
     protected function runHandler(array $view, Table $table)
     {
+        /**
+         * If the handler is a string then
+         * run it through the container.
+         */
+        if (is_string($view['handler'])) {
+
+            app()->call($view['handler'], compact('table'));
+        }
+
+        /**
+         * If the handler is a Closure then
+         * run it through the container.
+         */
         if ($view['handler'] instanceof \Closure) {
 
             app()->call($view['handler'], compact('table'));
         }
 
+        /**
+         * If the handler is an instance of the
+         * TableViewInterface then run it's handle
+         * method as defined.
+         */
         if ($view['handler'] instanceof TableViewInterface) {
 
             $view['handler']->handle($table);
