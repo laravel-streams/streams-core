@@ -17,7 +17,6 @@ interface AssignmentRepositoryInterface
     /**
      * Create a new assignment.
      *
-     * @param                 $sortOrder
      * @param StreamInterface $stream
      * @param FieldInterface  $field
      * @param                 $label
@@ -29,7 +28,6 @@ interface AssignmentRepositoryInterface
      * @return mixed
      */
     public function create(
-        $sortOrder,
         StreamInterface $stream,
         FieldInterface $field,
         $label,
