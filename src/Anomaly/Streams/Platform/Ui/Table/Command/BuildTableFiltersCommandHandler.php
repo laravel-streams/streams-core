@@ -38,8 +38,8 @@ class BuildTableFiltersCommandHandler
             // Expand minimal input.
             $filter = $expander->expand($slug, $filter);
 
-            // Automate some stuff.
-            $this->guessField($filter, $table);
+            // Automate type / field if possible.
+            $filter = $this->automateType($filter, $table);
 
             /**
              * Remove the handler or it
@@ -157,8 +157,11 @@ class BuildTableFiltersCommandHandler
     protected function buildFieldInput(array $filter, Table $table)
     {
         $stream = $table->getStream();
+        $field  = $stream->getField($filter['field']);
 
-        $type = $stream->getFieldType($filter['field']);
+        $type = $field->getType();
+
+        $type->setPlaceholder(trans($field->getName()));
 
         return $type->renderFilter();
     }
@@ -226,7 +229,7 @@ class BuildTableFiltersCommandHandler
      */
     protected function getName(array $filter, Table $table)
     {
-        return $table->getPrefix() . $filter['slug'];
+        return $table->getPrefix() . 'filter_' . $filter['slug'];
     }
 
     /**
@@ -235,15 +238,18 @@ class BuildTableFiltersCommandHandler
      * @param array $filter
      * @param Table $table
      */
-    protected function guessField(array &$filter, Table $table)
+    protected function automateType(array $filter, Table $table)
     {
         if ($stream = $table->getStream()) {
 
             if (!isset($filter['field']) and $field = $stream->getField($filter['slug'])) {
 
+                $filter['type']  = 'field';
                 $filter['field'] = $filter['slug'];
             }
         }
+
+        return $filter;
     }
 }
  
