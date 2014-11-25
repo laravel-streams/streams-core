@@ -35,7 +35,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     /**
      * Create a new assignment.
      *
-     * @param                 $sortOrder
      * @param StreamInterface $stream
      * @param FieldInterface  $field
      * @param                 $label
@@ -47,7 +46,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
      * @return mixed|void
      */
     public function create(
-        $sortOrder,
         StreamInterface $stream,
         FieldInterface $field,
         $label,
@@ -64,7 +62,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment->field_id        = $field->getId();
         $assignment->stream_id       = $stream->getId();
         $assignment->is_unique       = $isUnique;
-        $assignment->sort_order      = $sortOrder;
         $assignment->is_required     = $isRequired;
         $assignment->placeholder     = $placeholder;
         $assignment->instructions    = $instructions;
