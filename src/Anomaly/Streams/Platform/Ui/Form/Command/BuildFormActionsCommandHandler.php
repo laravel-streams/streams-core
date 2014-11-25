@@ -18,7 +18,6 @@ class BuildFormActionsCommandHandler
      * @var array
      */
     protected $notAttributes = [
-        'url',
         'slug',
         'title',
         'class',
@@ -79,9 +78,6 @@ class BuildFormActionsCommandHandler
      */
     protected function getAttributes(array $action)
     {
-        // URL is actually the href
-        $action['href'] = array_get($action, 'url', '#');
-
         return array_diff_key($action, array_flip($this->notAttributes));
     }
 }
