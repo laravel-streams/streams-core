@@ -121,7 +121,8 @@ class BuildTableColumnsCommandHandler
          * Chances are if the value is set
          * then the user is making their own.
          */
-        if (isset($column['value'])) {
+
+        if (array_key_exists('value', $column)) {
 
             return (string)$column['value'];
         }
