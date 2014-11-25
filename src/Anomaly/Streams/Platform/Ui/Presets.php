@@ -17,46 +17,66 @@ class Presets
      * @var array
      */
     protected $buttons = [
-        'success'    => [
+        'success'       => [
             'class' => 'btn btn-sm btn-success',
         ],
-        'info'       => [
+        'info'          => [
             'class' => 'btn btn-sm btn-info',
         ],
-        'warning'    => [
+        'warning'       => [
             'class' => 'btn btn-sm btn-warning',
         ],
-        'danger'     => [
+        'danger'        => [
             'class' => 'btn btn-sm btn-danger',
         ],
-        'preset'     => [
+        'preset'        => [
             'class' => 'btn btn-sm btn-preset',
         ],
-        'view'       => [
+        'view'          => [
             'title' => 'admin.button.view',
             'class' => 'btn btn-sm btn-info',
         ],
-        'options'    => [
+        'options'       => [
             'title' => 'admin.button.options',
             'class' => 'btn btn-sm btn-preset',
         ],
-        'edit'       => [
+        'save'          => [
+            'title' => 'admin.button.save',
+            'class' => 'btn btn-sm btn-primary',
+        ],
+        'save_exit'     => [
+            'title' => 'admin.button.save_exit',
+            'class' => 'btn btn-sm btn-success',
+        ],
+        'save_create'   => [
+            'title' => 'admin.button.save_create',
+            'class' => 'btn btn-sm btn-success',
+        ],
+        'save_continue' => [
+            'title' => 'admin.button.save_continue',
+            'class' => 'btn btn-sm btn-success',
+        ],
+        'edit'          => [
             'title' => 'admin.button.edit',
             'class' => 'btn btn-sm btn-warning',
         ],
-        'delete'     => [
+        'cancel'        => [
+            'title' => 'admin.button.cancel',
+            'class' => 'btn btn-sm btn-default',
+        ],
+        'delete'        => [
             'title' => 'admin.button.delete',
             'class' => 'btn btn-sm btn-danger',
         ],
-        'confirm'    => [
+        'confirm'       => [
             'class'        => 'btn btn-sm btn-danger',
             'data-confirm' => 'confirm.delete',
         ],
-        'gear-icon'  => [
+        'gear-icon'     => [
             'class' => 'btn btn-sm btn-link',
             'title' => '<i class="fa fa-gear"></i>',
         ],
-        'trash-icon' => [
+        'trash-icon'    => [
             'class' => 'btn btn-sm btn-link',
             'title' => '<i class="fa fa-trash"></i>',
         ],

@@ -14,50 +14,6 @@ class FormPresets extends Presets
 {
 
     /**
-     * Redirect presets.
-     *
-     * @var array
-     */
-    protected $redirects = [
-        'save'          => [
-            'title' => 'admin.button.save',
-            'class' => 'btn btn-sm btn-primary',
-        ],
-        'save_exit'     => [
-            'title' => 'admin.button.save_exit',
-            'class' => 'btn btn-sm btn-success',
-        ],
-        'save_create'   => [
-            'title' => 'admin.button.save_create',
-            'class' => 'btn btn-sm btn-success',
-        ],
-        'save_continue' => [
-            'title' => 'admin.button.save_continue',
-            'class' => 'btn btn-sm btn-success',
-        ],
-    ];
-
-    /**
-     * Action presets.
-     *
-     * @var array
-     */
-    protected $actions = [
-        'cancel' => [
-            'title' => 'admin.button.cancel',
-            'class' => 'btn btn-sm btn-default',
-        ],
-        'view'   => [
-            'title' => 'admin.button.view',
-            'class' => 'btn btn-sm btn-info',
-        ],
-        'delete' => [
-            'title' => 'admin.button.delete',
-            'class' => 'btn btn-sm btn-danger',
-        ],
-    ];
-
-    /**
      * Section presets.
      *
      * @var array
@@ -79,11 +35,11 @@ class FormPresets extends Presets
      */
     public function setRedirectPresets($redirect)
     {
-        if (isset($this->redirects[$redirect['slug']]) and $presets = $this->redirects[$redirect['slug']]) {
+        $redirect = parent::setButtonPresets($redirect);
 
-            $presets['url'] = $this->guessRedirectUrl($redirect['slug']);
+        if (!array_key_exists('response', $redirect)) {
 
-            return array_merge($presets, $redirect);
+            $redirect['response'] = $this->guessRedirectResponse($redirect['slug']);
         }
 
         return $redirect;
@@ -97,11 +53,11 @@ class FormPresets extends Presets
      */
     public function setActionPresets($action)
     {
-        if (isset($this->actions[$action['slug']]) and $presets = $this->actions[$action['slug']]) {
+        $action = parent::setButtonPresets($action);
 
-            $presets['url'] = $this->guessActionUrl($action['slug']);
+        if (!array_key_exists('href', $action)) {
 
-            return array_merge($presets, $action);
+            $action['href'] = $this->guessActionHref($action['slug']);
         }
 
         return $action;
@@ -139,12 +95,12 @@ class FormPresets extends Presets
      * {/stream} is optional if the module slug == stream slug
      * like admin/users (would not be admin/users/users)
      *
-     * @param $type
+     * @param $slug
      * @return string
      */
-    protected function guessRedirectUrl($type)
+    protected function guessRedirectResponse($slug)
     {
-        switch ($type) {
+        switch ($slug) {
 
             // Change the last two segments.
             case 'save':
@@ -167,12 +123,12 @@ class FormPresets extends Presets
      * {/stream} is optional if the module slug == stream slug
      * like admin/users (would not be admin/users/users)
      *
-     * @param $type
+     * @param $slug
      * @return string
      */
-    protected function guessActionUrl($type)
+    protected function guessActionHref($slug)
     {
-        switch ($type) {
+        switch ($slug) {
 
             // Change the last two segments.
             case 'cancel':
@@ -185,14 +141,14 @@ class FormPresets extends Presets
             case 'view':
                 $segments = explode('/', app('request')->path());
 
-                return url(implode('/', array_slice($segments, 0, count($segments) - 2)) . '/show/ID');
+                return url(implode('/', array_slice($segments, 0, count($segments) - 2)) . '/show/' . end($segments));
                 break;
 
             // Change the last two segments
             case 'delete':
                 $segments = explode('/', app('request')->path());
 
-                return url(implode('/', array_slice($segments, 0, count($segments) - 2)) . '/delete/ID');
+                return url(implode('/', array_slice($segments, 0, count($segments) - 2)) . '/delete/' . end($segments));
                 break;
 
             default:
