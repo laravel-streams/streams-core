@@ -49,7 +49,8 @@ class HandleTableFiltersCommandHandler
             if ($value = app('request')->get($key)) {
 
                 // Set and run the filter.
-                $this->setHandler($filter, $table);
+                $filter['handler'] = $this->getHandler($filter, $table);
+
                 $this->runHandler($filter, $table, $value);
             }
         }
@@ -75,23 +76,26 @@ class HandleTableFiltersCommandHandler
      * @param Table $table
      * @return mixed
      */
-    protected function setHandler(array &$filter, Table $table)
+    protected function getHandler(array $filter, Table $table)
     {
         /**
-         * If the handler is a class path
-         * then make it with the container.
+         * If the handler is a string then auto complete
+         * the class path if needed based on the table
+         * object being used.
          */
         if (isset($filter['handler']) and is_string($filter['handler'])) {
 
-            $filter['handler'] = app()->make($filter['handler'], compact('ui'));
+            $utility = $table->getUtility();
+
+            return $utility->autoComplete('Filter\\' . $filter['handler'], $table);
         }
 
         /**
-         * If the handler is not set use the slug or field to resolve it.
+         * If the handler is not set use the field value to resolve it.
          */
         if (!isset($filter['handler']) and $stream = $table->getStream()) {
 
-            $this->setHandlerFromField($filter, $stream);
+            return $this->getHandlerFromField($filter, $stream);
         }
     }
 
@@ -101,14 +105,14 @@ class HandleTableFiltersCommandHandler
      * @param array           $filter
      * @param StreamInterface $stream
      */
-    protected function setHandlerFromField(array &$filter, StreamInterface $stream)
+    protected function getHandlerFromField(array $filter, StreamInterface $stream)
     {
         if (!isset($filter['field'])) {
 
             $filter['field'] = $filter['slug'];
         }
 
-        $filter['handler'] = $stream->getFieldType($filter['field']);
+        return $stream->getFieldType($filter['field']);
     }
 
     /**
@@ -120,19 +124,41 @@ class HandleTableFiltersCommandHandler
      */
     protected function runHandler(array $filter, Table $table, $value)
     {
+        /**
+         * If the handler is a string then call
+         * it through the container.
+         */
+        if (is_string($filter['handler'])) {
+
+            app()->call($filter['handler'], compact('table', 'value'));
+        }
+
+        /**
+         * If the handler is a closure then call
+         * it through the container.
+         */
         if ($filter['handler'] instanceof \Closure) {
 
             app()->call($filter['handler'], compact('table', 'value'));
         }
 
+        /**
+         * If the handler is an instance of the
+         * TableFilterInterface then use the
+         * handle method as defined.
+         */
         if ($filter['handler'] instanceof TableFilterInterface) {
 
             $filter['handler']->handle($table, $value);
         }
 
+        /**
+         * If the handler is a field type then
+         * use it's filter method.
+         */
         if ($filter['handler'] instanceof FieldType) {
 
-            $table->setQuery($filter['handler']->filter($table->getQuery(), $value));
+            $filter['handler']->filter($table, $value);
         }
     }
 }
