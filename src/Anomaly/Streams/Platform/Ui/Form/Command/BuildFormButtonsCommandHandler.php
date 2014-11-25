@@ -1,14 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 /**
- * Class BuildFormActionsCommandHandler
+ * Class BuildFormButtonsCommandHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class BuildFormActionsCommandHandler
+class BuildFormButtonsCommandHandler
 {
 
     /**
@@ -26,10 +26,10 @@ class BuildFormActionsCommandHandler
     /**
      * Handle the command.
      *
-     * @param BuildFormActionsCommand $command
+     * @param BuildFormButtonsCommand $command
      * @return array
      */
-    public function handle(BuildFormActionsCommand $command)
+    public function handle(BuildFormButtonsCommand $command)
     {
         $actions = [];
 
@@ -42,13 +42,13 @@ class BuildFormActionsCommandHandler
         $normalizer = $form->getNormalizer();
 
         /**
-         * Loop through and process actions configurations.
+         * Loop through and process buttons configurations.
          */
-        foreach ($form->getActions() as $slug => $action) {
+        foreach ($form->getButtons() as $slug => $action) {
 
             // Expand, automate and evaluate.
             $action = $expander->expand($slug, $action);
-            $action = $presets->setActionPresets($action);
+            $action = $presets->setButtonPresets($action);
             $action = $evaluator->evaluate($action, compact('form'), $entry);
 
             // Skip if disabled.

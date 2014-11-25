@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormActionsCommand;
+use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormButtonsCommand;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormOptionsCommand;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormRedirectsCommand;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormSectionsCommand;
@@ -63,13 +63,13 @@ class FormBuilder
     }
 
     /**
-     * Build the actions data.
+     * Build the buttons data.
      *
      * @return mixed
      */
-    public function actions()
+    public function buttons()
     {
-        return $this->execute(new BuildFormActionsCommand($this->form));
+        return $this->execute(new BuildFormButtonsCommand($this->form));
     }
 
     /**

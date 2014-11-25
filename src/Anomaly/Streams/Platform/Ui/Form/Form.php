@@ -60,14 +60,14 @@ class Form extends Ui
     protected $redirects = [];
 
     /**
-     * Form actions. These are action links
+     * Form buttons. These are action links
      * placed in the lower right corner of
      * forms as a convenient way to take action
      * on the entry you are editing.
      *
      * @var array
      */
-    protected $actions = [];
+    protected $buttons = [];
 
     /**
      * The view for the form.
@@ -213,12 +213,12 @@ class Form extends Ui
      */
     protected function trigger()
     {
-        $actions   = $this->builder->actions();
+        $buttons   = $this->builder->buttons();
         $sections  = $this->builder->sections();
         $redirects = $this->builder->redirects();
         $options   = $this->builder->options();
 
-        $data = compact('actions', 'sections', 'redirects', 'options');
+        $data = compact('buttons', 'sections', 'redirects', 'options');
 
         return view($this->formView, $data);
     }
@@ -284,39 +284,39 @@ class Form extends Ui
     }
 
     /**
-     * Set the actions configuration.
+     * Set the buttons configuration.
      *
-     * @param array $actions
+     * @param array $buttons
      * @return $this
      */
-    public function setActions(array $actions)
+    public function setButtons(array $buttons)
     {
-        $this->actions = $actions;
+        $this->buttons = $buttons;
 
         return $this;
     }
 
     /**
-     * Add an action configuration.
+     * Add a button configuration.
      *
-     * @param $action
+     * @param $button
      * @return $this
      */
-    public function addAction($action)
+    public function addButton($button)
     {
-        $this->actions[] = $action;
+        $this->buttons[] = $button;
 
         return $this;
     }
 
     /**
-     * Get the actions configuration.
+     * Get the buttons configuration.
      *
      * @return array
      */
-    public function getActions()
+    public function getButtons()
     {
-        return $this->actions;
+        return $this->buttons;
     }
 
     /**

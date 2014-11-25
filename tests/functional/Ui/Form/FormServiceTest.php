@@ -18,7 +18,7 @@ class FormServiceTest extends \PHPUnit_Framework_TestCase
                     ]
                 ]
             )
-            ->setActions(
+            ->setButtons(
                 [
                     [
                         'title' => 'Foo',
