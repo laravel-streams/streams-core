@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\View;
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableViewInterface;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
  * Class All
@@ -14,14 +15,11 @@ class All implements TableViewInterface
 {
 
     /**
-     * Handle the view query.
-     *
-     * @param $query
-     * @return mixed
+     * Handle the view.
      */
-    public function handle($query)
+    public function handle()
     {
-        return $query;
+        // Nothing to do here.
     }
 }
  
