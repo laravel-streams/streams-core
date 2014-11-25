@@ -51,16 +51,16 @@ class Form extends Ui
     protected $sections = [];
 
     /**
-     * Form redirects. After a form is
+     * Form actions. After a form is
      * successfully submitted a redirect
      * will handle where to go from there.
      *
      * @var array
      */
-    protected $redirects = [];
+    protected $actions = [];
 
     /**
-     * Form buttons. These are action links
+     * Form buttons. These are buttons
      * placed in the lower right corner of
      * forms as a convenient way to take action
      * on the entry you are editing.
@@ -213,12 +213,12 @@ class Form extends Ui
      */
     protected function trigger()
     {
-        $buttons   = $this->builder->buttons();
-        $sections  = $this->builder->sections();
-        $redirects = $this->builder->redirects();
-        $options   = $this->builder->options();
+        $buttons  = $this->builder->buttons();
+        $actions  = $this->builder->actions();
+        $options  = $this->builder->options();
+        $sections = $this->builder->sections();
 
-        $data = compact('buttons', 'sections', 'redirects', 'options');
+        $data = compact('buttons', 'sections', 'actions', 'options');
 
         return view($this->formView, $data);
     }
@@ -248,14 +248,14 @@ class Form extends Ui
     }
 
     /**
-     * Set the redirects configuration.
+     * Set the actions configuration.
      *
-     * @param array $redirects
+     * @param array $actions
      * @return $this
      */
-    public function setRedirects(array $redirects)
+    public function setActions(array $actions)
     {
-        $this->redirects = $redirects;
+        $this->actions = $actions;
 
         return $this;
     }
@@ -263,24 +263,24 @@ class Form extends Ui
     /**
      * Add a redirect configuration.
      *
-     * @param $redirect
+     * @param $action
      * @return $this
      */
-    public function addRedirect($redirect)
+    public function addAction($action)
     {
-        $this->redirects[] = $redirect;
+        $this->actions[] = $action;
 
         return $this;
     }
 
     /**
-     * Get the redirects configuration.
+     * Get the actions configuration.
      *
      * @return array
      */
-    public function getRedirects()
+    public function getActions()
     {
-        return $this->redirects;
+        return $this->actions;
     }
 
     /**

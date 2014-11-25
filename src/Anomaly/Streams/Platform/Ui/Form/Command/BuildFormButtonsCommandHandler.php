@@ -31,7 +31,7 @@ class BuildFormButtonsCommandHandler
      */
     public function handle(BuildFormButtonsCommand $command)
     {
-        $actions = [];
+        $buttons = [];
 
         $form = $command->getForm();
 
@@ -44,41 +44,41 @@ class BuildFormButtonsCommandHandler
         /**
          * Loop through and process buttons configurations.
          */
-        foreach ($form->getButtons() as $slug => $action) {
+        foreach ($form->getButtons() as $slug => $button) {
 
             // Expand, automate and evaluate.
-            $action = $expander->expand($slug, $action);
-            $action = $presets->setButtonPresets($action);
-            $action = $evaluator->evaluate($action, compact('form'), $entry);
+            $button = $expander->expand($slug, $button);
+            $button = $presets->setButtonPresets($button);
+            $button = $evaluator->evaluate($button, compact('form'), $entry);
 
             // Skip if disabled.
-            if (array_get($action, 'enabled') === false) {
+            if (array_get($button, 'enabled') === false) {
 
                 continue;
             }
 
             // Build out our required data.
-            $title = array_get($action, 'title');
-            $class = array_get($action, 'class');
+            $title = array_get($button, 'title');
+            $class = array_get($button, 'class');
 
-            $attributes = $this->getAttributes($action, $form);
+            $attributes = $this->getAttributes($button, $form);
 
-            $actions[] = $normalizer->normalize(compact('title', 'class', 'attributes'));
+            $buttons[] = $normalizer->normalize(compact('title', 'class', 'attributes'));
         }
 
-        return $actions;
+        return $buttons;
     }
 
     /**
      * Get the attributes. This is the entire array
      * less the keys marked as "not attributes".
      *
-     * @param array $action
+     * @param array $button
      * @return array
      */
-    protected function getAttributes(array $action)
+    protected function getAttributes(array $button)
     {
-        return array_diff_key($action, array_flip($this->notAttributes));
+        return array_diff_key($button, array_flip($this->notAttributes));
     }
 }
  

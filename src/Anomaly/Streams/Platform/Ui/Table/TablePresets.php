@@ -162,28 +162,6 @@ class TablePresets extends Presets
     }
 
     /**
-     * Add a button preset.
-     *
-     * @param $slug
-     * @param $button
-     */
-    public function addButton($slug, $button)
-    {
-        $this->buttons[$slug] = $button;
-    }
-
-    /**
-     * Add an action preset.
-     *
-     * @param $slug
-     * @param $action
-     */
-    public function addAction($slug, $action)
-    {
-        $this->actions[$slug] = $action;
-    }
-
-    /**
      * Add a view preset.
      *
      * @param $slug

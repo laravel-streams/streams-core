@@ -30,19 +30,19 @@ class FormPresets extends Presets
     /**
      * Set redirect presets.
      *
-     * @param array $redirect
+     * @param array $action
      * @return null
      */
-    public function setRedirectPresets(array $redirect)
+    public function setActionPresets(array $action)
     {
-        $redirect = parent::setButtonPresets($redirect);
+        $action = parent::setButtonPresets($action);
 
-        if (!array_key_exists('response', $redirect)) {
+        if (!array_key_exists('response', $action)) {
 
-            $redirect['response'] = $this->guessRedirectResponse($redirect['slug']);
+            $action['response'] = $this->guessActionResponse($action['slug']);
         }
 
-        return $redirect;
+        return $action;
     }
 
     /**
@@ -98,7 +98,7 @@ class FormPresets extends Presets
      * @param $slug
      * @return string
      */
-    protected function guessRedirectResponse($slug)
+    protected function guessActionResponse($slug)
     {
         switch ($slug) {
 

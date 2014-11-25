@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
- * Class BuildFormRedirectsCommand
+ * Class BuildFormActionsCommand
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class BuildFormRedirectsCommand
+class BuildFormActionsCommand
 {
 
     /**
@@ -21,7 +21,7 @@ class BuildFormRedirectsCommand
     protected $form;
 
     /**
-     * Create a new BuildFormRedirectsCommand instance.
+     * Create a new BuildFormActionsCommand instance.
      *
      * @param Form $form
      */

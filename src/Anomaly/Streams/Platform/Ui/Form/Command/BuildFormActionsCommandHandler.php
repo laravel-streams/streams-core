@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
- * Class BuildFormRedirectsCommandHandler
+ * Class BuildFormActionsCommandHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class BuildFormRedirectsCommandHandler
+class BuildFormActionsCommandHandler
 {
 
     /**
@@ -29,12 +29,12 @@ class BuildFormRedirectsCommandHandler
     /**
      * Handle the command.
      *
-     * @param BuildFormRedirectsCommand $command
+     * @param BuildFormActionsCommand $command
      * @return array
      */
-    public function handle(BuildFormRedirectsCommand $command)
+    public function handle(BuildFormActionsCommand $command)
     {
-        $redirects = [];
+        $actions = [];
 
         $form = $command->getForm();
 
@@ -45,56 +45,56 @@ class BuildFormRedirectsCommandHandler
         $normalizer = $form->getNormalizer();
 
         /**
-         * Loop through and process redirect configurations.
+         * Loop through and process action configurations.
          */
-        foreach ($form->getRedirects() as $slug => $redirect) {
+        foreach ($form->getActions() as $slug => $action) {
 
             // Expand and automate.
-            $redirect = $expander->expand($slug, $redirect);
-            $redirect = $presets->setRedirectPresets($redirect);
+            $action = $expander->expand($slug, $action);
+            $action = $presets->setActionPresets($action);
 
             /**
              * Unset the handler cause it
              * will fire in evaluation.
              */
-            unset($redirect['handler']);
+            unset($action['response']);
 
-            // Evaluate the entire redirect.
-            $redirect = $evaluator->evaluate($redirect, compact('form'), $entry);
+            // Evaluate the entire action.
+            $action = $evaluator->evaluate($action, compact('form'), $entry);
 
             // Skip if disabled.
-            if (array_get($redirect, 'enabled') === false) {
+            if (array_get($action, 'enabled') === false) {
 
                 continue;
             }
 
             // Build out our required data.
-            $title = array_get($redirect, 'title');
-            $class = array_get($redirect, 'class');
+            $title = array_get($action, 'title');
+            $class = array_get($action, 'class');
 
-            $attributes = $this->getAttributes($redirect, $form);
+            $attributes = $this->getAttributes($action, $form);
 
-            $redirects[] = $normalizer->normalize(compact('title', 'class', 'attributes'));
+            $actions[] = $normalizer->normalize(compact('title', 'class', 'attributes'));
         }
 
-        return $redirects;
+        return $actions;
     }
 
     /**
      * Get the attribute string. This is the entire array
      * passed less the keys marked as "not attributes".
      *
-     * @param array $redirect
+     * @param array $action
      * @param Form  $form
      * @return array
      */
-    protected function getAttributes(array $redirect, Form $form)
+    protected function getAttributes(array $action, Form $form)
     {
-        $redirect['value'] = $redirect['slug'];
+        $action['value'] = $action['slug'];
 
-        $redirect['name'] = $form->getPrefix() . 'redirect';
+        $action['name'] = $form->getPrefix() . 'action';
 
-        return array_diff_key($redirect, array_flip($this->notAttributes));
+        return array_diff_key($action, array_flip($this->notAttributes));
     }
 }
  
