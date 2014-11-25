@@ -50,15 +50,17 @@ class BuildTableActionsCommandHandler
          */
         foreach ($table->getActions() as $slug => $action) {
 
+            // Expand and automate.
+            $action = $expander->expand($slug, $action);
+            $action = $presets->setActionPresets($action);
+
             /**
              * Remove the handler or it
-             * might fire in evaluation.
+             * will fire in evaluation.
              */
             unset($action['handler']);
 
-            // Expand, automate, and evaluate.
-            $action = $expander->expand($slug, $action);
-            $action = $presets->setActionPresets($action);
+            // Evaluate the entire action config.
             $action = $evaluator->evaluate($action, compact('table'));
 
             // Skip if disabled.
