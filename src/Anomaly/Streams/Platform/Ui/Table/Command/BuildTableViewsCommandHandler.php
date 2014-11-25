@@ -72,7 +72,7 @@ class BuildTableViewsCommandHandler
             $url        = $this->getUrl($view, $table);
             $title      = $this->getTitle($view, $table);
             $class      = $this->getClass($view, $table);
-            $active     = $this->getActive($view, $table);
+            $active     = $this->getActive($view, $table, $slug);
             $attributes = $this->getAttributes($view, $table);
 
             $view = compact('url', 'title', 'class', 'active', 'attributes');
@@ -129,13 +129,14 @@ class BuildTableViewsCommandHandler
      *
      * @param array $view
      * @param Table $table
+     * @param       $key
      * @return bool
      */
-    protected function getActive(array $view, Table $table)
+    protected function getActive(array $view, Table $table, $key)
     {
-        $executing = app('request')->get($table->getPrefix() . 'view');
+        $active = app('request')->get($table->getPrefix() . 'view');
 
-        if ($executing == $view['slug'] or array_search($view['slug'], array_keys($table->getViews()))) {
+        if ($active == $view['slug'] or (!$active and array_search($key, array_keys($table->getViews())) === 0)) {
 
             return true;
         }
