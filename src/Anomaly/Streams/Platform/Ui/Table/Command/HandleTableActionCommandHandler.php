@@ -75,7 +75,9 @@ class HandleTableActionCommandHandler
     {
         if (is_string($action['handler'])) {
 
-            return $this->autoCompleteHandlerClass($action['handler'], $table);
+            $utility = $table->getUtility();
+
+            return $utility->autoComplete('Action\\' . $action['handler'], $table);
         }
 
         return $action['handler'];
@@ -120,39 +122,6 @@ class HandleTableActionCommandHandler
                 $action['handler']->handle($table, $ids);
             }
         }
-    }
-
-    /**
-     * Auto-complete the handler class.
-     *
-     * @param       $handler
-     * @param Table $table
-     */
-    protected function autoCompleteHandlerClass($handler, Table $table)
-    {
-        if (!starts_with($handler, 'Anomaly')) {
-
-            $namespace = $this->getTableNamespace($table);
-
-            return $namespace . '\Action\\' . $handler;
-        }
-
-        return $handler;
-    }
-
-    /**
-     * Get the namespace of the table.
-     *
-     * @param Table $table
-     * @return string
-     */
-    protected function getTableNamespace(Table $table)
-    {
-        $namespace = explode('\\', get_class($table));
-
-        array_pop($namespace);
-
-        return implode('\\', $namespace);
     }
 }
  
