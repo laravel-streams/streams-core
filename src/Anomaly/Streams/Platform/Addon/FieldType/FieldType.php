@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -718,26 +719,29 @@ class FieldType extends Addon implements PresentableInterface
      * Filter a query by the value of a
      * field using this field type.
      *
-     * @param Builder $query
-     * @param         $value
-     * @return $this
+     * @param Table $table
+     * @param       $value
      */
-    public function filter(Builder $query, $value)
+    public function filter(Table $table, $value)
     {
-        return $query->where($this->getColumnName(), 'LIKE', "%{$value}%");
+        $query = $table->getQuery();
+
+        $query = $query->where($this->getColumnName(), 'LIKE', "%{$value}%");
+
+        $table->setQuery($query);
     }
 
     /**
      * Order a query in the given direction
      * by a field using this field type.
      *
-     * @param Builder $query
-     * @param         $direction
+     * @param Table $table
+     * @param       $direction
      * @return mixed
      */
-    public function orderBy(Builder $query, $direction)
+    public function orderBy(Table $table, $direction)
     {
-        return $query->orderBy($this->getColumnName(), $direction);
+        return $table->setOrderBy([$this->getColumnName() => $direction]);
     }
 
     /**
