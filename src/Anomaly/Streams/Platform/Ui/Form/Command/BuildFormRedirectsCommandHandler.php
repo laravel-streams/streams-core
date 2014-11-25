@@ -20,10 +20,10 @@ class BuildFormRedirectsCommandHandler
      * @var array
      */
     protected $notAttributes = [
-        'url',
         'slug',
         'title',
         'class',
+        'response',
     ];
 
     /**
