@@ -53,6 +53,12 @@ class BuildFormRedirectsCommandHandler
             $redirect = $expander->expand($slug, $redirect);
             $redirect = $presets->setRedirectPresets($redirect);
 
+            /**
+             * Unset the handler cause it
+             * will fire in evaluation.
+             */
+            unset($redirect['handler']);
+
             // Evaluate the entire redirect.
             $redirect = $evaluator->evaluate($redirect, compact('form'), $entry);
 
