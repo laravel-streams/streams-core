@@ -73,6 +73,11 @@ class HandleTableActionCommandHandler
      */
     protected function getHandler(array $action, Table $table)
     {
+        /**
+         * If the handler is a string then auto complete
+         * the class path if needed based on the table
+         * object being used.
+         */
         if (is_string($action['handler'])) {
 
             $utility = $table->getUtility();
@@ -94,19 +99,19 @@ class HandleTableActionCommandHandler
         $ids = (array)app('request')->get($table->getPrefix() . 'id');
 
         /**
-         * If the handler is a closure call it
+         * If the handler is a string call it
          * through the container.
          */
-        if ($action['handler'] instanceof \Closure) {
+        if (is_string($action['handler'])) {
 
             app()->call($action['handler'], compact('table', 'ids'));
         }
 
         /**
-         * If the handler is a string call it
+         * If the handler is a closure call it
          * through the container.
          */
-        if (is_string($action['handler'])) {
+        if ($action['handler'] instanceof \Closure) {
 
             app()->call($action['handler'], compact('table', 'ids'));
         }
