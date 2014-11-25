@@ -21,7 +21,7 @@ interface FieldRepositoryInterface
      * @param array $rules
      * @param array $config
      * @param bool  $isLocked
-     * @return FieldInterface
+     * @return mixed
      */
     public function create($namespace, $slug, $name, $type, array $rules = [], array $config = [], $isLocked = true);
 
