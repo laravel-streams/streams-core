@@ -34,7 +34,6 @@ class AssignFieldCommandHandler
         $field  = $fields->findByNamespaceAndSlug($command->getNamespace(), $command->getField());
 
         return $assignments->create(
-            $command->getSortOrder(),
             $stream,
             $field,
             $command->getLabel(),
