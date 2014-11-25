@@ -84,7 +84,7 @@ class BuildFormRedirectsCommandHandler
      */
     protected function getAttributes(array $redirect, Form $form)
     {
-        $redirect['value'] = array_get($redirect, 'url');
+        $redirect['value'] = $redirect['slug'];
 
         $redirect['name'] = $form->getPrefix() . 'redirect';
 
