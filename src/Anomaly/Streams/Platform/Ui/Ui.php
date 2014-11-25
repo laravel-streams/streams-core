@@ -78,6 +78,13 @@ class Ui
     protected $presets = 'Anomaly\Streams\Platform\Ui\Presets';
 
     /**
+     * The utility object / default.
+     *
+     * @var Presets
+     */
+    protected $utility = 'Anomaly\Streams\Platform\Ui\Utility';
+
+    /**
      * The expander object / default.
      *
      * @var Expander
@@ -104,6 +111,7 @@ class Ui
     public function __construct()
     {
         $this->presets    = $this->newPresets();
+        $this->utility    = $this->newUtility();
         $this->expander   = $this->newExpander();
         $this->evaluator  = $this->newEvaluator();
         $this->normalizer = $this->newNormalizer();
@@ -287,6 +295,16 @@ class Ui
     }
 
     /**
+     * Get the utility object.
+     *
+     * @return Utility
+     */
+    public function getUtility()
+    {
+        return $this->utility;
+    }
+
+    /**
      * Get the evaluator object.
      *
      * @return \Anomaly\Streams\Platform\Ui\Evaluator
@@ -329,6 +347,21 @@ class Ui
         }
 
         return app()->make($presets, [$this]);
+    }
+
+    /**
+     * Return a new utility instance.
+     *
+     * @return mixed
+     */
+    protected function newUtility()
+    {
+        if (!$utility = $this->transform(__FUNCTION__)) {
+
+            $utility = $this->utility;
+        }
+
+        return app()->make($utility, [$this]);
     }
 
     /**
