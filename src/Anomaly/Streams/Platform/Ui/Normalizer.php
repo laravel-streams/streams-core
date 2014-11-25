@@ -35,7 +35,7 @@ class Normalizer
 
         if ($this->normalizers) {
 
-            $this->runNormalizers($data);
+            $data = $this->runNormalizers($data);
         }
 
         return $data;
@@ -213,16 +213,21 @@ class Normalizer
      * Run the normalizers.
      *
      * @param array $data
+     * @return array
      */
-    protected function runNormalizers(array &$data)
+    protected function runNormalizers(array $data)
     {
-        foreach ($data as &$value) {
+        $normalized = [];
+
+        foreach ($data as $key => $value) {
 
             foreach ($this->normalizers as $normalizer) {
 
-                $value = $normalizer($value);
+                $normalized[$key] = $normalizer($value);
             }
         }
+
+        return $normalized;
     }
 }
  

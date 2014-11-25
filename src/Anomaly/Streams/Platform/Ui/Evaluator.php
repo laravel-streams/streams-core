@@ -47,7 +47,7 @@ class Evaluator
 
         if ($this->evaluators) {
 
-            $this->runEvaluators($data);
+            $data = $this->runEvaluators($data);
         }
 
         return $data;
@@ -92,16 +92,21 @@ class Evaluator
      * Run the evaluators.
      *
      * @param array $data
+     * @return array
      */
-    protected function runEvaluators(array &$data)
+    protected function runEvaluators(array $data)
     {
-        foreach ($data as &$value) {
+        $evaluated = [];
+
+        foreach ($data as $key => $value) {
 
             foreach ($this->evaluators as $evaluator) {
 
-                $value = $evaluator($value);
+                $evaluated[$key] = $evaluator($value);
             }
         }
+
+        return $evaluated;
     }
 }
  
