@@ -26,5 +26,9 @@ class ListenerServiceProvider extends ServiceProvider
             'Anomaly.Streams.Platform.Ui.Form.*',
             'Anomaly\Streams\Platform\Ui\Form\FormListener'
         );
+        app('events')->listen(
+            'Anomaly.Streams.Platform.Ui.Table.*',
+            'Anomaly\Streams\Platform\Ui\Table\TableListener'
+        );
     }
 }
