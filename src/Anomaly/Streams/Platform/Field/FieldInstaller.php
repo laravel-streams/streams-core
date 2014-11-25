@@ -78,11 +78,15 @@ class FieldInstaller implements InstallableInterface
                 $field = ['type' => $field];
             }
 
-            // Catch some convenient defaults.
-            $field['slug'] = $slug;
+            $type     = array_get($field, 'type');
+            $rules    = array_get($field, 'rules', []);
+            $config   = array_get($field, 'config', []);
+            $isLocked = array_get($field, 'is_locked', true);
 
-            $field['namespace'] = $this->getNamespace($field);
-            $field['name']      = $this->getName($field);
+            $namespace = $this->getNamespace($field);
+            $name      = $this->getName($namespace, $slug, $field);
+
+            $field = compact('slug', 'type', 'namespace', 'name', 'rules', 'config', 'isLocked');
 
             $this->fieldService->create($field);
         }
@@ -125,20 +129,22 @@ class FieldInstaller implements InstallableInterface
      */
     protected function getNamespace($field)
     {
-        return isset($field['namespace']) ? $field['namespace'] : $this->namespace;
+        return array_get($field, 'namespace', $this->namespace);
     }
 
     /**
      * Get the name of a field.
      *
+     * @param $namespace
+     * @param $slug
      * @param $field
      * @return string
      */
-    protected function getName($field)
+    protected function getName($namespace, $slug, $field)
     {
-        $default = "{$this->addonType}." . $field['namespace'] . "::field.{$field['slug']}.name";
+        $default = "{$this->addonType}." . $namespace . "::field.{$slug}.name";
 
-        return isset($field['name']) ? $field['name'] : $default;
+        return array_get($field, 'name', $default);
     }
 
     /**
