@@ -23,7 +23,6 @@ class BuildTableActionsCommandHandler
      */
     protected $notAttributes = [
         'type',
-        'name',
         'title',
         'class',
         'handler',
@@ -56,20 +55,21 @@ class BuildTableActionsCommandHandler
              * might fire in evaluation.
              */
             unset($action['handler']);
-            
+
             // Expand, automate, and evaluate.
             $action = $expander->expand($slug, $action);
             $action = $presets->setActionPresets($action);
             $action = $evaluator->evaluate($action, compact('table'));
 
             // Skip if disabled.
-            if (!array_get($action, 'enabled') === false) {
+            if (array_get($action, 'enabled') === false) {
 
                 continue;
             }
 
-            // All actions are disabled at first.
+            // Hard coded
             $action['disabled'] = 'disabled';
+            $action['name']     = $table->getPrefix() . 'action';
 
             // Build out our required data.
             $icon  = array_get($action, 'icon');
