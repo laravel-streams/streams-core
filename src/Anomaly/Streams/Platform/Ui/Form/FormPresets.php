@@ -30,10 +30,10 @@ class FormPresets extends Presets
     /**
      * Set redirect presets.
      *
-     * @param $redirect
+     * @param array $redirect
      * @return null
      */
-    public function setRedirectPresets($redirect)
+    public function setRedirectPresets(array $redirect)
     {
         $redirect = parent::setButtonPresets($redirect);
 
@@ -46,30 +46,30 @@ class FormPresets extends Presets
     }
 
     /**
-     * Set action presets.
+     * Set button presets.
      *
-     * @param $action
+     * @param $button
      * @return null
      */
-    public function setActionPresets($action)
+    public function setButtonPresets(array $button)
     {
-        $action = parent::setButtonPresets($action);
+        $button = parent::setButtonPresets($button);
 
-        if (!array_key_exists('href', $action)) {
+        if (!array_key_exists('href', $button)) {
 
-            $action['href'] = $this->guessActionHref($action['slug']);
+            $button['href'] = $this->guessButtonHref($button['slug']);
         }
 
-        return $action;
+        return $button;
     }
 
     /**
      * Set section presets.
      *
-     * @param $section
+     * @param array $section
      * @return null
      */
-    public function setSectionPresets($section)
+    public function setSectionPresets(array $section)
     {
         if (!isset($section['type'])) {
             $section['type'] = 'default';
@@ -126,7 +126,7 @@ class FormPresets extends Presets
      * @param $slug
      * @return string
      */
-    protected function guessActionHref($slug)
+    protected function guessButtonHref($slug)
     {
         switch ($slug) {
 
