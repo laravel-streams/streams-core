@@ -38,12 +38,12 @@ class FieldRepository implements FieldRepositoryInterface
      * @param       $slug
      * @param       $name
      * @param       $type
-     * @param array $config
      * @param array $rules
+     * @param array $config
      * @param bool  $isLocked
-     * @return mixed
+     * @return mixed|static
      */
-    public function create($namespace, $slug, $name, $type, array $config = [], array $rules = [], $isLocked = true)
+    public function create($namespace, $slug, $name, $type, array $rules = [], array $config = [], $isLocked = true)
     {
         $field = $this->model->newInstance();
 
