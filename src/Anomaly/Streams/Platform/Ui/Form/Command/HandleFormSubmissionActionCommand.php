@@ -1,14 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 /**
- * Class HandleFormSubmissionRedirectCommand
+ * Class HandleFormSubmissionActionCommand
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class HandleFormSubmissionRedirectCommand
+class HandleFormSubmissionActionCommand
 {
 
     /**
@@ -19,7 +19,7 @@ class HandleFormSubmissionRedirectCommand
     protected $form;
 
     /**
-     * Create a new HandleFormSubmissionRedirectCommand instance.
+     * Create a new HandleFormSubmissionActionCommand instance.
      *
      * @param $form
      */

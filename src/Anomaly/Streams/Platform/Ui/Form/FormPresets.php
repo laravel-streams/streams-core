@@ -37,9 +37,9 @@ class FormPresets extends Presets
     {
         $action = parent::setButtonPresets($action);
 
-        if (!array_key_exists('response', $action)) {
+        if (!array_key_exists('handler', $action)) {
 
-            $action['response'] = $this->guessActionResponse($action['slug']);
+            $action['handler'] = $this->guessActionHandler($action['slug']);
         }
 
         return $action;
@@ -98,7 +98,7 @@ class FormPresets extends Presets
      * @param $slug
      * @return string
      */
-    protected function guessActionResponse($slug)
+    protected function guessActionHandler($slug)
     {
         switch ($slug) {
 

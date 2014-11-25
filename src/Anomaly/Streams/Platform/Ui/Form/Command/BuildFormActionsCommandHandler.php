@@ -23,7 +23,7 @@ class BuildFormActionsCommandHandler
         'slug',
         'title',
         'class',
-        'response',
+        'handler',
     ];
 
     /**
@@ -57,7 +57,7 @@ class BuildFormActionsCommandHandler
              * Unset the handler cause it
              * will fire in evaluation.
              */
-            unset($action['response']);
+            unset($action['handler']);
 
             // Evaluate the entire action.
             $action = $evaluator->evaluate($action, compact('form'), $entry);

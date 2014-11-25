@@ -45,7 +45,7 @@ class HandleFormSubmissionCommandHandler
         }
 
         // Let the intended redirect handle the form response.
-        return $form->setResponse($this->execute(new HandleFormSubmissionRedirectCommand($form)));
+        return $form->setResponse($this->execute(new HandleFormSubmissionActionCommand($form)));
     }
 }
  
