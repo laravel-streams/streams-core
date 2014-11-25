@@ -51,7 +51,8 @@ class HandleTableActionCommandHandler
                 // Found the executing action? Nice, run it.
                 if ($executing == $table->getPrefix() . $action['slug']) {
 
-                    $this->setHandler($action, $table);
+                    $action['handler'] = $this->getHandler($action, $table);
+
                     $this->runHandler($action, $table);
 
                     app('streams.messages')->flash();
@@ -70,12 +71,14 @@ class HandleTableActionCommandHandler
      * @param Table $table
      * @return mixed
      */
-    protected function setHandler(array &$action, Table $table)
+    protected function getHandler(array $action, Table $table)
     {
         if (is_string($action['handler'])) {
 
-            $action['handler'] = app()->make($action['handler'], compact('table'));
+            return $this->autoCompleteHandlerClass($action['handler'], $table);
         }
+
+        return $action['handler'];
     }
 
     /**
@@ -94,7 +97,16 @@ class HandleTableActionCommandHandler
          */
         if ($action['handler'] instanceof \Closure) {
 
-            app()->call($action['handler'], compact('table'));
+            app()->call($action['handler'], compact('table', 'ids'));
+        }
+
+        /**
+         * If the handler is a string call it
+         * through the container.
+         */
+        if (is_string($action['handler'])) {
+
+            app()->call($action['handler'], compact('table', 'ids'));
         }
 
         /**
@@ -108,6 +120,39 @@ class HandleTableActionCommandHandler
                 $action['handler']->handle($table, $ids);
             }
         }
+    }
+
+    /**
+     * Auto-complete the handler class.
+     *
+     * @param       $handler
+     * @param Table $table
+     */
+    protected function autoCompleteHandlerClass($handler, Table $table)
+    {
+        if (!starts_with($handler, 'Anomaly')) {
+
+            $namespace = $this->getTableNamespace($table);
+
+            return $namespace . '\Action\\' . $handler;
+        }
+
+        return $handler;
+    }
+
+    /**
+     * Get the namespace of the table.
+     *
+     * @param Table $table
+     * @return string
+     */
+    protected function getTableNamespace(Table $table)
+    {
+        $namespace = explode('\\', get_class($table));
+
+        array_pop($namespace);
+
+        return implode('\\', $namespace);
     }
 }
  
