@@ -69,7 +69,7 @@ class TablePresets extends Presets
     protected $views = [
         'all' => [
             'title'   => 'misc.all',
-            'handler' => 'Anomaly\Streams\Platform\Ui\Table\View\All',
+            'handler' => 'Anomaly\Streams\Platform\Ui\Table\View\All@handle',
         ]
     ];
 
