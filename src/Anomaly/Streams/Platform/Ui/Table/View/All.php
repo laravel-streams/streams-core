@@ -1,8 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\View;
 
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableViewInterface;
-use Anomaly\Streams\Platform\Ui\Table\Table;
-
 /**
  * Class All
  *
@@ -11,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\View
  */
-class All implements TableViewInterface
+class All
 {
 
     /**
