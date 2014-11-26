@@ -59,7 +59,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         $userId = null;
 
-        if ($user = app('auth')->check() and $user instanceof UserInterface) {
+        if ($user = app('streams.auth')->check() and $user instanceof UserInterface) {
 
             $userId = $user->getId();
         }
