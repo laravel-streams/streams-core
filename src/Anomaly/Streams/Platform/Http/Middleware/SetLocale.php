@@ -21,9 +21,9 @@ class SetLocale implements Middleware
      */
     public function handle($request, \Closure $next)
     {
-        $auth        = app('auth');
         $config      = app('config');
         $session     = app('session');
+        $auth        = app('streams.auth');
         $application = app('streams.application');
 
         return $next($request); // TODO: This is fucked up.
