@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Asset\Asset;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\ServiceProvider;
 
 /**
  * Class AssetServiceProvider
@@ -12,7 +11,7 @@ use Illuminate\Support\ServiceProvider;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Provider
  */
-class AssetServiceProvider extends ServiceProvider
+class AssetServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 
     /**

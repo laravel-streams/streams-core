@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
-use Illuminate\Support\ServiceProvider;
-
-class ModelServiceProvider extends ServiceProvider
+class ModelServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 
     /**

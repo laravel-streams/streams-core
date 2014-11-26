@@ -1,9 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
 use Anomaly\Streams\Platform\Support\Messages;
-use Illuminate\Support\ServiceProvider;
 
-class MessagesServiceProvider extends ServiceProvider
+class MessagesServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 
     /**

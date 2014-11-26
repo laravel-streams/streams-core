@@ -32,7 +32,6 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
     public function before(Router $router)
     {
         if (app('request')->isMethod('post')) {
-
             //'Anomaly\Streams\Platform\Http\Middleware\CheckCsrfToken'
         }
     }

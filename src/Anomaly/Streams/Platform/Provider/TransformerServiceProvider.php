@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
 use Anomaly\Streams\Platform\Support\Transformer;
-use Illuminate\Support\ServiceProvider;
 
 /**
  * Class TransformerServiceProvider
@@ -11,7 +10,7 @@ use Illuminate\Support\ServiceProvider;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Provider
  */
-class TransformerServiceProvider extends ServiceProvider
+class TransformerServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 
     /**

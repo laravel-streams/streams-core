@@ -1,9 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
 use Anomaly\Streams\Platform\Asset\Image;
-use Illuminate\Support\ServiceProvider;
 
-class ImageServiceProvider extends ServiceProvider
+class ImageServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 
     /**

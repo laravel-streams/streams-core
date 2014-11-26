@@ -1,9 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
 use Composer\Autoload\ClassLoader;
-use Illuminate\Support\ServiceProvider;
 
-class LoaderServiceProvider extends ServiceProvider
+class LoaderServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 
     /**

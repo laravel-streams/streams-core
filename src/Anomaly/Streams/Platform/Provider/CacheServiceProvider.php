@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
 use Anomaly\Streams\Platform\Collection\CacheCollection;
-use Illuminate\Support\ServiceProvider;
 
 /**
  * Class CacheServiceProvider
@@ -11,7 +10,7 @@ use Illuminate\Support\ServiceProvider;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Provider
  */
-class CacheServiceProvider extends ServiceProvider
+class CacheServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 
     /**

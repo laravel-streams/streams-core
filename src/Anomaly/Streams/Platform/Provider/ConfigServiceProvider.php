@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
-use Anomaly\Streams\Platform\Support\ConfigFileLoader;
 use Illuminate\Config\Repository;
-use Illuminate\Support\ServiceProvider;
 
 /**
  * Class ConfigServiceProvider
@@ -12,7 +10,7 @@ use Illuminate\Support\ServiceProvider;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Provider
  */
-class ConfigServiceProvider extends ServiceProvider
+class ConfigServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 
     /**

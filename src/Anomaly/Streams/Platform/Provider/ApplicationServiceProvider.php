@@ -2,9 +2,8 @@
 
 use Anomaly\Streams\Platform\Foundation\Application;
 use Anomaly\Streams\Platform\Foundation\ApplicationModel;
-use Illuminate\Support\ServiceProvider;
 
-class ApplicationServiceProvider extends ServiceProvider
+class ApplicationServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 
     /**
