@@ -126,7 +126,7 @@ class BuildFormSectionFieldsCommandHandler
                 $type->setPrefix($form->getPrefix());
                 $type->setHidden(config('app.locale') !== $locale);
 
-                if (app('request')->has($key)) {
+                if (app('request')->exists($key)) {
 
                     $type->setValue(app('request')->get($key));
                 }
