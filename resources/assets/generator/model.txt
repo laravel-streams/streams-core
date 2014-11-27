@@ -9,7 +9,7 @@ class {class} extends EntryModel
 
     protected $titleKey = '{title}';
 
-    public static $rules = {rules};
+    public $rules = {rules};
 
     public $dates = {dates};
 

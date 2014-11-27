@@ -29,7 +29,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      *
      * @var array
      */
-    public static $rules = [];
+    public $rules = [];
 
     /**
      * The compiled stream data.
@@ -66,14 +66,14 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         if (!$this->exists) {
 
-            $this->setAttribute('created_at', time());
-            $this->setAttribute('created_by', $userId);
-            $this->setAttribute('updated_at', null);
-            $this->setAttribute('sort_order', $this->count('id') + 1);
+            $this->created_at = date('Y-m-d H:i:s');
+            $this->created_by = $userId;
+            $this->updated_at = null;
+            $this->sort_order = $this->count('id') + 1;
         } else {
 
-            $this->setAttribute('updated_at', time());
-            $this->setAttribute('updated_by', $userId);
+            $this->updated_at = date('Y-m-d H:i:s');
+            $this->updated_by = $userId;
         }
 
         return $this;
@@ -106,7 +106,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getRules()
     {
-        return self::$rules;
+        return $this->rules;
     }
 
 
