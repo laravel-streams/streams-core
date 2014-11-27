@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Entry\EntryInterface;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -82,7 +82,7 @@ class FormRepository implements FormRepositoryInterface
      */
     protected function saveDefaultLocale(EntryInterface $entry)
     {
-        foreach ($this->form->getData() as $locale => $data) {
+        foreach ($this->form->getInput() as $locale => $data) {
 
             if ($locale == config('app.locale')) {
 
@@ -103,7 +103,7 @@ class FormRepository implements FormRepositoryInterface
      */
     protected function saveTranslations($entry)
     {
-        foreach ($this->form->getData() as $locale => $data) {
+        foreach ($this->form->getInput() as $locale => $data) {
 
             if ($locale != config('app.locale') and $locale != 'include') {
 
