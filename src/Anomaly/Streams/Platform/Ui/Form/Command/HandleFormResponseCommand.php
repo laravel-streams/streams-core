@@ -1,37 +1,35 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Event;
-
-use Anomaly\Streams\Platform\Ui\Form\Form;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 /**
- * Class SubmittedEvent
+ * Class HandleFormResponseCommand
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Event
+ * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class SubmittedEvent
+class HandleFormResponseCommand
 {
 
     /**
      * The form object.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Form\Form
+     * @var
      */
     protected $form;
 
     /**
-     * Create a new form event instance.
+     * Create a new HandleFormResponseCommand instance.
      *
-     * @param Form $form
+     * @param $form
      */
-    function __construct(Form $form)
+    function __construct($form)
     {
         $this->form = $form;
     }
 
     /**
-     * Get the form UI object.
+     * Ger the form object.
      *
      * @return mixed
      */

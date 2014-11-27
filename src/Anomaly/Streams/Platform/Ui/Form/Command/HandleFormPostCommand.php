@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
- * Class HandleFormSubmissionCommand
+ * Class HandleFormPostCommand
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class HandleFormSubmissionCommand
+class HandleFormPostCommand
 {
 
     /**
@@ -21,7 +21,7 @@ class HandleFormSubmissionCommand
     protected $form;
 
     /**
-     * Create new HandleFormSubmissionCommand instance.
+     * Create new HandleFormPostCommand instance.
      *
      * @param Form $form
      */

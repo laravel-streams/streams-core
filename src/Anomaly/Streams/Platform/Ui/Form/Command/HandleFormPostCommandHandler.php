@@ -1,26 +1,29 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
+use Anomaly\Streams\Platform\Traits\DispatchableTrait;
+use Anomaly\Streams\Platform\Ui\Form\Event\PostedEvent;
 
 /**
- * Class HandleFormSubmissionCommandHandler
+ * Class HandleFormPostCommandHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class HandleFormSubmissionCommandHandler
+class HandleFormPostCommandHandler
 {
 
     use CommandableTrait;
+    use DispatchableTrait;
 
     /**
      * Handle the command.
      *
-     * @param HandleFormSubmissionCommand $command
+     * @param HandleFormPostCommand $command
      */
-    public function handle(HandleFormSubmissionCommand $command)
+    public function handle(HandleFormPostCommand $command)
     {
         $form = $command->getForm();
 
@@ -44,8 +47,8 @@ class HandleFormSubmissionCommandHandler
             return false;
         }
 
-        // Let the intended redirect handle the form response.
-        return $form->setResponse($this->execute(new HandleFormSubmissionActionCommand($form)));
+        // We're posted!
+        $this->dispatch(new PostedEvent($form));
     }
 }
  

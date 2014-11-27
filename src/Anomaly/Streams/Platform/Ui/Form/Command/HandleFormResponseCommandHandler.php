@@ -4,23 +4,23 @@ use Anomaly\Streams\Platform\Ui\Form\Contract\FormActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
- * Class HandleFormSubmissionActionCommandHandler
+ * Class HandleFormResponseCommandHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class HandleFormSubmissionActionCommandHandler
+class HandleFormResponseCommandHandler
 {
 
     /**
      * Handle the command.
      *
-     * @param HandleFormSubmissionActionCommand $command
+     * @param HandleFormResponseCommand $command
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function handle(HandleFormSubmissionActionCommand $command)
+    public function handle(HandleFormResponseCommand $command)
     {
         $form = $command->getForm();
 
