@@ -30,6 +30,15 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
     ];
 
     /**
+     * The application's route middleware.
+     *
+     * @var array
+     */
+    protected $routeMiddleware = [
+        'streams.auth' => 'Authenticate',
+    ];
+
+    /**
      * Handle an incoming HTTP request.
      *
      * @param  \Illuminate\Http\Request $request
