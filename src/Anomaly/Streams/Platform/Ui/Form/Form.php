@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Event\BootedEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\MadeEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\MakingEvent;
-use Anomaly\Streams\Platform\Ui\Form\Event\SubmittedEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\PostingEvent;
 use Anomaly\Streams\Platform\Ui\Ui;
 use Illuminate\Contracts\Support\MessageBag;
 
@@ -176,7 +176,7 @@ class Form extends Ui
 
         if (app('request')->isMethod('post')) {
 
-            $this->dispatch(new SubmittedEvent($this));
+            $this->dispatch(new PostingEvent($this));
         }
 
         if (!$this->response) {
@@ -584,6 +584,16 @@ class Form extends Ui
         }
 
         return $this->input;
+    }
+
+    /**
+     * Get the repository object.
+     *
+     * @return \Anomaly\Streams\Platform\Ui\Form\FormRepository
+     */
+    public function getRepository()
+    {
+        return $this->repository;
     }
 
     /**

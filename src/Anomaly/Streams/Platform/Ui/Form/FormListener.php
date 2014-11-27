@@ -2,10 +2,13 @@
 
 use Anomaly\Streams\Platform\Support\Listener;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
-use Anomaly\Streams\Platform\Ui\Form\Command\HandleFormSubmissionCommand;
+use Anomaly\Streams\Platform\Ui\Form\Command\HandleFormDataCommand;
+use Anomaly\Streams\Platform\Ui\Form\Command\HandleFormPostCommand;
+use Anomaly\Streams\Platform\Ui\Form\Command\HandleFormResponseCommand;
 use Anomaly\Streams\Platform\Ui\Form\Event\AuthorizationFailedEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\AuthorizationPassedEvent;
-use Anomaly\Streams\Platform\Ui\Form\Event\SubmittedEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\PostedEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\PostingEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\ValidationFailedEvent;
 use Anomaly\Streams\Platform\Ui\Form\Event\ValidationPassedEvent;
 
@@ -23,15 +26,24 @@ class FormListener extends Listener
     use CommandableTrait;
 
     /**
-     * Fired when the form's request is a POST.
+     * Fired when the form's is posting.
      *
-     * @param SubmittedEvent $event
+     * @param PostingEvent $event
      */
-    public function whenSubmitted(SubmittedEvent $event)
+    public function whenPosting(PostingEvent $event)
     {
-        $form = $event->getForm();
+        $this->execute(new HandleFormPostCommand($event->getForm()));
+    }
 
-        $this->execute(new HandleFormSubmissionCommand($form));
+    /**
+     * Fired after form has been posted, authorized and validated.
+     *
+     * @param PostedEvent $event
+     */
+    public function whenPosted(PostedEvent $event)
+    {
+        $this->execute(new HandleFormDataCommand($event->getForm()));
+        $this->execute(new HandleFormResponseCommand($event->getForm()));
     }
 
     /**
@@ -51,7 +63,7 @@ class FormListener extends Listener
      */
     public function whenValidationFailed(ValidationFailedEvent $event)
     {
-        app('streams.messages')->add('error', $event->getForm()->getErrors()->all());
+        app('streams.messages')->add('error', $event->getForm()->getErrors()->all())->flash();
     }
 
     /**
