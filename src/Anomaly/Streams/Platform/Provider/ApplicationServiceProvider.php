@@ -17,7 +17,8 @@ class ApplicationServiceProvider extends \Illuminate\Support\ServiceProvider
 
         app('config')->addNamespace('streams', __DIR__ . '/../../../../resources/config');
 
-        if ($request->segment(1) !== 'installer') {
+        // ARTISAN.. Breaks if location occurs.
+        if ($request->segment(1) !== 'installer' and !ends_with($request->root(), 'localhost')) {
 
             app('streams.application')->locate();
             app('streams.application')->setup();
