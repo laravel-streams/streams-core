@@ -1,6 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormValidatorInterface;
+use Anomaly\Streams\Platform\Ui\Form\Event\ValidationFailedEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\ValidationPassedEvent;
 use Illuminate\Validation\Validator;
 
 /**
@@ -13,6 +18,8 @@ use Illuminate\Validation\Validator;
  */
 class FormValidator implements FormValidatorInterface
 {
+
+    use DispatchableTrait;
 
     /**
      * Validate the form request.
@@ -30,10 +37,14 @@ class FormValidator implements FormValidatorInterface
 
         if ($validator->passes()) {
 
+            $this->dispatch(new ValidationPassedEvent($form));
+
             return true;
         }
 
         $form->setErrors($validator->messages());
+
+        $this->dispatch(new ValidationFailedEvent($form));
 
         return false;
     }
@@ -52,7 +63,10 @@ class FormValidator implements FormValidatorInterface
 
             foreach ($stream->getAssignments() as $assignment) {
 
-                $attributes[$assignment->field->slug] = strtolower($assignment->getField());
+                if ($assignment instanceof AssignmentInterface and $field = $assignment->getField() and $field instanceof FieldInterface) {
+
+                    $attributes[$field->getSlug()] = strtolower(trans($field->getName()));
+                }
             }
 
             $validator->setAttributeNames($attributes);
