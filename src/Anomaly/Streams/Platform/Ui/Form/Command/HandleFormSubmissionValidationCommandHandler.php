@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormValidatorInterface;
+use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
  * Class HandleFormSubmissionValidationCommandHandler
@@ -23,18 +24,19 @@ class HandleFormSubmissionValidationCommandHandler
     {
         $form = $command->getForm();
 
-        return $this->runValidator($form->newValidator());
+        return $this->runValidator($form->newValidator(), $form);
     }
 
     /**
      * Run the validator.
      *
      * @param FormValidatorInterface $validator
+     * @param Form                   $form
      * @return bool
      */
-    protected function runValidator(FormValidatorInterface $validator)
+    protected function runValidator(FormValidatorInterface $validator, Form $form)
     {
-        return (bool)$validator->validate();
+        return (bool)$validator->validate($form);
     }
 }
  

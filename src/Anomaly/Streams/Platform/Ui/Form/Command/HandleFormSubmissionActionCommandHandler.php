@@ -24,11 +24,8 @@ class HandleFormSubmissionActionCommandHandler
     {
         $form = $command->getForm();
 
-        $entry      = $form->getEntry();
-        $presets    = $form->getPresets();
-        $expander   = $form->getExpander();
-        $evaluator  = $form->getEvaluator();
-        $normalizer = $form->getNormalizer();
+        $presets  = $form->getPresets();
+        $expander = $form->getExpander();
 
         $value = app('request')->get($form->getPrefix() . 'action');
 
@@ -40,6 +37,11 @@ class HandleFormSubmissionActionCommandHandler
             // Expand and automate.
             $action = $expander->expand($slug, $action);
             $action = $presets->setActionPresets($action);
+
+            if ($value != $action['slug']) {
+
+                continue;
+            }
 
             $action['handler'] = $this->getHandler($action, $form);
 
@@ -61,7 +63,7 @@ class HandleFormSubmissionActionCommandHandler
          * the class path if needed based on the form
          * object being used.
          */
-        if (is_string($action['handler'])) {
+        if (is_string($action['handler']) and !starts_with($action['handler'], 'http')) {
 
             $utility = $form->getUtility();
 
@@ -83,7 +85,7 @@ class HandleFormSubmissionActionCommandHandler
          * If the handler is a string and contains
          * http it is a URL. Automate the response.
          */
-        if (is_string($action['handler']) and str_contains($action['handler'], 'http')) {
+        if (is_string($action['handler']) and starts_with($action['handler'], 'http')) {
 
             $form->setResponse(redirect($action['handler']));
         }
@@ -93,7 +95,7 @@ class HandleFormSubmissionActionCommandHandler
          * likely a class path. Call the handler
          * through the container.
          */
-        if (is_string($action['handler'])) {
+        if (is_string($action['handler']) and ! starts_with($action['handler'], 'http')) {
 
             app()->call($action['handler'], compact('form', 'action'));
         }

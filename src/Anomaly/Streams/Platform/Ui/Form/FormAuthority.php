@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormAuthorityInterface;
+
 /**
  * Class FormAuthority
  *
@@ -8,7 +10,7 @@
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form
  */
-class FormAuthority
+class FormAuthority implements FormAuthorityInterface
 {
 
     /**

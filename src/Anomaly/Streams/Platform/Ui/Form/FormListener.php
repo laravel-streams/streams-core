@@ -27,7 +27,7 @@ class FormListener extends Listener
      *
      * @param SubmittedEvent $event
      */
-    public function whenFormWasSubmitted(SubmittedEvent $event)
+    public function whenSubmitted(SubmittedEvent $event)
     {
         $form = $event->getForm();
 

@@ -17,13 +17,14 @@ class FormValidator implements FormValidatorInterface
     /**
      * Validate the form request.
      *
-     * @param array $input
+     * @param Form $form
+     * @return bool|mixed
      */
     public function validate(Form $form)
     {
-        $data = $form->getData();
+        $input = $form->getInput();
 
-        $validator = app('validator')->make($data[config('app.locale')], $form->getRules());
+        $validator = app('validator')->make($input[config('app.locale')], $form->getRules());
 
         $this->setAttributeNames($validator, $form);
 

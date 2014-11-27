@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Contract;
 
+use Anomaly\Streams\Platform\Ui\Form\Form;
+
 /**
  * Interface FormValidatorInterface
  *
@@ -14,8 +16,9 @@ interface FormValidatorInterface
     /**
      * Validate the form request.
      *
+     * @param Form $form
      * @return mixed
      */
-    public function validate();
+    public function validate(Form $form);
 }
  
