@@ -29,6 +29,13 @@ interface FieldInterface
     public function getName();
 
     /**
+     * Get the slug.
+     *
+     * @return mixed
+     */
+    public function getSlug();
+
+    /**
      * Get the field type.
      *
      * @param EntryInterface $entry

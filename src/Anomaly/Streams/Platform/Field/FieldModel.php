@@ -66,6 +66,16 @@ class FieldModel extends EloquentModel implements FieldInterface
     }
 
     /**
+     * Get the slug.
+     *
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
      * Get the field type.
      *
      * @return mixed
