@@ -128,21 +128,6 @@ class BuildTableColumnsCommandHandler
         }
 
         /**
-         * If the value is NOT set then chances are
-         * the user is using dot notation or
-         * getting the value from the entry
-         * by field slug.
-         */
-        if (!$value and isset($column['field']) and $entry instanceof EntryInterface) {
-
-            $value = $column['field'];
-
-            $entry = app('streams.decorator')->decorate($entry);
-
-            return $this->parseValue($value, $entry);
-        }
-
-        /**
          * If the "relation" key is set then let's try
          * and resolve a value from a relation that is not
          * a field but a relation method on the model.
@@ -150,6 +135,21 @@ class BuildTableColumnsCommandHandler
         if (isset($column['relation'])) {
 
             $value = $column['relation'];
+
+            $entry = app('streams.decorator')->decorate($entry);
+
+            return $this->parseValue($value, $entry);
+        }
+
+        /**
+         * If the value is NOT set then chances are
+         * the user is using dot notation or
+         * getting the value from the entry
+         * by field slug.
+         */
+        if (!$value and $entry instanceof EntryInterface) {
+
+            $value = $column['field'];
 
             $entry = app('streams.decorator')->decorate($entry);
 
