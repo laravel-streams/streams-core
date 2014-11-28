@@ -40,11 +40,13 @@ class BuildFormOptionsCommandHandler
     {
         $locales = [];
 
-        foreach (config('streams.available_locales') as $locale) {
+        foreach (config('streams.available_locales') as $k => $locale) {
 
             $language = trans('language.' . $locale);
 
-            $locales[$locale] = compact('locale', 'language');
+            $active = $k == 0;
+
+            $locales[$locale] = compact('locale', 'language', 'active');
         }
 
         return $locales;

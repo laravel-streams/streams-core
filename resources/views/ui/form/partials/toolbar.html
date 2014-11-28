@@ -1,16 +1,21 @@
 {{ if options.translatable }}
 <div class="toolbar">
+
     {{ if options.translatable }}
     <div class="dropdown visible-lg-inline-block">
-        <button class="btn btn-sm btn-link dropdown-toggle" data-toggle="dropdown">
+        <a href="#" class="btn btn-sm btn-link dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-language"></i>&nbsp;Translations
-        </button>
+        </a>
         <ul class="dropdown-menu">
             {{ options.locales }}
-            <li><a href="#" data-toggle="form-locale" data-locale="{{ locale }}">{{ language }}</a></li>
+            <li class="{{ active then 'active' }}">
+                <a href="#" data-toggle="form-locale" data-locale="{{ locale }}">{{ language }}</a>
+            </li>
             {{ /options.locales }}
         </ul>
+
     </div>
     {{ endif }}
+
 </div>
 {{ endif }}
