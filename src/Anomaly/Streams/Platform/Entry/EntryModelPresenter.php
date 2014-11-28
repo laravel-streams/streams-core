@@ -34,6 +34,6 @@ class EntryModelPresenter extends EloquentModelPresenter
             return $type->newPresenter();
         }
 
-        return parent::__get($key);
+        return parent::getAttribute($key);
     }
 }
