@@ -1,10 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Column;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Column\Contract\ColumnInterface;
 use Anomaly\Streams\Platform\Ui\Table\Header\Contract\HeaderInterface;
 
 class Column implements ColumnInterface
 {
+
+    protected $entry = null;
 
     protected $value;
 
@@ -14,19 +18,54 @@ class Column implements ColumnInterface
 
     protected $header;
 
-    function __construct($value, $class = null, $prefix = null, HeaderInterface $header = null)
-    {
+    protected $stream;
+
+    function __construct(
+        $value,
+        $class = null,
+        $prefix = null,
+        HeaderInterface $header = null,
+        StreamInterface $stream = null
+    ) {
         $this->value  = $value;
         $this->class  = $class;
         $this->prefix = $prefix;
         $this->header = $header;
+        $this->stream = $stream;
     }
 
     public function viewData()
     {
         $value = $this->getValue();
 
+        if ($this->stream and is_string($value)) {
+
+            $value = $this->getValueFromField($value);
+        }
+
         return compact('value');
+    }
+
+    protected function getValueFromField($value)
+    {
+        if ($this->entry instanceof EntryInterface) {
+
+            return $this->entry->getFieldValue($value);
+        }
+
+        return $value;
+    }
+
+    public function setEntry($entry)
+    {
+        $this->entry = $entry;
+
+        return $this;
+    }
+
+    public function getEntry()
+    {
+        return $this->entry;
     }
 
     public function setPrefix($prefix)

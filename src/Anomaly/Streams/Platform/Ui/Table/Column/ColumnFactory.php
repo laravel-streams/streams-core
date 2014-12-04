@@ -14,7 +14,7 @@ class ColumnFactory
 
     public function make(array $parameters)
     {
-        $parameters['header'] = $this->makeHeader(array_get($parameters, 'header', []));
+        $this->makeHeader($parameters);
 
         if (!isset($parameters['column'])) {
 
@@ -37,9 +37,11 @@ class ColumnFactory
         throw new \Exception('A column could not be created with the provided parameters.');
     }
 
-    protected function makeHeader(array $parameters)
+    protected function makeHeader(array &$parameters)
     {
-        return $this->headerFactory->make($parameters);
+        $stream = array_get($parameters, 'stream');
+
+        $parameters['header'] = $this->headerFactory->make(array_get($parameters, 'header', []) + compact('stream'));
     }
 }
  

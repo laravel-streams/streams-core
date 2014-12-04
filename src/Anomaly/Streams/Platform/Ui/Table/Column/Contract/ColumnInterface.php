@@ -13,6 +13,10 @@ interface ColumnInterface
 
     public function setPrefix($prefix);
 
+    public function setEntry($entry);
+
+    public function getEntry();
+
     public function getPrefix();
 
     public function setClass($class);
