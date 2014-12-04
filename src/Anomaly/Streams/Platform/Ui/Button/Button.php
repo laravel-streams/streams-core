@@ -8,18 +8,42 @@ class Button implements ButtonInterface
 
     protected $text;
 
-    protected $class;
-
     protected $size;
 
     protected $icon;
 
-    function __construct($class, $text = null, $size = null, IconInterface $icon = null)
+    protected $class;
+
+    protected $attributes;
+
+    function __construct($class, $text = null, $size = null, IconInterface $icon = null, array $attributes = [])
     {
-        $this->text  = $text;
-        $this->icon  = $icon;
-        $this->size  = $size;
-        $this->class = $class;
+        $this->text       = $text;
+        $this->icon       = $icon;
+        $this->size       = $size;
+        $this->class      = $class;
+        $this->attributes = $attributes;
+    }
+
+    public function viewData()
+    {
+        $class      = $this->getClass();
+        $text       = trans($this->getText());
+        $attributes = attributes_string($this->getAttributes());
+
+        return compact('text', 'class', 'attributes');
+    }
+
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 
     public function setClass($class)

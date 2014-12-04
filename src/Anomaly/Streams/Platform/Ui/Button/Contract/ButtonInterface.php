@@ -5,6 +5,12 @@ use Anomaly\Streams\Platform\Ui\Icon\Contract\IconInterface;
 interface ButtonInterface
 {
 
+    public function viewData();
+
+    public function setAttributes(array $attributes);
+
+    public function getAttributes();
+
     public function setIcon(IconInterface $icon);
 
     public function getIcon();
