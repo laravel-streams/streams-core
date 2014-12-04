@@ -22,6 +22,10 @@ interface ActionInterface
 
     public function getHandler();
 
+    public function setActive($active);
+
+    public function isActive();
+
     public function setPrefix($prefix);
 
     public function getPrefix();

@@ -15,16 +15,26 @@ class Action implements ActionInterface
 
     protected $prefix;
 
+    protected $active;
+
     protected $handler;
 
     protected $attributes;
 
-    function __construct($text, $slug, $icon = false, $prefix = null, $handler = null, array $attributes = [])
-    {
+    function __construct(
+        $text,
+        $slug,
+        $icon = false,
+        $prefix = null,
+        $active = false,
+        $handler = null,
+        array $attributes = []
+    ) {
         $this->text       = $text;
         $this->slug       = $slug;
         $this->icon       = $icon;
         $this->prefix     = $prefix;
+        $this->active     = $active;
         $this->handler    = $handler;
         $this->attributes = $attributes;
     }
@@ -76,6 +86,18 @@ class Action implements ActionInterface
     public function getHandler()
     {
         return $this->handler;
+    }
+
+    public function setActive($active)
+    {
+        $this->active = ($active);
+
+        return $this;
+    }
+
+    public function isActive()
+    {
+        return ($this->active);
     }
 
     public function setPrefix($prefix)
