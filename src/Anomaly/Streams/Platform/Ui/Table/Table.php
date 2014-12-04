@@ -32,6 +32,8 @@ class Table
 
     protected $data = [];
 
+    protected $stream = null;
+
     protected $content = null;
 
     protected $total = 0;
@@ -114,6 +116,18 @@ class Table
     public function pullData($key, $default = null)
     {
         return array_get($this->data, $key, $default);
+    }
+
+    public function setStream($stream)
+    {
+        $this->stream = $stream;
+
+        return $this;
+    }
+
+    public function getStream()
+    {
+        return $this->stream;
     }
 
     public function setContent($content)
