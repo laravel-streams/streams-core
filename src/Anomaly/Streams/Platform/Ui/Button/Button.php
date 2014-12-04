@@ -46,6 +46,18 @@ class Button implements ButtonInterface
         return $this->attributes;
     }
 
+    public function putAttribute($key, $attribute)
+    {
+        $this->attributes[$key] = $attribute;
+
+        return $this;
+    }
+
+    public function pullAttribute($key, $default = null)
+    {
+        return array_get($this->attributes, $key, $default);
+    }
+
     public function setClass($class)
     {
         $this->class = $class;
