@@ -4,16 +4,27 @@ use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Table\Column\ColumnCollection;
 use Anomaly\Streams\Platform\Ui\Table\Filter\FilterCollection;
+use Anomaly\Streams\Platform\Ui\Table\Row\RowCollection;
 use Anomaly\Streams\Platform\Ui\Table\View\ViewCollection;
 use Illuminate\Support\Collection;
+use Laracasts\Commander\Events\DispatchableTrait;
 use Laracasts\Commander\Events\EventGenerator;
 
 class Table
 {
 
     use EventGenerator;
+    use DispatchableTrait;
 
     protected $prefix = null;
+
+    protected $sortable = true;
+
+    protected $eager = [];
+
+    protected $limit = null;
+
+    protected $orderBy = ['id' => 'asc'];
 
     protected $view = 'ui/table/index';
 
@@ -22,6 +33,10 @@ class Table
     protected $data = [];
 
     protected $content = null;
+
+    protected $total = 0;
+
+    protected $rows;
 
     protected $views;
 
@@ -37,12 +52,14 @@ class Table
 
     function __construct(
         Collection $entries,
+        RowCollection $rows,
         ViewCollection $views,
         ActionCollection $actions,
         ButtonCollection $buttons,
         ColumnCollection $columns,
         FilterCollection $filters
     ) {
+        $this->rows    = $rows;
         $this->views   = $views;
         $this->entries = $entries;
         $this->actions = $actions;
@@ -111,6 +128,18 @@ class Table
         return $this->content;
     }
 
+    public function setTotal($total)
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
     public function setWrapper($wrapper)
     {
         $this->wrapper = $wrapper;
@@ -121,6 +150,59 @@ class Table
     public function getWrapper()
     {
         return $this->wrapper;
+    }
+
+    public function setSortable($sortable)
+    {
+        $this->sortable = $sortable;
+
+        return $this;
+    }
+
+    public function isSortable()
+    {
+        return $this->sortable;
+    }
+
+    public function setEager(array $eager)
+    {
+        $this->eager = $eager;
+
+        return $this;
+    }
+
+    public function getEager()
+    {
+        return $this->eager;
+    }
+
+    public function setLimit($limit)
+    {
+        $this->limit = $limit;
+
+        return $this;
+    }
+
+    public function getLimit()
+    {
+        if (!$this->limit) {
+
+            return 15;
+        }
+
+        return $this->limit;
+    }
+
+    public function setOrderBy($orderBy)
+    {
+        $this->orderBy = $orderBy;
+
+        return $this;
+    }
+
+    public function getOrderBy()
+    {
+        return $this->orderBy;
     }
 
     public function getActions()
@@ -151,6 +233,11 @@ class Table
     public function getEntries()
     {
         return $this->entries;
+    }
+
+    public function getRows()
+    {
+        return $this->rows;
     }
 }
  

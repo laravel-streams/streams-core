@@ -34,11 +34,14 @@ class TableBuilder
     ];
 
     protected $columns = [
-        'name' => 'Hello there!'
+        [
+            'header' => 'Test',
+            'value'  => 'Hello there!',
+        ]
     ];
 
     protected $buttons = [
-        'edit' => 'Edit my balls'
+        'edit' => 'Edit my balls',
     ];
 
     protected $actions = [
