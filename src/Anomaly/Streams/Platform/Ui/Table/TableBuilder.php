@@ -10,6 +10,14 @@ class TableBuilder
     use CommanderTrait;
     use DispatchableTrait;
 
+    protected $standardizerCommand = 'Anomaly\Streams\Platform\Ui\Table\Command\StandardizeInputCommand';
+
+    protected $buildCommand = 'Anomaly\Streams\Platform\Ui\Table\Command\BuildTableCommand';
+
+    protected $makeCommand = 'Anomaly\Streams\Platform\Ui\Table\Command\MakeTableCommand';
+
+    protected $model = 'FooBarModel';
+
     protected $views = [
         'view_all' => [
             'test' => 'foo',
@@ -18,7 +26,11 @@ class TableBuilder
     ];
 
     protected $filters = [
-        'general' => 'input',
+        'general' => [
+            'type'        => 'text',
+            'filter'      => 'input',
+            'placeholder' => 'Woo!',
+        ],
     ];
 
     protected $columns = [
@@ -45,33 +57,41 @@ class TableBuilder
 
     public function build()
     {
-        $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\ParseBuilderInputCommand', ['builder' => $this]);
-        $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\BuildTableCommand', ['builder' => $this]);
-
-        $this->dispatchEventsFor($this->table);
-
-        return $this->table;
+        $this->execute($this->standardizerCommand, ['builder' => $this]);
+        $this->execute($this->buildCommand, ['builder' => $this]);
     }
 
     public function make()
     {
-        $table = $this->build();
+        $this->build();
 
-        return $table->make();
+        $this->execute($this->makeCommand, ['builder' => $this]);
     }
 
     public function render()
     {
-        $table = $this->build();
+        $this->make();
 
-        $table->make();
+        $content = $this->table->getContent();
 
-        return $table->render();
+        return view($this->table->getWrapper(), compact('content'));
     }
 
     public function getTable()
     {
         return $this->table;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    public function getModel()
+    {
+        return $this->model;
     }
 
     public function setViews(array $views)
