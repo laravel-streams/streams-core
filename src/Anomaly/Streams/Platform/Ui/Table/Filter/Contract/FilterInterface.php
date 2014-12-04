@@ -7,6 +7,12 @@ interface FilterInterface
 
     public function handle(Table $table);
 
+    public function viewData();
+
+    public function setPlaceholder($placeholder);
+
+    public function getPlaceholder();
+
     public function setHandler($handler);
 
     public function getHandler();

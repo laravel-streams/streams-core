@@ -12,16 +12,38 @@ class Filter implements FilterInterface
 
     protected $handler;
 
-    function __construct($slug, $prefix = null, $handler = null)
+    protected $placeholder;
+
+    function __construct($slug, $prefix = null, $handler = null, $placeholder = null)
     {
-        $this->slug    = $slug;
-        $this->prefix  = $prefix;
-        $this->handler = $handler;
+        $this->slug        = $slug;
+        $this->prefix      = $prefix;
+        $this->handler     = $handler;
+        $this->placeholder = $placeholder;
     }
 
     public function handle(Table $table)
     {
         //
+    }
+
+    public function viewData()
+    {
+        $input = $this->getInput();
+
+        return compact('input');
+    }
+
+    public function setPlaceholder($placeholder)
+    {
+        $this->placeholder = $placeholder;
+
+        return $this;
+    }
+
+    public function getPlaceholder()
+    {
+        return $this->placeholder;
     }
 
     public function setHandler($handler)
@@ -58,6 +80,21 @@ class Filter implements FilterInterface
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    protected function getInput()
+    {
+        return null;
+    }
+
+    protected function getName()
+    {
+        return $this->getPrefix() . $this->getSlug();
+    }
+
+    protected function getValue()
+    {
+        return app('request')->get($this->getName());
     }
 }
  
