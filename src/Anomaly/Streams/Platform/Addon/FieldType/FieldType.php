@@ -719,16 +719,12 @@ class FieldType extends Addon implements PresentableInterface
      * Filter a query by the value of a
      * field using this field type.
      *
-     * @param Table $table
-     * @param       $value
+     * @param Builder $query
+     * @param         $value
      */
-    public function filter(Table $table, $value)
+    public function filter(Builder $query, $value)
     {
-        $query = $table->getQuery();
-
         $query = $query->where($this->getColumnName(), 'LIKE', "%{$value}%");
-
-        $table->setQuery($query);
     }
 
     /**
