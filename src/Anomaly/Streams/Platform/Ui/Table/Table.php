@@ -36,6 +36,8 @@ class Table
 
     protected $content = null;
 
+    protected $response = null;
+
     protected $total = 0;
 
     protected $rows;
@@ -140,6 +142,18 @@ class Table
     public function getContent()
     {
         return $this->content;
+    }
+
+    public function setResponse($response)
+    {
+        $this->response = $response;
+
+        return $this;
+    }
+
+    public function getResponse()
+    {
+        return $this->response;
     }
 
     public function setTotal($total)

@@ -14,6 +14,8 @@ class TableBuilder
 
     protected $buildCommand = 'Anomaly\Streams\Platform\Ui\Table\Command\BuildTableCommand';
 
+    protected $handleCommand = 'Anomaly\Streams\Platform\Ui\Table\Command\HandleTableCommand';
+
     protected $makeCommand = 'Anomaly\Streams\Platform\Ui\Table\Command\MakeTableCommand';
 
     protected $model = 'FooBarModel';
@@ -26,10 +28,10 @@ class TableBuilder
     ];
 
     protected $filters = [
-        'general'     => [
+        'id'          => [
             'type'        => 'text',
             'filter'      => 'input',
-            'placeholder' => 'Woo!',
+            'placeholder' => 'Entry ID',
         ],
         'test_select' => [
             'filter'      => 'select',
@@ -38,7 +40,8 @@ class TableBuilder
                 'test' => 'Test',
                 'foo'  => 'Foo!',
             ]
-        ]
+        ],
+        'username',
     ];
 
     protected $columns = [
@@ -49,7 +52,12 @@ class TableBuilder
     ];
 
     protected $buttons = [
-        'edit' => 'Edit my balls',
+        'edit' => [
+            'text'       => 'Edit my balls',
+            'attributes' => [
+                'href' => '/admin/users/boom',
+            ]
+        ],
     ];
 
     protected $actions = [
@@ -70,22 +78,35 @@ class TableBuilder
     {
         $this->execute($this->standardizerCommand, ['builder' => $this]);
         $this->execute($this->buildCommand, ['builder' => $this]);
+
+        if (app('request')->isMethod('post')) {
+
+            $this->execute($this->handleCommand, ['builder' => $this]);
+        }
     }
 
     public function make()
     {
         $this->build();
 
-        $this->execute($this->makeCommand, ['builder' => $this]);
+        if ($this->table->getResponse() === null) {
+
+            $this->execute($this->makeCommand, ['builder' => $this]);
+        }
     }
 
     public function render()
     {
         $this->make();
 
-        $content = $this->table->getContent();
+        if ($this->table->getResponse() === null) {
 
-        return view($this->table->getWrapper(), compact('content'));
+            $content = $this->table->getContent();
+
+            return view($this->table->getWrapper(), compact('content'));
+        }
+
+        return $this->table->getResponse();
     }
 
     public function getTable()
