@@ -101,5 +101,22 @@ interface EntryInterface
      * @return mixed
      */
     public function isTranslatable();
+
+    /**
+     * Set an attribute value.
+     *
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function setAttribute($key, $value);
+
+    /**
+     * Get an attribute value.
+     *
+     * @param $key
+     * @return mixed
+     */
+    public function getAttribute($key);
 }
  
