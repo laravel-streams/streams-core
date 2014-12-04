@@ -117,6 +117,7 @@ class MakeTableCommandHandler
     protected function setTableData(Table $table)
     {
         $table->putData('sortable', $table->isSortable());
+        $table->putData('filtering', ($table->getFilters()->active()->count()));
     }
 
     protected function setPaginationData(Table $table)
