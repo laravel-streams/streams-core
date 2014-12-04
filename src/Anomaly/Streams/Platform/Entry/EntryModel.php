@@ -11,6 +11,8 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
  * Class EntryModel
@@ -20,7 +22,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry
  */
-class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface
+class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface, TableModelInterface
 {
 
     /**
@@ -275,5 +277,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         }
 
         return app()->make($collection, [$this]);
+    }
+
+    public function getTableEntries(Table $table)
+    {
+        return $this->all();
     }
 }
