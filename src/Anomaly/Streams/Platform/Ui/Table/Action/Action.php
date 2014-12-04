@@ -37,8 +37,9 @@ class Action implements ActionInterface
     public function viewData()
     {
         $text = trans($this->getText());
+        $slug = $this->getSlug();
 
-        return compact('text');
+        return compact('text', 'slug');
     }
 
     public function setAttributes(array $attributes)
