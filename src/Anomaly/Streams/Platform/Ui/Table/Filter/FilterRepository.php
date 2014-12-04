@@ -6,9 +6,13 @@ class FilterRepository implements FilterRepositoryInterface
 {
 
     protected $filters = [
-        'input' => [
+        'input'  => [
             'slug'   => 'input',
             'filter' => 'Anomaly\Streams\Platform\Ui\Table\Filter\Type\InputFilter',
+        ],
+        'select' => [
+            'slug'   => 'select',
+            'filter' => 'Anomaly\Streams\Platform\Ui\Table\Filter\Type\SelectFilter',
         ]
     ];
 
