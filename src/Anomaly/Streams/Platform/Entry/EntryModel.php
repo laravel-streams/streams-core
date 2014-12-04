@@ -12,7 +12,10 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
+use Anomaly\Streams\Platform\Ui\Table\Event\QueryingTableEntries;
 use Anomaly\Streams\Platform\Ui\Table\Table;
+use Laracasts\Commander\Events\DispatchableTrait;
+use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class EntryModel
@@ -24,6 +27,8 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
  */
 class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface, TableModelInterface
 {
+
+    use EventGenerator;
 
     /**
      * Validation rules. These are overridden
@@ -281,6 +286,53 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
     public function getTableEntries(Table $table)
     {
-        return $this->all();
+        $query = $this->newQuery();
+
+        /**
+         * Prevent joins from overriding intended columns
+         * by prefixing with the model's table name.
+         */
+        $query = $query->select($this->getTable() . '.*');
+
+        /**
+         * Eager load any relations to
+         * save resources and queries.
+         */
+        $query = $query->with($table->getEager());
+
+        /**
+         * Raise and dispatch an event here to allow
+         * other things (including filters / views)
+         * to modify the query before proceeding.
+         */
+        $table->raise(new QueryingTableEntries($table, $query));
+
+        $table->dispatchEventsFor($table);
+
+        /**
+         * Before we actually adjust the baseline query
+         * set the total amount of entries possible back
+         * on the table so it can be used later.
+         */
+        $table->setTotal($query->count());
+
+        /**
+         * Limit the results to the limit and offset
+         * based on the page if any.
+         */
+        $limit  = $table->getLimit();
+        $offset = $limit * (app('request')->get('page', 1) - 1);
+
+        $query = $query->take($limit)->offset($offset);
+
+        /**
+         * Order the query results.
+         */
+        foreach ($table->getOrderBy() as $column => $direction) {
+
+            $query = $query->orderBy($column, $direction);
+        }
+
+        return $query->get();
     }
 }
