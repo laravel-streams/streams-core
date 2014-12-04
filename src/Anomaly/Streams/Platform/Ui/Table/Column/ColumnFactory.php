@@ -1,10 +1,21 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Column;
 
+use Anomaly\Streams\Platform\Ui\Table\Header\HeaderFactory;
+
 class ColumnFactory
 {
 
+    protected $headerFactory;
+
+    function __construct(HeaderFactory $headerFactory)
+    {
+        $this->headerFactory = $headerFactory;
+    }
+
     public function make(array $parameters)
     {
+        $parameters['header'] = $this->makeHeader(array_get($parameters, 'header', []));
+
         if (!isset($parameters['column'])) {
 
             $parameters['column'] = 'Anomaly\Streams\Platform\Ui\Table\Column\Column';
@@ -24,6 +35,11 @@ class ColumnFactory
         }*/
 
         throw new \Exception('A column could not be created with the provided parameters.');
+    }
+
+    protected function makeHeader(array $parameters)
+    {
+        return $this->headerFactory->make($parameters);
     }
 }
  

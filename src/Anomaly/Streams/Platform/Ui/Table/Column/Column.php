@@ -1,24 +1,32 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Column;
 
 use Anomaly\Streams\Platform\Ui\Table\Column\Contract\ColumnInterface;
+use Anomaly\Streams\Platform\Ui\Table\Header\Contract\HeaderInterface;
 
 class Column implements ColumnInterface
 {
 
     protected $value;
 
-    protected $field;
-
     protected $class;
 
     protected $prefix;
 
-    function __construct($value, $field, $class = null, $prefix = null)
+    protected $header;
+
+    function __construct($value, $class = null, $prefix = null, HeaderInterface $header = null)
     {
         $this->value  = $value;
-        $this->field  = $field;
         $this->class  = $class;
         $this->prefix = $prefix;
+        $this->header = $header;
+    }
+
+    public function viewData()
+    {
+        $value = $this->getValue();
+
+        return compact('value');
     }
 
     public function setPrefix($prefix)
@@ -45,18 +53,6 @@ class Column implements ColumnInterface
         return $this->class;
     }
 
-    public function setField($field)
-    {
-        $this->field = $field;
-
-        return $this;
-    }
-
-    public function getField()
-    {
-        return $this->field;
-    }
-
     public function setValue($value)
     {
         $this->value = $value;
@@ -67,6 +63,18 @@ class Column implements ColumnInterface
     public function getValue()
     {
         return $this->value;
+    }
+
+    public function setHeader(HeaderInterface $header)
+    {
+        $this->header = $header;
+
+        return $this;
+    }
+
+    public function getHeader()
+    {
+        return $this->header;
     }
 }
  
