@@ -28,11 +28,6 @@ class TableBuilder
     ];
 
     protected $filters = [
-        'id'          => [
-            'type'        => 'text',
-            'filter'      => 'input',
-            'placeholder' => 'Entry ID',
-        ],
         'test_select' => [
             'filter'      => 'select',
             'placeholder' => 'misc.any',

@@ -16,7 +16,7 @@ class Table
     use EventGenerator;
     use DispatchableTrait;
 
-    protected $prefix = null;
+    protected $prefix = 'table_';
 
     protected $sortable = true;
 

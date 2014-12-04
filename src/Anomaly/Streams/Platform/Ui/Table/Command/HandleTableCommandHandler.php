@@ -19,7 +19,7 @@ class HandleTableCommandHandler
 
         if ($action = $actions->active()) {
 
-            $ids = app('request')->get('id');
+            $ids = app('request')->get($table->getPrefix() . 'id');
 
             $handler = $action->getHandler();
 

@@ -11,6 +11,7 @@
 
     {{ if .data.actions }}
     <td>
+        <input type="hidden" name="{{ .data.options.prefix }}order[]" value="{{ entry.id }}"/>
         <input type="checkbox" name="{{ .data.options.prefix }}id[]" value="{{ entry.id }}"/>
     </td>
     {{ endif }}
