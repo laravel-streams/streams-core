@@ -4,8 +4,8 @@
         {{ if views }}
         <ul class="table-views">
             {{ views }}
-            <li class="{{ class }} {{ if active }}active{{ endif }}">
-                <a href="{{ url }}">{{ title }}</a>
+            <li class="{{ class }} {{ active then 'active' }}">
+                <a href="{{ url }}">{{ text }}</a>
             </li>
             {{ /views }}
         </ul>
