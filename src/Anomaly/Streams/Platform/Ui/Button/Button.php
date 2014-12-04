@@ -27,9 +27,9 @@ class Button implements ButtonInterface
 
     public function viewData()
     {
-        $class      = $this->getClass();
         $text       = trans($this->getText());
         $attributes = attributes_string($this->getAttributes());
+        $class      = $this->getClass() . ' ' . $this->getSizeClass();
 
         return compact('text', 'class', 'attributes');
     }
@@ -92,6 +92,11 @@ class Button implements ButtonInterface
     public function getText()
     {
         return $this->text;
+    }
+
+    protected function getSizeClass()
+    {
+        return 'btn-' . $this->getSize();
     }
 }
  
