@@ -26,18 +26,26 @@ class TableBuilder
     ];
 
     protected $filters = [
-        'general' => [
+        'general'     => [
             'type'        => 'text',
             'filter'      => 'input',
             'placeholder' => 'Woo!',
         ],
+        'test_select' => [
+            'filter'      => 'select',
+            'placeholder' => 'misc.any',
+            'options'     => [
+                'test' => 'Test',
+                'foo'  => 'Foo!',
+            ]
+        ]
     ];
 
     protected $columns = [
         [
-            'header' => 'Test',
-            'value'  => 'Hello there!',
-        ]
+            'header' => 'Testing',
+            'value'  => 'username',
+        ],
     ];
 
     protected $buttons = [
