@@ -17,18 +17,40 @@ class Action implements ActionInterface
 
     protected $handler;
 
-    function __construct($text, $slug, $icon = false, $prefix = null, $handler = null)
+    protected $attributes;
+
+    function __construct($text, $slug, $icon = false, $prefix = null, $handler = null, array $attributes = [])
     {
-        $this->text    = $text;
-        $this->slug    = $slug;
-        $this->icon    = $icon;
-        $this->prefix  = $prefix;
-        $this->handler = $handler;
+        $this->text       = $text;
+        $this->slug       = $slug;
+        $this->icon       = $icon;
+        $this->prefix     = $prefix;
+        $this->handler    = $handler;
+        $this->attributes = $attributes;
     }
 
     public function handle(Table $table, array $ids)
     {
         //
+    }
+
+    public function viewData()
+    {
+        $text = trans($this->getText());
+
+        return compact('text');
+    }
+
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 
     public function setIcon(IconInterface $icon)

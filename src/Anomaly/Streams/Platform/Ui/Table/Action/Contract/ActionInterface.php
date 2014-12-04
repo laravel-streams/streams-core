@@ -8,6 +8,12 @@ interface ActionInterface
 
     public function handle(Table $table, array $ids);
 
+    public function viewData();
+
+    public function setAttributes(array $attributes);
+
+    public function getAttributes();
+
     public function setIcon(IconInterface $icon);
 
     public function getIcon();
