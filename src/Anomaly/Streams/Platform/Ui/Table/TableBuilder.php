@@ -20,47 +20,15 @@ class TableBuilder
 
     protected $model = 'FooBarModel';
 
-    protected $views = [
-        'view_all' => [
-            'test' => 'foo',
-            'view' => 'all',
-        ],
-    ];
+    protected $views = [];
 
-    protected $filters = [
-        'test_select' => [
-            'filter'      => 'select',
-            'placeholder' => 'misc.any',
-            'options'     => [
-                'test' => 'Test',
-                'foo'  => 'Foo!',
-            ]
-        ],
-        'username',
-    ];
+    protected $filters = [];
 
-    protected $columns = [
-        [
-            'header' => 'Testing',
-            'value'  => 'username',
-        ],
-    ];
+    protected $columns = [];
 
-    protected $buttons = [
-        'edit' => [
-            'text'       => 'Edit my balls',
-            'attributes' => [
-                'href' => '/admin/users/boom',
-            ]
-        ],
-    ];
+    protected $buttons = [];
 
-    protected $actions = [
-        'delete' => [
-            'action' => 'delete',
-            'text'   => 'Fuck',
-        ],
-    ];
+    protected $actions = [];
 
     protected $table;
 
