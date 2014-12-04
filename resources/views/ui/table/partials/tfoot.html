@@ -4,13 +4,19 @@
 <tr>
     <td colspan="100%" style="padding: 10px;">
 
-        <div class="pull-left actions">
-            {{ actions }}
-            <button type="submit" class="{{ class }}" {{{ attributes }}}>
-            {{{ icon }}}
-            {{{ title }}}
+        <div class="pull-left actions dropup">
+
+            <button type="button" class="btn btn-info btn-sm" data-toggle="dropdown" disabled>
+                Actions <i class="fa fa-caret-down"></i>
             </button>
-            {{ /actions }}
+            <ul class="dropdown-menu">
+                {{ actions }}
+                <li>
+                    <button type="submit" name="action" value="{{ slug }}">{{ text }}</button>
+                </li>
+                {{ /actions }}
+            </ul>
+
         </div>
 
         {{ if pagination.links }}
