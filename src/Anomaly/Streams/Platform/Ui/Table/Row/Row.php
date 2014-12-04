@@ -46,6 +46,8 @@ class Row implements RowInterface
 
             if ($column instanceof ColumnInterface) {
 
+                $column->setEntry($this->entry);
+
                 $columns[] = evaluate($column->viewData(), ['entry' => $this->entry]);
             }
         }
