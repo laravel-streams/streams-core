@@ -19,7 +19,7 @@ class BuildTableCommandHandler
         $builder = $command->getBuilder();
         $table   = $builder->getTable();
 
-        $table->raise(new TableIsBuilding($table));
+        $table->raise(new TableIsBuilding($builder));
 
         $this->dispatchEventsFor($table);
 
@@ -30,10 +30,11 @@ class BuildTableCommandHandler
         $this->loadTableButtons($builder);
         $this->loadTableActions($builder);
 
-
         $table->raise(new TableWasBuilt($table));
 
         $this->dispatchEventsFor($table);
+
+        $this->loadTableRows($builder);
     }
 
     protected function loadTableEntries(TableBuilder $builder)
@@ -149,6 +150,25 @@ class BuildTableCommandHandler
             $action->setPrefix($table->getPrefix());
 
             $actions->put($action->getSlug(), $action);
+        }
+    }
+
+    protected function loadTableRows(TableBuilder $builder)
+    {
+        $table   = $builder->getTable();
+        $entries = $table->getEntries();
+        $columns = $table->getColumns();
+        $buttons = $table->getButtons();
+        $rows    = $table->getRows();
+
+        foreach ($entries as $entry) {
+
+            $row = $this->execute(
+                'Anomaly\Streams\Platform\Ui\Table\Row\Command\MakeRowCommand',
+                compact('entry', 'columns', 'buttons')
+            );
+
+            $rows->push($row);
         }
     }
 }

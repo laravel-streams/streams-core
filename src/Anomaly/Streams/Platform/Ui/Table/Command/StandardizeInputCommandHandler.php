@@ -116,42 +116,26 @@ class StandardizeInputCommandHandler
     {
         $columns = $builder->getColumns();
 
-        foreach ($columns as $key => &$column) {
+        foreach ($columns as &$column) {
 
             /**
-             * If the key is numeric and the column is
-             * a string then use the column as both the
-             * column field and value.
+             * If the key is numeric and the column is not
+             * an array then use the column as the value.
              */
-            if (is_numeric($key) and is_string($column)) {
+            if (!is_array($column)) {
 
                 $column = [
-                    'field' => $column,
                     'value' => $column,
                 ];
             }
 
             /**
-             * If the key is NOT numeric and the column is a
-             * string then use the key as the field and the
-             * column as the column value.
+             * If the column header is set but is a string
+             * convert it into the header's text.
              */
-            if (!is_numeric($key) and is_string($column)) {
+            if (is_array($column) and isset($column['header']) and is_string($column['header'])) {
 
-                $column = [
-                    'field' => $key,
-                    'value' => $column,
-                ];
-            }
-
-            /**
-             * If the key is not numeric and the column is an
-             * array without a field then use the key for
-             * the field for the column.
-             */
-            if (is_array($column) and !isset($column['field']) and !is_numeric($key)) {
-
-                $column['field'] = $key;
+                $column['header'] = ['text' => $column['header']];
             }
         }
 

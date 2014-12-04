@@ -1,11 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Table\Column\Contract\ColumnInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableDataLoaded;
 use Anomaly\Streams\Platform\Ui\Table\Filter\Contract\FilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\Header\Contract\HeaderInterface;
+use Anomaly\Streams\Platform\Ui\Table\Row\Contract\RowInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Laracasts\Commander\Events\DispatchableTrait;
 
 class MakeTableCommandHandler
@@ -21,8 +24,10 @@ class MakeTableCommandHandler
         $this->setRowData($table);
         $this->setViewData($table);
         $this->setFilterData($table);
-        $this->setButtonData($table);
         $this->setActionData($table);
+        $this->setHeaderData($table);
+        $this->setTableData($table);
+        $this->setPaginationData($table);
 
         $table->raise(new TableDataLoaded($table));
 
@@ -34,6 +39,14 @@ class MakeTableCommandHandler
     protected function setRowData(Table $table)
     {
         $rows = [];
+
+        foreach ($table->getRows() as $row) {
+
+            if ($row instanceof RowInterface) {
+
+                $rows[] = $row->viewData();
+            }
+        }
 
         $table->putData('rows', $rows);
     }
@@ -68,21 +81,6 @@ class MakeTableCommandHandler
         $table->putData('filters', $filters);
     }
 
-    protected function setButtonData(Table $table)
-    {
-        $buttons = [];
-
-        foreach ($table->getButtons() as $button) {
-
-            if ($button instanceof ButtonInterface) {
-
-                $buttons[] = $button->viewData();
-            }
-        }
-
-        $table->putData('buttons', $buttons);
-    }
-
     protected function setActionData(Table $table)
     {
         $actions = [];
@@ -96,6 +94,48 @@ class MakeTableCommandHandler
         }
 
         $table->putData('actions', $actions);
+    }
+
+    protected function setHeaderData(Table $table)
+    {
+        $headers = [];
+
+        foreach ($table->getColumns() as $column) {
+
+            if ($column instanceof ColumnInterface) {
+
+                if ($header = $column->getHeader() and $header instanceof HeaderInterface) {
+
+                    $headers[] = $header->viewData();
+                }
+            }
+        }
+
+        $table->putData('headers', $headers);
+    }
+
+    protected function setTableData(Table $table)
+    {
+        $table->putData('sortable', $table->isSortable());
+    }
+
+    protected function setPaginationData(Table $table)
+    {
+        $perPage   = $table->getLimit();
+        $page      = app('request')->get('page');
+        $path      = '/' . app('request')->path();
+        $paginator = new LengthAwarePaginator(
+            $table->getEntries(),
+            $table->getTotal(),
+            $perPage,
+            $page,
+            compact('path')
+        );
+
+        $pagination          = $paginator->toArray();
+        $pagination['links'] = $paginator->appends($_GET)->render();
+
+        $table->putData('pagination', $pagination);
     }
 }
  
