@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsBuilding;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableWasBuilt;
@@ -23,8 +24,9 @@ class BuildTableCommandHandler
 
         $this->dispatchEventsFor($table);
 
+        $this->loadTableEntries($builder); // Do this first
+
         $this->loadTableViews($builder);
-        $this->loadTableEntries($builder);
         $this->loadTableFilters($builder);
         $this->loadTableColumns($builder);
         $this->loadTableButtons($builder);
@@ -48,6 +50,22 @@ class BuildTableCommandHandler
         if (!$model instanceof TableModelInterface) {
 
             throw new IncompatibleModelException("[$class] must implement Anomaly\\Streams\\Platform\\Ui\\Table\\Contract\\TableModelInterface");
+        }
+
+        /**
+         * If the model can extract a Stream then
+         * set it on the table at this time so we
+         * can use it later if we need.
+         *
+         * I do not like using the table as a
+         * transport like this but it may be needed
+         * for the time being. And perhaps not such
+         * a bad idea either. The events carrying the
+         * table object may very well benefit from it.
+         */
+        if ($model instanceof EntryInterface) {
+
+            $table->setStream($model->getStream());
         }
 
         foreach ($model->getTableEntries($table) as $entry) {
@@ -88,6 +106,8 @@ class BuildTableCommandHandler
 
         foreach ($builder->getFilters() as $parameters) {
 
+            array_set($parameters, 'stream', $table->getStream());
+
             $filter = $this->execute(
                 'Anomaly\Streams\Platform\Ui\Table\Filter\Command\MakeFilterCommand',
                 compact('parameters')
@@ -105,6 +125,8 @@ class BuildTableCommandHandler
         $columns = $table->getColumns();
 
         foreach ($builder->getColumns() as $parameters) {
+
+            array_set($parameters, 'stream', $table->getStream());
 
             $column = $this->execute(
                 'Anomaly\Streams\Platform\Ui\Table\Column\Command\MakeColumnCommand',

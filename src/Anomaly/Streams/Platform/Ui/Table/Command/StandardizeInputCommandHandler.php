@@ -125,7 +125,8 @@ class StandardizeInputCommandHandler
             if (!is_array($column)) {
 
                 $column = [
-                    'value' => $column,
+                    'header' => $column,
+                    'value'  => $column,
                 ];
             }
 
