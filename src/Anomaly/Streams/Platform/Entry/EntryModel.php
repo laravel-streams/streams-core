@@ -314,7 +314,23 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
          * set the total amount of entries possible back
          * on the table so it can be used later.
          */
-        $table->setTotal($query->count());
+        $table->setTotal($total = $query->count());
+
+        /**
+         * Assure that our page exists. If the page does
+         * not exist then start walking backwards until
+         * we find a page that is has something to show us.
+         */
+        $limit  = $table->getLimit();
+        $page   = app('request')->get('page', 1);
+        $offset = $limit * ($page - 1);
+
+        if ($total < $offset and $page > 1) {
+
+            $url = str_replace('page=' . $page, 'page=' . ($page - 1), app('request')->fullUrl());
+
+            header('Location: ' . $url);
+        }
 
         /**
          * Limit the results to the limit and offset
