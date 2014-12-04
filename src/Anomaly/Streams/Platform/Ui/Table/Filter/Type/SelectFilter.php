@@ -7,11 +7,11 @@ class SelectFilter extends Filter
 
     protected $options;
 
-    function __construct($slug, array $options, $prefix = null, $handler = null, $placeholder = null)
+    function __construct($slug, array $options, $prefix = null, $active = false, $handler = null, $placeholder = null)
     {
         $this->options = $options;
 
-        parent::__construct($slug, $prefix, $handler, $placeholder);
+        parent::__construct($slug, $prefix, $active, $handler, $placeholder);
     }
 
     protected function getInput()

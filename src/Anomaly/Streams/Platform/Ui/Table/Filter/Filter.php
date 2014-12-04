@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class Filter implements FilterInterface
 {
@@ -10,21 +11,24 @@ class Filter implements FilterInterface
 
     protected $prefix;
 
+    protected $active;
+
     protected $handler;
 
     protected $placeholder;
 
-    function __construct($slug, $prefix = null, $handler = null, $placeholder = null)
+    function __construct($slug, $prefix = null, $active = false, $handler = null, $placeholder = null)
     {
         $this->slug        = $slug;
         $this->prefix      = $prefix;
+        $this->active      = $active;
         $this->handler     = $handler;
         $this->placeholder = $placeholder;
     }
 
-    public function handle(Table $table)
+    public function handle(Table $table, Builder $query)
     {
-        //
+        $query = $query->where($this->getSlug(), 'LIKE', "%{$this->getValue()}%");
     }
 
     public function viewData()
@@ -56,6 +60,18 @@ class Filter implements FilterInterface
     public function getHandler()
     {
         return $this->handler;
+    }
+
+    public function setActive($active)
+    {
+        $this->active = ($active);
+
+        return $this;
+    }
+
+    public function isActive()
+    {
+        return ($this->active);
     }
 
     public function setPrefix($prefix)

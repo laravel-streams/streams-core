@@ -13,6 +13,9 @@ class FilterRepository implements FilterRepositoryInterface
         'select' => [
             'slug'   => 'select',
             'filter' => 'Anomaly\Streams\Platform\Ui\Table\Filter\Type\SelectFilter',
+        ],
+        'field'  => [
+            'filter' => 'Anomaly\Streams\Platform\Ui\Table\Filter\Type\FieldFilter',
         ]
     ];
 

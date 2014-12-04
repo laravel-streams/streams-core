@@ -7,11 +7,11 @@ class InputFilter extends Filter
 
     protected $type;
 
-    function __construct($slug, $type = 'text', $prefix = null, $handler = null, $placeholder = null)
+    function __construct($slug, $type = 'text', $prefix = null, $active = false, $handler = null, $placeholder = null)
     {
         $this->type = $type;
 
-        parent::__construct($slug, $prefix, $handler, $placeholder);
+        parent::__construct($slug, $prefix, $active, $handler, $placeholder);
     }
 
     public function setType($type)
