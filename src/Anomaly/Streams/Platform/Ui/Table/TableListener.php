@@ -8,6 +8,11 @@ class TableListener extends EventListener
 
     public function whenQueryingTableEntries(QueryingTableEntries $event)
     {
+        if (app('request')->isMethod('post')) {
+
+            return;
+        }
+        
         $query = $event->getQuery();
         $table = $event->getTable();
 
