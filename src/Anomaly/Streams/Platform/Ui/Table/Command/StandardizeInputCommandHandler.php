@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
+use Anomaly\Streams\Platform\Ui\Table\Exception\IncompatibleModelException;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 class StandardizeInputCommandHandler
@@ -10,6 +13,7 @@ class StandardizeInputCommandHandler
         $builder = $command->getBuilder();
 
         $this->standardizeViewInput($builder);
+        $this->standardizeModelInput($builder);
         $this->standardizeFilterInput($builder);
         $this->standardizeColumnInput($builder);
         $this->standardizeButtonInput($builder);
@@ -72,16 +76,15 @@ class StandardizeInputCommandHandler
 
             /**
              * If the key is numeric and the filter is
-             * a string then treat the string as both the
-             * filter and the slug. This is OK as long as
-             * there are not multiple instances of this
-             * input using the same filter which is not likely.
+             * a string then assume the filter is a field
+             * type and that the filter is the field slug.
              */
             if (is_numeric($key) and is_string($filter)) {
 
                 $filter = [
                     'slug'   => $filter,
-                    'filter' => $filter,
+                    'field'  => $filter,
+                    'filter' => 'field',
                 ];
             }
 
@@ -240,6 +243,31 @@ class StandardizeInputCommandHandler
         }
 
         $builder->setActions(array_values($actions));
+    }
+
+    protected function standardizeModelInput(TableBuilder $builder)
+    {
+        $table = $builder->getTable();
+        $class = $builder->getModel();
+
+        $model = app($class);
+
+        /**
+         * If the model can extract a Stream then
+         * set it on the table at this time so we
+         * can use it later if we need.
+         */
+        if ($model instanceof EntryInterface) {
+
+            $table->setStream($model->getStream());
+        }
+
+        if (!$model instanceof TableModelInterface) {
+
+            throw new IncompatibleModelException("[$class] must implement Anomaly\\Streams\\Platform\\Ui\\Table\\Contract\\TableModelInterface");
+        }
+
+        $builder->setModel($model);
     }
 }
  
