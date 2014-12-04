@@ -7,6 +7,12 @@ interface ViewInterface
 
     public function handle(Table $table);
 
+    public function viewData();
+
+    public function setAttributes(array $attributes);
+
+    public function getAttributes();
+
     public function setActive($active);
 
     public function isActive();

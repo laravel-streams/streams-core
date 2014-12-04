@@ -16,18 +16,43 @@ class View implements ViewInterface
 
     protected $handler;
 
-    function __construct($text, $slug, $active = false, $prefix = null, $handler = null)
+    protected $attributes;
+
+    function __construct($text, $slug, $active = false, $prefix = null, $handler = null, array $attributes = [])
     {
-        $this->text    = $text;
-        $this->slug    = $slug;
-        $this->active  = $active;
-        $this->prefix  = $prefix;
-        $this->handler = $handler;
+        $this->text       = $text;
+        $this->slug       = $slug;
+        $this->active     = $active;
+        $this->prefix     = $prefix;
+        $this->handler    = $handler;
+        $this->attributes = $attributes;
     }
 
     public function handle(Table $table)
     {
         //
+    }
+
+    public function viewData()
+    {
+        $url        = $this->getUrl();
+        $active     = $this->isActive();
+        $text       = trans($this->getText());
+        $attributes = attributes_string($this->getAttributes());
+
+        return compact('active', 'text', 'url', 'attributes');
+    }
+
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 
     public function setActive($active)
@@ -88,6 +113,11 @@ class View implements ViewInterface
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    protected function getUrl()
+    {
+        return url(app('request')->path() . '?' . $this->getPrefix() . 'view=' . $this->getSlug());
     }
 }
  
