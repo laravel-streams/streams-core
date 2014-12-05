@@ -20,7 +20,7 @@ class TableBuilder
 
     protected $model = 'FooBarModel';
 
-    protected $views = [];
+    protected $views = ['all'];
 
     protected $filters = [];
 
