@@ -6,16 +6,25 @@ use Anomaly\Streams\Platform\Ui\Form\Section\Contract\SectionInterface;
 class Section implements SectionInterface
 {
 
+    protected $view = 'ui/form/sections/default/index';
+
     protected $layout;
 
-    function __construct(LayoutInterface $layout)
+    function __construct(LayoutInterface $layout, $view = null)
     {
         $this->layout = $layout;
+
+        if ($view) {
+
+            $this->view = $view;
+        }
     }
 
     public function viewData()
     {
-        $html = 'TEST';
+        $layout = $this->layout->viewData();
+
+        $html = view($this->view, compact('layout'));
 
         return compact('html');
     }
