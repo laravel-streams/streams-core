@@ -6,7 +6,20 @@ class ButtonRepository implements ButtonRepositoryInterface
 {
 
     protected $buttons = [
-        'edit' => [
+        'success' => [
+            'class' => 'btn btn-success',
+        ],
+        'info'    => [
+            'class' => 'btn btn-info',
+        ],
+        'warning' => [
+            'class' => 'btn btn-warning',
+        ],
+        'danger'  => [
+            'class' => 'btn btn-danger',
+        ],
+        'edit'    => [
+            'text'  => 'button.edit',
             'class' => 'btn btn-warning',
         ]
     ];
