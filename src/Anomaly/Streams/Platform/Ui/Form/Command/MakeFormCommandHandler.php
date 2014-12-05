@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormDataLoaded;
@@ -20,6 +21,7 @@ class MakeFormCommandHandler
         $this->setSectionData($form);
         $this->setActionData($form);
         $this->setButtonData($form);
+        $this->setFormData($form);
 
         $form->raise(new FormDataLoaded($builder));
 
@@ -71,6 +73,20 @@ class MakeFormCommandHandler
         }
 
         $form->putData('buttons', $buttons);
+    }
+
+    protected function setFormData(Form $form)
+    {
+        $form->putData('prefix', $form->getPrefix());
+
+        $translatable = false;
+
+        if ($stream = $form->getStream() and $stream instanceof StreamInterface) {
+
+            $translatable = $stream->isTranslatable();
+        }
+
+        $form->putData('translatable', $translatable);
     }
 }
  

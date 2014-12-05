@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
+use Anomaly\Streams\Platform\Ui\Form\Exception\IncompatibleModelException;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 class StandardizeInputCommandHandler
@@ -9,9 +12,35 @@ class StandardizeInputCommandHandler
     {
         $builder = $command->getBuilder();
 
+        $this->standardizeModelInput($builder);
         $this->standardizeSectionInput($builder);
         $this->standardizeActionInput($builder);
         $this->standardizeButtonInput($builder);
+    }
+
+    protected function standardizeModelInput(FormBuilder $builder)
+    {
+        $table = $builder->getForm();
+        $class = $builder->getModel();
+
+        $model = app($class);
+
+        /**
+         * If the model can extract a Stream then
+         * set it on the table at this time so we
+         * can use it later if we need.
+         */
+        if ($model instanceof EntryInterface) {
+
+            $table->setStream($model->getStream());
+        }
+
+        if (!$model instanceof FormModelInterface) {
+
+            throw new IncompatibleModelException("[$class] must implement Anomaly\\Streams\\Platform\\Ui\\Form\\Contract\\FormModelInterface");
+        }
+
+        $builder->setModel($model);
     }
 
     protected function standardizeSectionInput(FormBuilder $builder)
@@ -52,32 +81,27 @@ class StandardizeInputCommandHandler
             if (is_numeric($key) and is_string($action)) {
 
                 $action = [
-                    'slug'   => $action,
-                    'action' => $action,
-                ];
-            }
-
-            /**
-             * If the key is NOT numeric and the action is a
-             * string then use the key as the slug and the
-             * action as the action.
-             */
-            if (!is_numeric($key) and is_string($action)) {
-
-                $action = [
-                    'slug'   => $key,
                     'action' => $action,
                 ];
             }
 
             /**
              * If the key is not numeric and the action is an
-             * array without a slug then use the key for
-             * the slug for the action.
+             * array without an action then use the key for
+             * the action.
              */
-            if (is_array($action) and !isset($action['slug']) and !is_numeric($key)) {
+            if (is_array($action) and !isset($action['action']) and !is_numeric($key)) {
 
-                $action['slug'] = $key;
+                $action['action'] = $key;
+            }
+
+            /**
+             * If the action is an array and action is not set
+             * but the slug is.. use the slug as the action.
+             */
+            if (is_array($action) and !isset($action['action']) and isset($action['slug'])) {
+
+                $action['action'] = $action['slug'];
             }
         }
 

@@ -25,7 +25,7 @@ class BuildFormCommandHandler
         $this->loadFormActions($builder);
         $this->loadFormButtons($builder);
 
-        //$this->loadFormEntry($builder);
+        $this->loadFormEntry($builder);
 
         $form->raise(new FormWasBuilt($builder));
 
@@ -36,6 +36,16 @@ class BuildFormCommandHandler
     {
         $form     = $builder->getForm();
         $sections = $form->getSections();
+
+        foreach ($builder->getSections() as $parameters) {
+
+            $section = $this->execute(
+                'Anomaly\Streams\Platform\Ui\Form\Section\Command\MakeSectionCommand',
+                compact('parameters')
+            );
+
+            $sections->push($section);
+        }
     }
 
     protected function loadFormActions(FormBuilder $builder)
@@ -72,6 +82,23 @@ class BuildFormCommandHandler
             $button->setSize('sm');
 
             $buttons->push($button);
+        }
+    }
+
+    protected function loadFormEntry(FormBuilder $builder)
+    {
+        $form  = $builder->getForm();
+        $model = $builder->getModel();
+        $entry = $builder->getEntry();
+
+        if (is_object($entry)) {
+
+            $form->setEntry($entry);
+        }
+
+        if (is_numeric($entry) or $entry === null) {
+
+            $form->setEntry($model::findOrNew($entry));
         }
     }
 }
