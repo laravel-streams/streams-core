@@ -11,6 +11,8 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
+use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\QueryingTableEntries;
 use Anomaly\Streams\Platform\Ui\Table\Table;
@@ -25,7 +27,7 @@ use Laracasts\Commander\Events\EventGenerator;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry
  */
-class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface, TableModelInterface
+class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface, TableModelInterface, FormModelInterface
 {
 
     use EventGenerator;
@@ -350,5 +352,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         }
 
         return $query->get();
+    }
+
+    public static function saveFormInput(Form $form)
+    {
+        die('Boom!');
     }
 }
