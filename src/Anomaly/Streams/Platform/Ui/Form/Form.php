@@ -14,6 +14,8 @@ class Form
 
     protected $prefix = 'form_';
 
+    protected $include = [];
+
     protected $view = 'ui/form/index';
 
     protected $wrapper = 'wrappers/blank';
@@ -25,6 +27,8 @@ class Form
     protected $content = null;
 
     protected $response = null;
+
+    protected $entry = null;
 
     protected $sections;
 
@@ -49,6 +53,28 @@ class Form
     public function getPrefix()
     {
         return $this->prefix;
+    }
+
+    public function setInclude($include)
+    {
+        $this->include = $include;
+
+        return $this;
+    }
+
+    public function addInclude($include)
+    {
+        $this->include[] = $include;
+    }
+
+    public function getInclude()
+    {
+        return array_unique($this->include);
+    }
+
+    public function isInclude($include)
+    {
+        return in_array($include, $this->getInclude());
     }
 
     public function setContent($content)
@@ -97,6 +123,18 @@ class Form
     public function getResponse()
     {
         return $this->response;
+    }
+
+    public function setEntry($entry)
+    {
+        $this->entry = $entry;
+
+        return $this;
+    }
+
+    public function getEntry()
+    {
+        return $this->entry;
     }
 
     public function setStream($stream)

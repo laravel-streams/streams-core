@@ -19,24 +19,13 @@ class FormBuilder
 
     protected $model = 'FooBarModel';
 
-    protected $sections = [
-        [
-            'fields' => [
-                'test',
-                'test'
-            ]
-        ]
-    ];
+    protected $entry = null;
 
-    protected $actions = [
-        'save' => [
-            'text' => 'Save',
-        ]
-    ];
+    protected $sections = [];
 
-    protected $buttons = [
-        'edit' => 'Testing',
-    ];
+    protected $actions = [];
+
+    protected $buttons = [];
 
     protected $form;
 
@@ -45,8 +34,13 @@ class FormBuilder
         $this->form = $form;
     }
 
-    public function build()
+    public function build($entry = null)
     {
+        if ($entry) {
+
+            $this->entry = $entry;
+        }
+
         $this->execute($this->standardizerCommand, ['builder' => $this]);
         $this->execute($this->buildCommand, ['builder' => $this]);
 
@@ -56,9 +50,9 @@ class FormBuilder
         }
     }
 
-    public function make()
+    public function make($entry = null)
     {
-        $this->build();
+        $this->build($entry);
 
         if ($this->form->getResponse() === null) {
 
@@ -66,9 +60,9 @@ class FormBuilder
         }
     }
 
-    public function render()
+    public function render($entry = null)
     {
-        $this->make();
+        $this->make($entry);
 
         if ($this->form->getResponse() === null) {
 
@@ -95,6 +89,18 @@ class FormBuilder
     public function getModel()
     {
         return $this->model;
+    }
+
+    public function setEntry($entry)
+    {
+        $this->entry = $entry;
+
+        return $this;
+    }
+
+    public function getEntry()
+    {
+        return $this->entry;
     }
 
     public function setSections(array $sections)
