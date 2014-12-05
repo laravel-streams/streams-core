@@ -133,7 +133,7 @@ class FieldType extends Addon implements PresentableInterface
      *
      * @var string
      */
-    protected $filterView = 'ui/form/partials/input';
+    protected $filterView = null;
 
     /**
      * The field wrapper view.
@@ -624,7 +624,7 @@ class FieldType extends Addon implements PresentableInterface
      */
     public function getFilterView()
     {
-        return $this->filterView;
+        return $this->filterView ? : $this->inputView;
     }
 
     /**
