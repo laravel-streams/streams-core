@@ -21,8 +21,9 @@ class BuildFormCommandHandler
 
         $this->dispatchEventsFor($form);
 
+        $this->loadFormInput($builder);
         $this->loadFormSections($builder);
-        $this->loadFormActions($builder);
+        $this->loadFormRedirects($builder);
         $this->loadFormButtons($builder);
 
         $this->loadFormEntry($builder);
@@ -30,6 +31,15 @@ class BuildFormCommandHandler
         $form->raise(new FormWasBuilt($builder));
 
         $this->dispatchEventsFor($form);
+    }
+
+    protected function loadFormInput(FormBuilder $builder)
+    {
+        $form = $builder->getForm();
+
+        if (app('request')->isMethod('post')) {
+            // Put all the input.
+        }
     }
 
     protected function loadFormSections(FormBuilder $builder)
@@ -48,22 +58,22 @@ class BuildFormCommandHandler
         }
     }
 
-    protected function loadFormActions(FormBuilder $builder)
+    protected function loadFormRedirects(FormBuilder $builder)
     {
         $form    = $builder->getForm();
-        $actions = $form->getActions();
+        $redirects = $form->getRedirects();
 
-        foreach ($builder->getActions() as $parameters) {
+        foreach ($builder->getRedirects() as $parameters) {
 
-            $action = $this->execute(
-                'Anomaly\Streams\Platform\Ui\Form\Action\Command\MakeActionCommand',
+            $redirect = $this->execute(
+                'Anomaly\Streams\Platform\Ui\Form\Redirect\Command\MakeRedirectCommand',
                 compact('parameters')
             );
 
-            $action->setPrefix($form->getPrefix());
-            $action->setActive(app('request')->has($form->getPrefix() . 'action'));
+            $redirect->setPrefix($form->getPrefix());
+            $redirect->setActive(app('request')->has($form->getPrefix() . 'redirect'));
 
-            $actions->put($action->getSlug(), $action);
+            $redirects->put($redirect->getSlug(), $redirect);
         }
     }
 

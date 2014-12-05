@@ -9,17 +9,29 @@ class HandleFormCommandHandler
     {
         $builder = $command->getBuilder();
 
-        $this->handleTableAction($builder);
+        $this->handleAuthorization($builder);
+        $this->handleValidation($builder);
+        $this->handleTableRedirect($builder);
     }
 
-    protected function handleTableAction(FormBuilder $builder)
+    protected function handleAuthorization(FormBuilder $builder)
     {
-        $form    = $builder->getForm();
-        $actions = $form->getActions();
+        // Authorize form.
+    }
 
-        if ($form->getResponse() === null and $action = $actions->active()) {
+    protected function handleValidation(FormBuilder $builder)
+    {
+        // Validate form.
+    }
 
-            $handler = $action->getHandler();
+    protected function handleTableRedirect(FormBuilder $builder)
+    {
+        $form      = $builder->getForm();
+        $redirects = $form->getRedirects();
+
+        if ($form->getResponse() === null and $redirect = $redirects->active()) {
+
+            $handler = $redirect->getHandler();
 
             if (is_string($handler) or $handler instanceof \Closure) {
 
@@ -28,7 +40,7 @@ class HandleFormCommandHandler
 
             if ($handler === null) {
 
-                $action->handle($form);
+                $redirect->handle($form);
             }
 
             app('streams.messages')->flash();

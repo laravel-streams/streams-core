@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Form\Action\ActionCollection;
+use Anomaly\Streams\Platform\Ui\Form\Redirect\RedirectCollection;
 use Anomaly\Streams\Platform\Ui\Form\Section\SectionCollection;
 use Laracasts\Commander\Events\DispatchableTrait;
 use Laracasts\Commander\Events\EventGenerator;
@@ -20,6 +20,10 @@ class Form
 
     protected $wrapper = 'wrappers/blank';
 
+    protected $rules = [];
+
+    protected $input = [];
+
     protected $data = [];
 
     protected $stream = null;
@@ -32,15 +36,15 @@ class Form
 
     protected $sections;
 
-    protected $actions;
+    protected $redirects;
 
     protected $buttons;
 
-    function __construct(SectionCollection $sections, ActionCollection $actions, ButtonCollection $buttons)
+    function __construct(SectionCollection $sections, RedirectCollection $redirects, ButtonCollection $buttons)
     {
-        $this->actions  = $actions;
-        $this->buttons  = $buttons;
-        $this->sections = $sections;
+        $this->redirects = $redirects;
+        $this->buttons   = $buttons;
+        $this->sections  = $sections;
     }
 
     public function setPrefix($prefix)
@@ -87,6 +91,54 @@ class Form
     public function getContent()
     {
         return $this->content;
+    }
+
+    public function setRules($rules)
+    {
+        $this->rules = $rules;
+
+        return $this;
+    }
+
+    public function getRules()
+    {
+        return $this->rules;
+    }
+
+    public function putRules($key, $rules)
+    {
+        $this->rules[$key] = $rules;
+
+        return $this;
+    }
+
+    public function pullRules($key, $default = null)
+    {
+        return array_get($this->rules, $key, $default);
+    }
+
+    public function setInput($input)
+    {
+        $this->input = $input;
+
+        return $this;
+    }
+
+    public function getInput()
+    {
+        return $this->input;
+    }
+
+    public function putInput($key, $input)
+    {
+        $this->input[$key] = $input;
+
+        return $this;
+    }
+
+    public function pullInput($key, $default = null)
+    {
+        return array_get($this->input, $key, $default);
     }
 
     public function setData($data)
@@ -173,9 +225,9 @@ class Form
         return $this->wrapper;
     }
 
-    public function getActions()
+    public function getRedirects()
     {
-        return $this->actions;
+        return $this->redirects;
     }
 
     public function getButtons()

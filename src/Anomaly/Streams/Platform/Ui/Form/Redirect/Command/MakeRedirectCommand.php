@@ -1,6 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Action\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Redirect\Command;
 
-class MakeActionCommand
+class MakeRedirectCommand
 {
 
     protected $parameters;

@@ -1,8 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Action;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Redirect;
 
 use Illuminate\Support\Collection;
 
-class ActionCollection extends Collection
+class RedirectCollection extends Collection
 {
 
     public function active()
