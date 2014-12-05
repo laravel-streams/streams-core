@@ -16,6 +16,8 @@ class Form
 
     protected $include = [];
 
+    protected $skips = [];
+
     protected $view = 'ui/form/index';
 
     protected $wrapper = 'wrappers/blank';
@@ -42,9 +44,9 @@ class Form
 
     function __construct(SectionCollection $sections, ActionCollection $actions, ButtonCollection $buttons)
     {
-        $this->actions = $actions;
-        $this->buttons   = $buttons;
-        $this->sections  = $sections;
+        $this->actions  = $actions;
+        $this->buttons  = $buttons;
+        $this->sections = $sections;
     }
 
     public function setPrefix($prefix)
@@ -66,19 +68,21 @@ class Form
         return $this;
     }
 
-    public function addInclude($include)
-    {
-        $this->include[] = $include;
-    }
-
     public function getInclude()
     {
-        return array_unique($this->include);
+        return $this->include;
     }
 
-    public function isInclude($include)
+    public function setSkips($skips)
     {
-        return in_array($include, $this->getInclude());
+        $this->skips = $skips;
+
+        return $this;
+    }
+
+    public function getSkips()
+    {
+        return $this->skips;
     }
 
     public function setContent($content)
