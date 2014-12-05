@@ -5,8 +5,13 @@
 
             <div class="col-lg-12">
                 {{ actions }}
-                <button type="submit" class="{{ class }}" {{{ attributes }}}>
-                {{{ text }}}
+                <button
+                        type="submit"
+                        name="{{ .data.prefix }}action"
+                        value="{{ value }}"
+                        class="{{ button.class }}"
+                {{{ button.attributes }}}>
+                {{{ button.text }}}
                 </button>
                 {{ /actions }}
             </div>
