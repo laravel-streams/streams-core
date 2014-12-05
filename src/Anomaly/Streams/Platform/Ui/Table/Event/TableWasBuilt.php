@@ -1,20 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Event;
 
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 class TableWasBuilt
 {
 
-    protected $table;
+    protected $builder;
 
-    function __construct(Table $table)
+    function __construct(TableBuilder $builder)
     {
-        $this->table = $table;
+        $this->builder = $builder;
     }
 
-    public function getTable()
+    public function getBuilder()
     {
-        return $this->table;
+        return $this->builder;
     }
 }
  

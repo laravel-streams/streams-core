@@ -29,7 +29,7 @@ class BuildTableCommandHandler
 
         $this->loadTableEntries($builder);
 
-        $table->raise(new TableWasBuilt($table));
+        $table->raise(new TableWasBuilt($builder));
 
         $this->dispatchEventsFor($table);
 
