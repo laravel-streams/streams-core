@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormIsBuilding;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasBuilt;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -21,25 +22,16 @@ class BuildFormCommandHandler
 
         $this->dispatchEventsFor($form);
 
-        $this->loadFormInput($builder);
         $this->loadFormSections($builder);
         $this->loadFormActions($builder);
         $this->loadFormButtons($builder);
+        $this->loadFormInput($builder);
 
         $this->loadFormEntry($builder);
 
         $form->raise(new FormWasBuilt($builder));
 
         $this->dispatchEventsFor($form);
-    }
-
-    protected function loadFormInput(FormBuilder $builder)
-    {
-        $form = $builder->getForm();
-
-        if (app('request')->isMethod('post')) {
-            // Put all the input.
-        }
     }
 
     protected function loadFormSections(FormBuilder $builder)
@@ -109,6 +101,16 @@ class BuildFormCommandHandler
         if (is_numeric($entry) or $entry === null) {
 
             $form->setEntry($model::findOrNew($entry));
+        }
+    }
+
+    protected function loadFormInput(FormBuilder $builder)
+    {
+        $form   = $builder->getForm();
+        $stream = $form->getStream();
+
+        if (app('request')->isMethod('post') and $stream instanceof StreamInterface) {
+            // Set the input
         }
     }
 }
