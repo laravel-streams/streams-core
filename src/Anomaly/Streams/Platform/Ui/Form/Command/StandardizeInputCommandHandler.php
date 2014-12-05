@@ -14,7 +14,7 @@ class StandardizeInputCommandHandler
 
         $this->standardizeModelInput($builder);
         $this->standardizeSectionInput($builder);
-        $this->standardizeRedirectInput($builder);
+        $this->standardizeActionInput($builder);
         $this->standardizeButtonInput($builder);
     }
 
@@ -65,47 +65,47 @@ class StandardizeInputCommandHandler
         $builder->setSections(array_values($sections));
     }
 
-    protected function standardizeRedirectInput(FormBuilder $builder)
+    protected function standardizeActionInput(FormBuilder $builder)
     {
-        $redirects = $builder->getRedirects();
+        $actions = $builder->getActions();
 
-        foreach ($redirects as $key => &$redirect) {
+        foreach ($actions as $key => &$action) {
 
             /**
-             * If the key is numeric and the redirect is
+             * If the key is numeric and the action is
              * a string then treat the string as both the
-             * redirect and the slug. This is OK as long as
+             * action and the slug. This is OK as long as
              * there are not multiple instances of this
-             * input using the same redirect which is not likely.
+             * input using the same action which is not likely.
              */
-            if (is_numeric($key) and is_string($redirect)) {
+            if (is_numeric($key) and is_string($action)) {
 
-                $redirect = [
-                    'redirect' => $redirect,
+                $action = [
+                    'action' => $action,
                 ];
             }
 
             /**
-             * If the key is not numeric and the redirect is an
-             * array without an redirect then use the key for
-             * the redirect.
+             * If the key is not numeric and the action is an
+             * array without an action then use the key for
+             * the action.
              */
-            if (is_array($redirect) and !isset($redirect['redirect']) and !is_numeric($key)) {
+            if (is_array($action) and !isset($action['action']) and !is_numeric($key)) {
 
-                $redirect['redirect'] = $key;
+                $action['action'] = $key;
             }
 
             /**
-             * If the redirect is an array and redirect is not set
-             * but the slug is.. use the slug as the redirect.
+             * If the action is an array and action is not set
+             * but the slug is.. use the slug as the action.
              */
-            if (is_array($redirect) and !isset($redirect['redirect']) and isset($redirect['slug'])) {
+            if (is_array($action) and !isset($action['action']) and isset($action['slug'])) {
 
-                $redirect['redirect'] = $redirect['slug'];
+                $action['action'] = $action['slug'];
             }
         }
 
-        $builder->setRedirects(array_values($redirects));
+        $builder->setActions(array_values($actions));
     }
 
     protected function standardizeButtonInput(FormBuilder $builder)

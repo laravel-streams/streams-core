@@ -23,7 +23,7 @@ class BuildFormCommandHandler
 
         $this->loadFormInput($builder);
         $this->loadFormSections($builder);
-        $this->loadFormRedirects($builder);
+        $this->loadFormActions($builder);
         $this->loadFormButtons($builder);
 
         $this->loadFormEntry($builder);
@@ -58,22 +58,22 @@ class BuildFormCommandHandler
         }
     }
 
-    protected function loadFormRedirects(FormBuilder $builder)
+    protected function loadFormActions(FormBuilder $builder)
     {
         $form    = $builder->getForm();
-        $redirects = $form->getRedirects();
+        $actions = $form->getActions();
 
-        foreach ($builder->getRedirects() as $parameters) {
+        foreach ($builder->getActions() as $parameters) {
 
-            $redirect = $this->execute(
-                'Anomaly\Streams\Platform\Ui\Form\Redirect\Command\MakeRedirectCommand',
+            $action = $this->execute(
+                'Anomaly\Streams\Platform\Ui\Form\Action\Command\MakeActionCommand',
                 compact('parameters')
             );
 
-            $redirect->setPrefix($form->getPrefix());
-            $redirect->setActive(app('request')->has($form->getPrefix() . 'redirect'));
+            $action->setPrefix($form->getPrefix());
+            $action->setActive(app('request')->has($form->getPrefix() . 'action'));
 
-            $redirects->put($redirect->getSlug(), $redirect);
+            $actions->put($action->getSlug(), $action);
         }
     }
 

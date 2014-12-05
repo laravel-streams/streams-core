@@ -23,7 +23,7 @@ class FormBuilder
 
     protected $sections = [];
 
-    protected $redirects = [];
+    protected $actions = [];
 
     protected $buttons = [];
 
@@ -115,16 +115,16 @@ class FormBuilder
         return $this->sections;
     }
 
-    public function setRedirects(array $redirects)
+    public function setActions(array $actions)
     {
-        $this->redirects = $redirects;
+        $this->actions = $actions;
 
         return $this;
     }
 
-    public function getRedirects()
+    public function getActions()
     {
-        return $this->redirects;
+        return $this->actions;
     }
 
     public function setButtons($buttons)

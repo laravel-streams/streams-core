@@ -11,7 +11,7 @@ class HandleFormCommandHandler
 
         $this->handleAuthorization($builder);
         $this->handleValidation($builder);
-        $this->handleTableRedirect($builder);
+        $this->handleTableAction($builder);
     }
 
     protected function handleAuthorization(FormBuilder $builder)
@@ -24,14 +24,14 @@ class HandleFormCommandHandler
         // Validate form.
     }
 
-    protected function handleTableRedirect(FormBuilder $builder)
+    protected function handleTableAction(FormBuilder $builder)
     {
         $form      = $builder->getForm();
-        $redirects = $form->getRedirects();
+        $actions = $form->getActions();
 
-        if ($form->getResponse() === null and $redirect = $redirects->active()) {
+        if ($form->getResponse() === null and $action = $actions->active()) {
 
-            $handler = $redirect->getHandler();
+            $handler = $action->getHandler();
 
             if (is_string($handler) or $handler instanceof \Closure) {
 
@@ -40,12 +40,12 @@ class HandleFormCommandHandler
 
             if ($handler === null) {
 
-                $redirect->handle($form);
+                $action->handle($form);
             }
 
             app('streams.messages')->flash();
 
-            $form->setResponse(redirect(app('request')->fullUrl()));
+            $form->setResponse(action(app('request')->fullUrl()));
         }
     }
 }

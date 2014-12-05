@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Form\Redirect\RedirectCollection;
+use Anomaly\Streams\Platform\Ui\Form\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Section\SectionCollection;
 use Laracasts\Commander\Events\DispatchableTrait;
 use Laracasts\Commander\Events\EventGenerator;
@@ -36,13 +36,13 @@ class Form
 
     protected $sections;
 
-    protected $redirects;
+    protected $actions;
 
     protected $buttons;
 
-    function __construct(SectionCollection $sections, RedirectCollection $redirects, ButtonCollection $buttons)
+    function __construct(SectionCollection $sections, ActionCollection $actions, ButtonCollection $buttons)
     {
-        $this->redirects = $redirects;
+        $this->actions = $actions;
         $this->buttons   = $buttons;
         $this->sections  = $sections;
     }
@@ -225,9 +225,9 @@ class Form
         return $this->wrapper;
     }
 
-    public function getRedirects()
+    public function getActions()
     {
-        return $this->redirects;
+        return $this->actions;
     }
 
     public function getButtons()

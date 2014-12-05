@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
-use Anomaly\Streams\Platform\Ui\Form\Redirect\Contract\RedirectInterface;
+use Anomaly\Streams\Platform\Ui\Form\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormDataLoaded;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Form\Section\Contract\SectionInterface;
@@ -19,7 +19,7 @@ class MakeFormCommandHandler
         $form    = $builder->getForm();
 
         $this->setSectionData($form);
-        $this->setRedirectData($form);
+        $this->setActionData($form);
         $this->setButtonData($form);
         $this->setFormData($form);
 
@@ -45,19 +45,19 @@ class MakeFormCommandHandler
         $form->putData('sections', $sections);
     }
 
-    protected function setRedirectData(Form $form)
+    protected function setActionData(Form $form)
     {
-        $redirects = [];
+        $actions = [];
 
-        foreach ($form->getRedirects() as $redirect) {
+        foreach ($form->getActions() as $action) {
 
-            if ($redirect instanceof RedirectInterface) {
+            if ($action instanceof ActionInterface) {
 
-                $redirects[] = $redirect->viewData();
+                $actions[] = $action->viewData();
             }
         }
 
-        $form->putData('redirects', $redirects);
+        $form->putData('actions', $actions);
     }
 
     protected function setButtonData(Form $form)

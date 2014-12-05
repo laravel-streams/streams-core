@@ -1,10 +1,10 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Redirect;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Action;
 
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
-use Anomaly\Streams\Platform\Ui\Form\Redirect\Contract\RedirectInterface;
+use Anomaly\Streams\Platform\Ui\Form\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
-class Redirect implements RedirectInterface
+class Action implements ActionInterface
 {
 
     protected $slug;
