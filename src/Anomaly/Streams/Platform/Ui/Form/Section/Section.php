@@ -1,32 +1,53 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Section;
 
-use Anomaly\Streams\Platform\Ui\Form\Layout\Contract\LayoutInterface;
 use Anomaly\Streams\Platform\Ui\Form\Section\Contract\SectionInterface;
 
 class Section implements SectionInterface
 {
 
-    protected $view = 'ui/form/sections/default/index';
+    protected $title;
 
-    protected $layout;
+    protected $body;
 
-    function __construct(LayoutInterface $layout, $view = null)
+    function __construct($title = null, $body = null)
     {
-        $this->layout = $layout;
-
-        if ($view) {
-
-            $this->view = $view;
-        }
+        $this->body  = $body;
+        $this->title = $title;
     }
 
     public function viewData()
     {
-        $layout = $this->layout->viewData();
+        $title = trans($this->getTitle());
 
-        $html = view($this->view, compact('layout'));
+        $body = $this->getBody();
+
+        $html = view('ui/form/sections/default/index', compact('title', 'body'));
 
         return compact('html');
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function setBody($body)
+    {
+        $this->body = $body;
+
+        return $this;
+    }
+
+    public function getBody()
+    {
+        return $this->body;
     }
 }
  

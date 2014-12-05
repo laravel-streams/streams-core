@@ -33,8 +33,6 @@ class SectionFactory
             return app()->make($section['section'], $section);
         }
 
-        $this->makeLayout($parameters);
-
         return app()->make('Anomaly\Streams\Platform\Ui\Form\Section\Section', $parameters);
     }
 

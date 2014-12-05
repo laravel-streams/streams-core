@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Section\Section;
 
-class DefaultSection extends Section
+class LayoutSection extends Section
 {
 
 }

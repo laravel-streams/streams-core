@@ -49,9 +49,11 @@ class StandardizeInputCommandHandler
 
         foreach ($sections as $key => &$section) {
 
-            if (!isset($section['layout'])) {
+            if (isset($section['fields'])) {
 
-                $fields  = array_get($section, 'fields', []);
+                //foreach ($section['fields'] as $slug => $field)
+
+                $fields  = $section['fields'];
                 $columns = array_get($section, 'columns', [compact('fields')]);
                 $rows    = array_get($section, 'rows', [compact('columns')]);
                 $layout  = array_get($section, 'layout', compact('rows'));
@@ -59,6 +61,11 @@ class StandardizeInputCommandHandler
                 $section['layout'] = $layout;
 
                 unset($section['fields'], $section['columns'], $section['rows']);
+            }
+
+            if (isset($section['layout']) and !isset($section['section'])) {
+
+                $section['section'] = 'layout';
             }
         }
 

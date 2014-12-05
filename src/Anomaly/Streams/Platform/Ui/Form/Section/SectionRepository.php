@@ -5,7 +5,14 @@ use Anomaly\Streams\Platform\Ui\Form\Section\Contract\SectionRepositoryInterface
 class SectionRepository implements SectionRepositoryInterface
 {
 
-    protected $sections = [];
+    protected $sections = [
+        'layout' => [
+            'section' => 'Anomaly\Streams\Platform\Ui\Form\Section\Type\LayoutSection',
+        ],
+        'tabbed' => [
+            'section' => 'Anomaly\Streams\Platform\Ui\Form\Section\Type\TabbedSection',
+        ]
+    ];
 
     public function find($section)
     {
