@@ -24,11 +24,11 @@ class Action implements ActionInterface
     function __construct(
         $text,
         $slug,
-        $icon = false,
         $prefix = null,
         $active = false,
         $handler = null,
-        array $attributes = []
+        array $attributes = [],
+        IconInterface $icon = null
     ) {
         $this->text       = $text;
         $this->slug       = $slug;
