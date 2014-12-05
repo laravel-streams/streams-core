@@ -18,7 +18,7 @@ class Table
 
     protected $prefix = 'table_';
 
-    protected $sortable = true;
+    protected $sortable = false;
 
     protected $eager = [];
 
