@@ -116,6 +116,7 @@ class MakeTableCommandHandler
 
     protected function setTableData(Table $table)
     {
+        $table->putData('prefix', $table->getPrefix());
         $table->putData('sortable', $table->isSortable());
         $table->putData('filtering', ($table->getFilters()->active()->count()));
     }
