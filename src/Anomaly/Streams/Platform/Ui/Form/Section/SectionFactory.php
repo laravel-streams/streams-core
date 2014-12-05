@@ -19,33 +19,23 @@ class SectionFactory
     {
         if (isset($parameters['section']) and class_exists($parameters['section'])) {
 
-            return $this->makeSection($parameters);
+            $this->makeLayout($parameters);
+
+            return app()->make($parameters['section'], $parameters);
         }
 
         if ($section = array_get($parameters, 'section') and $section = $this->sections->find($section)) {
 
-            return $this->makeRepositorySection($section, $parameters);
+            $section = array_replace_recursive($section, array_except($parameters, 'section'));
+
+            $this->makeLayout($section);
+
+            return app()->make($section['section'], $section);
         }
 
         $this->makeLayout($parameters);
 
         return app()->make('Anomaly\Streams\Platform\Ui\Form\Section\Section', $parameters);
-    }
-
-    protected function makeSection(array $parameters)
-    {
-        $this->makeLayout($parameters);
-
-        return app()->make($parameters['section'], $parameters);
-    }
-
-    protected function makeRepositorySection(array $section, array $parameters)
-    {
-        $section = array_replace_recursive($section, array_except($parameters, 'section'));
-
-        $this->makeLayout($section);
-
-        return app()->make($section['section'], $section);
     }
 
     protected function makeLayout(array &$section)
