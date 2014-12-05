@@ -33,6 +33,8 @@ class HandleTableCommandHandler
                 $action->handle($table, $ids);
             }
 
+            app('streams.messages')->flash();
+
             $table->setResponse(redirect(app('request')->fullUrl()));
         }
     }
