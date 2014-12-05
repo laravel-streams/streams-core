@@ -1,9 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Validation\Validator;
 
 class HandleFormCommandHandler
 {
+
+    protected $validator;
+
+    function __construct(Validator $validator)
+    {
+        $this->validator = $validator;
+    }
 
     public function handle(HandleFormCommand $command)
     {
@@ -16,17 +24,27 @@ class HandleFormCommandHandler
 
     protected function handleAuthorization(FormBuilder $builder)
     {
-        // Authorize form.
+        // True for now - no access built just yet.
     }
 
     protected function handleValidation(FormBuilder $builder)
     {
-        // Validate form.
+        $form = $builder->getForm();
+
+        $this->validator->setRules($form->getRules());
+        $this->validator->setData($form->pullInput(config('app.locale')));
+
+        if ($this->validator->fails()) {
+
+            app('streams.messages')->add('error', $this->validator->messages()->all())->flash();
+
+            $form->setResponse(action(app('request')->fullUrl()));
+        }
     }
 
     protected function handleTableAction(FormBuilder $builder)
     {
-        $form      = $builder->getForm();
+        $form    = $builder->getForm();
         $actions = $form->getActions();
 
         if ($form->getResponse() === null and $action = $actions->active()) {
@@ -45,7 +63,10 @@ class HandleFormCommandHandler
 
             app('streams.messages')->flash();
 
-            $form->setResponse(action(app('request')->fullUrl()));
+            if ($form->getResponse() === null) {
+
+                $form->setResponse(action(app('request')->fullUrl()));
+            }
         }
     }
 }
