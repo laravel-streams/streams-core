@@ -22,6 +22,7 @@ class BuildFormCommandHandler
 
         $this->dispatchEventsFor($form);
 
+        $this->loadFormValidation($builder);
         $this->loadFormSections($builder);
         $this->loadFormActions($builder);
         $this->loadFormButtons($builder);
@@ -32,6 +33,25 @@ class BuildFormCommandHandler
         $form->raise(new FormWasBuilt($builder));
 
         $this->dispatchEventsFor($form);
+    }
+
+    protected function loadFormValidation(FormBuilder $builder)
+    {
+        $form   = $builder->getForm();
+        $stream = $form->getStream();
+
+        if ($stream instanceof StreamInterface) {
+
+            foreach ($stream->getAssignments() as $assignment) {
+
+                if (!in_array($assignment->getFieldSlug(), $form->getSkips())) {
+
+                    $type = $assignment->getFieldType();
+
+                    $form->putRules($assignment->getFieldSlug(), $type->getRules());
+                }
+            }
+        }
     }
 
     protected function loadFormSections(FormBuilder $builder)

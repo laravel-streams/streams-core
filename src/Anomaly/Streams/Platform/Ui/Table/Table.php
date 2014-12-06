@@ -26,6 +26,8 @@ class Table
 
     protected $orderBy = ['id' => 'asc'];
 
+    protected $noResultsMessage = 'message.error.no_results';
+
     protected $view = 'ui/table/index';
 
     protected $wrapper = 'wrappers/blank';
@@ -231,6 +233,18 @@ class Table
     public function getOrderBy()
     {
         return $this->orderBy;
+    }
+
+    public function setNoResultsMessage($noResultsMessage)
+    {
+        $this->noResultsMessage = $noResultsMessage;
+
+        return $this;
+    }
+
+    public function getNoResultsMessage()
+    {
+        return $this->noResultsMessage;
     }
 
     public function getActions()

@@ -119,6 +119,7 @@ class MakeTableCommandHandler
         $table->putData('prefix', $table->getPrefix());
         $table->putData('sortable', $table->isSortable());
         $table->putData('filtering', ($table->getFilters()->active()->count()));
+        $table->putData('noResultsMessage', trans($table->getNoResultsMessage()));
     }
 
     protected function setPaginationData(Table $table)

@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Ui\Form\Action\ActionReader;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 use Anomaly\Streams\Platform\Ui\Form\Exception\IncompatibleModelException;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Section\SectionReader;
 
 class StandardizeInputCommandHandler
 {
@@ -14,10 +15,13 @@ class StandardizeInputCommandHandler
 
     protected $buttonReader;
 
-    function __construct(ActionReader $actionReader, ButtonReader $buttonReader)
+    protected $sectionReader;
+
+    function __construct(ActionReader $actionReader, ButtonReader $buttonReader, SectionReader $sectionReader)
     {
-        $this->actionReader = $actionReader;
-        $this->buttonReader = $buttonReader;
+        $this->actionReader  = $actionReader;
+        $this->buttonReader  = $buttonReader;
+        $this->sectionReader = $sectionReader;
     }
 
     public function handle(StandardizeInputCommand $command)
@@ -25,9 +29,9 @@ class StandardizeInputCommandHandler
         $builder = $command->getBuilder();
 
         $this->standardizeModelInput($builder);
-        $this->standardizeSectionInput($builder);
         $this->standardizeActionInput($builder);
         $this->standardizeButtonInput($builder);
+        $this->standardizeSectionInput($builder);
     }
 
     protected function standardizeModelInput(FormBuilder $builder)
@@ -55,35 +59,6 @@ class StandardizeInputCommandHandler
         $builder->setModel($model);
     }
 
-    protected function standardizeSectionInput(FormBuilder $builder)
-    {
-        $sections = $builder->getSections();
-
-        foreach ($sections as $key => &$section) {
-
-            if (isset($section['fields'])) {
-
-                //foreach ($section['fields'] as $slug => $field)
-
-                $fields  = $section['fields'];
-                $columns = array_get($section, 'columns', [compact('fields')]);
-                $rows    = array_get($section, 'rows', [compact('columns')]);
-                $layout  = array_get($section, 'layout', compact('rows'));
-
-                $section['layout'] = $layout;
-
-                unset($section['fields'], $section['columns'], $section['rows']);
-            }
-
-            if (isset($section['layout']) and !isset($section['section'])) {
-
-                $section['section'] = 'layout';
-            }
-        }
-
-        $builder->setSections(array_values($sections));
-    }
-
     protected function standardizeActionInput(FormBuilder $builder)
     {
         $actions = $builder->getActions();
@@ -106,6 +81,18 @@ class StandardizeInputCommandHandler
         }
 
         $builder->setButtons(array_values($buttons));
+    }
+
+    protected function standardizeSectionInput(FormBuilder $builder)
+    {
+        $sections = $builder->getSections();
+
+        foreach ($sections as $key => &$section) {
+
+            $section = $this->sectionReader->convert($key, $section);
+        }
+
+        $builder->setSections(array_values($sections));
     }
 }
  

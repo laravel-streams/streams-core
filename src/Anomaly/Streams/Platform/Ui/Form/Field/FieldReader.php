@@ -3,12 +3,14 @@
 class FieldReader
 {
 
-    public function convert($key, $parameters)
+    public function convert($key, $value)
     {
-        if (is_string($parameters)) {
+        if (is_string($value)) {
 
-            $parameters = ['field' => $parameters];
+            $value = ['field' => $value];
         }
+
+        return $value;
     }
 }
  

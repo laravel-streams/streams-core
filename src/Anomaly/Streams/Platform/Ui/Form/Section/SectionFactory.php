@@ -1,18 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Section;
 
-use Anomaly\Streams\Platform\Ui\Form\Layout\LayoutFactory;
-
 class SectionFactory
 {
 
     protected $sections;
 
-    protected $layoutFactory;
-
-    function __construct(SectionRepository $sections, LayoutFactory $layoutFactory)
+    function __construct(SectionRepository $sections)
     {
-        $this->sections      = $sections;
-        $this->layoutFactory = $layoutFactory;
+        $this->sections = $sections;
     }
 
     public function make(array $parameters)

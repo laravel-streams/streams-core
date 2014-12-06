@@ -6,8 +6,8 @@ class SectionRepository implements SectionRepositoryInterface
 {
 
     protected $sections = [
-        'layout' => [
-            'section' => 'Anomaly\Streams\Platform\Ui\Form\Section\Type\LayoutSection',
+        'fields' => [
+            'section' => 'Anomaly\Streams\Platform\Ui\Form\Section\Type\FieldsSection',
         ],
         'tabbed' => [
             'section' => 'Anomaly\Streams\Platform\Ui\Form\Section\Type\TabbedSection',
