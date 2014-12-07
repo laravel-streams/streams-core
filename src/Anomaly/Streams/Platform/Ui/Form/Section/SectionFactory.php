@@ -26,7 +26,7 @@ class SectionFactory
 
             $section = array_replace_recursive($section, array_except($parameters, 'section'));
 
-            return app()->make($section['section'], $section);
+            return app()->make($section['section']);
         }
 
         return app()->make('Anomaly\Streams\Platform\Ui\Form\Section\Section', $parameters);
