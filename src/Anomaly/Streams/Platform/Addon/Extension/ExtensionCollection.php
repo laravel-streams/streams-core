@@ -37,7 +37,7 @@ class ExtensionCollection extends AddonCollection
 
         if ($extension != '*') {
 
-            list($extensionSlug, $extensionType) = explode('.', $extension);
+            list($extensionType, $extensionSlug) = explode('.', $extension);
 
             $extension = "_{$extensionSlug}_{$extensionType}";
 
