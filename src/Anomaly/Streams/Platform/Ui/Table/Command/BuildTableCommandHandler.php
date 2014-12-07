@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsBuilding;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableWasBuilt;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -41,6 +42,11 @@ class BuildTableCommandHandler
         $table   = $builder->getTable();
         $model   = $builder->getModel();
         $entries = $table->getEntries();
+
+        if (!$model instanceof TableModelInterface) {
+
+            return;
+        }
 
         foreach ($model->getTableEntries($table) as $entry) {
 

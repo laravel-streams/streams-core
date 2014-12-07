@@ -272,6 +272,13 @@ class Table
         return $this->views;
     }
 
+    public function setEntries(Collection $entries)
+    {
+        $this->entries = $entries;
+
+        return $this;
+    }
+
     public function getEntries()
     {
         return $this->entries;

@@ -115,6 +115,11 @@ class StandardizeInputCommandHandler
         $table = $builder->getTable();
         $class = $builder->getModel();
 
+        if (!class_exists($class)) {
+
+            return;
+        }
+
         $model = app($class);
 
         /**
