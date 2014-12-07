@@ -21,7 +21,7 @@
         "illuminate/html": "~5.0",
         "jenssegers/agent": "dev-master",
         "kriswallsmith/assetic": "1.2.*@dev",
-        "laravel/framework": "~5.0",
+        "laravel/framework": "master#846c935194a036901ba6b4397c8897fa51e19111",
         "leafo/scssphp": "dev-develop",
         "league/event": "dev-master",
         "lmammino/jsmin4assetic": "1.0.*@dev",
