@@ -48,8 +48,8 @@
         "benconstable/phpspec-laravel": "dev-fix-laravel-5-compatibility"
     },
     "autoload": {
-        "psr-4": {
-            "Anomaly\\Streams\\Platform\\": "src/"
+        "psr-0": {
+            "Anomaly\\Streams\\Platform": "src/"
         },
         "files": [
             "resources/helpers.php"
