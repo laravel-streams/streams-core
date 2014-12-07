@@ -17,11 +17,6 @@ class SectionFactory
 
     public function make(array $parameters)
     {
-        if (isset($parameters['fields'])) {
-
-            $parameters['fields'] = $this->makeFields($parameters['fields']);
-        }
-
         if (isset($parameters['section']) and class_exists($parameters['section'])) {
 
             return app()->make($parameters['section'], $parameters);
