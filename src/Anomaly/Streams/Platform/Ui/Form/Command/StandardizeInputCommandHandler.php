@@ -90,6 +90,11 @@ class StandardizeInputCommandHandler
         foreach ($sections as $key => &$section) {
 
             $section = $this->sectionReader->convert($key, $section);
+
+            if (isset($section['fields'])) {
+
+                $section['section'] = 'fields';
+            }
         }
 
         $builder->setSections(array_values($sections));

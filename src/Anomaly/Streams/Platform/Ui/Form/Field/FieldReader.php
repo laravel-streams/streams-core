@@ -7,7 +7,9 @@ class FieldReader
     {
         if (is_string($value)) {
 
-            $value = ['field' => $value];
+            $value = [
+                'field' => $value
+            ];
         }
 
         return $value;

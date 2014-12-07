@@ -22,11 +22,6 @@ class SectionReader
             }
         }
 
-        if (isset($value['fields']) and !isset($value['section'])) {
-
-            $value['section'] = 'fields';
-        }
-
         return $value;
     }
 }

@@ -1,7 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Section;
 
+use Anomaly\Streams\Platform\Ui\Form\Field\FieldCollection;
+use Laracasts\Commander\CommanderTrait;
+
 class SectionFactory
 {
+
+    use CommanderTrait;
 
     protected $sections;
 
@@ -12,9 +17,12 @@ class SectionFactory
 
     public function make(array $parameters)
     {
-        if (isset($parameters['section']) and class_exists($parameters['section'])) {
+        if (isset($parameters['fields'])) {
 
-            $this->makeLayout($parameters);
+            $parameters['fields'] = $this->makeFields($parameters['fields']);
+        }
+
+        if (isset($parameters['section']) and class_exists($parameters['section'])) {
 
             return app()->make($parameters['section'], $parameters);
         }
@@ -23,25 +31,25 @@ class SectionFactory
 
             $section = array_replace_recursive($section, array_except($parameters, 'section'));
 
-            $this->makeLayout($section);
-
             return app()->make($section['section'], $section);
         }
 
         return app()->make('Anomaly\Streams\Platform\Ui\Form\Section\Section', $parameters);
     }
 
-    protected function makeLayout(array &$section)
+    protected function makeFields(array $fields)
     {
-        if (isset($section['layout'])) {
+        $fieldCollection = new FieldCollection();
 
-            if (is_string($section['layout'])) {
+        foreach ($fields as $parameters) {
 
-                $section['layout'] = ['html' => $section['layout']];
-            }
-
-            $section['layout'] = $this->layoutFactory->make($section['layout']);
+            $field = $this->execute(
+                'Anomaly\Streams\Platform\Ui\Form\Field\Command\MakeFieldCommand',
+                compact('parameters')
+            );
         }
+
+        return $fieldCollection;
     }
 }
  
