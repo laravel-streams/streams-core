@@ -19,12 +19,9 @@ class MakeSectionCommandHandler
     {
         $parameters = $command->getParameters();
 
-        if (isset($parameters['layout'])) {
+        $section = $this->factory->make($parameters);
 
-            $parameters['layout'] = $this->makeLayout($parameters['layout']);
-        }
-
-        return $this->factory->make($parameters);
+        return $section;
     }
 
     protected function makeLayout($layout)
