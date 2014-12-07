@@ -49,7 +49,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Anomaly\\Streams\\Platform": "src/"
+            "Anomaly\\Streams\\Platform\\": "src/"
         },
         "files": [
             "resources/helpers.php"
