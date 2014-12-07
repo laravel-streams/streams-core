@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsBuilding;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableWasBuilt;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewInterface;
 use Laracasts\Commander\CommanderTrait;
 use Laracasts\Commander\Events\DispatchableTrait;
 
@@ -61,12 +62,15 @@ class BuildTableCommandHandler
 
         $activeView = app('request')->get($table->getPrefix() . 'view');
 
-        foreach ($builder->getViews() as $k => $parameters) {
+        foreach ($builder->getViews() as $k => $view) {
 
-            $view = $this->execute(
-                'Anomaly\Streams\Platform\Ui\Table\View\Command\MakeViewCommand',
-                compact('parameters')
-            );
+            if (!$view instanceof ViewInterface) {
+
+                $view = $this->execute(
+                    'Anomaly\Streams\Platform\Ui\Table\View\Command\MakeViewCommand',
+                    ['parameters' => $view]
+                );
+            }
 
             $view->setPrefix($table->getPrefix());
 

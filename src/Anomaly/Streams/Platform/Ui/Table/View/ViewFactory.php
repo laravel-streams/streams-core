@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\View;
 
+use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewInterface;
+
 class ViewFactory
 {
 
