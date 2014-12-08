@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Action;
 
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Form\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
 class Action implements ActionInterface

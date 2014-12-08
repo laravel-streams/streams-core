@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Action\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Action\Command;
 
 class StandardizeActionInputCommandHandler
 {
@@ -27,30 +27,27 @@ class StandardizeActionInputCommandHandler
             }
 
             /**
-             * If the slug is a string and the action is a
-             * string then use the slug as is and the
-             * actions as the action.
+             * If the key is not numeric and the action is an
+             * array without an action then use the key for
+             * the action.
              */
-            if (!is_numeric($key) and is_string($action)) {
+            if (is_array($action) and !isset($action['action']) and !is_numeric($key)) {
 
-                $action = [
-                    'slug'   => $key,
-                    'action' => $action,
-                ];
+                $action['action'] = $key;
             }
 
             /**
-             * If the slug is a string and the action is an
-             * array without a slug then add the slug.
+             * If the action is an array and action is not set
+             * but the slug is.. use the slug as the action.
              */
-            if (is_array($action) and !isset($action['slug']) and !is_numeric($key)) {
+            if (is_array($action) and !isset($action['action']) and isset($action['slug'])) {
 
-                $action['slug'] = $key;
+                $action['action'] = $action['slug'];
             }
 
             $actions[] = $action;
         }
-print_r($actions);die;
+
         $builder->setActions($actions);
     }
 }

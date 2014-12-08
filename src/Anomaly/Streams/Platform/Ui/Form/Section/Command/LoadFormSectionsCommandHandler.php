@@ -1,7 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Section\Command;
 
+use Anomaly\Streams\Platform\Ui\Form\Section\SectionFactory;
+
 class LoadFormSectionsCommandHandler
 {
+
+    protected $factory;
+
+    function __construct(SectionFactory $factory)
+    {
+        $this->factory = $factory;
+    }
 
     public function handle(LoadFormSectionsCommand $command)
     {
@@ -11,10 +20,7 @@ class LoadFormSectionsCommandHandler
 
         foreach ($builder->getSections() as $parameters) {
 
-            $section = $this->execute(
-                'Anomaly\Streams\Platform\Ui\Form\Section\Command\MakeSectionCommand',
-                compact('parameters')
-            );
+            $section = $this->factory->make($parameters);
 
             $sections->push($section);
         }

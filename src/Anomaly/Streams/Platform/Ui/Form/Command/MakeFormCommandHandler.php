@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Form\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormDataLoaded;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Form\Section\Contract\SectionInterface;

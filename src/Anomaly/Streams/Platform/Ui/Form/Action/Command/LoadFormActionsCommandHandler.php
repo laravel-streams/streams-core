@@ -1,7 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Action\Command;
 
+use Anomaly\Streams\Platform\Ui\Form\Action\ActionFactory;
+
 class LoadFormActionsCommandHandler
 {
+
+    protected $factory;
+
+    function __construct(ActionFactory $factory)
+    {
+        $this->factory = $factory;
+    }
 
     public function handle(LoadFormActionsCommand $command)
     {
@@ -11,10 +20,7 @@ class LoadFormActionsCommandHandler
 
         foreach ($builder->getActions() as $parameters) {
 
-            $action = $this->execute(
-                'Anomaly\Streams\Platform\Ui\Form\Action\Command\MakeActionCommand',
-                compact('parameters')
-            );
+            $action = $this->factory->make($parameters);
 
             $action->setPrefix($form->getPrefix());
             $action->setActive(app('request')->has($form->getPrefix() . 'action'));

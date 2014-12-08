@@ -1,7 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Button\Command;
 
+use Anomaly\Streams\Platform\Ui\Form\Button\ButtonFactory;
+
 class LoadFormButtonsCommandHandler
 {
+
+    protected $factory;
+
+    function __construct(ButtonFactory $factory)
+    {
+        $this->factory = $factory;
+    }
 
     public function handle(LoadFormButtonsCommand $command)
     {
@@ -11,12 +20,7 @@ class LoadFormButtonsCommandHandler
 
         foreach ($builder->getButtons() as $parameters) {
 
-            $button = $this->execute(
-                'Anomaly\Streams\Platform\Ui\Button\Command\MakeButtonCommand',
-                compact('parameters')
-            );
-
-            $button->setSize('sm');
+            $button = $this->factory->make($parameters);
 
             $buttons->push($button);
         }
