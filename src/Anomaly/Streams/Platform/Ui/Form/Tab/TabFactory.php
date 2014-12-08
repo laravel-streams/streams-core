@@ -3,12 +3,7 @@
 class TabFactory
 {
 
-    protected $tabs;
-
-    function __construct(TabRepository $tabs)
-    {
-        $this->tabs = $tabs;
-    }
+    protected $tabs = [];
 
     public function make(array $parameters)
     {
@@ -17,11 +12,9 @@ class TabFactory
             return app()->make($parameters['tab'], $parameters);
         }
 
-        if ($tab = array_get($parameters, 'tab') and $tab = $this->tabs->find($tab)) {
+        if ($tab = array_get($this->tabs, array_get($parameters, 'tab'))) {
 
-            $tab = array_replace_recursive($tab, array_except($parameters, 'tab'));
-
-            return app()->make($tab['tab'], $tab);
+            $parameters = array_replace_recursive($tab, array_except($parameters, 'tab'));
         }
 
         return app()->make('Anomaly\Streams\Platform\Ui\Form\Tab\Tab', $parameters);

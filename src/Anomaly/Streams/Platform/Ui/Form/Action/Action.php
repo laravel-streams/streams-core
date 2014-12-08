@@ -1,10 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Action;
 
+use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Ui\Form\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Form\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
-class Action implements ActionInterface
+class Action extends Button implements ActionInterface
 {
 
     protected $slug;
@@ -13,26 +13,24 @@ class Action implements ActionInterface
 
     protected $active;
 
-    protected $button;
-
     protected $handler;
-
-    protected $attributes;
 
     function __construct(
         $slug,
         $prefix = null,
         $active = false,
         $handler = null,
-        array $attributes = [],
-        ButtonInterface $button = null
+        $type = 'default',
+        $text = null,
+        $icon = null,
+        array $attributes = []
     ) {
-        $this->slug       = $slug;
-        $this->prefix     = $prefix;
-        $this->button     = $button;
-        $this->active     = $active;
-        $this->handler    = $handler;
-        $this->attributes = $attributes;
+        $this->slug    = $slug;
+        $this->prefix  = $prefix;
+        $this->active  = $active;
+        $this->handler = $handler;
+
+        parent::__construct($type, $text, $icon, $attributes);
     }
 
     public function handle(Form $form)
@@ -42,28 +40,11 @@ class Action implements ActionInterface
 
     public function viewData()
     {
-        $button = null;
-
-        if ($this->button) {
-
-            $button = $this->button->viewData();
-        }
+        $data = parent::viewData();
 
         $value = $this->getSlug();
 
-        return compact('button', 'value');
-    }
-
-    public function setAttributes(array $attributes)
-    {
-        $this->attributes = $attributes;
-
-        return $this;
-    }
-
-    public function getAttributes()
-    {
-        return $this->attributes;
+        return $data + compact('value');
     }
 
     public function setHandler($handler)

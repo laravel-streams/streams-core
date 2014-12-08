@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Ui\Form\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Form\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Section\SectionCollection;
 use Laracasts\Commander\Events\DispatchableTrait;

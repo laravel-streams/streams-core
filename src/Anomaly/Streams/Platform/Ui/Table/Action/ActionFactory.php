@@ -3,12 +3,7 @@
 class ActionFactory
 {
 
-    protected $actions;
-
-    function __construct(ActionRepository $actions)
-    {
-        $this->actions = $actions;
-    }
+    protected $actions = [];
 
     public function make(array $parameters)
     {
@@ -17,11 +12,9 @@ class ActionFactory
             return app()->make($parameters['action'], $parameters);
         }
 
-        if ($action = array_get($parameters, 'action') and $action = $this->actions->find($action)) {
+        if ($action = array_get($this->actions, array_get($parameters, 'action'))) {
 
-            $action = array_merge($action, array_except($parameters, 'action'));
-
-            return app()->make($action['action'], $action);
+            $parameters = array_replace_recursive($action, array_except($parameters, 'action'));
         }
 
         return app()->make('Anomaly\Streams\Platform\Ui\Table\Action\Action', $parameters);

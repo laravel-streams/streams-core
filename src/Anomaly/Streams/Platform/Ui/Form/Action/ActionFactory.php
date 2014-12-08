@@ -3,7 +3,12 @@
 class ActionFactory
 {
 
-    protected $actions = [];
+    protected $actions = [
+        'save' => [
+            'type' => 'success',
+            'text' => 'button.save',
+        ]
+    ];
 
     public function make(array $parameters)
     {

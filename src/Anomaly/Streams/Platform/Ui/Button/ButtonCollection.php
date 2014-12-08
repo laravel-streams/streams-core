@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Illuminate\Support\Collection;
 

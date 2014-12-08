@@ -50,7 +50,7 @@ class StandardizeActionInputCommandHandler
 
             $actions[] = $action;
         }
-print_r($actions);die;
+
         $builder->setActions($actions);
     }
 }

@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Button\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Button\ButtonFactory;
+use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 
 class LoadTableButtonsCommandHandler
 {

@@ -3,12 +3,7 @@
 class FilterFactory
 {
 
-    protected $filters;
-
-    function __construct(FilterRepository $filters)
-    {
-        $this->filters = $filters;
-    }
+    protected $filters = [];
 
     public function make(array $parameters)
     {
@@ -17,14 +12,12 @@ class FilterFactory
             return app()->make($parameters['filter'], $parameters);
         }
 
-        if ($filter = array_get($parameters, 'filter') and $filter = $this->filters->find($filter)) {
+        if ($filter = array_get($this->filters, array_get($parameters, 'filter'))) {
 
-            $filter = array_merge($filter, array_except($parameters, 'filter'));
-
-            return app()->make($filter['filter'], $filter);
+            $parameters = array_replace_recursive($filter, array_except($parameters, 'filter'));
         }
 
-        throw new \Exception('A filter could not be created with the provided parameters.');
+        return app()->make('Anomaly\Streams\Platform\Ui\Table\Filter\Filter', $parameters);
     }
 }
  

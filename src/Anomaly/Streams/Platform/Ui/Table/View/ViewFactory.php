@@ -7,22 +7,19 @@ class ViewFactory
         'all' => [
             'slug' => 'all',
             'text' => 'misc.all',
-            'view' => 'Anomaly\Streams\Platform\Ui\Table\View\View',
         ]
     ];
 
     public function make(array $parameters)
     {
-        if (class_exists($parameters['view'])) {
+        if (isset($parameters['view']) and class_exists($parameters['view'])) {
 
             return app()->make($parameters['view'], $parameters);
         }
 
         if ($view = array_get($this->views, array_get($parameters, 'view'))) {
 
-            $parameters = array_merge($view, array_except($parameters, 'view'));
-
-            return app()->make($parameters['view'], $parameters);
+            $parameters = array_replace_recursive($view, array_except($parameters, 'view'));
         }
 
         return app()->make('Anomaly\Streams\Platform\Ui\Table\View\View', $parameters);

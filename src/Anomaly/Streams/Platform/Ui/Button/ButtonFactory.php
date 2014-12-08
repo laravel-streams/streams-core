@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Button;
 
 class ButtonFactory
 {
@@ -25,4 +25,5 @@ class ButtonFactory
         return app()->make('Anomaly\Streams\Platform\Ui\Table\Button\Button', $parameters);
     }
 }
+
  

@@ -1,6 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Button;
 
-use Anomaly\Streams\Platform\Ui\Form\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
 class Button implements ButtonInterface
 {
@@ -23,10 +23,10 @@ class Button implements ButtonInterface
 
     public function viewData()
     {
-        $text = trans($this->getText());
-
         $type = $this->getType();
         $icon = $this->getIcon();
+
+        $text = trans($this->getText());
 
         $attributes = attributes_string($this->getAttributes());
 
@@ -93,4 +93,5 @@ class Button implements ButtonInterface
         return $this->icon;
     }
 }
+
  

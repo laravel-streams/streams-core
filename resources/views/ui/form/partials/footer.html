@@ -9,9 +9,10 @@
                         type="submit"
                         name="{{ .data.prefix }}action"
                         value="{{ value }}"
-                        class="{{ button.class }}"
-                {{{ button.attributes }}}>
-                {{{ button.text }}}
+                        class="btn btn-{{ type }} btn-sm"
+                {{{ attributes }}}>
+                {{ if icon }}<i class="{{ fa fa-{{ icon }}"></i>{{ endif }}
+                {{ text }}
                 </button>
                 {{ /actions }}
             </div>
