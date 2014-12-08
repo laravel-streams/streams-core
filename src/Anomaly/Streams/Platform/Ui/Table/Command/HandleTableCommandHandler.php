@@ -14,6 +14,7 @@ class HandleTableCommandHandler
         $args = compact('builder');
 
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Action\Command\HandleTableActionCommand', $args);
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Action\Command\HandleTableSortingCommand', $args);
     }
 }
  

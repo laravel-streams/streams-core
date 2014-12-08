@@ -12,7 +12,7 @@ class TableListener extends EventListener
 
             return;
         }
-        
+
         $query = $event->getQuery();
         $table = $event->getTable();
 
