@@ -9,7 +9,7 @@ class FormBuilder
     use CommanderTrait;
     use DispatchableTrait;
 
-    protected $handler = 'Anomaly\Streams\Platform\Ui\Form\FormHandler';
+    protected $handler = 'Anomaly\Streams\Platform\Ui\Form\FormHandler@handle';
 
     protected $standardizerCommand = 'Anomaly\Streams\Platform\Ui\Form\Command\StandardizeInputCommand';
 

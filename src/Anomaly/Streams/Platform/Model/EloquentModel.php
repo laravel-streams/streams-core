@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
-use Anomaly\Streams\Platform\Support\Transformer;
 use Anomaly\Streams\Platform\Traits\CacheableTrait;
 use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
@@ -79,35 +78,13 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     protected $titleKey = 'id';
 
     /**
-     * The "booting" method of the model.
+     * Boot the model.
      *
      * @return void
      */
     protected static function boot()
     {
-        parent::boot();
-
-        // TODO: This looses persistence for some reason if not set here. Or.. it did. Don't give an iFuck
-        //self::$dispatcher = app('Illuminate\Contracts\Events\Dispatcher');
-
-        $transformer = new Transformer();
-
-        // Observing is a must.
-        $observer = 'Anomaly\Streams\Platform\Model\EloquentModelObserver';
-
-        // If this class has it's own use it.
-        if ($override = $transformer->toObserver(__CLASS__)) {
-
-            $observer = $override;
-        }
-
-        // If the called class has it's own use it.
-        if ($override = $transformer->toObserver(get_called_class())) {
-
-            $observer = $override;
-        }
-
-        self::observe(new $observer);
+        self::observe(new EloquentModelObserver());
     }
 
     /**

@@ -60,6 +60,16 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Boot the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        self::observe(new EntryModelObserver());
+    }
+
+    /**
      * Set entry information that every record needs.
      *
      * @return EntryInterface
