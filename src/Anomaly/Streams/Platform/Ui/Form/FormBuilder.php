@@ -19,7 +19,7 @@ class FormBuilder
 
     protected $makeCommand = 'Anomaly\Streams\Platform\Ui\Form\Command\MakeFormCommand';
 
-    protected $model = 'FooBarModel';
+    protected $model = null;
 
     protected $entry = null;
 

@@ -35,6 +35,11 @@ class StandardizeInputCommandHandler
         $table = $builder->getTable();
         $model = $builder->getModel();
 
+        if (!$model) {
+
+            return;
+        }
+
         if (is_string($model)) {
 
             $model = app($model);

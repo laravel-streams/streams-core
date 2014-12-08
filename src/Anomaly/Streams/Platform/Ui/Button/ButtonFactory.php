@@ -4,9 +4,17 @@ class ButtonFactory
 {
 
     protected $buttons = [
-        'edit' => [
+        'cancel' => [
+            'text' => 'button.cancel',
+            'type' => 'default',
+        ],
+        'edit'   => [
             'text' => 'button.edit',
             'type' => 'warning',
+        ],
+        'delete' => [
+            'text' => 'button.delete',
+            'type' => 'danger',
         ],
     ];
 
