@@ -20,30 +20,14 @@ class StandardizeInputCommandHandler
 
         $this->standardizeModelInput($builder);
 
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\View\Command\StandardizeViewInputCommand',
-            compact('builder')
-        );
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Filter\Command\StandardizeFilterInputCommand',
-            compact('builder')
-        );
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Column\Command\StandardizeColumnInputCommand',
-            compact('builder')
-        );
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Header\Command\StandardizeHeaderInputCommand',
-            compact('builder')
-        );
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Button\Command\StandardizeButtonInputCommand',
-            compact('builder')
-        );
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Action\Command\StandardizeActionInputCommand',
-            compact('builder')
-        );
+        $args = compact('builder');
+
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\View\Command\StandardizeViewInputCommand', $args);
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Filter\Command\StandardizeFilterInputCommand', $args);
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Column\Command\StandardizeColumnInputCommand', $args);
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Header\Command\StandardizeHeaderInputCommand', $args);
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Button\Command\StandardizeButtonInputCommand', $args);
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Action\Command\StandardizeActionInputCommand', $args);
     }
 
     protected function standardizeModelInput(TableBuilder $builder)

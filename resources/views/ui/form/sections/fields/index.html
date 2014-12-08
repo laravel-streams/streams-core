@@ -1,0 +1,25 @@
+<section class="panel panel-default">
+
+    {{ if title }}
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            {{ title }}
+        </h3>
+    </div>
+    {{ endif }}
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-24">
+
+                {{ fields }}
+                <div class="form-group">
+                    {{{ input }}}
+                </div>
+                {{ /fields }}
+
+            </div>
+        </div>
+    </div>
+
+</section>

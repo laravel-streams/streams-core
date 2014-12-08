@@ -5,7 +5,11 @@ use Laracasts\Commander\CommanderTrait;
 class SectionFactory
 {
 
-    protected $sections = [];
+    protected $sections = [
+        'fields' => [
+            'section' => 'Anomaly\Streams\Platform\Ui\Form\Section\Type\FieldsSection',
+        ]
+    ];
 
     public function make(array $parameters)
     {
@@ -19,7 +23,10 @@ class SectionFactory
             $parameters = array_replace_recursive($section, array_except($parameters, 'section'));
         }
 
-        return app()->make('Anomaly\Streams\Platform\Ui\Form\Section\Section', $parameters);
+        return app()->make(
+            array_get($parameters, 'section', 'Anomaly\Streams\Platform\Ui\Form\Section\Section'),
+            $parameters
+        );
     }
 }
  

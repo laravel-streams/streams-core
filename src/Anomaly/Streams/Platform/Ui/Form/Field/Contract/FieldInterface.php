@@ -4,5 +4,7 @@ interface FieldInterface
 {
 
     public function viewData();
+
+    public function getSlug();
 }
  

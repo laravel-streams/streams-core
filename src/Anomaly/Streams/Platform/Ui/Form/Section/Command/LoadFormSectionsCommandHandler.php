@@ -17,8 +17,13 @@ class LoadFormSectionsCommandHandler
         $builder  = $command->getBuilder();
         $form     = $builder->getForm();
         $sections = $form->getSections();
+        $stream   = $form->getStream();
+        $entry    = $form->getEntry();
 
         foreach ($builder->getSections() as $parameters) {
+
+            $parameters['stream'] = $stream;
+            $parameters['entry']  = $entry;
 
             $section = $this->factory->make($parameters);
 
