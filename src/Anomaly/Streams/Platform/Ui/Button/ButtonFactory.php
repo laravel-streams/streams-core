@@ -22,7 +22,7 @@ class ButtonFactory
             $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
         }
 
-        return app()->make('Anomaly\Streams\Platform\Ui\Table\Button\Button', $parameters);
+        return app()->make('Anomaly\Streams\Platform\Ui\Button\Button', $parameters);
     }
 }
 

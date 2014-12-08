@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Action\ActionCollection;
-use Anomaly\Streams\Platform\Ui\Table\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Column\ColumnCollection;
 use Anomaly\Streams\Platform\Ui\Table\Filter\FilterCollection;
 use Anomaly\Streams\Platform\Ui\Table\Header\HeaderCollection;

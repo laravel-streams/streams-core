@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Row;
 
 use Anomaly\Streams\Platform\Contract\ArrayableInterface;
-use Anomaly\Streams\Platform\Ui\Table\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Table\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Table\Column\ColumnCollection;
 use Anomaly\Streams\Platform\Ui\Table\Column\Contract\ColumnInterface;
 use Anomaly\Streams\Platform\Ui\Table\Row\Contract\RowInterface;
