@@ -23,11 +23,14 @@ class Button implements ButtonInterface
 
     public function viewData()
     {
-        $text       = trans($this->getText());
-        $attributes = attributes_string($this->getAttributes());
-        $type       = $this->getType();
+        $type = $this->getType();
+        $icon = $this->getIcon();
 
-        return compact('text', 'type', 'attributes');
+        $text = trans($this->getText());
+
+        $attributes = attributes_string($this->getAttributes());
+
+        return compact('text', 'type', 'icon', 'attributes');
     }
 
     public function setAttributes(array $attributes)

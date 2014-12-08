@@ -26,8 +26,8 @@
     <td class="text-right">
         {{ buttons }}
         <div class="btn-group">
-            <a class="{{ class }}" {{{ attributes }}}>
-            {{{ icon then icon }}}
+            <a class="bt btn-{{ type }} btn-sm" {{{ attributes }}}>
+            {{ if icon }}<i class="fa fa-{{ icon }}"></i>{{ endif }}
             {{{ text }}}
             </a>
         </div>
