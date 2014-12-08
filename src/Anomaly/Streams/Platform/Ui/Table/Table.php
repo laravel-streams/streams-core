@@ -1,9 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Action\ActionCollection;
+use Anomaly\Streams\Platform\Ui\Table\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Column\ColumnCollection;
 use Anomaly\Streams\Platform\Ui\Table\Filter\FilterCollection;
+use Anomaly\Streams\Platform\Ui\Table\Header\HeaderCollection;
 use Anomaly\Streams\Platform\Ui\Table\Row\RowCollection;
 use Anomaly\Streams\Platform\Ui\Table\View\ViewCollection;
 use Illuminate\Support\Collection;
@@ -56,6 +57,8 @@ class Table
 
     protected $actions;
 
+    protected $headers;
+
     function __construct(
         Collection $entries,
         RowCollection $rows,
@@ -63,7 +66,8 @@ class Table
         ActionCollection $actions,
         ButtonCollection $buttons,
         ColumnCollection $columns,
-        FilterCollection $filters
+        FilterCollection $filters,
+        HeaderCollection $headers
     ) {
         $this->rows    = $rows;
         $this->views   = $views;
@@ -72,6 +76,7 @@ class Table
         $this->buttons = $buttons;
         $this->columns = $columns;
         $this->filters = $filters;
+        $this->headers = $headers;
     }
 
     public function setPrefix($prefix)
@@ -265,6 +270,11 @@ class Table
     public function getFilters()
     {
         return $this->filters;
+    }
+
+    public function getHeaders()
+    {
+        return $this->headers;
     }
 
     public function getViews()

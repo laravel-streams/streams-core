@@ -1,29 +1,28 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\View;
 
-use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewInterface;
-
 class ViewFactory
 {
 
-    protected $views;
-
-    function __construct(ViewRepository $views)
-    {
-        $this->views = $views;
-    }
+    protected $views = [
+        'all' => [
+            'slug' => 'all',
+            'text' => 'misc.all',
+            'view' => 'Anomaly\Streams\Platform\Ui\Table\View\View',
+        ]
+    ];
 
     public function make(array $parameters)
     {
-        if (isset($parameters['view']) and class_exists($parameters['view'])) {
+        if (class_exists($parameters['view'])) {
 
             return app()->make($parameters['view'], $parameters);
         }
 
-        if ($view = array_get($parameters, 'view') and $view = $this->views->find($view)) {
+        if ($view = array_get($this->views, array_get($parameters, 'view'))) {
 
-            $view = array_merge($view, array_except($parameters, 'view'));
+            $parameters = array_merge($view, array_except($parameters, 'view'));
 
-            return app()->make($view['view'], $view);
+            return app()->make($parameters['view'], $parameters);
         }
 
         return app()->make('Anomaly\Streams\Platform\Ui\Table\View\View', $parameters);

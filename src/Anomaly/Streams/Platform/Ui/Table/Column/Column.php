@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Column\Contract\ColumnInterface;
-use Anomaly\Streams\Platform\Ui\Table\Header\Contract\HeaderInterface;
 
 class Column implements ColumnInterface
 {
@@ -16,7 +15,7 @@ class Column implements ColumnInterface
 
     protected $prefix;
 
-    protected $header;
+    protected $heading;
 
     protected $stream;
 
@@ -24,7 +23,7 @@ class Column implements ColumnInterface
         $value,
         $class = null,
         $prefix = null,
-        HeaderInterface $header = null,
+        $header = null,
         StreamInterface $stream = null
     ) {
         $this->value  = $value;
@@ -104,14 +103,14 @@ class Column implements ColumnInterface
         return $this->value;
     }
 
-    public function setHeader(HeaderInterface $header)
+    public function setHeading($header)
     {
         $this->header = $header;
 
         return $this;
     }
 
-    public function getHeader()
+    public function getHeading()
     {
         return $this->header;
     }

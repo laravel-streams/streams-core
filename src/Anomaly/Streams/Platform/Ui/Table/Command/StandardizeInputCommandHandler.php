@@ -6,36 +6,13 @@ use Anomaly\Streams\Platform\Ui\Table\Action\ActionReader;
 use Anomaly\Streams\Platform\Ui\Table\Column\ColumnReader;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Exception\IncompatibleModelException;
-use Anomaly\Streams\Platform\Ui\Table\Filter\FilterReader;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Ui\Table\View\ViewReader;
+use Laracasts\Commander\CommanderTrait;
 
 class StandardizeInputCommandHandler
 {
 
-    protected $viewReader;
-
-    protected $filterReader;
-
-    protected $columnReader;
-
-    protected $buttonReader;
-
-    protected $actionReader;
-
-    function __construct(
-        ViewReader $viewReader,
-        FilterReader $filterReader,
-        ColumnReader $columnReader,
-        ButtonReader $buttonReader,
-        ActionReader $actionReader
-    ) {
-        $this->viewReader   = $viewReader;
-        $this->filterReader = $filterReader;
-        $this->columnReader = $columnReader;
-        $this->buttonReader = $buttonReader;
-        $this->actionReader = $actionReader;
-    }
+    use CommanderTrait;
 
     public function handle(StandardizeInputCommand $command)
     {
@@ -43,71 +20,30 @@ class StandardizeInputCommandHandler
 
         $this->standardizeModelInput($builder);
 
-        $this->standardizeViewInput($builder);
-        $this->standardizeFilterInput($builder);
-        $this->standardizeColumnInput($builder);
-        $this->standardizeButtonInput($builder);
-        $this->standardizeActionInput($builder);
-    }
-
-    protected function standardizeViewInput(TableBuilder $builder)
-    {
-        $views = $builder->getViews();
-
-        foreach ($views as $key => &$view) {
-
-            $view = $this->viewReader->convert($key, $view);
-        }
-
-        $builder->setViews(array_values($views));
-    }
-
-    protected function standardizeFilterInput(TableBuilder $builder)
-    {
-        $filters = $builder->getFilters();
-
-        foreach ($filters as $key => &$filter) {
-
-            $filter = $this->filterReader->convert($key, $filter);
-        }
-
-        $builder->setFilters(array_values($filters));
-    }
-
-    protected function standardizeColumnInput(TableBuilder $builder)
-    {
-        $columns = $builder->getColumns();
-
-        foreach ($columns as $key => &$column) {
-
-            $column = $this->columnReader->convert($key, $column);
-        }
-
-        $builder->setColumns(array_values($columns));
-    }
-
-    protected function standardizeButtonInput(TableBuilder $builder)
-    {
-        $buttons = $builder->getButtons();
-
-        foreach ($buttons as $key => &$button) {
-
-            $button = $this->buttonReader->convert($key, $button);
-        }
-
-        $builder->setButtons(array_values($buttons));
-    }
-
-    protected function standardizeActionInput(TableBuilder $builder)
-    {
-        $actions = $builder->getActions();
-
-        foreach ($actions as $key => &$action) {
-
-            $action = $this->actionReader->convert($key, $action);
-        }
-
-        $builder->setActions(array_values($actions));
+        $this->execute(
+            'Anomaly\Streams\Platform\Ui\Table\View\Command\StandardizeViewInputCommand',
+            compact('builder')
+        );
+        $this->execute(
+            'Anomaly\Streams\Platform\Ui\Table\Filter\Command\StandardizeFilterInputCommand',
+            compact('builder')
+        );
+        $this->execute(
+            'Anomaly\Streams\Platform\Ui\Table\Column\Command\StandardizeColumnInputCommand',
+            compact('builder')
+        );
+        $this->execute(
+            'Anomaly\Streams\Platform\Ui\Table\Header\Command\StandardizeHeaderInputCommand',
+            compact('builder')
+        );
+        $this->execute(
+            'Anomaly\Streams\Platform\Ui\Table\Button\Command\StandardizeButtonInputCommand',
+            compact('builder')
+        );
+        $this->execute(
+            'Anomaly\Streams\Platform\Ui\Table\Action\Command\StandardizeActionInputCommand',
+            compact('builder')
+        );
     }
 
     protected function standardizeModelInput(TableBuilder $builder)

@@ -7,16 +7,6 @@ interface HeaderInterface
 
     public function viewData();
 
-    public function setStream(StreamInterface $stream = null);
-
-    public function getStream();
-
-    public function setPrefix($prefix);
-
-    public function getPrefix();
-
-    public function setText($text);
-
-    public function getText();
+    public function setStream(StreamInterface $stream);
 }
  

@@ -28,7 +28,7 @@ class Action implements ActionInterface
         $active = false,
         $handler = null,
         array $attributes = [],
-        IconInterface $icon = null
+        $icon = null
     ) {
         $this->text       = $text;
         $this->slug       = $slug;
@@ -64,7 +64,7 @@ class Action implements ActionInterface
         return $this->attributes;
     }
 
-    public function setIcon(IconInterface $icon)
+    public function setIcon($icon)
     {
         $this->icon = $icon;
 

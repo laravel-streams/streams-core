@@ -6,17 +6,13 @@ use Anomaly\Streams\Platform\Ui\Table\Header\Contract\HeaderInterface;
 class Header implements HeaderInterface
 {
 
+    protected $stream = null;
+
     protected $text;
 
-    protected $prefix;
-
-    protected $stream;
-
-    function __construct($text = null, $prefix = null, StreamInterface $stream = null)
+    function __construct($text = null)
     {
-        $this->text   = $text;
-        $this->prefix = $prefix;
-        $this->stream = $stream;
+        $this->text = $text;
     }
 
     public function viewData()
@@ -33,38 +29,11 @@ class Header implements HeaderInterface
         return compact('text');
     }
 
-    protected function getTextFromField($text)
-    {
-        if ($field = $this->stream->getField($text)) {
-
-            return $field->getName();
-        }
-
-        return $text;
-    }
-
-    public function setStream(StreamInterface $stream = null)
+    public function setStream(StreamInterface $stream)
     {
         $this->stream = $stream;
 
         return $this;
-    }
-
-    public function getStream()
-    {
-        return $this->stream;
-    }
-
-    public function setPrefix($prefix)
-    {
-        $this->prefix = $prefix;
-
-        return $this;
-    }
-
-    public function getPrefix()
-    {
-        return $this->prefix;
     }
 
     public function setText($text)
@@ -77,6 +46,16 @@ class Header implements HeaderInterface
     public function getText()
     {
         return $this->text;
+    }
+
+    protected function getTextFromField($text)
+    {
+        if ($field = $this->stream->getField($text)) {
+
+            return $field->getName();
+        }
+
+        return $text;
     }
 }
  

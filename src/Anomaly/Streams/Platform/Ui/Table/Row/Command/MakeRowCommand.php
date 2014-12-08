@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Row\Command;
 
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Ui\Table\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Column\ColumnCollection;
 
 class MakeRowCommand

@@ -18,7 +18,8 @@
 
             <div class="col-lg-12 text-right">
                 {{ buttons }}
-                <a class="{{ class }}" {{{ attributes }}}>
+                <a class="btn btn-{{ type }} btn-sm" {{{ attributes }}}>
+                {{ if icon }}<i class="fa fa-{{ icon }}"></i>{{ endif }}
                 {{{ text }}}
                 </a>
                 {{ /buttons }}
