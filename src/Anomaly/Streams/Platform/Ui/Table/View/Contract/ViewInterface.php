@@ -1,11 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\View\Contract;
 
 use Anomaly\Streams\Platform\Ui\Table\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 interface ViewInterface
 {
 
-    public function handle(Table $table);
+    public function handle(Table $table, Builder $query);
 
     public function viewData();
 

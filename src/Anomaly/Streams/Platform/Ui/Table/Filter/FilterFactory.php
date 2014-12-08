@@ -3,7 +3,19 @@
 class FilterFactory
 {
 
-    protected $filters = [];
+    protected $filters = [
+        'input'  => [
+            'slug'   => 'input',
+            'filter' => 'Anomaly\Streams\Platform\Ui\Table\Filter\Type\InputFilter',
+        ],
+        'select' => [
+            'slug'   => 'select',
+            'filter' => 'Anomaly\Streams\Platform\Ui\Table\Filter\Type\SelectFilter',
+        ],
+        'field'  => [
+            'filter' => 'Anomaly\Streams\Platform\Ui\Table\Filter\Type\FieldFilter',
+        ]
+    ];
 
     public function make(array $parameters)
     {
@@ -17,7 +29,10 @@ class FilterFactory
             $parameters = array_replace_recursive($filter, array_except($parameters, 'filter'));
         }
 
-        return app()->make('Anomaly\Streams\Platform\Ui\Table\Filter\Filter', $parameters);
+        return app()->make(
+            array_get($parameters, 'filter', 'Anomaly\Streams\Platform\Ui\Table\Filter\Filter'),
+            $parameters
+        );
     }
 }
  

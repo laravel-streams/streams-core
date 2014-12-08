@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewInterface;
+use Illuminate\Database\Eloquent\Builder;
 
 class View implements ViewInterface
 {
@@ -28,9 +29,9 @@ class View implements ViewInterface
         $this->attributes = $attributes;
     }
 
-    public function handle(Table $table)
+    public function handle(Table $table, Builder $query)
     {
-        //
+        // No modification by default
     }
 
     public function viewData()
