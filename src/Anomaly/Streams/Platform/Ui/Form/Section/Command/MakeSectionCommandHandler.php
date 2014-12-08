@@ -17,19 +17,7 @@ class MakeSectionCommandHandler
 
     public function handle(MakeSectionCommand $command)
     {
-        $parameters = $command->getParameters();
-
-        $section = $this->factory->make($parameters);
-
-        return $section;
-    }
-
-    protected function makeLayout($layout)
-    {
-        return $this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Section\Command\MakeSectionCommand',
-            ['parameters' => $layout]
-        );
+        return $this->factory->make($command->getParameters());
     }
 }
  
