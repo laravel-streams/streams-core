@@ -24,6 +24,7 @@ class LoadFormSectionsCommandHandler
 
             $parameters['stream'] = $stream;
             $parameters['entry']  = $entry;
+            $parameters['form']   = $form;
 
             $section = $this->factory->make($parameters);
 

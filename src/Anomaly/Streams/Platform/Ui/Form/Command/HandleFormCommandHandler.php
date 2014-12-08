@@ -13,8 +13,12 @@ class HandleFormCommandHandler
 
         $args = compact('builder');
 
+        $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\HandleFormInputCommand', $args);
+
         $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\HandleFormAuthorizationCommand', $args);
         $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\HandleFormValidationCommand', $args);
+
+        $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\RunFormHandlerCommand', $args);
         $this->execute('Anomaly\Streams\Platform\Ui\Form\Action\Command\HandleFormActionCommand', $args);
     }
 }

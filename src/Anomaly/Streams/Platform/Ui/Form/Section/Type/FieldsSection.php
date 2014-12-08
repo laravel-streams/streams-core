@@ -4,12 +4,15 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\FieldCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\Field\FieldFactory;
+use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Form\Section\Contract\SectionInterface;
 
 class FieldsSection implements SectionInterface
 {
 
     protected $view;
+
+    protected $form;
 
     protected $title;
 
@@ -24,7 +27,9 @@ class FieldsSection implements SectionInterface
     function __construct(
         array $fields,
         $title = null,
+        $prefix = null,
         $view = 'ui/form/sections/fields/index',
+        Form $form,
         StreamInterface $stream,
         EntryInterface $entry = null,
         FieldFactory $fieldFactory
@@ -35,6 +40,7 @@ class FieldsSection implements SectionInterface
 
         foreach ($fields as &$field) {
 
+            $field['form']   = $form;
             $field['entry']  = $entry;
             $field['stream'] = $stream;
 

@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+
 class LoadFormValidationCommandHandler
 {
 

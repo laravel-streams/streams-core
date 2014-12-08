@@ -78,6 +78,7 @@ class MakeFormCommandHandler
     protected function setFormData(Form $form)
     {
         $form->putData('prefix', $form->getPrefix());
+        $form->putData('locales', $form->getPrefix());
 
         $translatable = false;
 
@@ -87,6 +88,18 @@ class MakeFormCommandHandler
         }
 
         $form->putData('translatable', $translatable);
+
+        $locales = [];
+
+        foreach (config('streams.available_locales') as $k => $locale) {
+
+            $language = trans('language.' . $locale);
+            $active   = $locale == config('app.locale');
+
+            $locales[$locale] = compact('locale', 'language', 'active');
+        }
+
+        $form->putData('locales', $locales);
     }
 }
  

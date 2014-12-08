@@ -9,5 +9,10 @@ class Field implements FieldInterface
     {
         // TODO: Implement viewData() method.
     }
+
+    public function getSlug()
+    {
+        // TODO: Implement getSlug() method.
+    }
 }
  

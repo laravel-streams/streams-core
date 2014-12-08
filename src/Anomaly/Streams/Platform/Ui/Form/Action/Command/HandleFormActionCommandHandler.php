@@ -27,7 +27,7 @@ class HandleFormActionCommandHandler
 
             if ($form->getResponse() === null) {
 
-                $form->setResponse(action(app('request')->fullUrl()));
+                $form->setResponse(redirect(app('request')->fullUrl()));
             }
         }
     }

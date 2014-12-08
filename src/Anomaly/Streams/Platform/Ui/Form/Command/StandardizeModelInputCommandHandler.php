@@ -11,9 +11,12 @@ class StandardizeModelInputCommandHandler
     {
         $builder = $command->getBuilder();
         $table   = $builder->getForm();
-        $class   = $builder->getModel();
+        $model   = $builder->getModel();
 
-        $model = app($class);
+        if (is_string($model)) {
+
+            $model = app($model);
+        }
 
         /**
          * If the model can extract a Stream then
@@ -27,7 +30,7 @@ class StandardizeModelInputCommandHandler
 
         if (!$model instanceof FormModelInterface) {
 
-            throw new IncompatibleModelException("[$class] must implement Anomaly\\Streams\\Platform\\Ui\\Form\\Contract\\FormModelInterface");
+            throw new IncompatibleModelException("[get_class($model)] must implement Anomaly\\Streams\\Platform\\Ui\\Form\\Contract\\FormModelInterface");
         }
 
         $builder->setModel($model);

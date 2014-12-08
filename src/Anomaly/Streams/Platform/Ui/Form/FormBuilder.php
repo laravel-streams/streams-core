@@ -9,6 +9,8 @@ class FormBuilder
     use CommanderTrait;
     use DispatchableTrait;
 
+    protected $handler = 'Anomaly\Streams\Platform\Ui\Form\FormHandler';
+
     protected $standardizerCommand = 'Anomaly\Streams\Platform\Ui\Form\Command\StandardizeInputCommand';
 
     protected $buildCommand = 'Anomaly\Streams\Platform\Ui\Form\Command\BuildFormCommand';
@@ -54,7 +56,7 @@ class FormBuilder
     {
         $this->build($entry);
 
-        if ($this->form->getResponse() === null) {
+        if ($this->form->getResponse() === null or $this->form->getResponse() === false) {
 
             $this->execute($this->makeCommand, ['builder' => $this]);
         }
@@ -64,7 +66,7 @@ class FormBuilder
     {
         $this->make($entry);
 
-        if ($this->form->getResponse() === null) {
+        if ($this->form->getResponse() === null or $this->form->getResponse() === false) {
 
             $content = $this->form->getContent();
 
@@ -77,6 +79,18 @@ class FormBuilder
     public function getForm()
     {
         return $this->form;
+    }
+
+    public function setHandler($handler)
+    {
+        $this->handler = $handler;
+
+        return $this;
+    }
+
+    public function getHandler()
+    {
+        return $this->handler;
     }
 
     public function setModel($model)

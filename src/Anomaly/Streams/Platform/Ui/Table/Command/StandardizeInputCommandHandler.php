@@ -33,14 +33,12 @@ class StandardizeInputCommandHandler
     protected function standardizeModelInput(TableBuilder $builder)
     {
         $table = $builder->getTable();
-        $class = $builder->getModel();
+        $model = $builder->getModel();
 
-        if (!class_exists($class)) {
+        if (is_string($model)) {
 
-            return;
+            $model = app($model);
         }
-
-        $model = app($class);
 
         /**
          * If the model can extract a Stream then
@@ -54,7 +52,7 @@ class StandardizeInputCommandHandler
 
         if (!$model instanceof TableModelInterface) {
 
-            throw new IncompatibleModelException("[$class] must implement Anomaly\\Streams\\Platform\\Ui\\Table\\Contract\\TableModelInterface");
+            throw new IncompatibleModelException("[get_class($model)] must implement Anomaly\\Streams\\Platform\\Ui\\Table\\Contract\\TableModelInterface");
         }
 
         $builder->setModel($model);

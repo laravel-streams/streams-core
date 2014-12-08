@@ -356,6 +356,33 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
     public static function saveFormInput(Form $form)
     {
-        die('Boom!');
+        $entry = $form->getEntry();
+
+        foreach ($form->pullInput(config('app.locale'), []) as $key => $value) {
+
+            $entry->{$key} = $value;
+        }
+
+        $entry->save();
+
+        if ($entry->isTranslatable()) {
+
+            foreach (config('streams.available_locales') as $locale) {
+
+                if ($locale == config('app.locale')) {
+
+                    continue;
+                }
+
+                $entry = $entry->translate($locale);
+
+                foreach ($form->pullInput($locale, []) as $key => $value) {
+
+                    $entry->{$key} = $value;
+                }
+
+                $entry->save();
+            }
+        }
     }
 }

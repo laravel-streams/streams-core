@@ -7,11 +7,11 @@
             <i class="fa fa-language"></i>&nbsp;Translations
         </a>
         <ul class="dropdown-menu">
-            {{ options.locales }}
+            {{ locales }}
             <li class="{{ active then 'active' }}">
                 <a href="#" data-toggle="form-locale" data-locale="{{ locale }}">{{ language }}</a>
             </li>
-            {{ /options.locales }}
+            {{ /locales }}
         </ul>
 
     </div>
