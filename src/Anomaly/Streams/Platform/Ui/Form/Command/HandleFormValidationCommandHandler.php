@@ -8,7 +8,9 @@ class HandleFormValidationCommandHandler
         $builder = $command->getBuilder();
         $form    = $builder->getForm();
 
-        $validator = app('validator')->make($form->pullInput(config('app.locale')), $form->getRules());
+        $input = $form->pullInput(config('app.locale'), []) + $form->pullInput('include', []);
+
+        $validator = app('validator')->make($input, $form->getRules());
 
         if ($validator->fails()) {
 

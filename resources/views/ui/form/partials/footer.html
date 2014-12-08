@@ -9,7 +9,7 @@
                         type="submit"
                         name="{{ .data.prefix }}action"
                         value="{{ value }}"
-                        class="btn btn-{{ type }} btn-sm"
+                        class="btn btn-{{ type }} btn-sm {{ class }}"
                 {{{ attributes }}}>
                 {{ if icon }}<i class="{{ fa fa-{{ icon }}"></i>{{ endif }}
                 {{ text }}

@@ -73,6 +73,13 @@ class Form
         return $this->include;
     }
 
+    public function addInclude($include)
+    {
+        $this->include[] = $include;
+
+        return $this;
+    }
+
     public function setSkips($skips)
     {
         $this->skips = $skips;

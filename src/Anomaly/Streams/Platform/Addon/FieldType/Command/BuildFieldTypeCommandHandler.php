@@ -78,7 +78,7 @@ class BuildFieldTypeCommandHandler
             return app($command->getType());
         }
 
-        return app('streams.field_types')->findBySlug($fieldType);
+        return app('streams.field_types')->findBySlug($fieldType)->newInstance();
     }
 }
  

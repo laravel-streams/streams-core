@@ -18,14 +18,21 @@ class SyncModulesCommandHandler
 
     use CommandableTrait;
 
+    protected $modules;
+
+    function __construct(ModuleModel $modules)
+    {
+        $this->modules = $modules;
+    }
+
     /**
      * Handle the command.
      *
      * @param ModuleModel $modules
      */
-    public function handle(ModuleModel $modules)
+    public function handle(SyncModulesCommand $command)
     {
-        $modules = $modules->all();
+        $modules = $this->modules->all();
 
         foreach (app('streams.modules')->all() as $module) {
 

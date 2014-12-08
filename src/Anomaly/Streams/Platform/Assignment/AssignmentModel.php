@@ -47,6 +47,16 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     protected $table = 'streams_assignments';
 
     /**
+     * Boot the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        self::observe(new AssignmentModelObserver());
+    }
+
+    /**
      * Get the field slug.
      *
      * @return mixed

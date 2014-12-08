@@ -21,7 +21,7 @@ class HandleFormInputCommandHandler
 
         foreach ($form->getInclude() as $include) {
 
-            $input[$include] = app('request')->get($form->getPrefix() . $include . '_' . config('app.locale'));
+            $input[$include] = app('request')->get($form->getPrefix() . $include);
         }
 
         $form->putInput('include', $input);
@@ -30,6 +30,11 @@ class HandleFormInputCommandHandler
     protected function setDefaultData(Form $form)
     {
         $stream = $form->getStream();
+
+        if (!$stream) {
+
+            return;
+        }
 
         $input = [];
 
@@ -51,6 +56,11 @@ class HandleFormInputCommandHandler
     protected function setTranslationData(Form $form)
     {
         $stream = $form->getStream();
+
+        if (!$stream) {
+
+            return;
+        }
 
         foreach (config('streams.available_locales') as $locale) {
 

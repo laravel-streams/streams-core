@@ -46,6 +46,16 @@ class FieldModel extends EloquentModel implements FieldInterface
     protected $table = 'streams_fields';
 
     /**
+     * Boot the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        self::observe(new FieldModelObserver());
+    }
+
+    /**
      * Get the ID.
      *
      * @return mixed

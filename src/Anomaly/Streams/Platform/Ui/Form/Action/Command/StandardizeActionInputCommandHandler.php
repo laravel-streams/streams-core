@@ -45,6 +45,15 @@ class StandardizeActionInputCommandHandler
                 $action['action'] = $action['slug'];
             }
 
+            /**
+             * If the action is an array and a slug is not set
+             * but the action is.. use the action as the slug.
+             */
+            if (is_array($action) and !isset($action['slug']) and isset($action['action'])) {
+
+                $action['slug'] = $action['action'];
+            }
+
             $actions[] = $action;
         }
 

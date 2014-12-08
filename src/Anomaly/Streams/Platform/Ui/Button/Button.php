@@ -11,11 +11,14 @@ class Button implements ButtonInterface
 
     protected $type;
 
+    protected $class;
+
     protected $attributes;
 
-    function __construct($type = 'default', $text = null, $icon = null, array $attributes = [])
+    function __construct($type = 'default', $text = null, $class = null, $icon = null, array $attributes = [])
     {
         $this->icon       = $icon;
+        $this->class      = $class;
         $this->text       = $text;
         $this->type       = $type;
         $this->attributes = $attributes;
@@ -23,14 +26,15 @@ class Button implements ButtonInterface
 
     public function viewData()
     {
-        $type = $this->getType();
-        $icon = $this->getIcon();
+        $type  = $this->getType();
+        $icon  = $this->getIcon();
+        $class = $this->getClass();
 
         $text = trans($this->getText());
 
         $attributes = attributes_string($this->getAttributes());
 
-        return compact('text', 'type', 'icon', 'attributes');
+        return compact('text', 'type', 'class', 'icon', 'attributes');
     }
 
     public function setAttributes(array $attributes)
@@ -91,6 +95,18 @@ class Button implements ButtonInterface
     public function getIcon()
     {
         return $this->icon;
+    }
+
+    public function setClass($class)
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    public function getClass()
+    {
+        return $this->class;
     }
 }
 

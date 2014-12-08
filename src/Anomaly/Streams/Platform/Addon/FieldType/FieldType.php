@@ -143,6 +143,16 @@ class FieldType extends Addon implements PresentableInterface
     protected $wrapperView = 'ui/form/partials/wrapper';
 
     /**
+     * Return a new instance of the field type.
+     *
+     * @return static
+     */
+    public function newInstance()
+    {
+        return new static;
+    }
+
+    /**
      * Get data for the input view.
      *
      * @return array
@@ -152,8 +162,8 @@ class FieldType extends Addon implements PresentableInterface
         $value       = $this->getValue();
         $class       = $this->getClass();
         $name        = $this->getFieldName();
-        $placeholder = $this->getPlaceholder();
         $type        = $this->getConfig('type', 'text');
+        $placeholder = trans($this->getPlaceholder(), [], null, $this->getLocale());
 
         return compact('name', 'value', 'type', 'class', 'placeholder');
     }
@@ -420,7 +430,7 @@ class FieldType extends Addon implements PresentableInterface
     {
         if (!$this->locale) {
 
-            $this->locale = setting('module.settings::default_locale', config('app.locale', 'en'));
+            $this->locale = config('app.locale', 'en');
         }
 
         return $this->locale;

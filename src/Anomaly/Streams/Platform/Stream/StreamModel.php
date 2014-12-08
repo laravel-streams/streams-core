@@ -31,6 +31,16 @@ class StreamModel extends EloquentModel implements StreamInterface
     protected $table = 'streams_streams';
 
     /**
+     * Boot the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        self::observe(new StreamModelObserver());
+    }
+
+    /**
      * Compile the entry models.
      *
      * @return mixed

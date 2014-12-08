@@ -30,7 +30,7 @@ class FieldsSection implements SectionInterface
         $prefix = null,
         $view = 'ui/form/sections/fields/index',
         Form $form,
-        StreamInterface $stream,
+        StreamInterface $stream = null,
         EntryInterface $entry = null,
         FieldFactory $fieldFactory
     ) {

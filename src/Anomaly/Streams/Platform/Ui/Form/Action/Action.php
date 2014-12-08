@@ -23,6 +23,7 @@ class Action extends Button implements ActionInterface
         $type = 'default',
         $text = null,
         $icon = null,
+        $class = null,
         array $attributes = []
     ) {
         $this->slug    = $slug;
@@ -30,7 +31,7 @@ class Action extends Button implements ActionInterface
         $this->active  = $active;
         $this->handler = $handler;
 
-        parent::__construct($type, $text, $icon, $attributes);
+        parent::__construct($type, $text, $class, $icon, $attributes);
     }
 
     public function handle(Form $form)
