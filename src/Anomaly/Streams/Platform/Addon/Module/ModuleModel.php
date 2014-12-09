@@ -58,7 +58,7 @@ class ModuleModel extends EloquentModel
      * @param $slug
      * @return mixed
      */
-    protected function findBySlug($slug)
+    public function findBySlug($slug)
     {
         return $this->where('slug', $slug)->first();
     }
