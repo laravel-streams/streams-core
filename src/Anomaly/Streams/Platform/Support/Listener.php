@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Anomaly\Streams\Platform\Traits\CommandableTrait;
+use Laracasts\Commander\CommanderTrait;
 use ReflectionClass;
 
 /**
@@ -14,7 +14,7 @@ use ReflectionClass;
 abstract class Listener
 {
 
-    use CommandableTrait;
+    use CommanderTrait;
 
     /**
      * Handle the event through the container.

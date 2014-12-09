@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
 use Anomaly\Streams\Platform\Traits\CacheableTrait;
-use Anomaly\Streams\Platform\Traits\CommandableTrait;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
 use Anomaly\Streams\Platform\Traits\TranslatableTrait;
 use Illuminate\Database\Eloquent\Collection;
@@ -25,7 +24,6 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     }
 
     use CacheableTrait;
-    use CommandableTrait;
     use TransformableTrait;
 
     /**

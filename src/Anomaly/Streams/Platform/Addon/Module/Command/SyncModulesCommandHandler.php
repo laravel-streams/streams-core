@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Anomaly\Streams\Platform\Collection\EloquentCollection;
-use Anomaly\Streams\Platform\Traits\CommandableTrait;
+use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class SyncModulesCommandHandler
@@ -16,7 +16,7 @@ use Anomaly\Streams\Platform\Traits\CommandableTrait;
 class SyncModulesCommandHandler
 {
 
-    use CommandableTrait;
+    use CommanderTrait;
 
     protected $modules;
 
@@ -50,9 +50,9 @@ class SyncModulesCommandHandler
     {
         if (!$match = $modules->findBySlug($module->getSlug())) {
 
-            $command = new CreateModuleCommand($module->getSlug());
+            $slug = $module->getSlug();
 
-            $this->execute($command);
+            $this->execute('Anomaly\Streams\Platform\Addon\Module\Command\CreateModuleCommand', compact('slug'));
         }
     }
 }

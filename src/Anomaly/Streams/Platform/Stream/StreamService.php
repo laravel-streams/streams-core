@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Stream\Command\DeleteStreamCommand;
-use Anomaly\Streams\Platform\Traits\CommandableTrait;
+use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class StreamService
@@ -14,7 +13,7 @@ use Anomaly\Streams\Platform\Traits\CommandableTrait;
 class StreamService
 {
 
-    use CommandableTrait;
+    use CommanderTrait;
 
     /**
      * Create a stream.
@@ -64,6 +63,9 @@ class StreamService
      */
     public function delete($namespace, $slug)
     {
-        return $this->execute(new DeleteStreamCommand($namespace, $slug));
+        return $this->execute(
+            'Anomaly\Streams\Platform\Stream\Command\DeleteStreamCommand',
+            compact('namespace', 'slug')
+        );
     }
 }

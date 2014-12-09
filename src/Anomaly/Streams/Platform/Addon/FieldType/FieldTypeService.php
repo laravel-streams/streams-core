@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Traits\CommandableTrait;
+use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class FieldTypeService
@@ -13,7 +13,7 @@ use Anomaly\Streams\Platform\Traits\CommandableTrait;
 class FieldTypeService
 {
 
-    use CommandableTrait;
+    use CommanderTrait;
 
     /**
      * A simple public API for the builder command.

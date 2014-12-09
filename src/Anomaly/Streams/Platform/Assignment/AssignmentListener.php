@@ -1,12 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumnCommand;
-use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumnCommand;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreatedEvent;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentDeletedEvent;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentSavedEvent;
 use Anomaly\Streams\Platform\Support\Listener;
-use Anomaly\Streams\Platform\Traits\CommandableTrait;
+use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class AssignmentListener
@@ -19,7 +17,7 @@ use Anomaly\Streams\Platform\Traits\CommandableTrait;
 class AssignmentListener extends Listener
 {
 
-    use CommandableTrait;
+    use CommanderTrait;
 
     /**
      * When an assignment is created remove it's column.
@@ -28,7 +26,12 @@ class AssignmentListener extends Listener
      */
     public function whenAssignmentCreated(AssignmentCreatedEvent $event)
     {
-        $this->execute(new AddAssignmentColumnCommand($event->getAssignment()));
+        $assignment = $event->getAssignment();
+
+        $this->execute(
+            'Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumnCommand',
+            compact('assignment')
+        );
     }
 
     /**
@@ -38,7 +41,12 @@ class AssignmentListener extends Listener
      */
     public function whenAssignmentDeleted(AssignmentDeletedEvent $event)
     {
-        $this->execute(new DropAssignmentColumnCommand($event->getAssignment()));
+        $assignment = $event->getAssignment();
+
+        $this->execute(
+            'Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumnCommand',
+            compact('assignment')
+        );
     }
 
     /**

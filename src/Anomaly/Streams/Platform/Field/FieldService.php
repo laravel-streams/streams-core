@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
-use Anomaly\Streams\Platform\Field\Command\DeleteFieldCommand;
-use Anomaly\Streams\Platform\Field\Command\UnassignFieldCommand;
-use Anomaly\Streams\Platform\Traits\CommandableTrait;
+use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class FieldService
@@ -15,7 +13,7 @@ use Anomaly\Streams\Platform\Traits\CommandableTrait;
 class FieldService
 {
 
-    use CommandableTrait;
+    use CommanderTrait;
 
     /**
      * Create a field.
@@ -37,7 +35,10 @@ class FieldService
      */
     public function delete($namespace, $slug)
     {
-        return $this->execute(new DeleteFieldCommand($namespace, $slug));
+        return $this->execute(
+            'Anomaly\Streams\Platform\Field\Command\DeleteFieldCommand',
+            compact('namespace', 'slug')
+        );
     }
 
     /**
@@ -66,6 +67,9 @@ class FieldService
      */
     public function unassign($namespace, $stream, $field)
     {
-        return $this->execute(new UnassignFieldCommand($namespace, $stream, $field));
+        return $this->execute(
+            'Anomaly\Streams\Platform\Field\Command\UnassignFieldCommand',
+            compact('namespace', 'stream', 'field')
+        );
     }
 }

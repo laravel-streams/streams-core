@@ -1,14 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelCommand;
-use Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModelCommand;
-use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTableCommand;
-use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTableCommand;
 use Anomaly\Streams\Platform\Stream\Event\StreamCreatedEvent;
 use Anomaly\Streams\Platform\Stream\Event\StreamDeletedEvent;
 use Anomaly\Streams\Platform\Stream\Event\StreamSavedEvent;
 use Anomaly\Streams\Platform\Support\Listener;
-use Anomaly\Streams\Platform\Traits\CommandableTrait;
+use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class StreamListener
@@ -21,7 +17,7 @@ use Anomaly\Streams\Platform\Traits\CommandableTrait;
 class StreamListener extends Listener
 {
 
-    use CommandableTrait;
+    use CommanderTrait;
 
     /**
      * Fire after a stream is saved.
@@ -51,7 +47,12 @@ class StreamListener extends Listener
      */
     public function whenStreamDeleted(StreamDeletedEvent $event)
     {
-        $this->execute(new DropStreamsEntryTableCommand($event->getStream()));
+        $stream = $event->getStream();
+
+        $this->execute(
+            'Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTableCommand',
+            compact('stream')
+        );
     }
 
     /**
@@ -61,7 +62,10 @@ class StreamListener extends Listener
      */
     protected function createStreamsTable($stream)
     {
-        $this->execute(new CreateStreamsEntryTableCommand($stream));
+        $this->execute(
+            'Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTableCommand',
+            compact('stream')
+        );
     }
 
     /**
@@ -72,7 +76,10 @@ class StreamListener extends Listener
     protected function generateEntryModels(StreamModel $stream)
     {
         // Generate the base model.
-        $this->execute(new GenerateEntryModelCommand($stream));
+        $this->execute(
+            'Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelCommand',
+            compact('stream')
+        );
 
         /**
          * If the stream is translatable generate
@@ -80,7 +87,10 @@ class StreamListener extends Listener
          */
         if ($stream->isTranslatable()) {
 
-            $this->execute(new GenerateEntryTranslationsModelCommand($stream));
+            $this->execute(
+                'Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModelCommand',
+                compact('stream')
+            );
         }
     }
 }
