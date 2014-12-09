@@ -16,7 +16,9 @@ class SetHeaderDataCommandHandler
 
             if ($header instanceof HeaderInterface) {
 
-                $headers[] = $header->viewData();
+                $header = $header->viewData();
+
+                $headers[] = $header;
             }
         }
 
