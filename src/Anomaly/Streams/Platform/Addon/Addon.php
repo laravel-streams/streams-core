@@ -75,7 +75,7 @@ class Addon implements ArrayableInterface
      */
     public function isCore()
     {
-        return str_contains($this->getPath(), 'core/addons');
+        return str_contains($this->getPath(), 'core/' . str_plural($this->getType()));
     }
 
     /**
