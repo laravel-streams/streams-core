@@ -14,6 +14,26 @@ class AddonCollection extends Collection
 {
 
     /**
+     * Return only core addons.
+     *
+     * @return static
+     */
+    public function core()
+    {
+        $core = [];
+
+        foreach ($this->items as $item) {
+
+            if ($item->isCore()) {
+
+                $core[] = $item;
+            }
+        }
+
+        return self::make($core);
+    }
+
+    /**
      * Push an addon to the collection.
      *
      * @param mixed $addon
@@ -40,5 +60,25 @@ class AddonCollection extends Collection
         }
 
         return null;
+    }
+
+    public function orderByName($direction = 'asc')
+    {
+        $ordered = [];
+
+        foreach ($this->items as $item) {
+
+            $ordered[trans($item->getName())] = $item;
+        }
+
+        if ($direction == 'asc') {
+
+            ksort($ordered);
+        } else {
+
+            krsort($ordered);
+        }
+
+        return self::make($ordered);
     }
 }
