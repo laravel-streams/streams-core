@@ -38,7 +38,16 @@ class Row implements RowInterface
 
             if ($button instanceof ButtonInterface) {
 
-                $buttons[] = evaluate($button->viewData(), ['entry' => $this->entry]);
+                $button = evaluate($button->viewData(), ['entry' => $this->entry]);
+
+                $button['attributes'] = attributes_string($button['attributes']);
+
+                if (array_get($button, 'enabled') === false) {
+
+                    continue;
+                }
+
+                $buttons[] = $button;
             }
         }
 
@@ -48,7 +57,14 @@ class Row implements RowInterface
 
                 $column->setEntry($this->entry);
 
-                $columns[] = evaluate($column->viewData(), ['entry' => $this->entry]);
+                $column = evaluate($column->viewData(), ['entry' => $this->entry]);
+
+                if (array_get($column, 'enabled') === false) {
+
+                    continue;
+                }
+
+                $columns[] = $column;
             }
         }
 
