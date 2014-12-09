@@ -26,7 +26,7 @@ class LoadTableViewsCommandHandler
 
             $view->setPrefix($table->getPrefix());
 
-            if ($activeView == $view->getSlug() or $k == 0) {
+            if ($activeView == $view->getSlug() or (!$activeView and $k == 0)) {
 
                 $view->setActive(true);
             }
