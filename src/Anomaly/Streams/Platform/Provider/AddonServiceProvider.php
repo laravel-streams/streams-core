@@ -76,7 +76,7 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
             foreach (app("streams.{$plural}")->all() as $addon) {
 
                 $vendorPath = $addon->getPath() . '/vendor/';
-                $vendorFile = 'streams.vendor.autoload.php';
+                $vendorFile = 'autoload.php';
 
                 if (is_file($vendorPath . $vendorFile)) {
 
