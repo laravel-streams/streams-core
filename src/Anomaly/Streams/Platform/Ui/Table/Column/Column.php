@@ -36,13 +36,14 @@ class Column implements ColumnInterface
     public function viewData()
     {
         $value = $this->getValue();
+        $class = $this->getClass();
 
         if ($this->stream and is_string($value)) {
 
             $value = $this->getValueFromField($value);
         }
 
-        return compact('value');
+        return compact('value', 'class');
     }
 
     protected function getValueFromField($value)
