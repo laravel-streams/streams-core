@@ -15,7 +15,7 @@ class Column implements ColumnInterface
 
     protected $prefix;
 
-    protected $heading;
+    protected $header;
 
     protected $stream;
 
@@ -33,17 +33,17 @@ class Column implements ColumnInterface
         $this->stream = $stream;
     }
 
-    public function viewData()
+    public function viewData(array $arguments = [])
     {
         $value = $this->getValue();
         $class = $this->getClass();
 
-        if ($this->stream and is_string($value)) {
+        if ($this->getStream() and is_string($value)) {
 
             $value = $this->getValueFromField($value);
         }
 
-        return compact('value', 'class');
+        return evaluate(compact('value', 'class'), $arguments);
     }
 
     protected function getValueFromField($value)
@@ -54,30 +54,6 @@ class Column implements ColumnInterface
         }
 
         return $value;
-    }
-
-    public function setEntry($entry)
-    {
-        $this->entry = $entry;
-
-        return $this;
-    }
-
-    public function getEntry()
-    {
-        return $this->entry;
-    }
-
-    public function setPrefix($prefix)
-    {
-        $this->prefix = $prefix;
-
-        return $this;
-    }
-
-    public function getPrefix()
-    {
-        return $this->prefix;
     }
 
     public function setClass($class)
@@ -92,6 +68,54 @@ class Column implements ColumnInterface
         return $this->class;
     }
 
+    public function setEntry($entry)
+    {
+        $this->entry = $entry;
+
+        return $this;
+    }
+
+    public function getEntry()
+    {
+        return $this->entry;
+    }
+
+    public function setHeader($header)
+    {
+        $this->header = $header;
+
+        return $this;
+    }
+
+    public function getHeader()
+    {
+        return $this->header;
+    }
+
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    public function setStream($stream)
+    {
+        $this->stream = $stream;
+
+        return $this;
+    }
+
+    public function getStream()
+    {
+        return $this->stream;
+    }
+
     public function setValue($value)
     {
         $this->value = $value;
@@ -102,18 +126,6 @@ class Column implements ColumnInterface
     public function getValue()
     {
         return $this->value;
-    }
-
-    public function setHeading($header)
-    {
-        $this->header = $header;
-
-        return $this;
-    }
-
-    public function getHeading()
-    {
-        return $this->header;
     }
 }
  

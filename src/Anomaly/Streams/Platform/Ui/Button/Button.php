@@ -24,7 +24,7 @@ class Button implements ButtonInterface
         $this->attributes = $attributes;
     }
 
-    public function viewData()
+    public function viewData(array $arguments = [])
     {
         $type       = $this->getType();
         $icon       = $this->getIcon();
@@ -37,10 +37,10 @@ class Button implements ButtonInterface
             $text = trans($text);
         }
 
-        return compact('text', 'type', 'class', 'icon', 'attributes');
+        return evaluate(compact('text', 'type', 'class', 'icon', 'attributes'), $arguments);
     }
 
-    public function setAttributes(array $attributes)
+    public function setAttributes($attributes)
     {
         $this->attributes = $attributes;
 
@@ -52,16 +52,28 @@ class Button implements ButtonInterface
         return $this->attributes;
     }
 
-    public function putAttribute($key, $attribute)
+    public function setClass($class)
     {
-        $this->attributes[$key] = $attribute;
+        $this->class = $class;
 
         return $this;
     }
 
-    public function pullAttribute($key, $default = null)
+    public function getClass()
     {
-        return array_get($this->attributes, $key, $default);
+        return $this->class;
+    }
+
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function getIcon()
+    {
+        return $this->icon;
     }
 
     public function setText($text)
@@ -86,30 +98,6 @@ class Button implements ButtonInterface
     public function getType()
     {
         return $this->type;
-    }
-
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
-
-        return $this;
-    }
-
-    public function getIcon()
-    {
-        return $this->icon;
-    }
-
-    public function setClass($class)
-    {
-        $this->class = $class;
-
-        return $this;
-    }
-
-    public function getClass()
-    {
-        return $this->class;
     }
 }
 

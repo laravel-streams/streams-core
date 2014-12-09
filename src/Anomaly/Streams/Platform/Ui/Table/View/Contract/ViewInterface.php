@@ -8,7 +8,7 @@ interface ViewInterface
 
     public function handle(Table $table, Builder $query);
 
-    public function viewData();
+    public function viewData(array $arguments = []);
 
     public function setAttributes(array $attributes);
 

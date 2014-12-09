@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Action;
 
-use Anomaly\Streams\Platform\Ui\Icon\Contract\IconInterface;
 use Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 
@@ -24,11 +23,11 @@ class Action implements ActionInterface
     function __construct(
         $text,
         $slug,
+        $icon = null,
         $prefix = null,
         $active = false,
         $handler = null,
-        array $attributes = [],
-        $icon = null
+        array $attributes = []
     ) {
         $this->text       = $text;
         $this->slug       = $slug;
@@ -39,20 +38,34 @@ class Action implements ActionInterface
         $this->attributes = $attributes;
     }
 
+    public function viewData(array $arguments = [])
+    {
+        $text = $this->getText();
+        $slug = $this->getSlug();
+
+        $text = trans($text);
+
+        return evaluate(compact('text', 'slug'), $arguments);
+    }
+
     public function handle(Table $table, array $ids)
     {
         //
     }
 
-    public function viewData()
+    public function setActive($active)
     {
-        $text = trans($this->getText());
-        $slug = $this->getSlug();
+        $this->active = $active;
 
-        return compact('text', 'slug');
+        return $this;
     }
 
-    public function setAttributes(array $attributes)
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    public function setAttributes($attributes)
     {
         $this->attributes = $attributes;
 
@@ -62,18 +75,6 @@ class Action implements ActionInterface
     public function getAttributes()
     {
         return $this->attributes;
-    }
-
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
-
-        return $this;
-    }
-
-    public function getIcon()
-    {
-        return $this->icon;
     }
 
     public function setHandler($handler)
@@ -88,16 +89,16 @@ class Action implements ActionInterface
         return $this->handler;
     }
 
-    public function setActive($active)
+    public function setIcon($icon)
     {
-        $this->active = ($active);
+        $this->icon = $icon;
 
         return $this;
     }
 
-    public function isActive()
+    public function getIcon()
     {
-        return ($this->active);
+        return $this->icon;
     }
 
     public function setPrefix($prefix)
@@ -112,18 +113,6 @@ class Action implements ActionInterface
         return $this->prefix;
     }
 
-    public function setText($text)
-    {
-        $this->text = $text;
-
-        return $this;
-    }
-
-    public function getText()
-    {
-        return $this->text;
-    }
-
     public function setSlug($slug)
     {
         $this->slug = $slug;
@@ -134,6 +123,18 @@ class Action implements ActionInterface
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    public function setText($text)
+    {
+        $this->text = $text;
+
+        return $this;
+    }
+
+    public function getText()
+    {
+        return $this->text;
     }
 }
  

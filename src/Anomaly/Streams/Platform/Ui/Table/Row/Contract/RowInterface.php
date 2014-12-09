@@ -3,6 +3,6 @@
 interface RowInterface
 {
 
-    public function viewData();
+    public function viewData(array $arguments = []);
 }
  

@@ -15,7 +15,7 @@ class Header implements HeaderInterface
         $this->text = $text;
     }
 
-    public function viewData()
+    public function viewData(array $arguments = [])
     {
         $text = $this->getText();
 
@@ -26,7 +26,7 @@ class Header implements HeaderInterface
 
         $text = trans($text);
 
-        return compact('text');
+        return evaluate(compact('text'), $arguments);
     }
 
     public function setStream(StreamInterface $stream)

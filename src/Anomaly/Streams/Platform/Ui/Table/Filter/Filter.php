@@ -31,23 +31,23 @@ class Filter implements FilterInterface
         $query = $query->where($this->getSlug(), 'LIKE', "%{$this->getValue()}%");
     }
 
-    public function viewData()
+    public function viewData(array $arguments = [])
     {
         $input = $this->getInput();
 
-        return compact('input');
+        return evaluate(compact('input'), $arguments);
     }
 
-    public function setPlaceholder($placeholder)
+    public function setActive($active)
     {
-        $this->placeholder = $placeholder;
+        $this->active = $active;
 
         return $this;
     }
 
-    public function getPlaceholder()
+    public function isActive()
     {
-        return $this->placeholder;
+        return $this->active;
     }
 
     public function setHandler($handler)
@@ -62,16 +62,16 @@ class Filter implements FilterInterface
         return $this->handler;
     }
 
-    public function setActive($active)
+    public function setPlaceholder($placeholder)
     {
-        $this->active = ($active);
+        $this->placeholder = $placeholder;
 
         return $this;
     }
 
-    public function isActive()
+    public function getPlaceholder()
     {
-        return ($this->active);
+        return $this->placeholder;
     }
 
     public function setPrefix($prefix)
@@ -98,11 +98,6 @@ class Filter implements FilterInterface
         return $this->slug;
     }
 
-    protected function getInput()
-    {
-        return null;
-    }
-
     protected function getName()
     {
         return $this->getPrefix() . $this->getSlug();
@@ -111,6 +106,11 @@ class Filter implements FilterInterface
     protected function getValue()
     {
         return app('request')->get($this->getName());
+    }
+
+    protected function getInput()
+    {
+        return null;
     }
 }
  

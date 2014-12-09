@@ -34,14 +34,14 @@ class View implements ViewInterface
         // No modification by default
     }
 
-    public function viewData()
+    public function viewData(array $arguments = [])
     {
         $url        = $this->getUrl();
         $active     = $this->isActive();
         $text       = trans($this->getText());
         $attributes = attributes_string($this->getAttributes());
 
-        return compact('active', 'text', 'url', 'attributes');
+        return evaluate(compact('active', 'text', 'url', 'attributes'), $arguments);
     }
 
     public function setAttributes(array $attributes)

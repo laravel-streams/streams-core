@@ -1,11 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Filter\Type;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Table\Filter\Contract\FieldFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Filter\Filter;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
 
-class FieldFilter extends Filter
+class FieldFilter extends Filter implements FieldFilterInterface
 {
 
     protected $field;
@@ -36,15 +37,32 @@ class FieldFilter extends Filter
 
     protected function getInput()
     {
-        $field = $this->stream->getField($this->field);
+        $field = $this->stream->getField($this->getField());
 
         $type = $field->getType();
 
-        $type->setPrefix($this->prefix);
+        $type->setPrefix($this->getPrefix());
         $type->setValue($this->getValue());
-        $type->setPlaceholder($this->placeholder ? trans($this->placeholder) : trans($field->getName()));
+        $type->setPlaceholder($this->getPlaceholder() ? trans($this->getPlaceholder()) : trans($field->getName()));
 
         return $type->renderFilter();
+    }
+
+    public function setField($field)
+    {
+        $this->field = $field;
+
+        return $this;
+    }
+
+    public function getField()
+    {
+        return $this->field;
+    }
+
+    public function getStream()
+    {
+        return $this->stream;
     }
 }
  

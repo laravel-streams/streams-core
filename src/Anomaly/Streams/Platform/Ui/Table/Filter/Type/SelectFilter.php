@@ -1,8 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Filter\Type;
 
+use Anomaly\Streams\Platform\Ui\Table\Filter\Contract\SelectFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Filter\Filter;
 
-class SelectFilter extends Filter
+class SelectFilter extends Filter implements SelectFilterInterface
 {
 
     protected $options;
@@ -14,13 +15,25 @@ class SelectFilter extends Filter
         parent::__construct($slug, $prefix, $active, $handler, $placeholder);
     }
 
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
     protected function getInput()
     {
         $class = 'form-control';
 
         $options = compact('class');
 
-        $list = [null => trans($this->getPlaceholder())] + $this->options;
+        $list = [null => trans($this->getPlaceholder())] + $this->getOptions();
 
         return app('form')->select($this->getName(), $list, $this->getValue(), $options);
     }
