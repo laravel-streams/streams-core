@@ -2,10 +2,10 @@
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Form\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Ui\Form\Field\Contract\StreamsFieldInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
-class StreamsField implements FieldInterface
+class StreamsField implements StreamsFieldInterface
 {
 
     protected $form;
@@ -24,7 +24,7 @@ class StreamsField implements FieldInterface
         $this->stream = $stream;
     }
 
-    public function viewData()
+    public function viewData(array $arguments = [])
     {
         $assignment = $this->stream->getAssignment($this->field);
 
@@ -69,9 +69,31 @@ class StreamsField implements FieldInterface
         return compact('input');
     }
 
-    public function getSlug()
+    public function getEntry()
+    {
+        return $this->entry;
+    }
+
+    public function setField($field)
+    {
+        $this->field = $field;
+
+        return $this;
+    }
+
+    public function getField()
     {
         return $this->field;
+    }
+
+    public function getForm()
+    {
+        return $this->form;
+    }
+
+    public function getStream()
+    {
+        return $this->stream;
     }
 }
  

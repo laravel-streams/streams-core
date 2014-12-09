@@ -23,6 +23,8 @@ class Field implements FieldInterface
 
     protected $config;
 
+    protected $include;
+
     protected $placeholder;
 
     protected $instructions;
@@ -71,16 +73,11 @@ class Field implements FieldInterface
         $this->setFormRules();
     }
 
-    public function viewData()
+    public function viewData(array $arguments = [])
     {
         $input = $this->type->render();
 
         return compact('input');
-    }
-
-    public function getSlug()
-    {
-        return $this->slug;
     }
 
     protected function setFormRules()
@@ -88,6 +85,119 @@ class Field implements FieldInterface
         $rules = array_merge($this->rules, $this->type->getRules());
 
         $this->form->putRules($this->slug, implode('|', $rules));
+    }
+
+    public function setConfig(array $config)
+    {
+        $this->config = $config;
+
+        return $this;
+    }
+
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    public function getForm()
+    {
+        return $this->form;
+    }
+
+    public function setInclude($include)
+    {
+        $this->include = $include;
+
+        return $this;
+    }
+
+    public function getInclude()
+    {
+        return $this->include;
+    }
+
+    public function setInstructions($instructions)
+    {
+        $this->instructions = $instructions;
+
+        return $this;
+    }
+
+    public function getInstructions()
+    {
+        return $this->instructions;
+    }
+
+    public function setLabel($label)
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    public function setPlaceholder($placeholder)
+    {
+        $this->placeholder = $placeholder;
+
+        return $this;
+    }
+
+    public function getPlaceholder()
+    {
+        return $this->placeholder;
+    }
+
+    public function setRules(array $rules)
+    {
+        $this->rules = $rules;
+
+        return $this;
+    }
+
+    public function getRules()
+    {
+        return $this->rules;
+    }
+
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    public function getValue()
+    {
+        return $this->value;
     }
 }
  

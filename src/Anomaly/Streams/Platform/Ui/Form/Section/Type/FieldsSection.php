@@ -5,9 +5,9 @@ use Anomaly\Streams\Platform\Field\FieldCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\Field\FieldFactory;
 use Anomaly\Streams\Platform\Ui\Form\Form;
-use Anomaly\Streams\Platform\Ui\Form\Section\Contract\SectionInterface;
+use Anomaly\Streams\Platform\Ui\Form\Section\Contract\FieldsSectionInterface;
 
-class FieldsSection implements SectionInterface
+class FieldsSection implements FieldsSectionInterface
 {
 
     protected $view;
@@ -50,7 +50,7 @@ class FieldsSection implements SectionInterface
         $this->fields = FieldCollection::make($fields);
     }
 
-    public function viewData()
+    public function viewData(array $arguments = [])
     {
         $title = trans($this->title);
 
@@ -64,6 +64,78 @@ class FieldsSection implements SectionInterface
         $html = view($this->view, compact('title', 'fields'));
 
         return compact('html');
+    }
+
+    public function setEntry($entry)
+    {
+        $this->entry = $entry;
+
+        return $this;
+    }
+
+    public function getEntry()
+    {
+        return $this->entry;
+    }
+
+    public function setFields($fields)
+    {
+        $this->fields = $fields;
+
+        return $this;
+    }
+
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    public function setForm($form)
+    {
+        $this->form = $form;
+
+        return $this;
+    }
+
+    public function getForm()
+    {
+        return $this->form;
+    }
+
+    public function setStream($stream)
+    {
+        $this->stream = $stream;
+
+        return $this;
+    }
+
+    public function getStream()
+    {
+        return $this->stream;
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function setView($view)
+    {
+        $this->view = $view;
+
+        return $this;
+    }
+
+    public function getView()
+    {
+        return $this->view;
     }
 }
  

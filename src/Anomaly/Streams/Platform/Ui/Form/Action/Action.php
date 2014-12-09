@@ -17,13 +17,13 @@ class Action extends Button implements ActionInterface
 
     function __construct(
         $slug,
+        $text = null,
+        $icon = null,
+        $class = null,
         $prefix = null,
         $active = false,
         $handler = null,
         $type = 'default',
-        $text = null,
-        $icon = null,
-        $class = null,
         array $attributes = []
     ) {
         $this->slug    = $slug;
@@ -39,13 +39,13 @@ class Action extends Button implements ActionInterface
         //
     }
 
-    public function viewData()
+    public function viewData(array $arguments = [])
     {
         $data = parent::viewData();
 
         $value = $this->getSlug();
 
-        return $data + compact('value');
+        return evaluate($data + compact('value'), $arguments);
     }
 
     public function setHandler($handler)

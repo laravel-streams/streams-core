@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Tab;
 
-use Anomaly\Streams\Platform\Ui\Form\Layout\Contract\LayoutInterface;
 use Anomaly\Streams\Platform\Ui\Form\Tab\Contract\TabInterface;
 
 class Tab implements TabInterface
@@ -8,32 +7,16 @@ class Tab implements TabInterface
 
     protected $text;
 
-    protected $layout;
-
-    function __construct($text, LayoutInterface $layout)
+    function __construct($text)
     {
-        $this->text   = $text;
-        $this->layout = $layout;
+        $this->text = $text;
     }
 
-    public function viewData()
+    public function viewData(array $arguments = [])
     {
-        $text   = $this->getText();
-        $layout = $this->layout->viewData();
+        $text = $this->getText();
 
         return compact('text', 'layout');
-    }
-
-    public function setLayout(LayoutInterface $layout)
-    {
-        $this->layout = $layout;
-
-        return $this;
-    }
-
-    public function getLayout()
-    {
-        return $this->layout;
     }
 
     public function setText($text)

@@ -18,7 +18,7 @@ class Section implements SectionInterface
         $this->title = $title;
     }
 
-    public function viewData()
+    public function viewData(array $arguments = [])
     {
         $title = trans($this->title);
 
@@ -27,6 +27,42 @@ class Section implements SectionInterface
         $html = view($this->view, compact('title', 'body'));
 
         return compact('html');
+    }
+
+    public function setBody($body)
+    {
+        $this->body = $body;
+
+        return $this;
+    }
+
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function setView($view)
+    {
+        $this->view = $view;
+
+        return $this;
+    }
+
+    public function getView()
+    {
+        return $this->view;
     }
 }
  
