@@ -85,6 +85,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Anomaly\Lexicon\LexiconServiceProvider');
         $this->app->register('Intervention\Image\ImageServiceProvider');
         $this->app->register('Laracasts\Commander\CommanderServiceProvider');
+        $this->app->register('Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider');
 
         $this->app->register('Illuminate\Html\HtmlServiceProvider');
     }
