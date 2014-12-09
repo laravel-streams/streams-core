@@ -18,25 +18,34 @@ class UnassignFieldCommandHandler
 
     use DispatchableTrait;
 
+    protected $fields;
+
+    protected $streams;
+
+    protected $assignments;
+
+    function __construct(
+        FieldRepositoryInterface $fields,
+        StreamRepositoryInterface $streams,
+        AssignmentRepositoryInterface $assignments
+    ) {
+        $this->fields      = $fields;
+        $this->streams     = $streams;
+        $this->assignments = $assignments;
+    }
+
     /**
      * Handle the command.
      *
-     * @param UnassignFieldCommand          $command
-     * @param StreamRepositoryInterface     $streams
-     * @param FieldRepositoryInterface      $fields
-     * @param AssignmentRepositoryInterface $assignments
+     * @param UnassignFieldCommand $command
      * @return mixed
      */
-    public function handle(
-        UnassignFieldCommand $command,
-        StreamRepositoryInterface $streams,
-        FieldRepositoryInterface $fields,
-        AssignmentRepositoryInterface $assignments
-    ) {
-        $stream = $streams->findByNamespaceAndSlug($command->getNamespace(), $command->getStream());
-        $field  = $fields->findByNamespaceAndSlug($command->getNamespace(), $command->getField());
+    public function handle(UnassignFieldCommand $command)
+    {
+        $stream = $this->streams->findByNamespaceAndSlug($command->getNamespace(), $command->getStream());
+        $field  = $this->fields->findByNamespaceAndSlug($command->getNamespace(), $command->getField());
 
-        return $assignments->delete($stream, $field);
+        return $this->assignments->delete($stream, $field);
     }
 }
  
