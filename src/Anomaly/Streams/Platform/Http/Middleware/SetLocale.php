@@ -23,7 +23,7 @@ class SetLocale implements Middleware
     {
         $config      = app('config');
         $session     = app('session');
-        $auth        = app('streams.auth');
+        //$auth        = app('streams.auth');
         $application = app('streams.application');
 
         return $next($request); // TODO: This is fucked up.
