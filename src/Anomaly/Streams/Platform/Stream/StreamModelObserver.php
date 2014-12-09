@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Stream\Event\StreamCreatedEvent;
-use Anomaly\Streams\Platform\Stream\Event\StreamDeletedEvent;
-use Anomaly\Streams\Platform\Stream\Event\StreamSavedEvent;
+use Anomaly\Streams\Platform\Stream\Event\StreamCreated;
+use Anomaly\Streams\Platform\Stream\Event\StreamDeleted;
+use Anomaly\Streams\Platform\Stream\Event\StreamSaved;
 use Anomaly\Streams\Platform\Support\Observer;
 
 /**
@@ -23,7 +23,7 @@ class StreamModelObserver extends Observer
      */
     public function saved($model)
     {
-        $this->dispatch(new StreamSavedEvent($model));
+        $this->dispatch(new StreamSaved($model));
 
         parent::saved($model);
     }
@@ -35,7 +35,7 @@ class StreamModelObserver extends Observer
      */
     public function created($model)
     {
-        $this->dispatch(new StreamCreatedEvent($model));
+        $this->dispatch(new StreamCreated($model));
 
         parent::created($model);
     }
@@ -47,7 +47,7 @@ class StreamModelObserver extends Observer
      */
     public function deleted($model)
     {
-        $this->dispatch(new StreamDeletedEvent($model));
+        $this->dispatch(new StreamDeleted($model));
 
         parent::deleted($model);
     }

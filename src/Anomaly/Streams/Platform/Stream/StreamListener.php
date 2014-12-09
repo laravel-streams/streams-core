@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Stream\Event\StreamCreatedEvent;
-use Anomaly\Streams\Platform\Stream\Event\StreamDeletedEvent;
-use Anomaly\Streams\Platform\Stream\Event\StreamSavedEvent;
+use Anomaly\Streams\Platform\Stream\Event\StreamCreated;
+use Anomaly\Streams\Platform\Stream\Event\StreamDeleted;
+use Anomaly\Streams\Platform\Stream\Event\StreamSaved;
 use Anomaly\Streams\Platform\Support\Listener;
 use Laracasts\Commander\CommanderTrait;
 
@@ -22,9 +22,9 @@ class StreamListener extends Listener
     /**
      * Fire after a stream is saved.
      *
-     * @param StreamSavedEvent $event
+     * @param StreamSaved $event
      */
-    public function whenStreamSaved(StreamSavedEvent $event)
+    public function whenStreamSaved(StreamSaved $event)
     {
         $this->generateEntryModels($event->getStream());
     }
@@ -32,9 +32,9 @@ class StreamListener extends Listener
     /**
      * Fire after a stream is created.
      *
-     * @param StreamCreatedEvent $event
+     * @param StreamCreated $event
      */
-    public function whenStreamCreated(StreamCreatedEvent $event)
+    public function whenStreamCreated(StreamCreated $event)
     {
         $this->createStreamsTable($event->getStream());
         $this->generateEntryModels($event->getStream());
@@ -43,9 +43,9 @@ class StreamListener extends Listener
     /**
      * Fire after a stream is deleted.
      *
-     * @param StreamDeletedEvent $event
+     * @param StreamDeleted $event
      */
-    public function whenStreamDeleted(StreamDeletedEvent $event)
+    public function whenStreamDeleted(StreamDeleted $event)
     {
         $stream = $event->getStream();
 

@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Addon\Module\Module;
 
 /**
- * Class ModuleUninstalledEvent
+ * Class ModuleUninstalled
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Module\Event
  */
-class ModuleUninstalledEvent
+class ModuleUninstalled
 {
 
     /**
@@ -21,7 +21,7 @@ class ModuleUninstalledEvent
     protected $module;
 
     /**
-     * Create a new ModuleUninstalledEvent instance.
+     * Create a new ModuleUninstalled instance.
      *
      * @param Module $module
      */

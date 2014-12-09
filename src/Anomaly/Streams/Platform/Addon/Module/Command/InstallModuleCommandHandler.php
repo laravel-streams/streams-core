@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
-use Anomaly\Streams\Platform\Addon\Module\Event\ModuleInstalledEvent;
+use Anomaly\Streams\Platform\Addon\Module\Event\ModuleInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
 use Anomaly\Streams\Platform\Contract\InstallableInterface;
@@ -34,7 +34,7 @@ class InstallModuleCommandHandler
             $this->runInstallers($module, $installer);
         }
 
-        $this->dispatch(new ModuleInstalledEvent($module));
+        $this->dispatch(new ModuleInstalled($module));
 
         return true;
     }

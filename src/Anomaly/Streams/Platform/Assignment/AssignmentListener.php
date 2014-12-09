@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreatedEvent;
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentDeletedEvent;
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentSavedEvent;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreated;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentDeleted;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentSaved;
 use Anomaly\Streams\Platform\Support\Listener;
 use Laracasts\Commander\CommanderTrait;
 
@@ -22,9 +22,9 @@ class AssignmentListener extends Listener
     /**
      * When an assignment is created remove it's column.
      *
-     * @param AssignmentCreatedEvent $event
+     * @param AssignmentCreated $event
      */
-    public function whenAssignmentCreated(AssignmentCreatedEvent $event)
+    public function whenAssignmentCreated(AssignmentCreated $event)
     {
         $assignment = $event->getAssignment();
 
@@ -37,9 +37,9 @@ class AssignmentListener extends Listener
     /**
      * When an assignment is deleted remove it's column.
      *
-     * @param AssignmentDeletedEvent $event
+     * @param AssignmentDeleted $event
      */
-    public function whenAssignmentDeleted(AssignmentDeletedEvent $event)
+    public function whenAssignmentDeleted(AssignmentDeleted $event)
     {
         $assignment = $event->getAssignment();
 
@@ -52,9 +52,9 @@ class AssignmentListener extends Listener
     /**
      * When an assignment is saved, save it's stream to trigger compiling.
      *
-     * @param AssignmentSavedEvent $event
+     * @param AssignmentSaved $event
      */
-    public function whenAssignmentSaved(AssignmentSavedEvent $event)
+    public function whenAssignmentSaved(AssignmentSaved $event)
     {
         $assignment = $event->getAssignment();
 

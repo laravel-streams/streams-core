@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Tag;
 
 use Anomaly\Streams\Platform\Addon\AddonListener;
-use Anomaly\Streams\Platform\Addon\Event\RegisteredEvent;
+use Anomaly\Streams\Platform\Addon\Event\Registered;
 
 /**
  * Class TagListener
@@ -18,9 +18,9 @@ class TagListener extends AddonListener
      * After the tag is registered to the container
      * register it with our favorite parsing engine.
      *
-     * @param RegisteredEvent $event
+     * @param Registered $event
      */
-    public function whenRegistered(RegisteredEvent $event)
+    public function whenRegistered(Registered $event)
     {
         parent::whenRegistered($event);
 

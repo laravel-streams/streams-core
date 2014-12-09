@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Event\AllRegistered;
-use Anomaly\Streams\Platform\Addon\Event\RegisteredEvent;
+use Anomaly\Streams\Platform\Addon\Event\Registered;
 use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
 use Illuminate\Foundation\Application;
@@ -83,7 +83,7 @@ class AddonServiceProvider extends ServiceProvider
                 $addon->toListener()
             );
 
-            $this->dispatch(new RegisteredEvent($addon));
+            $this->dispatch(new Registered($addon));
         }
 
         $this->dispatch(new AllRegistered($this->type));

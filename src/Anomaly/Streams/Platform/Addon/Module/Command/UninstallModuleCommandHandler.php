@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
-use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalledEvent;
+use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
 use Anomaly\Streams\Platform\Contract\InstallableInterface;
@@ -34,7 +34,7 @@ class UninstallModuleCommandHandler
             $this->runInstallers($module, $installer);
         }
 
-        $this->dispatch(new ModuleUninstalledEvent($module));
+        $this->dispatch(new ModuleUninstalled($module));
 
         return true;
     }

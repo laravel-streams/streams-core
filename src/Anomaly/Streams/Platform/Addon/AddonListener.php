@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Event\RegisteredEvent;
+use Anomaly\Streams\Platform\Addon\Event\Registered;
 use Anomaly\Streams\Platform\Support\Listener;
 
 /**
@@ -17,9 +17,9 @@ class AddonListener extends Listener
     /**
      * Push the addon to it's collection after it is registered.
      *
-     * @param RegisteredEvent $event
+     * @param Registered $event
      */
-    public function whenRegistered(RegisteredEvent $event)
+    public function whenRegistered(Registered $event)
     {
         $addon = $event->getAddon();
 
