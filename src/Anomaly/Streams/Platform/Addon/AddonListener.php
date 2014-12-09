@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Event\Registered;
+use Laracasts\Commander\CommanderTrait;
 use Laracasts\Commander\Events\EventListener;
 
 /**
@@ -13,6 +14,8 @@ use Laracasts\Commander\Events\EventListener;
  */
 class AddonListener extends EventListener
 {
+
+    use CommanderTrait;
 
     /**
      * Push the addon to it's collection after it is registered.
