@@ -69,6 +69,11 @@ class StreamsField implements StreamsFieldInterface
         return compact('input');
     }
 
+    public function getSlug()
+    {
+        return $this->field;
+    }
+
     public function getEntry()
     {
         return $this->entry;

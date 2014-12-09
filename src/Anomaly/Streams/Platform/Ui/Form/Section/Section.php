@@ -20,11 +20,11 @@ class Section implements SectionInterface
 
     public function viewData(array $arguments = [])
     {
-        $title = trans($this->title);
+        $title = trans($this->getTitle());
 
-        $body = $this->body;
+        $body = $this->getBody();
 
-        $html = view($this->view, compact('title', 'body'));
+        $html = view($this->getView(), compact('title', 'body'));
 
         return compact('html');
     }

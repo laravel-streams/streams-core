@@ -56,7 +56,7 @@ class FieldsSection implements FieldsSectionInterface
 
         $fields = [];
 
-        foreach ($this->fields as $field) {
+        foreach ($this->getFields() as $field) {
 
             $fields[$field->getSlug()] = $field->viewData();
         }

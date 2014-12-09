@@ -1,11 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
-use Anomaly\Streams\Platform\Ui\Form\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormDataLoaded;
 use Anomaly\Streams\Platform\Ui\Form\Form;
-use Anomaly\Streams\Platform\Ui\Form\Section\Contract\SectionInterface;
 use Laracasts\Commander\Events\DispatchableTrait;
 
 class MakeFormCommandHandler
@@ -36,10 +33,7 @@ class MakeFormCommandHandler
 
         foreach ($form->getSections() as $section) {
 
-            if ($section instanceof SectionInterface) {
-
-                $sections[] = $section->viewData();
-            }
+            $sections[] = $section->viewData();
         }
 
         $form->putData('sections', $sections);
@@ -51,10 +45,7 @@ class MakeFormCommandHandler
 
         foreach ($form->getActions() as $action) {
 
-            if ($action instanceof ActionInterface) {
-
-                $actions[] = $action->viewData();
-            }
+            $actions[] = $action->viewData();
         }
 
         $form->putData('actions', $actions);
@@ -66,10 +57,7 @@ class MakeFormCommandHandler
 
         foreach ($form->getButtons() as $button) {
 
-            if ($button instanceof ButtonInterface) {
-
-                $buttons[] = $button->viewData();
-            }
+            $buttons[] = $button->viewData();
         }
 
         $form->putData('buttons', $buttons);
