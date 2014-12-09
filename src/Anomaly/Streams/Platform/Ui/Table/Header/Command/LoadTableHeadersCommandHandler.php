@@ -23,7 +23,10 @@ class LoadTableHeadersCommandHandler
 
             $header = $this->factory->make(array_get($parameters, 'header', []));
 
-            $header->setStream($stream);
+            if ($stream) {
+
+                $header->setStream($stream);
+            }
 
             $headers->push($header);
         }
