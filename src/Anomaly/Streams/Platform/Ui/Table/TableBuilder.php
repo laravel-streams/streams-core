@@ -18,9 +18,9 @@ class TableBuilder
 
     protected $makeCommand = 'Anomaly\Streams\Platform\Ui\Table\Command\MakeTableCommand';
 
-    protected $model = 'FooBarModel';
+    protected $model = null;
 
-    protected $views = ['all'];
+    protected $views = [];
 
     protected $filters = [];
 
