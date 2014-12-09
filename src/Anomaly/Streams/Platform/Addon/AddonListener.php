@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Event\Registered;
-use Anomaly\Streams\Platform\Support\Listener;
+use Laracasts\Commander\Events\EventListener;
 
 /**
  * Class AddonListener
@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Support\Listener;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon
  */
-class AddonListener extends Listener
+class AddonListener extends EventListener
 {
 
     /**

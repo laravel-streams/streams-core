@@ -3,8 +3,8 @@
 use Anomaly\Streams\Platform\Stream\Event\StreamCreated;
 use Anomaly\Streams\Platform\Stream\Event\StreamDeleted;
 use Anomaly\Streams\Platform\Stream\Event\StreamSaved;
-use Anomaly\Streams\Platform\Support\Listener;
 use Laracasts\Commander\CommanderTrait;
+use Laracasts\Commander\Events\EventListener;
 
 /**
  * Class StreamListener
@@ -14,7 +14,7 @@ use Laracasts\Commander\CommanderTrait;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Stream
  */
-class StreamListener extends Listener
+class StreamListener extends EventListener
 {
 
     use CommanderTrait;

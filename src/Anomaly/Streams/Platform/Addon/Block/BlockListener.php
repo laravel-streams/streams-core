@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Block;
 
-use Anomaly\Streams\Platform\Support\Listener;
+use Anomaly\Streams\Platform\Addon\AddonListener;
 
 /**
  * Class BlockListener
@@ -10,7 +10,7 @@ use Anomaly\Streams\Platform\Support\Listener;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Block
  */
-class BlockListener extends Listener
+class BlockListener extends AddonListener
 {
 
 }

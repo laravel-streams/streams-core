@@ -3,8 +3,8 @@
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreated;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentDeleted;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentSaved;
-use Anomaly\Streams\Platform\Support\Listener;
 use Laracasts\Commander\CommanderTrait;
+use Laracasts\Commander\Events\EventListener;
 
 /**
  * Class AssignmentListener
@@ -14,7 +14,7 @@ use Laracasts\Commander\CommanderTrait;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Assignment
  */
-class AssignmentListener extends Listener
+class AssignmentListener extends EventListener
 {
 
     use CommanderTrait;

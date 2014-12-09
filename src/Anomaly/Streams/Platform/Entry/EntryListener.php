@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Support\Listener;
+use Laracasts\Commander\Events\EventListener;
 
 /**
  * Class EntryListener
@@ -10,7 +10,7 @@ use Anomaly\Streams\Platform\Support\Listener;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry
  */
-class EntryListener extends Listener
+class EntryListener extends EventListener
 {
 
 }

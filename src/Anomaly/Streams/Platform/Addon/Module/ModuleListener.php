@@ -21,7 +21,7 @@ class ModuleListener extends AddonListener
     /**
      * When a module is installed update the database.
      *
-     * @param ModuleInstalled      $event
+     * @param ModuleInstalled           $event
      * @param ModuleRepositoryInterface $modules
      */
     public function whenModuleInstalled(ModuleInstalled $event, ModuleRepositoryInterface $modules)
@@ -32,7 +32,7 @@ class ModuleListener extends AddonListener
     /**
      * When a module is uninstalled update the database.
      *
-     * @param ModuleUninstalled    $event
+     * @param ModuleUninstalled         $event
      * @param ModuleRepositoryInterface $modules
      */
     public function whenModuleUninstalled(ModuleUninstalled $event, ModuleRepositoryInterface $modules)
