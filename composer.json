@@ -12,6 +12,7 @@
         "artdarek/oauth-4-laravel": "dev-master",
         "aws/aws-sdk-php": "dev-master",
         "barryvdh/laravel-debugbar": "1.*",
+        "barryvdh/laravel-ide-helper": "1.11.*@dev",
         "coffeescript/coffeescript": "dev-master",
         "dropbox/dropbox-sdk": "1.1.*",
         "cebe/markdown": "*",
