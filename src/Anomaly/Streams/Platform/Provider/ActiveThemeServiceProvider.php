@@ -38,7 +38,7 @@ class ActiveThemeServiceProvider extends \Illuminate\Support\ServiceProvider
                 app('config')->addNamespace('theme', $theme->getPath('resources/config'));
                 app('streams.asset')->addNamespace('theme', $theme->getPath('resources'));
                 app('streams.image')->addNamespace('theme', $theme->getPath('resources'));
-                app('translator')->addNamespace('theme', $theme->getPath('resources/lang'));
+                //app('translator')->addNamespace('theme', $theme->getPath('resources/lang'));
             }
         }
     }

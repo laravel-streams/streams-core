@@ -114,7 +114,7 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 
                 app('view')->addNamespace($abstract, $addon->getPath('resources/views'));
                 app('config')->addNamespace($abstract, $addon->getPath('resources/config'));
-                app('translator')->addNamespace($abstract, $addon->getPath('resources/lang'));
+                //app('translator')->addNamespace($abstract, $addon->getPath('resources/lang'));
 
                 app('streams.asset')->addNamespace($abstract, $addon->getPath('resources'));
                 app('streams.image')->addNamespace($abstract, $addon->getPath('resources'));

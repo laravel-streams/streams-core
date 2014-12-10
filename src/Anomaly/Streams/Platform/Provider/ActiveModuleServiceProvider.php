@@ -34,7 +34,7 @@ class ActiveModuleServiceProvider extends \Illuminate\Support\ServiceProvider
             app('view')->addNamespace('module', $module->getPath('resources/views'));
             app('streams.asset')->addNamespace('module', $module->getPath('resources'));
             app('streams.image')->addNamespace('module', $module->getPath('resources'));
-            app('translator')->addNamespace('module', $module->getPath('resources/lang'));
+            //app('translator')->addNamespace('module', $module->getPath('resources/lang'));
         }
     }
 }
