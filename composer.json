@@ -7,10 +7,16 @@
             "email": "projects@anomaly.is"
         }
     ],
-    "repositories": [{
-        "type": "vcs",
-        "url": "http://github.com/anomaly/framework"
-    }],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "http://github.com/anomaly/framework"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:anomalylabs/phpspec-laravel.git"
+        }
+    ],
     "require": {
         "laravel/framework": "streams-compatible",
         "anomaly/lexicon": "dev-master",
@@ -44,12 +50,6 @@
         "way/generators": "~3.0",
         "dimsav/laravel-translatable": "dev-master"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:anomalylabs/phpspec-laravel.git"
-        }
-    ],
     "require-dev": {
         "anomaly/streams": "dev-master",
         "benconstable/phpspec-laravel": "dev-fix-laravel-5-compatibility"
