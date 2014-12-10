@@ -35,6 +35,6 @@ class ViewServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     protected function registerOurViewComposer()
     {
-        app('view')->composer('*', 'Anomaly\Streams\Platform\Support\Composer');
+        app('view')->composer('*', 'Anomaly\Streams\Platform\View\Composer');
     }
 }

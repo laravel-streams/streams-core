@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php namespace Anomaly\Streams\Platform\View;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Illuminate\View\View;
