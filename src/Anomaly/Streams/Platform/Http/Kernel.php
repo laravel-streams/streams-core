@@ -26,7 +26,6 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         //'Illuminate\Foundation\Http\Middleware\VerifyCsrfToken',
         //'Anomaly\Streams\Platform\Http\Middleware\CheckInstallation',
         'Anomaly\Streams\Platform\Http\Middleware\SetLocale',
-        'Anomaly\Streams\Platform\Http\Middleware\FlashMessages',
     ];
 
     /**
