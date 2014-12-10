@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
-use Anomaly\Streams\Platform\Foundation\Application;
-use Anomaly\Streams\Platform\Foundation\ApplicationModel;
+use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Application\ApplicationModel;
 
 class ApplicationServiceProvider extends \Illuminate\Support\ServiceProvider
 {

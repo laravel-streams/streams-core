@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Foundation;
+<?php namespace Anomaly\Streams\Platform\Application;
 
 class Application
 {
