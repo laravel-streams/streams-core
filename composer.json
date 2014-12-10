@@ -36,7 +36,8 @@
         "robclancy/presenter": "1.3.*",
         "filp/whoops": "~1.0",
         "symfony/yaml": "2.7.*@dev",
-        "laracasts/commander": "~1.0"
+        "laracasts/commander": "~1.0",
+        "way/generators": "~2.0"
     },
     "repositories": [
         {
