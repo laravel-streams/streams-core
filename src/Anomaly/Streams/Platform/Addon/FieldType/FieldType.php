@@ -769,12 +769,14 @@ class FieldType extends Addon implements PresentableInterface
      */
     public function newPresenter()
     {
-        if (!$presenter = app('streams.transformer')->toPresenter($this)) {
+        $presenter = get_class($this) . 'Presenter';
 
-            $presenter = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter';
+        if (!class_exists($presenter)) {
+
+            $presenter = '\Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter';
         }
 
-        return app()->make($presenter, ['resource' => $this]);
+        return app()->make($presenter, [$this]);
     }
 
 
