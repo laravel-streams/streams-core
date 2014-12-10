@@ -8,6 +8,7 @@
         }
     ],
     "require": {
+        "laravel/framework": "~5.0",
         "anomaly/lexicon": "dev-master",
         "artdarek/oauth-4-laravel": "dev-master",
         "aws/aws-sdk-php": "dev-master",
@@ -22,7 +23,6 @@
         "illuminate/html": "~5.0",
         "jenssegers/agent": "dev-master",
         "kriswallsmith/assetic": "1.2.*@dev",
-        "laravel/framework": "dev-master#cc1c35069a7bbc3717487d931fbd80b8e6641a90",
         "leafo/scssphp": "dev-develop",
         "league/event": "dev-master",
         "lmammino/jsmin4assetic": "1.0.*@dev",
