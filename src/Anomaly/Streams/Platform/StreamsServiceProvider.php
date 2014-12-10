@@ -103,7 +103,6 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $directories = [
             'public/assets',
-            'storage/cache',
             'storage/framework',
         ];
 

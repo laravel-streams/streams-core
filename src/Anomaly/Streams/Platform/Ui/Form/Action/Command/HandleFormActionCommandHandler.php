@@ -23,8 +23,6 @@ class HandleFormActionCommandHandler
                 $action->handle($form);
             }
 
-            app('streams.messages')->flash();
-
             if ($form->getResponse() === null) {
 
                 $form->setResponse(redirect(app('request')->fullUrl()));

@@ -14,7 +14,7 @@ class HandleFormValidationCommandHandler
 
         if ($validator->fails()) {
 
-            app('streams.messages')->add('error', $validator->messages()->all());
+            //app('messages')->add('error', $validator->messages()->all());
 
             $form->setResponse(false);
         }
