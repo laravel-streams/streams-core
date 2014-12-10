@@ -37,7 +37,8 @@
         "filp/whoops": "~1.0",
         "symfony/yaml": "2.7.*@dev",
         "laracasts/commander": "~1.0",
-        "way/generators": "~3.0"
+        "way/generators": "~3.0",
+        "dimsav/laravel-translatable": "5.*-dev"
     },
     "repositories": [
         {
