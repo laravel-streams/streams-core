@@ -38,6 +38,9 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // TODO: Translatable
+        $this->app['config']->set('translatable::locales', ['en', 'es']);
+
         $this->checkEnvironment();
         $this->registerListeners();
 

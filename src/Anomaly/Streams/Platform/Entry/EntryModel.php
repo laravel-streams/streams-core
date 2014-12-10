@@ -8,7 +8,6 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
@@ -16,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\QueryingTableEntries;
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Illuminate\Database\Eloquent\Collection;
 use Laracasts\Commander\Events\DispatchableTrait;
 use Laracasts\Commander\Events\EventGenerator;
 
@@ -146,7 +144,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $create = $locale != config('app.locale');
 
-        return $this->translate($locale, false, $create)->getAttribute($fieldSlug, false);
+        return $this->translate($locale, false)->getAttribute($fieldSlug, false);
     }
 
     /**
