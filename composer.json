@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "laravel/framework": "streams-compatible as 5.0",
+        "laravel/framework": "streams-compatible-dev",
         "anomaly/lexicon": "dev-master",
         "artdarek/oauth-4-laravel": "dev-master",
         "aws/aws-sdk-php": "dev-master",
