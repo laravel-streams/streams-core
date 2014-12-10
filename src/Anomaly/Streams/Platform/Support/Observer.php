@@ -23,7 +23,7 @@ class Observer
      */
     public function creating($model)
     {
-        //
+        $this->dispatchEventsFor($model);
     }
 
     /**
@@ -33,6 +33,8 @@ class Observer
      */
     public function created($model)
     {
+        $this->dispatchEventsFor($model);
+
         $model->flushCacheCollection();
     }
 
@@ -45,6 +47,8 @@ class Observer
      */
     public function saving($model)
     {
+        $this->dispatchEventsFor($model);
+
         return true;
     }
 
@@ -55,7 +59,7 @@ class Observer
      */
     public function saved($model)
     {
-        //
+        $this->dispatchEventsFor($model);
     }
 
     /**
@@ -65,7 +69,7 @@ class Observer
      */
     public function updating($model)
     {
-        //
+        $this->dispatchEventsFor($model);
     }
 
     /**
@@ -75,6 +79,8 @@ class Observer
      */
     public function updated($model)
     {
+        $this->dispatchEventsFor($model);
+
         $model->flushCacheCollection();
     }
 
@@ -85,7 +91,7 @@ class Observer
      */
     public function deleting($model)
     {
-        //
+        $this->dispatchEventsFor($model);
     }
 
     /**
@@ -95,6 +101,8 @@ class Observer
      */
     public function deleted($model)
     {
+        $this->dispatchEventsFor($model);
+
         $model->flushCacheCollection();
     }
 
@@ -105,7 +113,7 @@ class Observer
      */
     public function restoring($model)
     {
-        //
+        $this->dispatchEventsFor($model);
     }
 
     /**
@@ -115,6 +123,8 @@ class Observer
      */
     public function restored($model)
     {
+        $this->dispatchEventsFor($model);
+
         $model->flushCacheCollection();
     }
 }

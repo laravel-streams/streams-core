@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Traits\TranslatableTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Commander\CommanderTrait;
+use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class EloquentModel
@@ -26,6 +27,7 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
 
     use CacheableTrait;
     use CommanderTrait;
+    use EventGenerator;
     use TransformableTrait;
 
     /**

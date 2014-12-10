@@ -29,8 +29,6 @@ use Laracasts\Commander\Events\EventGenerator;
 class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface, TableModelInterface, FormModelInterface
 {
 
-    use EventGenerator;
-
     /**
      * Validation rules. These are overridden
      * on the compiled models.

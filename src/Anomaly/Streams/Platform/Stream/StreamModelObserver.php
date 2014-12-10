@@ -23,7 +23,7 @@ class StreamModelObserver extends Observer
      */
     public function saved($model)
     {
-        $this->dispatch(new StreamSaved($model));
+        $model->raise(new StreamSaved($model));
 
         parent::saved($model);
     }
@@ -35,7 +35,7 @@ class StreamModelObserver extends Observer
      */
     public function created($model)
     {
-        $this->dispatch(new StreamCreated($model));
+        $model->raise(new StreamCreated($model));
 
         parent::created($model);
     }
@@ -47,7 +47,7 @@ class StreamModelObserver extends Observer
      */
     public function deleted($model)
     {
-        $this->dispatch(new StreamDeleted($model));
+        $model->raise(new StreamDeleted($model));
 
         parent::deleted($model);
     }

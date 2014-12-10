@@ -23,7 +23,7 @@ class AssignmentModelObserver extends EloquentModelObserver
      */
     public function saved($model)
     {
-        $this->dispatch(new AssignmentSaved($model));
+        $model->raise(new AssignmentSaved($model));
 
         parent::saved($model);
     }
@@ -35,7 +35,7 @@ class AssignmentModelObserver extends EloquentModelObserver
      */
     public function created($model)
     {
-        $this->dispatch(new AssignmentCreated($model));
+        $model->raise(new AssignmentCreated($model));
 
         parent::created($model);
     }
@@ -47,7 +47,7 @@ class AssignmentModelObserver extends EloquentModelObserver
      */
     public function deleted($model)
     {
-        $this->dispatch(new AssignmentDeleted($model));
+        $model->raise(new AssignmentDeleted($model));
 
         parent::deleted($model);
     }
