@@ -16,11 +16,6 @@ class TranslationServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     protected function addStreamsLangPath()
     {
-        $this->app->bind(
-            'path.lang',
-            function () {
-                return __DIR__ . '/../../../../../resources/lang';
-            }
-        );
+        
     }
 }

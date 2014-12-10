@@ -17,7 +17,6 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * @var array
      */
     protected $middleware = [
-        'Anomaly\Streams\Platform\Http\Middleware\WritableDirectories', // Do this first.
         'Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode',
         'Illuminate\Cookie\Middleware\EncryptCookies',
         'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',

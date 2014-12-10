@@ -31,6 +31,8 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->checkEnvironment();
+
         $this->registerPackageAliases();
         $this->registerPackages();
         $this->registerCore();
@@ -95,5 +97,29 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Provider\ActiveDistributionServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ActiveModuleServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ActiveThemeServiceProvider');
+    }
+
+    protected function checkEnvironment()
+    {
+        $directories = [
+            'public/assets',
+            'storage/cache',
+            'storage/framework',
+        ];
+
+        $files = [];
+
+        if (config('app.debug')) {
+
+            foreach ($directories as $directory) {
+
+                chmod(base_path($directory), 777);
+            }
+
+            foreach ($files as $file) {
+
+                chmod(base_path($file), 777);
+            }
+        }
     }
 }
