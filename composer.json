@@ -7,12 +7,6 @@
             "email": "projects@anomaly.is"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/anomalylabs/framework"
-        }
-    ],
     "require": {
         "laravel/framework": "dev-streams-compatible",
         "anomaly/lexicon": "dev-master",
@@ -50,6 +44,16 @@
         "anomaly/streams": "dev-master",
         "benconstable/phpspec-laravel": "dev-fix-laravel-5-compatibility"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:anomalylabs/framework.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:anomalylabs/phpspec-laravel.git"
+        }
+    ],
     "autoload": {
         "psr-0": {
             "Anomaly\\Streams\\Platform": "src/"
