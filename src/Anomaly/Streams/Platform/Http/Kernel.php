@@ -35,7 +35,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * @var array
      */
     protected $routeMiddleware = [
-        'streams.auth' => 'Authenticate',
+        'auth' => 'Authenticate',
     ];
 
     /**
