@@ -43,7 +43,7 @@ class EntryStreamParser
     {
         foreach ($stream->getAttributes() as $key => $value) {
 
-            $string .= "\n'{$key}' => {$value},";
+            $string .= "\n'{$key}' => '{$value}',";
         }
     }
 
@@ -79,7 +79,7 @@ class EntryStreamParser
 
             $value = $assignment->getAttribute($key);
 
-            $string .= "\n'{$key}' => {$value},";
+            $string .= "\n'{$key}' => '{$value}',";
         }
 
         // Parse this assignment field.
@@ -107,7 +107,7 @@ class EntryStreamParser
                 $value = serialize($value);
             }
 
-            $string .= "\n'{$key}' => {$value},";
+            $string .= "\n'{$key}' => '{$value}',";
         }
 
         $string .= "\n],";
