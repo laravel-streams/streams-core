@@ -1,7 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command;
 
-use Anomaly\Streams\Platform\Entry\EntryTranslationsGenerator;
+use Anomaly\Streams\Platform\Entry\Parser\EntryNamespaceParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationsClassParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationsTableParser;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Way\Generators\Generator;
 
 /**
  * Class GenerateEntryTranslationsModelCommandHandler
@@ -16,7 +19,7 @@ class GenerateEntryTranslationsModelCommandHandler
 
     protected $generator;
 
-    function __construct(EntryTranslationsGenerator $generator)
+    function __construct(Generator $generator)
     {
         $this->generator = $generator;
     }
@@ -30,11 +33,15 @@ class GenerateEntryTranslationsModelCommandHandler
     {
         $stream = $command->getStream();
 
-        $path = $this->getPath($stream);
+        $data = $this->getTemplateData($stream);
 
-        $template = file_get_contents(streams_path('resources/assets/generator/translation.txt'));
+        $template = streams_path('resources/assets/generator/translation.txt');
 
-        $this->generator->make($template, $stream, $path);
+        $file = $this->getFilePath($stream);
+
+        @unlink($file);
+
+        $this->generator->make($template, $data, $file);
     }
 
     /**
@@ -43,7 +50,7 @@ class GenerateEntryTranslationsModelCommandHandler
      * @param StreamInterface $stream
      * @return string
      */
-    protected function getPath(StreamInterface $stream)
+    protected function getFilePath(StreamInterface $stream)
     {
         $path = storage_path('models/streams/' . APP_REF . '/');
 
@@ -52,6 +59,15 @@ class GenerateEntryTranslationsModelCommandHandler
         $path .= studly_case($stream->getNamespace()) . studly_case($stream->getSlug());
 
         return $path . 'EntryTranslationsModel.php';
+    }
+
+    protected function getTemplateData(StreamInterface $stream)
+    {
+        return [
+            'namespace' => (new EntryNamespaceParser())->parse($stream),
+            'class'     => (new EntryTranslationsClassParser())->parse($stream),
+            'table'     => (new EntryTranslationsTableParser())->parse($stream),
+        ];
     }
 }
  

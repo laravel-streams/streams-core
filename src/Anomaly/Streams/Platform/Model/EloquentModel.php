@@ -161,7 +161,7 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
      */
     public function flushCacheCollection()
     {
-        app('streams.cache.collection')->setKey($this->getCacheCollectionKey())->flush();
+        //app('streams.cache.collection')->setKey($this->getCacheCollectionKey())->flush();
 
         return $this;
     }

@@ -1,9 +1,9 @@
 'pgsql' => [
 			'driver'   => 'pgsql',
-			'host'     => '{host}',
-			'database' => '{database}',
-			'username' => '{username}',
-			'password' => '{password}',
+			'host'     => '$HOST$',
+			'database' => '$DATABASE$',
+			'username' => '$USERNAME$',
+			'password' => '$PASSWORD$',
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',

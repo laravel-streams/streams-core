@@ -74,10 +74,10 @@ class EloquentQueryBuilder extends Builder
      */
     protected function indexCacheCollection()
     {
-        app('streams.cache.collection')
+        /*app('streams.cache.collection')
             ->make([$this->getCacheKey()])
             ->setKey($this->model->getCacheCollectionKey())
-            ->index();
+            ->index();*/
 
         return $this;
     }
