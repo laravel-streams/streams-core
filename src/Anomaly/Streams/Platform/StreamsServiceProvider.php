@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform;
 
 use Anomaly\Streams\Platform\Support\YamlConfigFileLoader;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Laracasts\Commander\Events\DispatchableTrait;
+use Laracasts\Commander\Events\EventGenerator;
 use Symfony\Component\Yaml\Parser;
 
 /**
@@ -18,43 +18,15 @@ class StreamsServiceProvider extends ServiceProvider
 {
 
     /**
-     * Create a new StreamsServiceProvider instance.
-     *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     */
-    public function __construct($app)
-    {
-        parent::__construct($app);
-
-        $this->loader = AliasLoader::getInstance();
-    }
-
-    /**
      * Register the service provider.
      *
      * @return void
      */
     public function register()
     {
-        $this->registerConfigLoader();
-
         $this->registerPackageAliases();
         $this->registerPackages();
         $this->registerCore();
-    }
-
-    /**
-     * Register our custom YAML config loader.
-     */
-    protected function registerConfigLoader()
-    {
-        app('config')->setLoader(
-            new YamlConfigFileLoader(
-                new Filesystem(),
-                new Parser(),
-                base_path('config')
-            )
-        );
     }
 
     /**
@@ -68,11 +40,11 @@ class StreamsServiceProvider extends ServiceProvider
         // Be warned these will likely be making their exit in future
         // releases of the Laravel framework. They are a somewhat
         // poor practice in pattern so let's just ignore them..
-        $this->loader->alias('Debugbar', 'Barryvdh\Debugbar\Facade');
-        $this->loader->alias('Agent', 'Jenssegers\Agent\Facades\Agent');
+        $this->app->alias('Debugbar', 'Barryvdh\Debugbar\Facade');
+        $this->app->alias('Agent', 'Jenssegers\Agent\Facades\Agent');
 
-        $this->loader->alias('Form', 'Illuminate\Html\FormFacade');
-        $this->loader->alias('HTML', 'Illuminate\Html\HtmlFacade');
+        $this->app->alias('Form', 'Illuminate\Html\FormFacade');
+        $this->app->alias('HTML', 'Illuminate\Html\HtmlFacade');
     }
 
     /**
@@ -120,8 +92,5 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Provider\ActiveDistributionServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ActiveModuleServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ActiveThemeServiceProvider');
-
-        // Lastly let config cascade nicely back to themes.
-        $this->app->register('Anomaly\Streams\Platform\Provider\ConfigServiceProvider');
     }
 }
