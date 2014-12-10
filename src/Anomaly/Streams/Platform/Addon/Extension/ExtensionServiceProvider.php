@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension;
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
+use Illuminate\Foundation\Application;
 
 /**
  * Class ExtensionServiceProvider
@@ -13,4 +14,13 @@ use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 class ExtensionServiceProvider extends AddonServiceProvider
 {
 
+    public function __construct(Application $app)
+    {
+        parent::__construct($app);
+
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Extension\ExtensionListener'
+        );
+    }
 }

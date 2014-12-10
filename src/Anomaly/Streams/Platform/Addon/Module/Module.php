@@ -161,9 +161,11 @@ class Module extends Addon
      */
     public function newTag()
     {
-        if (!$tag = $this->transform(__FUNCTION__)) {
+        $tag = get_class($this) . 'Tag';
 
-            $tag = 'Anomaly\Streams\Platform\Addon\Module\ModuleTag';
+        if (!class_exists($tag)) {
+
+            $tag = '\Anomaly\Streams\Platform\Addon\Module\ModuleTag';
         }
 
         return app()->make($tag, [$this]);
@@ -176,9 +178,11 @@ class Module extends Addon
      */
     public function newInstaller()
     {
-        if (!$installer = $this->transform(__FUNCTION__)) {
+        $installer = get_class($this) . 'Installer';
 
-            $installer = 'Anomaly\Streams\Platform\Addon\Module\ModuleInstaller';
+        if (!class_exists($installer)) {
+
+            $installer = '\Anomaly\Streams\Platform\Addon\Module\ModuleInstaller';
         }
 
         return app()->make($installer, [$this]);

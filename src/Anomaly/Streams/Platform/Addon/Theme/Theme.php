@@ -125,9 +125,11 @@ class Theme extends Addon
      */
     public function newTag()
     {
-        if (!$tag = $this->transform(__FUNCTION__)) {
+        $tag = get_class($this) . 'Tag';
 
-            $tag = 'Anomaly\Streams\Platform\Addon\Theme\ThemeTag';
+        if (!class_exists($tag)) {
+
+            $tag = '\Anomaly\Streams\Platform\Addon\Theme\ThemeTag';
         }
 
         return app()->make($tag, [$this]);

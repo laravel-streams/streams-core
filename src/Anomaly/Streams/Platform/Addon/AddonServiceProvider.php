@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\Event\AllRegistered;
 use Anomaly\Streams\Platform\Addon\Event\Registered;
-use Anomaly\Streams\Platform\Traits\TransformableTrait;
 use Composer\Autoload\ClassLoader;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
@@ -22,7 +21,6 @@ class AddonServiceProvider extends ServiceProvider
 
     use EventGenerator;
     use DispatchableTrait;
-    use TransformableTrait;
 
     /**
      * The IoC binding method to use.
@@ -80,11 +78,6 @@ class AddonServiceProvider extends ServiceProvider
 
             // Register the addon class to the container.
             $addon = $this->registerAddonClass($slug, $path);
-
-            app('events')->listen(
-                'Anomaly.Streams.Platform.Addon.*',
-                $addon->toListener()
-            );
 
             $addon->raise(new Registered($addon));
 

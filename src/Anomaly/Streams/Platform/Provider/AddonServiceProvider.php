@@ -160,7 +160,9 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 
             foreach (app("streams.{$plural}")->all() as $addon) {
 
-                if ($provider = $addon->toServiceProvider()) {
+                $provider = get_class($addon).'ServiceProvider';
+
+                if (class_exists($provider)) {
 
                     $app      = $this->app;
                     $provider = $this->app->make($provider, [$app]);

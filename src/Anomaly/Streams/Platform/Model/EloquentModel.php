@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Collection\CacheCollection;
+use Anomaly\Streams\Platform\Collection\EloquentCollection;
 use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
-use Anomaly\Streams\Platform\Traits\TransformableTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Commander\CommanderTrait;
@@ -22,7 +22,6 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
 
     use CommanderTrait;
     use EventGenerator;
-    use TransformableTrait;
 
     /**
      * Disable timestamps for this model.
@@ -127,12 +126,7 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
      */
     public function newPresenter()
     {
-        if (!$collection = $this->transform(__FUNCTION__)) {
-
-            $collection = 'Anomaly\Streams\Platform\Model\EloquentModelPresenter';
-        }
-
-        return app()->make($collection, [$this]);
+        return new EloquentModelPresenter($this);
     }
 
     /**
@@ -143,12 +137,7 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
      */
     public function newCollection(array $items = array())
     {
-        if (!$collection = $this->transform(__FUNCTION__)) {
-
-            $collection = 'Anomaly\Streams\Platform\Collection\EloquentCollection';
-        }
-
-        return app()->make($collection, [$items]);
+        return new EloquentCollection($items);
     }
 
     /**

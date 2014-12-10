@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Contract\ArrayableInterface;
-use Anomaly\Streams\Platform\Traits\TransformableTrait;
 use Laracasts\Commander\Events\EventGenerator;
 
 /**
@@ -16,7 +15,6 @@ class Addon implements ArrayableInterface
 {
 
     use EventGenerator;
-    use TransformableTrait;
 
     /**
      * The addon path.
@@ -144,33 +142,6 @@ class Addon implements ArrayableInterface
     public function getDescription()
     {
         return $this->getType() . '.' . $this->getSlug() . '::addon.description';
-    }
-
-    /**
-     * Return the addons service provider counterpart.
-     *
-     * @return null|string
-     */
-    public function toServiceProvider()
-    {
-        return $this->transform(__FUNCTION__);
-    }
-
-    /**
-     * Return the listener class.
-     *
-     * @return null
-     */
-    public function toListener()
-    {
-        if (!$listener = $this->transform(__FUNCTION__)) {
-
-            $type = studly_case($this->getType());
-
-            return "Anomaly\\Streams\\Platform\\Addon\\{$type}\\{$type}Listener";
-        }
-
-        return app()->make($listener, [$this]);
     }
 
     /**
