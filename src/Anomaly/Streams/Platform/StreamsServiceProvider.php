@@ -21,6 +21,13 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->app->bind(
+            'path.lang',
+            function () {
+                return __DIR__ . '/../../../../resources/lang';
+            }
+        );
+
         $this->app->make('events')->fire('streams.boot');
     }
 
