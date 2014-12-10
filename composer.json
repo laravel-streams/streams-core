@@ -10,10 +10,6 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:anomalylabs/phpspec-laravel.git"
-        },
-        {
-            "type": "vcs",
             "url": "git@github.com:anomalylabs/framework"
         }
     ],
