@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
 use Anomaly\Streams\Platform\Asset\Asset;
+use Anomaly\Streams\Platform\Asset\Image;
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -33,7 +34,16 @@ class AssetServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->singleton(
             'streams.asset',
             function () {
+
                 return new Asset(new Filesystem(), app('streams.application'));
+            }
+        );
+
+        $this->app->singleton(
+            'streams.image',
+            function () {
+
+                return new Image();
             }
         );
     }
