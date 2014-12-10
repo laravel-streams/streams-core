@@ -104,18 +104,11 @@ class StreamsServiceProvider extends ServiceProvider
             'storage/framework',
         ];
 
-        $files = [];
-
         if (config('app.debug')) {
 
             foreach ($directories as $directory) {
 
-                chmod(base_path($directory), 777);
-            }
-
-            foreach ($files as $file) {
-
-                chmod(base_path($file), 777);
+                chmod(base_path($directory), 0777);
             }
         }
     }
