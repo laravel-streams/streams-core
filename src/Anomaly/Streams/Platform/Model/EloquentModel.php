@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Anomaly\Streams\Platform\Contract\PresentableInterface;
-use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Commander\CommanderTrait;
@@ -22,10 +21,6 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
 
     use CommanderTrait;
     use EventGenerator;
-
-    use Translatable {
-        Translatable::save as translatableSave;
-    }
 
     /**
      * Disable timestamps for this model.
@@ -84,30 +79,6 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     protected static function boot()
     {
         self::observe(new EloquentObserver());
-    }
-
-    /**
-     * Save the model.
-     *
-     * @param array    $rules
-     * @param array    $customMessages
-     * @param array    $options
-     * @param \Closure $beforeSave
-     * @param \Closure $afterSave
-     * @return bool
-     */
-    public function save(
-        array $rules = array(),
-        array $customMessages = array(),
-        array $options = array(),
-        \Closure $beforeSave = null,
-        \Closure $afterSave = null
-    ) {
-        if ($this->isTranslatable()) {
-            return $this->translatableSave($options);
-        } else {
-            return parent::save($rules, $customMessages, $options, $beforeSave, $afterSave);
-        }
     }
 
     /**
