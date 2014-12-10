@@ -32,8 +32,6 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->registerAddonTypes();
 
-        $this->registerAddonNamespaceHints(); // Last
-
         $this->registerAddonServiceProviders();
     }
 
@@ -106,26 +104,6 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
         }
 
         $loader->register();
-    }
-
-    protected function registerAddonNamespaceHints()
-    {
-        foreach ($this->types as $type) {
-
-            $plural = str_plural($type);
-
-            foreach (app("streams.{$plural}")->all() as $addon) {
-
-                $abstract = str_replace('streams.', null, $addon->getAbstract());
-
-                app('view')->addNamespace($abstract, $addon->getPath('resources/views'));
-                app('config')->addNamespace($abstract, $addon->getPath('resources/config'));
-                //app('translator')->addNamespace($abstract, $addon->getPath('resources/lang'));
-
-                app('streams.asset')->addNamespace($abstract, $addon->getPath('resources'));
-                app('streams.image')->addNamespace($abstract, $addon->getPath('resources'));
-            }
-        }
     }
 
     protected function getVendorPsrPath($vendorPath, $path)

@@ -17,6 +17,11 @@ class AddonListener extends EventListener
 
     use CommanderTrait;
 
+    public function whenStreamsIsBooting()
+    {
+        $this->execute('\Anomaly\Streams\Platform\Addon\Command\AddAddonNamespaceHintsCommand');
+    }
+
     /**
      * Push the addon to it's collection after it is registered.
      *

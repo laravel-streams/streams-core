@@ -68,6 +68,11 @@ class AddonServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app['events']->listen(
+            'streams.boot',
+            '\Anomaly\Streams\Platform\Addon\AddonListener@whenStreamsIsBooting'
+        );
+
         foreach ($this->getAddonPaths() as $path) {
 
             $slug = basename($path);
