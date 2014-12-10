@@ -129,11 +129,11 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Assignment\AssignmentListener'
         );
         $this->app['events']->listen(
-            'Anomaly.Streams.Platform.Ui.Form.*',
+            'Anomaly.Streams.Platform.Ui.Form.Event.*',
             'Anomaly\Streams\Platform\Ui\Form\FormListener'
         );
         $this->app['events']->listen(
-            'Anomaly.Streams.Platform.Ui.Table.*',
+            'Anomaly.Streams.Platform.Ui.Table.Event.*',
             'Anomaly\Streams\Platform\Ui\Table\TableListener'
         );
     }
