@@ -10,7 +10,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:anomalylabs/framework"
+            "url": "git@github.com:anomalylabs/framework.git"
         }
     ],
     "require": {
