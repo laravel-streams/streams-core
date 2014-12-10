@@ -4,9 +4,8 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Illuminate\Database\Eloquent\Collection;
+use Dimsav\Translatable\Translatable;
 
 /**
  * Class AssignmentModel
@@ -18,6 +17,8 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class AssignmentModel extends EloquentModel implements AssignmentInterface
 {
+
+    use Translatable;
 
     /**
      * Do not use timestamps.
@@ -128,7 +129,9 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     {
         $locale = $locale ? : config('app.locale');
 
-        if ($label = $this->translate($locale)->label and is_translatable($label)) {
+        $assignment = $this->translate($locale) ? : $this;
+
+        if ($label = $assignment->label and is_translatable($label)) {
 
             return trans($label, [], null, $locale);
         }
@@ -147,7 +150,9 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     {
         $locale = $locale ? : config('app.locale');
 
-        if ($placeholder = $this->translate($locale)->placeholder and is_translatable($placeholder)) {
+        $assignment = $this->translate($locale) ? : $this;
+
+        if ($placeholder = $assignment->placeholder and is_translatable($placeholder)) {
 
             return trans($placeholder, [], null, $locale);
         }
@@ -166,7 +171,9 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     {
         $locale = $locale ? : config('app.locale');
 
-        if ($instructions = $this->translate($locale)->instructions and is_translatable($instructions)) {
+        $assignment = $this->translate($locale) ? : $this;
+
+        if ($instructions = $assignment->instructions and is_translatable($instructions)) {
 
             return trans($instructions, [], null, $locale);
         }

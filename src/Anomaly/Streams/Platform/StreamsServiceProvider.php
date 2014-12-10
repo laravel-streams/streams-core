@@ -40,6 +40,7 @@ class StreamsServiceProvider extends ServiceProvider
     {
         // TODO: Translatable
         $this->app['config']->set('translatable::locales', ['en', 'es']);
+        $this->app['config']->set('translatable::translation_suffix', 'Translation');
 
         $this->checkEnvironment();
         $this->registerListeners();

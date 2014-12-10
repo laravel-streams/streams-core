@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Dimsav\Translatable\Translatable;
 
 /**
  * Class FieldModel
@@ -16,6 +17,8 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  */
 class FieldModel extends EloquentModel implements FieldInterface
 {
+
+    use Translatable;
 
     /**
      * Do not use timestamps.
