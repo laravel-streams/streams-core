@@ -52,7 +52,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     protected static function boot()
     {
-        self::observe(new FieldModelObserver());
+        self::observe(new FieldObserver());
     }
 
     /**

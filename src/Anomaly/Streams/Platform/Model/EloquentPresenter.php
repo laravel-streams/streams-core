@@ -3,7 +3,7 @@
 use Robbo\Presenter\Presenter;
 
 /**
- * Class EloquentModelPresenter
+ * Class EloquentPresenter
  * The base presenter for all our models.
  *
  * @link          http://anomaly.is/streams-platform
@@ -11,11 +11,11 @@ use Robbo\Presenter\Presenter;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Model
  */
-class EloquentModelPresenter extends Presenter
+class EloquentPresenter extends Presenter
 {
 
     /**
-     * Create a new EloquentModelPresenter instance.
+     * Create a new EloquentPresenter instance.
      *
      * @param $resource
      */

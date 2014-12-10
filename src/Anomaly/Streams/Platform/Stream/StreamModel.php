@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Assignment\AssignmentModelCollection;
+use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -37,7 +37,7 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     protected static function boot()
     {
-        self::observe(new StreamModelObserver());
+        self::observe(new StreamObserver());
     }
 
     /**
@@ -95,7 +95,7 @@ class StreamModel extends EloquentModel implements StreamInterface
             }
         }
 
-        $assignmentsCollection = new AssignmentModelCollection($assignments);
+        $assignmentsCollection = new AssignmentCollection($assignments);
 
         $streamModel->setRelation('assignments', $assignmentsCollection);
 
@@ -177,7 +177,7 @@ class StreamModel extends EloquentModel implements StreamInterface
     /**
      * Get the related assignments.
      *
-     * @return AssignmentModelCollection
+     * @return AssignmentCollection
      */
     public function getAssignments()
     {

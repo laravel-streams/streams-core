@@ -3,14 +3,14 @@
 use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
- * Class EloquentModelObserver
+ * Class EloquentObserver
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Model
  */
-class EloquentModelObserver
+class EloquentObserver
 {
 
     use DispatchableTrait;

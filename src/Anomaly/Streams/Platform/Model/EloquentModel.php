@@ -79,7 +79,7 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
      */
     protected static function boot()
     {
-        self::observe(new EloquentModelObserver());
+        self::observe(new EloquentObserver());
     }
 
     /**
@@ -126,7 +126,7 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
      */
     public function newPresenter()
     {
-        return new EloquentModelPresenter($this);
+        return new EloquentPresenter($this);
     }
 
     /**

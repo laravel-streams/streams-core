@@ -1,17 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Model\EloquentModelObserver;
+use Anomaly\Streams\Platform\Model\EloquentObserver;
 
 /**
- * Class EntryModelObserver
+ * Class EntryObserver
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry
  */
-class EntryModelObserver extends EloquentModelObserver
+class EntryObserver extends EloquentObserver
 {
 
     /**

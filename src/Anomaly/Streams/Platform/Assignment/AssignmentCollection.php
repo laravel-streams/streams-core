@@ -6,14 +6,14 @@ use Anomaly\Streams\Platform\Collection\EloquentCollection;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 
 /**
- * Class AssignmentModelCollection
+ * Class AssignmentCollection
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Assignment
  */
-class AssignmentModelCollection extends EloquentCollection
+class AssignmentCollection extends EloquentCollection
 {
 
     /**

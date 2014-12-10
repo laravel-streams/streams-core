@@ -3,17 +3,17 @@
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreated;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentDeleted;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentSaved;
-use Anomaly\Streams\Platform\Model\EloquentModelObserver;
+use Anomaly\Streams\Platform\Model\EloquentObserver;
 
 /**
- * Class AssignmentModelObserver
+ * Class AssignmentObserver
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Assignment
  */
-class AssignmentModelObserver extends EloquentModelObserver
+class AssignmentObserver extends EloquentObserver
 {
 
     /**

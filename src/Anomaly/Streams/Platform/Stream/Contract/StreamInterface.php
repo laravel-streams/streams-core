@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Assignment\AssignmentModelCollection;
+use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 
@@ -75,7 +75,7 @@ interface StreamInterface
     /**
      * Get the related assignments.
      *
-     * @return AssignmentModelCollection
+     * @return AssignmentCollection
      */
     public function getAssignments();
 

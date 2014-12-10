@@ -53,7 +53,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     protected static function boot()
     {
-        self::observe(new AssignmentModelObserver());
+        self::observe(new AssignmentObserver());
     }
 
     /**
