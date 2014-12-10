@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
-class $TABLE$ extends EloquentModel
+class $CLASS$ extends EloquentModel
 {
 
     protected $table = '$TABLE$';
