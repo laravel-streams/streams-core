@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Addon\Module\Users\User\Contract\UserInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\Contract\DateFieldTypeInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\Contract\RelationFieldTypeInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\Contract\SetterFieldTypeInterface;
@@ -78,9 +77,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         $userId = null;
 
-        if ($user = app('streams.auth')->check() and $user instanceof UserInterface) {
+        if ($user = app('auth')->user()) {
 
-            $userId = $user->getId();
+            $userId = $user->getKey();
         }
 
         if (!$this->exists) {

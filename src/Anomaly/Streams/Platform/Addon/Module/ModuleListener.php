@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\AddonListener;
 use Anomaly\Streams\Platform\Addon\Event\AllRegistered;
-use Anomaly\Streams\Platform\Addon\Module\Command\SetModuleStatesCommand;
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalled;
@@ -18,26 +17,31 @@ use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalled;
 class ModuleListener extends AddonListener
 {
 
+    protected $modules;
+
+    function __construct(ModuleRepositoryInterface $modules)
+    {
+        $this->modules = $modules;
+    }
+
     /**
      * When a module is installed update the database.
      *
-     * @param ModuleInstalled           $event
-     * @param ModuleRepositoryInterface $modules
+     * @param ModuleInstalled $event
      */
-    public function whenModuleInstalled(ModuleInstalled $event, ModuleRepositoryInterface $modules)
+    public function whenModuleInstalled(ModuleInstalled $event)
     {
-        $modules->install($event->getModule());
+        $this->modules->install($event->getModule());
     }
 
     /**
      * When a module is uninstalled update the database.
      *
-     * @param ModuleUninstalled         $event
-     * @param ModuleRepositoryInterface $modules
+     * @param ModuleUninstalled $event
      */
-    public function whenModuleUninstalled(ModuleUninstalled $event, ModuleRepositoryInterface $modules)
+    public function whenModuleUninstalled(ModuleUninstalled $event)
     {
-        $modules->uninstall($event->getModule());
+        $this->modules->uninstall($event->getModule());
     }
 
     /**
@@ -50,7 +54,7 @@ class ModuleListener extends AddonListener
     {
         if ($event->getType() == 'module' and app('streams.application')->isLocated()) {
 
-            $this->execute(new SetModuleStatesCommand());
+            $this->execute('Anomaly\Streams\Platform\Addon\Module\Command\SetModuleStatesCommand');
         }
     }
 }

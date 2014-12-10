@@ -2,10 +2,11 @@
 
 use Anomaly\Streams\Platform\Addon\Event\AllRegistered;
 use Anomaly\Streams\Platform\Addon\Event\Registered;
-use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Laracasts\Commander\Events\DispatchableTrait;
+use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class AddonServiceProvider
@@ -18,6 +19,7 @@ use Illuminate\Support\ServiceProvider;
 class AddonServiceProvider extends ServiceProvider
 {
 
+    use EventGenerator;
     use DispatchableTrait;
     use TransformableTrait;
 
@@ -83,10 +85,14 @@ class AddonServiceProvider extends ServiceProvider
                 $addon->toListener()
             );
 
-            $this->dispatch(new Registered($addon));
+            $addon->raise(new Registered($addon));
+
+            $this->dispatchEventsFor($addon);
         }
 
-        $this->dispatch(new AllRegistered($this->type));
+        $this->raise(new AllRegistered($this->type));
+
+        $this->dispatchEventsFor($this);
     }
 
     /**

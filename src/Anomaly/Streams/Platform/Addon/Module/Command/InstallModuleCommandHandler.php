@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Addon\Module\Event\ModuleInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
 use Anomaly\Streams\Platform\Contract\InstallableInterface;
-use Anomaly\Streams\Platform\Traits\DispatchableTrait;
+use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
  * Class InstallModuleCommandHandler
@@ -34,7 +34,9 @@ class InstallModuleCommandHandler
             $this->runInstallers($module, $installer);
         }
 
-        $this->dispatch(new ModuleInstalled($module));
+        $module->raise(new ModuleInstalled($module));
+
+        $this->dispatchEventsFor($module);
 
         return true;
     }

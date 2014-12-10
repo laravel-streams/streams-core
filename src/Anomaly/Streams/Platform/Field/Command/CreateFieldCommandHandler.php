@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command;
 
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
-use Anomaly\Streams\Platform\Traits\DispatchableTrait;
+use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
  * Class CreateFieldCommandHandler
@@ -16,16 +16,22 @@ class CreateFieldCommandHandler
 
     use DispatchableTrait;
 
+    protected $fields;
+
+    function __construct(FieldRepositoryInterface $fields)
+    {
+        $this->fields = $fields;
+    }
+
     /**
      * Handle the command.
      *
-     * @param CreateFieldCommand       $command
-     * @param FieldRepositoryInterface $fields
+     * @param CreateFieldCommand $command
      * @return \Anomaly\Streams\Platform\Field\Contract\FieldInterface
      */
-    public function handle(CreateFieldCommand $command, FieldRepositoryInterface $fields)
+    public function handle(CreateFieldCommand $command)
     {
-        return $fields->create(
+        return $this->fields->create(
             $command->getNamespace(),
             $command->getSlug(),
             $command->getName(),

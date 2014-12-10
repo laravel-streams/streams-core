@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Traits\DispatchableTrait;
+use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
  * Class Observer

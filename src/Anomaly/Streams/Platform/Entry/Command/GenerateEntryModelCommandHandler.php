@@ -14,12 +14,19 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 class GenerateEntryModelCommandHandler
 {
 
+    protected $generator;
+
+    function __construct(EntryGenerator $generator)
+    {
+        $this->generator = $generator;
+    }
+
     /**
      * Handle the command.
      *
      * @param GenerateEntryModelCommand $command
      */
-    public function handle(GenerateEntryModelCommand $command, EntryGenerator $generator)
+    public function handle(GenerateEntryModelCommand $command)
     {
         $stream = $command->getStream();
 
@@ -27,7 +34,7 @@ class GenerateEntryModelCommandHandler
 
         $template = file_get_contents(streams_path('resources/assets/generator/model.txt'));
 
-        $generator->make($template, $stream, $path);
+        $this->generator->make($template, $stream, $path);
     }
 
     /**

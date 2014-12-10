@@ -14,13 +14,19 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 class GenerateEntryTranslationsModelCommandHandler
 {
 
+    protected $generator;
+
+    function __construct(EntryTranslationsGenerator $generator)
+    {
+        $this->generator = $generator;
+    }
+
     /**
      * Handle the command.
      *
      * @param GenerateEntryTranslationsModelCommand $command
-     * @param EntryTranslationsGenerator            $generator
      */
-    public function handle(GenerateEntryTranslationsModelCommand $command, EntryTranslationsGenerator $generator)
+    public function handle(GenerateEntryTranslationsModelCommand $command)
     {
         $stream = $command->getStream();
 
@@ -28,7 +34,7 @@ class GenerateEntryTranslationsModelCommandHandler
 
         $template = file_get_contents(streams_path('resources/assets/generator/translation.txt'));
 
-        $generator->make($template, $stream, $path);
+        $this->generator->make($template, $stream, $path);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
+use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class Addon
@@ -14,6 +15,7 @@ use Anomaly\Streams\Platform\Traits\TransformableTrait;
 class Addon implements ArrayableInterface
 {
 
+    use EventGenerator;
     use TransformableTrait;
 
     /**

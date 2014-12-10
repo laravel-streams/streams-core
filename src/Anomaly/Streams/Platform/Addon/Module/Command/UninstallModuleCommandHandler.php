@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
 use Anomaly\Streams\Platform\Contract\InstallableInterface;
-use Anomaly\Streams\Platform\Traits\DispatchableTrait;
+use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
  * Class UninstallModuleCommandHandler
@@ -34,7 +34,9 @@ class UninstallModuleCommandHandler
             $this->runInstallers($module, $installer);
         }
 
-        $this->dispatch(new ModuleUninstalled($module));
+        $module->raise(new ModuleUninstalled($module));
+
+        $this->dispatchEventsFor($module);
 
         return true;
     }

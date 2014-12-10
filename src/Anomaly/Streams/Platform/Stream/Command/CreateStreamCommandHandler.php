@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Command;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
-use Anomaly\Streams\Platform\Traits\DispatchableTrait;
+use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
  * Class CreateStreamCommandHandler
@@ -14,16 +14,22 @@ use Anomaly\Streams\Platform\Traits\DispatchableTrait;
 class CreateStreamCommandHandler
 {
 
+    protected $streams;
+
+    function __construct(StreamRepositoryInterface $streams)
+    {
+        $this->streams = $streams;
+    }
+
     /**
      * Handle the command.
      *
-     * @param CreateStreamCommand       $command
-     * @param StreamRepositoryInterface $streams
+     * @param CreateStreamCommand $command
      * @return \Anomaly\Streams\Platform\Stream\Contract\StreamInterface
      */
-    public function handle(CreateStreamCommand $command, StreamRepositoryInterface $streams)
+    public function handle(CreateStreamCommand $command)
     {
-        return $streams->create(
+        return $this->streams->create(
             $command->getNamespace(),
             $command->getSlug(),
             $command->getName(),

@@ -16,6 +16,6 @@ class AdminController extends BaseController
      */
     public function __construct()
     {
-        //$this->middleware('streams.auth');
+        $this->middleware('auth');
     }
 }

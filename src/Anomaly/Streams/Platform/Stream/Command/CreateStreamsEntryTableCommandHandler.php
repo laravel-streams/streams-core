@@ -13,19 +13,25 @@ use Anomaly\Streams\Platform\Stream\StreamSchema;
 class CreateStreamsEntryTableCommandHandler
 {
 
+    protected $schema;
+
+    function __construct(StreamSchema $schema)
+    {
+        $this->schema = $schema;
+    }
+
     /**
      * Create a new CreateStreamsEntryTableCommandHandler instance.
      *
      * @param CreateStreamsEntryTableCommand $command
-     * @param StreamSchema                   $schema
      */
-    public function handle(CreateStreamsEntryTableCommand $command, StreamSchema $schema)
+    public function handle(CreateStreamsEntryTableCommand $command)
     {
         $stream = $command->getStream();
 
         $table = $stream->getEntryTableName();
 
-        $schema->createTable($table);
+        $this->schema->createTable($table);
 
         if ($stream->isTranslatable()) {
 
@@ -33,7 +39,7 @@ class CreateStreamsEntryTableCommandHandler
 
             $foreignKey = $stream->getForeignKey();
 
-            $schema->createTranslationsTable($table, $foreignKey);
+            $this->schema->createTranslationsTable($table, $foreignKey);
         }
     }
 }
