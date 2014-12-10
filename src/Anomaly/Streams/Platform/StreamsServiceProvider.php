@@ -18,6 +18,14 @@ class StreamsServiceProvider extends ServiceProvider
 {
 
     /**
+     * Everything has booted.
+     */
+    public function boot()
+    {
+        $this->app->make('events')->fire('booted');
+    }
+
+    /**
      * Register the service provider.
      *
      * @return void
