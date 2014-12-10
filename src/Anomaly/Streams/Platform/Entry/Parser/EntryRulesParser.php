@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\StreamModel;
-use Anomaly\Streams\Platform\Support\Parser;
 
 /**
  * Class EntryRulesParser
@@ -13,7 +12,7 @@ use Anomaly\Streams\Platform\Support\Parser;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry\Parser
  */
-class EntryRulesParser extends Parser
+class EntryRulesParser
 {
 
     /**
@@ -31,7 +30,7 @@ class EntryRulesParser extends Parser
             $this->parseAssignmentRules($stream, $assignment, $string);
         }
 
-        $string .= "\n{$this->s(4)}]";
+        $string .= "\n]";
 
         return $string;
     }
@@ -71,7 +70,7 @@ class EntryRulesParser extends Parser
 
             $rules = implode('|', array_filter($rules));
 
-            $string .= "\n{$this->s(8)}'{$assignment->getFieldSlug()}' => '{$rules}',";
+            $string .= "\n'{$assignment->getFieldSlug()}' => '{$rules}',";
         }
     }
 }

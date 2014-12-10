@@ -4,7 +4,9 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class AssignmentModel
@@ -256,6 +258,12 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     {
         return unserialize($rules);
     }
+
+    public function newCollection(array $items = array())
+    {
+        return new AssignmentCollection($items);
+    }
+
 
     /**
      * Return the stream relation.

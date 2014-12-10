@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\FieldType\Contract\DateFieldTypeInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Support\Parser;
 
 /**
  * Class EntryDatesParser
@@ -13,7 +12,7 @@ use Anomaly\Streams\Platform\Support\Parser;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry\Parser
  */
-class EntryDatesParser extends Parser
+class EntryDatesParser
 {
 
     /**
@@ -26,15 +25,15 @@ class EntryDatesParser extends Parser
     {
         $string = "[";
 
-        $string .= "\n{$this->s(8)}'created_at',";
-        $string .= "\n{$this->s(8)}'updated_at',";
+        $string .= "\n'created_at',";
+        $string .= "\n'updated_at',";
 
         foreach ($stream->getAssignments() as $assignment) {
 
             $this->parseAssignment($assignment, $string);
         }
 
-        $string .= "\n{$this->s(4)}]";
+        $string .= "\n]";
 
         return $string;
     }
@@ -49,7 +48,7 @@ class EntryDatesParser extends Parser
     {
         if ($type = $assignment->getFieldType() and $type instanceof DateFieldTypeInterface) {
 
-            $string .= "\n{$this->s(8)}'{$assignment->getFieldSlug()}',";
+            $string .= "\n'{$assignment->getFieldSlug()}',";
         }
     }
 }

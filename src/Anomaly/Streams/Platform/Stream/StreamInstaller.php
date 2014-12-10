@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Contract\InstallableInterface;
-use Anomaly\Streams\Platform\Field\FieldService;
+use Anomaly\Streams\Platform\Field\FieldManager;
 
 /**
  * Class StreamInstaller
@@ -52,24 +52,24 @@ class StreamInstaller implements InstallableInterface
     /**
      * The stream service.
      *
-     * @var StreamService
+     * @var StreamManager
      */
     protected $streamService;
 
     /**
      * The field service.
      *
-     * @var \Anomaly\Streams\Platform\Field\FieldService
+     * @var \Anomaly\Streams\Platform\Field\FieldManager
      */
     protected $fieldService;
 
     /**
      * Create a new StreamInstaller instance.
      *
-     * @param StreamService $streamService
-     * @param FieldService  $fieldService
+     * @param StreamManager $streamService
+     * @param FieldManager  $fieldService
      */
-    public function __construct(StreamService $streamService, FieldService $fieldService)
+    public function __construct(StreamManager $streamService, FieldManager $fieldService)
     {
         $this->fieldService  = $fieldService;
         $this->streamService = $streamService;

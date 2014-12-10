@@ -37,16 +37,16 @@ class FieldInstaller implements InstallableInterface
     /**
      * The field service object.
      *
-     * @var FieldService
+     * @var FieldManager
      */
     protected $fieldService;
 
     /**
      * Create a new FieldInstaller instance.
      *
-     * @param FieldService $fieldService
+     * @param FieldManager $fieldService
      */
-    public function __construct(FieldService $fieldService)
+    public function __construct(FieldManager $fieldService)
     {
         $this->fieldService = $fieldService;
 

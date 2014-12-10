@@ -3,14 +3,14 @@
 use Laracasts\Commander\CommanderTrait;
 
 /**
- * Class FieldService
+ * Class FieldManager
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Field
  */
-class FieldService
+class FieldManager
 {
 
     use CommanderTrait;

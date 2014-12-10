@@ -13,8 +13,8 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
     protected $defer = true;
 
     protected $types = [
-        'distribution', // Distributions always first
-        'module', // Modules always second
+        'distribution',
+        'module',
         'field_type',
         'extension',
         'block',
@@ -138,7 +138,7 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 
             foreach (app("streams.{$plural}")->all() as $addon) {
 
-                $provider = get_class($addon).'ServiceProvider';
+                $provider = get_class($addon) . 'ServiceProvider';
 
                 if (class_exists($provider)) {
 

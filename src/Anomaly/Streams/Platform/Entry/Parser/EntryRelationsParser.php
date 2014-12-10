@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Support\Parser;
 
 /**
  * Class EntryRelationsParser
@@ -12,7 +11,7 @@ use Anomaly\Streams\Platform\Support\Parser;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry\Parser
  */
-class EntryRelationsParser extends Parser
+class EntryRelationsParser
 {
 
     /**
@@ -49,13 +48,13 @@ class EntryRelationsParser extends Parser
 
         $relationString = '';
 
-        $relationString .= "\n{$this->s(4)}public function {$method}()";
+        $relationString .= "\npublic function {$method}()";
 
-        $relationString .= "\n{$this->s(4)}{";
+        $relationString .= "\n{";
 
-        $relationString .= "\n\n{$this->s(8)}return \$this->getFieldType('{$fieldSlug}')->getRelation(\$this);";
+        $relationString .= "\n\nreturn \$this->getFieldType('{$fieldSlug}')->getRelation(\$this);";
 
-        $relationString .= "\n{$this->s(4)}}";
+        $relationString .= "\n}";
 
         $relationString .= "\n";
 
