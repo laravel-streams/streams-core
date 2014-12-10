@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
-use Anomaly\Streams\Platform\Collection\EloquentCollection;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
  * Class FieldCollection

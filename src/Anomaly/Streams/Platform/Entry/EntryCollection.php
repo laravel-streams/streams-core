@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Collection\EloquentCollection;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
  * Class EntryCollection

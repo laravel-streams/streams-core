@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
-use Anomaly\Streams\Platform\Collection\EloquentCollection;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Laracasts\Commander\CommanderTrait;
 
 /**
@@ -43,7 +43,7 @@ class SyncModulesCommandHandler
     /**
      * Sync a module.
      *
-     * @param EloquentCollection $modules
+     * @param \Anomaly\Streams\Platform\Model\EloquentCollection $modules
      * @param Module             $module
      */
     protected function sync(EloquentCollection $modules, Module $module)

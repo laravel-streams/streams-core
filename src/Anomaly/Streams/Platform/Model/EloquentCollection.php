@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Collection;
+<?php namespace Anomaly\Streams\Platform\Model;
 
 use Illuminate\Database\Eloquent\Collection;
 

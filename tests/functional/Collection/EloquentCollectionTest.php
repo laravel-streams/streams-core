@@ -1,6 +1,6 @@
 <?php
 
-use Anomaly\Streams\Platform\Collection\EloquentCollection;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 class EloquentCollectionTest extends \PHPUnit_Framework_TestCase
 {
