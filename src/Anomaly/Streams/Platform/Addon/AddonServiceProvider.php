@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Event\AllRegistered;
 use Anomaly\Streams\Platform\Addon\Event\Registered;
 use Anomaly\Streams\Platform\Traits\TransformableTrait;
+use Composer\Autoload\ClassLoader;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Laracasts\Commander\Events\DispatchableTrait;
@@ -104,10 +105,14 @@ class AddonServiceProvider extends ServiceProvider
      */
     protected function registerSrcFolder($slug, $path)
     {
-        app('streams.loader')->addPsr4(
+        $loader = new ClassLoader();
+
+        $loader->addPsr4(
             $this->getNamespace($slug) . '\\',
             $path . '/src'
         );
+
+        $loader->register();
     }
 
     /**

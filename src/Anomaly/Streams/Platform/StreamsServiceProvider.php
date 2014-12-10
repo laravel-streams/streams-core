@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform;
 
-use Anomaly\Streams\Platform\Support\YamlConfigFileLoader;
 use Illuminate\Support\ServiceProvider;
 use Laracasts\Commander\Events\DispatchableTrait;
 use Laracasts\Commander\Events\EventGenerator;
@@ -82,7 +81,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Provider\TransformerServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\MessagesServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ListenerServiceProvider');
-        $this->app->register('Anomaly\Streams\Platform\Provider\LoaderServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\AssetServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ImageServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ModelServiceProvider');

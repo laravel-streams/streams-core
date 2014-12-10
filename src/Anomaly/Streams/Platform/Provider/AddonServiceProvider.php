@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
+use Composer\Autoload\ClassLoader;
+
 class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 
@@ -69,6 +71,8 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 
     protected function registerAddonVendorAutoloaders()
     {
+        $loader = new ClassLoader();
+
         foreach ($this->types as $type) {
 
             $plural = str_plural($type);
@@ -86,7 +90,7 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 
                         foreach ($autoload['psr-0'] as $namespace => $path) {
 
-                            app('streams.loader')->add($namespace, $this->getVendorPsrPath($vendorPath, $path));
+                            $loader->add($namespace, $this->getVendorPsrPath($vendorPath, $path));
                         }
                     }
 
@@ -94,12 +98,14 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 
                         foreach ($autoload['psr-4'] as $namespace => $path) {
 
-                            app('streams.loader')->addPsr4($namespace, $this->getVendorPsrPath($vendorPath, $path));
+                            $loader->addPsr4($namespace, $this->getVendorPsrPath($vendorPath, $path));
                         }
                     }
                 }
             }
         }
+
+        $loader->register();
     }
 
     protected function registerAddonNamespaceHints()
