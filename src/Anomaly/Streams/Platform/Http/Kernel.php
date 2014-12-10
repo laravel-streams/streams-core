@@ -23,9 +23,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
         'Illuminate\Session\Middleware\StartSession',
         'Illuminate\View\Middleware\ShareErrorsFromSession',
-        //'Illuminate\Foundation\Http\Middleware\VerifyCsrfToken',
-        //'Anomaly\Streams\Platform\Http\Middleware\CheckInstallation',
-        'Anomaly\Streams\Platform\Http\Middleware\SetLocale',
+        'Illuminate\Foundation\Http\Middleware\VerifyCsrfToken',
     ];
 
     /**
