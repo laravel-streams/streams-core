@@ -80,15 +80,11 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Provider\ExceptionServiceProvider');
 
         $this->app->register('Anomaly\Streams\Platform\Provider\ApplicationServiceProvider');
-        $this->app->register('Anomaly\Streams\Platform\Provider\TransformerServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ListenerServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\AssetServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ImageServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ModelServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ViewServiceProvider');
-
-        // Deferred
-        $this->app->register('Anomaly\Streams\Platform\Provider\TranslationServiceProvider');
 
         // Register addon components.
         $this->app->register('Anomaly\Streams\Platform\Provider\AddonServiceProvider');
