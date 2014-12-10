@@ -14,13 +14,6 @@ class Module extends Addon
 {
 
     /**
-     * The module's menu.
-     *
-     * @var array
-     */
-    protected $menu = [];
-
-    /**
      * The module's sections.
      *
      * @var array
@@ -54,16 +47,6 @@ class Module extends Addon
      * @var bool
      */
     protected $active = false;
-
-    /**
-     * Get the module's menu.
-     *
-     * @return array
-     */
-    public function getMenu()
-    {
-        return $this->menu;
-    }
 
     /**
      * Get the module's sections.
