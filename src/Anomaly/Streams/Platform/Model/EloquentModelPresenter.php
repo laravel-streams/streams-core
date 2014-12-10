@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Support\Presenter;
+use Robbo\Presenter\Presenter;
 
 /**
  * Class EloquentModelPresenter
