@@ -21,7 +21,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->make('events')->fire('booted');
+        $this->app->make('events')->fire('streams.boot');
     }
 
     /**
@@ -32,6 +32,7 @@ class StreamsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->checkEnvironment();
+        $this->registerListeners();
 
         $this->registerPackageAliases();
         $this->registerPackages();
@@ -88,11 +89,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Register addon components.
         $this->app->register('Anomaly\Streams\Platform\Provider\AddonServiceProvider');
-
-        // Setup some application components.
-        $this->app->register('Anomaly\Streams\Platform\Provider\ActiveDistributionServiceProvider');
-        $this->app->register('Anomaly\Streams\Platform\Provider\ActiveModuleServiceProvider');
-        $this->app->register('Anomaly\Streams\Platform\Provider\ActiveThemeServiceProvider');
     }
 
     protected function checkEnvironment()
@@ -116,5 +112,29 @@ class StreamsServiceProvider extends ServiceProvider
                 chmod(base_path($file), 777);
             }
         }
+    }
+
+    protected function registerListeners()
+    {
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.Module.Event.*',
+            'Anomaly\Streams\Platform\Addon\Module\ModuleListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Stream.Event.*',
+            'Anomaly\Streams\Platform\Stream\StreamListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Assignment.Event.*',
+            'Anomaly\Streams\Platform\Assignment\AssignmentListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Ui.Form.*',
+            'Anomaly\Streams\Platform\Ui\Form\FormListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Ui.Table.*',
+            'Anomaly\Streams\Platform\Ui\Table\TableListener'
+        );
     }
 }

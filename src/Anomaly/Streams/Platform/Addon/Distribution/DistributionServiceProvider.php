@@ -19,6 +19,11 @@ class DistributionServiceProvider extends AddonServiceProvider
         parent::__construct($app);
 
         $this->app['events']->listen(
+            'streams.boot',
+            '\Anomaly\Streams\Platform\Addon\Distribution\DistributionListener@whenStreamsIsBooting'
+        );
+
+        $this->app['events']->listen(
             'Anomaly.Streams.Platform.Addon.*',
             '\Anomaly\Streams\Platform\Addon\Distribution\DistributionListener'
         );

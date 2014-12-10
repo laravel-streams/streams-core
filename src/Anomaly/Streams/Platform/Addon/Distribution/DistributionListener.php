@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Distribution;
 
 use Anomaly\Streams\Platform\Addon\AddonListener;
+use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
  * Class DistributionListener
@@ -13,5 +14,11 @@ use Anomaly\Streams\Platform\Addon\AddonListener;
 class DistributionListener extends AddonListener
 {
 
+    use DispatchableTrait;
+
+    public function whenStreamsIsBooting()
+    {
+        $this->execute('\Anomaly\Streams\Platform\Addon\Distribution\Command\DetectActiveDistributionCommand');
+    }
 }
  

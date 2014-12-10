@@ -1,26 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Provider;
+<?php namespace Anomaly\Streams\Platform\Addon\Theme\Command;
 
-class ActiveThemeServiceProvider extends \Illuminate\Support\ServiceProvider
+class DetectActiveThemeCommandHandler
 {
 
-    /**
-     * Defer loading this service provider.
-     *
-     * @var bool
-     */
-    protected $defer = true;
-
-    /**
-     * Setup the environment with the active theme.
-     */
-    public function register()
+    public function handle(DetectActiveThemeCommand $command)
     {
-        $request = app('request');
-        $theme   = null;
-
         if ($distribution = app('streams.distributions')->active()) {
 
-            if ($request->segment(1) == 'admin' or $request->segment(1) == 'installer') {
+            if (app('request')->segment(1) == 'admin' or app('request')->segment(1) == 'installer') {
 
                 $theme = $distribution->getDefaultAdminTheme();
             } else {
@@ -43,3 +30,4 @@ class ActiveThemeServiceProvider extends \Illuminate\Support\ServiceProvider
         }
     }
 }
+ 

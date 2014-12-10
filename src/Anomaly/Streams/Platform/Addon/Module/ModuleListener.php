@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Addon\Event\AllRegistered;
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalled;
+use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
  * Class ModuleListener
@@ -17,11 +18,18 @@ use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalled;
 class ModuleListener extends AddonListener
 {
 
+    use DispatchableTrait;
+
     protected $modules;
 
     function __construct(ModuleRepositoryInterface $modules)
     {
         $this->modules = $modules;
+    }
+
+    public function whenStreamsIsBooting()
+    {
+        $this->execute('\Anomaly\Streams\Platform\Addon\Module\Command\DetectActiveModuleCommand');
     }
 
     /**

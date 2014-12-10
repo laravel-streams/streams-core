@@ -1,19 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Provider;
+<?php namespace Anomaly\Streams\Platform\Addon\Distribution\Command;
 
-class ActiveDistributionServiceProvider extends \Illuminate\Support\ServiceProvider
+class DetectActiveDistributionCommandHandler
 {
 
-    /**
-     * Defer loading this service provider.
-     *
-     * @var bool
-     */
-    protected $defer = true;
-
-    /**
-     * Setup the environment with the active distribution.
-     */
-    public function register()
+    public function handle(DetectActiveDistributionCommand $command)
     {
         if ($distribution = app('streams.distributions')->active()) {
 
@@ -25,3 +15,4 @@ class ActiveDistributionServiceProvider extends \Illuminate\Support\ServiceProvi
         }
     }
 }
+ 
