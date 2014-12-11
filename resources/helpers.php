@@ -129,36 +129,6 @@ function streams_path($path = null)
 }
 
 /**
- * Create a random hash string based on microtime.
- *
- * @param int  $length
- * @param bool $secure
- * @return string
- */
-function rand_string($length = 10, $secure = false)
-{
-    $chars = 'ABCDEFGHKLMNOPQRSTWXYZabcdefghjkmnpqrstwxyz';
-    $extra = '`~!@#$%^&*()-_+=[]{}\|;:,.<>?/';
-
-    if ($secure) {
-
-        $chars .= $extra;
-    }
-
-    $string = '';
-    $max    = strlen($chars) - 1;
-
-    mt_srand((double)microtime() * 1000000);
-
-    while (strlen($string) < $length) {
-
-        $string .= $chars{mt_rand(0, $max)};
-    }
-
-    return $string;
-}
-
-/**
  * Determine if a string is translatable.
  *
  * This is helpful for defaulting and
