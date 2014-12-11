@@ -88,21 +88,6 @@ function request_time()
 }
 
 /**
- * Shortcut to generate crud routes.
- *
- * @param $base
- * @param $controller
- */
-function crud($base, $controller)
-{
-    // Help automate common CRUD routes.
-    app('router')->any($base, $controller . '@index');
-    app('router')->any($base . '/create', $controller . '@create');
-    app('router')->any($base . '/edit/{id}', $controller . '@edit');
-    app('router')->any($base . '/delete/{id?}', $controller . '@delete');
-}
-
-/**
  * Return the HTTP_REFERER or fallback.
  *
  * @return string
