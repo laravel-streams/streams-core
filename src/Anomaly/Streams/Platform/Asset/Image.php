@@ -124,7 +124,7 @@ class Image extends ImageManager
 
         $filename = md5(var_export([$this->image, $this->applied], true)) . '.' . $this->getExtension($this->image);
 
-        $path = 'assets/' . APP_REF . '/' . $filename;
+        $path = 'assets/' . app('streams.application')->getReference() . '/' . $filename;
 
         if (isset($_GET['_publish']) || !$file->exists($path)) {
             $this->publish($path);

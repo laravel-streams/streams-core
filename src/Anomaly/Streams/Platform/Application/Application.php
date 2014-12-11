@@ -67,8 +67,6 @@ class Application
 
                     $this->reference = $app->reference;
 
-                    define('APP_REF', $app->reference);
-
                     return true;
                 }
 

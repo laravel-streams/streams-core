@@ -163,7 +163,7 @@ class Asset
 
         $hint = $this->getHint($group);
 
-        return 'assets/' . APP_REF . '/' . $hash . '.' . $hint;
+        return 'assets/' . app('streams.application')->getReference() . '/' . $hash . '.' . $hint;
     }
 
     /**

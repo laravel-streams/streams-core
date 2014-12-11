@@ -59,7 +59,7 @@ class GenerateEntryModelCommandHandler
      */
     protected function getFilePath(StreamInterface $stream)
     {
-        $path = storage_path('models/streams/' . APP_REF . '/');
+        $path = storage_path('models/streams/' . app('streams.application')->getReference() . '/');
 
         $path .= studly_case($stream->getNamespace()) . '/';
 
