@@ -68,7 +68,7 @@ function evaluate($value, array $arguments = [])
 
     if (is_string($value) and str_contains($value, '{{')) {
 
-        $value = view()->parse($value, $arguments);
+        $value = view()->parse($value, $arguments)->render();
     }
 
     return $value;

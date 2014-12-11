@@ -37,7 +37,23 @@ class Button implements ButtonInterface
             $text = trans($text);
         }
 
-        return evaluate(compact('text', 'type', 'class', 'icon', 'attributes'), $arguments);
+        $data = evaluate(compact('text', 'type', 'class', 'icon', 'attributes'), $arguments);
+
+        $data['attributes'] = attributes_string($data['attributes']);
+
+        return $data;
+    }
+
+    public function pullAttribute($attribute, $default = null)
+    {
+        return array_get($this->attributes, $attribute, $default);
+    }
+
+    public function putAttribute($attribute, $value)
+    {
+        $this->attributes[$attribute] = $value;
+
+        return $this;
     }
 
     public function setAttributes($attributes)

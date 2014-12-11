@@ -22,11 +22,14 @@ class Action extends Button implements ActionInterface
         $type = 'default',
         array $attributes = []
     ) {
-        $this->slug = $slug;
+        parent::__construct($type, $text, $class, $icon, $attributes);
+
+        $this->slug   = $slug;
         $this->active = $active;
         $this->prefix = $prefix;
 
-        parent::__construct($type, $text, $class, $icon, $attributes);
+        $this->putAttribute('type', 'submit');
+        $this->putAttribute('name', 'action');
     }
 
 

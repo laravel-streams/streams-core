@@ -7,7 +7,7 @@
         <div class="pull-left actions dropup">
 
             {{ actions }}
-            <button type="submit" name="action" value="{{ slug }}" class="btn btn-sm btn-{{ type }}" disabled {{ attributes }}>
+            <button value="{{ slug }}" class="btn btn-sm btn-{{ type }}" disabled {{{ attributes }}}>
                 {{ text }}
             </button>
             {{ /actions }}

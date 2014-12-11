@@ -5,6 +5,10 @@ interface ButtonInterface
 
     public function viewData(array $arguments = []);
 
+    public function pullAttribute($attribute, $default = null);
+
+    public function putAttribute($attribute, $value);
+
     public function setAttributes($attributes);
 
     public function getAttributes();
