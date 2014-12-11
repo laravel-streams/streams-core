@@ -8,7 +8,6 @@
         }
     ],
     "require": {
-        "laravel/framework": "dev-streams-compatible",
         "anomaly/lexicon": "dev-master",
         "artdarek/oauth-4-laravel": "dev-master",
         "aws/aws-sdk-php": "dev-master",
