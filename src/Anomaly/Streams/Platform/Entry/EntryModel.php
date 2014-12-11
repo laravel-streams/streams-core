@@ -378,6 +378,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $entry->save();
 
+        return;
+
         if ($entry->isTranslatable()) {
 
             foreach (config('streams.available_locales') as $locale) {
