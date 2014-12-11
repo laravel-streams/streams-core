@@ -64,30 +64,6 @@ function key_value(array $array, $key, $default = null)
 }
 
 /**
- * Return the current memory usage.
- *
- * @return string
- */
-function memory_usage()
-{
-    $unit = array('b', 'kb', 'mb');
-
-    $size = memory_get_usage(true);
-
-    return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
-}
-
-/**
- * Return the elapsed request time.
- *
- * @return mixed
- */
-function request_time()
-{
-    return number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 2) . ' s';
-}
-
-/**
  * Determine if a string is translatable.
  *
  * This is helpful for defaulting and
