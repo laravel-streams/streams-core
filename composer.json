@@ -41,7 +41,7 @@
         "venturecraft/revisionable": "1.*"
     },
     "require-dev": {
-        "anomaly/streams": "dev-master",
+        "anomaly/streams": "dev-master"
     },
     "autoload": {
         "psr-0": {
