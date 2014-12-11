@@ -37,7 +37,7 @@ class Button implements ButtonInterface
 
         $data = evaluate(compact('text', 'type', 'class', 'icon', 'attributes'), $arguments);
 
-        $data['attributes'] = attributes_string($data['attributes']);
+        $data['attributes'] = app('html')->attributes($data['attributes']);
 
         return $data;
     }

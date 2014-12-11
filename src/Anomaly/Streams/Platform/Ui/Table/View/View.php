@@ -38,7 +38,7 @@ class View implements ViewInterface
         $url        = $this->getUrl();
         $active     = $this->isActive();
         $text       = trans($this->getText());
-        $attributes = attributes_string($this->getAttributes());
+        $attributes = app('html')->attributes($this->getAttributes());
 
         return evaluate(compact('active', 'text', 'url', 'attributes'), $arguments);
     }

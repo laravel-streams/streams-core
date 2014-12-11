@@ -33,24 +33,3 @@ function evaluate($value, array $arguments = [])
 
     return $value;
 }
-
-/**
- * Return an array parsed into a string of attributes.
- *
- * @param array $attributes
- * @return string
- */
-function attributes_string(array $attributes)
-{
-    return implode(
-        ' ',
-        array_map(
-            function ($v, $k) {
-
-                return $k . '=' . '"' . trans($v) . '"';
-            },
-            $attributes,
-            array_keys($attributes)
-        )
-    );
-}
