@@ -1,56 +1,42 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Action;
 
+use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Table\Table;
 
-class Action implements ActionInterface
+class Action extends Button implements ActionInterface
 {
-
-    protected $text;
 
     protected $slug;
 
-    protected $icon;
+    protected $active;
 
     protected $prefix;
 
-    protected $active;
-
-    protected $handler;
-
-    protected $attributes;
-
     function __construct(
-        $text,
         $slug,
         $icon = null,
+        $text = null,
+        $class = null,
         $prefix = null,
         $active = false,
-        $handler = null,
+        $type = 'default',
         array $attributes = []
     ) {
-        $this->text       = $text;
-        $this->slug       = $slug;
-        $this->icon       = $icon;
-        $this->prefix     = $prefix;
-        $this->active     = $active;
-        $this->handler    = $handler;
-        $this->attributes = $attributes;
+        $this->slug = $slug;
+        $this->active = $active;
+        $this->prefix = $prefix;
+
+        parent::__construct($type, $text, $class, $icon, $attributes);
     }
+
 
     public function viewData(array $arguments = [])
     {
-        $text = $this->getText();
-        $slug = $this->getSlug();
+        $data = parent::viewData($arguments);
 
-        $text = trans($text);
+        $data['slug'] = $this->getSlug();
 
-        return evaluate(compact('text', 'slug'), $arguments);
-    }
-
-    public function handle(Table $table, array $ids)
-    {
-        //
+        return $data;
     }
 
     public function setActive($active)
@@ -63,42 +49,6 @@ class Action implements ActionInterface
     public function getActive()
     {
         return $this->active;
-    }
-
-    public function setAttributes($attributes)
-    {
-        $this->attributes = $attributes;
-
-        return $this;
-    }
-
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
-
-    public function setHandler($handler)
-    {
-        $this->handler = $handler;
-
-        return $this;
-    }
-
-    public function getHandler()
-    {
-        return $this->handler;
-    }
-
-    public function setIcon($icon)
-    {
-        $this->icon = $icon;
-
-        return $this;
-    }
-
-    public function getIcon()
-    {
-        return $this->icon;
     }
 
     public function setPrefix($prefix)
@@ -123,18 +73,6 @@ class Action implements ActionInterface
     public function getSlug()
     {
         return $this->slug;
-    }
-
-    public function setText($text)
-    {
-        $this->text = $text;
-
-        return $this;
-    }
-
-    public function getText()
-    {
-        return $this->text;
     }
 }
  

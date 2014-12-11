@@ -6,16 +6,11 @@
 
         <div class="pull-left actions dropup">
 
-            <button type="button" class="btn btn-mute btn-sm" data-toggle="dropdown" disabled>
-                More Actions <i class="fa fa-caret-down"></i>
+            {{ actions }}
+            <button type="submit" name="action" value="{{ slug }}" class="btn btn-sm btn-{{ type }}" {{ attributes }}>
+                {{ text }}
             </button>
-            <ul class="dropdown-menu">
-                {{ actions }}
-                <li>
-                    <button type="submit" name="action" value="{{ slug }}">{{ text }}</button>
-                </li>
-                {{ /actions }}
-            </ul>
+            {{ /actions }}
 
         </div>
 
