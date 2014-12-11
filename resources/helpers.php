@@ -35,35 +35,6 @@ function evaluate($value, array $arguments = [])
 }
 
 /**
- * Return the evaluated value of an array key.
- * If no key exists return the default value.
- *
- * @param       $array
- * @param       $key
- * @param null  $default
- * @param array $arguments
- * @return mixed|null
- */
-function evaluate_key($array, $key, $default = null, $arguments = [])
-{
-    return is_array($array) ? evaluate(key_value($array, $key, $default), $arguments) : $default;
-}
-
-/**
- * Return the value of an array.
- * If no key exists return the default value.
- *
- * @param array $array
- * @param       $key
- * @param null  $default
- * @return null
- */
-function key_value(array $array, $key, $default = null)
-{
-    return isset($array[$key]) ? $array[$key] : $default;
-}
-
-/**
  * Determine if a string is translatable.
  *
  * This is helpful for defaulting and
