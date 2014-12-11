@@ -83,10 +83,7 @@ function evaluate($value, array $arguments = [])
  */
 function hashify($value, $algorithm = 'md5')
 {
-    ob_start();
-    var_dump($value);
-
-    return hash($algorithm, ob_get_clean());
+    return hash($algorithm, var_export($value, true));
 }
 
 /**
