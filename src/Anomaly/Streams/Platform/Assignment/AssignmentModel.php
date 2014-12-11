@@ -129,7 +129,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
 
         $label = $assignment->label;
 
-        if (is_translatable($label)) {
+        if (trans($label) !== $label) {
             return trans($label, [], null, $locale);
         }
 
