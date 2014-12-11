@@ -37,6 +37,14 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // TODO: This should be improved as well.
+        if (app('request')->path() !== 'installer' && !file_exists(base_path('config/database.php'))) {
+
+            header('Location: ' . url('installer'));
+
+            exit;
+        }
+
         // TODO: Translatable
         $this->app['config']->set('translatable::locales', ['en', 'es']);
         $this->app['config']->set('translatable::translation_suffix', 'Translation');
