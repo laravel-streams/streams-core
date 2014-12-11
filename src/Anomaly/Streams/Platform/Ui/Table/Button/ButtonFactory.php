@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Button;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+
 class ButtonFactory extends \Anomaly\Streams\Platform\Ui\Button\ButtonFactory
 {
 
@@ -21,16 +23,37 @@ class ButtonFactory extends \Anomaly\Streams\Platform\Ui\Button\ButtonFactory
 
         switch (array_get($parameters, 'button')) {
 
+            /**
+             * If using the view button then suggest
+             * the best practice for the "view" URL.
+             */
             case 'view':
-                $parameters['href'] = $path . '/show/{{ entry.id }}';
+                $parameters['href'] = function (EntryInterface $entry) use ($path) {
+
+                    return url($path . '/show/' . $entry->getId());
+                };
                 break;
 
+            /**
+             * If using the edit button then suggest
+             * the best practice for the "edit" URL.
+             */
             case 'edit':
-                $parameters['href'] = $path . '/edit/{{ entry.id }}';
+                $parameters['href'] = function (EntryInterface $entry) use ($path) {
+
+                    return url($path . '/edit/' . $entry->getId());
+                };
                 break;
 
+            /**
+             * If using the edit button then suggest
+             * the best practice for the "delete" URL.
+             */
             case 'delete':
-                $parameters['href'] = $path . '/delete/{{ entry.id }}';
+                $parameters['href'] = function (EntryInterface $entry) use ($path) {
+
+                    return url($path . '/delete/' . $entry->getId());
+                };
                 break;
         }
     }
