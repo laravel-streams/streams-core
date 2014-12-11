@@ -128,7 +128,7 @@ class Image extends ImageManager
 
         $path = 'assets/' . APP_REF . '/' . $filename;
 
-        if (isset($_GET['_publish']) or !$file->exists($path)) {
+        if (isset($_GET['_publish']) || !$file->exists($path)) {
             $this->publish($path);
         }
 

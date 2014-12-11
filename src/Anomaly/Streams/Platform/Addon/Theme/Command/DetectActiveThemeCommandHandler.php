@@ -7,7 +7,7 @@ class DetectActiveThemeCommandHandler
     {
         if ($distribution = app('streams.distributions')->active()) {
 
-            if (app('request')->segment(1) == 'admin' or app('request')->segment(1) == 'installer') {
+            if (app('request')->segment(1) == 'admin' || app('request')->segment(1) == 'installer') {
 
                 $theme = $distribution->getDefaultAdminTheme();
             } else {

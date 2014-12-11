@@ -56,7 +56,7 @@ class FormBuilder
     {
         $this->build($entry);
 
-        if ($this->form->getResponse() === null or $this->form->getResponse() === false) {
+        if ($this->form->getResponse() === null || $this->form->getResponse() === false) {
 
             $this->execute($this->makeCommand, ['builder' => $this]);
         }
@@ -66,7 +66,7 @@ class FormBuilder
     {
         $this->make($entry);
 
-        if ($this->form->getResponse() === null or $this->form->getResponse() === false) {
+        if ($this->form->getResponse() === null || $this->form->getResponse() === false) {
 
             $content = $this->form->getContent();
 

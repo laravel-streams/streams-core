@@ -13,7 +13,7 @@ class HandleFormActionCommandHandler
 
             $handler = $action->getHandler();
 
-            if (is_string($handler) or $handler instanceof \Closure) {
+            if (is_string($handler) || $handler instanceof \Closure) {
 
                 app()->call($handler, compact('table', 'ids'));
             }

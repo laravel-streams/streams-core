@@ -17,7 +17,7 @@ class LoadFormEntryCommandHandler
             $form->setEntry($entry);
         }
 
-        if (is_numeric($entry) or $entry === null) {
+        if (is_numeric($entry) || $entry === null) {
 
             if ($model instanceof FormModelInterface) {
 
