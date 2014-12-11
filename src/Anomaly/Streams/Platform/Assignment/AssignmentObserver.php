@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreated;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentDeleted;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentSaved;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
 
 /**
@@ -18,9 +19,9 @@ class AssignmentObserver extends EloquentObserver
     /**
      * Run after an assignment is saved.
      *
-     * @param $model
+     * @param EloquentModel $model
      */
-    public function saved($model)
+    public function saved(EloquentModel $model)
     {
         $model->raise(new AssignmentSaved($model));
 
@@ -30,9 +31,9 @@ class AssignmentObserver extends EloquentObserver
     /**
      * Run after an assignment is created.
      *
-     * @param $model
+     * @param EloquentModel $model
      */
-    public function created($model)
+    public function created(EloquentModel $model)
     {
         $model->raise(new AssignmentCreated($model));
 
@@ -42,9 +43,9 @@ class AssignmentObserver extends EloquentObserver
     /**
      * Run after an assignment is deleted.
      *
-     * @param $model
+     * @param EloquentModel $model
      */
-    public function deleted($model)
+    public function deleted(EloquentModel $model)
     {
         $model->raise(new AssignmentDeleted($model));
 

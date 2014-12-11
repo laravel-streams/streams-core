@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
 use Anomaly\Streams\Platform\Stream\Event\StreamCreated;
 use Anomaly\Streams\Platform\Stream\Event\StreamDeleted;
@@ -18,9 +19,9 @@ class StreamObserver extends EloquentObserver
     /**
      * Run after stream a record.
      *
-     * @param $model
+     * @param EloquentModel $model
      */
-    public function saved($model)
+    public function saved(EloquentModel $model)
     {
         $model->raise(new StreamSaved($model));
 
@@ -30,9 +31,9 @@ class StreamObserver extends EloquentObserver
     /**
      * Run after a stream is created.
      *
-     * @param $model
+     * @param EloquentModel $model
      */
-    public function created($model)
+    public function created(EloquentModel $model)
     {
         $model->raise(new StreamCreated($model));
 
@@ -42,9 +43,9 @@ class StreamObserver extends EloquentObserver
     /**
      * Run after a stream has been deleted.
      *
-     * @param $model
+     * @param EloquentModel $model
      */
-    public function deleted($model)
+    public function deleted(EloquentModel $model)
     {
         $model->raise(new StreamDeleted($model));
 
