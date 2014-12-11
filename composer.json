@@ -44,16 +44,6 @@
         "anomaly/streams": "dev-master",
         "benconstable/phpspec-laravel": "dev-fix-laravel-5-compatibility"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:anomalylabs/framework.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:anomalylabs/phpspec-laravel.git"
-        }
-    ],
     "autoload": {
         "psr-0": {
             "Anomaly\\Streams\\Platform": "src/"
