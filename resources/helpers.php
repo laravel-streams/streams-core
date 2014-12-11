@@ -35,22 +35,6 @@ function evaluate($value, array $arguments = [])
 }
 
 /**
- * Determine if a string is translatable.
- *
- * This is helpful for defaulting and
- * cascading translatable strings.
- *
- * @param $string
- * @return bool
- */
-function is_translatable($string)
-{
-    $translated = trans($string);
-
-    return ($string !== $translated);
-}
-
-/**
  * Return an array parsed into a string of attributes.
  *
  * @param array $attributes

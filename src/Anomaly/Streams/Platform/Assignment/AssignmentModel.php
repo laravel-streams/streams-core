@@ -151,7 +151,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
 
         $placeholder = $assignment->placeholder;
 
-        if (is_translatable($placeholder)) {
+        if (trans($placeholder) !== $placeholder) {
             return trans($placeholder, [], null, $locale);
         }
 
@@ -173,7 +173,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
 
         $instructions = $assignment->instructions;
 
-        if (is_translatable($instructions)) {
+        if (trans($instructions) !== $instructions) {
             return trans($instructions, [], null, $locale);
         }
 
