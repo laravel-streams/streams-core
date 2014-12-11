@@ -57,22 +57,20 @@ class Application
     public function locate($domain = null)
     {
         if (\Schema::hasTable('applications')) {
-            if (!$this->reference) {
-                if (!$domain) {
-                    $domain = \Request::root();
-                }
-
-                if ($app = $this->model->findByDomain($domain)) {
-                    $this->installed = true;
-
-                    $this->reference = $app->reference;
-
-                    return true;
-                }
-
-                //throw new \Exception('Could not locate app.');
-                return false;
+            if (!$domain) {
+                $domain = \Request::root();
             }
+
+            if ($app = $this->model->findByDomain($domain)) {
+                $this->installed = true;
+
+                $this->reference = $app->reference;
+
+                return true;
+            }
+
+            //throw new \Exception('Could not locate app.');
+            return false;
         } else {
             //throw new \Exception('Could not locate app.');
             return false;
