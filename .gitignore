@@ -2,5 +2,3 @@ bin
 vendor
 build
 composer.lock
-.DS_Store
-.idea
