@@ -35,7 +35,7 @@ class GenerateEntryTranslationsModelCommandHandler
 
         $data = $this->getTemplateData($stream);
 
-        $template = streams_path('resources/assets/generator/translation.txt');
+        $template = app('streams.path') . '/resources/assets/generator/translation.txt';
 
         $file = $this->getFilePath($stream);
 

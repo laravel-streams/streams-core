@@ -88,32 +88,6 @@ function request_time()
 }
 
 /**
- * Return the HTTP_REFERER or fallback.
- *
- * @return string
- */
-function referer($fallback = null)
-{
-    if (!$fallback) {
-
-        $fallback = url();
-    }
-
-    return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $fallback;
-}
-
-/**
- * Return the streams package path.
- *
- * @param null $path
- * @return string
- */
-function streams_path($path = null)
-{
-    return dirname(__DIR__) . ($path ? '/' . $path : null);
-}
-
-/**
  * Determine if a string is translatable.
  *
  * This is helpful for defaulting and
