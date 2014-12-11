@@ -14,7 +14,7 @@ class HandleFormValidationCommandHandler
 
         if ($validator->fails()) {
 
-            //app('messages')->add('error', $validator->messages()->all());
+            app('session')->flash('error', $validator->messages()->all());
 
             $form->setResponse(false);
         }
