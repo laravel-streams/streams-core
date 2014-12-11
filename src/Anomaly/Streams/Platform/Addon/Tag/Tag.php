@@ -140,8 +140,8 @@ class Tag extends Addon implements PluginInterface
 
             return $this->explode(
                 $value,
-                $itemDelimiter = '|',
-                $valueDelimiter = '='
+                $itemDelimiter,
+                $valueDelimiter
             );
         }
 
