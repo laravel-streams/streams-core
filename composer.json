@@ -37,7 +37,8 @@
         "symfony/yaml": "2.7.*@dev",
         "laracasts/commander": "~1.0",
         "way/generators": "~3.0",
-        "dimsav/laravel-translatable": "dev-master"
+        "dimsav/laravel-translatable": "dev-master",
+        "venturecraft/revisionable": "1.*"
     },
     "require-dev": {
         "anomaly/streams": "dev-master",
