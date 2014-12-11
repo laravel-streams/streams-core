@@ -3,6 +3,8 @@
 class ButtonFactory
 {
 
+    protected $button = 'Anomaly\Streams\Platform\Ui\Button\Button';
+
     protected $buttons = [
         'cancel' => [
             'text' => 'button.cancel',
@@ -30,7 +32,7 @@ class ButtonFactory
             $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
         }
 
-        return app()->make('Anomaly\Streams\Platform\Ui\Button\Button', $parameters);
+        return app()->make($this->button, $parameters);
     }
 }
 
