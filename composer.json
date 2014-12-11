@@ -55,6 +55,7 @@
     "config": {
         "bin-dir": "bin"
     },
+    "license": "MIT",
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"
