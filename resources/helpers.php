@@ -35,18 +35,6 @@ function evaluate($value, array $arguments = [])
 }
 
 /**
- * Return a hash value from anything.
- *
- * @param        $value
- * @param string $algorithm
- * @return string
- */
-function hashify($value, $algorithm = 'md5')
-{
-    return hash($algorithm, var_export($value, true));
-}
-
-/**
  * Return the evaluated value of an array key.
  * If no key exists return the default value.
  *

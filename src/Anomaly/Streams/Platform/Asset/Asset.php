@@ -165,7 +165,7 @@ class Asset
             return ltrim(str_replace(public_path(), '', $group), '/');
         }
 
-        $hash = \hashify([$this->groups[$group], $filters]);
+        $hash = md5(var_export([$this->groups[$group], $filters], true));
 
         $hint = $this->getHint($group);
 
