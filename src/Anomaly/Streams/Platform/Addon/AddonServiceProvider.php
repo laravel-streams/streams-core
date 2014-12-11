@@ -199,7 +199,7 @@ class AddonServiceProvider extends ServiceProvider
     {
         $paths = [];
 
-        $path = base_path('addons/' . APP_REF . '/' . $this->folder);
+        $path = base_path('addons/' . app('streams.application')->getReference() . '/' . $this->folder);
 
         if (is_dir($path)) {
             $paths = app('files')->directories($path);

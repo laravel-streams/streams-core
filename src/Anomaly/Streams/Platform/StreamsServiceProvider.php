@@ -103,7 +103,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         // TODO: Put some of this stuff elsewhere / in a method
         $this->app['streams.path']       = dirname(dirname(dirname(dirname(__DIR__))));
-        $this->app['streams.asset.path'] = public_path('assets/' . APP_REF);
+        $this->app['streams.asset.path'] = public_path('assets/' . app('streams.application')->getReference());
 
         $this->app->register('Anomaly\Streams\Platform\Provider\AssetServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ModelServiceProvider');

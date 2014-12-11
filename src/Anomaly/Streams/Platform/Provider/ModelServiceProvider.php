@@ -11,7 +11,7 @@ class ModelServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $loader = new ClassLoader();
 
-        $loader->addPsr4('Anomaly\Streams\Platform\Model\\', base_path('storage/models/streams/' . APP_REF));
+        $loader->addPsr4('Anomaly\Streams\Platform\Model\\', base_path('storage/models/streams/' . app('streams.application')->getReference()));
 
         $loader->register();
     }

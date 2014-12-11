@@ -14,13 +14,10 @@ class ApplicationServiceProvider extends \Illuminate\Support\ServiceProvider
 
         app('config')->addNamespace('streams', __DIR__ . '/../../../../resources/config');
 
-        if (app('request')->path() !== 'installer' || app('request')->isMethod('post')) {
+        if (app('request')->path() !== 'installer' || file_exists(base_path('config/database.php'))) {
 
             app('streams.application')->locate();
             app('streams.application')->setup();
-        } else {
-
-            define('APP_REF', 'default');
         }
     }
 }

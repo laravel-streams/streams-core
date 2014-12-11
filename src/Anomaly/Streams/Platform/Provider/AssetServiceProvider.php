@@ -52,7 +52,7 @@ class AssetServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     protected function addAssetNamespaceHint()
     {
-        app('streams.asset')->addNamespace('asset', public_path('assets/' . APP_REF));
+        app('streams.asset')->addNamespace('asset', public_path('assets/' . app('streams.application')->getReference()));
     }
 
     /**
