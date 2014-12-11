@@ -10,15 +10,17 @@ class ApplicationServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
-        $request = app('request');
-
         $this->app->instance('streams.application', new Application(new ApplicationModel(), $this->app));
 
         app('config')->addNamespace('streams', __DIR__ . '/../../../../resources/config');
+        
+        if (app('request')->path() !== 'installer') {
 
-        app('streams.application')->locate();
-        app('streams.application')->setup();
+            app('streams.application')->locate();
+            app('streams.application')->setup();
+        } else {
 
-        define('APP_REF', app('streams.application')->getReference());
+            define('APP_REF', 'default');
+        }
     }
 }
