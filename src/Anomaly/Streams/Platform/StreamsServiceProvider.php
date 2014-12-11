@@ -47,10 +47,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerPackageAliases();
         $this->registerPackages();
         $this->registerCore();
-
-        // TODO: Put some of this stuff elsewhere / in a method
-        $this->app['streams.path']       = dirname(dirname(dirname(dirname(__DIR__))));
-        $this->app['streams.asset.path'] = public_path('assets/' . APP_REF);
     }
 
     /**
@@ -96,6 +92,11 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Provider\ExceptionServiceProvider');
 
         $this->app->register('Anomaly\Streams\Platform\Provider\ApplicationServiceProvider');
+
+        // TODO: Put some of this stuff elsewhere / in a method
+        $this->app['streams.path']       = dirname(dirname(dirname(dirname(__DIR__))));
+        $this->app['streams.asset.path'] = public_path('assets/' . APP_REF);
+
         $this->app->register('Anomaly\Streams\Platform\Provider\AssetServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ModelServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ViewServiceProvider');
