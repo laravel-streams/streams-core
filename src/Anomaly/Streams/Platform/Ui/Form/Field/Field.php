@@ -64,6 +64,20 @@ class Field implements FieldInterface
          */
         $field = $slug;
 
+        /**
+         * If the form has been posted then use the
+         * value from the request instead of whatever
+         * was passed into the parameters.
+         */
+        if (app('request')->isMethod('post')) {
+
+            $this->value = $value = app('request')->get($this->form->getPrefix() . $slug);
+        }
+
+        /**
+         * Build a field type just like we would any 'ol time.
+         * Just pass along our provided parameters.
+         */
         $args = compact('field', 'type', 'label', 'value', 'config', 'placeholder', 'instructions');
 
         $this->type = $this->execute('Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand', $args);
