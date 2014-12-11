@@ -233,13 +233,13 @@ class FieldType extends Addon implements PresentableInterface
     }
 
     /**
-     * Add a config option.
+     * Put a config value.
      *
      * @param $key
      * @param $value
      * @return $this
      */
-    public function addConfig($key, $value)
+    public function putConfig($key, $value)
     {
         $this->config[$key] = $value;
 
@@ -247,27 +247,25 @@ class FieldType extends Addon implements PresentableInterface
     }
 
     /**
-     * Get a config option.
+     * Pull a config value.
      *
-     * If a key is not passed - return it all.
-     *
-     * @param null $key
+     * @param      $key
      * @param null $default
+     * @return mixed
+     */
+    public function pullConfig($key, $default = null)
+    {
+        return array_get($this->config, $key, $default);
+    }
+
+    /**
+     * Get config.
+     *
      * @return array|null
      */
-    public function getConfig($key = null, $default = null)
+    public function getConfig()
     {
-        if (!$key) {
-
-            return $this->config;
-        }
-
-        if (isset($this->config[$key])) {
-
-            return $this->config[$key];
-        }
-
-        return $default;
+        return $this->config;
     }
 
     /**
