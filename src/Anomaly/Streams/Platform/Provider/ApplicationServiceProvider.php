@@ -13,8 +13,8 @@ class ApplicationServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->instance('streams.application', new Application(new ApplicationModel(), $this->app));
 
         app('config')->addNamespace('streams', __DIR__ . '/../../../../resources/config');
-        
-        if (app('request')->path() !== 'installer') {
+
+        if (app('request')->path() !== 'installer' || app('request')->isMethod('post')) {
 
             app('streams.application')->locate();
             app('streams.application')->setup();
