@@ -131,7 +131,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
 
         $assignment = $this->translate($locale) ? : $this;
 
-        $label = $assignment->getLabel();
+        $label = $assignment->label;
 
         if (is_translatable($label)) {
 
@@ -154,7 +154,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
 
         $assignment = $this->translate($locale) ? : $this;
 
-        $placeholder = $assignment->getPlaceholder();
+        $placeholder = $assignment->placeholder;
 
         if (is_translatable($placeholder)) {
 
@@ -177,7 +177,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
 
         $assignment = $this->translate($locale) ? : $this;
 
-        $instructions = $assignment->getInstructions();
+        $instructions = $assignment->instructions;
 
         if (is_translatable($instructions)) {
 
