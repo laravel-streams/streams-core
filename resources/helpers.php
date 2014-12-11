@@ -70,14 +70,3 @@ function attributes_string(array $attributes)
         )
     );
 }
-
-/**
- * Get the path to the assets folder.
- *
- * @param  string $path
- * @return string
- */
-function assets_path($path = '')
-{
-    return public_path('assets/' . APP_REF . ($path ? '/' . $path : $path));
-}
