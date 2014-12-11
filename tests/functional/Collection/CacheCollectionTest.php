@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Collection\CacheCollection;
 
 class CacheCollectionTest extends \PHPUnit_Framework_TestCase
 {
+
     protected function stub()
     {
         return new CacheCollection(['foo', 'bar'], 'foo.bar');

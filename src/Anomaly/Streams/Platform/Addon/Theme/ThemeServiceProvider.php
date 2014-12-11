@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\ServiceProvider;
 
 /**
  * Class ThemeServiceProvider

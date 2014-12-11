@@ -2,6 +2,7 @@
 
 class FormUiTest extends \PHPUnit_Framework_TestCase
 {
+
     protected static $form;
 
     public static function setUpBeforeClass()

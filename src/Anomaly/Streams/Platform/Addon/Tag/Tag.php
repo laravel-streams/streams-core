@@ -136,7 +136,9 @@ class Tag extends Addon implements PluginInterface
         $valueDelimiter = '='
     ) {
         // Get the string and explode it.
-        if ($value = $this->getAttribute($name, $default, $offset) and is_string($value)) {
+        $value = $this->getAttribute($name, $default, $offset);
+
+        if (is_string($value)) {
 
             return $this->explode(
                 $value,

@@ -18,7 +18,7 @@ class StandardizeViewInputCommandHandler
              * there are not multiple instances of this
              * input using the same view which is not likely.
              */
-            if (is_numeric($key) and is_string($view)) {
+            if (is_numeric($key) && is_string($view)) {
 
                 $view = [
                     'slug' => $view,
@@ -31,7 +31,7 @@ class StandardizeViewInputCommandHandler
              * string then use the key as the slug and the
              * view as the view.
              */
-            if (!is_numeric($key) and is_string($view)) {
+            if (!is_numeric($key) && is_string($view)) {
 
                 $view = [
                     'slug' => $key,
@@ -44,7 +44,7 @@ class StandardizeViewInputCommandHandler
              * array without a slug then use the key for
              * the slug for the view.
              */
-            if (is_array($view) and !isset($view['slug']) and !is_numeric($key)) {
+            if (is_array($view) && !isset($view['slug']) && !is_numeric($key)) {
 
                 $view['slug'] = $key;
             }

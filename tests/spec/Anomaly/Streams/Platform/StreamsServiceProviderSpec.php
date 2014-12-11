@@ -5,6 +5,7 @@ use Prophecy\Argument;
 
 class StreamsServiceProviderSpec extends LaravelObjectBehavior
 {
+
     function let()
     {
         $this->beConstructedWith(app());
@@ -14,5 +15,4 @@ class StreamsServiceProviderSpec extends LaravelObjectBehavior
     {
         $this->shouldHaveType('Anomaly\Streams\Platform\StreamsServiceProvider');
     }
-
 }

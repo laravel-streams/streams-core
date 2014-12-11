@@ -73,7 +73,7 @@ class BuildFieldTypeCommandHandler
             return $fieldType;
         }
 
-        if (starts_with($fieldType, 'Anomaly') and class_exists($fieldType)) {
+        if (starts_with($fieldType, 'Anomaly') && class_exists($fieldType)) {
 
             return app($command->getType());
         }

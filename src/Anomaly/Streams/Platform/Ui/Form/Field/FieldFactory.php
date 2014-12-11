@@ -5,7 +5,7 @@ class FieldFactory
 
     public function make(array $parameters)
     {
-        if (isset($parameters['field']) and class_exists($parameters['field'])) {
+        if (isset($parameters['field']) && class_exists($parameters['field'])) {
 
             return app()->make($parameters['field'], $parameters);
         }

@@ -5,7 +5,7 @@ class HeaderFactory
 
     public function make(array $parameters)
     {
-        if (isset($parameters['header']) and class_exists($parameters['header'])) {
+        if (isset($parameters['header']) && class_exists($parameters['header'])) {
 
             return app()->make($parameters['header'], $parameters);
         }

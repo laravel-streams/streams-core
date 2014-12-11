@@ -11,7 +11,7 @@ class LoadFormInputCommandHandler
         $form    = $builder->getForm();
         $stream  = $form->getStream();
 
-        if (app('request')->isMethod('post') and $stream instanceof StreamInterface) {
+        if (app('request')->isMethod('post') && $stream instanceof StreamInterface) {
             // Set the input
         }
     }

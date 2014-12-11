@@ -22,7 +22,7 @@ $(document).ready(function () {
     $('[data-action]').on('click', function (e) {
 
         e.preventDefault();
-        
+
         $(this).closest('form').attr('action', $(this).data('action')).submit();
     });
 });

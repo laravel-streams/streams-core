@@ -66,7 +66,7 @@ function evaluate($value, array $arguments = [])
         }
     }
 
-    if (is_string($value) and str_contains($value, '{{')) {
+    if (is_string($value) && str_contains($value, '{{')) {
 
         $value = view()->parse($value, $arguments)->render();
     }

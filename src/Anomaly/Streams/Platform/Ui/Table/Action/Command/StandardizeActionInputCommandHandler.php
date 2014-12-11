@@ -18,7 +18,7 @@ class StandardizeActionInputCommandHandler
              * there are not multiple instances of this
              * input using the same action which is not likely.
              */
-            if (is_numeric($key) and is_string($action)) {
+            if (is_numeric($key) && is_string($action)) {
 
                 $action = [
                     'slug'   => $action,
@@ -31,7 +31,7 @@ class StandardizeActionInputCommandHandler
              * string then use the slug as is and the
              * actions as the action.
              */
-            if (!is_numeric($key) and is_string($action)) {
+            if (!is_numeric($key) && is_string($action)) {
 
                 $action = [
                     'slug'   => $key,
@@ -43,7 +43,7 @@ class StandardizeActionInputCommandHandler
              * If the slug is a string and the action is an
              * array without a slug then add the slug.
              */
-            if (is_array($action) and !isset($action['slug']) and !is_numeric($key)) {
+            if (is_array($action) && !isset($action['slug']) && !is_numeric($key)) {
 
                 $action['slug'] = $key;
             }

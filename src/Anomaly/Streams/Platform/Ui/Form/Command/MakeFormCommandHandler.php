@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormDataLoaded;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Laracasts\Commander\Events\DispatchableTrait;
@@ -70,7 +69,7 @@ class MakeFormCommandHandler
 
         $translatable = false;
 
-        if ($stream = $form->getStream() and $stream instanceof StreamInterface) {
+        if ($stream = $form->getStream()) {
 
             $translatable = $stream->isTranslatable();
         }

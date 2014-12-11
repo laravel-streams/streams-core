@@ -2,6 +2,7 @@
 
 class ThemeAddonTest extends \PHPUnit_Framework_TestCase
 {
+
     protected static $theme;
 
     public static function setUpBeforeClass()

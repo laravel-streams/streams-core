@@ -4,6 +4,7 @@ use Anomaly\Lexicon\Lexicon;
 
 class TagAddonTest extends \PHPUnit_Framework_TestCase
 {
+
     protected static $tag;
 
     public static function setUpBeforeClass()

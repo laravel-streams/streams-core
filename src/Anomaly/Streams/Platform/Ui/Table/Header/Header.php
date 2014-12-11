@@ -19,7 +19,7 @@ class Header implements HeaderInterface
     {
         $text = $this->getText();
 
-        if ($this->stream and is_string($text)) {
+        if ($this->stream && is_string($text)) {
 
             $text = $this->getTextFromField($text);
         }

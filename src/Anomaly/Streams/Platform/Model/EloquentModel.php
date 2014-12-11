@@ -209,7 +209,9 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
             $keys = [$keys];
         }
 
-        if ($cached = app('cache')->get($collectionKey) and is_array($cached)) {
+        $cached = app('cache')->get($collectionKey);
+
+        if (is_array($cached)) {
 
             $keys = array_merge($keys, $cached);
         }

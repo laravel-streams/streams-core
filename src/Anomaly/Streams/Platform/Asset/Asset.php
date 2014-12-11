@@ -342,7 +342,7 @@ class Asset
 
             list ($namespace, $path) = explode('::', $path);
 
-            if (isset($this->namespaces[$namespace]) and $location = $this->namespaces[$namespace]) {
+            if (isset($this->namespaces[$namespace]) && $location = $this->namespaces[$namespace]) {
 
                 $path = $location . '/' . $path;
             }

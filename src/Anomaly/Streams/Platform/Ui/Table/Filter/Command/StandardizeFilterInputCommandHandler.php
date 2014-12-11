@@ -16,7 +16,7 @@ class StandardizeFilterInputCommandHandler
              * a string then assume the filter is a field
              * type and that the filter is the field slug.
              */
-            if (is_numeric($key) and is_string($filter)) {
+            if (is_numeric($key) && is_string($filter)) {
 
                 $filter = [
                     'slug'   => $filter,
@@ -30,7 +30,7 @@ class StandardizeFilterInputCommandHandler
              * string then use the key as the slug and the
              * filter as the filter.
              */
-            if (!is_numeric($key) and is_string($filter)) {
+            if (!is_numeric($key) && is_string($filter)) {
 
                 $filter = [
                     'slug'   => $key,
@@ -43,7 +43,7 @@ class StandardizeFilterInputCommandHandler
              * array without a slug then use the key for
              * the slug for the filter.
              */
-            if (is_array($filter) and !isset($filter['slug']) and !is_numeric($key)) {
+            if (is_array($filter) && !isset($filter['slug']) && !is_numeric($key)) {
 
                 $filter['slug'] = $key;
             }

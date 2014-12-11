@@ -2,6 +2,7 @@
 
 class ModuleAddonTest extends \PHPUnit_Framework_TestCase
 {
+
     protected static $module;
 
     public static function setUpBeforeClass()

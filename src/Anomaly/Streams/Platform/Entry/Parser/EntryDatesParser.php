@@ -46,7 +46,9 @@ class EntryDatesParser
      */
     protected function parseAssignment(AssignmentInterface $assignment, &$string)
     {
-        if ($type = $assignment->getFieldType() and $type instanceof DateFieldTypeInterface) {
+        $type = $assignment->getFieldType();
+
+        if ($type instanceof DateFieldTypeInterface) {
 
             $string .= "\n'{$assignment->getFieldSlug()}',";
         }

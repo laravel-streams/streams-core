@@ -2,5 +2,6 @@
 
 class TestableFieldType extends \Anomaly\Streams\Platform\Addon\FieldType\FieldType
 {
+
 }
  

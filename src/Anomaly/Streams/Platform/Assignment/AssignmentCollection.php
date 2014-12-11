@@ -46,7 +46,9 @@ class AssignmentCollection extends EloquentCollection
 
         foreach ($this->items as $item) {
 
-            if ($type = $item->getFieldType() and $type instanceof RelationFieldTypeInterface) {
+            $type = $item->getFieldType();
+
+            if ($type instanceof RelationFieldTypeInterface) {
 
                 $relations[] = $item;
             }
@@ -66,7 +68,9 @@ class AssignmentCollection extends EloquentCollection
 
         foreach ($this->items as $item) {
 
-            if ($type = $item->getFieldType() and $type instanceof DateFieldTypeInterface) {
+            $type = $item->getFieldType();
+
+            if ($type instanceof DateFieldTypeInterface) {
 
                 $dates[] = $item;
             }

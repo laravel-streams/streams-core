@@ -2,5 +2,6 @@
 
 class TestableDistribution extends \Anomaly\Streams\Platform\Addon\Distribution\Distribution
 {
+
 }
  

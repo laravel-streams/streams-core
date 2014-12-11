@@ -85,7 +85,10 @@ class AddonServiceProvider extends ServiceProvider
             $addon = $this->registerAddonClass($slug, $path);
 
             // TODO: This needs to be fired on an event right away.
-            app('config')->addNamespace(str_replace('streams.', '', $addon->getAbstract()), $addon->getPath('resources/config'));
+            app('config')->addNamespace(
+                str_replace('streams.', '', $addon->getAbstract()),
+                $addon->getPath('resources/config')
+            );
 
             $addon->raise(new Registered($addon));
 

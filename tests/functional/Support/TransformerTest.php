@@ -5,6 +5,7 @@ use Foo\Bar\FooBar;
 
 class TransformerTest extends \PHPUnit_Framework_TestCase
 {
+
     protected static $transformer;
 
     public static function setUpBeforeClass()

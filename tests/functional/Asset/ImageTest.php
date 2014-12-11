@@ -2,6 +2,7 @@
 
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
+
     protected static $image;
 
     public static function setUpBeforeClass()

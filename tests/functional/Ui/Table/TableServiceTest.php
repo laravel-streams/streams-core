@@ -2,6 +2,7 @@
 
 class TableServiceTest extends \PHPUnit_Framework_TestCase
 {
+
     protected static $table;
 
     public static function setUpBeforeClass()

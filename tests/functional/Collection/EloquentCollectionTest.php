@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 class EloquentCollectionTest extends \PHPUnit_Framework_TestCase
 {
+
     protected function stub()
     {
         return new EloquentCollection([new \Anomaly\Streams\Platform\Model\EloquentModel]);

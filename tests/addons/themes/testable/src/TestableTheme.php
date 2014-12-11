@@ -2,5 +2,6 @@
 
 class TestableTheme extends \Anomaly\Streams\Platform\Addon\Theme\Theme
 {
+
 }
  

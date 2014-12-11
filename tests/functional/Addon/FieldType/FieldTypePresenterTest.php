@@ -2,6 +2,7 @@
 
 class FieldTypePresenterTest extends \PHPUnit_Framework_TestCase
 {
+
     protected static $fieldType;
 
     public static function setUpBeforeClass()

@@ -9,7 +9,7 @@ class HandleFormActionCommandHandler
         $form    = $builder->getForm();
         $actions = $form->getActions();
 
-        if ($form->getResponse() === null and $action = $actions->active()) {
+        if ($form->getResponse() === null && $action = $actions->active()) {
 
             $handler = $action->getHandler();
 

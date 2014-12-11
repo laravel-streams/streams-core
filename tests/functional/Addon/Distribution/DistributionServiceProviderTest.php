@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\Theme\ThemeServiceProvider;
 
 class DistributionServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
+
     public static function setUpBeforeClass()
     {
         $provider = new \Anomaly\Streams\Platform\Provider\AddonServiceProvider(app());

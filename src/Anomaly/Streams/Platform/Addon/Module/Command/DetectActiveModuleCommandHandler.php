@@ -2,6 +2,7 @@
 
 class DetectActiveModuleCommandHandler
 {
+
     public function handle(DetectActiveModuleCommand $command)
     {
         // Determine the active module.

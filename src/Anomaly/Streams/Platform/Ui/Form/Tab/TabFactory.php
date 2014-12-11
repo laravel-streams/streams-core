@@ -7,7 +7,7 @@ class TabFactory
 
     public function make(array $parameters)
     {
-        if (isset($parameters['tab']) and class_exists($parameters['tab'])) {
+        if (isset($parameters['tab']) && class_exists($parameters['tab'])) {
 
             return app()->make($parameters['tab'], $parameters);
         }

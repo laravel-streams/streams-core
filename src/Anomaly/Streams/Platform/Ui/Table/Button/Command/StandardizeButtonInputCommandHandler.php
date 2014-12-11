@@ -15,7 +15,7 @@ class StandardizeButtonInputCommandHandler
              * If the key is numeric and the button
              * is a string then the button is the button.
              */
-            if (is_numeric($key) and is_string($button)) {
+            if (is_numeric($key) && is_string($button)) {
 
                 $button = [
                     'button' => $button,
@@ -27,7 +27,7 @@ class StandardizeButtonInputCommandHandler
              * a string then the button becomes the text and
              * the key is the button.
              */
-            if (!is_numeric($key) and is_string($button)) {
+            if (!is_numeric($key) && is_string($button)) {
 
                 $button = [
                     'button' => $key,
@@ -39,7 +39,7 @@ class StandardizeButtonInputCommandHandler
              * If the key is a string and the button is an
              * array without a button then the key is the button.
              */
-            if (is_array($button) and !isset($button['button']) and !is_numeric($key)) {
+            if (is_array($button) && !isset($button['button']) && !is_numeric($key)) {
 
                 $button['button'] = $key;
             }

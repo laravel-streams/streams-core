@@ -11,7 +11,7 @@ class StandardizeHeaderInputCommandHandler
 
         foreach ($builder->getColumns() as $column) {
 
-            if (isset($column['header']) and is_string($column['header'])) {
+            if (isset($column['header']) && is_string($column['header'])) {
 
                 $column['header'] = ['text' => $column['header']];
             }

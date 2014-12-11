@@ -12,7 +12,7 @@ class ViewFactory
 
     public function make(array $parameters)
     {
-        if (isset($parameters['view']) and class_exists($parameters['view'])) {
+        if (isset($parameters['view']) && class_exists($parameters['view'])) {
 
             return app()->make($parameters['view'], $parameters);
         }

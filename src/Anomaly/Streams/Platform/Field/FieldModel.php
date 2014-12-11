@@ -108,7 +108,7 @@ class FieldModel extends EloquentModel implements FieldInterface
 
         $type = $this->execute($command, $data);
 
-        if ($entry and $type instanceof FieldType) {
+        if ($entry && $type instanceof FieldType) {
 
             // TODO: This needs work.. Perhaps a base interface.
             if (!$type instanceof RelationFieldTypeInterface) {

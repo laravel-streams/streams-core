@@ -111,7 +111,7 @@ class Module extends Addon
      */
     public function isEnabled()
     {
-        return $this->enabled and $this->installed;
+        return $this->enabled && $this->installed;
     }
 
     /**

@@ -2,5 +2,6 @@
 
 class TestableBlock extends \Anomaly\Streams\Platform\Addon\Block\Block
 {
+
 }
  

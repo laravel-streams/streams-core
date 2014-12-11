@@ -2,5 +2,6 @@
 
 class NoInstallerModule extends \Anomaly\Streams\Platform\Addon\Module\Module
 {
+
 }
  

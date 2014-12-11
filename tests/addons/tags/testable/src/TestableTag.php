@@ -2,5 +2,6 @@
 
 class TestableTag extends \Anomaly\Streams\Platform\Addon\Tag\Tag
 {
+
 }
  

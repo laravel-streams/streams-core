@@ -44,7 +44,7 @@ class SyncModulesCommandHandler
      * Sync a module.
      *
      * @param \Anomaly\Streams\Platform\Model\EloquentCollection $modules
-     * @param Module             $module
+     * @param Module                                             $module
      */
     protected function sync(EloquentCollection $modules, Module $module)
     {

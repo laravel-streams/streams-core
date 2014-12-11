@@ -2,4 +2,5 @@
 
 class TestableModuleTestExtensionExtension extends \Anomaly\Streams\Platform\Addon\Extension\Extension
 {
+
 }

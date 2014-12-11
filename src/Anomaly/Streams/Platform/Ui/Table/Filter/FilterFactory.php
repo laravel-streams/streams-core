@@ -19,7 +19,7 @@ class FilterFactory
 
     public function make(array $parameters)
     {
-        if (isset($parameters['filter']) and class_exists($parameters['filter'])) {
+        if (isset($parameters['filter']) && class_exists($parameters['filter'])) {
 
             return app()->make($parameters['filter'], $parameters);
         }

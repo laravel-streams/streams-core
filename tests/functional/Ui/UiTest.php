@@ -2,6 +2,7 @@
 
 class UiTest extends \PHPUnit_Framework_TestCase
 {
+
     protected static $ui;
 
     public static function setUpBeforeClass()

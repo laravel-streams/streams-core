@@ -38,7 +38,7 @@ class Column implements ColumnInterface
         $value = $this->getValue();
         $class = $this->getClass();
 
-        if ($this->getStream() and is_string($value)) {
+        if ($this->getStream() && is_string($value)) {
 
             $value = $this->getValueFromField($value);
         }

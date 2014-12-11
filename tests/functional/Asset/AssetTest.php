@@ -2,6 +2,7 @@
 
 class AssetTest extends \PHPUnit_Framework_TestCase
 {
+
     protected static $asset;
 
     public static function setUpBeforeClass()

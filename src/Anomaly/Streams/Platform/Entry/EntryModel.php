@@ -170,7 +170,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
          * If we have a field type for this key use
          * it's setAttribute method to set the value.
          */
-        if ($mutate and $field = $this->getField($key)) {
+        if ($mutate && $field = $this->getField($key)) {
 
             $type = $field->getType();
 
@@ -205,7 +205,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
          * If we have a field type for this key use
          * it's unmutate method to modify the value.
          */
-        if ($mutate and $type = $this->getFieldType($key)) {
+        if ($mutate && $type = $this->getFieldType($key)) {
 
             return $type->unmutate($value);
         }
@@ -340,7 +340,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $page   = app('request')->get('page', 1);
         $offset = $limit * ($page - 1);
 
-        if ($total < $offset and $page > 1) {
+        if ($total < $offset && $page > 1) {
 
             $url = str_replace('page=' . $page, 'page=' . ($page - 1), app('request')->fullUrl());
 

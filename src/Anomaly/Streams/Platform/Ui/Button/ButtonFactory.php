@@ -22,7 +22,7 @@ class ButtonFactory
 
     public function make(array $parameters)
     {
-        if (isset($parameters['button']) and class_exists($parameters['button'])) {
+        if (isset($parameters['button']) && class_exists($parameters['button'])) {
 
             return app()->make($parameters['button'], $parameters);
         }

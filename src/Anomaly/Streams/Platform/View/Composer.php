@@ -46,7 +46,7 @@ class Composer
 
             $mobilePath = str_replace('theme::', 'theme::mobile/', $view->getName());
 
-            if (app('agent')->isMobile() and $mobilePath and $environment->exists($mobilePath)) {
+            if (app('agent')->isMobile() && $mobilePath && $environment->exists($mobilePath)) {
 
                 $view->setPath($environment->getFinder()->find($mobilePath));
             }
@@ -115,12 +115,12 @@ class Composer
         $path       = "theme::overload/{$path}";
         $mobilePath = "theme::overload/{$mobilePath}";
 
-        if ($path and $environment->exists($path)) {
+        if ($path && $environment->exists($path)) {
 
             $view->setPath($environment->getFinder()->find($path));
         }
 
-        if (app('agent')->isMobile() and $mobilePath and $environment->exists($mobilePath)) {
+        if (app('agent')->isMobile() && $mobilePath && $environment->exists($mobilePath)) {
 
             $view->setPath($environment->getFinder()->find($mobilePath));
         }

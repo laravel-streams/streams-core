@@ -4,5 +4,6 @@ use Anomaly\Streams\Platform\Support\Installer;
 
 class FooBarInstaller extends Installer
 {
+
 }
  
