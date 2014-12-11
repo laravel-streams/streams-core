@@ -112,7 +112,13 @@ class StreamsServiceProvider extends ServiceProvider
 
             foreach ($directories as $directory) {
 
-                chmod(base_path($directory), 0777);
+                if (!is_dir($directory)) {
+
+                    mkdir($directory, 0777, true);
+                } else {
+
+                    chmod(base_path($directory), 0777);
+                }
             }
         }
     }
