@@ -18,7 +18,6 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class AddonServiceProvider extends ServiceProvider
 {
-
     use EventGenerator;
     use DispatchableTrait;
 
@@ -74,7 +73,6 @@ class AddonServiceProvider extends ServiceProvider
         );
 
         foreach ($this->getAddonPaths() as $path) {
-
             $slug = basename($path);
 
             // We have to register the PSR src folder
@@ -204,7 +202,6 @@ class AddonServiceProvider extends ServiceProvider
         $path = base_path('addons/' . APP_REF . '/' . $this->folder);
 
         if (is_dir($path)) {
-
             $paths = app('files')->directories($path);
         }
 

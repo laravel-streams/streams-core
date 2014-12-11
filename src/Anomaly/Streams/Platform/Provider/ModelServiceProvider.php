@@ -4,7 +4,6 @@ use Composer\Autoload\ClassLoader;
 
 class ModelServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-
     /**
      * Register the service provider.
      */

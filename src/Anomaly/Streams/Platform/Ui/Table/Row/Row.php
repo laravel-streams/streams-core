@@ -9,14 +9,13 @@ use Anomaly\Streams\Platform\Ui\Table\Row\Contract\RowInterface;
 
 class Row implements RowInterface
 {
-
     protected $entry;
 
     protected $columns;
 
     protected $buttons;
 
-    function __construct($entry, ButtonCollection $buttons, ColumnCollection $columns)
+    public function __construct($entry, ButtonCollection $buttons, ColumnCollection $columns)
     {
         $this->entry   = $entry;
         $this->buttons = $buttons;
@@ -30,22 +29,17 @@ class Row implements RowInterface
         $columns = [];
 
         if ($this->entry instanceof ArrayableInterface) {
-
             $entry = $this->entry->toArray();
         }
 
         foreach ($this->buttons as $button) {
-
             if ($button instanceof ButtonInterface) {
-
                 $buttons[] = $button->viewData(['entry' => $this->entry]);
             }
         }
 
         foreach ($this->columns as $column) {
-
             if ($column instanceof ColumnInterface) {
-
                 $column->setEntry($this->entry);
 
                 $columns[] = $column->viewData(['entry' => $this->entry]);
@@ -55,4 +49,3 @@ class Row implements RowInterface
         return compact('buttons', 'columns', 'entry');
     }
 }
- 

@@ -2,11 +2,9 @@
 
 class DetectActiveDistributionCommandHandler
 {
-
     public function handle(DetectActiveDistributionCommand $command)
     {
         if ($distribution = app('streams.distributions')->active()) {
-
             // Setup namespace hints for a short namespace.
             app('view')->addNamespace('distribution', $distribution->getPath('resources/views'));
             app('streams.asset')->addNamespace('distribution', $distribution->getPath('resources'));
@@ -15,4 +13,3 @@ class DetectActiveDistributionCommandHandler
         }
     }
 }
- 

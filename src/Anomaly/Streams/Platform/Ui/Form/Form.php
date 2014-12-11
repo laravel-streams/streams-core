@@ -8,7 +8,6 @@ use Laracasts\Commander\Events\EventGenerator;
 
 class Form
 {
-
     use EventGenerator;
     use DispatchableTrait;
 
@@ -42,7 +41,7 @@ class Form
 
     protected $buttons;
 
-    function __construct(SectionCollection $sections, ActionCollection $actions, ButtonCollection $buttons)
+    public function __construct(SectionCollection $sections, ActionCollection $actions, ButtonCollection $buttons)
     {
         $this->actions  = $actions;
         $this->buttons  = $buttons;
@@ -251,4 +250,3 @@ class Form
         return $this->sections;
     }
 }
- 

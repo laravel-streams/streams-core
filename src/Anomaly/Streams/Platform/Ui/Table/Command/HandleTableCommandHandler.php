@@ -4,7 +4,6 @@ use Laracasts\Commander\CommanderTrait;
 
 class HandleTableCommandHandler
 {
-
     use CommanderTrait;
 
     public function handle(HandleTableCommand $command)
@@ -17,4 +16,3 @@ class HandleTableCommandHandler
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Action\Command\HandleTableSortingCommand', $args);
     }
 }
- 

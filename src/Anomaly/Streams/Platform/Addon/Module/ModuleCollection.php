@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class ModuleCollection extends AddonCollection
 {
-
     /**
      * Return the active module.
      *
@@ -21,9 +20,7 @@ class ModuleCollection extends AddonCollection
     public function active()
     {
         foreach ($this->items as $item) {
-
             if ($item->isActive()) {
-
                 return $item;
             }
         }
@@ -41,9 +38,7 @@ class ModuleCollection extends AddonCollection
         $installed = [];
 
         foreach ($this->items as $item) {
-
             if ($item->isInstalled()) {
-
                 $installed[] = $item;
             }
         }
@@ -61,9 +56,7 @@ class ModuleCollection extends AddonCollection
         $enabled = [];
 
         foreach ($this->items as $item) {
-
             if ($item->isEnabled()) {
-
                 $enabled[] = $item;
             }
         }
@@ -80,12 +73,10 @@ class ModuleCollection extends AddonCollection
     public function isInstalled($slug)
     {
         if (!isset($this->items[$slug])) {
-
             return false;
         }
 
         if (!$this->items[$slug]->isInstalled()) {
-
             return false;
         }
 
@@ -100,9 +91,7 @@ class ModuleCollection extends AddonCollection
     public function setStates(array $states)
     {
         foreach ($states as $state) {
-
             if (isset($this->items[$state->slug]) && $module = $this->items[$state->slug]) {
-
                 $module->setEnabled($state->is_enabled);
                 $module->setInstalled($state->is_installed);
 

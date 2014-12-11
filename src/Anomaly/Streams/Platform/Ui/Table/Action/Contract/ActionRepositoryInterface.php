@@ -2,7 +2,5 @@
 
 interface ActionRepositoryInterface
 {
-
     public function find($action);
 }
- 

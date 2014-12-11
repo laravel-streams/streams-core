@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
  */
 class ModuleRepository implements ModuleRepositoryInterface
 {
-
     /**
      * The module model.
      *
@@ -25,7 +24,7 @@ class ModuleRepository implements ModuleRepositoryInterface
      *
      * @param ModuleModel $model
      */
-    function __construct(ModuleModel $model)
+    public function __construct(ModuleModel $model)
     {
         $this->model = $model;
     }
@@ -72,4 +71,3 @@ class ModuleRepository implements ModuleRepositoryInterface
         $module->save();
     }
 }
- 

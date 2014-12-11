@@ -4,6 +4,4 @@ use Laracasts\Commander\Events\EventListener;
 
 class FormListener extends EventListener
 {
-
 }
- 

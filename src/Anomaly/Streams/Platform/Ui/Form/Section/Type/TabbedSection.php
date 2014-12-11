@@ -5,10 +5,9 @@ use Anomaly\Streams\Platform\Ui\Form\Tab\TabCollection;
 
 class TabbedSection implements TabbedSectionInterface
 {
-
     protected $tabs;
 
-    function __construct(TabCollection $tabs)
+    public function __construct(TabCollection $tabs)
     {
         $this->tabs = $tabs;
     }
@@ -32,4 +31,3 @@ class TabbedSection implements TabbedSectionInterface
         return $this->tabs;
     }
 }
- 

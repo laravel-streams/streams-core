@@ -13,7 +13,6 @@ use Anomaly\Streams\Platform\Model\EloquentPresenter;
  */
 class EntryPresenter extends EloquentPresenter
 {
-
     /**
      * The decorated resource.
      *
@@ -30,7 +29,6 @@ class EntryPresenter extends EloquentPresenter
     public function __get($key)
     {
         if ($type = $this->resource->getFieldType($key)) {
-
             return $type->newPresenter();
         }
 

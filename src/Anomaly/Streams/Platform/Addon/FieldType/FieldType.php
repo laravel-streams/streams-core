@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class FieldType extends Addon implements PresentableInterface
 {
-
     /**
      * Validation rules.
      *
@@ -427,7 +426,6 @@ class FieldType extends Addon implements PresentableInterface
     private function getLocale()
     {
         if (!$this->locale) {
-
             $this->locale = config('app.locale', 'en');
         }
 
@@ -478,7 +476,6 @@ class FieldType extends Addon implements PresentableInterface
     public function getPrefix()
     {
         if ($this->prefix) {
-
             return $this->prefix . (ends_with($this->prefix, '_') ? null : '_');
         }
 
@@ -506,7 +503,6 @@ class FieldType extends Addon implements PresentableInterface
     public function getSuffix()
     {
         if ($this->suffix) {
-
             return (starts_with($this->suffix, '_') ? null : '_') . $this->suffix;
         }
 
@@ -770,7 +766,6 @@ class FieldType extends Addon implements PresentableInterface
         $presenter = get_class($this) . 'Presenter';
 
         if (!class_exists($presenter)) {
-
             $presenter = '\Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter';
         }
 

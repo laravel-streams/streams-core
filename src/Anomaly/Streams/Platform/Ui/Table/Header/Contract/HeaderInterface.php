@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 interface HeaderInterface
 {
-
     public function viewData(array $arguments = []);
 
     public function setStream(StreamInterface $stream);
@@ -13,4 +12,3 @@ interface HeaderInterface
 
     public function getText();
 }
- 

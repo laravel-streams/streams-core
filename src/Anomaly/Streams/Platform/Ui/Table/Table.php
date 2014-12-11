@@ -13,7 +13,6 @@ use Laracasts\Commander\Events\EventGenerator;
 
 class Table
 {
-
     use EventGenerator;
     use DispatchableTrait;
 
@@ -59,7 +58,7 @@ class Table
 
     protected $headers;
 
-    function __construct(
+    public function __construct(
         Collection $entries,
         RowCollection $rows,
         ViewCollection $views,
@@ -221,7 +220,6 @@ class Table
     public function getLimit()
     {
         if (!$this->limit) {
-
             return 15;
         }
 
@@ -299,4 +297,3 @@ class Table
         return $this->rows;
     }
 }
- 

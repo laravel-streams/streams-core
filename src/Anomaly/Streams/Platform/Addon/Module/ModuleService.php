@@ -12,7 +12,6 @@ use Laracasts\Commander\CommanderTrait;
  */
 class ModuleService
 {
-
     use CommanderTrait;
 
     /**

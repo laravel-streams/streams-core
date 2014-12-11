@@ -8,12 +8,11 @@ use Illuminate\Database\Eloquent\Builder;
 
 class FieldFilter extends Filter implements FieldFilterInterface
 {
-
     protected $field;
 
     protected $stream;
 
-    function __construct(
+    public function __construct(
         $slug,
         $field,
         $prefix = null,
@@ -65,4 +64,3 @@ class FieldFilter extends Filter implements FieldFilterInterface
         return $this->stream;
     }
 }
- 

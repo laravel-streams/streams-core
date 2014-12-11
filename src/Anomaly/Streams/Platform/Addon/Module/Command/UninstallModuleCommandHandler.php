@@ -16,7 +16,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class UninstallModuleCommandHandler
 {
-
     use DispatchableTrait;
 
     /**
@@ -30,7 +29,6 @@ class UninstallModuleCommandHandler
         $module = $command->getModule();
 
         if ($installer = $module->newInstaller()) {
-
             $this->runInstallers($module, $installer);
         }
 
@@ -50,7 +48,6 @@ class UninstallModuleCommandHandler
     protected function runInstallers(Module $module, ModuleInstaller $installer)
     {
         foreach ($installer->getInstallers() as $installer) {
-
             $installer = $this->resolveInstaller($module, $installer);
 
             $this->runInstaller($installer);
@@ -77,7 +74,6 @@ class UninstallModuleCommandHandler
     protected function resolveInstaller(Module $module, $installer)
     {
         if (!str_contains($installer, '\\')) {
-
             $installer = $this->guessInstaller($module, $installer);
         }
 
@@ -98,4 +94,3 @@ class UninstallModuleCommandHandler
         return $addon->getNamespaceName() . '\Installer\\' . $installer;
     }
 }
- 

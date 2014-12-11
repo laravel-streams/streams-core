@@ -2,7 +2,6 @@
 
 class HandleTableActionCommandHandler
 {
-
     public function handle(HandleTableActionCommand $command)
     {
         $builder = $command->getBuilder();
@@ -10,18 +9,15 @@ class HandleTableActionCommandHandler
         $actions = $table->getActions();
 
         if ($action = $actions->active()) {
-
             $ids = app('request')->get($table->getPrefix() . 'id');
 
             $handler = $action->getHandler();
 
             if (is_string($handler) || $handler instanceof \Closure) {
-
                 app()->call($handler, compact('table', 'ids'));
             }
 
             if ($handler === null) {
-
                 $action->handle($table, $ids);
             }
 
@@ -29,4 +25,3 @@ class HandleTableActionCommandHandler
         }
     }
 }
- 

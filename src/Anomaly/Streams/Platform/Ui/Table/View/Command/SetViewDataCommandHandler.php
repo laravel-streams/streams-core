@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewInterface;
 
 class SetViewDataCommandHandler
 {
-
     public function handle(SetViewDataCommand $command)
     {
         $builder = $command->getBuilder();
@@ -13,9 +12,7 @@ class SetViewDataCommandHandler
         $views = [];
 
         foreach ($table->getViews() as $view) {
-
             if ($view instanceof ViewInterface) {
-
                 $views[] = $view->viewData();
             }
         }
@@ -23,4 +20,3 @@ class SetViewDataCommandHandler
         $table->putData('views', $views);
     }
 }
- 

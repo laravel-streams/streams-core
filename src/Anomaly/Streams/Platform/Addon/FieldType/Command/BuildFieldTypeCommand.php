@@ -10,7 +10,6 @@
  */
 class BuildFieldTypeCommand
 {
-
     /**
      * The field type to build.
      *
@@ -143,7 +142,7 @@ class BuildFieldTypeCommand
      * @param null  $translatable
      * @param array $config
      */
-    function __construct(
+    public function __construct(
         $type,
         $field,
         $value = null,
@@ -340,4 +339,3 @@ class BuildFieldTypeCommand
         return $this->wrapperView;
     }
 }
- 

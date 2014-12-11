@@ -12,6 +12,4 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class BlockCollection extends AddonCollection
 {
-
 }
- 

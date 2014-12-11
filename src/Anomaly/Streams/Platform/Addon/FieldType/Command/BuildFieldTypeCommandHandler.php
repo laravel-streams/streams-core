@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
  */
 class BuildFieldTypeCommandHandler
 {
-
     /**
      * Handle the command.
      *
@@ -24,7 +23,6 @@ class BuildFieldTypeCommandHandler
         $fieldType = $this->getFieldType($command);
 
         if ($fieldType instanceof FieldType) {
-
             $fieldType
                 ->setField($command->getField())
                 ->setValue($command->getValue())
@@ -40,17 +38,14 @@ class BuildFieldTypeCommandHandler
                 ->setInstructions($command->getInstructions());
 
             if ($inputView = $command->getInputView()) {
-
                 $fieldType->setInputView($inputView);
             }
 
             if ($filterView = $command->getFilterView()) {
-
                 $fieldType->setFilterView($filterView);
             }
 
             if ($wrapperView = $command->getWrapperView()) {
-
                 $fieldType->setWrapperView($wrapperView);
             }
         }
@@ -69,16 +64,13 @@ class BuildFieldTypeCommandHandler
         $fieldType = $command->getType();
 
         if ($fieldType instanceof FieldType) {
-
             return $fieldType;
         }
 
         if (starts_with($fieldType, 'Anomaly') && class_exists($fieldType)) {
-
             return app($command->getType());
         }
 
         return app('streams.field_types')->findBySlug($fieldType)->newInstance();
     }
 }
- 

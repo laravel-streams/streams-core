@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryNamespaceParser
 {
-
     /**
      * Return the entry model base namespace.
      *
@@ -24,4 +23,3 @@ class EntryNamespaceParser
         return studly_case($stream->getNamespace());
     }
 }
- 

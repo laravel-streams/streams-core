@@ -10,7 +10,6 @@
  */
 class CreateFieldCommand
 {
-
     /**
      * The fields namespace.
      *
@@ -71,7 +70,7 @@ class CreateFieldCommand
      * @param array $rules
      * @param bool  $isLocked
      */
-    function __construct(
+    public function __construct(
         $namespace,
         $slug,
         $type,
@@ -159,4 +158,3 @@ class CreateFieldCommand
         return $this->isLocked;
     }
 }
- 

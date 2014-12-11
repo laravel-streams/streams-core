@@ -4,15 +4,12 @@ use Illuminate\Support\Collection;
 
 class FilterCollection extends Collection
 {
-
     public function active()
     {
         $active = [];
 
         foreach ($this->items as $item) {
-
             if ($item->isActive()) {
-
                 $active[] = $item;
             }
         }
@@ -20,4 +17,3 @@ class FilterCollection extends Collection
         return self::make($active);
     }
 }
- 

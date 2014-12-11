@@ -2,11 +2,9 @@
 
 interface TabInterface
 {
-
     public function viewData(array $arguments = []);
 
     public function setText($text);
 
     public function getText();
 }
- 

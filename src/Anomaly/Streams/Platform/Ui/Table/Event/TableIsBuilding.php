@@ -4,10 +4,9 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 class TableIsBuilding
 {
-
     protected $builder;
 
-    function __construct(TableBuilder $builder)
+    public function __construct(TableBuilder $builder)
     {
         $this->builder = $builder;
     }
@@ -17,4 +16,3 @@ class TableIsBuilding
         return $this->builder;
     }
 }
- 

@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
 
 interface ActionInterface
 {
-
     public function handle(Form $form);
 
     public function viewData(array $arguments = []);
@@ -25,4 +24,3 @@ interface ActionInterface
 
     public function getSlug();
 }
- 

@@ -6,7 +6,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
 
 class MakeTableCommandHandler
 {
-
     use CommanderTrait;
     use DispatchableTrait;
 
@@ -33,4 +32,3 @@ class MakeTableCommandHandler
         $table->setContent(view($table->getView(), $table->getData()));
     }
 }
- 

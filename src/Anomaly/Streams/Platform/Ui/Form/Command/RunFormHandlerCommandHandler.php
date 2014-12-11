@@ -2,7 +2,6 @@
 
 class RunFormHandlerCommandHandler
 {
-
     public function handle(RunFormHandlerCommand $command)
     {
         $builder = $command->getBuilder();
@@ -10,12 +9,9 @@ class RunFormHandlerCommandHandler
         $form    = $builder->getForm();
 
         if ($form->getResponse() === null) {
-
             if (is_string($handler) || $handler instanceof \Closure) {
-
                 app()->call($handler, compact('builder'));
             }
         }
     }
 }
- 

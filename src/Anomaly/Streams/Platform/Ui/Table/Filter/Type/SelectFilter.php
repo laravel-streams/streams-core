@@ -5,10 +5,9 @@ use Anomaly\Streams\Platform\Ui\Table\Filter\Filter;
 
 class SelectFilter extends Filter implements SelectFilterInterface
 {
-
     protected $options;
 
-    function __construct($slug, array $options, $prefix = null, $active = false, $handler = null, $placeholder = null)
+    public function __construct($slug, array $options, $prefix = null, $active = false, $handler = null, $placeholder = null)
     {
         $this->options = $options;
 
@@ -38,4 +37,3 @@ class SelectFilter extends Filter implements SelectFilterInterface
         return app('form')->select($this->getName(), $list, $this->getValue(), $options);
     }
 }
- 

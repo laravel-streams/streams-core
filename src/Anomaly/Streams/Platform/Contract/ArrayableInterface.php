@@ -10,7 +10,6 @@
  */
 interface ArrayableInterface
 {
-
     /**
      * Get the instance as an array.
      *

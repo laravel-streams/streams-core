@@ -10,7 +10,6 @@
  */
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-
     /**
      * Register the service provider.
      *
@@ -123,4 +122,3 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         );
     }
 }
- 

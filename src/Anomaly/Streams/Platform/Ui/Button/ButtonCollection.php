@@ -4,6 +4,4 @@ use Illuminate\Support\Collection;
 
 class ButtonCollection extends Collection
 {
-
 }
- 

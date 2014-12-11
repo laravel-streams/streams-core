@@ -13,7 +13,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 interface AssignmentRepositoryInterface
 {
-
     /**
      * Create a new assignment.
      *
@@ -54,4 +53,3 @@ interface AssignmentRepositoryInterface
      */
     public function deleteGarbage();
 }
- 

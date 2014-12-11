@@ -23,10 +23,9 @@ use Way\Generators\Generator;
  */
 class GenerateEntryModelCommandHandler
 {
-
     protected $generator;
 
-    function __construct(Generator $generator)
+    public function __construct(Generator $generator)
     {
         $this->generator = $generator;
     }
@@ -83,4 +82,3 @@ class GenerateEntryModelCommandHandler
         ];
     }
 }
- 

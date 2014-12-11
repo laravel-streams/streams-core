@@ -2,9 +2,7 @@
 
 class DetectActiveDistributionCommand
 {
-
     public function __construct()
     {
     }
 }
- 

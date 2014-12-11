@@ -13,7 +13,6 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
  */
 interface FieldInterface
 {
-
     /**
      * Get the ID.
      *
@@ -87,4 +86,3 @@ interface FieldInterface
      */
     public function getAttribute($key);
 }
- 

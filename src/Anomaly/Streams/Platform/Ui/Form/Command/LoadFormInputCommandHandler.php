@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 class LoadFormInputCommandHandler
 {
-
     public function handle(LoadFormInputCommand $command)
     {
         $builder = $command->getBuilder();
@@ -16,4 +15,3 @@ class LoadFormInputCommandHandler
         }
     }
 }
- 

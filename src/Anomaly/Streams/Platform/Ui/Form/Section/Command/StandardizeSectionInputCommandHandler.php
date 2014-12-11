@@ -2,7 +2,6 @@
 
 class StandardizeSectionInputCommandHandler
 {
-
     public function handle(StandardizeSectionInputCommand $command)
     {
         $builder = $command->getBuilder();
@@ -10,9 +9,7 @@ class StandardizeSectionInputCommandHandler
         $sections = [];
 
         foreach ($builder->getSections() as $key => $section) {
-
             if (isset($section['fields'])) {
-
                 $section['section'] = 'fields';
             }
 
@@ -22,4 +19,3 @@ class StandardizeSectionInputCommandHandler
         $builder->setSections($sections);
     }
 }
- 

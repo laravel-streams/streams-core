@@ -4,10 +4,9 @@ use Anomaly\Streams\Platform\Ui\Table\Action\ActionFactory;
 
 class LoadTableActionsCommandHandler
 {
-
     protected $factory;
 
-    function __construct(ActionFactory $factory)
+    public function __construct(ActionFactory $factory)
     {
         $this->factory = $factory;
     }
@@ -19,7 +18,6 @@ class LoadTableActionsCommandHandler
         $actions = $table->getActions();
 
         foreach ($builder->getActions() as $parameters) {
-
             $action = $this->factory->make($parameters);
 
             $action->setPrefix($table->getPrefix());
@@ -29,4 +27,3 @@ class LoadTableActionsCommandHandler
         }
     }
 }
- 

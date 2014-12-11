@@ -13,12 +13,11 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class CreateFieldCommandHandler
 {
-
     use DispatchableTrait;
 
     protected $fields;
 
-    function __construct(FieldRepositoryInterface $fields)
+    public function __construct(FieldRepositoryInterface $fields)
     {
         $this->fields = $fields;
     }
@@ -42,4 +41,3 @@ class CreateFieldCommandHandler
         );
     }
 }
- 

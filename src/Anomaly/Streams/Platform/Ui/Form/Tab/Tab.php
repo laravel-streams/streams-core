@@ -4,10 +4,9 @@ use Anomaly\Streams\Platform\Ui\Form\Tab\Contract\TabInterface;
 
 class Tab implements TabInterface
 {
-
     protected $text;
 
-    function __construct($text)
+    public function __construct($text)
     {
         $this->text = $text;
     }
@@ -31,4 +30,3 @@ class Tab implements TabInterface
         return $this->text;
     }
 }
- 

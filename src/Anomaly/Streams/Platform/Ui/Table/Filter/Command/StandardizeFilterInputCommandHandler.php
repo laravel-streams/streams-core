@@ -2,7 +2,6 @@
 
 class StandardizeFilterInputCommandHandler
 {
-
     public function handle(StandardizeFilterInputCommand $command)
     {
         $builder = $command->getBuilder();
@@ -10,14 +9,12 @@ class StandardizeFilterInputCommandHandler
         $filters = [];
 
         foreach ($builder->getFilters() as $key => $filter) {
-
             /**
              * If the key is numeric and the filter is
              * a string then assume the filter is a field
              * type and that the filter is the field slug.
              */
             if (is_numeric($key) && is_string($filter)) {
-
                 $filter = [
                     'slug'   => $filter,
                     'field'  => $filter,
@@ -31,7 +28,6 @@ class StandardizeFilterInputCommandHandler
              * filter as the filter.
              */
             if (!is_numeric($key) && is_string($filter)) {
-
                 $filter = [
                     'slug'   => $key,
                     'filter' => $filter,
@@ -44,7 +40,6 @@ class StandardizeFilterInputCommandHandler
              * the slug for the filter.
              */
             if (is_array($filter) && !isset($filter['slug']) && !is_numeric($key)) {
-
                 $filter['slug'] = $key;
             }
 
@@ -54,4 +49,3 @@ class StandardizeFilterInputCommandHandler
         $builder->setFilters($filters);
     }
 }
- 

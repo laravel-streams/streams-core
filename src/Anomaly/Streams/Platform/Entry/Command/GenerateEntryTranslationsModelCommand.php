@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class GenerateEntryTranslationsModelCommand
 {
-
     /**
      * The stream interface.
      *
@@ -25,7 +24,7 @@ class GenerateEntryTranslationsModelCommand
      *
      * @param StreamInterface $stream
      */
-    function __construct(StreamInterface $stream)
+    public function __construct(StreamInterface $stream)
     {
         $this->stream = $stream;
     }
@@ -40,4 +39,3 @@ class GenerateEntryTranslationsModelCommand
         return $this->stream;
     }
 }
- 

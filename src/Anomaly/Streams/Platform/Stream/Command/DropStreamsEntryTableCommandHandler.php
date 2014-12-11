@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Stream\StreamSchema;
  */
 class DropStreamsEntryTableCommandHandler
 {
-
     /**
      * Handle the command.
      *
@@ -28,11 +27,9 @@ class DropStreamsEntryTableCommandHandler
         $schema->dropTable($table);
 
         if ($stream->isTranslatable()) {
-
             $table = $stream->getEntryTranslationsTableName();
 
             $schema->dropTable($table);
         }
     }
 }
- 

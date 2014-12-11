@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
  */
 class AssignmentDeleted
 {
-
     /**
      * The assignment interface.
      *
@@ -25,7 +24,7 @@ class AssignmentDeleted
      *
      * @param AssignmentInterface $assignment
      */
-    function __construct(AssignmentInterface $assignment)
+    public function __construct(AssignmentInterface $assignment)
     {
         $this->assignment = $assignment;
     }
@@ -40,4 +39,3 @@ class AssignmentDeleted
         return $this->assignment;
     }
 }
- 

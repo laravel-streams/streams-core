@@ -17,7 +17,6 @@ use Dimsav\Translatable\Translatable;
  */
 class FieldModel extends EloquentModel implements FieldInterface
 {
-
     use Translatable;
 
     /**
@@ -109,10 +108,8 @@ class FieldModel extends EloquentModel implements FieldInterface
         $type = $this->execute($command, $data);
 
         if ($entry && $type instanceof FieldType) {
-
             // TODO: This needs work.. Perhaps a base interface.
             if (!$type instanceof RelationFieldTypeInterface) {
-
                 $type->setValue($entry->getFieldValue($field, $locale, false));
             }
         }

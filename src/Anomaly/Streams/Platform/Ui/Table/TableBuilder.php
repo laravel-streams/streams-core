@@ -6,7 +6,6 @@ use Laracasts\Commander\Events\EventGenerator;
 
 class TableBuilder
 {
-
     use CommanderTrait;
     use DispatchableTrait;
 
@@ -32,7 +31,7 @@ class TableBuilder
 
     protected $table;
 
-    function __construct(Table $table)
+    public function __construct(Table $table)
     {
         $this->table = $table;
     }
@@ -43,7 +42,6 @@ class TableBuilder
         $this->execute($this->buildCommand, ['builder' => $this]);
 
         if (app('request')->isMethod('post')) {
-
             $this->execute($this->handleCommand, ['builder' => $this]);
         }
     }
@@ -53,7 +51,6 @@ class TableBuilder
         $this->build();
 
         if ($this->table->getResponse() === null) {
-
             $this->execute($this->makeCommand, ['builder' => $this]);
         }
     }
@@ -63,7 +60,6 @@ class TableBuilder
         $this->make();
 
         if ($this->table->getResponse() === null) {
-
             $content = $this->table->getContent();
 
             return view($this->table->getWrapper(), compact('content'));
@@ -149,4 +145,3 @@ class TableBuilder
         return $this->actions;
     }
 }
- 

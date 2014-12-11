@@ -12,7 +12,6 @@ use Assetic\Asset\AssetInterface;
  */
 class PhpCssEmbedFilter extends \Assetic\Filter\PhpCssEmbedFilter
 {
-
     /**
      * Override the filter dump method.
      *

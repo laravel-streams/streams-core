@@ -4,7 +4,6 @@ use Composer\Autoload\ClassLoader;
 
 class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-
     /**
      * Defer loading this service provider.
      *
@@ -24,7 +23,6 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function register()
     {
-
         $this->registerAddonCollections(); // First
 
         $this->registerAddonClasses();
@@ -38,7 +36,6 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function registerAddonCollections()
     {
         foreach ($this->types as $type) {
-
             $studly = studly_case($type);
 
             $plural = str_plural($type);
@@ -58,7 +55,6 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function registerAddonClasses()
     {
         foreach ($this->types as $type) {
-
             $type = studly_case($type);
 
             $provider = 'Anomaly\Streams\Platform\Addon\\' . $type . '\\' . $type . 'ServiceProvider';
@@ -72,30 +68,23 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
         $loader = new ClassLoader();
 
         foreach ($this->types as $type) {
-
             $plural = str_plural($type);
 
             foreach (app("streams.{$plural}")->all() as $addon) {
-
                 $vendorPath = $addon->getPath() . '/vendor/';
                 $vendorFile = 'autoload.php';
 
                 if (is_file($vendorPath . $vendorFile)) {
-
                     $autoload = require $vendorPath . $vendorFile;
 
                     if (!empty($autoload['psr-0'])) {
-
                         foreach ($autoload['psr-0'] as $namespace => $path) {
-
                             $loader->add($namespace, $this->getVendorPsrPath($vendorPath, $path));
                         }
                     }
 
                     if (!empty($autoload['psr-4'])) {
-
                         foreach ($autoload['psr-4'] as $namespace => $path) {
-
                             $loader->addPsr4($namespace, $this->getVendorPsrPath($vendorPath, $path));
                         }
                     }
@@ -133,15 +122,12 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function registerAddonServiceProviders()
     {
         foreach ($this->types as $type) {
-
             $plural = str_plural($type);
 
             foreach (app("streams.{$plural}")->all() as $addon) {
-
                 $provider = get_class($addon) . 'ServiceProvider';
 
                 if (class_exists($provider)) {
-
                     $app      = $this->app;
                     $provider = $this->app->make($provider, [$app]);
 

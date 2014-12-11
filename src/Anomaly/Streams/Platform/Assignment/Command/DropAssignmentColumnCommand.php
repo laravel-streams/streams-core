@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
  */
 class DropAssignmentColumnCommand
 {
-
     /**
      * The assignment interface.
      *
@@ -25,7 +24,7 @@ class DropAssignmentColumnCommand
      *
      * @param AssignmentInterface $assignment
      */
-    function __construct(AssignmentInterface $assignment)
+    public function __construct(AssignmentInterface $assignment)
     {
         $this->assignment = $assignment;
     }
@@ -40,4 +39,3 @@ class DropAssignmentColumnCommand
         return $this->assignment;
     }
 }
- 

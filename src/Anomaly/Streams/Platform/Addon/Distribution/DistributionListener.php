@@ -13,7 +13,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class DistributionListener extends AddonListener
 {
-
     use DispatchableTrait;
 
     public function whenStreamsIsBooting()
@@ -21,4 +20,3 @@ class DistributionListener extends AddonListener
         $this->execute('\Anomaly\Streams\Platform\Addon\Distribution\Command\DetectActiveDistributionCommand');
     }
 }
- 

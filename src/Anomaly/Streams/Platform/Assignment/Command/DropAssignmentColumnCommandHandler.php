@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
  */
 class DropAssignmentColumnCommandHandler
 {
-
     /**
      * Handle the command.
      *
@@ -33,11 +32,9 @@ class DropAssignmentColumnCommandHandler
         $schema->dropColumn($table, $columnName);
 
         if ($assignment->isTranslatable()) {
-
             $table = $stream->getEntryTranslationsTableName();
 
             $schema->dropColumn($table, $columnName);
         }
     }
 }
- 

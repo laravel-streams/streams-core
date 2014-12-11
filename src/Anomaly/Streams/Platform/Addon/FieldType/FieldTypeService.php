@@ -12,7 +12,6 @@ use Laracasts\Commander\CommanderTrait;
  */
 class FieldTypeService
 {
-
     use CommanderTrait;
 
     /**
@@ -26,4 +25,3 @@ class FieldTypeService
         return $this->execute('Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand', $data);
     }
 }
- 

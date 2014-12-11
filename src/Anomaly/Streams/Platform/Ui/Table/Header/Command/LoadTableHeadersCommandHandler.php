@@ -4,10 +4,9 @@ use Anomaly\Streams\Platform\Ui\Table\Header\HeaderFactory;
 
 class LoadTableHeadersCommandHandler
 {
-
     protected $factory;
 
-    function __construct(HeaderFactory $factory)
+    public function __construct(HeaderFactory $factory)
     {
         $this->factory = $factory;
     }
@@ -20,11 +19,9 @@ class LoadTableHeadersCommandHandler
         $stream  = $table->getStream();
 
         foreach ($builder->getColumns() as $parameters) {
-
             $header = $this->factory->make(array_get($parameters, 'header', []));
 
             if ($stream) {
-
                 $header->setStream($stream);
             }
 
@@ -32,4 +29,3 @@ class LoadTableHeadersCommandHandler
         }
     }
 }
- 

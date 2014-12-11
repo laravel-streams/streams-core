@@ -28,7 +28,6 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface, TableModelInterface, FormModelInterface
 {
-
     /**
      * Validation rules. These are overridden
      * on the compiled models.
@@ -76,18 +75,15 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $userId = null;
 
         if ($user = app('auth')->user()) {
-
             $userId = $user->getKey();
         }
 
         if (!$this->exists) {
-
             $this->created_at = date('Y-m-d H:i:s');
             $this->created_by = $userId;
             $this->updated_at = null;
             $this->sort_order = $this->count('id') + 1;
         } else {
-
             $this->updated_at = date('Y-m-d H:i:s');
             $this->updated_by = $userId;
         }
@@ -171,11 +167,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
          * it's setAttribute method to set the value.
          */
         if ($mutate && $field = $this->getField($key)) {
-
             $type = $field->getType();
 
             if ($type instanceof SetterFieldTypeInterface) {
-
                 $type->setAttribute($this->attributes, $value);
 
                 return;
@@ -206,7 +200,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
          * it's unmutate method to modify the value.
          */
         if ($mutate && $type = $this->getFieldType($key)) {
-
             return $type->unmutate($value);
         }
 
@@ -234,7 +227,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $assignment = $this->getAssignment($slug);
 
         if (!$assignment instanceof AssignmentInterface) {
-
             return null;
         }
 
@@ -267,7 +259,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $assignment = $this->getAssignment($fieldSlug);
 
         if (!$assignment instanceof AssignmentInterface) {
-
             return null;
         }
 
@@ -341,7 +332,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $offset = $limit * ($page - 1);
 
         if ($total < $offset && $page > 1) {
-
             $url = str_replace('page=' . $page, 'page=' . ($page - 1), app('request')->fullUrl());
 
             header('Location: ' . $url);
@@ -360,7 +350,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
          * Order the query results.
          */
         foreach ($table->getOrderBy() as $column => $direction) {
-
             $query = $query->orderBy($column, $direction);
         }
 
@@ -372,7 +361,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $entry = $form->getEntry();
 
         foreach ($form->pullInput(config('app.locale'), []) as $key => $value) {
-
             $entry->{$key} = $value;
         }
 
@@ -381,18 +369,14 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         return;
 
         if ($entry->isTranslatable()) {
-
             foreach (config('streams.available_locales') as $locale) {
-
                 if ($locale == config('app.locale')) {
-
                     continue;
                 }
 
                 $entry = $entry->translate($locale);
 
                 foreach ($form->pullInput($locale, []) as $key => $value) {
-
                     $entry->{$key} = $value;
                 }
 

@@ -2,15 +2,12 @@
 
 class AddAddonNamespaceHintsCommandHandler
 {
-
     public function handle(AddAddonNamespaceHintsCommand $command)
     {
         foreach (app('streams.addon_types') as $type) {
-
             $plural = str_plural($type);
 
             foreach (app("streams.{$plural}")->all() as $addon) {
-
                 $abstract = str_replace('streams.', null, $addon->getAbstract());
 
                 app('view')->addNamespace($abstract, $addon->getPath('resources/views'));
@@ -23,4 +20,3 @@ class AddAddonNamespaceHintsCommandHandler
         }
     }
 }
- 

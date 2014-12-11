@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\DB;
 
 class ApplicationModel extends Model
 {
-
     /**
      * Find an application record by domain.
      *

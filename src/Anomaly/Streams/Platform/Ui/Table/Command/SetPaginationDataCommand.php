@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class SetPaginationDataCommand
 {
-
     /**
      * The table builder.
      *
@@ -25,7 +24,7 @@ class SetPaginationDataCommand
      *
      * @param TableBuilder $builder
      */
-    function __construct(TableBuilder $builder)
+    public function __construct(TableBuilder $builder)
     {
         $this->builder = $builder;
     }
@@ -40,4 +39,3 @@ class SetPaginationDataCommand
         return $this->builder;
     }
 }
- 

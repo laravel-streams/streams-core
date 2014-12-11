@@ -10,7 +10,6 @@
  */
 interface StringableInterface
 {
-
     /**
      * Return the instance as a string.
      *
@@ -18,4 +17,3 @@ interface StringableInterface
      */
     public function toString();
 }
- 

@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryClassParser
 {
-
     /**
      * Return the entry model class.
      *
@@ -24,4 +23,3 @@ class EntryClassParser
         return studly_case("{$stream->getNamespace()}_{$stream->getSlug()}") . 'EntryModel';
     }
 }
- 

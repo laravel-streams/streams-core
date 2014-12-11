@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Filter implements FilterInterface
 {
-
     protected $slug;
 
     protected $prefix;
@@ -17,7 +16,7 @@ class Filter implements FilterInterface
 
     protected $placeholder;
 
-    function __construct($slug, $prefix = null, $active = false, $handler = null, $placeholder = null)
+    public function __construct($slug, $prefix = null, $active = false, $handler = null, $placeholder = null)
     {
         $this->slug        = $slug;
         $this->prefix      = $prefix;
@@ -113,4 +112,3 @@ class Filter implements FilterInterface
         return null;
     }
 }
- 

@@ -4,10 +4,9 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 class LoadFormInputCommand
 {
-
     protected $builder;
 
-    function __construct(FormBuilder $builder)
+    public function __construct(FormBuilder $builder)
     {
         $this->builder = $builder;
     }
@@ -17,4 +16,3 @@ class LoadFormInputCommand
         return $this->builder;
     }
 }
- 

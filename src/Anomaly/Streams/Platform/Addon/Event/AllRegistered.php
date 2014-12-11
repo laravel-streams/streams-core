@@ -10,7 +10,6 @@
  */
 class AllRegistered
 {
-
     /**
      * The addon type.
      *
@@ -23,7 +22,7 @@ class AllRegistered
      *
      * @param $type
      */
-    function __construct($type)
+    public function __construct($type)
     {
         $this->type = $type;
     }
@@ -38,4 +37,3 @@ class AllRegistered
         return $this->type;
     }
 }
- 

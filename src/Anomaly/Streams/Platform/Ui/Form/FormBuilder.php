@@ -5,7 +5,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
 
 class FormBuilder
 {
-
     use CommanderTrait;
     use DispatchableTrait;
 
@@ -31,7 +30,7 @@ class FormBuilder
 
     protected $form;
 
-    function __construct(Form $form)
+    public function __construct(Form $form)
     {
         $this->form = $form;
     }
@@ -39,7 +38,6 @@ class FormBuilder
     public function build($entry = null)
     {
         if ($entry) {
-
             $this->entry = $entry;
         }
 
@@ -47,7 +45,6 @@ class FormBuilder
         $this->execute($this->buildCommand, ['builder' => $this]);
 
         if (app('request')->isMethod('post')) {
-
             $this->execute($this->handleCommand, ['builder' => $this]);
         }
     }
@@ -57,7 +54,6 @@ class FormBuilder
         $this->build($entry);
 
         if ($this->form->getResponse() === null || $this->form->getResponse() === false) {
-
             $this->execute($this->makeCommand, ['builder' => $this]);
         }
     }
@@ -67,7 +63,6 @@ class FormBuilder
         $this->make($entry);
 
         if ($this->form->getResponse() === null || $this->form->getResponse() === false) {
-
             $content = $this->form->getContent();
 
             return view($this->form->getWrapper(), compact('content'));
@@ -153,4 +148,3 @@ class FormBuilder
         return $this->buttons;
     }
 }
- 

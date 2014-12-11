@@ -12,5 +12,4 @@ use Anomaly\Streams\Platform\Addon\Addon;
  */
 class Extension extends Addon
 {
-
 }

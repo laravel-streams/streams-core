@@ -2,9 +2,7 @@
 
 class AddAddonNamespaceHintsCommand
 {
-
     public function __construct()
     {
     }
 }
- 

@@ -6,7 +6,6 @@ use Laracasts\Commander\CommanderTrait;
 
 class Field implements FieldInterface
 {
-
     use CommanderTrait;
 
     protected $form;
@@ -29,7 +28,7 @@ class Field implements FieldInterface
 
     protected $instructions;
 
-    function __construct(
+    public function __construct(
         $slug,
         $type,
         Form $form,
@@ -53,7 +52,6 @@ class Field implements FieldInterface
         $this->instructions = $instructions;
 
         if ($include) {
-
             $this->form->addInclude($this->slug);
         }
 
@@ -70,7 +68,6 @@ class Field implements FieldInterface
          * was passed into the parameters.
          */
         if (app('request')->isMethod('post')) {
-
             $this->value = $value = app('request')->get($this->form->getPrefix() . $slug);
         }
 
@@ -214,4 +211,3 @@ class Field implements FieldInterface
         return $this->value;
     }
 }
- 

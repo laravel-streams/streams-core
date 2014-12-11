@@ -4,10 +4,9 @@ use Anomaly\Streams\Platform\Ui\Table\Filter\Filter;
 
 class InputFilter extends Filter
 {
-
     protected $type;
 
-    function __construct($slug, $type = 'text', $prefix = null, $active = false, $handler = null, $placeholder = null)
+    public function __construct($slug, $type = 'text', $prefix = null, $active = false, $handler = null, $placeholder = null)
     {
         $this->type = $type;
 
@@ -36,4 +35,3 @@ class InputFilter extends Filter
         return app('form')->input($this->getType(), $this->getName(), $this->getValue(), $options);
     }
 }
- 

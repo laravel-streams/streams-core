@@ -12,7 +12,6 @@ use Intervention\Image\ImageManager;
  */
 class Image extends ImageManager
 {
-
     /**
      * The publish flag.
      *
@@ -104,8 +103,7 @@ class Image extends ImageManager
     protected function replaceNamespace($path)
     {
         if (str_contains($path, '::')) {
-
-            list ($namespace, $path) = explode('::', $path);
+            list($namespace, $path) = explode('::', $path);
 
             if (isset($this->namespaces[$namespace]) && $location = $this->namespaces[$namespace]) {
                 $path = $location . '/' . $path;

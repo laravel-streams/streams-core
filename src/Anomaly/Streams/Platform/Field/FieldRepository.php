@@ -13,7 +13,6 @@ use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
  */
 class FieldRepository implements FieldRepositoryInterface
 {
-
     /**
      * The field model.
      *
@@ -26,7 +25,7 @@ class FieldRepository implements FieldRepositoryInterface
      *
      * @param FieldModel $model
      */
-    function __construct(FieldModel $model)
+    public function __construct(FieldModel $model)
     {
         $this->model = $model;
     }
@@ -113,4 +112,3 @@ class FieldRepository implements FieldRepositoryInterface
             ->delete();
     }
 }
- 

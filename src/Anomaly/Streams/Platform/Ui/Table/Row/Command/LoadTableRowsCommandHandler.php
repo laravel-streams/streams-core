@@ -4,10 +4,9 @@ use Anomaly\Streams\Platform\Ui\Table\Row\RowFactory;
 
 class LoadTableRowsCommandHandler
 {
-
     protected $factory;
 
-    function __construct(RowFactory $factory)
+    public function __construct(RowFactory $factory)
     {
         $this->factory = $factory;
     }
@@ -22,11 +21,9 @@ class LoadTableRowsCommandHandler
         $rows    = $table->getRows();
 
         foreach ($entries as $entry) {
-
             $row = $this->factory->make(compact('entry', 'columns', 'buttons'));
 
             $rows->push($row);
         }
     }
 }
- 

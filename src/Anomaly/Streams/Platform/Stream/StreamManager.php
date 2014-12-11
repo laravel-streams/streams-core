@@ -12,7 +12,6 @@ use Laracasts\Commander\CommanderTrait;
  */
 class StreamManager
 {
-
     use CommanderTrait;
 
     /**

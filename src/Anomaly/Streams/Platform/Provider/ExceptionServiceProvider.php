@@ -2,7 +2,6 @@
 
 class ExceptionServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-
     /**
      * Register the service provider.
      *
@@ -17,4 +16,3 @@ class ExceptionServiceProvider extends \Illuminate\Support\ServiceProvider
         $whoops->register();
     }
 }
- 

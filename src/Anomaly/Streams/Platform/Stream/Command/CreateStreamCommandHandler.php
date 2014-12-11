@@ -13,10 +13,9 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class CreateStreamCommandHandler
 {
-
     protected $streams;
 
-    function __construct(StreamRepositoryInterface $streams)
+    public function __construct(StreamRepositoryInterface $streams)
     {
         $this->streams = $streams;
     }
@@ -43,4 +42,3 @@ class CreateStreamCommandHandler
         );
     }
 }
- 

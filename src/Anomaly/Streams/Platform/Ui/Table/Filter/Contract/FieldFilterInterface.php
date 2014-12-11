@@ -2,11 +2,9 @@
 
 interface FieldFilterInterface extends FilterInterface
 {
-
     public function setField($field);
 
     public function getField();
 
     public function getStream();
 }
- 

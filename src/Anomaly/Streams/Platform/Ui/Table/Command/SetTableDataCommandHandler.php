@@ -2,7 +2,6 @@
 
 class SetTableDataCommandHandler
 {
-
     public function handle(SetTableDataCommand $command)
     {
         $builder = $command->getBuilder();
@@ -14,4 +13,3 @@ class SetTableDataCommandHandler
         $table->putData('noResultsMessage', trans($table->getNoResultsMessage()));
     }
 }
- 

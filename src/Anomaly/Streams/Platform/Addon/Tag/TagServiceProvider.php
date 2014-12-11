@@ -13,7 +13,6 @@ use Illuminate\Foundation\Application;
  */
 class TagServiceProvider extends AddonServiceProvider
 {
-
     public function __construct(Application $app)
     {
         parent::__construct($app);

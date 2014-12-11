@@ -13,7 +13,6 @@ use Illuminate\View\View;
  */
 class Composer
 {
-
     /**
      * Compose the view before rendering.
      *
@@ -43,11 +42,9 @@ class Composer
          * override comes into play.
          */
         if (starts_with($view->getName(), 'theme::')) {
-
             $mobilePath = str_replace('theme::', 'theme::mobile/', $view->getName());
 
             if (app('agent')->isMobile() && $mobilePath && $environment->exists($mobilePath)) {
-
                 $view->setPath($environment->getFinder()->find($mobilePath));
             }
 
@@ -65,13 +62,11 @@ class Composer
          * split up into it's addon / type components.
          */
         if (!str_contains($view->getName(), '::')) {
-
             // If there is no namespace the default
             // hint / location is streams.
             $path       = "streams/{$view->getName()}";
             $mobilePath = "streams/mobile/{$view->getName()}";
         } else {
-
             list($namespace, $path) = explode('::', $view->getName());
 
             /**
@@ -82,10 +77,8 @@ class Composer
              * the active module / theme.
              */
             if (str_contains($namespace, '.')) {
-
                 list($type, $slug) = explode('.', $namespace);
             } else {
-
                 $plural = str_plural($namespace);
 
                 // If the namespace is a shortcut for an "active" addon
@@ -93,7 +86,6 @@ class Composer
                 $addon = app("streams.{$plural}")->active();
 
                 if (!$addon instanceof Addon) {
-
                     return $view;
                 }
 
@@ -116,12 +108,10 @@ class Composer
         $mobilePath = "theme::overload/{$mobilePath}";
 
         if ($path && $environment->exists($path)) {
-
             $view->setPath($environment->getFinder()->find($path));
         }
 
         if (app('agent')->isMobile() && $mobilePath && $environment->exists($mobilePath)) {
-
             $view->setPath($environment->getFinder()->find($mobilePath));
         }
 

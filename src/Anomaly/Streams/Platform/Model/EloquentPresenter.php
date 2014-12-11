@@ -13,7 +13,6 @@ use Robbo\Presenter\Presenter;
  */
 class EloquentPresenter extends Presenter
 {
-
     /**
      * Create a new EloquentPresenter instance.
      *
@@ -22,7 +21,6 @@ class EloquentPresenter extends Presenter
     public function __construct($resource)
     {
         if ($resource instanceof EloquentModel) {
-
             $this->resource = $resource;
         }
     }

@@ -10,7 +10,6 @@
  */
 class DeleteStreamCommand
 {
-
     /**
      * The stream namespace.
      *
@@ -31,7 +30,7 @@ class DeleteStreamCommand
      * @param $namespace
      * @param $slug
      */
-    function __construct($namespace, $slug)
+    public function __construct($namespace, $slug)
     {
         $this->slug      = $slug;
         $this->namespace = $namespace;
@@ -57,4 +56,3 @@ class DeleteStreamCommand
         return $this->slug;
     }
 }
- 

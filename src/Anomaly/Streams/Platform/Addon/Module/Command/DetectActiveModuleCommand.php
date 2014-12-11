@@ -2,9 +2,7 @@
 
 class DetectActiveModuleCommand
 {
-
     public function __construct()
     {
     }
 }
- 

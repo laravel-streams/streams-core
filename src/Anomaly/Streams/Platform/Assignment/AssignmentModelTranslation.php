@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  */
 class AssignmentModelTranslation extends EloquentModel
 {
-
     /**
      * Do not use timestamps.
      *
@@ -28,4 +27,3 @@ class AssignmentModelTranslation extends EloquentModel
      */
     protected $table = 'streams_assignments_translations';
 }
- 

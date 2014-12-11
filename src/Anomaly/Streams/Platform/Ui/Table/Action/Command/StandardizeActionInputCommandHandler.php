@@ -2,7 +2,6 @@
 
 class StandardizeActionInputCommandHandler
 {
-
     public function handle(StandardizeActionInputCommand $command)
     {
         $builder = $command->getBuilder();
@@ -10,7 +9,6 @@ class StandardizeActionInputCommandHandler
         $actions = [];
 
         foreach ($builder->getActions() as $key => $action) {
-
             /**
              * If the key is numeric and the action is
              * a string then treat the string as both the
@@ -19,7 +17,6 @@ class StandardizeActionInputCommandHandler
              * input using the same action which is not likely.
              */
             if (is_numeric($key) && is_string($action)) {
-
                 $action = [
                     'slug'   => $action,
                     'action' => $action,
@@ -32,7 +29,6 @@ class StandardizeActionInputCommandHandler
              * actions as the action.
              */
             if (!is_numeric($key) && is_string($action)) {
-
                 $action = [
                     'slug'   => $key,
                     'action' => $action,
@@ -44,7 +40,6 @@ class StandardizeActionInputCommandHandler
              * array without a slug then add the slug.
              */
             if (is_array($action) && !isset($action['slug']) && !is_numeric($key)) {
-
                 $action['slug'] = $key;
             }
 
@@ -54,4 +49,3 @@ class StandardizeActionInputCommandHandler
         $builder->setActions($actions);
     }
 }
- 

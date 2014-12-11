@@ -2,7 +2,6 @@
 
 class HandleFormValidationCommandHandler
 {
-
     public function handle(HandleFormValidationCommand $command)
     {
         $builder = $command->getBuilder();
@@ -13,11 +12,9 @@ class HandleFormValidationCommandHandler
         $validator = app('validator')->make($input, $form->getRules());
 
         if ($validator->fails()) {
-
             app('session')->flash('error', $validator->messages()->all());
 
             $form->setResponse(false);
         }
     }
 }
- 

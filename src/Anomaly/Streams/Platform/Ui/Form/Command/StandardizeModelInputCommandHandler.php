@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Ui\Form\Exception\IncompatibleModelException;
 
 class StandardizeModelInputCommandHandler
 {
-
     public function handle(StandardizeModelInputCommand $command)
     {
         $builder = $command->getBuilder();
@@ -14,12 +13,10 @@ class StandardizeModelInputCommandHandler
         $model   = $builder->getModel();
 
         if (!$model) {
-
             return;
         }
 
         if (is_string($model)) {
-
             $model = app($model);
         }
 
@@ -29,16 +26,13 @@ class StandardizeModelInputCommandHandler
          * can use it later if we need.
          */
         if ($model instanceof EntryInterface) {
-
             $table->setStream($model->getStream());
         }
 
         if (!$model instanceof FormModelInterface) {
-
             throw new IncompatibleModelException("[get_class($model)] must implement Anomaly\\Streams\\Platform\\Ui\\Form\\Contract\\FormModelInterface");
         }
 
         $builder->setModel($model);
     }
 }
- 

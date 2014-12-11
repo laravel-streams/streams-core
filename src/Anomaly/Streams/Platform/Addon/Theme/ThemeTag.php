@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Addon\Tag\Tag;
  */
 class ThemeTag extends Tag
 {
-
     /**
      * The theme object.
      *
@@ -25,7 +24,7 @@ class ThemeTag extends Tag
      *
      * @param Theme $theme
      */
-    function __construct(Theme $theme)
+    public function __construct(Theme $theme)
     {
         $this->theme = $theme;
     }
@@ -50,4 +49,3 @@ class ThemeTag extends Tag
         return trans($this->theme->getDescription());
     }
 }
- 

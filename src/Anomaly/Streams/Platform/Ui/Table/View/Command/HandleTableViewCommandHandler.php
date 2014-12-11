@@ -2,7 +2,6 @@
 
 class HandleTableViewCommandHandler
 {
-
     public function handle(HandleTableViewCommand $command)
     {
         $table = $command->getTable();
@@ -11,19 +10,15 @@ class HandleTableViewCommandHandler
         $views = $table->getViews();
 
         if ($view = $views->active()) {
-
             $handler = $view->getHandler();
 
             if (is_string($handler) || $handler instanceof \Closure) {
-
                 app()->call($handler, compact('table', 'query'));
             }
 
             if ($handler === null) {
-
                 $view->handle($table, $query);
             }
         }
     }
 }
- 

@@ -10,7 +10,6 @@
  */
 class UnassignFieldCommand
 {
-
     /**
      * The field namespace.
      *
@@ -39,7 +38,7 @@ class UnassignFieldCommand
      * @param $stream
      * @param $field
      */
-    function __construct($namespace, $stream, $field)
+    public function __construct($namespace, $stream, $field)
     {
         $this->field     = $field;
         $this->stream    = $stream;
@@ -76,4 +75,3 @@ class UnassignFieldCommand
         return $this->stream;
     }
 }
- 

@@ -17,12 +17,11 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class ModuleListener extends AddonListener
 {
-
     use DispatchableTrait;
 
     protected $modules;
 
-    function __construct(ModuleRepositoryInterface $modules)
+    public function __construct(ModuleRepositoryInterface $modules)
     {
         $this->modules = $modules;
     }
@@ -61,9 +60,7 @@ class ModuleListener extends AddonListener
     public function whenAllRegistered(AllRegistered $event)
     {
         if ($event->getType() == 'module' && app('streams.application')->isLocated()) {
-
             $this->execute('Anomaly\Streams\Platform\Addon\Module\Command\SetModuleStatesCommand');
         }
     }
 }
- 

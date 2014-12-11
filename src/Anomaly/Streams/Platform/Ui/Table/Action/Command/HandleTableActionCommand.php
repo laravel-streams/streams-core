@@ -4,10 +4,9 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 class HandleTableActionCommand
 {
-
     protected $builder;
 
-    function __construct(TableBuilder $builder)
+    public function __construct(TableBuilder $builder)
     {
         $this->builder = $builder;
     }
@@ -17,4 +16,3 @@ class HandleTableActionCommand
         return $this->builder;
     }
 }
- 

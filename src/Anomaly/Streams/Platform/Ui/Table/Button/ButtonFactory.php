@@ -4,13 +4,11 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 class ButtonFactory extends \Anomaly\Streams\Platform\Ui\Button\ButtonFactory
 {
-
     protected $button = 'Anomaly\Streams\Platform\Ui\Table\Button\Button';
 
     public function make(array $parameters)
     {
         if (!isset($parameters['href'])) {
-
             $this->guessHref($parameters);
         }
 
@@ -58,4 +56,3 @@ class ButtonFactory extends \Anomaly\Streams\Platform\Ui\Button\ButtonFactory
         }
     }
 }
- 

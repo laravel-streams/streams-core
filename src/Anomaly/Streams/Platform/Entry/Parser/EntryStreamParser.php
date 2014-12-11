@@ -14,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryStreamParser
 {
-
     /**
      * Parse the stream data.
      *
@@ -42,7 +41,6 @@ class EntryStreamParser
     protected function parseStream(StreamInterface $stream, &$string)
     {
         foreach ($stream->getAttributes() as $key => $value) {
-
             $string .= "\n'{$key}' => '{$value}',";
         }
     }
@@ -58,7 +56,6 @@ class EntryStreamParser
         $string .= "\n'assignments' => [";
 
         foreach ($stream->getAssignments() as $assignment) {
-
             $this->parseAssignment($assignment, $string);
         }
 
@@ -76,7 +73,6 @@ class EntryStreamParser
         $string .= "\n[";
 
         foreach ($assignment->getAttributes() as $key => $value) {
-
             $value = $assignment->getAttribute($key);
 
             $string .= "\n'{$key}' => '{$value}',";
@@ -99,11 +95,9 @@ class EntryStreamParser
         $string .= "\n'field' => [";
 
         foreach ($field->getAttributes() as $key => $value) {
-
             $value = $field->getAttribute($key);
 
             if (is_array($value)) {
-
                 $value = serialize($value);
             }
 
@@ -113,4 +107,3 @@ class EntryStreamParser
         $string .= "\n],";
     }
 }
- 

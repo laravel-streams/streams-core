@@ -2,16 +2,12 @@
 
 class DetectActiveThemeCommandHandler
 {
-
     public function handle(DetectActiveThemeCommand $command)
     {
         if ($distribution = app('streams.distributions')->active()) {
-
             if (app('request')->segment(1) == 'admin' || app('request')->segment(1) == 'installer') {
-
                 $theme = $distribution->getDefaultAdminTheme();
             } else {
-
                 $theme = $distribution->getDefaultPublicTheme();
             }
 
@@ -30,4 +26,3 @@ class DetectActiveThemeCommandHandler
         }
     }
 }
- 

@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 
 class LoadTableEntriesCommandHandler
 {
-
     public function handle(LoadTableEntriesCommand $command)
     {
         $builder = $command->getBuilder();
@@ -13,14 +12,11 @@ class LoadTableEntriesCommandHandler
         $entries = $table->getEntries();
 
         if (!$model instanceof TableModelInterface) {
-
             return;
         }
 
         foreach ($model->getTableEntries($table) as $entry) {
-
             $entries->push($entry);
         }
     }
 }
- 

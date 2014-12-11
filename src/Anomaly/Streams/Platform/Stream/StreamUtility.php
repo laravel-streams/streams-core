@@ -14,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
  */
 class StreamUtility
 {
-
     /**
      * The fields repository interface.
      *

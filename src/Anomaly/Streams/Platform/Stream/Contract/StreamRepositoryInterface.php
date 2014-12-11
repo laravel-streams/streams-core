@@ -10,7 +10,6 @@
  */
 interface StreamRepositoryInterface
 {
-
     /**
      * Create a new Stream.
      *
@@ -65,4 +64,3 @@ interface StreamRepositoryInterface
      */
     public function getAllWithNamespace($namespace);
 }
- 

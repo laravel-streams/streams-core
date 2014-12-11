@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
 
 class Action extends Button implements ActionInterface
 {
-
     protected $slug;
 
     protected $prefix;
@@ -15,7 +14,7 @@ class Action extends Button implements ActionInterface
 
     protected $handler;
 
-    function __construct(
+    public function __construct(
         $slug,
         $text = null,
         $icon = null,
@@ -96,4 +95,3 @@ class Action extends Button implements ActionInterface
         return $this->slug;
     }
 }
- 

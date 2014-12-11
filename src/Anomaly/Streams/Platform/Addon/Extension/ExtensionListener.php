@@ -12,6 +12,4 @@ use Anomaly\Streams\Platform\Addon\AddonListener;
  */
 class ExtensionListener extends AddonListener
 {
-
 }
- 

@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class ThemeCollection extends AddonCollection
 {
-
     /**
      * Return the active theme.
      *
@@ -21,9 +20,7 @@ class ThemeCollection extends AddonCollection
     public function active()
     {
         foreach ($this->items as $item) {
-
             if ($item->isActive()) {
-
                 return $item;
             }
         }
@@ -31,4 +28,3 @@ class ThemeCollection extends AddonCollection
         return null;
     }
 }
- 

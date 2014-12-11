@@ -17,7 +17,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 interface EntryInterface
 {
-
     /**
      * Get the ID.
      *
@@ -119,4 +118,3 @@ interface EntryInterface
      */
     public function getAttribute($key);
 }
- 

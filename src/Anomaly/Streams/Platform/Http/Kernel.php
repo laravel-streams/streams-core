@@ -10,7 +10,6 @@
  */
 class Kernel extends \Illuminate\Foundation\Http\Kernel
 {
-
     /**
      * The application's HTTP middleware stack.
      *
@@ -43,12 +42,9 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
     public function handle($request)
     {
         try {
-
             return parent::handle($request);
         } catch (\Exception $e) {
-
             throw $e;
         }
     }
 }
- 

@@ -13,7 +13,6 @@ use Anomaly\Streams\Platform\Field\FieldManager;
  */
 class StreamInstaller implements InstallableInterface
 {
-
     /**
      * The addon type.
      *
@@ -105,7 +104,6 @@ class StreamInstaller implements InstallableInterface
 
         // Assign each of the assignments.
         foreach ($this->getAssignments() as $field => $assignment) {
-
             if (is_string($assignment)) {
                 $field      = $assignment;
                 $assignment = [];
@@ -139,7 +137,6 @@ class StreamInstaller implements InstallableInterface
         $this->stream['namespace'] = $this->getStreamNamespace();
 
         foreach ($this->getAssignments() as $field => $assignment) {
-
             $this->fieldService->unassign(
                 $this->stream['namespace'],
                 $this->stream['slug'],
@@ -264,7 +261,6 @@ class StreamInstaller implements InstallableInterface
     protected function setAddonType()
     {
         if (!$this->addonType) {
-
             $addonType = explode('\\', (new \ReflectionClass($this))->getName());
 
             $this->addonType = snake_case($addonType[3]);
@@ -277,7 +273,6 @@ class StreamInstaller implements InstallableInterface
     protected function setNamespace()
     {
         if (!$this->namespace) {
-
             $namespace = explode('\\', (new \ReflectionClass($this))->getName());
 
             $this->namespace = snake_case($namespace[4]);
@@ -290,7 +285,6 @@ class StreamInstaller implements InstallableInterface
     protected function setSlug()
     {
         if (!$this->slug) {
-
             $slug = (new \ReflectionClass($this))->getShortName();
             $slug = str_replace('StreamInstaller', null, $slug);
 

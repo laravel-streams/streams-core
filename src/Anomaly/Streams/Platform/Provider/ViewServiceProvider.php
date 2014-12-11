@@ -2,7 +2,6 @@
 
 class ViewServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-
     /**
      * Setup view rendering services.
      */

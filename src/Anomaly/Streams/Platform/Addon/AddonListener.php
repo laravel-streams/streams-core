@@ -14,7 +14,6 @@ use Laracasts\Commander\Events\EventListener;
  */
 class AddonListener extends EventListener
 {
-
     use CommanderTrait;
 
     public function whenStreamsIsBooting()
@@ -36,4 +35,3 @@ class AddonListener extends EventListener
         app($collection)->push($addon);
     }
 }
- 

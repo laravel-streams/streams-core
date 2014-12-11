@@ -13,7 +13,6 @@ use Illuminate\Foundation\Application;
  */
 class ModuleServiceProvider extends AddonServiceProvider
 {
-
     /**
      * Create a new ModuleServiceProvider instance.
      *

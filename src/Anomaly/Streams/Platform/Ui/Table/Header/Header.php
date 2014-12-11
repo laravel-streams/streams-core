@@ -5,12 +5,11 @@ use Anomaly\Streams\Platform\Ui\Table\Header\Contract\HeaderInterface;
 
 class Header implements HeaderInterface
 {
-
     protected $stream = null;
 
     protected $text;
 
-    function __construct($text = null)
+    public function __construct($text = null)
     {
         $this->text = $text;
     }
@@ -20,7 +19,6 @@ class Header implements HeaderInterface
         $text = $this->getText();
 
         if ($this->stream && is_string($text)) {
-
             $text = $this->getTextFromField($text);
         }
 
@@ -51,11 +49,9 @@ class Header implements HeaderInterface
     protected function getTextFromField($text)
     {
         if ($field = $this->stream->getField($text)) {
-
             return $field->getName();
         }
 
         return $text;
     }
 }
- 

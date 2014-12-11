@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Addon\Tag\Tag;
  */
 class ModuleTag extends Tag
 {
-
     /**
      * The module object.
      *
@@ -25,7 +24,7 @@ class ModuleTag extends Tag
      *
      * @param Module $module
      */
-    function __construct(Module $module)
+    public function __construct(Module $module)
     {
         $this->module = $module;
     }
@@ -40,4 +39,3 @@ class ModuleTag extends Tag
         return trans($this->module->getName());
     }
 }
- 

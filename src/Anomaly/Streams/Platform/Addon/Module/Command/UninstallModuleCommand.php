@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
  */
 class UninstallModuleCommand
 {
-
     /**
      * The module object.
      *
@@ -25,7 +24,7 @@ class UninstallModuleCommand
      *
      * @param Module $module
      */
-    function __construct(Module $module)
+    public function __construct(Module $module)
     {
         $this->module = $module;
     }
@@ -40,4 +39,3 @@ class UninstallModuleCommand
         return $this->module;
     }
 }
- 

@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryTitleParser
 {
-
     /**
      * Return the title key for an entry model.
      *
@@ -24,4 +23,3 @@ class EntryTitleParser
         return $stream->getTitleColumn();
     }
 }
- 

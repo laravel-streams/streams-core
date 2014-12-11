@@ -10,7 +10,6 @@
  */
 interface CacheableInterface
 {
-
     /**
      * Get the cache collection key.
      *
@@ -25,4 +24,3 @@ interface CacheableInterface
      */
     public function getCacheMinutes();
 }
- 

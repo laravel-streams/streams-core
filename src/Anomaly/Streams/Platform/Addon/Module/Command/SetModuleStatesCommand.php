@@ -10,9 +10,7 @@
  */
 class SetModuleStatesCommand
 {
-
     public function __construct()
     {
     }
 }
- 

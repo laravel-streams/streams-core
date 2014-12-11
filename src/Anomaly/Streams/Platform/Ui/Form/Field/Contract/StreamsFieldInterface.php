@@ -2,7 +2,6 @@
 
 interface StreamsFieldInterface
 {
-
     public function viewData(array $arguments = []);
 
     public function setField($field);
@@ -15,4 +14,3 @@ interface StreamsFieldInterface
 
     public function getForm();
 }
- 

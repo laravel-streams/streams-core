@@ -13,7 +13,6 @@ use Anomaly\Streams\Platform\Addon\Event\Registered;
  */
 class TagListener extends AddonListener
 {
-
     /**
      * After the tag is registered to the container
      * register it with our favorite parsing engine.
@@ -29,4 +28,3 @@ class TagListener extends AddonListener
         app('anomaly.lexicon')->registerPlugin($tag->getSlug(), $tag->getAbstract());
     }
 }
- 

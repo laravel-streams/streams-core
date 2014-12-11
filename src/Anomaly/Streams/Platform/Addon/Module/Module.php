@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Addon\Addon;
  */
 class Module extends Addon
 {
-
     /**
      * The module's sections.
      *
@@ -147,7 +146,6 @@ class Module extends Addon
         $tag = get_class($this) . 'Tag';
 
         if (!class_exists($tag)) {
-
             $tag = '\Anomaly\Streams\Platform\Addon\Module\ModuleTag';
         }
 
@@ -164,7 +162,6 @@ class Module extends Addon
         $installer = get_class($this) . 'Installer';
 
         if (!class_exists($installer)) {
-
             $installer = '\Anomaly\Streams\Platform\Addon\Module\ModuleInstaller';
         }
 

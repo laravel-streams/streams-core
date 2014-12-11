@@ -13,7 +13,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class DeleteFieldCommandHandler
 {
-
     use DispatchableTrait;
 
     /**
@@ -31,4 +30,3 @@ class DeleteFieldCommandHandler
         );
     }
 }
- 

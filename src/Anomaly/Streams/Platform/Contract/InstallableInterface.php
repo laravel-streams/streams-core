@@ -10,7 +10,6 @@
  */
 interface InstallableInterface
 {
-
     /**
      * Install.
      *
@@ -25,4 +24,3 @@ interface InstallableInterface
      */
     public function uninstall();
 }
- 

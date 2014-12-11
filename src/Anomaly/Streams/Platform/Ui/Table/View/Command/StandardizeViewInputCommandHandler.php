@@ -2,7 +2,6 @@
 
 class StandardizeViewInputCommandHandler
 {
-
     public function handle(StandardizeViewInputCommand $command)
     {
         $builder = $command->getBuilder();
@@ -10,7 +9,6 @@ class StandardizeViewInputCommandHandler
         $views = [];
 
         foreach ($builder->getViews() as $key => $view) {
-
             /**
              * If the key is numeric and the view is
              * a string then treat the string as both the
@@ -19,7 +17,6 @@ class StandardizeViewInputCommandHandler
              * input using the same view which is not likely.
              */
             if (is_numeric($key) && is_string($view)) {
-
                 $view = [
                     'slug' => $view,
                     'view' => $view,
@@ -32,7 +29,6 @@ class StandardizeViewInputCommandHandler
              * view as the view.
              */
             if (!is_numeric($key) && is_string($view)) {
-
                 $view = [
                     'slug' => $key,
                     'view' => $view,
@@ -45,7 +41,6 @@ class StandardizeViewInputCommandHandler
              * the slug for the view.
              */
             if (is_array($view) && !isset($view['slug']) && !is_numeric($key)) {
-
                 $view['slug'] = $key;
             }
 
@@ -55,4 +50,3 @@ class StandardizeViewInputCommandHandler
         $builder->setViews($views);
     }
 }
- 

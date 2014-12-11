@@ -15,7 +15,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class AssignFieldCommandHandler
 {
-
     use DispatchableTrait;
 
     protected $fields;
@@ -24,7 +23,7 @@ class AssignFieldCommandHandler
 
     protected $assignments;
 
-    function __construct(
+    public function __construct(
         FieldRepositoryInterface $fields,
         StreamRepositoryInterface $streams,
         AssignmentRepositoryInterface $assignments
@@ -50,12 +49,10 @@ class AssignFieldCommandHandler
         $field  = $this->fields->findByNamespaceAndSlug($namespace, $field);
 
         if (!$stream) {
-
             throw new \Exception("Stream not found with namespace [{$namespace}] and slug [{$stream}]");
         }
 
         if (!$field) {
-
             throw new \Exception("Field not found with namespace [{$namespace}] and slug [{$field}]");
         }
 
@@ -71,4 +68,3 @@ class AssignFieldCommandHandler
         );
     }
 }
- 

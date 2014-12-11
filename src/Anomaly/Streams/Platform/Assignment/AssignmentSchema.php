@@ -13,7 +13,6 @@ use Illuminate\Database\Schema\Builder;
  */
 class AssignmentSchema
 {
-
     /**
      * The schema builder object.
      *
@@ -24,7 +23,7 @@ class AssignmentSchema
     /**
      * Create a new AssignmentSchema instance.
      */
-    function __construct()
+    public function __construct()
     {
         $this->schema = app('db')->connection()->getSchemaBuilder();
     }
@@ -39,7 +38,6 @@ class AssignmentSchema
     public function dropColumn($table, $columnName)
     {
         if ($this->schema->hasColumn($table, $columnName)) {
-
             $this->schema->table(
                 $table,
                 function (Blueprint $table) use ($columnName) {
@@ -62,7 +60,6 @@ class AssignmentSchema
     public function addColumn($table, $columnName, $columnType)
     {
         if (!$this->schema->hasColumn($table, $columnName)) {
-
             $this->schema->table(
                 $table,
                 function (Blueprint $table) use ($columnName, $columnType) {

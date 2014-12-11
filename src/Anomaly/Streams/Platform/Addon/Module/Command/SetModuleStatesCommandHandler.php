@@ -10,7 +10,6 @@
  */
 class SetModuleStatesCommandHandler
 {
-
     /**
      * Handle the command.
      */
@@ -24,4 +23,3 @@ class SetModuleStatesCommandHandler
         app('streams.modules')->setStates($states);
     }
 }
- 

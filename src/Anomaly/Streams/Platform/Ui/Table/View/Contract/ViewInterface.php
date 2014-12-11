@@ -5,7 +5,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 interface ViewInterface
 {
-
     public function handle(Table $table, Builder $query);
 
     public function viewData(array $arguments = []);
@@ -34,4 +33,3 @@ interface ViewInterface
 
     public function getSlug();
 }
- 

@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Ui\Table\Header\Contract\HeaderInterface;
 
 class SetHeaderDataCommandHandler
 {
-
     public function handle(SetHeaderDataCommand $command)
     {
         $builder = $command->getBuilder();
@@ -13,9 +12,7 @@ class SetHeaderDataCommandHandler
         $headers = [];
 
         foreach ($table->getHeaders() as $header) {
-
             if ($header instanceof HeaderInterface) {
-
                 $header = $header->viewData();
 
                 $headers[] = $header;
@@ -25,4 +22,3 @@ class SetHeaderDataCommandHandler
         $table->putData('headers', $headers);
     }
 }
- 

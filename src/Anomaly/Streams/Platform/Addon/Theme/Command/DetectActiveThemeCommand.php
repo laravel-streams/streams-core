@@ -2,9 +2,7 @@
 
 class DetectActiveThemeCommand
 {
-
     public function __construct()
     {
     }
 }
- 

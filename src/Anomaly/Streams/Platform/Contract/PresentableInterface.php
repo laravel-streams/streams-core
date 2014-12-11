@@ -10,7 +10,6 @@
  */
 interface PresentableInterface
 {
-
     /**
      * Return a new presenter object.
      *

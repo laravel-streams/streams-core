@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class EloquentCollection extends Collection
 {
-
     /**
      * Find by slug.
      *
@@ -26,9 +25,7 @@ class EloquentCollection extends Collection
     public function findBySlug($slug)
     {
         foreach ($this->items as $item) {
-
             if ($item->slug == $slug) {
-
                 return $item;
             }
         }
@@ -48,7 +45,6 @@ class EloquentCollection extends Collection
         $decorator = app('streams.decorator');
 
         foreach ($this->items as $item) {
-
             $items[] = $decorator->decorate($item);
         }
 

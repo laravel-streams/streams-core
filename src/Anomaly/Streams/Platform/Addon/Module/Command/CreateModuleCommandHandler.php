@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
  */
 class CreateModuleCommandHandler
 {
-
     /**
      * The module model.
      *
@@ -25,7 +24,7 @@ class CreateModuleCommandHandler
      *
      * @param ModuleModel $module
      */
-    function __construct(ModuleModel $module)
+    public function __construct(ModuleModel $module)
     {
         $this->module = $module;
     }
@@ -47,4 +46,3 @@ class CreateModuleCommandHandler
         );
     }
 }
- 

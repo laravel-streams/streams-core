@@ -16,7 +16,6 @@ use Laracasts\Commander\Events\EventListener;
  */
 class AssignmentListener extends EventListener
 {
-
     use CommanderTrait;
 
     /**
@@ -63,4 +62,3 @@ class AssignmentListener extends EventListener
         $stream->compile();
     }
 }
- 

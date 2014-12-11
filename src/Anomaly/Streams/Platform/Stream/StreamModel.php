@@ -15,7 +15,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class StreamModel extends EloquentModel implements StreamInterface
 {
-
     /**
      * The foreign key for translations.
      *
@@ -67,11 +66,8 @@ class StreamModel extends EloquentModel implements StreamInterface
         $streamModel->setRawAttributes($data);
 
         if (isset($data['assignments'])) {
-
             foreach ($data['assignments'] as $assignment) {
-
                 if (isset($assignment['field'])) {
-
                     $assignment['field']['rules']  = unserialize($assignment['field']['rules']);
                     $assignment['field']['config'] = unserialize($assignment['field']['config']);
 
@@ -206,7 +202,6 @@ class StreamModel extends EloquentModel implements StreamInterface
     public function getField($slug)
     {
         if (!$assignment = $this->getAssignment($slug)) {
-
             return null;
         }
 
@@ -222,7 +217,6 @@ class StreamModel extends EloquentModel implements StreamInterface
     public function getFieldType($fieldSlug)
     {
         if (!$assignment = $this->getAssignment($fieldSlug)) {
-
             return null;
         }
 

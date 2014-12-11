@@ -13,7 +13,6 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class Addon implements ArrayableInterface
 {
-
     use EventGenerator;
 
     /**
@@ -61,7 +60,6 @@ class Addon implements ArrayableInterface
     public function getPath($path = null)
     {
         if (!$this->path) {
-
             $this->path = dirname(dirname((new \ReflectionClass($this))->getFileName()));
         }
 
@@ -86,7 +84,6 @@ class Addon implements ArrayableInterface
     public function getSlug()
     {
         if (!$this->slug) {
-
             $class = get_class($this);
             $parts = explode("\\", $class);
 
@@ -104,7 +101,6 @@ class Addon implements ArrayableInterface
     public function getType()
     {
         if (!$this->type) {
-
             $class = get_class($this);
             $parts = explode("\\", $class);
 

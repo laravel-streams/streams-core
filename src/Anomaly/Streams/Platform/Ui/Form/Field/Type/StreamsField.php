@@ -7,7 +7,6 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
 
 class StreamsField implements StreamsFieldInterface
 {
-
     protected $form;
 
     protected $field;
@@ -16,7 +15,7 @@ class StreamsField implements StreamsFieldInterface
 
     protected $stream;
 
-    function __construct($field, Form $form, StreamInterface $stream, EntryInterface $entry = null)
+    public function __construct($field, Form $form, StreamInterface $stream, EntryInterface $entry = null)
     {
         $this->form   = $form;
         $this->field  = $field;
@@ -33,11 +32,9 @@ class StreamsField implements StreamsFieldInterface
         $type->setPrefix($this->form->getPrefix());
 
         if ($assignment->isTranslatable()) {
-
             $input = '';
 
             foreach (config('streams.available_locales') as $locale) {
-
                 $type->setSuffix($locale);
                 $type->setLocale($locale);
                 $type->setHidden($locale !== config('app.locale'));
@@ -45,21 +42,18 @@ class StreamsField implements StreamsFieldInterface
                 $key = $this->form->getPrefix() . $assignment->getFieldSlug() . '_' . $locale;
 
                 if (app('request')->exists($key)) {
-
                     $type->setValue(app('request')->get($key));
                 }
 
                 $input .= $type->render();
             }
         } else {
-
             $type->setSuffix(config('app.locale'));
             $type->setLocale(config('app.locale'));
 
             $key = $this->form->getPrefix() . $assignment->getFieldSlug() . '_' . config('app.locale');
 
             if (app('request')->exists($key)) {
-
                 $type->setValue(app('request')->get($key));
             }
 
@@ -101,4 +95,3 @@ class StreamsField implements StreamsFieldInterface
         return $this->stream;
     }
 }
- 

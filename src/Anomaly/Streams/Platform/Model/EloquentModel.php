@@ -18,7 +18,6 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class EloquentModel extends Model implements ArrayableInterface, PresentableInterface
 {
-
     use CommanderTrait;
     use EventGenerator;
 
@@ -205,14 +204,12 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     public function cacheCollection($collectionKey, $keys = [])
     {
         if (is_string($keys)) {
-
             $keys = [$keys];
         }
 
         $cached = app('cache')->get($collectionKey);
 
         if (is_array($cached)) {
-
             $keys = array_merge($keys, $cached);
         }
 

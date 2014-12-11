@@ -2,8 +2,7 @@
 
 class Button extends \Anomaly\Streams\Platform\Ui\Button\Button
 {
-
-    function __construct(
+    public function __construct(
         $href = null,
         $text = null,
         $icon = null,
@@ -14,9 +13,7 @@ class Button extends \Anomaly\Streams\Platform\Ui\Button\Button
         parent::__construct($type, $text, $class, $icon, $attributes);
 
         if ($href) {
-
             $this->putAttribute('href', $href);
         }
     }
 }
- 

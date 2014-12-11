@@ -10,7 +10,6 @@
  */
 class CreateModuleCommand
 {
-
     /**
      * The slug of the module.
      *
@@ -23,7 +22,7 @@ class CreateModuleCommand
      *
      * @param $slug
      */
-    function __construct($slug)
+    public function __construct($slug)
     {
         $this->slug = $slug;
     }
@@ -38,4 +37,3 @@ class CreateModuleCommand
         return $this->slug;
     }
 }
- 

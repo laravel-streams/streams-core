@@ -2,7 +2,6 @@
 
 class Application
 {
-
     /**
      * The application reference.
      *
@@ -64,7 +63,6 @@ class Application
                 }
 
                 if ($app = $this->model->findByDomain($domain)) {
-
                     $this->installed = true;
 
                     $this->reference = $app->reference;

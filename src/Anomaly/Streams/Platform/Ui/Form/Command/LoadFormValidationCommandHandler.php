@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 class LoadFormValidationCommandHandler
 {
-
     public function handle(LoadFormValidationCommand $command)
     {
         $builder = $command->getBuilder();
@@ -12,26 +11,20 @@ class LoadFormValidationCommandHandler
         $stream  = $form->getStream();
 
         if ($stream instanceof StreamInterface) {
-
             foreach ($stream->getAssignments() as $assignment) {
-
                 if (!in_array($assignment->getFieldSlug(), $form->getSkips())) {
-
                     $type = $assignment->getFieldType();
 
                     $rules = $type->getRules();
 
                     if ($assignment->isRequired()) {
-
                         $rules[] = 'required';
                     }
 
                     if ($assignment->isUnique()) {
-
                         $rule = 'unique:' . $stream->getEntryTableName() . ',' . $type->getColumnName();
 
                         if ($entry = $builder->getEntry()) {
-
                             $rule .= ',' . $entry;
                         }
 
@@ -44,4 +37,3 @@ class LoadFormValidationCommandHandler
         }
     }
 }
- 

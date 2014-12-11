@@ -17,7 +17,6 @@ use Dimsav\Translatable\Translatable;
  */
 class AssignmentModel extends EloquentModel implements AssignmentInterface
 {
-
     use Translatable;
 
     /**
@@ -91,7 +90,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
          * set it as type's label.
          */
         if ($label = $this->getLabel($locale)) {
-
             $type->setLabel($label);
         }
 
@@ -101,7 +99,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
          * available set the placeholder on the type.
          */
         if ($placeholder = $this->getPlaceholder($locale)) {
-
             $type->setPlaceholder($placeholder);
         }
 
@@ -111,7 +108,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
          * available set the  instructions on the type.
          */
         if ($instructions = $this->getInstructions($locale)) {
-
             $type->setInstructions($instructions);
         }
 
@@ -134,7 +130,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
         $label = $assignment->label;
 
         if (is_translatable($label)) {
-
             return trans($label, [], null, $locale);
         }
 
@@ -157,7 +152,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
         $placeholder = $assignment->placeholder;
 
         if (is_translatable($placeholder)) {
-
             return trans($placeholder, [], null, $locale);
         }
 
@@ -180,7 +174,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
         $instructions = $assignment->instructions;
 
         if (is_translatable($instructions)) {
-
             return trans($instructions, [], null, $locale);
         }
 

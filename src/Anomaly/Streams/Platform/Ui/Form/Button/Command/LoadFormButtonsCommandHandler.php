@@ -4,10 +4,9 @@ use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 
 class LoadFormButtonsCommandHandler
 {
-
     protected $factory;
 
-    function __construct(ButtonFactory $factory)
+    public function __construct(ButtonFactory $factory)
     {
         $this->factory = $factory;
     }
@@ -19,11 +18,9 @@ class LoadFormButtonsCommandHandler
         $buttons = $form->getButtons();
 
         foreach ($builder->getButtons() as $parameters) {
-
             $button = $this->factory->make($parameters);
 
             $buttons->push($button);
         }
     }
 }
- 

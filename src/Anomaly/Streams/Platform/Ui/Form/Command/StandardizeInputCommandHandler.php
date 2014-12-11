@@ -4,7 +4,6 @@ use Laracasts\Commander\CommanderTrait;
 
 class StandardizeInputCommandHandler
 {
-
     use CommanderTrait;
 
     public function handle(StandardizeInputCommand $command)
@@ -20,4 +19,3 @@ class StandardizeInputCommandHandler
         $this->execute('Anomaly\Streams\Platform\Ui\Form\Section\Command\StandardizeSectionInputCommand', $args);
     }
 }
- 

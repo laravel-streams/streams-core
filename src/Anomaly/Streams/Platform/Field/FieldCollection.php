@@ -12,5 +12,4 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  */
 class FieldCollection extends EloquentCollection
 {
-
 }

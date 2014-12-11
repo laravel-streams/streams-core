@@ -2,7 +2,6 @@
 
 interface ButtonInterface
 {
-
     public function viewData(array $arguments = []);
 
     public function pullAttribute($attribute, $default = null);
@@ -29,4 +28,3 @@ interface ButtonInterface
 
     public function getType();
 }
- 

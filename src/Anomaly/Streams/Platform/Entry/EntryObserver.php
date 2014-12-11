@@ -13,7 +13,6 @@ use Anomaly\Streams\Platform\Model\EloquentObserver;
  */
 class EntryObserver extends EloquentObserver
 {
-
     /**
      * Before saving an entry touch the
      * meta information.

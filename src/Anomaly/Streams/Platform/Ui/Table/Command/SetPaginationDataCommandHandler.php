@@ -4,7 +4,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class SetPaginationDataCommandHandler
 {
-
     public function handle(SetPaginationDataCommand $command)
     {
         $builder = $command->getBuilder();
@@ -27,4 +26,3 @@ class SetPaginationDataCommandHandler
         $table->putData('pagination', $pagination);
     }
 }
- 

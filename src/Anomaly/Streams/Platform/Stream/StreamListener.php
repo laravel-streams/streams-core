@@ -16,7 +16,6 @@ use Laracasts\Commander\Events\EventListener;
  */
 class StreamListener extends EventListener
 {
-
     use CommanderTrait;
 
     /**
@@ -86,7 +85,6 @@ class StreamListener extends EventListener
          * the translations model too.
          */
         if ($stream->isTranslatable()) {
-
             $this->execute(
                 'Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModelCommand',
                 compact('stream')
@@ -94,4 +92,3 @@ class StreamListener extends EventListener
         }
     }
 }
- 

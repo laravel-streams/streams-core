@@ -14,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class AssignmentRepository implements AssignmentRepositoryInterface
 {
-
     /**
      * The assignment model.
      *
@@ -27,7 +26,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
      *
      * @param AssignmentModel $model
      */
-    function __construct(AssignmentModel $model)
+    public function __construct(AssignmentModel $model)
     {
         $this->model = $model;
     }
@@ -55,7 +54,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $isRequired,
         $isTranslatable
     ) {
-
         $assignment = $this->model->newInstance();
 
         $assignment->label           = $label;
@@ -86,7 +84,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             ->first();
 
         if ($assignment) {
-
             $assignment->delete();
 
             return $assignment;
@@ -112,4 +109,3 @@ class AssignmentRepository implements AssignmentRepositoryInterface
             ->delete();
     }
 }
- 

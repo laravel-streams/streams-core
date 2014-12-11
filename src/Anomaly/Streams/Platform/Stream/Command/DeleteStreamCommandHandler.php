@@ -13,7 +13,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class DeleteStreamCommandHandler
 {
-
     use DispatchableTrait;
 
     /**
@@ -27,4 +26,3 @@ class DeleteStreamCommandHandler
         return $streams->delete($command->getNamespace(), $command->getSlug());
     }
 }
- 

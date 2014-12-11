@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
  */
 class EntryRepository implements EntryRepositoryInterface
 {
-
     /**
      * The entry model.
      *
@@ -25,9 +24,8 @@ class EntryRepository implements EntryRepositoryInterface
      *
      * @param EntryModel $model
      */
-    function __construct(EntryModel $model)
+    public function __construct(EntryModel $model)
     {
         $this->model = $model;
     }
 }
- 

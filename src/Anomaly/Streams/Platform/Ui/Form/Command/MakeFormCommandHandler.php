@@ -6,7 +6,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
 
 class MakeFormCommandHandler
 {
-
     use DispatchableTrait;
 
     public function handle(MakeFormCommand $command)
@@ -31,7 +30,6 @@ class MakeFormCommandHandler
         $sections = [];
 
         foreach ($form->getSections() as $section) {
-
             $sections[] = $section->viewData();
         }
 
@@ -43,7 +41,6 @@ class MakeFormCommandHandler
         $actions = [];
 
         foreach ($form->getActions() as $action) {
-
             $actions[] = $action->viewData();
         }
 
@@ -55,7 +52,6 @@ class MakeFormCommandHandler
         $buttons = [];
 
         foreach ($form->getButtons() as $button) {
-
             $buttons[] = $button->viewData();
         }
 
@@ -70,7 +66,6 @@ class MakeFormCommandHandler
         $translatable = false;
 
         if ($stream = $form->getStream()) {
-
             $translatable = $stream->isTranslatable();
         }
 
@@ -79,7 +74,6 @@ class MakeFormCommandHandler
         $locales = [];
 
         foreach (config('streams.available_locales') as $k => $locale) {
-
             $language = trans('language.' . $locale);
             $active   = $locale == config('app.locale');
 
@@ -89,4 +83,3 @@ class MakeFormCommandHandler
         $form->putData('locales', $locales);
     }
 }
- 

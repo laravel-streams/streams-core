@@ -13,7 +13,6 @@ use Illuminate\Foundation\Application;
  */
 class FieldTypeServiceProvider extends AddonServiceProvider
 {
-
     /**
      * The binding type.
      *

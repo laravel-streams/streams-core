@@ -14,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\StreamModel;
  */
 class EntryRulesParser
 {
-
     /**
      * Return the entry validation rules.
      *
@@ -26,7 +25,6 @@ class EntryRulesParser
         $string = '[';
 
         foreach ($stream->getAssignments() as $assignment) {
-
             $this->parseAssignmentRules($stream, $assignment, $string);
         }
 
@@ -49,29 +47,23 @@ class EntryRulesParser
         $field = $assignment->getField();
 
         if ($fieldRules = $field->getRules()) {
-
             foreach ($fieldRules as $rule) {
-
                 $rules[] = $rule;
             }
         }
 
         if ($assignment->isRequired()) {
-
             $rules[] = 'required';
         }
 
         if ($assignment->isUnique()) {
-
             $rules[] = 'unique:' . $stream->getEntryTableName() . ',' . $assignment->getColumnName();
         }
 
         if (is_array($rules)) {
-
             $rules = implode('|', array_filter($rules));
 
             $string .= "\n'{$assignment->getFieldSlug()}' => '{$rules}',";
         }
     }
 }
- 

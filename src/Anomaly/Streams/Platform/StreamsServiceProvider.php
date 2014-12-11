@@ -15,7 +15,6 @@ use Symfony\Component\Yaml\Parser;
  */
 class StreamsServiceProvider extends ServiceProvider
 {
-
     /**
      * Everything has booted.
      */
@@ -113,14 +112,10 @@ class StreamsServiceProvider extends ServiceProvider
         ];
 
         if (config('app.debug')) {
-
             foreach ($directories as $directory) {
-
                 if (!is_dir($directory)) {
-
                     mkdir($directory, 0777, true);
                 } else {
-
                     chmod(base_path($directory), 0777);
                 }
             }

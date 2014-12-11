@@ -6,7 +6,6 @@ use Laracasts\Commander\Events\EventListener;
 
 class TableListener extends EventListener
 {
-
     use CommanderTrait;
 
     public function whenQueryingTableEntries(QueryingTableEntries $event)
@@ -15,7 +14,6 @@ class TableListener extends EventListener
         $query = $event->getQuery();
 
         if (app('request')->isMethod('post')) {
-
             return;
         }
 
@@ -25,4 +23,3 @@ class TableListener extends EventListener
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Filter\Command\HandleTableFiltersCommand', $args);
     }
 }
- 

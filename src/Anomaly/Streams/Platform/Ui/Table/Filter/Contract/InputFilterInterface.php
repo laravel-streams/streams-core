@@ -2,9 +2,7 @@
 
 interface InputFilterInterface extends FilterInterface
 {
-
     public function setType($type);
 
     public function getType();
 }
- 

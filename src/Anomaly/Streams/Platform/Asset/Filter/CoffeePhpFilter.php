@@ -14,7 +14,6 @@ use CoffeeScript\Compiler;
  */
 class CoffeePhpFilter implements FilterInterface
 {
-
     /**
      * Filters an asset after it has been loaded.
      *
@@ -32,7 +31,6 @@ class CoffeePhpFilter implements FilterInterface
      */
     public function filterDump(AssetInterface $asset)
     {
-
         $content = $asset->getContent(app('view')->parse($asset->getContent()));
 
         $content = trim(Compiler::compile($content, array('filename' => $asset->getSourcePath())));

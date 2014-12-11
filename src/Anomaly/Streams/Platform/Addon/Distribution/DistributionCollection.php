@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class DistributionCollection extends AddonCollection
 {
-
     /**
      * Return the active distribution.
      *
@@ -21,9 +20,7 @@ class DistributionCollection extends AddonCollection
     public function active()
     {
         foreach ($this->items as $item) {
-
             if ($item->getSlug() == config('streams.distribution')) {
-
                 return $item;
             }
         }
@@ -31,4 +28,3 @@ class DistributionCollection extends AddonCollection
         return null;
     }
 }
- 

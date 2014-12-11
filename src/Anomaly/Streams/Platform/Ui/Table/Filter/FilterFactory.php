@@ -2,7 +2,6 @@
 
 class FilterFactory
 {
-
     protected $filters = [
         'input'  => [
             'slug'   => 'input',
@@ -20,12 +19,10 @@ class FilterFactory
     public function make(array $parameters)
     {
         if (isset($parameters['filter']) && class_exists($parameters['filter'])) {
-
             return app()->make($parameters['filter'], $parameters);
         }
 
         if ($filter = array_get($this->filters, array_get($parameters, 'filter'))) {
-
             $parameters = array_replace_recursive($filter, array_except($parameters, 'filter'));
         }
 
@@ -35,4 +32,3 @@ class FilterFactory
         );
     }
 }
- 

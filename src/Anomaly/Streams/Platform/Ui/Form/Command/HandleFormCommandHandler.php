@@ -4,7 +4,6 @@ use Laracasts\Commander\CommanderTrait;
 
 class HandleFormCommandHandler
 {
-
     use CommanderTrait;
 
     public function handle(HandleFormCommand $command)
@@ -21,4 +20,3 @@ class HandleFormCommandHandler
         $this->execute('Anomaly\Streams\Platform\Ui\Form\Action\Command\HandleFormActionCommand', $args);
     }
 }
- 

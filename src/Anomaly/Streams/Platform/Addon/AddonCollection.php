@@ -12,7 +12,6 @@ use Illuminate\Support\Collection;
  */
 class AddonCollection extends Collection
 {
-
     /**
      * Return only core addons.
      *
@@ -23,9 +22,7 @@ class AddonCollection extends Collection
         $core = [];
 
         foreach ($this->items as $item) {
-
             if ($item->isCore()) {
-
                 $core[] = $item;
             }
         }
@@ -41,7 +38,6 @@ class AddonCollection extends Collection
     public function push($addon)
     {
         if ($addon instanceof Addon) {
-
             $this->items[$addon->getSlug()] = $addon;
         }
     }
@@ -55,7 +51,6 @@ class AddonCollection extends Collection
     public function findBySlug($slug)
     {
         if (isset($this->items[$slug])) {
-
             return $this->items[$slug];
         }
 
@@ -67,15 +62,12 @@ class AddonCollection extends Collection
         $ordered = [];
 
         foreach ($this->items as $item) {
-
             $ordered[trans($item->getName())] = $item;
         }
 
         if ($direction == 'asc') {
-
             ksort($ordered);
         } else {
-
             krsort($ordered);
         }
 

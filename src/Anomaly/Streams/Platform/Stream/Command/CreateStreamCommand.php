@@ -10,7 +10,6 @@
  */
 class CreateStreamCommand
 {
-
     /**
      * The stream namespace.
      *
@@ -96,7 +95,7 @@ class CreateStreamCommand
      * @param       $isHidden
      * @param       $isTranslatable
      */
-    function __construct(
+    public function __construct(
         $namespace,
         $slug,
         $prefix,
@@ -200,4 +199,3 @@ class CreateStreamCommand
         return $this->viewOptions;
     }
 }
- 

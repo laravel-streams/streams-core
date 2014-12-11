@@ -15,7 +15,6 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
  */
 interface StreamInterface
 {
-
     /**
      * Compile the entry models.
      *
@@ -139,4 +138,3 @@ interface StreamInterface
      */
     public function getAttribute($key);
 }
- 

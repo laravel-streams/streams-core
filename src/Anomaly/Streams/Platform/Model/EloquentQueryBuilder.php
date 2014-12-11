@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class EloquentQueryBuilder extends Builder
 {
-
     /**
      * The model being queried.
      *
@@ -38,7 +37,6 @@ class EloquentQueryBuilder extends Builder
         $this->rememberIndex();
 
         if ($this->cacheKey) {
-
             return app('cache')->remember(
                 $this->cacheKey,
                 $this->model->getCacheMinutes(),
@@ -60,7 +58,6 @@ class EloquentQueryBuilder extends Builder
     protected function rememberIndex()
     {
         if ($cacheMinutes = $this->model->getCacheMinutes()) {
-
             $this->indexCacheCollection();
         }
 
@@ -90,7 +87,6 @@ class EloquentQueryBuilder extends Builder
     public function getCacheKey()
     {
         if ($this->cacheKey) {
-
             return $this->cacheKey;
         }
 
@@ -108,11 +104,9 @@ class EloquentQueryBuilder extends Builder
     public function fresh($fresh = true)
     {
         if ($fresh) {
-
             $this->model->setCacheMinutes(0);
         }
 
         return $this;
     }
 }
- 

@@ -15,7 +15,6 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  */
 class AssignmentCollection extends EloquentCollection
 {
-
     /**
      * Find an assignment by it's field slug.
      *
@@ -25,9 +24,7 @@ class AssignmentCollection extends EloquentCollection
     public function findByFieldSlug($slug)
     {
         foreach ($this->items as $item) {
-
             if ($item->getFieldSlug() == $slug) {
-
                 return $item;
             }
         }
@@ -45,11 +42,9 @@ class AssignmentCollection extends EloquentCollection
         $relations = [];
 
         foreach ($this->items as $item) {
-
             $type = $item->getFieldType();
 
             if ($type instanceof RelationFieldTypeInterface) {
-
                 $relations[] = $item;
             }
         }
@@ -67,11 +62,9 @@ class AssignmentCollection extends EloquentCollection
         $dates = [];
 
         foreach ($this->items as $item) {
-
             $type = $item->getFieldType();
 
             if ($type instanceof DateFieldTypeInterface) {
-
                 $dates[] = $item;
             }
         }

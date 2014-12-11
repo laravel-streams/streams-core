@@ -13,7 +13,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryRelationsParser
 {
-
     /**
      * Parse the relation methods.
      *
@@ -27,7 +26,6 @@ class EntryRelationsParser
         $assignments = $stream->getAssignments();
 
         foreach ($assignments->relations() as $assignment) {
-
             $this->parseAssignment($assignment, $string);
         }
 
@@ -61,4 +59,3 @@ class EntryRelationsParser
         $string .= $relationString;
     }
 }
- 

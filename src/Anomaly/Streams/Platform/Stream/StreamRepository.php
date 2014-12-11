@@ -13,7 +13,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
  */
 class StreamRepository implements StreamRepositoryInterface
 {
-
     /**
      * The stream model.
      *
@@ -26,7 +25,7 @@ class StreamRepository implements StreamRepositoryInterface
      *
      * @param StreamModel $model
      */
-    function __construct(StreamModel $model)
+    public function __construct(StreamModel $model)
     {
         $this->model = $model;
     }
@@ -115,4 +114,3 @@ class StreamRepository implements StreamRepositoryInterface
         return $this->model->where('namespace', $namespace)->get();
     }
 }
- 

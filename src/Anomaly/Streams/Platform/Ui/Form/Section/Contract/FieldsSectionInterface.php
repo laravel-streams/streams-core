@@ -2,7 +2,6 @@
 
 interface FieldsSectionInterface
 {
-
     public function viewData(array $arguments = []);
 
     public function setFields($fields);
@@ -29,4 +28,3 @@ interface FieldsSectionInterface
 
     public function getView();
 }
- 

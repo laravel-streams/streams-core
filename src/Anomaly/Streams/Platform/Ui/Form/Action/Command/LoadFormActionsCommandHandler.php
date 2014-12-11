@@ -4,10 +4,9 @@ use Anomaly\Streams\Platform\Ui\Form\Action\ActionFactory;
 
 class LoadFormActionsCommandHandler
 {
-
     protected $factory;
 
-    function __construct(ActionFactory $factory)
+    public function __construct(ActionFactory $factory)
     {
         $this->factory = $factory;
     }
@@ -19,7 +18,6 @@ class LoadFormActionsCommandHandler
         $actions = $form->getActions();
 
         foreach ($builder->getActions() as $parameters) {
-
             $action = $this->factory->make($parameters);
 
             $action->setPrefix($form->getPrefix());
@@ -29,4 +27,3 @@ class LoadFormActionsCommandHandler
         }
     }
 }
- 

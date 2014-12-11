@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
 class Button implements ButtonInterface
 {
-
     protected $text;
 
     protected $icon;
@@ -15,7 +14,7 @@ class Button implements ButtonInterface
 
     protected $attributes;
 
-    function __construct($type = 'default', $text = null, $class = null, $icon = null, array $attributes = [])
+    public function __construct($type = 'default', $text = null, $class = null, $icon = null, array $attributes = [])
     {
         $this->icon       = $icon;
         $this->class      = $class;
@@ -33,7 +32,6 @@ class Button implements ButtonInterface
         $attributes = $this->getAttributes();
 
         if (is_string($text)) {
-
             $text = trans($text);
         }
 
@@ -116,5 +114,3 @@ class Button implements ButtonInterface
         return $this->type;
     }
 }
-
- 

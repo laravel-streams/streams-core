@@ -10,7 +10,6 @@
  */
 class ModuleInstaller
 {
-
     /**
      * Installers to run.
      *

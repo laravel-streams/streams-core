@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryTranslationsTableParser
 {
-
     /**
      * Return the entry translations table name.
      *
@@ -24,4 +23,3 @@ class EntryTranslationsTableParser
         return $stream->getEntryTranslationsTableName();
     }
 }
- 

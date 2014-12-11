@@ -2,7 +2,6 @@
 
 class StandardizeHeaderInputCommandHandler
 {
-
     public function handle(StandardizeHeaderInputCommand $command)
     {
         $builder = $command->getBuilder();
@@ -10,9 +9,7 @@ class StandardizeHeaderInputCommandHandler
         $columns = [];
 
         foreach ($builder->getColumns() as $column) {
-
             if (isset($column['header']) && is_string($column['header'])) {
-
                 $column['header'] = ['text' => $column['header']];
             }
 
@@ -22,4 +19,3 @@ class StandardizeHeaderInputCommandHandler
         $builder->setColumns($columns);
     }
 }
- 

@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
 
 class HandleFormInputCommandHandler
 {
-
     public function handle(HandleFormInputCommand $command)
     {
         $builder = $command->getBuilder();
@@ -20,7 +19,6 @@ class HandleFormInputCommandHandler
         $input = [];
 
         foreach ($form->getInclude() as $include) {
-
             $input[$include] = app('request')->get($form->getPrefix() . $include);
         }
 
@@ -32,18 +30,15 @@ class HandleFormInputCommandHandler
         $stream = $form->getStream();
 
         if (!$stream) {
-
             return;
         }
 
         $input = [];
 
         foreach ($stream->getAssignments() as $assignment) {
-
             $slug = $assignment->getFieldSlug();
 
             if (in_array($slug, $form->getSkips())) {
-
                 continue;
             }
 
@@ -58,30 +53,24 @@ class HandleFormInputCommandHandler
         $stream = $form->getStream();
 
         if (!$stream) {
-
             return;
         }
 
         foreach (config('streams.available_locales') as $locale) {
-
             if ($locale == config('app.locale')) {
-
                 continue;
             }
 
             $input = [];
 
             foreach ($stream->getAssignments() as $assignment) {
-
                 $slug = $assignment->getFieldSlug();
 
                 if (!$assignment->isTranslatable()) {
-
                     continue;
                 }
 
                 if (in_array($slug, $form->getSkips())) {
-
                     continue;
                 }
 
@@ -92,4 +81,3 @@ class HandleFormInputCommandHandler
         }
     }
 }
- 

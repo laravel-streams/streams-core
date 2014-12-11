@@ -15,12 +15,11 @@ use Laracasts\Commander\CommanderTrait;
  */
 class SyncModulesCommandHandler
 {
-
     use CommanderTrait;
 
     protected $modules;
 
-    function __construct(ModuleModel $modules)
+    public function __construct(ModuleModel $modules)
     {
         $this->modules = $modules;
     }
@@ -35,7 +34,6 @@ class SyncModulesCommandHandler
         $modules = $this->modules->all();
 
         foreach (app('streams.modules')->all() as $module) {
-
             $this->sync($modules, $module);
         }
     }
@@ -49,11 +47,9 @@ class SyncModulesCommandHandler
     protected function sync(EloquentCollection $modules, Module $module)
     {
         if (!$match = $modules->findBySlug($module->getSlug())) {
-
             $slug = $module->getSlug();
 
             $this->execute('Anomaly\Streams\Platform\Addon\Module\Command\CreateModuleCommand', compact('slug'));
         }
     }
 }
- 

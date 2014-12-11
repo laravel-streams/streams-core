@@ -2,6 +2,4 @@
 
 class IncompatibleModelException extends \Exception
 {
-
 }
- 

@@ -5,14 +5,13 @@ use Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionInterface;
 
 class Action extends Button implements ActionInterface
 {
-
     protected $slug;
 
     protected $active;
 
     protected $prefix;
 
-    function __construct(
+    public function __construct(
         $slug,
         $icon = null,
         $text = null,
@@ -78,4 +77,3 @@ class Action extends Button implements ActionInterface
         return $this->slug;
     }
 }
- 

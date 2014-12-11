@@ -4,10 +4,9 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
 
 class TableDataLoaded
 {
-
     protected $table;
 
-    function __construct(Table $table)
+    public function __construct(Table $table)
     {
         $this->table = $table;
     }
@@ -17,4 +16,3 @@ class TableDataLoaded
         return $this->table;
     }
 }
- 

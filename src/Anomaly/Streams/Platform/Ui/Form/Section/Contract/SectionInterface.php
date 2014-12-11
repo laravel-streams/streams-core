@@ -2,7 +2,6 @@
 
 interface SectionInterface
 {
-
     public function viewData(array $arguments = []);
 
     public function setBody($body);
@@ -17,4 +16,3 @@ interface SectionInterface
 
     public function getView();
 }
- 

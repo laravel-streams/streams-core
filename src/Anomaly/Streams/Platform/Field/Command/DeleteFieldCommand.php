@@ -10,7 +10,6 @@
  */
 class DeleteFieldCommand
 {
-
     /**
      * The field namespace.
      *
@@ -31,7 +30,7 @@ class DeleteFieldCommand
      * @param $namespace
      * @param $slug
      */
-    function __construct($namespace, $slug)
+    public function __construct($namespace, $slug)
     {
         $this->slug      = $slug;
         $this->namespace = $namespace;
@@ -53,4 +52,3 @@ class DeleteFieldCommand
         return $this->slug;
     }
 }
- 

@@ -15,7 +15,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class UnassignFieldCommandHandler
 {
-
     use DispatchableTrait;
 
     protected $fields;
@@ -24,7 +23,7 @@ class UnassignFieldCommandHandler
 
     protected $assignments;
 
-    function __construct(
+    public function __construct(
         FieldRepositoryInterface $fields,
         StreamRepositoryInterface $streams,
         AssignmentRepositoryInterface $assignments
@@ -48,4 +47,3 @@ class UnassignFieldCommandHandler
         return $this->assignments->delete($stream, $field);
     }
 }
- 

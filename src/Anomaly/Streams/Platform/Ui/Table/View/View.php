@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class View implements ViewInterface
 {
-
     protected $text;
 
     protected $slug;
@@ -19,7 +18,7 @@ class View implements ViewInterface
 
     protected $attributes;
 
-    function __construct($text, $slug, $active = false, $prefix = null, $handler = null, array $attributes = [])
+    public function __construct($text, $slug, $active = false, $prefix = null, $handler = null, array $attributes = [])
     {
         $this->text       = $text;
         $this->slug       = $slug;
@@ -121,4 +120,3 @@ class View implements ViewInterface
         return url(app('request')->path() . '?' . $this->getPrefix() . 'view=' . $this->getSlug());
     }
 }
- 

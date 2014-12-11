@@ -5,12 +5,11 @@ use Illuminate\Database\Eloquent\Builder;
 
 class HandleTableViewCommand
 {
-
     protected $table;
 
     protected $query;
 
-    function __construct(Table $table, Builder $query)
+    public function __construct(Table $table, Builder $query)
     {
         $this->table = $table;
         $this->query = $query;
@@ -26,4 +25,3 @@ class HandleTableViewCommand
         return $this->table;
     }
 }
- 

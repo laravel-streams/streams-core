@@ -4,13 +4,10 @@ use Illuminate\Support\Collection;
 
 class ViewCollection extends Collection
 {
-
     public function active()
     {
         foreach ($this->items as $item) {
-
             if ($item->isActive()) {
-
                 return $item;
             }
         }
@@ -18,4 +15,3 @@ class ViewCollection extends Collection
         return null;
     }
 }
- 

@@ -10,7 +10,6 @@
  */
 class AssignFieldCommand
 {
-
     /**
      * The sort order.
      *
@@ -95,7 +94,7 @@ class AssignFieldCommand
      * @param null $instructions
      * @param bool $isTranslatable
      */
-    function __construct(
+    public function __construct(
         $namespace,
         $stream,
         $field,
@@ -219,4 +218,3 @@ class AssignFieldCommand
         return $this->field;
     }
 }
- 

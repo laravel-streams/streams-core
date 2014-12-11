@@ -16,10 +16,9 @@ use Way\Generators\Generator;
  */
 class GenerateEntryTranslationsModelCommandHandler
 {
-
     protected $generator;
 
-    function __construct(Generator $generator)
+    public function __construct(Generator $generator)
     {
         $this->generator = $generator;
     }
@@ -70,4 +69,3 @@ class GenerateEntryTranslationsModelCommandHandler
         ];
     }
 }
- 

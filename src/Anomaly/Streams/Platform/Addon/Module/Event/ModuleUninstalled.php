@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
  */
 class ModuleUninstalled
 {
-
     /**
      * The module object.
      *
@@ -25,7 +24,7 @@ class ModuleUninstalled
      *
      * @param Module $module
      */
-    function __construct(Module $module)
+    public function __construct(Module $module)
     {
         $this->module = $module;
     }

@@ -7,7 +7,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
 
 class BuildTableCommandHandler
 {
-
     use CommanderTrait;
     use DispatchableTrait;
 
@@ -37,4 +36,3 @@ class BuildTableCommandHandler
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Row\Command\LoadTableRowsCommand', $args);
     }
 }
- 

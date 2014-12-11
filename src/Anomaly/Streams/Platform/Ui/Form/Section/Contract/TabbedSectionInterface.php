@@ -2,11 +2,9 @@
 
 interface TabbedSectionInterface
 {
-
     public function viewData(array $arguments = []);
 
     public function setTabs($tabs);
 
     public function getTabs();
 }
- 

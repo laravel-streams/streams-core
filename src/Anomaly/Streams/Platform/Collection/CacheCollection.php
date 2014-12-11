@@ -4,7 +4,6 @@ use Illuminate\Support\Collection;
 
 class CacheCollection extends Collection
 {
-
     protected $key;
 
     public function __construct(array $items = [], $key = null)
@@ -27,7 +26,6 @@ class CacheCollection extends Collection
     public function index()
     {
         if ($keys = app('cache')->get($this->key)) {
-
             $this->addKeys($keys);
         }
 

@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
 interface ActionInterface extends ButtonInterface
 {
-
     public function setActive($active);
 
     public function getActive();
@@ -17,4 +16,3 @@ interface ActionInterface extends ButtonInterface
 
     public function getSlug();
 }
- 

@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Ui\Table\Column\Contract\ColumnInterface;
 
 class Column implements ColumnInterface
 {
-
     protected $entry = null;
 
     protected $value;
@@ -19,7 +18,7 @@ class Column implements ColumnInterface
 
     protected $stream;
 
-    function __construct(
+    public function __construct(
         $value,
         $class = null,
         $prefix = null,
@@ -39,7 +38,6 @@ class Column implements ColumnInterface
         $class = $this->getClass();
 
         if ($this->getStream() && is_string($value)) {
-
             $value = $this->getValueFromField($value);
         }
 
@@ -49,7 +47,6 @@ class Column implements ColumnInterface
     protected function getValueFromField($value)
     {
         if ($this->entry instanceof EntryInterface) {
-
             return $this->entry->getFieldValue($value);
         }
 
@@ -128,4 +125,3 @@ class Column implements ColumnInterface
         return $this->value;
     }
 }
- 

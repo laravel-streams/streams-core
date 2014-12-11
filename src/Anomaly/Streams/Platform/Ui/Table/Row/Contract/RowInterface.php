@@ -2,7 +2,5 @@
 
 interface RowInterface
 {
-
     public function viewData(array $arguments = []);
 }
- 

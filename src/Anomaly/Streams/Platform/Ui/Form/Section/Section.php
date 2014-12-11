@@ -4,14 +4,13 @@ use Anomaly\Streams\Platform\Ui\Form\Section\Contract\SectionInterface;
 
 class Section implements SectionInterface
 {
-
     protected $title;
 
     protected $body;
 
     protected $view;
 
-    function __construct($title = null, $body = null, $view = 'ui/form/sections/default/index')
+    public function __construct($title = null, $body = null, $view = 'ui/form/sections/default/index')
     {
         $this->body  = $body;
         $this->view  = $view;
@@ -65,4 +64,3 @@ class Section implements SectionInterface
         return $this->view;
     }
 }
- 

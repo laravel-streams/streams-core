@@ -4,10 +4,9 @@ use Anomaly\Streams\Platform\Ui\Form\Section\SectionFactory;
 
 class LoadFormSectionsCommandHandler
 {
-
     protected $factory;
 
-    function __construct(SectionFactory $factory)
+    public function __construct(SectionFactory $factory)
     {
         $this->factory = $factory;
     }
@@ -21,7 +20,6 @@ class LoadFormSectionsCommandHandler
         $entry    = $form->getEntry();
 
         foreach ($builder->getSections() as $parameters) {
-
             $parameters['stream'] = $stream;
             $parameters['entry']  = $entry;
             $parameters['form']   = $form;
@@ -32,4 +30,3 @@ class LoadFormSectionsCommandHandler
         }
     }
 }
- 

@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
  */
 interface ModuleRepositoryInterface
 {
-
     /**
      * Return all modules in the database.
      *
@@ -36,4 +35,3 @@ interface ModuleRepositoryInterface
      */
     public function uninstall(Module $module);
 }
- 

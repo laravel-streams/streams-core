@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class StandardizeColumnInputCommand
 {
-
     /**
      * The table builder.
      *
@@ -25,7 +24,7 @@ class StandardizeColumnInputCommand
      *
      * @param TableBuilder $builder
      */
-    function __construct(TableBuilder $builder)
+    public function __construct(TableBuilder $builder)
     {
         $this->builder = $builder;
     }
@@ -40,4 +39,3 @@ class StandardizeColumnInputCommand
         return $this->builder;
     }
 }
- 

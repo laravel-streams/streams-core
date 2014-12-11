@@ -2,7 +2,6 @@
 
 interface FieldInterface
 {
-
     public function viewData(array $arguments = []);
 
     public function setInstructions($instructions);
@@ -43,4 +42,3 @@ interface FieldInterface
 
     public function getType();
 }
- 

@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Addon\Addon;
  */
 class Registered
 {
-
     /**
      * The addon object.
      *
@@ -25,7 +24,7 @@ class Registered
      *
      * @param Addon $addon
      */
-    function __construct(Addon $addon)
+    public function __construct(Addon $addon)
     {
         $this->addon = $addon;
     }
@@ -40,4 +39,3 @@ class Registered
         return $this->addon;
     }
 }
- 

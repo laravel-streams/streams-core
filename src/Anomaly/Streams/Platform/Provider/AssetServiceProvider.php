@@ -14,7 +14,6 @@ use Illuminate\Filesystem\Filesystem;
  */
 class AssetServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-
     /**
      * Register the asset utility.
      */

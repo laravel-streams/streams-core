@@ -13,7 +13,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class ThemeListener extends AddonListener
 {
-
     use DispatchableTrait;
 
     public function whenStreamsIsBooting()
@@ -21,4 +20,3 @@ class ThemeListener extends AddonListener
         $this->execute('\Anomaly\Streams\Platform\Addon\Theme\Command\DetectActiveThemeCommand');
     }
 }
- 

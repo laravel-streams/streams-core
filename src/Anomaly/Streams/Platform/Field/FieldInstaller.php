@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Contract\InstallableInterface;
  */
 class FieldInstaller implements InstallableInterface
 {
-
     /**
      * The addon type using this installer.
      *
@@ -72,9 +71,7 @@ class FieldInstaller implements InstallableInterface
     public function install()
     {
         foreach ($this->getFields() as $slug => $field) {
-
             if (is_string($field)) {
-
                 $field = ['type' => $field];
             }
 
@@ -102,7 +99,6 @@ class FieldInstaller implements InstallableInterface
     public function uninstall()
     {
         foreach ($this->getFields() as $slug => $field) {
-
             $namespace = $this->getNamespace($field);
 
             $this->fieldService->delete($namespace, $slug);
@@ -153,7 +149,6 @@ class FieldInstaller implements InstallableInterface
     protected function setAddonType()
     {
         if (!$this->addonType) {
-
             $addonType = explode('\\', (new \ReflectionClass($this))->getName());
 
             $this->addonType = snake_case($addonType[3]);
@@ -166,7 +161,6 @@ class FieldInstaller implements InstallableInterface
     protected function setNamespace()
     {
         if (!$this->namespace) {
-
             $namespace = (new \ReflectionClass($this))->getShortName();
             $namespace = str_replace('FieldInstaller', null, $namespace);
 

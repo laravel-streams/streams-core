@@ -12,5 +12,4 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class FieldTypeCollection extends AddonCollection
 {
-
 }

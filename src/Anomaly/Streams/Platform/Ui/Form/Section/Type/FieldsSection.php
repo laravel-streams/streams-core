@@ -9,7 +9,6 @@ use Anomaly\Streams\Platform\Ui\Form\Section\Contract\FieldsSectionInterface;
 
 class FieldsSection implements FieldsSectionInterface
 {
-
     protected $view;
 
     protected $form;
@@ -24,7 +23,7 @@ class FieldsSection implements FieldsSectionInterface
 
     protected $fieldFactory;
 
-    function __construct(
+    public function __construct(
         array $fields,
         $title = null,
         $prefix = null,
@@ -39,7 +38,6 @@ class FieldsSection implements FieldsSectionInterface
         $this->fieldFactory = $fieldFactory;
 
         foreach ($fields as &$field) {
-
             $field['form']   = $form;
             $field['entry']  = $entry;
             $field['stream'] = $stream;
@@ -57,7 +55,6 @@ class FieldsSection implements FieldsSectionInterface
         $fields = [];
 
         foreach ($this->getFields() as $field) {
-
             $fields[$field->getSlug()] = $field->viewData();
         }
 
@@ -138,4 +135,3 @@ class FieldsSection implements FieldsSectionInterface
         return $this->view;
     }
 }
- 

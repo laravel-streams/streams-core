@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Addon\Addon;
  */
 class Theme extends Addon
 {
-
     /**
      * Determines whether this is
      * an admin theme or not.
@@ -128,7 +127,6 @@ class Theme extends Addon
         $tag = get_class($this) . 'Tag';
 
         if (!class_exists($tag)) {
-
             $tag = '\Anomaly\Streams\Platform\Addon\Theme\ThemeTag';
         }
 

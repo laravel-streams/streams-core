@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class ExtensionCollection extends AddonCollection
 {
-
     /**
      * Get all extensions matching a pattern.
      *
@@ -31,38 +30,30 @@ class ExtensionCollection extends AddonCollection
         list($addonType, $addonSlug) = explode('.', $namespace);
 
         if ($extension == '*') {
-
             $extension = false;
         }
 
         if ($extension != '*') {
-
             list($extensionType, $extensionSlug) = explode('.', $extension);
 
             $extension = "_{$extensionSlug}_{$extensionType}";
 
             if ($extensionSlug == '*') {
-
                 $extension = "_{$extensionType}";
             }
         }
 
         foreach ($this->items as $item) {
-
             $slug = $item->getSlug();
 
             if ($strict) {
-
                 /**
                  * If searching strict then look only at the
                  * beginning and ending of the extension slug.
                  */
                 if (starts_with($slug, "{$addonSlug}_{$addonType}_")) {
-
                     if ($extension) {
-
                         if (ends_with($slug, $extension)) {
-
                             $matches[] = $item;
 
                             continue;
@@ -70,17 +61,13 @@ class ExtensionCollection extends AddonCollection
                     }
                 }
             } else {
-
                 /**
                  * If not searching strict than just do simple string
                  * matches on the extension slug.
                  */
                 if (str_contains($slug, "{$addonSlug}_{$addonType}")) {
-
                     if ($extension) {
-
                         if (str_contains($slug, $extension)) {
-
                             $matches[] = $item;
                         }
                     }
@@ -110,12 +97,10 @@ class ExtensionCollection extends AddonCollection
         $slug = "{$addonSlug}_{$addonType}_{$extensionSlug}_{$extensionType}";
 
         if (isset($this->items[$slug])) {
-
             return $this->items[$slug];
         }
 
         if ($default) {
-
             $this->get($default);
         }
 

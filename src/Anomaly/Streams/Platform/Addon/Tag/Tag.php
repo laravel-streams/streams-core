@@ -14,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\Addon;
  */
 class Tag extends Addon implements PluginInterface
 {
-
     /**
      * An array of the tag's attributes.
      *
@@ -84,9 +83,7 @@ class Tag extends Addon implements PluginInterface
         $attributes = $this->attributes;
 
         foreach ($attributes as $key => $attribute) {
-
             if (in_array($key, $skip) || isset($skip[$key])) {
-
                 unset($attributes[$key]);
             }
         }
@@ -105,10 +102,8 @@ class Tag extends Addon implements PluginInterface
     public function getAttribute($name, $default = null, $offset = 0)
     {
         if (isset($this->attributes[$name])) {
-
             return $this->attributes[$name];
         } elseif (isset($this->attributes[$offset])) {
-
             return $this->attributes[$offset];
         }
 
@@ -139,7 +134,6 @@ class Tag extends Addon implements PluginInterface
         $value = $this->getAttribute($name, $default, $offset);
 
         if (is_string($value)) {
-
             return $this->explode(
                 $value,
                 $itemDelimiter,
@@ -150,7 +144,6 @@ class Tag extends Addon implements PluginInterface
         // If an array was passed.. Can't remember if
         // this is even possible, just use it.
         if (is_array($value)) {
-
             return $value;
         }
 
@@ -209,7 +202,6 @@ class Tag extends Addon implements PluginInterface
         $values = explode($itemDelimiter, $string);
 
         foreach ($values as $k => $item) {
-
             $item = explode($valueDelimiter, $item);
 
             // If there is no key - use the original index.

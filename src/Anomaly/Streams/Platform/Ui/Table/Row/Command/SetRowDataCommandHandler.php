@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Ui\Table\Row\Contract\RowInterface;
 
 class SetRowDataCommandHandler
 {
-
     public function handle(SetRowDataCommand $command)
     {
         $builder = $command->getBuilder();
@@ -13,9 +12,7 @@ class SetRowDataCommandHandler
         $rows = [];
 
         foreach ($table->getRows() as $row) {
-
             if ($row instanceof RowInterface) {
-
                 $rows[] = $row->viewData();
             }
         }
@@ -23,4 +20,3 @@ class SetRowDataCommandHandler
         $table->putData('rows', $rows);
     }
 }
- 

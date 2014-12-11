@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  */
 class ModuleModel extends EloquentModel
 {
-
     /**
      * Define the table name.
      *
@@ -39,7 +38,6 @@ class ModuleModel extends EloquentModel
         $module = $this->findBySlug($slug);
 
         if ($module instanceof ModuleModel) {
-
             return $module;
         }
 

@@ -12,10 +12,9 @@ use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
  */
 class AddAssignmentColumnCommandHandler
 {
-
     protected $schema;
 
-    function __construct(AssignmentSchema $schema)
+    public function __construct(AssignmentSchema $schema)
     {
         $this->schema = $schema;
     }
@@ -38,11 +37,9 @@ class AddAssignmentColumnCommandHandler
         $columnType = $type->getColumnType();
 
         if ($columnType) {
-
             $this->schema->addColumn($table, $columnName, $columnType);
 
             if ($assignment->isTranslatable()) {
-
                 $table = $stream->getEntryTranslationsTableName();
 
                 $this->schema->addColumn($table, $columnName, $columnType);
@@ -50,4 +47,3 @@ class AddAssignmentColumnCommandHandler
         }
     }
 }
- 

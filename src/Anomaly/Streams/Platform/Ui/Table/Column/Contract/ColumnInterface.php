@@ -2,7 +2,6 @@
 
 interface ColumnInterface
 {
-
     public function viewData(array $arguments = []);
 
     public function setHeader($header);
@@ -29,4 +28,3 @@ interface ColumnInterface
 
     public function getValue();
 }
- 

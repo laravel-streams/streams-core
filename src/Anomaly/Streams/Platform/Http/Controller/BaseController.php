@@ -13,6 +13,5 @@ use Laracasts\Commander\CommanderTrait;
  */
 class BaseController extends Controller
 {
-
     use CommanderTrait;
 }

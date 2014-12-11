@@ -14,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryDatesParser
 {
-
     /**
      * Return the dates attribute.
      *
@@ -29,7 +28,6 @@ class EntryDatesParser
         $string .= "\n'updated_at',";
 
         foreach ($stream->getAssignments() as $assignment) {
-
             $this->parseAssignment($assignment, $string);
         }
 
@@ -49,9 +47,7 @@ class EntryDatesParser
         $type = $assignment->getFieldType();
 
         if ($type instanceof DateFieldTypeInterface) {
-
             $string .= "\n'{$assignment->getFieldSlug()}',";
         }
     }
 }
- 

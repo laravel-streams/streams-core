@@ -13,7 +13,6 @@ use Anomaly\Streams\Platform\Support\Presenter;
  */
 class FieldTypePresenter extends Presenter implements StringableInterface
 {
-
     /**
      * Create a new Presenter instance.
      *
@@ -22,7 +21,6 @@ class FieldTypePresenter extends Presenter implements StringableInterface
     public function __construct($resource)
     {
         if ($resource instanceof FieldType) {
-
             $this->resource = $resource;
         }
     }

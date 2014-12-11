@@ -10,7 +10,6 @@
  */
 interface FieldRepositoryInterface
 {
-
     /**
      * Create a new field.
      *
@@ -58,4 +57,3 @@ interface FieldRepositoryInterface
      */
     public function deleteGarbage();
 }
- 

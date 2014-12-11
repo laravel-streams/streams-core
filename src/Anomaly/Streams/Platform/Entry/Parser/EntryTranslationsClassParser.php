@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryTranslationsClassParser
 {
-
     /**
      * Return the entry translations model class.
      *
@@ -24,4 +23,3 @@ class EntryTranslationsClassParser
         return studly_case("{$stream->getNamespace()}_{$stream->getSlug()}") . 'EntryTranslationsModel';
     }
 }
- 

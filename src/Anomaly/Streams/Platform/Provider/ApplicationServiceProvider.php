@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Application\ApplicationModel;
 
 class ApplicationServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-
     /**
      * Register and setup the application.
      */

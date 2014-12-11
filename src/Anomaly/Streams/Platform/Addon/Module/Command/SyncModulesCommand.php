@@ -10,9 +10,7 @@
  */
 class SyncModulesCommand
 {
-
     public function __construct()
     {
     }
 }
- 

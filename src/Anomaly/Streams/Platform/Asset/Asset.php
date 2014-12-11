@@ -23,7 +23,6 @@ use Assetic\Asset\GlobAsset;
  */
 class Asset
 {
-
     /**
      * The public base directory.
      *
@@ -70,7 +69,6 @@ class Asset
     public function add($group, $file, array $filters = [])
     {
         if (!isset($this->groups[$group])) {
-
             $this->groups[$group] = [];
         }
 
@@ -79,7 +77,6 @@ class Asset
         $file = $this->replaceNamespace($file);
 
         if (file_exists($file) || is_dir(trim($file, '*'))) {
-
             $this->groups[$group][$file] = $filters;
         }
 
@@ -96,7 +93,6 @@ class Asset
     public function path($group, array $filters = [])
     {
         if (!isset($this->groups[$group])) {
-
             $this->add($group, $group, $filters);
         }
 
@@ -144,7 +140,6 @@ class Asset
         $path = $this->getPublicPath($group, $filters);
 
         if ($this->shouldPublish($path, $filters)) {
-
             $this->publish($path, $group, $filters);
         }
 
@@ -161,7 +156,6 @@ class Asset
     protected function getPublicPath($group, $filters)
     {
         if (str_contains($group, public_path())) {
-
             return ltrim(str_replace(public_path(), '', $group), '/');
         }
 
@@ -182,7 +176,6 @@ class Asset
     protected function publish($path, $group, $additionalFilters)
     {
         if (str_contains($group, public_path())) {
-
             return;
         }
 
@@ -191,16 +184,13 @@ class Asset
         $hint = $this->getHint($group);
 
         foreach ($this->groups[$group] as $file => $filters) {
-
             $filters = array_filter(array_unique(array_merge($filters, $additionalFilters)));
 
             $filters = $this->transformFilters($filters, $hint);
 
             if (ends_with($file, '*')) {
-
                 $file = new GlobAsset($file, $filters);
             } else {
-
                 $file = new FileAsset($file, $filters);
             }
 
@@ -227,7 +217,6 @@ class Asset
     protected function transformFilters($filters, $hint)
     {
         foreach ($filters as $k => &$filter) {
-
             switch ($filter) {
                 case 'less':
                     $filter = new LessphpFilter();
@@ -247,10 +236,8 @@ class Asset
 
                 case 'min':
                     if ($hint == 'js') {
-
                         $filter = new JSMinFilter();
                     } elseif ($hint == 'css') {
-
                         $filter = new CssMinFilter();
                     }
                     break;
@@ -275,17 +262,14 @@ class Asset
     protected function addConvenientFilters($file, $filters)
     {
         if (ends_with($file, '.less')) {
-
             $filters[] = 'less';
         }
 
         if (ends_with($file, '.scss')) {
-
             $filters[] = 'scss';
         }
 
         if (ends_with($file, '.coffee')) {
-
             $filters[] = 'coffee';
         }
 
@@ -317,12 +301,10 @@ class Asset
         $hint = $this->getExtension($path);
 
         if (in_array($hint, ['less', 'scss'])) {
-
             $hint = 'css';
         }
 
         if ($hint == 'coffee') {
-
             $hint = 'js';
         }
 
@@ -339,11 +321,9 @@ class Asset
     protected function replaceNamespace($path)
     {
         if (str_contains($path, '::')) {
-
-            list ($namespace, $path) = explode('::', $path);
+            list($namespace, $path) = explode('::', $path);
 
             if (isset($this->namespaces[$namespace]) && $location = $this->namespaces[$namespace]) {
-
                 $path = $location . '/' . $path;
             }
         }
@@ -362,22 +342,18 @@ class Asset
     protected function shouldPublish($path, array $filters = [])
     {
         if (isset($_GET['_publish'])) {
-
             return true;
         }
 
         if ($this->publish === true) {
-
             return true;
         }
 
         if (!file_exists($path)) {
-
             return true;
         }
 
         if (in_array('live', $filters)) {
-
             return true;
         }
 

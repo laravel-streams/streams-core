@@ -11,7 +11,6 @@ use Laracasts\Commander\CommanderTrait;
 
 class StandardizeInputCommandHandler
 {
-
     use CommanderTrait;
 
     public function handle(StandardizeInputCommand $command)
@@ -36,12 +35,10 @@ class StandardizeInputCommandHandler
         $model = $builder->getModel();
 
         if (!$model) {
-
             return;
         }
 
         if (is_string($model)) {
-
             $model = app($model);
         }
 
@@ -51,16 +48,13 @@ class StandardizeInputCommandHandler
          * can use it later if we need.
          */
         if ($model instanceof EntryInterface) {
-
             $table->setStream($model->getStream());
         }
 
         if (!$model instanceof TableModelInterface) {
-
             throw new IncompatibleModelException("[get_class($model)] must implement Anomaly\\Streams\\Platform\\Ui\\Table\\Contract\\TableModelInterface");
         }
 
         $builder->setModel($model);
     }
 }
- 

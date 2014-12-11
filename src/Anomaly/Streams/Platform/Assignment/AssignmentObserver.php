@@ -15,7 +15,6 @@ use Anomaly\Streams\Platform\Model\EloquentObserver;
  */
 class AssignmentObserver extends EloquentObserver
 {
-
     /**
      * Run after an assignment is saved.
      *
