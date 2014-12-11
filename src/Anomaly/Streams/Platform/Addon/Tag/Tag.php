@@ -161,7 +161,7 @@ class Tag extends Addon implements PluginInterface
      */
     public function getAttributeAsBool($name, $default = null, $offset = 0)
     {
-        return ($this->getAttribute($name, $default, $offset));
+        return filter_var($this->getAttribute($name, $default, $offset), FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
