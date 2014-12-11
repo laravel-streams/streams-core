@@ -85,7 +85,7 @@ class Tag extends Addon implements PluginInterface
 
         foreach ($attributes as $key => $attribute) {
 
-            if (in_array($key, $skip) or isset($skip[$key])) {
+            if (in_array($key, $skip) || isset($skip[$key])) {
 
                 unset($attributes[$key]);
             }
