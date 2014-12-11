@@ -19,7 +19,7 @@ class EloquentObserver
      *
      * @param EloquentModel $model
      */
-    public function creating($model)
+    public function creating(EloquentModel $model)
     {
         $this->dispatchEventsFor($model);
     }
@@ -29,7 +29,7 @@ class EloquentObserver
      *
      * @param EloquentModel $model
      */
-    public function created($model)
+    public function created(EloquentModel $model)
     {
         $this->dispatchEventsFor($model);
 
@@ -43,7 +43,7 @@ class EloquentObserver
      * @param EloquentModel $model
      * @return bool
      */
-    public function saving($model)
+    public function saving(EloquentModel $model)
     {
         $this->dispatchEventsFor($model);
 
@@ -55,7 +55,7 @@ class EloquentObserver
      *
      * @param EloquentModel $model
      */
-    public function saved($model)
+    public function saved(EloquentModel $model)
     {
         $this->dispatchEventsFor($model);
     }
@@ -65,7 +65,7 @@ class EloquentObserver
      *
      * @param EloquentModel $model
      */
-    public function updating($model)
+    public function updating(EloquentModel $model)
     {
         $this->dispatchEventsFor($model);
     }
@@ -75,7 +75,7 @@ class EloquentObserver
      *
      * @param EloquentModel $model
      */
-    public function updated($model)
+    public function updated(EloquentModel $model)
     {
         $this->dispatchEventsFor($model);
 
@@ -87,7 +87,7 @@ class EloquentObserver
      *
      * @param EloquentModel $model
      */
-    public function deleting($model)
+    public function deleting(EloquentModel $model)
     {
         $this->dispatchEventsFor($model);
     }
@@ -97,7 +97,7 @@ class EloquentObserver
      *
      * @param EloquentModel $model
      */
-    public function deleted($model)
+    public function deleted(EloquentModel $model)
     {
         $this->dispatchEventsFor($model);
 
@@ -109,7 +109,7 @@ class EloquentObserver
      *
      * @param EloquentModel $model
      */
-    public function restoring($model)
+    public function restoring(EloquentModel $model)
     {
         $this->dispatchEventsFor($model);
     }
@@ -119,7 +119,7 @@ class EloquentObserver
      *
      * @param EloquentModel $model
      */
-    public function restored($model)
+    public function restored(EloquentModel $model)
     {
         $this->dispatchEventsFor($model);
 
