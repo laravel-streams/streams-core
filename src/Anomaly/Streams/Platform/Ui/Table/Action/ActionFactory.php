@@ -7,7 +7,7 @@ class ActionFactory
 
     public function make(array $parameters)
     {
-        if (isset($parameters['action']) and class_exists($parameters['action'])) {
+        if (isset($parameters['action']) && class_exists($parameters['action'])) {
 
             return app()->make($parameters['action'], $parameters);
         }

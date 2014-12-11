@@ -78,7 +78,7 @@ class Asset
 
         $file = $this->replaceNamespace($file);
 
-        if (file_exists($file) or is_dir(trim($file, '*'))) {
+        if (file_exists($file) || is_dir(trim($file, '*'))) {
 
             $this->groups[$group][$file] = $filters;
         }

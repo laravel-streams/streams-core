@@ -18,7 +18,7 @@ class StandardizeActionInputCommandHandler
              * there are not multiple instances of this
              * input using the same action which is not likely.
              */
-            if (is_numeric($key) and is_string($action)) {
+            if (is_numeric($key) && is_string($action)) {
 
                 $action = [
                     'slug'   => $action,
@@ -31,7 +31,7 @@ class StandardizeActionInputCommandHandler
              * array without an action then use the key for
              * the action.
              */
-            if (is_array($action) and !isset($action['action']) and !is_numeric($key)) {
+            if (is_array($action) && !isset($action['action']) && !is_numeric($key)) {
 
                 $action['action'] = $key;
             }
@@ -40,7 +40,7 @@ class StandardizeActionInputCommandHandler
              * If the action is an array and action is not set
              * but the slug is.. use the slug as the action.
              */
-            if (is_array($action) and !isset($action['action']) and isset($action['slug'])) {
+            if (is_array($action) && !isset($action['action']) && isset($action['slug'])) {
 
                 $action['action'] = $action['slug'];
             }
@@ -49,7 +49,7 @@ class StandardizeActionInputCommandHandler
              * If the action is an array and a slug is not set
              * but the action is.. use the action as the slug.
              */
-            if (is_array($action) and !isset($action['slug']) and isset($action['action'])) {
+            if (is_array($action) && !isset($action['slug']) && isset($action['action'])) {
 
                 $action['slug'] = $action['action'];
             }
