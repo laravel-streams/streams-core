@@ -66,6 +66,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment->placeholder     = $placeholder;
         $assignment->instructions    = $instructions;
         $assignment->is_translatable = $isTranslatable;
+        $assignment->sort_order      = $this->model->count('id') + 1;
 
         $assignment->save();
     }
