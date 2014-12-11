@@ -37,10 +37,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // TODO: Put some of this stuff elsewhere / in a method
-        $this->app['streams.path']       = dirname(dirname(dirname(dirname(__DIR__))));
-        $this->app['streams.asset.path'] = public_path('assets/' . APP_REF);
-
         // TODO: Translatable
         $this->app['config']->set('translatable::locales', ['en', 'es']);
         $this->app['config']->set('translatable::translation_suffix', 'Translation');
@@ -51,6 +47,10 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerPackageAliases();
         $this->registerPackages();
         $this->registerCore();
+
+        // TODO: Put some of this stuff elsewhere / in a method
+        $this->app['streams.path']       = dirname(dirname(dirname(dirname(__DIR__))));
+        $this->app['streams.asset.path'] = public_path('assets/' . APP_REF);
     }
 
     /**
