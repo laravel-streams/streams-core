@@ -1,46 +1,6 @@
 <?php
 
 /**
- * Return the slugified version of a string.
- *
- * @param        $string
- * @param string $separator
- * @return mixed|string
- */
-function slugify($string, $separator = '_')
-{
-    $string = trim($string);
-    $string = strtolower($string);
-    $string = preg_replace("/[\s{$separator}]+/", $separator, $string);
-    $string = preg_replace("/[^0-9a-zA-Z{$separator}]/", '', $string);
-
-    return $string;
-}
-
-/**
- * Return the humanized version of a string.
- *
- * @param $string
- * @return string
- */
-function humanize($string)
-{
-    return ucwords(str_replace('_', ' ', snake_case($string)));
-}
-
-/**
- * Return the evaluated boolean value of a value.
- *
- * @param       $value
- * @param array $arguments
- * @return mixed
- */
-function boolean($value, $arguments = [])
-{
-    return filter_var(evaluate($value, $arguments), FILTER_VALIDATE_BOOLEAN);
-}
-
-/**
  * Return the evaluated value of a value (ya, that's right).
  *
  * @param       $value
