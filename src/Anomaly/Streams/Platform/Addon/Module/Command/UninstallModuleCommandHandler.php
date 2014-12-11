@@ -50,16 +50,16 @@ class UninstallModuleCommandHandler
         foreach ($installer->getInstallers() as $installer) {
             $installer = $this->resolveInstaller($module, $installer);
 
-            $this->runInstaller($installer);
+            $this->runUninstall($installer);
         }
     }
 
     /**
-     * Run the installer.
+     * Run the installer's uninstall method.
      *
      * @param InstallableInterface $installer
      */
-    protected function runInstaller(InstallableInterface $installer)
+    protected function runUninstall(InstallableInterface $installer)
     {
         $installer->install();
     }
