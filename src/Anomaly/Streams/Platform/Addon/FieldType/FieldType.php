@@ -162,7 +162,7 @@ class FieldType extends Addon implements PresentableInterface
         $value       = $this->getValue();
         $class       = $this->getClass();
         $name        = $this->getFieldName();
-        $type        = $this->getConfig('type', 'text');
+        $type        = $this->pullConfig('type', 'text');
         $placeholder = trans($this->getPlaceholder(), [], null, $this->getLocale());
 
         return compact('name', 'value', 'type', 'class', 'placeholder');
