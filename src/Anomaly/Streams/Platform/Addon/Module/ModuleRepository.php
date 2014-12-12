@@ -82,7 +82,7 @@ class ModuleRepository implements ModuleRepositoryInterface
      * @param $slug
      * @return mixed
      */
-    public function installed($slug)
+    public function install($slug)
     {
         $module = $this->model->findBySlugOrNew($slug);
 
@@ -98,7 +98,7 @@ class ModuleRepository implements ModuleRepositoryInterface
      * @param $slug
      * @return mixed
      */
-    public function uninstalled($slug)
+    public function uninstall($slug)
     {
         $module = $this->model->findBySlug($slug);
 

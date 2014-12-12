@@ -39,7 +39,7 @@ interface ModuleRepositoryInterface
      * @param $slug
      * @return mixed
      */
-    public function installed($slug);
+    public function install($slug);
 
     /**
      * Mark a module as uninstalled.
@@ -47,5 +47,5 @@ interface ModuleRepositoryInterface
      * @param $slug
      * @return mixed
      */
-    public function uninstalled($slug);
+    public function uninstall($slug);
 }

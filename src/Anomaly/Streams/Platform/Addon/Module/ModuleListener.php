@@ -38,7 +38,9 @@ class ModuleListener extends AddonListener
      */
     public function whenModuleInstalled(ModuleInstalled $event)
     {
-        $this->modules->install($event->getModule());
+        $module = $event->getModule();
+
+        $this->modules->install($module->getSlug());
     }
 
     /**
@@ -48,7 +50,9 @@ class ModuleListener extends AddonListener
      */
     public function whenModuleUninstalled(ModuleUninstalled $event)
     {
-        $this->modules->uninstall($event->getModule());
+        $module = $event->getModule();
+
+        $this->modules->uninstall($module->getSlug());
     }
 
     /**
