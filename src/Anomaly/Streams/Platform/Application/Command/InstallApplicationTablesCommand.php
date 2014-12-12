@@ -31,4 +31,3 @@ class InstallApplicationTablesCommand
         return $this->reference;
     }
 }
- 

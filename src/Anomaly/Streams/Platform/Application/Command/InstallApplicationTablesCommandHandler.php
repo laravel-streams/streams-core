@@ -81,4 +81,3 @@ class InstallApplicationTablesCommandHandler
         $this->schema->getConnection()->setTablePrefix($prefix);
     }
 }
- 

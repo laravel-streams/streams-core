@@ -14,7 +14,7 @@ class InstallModulesTableCommandHandler
         $this->schema = app('db')->connection()->getSchemaBuilder();
     }
 
-    public function handle(InstallModulesTableCommand $command)
+    public function handle()
     {
         $this->installModulesTable();
     }
@@ -36,4 +36,3 @@ class InstallModulesTableCommandHandler
         );
     }
 }
- 

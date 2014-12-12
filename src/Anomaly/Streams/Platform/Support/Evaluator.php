@@ -78,4 +78,3 @@ class Evaluator
         return (str_contains($target, ['{{', '}}']));
     }
 }
- 

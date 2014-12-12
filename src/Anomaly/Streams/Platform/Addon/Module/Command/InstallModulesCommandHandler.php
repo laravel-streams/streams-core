@@ -11,7 +11,7 @@ class InstallModulesCommandHandler
         $this->service = $service;
     }
 
-    public function handle(InstallModulesCommand $command)
+    public function handle()
     {
         foreach (app('streams.modules')->all() as $module) {
 
@@ -20,4 +20,3 @@ class InstallModulesCommandHandler
         }
     }
 }
- 
