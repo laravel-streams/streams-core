@@ -1,8 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
-use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Application\ApplicationModel;
-
 class ApplicationServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
@@ -10,7 +7,7 @@ class ApplicationServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
-        $this->app->instance('streams.application', new Application(new ApplicationModel(), $this->app));
+        $this->app->instance('streams.application', app('Anomaly\Streams\Platform\Application\Application'));
 
         app('config')->addNamespace('streams', __DIR__ . '/../../../../resources/config');
 

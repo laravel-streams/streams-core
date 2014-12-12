@@ -1,8 +1,15 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
+/**
+ * Class ApplicationModel
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Application
+ */
 class ApplicationModel extends Model
 {
     /**
@@ -15,7 +22,7 @@ class ApplicationModel extends Model
     {
         $domain = trim(str_replace(array('http://', 'https://'), '', $domain), '/');
 
-        return DB::table('applications')
+        return app('db')->table('applications')
             ->leftJoin('applications_domains', 'applications.id', '=', 'applications_domains.application_id')
             ->where('applications.domain', $domain)
             ->orWhere('applications_domains.domain', $domain)

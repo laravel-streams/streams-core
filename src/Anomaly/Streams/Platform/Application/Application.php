@@ -45,8 +45,8 @@ class Application
      */
     public function setTablePrefix()
     {
-        \Schema::getConnection()->getSchemaGrammar()->setTablePrefix($this->tablePrefix());
-        \Schema::getConnection()->setTablePrefix($this->tablePrefix());
+        app('db')->getSchemaBuilder()->getConnection()->setTablePrefix($this->tablePrefix());
+        app('db')->getSchemaBuilder()->getConnection()->getSchemaGrammar()->setTablePrefix($this->tablePrefix());
     }
 
     /**
