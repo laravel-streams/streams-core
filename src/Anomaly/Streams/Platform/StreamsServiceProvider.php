@@ -34,19 +34,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Move this somewhere better..
-        if (app('request')->segment(1) !== 'installer' && !file_exists(base_path('config/distribution.php'))) {
-
-            app('router')->any(
-                '{all}',
-                function () {
-                    return redirect(url('installer'));
-                }
-            )->where('all', '.*');
-
-            return;
-        }
-
         $this->checkEnvironment();
         $this->configurePackages();
         $this->registerListeners();
