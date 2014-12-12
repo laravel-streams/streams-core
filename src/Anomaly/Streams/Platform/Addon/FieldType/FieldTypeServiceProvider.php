@@ -12,10 +12,4 @@ use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
  */
 class FieldTypeServiceProvider extends AddonServiceProvider
 {
-    /**
-     * The binding type.
-     *
-     * @var string
-     */
-    protected $binding = 'bind';
 }

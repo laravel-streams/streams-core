@@ -22,13 +22,6 @@ class AddonServiceProvider extends ServiceProvider
     use DispatchableTrait;
 
     /**
-     * The IoC binding method to use.
-     *
-     * @var string
-     */
-    protected $binding = 'singleton';
-
-    /**
      * The addon type.
      * This is set automatically.
      *
@@ -130,7 +123,7 @@ class AddonServiceProvider extends ServiceProvider
 
         $addon = $this->app->make($class);
 
-        $this->app->{$this->binding}(
+        $this->app->bind(
             $addon->getAbstract(),
             function () use ($addon) {
                 return $addon;
