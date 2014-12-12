@@ -34,7 +34,7 @@ class Filter implements FilterInterface
     {
         $input = $this->getInput();
 
-        return evaluate(compact('input'), $arguments);
+        return compact('input');
     }
 
     public function setActive($active)

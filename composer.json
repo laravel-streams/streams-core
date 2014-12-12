@@ -39,10 +39,7 @@
     "autoload": {
         "psr-0": {
             "Anomaly\\Streams\\Platform": "src/"
-        },
-        "files": [
-            "resources/helpers.php"
-        ]
+        }
     },
     "minimum-stability": "dev",
     "config": {

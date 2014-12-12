@@ -44,7 +44,7 @@ class Action extends Button implements ActionInterface
 
         $value = $this->getSlug();
 
-        return evaluate($data + compact('value'), $arguments);
+        return $data + compact('value');
     }
 
     public function setHandler($handler)

@@ -41,7 +41,7 @@ class Column implements ColumnInterface
             $value = $this->getValueFromField($value);
         }
 
-        return evaluate(compact('value', 'class'), $arguments);
+        return compact('value', 'class');
     }
 
     protected function getValueFromField($value)

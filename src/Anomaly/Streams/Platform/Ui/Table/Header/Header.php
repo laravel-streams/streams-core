@@ -24,7 +24,7 @@ class Header implements HeaderInterface
 
         $text = trans($text);
 
-        return evaluate(compact('text'), $arguments);
+        return compact('text');
     }
 
     public function setStream(StreamInterface $stream)

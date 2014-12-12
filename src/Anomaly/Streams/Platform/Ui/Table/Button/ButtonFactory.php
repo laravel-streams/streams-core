@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Button;
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-
 class ButtonFactory extends \Anomaly\Streams\Platform\Ui\Button\ButtonFactory
 {
     protected $button = 'Anomaly\Streams\Platform\Ui\Table\Button\Button';
@@ -26,10 +24,7 @@ class ButtonFactory extends \Anomaly\Streams\Platform\Ui\Button\ButtonFactory
              * the best practice for the "view" URL.
              */
             case 'view':
-                $parameters['href'] = function (EntryInterface $entry) use ($path) {
-
-                    return url($path . '/show/' . $entry->getId());
-                };
+                $parameters['href'] = url($path . '/show/{{ entry.id }}');
                 break;
 
             /**
@@ -37,10 +32,7 @@ class ButtonFactory extends \Anomaly\Streams\Platform\Ui\Button\ButtonFactory
              * the best practice for the "edit" URL.
              */
             case 'edit':
-                $parameters['href'] = function (EntryInterface $entry) use ($path) {
-
-                    return url($path . '/edit/' . $entry->getId());
-                };
+                $parameters['href'] = url($path . '/edit/{{ entry.id }}');
                 break;
 
             /**
@@ -48,10 +40,7 @@ class ButtonFactory extends \Anomaly\Streams\Platform\Ui\Button\ButtonFactory
              * the best practice for the "delete" URL.
              */
             case 'delete':
-                $parameters['href'] = function (EntryInterface $entry) use ($path) {
-
-                    return url($path . '/delete/' . $entry->getId());
-                };
+                $parameters['href'] = url($path . '/delete/{{ entry.id }}');
                 break;
         }
     }

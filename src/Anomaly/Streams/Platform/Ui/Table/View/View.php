@@ -40,7 +40,7 @@ class View implements ViewInterface
         $text       = trans($this->getText());
         $attributes = app('html')->attributes($this->getAttributes());
 
-        return evaluate(compact('active', 'text', 'url', 'attributes'), $arguments);
+        return compact('active', 'text', 'url', 'attributes');
     }
 
     public function setAttributes(array $attributes)
