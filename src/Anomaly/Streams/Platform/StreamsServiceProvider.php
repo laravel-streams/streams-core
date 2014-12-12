@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform;
 
+use Anomaly\Streams\Platform\Asset\Asset;
+use Anomaly\Streams\Platform\Asset\Image;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Laracasts\Commander\DefaultCommandBus;
 
@@ -102,9 +105,29 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         $this->app->register('Anomaly\Streams\Platform\Provider\ServiceProvider');
-        $this->app->register('Anomaly\Streams\Platform\Provider\ExceptionServiceProvider');
 
-        $this->app->register('Anomaly\Streams\Platform\Provider\AssetServiceProvider');
+        $this->app->singleton(
+            'streams.asset',
+            function () {
+
+                return new Asset(new Filesystem(), app('streams.application'));
+            }
+        );
+
+        $this->app->singleton(
+            'streams.image',
+            function () {
+
+                return new Image();
+            }
+        );
+
+        $this->app['streams.asset']->addNamespace(
+            'asset',
+            public_path('assets/' . app('streams.application')->getReference())
+        );
+        $this->app['streams.asset']->addNamespace('streams', $this->app['streams.path'] . '/resources');
+
         $this->app->register('Anomaly\Streams\Platform\Provider\ModelServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ViewServiceProvider');
 
