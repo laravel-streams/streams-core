@@ -56,7 +56,7 @@ class HandleFormInputCommandHandler
             return;
         }
 
-        foreach (config('streams.available_locales') as $locale) {
+        foreach (config('streams::config.available_locales') as $locale) {
             if ($locale == config('app.locale')) {
                 continue;
             }

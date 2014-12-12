@@ -35,7 +35,7 @@ class StreamsServiceProvider extends ServiceProvider
     public function register()
     {
         // Move this somewhere better..
-        if (app('request')->path() !== 'installer' && !file_exists(base_path('config/database.php'))) {
+        if (app('request')->segment(1) !== 'installer' && !file_exists(base_path('config/distribution.php'))) {
 
             app('router')->any(
                 '{all}',
@@ -97,12 +97,17 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $this->app->register('Anomaly\Streams\Platform\Provider\ApplicationServiceProvider');
 
-        $this->app->register('Anomaly\Streams\Platform\Provider\ServiceProvider');
-        $this->app->register('Anomaly\Streams\Platform\Provider\ExceptionServiceProvider');
-
         // Put some of this stuff elsewhere / in a method
         $this->app['streams.path']       = dirname(dirname(dirname(dirname(__DIR__))));
         $this->app['streams.asset.path'] = public_path('assets/' . app('streams.application')->getReference());
+
+        app('config')->addNamespace(
+            'streams',
+            $this->app['streams.path'] . '/resources/config'
+        );
+
+        $this->app->register('Anomaly\Streams\Platform\Provider\ServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Provider\ExceptionServiceProvider');
 
         $this->app->register('Anomaly\Streams\Platform\Provider\AssetServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ModelServiceProvider');

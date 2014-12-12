@@ -73,7 +73,7 @@ class MakeFormCommandHandler
 
         $locales = [];
 
-        foreach (config('streams.available_locales') as $k => $locale) {
+        foreach (config('streams::config.available_locales') as $k => $locale) {
             $language = trans('language.' . $locale);
             $active   = $locale == config('app.locale');
 

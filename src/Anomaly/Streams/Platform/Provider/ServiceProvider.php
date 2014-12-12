@@ -35,12 +35,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->app->bind(
             'Anomaly\Streams\Platform\Stream\StreamModel',
-            config('streams.streams.model')
+            config('streams::config.streams.model')
         );
 
         $this->app->bind(
             '\Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface',
-            config('streams.streams.repository')
+            config('streams::config.streams.repository')
         );
     }
 
@@ -51,12 +51,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->app->bind(
             'Anomaly\Streams\Platform\Field\FieldModel',
-            config('streams.fields.model')
+            config('streams::config.fields.model')
         );
 
         $this->app->bind(
             '\Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface',
-            config('streams.fields.repository')
+            config('streams::config.fields.repository')
         );
     }
 
@@ -67,12 +67,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->app->bind(
             'Anomaly\Streams\Platform\Assignment\AssignmentModel',
-            config('streams.assignments.model')
+            config('streams::config.assignments.model')
         );
 
         $this->app->bind(
             '\Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface',
-            config('streams.assignments.repository')
+            config('streams::config.assignments.repository')
         );
     }
 
@@ -83,12 +83,12 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->app->bind(
             'Anomaly\Streams\Platform\Entry\EntryModel',
-            config('streams.entries.model')
+            config('streams::config.entries.model')
         );
 
         $this->app->bind(
             '\Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface',
-            config('streams.entries.repository')
+            config('streams::config.entries.repository')
         );
     }
 
@@ -107,7 +107,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->app->singleton(
             'Anomaly\Streams\Platform\Ui\Button\Contract\ButtonRepositoryInterface',
-            config('streams.buttons.repository')
+            config('streams::config.buttons.repository')
         );
     }
 
@@ -118,7 +118,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->app->singleton(
             'Anomaly\Streams\Platform\Ui\Icon\Contract\IconRepositoryInterface',
-            config('streams.icons.repository')
+            config('streams::config.icons.repository')
         );
     }
 }

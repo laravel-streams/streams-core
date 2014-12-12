@@ -34,7 +34,7 @@ class StreamsField implements StreamsFieldInterface
         if ($assignment->isTranslatable()) {
             $input = '';
 
-            foreach (config('streams.available_locales') as $locale) {
+            foreach (config('streams::config.available_locales') as $locale) {
                 $type->setSuffix($locale);
                 $type->setLocale($locale);
                 $type->setHidden($locale !== config('app.locale'));

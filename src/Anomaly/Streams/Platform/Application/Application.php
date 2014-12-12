@@ -110,7 +110,7 @@ class Application
      */
     public function isInstalled()
     {
-        $config = base_path('config/database.php');
+        $config = base_path('config/distribution.php');
 
         return file_exists($config);
     }

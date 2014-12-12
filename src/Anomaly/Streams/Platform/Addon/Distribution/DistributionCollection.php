@@ -20,7 +20,7 @@ class DistributionCollection extends AddonCollection
     public function active()
     {
         foreach ($this->items as $item) {
-            if ($item->getSlug() == config('streams.distribution')) {
+            if ($item->getSlug() == config('streams::config.distribution')) {
                 return $item;
             }
         }
