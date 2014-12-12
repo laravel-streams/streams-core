@@ -78,7 +78,7 @@ class Composer
              */
             if (str_contains($namespace, '.')) {
                 list($type, $slug) = explode('.', $namespace);
-            } else {
+            } elseif (in_array($namespace, ['distribution', 'module', 'theme'])) {
                 $plural = str_plural($namespace);
 
                 // If the namespace is a shortcut for an "active" addon
@@ -91,6 +91,9 @@ class Composer
 
                 $type = $addon->getType();
                 $slug = $addon->getSlug();
+            } else {
+
+                return;
             }
 
             // Create the override paths.
