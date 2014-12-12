@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Section;
 
-use Laracasts\Commander\CommanderTrait;
-
 class SectionFactory
 {
     protected $sections = [

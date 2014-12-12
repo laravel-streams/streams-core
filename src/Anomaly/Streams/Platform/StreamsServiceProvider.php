@@ -1,9 +1,6 @@
 <?php namespace Anomaly\Streams\Platform;
 
 use Illuminate\Support\ServiceProvider;
-use Laracasts\Commander\Events\DispatchableTrait;
-use Laracasts\Commander\Events\EventGenerator;
-use Symfony\Component\Yaml\Parser;
 
 /**
  * Class StreamsServiceProvider
