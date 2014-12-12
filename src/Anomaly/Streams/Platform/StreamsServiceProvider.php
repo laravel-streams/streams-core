@@ -94,7 +94,21 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerCore()
     {
-        $this->app->register('Anomaly\Streams\Platform\Provider\ApplicationServiceProvider');
+
+        $this->app->instance('streams.application', app('Anomaly\Streams\Platform\Application\Application'));
+
+        app('config')->addNamespace('streams', __DIR__ . '/../../../../resources/config');
+
+        if (file_exists(base_path('config/distribution.php'))) {
+
+            app('streams.application')->locate();
+
+            if (file_exists(base_path('config/database.php'))) {
+
+                app('streams.application')->setup();
+            }
+        }
+
 
         // Put some of this stuff elsewhere / in a method
         $this->app['streams.path']       = dirname(dirname(dirname(dirname(__DIR__))));
