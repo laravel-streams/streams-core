@@ -26,10 +26,8 @@ class SyncModulesCommandHandler
 
     /**
      * Handle the command.
-     *
-     * @param ModuleModel $modules
      */
-    public function handle(SyncModulesCommand $command)
+    public function handle()
     {
         $modules = $this->modules->all();
 
@@ -46,7 +44,7 @@ class SyncModulesCommandHandler
      */
     protected function sync(EloquentCollection $modules, Module $module)
     {
-        if (!$match = $modules->findBySlug($module->getSlug())) {
+        if (!$modules->findBySlug($module->getSlug())) {
             $slug = $module->getSlug();
 
             $this->execute('Anomaly\Streams\Platform\Addon\Module\Command\CreateModuleCommand', compact('slug'));

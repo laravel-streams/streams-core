@@ -2,7 +2,7 @@
 
 class DetectActiveModuleCommandHandler
 {
-    public function handle(DetectActiveModuleCommand $command)
+    public function handle()
     {
         // Determine the active module.
         if (app('request')->segment(1) == 'admin') {

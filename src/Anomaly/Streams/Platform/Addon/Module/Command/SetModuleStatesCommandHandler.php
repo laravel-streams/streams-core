@@ -13,7 +13,7 @@ class SetModuleStatesCommandHandler
     /**
      * Handle the command.
      */
-    public function handle(SetModuleStatesCommand $command)
+    public function handle()
     {
         $states = app('db')
             ->table('addons_modules')

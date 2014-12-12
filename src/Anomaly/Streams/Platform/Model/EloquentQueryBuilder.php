@@ -57,7 +57,7 @@ class EloquentQueryBuilder extends Builder
      */
     protected function rememberIndex()
     {
-        if ($cacheMinutes = $this->model->getCacheMinutes()) {
+        if ($this->model->getCacheMinutes()) {
             $this->indexCacheCollection();
         }
 

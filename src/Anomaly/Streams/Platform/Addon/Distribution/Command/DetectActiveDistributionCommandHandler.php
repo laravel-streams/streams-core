@@ -2,7 +2,7 @@
 
 class DetectActiveDistributionCommandHandler
 {
-    public function handle(DetectActiveDistributionCommand $command)
+    public function handle()
     {
         if ($distribution = app('streams.distributions')->active()) {
             // Setup namespace hints for a short namespace.

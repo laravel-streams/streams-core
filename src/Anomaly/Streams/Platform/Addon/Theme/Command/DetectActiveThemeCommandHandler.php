@@ -2,7 +2,7 @@
 
 class DetectActiveThemeCommandHandler
 {
-    public function handle(DetectActiveThemeCommand $command)
+    public function handle()
     {
         if ($distribution = app('streams.distributions')->active()) {
             if (app('request')->segment(1) == 'admin' || app('request')->segment(1) == 'installer') {

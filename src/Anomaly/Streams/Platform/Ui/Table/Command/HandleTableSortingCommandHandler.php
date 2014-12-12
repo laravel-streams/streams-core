@@ -2,8 +2,7 @@
 
 class HandleTableSortingCommandHandler
 {
-    public function handle(HandleTableSortingCommand $command)
+    public function handle()
     {
-        $builder = $command->getBuilder();
     }
 }

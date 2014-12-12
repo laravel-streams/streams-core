@@ -2,7 +2,7 @@
 
 class AddAddonNamespaceHintsCommandHandler
 {
-    public function handle(AddAddonNamespaceHintsCommand $command)
+    public function handle()
     {
         foreach (app('streams.addon_types') as $type) {
             $plural = str_plural($type);

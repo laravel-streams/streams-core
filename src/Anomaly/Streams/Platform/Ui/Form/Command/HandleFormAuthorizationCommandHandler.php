@@ -2,8 +2,7 @@
 
 class HandleFormAuthorizationCommandHandler
 {
-    public function handle(HandleFormAuthorizationCommand $command)
+    public function handle()
     {
-        $builder = $command->getBuilder();
     }
 }
