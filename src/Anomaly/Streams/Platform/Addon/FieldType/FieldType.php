@@ -185,9 +185,9 @@ class FieldType extends Addon implements PresentableInterface
     public function getWrapperData()
     {
         $locale       = $this->getLocale();
-        $hidden       = $this->getHidden();
-        $required     = $this->getRequired();
-        $translatable = $this->getTranslatable();
+        $hidden       = $this->isHidden();
+        $required     = $this->isRequired();
+        $translatable = $this->isTranslatable();
 
         $language     = trans("language.{$locale}");
         $label        = trans($this->getLabel(), [], null, $locale);
@@ -450,7 +450,7 @@ class FieldType extends Addon implements PresentableInterface
      *
      * @return bool
      */
-    public function getTranslatable()
+    public function isTranslatable()
     {
         return ($this->translatable);
     }
@@ -527,7 +527,7 @@ class FieldType extends Addon implements PresentableInterface
      *
      * @return bool
      */
-    public function getHidden()
+    public function isHidden()
     {
         return ($this->hidden);
     }
@@ -550,7 +550,7 @@ class FieldType extends Addon implements PresentableInterface
      *
      * @return bool
      */
-    public function getRequired()
+    public function isRequired()
     {
         return ($this->required);
     }
