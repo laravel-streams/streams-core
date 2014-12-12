@@ -82,7 +82,7 @@ class AddonServiceProvider extends ServiceProvider
             // Register the addon class to the container.
             $addon = $this->registerAddonClass($slug, $path);
 
-            // TODO: This needs to be fired on an event right away.
+            // Add the namespace to config
             app('config')->addNamespace(
                 str_replace('streams.', '', $addon->getAbstract()),
                 $addon->getPath('resources/config')

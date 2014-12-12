@@ -59,7 +59,6 @@ class StreamUtility
      */
     public function destroyNamespace($namespace)
     {
-        // TODO: Verify this deletes each individually.
         $this->streams->getAllWithNamespace($namespace)->delete();
         $this->fields->getAllWithNamespace($namespace)->delete();
     }
