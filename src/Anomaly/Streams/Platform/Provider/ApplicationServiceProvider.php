@@ -14,7 +14,7 @@ class ApplicationServiceProvider extends \Illuminate\Support\ServiceProvider
 
         app('config')->addNamespace('streams', __DIR__ . '/../../../../resources/config');
 
-        if (app('request')->path() !== 'installer' || file_exists(base_path('config/database.php'))) {
+        if (file_exists(base_path('config/distribution.php'))) {
 
             app('streams.application')->locate();
             app('streams.application')->setup();

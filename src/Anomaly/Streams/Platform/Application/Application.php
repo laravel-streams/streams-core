@@ -71,7 +71,9 @@ class Application
 
             return false;
         } else {
-            return false;
+            $this->reference = 'default';
+
+            return true;
         }
 
         return true;
