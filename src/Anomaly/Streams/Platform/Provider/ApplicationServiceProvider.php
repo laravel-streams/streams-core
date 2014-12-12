@@ -17,7 +17,11 @@ class ApplicationServiceProvider extends \Illuminate\Support\ServiceProvider
         if (file_exists(base_path('config/distribution.php'))) {
 
             app('streams.application')->locate();
-            app('streams.application')->setup();
+
+            if (file_exists(base_path('config/database.php'))) {
+
+                app('streams.application')->setup();
+            }
         }
     }
 }
