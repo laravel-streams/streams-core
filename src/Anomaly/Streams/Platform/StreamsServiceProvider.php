@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform;
 
 use Illuminate\Support\ServiceProvider;
+use Laracasts\Commander\DefaultCommandBus;
 
 /**
  * Class StreamsServiceProvider
@@ -34,6 +35,13 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->resolving(
+            'Laracasts\Commander\DefaultCommandBus',
+            function (DefaultCommandBus $commandBus) {
+                $commandBus->decorate('Anomaly\Streams\Platform\Commander\CommandValidator');
+            }
+        );
+
         $this->checkEnvironment();
         $this->configurePackages();
         $this->registerListeners();
