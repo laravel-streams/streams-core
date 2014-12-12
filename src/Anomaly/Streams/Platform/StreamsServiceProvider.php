@@ -40,18 +40,18 @@ class StreamsServiceProvider extends ServiceProvider
         // TODO: This should be improved as well.
         if (app('request')->path() !== 'installer' && !file_exists(base_path('config/database.php'))) {
 
-            app('router')->any('{all}', function(){
+            app('router')->any(
+                '{all}',
+                function () {
                     return redirect(url('installer'));
-                })->where('all', '.*');
+                }
+            )->where('all', '.*');
 
             return;
         }
 
-        // TODO: Translatable
-        $this->app['config']->set('translatable::locales', ['en', 'es']);
-        $this->app['config']->set('translatable::translation_suffix', 'Translation');
-
         $this->checkEnvironment();
+        $this->configurePackages();
         $this->registerListeners();
 
         $this->registerPackageAliases();
@@ -98,10 +98,10 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerCore()
     {
+        $this->app->register('Anomaly\Streams\Platform\Provider\ApplicationServiceProvider');
+
         $this->app->register('Anomaly\Streams\Platform\Provider\ServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Provider\ExceptionServiceProvider');
-
-        $this->app->register('Anomaly\Streams\Platform\Provider\ApplicationServiceProvider');
 
         // TODO: Put some of this stuff elsewhere / in a method
         $this->app['streams.path']       = dirname(dirname(dirname(dirname(__DIR__))));
@@ -155,5 +155,12 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly.Streams.Platform.Ui.Table.Event.*',
             'Anomaly\Streams\Platform\Ui\Table\TableListener'
         );
+    }
+
+    protected function configurePackages()
+    {
+        // Configure Translatable
+        $this->app['config']->set('translatable::locales', ['en', 'es']);
+        $this->app['config']->set('translatable::translation_suffix', 'Translation');
     }
 }
