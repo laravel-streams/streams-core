@@ -282,6 +282,6 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     public function assignments()
     {
-        return $this->hasMany(config('streams.assignments.model'), 'stream_id')->orderBy('sort_order');
+        return $this->hasMany(config('streams::config.assignments.model'), 'stream_id')->orderBy('sort_order');
     }
 }
