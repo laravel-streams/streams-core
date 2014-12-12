@@ -24,7 +24,6 @@ class InstallApplicationTablesCommandHandler
 
         $this->installDefaultApplication($command->getName(), $command->getDomain(), $command->getReference());
 
-        // TODO: Get this from the request data
         $this->setPrefix($command->getReference() . '_');
     }
 
