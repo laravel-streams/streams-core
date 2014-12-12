@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Contract;
 
-use Anomaly\Streams\Platform\Addon\Module\Module;
-
 /**
  * Interface ModuleRepositoryInterface
  *
@@ -20,18 +18,34 @@ interface ModuleRepositoryInterface
     public function all();
 
     /**
-     * Mark a module as installed.
+     * Create a module record.
      *
-     * @param Module $module
+     * @param $slug
      * @return mixed
      */
-    public function install(Module $module);
+    public function create($slug);
+
+    /**
+     * Delete a module record.
+     *
+     * @param $slug
+     * @return mixed
+     */
+    public function delete($slug);
+
+    /**
+     * Mark a module as installed.
+     *
+     * @param $slug
+     * @return mixed
+     */
+    public function installed($slug);
 
     /**
      * Mark a module as uninstalled.
      *
-     * @param Module $module
+     * @param $slug
      * @return mixed
      */
-    public function uninstall(Module $module);
+    public function uninstalled($slug);
 }

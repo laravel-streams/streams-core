@@ -40,14 +40,51 @@ class ModuleRepository implements ModuleRepositoryInterface
     }
 
     /**
-     * Mark a module as installed.
+     * Create a module record.
      *
-     * @param Module $module
+     * @param $slug
      * @return mixed
      */
-    public function install(Module $module)
+    public function create($slug)
     {
-        $module = $this->model->findBySlugOrCreate($module->getSlug());
+        $module = $this->model->newInstance();
+
+        $module->slug      = $slug;
+        $module->enabled   = false;
+        $module->installed = false;
+
+        $module->save();
+
+        return $module;
+    }
+
+    /**
+     * Delete a module record.
+     *
+     * @param $slug
+     * @return mixed
+     */
+    public function delete($slug)
+    {
+        $module = $this->model->findBySlug($slug);
+
+        if ($module) {
+
+            $module->delete();
+        }
+
+        return $module;
+    }
+
+    /**
+     * Mark a module as installed.
+     *
+     * @param $slug
+     * @return mixed
+     */
+    public function installed($slug)
+    {
+        $module = $this->model->findBySlugOrNew($slug);
 
         $module->installed = true;
         $module->enabled   = true;
@@ -58,12 +95,12 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Mark a module as uninstalled.
      *
-     * @param Module $module
+     * @param $slug
      * @return mixed
      */
-    public function uninstall(Module $module)
+    public function uninstalled($slug)
     {
-        $module = $this->model->findBySlug($module->getSlug());
+        $module = $this->model->findBySlug($slug);
 
         $module->installed = false;
         $module->enabled   = false;

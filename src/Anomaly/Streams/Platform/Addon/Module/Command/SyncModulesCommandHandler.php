@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
+use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Module;
-use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Laracasts\Commander\CommanderTrait;
 
@@ -19,7 +19,7 @@ class SyncModulesCommandHandler
 
     protected $modules;
 
-    public function __construct(ModuleModel $modules)
+    public function __construct(ModuleRepositoryInterface $modules)
     {
         $this->modules = $modules;
     }
@@ -45,9 +45,7 @@ class SyncModulesCommandHandler
     protected function sync(EloquentCollection $modules, Module $module)
     {
         if (!$modules->findBySlug($module->getSlug())) {
-            $slug = $module->getSlug();
-
-            $this->execute('Anomaly\Streams\Platform\Addon\Module\Command\CreateModuleCommand', compact('slug'));
+            $this->modules->create($module->getSlug());
         }
     }
 }

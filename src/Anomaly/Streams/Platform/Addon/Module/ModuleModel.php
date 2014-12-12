@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
+use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
@@ -10,7 +11,7 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Module
  */
-class ModuleModel extends EloquentModel
+class ModuleModel extends EloquentModel implements ModuleInterface
 {
     /**
      * Define the table name.
@@ -33,7 +34,7 @@ class ModuleModel extends EloquentModel
      * @param $slug
      * @return ModuleModel
      */
-    public function findBySlugOrCreate($slug)
+    public function findBySlugOrNew($slug)
     {
         $module = $this->findBySlug($slug);
 
