@@ -97,7 +97,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Provider\ApplicationServiceProvider');
 
         // Put some of this stuff elsewhere / in a method
-        $this->app['streams.path'] = dirname(dirname(dirname(dirname(__DIR__))));
+        $this->app['streams.path']       = dirname(dirname(dirname(dirname(__DIR__))));
         $this->app['streams.asset.path'] = public_path('assets/' . app('streams.application')->getReference());
 
         app('config')->addNamespace(
@@ -138,7 +138,10 @@ class StreamsServiceProvider extends ServiceProvider
         $loader->register();
 
 
-        $this->app->register('Anomaly\Streams\Platform\Provider\ViewServiceProvider');
+        $this->app['config']->set('view.paths', [$this->app['streams.path'] . '/resources/views']);
+        $this->app['view']->addNamespace('streams', $this->app['streams.path'] . '/resources/views');
+        $this->app['view']->composer('*', 'Anomaly\Streams\Platform\View\Composer');
+
 
         // Register addon components.
         $this->app->register('Anomaly\Streams\Platform\Provider\AddonServiceProvider');
