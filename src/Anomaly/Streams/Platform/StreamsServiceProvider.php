@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Asset\Image;
+use Composer\Autoload\ClassLoader;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Laracasts\Commander\DefaultCommandBus;
@@ -96,7 +97,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Provider\ApplicationServiceProvider');
 
         // Put some of this stuff elsewhere / in a method
-        $this->app['streams.path']       = dirname(dirname(dirname(dirname(__DIR__))));
+        $this->app['streams.path'] = dirname(dirname(dirname(dirname(__DIR__))));
         $this->app['streams.asset.path'] = public_path('assets/' . app('streams.application')->getReference());
 
         app('config')->addNamespace(
@@ -104,7 +105,9 @@ class StreamsServiceProvider extends ServiceProvider
             $this->app['streams.path'] . '/resources/config'
         );
 
-        $this->app->register('Anomaly\Streams\Platform\Provider\ServiceProvider');
+
+        $this->bindings();
+
 
         $this->app->singleton(
             'streams.asset',
@@ -113,7 +116,6 @@ class StreamsServiceProvider extends ServiceProvider
                 return new Asset(new Filesystem(), app('streams.application'));
             }
         );
-
         $this->app->singleton(
             'streams.image',
             function () {
@@ -121,14 +123,21 @@ class StreamsServiceProvider extends ServiceProvider
                 return new Image();
             }
         );
-
         $this->app['streams.asset']->addNamespace(
             'asset',
             public_path('assets/' . app('streams.application')->getReference())
         );
         $this->app['streams.asset']->addNamespace('streams', $this->app['streams.path'] . '/resources');
 
-        $this->app->register('Anomaly\Streams\Platform\Provider\ModelServiceProvider');
+
+        $loader = new ClassLoader();
+        $loader->addPsr4(
+            'Anomaly\Streams\Platform\Model\\',
+            base_path('storage/models/streams/' . app('streams.application')->getReference())
+        );
+        $loader->register();
+
+
         $this->app->register('Anomaly\Streams\Platform\Provider\ViewServiceProvider');
 
         // Register addon components.
@@ -222,5 +231,68 @@ class StreamsServiceProvider extends ServiceProvider
         // Configure Translatable
         $this->app['config']->set('translatable::locales', ['en', 'es']);
         $this->app['config']->set('translatable::translation_suffix', 'Translation');
+    }
+
+    protected function bindings()
+    {
+        $this->app->bind(
+            'Anomaly\Streams\Platform\Stream\StreamModel',
+            config('streams::config.streams.model')
+        );
+
+        $this->app->bind(
+            '\Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface',
+            config('streams::config.streams.repository')
+        );
+
+        $this->app->bind(
+            'Anomaly\Streams\Platform\Field\FieldModel',
+            config('streams::config.fields.model')
+        );
+
+        $this->app->bind(
+            '\Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface',
+            config('streams::config.fields.repository')
+        );
+
+        $this->app->bind(
+            'Anomaly\Streams\Platform\Assignment\AssignmentModel',
+            config('streams::config.assignments.model')
+        );
+
+        $this->app->bind(
+            '\Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface',
+            config('streams::config.assignments.repository')
+        );
+
+        $this->app->bind(
+            'Anomaly\Streams\Platform\Entry\EntryModel',
+            config('streams::config.entries.model')
+        );
+
+        $this->app->bind(
+            '\Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface',
+            config('streams::config.entries.repository')
+        );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Ui\Button\Contract\ButtonRepositoryInterface',
+            config('streams::config.buttons.repository')
+        );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Ui\Icon\Contract\IconRepositoryInterface',
+            config('streams::config.icons.repository')
+        );
+
+        $this->app->bind(
+            'Anomaly\Streams\Platform\Addon\Module\ModuleModel',
+            config('streams::config.modules.model')
+        );
+
+        $this->app->bind(
+            'Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface',
+            config('streams::config.modules.repository')
+        );
     }
 }
