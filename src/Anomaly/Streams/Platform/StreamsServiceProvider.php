@@ -153,6 +153,18 @@ class StreamsServiceProvider extends ServiceProvider
             '\Anomaly\Streams\Platform\Addon\Block\BlockListener'
         );
         $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Tag\TagListener'
+        );
+        $this->app['events']->listen(
+            'streams.boot',
+            '\Anomaly\Streams\Platform\Addon\Theme\ThemeListener@whenStreamsIsBooting'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Theme\ThemeListener'
+        );
+        $this->app['events']->listen(
             'streams.boot',
             '\Anomaly\Streams\Platform\Addon\Module\ModuleListener@whenStreamsIsBooting'
         );

@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Tag;
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
-use Illuminate\Foundation\Application;
 
 /**
  * Class TagServiceProvider
@@ -13,13 +12,4 @@ use Illuminate\Foundation\Application;
  */
 class TagServiceProvider extends AddonServiceProvider
 {
-    public function __construct(Application $app)
-    {
-        parent::__construct($app);
-
-        $this->app['events']->listen(
-            'Anomaly.Streams.Platform.Addon.*',
-            '\Anomaly\Streams\Platform\Addon\Tag\TagListener'
-        );
-    }
 }
