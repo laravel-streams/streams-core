@@ -50,7 +50,7 @@ class Evaluator
          * format then traverse the target using the arguments.
          */
         if (is_string($target) && $this->isTraversable($target)) {
-            $target = data_get($arguments, $target);
+            $target = data_get($arguments, $target, $target);
         }
 
         return $target;
