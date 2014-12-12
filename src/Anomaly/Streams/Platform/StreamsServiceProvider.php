@@ -133,6 +133,18 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerListeners()
     {
         $this->app['events']->listen(
+            'streams.boot',
+            '\Anomaly\Streams\Platform\Addon\Distribution\DistributionListener@whenStreamsIsBooting'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Distribution\DistributionListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Block\BlockListener'
+        );
+        $this->app['events']->listen(
             'Anomaly.Streams.Platform.Addon.Module.Event.*',
             'Anomaly\Streams\Platform\Addon\Module\ModuleListener'
         );

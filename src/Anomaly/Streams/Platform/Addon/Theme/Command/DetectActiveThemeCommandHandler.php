@@ -6,9 +6,9 @@ class DetectActiveThemeCommandHandler
     {
         if ($distribution = app('streams.distributions')->active()) {
             if (app('request')->segment(1) == 'admin' || app('request')->segment(1) == 'installer') {
-                $theme = $distribution->getDefaultAdminTheme();
+                $theme = config('distribution.admin_theme', 'streams');
             } else {
-                $theme = $distribution->getDefaultPublicTheme();
+                $theme = config('distribution.public_theme', 'streams');
             }
 
             $theme = app('streams.theme.' . $theme);

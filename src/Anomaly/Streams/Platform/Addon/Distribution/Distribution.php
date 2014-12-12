@@ -12,23 +12,4 @@ use Anomaly\Streams\Platform\Addon\Addon;
  */
 class Distribution extends Addon
 {
-    /**
-     * Get the default admin theme.
-     *
-     * @return string
-     */
-    public function getDefaultAdminTheme()
-    {
-        return 'streams';
-    }
-
-    /**
-     * Get the default public theme.
-     *
-     * @return string
-     */
-    public function getDefaultPublicTheme()
-    {
-        return 'streams';
-    }
 }
