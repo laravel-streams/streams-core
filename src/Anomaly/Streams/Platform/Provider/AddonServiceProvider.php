@@ -1,9 +1,15 @@
 <?php namespace Anomaly\Streams\Platform\Provider;
 
+use Anomaly\Streams\Platform\Addon\Event\AllRegistered;
 use Composer\Autoload\ClassLoader;
+use Laracasts\Commander\Events\DispatchableTrait;
+use Laracasts\Commander\Events\EventGenerator;
 
 class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 {
+    use EventGenerator;
+    use DispatchableTrait;
+
     /**
      * Defer loading this service provider.
      *
@@ -31,11 +37,16 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->registerAddonTypes();
 
         $this->registerAddonServiceProviders();
+
+        $this->raise(new AllRegistered());
+
+        $this->dispatchEventsFor($this);
     }
 
     protected function registerAddonCollections()
     {
         foreach ($this->types as $type) {
+
             $studly = studly_case($type);
 
             $plural = str_plural($type);
@@ -54,12 +65,13 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 
     protected function registerAddonClasses()
     {
+        $provider = app()->make('Anomaly\Streams\Platform\Addon\AddonServiceProvider', ['app' => $this->app]);
+
         foreach ($this->types as $type) {
-            $type = studly_case($type);
 
-            $provider = 'Anomaly\Streams\Platform\Addon\\' . $type . '\\' . $type . 'ServiceProvider';
+            $provider->setType($type);
 
-            $this->app->register($provider);
+            $provider->register($provider);
         }
     }
 

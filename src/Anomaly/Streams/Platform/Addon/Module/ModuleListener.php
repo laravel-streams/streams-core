@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\AddonListener;
-use Anomaly\Streams\Platform\Addon\Event\AllRegistered;
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalled;
@@ -58,12 +57,10 @@ class ModuleListener extends AddonListener
     /**
      * When all modules are registered - bind the installed / enabled
      * data from the database to the addon classes.
-     *
-     * @param AllRegistered $event
      */
-    public function whenAllRegistered(AllRegistered $event)
+    public function whenAllRegistered()
     {
-        if ($event->getType() == 'module' && app('streams.application')->isInstalled()) {
+        if (app('streams.application')->isInstalled()) {
             $this->execute('Anomaly\Streams\Platform\Addon\Module\Command\SetModuleStatesCommand');
         }
     }

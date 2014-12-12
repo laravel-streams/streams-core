@@ -186,8 +186,16 @@ class StreamsServiceProvider extends ServiceProvider
             '\Anomaly\Streams\Platform\Addon\Distribution\DistributionListener@whenStreamsIsBooting'
         );
         $this->app['events']->listen(
-            'Anomaly.Streams.Platform.Addon.*',
-            '\Anomaly\Streams\Platform\Addon\Extension\ExtensionListener'
+            'streams.boot',
+            '\Anomaly\Streams\Platform\Addon\Module\ModuleListener@whenStreamsIsBooting'
+        );
+        $this->app['events']->listen(
+            'streams.boot',
+            '\Anomaly\Streams\Platform\Addon\Theme\ThemeListener@whenStreamsIsBooting'
+        );
+        $this->app['events']->listen(
+            'streams.boot',
+            '\Anomaly\Streams\Platform\Addon\AddonListener@whenStreamsIsBooting'
         );
         $this->app['events']->listen(
             'Anomaly.Streams.Platform.Addon.*',
@@ -195,27 +203,15 @@ class StreamsServiceProvider extends ServiceProvider
         );
         $this->app['events']->listen(
             'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Extension\ExtensionListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.*',
             '\Anomaly\Streams\Platform\Addon\FieldType\FieldTypeListener'
         );
         $this->app['events']->listen(
-            'Anomaly.Streams.Platform.Addon.*',
-            '\Anomaly\Streams\Platform\Addon\Block\BlockListener'
-        );
-        $this->app['events']->listen(
-            'Anomaly.Streams.Platform.Addon.*',
-            '\Anomaly\Streams\Platform\Addon\Tag\TagListener'
-        );
-        $this->app['events']->listen(
-            'streams.boot',
-            '\Anomaly\Streams\Platform\Addon\Theme\ThemeListener@whenStreamsIsBooting'
-        );
-        $this->app['events']->listen(
-            'Anomaly.Streams.Platform.Addon.*',
-            '\Anomaly\Streams\Platform\Addon\Theme\ThemeListener'
-        );
-        $this->app['events']->listen(
-            'streams.boot',
-            '\Anomaly\Streams\Platform\Addon\Module\ModuleListener@whenStreamsIsBooting'
+            'Anomaly.Streams.Platform.Assignment.Event.*',
+            'Anomaly\Streams\Platform\Assignment\AssignmentListener'
         );
         $this->app['events']->listen(
             'Anomaly.Streams.Platform.Addon.*',
@@ -226,20 +222,28 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Module\ModuleListener'
         );
         $this->app['events']->listen(
-            'Anomaly.Streams.Platform.Stream.Event.*',
-            'Anomaly\Streams\Platform\Stream\StreamListener'
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Block\BlockListener'
         );
         $this->app['events']->listen(
-            'Anomaly.Streams.Platform.Assignment.Event.*',
-            'Anomaly\Streams\Platform\Assignment\AssignmentListener'
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Theme\ThemeListener'
         );
         $this->app['events']->listen(
-            'Anomaly.Streams.Platform.Ui.Form.Event.*',
-            'Anomaly\Streams\Platform\Ui\Form\FormListener'
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Tag\TagListener'
         );
         $this->app['events']->listen(
             'Anomaly.Streams.Platform.Ui.Table.Event.*',
             'Anomaly\Streams\Platform\Ui\Table\TableListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Stream.Event.*',
+            'Anomaly\Streams\Platform\Stream\StreamListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Ui.Form.Event.*',
+            'Anomaly\Streams\Platform\Ui\Form\FormListener'
         );
     }
 

@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Event\AllRegistered;
 use Anomaly\Streams\Platform\Addon\Event\Registered;
 use Composer\Autoload\ClassLoader;
 use Illuminate\Foundation\Application;
@@ -27,44 +26,13 @@ class AddonServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $type;
-
-    /**
-     * The addon type.
-     * This is set automatically.
-     * Follows plural of the type.
-     *
-     * @var string
-     */
-    protected $folder;
-
-    /**
-     * Create a new AddonServiceProvider instance.
-     *
-     * @param Application $app
-     */
-    public function __construct(Application $app)
-    {
-        parent::__construct($app);
-
-        $class = get_class($this);
-
-        $type = snake_case(str_replace('ServiceProvider', '', substr($class, strrpos($class, "\\") + 1)));
-
-        $this->type   = $type;
-        $this->folder = str_plural($type);
-    }
+    protected $type = null;
 
     /**
      * Register addons.
      */
     public function register()
     {
-        $this->app['events']->listen(
-            'streams.boot',
-            '\Anomaly\Streams\Platform\Addon\AddonListener@whenStreamsIsBooting'
-        );
-
         foreach ($this->getAddonPaths() as $path) {
             $slug = basename($path);
 
@@ -73,7 +41,7 @@ class AddonServiceProvider extends ServiceProvider
             $this->registerSrcFolder($slug, $path);
 
             // Register the addon class to the container.
-            $addon = $this->registerAddonClass($slug, $path);
+            $addon = $this->registerAddonClass($slug);
 
             // Add the namespace to config
             app('config')->addNamespace(
@@ -85,10 +53,6 @@ class AddonServiceProvider extends ServiceProvider
 
             $this->dispatchEventsFor($addon);
         }
-
-        $this->raise(new AllRegistered($this->type));
-
-        $this->dispatchEventsFor($this);
     }
 
     /**
@@ -114,10 +78,9 @@ class AddonServiceProvider extends ServiceProvider
      * Register the actual addon class.
      *
      * @param $slug
-     * @param $path
      * @return mixed
      */
-    protected function registerAddonClass($slug, $path)
+    protected function registerAddonClass($slug)
     {
         $class = $this->getClass($slug);
 
@@ -156,7 +119,7 @@ class AddonServiceProvider extends ServiceProvider
     {
         $paths = [];
 
-        $path = base_path('core/' . $this->folder);
+        $path = base_path('core/' . str_plural($this->type));
 
         if (is_dir($path)) {
             $paths = app('files')->directories($path);
@@ -174,7 +137,7 @@ class AddonServiceProvider extends ServiceProvider
     {
         $paths = [];
 
-        $path = base_path('addons/shared/' . $this->folder);
+        $path = base_path('addons/shared/' . str_plural($this->type));
 
         if (is_dir($path)) {
             $paths = app('files')->directories($path);
@@ -192,7 +155,7 @@ class AddonServiceProvider extends ServiceProvider
     {
         $paths = [];
 
-        $path = base_path('addons/' . app('streams.application')->getReference() . '/' . $this->folder);
+        $path = base_path('addons/' . app('streams.application')->getReference() . '/' . str_plural($this->type));
 
         if (is_dir($path)) {
             $paths = app('files')->directories($path);
@@ -221,5 +184,12 @@ class AddonServiceProvider extends ServiceProvider
     protected function getClass($slug)
     {
         return $this->getNamespace($slug) . '\\' . studly_case($slug) . studly_case($this->type);
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
     }
 }
