@@ -138,7 +138,15 @@ class StreamsServiceProvider extends ServiceProvider
         );
         $this->app['events']->listen(
             'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Extension\ExtensionListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.*',
             '\Anomaly\Streams\Platform\Addon\Distribution\DistributionListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\FieldType\FieldTypeListener'
         );
         $this->app['events']->listen(
             'Anomaly.Streams.Platform.Addon.*',

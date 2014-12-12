@@ -13,13 +13,4 @@ use Illuminate\Foundation\Application;
  */
 class ExtensionServiceProvider extends AddonServiceProvider
 {
-    public function __construct(Application $app)
-    {
-        parent::__construct($app);
-
-        $this->app['events']->listen(
-            'Anomaly.Streams.Platform.Addon.*',
-            '\Anomaly\Streams\Platform\Addon\Extension\ExtensionListener'
-        );
-    }
 }

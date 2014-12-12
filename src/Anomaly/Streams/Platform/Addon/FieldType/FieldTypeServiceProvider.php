@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
-use Illuminate\Foundation\Application;
 
 /**
  * Class FieldTypeServiceProvider
@@ -19,14 +18,4 @@ class FieldTypeServiceProvider extends AddonServiceProvider
      * @var string
      */
     protected $binding = 'bind';
-
-    public function __construct(Application $app)
-    {
-        parent::__construct($app);
-
-        $this->app['events']->listen(
-            'Anomaly.Streams.Platform.Addon.*',
-            '\Anomaly\Streams\Platform\Addon\FieldType\FieldTypeListener'
-        );
-    }
 }

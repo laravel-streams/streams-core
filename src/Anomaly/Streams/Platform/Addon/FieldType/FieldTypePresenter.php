@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Contract\StringableInterface;
-use Anomaly\Streams\Platform\Support\Presenter;
+use Robbo\Presenter\Presenter;
 
 /**
  * Class FieldTypePresenter
