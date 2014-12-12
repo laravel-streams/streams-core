@@ -29,4 +29,3 @@ class CommandValidator implements CommandBus
         return app()->make($validator)->handle($command);
     }
 }
- 
