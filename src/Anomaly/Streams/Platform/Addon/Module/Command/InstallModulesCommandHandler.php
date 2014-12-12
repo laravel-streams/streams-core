@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleService;
+use Anomaly\Streams\Platform\Addon\Module\ModuleManager;
 
 /**
  * Class InstallModulesCommandHandler
@@ -13,14 +13,14 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleService;
 class InstallModulesCommandHandler
 {
     /**
-     * @var \Anomaly\Streams\Platform\Addon\Module\ModuleService
+     * @var \Anomaly\Streams\Platform\Addon\Module\ModuleManager
      */
     protected $service;
 
     /**
-     * @param ModuleService $service
+     * @param ModuleManager $service
      */
-    function __construct(ModuleService $service)
+    function __construct(ModuleManager $service)
     {
         $this->service = $service;
     }

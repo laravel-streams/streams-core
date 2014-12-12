@@ -14,7 +14,7 @@ class ModuleInstallerTest extends \PHPUnit_Framework_TestCase
     {
         /*$module = app('streams.module.testable');
 
-        $service = new ModuleService(app());
+        $service = new ModuleManager(app());
 
         $service->install($module);*/
 
@@ -25,7 +25,7 @@ class ModuleInstallerTest extends \PHPUnit_Framework_TestCase
     {
         /*$module = app('streams.module.testable');
 
-        $service = new ModuleService(app());
+        $service = new ModuleManager(app());
 
         $service->uninstall($module);*/
 
@@ -36,7 +36,7 @@ class ModuleInstallerTest extends \PHPUnit_Framework_TestCase
     {
         /*$module = app('streams.module.no_installer');
 
-        $service = new ModuleService(app());
+        $service = new ModuleManager(app());
 
         $service->uninstall($module);*/
 

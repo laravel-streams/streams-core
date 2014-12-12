@@ -3,14 +3,14 @@
 use Laracasts\Commander\CommanderTrait;
 
 /**
- * Class ModuleService
+ * Class ModuleManager
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Module
  */
-class ModuleService
+class ModuleManager
 {
     use CommanderTrait;
 
