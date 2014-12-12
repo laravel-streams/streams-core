@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Distribution;
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
-use Illuminate\Foundation\Application;
 
 /**
  * Class DistributionServiceProvider

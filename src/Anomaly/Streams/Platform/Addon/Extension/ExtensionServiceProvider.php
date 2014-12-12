@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension;
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
-use Illuminate\Foundation\Application;
 
 /**
  * Class ExtensionServiceProvider
