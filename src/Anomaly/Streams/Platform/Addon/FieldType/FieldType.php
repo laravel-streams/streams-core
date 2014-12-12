@@ -663,8 +663,6 @@ class FieldType extends Addon implements PresentableInterface
      */
     public function setAttribute(&$attributes, $value)
     {
-        // $attributes[$this->getColumnName()] = $value;
-        // return true;
     }
 
     /**

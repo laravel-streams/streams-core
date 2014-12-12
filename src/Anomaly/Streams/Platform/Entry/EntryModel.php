@@ -136,15 +136,12 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         $locale = $locale ? : config('app.locale');
 
-        /*if ($this->isTranslatable()) {
+        if ($this->isTranslatable() && $translation = $this->translate($locale, false)) {
 
-            return $this->translate($locale, false)->getAttribute($fieldSlug, false);
-        } else {
+            return $translation->getAttribute($fieldSlug, false);
+        }
 
-            return $this->getAttribute($fieldSlug, false);
-        }*/
-
-        return parent::getAttribute($fieldSlug, false);
+        return $this->getAttribute($fieldSlug, false);
     }
 
     /**

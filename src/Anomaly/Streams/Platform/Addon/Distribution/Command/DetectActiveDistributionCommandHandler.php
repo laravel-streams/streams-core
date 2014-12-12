@@ -9,7 +9,7 @@ class DetectActiveDistributionCommandHandler
             app('view')->addNamespace('distribution', $distribution->getPath('resources/views'));
             app('streams.asset')->addNamespace('distribution', $distribution->getPath('resources'));
             app('streams.image')->addNamespace('distribution', $distribution->getPath('resources'));
-            //app('translator')->addNamespace('distribution', $distribution->getPath('resources/lang'));
+            app('translator')->addNamespace('distribution', $distribution->getPath('resources/lang'));
         }
     }
 }

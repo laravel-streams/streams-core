@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -71,10 +72,10 @@ class EloquentQueryBuilder extends Builder
      */
     protected function indexCacheCollection()
     {
-        /*app('streams.cache.collection')
+        (new CacheCollection())
             ->make([$this->getCacheKey()])
             ->setKey($this->model->getCacheCollectionKey())
-            ->index();*/
+            ->index();
 
         return $this;
     }
