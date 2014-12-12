@@ -40,9 +40,11 @@ class StreamsServiceProvider extends ServiceProvider
         // TODO: This should be improved as well.
         if (app('request')->path() !== 'installer' && !file_exists(base_path('config/database.php'))) {
 
-            header('Location: ' . url('installer'));
+            app('router')->any('{all}', function(){
+                    return redirect(url('installer'));
+                })->where('all', '.*');
 
-            exit;
+            return;
         }
 
         // TODO: Translatable
