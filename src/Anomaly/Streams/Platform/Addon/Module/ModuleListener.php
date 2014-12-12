@@ -63,7 +63,7 @@ class ModuleListener extends AddonListener
      */
     public function whenAllRegistered(AllRegistered $event)
     {
-        if ($event->getType() == 'module' && app('streams.application')->isLocated()) {
+        if ($event->getType() == 'module' && app('streams.application')->isInstalled()) {
             $this->execute('Anomaly\Streams\Platform\Addon\Module\Command\SetModuleStatesCommand');
         }
     }

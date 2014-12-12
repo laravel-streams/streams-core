@@ -56,9 +56,9 @@ class Application
      */
     public function locate($domain = null)
     {
-        if (\Schema::hasTable('applications')) {
+        if (app('db')->getSchemaBuilder()->hasTable('applications')) {
             if (!$domain) {
-                $domain = \Request::root();
+                $domain = app('request')->root();
             }
 
             if ($app = $this->model->findByDomain($domain)) {
@@ -70,11 +70,9 @@ class Application
             }
 
             return false;
-        } else {
-            $this->reference = 'default';
-
-            return true;
         }
+
+        $this->reference = 'default';
 
         return true;
     }
@@ -115,15 +113,5 @@ class Application
         $config = base_path('config/distribution.php');
 
         return file_exists($config);
-    }
-
-    /**
-     * Has the application already been located?
-     *
-     * @return null
-     */
-    public function isLocated()
-    {
-        return $this->installed;
     }
 }
