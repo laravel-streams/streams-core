@@ -20,7 +20,7 @@
         "kriswallsmith/assetic": "1.2.*@dev",
         "leafo/scssphp": "0.1.0 ",
         "lmammino/jsmin4assetic": "1.0.*@dev",
-        "natxet/CssMin": "3.0-dev",
+        "natxet/CssMin": "3.0.*@dev",
         "nesbot/Carbon": "1.*",
         "oyejorge/less.php": "~1.5",
         "ptachoire/cssembed": "1.0.2",
