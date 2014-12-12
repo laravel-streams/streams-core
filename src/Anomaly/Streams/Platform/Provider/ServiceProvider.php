@@ -20,6 +20,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->bindDispatcher();
 
         $this->bindFields();
+        $this->bindModules();
         $this->bindEntries();
         $this->bindStreams();
         $this->bindAssignments();
@@ -119,6 +120,22 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->singleton(
             'Anomaly\Streams\Platform\Ui\Icon\Contract\IconRepositoryInterface',
             config('streams::config.icons.repository')
+        );
+    }
+
+    /**
+     * Bind the modules.
+     */
+    protected function bindModules()
+    {
+        $this->app->bind(
+            'Anomaly\Streams\Platform\Addon\Module\ModuleModel',
+            config('streams::config.modules.model')
+        );
+
+        $this->app->bind(
+            'Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface',
+            config('streams::config.modules.repository')
         );
     }
 }
