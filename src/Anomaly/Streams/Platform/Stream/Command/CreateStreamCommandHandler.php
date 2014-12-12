@@ -37,8 +37,8 @@ class CreateStreamCommandHandler
             $command->getViewOptions(),
             $command->getTitleColumn(),
             $command->getOrderBy(),
-            $command->getIsHidden(),
-            $command->getIsTranslatable()
+            $command->isHidden(),
+            $command->isTranslatable()
         );
     }
 }

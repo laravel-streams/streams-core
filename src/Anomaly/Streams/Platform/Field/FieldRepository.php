@@ -39,10 +39,10 @@ class FieldRepository implements FieldRepositoryInterface
      * @param       $type
      * @param array $rules
      * @param array $config
-     * @param bool  $isLocked
+     * @param bool  $locked
      * @return mixed|static
      */
-    public function create($namespace, $slug, $name, $type, array $rules = [], array $config = [], $isLocked = true)
+    public function create($namespace, $slug, $name, $type, array $rules = [], array $config = [], $locked = true)
     {
         $field = $this->model->newInstance();
 
@@ -51,7 +51,7 @@ class FieldRepository implements FieldRepositoryInterface
         $field->type      = $type;
         $field->rules     = $rules;
         $field->config    = $config;
-        $field->is_locked = $isLocked;
+        $field->locked    = $locked;
         $field->namespace = $namespace;
 
         $field->save();

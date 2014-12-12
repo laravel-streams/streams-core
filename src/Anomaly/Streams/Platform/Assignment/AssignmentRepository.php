@@ -39,9 +39,9 @@ class AssignmentRepository implements AssignmentRepositoryInterface
      * @param                 $label
      * @param                 $placeholder
      * @param                 $instructions
-     * @param                 $isUnique
-     * @param                 $isRequired
-     * @param                 $isTranslatable
+     * @param                 $unique
+     * @param                 $required
+     * @param                 $translatable
      * @return mixed|void
      */
     public function create(
@@ -50,21 +50,21 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $label,
         $placeholder,
         $instructions,
-        $isUnique,
-        $isRequired,
-        $isTranslatable
+        $unique,
+        $required,
+        $translatable
     ) {
         $assignment = $this->model->newInstance();
 
-        $assignment->label           = $label;
-        $assignment->field_id        = $field->getId();
-        $assignment->stream_id       = $stream->getId();
-        $assignment->is_unique       = $isUnique;
-        $assignment->is_required     = $isRequired;
-        $assignment->placeholder     = $placeholder;
-        $assignment->instructions    = $instructions;
-        $assignment->is_translatable = $isTranslatable;
-        $assignment->sort_order      = $this->model->count('id') + 1;
+        $assignment->label        = $label;
+        $assignment->field_id     = $field->getId();
+        $assignment->stream_id    = $stream->getId();
+        $assignment->unique       = $unique;
+        $assignment->required     = $required;
+        $assignment->placeholder  = $placeholder;
+        $assignment->instructions = $instructions;
+        $assignment->translatable = $translatable;
+        $assignment->sort_order   = $this->model->count('id') + 1;
 
         $assignment->save();
     }

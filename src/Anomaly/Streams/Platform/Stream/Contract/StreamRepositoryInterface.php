@@ -21,8 +21,8 @@ interface StreamRepositoryInterface
      * @param array  $viewOptions
      * @param string $titleColumn
      * @param string $orderBy
-     * @param bool   $isHidden
-     * @param bool   $isTranslatable
+     * @param bool   $hidden
+     * @param bool   $translatable
      * @return StreamInterface
      */
     public function create(
@@ -34,8 +34,8 @@ interface StreamRepositoryInterface
         array $viewOptions = [],
         $titleColumn = 'id',
         $orderBy = 'id',
-        $isHidden = false,
-        $isTranslatable = false
+        $hidden = false,
+        $translatable = false
     );
 
     /**

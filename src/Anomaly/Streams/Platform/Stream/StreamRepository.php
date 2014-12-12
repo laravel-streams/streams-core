@@ -41,8 +41,8 @@ class StreamRepository implements StreamRepositoryInterface
      * @param array  $viewOptions
      * @param string $titleColumn
      * @param string $orderBy
-     * @param bool   $isHidden
-     * @param bool   $isTranslatable
+     * @param bool   $hidden
+     * @param bool   $translatable
      * @return StreamInterface
      */
     public function create(
@@ -54,21 +54,21 @@ class StreamRepository implements StreamRepositoryInterface
         array $viewOptions = [],
         $titleColumn = 'id',
         $orderBy = 'id',
-        $isHidden = false,
-        $isTranslatable = false
+        $hidden = false,
+        $translatable = false
     ) {
         $stream = $this->model->newInstance();
 
-        $stream->slug            = $slug;
-        $stream->name            = $name;
-        $stream->prefix          = $prefix;
-        $stream->order_by        = $orderBy;
-        $stream->is_hidden       = $isHidden;
-        $stream->namespace       = $namespace;
-        $stream->description     = $description;
-        $stream->view_options    = $viewOptions;
-        $stream->title_column    = $titleColumn;
-        $stream->is_translatable = $isTranslatable;
+        $stream->slug         = $slug;
+        $stream->name         = $name;
+        $stream->prefix       = $prefix;
+        $stream->order_by     = $orderBy;
+        $stream->hidden       = $hidden;
+        $stream->namespace    = $namespace;
+        $stream->description  = $description;
+        $stream->view_options = $viewOptions;
+        $stream->title_column = $titleColumn;
+        $stream->translatable = $translatable;
 
         $stream->save();
 

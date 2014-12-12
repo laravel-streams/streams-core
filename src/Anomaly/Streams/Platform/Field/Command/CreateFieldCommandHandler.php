@@ -37,7 +37,7 @@ class CreateFieldCommandHandler
             $command->getType(),
             $command->getRules(),
             $command->getConfig(),
-            $command->getIsLocked()
+            $command->isLocked()
         );
     }
 }

@@ -17,7 +17,7 @@ class SetModuleStatesCommandHandler
     {
         $states = app('db')
             ->table('addons_modules')
-            ->where('is_installed', 1)
+            ->where('installed', true)
             ->get();
 
         app('streams.modules')->setStates($states);

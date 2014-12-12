@@ -75,15 +75,15 @@ class FieldInstaller implements InstallableInterface
                 $field = ['type' => $field];
             }
 
-            $type     = array_get($field, 'type');
-            $rules    = array_get($field, 'rules', []);
-            $config   = array_get($field, 'config', []);
-            $isLocked = array_get($field, 'is_locked', true);
+            $type   = array_get($field, 'type');
+            $rules  = array_get($field, 'rules', []);
+            $config = array_get($field, 'config', []);
+            $locked = array_get($field, 'locked', true);
 
             $namespace = $this->getNamespace($field);
             $name      = $this->getName($namespace, $slug, $field);
 
-            $field = compact('slug', 'type', 'namespace', 'name', 'rules', 'config', 'isLocked');
+            $field = compact('slug', 'type', 'namespace', 'name', 'rules', 'config', 'locked');
 
             $this->fieldService->create($field);
         }

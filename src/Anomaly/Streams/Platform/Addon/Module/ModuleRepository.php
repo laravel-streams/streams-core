@@ -49,8 +49,8 @@ class ModuleRepository implements ModuleRepositoryInterface
     {
         $module = $this->model->findBySlugOrCreate($module->getSlug());
 
-        $module->is_installed = true;
-        $module->is_enabled   = true;
+        $module->installed = true;
+        $module->enabled   = true;
 
         $module->save();
     }
@@ -65,8 +65,8 @@ class ModuleRepository implements ModuleRepositoryInterface
     {
         $module = $this->model->findBySlug($module->getSlug());
 
-        $module->is_installed = false;
-        $module->is_enabled   = false;
+        $module->installed = false;
+        $module->enabled   = false;
 
         $module->save();
     }

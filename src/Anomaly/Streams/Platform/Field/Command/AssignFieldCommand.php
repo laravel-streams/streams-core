@@ -64,21 +64,21 @@ class AssignFieldCommand
      *
      * @var
      */
-    protected $isUnique;
+    protected $unique;
 
     /**
      * The required flag.
      *
      * @var
      */
-    protected $isRequired;
+    protected $required;
 
     /**
      * The translatable flag.
      *
      * @var
      */
-    protected $isTranslatable;
+    protected $translatable;
 
     /**
      * Create a new AssignFieldCommand instance.
@@ -88,11 +88,11 @@ class AssignFieldCommand
      * @param      $field
      * @param null $label
      * @param int  $sortOrder
-     * @param bool $isUnique
-     * @param bool $isRequired
+     * @param bool $unique
+     * @param bool $required
      * @param null $placeholder
      * @param null $instructions
-     * @param bool $isTranslatable
+     * @param bool $translatable
      */
     public function __construct(
         $namespace,
@@ -100,22 +100,22 @@ class AssignFieldCommand
         $field,
         $label = null,
         $sortOrder = 0,
-        $isUnique = false,
-        $isRequired = false,
+        $unique = false,
+        $required = false,
         $placeholder = null,
         $instructions = null,
-        $isTranslatable = false
+        $translatable = false
     ) {
-        $this->label          = $label;
-        $this->field          = $field;
-        $this->stream         = $stream;
-        $this->isUnique       = $isUnique;
-        $this->sortOrder      = $sortOrder;
-        $this->namespace      = $namespace;
-        $this->isRequired     = $isRequired;
-        $this->placeholder    = $placeholder;
-        $this->instructions   = $instructions;
-        $this->isTranslatable = $isTranslatable;
+        $this->label        = $label;
+        $this->field        = $field;
+        $this->stream       = $stream;
+        $this->unique       = $unique;
+        $this->sortOrder    = $sortOrder;
+        $this->namespace    = $namespace;
+        $this->required     = $required;
+        $this->placeholder  = $placeholder;
+        $this->instructions = $instructions;
+        $this->translatable = $translatable;
     }
 
     /**
@@ -123,9 +123,9 @@ class AssignFieldCommand
      *
      * @return mixed
      */
-    public function getIsRequired()
+    public function isRequired()
     {
-        return $this->isRequired;
+        return $this->required;
     }
 
     /**
@@ -143,9 +143,9 @@ class AssignFieldCommand
      *
      * @return mixed
      */
-    public function getIsUnique()
+    public function isUnique()
     {
-        return $this->isUnique;
+        return $this->unique;
     }
 
     /**
@@ -163,9 +163,9 @@ class AssignFieldCommand
      *
      * @return mixed
      */
-    public function getIsTranslatable()
+    public function isTranslatable()
     {
-        return $this->isTranslatable;
+        return $this->translatable;
     }
 
     /**

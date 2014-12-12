@@ -272,7 +272,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function isTranslatable()
     {
-        return ($this->stream->is_translatable);
+        return ($this->stream->translatable);
     }
 
     /**

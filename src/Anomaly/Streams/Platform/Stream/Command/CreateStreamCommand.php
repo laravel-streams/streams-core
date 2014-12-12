@@ -71,14 +71,14 @@ class CreateStreamCommand
      *
      * @var
      */
-    protected $isHidden;
+    protected $hidden;
 
     /**
      * The stream's translatable flag.
      *
      * @var
      */
-    protected $isTranslatable;
+    protected $translatable;
 
     /**
      * Create a new CreateStreamCommand instance.
@@ -92,8 +92,8 @@ class CreateStreamCommand
      * @param array $titleColumn
      * @param array $orderBy
      * @param       $sortBy
-     * @param       $isHidden
-     * @param       $isTranslatable
+     * @param       $hidden
+     * @param       $translatable
      */
     public function __construct(
         $namespace,
@@ -104,19 +104,19 @@ class CreateStreamCommand
         array $viewOptions,
         $titleColumn,
         $orderBy,
-        $isHidden,
-        $isTranslatable
+        $hidden,
+        $translatable
     ) {
-        $this->name           = $name;
-        $this->slug           = $slug;
-        $this->prefix         = $prefix;
-        $this->orderBy        = $orderBy;
-        $this->isHidden       = $isHidden;
-        $this->namespace      = $namespace;
-        $this->description    = $description;
-        $this->titleColumn    = $titleColumn;
-        $this->viewOptions    = $viewOptions;
-        $this->isTranslatable = $isTranslatable;
+        $this->name         = $name;
+        $this->slug         = $slug;
+        $this->prefix       = $prefix;
+        $this->orderBy      = $orderBy;
+        $this->hidden       = $hidden;
+        $this->namespace    = $namespace;
+        $this->description  = $description;
+        $this->titleColumn  = $titleColumn;
+        $this->viewOptions  = $viewOptions;
+        $this->translatable = $translatable;
     }
 
     /**
@@ -130,17 +130,17 @@ class CreateStreamCommand
     /**
      * @return mixed
      */
-    public function getIsHidden()
+    public function isHidden()
     {
-        return $this->isHidden;
+        return $this->hidden;
     }
 
     /**
      * @return mixed
      */
-    public function getIsTranslatable()
+    public function isTranslatable()
     {
-        return $this->isTranslatable;
+        return $this->translatable;
     }
 
     /**

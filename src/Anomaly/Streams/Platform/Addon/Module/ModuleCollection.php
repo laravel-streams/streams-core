@@ -92,8 +92,8 @@ class ModuleCollection extends AddonCollection
     {
         foreach ($states as $state) {
             if (isset($this->items[$state->slug]) && $module = $this->items[$state->slug]) {
-                $module->setEnabled($state->is_enabled);
-                $module->setInstalled($state->is_installed);
+                $module->setEnabled($state->enabled);
+                $module->setInstalled($state->installed);
 
                 $this->push($module);
             }

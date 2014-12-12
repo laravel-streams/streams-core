@@ -62,9 +62,9 @@ class AssignFieldCommandHandler
             $command->getLabel(),
             $command->getPlaceholder(),
             $command->getInstructions(),
-            $command->getIsUnique(),
-            $command->getIsRequired(),
-            $command->getIsTranslatable()
+            $command->isUnique(),
+            $command->isRequired(),
+            $command->isTranslatable()
         );
     }
 }

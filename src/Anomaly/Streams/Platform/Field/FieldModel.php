@@ -154,7 +154,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function isLocked()
     {
-        return ($this->is_locked);
+        return ($this->locked);
     }
 
     /**

@@ -109,15 +109,15 @@ class StreamInstaller implements InstallableInterface
                 $assignment = [];
             }
 
-            $isUnique       = array_get($assignment, 'is_unique', false);
-            $isRequired     = array_get($assignment, 'is_required', false);
-            $isTranslatable = array_get($assignment, 'is_translatable', false);
+            $unique       = array_get($assignment, 'unique', false);
+            $required     = array_get($assignment, 'required', false);
+            $translatable = array_get($assignment, 'translatable', false);
 
             $label        = $this->getAssignmentLabel($assignment, $field);
             $placeholder  = $this->getAssignmentPlaceholder($assignment, $field);
             $instructions = $this->getAssignmentInstructions($assignment, $field);
 
-            $assignment = compact('label', 'placeholder', 'instructions', 'isUnique', 'isRequired', 'isTranslatable');
+            $assignment = compact('label', 'placeholder', 'instructions', 'unique', 'required', 'translatable');
 
             $this->fieldService->assign(
                 $this->stream['namespace'],

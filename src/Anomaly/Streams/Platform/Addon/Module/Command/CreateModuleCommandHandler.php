@@ -39,9 +39,9 @@ class CreateModuleCommandHandler
     {
         return $this->module->insert(
             [
-                'slug'         => $command->getSlug(),
-                'is_installed' => false,
-                'is_enabled'   => false,
+                'slug'      => $command->getSlug(),
+                'installed' => false,
+                'enabled'   => false,
             ]
         );
     }

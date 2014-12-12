@@ -57,7 +57,7 @@ class CreateFieldCommand
      *
      * @var
      */
-    protected $isLocked;
+    protected $locked;
 
     /**
      * Create a new CreateFieldCommand instance.
@@ -68,7 +68,7 @@ class CreateFieldCommand
      * @param null  $name
      * @param array $config
      * @param array $rules
-     * @param bool  $isLocked
+     * @param bool  $locked
      */
     public function __construct(
         $namespace,
@@ -77,14 +77,14 @@ class CreateFieldCommand
         $name = null,
         array $rules = [],
         array $config = [],
-        $isLocked = false
+        $locked = false
     ) {
         $this->slug      = $slug;
         $this->type      = $type;
         $this->name      = $name;
         $this->rules     = $rules;
         $this->config    = $config;
-        $this->isLocked  = $isLocked;
+        $this->locked    = $locked;
         $this->namespace = $namespace;
     }
 
@@ -153,8 +153,8 @@ class CreateFieldCommand
      *
      * @return mixed
      */
-    public function getIsLocked()
+    public function isLocked()
     {
-        return $this->isLocked;
+        return $this->locked;
     }
 }

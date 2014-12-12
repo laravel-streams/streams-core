@@ -28,13 +28,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
 
 
     /**
-     * This model is translatable.
-     *
-     * @var bool
-     */
-    protected $translatable = true;
-
-    /**
      * The foreign key for translations.
      *
      * @var string
@@ -207,7 +200,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function isUnique()
     {
-        return ($this->is_unique);
+        return ($this->unique);
     }
 
     /**
@@ -217,7 +210,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function isRequired()
     {
-        return ($this->is_required);
+        return ($this->required);
     }
 
     /**
@@ -227,7 +220,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function isTranslatable()
     {
-        return ($this->is_translatable && $this->stream->is_translatable);
+        return ($this->translatable && $this->stream->translatable);
     }
 
     /**

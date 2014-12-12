@@ -157,7 +157,7 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     public function isTranslatable()
     {
-        return ($this->is_translatable);
+        return ($this->translatable);
     }
 
     /**

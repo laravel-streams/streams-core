@@ -29,13 +29,6 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     public $timestamps = false;
 
     /**
-     * Translatable flag.
-     *
-     * @var bool
-     */
-    protected $translatable = false;
-
-    /**
      * Default translatable models to allow fallback.
      *
      * @var bool

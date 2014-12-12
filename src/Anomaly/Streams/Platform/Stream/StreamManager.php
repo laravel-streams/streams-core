@@ -28,12 +28,12 @@ class StreamManager
         $namespace = $stream['namespace'];
 
         // Optional properties
-        $orderBy        = isset($stream['order_by']) ? $stream['order_by'] : 'id';
-        $isHidden       = isset($stream['is_hidden']) ? $stream['is_hidden'] : false;
-        $prefix         = isset($stream['prefix']) ? $stream['prefix'] : $namespace . '_';
-        $titleColumn    = isset($stream['title_column']) ? $stream['title_column'] : 'id';
-        $isTranslatable = isset($stream['is_translatable']) ? $stream['is_translatable'] : false;
-        $viewOptions    = isset($stream['view_options']) ? $stream['view_options'] : ['id', 'created_at'];
+        $orderBy      = isset($stream['order_by']) ? $stream['order_by'] : 'id';
+        $hidden       = isset($stream['hidden']) ? $stream['hidden'] : false;
+        $prefix       = isset($stream['prefix']) ? $stream['prefix'] : $namespace . '_';
+        $titleColumn  = isset($stream['title_column']) ? $stream['title_column'] : 'id';
+        $translatable = isset($stream['translatable']) ? $stream['translatable'] : false;
+        $viewOptions  = isset($stream['view_options']) ? $stream['view_options'] : ['id', 'created_at'];
 
         $description = isset($stream['description']) ? $stream['description'] : null;
 
@@ -42,10 +42,10 @@ class StreamManager
             'name',
             'namespace',
             'orderBy',
-            'isHidden',
+            'hidden',
             'prefix',
             'titleColumn',
-            'isTranslatable',
+            'translatable',
             'viewOptions',
             'description'
         );
