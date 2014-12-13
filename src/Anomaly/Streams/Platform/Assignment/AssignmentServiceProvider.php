@@ -12,6 +12,7 @@ class AssignmentServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerBindings();
+        $this->registerListeners();
     }
 
     protected function registerBindings()
@@ -24,6 +25,14 @@ class AssignmentServiceProvider extends ServiceProvider
         $this->app->bind(
             '\Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface',
             config('streams::config.assignments.repository')
+        );
+    }
+
+    protected function registerListeners()
+    {
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Assignment.Event.*',
+            'Anomaly\Streams\Platform\Assignment\AssignmentListener'
         );
     }
 }
