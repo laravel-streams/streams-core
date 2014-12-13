@@ -1,37 +1,44 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Event\Registered;
-use Laracasts\Commander\CommanderTrait;
+use Anomaly\Streams\Platform\Addon\Event\AddonHasRegistered;
+use Anomaly\Streams\Platform\Application\Event\ApplicationIsBooting;
 use Laracasts\Commander\Events\EventListener;
 
-/**
- * Class AddonListener
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon
- */
 class AddonListener extends EventListener
 {
-    use CommanderTrait;
-
-    public function whenApplicationIsBooting()
+    public function whenApplicationIsBooting(ApplicationIsBooting $event)
     {
-        $this->execute('\Anomaly\Streams\Platform\Addon\Command\AddAddonNamespaceHintsCommand');
+        $this->addNamespaces();
     }
 
-    /**
-     * Push the addon to it's collection after it is registered.
-     *
-     * @param Registered $event
-     */
-    public function whenRegistered(Registered $event)
+    public function whenAddonHasRegistered(AddonHasRegistered $event)
     {
         $addon = $event->getAddon();
 
-        $collection = 'streams.' . str_plural($addon->getType());
+        $this->pushAddonToCollection($addon);
+    }
 
-        app($collection)->push($addon);
+    protected function addNamespaces()
+    {
+        foreach (config('streams::config.addon_types') as $type) {
+            foreach (app(str_plural($type)) as $addon) {
+                $this->addNamespace($addon);
+            }
+        }
+    }
+
+    protected function addNamespace(Addon $addon)
+    {
+        app('view')->addNamespace($addon->getAbstract(), $addon->getPath('resources/views'));
+        app('config')->addNamespace($addon->getAbstract(), $addon->getPath('resources/config'));
+        app('translator')->addNamespace($addon->getAbstract(), $addon->getPath('resources/lang'));
+
+        app('streams.asset')->addNamespace($addon->getAbstract(), $addon->getPath('resources'));
+        app('streams.image')->addNamespace($addon->getAbstract(), $addon->getPath('resources'));
+    }
+
+    protected function pushAddonToCollection(Addon $addon)
+    {
+        app(str_plural($addon->getType()))->put($addon->getSlug(), $addon);
     }
 }
