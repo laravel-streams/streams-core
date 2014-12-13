@@ -8,7 +8,7 @@ class AddonLoader extends ClassLoader
     {
         $namespace = 'Anomaly\Streams\Addon\\' . studly_case($type) . '\\' . studly_case($slug) . '\\';
 
-        parent::addPsr4($namespace, $path . '/src', $prepend = false);
+        parent::addPsr4($namespace, $path . '/src', false);
 
         parent::register();
     }
