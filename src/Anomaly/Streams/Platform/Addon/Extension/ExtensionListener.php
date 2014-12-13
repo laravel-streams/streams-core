@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension;
 
-use Anomaly\Streams\Platform\Addon\AddonListener;
+use Laracasts\Commander\Events\EventListener;
 
 /**
  * Class ExtensionListener
@@ -10,6 +10,6 @@ use Anomaly\Streams\Platform\Addon\AddonListener;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Extension
  */
-class ExtensionListener extends AddonListener
+class ExtensionListener extends EventListener
 {
 }
