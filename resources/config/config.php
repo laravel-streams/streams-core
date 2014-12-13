@@ -12,6 +12,25 @@ return [
 	|
 	*/
     'distribution'      => 'streams',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Addon Types
+    |--------------------------------------------------------------------------
+    |
+    | This controls the types of addons that are available and loaded. These
+    | are loaded in the order in which they appear here.
+    |
+    */
+    'addon_types' => [
+        'distribution',
+        'field_type',
+        'extension',
+        'module',
+        'block',
+        'theme',
+        'tag',
+    ],
     /*
 	|--------------------------------------------------------------------------
 	| Available Locales
