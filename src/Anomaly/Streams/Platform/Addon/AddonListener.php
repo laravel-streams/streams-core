@@ -8,10 +8,6 @@ class AddonListener extends EventListener
     public function whenApplicationIsBooting()
     {
         $this->addNamespaces();
-    }
-
-    public function whenAddonsHaveRegistered()
-    {
         $this->registerAddonServiceProviders();
     }
 
