@@ -10,7 +10,7 @@ class Section implements SectionInterface
 
     protected $view;
 
-    public function __construct($title = null, $body = null, $view = 'ui/form/sections/default/index')
+    public function __construct($title = null, $body = null, $view = 'streams::ui/form/sections/default/index')
     {
         $this->body  = $body;
         $this->view  = $view;

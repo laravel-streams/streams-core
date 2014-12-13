@@ -28,9 +28,9 @@ class Table
 
     protected $noResultsMessage = 'message.error.no_results';
 
-    protected $view = 'ui/table/index';
+    protected $view = 'streams::ui/table/index';
 
-    protected $wrapper = 'wrappers/blank';
+    protected $wrapper = 'streams::wrappers/blank';
 
     protected $data = [];
 

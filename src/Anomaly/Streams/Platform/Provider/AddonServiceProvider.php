@@ -29,6 +29,7 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function register()
     {
+        $this->registerListeners();
         $this->registerAddonCollections(); // First
 
         $this->registerAddonClasses();
@@ -149,5 +150,61 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
                 }
             }
         }
+    }
+
+    protected function registerListeners()
+    {
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Application.Event.*',
+            '\Anomaly\Streams\Platform\Addon\Distribution\DistributionListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Application.Event.*',
+            '\Anomaly\Streams\Platform\Addon\Module\ModuleListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Application.Event.*',
+            '\Anomaly\Streams\Platform\Addon\Theme\ThemeListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Application.Event.*',
+            '\Anomaly\Streams\Platform\Addon\AddonListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Distribution\DistributionListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Extension\ExtensionListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\FieldType\FieldTypeListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Assignment.Event.*',
+            'Anomaly\Streams\Platform\Assignment\AssignmentListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Module\ModuleListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.Module.Event.*',
+            'Anomaly\Streams\Platform\Addon\Module\ModuleListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Block\BlockListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Theme\ThemeListener'
+        );
+        $this->app['events']->listen(
+            'Anomaly.Streams.Platform.Addon.*',
+            '\Anomaly\Streams\Platform\Addon\Tag\TagListener'
+        );
     }
 }

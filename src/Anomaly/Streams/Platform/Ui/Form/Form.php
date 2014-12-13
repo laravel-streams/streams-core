@@ -17,9 +17,9 @@ class Form
 
     protected $skips = [];
 
-    protected $view = 'ui/form/index';
+    protected $view = 'streams::ui/form/index';
 
-    protected $wrapper = 'wrappers/blank';
+    protected $wrapper = 'streams::wrappers/blank';
 
     protected $rules = [];
 

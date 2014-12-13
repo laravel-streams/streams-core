@@ -125,7 +125,7 @@ class FieldType extends Addon implements PresentableInterface
      *
      * @var string
      */
-    protected $inputView = 'ui/form/partials/input';
+    protected $inputView = 'streams::ui/form/partials/input';
 
     /**
      * The field's filter input view.
@@ -139,7 +139,7 @@ class FieldType extends Addon implements PresentableInterface
      *
      * @var string
      */
-    protected $wrapperView = 'ui/form/partials/wrapper';
+    protected $wrapperView = 'streams::ui/form/partials/wrapper';
 
     /**
      * Return a new instance of the field type.

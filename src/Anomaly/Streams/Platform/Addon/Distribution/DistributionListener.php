@@ -15,7 +15,7 @@ class DistributionListener extends AddonListener
 {
     use DispatchableTrait;
 
-    public function whenStreamsIsBooting()
+    public function whenApplicationIsBooting()
     {
         $this->execute('\Anomaly\Streams\Platform\Addon\Distribution\Command\DetectActiveDistributionCommand');
     }

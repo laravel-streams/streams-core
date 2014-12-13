@@ -27,7 +27,7 @@ class FieldsSection implements FieldsSectionInterface
         array $fields,
         $title = null,
         $prefix = null,
-        $view = 'ui/form/sections/fields/index',
+        $view = 'streams::ui/form/sections/fields/index',
         Form $form,
         StreamInterface $stream = null,
         EntryInterface $entry = null,

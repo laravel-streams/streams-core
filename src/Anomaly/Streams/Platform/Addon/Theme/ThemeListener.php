@@ -15,7 +15,7 @@ class ThemeListener extends AddonListener
 {
     use DispatchableTrait;
 
-    public function whenStreamsIsBooting()
+    public function whenApplicationIsBooting()
     {
         $this->execute('\Anomaly\Streams\Platform\Addon\Theme\Command\DetectActiveThemeCommand');
     }

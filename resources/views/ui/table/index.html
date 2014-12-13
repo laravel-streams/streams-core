@@ -2,20 +2,20 @@
 
 <section class="panel panel-default">
 
-    {{ include "ui/table/partials/heading" }}
+    {{ include "streams::ui/table/partials/heading" }}
 
     <div class="panel-body" style="padding: 0;">
 
-        {{ include "ui/table/partials/filters" }}
+        {{ include "streams::ui/table/partials/filters" }}
 
         {{ if rows }}
         <form method="post">
 
             <table class="table table-hover{{ options.tableClass }}">
 
-                {{ include "ui/table/partials/thead" }}
-                {{ include "ui/table/partials/tbody" }}
-                {{ include "ui/table/partials/tfoot" }}
+                {{ include "streams::ui/table/partials/thead" }}
+                {{ include "streams::ui/table/partials/tbody" }}
+                {{ include "streams::ui/table/partials/tfoot" }}
 
             </table>
         </form>

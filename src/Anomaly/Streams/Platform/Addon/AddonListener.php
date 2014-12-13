@@ -16,7 +16,7 @@ class AddonListener extends EventListener
 {
     use CommanderTrait;
 
-    public function whenStreamsIsBooting()
+    public function whenApplicationIsBooting()
     {
         $this->execute('\Anomaly\Streams\Platform\Addon\Command\AddAddonNamespaceHintsCommand');
     }

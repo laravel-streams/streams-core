@@ -25,7 +25,7 @@ class ModuleListener extends AddonListener
         $this->modules = $modules;
     }
 
-    public function whenStreamsIsBooting()
+    public function whenApplicationIsBooting()
     {
         $this->execute('\Anomaly\Streams\Platform\Addon\Module\Command\DetectActiveModuleCommand');
     }
