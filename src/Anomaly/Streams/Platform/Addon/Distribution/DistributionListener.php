@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Distribution;
 
-use Anomaly\Streams\Platform\Addon\AddonListener;
-use Laracasts\Commander\Events\DispatchableTrait;
+use Laracasts\Commander\CommanderTrait;
+use Laracasts\Commander\Events\EventListener;
 
 /**
  * Class DistributionListener
@@ -11,9 +11,9 @@ use Laracasts\Commander\Events\DispatchableTrait;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Distribution
  */
-class DistributionListener extends AddonListener
+class DistributionListener extends EventListener
 {
-    use DispatchableTrait;
+    use CommanderTrait;
 
     public function whenApplicationIsBooting()
     {
