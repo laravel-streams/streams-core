@@ -1,195 +1,54 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Event\Registered;
+use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
 use Composer\Autoload\ClassLoader;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\ServiceProvider;
 use Laracasts\Commander\Events\DispatchableTrait;
 use Laracasts\Commander\Events\EventGenerator;
 
-/**
- * Class AddonServiceProvider
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon
- */
-class AddonServiceProvider extends ServiceProvider
+class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     use EventGenerator;
     use DispatchableTrait;
 
     /**
-     * The addon type.
-     * This is set automatically.
+     * Defer loading this service provider.
      *
-     * @var string
+     * @var bool
      */
-    protected $type = null;
+    protected $defer = true;
 
-    /**
-     * Register addons.
-     */
     public function register()
     {
-        foreach ($this->getAddonPaths() as $path) {
-            $slug = basename($path);
+        $this->app->instance('streams.addon.paths', new AddonPaths());
+        $this->app->instance('streams.addon.binder', new AddonBinder());
+        $this->app->instance('streams.addon.loader', new AddonLoader());
+        $this->app->instance('streams.addon.vendor', new AddonVendor());
+        $this->app->instance('streams.addon.manager', new AddonManager());
 
-            // We have to register the PSR src folder
-            // before we can continue.
-            $this->registerSrcFolder($slug, $path);
+        $this->registerListeners();
 
-            // Register the addon class to the container.
-            $addon = $this->registerAddonClass($slug);
+        $this->app->register('Anomaly\Streams\Platform\Addon\Distribution\DistributionServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Addon\Extension\ExtensionServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Addon\FieldType\FieldTypeServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Addon\Block\BlockServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Addon\Module\ModuleServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Addon\Theme\ThemeServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Addon\Tag\TagServiceProvider');
 
-            // Add the namespace to config
-            app('config')->addNamespace(
-                str_replace('streams.', '', $addon->getAbstract()),
-                $addon->getPath('resources/config')
-            );
+        $this->raise(new AddonsHaveRegistered());
 
-            $addon->raise(new Registered($addon));
-
-            $this->dispatchEventsFor($addon);
-        }
+        $this->dispatchEventsFor($this);
     }
 
-    /**
-     * Register the /src folder of each addon
-     * for PSR-4 autoloading.
-     *
-     * @param $slug
-     * @param $path
-     */
-    protected function registerSrcFolder($slug, $path)
+    protected function registerListeners()
     {
-        $loader = new ClassLoader();
-
-        $loader->addPsr4(
-            $this->getNamespace($slug) . '\\',
-            $path . '/src'
+        $this->app->make('events')->listen(
+            'Anomaly.Streams.Platform.Application.Event.*',
+            '\Anomaly\Streams\Platform\Addon\AddonListener'
         );
-
-        $loader->register();
-    }
-
-    /**
-     * Register the actual addon class.
-     *
-     * @param $slug
-     * @return mixed
-     */
-    protected function registerAddonClass($slug)
-    {
-        $class = $this->getClass($slug);
-
-        $addon = $this->app->make($class);
-
-        $this->app->bind(
-            $addon->getAbstract(),
-            function () use ($addon) {
-                return $addon;
-            }
+        $this->app->make('events')->listen(
+            'Anomaly.Streams.Platform.Addon.Event.*',
+            '\Anomaly\Streams\Platform\Addon\AddonListener'
         );
-
-        return $addon;
-    }
-
-    /**
-     * Get the paths to look for addons in.
-     *
-     * @return array
-     */
-    protected function getAddonPaths()
-    {
-        $corePaths        = $this->getCoreAddonPaths();
-        $sharedPaths      = $this->getSharedAddonPaths();
-        $applicationPaths = $this->getApplicationAddonPaths();
-
-        return array_filter(array_merge($corePaths, $sharedPaths, $applicationPaths));
-    }
-
-    /**
-     * Get core addon paths.
-     *
-     * @return array
-     */
-    protected function getCoreAddonPaths()
-    {
-        $paths = [];
-
-        $path = base_path('core/' . str_plural($this->type));
-
-        if (is_dir($path)) {
-            $paths = app('files')->directories($path);
-        }
-
-        return $paths;
-    }
-
-    /**
-     * Get shared addon paths.
-     *
-     * @return array
-     */
-    protected function getSharedAddonPaths()
-    {
-        $paths = [];
-
-        $path = base_path('addons/shared/' . str_plural($this->type));
-
-        if (is_dir($path)) {
-            $paths = app('files')->directories($path);
-        }
-
-        return $paths;
-    }
-
-    /**
-     * Get application specific paths.
-     *
-     * @return array
-     */
-    protected function getApplicationAddonPaths()
-    {
-        $paths = [];
-
-        $path = base_path('addons/' . app('streams.application')->getReference() . '/' . str_plural($this->type));
-
-        if (is_dir($path)) {
-            $paths = app('files')->directories($path);
-        }
-
-        return $paths;
-    }
-
-    /**
-     * Get the namespace prefix for an addon by slug.
-     *
-     * @param $slug
-     * @return string
-     */
-    protected function getNamespace($slug)
-    {
-        return 'Anomaly\Streams\Addon\\' . studly_case($this->type) . '\\' . studly_case($slug);
-    }
-
-    /**
-     * Get the class path for an addon by slug.
-     *
-     * @param $slug
-     * @return string
-     */
-    protected function getClass($slug)
-    {
-        return $this->getNamespace($slug) . '\\' . studly_case($slug) . studly_case($this->type);
-    }
-
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
     }
 }
