@@ -10,4 +10,16 @@ class AttributeCollection extends Collection
             $this->items[$key] = new Attribute($key, $value);
         }
     }
+
+    public function get($key, $default = null)
+    {
+        $value = parent::get($key, $default);
+
+        if (!$value instanceof Attribute) {
+
+            $value = new Attribute($key, $value);
+        }
+
+        return $value;
+    }
 }

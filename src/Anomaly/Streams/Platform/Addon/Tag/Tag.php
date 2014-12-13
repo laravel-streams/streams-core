@@ -62,7 +62,7 @@ class Tag extends Addon implements PluginInterface
     /**
      * Get the attributes array.
      *
-     * @return array
+     * @return AttributeCollection
      */
     public function getAttributes()
     {
