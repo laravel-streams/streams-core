@@ -13,4 +13,3 @@ class AddonLoader extends ClassLoader
         parent::register();
     }
 }
- 
