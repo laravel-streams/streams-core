@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
-use Anomaly\Streams\Platform\Addon\AddonListener;
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalled;
+use Laracasts\Commander\CommanderTrait;
 use Laracasts\Commander\Events\DispatchableTrait;
+use Laracasts\Commander\Events\EventListener;
 
 /**
  * Class ModuleListener
@@ -14,9 +15,9 @@ use Laracasts\Commander\Events\DispatchableTrait;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Module
  */
-class ModuleListener extends AddonListener
+class ModuleListener extends EventListener
 {
-    use DispatchableTrait;
+    use CommanderTrait;
 
     protected $modules;
 
