@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Application\Event\ApplicationIsBooting;
 use Illuminate\Support\ServiceProvider;
+use Laracasts\Commander\DefaultCommandBus;
 use Laracasts\Commander\Events\DispatchableTrait;
 use Laracasts\Commander\Events\EventGenerator;
 
@@ -24,7 +25,13 @@ class ApplicationServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerApplication();
         $this->registerListeners();
+        $this->configurePackages();
+    }
+
+    protected function registerApplication()
+    {
         $this->app->instance('streams.application', app('Anomaly\Streams\Platform\Application\Application'));
 
         $this->app['streams.path'] = base_path('vendor/anomaly/streams-platform');
@@ -49,6 +56,21 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->app['events']->listen(
             'Anomaly.Streams.Platform.Application.Event.*',
             'Anomaly\Streams\Platform\Application\ApplicationListener'
+        );
+    }
+
+    protected function configurePackages()
+    {
+        // Configure Translatable
+        $this->app['config']->set('translatable::locales', ['en', 'es']);
+        $this->app['config']->set('translatable::translation_suffix', 'Translation');
+
+        // Auto-decorate commands with validators.
+        $this->app->resolving(
+            'Laracasts\Commander\DefaultCommandBus',
+            function (DefaultCommandBus $commandBus) {
+                $commandBus->decorate('Anomaly\Streams\Platform\Commander\CommandValidator');
+            }
         );
     }
 }
