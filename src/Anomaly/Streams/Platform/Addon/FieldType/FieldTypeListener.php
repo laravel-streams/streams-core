@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Addon\AddonListener;
+use Laracasts\Commander\Events\EventListener;
 
 /**
  * Class FieldTypeListener
@@ -10,6 +10,6 @@ use Anomaly\Streams\Platform\Addon\AddonListener;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\FieldType
  */
-class FieldTypeListener extends AddonListener
+class FieldTypeListener extends EventListener
 {
 }
