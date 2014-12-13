@@ -1,10 +1,6 @@
 <?php namespace Anomaly\Streams\Platform;
 
-use Composer\Autoload\ClassLoader;
 use Illuminate\Support\ServiceProvider;
-use Laracasts\Commander\DefaultCommandBus;
-use Laracasts\Commander\Events\DispatchableTrait;
-use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class StreamsServiceProvider
@@ -23,21 +19,12 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->resolving(
-            'Laracasts\Commander\DefaultCommandBus',
-            function (DefaultCommandBus $commandBus) {
-                $commandBus->decorate('Anomaly\Streams\Platform\Commander\CommandValidator');
-            }
-        );
-
-        $this->configurePackages();
-
         $this->registerPackages();
         $this->registerCore();
     }
 
     /**
-     * Register package service providers.
+     * Register packages.
      */
     protected function registerPackages()
     {
@@ -52,7 +39,7 @@ class StreamsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register core service providers.
+     * Register core.
      */
     protected function registerCore()
     {
@@ -63,47 +50,17 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Asset\AssetServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Image\ImageServiceProvider');
 
-        // Register the streams utilities.
+        // Register the streams services.
         $this->app->register('Anomaly\Streams\Platform\Entry\EntryServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Field\FieldServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Stream\StreamServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Assignment\AssignmentServiceProvider');
 
-        // Register UI utilities.
+        // Register UI services.
         $this->app->register('Anomaly\Streams\Platform\Ui\Form\FormServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Ui\Table\TableServiceProvider');
 
-        $this->bindings();
-
-        $this->app['streams.asset']->addNamespace(
-            'asset',
-            public_path('assets/' . app('streams.application')->getReference())
-        );
-        $this->app['streams.asset']->addNamespace('streams', $this->app['streams.path'] . '/resources');
-
-        $this->app['view']->composer('*', 'Anomaly\Streams\Platform\View\Composer');
-
-        $this->app->register('Anomaly\Streams\Platform\Provider\AddonServiceProvider');
-    }
-
-    protected function configurePackages()
-    {
-        // Configure Translatable
-        $this->app['config']->set('translatable::locales', ['en', 'es']);
-        $this->app['config']->set('translatable::translation_suffix', 'Translation');
-    }
-
-    protected function bindings()
-    {
-
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Addon\Module\ModuleModel',
-            config('streams::config.modules.model')
-        );
-
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface',
-            config('streams::config.modules.repository')
-        );
+        // Register addon services.
+        $this->app->register('Anomaly\Streams\Platform\Addon\AddonServiceProvider');
     }
 }
