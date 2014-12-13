@@ -17,7 +17,6 @@ class Addon implements ArrayableInterface
 
     /**
      * The addon path.
-     * This is set automatically.
      *
      * @var null
      */
@@ -25,45 +24,27 @@ class Addon implements ArrayableInterface
 
     /**
      * The addon type.
-     * This is set automatically.
      *
      * @var
      */
-    protected $type;
+    protected $type = null;
 
     /**
      * The addon slug.
-     * This is set automatically.
      *
      * @var
      */
-    protected $slug;
+    protected $slug = null;
 
     /**
-     * Get the lang string for a given key.
+     * Translate a string in the addon's namespace.
      *
      * @param $key
      * @return string
      */
-    public function lang($key)
+    public function translate($key)
     {
         return "{$this->getType()}.{$this->getSlug()}::{$key}";
-    }
-
-    /**
-     * Get the addon path. Optionally include an
-     * additional path suffix.
-     *
-     * @param null $path
-     * @return string
-     */
-    public function getPath($path = null)
-    {
-        if (!$this->path) {
-            $this->path = dirname(dirname((new \ReflectionClass($this))->getFileName()));
-        }
-
-        return $this->path . ($path ? '/' . ltrim($path, '/') : null);
     }
 
     /**
@@ -74,50 +55,6 @@ class Addon implements ArrayableInterface
     public function isCore()
     {
         return str_contains($this->getPath(), 'core/' . str_plural($this->getType()));
-    }
-
-    /**
-     * Get the addon slug.
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        if (!$this->slug) {
-            $class = get_class($this);
-            $parts = explode("\\", $class);
-
-            $this->slug = snake_case($parts[count($parts) - 2]);
-        }
-
-        return $this->slug;
-    }
-
-    /**
-     * Get the addon type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        if (!$this->type) {
-            $class = get_class($this);
-            $parts = explode("\\", $class);
-
-            $this->type = snake_case($parts[count($parts) - 3]);
-        }
-
-        return $this->type;
-    }
-
-    /**
-     * Get the addon abstract string.
-     *
-     * @return string
-     */
-    public function getAbstract()
-    {
-        return "streams.{$this->getType()}.{$this->getSlug()}";
     }
 
     /**
@@ -138,6 +75,73 @@ class Addon implements ArrayableInterface
     public function getDescription()
     {
         return $this->getType() . '.' . $this->getSlug() . '::addon.description';
+    }
+
+    /**
+     * Get the addon's IoC abstract.
+     *
+     * @return string
+     */
+    public function getAbstract()
+    {
+        return "streams.{$this->getType()}.{$this->getSlug()}";
+    }
+
+    /**
+     * @param $path
+     * @return $this
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * @param $slug
+     * @return $this
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param $type
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
