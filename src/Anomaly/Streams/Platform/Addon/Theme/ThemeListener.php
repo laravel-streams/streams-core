@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme;
 
-use Anomaly\Streams\Platform\Addon\AddonListener;
-use Laracasts\Commander\Events\DispatchableTrait;
+use Laracasts\Commander\CommanderTrait;
+use Laracasts\Commander\Events\EventListener;
 
 /**
  * Class ThemeListener
@@ -11,9 +11,9 @@ use Laracasts\Commander\Events\DispatchableTrait;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Theme
  */
-class ThemeListener extends AddonListener
+class ThemeListener extends EventListener
 {
-    use DispatchableTrait;
+    use CommanderTrait;
 
     public function whenApplicationIsBooting()
     {
