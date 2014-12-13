@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Tag;
 
-use Anomaly\Streams\Platform\Addon\AddonListener;
-use Anomaly\Streams\Platform\Addon\Event\Registered;
+use Laracasts\Commander\Events\EventListener;
 
 /**
  * Class TagListener
@@ -11,20 +10,12 @@ use Anomaly\Streams\Platform\Addon\Event\Registered;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Tag
  */
-class TagListener extends AddonListener
+class TagListener extends EventListener
 {
-    /**
-     * After the tag is registered to the container
-     * register it with our favorite parsing engine.
-     *
-     * @param Registered $event
-     */
-    public function whenRegistered(Registered $event)
+    public function whenTagsHaveRegistered()
     {
-        parent::whenRegistered($event);
-
-        $tag = $event->getAddon();
-
-        app('anomaly.lexicon')->registerPlugin($tag->getSlug(), $tag->getAbstract());
+        foreach (app('streams.tags') as $tag) {
+            app('anomaly.lexicon')->registerPlugin($tag->getSlug(), 'tag.' . $tag->getSlug());
+        }
     }
 }
