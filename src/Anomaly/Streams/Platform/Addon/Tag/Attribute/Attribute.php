@@ -29,13 +29,28 @@ class Attribute
         return $array;
     }
 
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
     public function bool()
     {
         return filter_var($this->value, FILTER_VALIDATE_BOOLEAN);
     }
 
+    public function string()
+    {
+        return (string)$this->value;
+    }
+
     public function __toString()
     {
-        return $this->value;
+        return (string)$this->value;
     }
 }
