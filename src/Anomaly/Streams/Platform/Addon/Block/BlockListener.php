@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Block;
 
-use Anomaly\Streams\Platform\Addon\AddonListener;
+use Laracasts\Commander\Events\EventListener;
 
 /**
  * Class BlockListener
@@ -10,6 +10,6 @@ use Anomaly\Streams\Platform\Addon\AddonListener;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Block
  */
-class BlockListener extends AddonListener
+class BlockListener extends EventListener
 {
 }
