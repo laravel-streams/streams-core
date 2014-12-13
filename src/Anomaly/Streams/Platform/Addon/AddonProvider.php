@@ -4,7 +4,7 @@ class AddonProvider
 {
     public function register($type)
     {
-        foreach (app(str_plural($type)) as $addon) {
+        foreach (app('streams.' . str_plural($type)) as $addon) {
 
             $provider = get_class($addon) . 'ServiceProvider';
 

@@ -101,9 +101,9 @@ class Addon implements ArrayableInterface
     /**
      * @return null
      */
-    public function getPath()
+    public function getPath($path = null)
     {
-        return $this->path;
+        return $this->path . ($path ? '/' . $path : $path);
     }
 
     /**

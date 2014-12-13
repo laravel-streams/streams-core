@@ -25,6 +25,8 @@ class AddonVendor extends ClassLoader
                 }
             }
         }
+
+        $this->register();
     }
 
     protected function vendorPaths($vendorPath, $path)

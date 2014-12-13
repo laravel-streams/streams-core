@@ -1,14 +1,18 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Event\AddonHasRegistered;
-use Anomaly\Streams\Platform\Application\Event\ApplicationIsBooting;
 use Laracasts\Commander\Events\EventListener;
 
 class AddonListener extends EventListener
 {
-    public function whenApplicationIsBooting(ApplicationIsBooting $event)
+    public function whenApplicationIsBooting()
     {
         $this->addNamespaces();
+    }
+
+    public function whenAddonsHaveRegistered()
+    {
+        $this->registerAddonServiceProviders();
     }
 
     public function whenAddonHasRegistered(AddonHasRegistered $event)
@@ -21,24 +25,19 @@ class AddonListener extends EventListener
     protected function addNamespaces()
     {
         foreach (config('streams::config.addon_types') as $type) {
-            foreach (app(str_plural($type)) as $addon) {
-                $this->addNamespace($addon);
-            }
+            app('streams.addon.integrator')->register($type);
         }
     }
 
-    protected function addNamespace(Addon $addon)
+    protected function registerAddonServiceProviders()
     {
-        app('view')->addNamespace($addon->getAbstract(), $addon->getPath('resources/views'));
-        app('config')->addNamespace($addon->getAbstract(), $addon->getPath('resources/config'));
-        app('translator')->addNamespace($addon->getAbstract(), $addon->getPath('resources/lang'));
-
-        app('streams.asset')->addNamespace($addon->getAbstract(), $addon->getPath('resources'));
-        app('streams.image')->addNamespace($addon->getAbstract(), $addon->getPath('resources'));
+        foreach (config('streams::config.addon_types') as $type) {
+            app('streams.addon.provider')->register($type);
+        }
     }
 
     protected function pushAddonToCollection(Addon $addon)
     {
-        app(str_plural($addon->getType()))->put($addon->getSlug(), $addon);
+        app('streams.' . str_plural($addon->getType()))->put($addon->getSlug(), $addon);
     }
 }
