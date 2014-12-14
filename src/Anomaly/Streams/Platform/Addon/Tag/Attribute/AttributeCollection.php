@@ -54,6 +54,19 @@ class AttributeCollection extends Collection
         return $attribute->bool();
     }
 
+    public function getUrl($key, $default = null)
+    {
+        $attribute = $this->get($key, $default);
+
+        $url = $attribute->getValue();
+
+        if (!str_contains('http', $url)) {
+            $url = url($url);
+        }
+
+        return $url;
+    }
+
     public function getArray($key, $default = null)
     {
         $attribute = $this->get($key, $default);
