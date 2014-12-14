@@ -8,10 +8,14 @@ class AddonListener extends EventListener
     public function whenApplicationIsBooting()
     {
         $this->addNamespaces();
-    }
 
-    public function whenAddonsHaveRegistered()
-    {
+        /**
+         * This MUST occur absolutely last in
+         * the boot process for Streams.
+         *
+         * Otherwise:
+         * - Namespaces won't be set
+         */
         $this->registerAddonServiceProviders();
     }
 
