@@ -15,7 +15,12 @@ class TagListener extends EventListener
     public function whenTagsHaveRegistered()
     {
         foreach (app('streams.tags') as $tag) {
-            app('anomaly.lexicon')->registerPlugin($tag->getSlug(), 'streams.tag.' . $tag->getSlug());
+            $this->registerLexiconPlugin($tag);
         }
+    }
+
+    protected function registerLexiconPlugin(Tag $tag)
+    {
+        app('Anomaly\Lexicon\Contract\LexiconInterface')->registerPlugin($tag->getSlug(), $tag->getAbstract());
     }
 }
