@@ -11,14 +11,11 @@ class AttributeCollection extends Collection
         }
     }
 
-    public function allValues()
+    public function except($keys)
     {
-        return array_map(
-            function (Attribute $attribute) {
-                return $attribute->getValue();
-            },
-            parent::all()
-        );
+        $items = array_except($this->allValues(), $keys);
+
+        return new static($items);
     }
 
     public function get($key, $default = null)
@@ -72,5 +69,15 @@ class AttributeCollection extends Collection
         $attribute = $this->get($key, $default);
 
         return $attribute->toArray();
+    }
+
+    public function allValues()
+    {
+        return array_map(
+            function (Attribute $attribute) {
+                return $attribute->getValue();
+            },
+            parent::all()
+        );
     }
 }
