@@ -1,7 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\View\Command;
 
+/**
+ * Class HandleTableViewCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\View\Command
+ */
 class HandleTableViewCommandHandler
 {
+    /**
+     * Handle the command.
+     *
+     * @param HandleTableViewCommand $command
+     */
     public function handle(HandleTableViewCommand $command)
     {
         $table = $command->getTable();

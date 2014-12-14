@@ -5,11 +5,24 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TableWasBuilt;
 use Laracasts\Commander\CommanderTrait;
 use Laracasts\Commander\Events\DispatchableTrait;
 
+/**
+ * Class BuildTableCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Command
+ */
 class BuildTableCommandHandler
 {
     use CommanderTrait;
     use DispatchableTrait;
 
+    /**
+     * Handle the command.
+     *
+     * @param BuildTableCommand $command
+     */
     public function handle(BuildTableCommand $command)
     {
         $builder = $command->getBuilder();

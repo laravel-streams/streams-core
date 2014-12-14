@@ -2,6 +2,14 @@
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class TableServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table
+ */
 class TableServiceProvider extends ServiceProvider
 {
     /**
@@ -14,9 +22,12 @@ class TableServiceProvider extends ServiceProvider
         $this->registerListeners();
     }
 
+    /**
+     * Register the table listener.
+     */
     protected function registerListeners()
     {
-        $this->app['events']->listen(
+        $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Ui.Table.Event.*',
             'Anomaly\Streams\Platform\Ui\Table\TableListener'
         );

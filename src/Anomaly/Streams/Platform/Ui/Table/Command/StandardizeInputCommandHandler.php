@@ -1,18 +1,28 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Ui\Button\ButtonReader;
-use Anomaly\Streams\Platform\Ui\Table\Action\ActionReader;
-use Anomaly\Streams\Platform\Ui\Table\Column\ColumnReader;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Exception\IncompatibleModelException;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Laracasts\Commander\CommanderTrait;
 
+/**
+ * Class StandardizeInputCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Command
+ */
 class StandardizeInputCommandHandler
 {
     use CommanderTrait;
 
+    /**
+     * Handle the command.
+     *
+     * @param StandardizeInputCommand $command
+     */
     public function handle(StandardizeInputCommand $command)
     {
         $builder = $command->getBuilder();
@@ -29,6 +39,12 @@ class StandardizeInputCommandHandler
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Action\Command\StandardizeActionInputCommand', $args);
     }
 
+    /**
+     * Standardize the model input.
+     *
+     * @param TableBuilder $builder
+     * @throws \Anomaly\Streams\Platform\Ui\Table\Exception\IncompatibleModelException
+     */
     protected function standardizeModelInput(TableBuilder $builder)
     {
         $table = $builder->getTable();

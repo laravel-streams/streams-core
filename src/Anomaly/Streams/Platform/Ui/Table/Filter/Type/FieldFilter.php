@@ -6,12 +6,41 @@ use Anomaly\Streams\Platform\Ui\Table\Filter\Filter;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * Class FieldFilter
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Filter\Type
+ */
 class FieldFilter extends Filter implements FieldFilterInterface
 {
+    /**
+     * The filter field.
+     *
+     * @var null
+     */
     protected $field;
 
+    /**
+     * The stream object.
+     *
+     * @var \Anomaly\Streams\Platform\Stream\Contract\StreamInterface
+     */
     protected $stream;
 
+    /**
+     * Create a new FieldFilter instance.
+     *
+     * @param                 $slug
+     * @param null            $field
+     * @param null            $prefix
+     * @param bool            $active
+     * @param null            $handler
+     * @param null            $placeholder
+     * @param StreamInterface $stream
+     */
     public function __construct(
         $slug,
         $field,
@@ -27,6 +56,12 @@ class FieldFilter extends Filter implements FieldFilterInterface
         parent::__construct($slug, $prefix, $active, $handler, $placeholder);
     }
 
+    /**
+     * Handle the filter.
+     *
+     * @param Table   $table
+     * @param Builder $query
+     */
     public function handle(Table $table, Builder $query)
     {
         $type = $this->stream->getFieldType($this->field);
@@ -34,6 +69,11 @@ class FieldFilter extends Filter implements FieldFilterInterface
         $type->filter($query, $this->getValue());
     }
 
+    /**
+     * Get the input HTML.
+     *
+     * @return \Illuminate\View\View
+     */
     protected function getInput()
     {
         $field = $this->stream->getField($this->getField());
@@ -47,6 +87,12 @@ class FieldFilter extends Filter implements FieldFilterInterface
         return $type->renderFilter();
     }
 
+    /**
+     * Set the filter field.
+     *
+     * @param $field
+     * @return $this
+     */
     public function setField($field)
     {
         $this->field = $field;
@@ -54,11 +100,21 @@ class FieldFilter extends Filter implements FieldFilterInterface
         return $this;
     }
 
+    /**
+     * Get the filter field.
+     *
+     * @return null
+     */
     public function getField()
     {
         return $this->field;
     }
 
+    /**
+     * Get the stream object.
+     *
+     * @return StreamInterface
+     */
     public function getStream()
     {
         return $this->stream;

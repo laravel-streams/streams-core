@@ -4,11 +4,24 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TableDataLoaded;
 use Laracasts\Commander\CommanderTrait;
 use Laracasts\Commander\Events\DispatchableTrait;
 
+/**
+ * Class MakeTableCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Command
+ */
 class MakeTableCommandHandler
 {
     use CommanderTrait;
     use DispatchableTrait;
 
+    /**
+     * Handle the command.
+     *
+     * @param MakeTableCommand $command
+     */
     public function handle(MakeTableCommand $command)
     {
         $builder = $command->getBuilder();

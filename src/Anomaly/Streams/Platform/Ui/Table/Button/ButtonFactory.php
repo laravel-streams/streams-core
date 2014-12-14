@@ -1,9 +1,28 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Button;
 
+/**
+ * Class ButtonFactory
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Button
+ */
 class ButtonFactory extends \Anomaly\Streams\Platform\Ui\Button\ButtonFactory
 {
+    /**
+     * The default button class.
+     *
+     * @var string
+     */
     protected $button = 'Anomaly\Streams\Platform\Ui\Table\Button\Button';
 
+    /**
+     * Make a button.
+     *
+     * @param array $parameters
+     * @return mixed
+     */
     public function make(array $parameters)
     {
         if (!isset($parameters['href'])) {
@@ -13,6 +32,11 @@ class ButtonFactory extends \Anomaly\Streams\Platform\Ui\Button\ButtonFactory
         return parent::make($parameters);
     }
 
+    /**
+     * Guess the HREF based on the button.
+     *
+     * @param array $parameters
+     */
     protected function guessHref(array &$parameters)
     {
         $path = app('router')->getCurrentRoute()->getPath();

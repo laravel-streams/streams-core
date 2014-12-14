@@ -1,7 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Button\Command;
 
+/**
+ * Class StandardizeButtonInputCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Button\Command
+ */
 class StandardizeButtonInputCommandHandler
 {
+    /**
+     * Handle the command.
+     *
+     * @param StandardizeButtonInputCommand $command
+     */
     public function handle(StandardizeButtonInputCommand $command)
     {
         $builder = $command->getBuilder();

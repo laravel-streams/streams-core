@@ -2,15 +2,38 @@
 
 use Anomaly\Streams\Platform\Ui\Table\View\ViewFactory;
 
+/**
+ * Class LoadTableViewsCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\View\Command
+ */
 class LoadTableViewsCommandHandler
 {
+    /**
+     * The view factory.
+     *
+     * @var \Anomaly\Streams\Platform\Ui\Table\View\ViewFactory
+     */
     protected $factory;
 
+    /**
+     * Create a new LoadTableViewsCommandHandler instance.
+     *
+     * @param ViewFactory $factory
+     */
     public function __construct(ViewFactory $factory)
     {
         $this->factory = $factory;
     }
 
+    /**
+     * Handle the command.
+     *
+     * @param LoadTableViewsCommand $command
+     */
     public function handle(LoadTableViewsCommand $command)
     {
         $builder = $command->getBuilder();

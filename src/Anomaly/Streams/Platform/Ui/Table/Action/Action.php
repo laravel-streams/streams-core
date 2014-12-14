@@ -3,14 +3,49 @@
 use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionInterface;
 
+/**
+ * Class Action
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Action
+ */
 class Action extends Button implements ActionInterface
 {
+    /**
+     * The action slug.
+     *
+     * @var string
+     */
     protected $slug;
 
+    /**
+     * The active flag.
+     *
+     * @var bool
+     */
     protected $active;
 
+    /**
+     * The action's prefix.
+     *
+     * @var null
+     */
     protected $prefix;
 
+    /**
+     * Create a new Action instance.
+     *
+     * @param string $slug
+     * @param null   $icon
+     * @param null   $text
+     * @param null   $class
+     * @param null   $prefix
+     * @param bool   $active
+     * @param string $type
+     * @param array  $attributes
+     */
     public function __construct(
         $slug,
         $icon = null,
@@ -31,7 +66,12 @@ class Action extends Button implements ActionInterface
         $this->putAttribute('name', 'action');
     }
 
-
+    /**
+     * Return the view data.
+     *
+     * @param array $arguments
+     * @return array
+     */
     public function viewData(array $arguments = [])
     {
         $data = parent::viewData($arguments);
@@ -41,6 +81,12 @@ class Action extends Button implements ActionInterface
         return $data;
     }
 
+    /**
+     * Set the active flag.
+     *
+     * @param $active
+     * @return $this
+     */
     public function setActive($active)
     {
         $this->active = $active;
@@ -48,11 +94,22 @@ class Action extends Button implements ActionInterface
         return $this;
     }
 
-    public function getActive()
+    /**
+     * Return the active flag.
+     *
+     * @return bool
+     */
+    public function isActive()
     {
         return $this->active;
     }
 
+    /**
+     * Set the prefix.
+     *
+     * @param $prefix
+     * @return $this
+     */
     public function setPrefix($prefix)
     {
         $this->prefix = $prefix;
@@ -60,11 +117,22 @@ class Action extends Button implements ActionInterface
         return $this;
     }
 
+    /**
+     * Get the prefix.
+     *
+     * @return null
+     */
     public function getPrefix()
     {
         return $this->prefix;
     }
 
+    /**
+     * Set the slug.
+     *
+     * @param $slug
+     * @return $this
+     */
     public function setSlug($slug)
     {
         $this->slug = $slug;
@@ -72,6 +140,11 @@ class Action extends Button implements ActionInterface
         return $this;
     }
 
+    /**
+     * Get the slug.
+     *
+     * @return string
+     */
     public function getSlug()
     {
         return $this->slug;

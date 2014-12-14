@@ -1,7 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Filter\Command;
 
+/**
+ * Class StandardizeFilterInputCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Filter\Command
+ */
 class StandardizeFilterInputCommandHandler
 {
+    /**
+     * Handle the command.
+     *
+     * @param StandardizeFilterInputCommand $command
+     */
     public function handle(StandardizeFilterInputCommand $command)
     {
         $builder = $command->getBuilder();

@@ -2,15 +2,38 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Filter\FilterFactory;
 
+/**
+ * Class LoadTableFiltersCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Filter\Command
+ */
 class LoadTableFiltersCommandHandler
 {
+    /**
+     * The filter factory.
+     *
+     * @var \Anomaly\Streams\Platform\Ui\Table\Filter\FilterFactory
+     */
     protected $factory;
 
+    /**
+     * Create a new LoadTableFiltersCommandHandler instance.
+     *
+     * @param FilterFactory $factory
+     */
     public function __construct(FilterFactory $factory)
     {
         $this->factory = $factory;
     }
 
+    /**
+     * Handle the command.
+     *
+     * @param LoadTableFiltersCommand $command
+     */
     public function handle(LoadTableFiltersCommand $command)
     {
         $builder = $command->getBuilder();
