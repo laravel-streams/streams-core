@@ -57,7 +57,7 @@ class ApplicationServiceProvider extends ServiceProvider
                 $directory = base_path($directory);
 
                 if (!is_writable($directory) or !is_readable($directory)) {
-                    die("<strong>chmod 755 {$directory}</strong> [{$directory}] must be readable and writable.");
+                    throw new \Exception("[{$directory}] must be readable and writable.");
                 }
             }
         }
