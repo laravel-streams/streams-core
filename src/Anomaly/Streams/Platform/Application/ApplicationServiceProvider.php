@@ -25,9 +25,28 @@ class ApplicationServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->checkDirectories();
         $this->registerApplication();
         $this->registerListeners();
         $this->configurePackages();
+    }
+
+    protected function checkDirectories()
+    {
+        $directories = [
+            'storage/models',
+        ];
+
+        if (config('app.debug')) {
+            foreach ($directories as $directory) {
+
+                $directory = base_path($directory);
+
+                if (!is_writable($directory) or !is_readable($directory)) {
+                    die("<strong>chmod 755 {$directory}</strong> [{$directory}] must be readable and writable.");
+                }
+            }
+        }
     }
 
     protected function registerApplication()
