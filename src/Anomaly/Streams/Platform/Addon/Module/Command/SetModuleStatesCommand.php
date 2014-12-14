@@ -10,6 +10,9 @@
  */
 class SetModuleStatesCommand
 {
+    /**
+     * Create a new SetModuleStatesCommand instance.
+     */
     public function __construct()
     {
     }

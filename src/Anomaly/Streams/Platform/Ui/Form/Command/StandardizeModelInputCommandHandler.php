@@ -4,8 +4,22 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 use Anomaly\Streams\Platform\Ui\Form\Exception\IncompatibleModelException;
 
+/**
+ * Class StandardizeModelInputCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Command
+ */
 class StandardizeModelInputCommandHandler
 {
+    /**
+     * Handle the command.
+     *
+     * @param StandardizeModelInputCommand $command
+     * @throws \Anomaly\Streams\Platform\Ui\Form\Exception\IncompatibleModelException
+     */
     public function handle(StandardizeModelInputCommand $command)
     {
         $builder = $command->getBuilder();

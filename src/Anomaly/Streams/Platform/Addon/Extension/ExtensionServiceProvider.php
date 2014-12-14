@@ -5,6 +5,14 @@ use Illuminate\Support\ServiceProvider;
 use Laracasts\Commander\Events\DispatchableTrait;
 use Laracasts\Commander\Events\EventGenerator;
 
+/**
+ * Class ExtensionServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon\Extension
+ */
 class ExtensionServiceProvider extends ServiceProvider
 {
     use EventGenerator;
@@ -27,6 +35,9 @@ class ExtensionServiceProvider extends ServiceProvider
         $this->dispatchEventsFor($this);
     }
 
+    /**
+     * Register the extension listener.
+     */
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
@@ -35,11 +46,17 @@ class ExtensionServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * Register the extension collection.
+     */
     protected function registerCollection()
     {
         $this->app->instance('streams.extensions', new ExtensionCollection());
     }
 
+    /**
+     * Register all extension addons.
+     */
     protected function registerExtensions()
     {
         $this->app->make('streams.addon.manager')->register('extension');

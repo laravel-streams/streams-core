@@ -280,11 +280,19 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         return new EntryPresenter($this);
     }
 
+    /**
+     * @param array $items
+     * @return EntryCollection
+     */
     public function newCollection(array $items = array())
     {
         return new EntryCollection($items);
     }
 
+    /**
+     * @param Table $table
+     * @return mixed
+     */
     public function getTableEntries(Table $table)
     {
         $query = $this->newQuery();
@@ -351,6 +359,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         return $query->get();
     }
 
+    /**
+     * @param Form $form
+     */
     public static function saveFormInput(Form $form)
     {
         $entry = $form->getEntry();

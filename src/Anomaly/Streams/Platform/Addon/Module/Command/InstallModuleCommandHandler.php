@@ -19,7 +19,7 @@ class InstallModuleCommandHandler
     use DispatchableTrait;
 
     /**
-     * Handle the command.
+     * Install a module.
      *
      * @param InstallModuleCommand $command
      * @return bool
@@ -40,7 +40,7 @@ class InstallModuleCommandHandler
     }
 
     /**
-     * Run the installers.
+     * Run the module's installers.
      *
      * @param Module          $module
      * @param ModuleInstaller $installer

@@ -3,8 +3,19 @@
 use Anomaly\Streams\Platform\Addon\Event\AddonHasRegistered;
 use Laracasts\Commander\Events\EventListener;
 
+/**
+ * Class AddonListener
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon
+ */
 class AddonListener extends EventListener
 {
+    /**
+     * Fired when the ApplicationServiceProvider starts booting.
+     */
     public function whenApplicationIsBooting()
     {
         $this->addNamespaces();
@@ -19,6 +30,11 @@ class AddonListener extends EventListener
         $this->registerAddonServiceProviders();
     }
 
+    /**
+     * Fired when an addon has registered.
+     *
+     * @param AddonHasRegistered $event
+     */
     public function whenAddonHasRegistered(AddonHasRegistered $event)
     {
         $addon = $event->getAddon();
@@ -26,6 +42,9 @@ class AddonListener extends EventListener
         $this->pushAddonToCollection($addon);
     }
 
+    /**
+     * Add namespaces for all addon.
+     */
     protected function addNamespaces()
     {
         foreach (config('streams::config.addon_types') as $type) {
@@ -33,6 +52,9 @@ class AddonListener extends EventListener
         }
     }
 
+    /**
+     * Register all addon service providers.
+     */
     protected function registerAddonServiceProviders()
     {
         foreach (config('streams::config.addon_types') as $type) {
@@ -40,6 +62,11 @@ class AddonListener extends EventListener
         }
     }
 
+    /**
+     * Push an addon to it's collection.
+     *
+     * @param Addon $addon
+     */
     protected function pushAddonToCollection(Addon $addon)
     {
         app('streams.' . str_plural($addon->getType()))->put($addon->getSlug(), $addon);

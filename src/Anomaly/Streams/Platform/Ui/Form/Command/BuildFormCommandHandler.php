@@ -5,11 +5,24 @@ use Anomaly\Streams\Platform\Ui\Form\Event\FormWasBuilt;
 use Laracasts\Commander\CommanderTrait;
 use Laracasts\Commander\Events\DispatchableTrait;
 
+/**
+ * Class BuildFormCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Command
+ */
 class BuildFormCommandHandler
 {
     use CommanderTrait;
     use DispatchableTrait;
 
+    /**
+     * Handle the command.
+     *
+     * @param BuildFormCommand $command
+     */
     public function handle(BuildFormCommand $command)
     {
         $builder = $command->getBuilder();

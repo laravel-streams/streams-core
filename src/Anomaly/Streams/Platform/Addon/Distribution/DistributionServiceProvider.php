@@ -5,6 +5,14 @@ use Illuminate\Support\ServiceProvider;
 use Laracasts\Commander\Events\DispatchableTrait;
 use Laracasts\Commander\Events\EventGenerator;
 
+/**
+ * Class DistributionServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon\Distribution
+ */
 class DistributionServiceProvider extends ServiceProvider
 {
     use EventGenerator;
@@ -27,6 +35,9 @@ class DistributionServiceProvider extends ServiceProvider
         $this->dispatchEventsFor($this);
     }
 
+    /**
+     * Register the distribution listener.
+     */
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
@@ -39,11 +50,17 @@ class DistributionServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * Register the distribution collection.
+     */
     protected function registerCollection()
     {
         $this->app->instance('streams.distributions', new DistributionCollection());
     }
 
+    /**
+     * Register all distribution addons.
+     */
     protected function registerDistributions()
     {
         $this->app->make('streams.addon.manager')->register('distribution');

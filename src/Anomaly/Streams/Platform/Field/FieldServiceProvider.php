@@ -2,6 +2,14 @@
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class FieldServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Field
+ */
 class FieldServiceProvider extends ServiceProvider
 {
     /**
@@ -14,6 +22,9 @@ class FieldServiceProvider extends ServiceProvider
         $this->registerBindings();
     }
 
+    /**
+     * Register field management bindings.
+     */
     protected function registerBindings()
     {
         $this->app->bind(

@@ -12,8 +12,18 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
  */
 class CreateStreamCommandHandler
 {
+    /**
+     * The schema object.
+     *
+     * @var \Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface
+     */
     protected $streams;
 
+    /**
+     * Create a new CreateStreamCommandHandler instance.
+     *
+     * @param StreamRepositoryInterface $streams
+     */
     public function __construct(StreamRepositoryInterface $streams)
     {
         $this->streams = $streams;

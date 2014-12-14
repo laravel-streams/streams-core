@@ -2,6 +2,14 @@
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class FormServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form
+ */
 class FormServiceProvider extends ServiceProvider
 {
     /**
@@ -14,9 +22,12 @@ class FormServiceProvider extends ServiceProvider
         $this->registerListeners();
     }
 
+    /**
+     * Register the form listener.
+     */
     protected function registerListeners()
     {
-        $this->app['events']->listen(
+        $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Ui.Form.Event.*',
             'Anomaly\Streams\Platform\Ui\Form\FormListener'
         );

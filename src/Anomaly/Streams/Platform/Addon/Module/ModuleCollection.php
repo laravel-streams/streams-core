@@ -20,7 +20,7 @@ class ModuleCollection extends AddonCollection
     public function active()
     {
         foreach ($this->items as $item) {
-            if ($item->isActive()) {
+            if ($this->moduleIsActive($item)) {
                 return $item;
             }
         }
@@ -38,7 +38,7 @@ class ModuleCollection extends AddonCollection
         $installed = [];
 
         foreach ($this->items as $item) {
-            if ($item->isInstalled()) {
+            if ($this->moduleIsInstalled($item)) {
                 $installed[] = $item;
             }
         }
@@ -56,7 +56,7 @@ class ModuleCollection extends AddonCollection
         $enabled = [];
 
         foreach ($this->items as $item) {
-            if ($item->isEnabled()) {
+            if ($this->moduleIsEnabled($item)) {
                 $enabled[] = $item;
             }
         }
@@ -76,7 +76,7 @@ class ModuleCollection extends AddonCollection
             return false;
         }
 
-        if (!$this->items[$slug]->isInstalled()) {
+        if (!$this->moduleIsInstalled($this->items[$slug])) {
             return false;
         }
 
@@ -92,11 +92,54 @@ class ModuleCollection extends AddonCollection
     {
         foreach ($states as $state) {
             if (isset($this->items[$state->slug]) && $module = $this->items[$state->slug]) {
-                $module->setEnabled($state->enabled);
-                $module->setInstalled($state->installed);
-
+                $this->setFlags($module, $state);
                 $this->push($module);
             }
         }
+    }
+
+    /**
+     * Return if the module is active or not.
+     *
+     * @param Module $module
+     * @return bool
+     */
+    protected function moduleIsActive(Module $module)
+    {
+        return $module->isActive();
+    }
+
+    /**
+     * Return if the module is enabled or not.
+     *
+     * @param Module $module
+     * @return bool
+     */
+    protected function moduleIsEnabled(Module $module)
+    {
+        return $module->isEnabled();
+    }
+
+    /**
+     * Return if the module is installed or not.
+     *
+     * @param Module $module
+     * @return bool
+     */
+    protected function moduleIsInstalled(Module $module)
+    {
+        return $module->isInstalled();
+    }
+
+    /**
+     * Set the module flags from a state object.
+     *
+     * @param Module $module
+     * @param        $state
+     */
+    protected function setFlags(Module $module, $state)
+    {
+        $module->setEnabled($state->enabled);
+        $module->setInstalled($state->installed);
     }
 }

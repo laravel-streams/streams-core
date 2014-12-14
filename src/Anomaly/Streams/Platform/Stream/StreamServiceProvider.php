@@ -2,6 +2,14 @@
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class StreamServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Stream
+ */
 class StreamServiceProvider extends ServiceProvider
 {
     /**
@@ -15,6 +23,9 @@ class StreamServiceProvider extends ServiceProvider
         $this->registerListeners();
     }
 
+    /**
+     * Register stream management bindings.
+     */
     protected function registerBindings()
     {
         $this->app->bind(
@@ -28,6 +39,9 @@ class StreamServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * Register the stream listener.
+     */
     protected function registerListeners()
     {
         $this->app['events']->listen(

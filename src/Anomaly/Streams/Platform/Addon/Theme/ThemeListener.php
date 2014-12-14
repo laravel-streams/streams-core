@@ -15,6 +15,9 @@ class ThemeListener extends EventListener
 {
     use CommanderTrait;
 
+    /**
+     * Fired with the ApplicationServiceProvider starts booting.
+     */
     public function whenApplicationIsBooting()
     {
         $this->execute('\Anomaly\Streams\Platform\Addon\Theme\Command\DetectActiveThemeCommand');

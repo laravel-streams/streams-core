@@ -12,6 +12,9 @@ use Laracasts\Commander\Events\EventListener;
  */
 class TagListener extends EventListener
 {
+    /**
+     * Fired when all tags have been registered.
+     */
     public function whenTagsHaveRegistered()
     {
         foreach (app('streams.tags') as $tag) {
@@ -19,6 +22,11 @@ class TagListener extends EventListener
         }
     }
 
+    /**
+     * Register an addon to the Lexicon parsing engine.
+     *
+     * @param Tag $tag
+     */
     protected function registerLexiconPlugin(Tag $tag)
     {
         app('Anomaly\Lexicon\Contract\LexiconInterface')->registerPlugin($tag->getSlug(), $tag->getAbstract());

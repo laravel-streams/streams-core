@@ -2,10 +2,23 @@
 
 use Laracasts\Commander\CommanderTrait;
 
+/**
+ * Class StandardizeInputCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Command
+ */
 class StandardizeInputCommandHandler
 {
     use CommanderTrait;
 
+    /**
+     * Handle the command.
+     *
+     * @param StandardizeInputCommand $command
+     */
     public function handle(StandardizeInputCommand $command)
     {
         $builder = $command->getBuilder();

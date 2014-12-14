@@ -1,33 +1,63 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder;
 
+/**
+ * Class InstallApplicationTablesCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Application\Command
+ */
 class InstallApplicationTablesCommandHandler
 {
 
+    /**
+     * The database object.
+     *
+     * @var mixed
+     */
     protected $db;
 
+    /**
+     * The schema builder.
+     *
+     * @var Builder
+     */
     protected $schema;
 
+    /**
+     * Create a new InstallApplicationTablesCommandHandler instance.
+     */
     function __construct()
     {
         $this->db     = app('db');
         $this->schema = app('db')->connection()->getSchemaBuilder();
     }
 
+    /**
+     * Install the application table and initial data.
+     *
+     * @param InstallApplicationTablesCommand $command
+     */
     public function handle(InstallApplicationTablesCommand $command)
     {
         $this->setPrefix(null);
 
-        $this->installApplicationsTable();
-        $this->installApplicationsDomainsTable();
+        $this->createApplicationsTable();
+        $this->createApplicationsDomainsTable();
 
         $this->installDefaultApplication($command->getName(), $command->getDomain(), $command->getReference());
 
         $this->setPrefix($command->getReference() . '_');
     }
 
-    protected function installApplicationsTable()
+    /**
+     * Create the applications table.
+     */
+    protected function createApplicationsTable()
     {
         $this->schema->dropIfExists('applications');
 
@@ -44,7 +74,10 @@ class InstallApplicationTablesCommandHandler
         );
     }
 
-    protected function installApplicationsDomainsTable()
+    /**
+     * Create the applications domains table.
+     */
+    protected function createApplicationsDomainsTable()
     {
         $this->schema->dropIfExists('applications_domains');
 
@@ -60,6 +93,13 @@ class InstallApplicationTablesCommandHandler
         );
     }
 
+    /**
+     * Install the default application.
+     *
+     * @param $name
+     * @param $domain
+     * @param $reference
+     */
     protected function installDefaultApplication($name, $domain, $reference)
     {
 
@@ -75,6 +115,11 @@ class InstallApplicationTablesCommandHandler
         app('streams.application')->locate();
     }
 
+    /**
+     * Set the database prefix.
+     *
+     * @param $prefix
+     */
     protected function setPrefix($prefix)
     {
         $this->schema->getConnection()->getSchemaGrammar()->setTablePrefix($prefix);

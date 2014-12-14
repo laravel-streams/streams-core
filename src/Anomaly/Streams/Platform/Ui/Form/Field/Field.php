@@ -4,30 +4,102 @@ use Anomaly\Streams\Platform\Ui\Form\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Laracasts\Commander\CommanderTrait;
 
+/**
+ * Class Field
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Field
+ */
 class Field implements FieldInterface
 {
     use CommanderTrait;
 
+    /**
+     * The form object.
+     *
+     * @var \Anomaly\Streams\Platform\Ui\Form\Form
+     */
     protected $form;
 
+    /**
+     * The field slug.
+     *
+     * @var
+     */
     protected $slug;
 
+    /**
+     * The field type.
+     *
+     * @var mixed
+     */
     protected $type;
 
+    /**
+     * The field label.
+     *
+     * @var null
+     */
     protected $label;
 
+    /**
+     * The field value.
+     *
+     * @var
+     */
     protected $value;
 
+    /**
+     * The field rules.
+     *
+     * @var array
+     */
     protected $rules;
 
+    /**
+     * The field config.
+     *
+     * @var array
+     */
     protected $config;
 
+    /**
+     * The include flag.
+     *
+     * @var bool
+     */
     protected $include;
 
+    /**
+     * The field placeholder.
+     *
+     * @var null
+     */
     protected $placeholder;
 
+    /**
+     * The field instructions.
+     *
+     * @var null
+     */
     protected $instructions;
 
+    /**
+     * Create a new Field instance.
+     *
+     * @param       $slug
+     * @param       $type
+     * @param Form  $form
+     * @param null  $label
+     * @param null  $value
+     * @param bool  $include
+     * @param null  $placeholder
+     * @param null  $instructions
+     * @param array $rules
+     * @param array $config
+     */
     public function __construct(
         $slug,
         $type,
@@ -84,6 +156,12 @@ class Field implements FieldInterface
         $this->setFormRules();
     }
 
+    /**
+     * Return the view data.
+     *
+     * @param array $arguments
+     * @return array
+     */
     public function viewData(array $arguments = [])
     {
         $input = $this->type->render();
@@ -91,6 +169,9 @@ class Field implements FieldInterface
         return compact('input');
     }
 
+    /**
+     * Set form rules.
+     */
     protected function setFormRules()
     {
         $rules = array_merge($this->rules, $this->type->getRules());
@@ -98,6 +179,12 @@ class Field implements FieldInterface
         $this->form->putRules($this->slug, implode('|', $rules));
     }
 
+    /**
+     * Set the config.
+     *
+     * @param array $config
+     * @return $this
+     */
     public function setConfig(array $config)
     {
         $this->config = $config;
@@ -105,16 +192,32 @@ class Field implements FieldInterface
         return $this;
     }
 
+    /**
+     * Get the config.
+     *
+     * @return array
+     */
     public function getConfig()
     {
         return $this->config;
     }
 
+    /**
+     * Get the form.
+     *
+     * @return Form
+     */
     public function getForm()
     {
         return $this->form;
     }
 
+    /**
+     * Set the include.
+     *
+     * @param $include
+     * @return $this
+     */
     public function setInclude($include)
     {
         $this->include = $include;
@@ -122,11 +225,22 @@ class Field implements FieldInterface
         return $this;
     }
 
-    public function getInclude()
+    /**
+     * Return the include flag.
+     *
+     * @return bool
+     */
+    public function isInclude()
     {
         return $this->include;
     }
 
+    /**
+     * Set the instructions.
+     *
+     * @param $instructions
+     * @return $this
+     */
     public function setInstructions($instructions)
     {
         $this->instructions = $instructions;
@@ -134,11 +248,22 @@ class Field implements FieldInterface
         return $this;
     }
 
+    /**
+     * Get the instructions.
+     *
+     * @return null
+     */
     public function getInstructions()
     {
         return $this->instructions;
     }
 
+    /**
+     * Set the label.
+     *
+     * @param $label
+     * @return $this
+     */
     public function setLabel($label)
     {
         $this->label = $label;
@@ -146,11 +271,22 @@ class Field implements FieldInterface
         return $this;
     }
 
+    /**
+     * Get the label.
+     *
+     * @return null
+     */
     public function getLabel()
     {
         return $this->label;
     }
 
+    /**
+     * Set the placeholder.
+     *
+     * @param $placeholder
+     * @return $this
+     */
     public function setPlaceholder($placeholder)
     {
         $this->placeholder = $placeholder;
@@ -158,11 +294,22 @@ class Field implements FieldInterface
         return $this;
     }
 
+    /**
+     * Get the placeholder.
+     *
+     * @return null
+     */
     public function getPlaceholder()
     {
         return $this->placeholder;
     }
 
+    /**
+     * Set the rules.
+     *
+     * @param array $rules
+     * @return $this
+     */
     public function setRules(array $rules)
     {
         $this->rules = $rules;
@@ -170,11 +317,22 @@ class Field implements FieldInterface
         return $this;
     }
 
+    /**
+     * Get the rules.
+     *
+     * @return array
+     */
     public function getRules()
     {
         return $this->rules;
     }
 
+    /**
+     * Set the slug.
+     *
+     * @param $slug
+     * @return $this
+     */
     public function setSlug($slug)
     {
         $this->slug = $slug;
@@ -182,11 +340,22 @@ class Field implements FieldInterface
         return $this;
     }
 
+    /**
+     * Get the slug.
+     *
+     * @return mixed
+     */
     public function getSlug()
     {
         return $this->slug;
     }
 
+    /**
+     * Set the type.
+     *
+     * @param $type
+     * @return $this
+     */
     public function setType($type)
     {
         $this->type = $type;
@@ -194,11 +363,22 @@ class Field implements FieldInterface
         return $this;
     }
 
+    /**
+     * Get the type.
+     *
+     * @return mixed
+     */
     public function getType()
     {
         return $this->type;
     }
 
+    /**
+     * Set the value.
+     *
+     * @param $value
+     * @return $this
+     */
     public function setValue($value)
     {
         $this->value = $value;
@@ -206,6 +386,11 @@ class Field implements FieldInterface
         return $this;
     }
 
+    /**
+     * Get the value.
+     *
+     * @return mixed
+     */
     public function getValue()
     {
         return $this->value;

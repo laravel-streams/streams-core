@@ -2,6 +2,14 @@
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class AssetServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Asset
+ */
 class AssetServiceProvider extends ServiceProvider
 {
     /**
@@ -11,15 +19,39 @@ class AssetServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerAsset();
+        $this->registerAssetPath();
+        $this->addNamespaces();
+    }
+
+    /**
+     * Register the asset class.
+     */
+    protected function registerAsset()
+    {
         $this->app->singleton('streams.asset', 'Anomaly\Streams\Platform\Asset\Asset');
+    }
 
-        $this->app['streams.asset.path'] = public_path('assets/' . $this->app['streams.application']->getReference());
+    /**
+     * Register the asset path.
+     */
+    protected function registerAssetPath()
+    {
+        $path = public_path('assets/' . $this->app->make('streams.application')->getReference());
 
-        $this->app['streams.asset']->addNamespace(
+        $this->app->instance('streams.asset.path', $path);
+    }
+
+    /**
+     * Register a couple initial asset paths.
+     */
+    protected function addNamespaces()
+    {
+        $this->app->make('streams.asset')->addNamespace(
             'asset',
             public_path('assets/' . app('streams.application')->getReference())
         );
 
-        $this->app['streams.asset']->addNamespace('streams', $this->app['streams.path'] . '/resources');
+        $this->app->make('streams.asset')->addNamespace('streams', $this->app->make('streams.path') . '/resources');
     }
 }

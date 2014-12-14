@@ -2,6 +2,14 @@
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class AssignmentServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Assignment
+ */
 class AssignmentServiceProvider extends ServiceProvider
 {
     /**
@@ -15,6 +23,9 @@ class AssignmentServiceProvider extends ServiceProvider
         $this->registerListeners();
     }
 
+    /**
+     * Register assignment management bindings.
+     */
     protected function registerBindings()
     {
         $this->app->bind(
@@ -28,9 +39,12 @@ class AssignmentServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * Register the assignment listener.
+     */
     protected function registerListeners()
     {
-        $this->app['events']->listen(
+        $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Assignment.Event.*',
             'Anomaly\Streams\Platform\Assignment\AssignmentListener'
         );

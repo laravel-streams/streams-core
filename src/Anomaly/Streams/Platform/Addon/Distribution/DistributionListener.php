@@ -15,6 +15,9 @@ class DistributionListener extends EventListener
 {
     use CommanderTrait;
 
+    /**
+     * Fired when the ApplicationServiceProvider starts booting.
+     */
     public function whenApplicationIsBooting()
     {
         $this->execute('\Anomaly\Streams\Platform\Addon\Distribution\Command\DetectActiveDistributionCommand');

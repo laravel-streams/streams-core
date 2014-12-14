@@ -19,13 +19,26 @@ class ModuleListener extends EventListener
 {
     use CommanderTrait;
 
+    /**
+     * The module repository.
+     *
+     * @var Contract\ModuleRepositoryInterface
+     */
     protected $modules;
 
+    /**
+     * Create a new ModuleListener instance.
+     *
+     * @param ModuleRepositoryInterface $modules
+     */
     public function __construct(ModuleRepositoryInterface $modules)
     {
         $this->modules = $modules;
     }
 
+    /**
+     * Fired when the ApplicationServiceProvider starts booting.
+     */
     public function whenApplicationIsBooting()
     {
         $this->execute('\Anomaly\Streams\Platform\Addon\Module\Command\DetectActiveModuleCommand');

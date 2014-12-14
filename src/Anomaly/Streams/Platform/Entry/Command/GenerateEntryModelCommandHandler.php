@@ -23,8 +23,18 @@ use Way\Generators\Generator;
  */
 class GenerateEntryModelCommandHandler
 {
+    /**
+     * The generator object.
+     *
+     * @var \Way\Generators\Generator
+     */
     protected $generator;
 
+    /**
+     * Create a new GenerateEntryModelCommandHandler instance.
+     *
+     * @param Generator $generator
+     */
     public function __construct(Generator $generator)
     {
         $this->generator = $generator;
@@ -66,6 +76,12 @@ class GenerateEntryModelCommandHandler
         return $path . studly_case($stream->getNamespace()) . studly_case($stream->getSlug()) . 'EntryModel.php';
     }
 
+    /**
+     * Get the template data from a stream object.
+     *
+     * @param StreamInterface $stream
+     * @return array
+     */
     protected function getTemplateData(StreamInterface $stream)
     {
         return [

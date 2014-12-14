@@ -1,25 +1,37 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder;
 
+/**
+ * Class InstallModulesTableCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon\Module\Command
+ */
 class InstallModulesTableCommandHandler
 {
-    protected $db;
-
+    /**
+     * The schema builder object.
+     *
+     * @var Builder
+     */
     protected $schema;
 
+    /**
+     * Create a new InstallModulesTableCommandHandler instance.
+     */
     function __construct()
     {
-        $this->db     = app('db');
         $this->schema = app('db')->connection()->getSchemaBuilder();
     }
 
+    /**
+     * Install the modules table.
+     */
     public function handle()
-    {
-        $this->installModulesTable();
-    }
-
-    protected function installModulesTable()
     {
         $this->schema->dropIfExists('addons_modules');
 
@@ -31,7 +43,6 @@ class InstallModulesTableCommandHandler
                 $table->string('slug');
                 $table->boolean('installed')->default(0);
                 $table->boolean('enabled')->default(0);
-
             }
         );
     }

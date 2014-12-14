@@ -5,18 +5,22 @@ use Composer\Autoload\ClassLoader;
 use Laracasts\Commander\Events\DispatchableTrait;
 use Laracasts\Commander\Events\EventGenerator;
 
+/**
+ * Class AddonServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon
+ */
 class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     use EventGenerator;
     use DispatchableTrait;
 
     /**
-     * Defer loading this service provider.
-     *
-     * @var bool
+     * Register the provider.
      */
-    protected $defer = true;
-
     public function register()
     {
         $this->app->instance('streams.addon.paths', new AddonPaths());
@@ -42,6 +46,9 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->dispatchEventsFor($this);
     }
 
+    /**
+     * Register the addon listener.
+     */
     protected function registerListeners()
     {
         $this->app->make('events')->listen(

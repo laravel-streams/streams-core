@@ -1,7 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Action\Command;
 
+/**
+ * Class StandardizeActionInputCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Action\Command
+ */
 class StandardizeActionInputCommandHandler
 {
+    /**
+     * Handle the command.
+     *
+     * @param StandardizeActionInputCommand $command
+     */
     public function handle(StandardizeActionInputCommand $command)
     {
         $builder = $command->getBuilder();

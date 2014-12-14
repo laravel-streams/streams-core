@@ -1,7 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Action;
 
+/**
+ * Class ActionFactory
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Action
+ */
 class ActionFactory
 {
+    /**
+     * Available action defualt.
+     *
+     * @var array
+     */
     protected $actions = [
         'save' => [
             'type' => 'success',
@@ -9,6 +22,12 @@ class ActionFactory
         ]
     ];
 
+    /**
+     * Make an action.
+     *
+     * @param array $parameters
+     * @return mixed
+     */
     public function make(array $parameters)
     {
         if (isset($parameters['action']) && class_exists($parameters['action'])) {

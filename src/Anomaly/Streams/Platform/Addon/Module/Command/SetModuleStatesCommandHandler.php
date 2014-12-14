@@ -11,7 +11,8 @@
 class SetModuleStatesCommandHandler
 {
     /**
-     * Handle the command.
+     * Set the installed / enabled status of
+     * all of the registered modules.
      */
     public function handle()
     {

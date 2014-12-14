@@ -20,11 +20,22 @@ class ThemeCollection extends AddonCollection
     public function active()
     {
         foreach ($this->items as $item) {
-            if ($item->isActive()) {
+            if ($this->themeIsActive($item)) {
                 return $item;
             }
         }
 
         return null;
+    }
+
+    /**
+     * Return whether the theme is active or not.
+     *
+     * @param Theme $item
+     * @return bool
+     */
+    protected function themeIsActive(Theme $item)
+    {
+        return $item->isActive();
     }
 }

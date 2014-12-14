@@ -5,6 +5,14 @@ use Illuminate\Support\ServiceProvider;
 use Laracasts\Commander\Events\DispatchableTrait;
 use Laracasts\Commander\Events\EventGenerator;
 
+/**
+ * Class ThemeServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon\Theme
+ */
 class ThemeServiceProvider extends ServiceProvider
 {
     use EventGenerator;
@@ -27,6 +35,9 @@ class ThemeServiceProvider extends ServiceProvider
         $this->dispatchEventsFor($this);
     }
 
+    /**
+     * Register the theme listener.
+     */
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
@@ -39,11 +50,17 @@ class ThemeServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * Register the theme collection.
+     */
     protected function registerCollection()
     {
         $this->app->instance('streams.themes', new ThemeCollection());
     }
 
+    /**
+     * Register all theme addons.
+     */
     protected function registerThemes()
     {
         $this->app->make('streams.addon.manager')->register('theme');

@@ -258,11 +258,14 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
         return unserialize($rules);
     }
 
+    /**
+     * @param array $items
+     * @return AssignmentCollection
+     */
     public function newCollection(array $items = array())
     {
         return new AssignmentCollection($items);
     }
-
 
     /**
      * Return the stream relation.

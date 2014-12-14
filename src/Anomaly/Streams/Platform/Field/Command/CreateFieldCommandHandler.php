@@ -15,8 +15,18 @@ class CreateFieldCommandHandler
 {
     use DispatchableTrait;
 
+    /**
+     * The fields repository.
+     *
+     * @var \Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface
+     */
     protected $fields;
 
+    /**
+     * Create a new CreateFieldCommandHandler instance.
+     *
+     * @param FieldRepositoryInterface $fields
+     */
     public function __construct(FieldRepositoryInterface $fields)
     {
         $this->fields = $fields;

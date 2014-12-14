@@ -12,8 +12,18 @@ use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
  */
 class AddAssignmentColumnCommandHandler
 {
+    /**
+     * The schema builder.
+     *
+     * @var \Anomaly\Streams\Platform\Assignment\AssignmentSchema
+     */
     protected $schema;
 
+    /**
+     * Create a new AddAssignmentColumnCommandHandler instance.
+     *
+     * @param AssignmentSchema $schema
+     */
     public function __construct(AssignmentSchema $schema)
     {
         $this->schema = $schema;

@@ -16,8 +16,18 @@ use Way\Generators\Generator;
  */
 class GenerateEntryTranslationsModelCommandHandler
 {
+    /**
+     * The generator object.
+     *
+     * @var \Way\Generators\Generator
+     */
     protected $generator;
 
+    /**
+     * Create a new GenerateEntryTranslationsModelCommandHandler instance.
+     *
+     * @param Generator $generator
+     */
     public function __construct(Generator $generator)
     {
         $this->generator = $generator;
@@ -60,6 +70,12 @@ class GenerateEntryTranslationsModelCommandHandler
         return $path . 'EntryTranslationsModel.php';
     }
 
+    /**
+     * Get the template data from a stream object.
+     *
+     * @param StreamInterface $stream
+     * @return array
+     */
     protected function getTemplateData(StreamInterface $stream)
     {
         return [

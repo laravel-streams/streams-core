@@ -1,7 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Field\Command;
 
+/**
+ * Class StandardizeFieldInputCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Field\Command
+ */
 class StandardizeFieldInputCommandHandler
 {
+    /**
+     * Handle the command.
+     *
+     * @param StandardizeFieldInputCommand $command
+     */
     public function handle(StandardizeFieldInputCommand $command)
     {
         $builder = $command->getBuilder();
@@ -19,6 +32,11 @@ class StandardizeFieldInputCommandHandler
         $builder->setSections($sections);
     }
 
+    /**
+     * Standardize fields.
+     *
+     * @param array $fields
+     */
     protected function standardizeFields(array &$fields)
     {
         foreach ($fields as $slug => &$field) {

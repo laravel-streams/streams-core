@@ -17,15 +17,25 @@ class SyncModulesCommandHandler
 {
     use CommanderTrait;
 
+    /**
+     * The module repository.
+     *
+     * @var \Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface
+     */
     protected $modules;
 
+    /**
+     * Create a new SyncModulesCommandHandler instance.
+     *
+     * @param ModuleRepositoryInterface $modules
+     */
     public function __construct(ModuleRepositoryInterface $modules)
     {
         $this->modules = $modules;
     }
 
     /**
-     * Handle the command.
+     * Sync database modules with physical ones.
      */
     public function handle()
     {

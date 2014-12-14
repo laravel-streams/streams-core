@@ -5,6 +5,14 @@ use Illuminate\Support\ServiceProvider;
 use Laracasts\Commander\Events\DispatchableTrait;
 use Laracasts\Commander\Events\EventGenerator;
 
+/**
+ * Class ModuleServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon\Module
+ */
 class ModuleServiceProvider extends ServiceProvider
 {
     use EventGenerator;
@@ -28,6 +36,9 @@ class ModuleServiceProvider extends ServiceProvider
         $this->dispatchEventsFor($this);
     }
 
+    /**
+     * Register the module management bindings.
+     */
     protected function registerBindings()
     {
         $this->app->bind(
@@ -41,6 +52,9 @@ class ModuleServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * Register the module listener.
+     */
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
@@ -58,11 +72,17 @@ class ModuleServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * Register the module collection.
+     */
     protected function registerCollection()
     {
         $this->app->instance('streams.modules', new ModuleCollection());
     }
 
+    /**
+     * Register all module addons.
+     */
     protected function registerModules()
     {
         $this->app->make('streams.addon.manager')->register('module');

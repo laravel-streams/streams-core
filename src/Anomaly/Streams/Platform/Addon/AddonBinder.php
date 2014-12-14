@@ -34,7 +34,7 @@ class AddonBinder
             ->setPath($path)
             ->setType($type)
             ->setSlug($slug);
-        
+
         $this->bind($addon);
 
         $this->raise(new AddonHasRegistered($addon));
@@ -42,6 +42,11 @@ class AddonBinder
         $this->dispatchEventsFor($this);
     }
 
+    /**
+     * Bind the addon to the IoC container.
+     *
+     * @param Addon $addon
+     */
     protected function bind(Addon $addon)
     {
         app()->instance($addon->getAbstract(), $addon);

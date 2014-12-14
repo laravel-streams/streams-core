@@ -6,11 +6,22 @@ use Laracasts\Commander\DefaultCommandBus;
 use Laracasts\Commander\Events\DispatchableTrait;
 use Laracasts\Commander\Events\EventGenerator;
 
+/**
+ * Class ApplicationServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Application
+ */
 class ApplicationServiceProvider extends ServiceProvider
 {
     use EventGenerator;
     use DispatchableTrait;
 
+    /**
+     * Boot the service provider.
+     */
     public function boot()
     {
         $this->raise(new ApplicationIsBooting());
@@ -31,6 +42,9 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->configurePackages();
     }
 
+    /**
+     * Check required directories as readable / writable.
+     */
     protected function checkDirectories()
     {
         $directories = [
@@ -49,15 +63,18 @@ class ApplicationServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * Register the application.
+     */
     protected function registerApplication()
     {
         $this->app->instance('streams.application', app('Anomaly\Streams\Platform\Application\Application'));
 
-        $this->app['streams.path'] = base_path('vendor/anomaly/streams-platform');
+        $this->app->instance('streams.path', base_path('vendor/anomaly/streams-platform'));
 
-        $this->app['config']->addNamespace('streams', $this->app['streams.path'] . '/resources/config');
+        $this->app->make('config')->addNamespace('streams', $this->app['streams.path'] . '/resources/config');
 
-        $this->app['view']->addNamespace('streams', $this->app['streams.path'] . '/resources/views');
+        $this->app->make('view')->addNamespace('streams', $this->app['streams.path'] . '/resources/views');
 
         if (file_exists(base_path('config/distribution.php'))) {
 
@@ -70,19 +87,25 @@ class ApplicationServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * Register the application listener.
+     */
     protected function registerListeners()
     {
-        $this->app['events']->listen(
+        $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Application.Event.*',
             'Anomaly\Streams\Platform\Application\ApplicationListener'
         );
     }
 
+    /**
+     * Manually configure 3rd party packages.
+     */
     protected function configurePackages()
     {
         // Configure Translatable
-        $this->app['config']->set('translatable::locales', ['en', 'es']);
-        $this->app['config']->set('translatable::translation_suffix', 'Translation');
+        $this->app->make('config')->set('translatable::locales', ['en', 'es']);
+        $this->app->make('config')->set('translatable::translation_suffix', 'Translation');
 
         // Auto-decorate commands with validators.
         $this->app->resolving(

@@ -4,10 +4,23 @@ use Anomaly\Streams\Platform\Ui\Form\Event\FormDataLoaded;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Laracasts\Commander\Events\DispatchableTrait;
 
+/**
+ * Class MakeFormCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Command
+ */
 class MakeFormCommandHandler
 {
     use DispatchableTrait;
 
+    /**
+     * Handle the command.
+     *
+     * @param MakeFormCommand $command
+     */
     public function handle(MakeFormCommand $command)
     {
         $builder = $command->getBuilder();
@@ -25,6 +38,11 @@ class MakeFormCommandHandler
         $form->setContent(view($form->getView(), $form->getData()));
     }
 
+    /**
+     * Set the section data.
+     *
+     * @param Form $form
+     */
     protected function setSectionData(Form $form)
     {
         $sections = [];
@@ -36,6 +54,11 @@ class MakeFormCommandHandler
         $form->putData('sections', $sections);
     }
 
+    /**
+     * Set the action data.
+     *
+     * @param Form $form
+     */
     protected function setActionData(Form $form)
     {
         $actions = [];
@@ -47,6 +70,11 @@ class MakeFormCommandHandler
         $form->putData('actions', $actions);
     }
 
+    /**
+     * Set the button data.
+     *
+     * @param Form $form
+     */
     protected function setButtonData(Form $form)
     {
         $buttons = [];
@@ -58,6 +86,11 @@ class MakeFormCommandHandler
         $form->putData('buttons', $buttons);
     }
 
+    /**
+     * Set the form data.
+     *
+     * @param Form $form
+     */
     protected function setFormData(Form $form)
     {
         $form->putData('prefix', $form->getPrefix());

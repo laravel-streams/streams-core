@@ -3,6 +3,14 @@
 use Composer\Autoload\ClassLoader;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class EntryServiceProvider
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Entry
+ */
 class EntryServiceProvider extends ServiceProvider
 {
     /**
@@ -16,6 +24,9 @@ class EntryServiceProvider extends ServiceProvider
         $this->loadEntryModels();
     }
 
+    /**
+     * Register entry management bindings.
+     */
     protected function registerBindings()
     {
         $this->app->bind(
@@ -29,6 +40,9 @@ class EntryServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * Load the generated entry models.
+     */
     protected function loadEntryModels()
     {
         $loader = new ClassLoader();

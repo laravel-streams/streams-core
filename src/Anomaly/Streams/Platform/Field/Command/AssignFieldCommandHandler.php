@@ -17,12 +17,34 @@ class AssignFieldCommandHandler
 {
     use DispatchableTrait;
 
+    /**
+     * The fields repository.
+     *
+     * @var \Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface
+     */
     protected $fields;
 
+    /**
+     * The streams repository.
+     *
+     * @var \Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface
+     */
     protected $streams;
 
+    /**
+     * The assignment repository.
+     *
+     * @var \Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface
+     */
     protected $assignments;
 
+    /**
+     * Create a new AssignFieldCommandHandler instance.
+     *
+     * @param FieldRepositoryInterface      $fields
+     * @param StreamRepositoryInterface     $streams
+     * @param AssignmentRepositoryInterface $assignments
+     */
     public function __construct(
         FieldRepositoryInterface $fields,
         StreamRepositoryInterface $streams,

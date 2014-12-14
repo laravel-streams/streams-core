@@ -2,8 +2,21 @@
 
 use Composer\Autoload\ClassLoader;
 
+/**
+ * Class AddonVendor
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Addon
+ */
 class AddonVendor extends ClassLoader
 {
+    /**
+     * Load the vendor path for an addon if it exists.
+     *
+     * @param $path
+     */
     public function load($path)
     {
         $vendorPath = $path . '/vendor/';
@@ -24,11 +37,18 @@ class AddonVendor extends ClassLoader
                     $this->addPsr4($namespace, $this->vendorPaths($vendorPath, $path));
                 }
             }
-        }
 
-        $this->register();
+            $this->register();
+        }
     }
 
+    /**
+     * Get vendor paths.
+     *
+     * @param $vendorPath
+     * @param $path
+     * @return string
+     */
     protected function vendorPaths($vendorPath, $path)
     {
         if (is_array($path)) {

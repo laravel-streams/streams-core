@@ -1,5 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
+/**
+ * Class Application
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Application
+ */
 class Application
 {
     /**
@@ -77,6 +85,10 @@ class Application
         return true;
     }
 
+    /**
+     * @param $reference
+     * @return $this
+     */
     public function setReference($reference)
     {
         $this->reference = $reference;
@@ -84,6 +96,11 @@ class Application
         return $this;
     }
 
+    /**
+     * Get the reference.
+     *
+     * @return null
+     */
     public function getReference()
     {
         return $this->reference;

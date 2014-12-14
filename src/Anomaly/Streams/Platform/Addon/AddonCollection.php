@@ -57,6 +57,12 @@ class AddonCollection extends Collection
         return null;
     }
 
+    /**
+     * Order addon's by their name.
+     *
+     * @param string $direction
+     * @return static
+     */
     public function orderByName($direction = 'asc')
     {
         $ordered = [];

@@ -10,6 +10,9 @@
  */
 class SyncModulesCommand
 {
+    /**
+     * Create a new SyncModulesCommand instance.
+     */
     public function __construct()
     {
     }

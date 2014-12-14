@@ -13,25 +13,29 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleManager;
 class InstallModulesCommandHandler
 {
     /**
+     * The module manager.
+     *
      * @var \Anomaly\Streams\Platform\Addon\Module\ModuleManager
      */
-    protected $service;
+    protected $manager;
 
     /**
+     * Create a new InstallModulesCommandHandler instance.
+     *
      * @param ModuleManager $service
      */
     function __construct(ModuleManager $service)
     {
-        $this->service = $service;
+        $this->manager = $service;
     }
 
     /**
-     * Handle the command.
+     * Install the all registered modules.
      */
     public function handle()
     {
         foreach (app('streams.modules')->all() as $module) {
-            $this->service->install($module);
+            $this->manager->install($module);
         }
     }
 }

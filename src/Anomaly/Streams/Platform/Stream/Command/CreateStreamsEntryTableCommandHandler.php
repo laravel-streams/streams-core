@@ -12,8 +12,18 @@ use Anomaly\Streams\Platform\Stream\StreamSchema;
  */
 class CreateStreamsEntryTableCommandHandler
 {
+    /**
+     * The schema object.
+     *
+     * @var \Anomaly\Streams\Platform\Stream\StreamSchema
+     */
     protected $schema;
 
+    /**
+     * Create a new CreateStreamsEntryTableCommandHandler instance.
+     *
+     * @param StreamSchema $schema
+     */
     public function __construct(StreamSchema $schema)
     {
         $this->schema = $schema;

@@ -2,8 +2,21 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
+/**
+ * Class HandleFormInputCommandHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Command
+ */
 class HandleFormInputCommandHandler
 {
+    /**
+     * Handle the command.
+     *
+     * @param HandleFormInputCommand $command
+     */
     public function handle(HandleFormInputCommand $command)
     {
         $builder = $command->getBuilder();
@@ -14,6 +27,11 @@ class HandleFormInputCommandHandler
         $this->setTranslationData($form);
     }
 
+    /**
+     * Set the included data.
+     *
+     * @param Form $form
+     */
     protected function setIncludeData(Form $form)
     {
         $input = [];
@@ -25,6 +43,11 @@ class HandleFormInputCommandHandler
         $form->putInput('include', $input);
     }
 
+    /**
+     * Set the default locale data.
+     *
+     * @param Form $form
+     */
     protected function setDefaultData(Form $form)
     {
         $stream = $form->getStream();
@@ -48,6 +71,11 @@ class HandleFormInputCommandHandler
         $form->putInput(config('app.locale'), $input);
     }
 
+    /**
+     * Set the translated data.
+     *
+     * @param Form $form
+     */
     protected function setTranslationData(Form $form)
     {
         $stream = $form->getStream();
