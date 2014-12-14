@@ -5,7 +5,7 @@ class ActionFactory
     protected $actions = [
         'save' => [
             'type' => 'success',
-            'text' => 'button.save',
+            'text' => 'streams::button.save',
         ]
     ];
 

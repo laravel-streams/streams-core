@@ -6,15 +6,15 @@ class ButtonFactory
 
     protected $buttons = [
         'cancel' => [
-            'text' => 'button.cancel',
+            'text' => 'streams::button.cancel',
             'type' => 'default',
         ],
         'edit'   => [
-            'text' => 'button.edit',
+            'text' => 'streams::button.edit',
             'type' => 'warning',
         ],
         'delete' => [
-            'text' => 'button.delete',
+            'text' => 'streams::button.delete',
             'type' => 'danger',
         ],
     ];

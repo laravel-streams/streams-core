@@ -5,7 +5,7 @@ class ViewFactory
     protected $views = [
         'all' => [
             'slug' => 'all',
-            'text' => 'misc.all',
+            'text' => 'streams::misc.all',
         ]
     ];
 
