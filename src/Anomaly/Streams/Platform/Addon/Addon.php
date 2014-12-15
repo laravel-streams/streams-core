@@ -111,7 +111,9 @@ class Addon implements ArrayableInterface
     }
 
     /**
-     * @return null
+     * Get the path appended by the provided path.
+     *
+     * @return string
      */
     public function getPath($path = null)
     {
@@ -119,6 +121,8 @@ class Addon implements ArrayableInterface
     }
 
     /**
+     * Set the addon slug.
+     *
      * @param $slug
      * @return $this
      */
@@ -130,7 +134,9 @@ class Addon implements ArrayableInterface
     }
 
     /**
-     * @return null
+     * Get the addon slug.
+     *
+     * @return string
      */
     public function getSlug()
     {
@@ -138,6 +144,8 @@ class Addon implements ArrayableInterface
     }
 
     /**
+     * Set the addon type.
+     *
      * @param $type
      * @return $this
      */
@@ -149,7 +157,9 @@ class Addon implements ArrayableInterface
     }
 
     /**
-     * @return null
+     * Get the addon type.
+     *
+     * @return string
      */
     public function getType()
     {
