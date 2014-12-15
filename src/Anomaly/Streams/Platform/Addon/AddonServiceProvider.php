@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Composer\Autoload\ClassLoader;
-
 /**
  * Class AddonServiceProvider
  *
