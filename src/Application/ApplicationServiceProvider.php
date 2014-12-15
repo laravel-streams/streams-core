@@ -50,8 +50,10 @@ class ApplicationServiceProvider extends ServiceProvider
 
                 $directory = base_path($directory);
 
-                if (!is_writable($directory) || !is_readable($directory)) {
-                    throw new \Exception("[{$directory}] must be readable and writable.");
+                if (app('request')->url() !== config('app.url')) {
+                    if (!is_writable($directory) || !is_readable($directory)) {
+                        throw new \Exception("[{$directory}] must be readable and writable.");
+                    }
                 }
             }
         }
