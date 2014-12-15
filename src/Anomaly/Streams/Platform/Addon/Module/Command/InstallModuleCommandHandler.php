@@ -16,6 +16,7 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class InstallModuleCommandHandler
 {
+
     use DispatchableTrait;
 
     /**
@@ -73,24 +74,6 @@ class InstallModuleCommandHandler
      */
     protected function resolveInstaller(Module $module, $installer)
     {
-        if (!str_contains($installer, '\\')) {
-            $installer = $this->guessInstaller($module, $installer);
-        }
-
         return app()->make($installer, ['addon' => $module]);
-    }
-
-    /**
-     * Guess the installer if it's shorthand.
-     *
-     * @param Module $module
-     * @param        $installer
-     * @return string
-     */
-    protected function guessInstaller(Module $module, $installer)
-    {
-        $addon = new \ReflectionClass($module);
-
-        return $addon->getNamespaceName() . '\Installer\\' . $installer;
     }
 }
