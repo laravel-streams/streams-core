@@ -105,6 +105,7 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->app->resolving(
             'Laracasts\Commander\DefaultCommandBus',
             function (DefaultCommandBus $commandBus) {
+                $commandBus->decorate('Anomaly\Streams\Platform\Commander\CommandMediator');
                 $commandBus->decorate('Anomaly\Streams\Platform\Commander\CommandValidator');
             }
         );
