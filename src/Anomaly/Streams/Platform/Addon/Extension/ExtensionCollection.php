@@ -14,15 +14,15 @@ class ExtensionCollection extends AddonCollection
 {
 
     /**
-     * Get all extensions matching a pattern.
+     * Find all extensions matching a pattern.
      *
      * Example: module.users::authenticator.*
      * Example: module.users::*
      *
-     * @param $key
+     * @param $pattern
      * @return static
      */
-    public function search($key, $strict = true)
+    public function matching($pattern)
     {
         $matches = [];
 
@@ -30,7 +30,7 @@ class ExtensionCollection extends AddonCollection
          * Break up our pattern into components we can match up
          * with our available extensions.
          */
-        list($namespace, $extension) = explode('::', $key);
+        list($namespace, $extension) = explode('::', $pattern);
         list($addonType, $addonSlug) = explode('.', $namespace);
 
         if ($extension !== '*') {
