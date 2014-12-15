@@ -10,6 +10,7 @@
  */
 class DeleteFieldCommand
 {
+
     /**
      * The field namespace.
      *

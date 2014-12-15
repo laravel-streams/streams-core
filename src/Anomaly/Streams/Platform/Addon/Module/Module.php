@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\Addon;
  */
 class Module extends Addon
 {
+
     /**
      * The module's sections.
      *

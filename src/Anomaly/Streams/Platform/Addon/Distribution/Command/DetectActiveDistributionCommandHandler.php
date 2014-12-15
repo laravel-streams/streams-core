@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\Distribution\Distribution;
  */
 class DetectActiveDistributionCommandHandler
 {
+
     /**
      * Handle the command.
      */

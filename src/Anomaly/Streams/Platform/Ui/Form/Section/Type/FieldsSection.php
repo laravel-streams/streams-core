@@ -17,6 +17,7 @@ use Anomaly\Streams\Platform\Ui\Form\Section\Contract\FieldsSectionInterface;
  */
 class FieldsSection implements FieldsSectionInterface
 {
+
     /**
      * The view.
      *

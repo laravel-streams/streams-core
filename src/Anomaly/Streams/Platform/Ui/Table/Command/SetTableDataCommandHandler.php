@@ -10,6 +10,7 @@
  */
 class SetTableDataCommandHandler
 {
+
     /**
      * Handle the command.
      *

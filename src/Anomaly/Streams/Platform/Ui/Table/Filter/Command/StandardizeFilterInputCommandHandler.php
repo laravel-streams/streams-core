@@ -10,6 +10,7 @@
  */
 class StandardizeFilterInputCommandHandler
 {
+
     /**
      * Handle the command.
      *

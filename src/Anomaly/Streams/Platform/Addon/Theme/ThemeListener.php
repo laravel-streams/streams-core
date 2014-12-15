@@ -13,6 +13,7 @@ use Laracasts\Commander\Events\EventListener;
  */
 class ThemeListener extends EventListener
 {
+
     use CommanderTrait;
 
     /**

@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\Addon;
  */
 class AddonHasRegistered
 {
+
     /**
      * The addon object.
      *

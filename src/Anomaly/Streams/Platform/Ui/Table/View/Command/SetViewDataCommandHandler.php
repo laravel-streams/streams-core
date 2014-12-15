@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewInterface;
  */
 class SetViewDataCommandHandler
 {
+
     /**
      * Handle the command.
      *

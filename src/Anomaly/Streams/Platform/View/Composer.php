@@ -13,6 +13,7 @@ use Illuminate\View\View;
  */
 class Composer
 {
+
     /**
      * Compose the view before rendering.
      *

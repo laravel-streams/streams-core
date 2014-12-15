@@ -10,6 +10,7 @@
  */
 class ButtonFactory
 {
+
     /**
      * The default button class.
      *

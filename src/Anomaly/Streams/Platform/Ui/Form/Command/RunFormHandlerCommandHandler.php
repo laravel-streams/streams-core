@@ -10,6 +10,7 @@
  */
 class RunFormHandlerCommandHandler
 {
+
     /**
      * Handle the command.
      *

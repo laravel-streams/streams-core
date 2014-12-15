@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryRelationsParser
 {
+
     /**
      * Parse the relation methods.
      *

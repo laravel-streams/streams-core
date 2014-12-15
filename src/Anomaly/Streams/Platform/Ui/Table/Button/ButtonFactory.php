@@ -10,6 +10,7 @@
  */
 class ButtonFactory extends \Anomaly\Streams\Platform\Ui\Button\ButtonFactory
 {
+
     /**
      * The default button class.
      *

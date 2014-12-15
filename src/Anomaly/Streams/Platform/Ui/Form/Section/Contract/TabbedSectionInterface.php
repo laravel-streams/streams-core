@@ -10,6 +10,7 @@
  */
 interface TabbedSectionInterface
 {
+
     /**
      * Return the view data.
      *

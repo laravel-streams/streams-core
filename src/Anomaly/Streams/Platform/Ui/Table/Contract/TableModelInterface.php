@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
  */
 interface TableModelInterface
 {
+
     /**
      * Get the table entries.
      *

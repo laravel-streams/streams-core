@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
  */
 interface ActionInterface extends ButtonInterface
 {
+
     /**
      * Set the active flag.
      *

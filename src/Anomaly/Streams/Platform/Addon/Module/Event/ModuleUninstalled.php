@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
  */
 class ModuleUninstalled
 {
+
     /**
      * The module object.
      *

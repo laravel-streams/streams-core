@@ -10,6 +10,7 @@
  */
 interface StreamRepositoryInterface
 {
+
     /**
      * Create a new Stream.
      *

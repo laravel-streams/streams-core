@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class ModuleCollection extends AddonCollection
 {
+
     /**
      * Return the active module.
      *

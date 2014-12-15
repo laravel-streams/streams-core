@@ -10,6 +10,7 @@
  */
 class AddonPaths
 {
+
     /**
      * Return all addon paths in a given folder.
      *

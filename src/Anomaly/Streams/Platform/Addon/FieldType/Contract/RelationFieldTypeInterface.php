@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Entry\EntryModel;
  */
 interface RelationFieldTypeInterface
 {
+
     /**
      * Get the relation.
      *

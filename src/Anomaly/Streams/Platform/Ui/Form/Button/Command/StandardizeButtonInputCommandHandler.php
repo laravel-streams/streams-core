@@ -10,6 +10,7 @@
  */
 class StandardizeButtonInputCommandHandler
 {
+
     /**
      * Handle the command.
      *

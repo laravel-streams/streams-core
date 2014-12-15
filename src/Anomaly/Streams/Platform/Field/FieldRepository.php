@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
  */
 class FieldRepository implements FieldRepositoryInterface
 {
+
     /**
      * The field model.
      *

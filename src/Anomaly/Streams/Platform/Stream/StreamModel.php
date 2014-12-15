@@ -15,6 +15,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class StreamModel extends EloquentModel implements StreamInterface
 {
+
     /**
      * The foreign key for translations.
      *

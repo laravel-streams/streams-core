@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Action\ActionFactory;
  */
 class LoadTableActionsCommandHandler
 {
+
     /**
      * The action factory.
      *

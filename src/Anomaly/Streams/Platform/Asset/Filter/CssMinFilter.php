@@ -12,6 +12,7 @@ use Assetic\Asset\AssetInterface;
  */
 class CssMinFilter extends \Assetic\Filter\CssMinFilter
 {
+
     /**
      * Override the filter dump method.
      *

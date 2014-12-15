@@ -10,6 +10,7 @@
  */
 class StandardizeSectionInputCommandHandler
 {
+
     /**
      * Handle the command.
      *

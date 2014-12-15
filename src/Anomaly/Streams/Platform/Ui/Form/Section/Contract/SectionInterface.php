@@ -10,6 +10,7 @@
  */
 interface SectionInterface
 {
+
     /**
      * Return the view data.
      *

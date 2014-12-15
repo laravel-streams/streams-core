@@ -10,6 +10,7 @@
  */
 interface SelectFilterInterface extends FilterInterface
 {
+
     /**
      * Set the options.
      *

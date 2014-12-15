@@ -15,6 +15,7 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class AssignFieldCommandHandler
 {
+
     use DispatchableTrait;
 
     /**

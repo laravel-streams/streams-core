@@ -10,6 +10,7 @@
  */
 class SetModuleStatesCommandHandler
 {
+
     /**
      * Set the installed / enabled status of
      * all of the registered modules.

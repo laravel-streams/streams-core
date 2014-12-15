@@ -10,6 +10,7 @@
  */
 interface InputFilterInterface extends FilterInterface
 {
+
     /**
      * Set the type.
      *

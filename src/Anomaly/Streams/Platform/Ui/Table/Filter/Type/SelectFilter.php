@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Ui\Table\Filter\Filter;
  */
 class SelectFilter extends Filter implements SelectFilterInterface
 {
+
     /**
      * The filter options.
      *

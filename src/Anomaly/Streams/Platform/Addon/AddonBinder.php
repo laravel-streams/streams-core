@@ -14,6 +14,7 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class AddonBinder
 {
+
     use EventGenerator;
     use DispatchableTrait;
 

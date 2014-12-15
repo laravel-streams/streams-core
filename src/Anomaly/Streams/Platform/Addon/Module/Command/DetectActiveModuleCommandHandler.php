@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
  */
 class DetectActiveModuleCommandHandler
 {
+
     /**
      * Detect the active module and setup our
      * environment with it.

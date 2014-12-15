@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\Tag\Tag;
  */
 class ModuleTag extends Tag
 {
+
     /**
      * The module object.
      *

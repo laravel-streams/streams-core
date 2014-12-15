@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Column\ColumnFactory;
  */
 class LoadTableColumnsCommandHandler
 {
+
     /**
      * The column factory.
      *

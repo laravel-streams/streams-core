@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\Tab\Contract\TabInterface;
  */
 class Tab implements TabInterface
 {
+
     /**
      * The text.
      *

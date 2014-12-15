@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\Section\Contract\SectionInterface;
  */
 class Section implements SectionInterface
 {
+
     /**
      * The title.
      *

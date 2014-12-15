@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Ui\Table\Header\Contract\HeaderInterface;
  */
 class Header implements HeaderInterface
 {
+
     /**
      * The stream object.
      *

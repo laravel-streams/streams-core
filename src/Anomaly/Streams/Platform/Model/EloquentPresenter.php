@@ -13,6 +13,7 @@ use Robbo\Presenter\Presenter;
  */
 class EloquentPresenter extends Presenter
 {
+
     /**
      * Create a new EloquentPresenter instance.
      *

@@ -10,6 +10,7 @@
  */
 class HandleFormAuthorizationCommandHandler
 {
+
     /**
      * Handle the command.
      */

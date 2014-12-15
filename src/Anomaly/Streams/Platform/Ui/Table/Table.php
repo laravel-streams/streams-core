@@ -21,6 +21,7 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class Table
 {
+
     use EventGenerator;
     use DispatchableTrait;
 

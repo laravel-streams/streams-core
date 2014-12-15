@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class LoadTableEntriesCommand
 {
+
     /**
      * The table builder.
      *

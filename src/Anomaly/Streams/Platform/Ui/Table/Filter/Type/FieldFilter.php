@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class FieldFilter extends Filter implements FieldFilterInterface
 {
+
     /**
      * The filter field.
      *

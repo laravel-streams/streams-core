@@ -16,6 +16,7 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class Form
 {
+
     use EventGenerator;
     use DispatchableTrait;
 

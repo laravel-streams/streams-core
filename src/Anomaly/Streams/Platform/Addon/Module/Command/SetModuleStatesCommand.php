@@ -10,6 +10,7 @@
  */
 class SetModuleStatesCommand
 {
+
     /**
      * Create a new SetModuleStatesCommand instance.
      */

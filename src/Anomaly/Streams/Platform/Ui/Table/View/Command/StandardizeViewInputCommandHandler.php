@@ -10,6 +10,7 @@
  */
 class StandardizeViewInputCommandHandler
 {
+
     /**
      * Handle the command.
      *

@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Row\RowFactory;
  */
 class LoadTableRowsCommandHandler
 {
+
     /**
      * The row factory.
      *

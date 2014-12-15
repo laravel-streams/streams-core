@@ -16,6 +16,7 @@ use Way\Generators\Generator;
  */
 class GenerateEntryTranslationsModelCommandHandler
 {
+
     /**
      * The generator object.
      *

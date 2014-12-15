@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class Filter implements FilterInterface
 {
+
     /**
      * The filter slug.
      *

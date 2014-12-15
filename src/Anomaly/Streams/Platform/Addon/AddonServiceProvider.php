@@ -15,6 +15,7 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 {
+
     use EventGenerator;
     use DispatchableTrait;
 

@@ -16,6 +16,7 @@ use Anomaly\Streams\Platform\Stream\Event\StreamSaved;
  */
 class StreamObserver extends EloquentObserver
 {
+
     /**
      * Run after stream a record.
      *

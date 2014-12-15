@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Filter\Contract\FilterInterface;
  */
 class SetFilterDataCommandHandler
 {
+
     /**
      * Handle the command.
      *

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class EloquentCollection extends Collection
 {
+
     /**
      * Find by slug.
      *

@@ -12,6 +12,7 @@ use Assetic\Asset\AssetInterface;
  */
 class JSMinFilter extends \Assetic\Filter\JSMinFilter
 {
+
     /**
      * Override the filter dump method.
      *

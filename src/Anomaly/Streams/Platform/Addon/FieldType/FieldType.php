@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class FieldType extends Addon implements PresentableInterface
 {
+
     /**
      * Validation rules.
      *

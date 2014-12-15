@@ -10,6 +10,7 @@
  */
 class InstallModulesTableCommand
 {
+
     /**
      * Create a new InstallModulesTableCommand instance.
      */

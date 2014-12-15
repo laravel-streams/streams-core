@@ -15,6 +15,7 @@ use Laracasts\Commander\CommanderTrait;
  */
 class SyncModulesCommandHandler
 {
+
     use CommanderTrait;
 
     /**

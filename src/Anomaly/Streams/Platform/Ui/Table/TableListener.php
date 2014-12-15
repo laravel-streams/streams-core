@@ -14,6 +14,7 @@ use Laracasts\Commander\Events\EventListener;
  */
 class TableListener extends EventListener
 {
+
     use CommanderTrait;
 
     /**

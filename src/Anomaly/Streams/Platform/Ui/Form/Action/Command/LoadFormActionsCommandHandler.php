@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\Action\ActionFactory;
  */
 class LoadFormActionsCommandHandler
 {
+
     /**
      * The action factory.
      *

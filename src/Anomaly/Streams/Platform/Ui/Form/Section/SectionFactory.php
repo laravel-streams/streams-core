@@ -10,6 +10,7 @@
  */
 class SectionFactory
 {
+
     /**
      * Available section defaults.
      *

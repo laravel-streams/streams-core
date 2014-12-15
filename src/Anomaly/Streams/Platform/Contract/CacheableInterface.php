@@ -10,6 +10,7 @@
  */
 interface CacheableInterface
 {
+
     /**
      * Get the cache collection key.
      *

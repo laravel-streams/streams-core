@@ -10,6 +10,7 @@
  */
 interface TabInterface
 {
+
     /**
      * Return the view data.
      *

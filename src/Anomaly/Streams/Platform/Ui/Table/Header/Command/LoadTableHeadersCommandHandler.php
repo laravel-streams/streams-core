@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Header\HeaderFactory;
  */
 class LoadTableHeadersCommandHandler
 {
+
     /**
      * The factory object.
      *

@@ -12,6 +12,7 @@ use Illuminate\Support\ServiceProvider;
  */
 class AssignmentServiceProvider extends ServiceProvider
 {
+
     /**
      * Register the service provider.
      *

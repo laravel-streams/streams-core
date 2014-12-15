@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class MakeFormCommand
 {
+
     /**
      * The form builder.
      *

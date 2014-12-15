@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryTranslationForeignKeyParser
 {
+
     /**
      * Return the translation foreign key attribute.
      *

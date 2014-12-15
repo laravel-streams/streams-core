@@ -12,4 +12,5 @@ use Illuminate\Support\Collection;
  */
 class ColumnCollection extends Collection
 {
+
 }

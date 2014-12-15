@@ -14,6 +14,7 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
  */
 class Action extends Button implements ActionInterface
 {
+
     /**
      * The action slug.
      *

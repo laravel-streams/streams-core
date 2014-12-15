@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Contract\InstallableInterface;
  */
 class FieldInstaller implements InstallableInterface
 {
+
     /**
      * The namespace if different than
      * the addon slug.

@@ -10,6 +10,7 @@
  */
 interface RowInterface
 {
+
     /**
      * Return the view data.
      *

@@ -13,6 +13,7 @@ use Illuminate\Support\ServiceProvider;
  */
 class EntryServiceProvider extends ServiceProvider
 {
+
     /**
      * Register the service provider.
      *

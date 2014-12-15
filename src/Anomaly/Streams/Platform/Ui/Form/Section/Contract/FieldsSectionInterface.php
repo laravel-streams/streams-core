@@ -10,6 +10,7 @@
  */
 interface FieldsSectionInterface
 {
+
     /**
      * Return the view data.
      *

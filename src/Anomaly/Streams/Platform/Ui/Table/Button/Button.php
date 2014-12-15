@@ -10,6 +10,7 @@
  */
 class Button extends \Anomaly\Streams\Platform\Ui\Button\Button
 {
+
     /**
      * Create a new Button Instance.
      *

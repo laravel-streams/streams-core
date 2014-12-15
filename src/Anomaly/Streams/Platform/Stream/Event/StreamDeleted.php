@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class StreamDeleted
 {
+
     /**
      * The stream interface.
      *

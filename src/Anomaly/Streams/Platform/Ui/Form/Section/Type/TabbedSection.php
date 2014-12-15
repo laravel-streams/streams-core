@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Ui\Form\Tab\TabCollection;
  */
 class TabbedSection implements TabbedSectionInterface
 {
+
     /**
      * The section tabs.
      *

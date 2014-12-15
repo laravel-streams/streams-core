@@ -10,6 +10,7 @@
  */
 class StandardizeActionInputCommandHandler
 {
+
     /**
      * Handle the command.
      *

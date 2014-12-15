@@ -17,6 +17,7 @@ use Anomaly\Streams\Platform\Ui\Table\Row\Contract\RowInterface;
  */
 class Row implements RowInterface
 {
+
     /**
      * The entry object.
      *

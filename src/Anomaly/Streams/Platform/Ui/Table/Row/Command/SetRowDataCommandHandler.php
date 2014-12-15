@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Row\Contract\RowInterface;
  */
 class SetRowDataCommandHandler
 {
+
     /**
      * Handle the command.
      *

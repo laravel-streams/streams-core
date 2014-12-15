@@ -10,6 +10,7 @@
  */
 class AddonManager
 {
+
     /**
      * Register all addons of a given type.
      */

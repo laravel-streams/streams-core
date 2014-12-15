@@ -16,6 +16,7 @@ use Laracasts\Commander\Events\EventListener;
  */
 class AssignmentListener extends EventListener
 {
+
     use CommanderTrait;
 
     /**

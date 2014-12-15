@@ -10,6 +10,7 @@
  */
 class ColumnFactory
 {
+
     /**
      * The default column class.
      *

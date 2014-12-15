@@ -12,4 +12,5 @@ use Laracasts\Commander\Events\EventListener;
  */
 class EntryListener extends EventListener
 {
+
 }

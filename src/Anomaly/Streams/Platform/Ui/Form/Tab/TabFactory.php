@@ -10,6 +10,7 @@
  */
 class TabFactory
 {
+
     /**
      * Available tab defaults.
      *

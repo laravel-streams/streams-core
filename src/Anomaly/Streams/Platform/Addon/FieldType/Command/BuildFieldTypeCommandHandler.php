@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
  */
 class BuildFieldTypeCommandHandler
 {
+
     /**
      * Handle the command.
      *

@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleManager;
  */
 class InstallAllModulesCommandHandler
 {
+
     /**
      * The module manager.
      *

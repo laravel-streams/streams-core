@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 interface HeaderInterface
 {
+
     /**
      * Return the view data.
      *

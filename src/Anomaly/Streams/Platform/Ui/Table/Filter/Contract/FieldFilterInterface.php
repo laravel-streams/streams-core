@@ -10,6 +10,7 @@
  */
 interface FieldFilterInterface extends FilterInterface
 {
+
     /**
      * Set the field.
      *

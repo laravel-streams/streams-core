@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryNamespaceParser
 {
+
     /**
      * Return the entry model base namespace.
      *

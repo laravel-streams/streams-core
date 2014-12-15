@@ -14,6 +14,7 @@ use Anomaly\Streams\Platform\Ui\Form\Exception\IncompatibleModelException;
  */
 class StandardizeModelInputCommandHandler
 {
+
     /**
      * Handle the command.
      *

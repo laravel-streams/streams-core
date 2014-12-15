@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Header\Contract\HeaderInterface;
  */
 class SetHeaderDataCommandHandler
 {
+
     /**
      * Handle the command.
      *

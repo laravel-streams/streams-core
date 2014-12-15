@@ -12,6 +12,7 @@ use Laracasts\Commander\CommanderTrait;
  */
 class FieldTypeManager
 {
+
     use CommanderTrait;
 
     /**

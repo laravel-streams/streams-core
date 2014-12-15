@@ -15,6 +15,7 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class BuildTableCommandHandler
 {
+
     use CommanderTrait;
     use DispatchableTrait;
 

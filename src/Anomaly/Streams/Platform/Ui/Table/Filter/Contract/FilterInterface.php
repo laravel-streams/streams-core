@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 interface FilterInterface
 {
+
     /**
      * Handle the filter.
      *

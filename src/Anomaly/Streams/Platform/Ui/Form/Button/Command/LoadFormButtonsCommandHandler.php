@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
  */
 class LoadFormButtonsCommandHandler
 {
+
     /**
      * The form builder.
      *

@@ -10,6 +10,7 @@
  */
 class InstallAllModulesCommand
 {
+
     /**
      * Create a new InstallAllModulesCommand instance.
      */

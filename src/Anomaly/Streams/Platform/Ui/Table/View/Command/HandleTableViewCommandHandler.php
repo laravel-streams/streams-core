@@ -10,6 +10,7 @@
  */
 class HandleTableViewCommandHandler
 {
+
     /**
      * Handle the command.
      *

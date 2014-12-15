@@ -13,6 +13,7 @@ use Illuminate\Database\Schema\Builder;
  */
 class AssignmentSchema
 {
+
     /**
      * The schema builder object.
      *

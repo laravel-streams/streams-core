@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryTableParser
 {
+
     /**
      * Return the entry table name.
      *

@@ -14,6 +14,7 @@ use Anomaly\Streams\Platform\Stream\StreamModel;
  */
 class EntryRulesParser
 {
+
     /**
      * Return the entry validation rules.
      *

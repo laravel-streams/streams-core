@@ -16,6 +16,7 @@ use Laracasts\Commander\CommanderTrait;
  */
 class StandardizeInputCommandHandler
 {
+
     use CommanderTrait;
 
     /**

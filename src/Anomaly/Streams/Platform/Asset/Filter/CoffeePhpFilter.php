@@ -14,6 +14,7 @@ use CoffeeScript\Compiler;
  */
 class CoffeePhpFilter implements FilterInterface
 {
+
     /**
      * Filters an asset after it has been loaded.
      *

@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Stream\StreamSchema;
  */
 class CreateStreamsEntryTableCommandHandler
 {
+
     /**
      * The schema object.
      *

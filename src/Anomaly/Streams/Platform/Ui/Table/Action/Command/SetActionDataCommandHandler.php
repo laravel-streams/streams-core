@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionInterface;
  */
 class SetActionDataCommandHandler
 {
+
     /**
      * Handle the command.
      *

@@ -10,6 +10,7 @@
  */
 class FilterFactory
 {
+
     /**
      * The default filter class.
      *

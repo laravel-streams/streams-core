@@ -10,6 +10,7 @@
  */
 class SyncModulesCommand
 {
+
     /**
      * Create a new SyncModulesCommand instance.
      */

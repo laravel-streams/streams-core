@@ -10,4 +10,5 @@
  */
 class PublicController extends BaseController
 {
+
 }

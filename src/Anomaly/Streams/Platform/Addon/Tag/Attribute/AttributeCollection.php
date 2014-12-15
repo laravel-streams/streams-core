@@ -12,6 +12,7 @@ use Illuminate\Support\Collection;
  */
 class AttributeCollection extends Collection
 {
+
     /**
      * Create a new AttributeCollection instance.
      *

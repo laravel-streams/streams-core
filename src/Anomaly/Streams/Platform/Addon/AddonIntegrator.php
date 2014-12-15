@@ -10,6 +10,7 @@
  */
 class AddonIntegrator
 {
+
     /**
      * Register the namespaces and integrations for
      * all registered addons of a given type.

@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class ThemeCollection extends AddonCollection
 {
+
     /**
      * Return the active theme.
      *

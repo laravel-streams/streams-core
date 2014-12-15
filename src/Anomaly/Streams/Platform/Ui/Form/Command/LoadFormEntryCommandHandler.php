@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
  */
 class LoadFormEntryCommandHandler
 {
+
     /**
      * Handle the command.
      *

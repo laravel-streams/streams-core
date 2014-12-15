@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class ExtensionCollection extends AddonCollection
 {
+
     /**
      * Get all extensions matching a pattern.
      *

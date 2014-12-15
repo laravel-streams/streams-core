@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  */
 class ModuleModel extends EloquentModel implements ModuleInterface
 {
+
     /**
      * Define the table name.
      *

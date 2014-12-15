@@ -10,6 +10,7 @@
  */
 class DetectActiveThemeCommand
 {
+
     /**
      * Create a new DetectActiveThemeCommand instance.
      */

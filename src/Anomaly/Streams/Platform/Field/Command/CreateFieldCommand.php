@@ -10,6 +10,7 @@
  */
 class CreateFieldCommand
 {
+
     /**
      * The fields namespace.
      *

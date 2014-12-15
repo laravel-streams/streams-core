@@ -10,6 +10,7 @@
  */
 class HandleFormValidationCommandHandler
 {
+
     /**
      * Handle the command.
      *

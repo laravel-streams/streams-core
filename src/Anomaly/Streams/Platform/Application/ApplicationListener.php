@@ -12,6 +12,7 @@ use Laracasts\Commander\Events\EventListener;
  */
 class ApplicationListener extends EventListener
 {
+
     /**
      * Fired when the ApplicationServiceProvider starts booting.
      */

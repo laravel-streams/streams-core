@@ -10,6 +10,7 @@
  */
 class CreateStreamCommand
 {
+
     /**
      * The stream namespace.
      *

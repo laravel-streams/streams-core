@@ -10,6 +10,7 @@
  */
 class RowFactory
 {
+
     /**
      * The default row class.
      *

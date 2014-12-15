@@ -10,6 +10,7 @@
  */
 interface FieldInterface
 {
+
     /**
      * Return the view data.
      *

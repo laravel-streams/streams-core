@@ -14,6 +14,7 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class TableBuilder
 {
+
     use CommanderTrait;
     use DispatchableTrait;
 

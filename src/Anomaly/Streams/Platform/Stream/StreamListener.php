@@ -16,6 +16,7 @@ use Laracasts\Commander\Events\EventListener;
  */
 class StreamListener extends EventListener
 {
+
     use CommanderTrait;
 
     /**

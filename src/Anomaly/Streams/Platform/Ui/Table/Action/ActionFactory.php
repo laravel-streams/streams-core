@@ -10,6 +10,7 @@
  */
 class ActionFactory
 {
+
     /**
      * The default action class.
      *

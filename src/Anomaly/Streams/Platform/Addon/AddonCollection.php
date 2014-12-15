@@ -12,6 +12,7 @@ use Illuminate\Support\Collection;
  */
 class AddonCollection extends Collection
 {
+
     /**
      * Return only core addons.
      *

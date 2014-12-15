@@ -10,6 +10,7 @@
  */
 class HandleTableActionCommandHandler
 {
+
     /**
      * Handle the command.
      *

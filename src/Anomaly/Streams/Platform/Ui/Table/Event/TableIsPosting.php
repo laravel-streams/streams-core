@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
  */
 class TableIsPosting
 {
+
     /**
      * The table object.
      *

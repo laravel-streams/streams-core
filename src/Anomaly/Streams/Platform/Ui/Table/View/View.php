@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class View implements ViewInterface
 {
+
     /**
      * The view text.
      *

@@ -15,6 +15,7 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
  */
 class StreamsField implements StreamsFieldInterface
 {
+
     /**
      * The form object.
      *

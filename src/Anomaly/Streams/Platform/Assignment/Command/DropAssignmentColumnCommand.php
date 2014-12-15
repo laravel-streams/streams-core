@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
  */
 class DropAssignmentColumnCommand
 {
+
     /**
      * The assignment interface.
      *

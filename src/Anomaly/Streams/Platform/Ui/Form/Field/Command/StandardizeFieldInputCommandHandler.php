@@ -10,6 +10,7 @@
  */
 class StandardizeFieldInputCommandHandler
 {
+
     /**
      * Handle the command.
      *

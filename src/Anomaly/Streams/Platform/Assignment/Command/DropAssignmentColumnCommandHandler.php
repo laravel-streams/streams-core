@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
  */
 class DropAssignmentColumnCommandHandler
 {
+
     /**
      * Handle the command.
      *

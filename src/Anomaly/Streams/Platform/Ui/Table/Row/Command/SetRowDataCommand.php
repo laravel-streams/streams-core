@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class SetRowDataCommand
 {
+
     /**
      * The table builder.
      *

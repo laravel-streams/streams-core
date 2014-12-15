@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class DistributionCollection extends AddonCollection
 {
+
     /**
      * Return the active distribution.
      *

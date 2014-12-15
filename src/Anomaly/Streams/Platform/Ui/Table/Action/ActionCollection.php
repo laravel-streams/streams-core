@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
  */
 class ActionCollection extends Collection
 {
+
     /**
      * @return null
      */

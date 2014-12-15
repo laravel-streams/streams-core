@@ -10,6 +10,7 @@
  */
 class BuildFieldTypeCommand
 {
+
     /**
      * The field type to build.
      *

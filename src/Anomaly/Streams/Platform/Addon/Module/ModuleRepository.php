@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
  */
 class ModuleRepository implements ModuleRepositoryInterface
 {
+
     /**
      * The module model.
      *

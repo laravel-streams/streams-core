@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
  */
 class CreateStreamCommandHandler
 {
+
     /**
      * The schema object.
      *

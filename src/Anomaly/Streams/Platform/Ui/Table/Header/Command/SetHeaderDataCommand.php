@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 class SetHeaderDataCommand
 {
+
     /**
      * The table builder.
      *

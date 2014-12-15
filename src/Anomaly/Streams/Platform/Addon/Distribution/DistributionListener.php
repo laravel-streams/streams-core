@@ -13,6 +13,7 @@ use Laracasts\Commander\Events\EventListener;
  */
 class DistributionListener extends EventListener
 {
+
     use CommanderTrait;
 
     /**

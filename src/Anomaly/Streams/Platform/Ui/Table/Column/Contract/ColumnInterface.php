@@ -10,6 +10,7 @@
  */
 interface ColumnInterface
 {
+
     /**
      * Return the view data.
      *

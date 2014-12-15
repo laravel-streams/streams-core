@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\Theme\Theme;
  */
 class DetectActiveThemeCommandHandler
 {
+
     /**
      * Detect the active theme and set up
      * our environment with it.

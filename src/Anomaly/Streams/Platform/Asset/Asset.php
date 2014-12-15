@@ -23,6 +23,7 @@ use Assetic\Asset\GlobAsset;
  */
 class Asset
 {
+
     /**
      * The public base directory.
      *

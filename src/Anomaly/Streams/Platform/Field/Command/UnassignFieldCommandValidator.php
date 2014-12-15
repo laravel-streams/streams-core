@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 
 class UnassignFieldCommandValidator
 {
+
     /**
      * The fields repository.
      *

@@ -26,6 +26,7 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
  */
 class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface, TableModelInterface, FormModelInterface
 {
+
     /**
      * Validation rules. These are overridden
      * on the compiled models.

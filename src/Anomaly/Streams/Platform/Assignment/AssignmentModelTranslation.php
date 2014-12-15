@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  */
 class AssignmentModelTranslation extends EloquentModel
 {
+
     /**
      * Do not use timestamps.
      *

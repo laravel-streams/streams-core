@@ -23,6 +23,7 @@ use Way\Generators\Generator;
  */
 class GenerateEntryModelCommandHandler
 {
+
     /**
      * The generator object.
      *

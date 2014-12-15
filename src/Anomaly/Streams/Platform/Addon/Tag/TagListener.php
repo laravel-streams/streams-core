@@ -12,6 +12,7 @@ use Laracasts\Commander\Events\EventListener;
  */
 class TagListener extends EventListener
 {
+
     /**
      * Fired when all tags have been registered.
      */

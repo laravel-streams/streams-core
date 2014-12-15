@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
  */
 class AssignFieldCommandValidator
 {
+
     /**
      * The fields repository.
      *

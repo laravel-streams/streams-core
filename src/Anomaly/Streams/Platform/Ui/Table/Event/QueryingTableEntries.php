@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class QueryingTableEntries
 {
+
     /**
      * The table object.
      *

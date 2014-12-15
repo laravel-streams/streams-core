@@ -10,6 +10,7 @@
  */
 class DeleteStreamCommand
 {
+
     /**
      * The stream namespace.
      *

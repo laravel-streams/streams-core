@@ -15,6 +15,7 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class ExtensionServiceProvider extends ServiceProvider
 {
+
     use EventGenerator;
     use DispatchableTrait;
 

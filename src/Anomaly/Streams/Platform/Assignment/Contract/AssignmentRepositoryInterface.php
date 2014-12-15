@@ -10,6 +10,7 @@
  */
 interface AssignmentRepositoryInterface
 {
+
     /**
      * Create a new assignment.
      *

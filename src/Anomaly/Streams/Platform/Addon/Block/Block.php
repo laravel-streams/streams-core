@@ -12,4 +12,5 @@ use Anomaly\Streams\Platform\Addon\Addon;
  */
 class Block extends Addon
 {
+
 }

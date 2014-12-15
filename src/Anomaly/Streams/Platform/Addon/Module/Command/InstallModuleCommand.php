@@ -10,6 +10,7 @@
  */
 class InstallModuleCommand
 {
+
     /**
      * The module object.
      *

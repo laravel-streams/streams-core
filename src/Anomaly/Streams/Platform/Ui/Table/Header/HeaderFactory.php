@@ -10,6 +10,7 @@
  */
 class HeaderFactory
 {
+
     /**
      * The default header class.
      *

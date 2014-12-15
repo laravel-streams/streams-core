@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Button\ButtonFactory;
  */
 class LoadTableButtonsCommandHandler
 {
+
     /**
      * The button factory.
      *

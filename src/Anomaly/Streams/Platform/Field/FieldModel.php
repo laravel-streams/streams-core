@@ -17,6 +17,7 @@ use Dimsav\Translatable\Translatable;
  */
 class FieldModel extends EloquentModel implements FieldInterface
 {
+
     use Translatable;
 
     /**

@@ -12,6 +12,7 @@ use Composer\Autoload\ClassLoader;
  */
 class AddonLoader extends ClassLoader
 {
+
     /**
      * Load the addon's src folder.
      *

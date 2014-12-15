@@ -10,6 +10,7 @@
  */
 class ActionFactory
 {
+
     /**
      * Available action defualt.
      *

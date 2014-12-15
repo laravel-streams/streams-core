@@ -14,6 +14,7 @@ use Anomaly\Streams\Platform\Ui\Table\Column\Contract\ColumnInterface;
  */
 class Column implements ColumnInterface
 {
+
     /**
      * The entry object.
      *

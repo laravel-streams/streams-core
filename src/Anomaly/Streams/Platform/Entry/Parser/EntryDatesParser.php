@@ -14,6 +14,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryDatesParser
 {
+
     /**
      * Return the dates attribute.
      *

@@ -10,6 +10,7 @@
  */
 interface ModuleRepositoryInterface
 {
+
     /**
      * Return all modules in the database.
      *

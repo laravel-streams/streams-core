@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionInterface;
  */
 class Action extends Button implements ActionInterface
 {
+
     /**
      * The action slug.
      *

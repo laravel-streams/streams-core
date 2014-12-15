@@ -17,6 +17,7 @@ use Laracasts\Commander\Events\EventListener;
  */
 class ModuleListener extends EventListener
 {
+
     use CommanderTrait;
 
     /**

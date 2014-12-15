@@ -12,6 +12,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
  */
 class SetPaginationDataCommandHandler
 {
+
     /**
      * Handle the command.
      *

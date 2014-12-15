@@ -10,6 +10,7 @@
  */
 class UnassignFieldCommand
 {
+
     /**
      * The field namespace.
      *

@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Model\EloquentPresenter;
  */
 class EntryPresenter extends EloquentPresenter
 {
+
     /**
      * The decorated resource.
      *

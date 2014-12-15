@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
  */
 class FilterCollection extends Collection
 {
+
     /**
      * Return the active filter.
      *

@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Filter\Filter;
  */
 class InputFilter extends Filter
 {
+
     /**
      * The input type.
      *

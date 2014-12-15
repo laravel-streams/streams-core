@@ -15,6 +15,7 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class BuildFormCommandHandler
 {
+
     use CommanderTrait;
     use DispatchableTrait;
 

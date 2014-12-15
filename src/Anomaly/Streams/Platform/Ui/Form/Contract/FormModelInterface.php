@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
  */
 interface FormModelInterface
 {
+
     /**
      * Find an entry or return a new instance.
      *

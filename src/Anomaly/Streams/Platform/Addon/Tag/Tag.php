@@ -15,6 +15,7 @@ use Anomaly\Streams\Platform\Addon\Tag\Attribute\AttributeCollection;
  */
 class Tag extends Addon implements PluginInterface
 {
+
     /**
      * A collection of the tag's attributes.
      *

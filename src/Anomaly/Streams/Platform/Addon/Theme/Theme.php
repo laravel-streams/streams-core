@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\Addon;
  */
 class Theme extends Addon
 {
+
     /**
      * Determines whether this is
      * an admin theme or not.

@@ -13,6 +13,7 @@ use Illuminate\Database\Schema\Builder;
  */
 class StreamSchema
 {
+
     /**
      * The schema builder.
      *

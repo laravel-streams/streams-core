@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
  */
 class Button implements ButtonInterface
 {
+
     /**
      * The button text.
      *

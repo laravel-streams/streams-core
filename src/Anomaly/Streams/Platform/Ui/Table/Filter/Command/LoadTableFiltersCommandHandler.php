@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Filter\FilterFactory;
  */
 class LoadTableFiltersCommandHandler
 {
+
     /**
      * The filter factory.
      *

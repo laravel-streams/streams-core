@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
  */
 class HandleFormInputCommandHandler
 {
+
     /**
      * Handle the command.
      *

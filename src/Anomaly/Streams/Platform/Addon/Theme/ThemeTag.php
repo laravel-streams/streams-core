@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Addon\Tag\Tag;
  */
 class ThemeTag extends Tag
 {
+
     /**
      * The theme object.
      *

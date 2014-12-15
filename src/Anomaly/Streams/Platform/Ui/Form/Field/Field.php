@@ -14,6 +14,7 @@ use Laracasts\Commander\CommanderTrait;
  */
 class Field implements FieldInterface
 {
+
     use CommanderTrait;
 
     /**

@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
  */
 class ViewCollection extends Collection
 {
+
     /**
      * Get the active view.
      *

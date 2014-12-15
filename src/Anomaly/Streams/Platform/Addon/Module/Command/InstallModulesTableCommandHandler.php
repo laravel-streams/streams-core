@@ -13,6 +13,7 @@ use Illuminate\Database\Schema\Builder;
  */
 class InstallModulesTableCommandHandler
 {
+
     /**
      * The schema builder object.
      *

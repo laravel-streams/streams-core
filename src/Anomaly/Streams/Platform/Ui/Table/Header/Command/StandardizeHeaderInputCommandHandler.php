@@ -10,6 +10,7 @@
  */
 class StandardizeHeaderInputCommandHandler
 {
+
     /**
      * Handle the command.
      *

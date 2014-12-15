@@ -13,6 +13,7 @@ use Robbo\Presenter\Presenter;
  */
 class FieldTypePresenter extends Presenter implements StringableInterface
 {
+
     /**
      * Create a new Presenter instance.
      *

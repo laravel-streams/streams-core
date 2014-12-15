@@ -14,6 +14,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryStreamParser
 {
+
     /**
      * Parse the stream data.
      *

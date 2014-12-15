@@ -10,6 +10,7 @@
  */
 class Evaluator
 {
+
     /**
      * Evaluate a target entity with arguments.
      *

@@ -14,6 +14,7 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class MakeFormCommandHandler
 {
+
     use DispatchableTrait;
 
     /**

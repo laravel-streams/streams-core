@@ -13,6 +13,7 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class Addon implements ArrayableInterface
 {
+
     use EventGenerator;
 
     /**

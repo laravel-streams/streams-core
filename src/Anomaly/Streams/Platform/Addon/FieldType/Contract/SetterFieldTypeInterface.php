@@ -10,6 +10,7 @@
  */
 interface SetterFieldTypeInterface
 {
+
     /**
      * Set the model attributes for it.
      *

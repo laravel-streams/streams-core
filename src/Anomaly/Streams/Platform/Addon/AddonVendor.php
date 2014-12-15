@@ -12,6 +12,7 @@ use Composer\Autoload\ClassLoader;
  */
 class AddonVendor extends ClassLoader
 {
+
     /**
      * Load the vendor path for an addon if it exists.
      *

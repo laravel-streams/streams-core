@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
  */
 class EntryRepository implements EntryRepositoryInterface
 {
+
     /**
      * The entry model.
      *

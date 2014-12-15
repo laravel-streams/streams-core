@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class StandardizeColumnInputCommand
 {
+
     /**
      * The table builder.
      *

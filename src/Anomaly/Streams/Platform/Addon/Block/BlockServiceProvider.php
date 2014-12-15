@@ -15,6 +15,7 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class BlockServiceProvider extends ServiceProvider
 {
+
     use EventGenerator;
     use DispatchableTrait;
 

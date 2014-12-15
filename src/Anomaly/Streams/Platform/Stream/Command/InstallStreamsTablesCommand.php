@@ -10,6 +10,7 @@
  */
 class InstallStreamsTablesCommand
 {
+
     /**
      * Create a new InstallStreamsTablesCommand instance.
      */

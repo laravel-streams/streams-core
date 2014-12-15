@@ -12,6 +12,7 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class EloquentObserver
 {
+
     use DispatchableTrait;
 
     /**

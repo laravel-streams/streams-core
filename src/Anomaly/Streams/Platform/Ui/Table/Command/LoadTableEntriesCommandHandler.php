@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
  */
 class LoadTableEntriesCommandHandler
 {
+
     /**
      * Handle the command.
      *

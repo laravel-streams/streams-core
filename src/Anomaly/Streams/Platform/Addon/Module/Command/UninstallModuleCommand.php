@@ -10,6 +10,7 @@
  */
 class UninstallModuleCommand
 {
+
     /**
      * The module object.
      *

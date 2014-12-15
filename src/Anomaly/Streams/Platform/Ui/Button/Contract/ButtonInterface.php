@@ -10,6 +10,7 @@
  */
 interface ButtonInterface
 {
+
     /**
      * Get the view data.
      *

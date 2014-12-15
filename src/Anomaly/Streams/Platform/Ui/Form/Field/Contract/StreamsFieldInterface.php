@@ -10,6 +10,7 @@
  */
 interface StreamsFieldInterface
 {
+
     /**
      * Return the view data.
      *

@@ -10,6 +10,7 @@
  */
 class HandleFormActionCommandHandler
 {
+
     /**
      * Handle the command.
      *

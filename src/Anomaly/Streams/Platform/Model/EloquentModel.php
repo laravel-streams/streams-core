@@ -18,6 +18,7 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class EloquentModel extends Model implements ArrayableInterface, PresentableInterface
 {
+
     use CommanderTrait;
     use EventGenerator;
 

@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
  */
 interface FieldInterface
 {
+
     /**
      * Get the ID.
      *

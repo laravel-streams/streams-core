@@ -10,6 +10,7 @@
  */
 class DetectActiveModuleCommand
 {
+
     /**
      * Create a new DetectActiveModuleCommand instance.
      */

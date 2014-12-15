@@ -13,6 +13,7 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class CreateFieldCommandHandler
 {
+
     use DispatchableTrait;
 
     /**

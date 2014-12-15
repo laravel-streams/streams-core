@@ -12,6 +12,7 @@ use Laracasts\Commander\CommandBus;
  */
 class CommandValidator implements CommandBus
 {
+
     /**
      * Execute a command validator.
      *

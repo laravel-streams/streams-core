@@ -15,6 +15,7 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  */
 class AssignmentCollection extends EloquentCollection
 {
+
     /**
      * Find an assignment by it's field slug.
      *

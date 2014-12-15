@@ -10,6 +10,7 @@
  */
 class HandleTableFiltersCommandHandler
 {
+
     /**
      * Handle the command.
      *

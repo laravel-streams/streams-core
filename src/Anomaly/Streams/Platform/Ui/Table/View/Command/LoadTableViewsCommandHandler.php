@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\View\ViewFactory;
  */
 class LoadTableViewsCommandHandler
 {
+
     /**
      * The view factory.
      *

@@ -17,6 +17,7 @@ use Dimsav\Translatable\Translatable;
  */
 class AssignmentModel extends EloquentModel implements AssignmentInterface
 {
+
     use Translatable;
 
     /**

@@ -10,6 +10,7 @@
  */
 class FieldFactory
 {
+
     /**
      * Make a field.
      *

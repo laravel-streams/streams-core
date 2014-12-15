@@ -12,6 +12,7 @@ use Intervention\Image\ImageManager;
  */
 class Image extends ImageManager
 {
+
     /**
      * The publish flag.
      *

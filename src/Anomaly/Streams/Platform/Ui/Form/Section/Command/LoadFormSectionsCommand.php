@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class LoadFormSectionsCommand
 {
+
     /**
      * The form builder.
      *

@@ -10,6 +10,7 @@
  */
 class Application
 {
+
     /**
      * The application reference.
      *

@@ -10,6 +10,7 @@
  */
 class AssignFieldCommand
 {
+
     /**
      * The sort order.
      *

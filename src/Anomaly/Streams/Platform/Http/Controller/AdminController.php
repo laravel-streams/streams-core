@@ -10,6 +10,7 @@
  */
 class AdminController extends BaseController
 {
+
     /**
      * Create a new AdminController instance.
      */

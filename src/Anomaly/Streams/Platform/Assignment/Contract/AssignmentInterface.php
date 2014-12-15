@@ -15,6 +15,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 interface AssignmentInterface
 {
+
     /**
      * Get the related stream.
      *

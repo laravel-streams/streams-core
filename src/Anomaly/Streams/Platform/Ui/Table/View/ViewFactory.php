@@ -10,6 +10,7 @@
  */
 class ViewFactory
 {
+
     /**
      * The default view class.
      *

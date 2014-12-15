@@ -10,6 +10,7 @@
  */
 class HandleTableSortingCommandHandler
 {
+
     /**
      * Handle the command.
      */

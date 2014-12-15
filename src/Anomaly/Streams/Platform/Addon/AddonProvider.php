@@ -10,6 +10,7 @@
  */
 class AddonProvider
 {
+
     /**
      * Register all addon's of a given type.
      *

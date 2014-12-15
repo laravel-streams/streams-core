@@ -10,6 +10,7 @@
  */
 class Attribute
 {
+
     /**
      * The attribute's name.
      *

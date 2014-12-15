@@ -10,6 +10,7 @@
  */
 class DetectActiveDistributionCommand
 {
+
     /**
      * Create a new DetectActiveDistributionCommand instance.
      */

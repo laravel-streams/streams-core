@@ -10,6 +10,7 @@
  */
 interface InstallableInterface
 {
+
     /**
      * Install.
      *
