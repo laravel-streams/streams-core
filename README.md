@@ -1,7 +1,7 @@
 # Streams Platform
 
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://packagist.org/packages/anomaly/lexicon) 
-[![Build Status](https://scrutinizer-ci.com/g/anomalylabs/streams-platform/badges/build.svg?style=flat)](https://scrutinizer-ci.com/g/anomalylabs/streams-platform/build-status/master)
+[![Build Status](https://scrutinizer-ci.com/g/anomalylabs/streams-platform/badges/build.svg?b=master&style=flat)](https://scrutinizer-ci.com/g/anomalylabs/streams-platform/build-status/master)
 [![Code Quality](http://img.shields.io/scrutinizer/g/anomalylabs/streams-platform.svg?style=flat)](https://scrutinizer-ci.com/g/anomalylabs/streams-platform/)
 [![Total Downloads](http://img.shields.io/packagist/dt/anomaly/streams-platform.svg?style=flat)](https://packagist.org/packages/anomaly/streams-platform)
 
