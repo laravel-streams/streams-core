@@ -83,7 +83,7 @@ class ExtensionCollection extends AddonCollection
      * Get an extension by it's reference.
      *
      * @param mixed $key
-     * @return null
+     * @return mixed
      */
     public function get($key, $default = null)
     {

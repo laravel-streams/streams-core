@@ -131,7 +131,7 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     /**
      * Get the cache minutes.
      *
-     * @return null
+     * @return int|mixed
      */
     public function getCacheMinutes()
     {

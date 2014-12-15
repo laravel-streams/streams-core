@@ -156,7 +156,7 @@ class Button implements ButtonInterface
     /**
      * Get the class.
      *
-     * @return null
+     * @return string
      */
     public function getClass()
     {
@@ -179,7 +179,7 @@ class Button implements ButtonInterface
     /**
      * Get the icon.
      *
-     * @return null
+     * @return string
      */
     public function getIcon()
     {
@@ -202,7 +202,7 @@ class Button implements ButtonInterface
     /**
      * Get the button text.
      *
-     * @return null
+     * @return string
      */
     public function getText()
     {

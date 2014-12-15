@@ -16,7 +16,7 @@ class ModuleCollection extends AddonCollection
     /**
      * Return the active module.
      *
-     * @return null
+     * @return Module
      */
     public function active()
     {

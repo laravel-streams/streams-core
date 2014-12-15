@@ -99,7 +99,7 @@ class Tag extends Addon implements PluginInterface
     /**
      * Get the content between a filter / parse block.
      *
-     * @return null
+     * @return string|null
      */
     public function getContent()
     {
@@ -122,7 +122,7 @@ class Tag extends Addon implements PluginInterface
     /**
      * Get plugin name for external parsers.
      *
-     * @return null
+     * @return string
      */
     public function getPluginName()
     {

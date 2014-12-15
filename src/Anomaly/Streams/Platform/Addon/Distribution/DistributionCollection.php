@@ -16,7 +16,7 @@ class DistributionCollection extends AddonCollection
     /**
      * Return the active distribution.
      *
-     * @return null
+     * @return Distribution|null
      */
     public function active()
     {

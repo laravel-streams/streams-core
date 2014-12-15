@@ -129,7 +129,7 @@ class Column implements ColumnInterface
     /**
      * Get the class.
      *
-     * @return null
+     * @return string
      */
     public function getClass()
     {
@@ -152,7 +152,7 @@ class Column implements ColumnInterface
     /**
      * Get the entry.
      *
-     * @return null
+     * @return EntryInterface|null
      */
     public function getEntry()
     {
@@ -175,7 +175,7 @@ class Column implements ColumnInterface
     /**
      * Get the header.
      *
-     * @return null
+     * @return string
      */
     public function getHeader()
     {
@@ -198,7 +198,7 @@ class Column implements ColumnInterface
     /**
      * Get the prefix.
      *
-     * @return null
+     * @return string
      */
     public function getPrefix()
     {

@@ -166,7 +166,7 @@ class View implements ViewInterface
     /**
      * Get the handler.
      *
-     * @return null
+     * @return mixed
      */
     public function getHandler()
     {
@@ -189,7 +189,7 @@ class View implements ViewInterface
     /**
      * Get the prefix.
      *
-     * @return null
+     * @return string
      */
     public function getPrefix()
     {

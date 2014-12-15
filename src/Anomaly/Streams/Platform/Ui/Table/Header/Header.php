@@ -86,7 +86,7 @@ class Header implements HeaderInterface
     /**
      * Get the text.
      *
-     * @return null
+     * @return string
      */
     public function getText()
     {

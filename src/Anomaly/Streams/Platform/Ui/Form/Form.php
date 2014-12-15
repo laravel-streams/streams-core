@@ -1,8 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Form\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Section\SectionCollection;
+use Illuminate\Http\Response;
 
 /**
  * Class Form
@@ -232,7 +234,7 @@ class Form
     /**
      * Get the form content.
      *
-     * @return null
+     * @return string|null
      */
     public function getContent()
     {
@@ -402,7 +404,7 @@ class Form
     /**
      * Get the form response.
      *
-     * @return null
+     * @return Response|null
      */
     public function getResponse()
     {
@@ -425,7 +427,7 @@ class Form
     /**
      * Get the entry.
      *
-     * @return null
+     * @return Response|null
      */
     public function getEntry()
     {
@@ -448,7 +450,7 @@ class Form
     /**
      * Get the stream.
      *
-     * @return null
+     * @return StreamInterface|null
      */
     public function getStream()
     {

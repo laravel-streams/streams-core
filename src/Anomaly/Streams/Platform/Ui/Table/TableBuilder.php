@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Laracasts\Commander\CommanderTrait;
 
 /**
@@ -171,7 +172,7 @@ class TableBuilder
     /**
      * Get the model object.
      *
-     * @return null
+     * @return TableModelInterface|null
      */
     public function getModel()
     {

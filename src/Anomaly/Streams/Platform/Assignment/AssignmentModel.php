@@ -113,7 +113,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      * then just return null instead.
      *
      * @param null $locale
-     * @return null|string
+     * @return string|null
      */
     public function getLabel($locale = null)
     {

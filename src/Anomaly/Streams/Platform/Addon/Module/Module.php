@@ -61,7 +61,7 @@ class Module extends Addon
     /**
      * Get the module's navigation group.
      *
-     * @return null
+     * @return string|null|false
      */
     public function getNavigation()
     {

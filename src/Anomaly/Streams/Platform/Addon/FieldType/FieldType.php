@@ -307,7 +307,7 @@ class FieldType extends Addon implements PresentableInterface
     /**
      * Get the value.
      *
-     * @return null
+     * @return string
      */
     public function getValue()
     {
@@ -330,7 +330,7 @@ class FieldType extends Addon implements PresentableInterface
     /**
      * Get the label.
      *
-     * @return null
+     * @return string
      */
     public function getLabel()
     {
@@ -353,7 +353,7 @@ class FieldType extends Addon implements PresentableInterface
     /**
      * Get the input class.
      *
-     * @return null
+     * @return string
      */
     public function getClass()
     {
@@ -376,7 +376,7 @@ class FieldType extends Addon implements PresentableInterface
     /**
      * Get the instructions.
      *
-     * @return null
+     * @return string
      */
     public function getInstructions()
     {
@@ -399,7 +399,7 @@ class FieldType extends Addon implements PresentableInterface
     /**
      * Get the placeholder.
      *
-     * @return null
+     * @return string
      */
     protected function getPlaceholder()
     {
@@ -499,7 +499,7 @@ class FieldType extends Addon implements PresentableInterface
     /**
      * Get the suffix.
      *
-     * @return null|string
+     * @return string|string
      */
     public function getSuffix()
     {
@@ -569,7 +569,7 @@ class FieldType extends Addon implements PresentableInterface
     /**
      * Get the column name.
      *
-     * @return null
+     * @return string
      */
     public function getColumnName()
     {

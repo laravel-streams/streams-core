@@ -104,7 +104,7 @@ class FieldFilter extends Filter implements FieldFilterInterface
     /**
      * Get the filter field.
      *
-     * @return null
+     * @return string
      */
     public function getField()
     {

@@ -17,7 +17,7 @@ class ViewCollection extends Collection
     /**
      * Get the active view.
      *
-     * @return null
+     * @return ViewInterface|null
      */
     public function active()
     {

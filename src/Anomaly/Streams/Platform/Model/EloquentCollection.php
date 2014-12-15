@@ -21,7 +21,7 @@ class EloquentCollection extends Collection
      * many streams utilize a slug.
      *
      * @param $slug
-     * @return null
+     * @return mixed|null
      */
     public function findBySlug($slug)
     {

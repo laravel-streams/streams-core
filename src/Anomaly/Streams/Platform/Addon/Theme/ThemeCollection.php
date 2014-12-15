@@ -16,7 +16,7 @@ class ThemeCollection extends AddonCollection
     /**
      * Return the active theme.
      *
-     * @return null
+     * @return Theme
      */
     public function active()
     {

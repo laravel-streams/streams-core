@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 use Laracasts\Commander\CommanderTrait;
 
 /**
@@ -203,7 +204,7 @@ class FormBuilder
     /**
      * Get the form model.
      *
-     * @return null
+     * @return FormModelInterface|null
      */
     public function getModel()
     {

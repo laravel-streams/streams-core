@@ -233,7 +233,7 @@ class FieldsSection implements FieldsSectionInterface
     /**
      * Get the title.
      *
-     * @return null
+     * @return string
      */
     public function getTitle()
     {

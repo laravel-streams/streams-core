@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Table\Column\ColumnCollection;
@@ -7,6 +8,7 @@ use Anomaly\Streams\Platform\Ui\Table\Filter\FilterCollection;
 use Anomaly\Streams\Platform\Ui\Table\Header\HeaderCollection;
 use Anomaly\Streams\Platform\Ui\Table\Row\RowCollection;
 use Anomaly\Streams\Platform\Ui\Table\View\ViewCollection;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
 /**
@@ -311,7 +313,7 @@ class Table
     /**
      * Get the stream object.
      *
-     * @return null
+     * @return StreamInterface|null
      */
     public function getStream()
     {
@@ -334,7 +336,7 @@ class Table
     /**
      * Get the content.
      *
-     * @return null
+     * @return string|null
      */
     public function getContent()
     {
@@ -357,7 +359,7 @@ class Table
     /**
      * Get the response.
      *
-     * @return null
+     * @return Response|null
      */
     public function getResponse()
     {

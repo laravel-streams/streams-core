@@ -81,7 +81,7 @@ class Section implements SectionInterface
     /**
      * Get the body content.
      *
-     * @return null
+     * @return string
      */
     public function getBody()
     {
@@ -104,7 +104,7 @@ class Section implements SectionInterface
     /**
      * Get the title.
      *
-     * @return null
+     * @return string
      */
     public function getTitle()
     {

@@ -252,7 +252,7 @@ class Field implements FieldInterface
     /**
      * Get the instructions.
      *
-     * @return null
+     * @return string
      */
     public function getInstructions()
     {
@@ -275,7 +275,7 @@ class Field implements FieldInterface
     /**
      * Get the label.
      *
-     * @return null
+     * @return string
      */
     public function getLabel()
     {
@@ -298,7 +298,7 @@ class Field implements FieldInterface
     /**
      * Get the placeholder.
      *
-     * @return null
+     * @return string
      */
     public function getPlaceholder()
     {

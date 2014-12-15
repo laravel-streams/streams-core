@@ -131,7 +131,7 @@ class Filter implements FilterInterface
     /**
      * Get the handler.
      *
-     * @return null
+     * @return mixed
      */
     public function getHandler()
     {
@@ -154,7 +154,7 @@ class Filter implements FilterInterface
     /**
      * Get the placeholder.
      *
-     * @return null
+     * @return string
      */
     public function getPlaceholder()
     {
@@ -177,7 +177,7 @@ class Filter implements FilterInterface
     /**
      * Get the prefix.
      *
-     * @return null
+     * @return string
      */
     public function getPrefix()
     {
@@ -230,7 +230,7 @@ class Filter implements FilterInterface
     /**
      * Get the input.
      *
-     * @return null
+     * @return string
      */
     protected function getInput()
     {

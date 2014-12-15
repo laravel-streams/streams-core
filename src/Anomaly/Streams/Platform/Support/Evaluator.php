@@ -16,7 +16,7 @@ class Evaluator
      *
      * @param       $target
      * @param array $arguments
-     * @return null
+     * @return mixed
      */
     public function evaluate($target, array $arguments = [])
     {
