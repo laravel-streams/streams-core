@@ -16,6 +16,9 @@ class ExtensionCollection extends AddonCollection
     /**
      * Get all extensions matching a pattern.
      *
+     * Example: module.users::authenticator.*
+     * Example: module.users::*
+     *
      * @param $key
      * @return static
      */
@@ -30,49 +33,20 @@ class ExtensionCollection extends AddonCollection
         list($namespace, $extension) = explode('::', $key);
         list($addonType, $addonSlug) = explode('.', $namespace);
 
-        if ($extension == '*') {
-            $extension = false;
-        }
+        if ($extension !== '*') {
 
-        if ($extension != '*') {
             list($extensionType, $extensionSlug) = explode('.', $extension);
+        } else {
 
-            $extension = "_{$extensionSlug}_{$extensionType}";
-
-            if ($extensionSlug == '*') {
-                $extension = "_{$extensionType}";
-            }
+            $extensionSlug = '*';
+            $extensionType = '*';
         }
+
+        $pattern = "{$addonType}_{$addonSlug}_{$extensionType}_{$extensionSlug}";
 
         foreach ($this->items as $item) {
-            $slug = $item->getSlug();
-
-            if ($strict) {
-                /**
-                 * If searching strict then look only at the
-                 * beginning and ending of the extension slug.
-                 */
-                if (starts_with($slug, "{$addonSlug}_{$addonType}_")) {
-                    if ($extension) {
-                        if (ends_with($slug, $extension)) {
-                            $matches[] = $item;
-
-                            continue;
-                        }
-                    }
-                }
-            } else {
-                /**
-                 * If not searching strict than just do simple string
-                 * matches on the extension slug.
-                 */
-                if (str_contains($slug, "{$addonSlug}_{$addonType}")) {
-                    if ($extension) {
-                        if (str_contains($slug, $extension)) {
-                            $matches[] = $item;
-                        }
-                    }
-                }
+            if ($this->extensionSlugIsPattern($item, $pattern)) {
+                $matches[] = $item;
             }
         }
 
@@ -82,18 +56,16 @@ class ExtensionCollection extends AddonCollection
     /**
      * Get an extension by it's reference.
      *
+     * Example: module.users::authenticator.default
+     *
      * @param mixed $key
      * @return mixed
      */
     public function get($key, $default = null)
     {
-        /**
-         * We can simply replace with underscores here
-         * and we are left with the addon slug.
-         */
         list($namespace, $extension) = explode('::', $key);
         list($addonType, $addonSlug) = explode('.', $namespace);
-        list($extensionSlug, $extensionType) = explode('.', $extension);
+        list($extensionType, $extensionSlug) = explode('.', $extension);
 
         $slug = "{$addonSlug}_{$addonType}_{$extensionSlug}_{$extensionType}";
 
@@ -106,5 +78,18 @@ class ExtensionCollection extends AddonCollection
         }
 
         return null;
+    }
+
+    /**
+     * Return whether a given extension's slug
+     * matches the given pattern.
+     *
+     * @param Extension $extension
+     * @param           $pattern
+     * @return bool
+     */
+    protected function extensionSlugIsPattern(Extension $extension, $pattern)
+    {
+        return (str_is($pattern, $extension->getSlug()));
     }
 }
