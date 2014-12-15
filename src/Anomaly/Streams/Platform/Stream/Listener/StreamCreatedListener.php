@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Listener;
 
+use Anomaly\Streams\Platform\Entry\EntryUtility;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Event\StreamCreatedEvent;
-use Anomaly\Streams\Platform\Stream\StreamModel;
 use Laracasts\Commander\CommanderTrait;
 
 /**
@@ -17,6 +17,23 @@ class StreamCreatedListener
 {
 
     use CommanderTrait;
+
+    /**
+     * The entry utility.
+     *
+     * @var \Anomaly\Streams\Platform\Entry\EntryUtility
+     */
+    protected $utility;
+
+    /**
+     * Create a new StreamCreatedListener instance.
+     *
+     * @param EntryUtility $utility
+     */
+    public function __construct(EntryUtility $utility)
+    {
+        $this->utility = $utility;
+    }
 
     /**
      * When a stream is created we have some
@@ -47,25 +64,10 @@ class StreamCreatedListener
     /**
      * Generate entry models for the stream.
      *
-     * @param StreamModel $stream
+     * @param StreamInterface $stream
      */
-    protected function generateEntryModels(StreamModel $stream)
+    protected function generateEntryModels(StreamInterface $stream)
     {
-        // Generate the base model.
-        $this->execute(
-            'Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelCommand',
-            compact('stream')
-        );
-
-        /**
-         * If the stream is translatable generate
-         * the translations model too.
-         */
-        if ($stream->isTranslatable()) {
-            $this->execute(
-                'Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModelCommand',
-                compact('stream')
-            );
-        }
+        $this->utility->recompile($stream);
     }
 }
