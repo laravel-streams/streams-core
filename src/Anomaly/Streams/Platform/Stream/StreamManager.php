@@ -22,35 +22,7 @@ class StreamManager
      */
     public function create(array $stream)
     {
-        // Mandatory properties.
-        $slug      = $stream['slug'];
-        $name      = $stream['name'];
-        $namespace = $stream['namespace'];
-
-        // Optional properties
-        $orderBy      = isset($stream['order_by']) ? $stream['order_by'] : 'id';
-        $hidden       = isset($stream['hidden']) ? $stream['hidden'] : false;
-        $prefix       = isset($stream['prefix']) ? $stream['prefix'] : $namespace . '_';
-        $titleColumn  = isset($stream['title_column']) ? $stream['title_column'] : 'id';
-        $translatable = isset($stream['translatable']) ? $stream['translatable'] : false;
-        $viewOptions  = isset($stream['view_options']) ? $stream['view_options'] : ['id', 'created_at'];
-
-        $description = isset($stream['description']) ? $stream['description'] : null;
-
-        $data = compact(
-            'slug',
-            'name',
-            'namespace',
-            'orderBy',
-            'hidden',
-            'prefix',
-            'titleColumn',
-            'translatable',
-            'viewOptions',
-            'description'
-        );
-
-        return $this->execute('Anomaly\Streams\Platform\Stream\Command\CreateStreamCommand', $data);
+        return $this->execute('Anomaly\Streams\Platform\Stream\Command\CreateStreamCommand', $stream);
     }
 
     /**

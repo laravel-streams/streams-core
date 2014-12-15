@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class AssignmentRepository
@@ -14,6 +12,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class AssignmentRepository implements AssignmentRepositoryInterface
 {
+
     /**
      * The assignment model.
      *
@@ -34,19 +33,19 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     /**
      * Create a new assignment.
      *
-     * @param StreamInterface $stream
-     * @param FieldInterface  $field
-     * @param                 $label
-     * @param                 $placeholder
-     * @param                 $instructions
-     * @param                 $unique
-     * @param                 $required
-     * @param                 $translatable
-     * @return mixed|void
+     * @param $streamId
+     * @param $fieldId
+     * @param $label
+     * @param $placeholder
+     * @param $instructions
+     * @param $unique
+     * @param $required
+     * @param $translatable
+     * @return mixed
      */
     public function create(
-        StreamInterface $stream,
-        FieldInterface $field,
+        $streamId,
+        $fieldId,
         $label,
         $placeholder,
         $instructions,
@@ -57,8 +56,8 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment = $this->model->newInstance();
 
         $assignment->label        = $label;
-        $assignment->field_id     = $field->getId();
-        $assignment->stream_id    = $stream->getId();
+        $assignment->field_id     = $fieldId;
+        $assignment->stream_id    = $streamId;
         $assignment->unique       = $unique;
         $assignment->required     = $required;
         $assignment->placeholder  = $placeholder;
@@ -72,15 +71,15 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     /**
      * Delete an assignment.
      *
-     * @param StreamInterface $stream
-     * @param FieldInterface  $field
+     * @param $streamId
+     * @param $fieldId
      * @return mixed
      */
-    public function delete(StreamInterface $stream, FieldInterface $field)
+    public function delete($streamId, $fieldId)
     {
         $assignment = $this->model
-            ->where('stream_id', $stream->getId())
-            ->where('field_id', $field->getId())
+            ->where('stream_id', $streamId)
+            ->where('field_id', $fieldId)
             ->first();
 
         if ($assignment) {

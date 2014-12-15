@@ -88,6 +88,17 @@ class Addon implements ArrayableInterface
     }
 
     /**
+     * Get a key prefixed by the addon's namespace.
+     *
+     * @param null $key
+     * @return string
+     */
+    public function getKey($key = null)
+    {
+        return "{$this->getType()}.{$this->getSlug()}" . ($key ? '::' . $key : $key);
+    }
+
+    /**
      * @param $path
      * @return $this
      */

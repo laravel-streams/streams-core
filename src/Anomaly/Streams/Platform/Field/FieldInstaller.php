@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
+use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Contract\InstallableInterface;
 
 /**
@@ -13,14 +14,8 @@ use Anomaly\Streams\Platform\Contract\InstallableInterface;
 class FieldInstaller implements InstallableInterface
 {
     /**
-     * The addon type using this installer.
-     *
-     * @var null
-     */
-    protected $addonType = null;
-
-    /**
-     * The namespace of the fields.
+     * The namespace if different than
+     * the addon slug.
      *
      * @var null
      */
@@ -34,33 +29,28 @@ class FieldInstaller implements InstallableInterface
     protected $fields = [];
 
     /**
-     * The field service object.
+     * The field manager.
      *
      * @var FieldManager
      */
-    protected $fieldService;
+    protected $manager;
+
+    /**
+     * The addon object.
+     *
+     * @var Addon
+     */
+    protected $addon;
 
     /**
      * Create a new FieldInstaller instance.
      *
-     * @param FieldManager $fieldService
+     * @param FieldManager $manager
      */
-    public function __construct(FieldManager $fieldService)
+    public function __construct(FieldManager $manager, Addon $addon)
     {
-        $this->fieldService = $fieldService;
-
-        $this->setAddonType();
-        $this->setNamespace();
-
-        $this->boot();
-    }
-
-    /**
-     * Set up the class.
-     */
-    protected function boot()
-    {
-        //
+        $this->addon   = $addon;
+        $this->manager = $manager;
     }
 
     /**
@@ -71,6 +61,7 @@ class FieldInstaller implements InstallableInterface
     public function install()
     {
         foreach ($this->getFields() as $slug => $field) {
+
             if (is_string($field)) {
                 $field = ['type' => $field];
             }
@@ -78,14 +69,12 @@ class FieldInstaller implements InstallableInterface
             $type   = array_get($field, 'type');
             $rules  = array_get($field, 'rules', []);
             $config = array_get($field, 'config', []);
-            $locked = array_get($field, 'locked', true);
+            $locked = (array_get($field, 'locked', true));
 
-            $namespace = $this->getNamespace($field);
-            $name      = $this->getName($namespace, $slug, $field);
+            $namespace = array_get($field, 'namespace', $this->addon->getSlug());
+            $name      = array_get($field, 'name', $this->addon->getKey("field.{$slug}.name"));
 
-            $field = compact('slug', 'type', 'namespace', 'name', 'rules', 'config', 'locked');
-
-            $this->fieldService->create($field);
+            $this->manager->create(compact('slug', 'type', 'namespace', 'name', 'rules', 'config', 'locked'));
         }
 
         return true;
@@ -99,9 +88,10 @@ class FieldInstaller implements InstallableInterface
     public function uninstall()
     {
         foreach ($this->getFields() as $slug => $field) {
-            $namespace = $this->getNamespace($field);
 
-            $this->fieldService->delete($namespace, $slug);
+            $namespace = array_get($field, 'namespace', $this->addon->getSlug());
+
+            $this->manager->delete($namespace, $slug);
         }
 
         return true;
@@ -115,56 +105,5 @@ class FieldInstaller implements InstallableInterface
     protected function getFields()
     {
         return $this->fields;
-    }
-
-    /**
-     * Get the namespace of a field.
-     *
-     * @param $field
-     * @return null
-     */
-    protected function getNamespace($field)
-    {
-        return array_get($field, 'namespace', $this->namespace);
-    }
-
-    /**
-     * Get the name of a field.
-     *
-     * @param $namespace
-     * @param $slug
-     * @param $field
-     * @return string
-     */
-    protected function getName($namespace, $slug, $field)
-    {
-        $default = "{$this->addonType}." . $namespace . "::field.{$slug}.name";
-
-        return array_get($field, 'name', $default);
-    }
-
-    /**
-     * Sett he addon type.
-     */
-    protected function setAddonType()
-    {
-        if (!$this->addonType) {
-            $addonType = explode('\\', (new \ReflectionClass($this))->getName());
-
-            $this->addonType = snake_case($addonType[3]);
-        }
-    }
-
-    /**
-     * Set the default namespace.
-     */
-    protected function setNamespace()
-    {
-        if (!$this->namespace) {
-            $namespace = (new \ReflectionClass($this))->getShortName();
-            $namespace = str_replace('FieldInstaller', null, $namespace);
-
-            $this->namespace = snake_case($namespace);
-        }
     }
 }

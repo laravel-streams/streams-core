@@ -26,7 +26,7 @@ class UninstallModuleCommandHandler
      */
     public function handle(UninstallModuleCommand $command)
     {
-        $module = $command->getModule();
+        $module = app('streams.module.' . $command->getModule());
 
         if ($installer = $module->newInstaller()) {
             $this->runInstallers($module, $installer);

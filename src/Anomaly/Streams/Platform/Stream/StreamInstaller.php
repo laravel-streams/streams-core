@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Contract\InstallableInterface;
 use Anomaly\Streams\Platform\Field\FieldManager;
 
@@ -13,26 +14,6 @@ use Anomaly\Streams\Platform\Field\FieldManager;
  */
 class StreamInstaller implements InstallableInterface
 {
-    /**
-     * The addon type.
-     *
-     * @var null
-     */
-    protected $addonType = null;
-
-    /**
-     * The default namespace.
-     *
-     * @var null
-     */
-    protected $namespace = null;
-
-    /**
-     * The default slug.
-     *
-     * @var null
-     */
-    protected $slug = null;
 
     /**
      * The stream configuration.
@@ -53,39 +34,37 @@ class StreamInstaller implements InstallableInterface
      *
      * @var StreamManager
      */
-    protected $streamService;
+    protected $streamManager;
 
     /**
      * The field service.
      *
-     * @var \Anomaly\Streams\Platform\Field\FieldManager
+     * @var FieldManager
      */
-    protected $fieldService;
+    protected $fieldManager;
+
+    /**
+     * The addon object.
+     *
+     * @var Addon
+     */
+    protected $addon;
 
     /**
      * Create a new StreamInstaller instance.
      *
-     * @param StreamManager $streamService
-     * @param FieldManager  $fieldService
+     * @param StreamManager $streamManager
+     * @param FieldManager  $fieldManager
      */
-    public function __construct(StreamManager $streamService, FieldManager $fieldService)
+    public function __construct(StreamManager $streamManager, FieldManager $fieldManager, Addon $addon)
     {
-        $this->fieldService  = $fieldService;
-        $this->streamService = $streamService;
+        $this->addon         = $addon;
+        $this->fieldManager  = $fieldManager;
+        $this->streamManager = $streamManager;
 
-        $this->setSlug();
-        $this->setNamespace();
-        $this->setAddonType();
-
-        $this->boot();
-    }
-
-    /**
-     * Set up the class.
-     */
-    protected function boot()
-    {
-        //
+        if (is_string($this->stream)) {
+            $this->stream = ['slug' => $this->stream];
+        }
     }
 
     /**
@@ -93,38 +72,11 @@ class StreamInstaller implements InstallableInterface
      */
     public function install()
     {
-        $this->stream['slug']      = $this->getStreamSlug();
-        $this->stream['namespace'] = $this->getStreamNamespace();
+        $this->installStream();
 
-        $this->stream['name']        = $this->getStreamName();
-        $this->stream['description'] = $this->getStreamDescription();
-
-        // Add the stream.
-        $this->streamService->create($this->stream);
-
-        // Assign each of the assignments.
+        // Process the assignment.
         foreach ($this->getAssignments() as $field => $assignment) {
-            if (is_string($assignment)) {
-                $field      = $assignment;
-                $assignment = [];
-            }
-
-            $unique       = array_get($assignment, 'unique', false);
-            $required     = array_get($assignment, 'required', false);
-            $translatable = array_get($assignment, 'translatable', false);
-
-            $label        = $this->getAssignmentLabel($assignment, $field);
-            $placeholder  = $this->getAssignmentPlaceholder($assignment, $field);
-            $instructions = $this->getAssignmentInstructions($assignment, $field);
-
-            $assignment = compact('label', 'placeholder', 'instructions', 'unique', 'required', 'translatable');
-
-            $this->fieldService->assign(
-                $this->stream['namespace'],
-                $this->stream['slug'],
-                $field,
-                $assignment
-            );
+            $this->assignField($field, $assignment);
         }
     }
 
@@ -133,19 +85,14 @@ class StreamInstaller implements InstallableInterface
      */
     public function uninstall()
     {
-        $this->stream['slug']      = $this->getStreamSlug();
-        $this->stream['namespace'] = $this->getStreamNamespace();
+        $stream    = array_get($this->stream, 'slug');
+        $namespace = array_get($this->stream, 'namespace', $this->addon->getSlug());
 
         foreach ($this->getAssignments() as $field => $assignment) {
-            $this->fieldService->unassign(
-                $this->stream['namespace'],
-                $this->stream['slug'],
-                $field,
-                $assignment
-            );
+            $this->fieldManager->unassign($namespace, $stream, $field, $assignment);
         }
 
-        $this->streamService->delete($this->stream['namespace'], $this->stream['slug']);
+        $this->streamManager->delete($namespace, $stream);
     }
 
     /**
@@ -159,136 +106,72 @@ class StreamInstaller implements InstallableInterface
     }
 
     /**
-     * Get the stream slug.
-     *
-     * @return null
+     * Install the stream.
      */
-    protected function getStreamSlug()
+    protected function installStream()
     {
-        return (isset($this->stream['slug'])) ? $this->stream['slug'] : $this->slug;
+        $slug        = array_get($this->stream, 'slug');
+        $namespace   = array_get($this->stream, 'namespace', $this->addon->getSlug());
+        $name        = array_get($this->stream, 'name', $this->addon->getKey("stream.{$slug}.name"));
+        $description = array_get($this->stream, 'name', $this->addon->getKey("stream.{$slug}.description"));
+
+        $orderBy     = array_get($this->stream, 'order_by', 'id');
+        $titleColumn = array_get($this->stream, 'title_column', 'id');
+
+        $hidden       = (array_get($this->stream, 'hidden', false));
+        $translatable = (array_get($this->stream, 'translatable', false));
+
+        $prefix      = array_get($this->stream, 'prefix', $namespace . '_');
+        $viewOptions = array_get($this->stream, 'view_options', ['id', 'created_at']);
+
+        $stream = compact(
+            'slug',
+            'name',
+            'hidden',
+            'prefix',
+            'orderBy',
+            'namespace',
+            'titleColumn',
+            'viewOptions',
+            'description',
+            'translatable'
+        );
+
+        // Create the stream.
+        $this->streamManager->create($stream);
     }
 
     /**
-     * Get the stream namespace.
+     * Assign a field.
      *
-     * @return null
-     */
-    protected function getStreamNamespace()
-    {
-        return (isset($this->stream['namespace'])) ? $this->stream['namespace'] : $this->namespace;
-    }
-
-    /**
-     * Get the stream name.
-     *
-     * @return string
-     */
-    protected function getStreamName()
-    {
-        $default = "{$this->addonType}.{$this->stream['namespace']}::stream.{$this->stream['slug']}.name";
-
-        return isset($stream['name']) ? $stream['name'] : $default;
-    }
-
-    /**
-     * Get the stream description.
-     *
-     * @return string
-     */
-    protected function getStreamDescription()
-    {
-        $default = "{$this->addonType}.{$this->stream['namespace']}::stream.{$this->stream['slug']}.description";
-
-        return isset($stream['description']) ? $stream['description'] : $default;
-    }
-
-    /**
-     * Get the assignment label.
-     *
-     * @param $assignment
      * @param $field
-     * @return string
-     */
-    protected function getAssignmentLabel($assignment, $field)
-    {
-        $default = "{$this->addonType}.{$this->stream['namespace']}::field.{$field}.label";
-
-        return isset($assignment['label']) ? $assignment['label'] : $default;
-    }
-
-    /**
-     * Get the assignment placeholder.
-     *
      * @param $assignment
-     * @param $field
-     * @return string
      */
-    protected function getAssignmentPlaceholder($assignment, $field)
+    protected function assignField($field, $assignment)
     {
-        $default = "{$this->addonType}.{$this->stream['namespace']}::field.{$field}.placeholder";
-
-        return isset($assignment['placeholder']) ? $assignment['placeholder'] : $default;
-    }
-
-    /**
-     * Get the assignment instructions.
-     *
-     * @param $assignment
-     * @param $field
-     * @return string
-     */
-    protected function getAssignmentInstructions($assignment, $field)
-    {
-        $default = "{$this->addonType}.{$this->stream['namespace']}::field.{$field}.instructions";
-
-        return isset($assignment['instructions']) ? $assignment['instructions'] : $default;
-    }
-
-    /**
-     * Get the assignment namespace.
-     *
-     * @param $assignment
-     * @return mixed
-     */
-    protected function getAssignmentNamespace($assignment)
-    {
-        return isset($assignment['namespace']) ? $assignment['namespace'] : $this->stream['namespace'];
-    }
-
-    /**
-     * Set the addon type.
-     */
-    protected function setAddonType()
-    {
-        if (!$this->addonType) {
-            $addonType = explode('\\', (new \ReflectionClass($this))->getName());
-
-            $this->addonType = snake_case($addonType[3]);
+        if (is_string($assignment)) {
+            $field      = $assignment;
+            $assignment = [];
         }
-    }
 
-    /**
-     * Set the default namespace.
-     */
-    protected function setNamespace()
-    {
-        if (!$this->namespace) {
-            $namespace = explode('\\', (new \ReflectionClass($this))->getName());
+        $unique       = (array_get($assignment, 'unique', false));
+        $required     = (array_get($assignment, 'required', false));
+        $translatable = (array_get($assignment, 'translatable', false));
 
-            $this->namespace = snake_case($namespace[4]);
-        }
-    }
+        $label        = array_get($assignment, 'label', $this->addon->getKey("field.{$field}.label"));
+        $placeholder  = array_get($assignment, 'placeholder', $this->addon->getKey("field.{$field}.placeholder"));
+        $instructions = array_get($assignment, 'instructions', $this->addon->getKey("field.{$field}.instructions"));
 
-    /**
-     * Set the default slug.
-     */
-    protected function setSlug()
-    {
-        if (!$this->slug) {
-            $slug = (new \ReflectionClass($this))->getShortName();
-            $slug = str_replace('StreamInstaller', null, $slug);
+        $assignment = compact('label', 'placeholder', 'instructions', 'unique', 'required', 'translatable');
 
-            $this->slug = snake_case($slug);
-        }
+        $stream    = array_get($this->stream, 'slug');
+        $namespace = array_get($this->stream, 'namespace', $this->addon->getSlug());
+
+        $this->fieldManager->assign(
+            $namespace,
+            $stream,
+            $field,
+            $assignment
+        );
     }
 }

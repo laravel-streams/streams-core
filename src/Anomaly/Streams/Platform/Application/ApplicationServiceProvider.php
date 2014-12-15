@@ -49,6 +49,7 @@ class ApplicationServiceProvider extends ServiceProvider
     {
         $directories = [
             'storage/models',
+            'public/assets'
         ];
 
         if (config('app.debug')) {

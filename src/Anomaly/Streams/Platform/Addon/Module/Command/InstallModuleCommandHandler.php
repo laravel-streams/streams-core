@@ -26,7 +26,7 @@ class InstallModuleCommandHandler
      */
     public function handle(InstallModuleCommand $command)
     {
-        $module = $command->getModule();
+        $module = app('streams.module.' . $command->getModule());
 
         if ($installer = $module->newInstaller()) {
             $this->runInstallers($module, $installer);
@@ -77,7 +77,7 @@ class InstallModuleCommandHandler
             $installer = $this->guessInstaller($module, $installer);
         }
 
-        return app($installer);
+        return app()->make($installer, ['addon' => $module]);
     }
 
     /**

@@ -1,17 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
 /**
- * Class InstallModulesCommand
+ * Class InstallAllModulesCommand
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Module\Command
  */
-class InstallModulesCommand
+class InstallAllModulesCommand
 {
     /**
-     * Create a new InstallModulesCommand instance.
+     * Create a new InstallAllModulesCommand instance.
      */
     public function __construct()
     {

@@ -17,10 +17,10 @@ class ModuleManager
     /**
      * Install a module.
      *
-     * @param Module $module
+     * @param $module
      * @return mixed
      */
-    public function install(Module $module)
+    public function install($module)
     {
         return $this->execute(
             'Anomaly\Streams\Platform\Addon\Module\Command\InstallModuleCommand',
@@ -31,10 +31,10 @@ class ModuleManager
     /**
      * Uninstall a module.
      *
-     * @param Module $module
+     * @param $module
      * @return mixed
      */
-    public function uninstall(Module $module)
+    public function uninstall($module)
     {
         return $this->execute(
             'Anomaly\Streams\Platform\Addon\Module\Command\UninstallModuleCommand',

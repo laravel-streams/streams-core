@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
-use Anomaly\Streams\Platform\Addon\Module\Module;
-
 /**
  * Class UninstallModuleCommand
  *
@@ -22,9 +20,9 @@ class UninstallModuleCommand
     /**
      * Create a new UninstallModuleCommand command.
      *
-     * @param Module $module
+     * @param $module
      */
-    public function __construct(Module $module)
+    public function __construct($module)
     {
         $this->module = $module;
     }

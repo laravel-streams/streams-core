@@ -51,9 +51,10 @@ class FieldManager
      */
     public function assign($namespace, $stream, $field, array $assignment)
     {
-        $data = array_merge($assignment, compact('namespace', 'stream', 'field'));
-
-        return $this->execute('Anomaly\Streams\Platform\Field\Command\AssignFieldCommand', $data);
+        return $this->execute(
+            'Anomaly\Streams\Platform\Field\Command\AssignFieldCommand',
+            array_merge($assignment, compact('namespace', 'stream', 'field'))
+        );
     }
 
     /**
