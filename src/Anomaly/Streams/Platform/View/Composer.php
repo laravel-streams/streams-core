@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\View;
 
-use Anomaly\Lexicon\View\Factory;
 use Anomaly\Streams\Platform\Addon\Addon;
+use Illuminate\View\Factory;
 use Illuminate\View\View;
 
 /**
@@ -50,9 +50,6 @@ class Composer
 
             return $view;
         }
-
-        $path       = null;
-        $mobilePath = null;
 
         /**
          * If the view path does not contain a namespace
