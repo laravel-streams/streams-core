@@ -71,7 +71,7 @@ class InstallStreamsTablesCommandHandler
                 $table->text('view_options');
                 $table->string('title_column');
                 $table->string('order_by');
-                $table->string('hidden')->default(0);
+                $table->string('locked')->default(0);
                 $table->string('translatable')->default(0);
                 $table->string('revisionable')->default(0);
             }

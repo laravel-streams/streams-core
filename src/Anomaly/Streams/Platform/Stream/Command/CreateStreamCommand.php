@@ -68,11 +68,11 @@ class CreateStreamCommand
     protected $orderBy;
 
     /**
-     * The stream's hidden flag.
+     * The stream's locked flag.
      *
      * @var
      */
-    protected $hidden;
+    protected $locked;
 
     /**
      * The stream's translatable flag.
@@ -93,7 +93,7 @@ class CreateStreamCommand
      * @param array $titleColumn
      * @param array $orderBy
      * @param       $sortBy
-     * @param       $hidden
+     * @param       $locked
      * @param       $translatable
      */
     public function __construct(
@@ -105,14 +105,14 @@ class CreateStreamCommand
         array $viewOptions,
         $titleColumn,
         $orderBy,
-        $hidden,
+        $locked,
         $translatable
     ) {
         $this->name         = $name;
         $this->slug         = $slug;
         $this->prefix       = $prefix;
         $this->orderBy      = $orderBy;
-        $this->hidden       = $hidden;
+        $this->locked       = $locked;
         $this->namespace    = $namespace;
         $this->description  = $description;
         $this->titleColumn  = $titleColumn;
@@ -131,9 +131,9 @@ class CreateStreamCommand
     /**
      * @return mixed
      */
-    public function isHidden()
+    public function isLocked()
     {
-        return $this->hidden;
+        return $this->locked;
     }
 
     /**

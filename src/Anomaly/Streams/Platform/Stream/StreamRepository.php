@@ -42,7 +42,7 @@ class StreamRepository implements StreamRepositoryInterface
      * @param array  $viewOptions
      * @param string $titleColumn
      * @param string $orderBy
-     * @param bool   $hidden
+     * @param bool   $locked
      * @param bool   $translatable
      * @return StreamInterface
      */
@@ -55,7 +55,7 @@ class StreamRepository implements StreamRepositoryInterface
         array $viewOptions = [],
         $titleColumn = 'id',
         $orderBy = 'id',
-        $hidden = false,
+        $locked = false,
         $translatable = false
     ) {
         $stream = $this->model->newInstance();
@@ -64,7 +64,7 @@ class StreamRepository implements StreamRepositoryInterface
         $stream->name         = $name;
         $stream->prefix       = $prefix;
         $stream->order_by     = $orderBy;
-        $stream->hidden       = $hidden;
+        $stream->locked       = $locked;
         $stream->namespace    = $namespace;
         $stream->description  = $description;
         $stream->view_options = $viewOptions;

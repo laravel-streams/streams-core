@@ -22,7 +22,7 @@ interface StreamRepositoryInterface
      * @param array  $viewOptions
      * @param string $titleColumn
      * @param string $orderBy
-     * @param bool   $hidden
+     * @param bool   $locked
      * @param bool   $translatable
      * @return StreamInterface
      */
@@ -35,7 +35,7 @@ interface StreamRepositoryInterface
         array $viewOptions = [],
         $titleColumn = 'id',
         $orderBy = 'id',
-        $hidden = false,
+        $locked = false,
         $translatable = false
     );
 

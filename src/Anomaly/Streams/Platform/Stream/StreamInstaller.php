@@ -108,7 +108,7 @@ class StreamInstaller implements InstallableInterface
         $orderBy     = array_get($this->stream, 'order_by', 'id');
         $titleColumn = array_get($this->stream, 'title_column', 'id');
 
-        $hidden       = (array_get($this->stream, 'hidden', false));
+        $locked       = (array_get($this->stream, 'locked', false));
         $translatable = (array_get($this->stream, 'translatable', false));
 
         $prefix      = array_get($this->stream, 'prefix', $namespace . '_');
@@ -117,7 +117,7 @@ class StreamInstaller implements InstallableInterface
         $stream = compact(
             'slug',
             'name',
-            'hidden',
+            'locked',
             'prefix',
             'orderBy',
             'namespace',
