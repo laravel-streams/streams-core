@@ -96,16 +96,6 @@ class StreamInstaller implements InstallableInterface
     }
 
     /**
-     * Get the stream assignments.
-     *
-     * @return array
-     */
-    protected function getAssignments()
-    {
-        return $this->assignments;
-    }
-
-    /**
      * Install the stream.
      */
     protected function installStream()
@@ -173,5 +163,15 @@ class StreamInstaller implements InstallableInterface
             $field,
             $assignment
         );
+    }
+
+    /**
+     * Get the stream assignments.
+     *
+     * @return array
+     */
+    protected function getAssignments()
+    {
+        return $this->assignments;
     }
 }

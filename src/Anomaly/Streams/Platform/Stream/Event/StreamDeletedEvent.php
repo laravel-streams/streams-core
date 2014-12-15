@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class StreamDeleted
+ * Class StreamDeletedEvent
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Stream\Event
  */
-class StreamDeleted
+class StreamDeletedEvent
 {
 
     /**
@@ -21,7 +21,7 @@ class StreamDeleted
     protected $stream;
 
     /**
-     * Create a new StreamDeleted instance.
+     * Create a new StreamDeletedEvent instance.
      *
      * @param StreamInterface $stream
      */

@@ -1,66 +1,42 @@
-<?php namespace Anomaly\Streams\Platform\Stream;
+<?php namespace Anomaly\Streams\Platform\Stream\Listener;
 
-use Anomaly\Streams\Platform\Stream\Event\StreamCreated;
-use Anomaly\Streams\Platform\Stream\Event\StreamDeleted;
-use Anomaly\Streams\Platform\Stream\Event\StreamSaved;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Stream\Event\StreamCreatedEvent;
+use Anomaly\Streams\Platform\Stream\StreamModel;
 use Laracasts\Commander\CommanderTrait;
-use Laracasts\Commander\Events\EventListener;
 
 /**
- * Class StreamListener
+ * Class StreamCreatedListener
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream
+ * @package       Anomaly\Streams\Platform\Stream\Listener
  */
-class StreamListener extends EventListener
+class StreamCreatedListener
 {
 
     use CommanderTrait;
 
     /**
-     * Fire after a stream is saved.
+     * When a stream is created we have some
+     * generation to do. Create the streams
+     * table as well as the entry models.
      *
-     * @param StreamSaved $event
+     * @param StreamCreatedEvent $event
      */
-    public function whenStreamSaved(StreamSaved $event)
-    {
-        $this->generateEntryModels($event->getStream());
-    }
-
-    /**
-     * Fire after a stream is created.
-     *
-     * @param StreamCreated $event
-     */
-    public function whenStreamCreated(StreamCreated $event)
+    public function handle(StreamCreatedEvent $event)
     {
         $this->createStreamsTable($event->getStream());
         $this->generateEntryModels($event->getStream());
     }
 
     /**
-     * Fire after a stream is deleted.
-     *
-     * @param StreamDeleted $event
-     */
-    public function whenStreamDeleted(StreamDeleted $event)
-    {
-        $stream = $event->getStream();
-
-        $this->execute(
-            'Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTableCommand',
-            compact('stream')
-        );
-    }
-
-    /**
      * Create the entry table for a stream.
      *
-     * @param $stream
+     * @param StreamInterface $stream
      */
-    protected function createStreamsTable($stream)
+    protected function createStreamsTable(StreamInterface $stream)
     {
         $this->execute(
             'Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTableCommand',

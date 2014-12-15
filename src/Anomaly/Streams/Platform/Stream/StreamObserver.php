@@ -2,9 +2,9 @@
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
-use Anomaly\Streams\Platform\Stream\Event\StreamCreated;
-use Anomaly\Streams\Platform\Stream\Event\StreamDeleted;
-use Anomaly\Streams\Platform\Stream\Event\StreamSaved;
+use Anomaly\Streams\Platform\Stream\Event\StreamCreatedEvent;
+use Anomaly\Streams\Platform\Stream\Event\StreamDeletedEvent;
+use Anomaly\Streams\Platform\Stream\Event\StreamSavedEvent;
 
 /**
  * Class StreamObserver
@@ -24,7 +24,7 @@ class StreamObserver extends EloquentObserver
      */
     public function saved(EloquentModel $model)
     {
-        $model->raise(new StreamSaved($model));
+        app('events')->fire('streams::stream.saved', new StreamSavedEvent($model));
 
         parent::saved($model);
     }
@@ -36,7 +36,7 @@ class StreamObserver extends EloquentObserver
      */
     public function created(EloquentModel $model)
     {
-        $model->raise(new StreamCreated($model));
+        app('events')->fire('streams::stream.created', new StreamCreatedEvent($model));
 
         parent::created($model);
     }
@@ -48,7 +48,7 @@ class StreamObserver extends EloquentObserver
      */
     public function deleted(EloquentModel $model)
     {
-        $model->raise(new StreamDeleted($model));
+        app('events')->fire('streams::stream.deleted', new StreamDeletedEvent($model));
 
         parent::deleted($model);
     }

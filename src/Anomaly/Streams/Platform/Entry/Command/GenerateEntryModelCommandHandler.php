@@ -2,12 +2,14 @@
 
 use Anomaly\Streams\Platform\Entry\Parser\EntryClassParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryDatesParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryInterfacesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryNamespaceParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryRelationsParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryRulesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryStreamParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTableParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTitleParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryTraitsParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationForeignKeyParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -92,8 +94,10 @@ class GenerateEntryModelCommandHandler
             'rules'                 => (new EntryRulesParser())->parse($stream),
             'dates'                 => (new EntryDatesParser())->parse($stream),
             'stream'                => (new EntryStreamParser())->parse($stream),
+            'traits'                => (new EntryTraitsParser())->parse($stream),
             'relations'             => (new EntryRelationsParser())->parse($stream),
             'namespace'             => (new EntryNamespaceParser())->parse($stream),
+            'interfaces'            => (new EntryInterfacesParser())->parse($stream),
             'translationModel'      => (new EntryTranslationModelParser())->parse($stream),
             'translationForeignKey' => (new EntryTranslationForeignKeyParser())->parse($stream)
         ];

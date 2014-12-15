@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 
 /**
- * Class AssignmentSaved
+ * Class AssignmentDeletedEvent
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Assignment\Event
  */
-class AssignmentSaved
+class AssignmentDeletedEvent
 {
 
     /**
@@ -21,7 +21,7 @@ class AssignmentSaved
     protected $assignment;
 
     /**
-     * Create a new AssignmentSaved instance.
+     * Create a new AssignmentDeletedEvent instance.
      *
      * @param AssignmentInterface $assignment
      */
@@ -33,7 +33,7 @@ class AssignmentSaved
     /**
      * Get the assignment interface.
      *
-     * @return \Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface
+     * @return AssignmentInterface
      */
     public function getAssignment()
     {

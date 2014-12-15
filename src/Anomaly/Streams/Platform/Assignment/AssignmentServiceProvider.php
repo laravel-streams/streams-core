@@ -46,8 +46,18 @@ class AssignmentServiceProvider extends ServiceProvider
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Assignment.Event.*',
-            'Anomaly\Streams\Platform\Assignment\AssignmentListener'
+            'streams::assignment.created',
+            'Anomaly\Streams\Platform\Assignment\Listener\AssignmentCreatedListener'
+        );
+
+        $this->app->make('events')->listen(
+            'streams::assignment.saved',
+            'Anomaly\Streams\Platform\Assignment\Listener\AssignmentSavedListener'
+        );
+
+        $this->app->make('events')->listen(
+            'streams::assignment.deleted',
+            'Anomaly\Streams\Platform\Assignment\Listener\AssignmentDeletedListener'
         );
     }
 }

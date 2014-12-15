@@ -2,8 +2,10 @@
 
 use Anomaly\Streams\Platform\Entry\EntryModel;
 
-class $CLASS$ extends EntryModel
+class $CLASS$ extends EntryModel $INTERFACES$
 {
+
+    $TRAITS$
 
     protected $table = '$TABLE$';
 

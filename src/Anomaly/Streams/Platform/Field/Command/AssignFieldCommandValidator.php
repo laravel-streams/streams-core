@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command;
 
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
-use Anomaly\Streams\Platform\Ui\Form\Field\Contract\FieldInterface;
 
 /**
  * Class AssignFieldCommandValidator
@@ -56,14 +56,14 @@ class AssignFieldCommandValidator
         $stream    = $command->getStream();
         $field     = $command->getField();
 
-        $stream = $this->streams->findByNamespaceAndSlug($namespace, $stream);
-        $field  = $this->fields->findByNamespaceAndSlug($namespace, $field);
+        $streamObject = $this->streams->findByNamespaceAndSlug($namespace, $stream);
+        $fieldObject  = $this->fields->findByNamespaceAndSlug($namespace, $field);
 
-        if (!$stream instanceof StreamInterface) {
+        if (!$streamObject instanceof StreamInterface) {
             throw new \Exception("Stream not found with namespace [{$namespace}] and slug [{$stream}]");
         }
 
-        if (!$field instanceof FieldInterface) {
+        if (!$fieldObject instanceof FieldInterface) {
             throw new \Exception("Field not found with namespace [{$namespace}] and slug [{$field}]");
         }
     }
