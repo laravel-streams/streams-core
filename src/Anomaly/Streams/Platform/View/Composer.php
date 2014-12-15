@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\View;
 
+use Anomaly\Lexicon\View\Factory;
 use Anomaly\Streams\Platform\Addon\Addon;
 use Illuminate\View\View;
 
@@ -45,9 +46,7 @@ class Composer
         if (starts_with($view->getName(), 'theme::')) {
             $mobilePath = str_replace('theme::', 'theme::mobile/', $view->getName());
 
-            if (app('agent')->isMobile() && $mobilePath && $environment->exists($mobilePath)) {
-                $view->setPath($environment->getFinder()->find($mobilePath));
-            }
+            $this->setMobileIfExists($mobilePath, $environment, $view);
 
             return $view;
         }
@@ -94,7 +93,7 @@ class Composer
                 $slug = $addon->getSlug();
             } else {
 
-                return;
+                return null;
             }
 
             // Create the override paths.
@@ -115,10 +114,22 @@ class Composer
             $view->setPath($environment->getFinder()->find($path));
         }
 
+        $this->setMobileIfExists($mobilePath, $environment, $view);
+
+        return $view;
+    }
+
+    /**
+     * If the mobile path exists then use it!
+     *
+     * @param         $mobilePath
+     * @param Factory $environment
+     * @param View    $view
+     */
+    protected function setMobileIfExists($mobilePath, Factory $environment, View $view)
+    {
         if (app('agent')->isMobile() && $mobilePath && $environment->exists($mobilePath)) {
             $view->setPath($environment->getFinder()->find($mobilePath));
         }
-
-        return $view;
     }
 }
