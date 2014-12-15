@@ -1,8 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Event\TableDataLoaded;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableDataLoadedEvent;
 use Laracasts\Commander\CommanderTrait;
-use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
  * Class MakeTableCommandHandler
@@ -16,10 +15,9 @@ class MakeTableCommandHandler
 {
 
     use CommanderTrait;
-    use DispatchableTrait;
 
     /**
-     * Handle the command.
+     * Make and set all of the view data on the table.
      *
      * @param MakeTableCommand $command
      */
@@ -36,12 +34,9 @@ class MakeTableCommandHandler
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Header\Command\SetHeaderDataCommand', $args);
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Filter\Command\SetFilterDataCommand', $args);
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Action\Command\SetActionDataCommand', $args);
-
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\SetPaginationDataCommand', $args);
 
-        $table->raise(new TableDataLoaded($table));
-
-        $this->dispatchEventsFor($table);
+        app('events')->fire('streams::table.data.loaded', new TableDataLoadedEvent($table));
 
         $table->setContent(view($table->getView(), $table->getData()));
     }

@@ -1,10 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
-use Anomaly\Streams\Platform\Application\Event\ApplicationIsBooting;
 use Illuminate\Support\ServiceProvider;
 use Laracasts\Commander\DefaultCommandBus;
-use Laracasts\Commander\Events\DispatchableTrait;
-use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class ApplicationServiceProvider
@@ -17,17 +14,12 @@ use Laracasts\Commander\Events\EventGenerator;
 class ApplicationServiceProvider extends ServiceProvider
 {
 
-    use EventGenerator;
-    use DispatchableTrait;
-
     /**
      * Boot the service provider.
      */
     public function boot()
     {
-        $this->raise(new ApplicationIsBooting());
-
-        $this->dispatchEventsFor($this);
+        $this->app->make('events')->fire('streams::application.booting');
     }
 
     /**
@@ -95,8 +87,8 @@ class ApplicationServiceProvider extends ServiceProvider
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Application.Event.*',
-            'Anomaly\Streams\Platform\Application\ApplicationListener'
+            'streams::application.booting',
+            'Anomaly\Streams\Platform\Application\Listener\ApplicationBootingListener'
         );
     }
 

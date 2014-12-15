@@ -1,9 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
-use Anomaly\Streams\Platform\Addon\Module\Event\ModulesHaveRegistered;
 use Illuminate\Support\ServiceProvider;
-use Laracasts\Commander\Events\DispatchableTrait;
-use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class ModuleServiceProvider
@@ -15,9 +12,6 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class ModuleServiceProvider extends ServiceProvider
 {
-
-    use EventGenerator;
-    use DispatchableTrait;
 
     /**
      * Register the service provider.
@@ -31,10 +25,6 @@ class ModuleServiceProvider extends ServiceProvider
         $this->registerCollection();
 
         $this->registerModules();
-
-        $this->raise(new ModulesHaveRegistered());
-
-        $this->dispatchEventsFor($this);
     }
 
     /**
@@ -59,17 +49,18 @@ class ModuleServiceProvider extends ServiceProvider
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Application.Event.*',
-            'Anomaly\Streams\Platform\Addon\Module\ModuleListener'
+            'streams::application.booting',
+            'Anomaly\Streams\Platform\Addon\Module\Listener\ApplicationBootingListener'
         );
 
         $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Addon.*',
-            'Anomaly\Streams\Platform\Addon\Module\ModuleListener'
+            'streams::module.installed',
+            'Anomaly\Streams\Platform\Addon\Module\Listener\ModuleInstalledListener'
         );
+
         $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Addon.Module.Event.*',
-            'Anomaly\Streams\Platform\Addon\Module\ModuleListener'
+            'streams::modules.registered',
+            'Anomaly\Streams\Platform\Addon\Module\Listener\ModulesRegisteredListener'
         );
     }
 

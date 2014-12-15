@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Event\TableIsBuilding;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableWasBuilt;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildingEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableBuiltEvent;
 use Laracasts\Commander\CommanderTrait;
 use Laracasts\Commander\Events\DispatchableTrait;
 
@@ -17,7 +17,6 @@ class BuildTableCommandHandler
 {
 
     use CommanderTrait;
-    use DispatchableTrait;
 
     /**
      * Handle the command.
@@ -27,11 +26,8 @@ class BuildTableCommandHandler
     public function handle(BuildTableCommand $command)
     {
         $builder = $command->getBuilder();
-        $table   = $builder->getTable();
 
-        $table->raise(new TableIsBuilding($builder));
-
-        $this->dispatchEventsFor($table);
+        app('events')->fire('streams::table.building', new TableBuildingEvent($builder));
 
         $args = compact('builder');
 
@@ -43,9 +39,7 @@ class BuildTableCommandHandler
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Action\Command\LoadTableActionsCommand', $args);
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\LoadTableEntriesCommand', $args);
 
-        $table->raise(new TableWasBuilt($builder));
-
-        $this->dispatchEventsFor($table);
+        app('events')->fire('streams::table.built', new TableBuiltEvent($builder));
 
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Row\Command\LoadTableRowsCommand', $args);
     }

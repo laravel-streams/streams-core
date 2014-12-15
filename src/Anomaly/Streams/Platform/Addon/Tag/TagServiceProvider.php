@@ -1,9 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Tag;
 
-use Anomaly\Streams\Platform\Addon\Tag\Event\TagsHaveRegistered;
 use Illuminate\Support\ServiceProvider;
-use Laracasts\Commander\Events\DispatchableTrait;
-use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class TagServiceProvider
@@ -16,9 +13,6 @@ use Laracasts\Commander\Events\EventGenerator;
 class TagServiceProvider extends ServiceProvider
 {
 
-    use EventGenerator;
-    use DispatchableTrait;
-
     /**
      * Register the service provider.
      *
@@ -30,20 +24,16 @@ class TagServiceProvider extends ServiceProvider
         $this->registerCollection();
 
         $this->registerTags();
-
-        $this->raise(new TagsHaveRegistered());
-
-        $this->dispatchEventsFor($this);
     }
 
     /**
-     * Register the tag listner.
+     * Register the tag listener.
      */
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Addon.*',
-            'Anomaly\Streams\Platform\Addon\Tag\TagListener'
+            'streams::tags.registered',
+            'Anomaly\Streams\Platform\Addon\Tag\Listener\TagsRegisteredListener'
         );
     }
 

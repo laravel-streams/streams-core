@@ -1,9 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Block;
 
-use Anomaly\Streams\Platform\Addon\Block\Event\BlocksHaveRegistered;
 use Illuminate\Support\ServiceProvider;
-use Laracasts\Commander\Events\DispatchableTrait;
-use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class BlockServiceProvider
@@ -16,9 +13,6 @@ use Laracasts\Commander\Events\EventGenerator;
 class BlockServiceProvider extends ServiceProvider
 {
 
-    use EventGenerator;
-    use DispatchableTrait;
-
     /**
      * Register the service provider.
      *
@@ -26,25 +20,9 @@ class BlockServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerListeners();
         $this->registerCollection();
 
         $this->registerBlocks();
-
-        $this->raise(new BlocksHaveRegistered());
-
-        $this->dispatchEventsFor($this);
-    }
-
-    /**
-     * Register the block listener.
-     */
-    protected function registerListeners()
-    {
-        $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Addon.*',
-            'Anomaly\Streams\Platform\Addon\Block\BlockListener'
-        );
     }
 
     /**

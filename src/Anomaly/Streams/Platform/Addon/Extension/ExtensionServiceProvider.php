@@ -1,9 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension;
 
-use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionsHaveRegistered;
 use Illuminate\Support\ServiceProvider;
-use Laracasts\Commander\Events\DispatchableTrait;
-use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class ExtensionServiceProvider
@@ -16,9 +13,6 @@ use Laracasts\Commander\Events\EventGenerator;
 class ExtensionServiceProvider extends ServiceProvider
 {
 
-    use EventGenerator;
-    use DispatchableTrait;
-
     /**
      * Register the service provider.
      *
@@ -26,25 +20,9 @@ class ExtensionServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerListeners();
         $this->registerCollection();
 
         $this->registerExtensions();
-
-        $this->raise(new ExtensionsHaveRegistered());
-
-        $this->dispatchEventsFor($this);
-    }
-
-    /**
-     * Register the extension listener.
-     */
-    protected function registerListeners()
-    {
-        $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Addon.*',
-            'Anomaly\Streams\Platform\Addon\Extension\ExtensionListener'
-        );
     }
 
     /**

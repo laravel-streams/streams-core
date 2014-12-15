@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Laracasts\Commander\CommanderTrait;
-use Laracasts\Commander\Events\DispatchableTrait;
-use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class TableBuilder
@@ -16,7 +14,6 @@ class TableBuilder
 {
 
     use CommanderTrait;
-    use DispatchableTrait;
 
     /**
      * The standardizer command.

@@ -1,9 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme;
 
-use Anomaly\Streams\Platform\Addon\Theme\Event\ThemesHaveRegistered;
 use Illuminate\Support\ServiceProvider;
-use Laracasts\Commander\Events\DispatchableTrait;
-use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class ThemeServiceProvider
@@ -16,9 +13,6 @@ use Laracasts\Commander\Events\EventGenerator;
 class ThemeServiceProvider extends ServiceProvider
 {
 
-    use EventGenerator;
-    use DispatchableTrait;
-
     /**
      * Register the service provider.
      *
@@ -30,10 +24,6 @@ class ThemeServiceProvider extends ServiceProvider
         $this->registerCollection();
 
         $this->registerThemes();
-
-        $this->raise(new ThemesHaveRegistered());
-
-        $this->dispatchEventsFor($this);
     }
 
     /**
@@ -42,12 +32,8 @@ class ThemeServiceProvider extends ServiceProvider
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Application.Event.*',
-            'Anomaly\Streams\Platform\Addon\Theme\ThemeListener'
-        );
-        $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Addon.*',
-            'Anomaly\Streams\Platform\Addon\Theme\ThemeListener'
+            'streams::application.booting',
+            'Anomaly\Streams\Platform\Addon\Theme\Listener\ApplicationBootingListener'
         );
     }
 

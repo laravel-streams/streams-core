@@ -1,9 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\Event\FormIsBuilding;
-use Anomaly\Streams\Platform\Ui\Form\Event\FormWasBuilt;
+use Anomaly\Streams\Platform\Ui\Form\Event\FormBuildingEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\FormBuiltEvent;
 use Laracasts\Commander\CommanderTrait;
-use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
  * Class BuildFormCommandHandler
@@ -17,7 +16,6 @@ class BuildFormCommandHandler
 {
 
     use CommanderTrait;
-    use DispatchableTrait;
 
     /**
      * Handle the command.
@@ -27,11 +25,8 @@ class BuildFormCommandHandler
     public function handle(BuildFormCommand $command)
     {
         $builder = $command->getBuilder();
-        $form    = $builder->getForm();
 
-        $form->raise(new FormIsBuilding($builder));
-
-        $this->dispatchEventsFor($form);
+        app('events')->fire('streams::form.building', new FormBuildingEvent($builder));
 
         $args = compact('builder');
 
@@ -42,8 +37,6 @@ class BuildFormCommandHandler
         $this->execute('Anomaly\Streams\Platform\Ui\Form\Button\Command\LoadFormButtonsCommand', $args);
         $this->execute('Anomaly\Streams\Platform\Ui\Form\Section\Command\LoadFormSectionsCommand', $args);
 
-        $form->raise(new FormWasBuilt($builder));
-
-        $this->dispatchEventsFor($form);
+        app('events')->fire('streams::form.built', new FormBuiltEvent($builder));
     }
 }

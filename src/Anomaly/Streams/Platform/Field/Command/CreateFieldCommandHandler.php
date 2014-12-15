@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command;
 
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
-use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
  * Class CreateFieldCommandHandler
@@ -13,8 +12,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class CreateFieldCommandHandler
 {
-
-    use DispatchableTrait;
 
     /**
      * The fields repository.

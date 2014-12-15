@@ -1,9 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
 use Composer\Autoload\ClassLoader;
-use Laracasts\Commander\Events\DispatchableTrait;
-use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class AddonServiceProvider
@@ -15,9 +12,6 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-
-    use EventGenerator;
-    use DispatchableTrait;
 
     /**
      * Register the provider.
@@ -42,9 +36,7 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Addon\Theme\ThemeServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Addon\Tag\TagServiceProvider');
 
-        $this->raise(new AddonsHaveRegistered());
-
-        $this->dispatchEventsFor($this);
+        $this->app->make('events')->fire('streams::addons.registered');
     }
 
     /**
@@ -53,12 +45,13 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Application.Event.*',
-            'Anomaly\Streams\Platform\Addon\AddonListener'
+            'streams::application.booting',
+            'Anomaly\Streams\Platform\Addon\Listener\ApplicationBootingListener'
         );
+
         $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Addon.Event.*',
-            'Anomaly\Streams\Platform\Addon\AddonListener'
+            'streams::addon.registered',
+            'Anomaly\Streams\Platform\Addon\Listener\AddonRegisteredListener'
         );
     }
 }

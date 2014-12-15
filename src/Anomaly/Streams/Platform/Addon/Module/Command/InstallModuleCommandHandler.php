@@ -1,10 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
-use Anomaly\Streams\Platform\Addon\Module\Event\ModuleInstalled;
+use Anomaly\Streams\Platform\Addon\Module\Event\ModuleInstalledEvent;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
 use Anomaly\Streams\Platform\Contract\InstallableInterface;
-use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
  * Class InstallModuleCommandHandler
@@ -16,8 +15,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class InstallModuleCommandHandler
 {
-
-    use DispatchableTrait;
 
     /**
      * Install a module.
@@ -33,9 +30,7 @@ class InstallModuleCommandHandler
             $this->runInstallers($module, $installer);
         }
 
-        $module->raise(new ModuleInstalled($module));
-
-        $this->dispatchEventsFor($module);
+        app('events')->fire('streams::module.installed', new ModuleInstalledEvent($module));
 
         return true;
     }

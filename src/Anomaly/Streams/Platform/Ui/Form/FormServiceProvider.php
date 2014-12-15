@@ -20,17 +20,5 @@ class FormServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerListeners();
-    }
-
-    /**
-     * Register the form listener.
-     */
-    protected function registerListeners()
-    {
-        $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Ui.Form.Event.*',
-            'Anomaly\Streams\Platform\Ui\Form\FormListener'
-        );
     }
 }

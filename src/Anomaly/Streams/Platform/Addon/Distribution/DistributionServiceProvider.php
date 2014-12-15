@@ -1,9 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Distribution;
 
-use Anomaly\Streams\Platform\Addon\Distribution\Event\DistributionsHaveRegistered;
 use Illuminate\Support\ServiceProvider;
-use Laracasts\Commander\Events\DispatchableTrait;
-use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class DistributionServiceProvider
@@ -16,9 +13,6 @@ use Laracasts\Commander\Events\EventGenerator;
 class DistributionServiceProvider extends ServiceProvider
 {
 
-    use EventGenerator;
-    use DispatchableTrait;
-
     /**
      * Register the service provider.
      *
@@ -30,10 +24,6 @@ class DistributionServiceProvider extends ServiceProvider
         $this->registerCollection();
 
         $this->registerDistributions();
-
-        $this->raise(new DistributionsHaveRegistered());
-
-        $this->dispatchEventsFor($this);
     }
 
     /**
@@ -42,12 +32,8 @@ class DistributionServiceProvider extends ServiceProvider
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Application.Event.*',
-            'Anomaly\Streams\Platform\Addon\Distribution\DistributionListener'
-        );
-        $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Addon.*',
-            'Anomaly\Streams\Platform\Addon\Distribution\DistributionListener'
+            'streams::application.booting',
+            'Anomaly\Streams\Platform\Addon\Distribution\Listener\ApplicationBootingListener'
         );
     }
 

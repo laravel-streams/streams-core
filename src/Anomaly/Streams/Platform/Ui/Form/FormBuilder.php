@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Laracasts\Commander\CommanderTrait;
-use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
  * Class FormBuilder
@@ -15,7 +14,6 @@ class FormBuilder
 {
 
     use CommanderTrait;
-    use DispatchableTrait;
 
     /**
      * The form handler.

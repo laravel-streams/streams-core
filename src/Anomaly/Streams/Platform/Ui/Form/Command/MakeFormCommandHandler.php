@@ -1,8 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\Event\FormDataLoaded;
+use Anomaly\Streams\Platform\Ui\Form\Event\FormDataLoadedEvent;
 use Anomaly\Streams\Platform\Ui\Form\Form;
-use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
  * Class MakeFormCommandHandler
@@ -14,8 +13,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class MakeFormCommandHandler
 {
-
-    use DispatchableTrait;
 
     /**
      * Handle the command.
@@ -32,9 +29,7 @@ class MakeFormCommandHandler
         $this->setButtonData($form);
         $this->setFormData($form);
 
-        $form->raise(new FormDataLoaded($builder));
-
-        $this->dispatchEventsFor($form);
+        app('events')->fire('streams::form.data.loaded', new FormDataLoadedEvent($builder));
 
         $form->setContent(view($form->getView(), $form->getData()));
     }

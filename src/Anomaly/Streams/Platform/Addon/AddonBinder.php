@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Event\AddonHasRegistered;
-use Laracasts\Commander\Events\DispatchableTrait;
-use Laracasts\Commander\Events\EventGenerator;
+use Anomaly\Streams\Platform\Addon\Event\AddonRegisteredEvent;
 
 /**
  * Class AddonBinder
@@ -14,9 +12,6 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class AddonBinder
 {
-
-    use EventGenerator;
-    use DispatchableTrait;
 
     /**
      * Register an addon.
@@ -38,9 +33,9 @@ class AddonBinder
 
         $this->bind($addon);
 
-        $this->raise(new AddonHasRegistered($addon));
-
-        $this->dispatchEventsFor($this);
+        app('events')->fire("streams::addon.registered", new AddonRegisteredEvent($addon));
+        app('events')->fire("streams::{$type}.registered", new AddonRegisteredEvent($addon));
+        app('events')->fire("streams::{$type}.{$slug}.registered", new AddonRegisteredEvent($addon));
     }
 
     /**

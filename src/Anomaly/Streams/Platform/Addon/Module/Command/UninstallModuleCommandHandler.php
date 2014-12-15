@@ -1,10 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
-use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalled;
+use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalledEvent;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
 use Anomaly\Streams\Platform\Contract\InstallableInterface;
-use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
  * Class UninstallModuleCommandHandler
@@ -16,8 +15,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class UninstallModuleCommandHandler
 {
-
-    use DispatchableTrait;
 
     /**
      * Handle the command.
@@ -33,9 +30,7 @@ class UninstallModuleCommandHandler
             $this->runInstallers($module, $installer);
         }
 
-        $module->raise(new ModuleUninstalled($module));
-
-        $this->dispatchEventsFor($module);
+        app('events')->fire('streams::module.uninstalled', new ModuleUninstalledEvent($module));
 
         return true;
     }

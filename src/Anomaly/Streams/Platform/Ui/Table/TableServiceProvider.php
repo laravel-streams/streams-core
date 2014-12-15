@@ -29,8 +29,8 @@ class TableServiceProvider extends ServiceProvider
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
-            'Anomaly.Streams.Platform.Ui.Table.Event.*',
-            'Anomaly\Streams\Platform\Ui\Table\TableListener'
+            'streams::table.querying',
+            'Anomaly\Streams\Platform\Ui\Table\Listener\TableQueryingListener'
         );
     }
 }

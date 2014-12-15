@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Contract\PresentableInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Commander\CommanderTrait;
-use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class EloquentModel
@@ -20,7 +19,6 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
 {
 
     use CommanderTrait;
-    use EventGenerator;
 
     /**
      * Disable timestamps for this model.

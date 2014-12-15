@@ -8,8 +8,6 @@ use Anomaly\Streams\Platform\Ui\Table\Header\HeaderCollection;
 use Anomaly\Streams\Platform\Ui\Table\Row\RowCollection;
 use Anomaly\Streams\Platform\Ui\Table\View\ViewCollection;
 use Illuminate\Support\Collection;
-use Laracasts\Commander\Events\DispatchableTrait;
-use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class Table
@@ -21,9 +19,6 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class Table
 {
-
-    use EventGenerator;
-    use DispatchableTrait;
 
     /**
      * The table prefix.

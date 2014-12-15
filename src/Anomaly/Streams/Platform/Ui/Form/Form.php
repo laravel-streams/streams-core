@@ -3,8 +3,6 @@
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Form\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Section\SectionCollection;
-use Laracasts\Commander\Events\DispatchableTrait;
-use Laracasts\Commander\Events\EventGenerator;
 
 /**
  * Class Form
@@ -16,9 +14,6 @@ use Laracasts\Commander\Events\EventGenerator;
  */
 class Form
 {
-
-    use EventGenerator;
-    use DispatchableTrait;
 
     /**
      * The form prefix.

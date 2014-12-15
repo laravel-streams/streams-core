@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
-use Laracasts\Commander\Events\DispatchableTrait;
 
 /**
  * Class AssignFieldCommandHandler
@@ -15,8 +14,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
  */
 class AssignFieldCommandHandler
 {
-
-    use DispatchableTrait;
 
     /**
      * The fields repository.

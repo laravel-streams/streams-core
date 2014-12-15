@@ -13,7 +13,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\QueryingTableEntries;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryingEvent;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
@@ -315,9 +315,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
          * other things (including filters / views)
          * to modify the query before proceeding.
          */
-        $table->raise(new QueryingTableEntries($table, $query));
-
-        $table->dispatchEventsFor($table);
+        app('events')->fire('streams::table.querying', new TableQueryingEvent($table, $query));
 
         /**
          * Before we actually adjust the baseline query

@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Laracasts\Commander\Events\DispatchableTrait;
-
 /**
  * Class EloquentObserver
  *
@@ -13,8 +11,6 @@ use Laracasts\Commander\Events\DispatchableTrait;
 class EloquentObserver
 {
 
-    use DispatchableTrait;
-
     /**
      * Run before creating a record.
      *
@@ -22,7 +18,6 @@ class EloquentObserver
      */
     public function creating(EloquentModel $model)
     {
-        $this->dispatchEventsFor($model);
     }
 
     /**
@@ -32,8 +27,6 @@ class EloquentObserver
      */
     public function created(EloquentModel $model)
     {
-        $this->dispatchEventsFor($model);
-
         $model->flushCacheCollection();
     }
 
@@ -46,8 +39,6 @@ class EloquentObserver
      */
     public function saving(EloquentModel $model)
     {
-        $this->dispatchEventsFor($model);
-
         return true;
     }
 
@@ -58,7 +49,6 @@ class EloquentObserver
      */
     public function saved(EloquentModel $model)
     {
-        $this->dispatchEventsFor($model);
     }
 
     /**
@@ -68,7 +58,6 @@ class EloquentObserver
      */
     public function updating(EloquentModel $model)
     {
-        $this->dispatchEventsFor($model);
     }
 
     /**
@@ -78,8 +67,6 @@ class EloquentObserver
      */
     public function updated(EloquentModel $model)
     {
-        $this->dispatchEventsFor($model);
-
         $model->flushCacheCollection();
     }
 
@@ -90,7 +77,6 @@ class EloquentObserver
      */
     public function deleting(EloquentModel $model)
     {
-        $this->dispatchEventsFor($model);
     }
 
     /**
@@ -100,8 +86,6 @@ class EloquentObserver
      */
     public function deleted(EloquentModel $model)
     {
-        $this->dispatchEventsFor($model);
-
         $model->flushCacheCollection();
     }
 
@@ -112,7 +96,6 @@ class EloquentObserver
      */
     public function restoring(EloquentModel $model)
     {
-        $this->dispatchEventsFor($model);
     }
 
     /**
@@ -122,8 +105,6 @@ class EloquentObserver
      */
     public function restored(EloquentModel $model)
     {
-        $this->dispatchEventsFor($model);
-
         $model->flushCacheCollection();
     }
 }
