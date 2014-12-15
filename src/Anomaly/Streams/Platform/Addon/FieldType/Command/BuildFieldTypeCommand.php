@@ -182,7 +182,7 @@ class BuildFieldTypeCommand
     /**
      * Get the field name suffix.
      *
-     * @return null
+     * @return string|null
      */
     public function getSuffix()
     {
@@ -222,7 +222,7 @@ class BuildFieldTypeCommand
     /**
      * Get the required flag.
      *
-     * @return null
+     * @return bool
      */
     public function getRequired()
     {
@@ -242,7 +242,7 @@ class BuildFieldTypeCommand
     /**
      * Get the input placeholder.
      *
-     * @return null
+     * @return string
      */
     public function getPlaceholder()
     {
@@ -302,7 +302,7 @@ class BuildFieldTypeCommand
     /**
      * Get the translatable flag.
      *
-     * @return null
+     * @return bool
      */
     public function getTranslatable()
     {
@@ -313,7 +313,7 @@ class BuildFieldTypeCommand
     /**
      * Get the input view.
      *
-     * @return null
+     * @return string
      */
     public function getInputView()
     {
@@ -323,7 +323,7 @@ class BuildFieldTypeCommand
     /**
      * Get the filter view.
      *
-     * @return null
+     * @return string
      */
     public function getFilterView()
     {
@@ -333,7 +333,7 @@ class BuildFieldTypeCommand
     /**
      * Get the wrapper view.
      *
-     * @return null
+     * @return string
      */
     public function getWrapperView()
     {
