@@ -37,8 +37,8 @@
         "anomaly/streams": "dev-master"
     },
     "autoload": {
-        "psr-0": {
-            "Anomaly\\Streams\\Platform": "src/"
+        "psr-4": {
+            "Anomaly\\Streams\\Platform\\": "src/"
         }
     },
     "minimum-stability": "dev",
