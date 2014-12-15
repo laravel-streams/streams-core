@@ -147,7 +147,7 @@ class Module extends Addon
         $tag = get_class($this) . 'Tag';
 
         if (!class_exists($tag)) {
-            $tag = '\Anomaly\Streams\Platform\Addon\Module\ModuleTag';
+            $tag = 'Anomaly\Streams\Platform\Addon\Module\ModuleTag';
         }
 
         return app()->make($tag, [$this]);
@@ -163,7 +163,7 @@ class Module extends Addon
         $installer = get_class($this) . 'Installer';
 
         if (!class_exists($installer)) {
-            $installer = '\Anomaly\Streams\Platform\Addon\Module\ModuleInstaller';
+            $installer = 'Anomaly\Streams\Platform\Addon\Module\ModuleInstaller';
         }
 
         return app()->make($installer, [$this]);

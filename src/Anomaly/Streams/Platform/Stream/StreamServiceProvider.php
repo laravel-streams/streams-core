@@ -35,7 +35,7 @@ class StreamServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            '\Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface',
+            'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface',
             config('streams::config.streams.repository')
         );
     }

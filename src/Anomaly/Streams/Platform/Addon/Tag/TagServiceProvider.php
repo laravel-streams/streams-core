@@ -43,7 +43,7 @@ class TagServiceProvider extends ServiceProvider
     {
         $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Addon.*',
-            '\Anomaly\Streams\Platform\Addon\Tag\TagListener'
+            'Anomaly\Streams\Platform\Addon\Tag\TagListener'
         );
     }
 

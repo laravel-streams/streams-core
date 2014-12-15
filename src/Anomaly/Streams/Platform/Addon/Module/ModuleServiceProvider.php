@@ -60,12 +60,12 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Application.Event.*',
-            '\Anomaly\Streams\Platform\Addon\Module\ModuleListener'
+            'Anomaly\Streams\Platform\Addon\Module\ModuleListener'
         );
 
         $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Addon.*',
-            '\Anomaly\Streams\Platform\Addon\Module\ModuleListener'
+            'Anomaly\Streams\Platform\Addon\Module\ModuleListener'
         );
         $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Addon.Module.Event.*',

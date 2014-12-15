@@ -42,7 +42,7 @@ class ModuleListener extends EventListener
      */
     public function whenApplicationIsBooting()
     {
-        $this->execute('\Anomaly\Streams\Platform\Addon\Module\Command\DetectActiveModuleCommand');
+        $this->execute('Anomaly\Streams\Platform\Addon\Module\Command\DetectActiveModuleCommand');
     }
 
     /**

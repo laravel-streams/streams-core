@@ -43,11 +43,11 @@ class ThemeServiceProvider extends ServiceProvider
     {
         $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Application.Event.*',
-            '\Anomaly\Streams\Platform\Addon\Theme\ThemeListener'
+            'Anomaly\Streams\Platform\Addon\Theme\ThemeListener'
         );
         $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Addon.*',
-            '\Anomaly\Streams\Platform\Addon\Theme\ThemeListener'
+            'Anomaly\Streams\Platform\Addon\Theme\ThemeListener'
         );
     }
 

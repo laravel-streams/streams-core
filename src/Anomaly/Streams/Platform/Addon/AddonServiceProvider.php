@@ -54,11 +54,11 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Application.Event.*',
-            '\Anomaly\Streams\Platform\Addon\AddonListener'
+            'Anomaly\Streams\Platform\Addon\AddonListener'
         );
         $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Addon.Event.*',
-            '\Anomaly\Streams\Platform\Addon\AddonListener'
+            'Anomaly\Streams\Platform\Addon\AddonListener'
         );
     }
 }

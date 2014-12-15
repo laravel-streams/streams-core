@@ -43,7 +43,7 @@ class FieldTypeServiceProvider extends ServiceProvider
     {
         $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Addon.*',
-            '\Anomaly\Streams\Platform\Addon\FieldType\FieldTypeListener'
+            'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeListener'
         );
     }
 

@@ -36,7 +36,7 @@ class EntryServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            '\Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface',
+            'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface',
             config('streams::config.entries.repository')
         );
     }

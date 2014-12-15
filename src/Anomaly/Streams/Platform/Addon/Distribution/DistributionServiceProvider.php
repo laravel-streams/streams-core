@@ -43,11 +43,11 @@ class DistributionServiceProvider extends ServiceProvider
     {
         $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Application.Event.*',
-            '\Anomaly\Streams\Platform\Addon\Distribution\DistributionListener'
+            'Anomaly\Streams\Platform\Addon\Distribution\DistributionListener'
         );
         $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Addon.*',
-            '\Anomaly\Streams\Platform\Addon\Distribution\DistributionListener'
+            'Anomaly\Streams\Platform\Addon\Distribution\DistributionListener'
         );
     }
 

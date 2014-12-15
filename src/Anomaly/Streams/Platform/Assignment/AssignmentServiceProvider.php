@@ -35,7 +35,7 @@ class AssignmentServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
-            '\Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface',
+            'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface',
             config('streams::config.assignments.repository')
         );
     }

@@ -43,7 +43,7 @@ class ExtensionServiceProvider extends ServiceProvider
     {
         $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Addon.*',
-            '\Anomaly\Streams\Platform\Addon\Extension\ExtensionListener'
+            'Anomaly\Streams\Platform\Addon\Extension\ExtensionListener'
         );
     }
 

@@ -21,6 +21,6 @@ class ThemeListener extends EventListener
      */
     public function whenApplicationIsBooting()
     {
-        $this->execute('\Anomaly\Streams\Platform\Addon\Theme\Command\DetectActiveThemeCommand');
+        $this->execute('Anomaly\Streams\Platform\Addon\Theme\Command\DetectActiveThemeCommand');
     }
 }

@@ -21,6 +21,6 @@ class DistributionListener extends EventListener
      */
     public function whenApplicationIsBooting()
     {
-        $this->execute('\Anomaly\Streams\Platform\Addon\Distribution\Command\DetectActiveDistributionCommand');
+        $this->execute('Anomaly\Streams\Platform\Addon\Distribution\Command\DetectActiveDistributionCommand');
     }
 }

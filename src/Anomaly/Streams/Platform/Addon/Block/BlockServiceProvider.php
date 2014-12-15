@@ -43,7 +43,7 @@ class BlockServiceProvider extends ServiceProvider
     {
         $this->app->make('events')->listen(
             'Anomaly.Streams.Platform.Addon.*',
-            '\Anomaly\Streams\Platform\Addon\Block\BlockListener'
+            'Anomaly\Streams\Platform\Addon\Block\BlockListener'
         );
     }
 
