@@ -166,4 +166,15 @@ class Module extends Addon
     {
         return $this->tag;
     }
+
+    public function newInstaller()
+    {
+        $installer = get_class($this) . 'Installer';
+
+        if (!class_exists($installer)) {
+            $installer = 'Anomaly\Streams\Platform\Addon\Module\ModuleInstaller';
+        }
+
+        return app()->make($installer, [$this]);
+    }
 }
