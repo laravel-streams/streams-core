@@ -49,6 +49,13 @@ class Module extends Addon
     protected $active = false;
 
     /**
+     * Get the module's tag class.
+     *
+     * @var string
+     */
+    protected $tag = 'Anomaly\Streams\Platform\Addon\Module\ModuleTag';
+
+    /**
      * Get the module's sections.
      *
      * @return array
@@ -138,34 +145,25 @@ class Module extends Addon
     }
 
     /**
-     * Return this module's tag counterpart.
+     * Set the module's tag class.
      *
-     * @return ModuleTag
+     * @param $tag
+     * @return $this
      */
-    public function newTag()
+    public function setTag($tag)
     {
-        $tag = get_class($this) . 'Tag';
+        $this->tag = $tag;
 
-        if (!class_exists($tag)) {
-            $tag = 'Anomaly\Streams\Platform\Addon\Module\ModuleTag';
-        }
-
-        return app()->make($tag, [$this]);
+        return $this;
     }
 
     /**
-     * Return the module's installer counterpart.
+     * Get the module's tag class.
      *
-     * @return mixed
+     * @return string
      */
-    public function newInstaller()
+    public function getTag()
     {
-        $installer = get_class($this) . 'Installer';
-
-        if (!class_exists($installer)) {
-            $installer = 'Anomaly\Streams\Platform\Addon\Module\ModuleInstaller';
-        }
-
-        return app()->make($installer, [$this]);
+        return $this->tag;
     }
 }

@@ -37,6 +37,13 @@ class Theme extends Addon
     protected $meta = [];
 
     /**
+     * The theme's tag class.
+     *
+     * @var string
+     */
+    protected $tag = 'Anomaly\Streams\Platform\Addon\Theme\ThemeTag';
+
+    /**
      * Get the admin flag.
      *
      * @return bool
@@ -119,18 +126,25 @@ class Theme extends Addon
     }
 
     /**
-     * Return the theme's tag counterpart.
+     * Set the theme's tag class.
      *
-     * @return mixed
+     * @param $tag
+     * @return $this
      */
-    public function newTag()
+    public function setTag($tag)
     {
-        $tag = get_class($this) . 'Tag';
+        $this->tag = $tag;
 
-        if (!class_exists($tag)) {
-            $tag = 'Anomaly\Streams\Platform\Addon\Theme\ThemeTag';
-        }
+        return $this;
+    }
 
-        return app()->make($tag, [$this]);
+    /**
+     * Get the theme's tag class.
+     *
+     * @return string
+     */
+    public function getTag()
+    {
+        return $this->tag;
     }
 }
