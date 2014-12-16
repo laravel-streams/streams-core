@@ -58,8 +58,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Assignment\AssignmentServiceProvider');
 
         // Register UI services.
-        $this->app->register('Anomaly\Streams\Platform\Ui\Form\FormServiceProvider');
-        $this->app->register('Anomaly\Streams\Platform\Ui\Table\TableServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Ui\UiServiceProvider');
 
         // Register addon services.
         $this->app->register('Anomaly\Streams\Platform\Addon\AddonServiceProvider');
