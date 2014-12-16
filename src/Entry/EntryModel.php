@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Addon\FieldType\Contract\RelationFieldTypeInterface
 use Anomaly\Streams\Platform\Addon\FieldType\Contract\SetterFieldTypeInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Contract\PresentableInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -24,7 +23,7 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry
  */
-class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface, TableModelInterface, FormModelInterface
+class EntryModel extends EloquentModel implements EntryInterface, TableModelInterface, FormModelInterface
 {
 
     /**
@@ -38,7 +37,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * The compiled stream data.
      *
-     * @var array
+     * @var array|StreamInterface
      */
     protected $stream = [];
 
@@ -268,17 +267,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function isTranslatable()
     {
-        return ($this->stream->translatable);
-    }
-
-    /**
-     * Return the presenter counterpart.
-     *
-     * @return mixed
-     */
-    public function newPresenter()
-    {
-        return new EntryPresenter($this);
+        return ($this->stream->isTranslatable());
     }
 
     /**

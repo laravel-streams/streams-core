@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Contract\ArrayableInterface;
-use Anomaly\Streams\Platform\Contract\PresentableInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Commander\CommanderTrait;
@@ -15,7 +14,7 @@ use Laracasts\Commander\CommanderTrait;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Model
  */
-class EloquentModel extends Model implements ArrayableInterface, PresentableInterface
+class EloquentModel extends Model implements ArrayableInterface
 {
 
     use CommanderTrait;
@@ -70,16 +69,6 @@ class EloquentModel extends Model implements ArrayableInterface, PresentableInte
     protected static function boot()
     {
         self::observe(new EloquentObserver());
-    }
-
-    /**
-     * Return the presenter counterpart object.
-     *
-     * @return mixed
-     */
-    public function newPresenter()
-    {
-        return new EloquentPresenter($this);
     }
 
     /**

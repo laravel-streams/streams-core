@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Contract\PresentableInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -13,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\FieldType
  */
-class FieldType extends Addon implements PresentableInterface
+class FieldType extends Addon
 {
 
     /**
@@ -754,23 +753,6 @@ class FieldType extends Addon implements PresentableInterface
     {
         return $relation;
     }
-
-    /**
-     * Return a new presenter object.
-     *
-     * @return mixed
-     */
-    public function newPresenter()
-    {
-        $presenter = get_class($this) . 'Presenter';
-
-        if (!class_exists($presenter)) {
-            $presenter = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter';
-        }
-
-        return app()->make($presenter, [$this]);
-    }
-
 
     /**
      * Represent Eloquent's hasOne method.
