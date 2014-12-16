@@ -12,16 +12,28 @@ class ActionFactory
 {
 
     /**
-     * Available action defualt.
+     * The default action class.
      *
-     * @var array
+     * @var string
      */
-    protected $actions = [
-        'save' => [
-            'type' => 'success',
-            'text' => 'streams::button.save',
-        ]
-    ];
+    protected $action = 'Anomaly\Streams\Platform\Ui\Form\Action\Action';
+
+    /**
+     * The action repository.
+     *
+     * @var ActionRepository
+     */
+    protected $actions;
+
+    /**
+     * Create a new ActionFactory instance.
+     *
+     * @param ActionRepository $actions
+     */
+    public function __construct(ActionRepository $actions)
+    {
+        $this->actions = $actions;
+    }
 
     /**
      * Make an action.
@@ -31,14 +43,10 @@ class ActionFactory
      */
     public function make(array $parameters)
     {
-        if (isset($parameters['action']) && class_exists($parameters['action'])) {
-            return app()->make($parameters['action'], $parameters);
-        }
-
-        if ($action = array_get($this->actions, array_get($parameters, 'action'))) {
+        if ($action = $this->actions->find(array_get($parameters, 'action'))) {
             $parameters = array_replace_recursive($action, array_except($parameters, 'action'));
         }
 
-        return app()->make('Anomaly\Streams\Platform\Ui\Form\Action\Action', $parameters);
+        return app()->make(array_get($parameters, 'action', $this->action), $parameters);
     }
 }
