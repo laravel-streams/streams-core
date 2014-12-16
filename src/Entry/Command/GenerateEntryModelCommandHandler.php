@@ -73,9 +73,11 @@ class GenerateEntryModelCommandHandler
     protected function getFilePath(StreamInterface $stream)
     {
         $path = storage_path('models/streams/');
+        
         @mkdir($path, 0755);
         @mkdir($path .= app('streams.application')->getReference().'/', 0755);
         @mkdir($path .= studly_case($stream->getNamespace()).'/', 0755);
+        
         return $path . studly_case($stream->getNamespace()) . studly_case($stream->getSlug()) . 'EntryModel.php';
     }
 
