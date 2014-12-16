@@ -19,17 +19,59 @@ class ButtonRepository implements ButtonRepositoryInterface
      * @var array
      */
     protected $buttons = [
-        'cancel' => [
+        /**
+         * Default type buttons.
+         */
+        'default' => [
+            'type' => 'default',
+        ],
+        'cancel'  => [
             'text' => 'streams::button.cancel',
             'type' => 'default',
         ],
-        'edit'   => [
+        /**
+         * Primary type buttons.
+         */
+        'primary' => [
+            'type' => 'primary',
+        ],
+        /**
+         * Success type buttons.
+         */
+        'success' => [
+            'type' => 'success',
+        ],
+        /**
+         * Info type buttons.
+         */
+        'info'    => [
+            'type' => 'info',
+        ],
+        /**
+         * Warning type buttons.
+         */
+        'warning' => [
+            'type' => 'warning',
+        ],
+        'edit'    => [
             'text' => 'streams::button.edit',
             'type' => 'warning',
         ],
-        'delete' => [
+        /**
+         * Danger type buttons.
+         */
+        'danger'  => [
+            'type' => 'danger',
+        ],
+        'delete'  => [
             'text' => 'streams::button.delete',
             'type' => 'danger',
+        ],
+        /**
+         * Link type buttons.
+         */
+        'link'    => [
+            'type' => 'link',
         ],
     ];
 
