@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Laracasts\Commander\Events\EventGenerator;
 
 /**
@@ -11,7 +10,7 @@ use Laracasts\Commander\Events\EventGenerator;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon
  */
-class Addon implements ArrayableInterface
+class Addon
 {
 
     use EventGenerator;
@@ -164,20 +163,5 @@ class Addon implements ArrayableInterface
     public function getType()
     {
         return $this->type;
-    }
-
-    /**
-     * Get the instance as an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return [
-            'slug'        => $this->getSlug(),
-            'path'        => $this->getPath(),
-            'name'        => $this->getName(),
-            'description' => $this->getDescription(),
-        ];
     }
 }
