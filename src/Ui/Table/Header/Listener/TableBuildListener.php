@@ -1,27 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Header\Listener;
 
 use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
-use Anomaly\Streams\Platform\Ui\Table\Header\HeaderLoader;
+use Laracasts\Commander\CommanderTrait;
 
+/**
+ * Class TableBuildListener
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Header\Listener
+ */
 class TableBuildListener
 {
 
-    /**
-     * The header loader.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Header\HeaderLoader
-     */
-    protected $loader;
-
-    /**
-     * Create a new TableBuildListener instance.
-     *
-     * @param HeaderLoader $loader
-     */
-    public function __construct(HeaderLoader $loader)
-    {
-        $this->loader = $loader;
-    }
+    use CommanderTrait;
 
     /**
      * When the table is building we want to build and push
@@ -31,6 +24,8 @@ class TableBuildListener
      */
     public function handle(TableBuildEvent $event)
     {
-        $this->loader->load($event->getBuilder());
+        $builder = $event->getBuilder();
+
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Header\Command\BuildTableHeadersCommand', compact('builder'));
     }
 }
