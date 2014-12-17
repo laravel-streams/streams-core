@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Filter;
 
+use Anomaly\Streams\Platform\Ui\Table\Filter\Contract\FilterRepositoryInterface;
+
 /**
  * Class FilterFactory
  *
@@ -16,26 +18,24 @@ class FilterFactory
      *
      * @var string
      */
-    protected $filter = 'Anomaly\Streams\Platform\Ui\Table\Filter\Filter';
+    protected $filter = 'Anomaly\Streams\Platform\Ui\Table\Filter\Type\InputFilter';
 
     /**
-     * Available filter defaults.
+     * The filter repository.
      *
-     * @var array
+     * @var FilterRepositoryInterface
      */
-    protected $filters = [
-        'input'  => [
-            'slug'   => 'input',
-            'filter' => 'Anomaly\Streams\Platform\Ui\Table\Filter\Type\InputFilter',
-        ],
-        'select' => [
-            'slug'   => 'select',
-            'filter' => 'Anomaly\Streams\Platform\Ui\Table\Filter\Type\SelectFilter',
-        ],
-        'field'  => [
-            'filter' => 'Anomaly\Streams\Platform\Ui\Table\Filter\Type\FieldFilter',
-        ]
-    ];
+    protected $filters;
+
+    /**
+     * Create a new FilterFactory instance.
+     *
+     * @param FilterRepositoryInterface $filters
+     */
+    public function __construct(FilterRepositoryInterface $filters)
+    {
+        $this->filters = $filters;
+    }
 
     /**
      * Make a filter.
@@ -45,11 +45,7 @@ class FilterFactory
      */
     public function make(array $parameters)
     {
-        if (isset($parameters['filter']) && class_exists($parameters['filter'])) {
-            return app()->make($parameters['filter'], $parameters);
-        }
-
-        if ($filter = array_get($this->filters, array_get($parameters, 'filter'))) {
+        if ($filter = $this->filters->find(array_get($parameters, 'filter'))) {
             $parameters = array_replace_recursive($filter, array_except($parameters, 'filter'));
         }
 
