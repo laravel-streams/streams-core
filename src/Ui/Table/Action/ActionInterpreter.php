@@ -1,14 +1,14 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\View;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Action;
 
 /**
- * Class ViewConverter
+ * Class ActionInterpreter
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\View
+ * @package       Anomaly\Streams\Platform\Ui\Table\Action
  */
-class ViewConverter
+class ActionInterpreter
 {
 
     /**
@@ -30,27 +30,26 @@ class ViewConverter
          */
         if (is_numeric($key) && is_string($parameters)) {
             $parameters = [
-                'slug' => $parameters,
-                'view' => $parameters,
+                'slug'   => $parameters,
+                'action' => $parameters,
             ];
         }
 
         /**
-         * If the key is NOT numeric and the parameters is a
-         * string then use the key as the slug and the
-         * parameters as the view.
+         * If the slug is a string and the parameters is a
+         * string then use the slug as is and the
+         * actions as the action.
          */
         if (!is_numeric($key) && is_string($parameters)) {
             $parameters = [
-                'slug' => $key,
-                'view' => $parameters,
+                'slug'   => $key,
+                'action' => $parameters,
             ];
         }
 
         /**
-         * If the key is not numeric and the parameters is an
-         * array without a slug then use the key for
-         * the slug for the view.
+         * If the slug is a string and the parameters is an
+         * array without a slug then add the slug.
          */
         if (is_array($parameters) && !isset($parameters['slug']) && !is_numeric($key)) {
             $parameters['slug'] = $key;

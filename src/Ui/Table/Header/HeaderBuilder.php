@@ -17,11 +17,11 @@ class HeaderBuilder
     use CommanderTrait;
 
     /**
-     * The header converter.
+     * The header interpreter.
      *
-     * @var HeaderConverter
+     * @var HeaderInterpreter
      */
-    protected $converter;
+    protected $interpreter;
 
     /**
      * The header evaluator.
@@ -47,20 +47,20 @@ class HeaderBuilder
     /**
      * Create a new HeaderBuilder instance.
      *
-     * @param HeaderConverter $converter
+     * @param HeaderInterpreter $interpreter
      * @param HeaderEvaluator $evaluator
      * @param HeaderFactory   $factory
      * @param HeaderLoader    $loader
      */
     function __construct(
-        HeaderConverter $converter,
+        HeaderInterpreter $interpreter,
         HeaderEvaluator $evaluator,
         HeaderFactory $factory,
         HeaderLoader $loader
     ) {
         $this->loader    = $loader;
         $this->factory   = $factory;
-        $this->converter = $converter;
+        $this->interpreter = $interpreter;
         $this->evaluator = $evaluator;
     }
 
@@ -76,7 +76,7 @@ class HeaderBuilder
 
         foreach ($builder->getColumns() as $parameters) {
 
-            $parameters = $this->converter->standardize($parameters);
+            $parameters = $this->interpreter->standardize($parameters);
             $parameters = $this->evaluator->process($parameters, $builder);
 
             $parameters['stream'] = $table->getStream();

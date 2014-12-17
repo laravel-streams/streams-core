@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Button\Listener;
 
-use Anomaly\Streams\Platform\Ui\Button\ButtonLoader;
+use Anomaly\Streams\Platform\Ui\Button\ButtonBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
 
 /**
@@ -15,20 +15,20 @@ class TableBuildListener
 {
 
     /**
-     * The button loader.
+     * The button builder.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Button\ButtonLoader
+     * @var \Anomaly\Streams\Platform\Ui\Button\ButtonBuilder
      */
-    protected $loader;
+    protected $builder;
 
     /**
      * Create a new TableBuildListener instance.
      *
-     * @param ButtonLoader $loader
+     * @param ButtonBuilder $builder
      */
-    public function __construct(ButtonLoader $loader)
+    public function __construct(ButtonBuilder $builder)
     {
-        $this->loader = $loader;
+        $this->builder = $builder;
     }
 
     /**
@@ -39,6 +39,6 @@ class TableBuildListener
      */
     public function handle(TableBuildEvent $event)
     {
-        $this->loader->load($event->getBuilder());
+        $this->builder->build($event->getBuilder());
     }
 }

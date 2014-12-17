@@ -15,11 +15,11 @@ class ColumnBuilder
 {
 
     /**
-     * The column converter.
+     * The column interpreter.
      *
-     * @var ColumnConverter
+     * @var ColumnInterpreter
      */
-    protected $converter;
+    protected $interpreter;
 
     /**
      * The column evaluator.
@@ -45,20 +45,20 @@ class ColumnBuilder
     /**
      * Create a new ColumnBuilder instance.
      *
-     * @param ColumnConverter $converter
+     * @param ColumnInterpreter $interpreter
      * @param ColumnEvaluator $evaluator
      * @param ColumnFactory   $factory
      * @param ColumnLoader    $loader
      */
     function __construct(
-        ColumnConverter $converter,
+        ColumnInterpreter $interpreter,
         ColumnEvaluator $evaluator,
         ColumnFactory $factory,
         ColumnLoader $loader
     ) {
         $this->loader    = $loader;
         $this->factory   = $factory;
-        $this->converter = $converter;
+        $this->interpreter = $interpreter;
         $this->evaluator = $evaluator;
     }
 
@@ -74,7 +74,7 @@ class ColumnBuilder
 
         foreach ($builder->getColumns() as $key => $parameters) {
 
-            $parameters = $this->converter->standardize($key, $parameters);
+            $parameters = $this->interpreter->standardize($key, $parameters);
             $parameters = $this->evaluator->process($parameters, $builder);
 
             $column = $this->factory->make($parameters);

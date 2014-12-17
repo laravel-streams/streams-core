@@ -3,22 +3,22 @@
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class ButtonLoader
+ * Class ButtonBuilder
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Button
  */
-class ButtonLoader
+class ButtonBuilder
 {
 
     /**
-     * The button reader.
+     * The button interpreter.
      *
-     * @var ButtonReader
+     * @var ButtonInterpreter
      */
-    protected $reader;
+    protected $interpreter;
 
     /**
      * The button factory.
@@ -28,15 +28,15 @@ class ButtonLoader
     protected $factory;
 
     /**
-     * Create a new ButtonLoader instance.
+     * Create a new ButtonBuilder instance.
      *
-     * @param ButtonReader  $reader
-     * @param ButtonFactory $factory
+     * @param ButtonInterpreter $interpreter
+     * @param ButtonFactory     $factory
      */
-    function __construct(ButtonReader $reader, ButtonFactory $factory)
+    function __construct(ButtonInterpreter $interpreter, ButtonFactory $factory)
     {
-        $this->reader  = $reader;
-        $this->factory = $factory;
+        $this->factory     = $factory;
+        $this->interpreter = $interpreter;
     }
 
     /**
@@ -44,14 +44,14 @@ class ButtonLoader
      *
      * @param TableBuilder $builder
      */
-    public function load(TableBuilder $builder)
+    public function build(TableBuilder $builder)
     {
         $table   = $builder->getTable();
         $buttons = $table->getButtons();
 
         foreach ($builder->getButtons() as $key => $parameters) {
 
-            $parameters = $this->reader->standardize($key, $parameters);
+            $parameters = $this->interpreter->standardize($key, $parameters);
 
             $button = $this->factory->make($parameters);
 
