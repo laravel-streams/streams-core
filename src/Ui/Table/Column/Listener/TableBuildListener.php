@@ -17,8 +17,7 @@ class TableBuildListener
     use CommanderTrait;
 
     /**
-     * When the table is building we want to build and push
-     * the columns onto the table's column collection.
+     * Handle the event.
      *
      * @param TableBuildEvent $event
      */
