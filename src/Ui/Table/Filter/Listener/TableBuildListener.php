@@ -1,36 +1,30 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Filter\Listener;
 
 use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
-use Anomaly\Streams\Platform\Ui\Table\Filter\FilterLoader;
+use Laracasts\Commander\CommanderTrait;
 
+/**
+ * Class TableBuildListener
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Filter\Listener
+ */
 class TableBuildListener
 {
 
-    /**
-     * The filter loader.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Filter\FilterLoader
-     */
-    protected $loader;
+    use CommanderTrait;
 
     /**
-     * Create a new TableBuildListener instance.
-     *
-     * @param FilterLoader $loader
-     */
-    public function __construct(FilterLoader $loader)
-    {
-        $this->loader = $loader;
-    }
-
-    /**
-     * When the table is building we want to build and push
-     * the views onto the table's view collection.
+     * Handle the event.
      *
      * @param TableBuildEvent $event
      */
     public function handle(TableBuildEvent $event)
     {
-        $this->loader->load($event->getBuilder());
+        $builder = $event->getBuilder();
+
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Filter\Command\BuildTableFiltersCommand', compact('builder'));
     }
 }
