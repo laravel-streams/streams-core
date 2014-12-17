@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Column\Listener;
 
-use Anomaly\Streams\Platform\Ui\Table\Column\ColumnLoader;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
+use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class TableBuildListener
@@ -14,22 +14,7 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
 class TableBuildListener
 {
 
-    /**
-     * The column loader.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Column\ColumnLoader
-     */
-    protected $loader;
-
-    /**
-     * Create a new TableBuildListener instance.
-     *
-     * @param ColumnLoader $loader
-     */
-    public function __construct(ColumnLoader $loader)
-    {
-        $this->loader = $loader;
-    }
+    use CommanderTrait;
 
     /**
      * When the table is building we want to build and push
@@ -39,6 +24,8 @@ class TableBuildListener
      */
     public function handle(TableBuildEvent $event)
     {
-        $this->loader->load($event->getBuilder());
+        $builder = $event->getBuilder();
+
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Column\Command\BuildTableColumnsCommand', compact('builder'));
     }
 }

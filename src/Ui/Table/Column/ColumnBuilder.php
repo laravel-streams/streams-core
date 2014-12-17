@@ -4,22 +4,22 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Laracasts\Commander\CommanderTrait;
 
 /**
- * Class ColumnLoader
+ * Class ColumnBuilder
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Column
  */
-class ColumnLoader
+class ColumnBuilder
 {
 
     /**
-     * The column reader.
+     * The column interpreter.
      *
-     * @var ColumnReader
+     * @var ColumnInterpreter
      */
-    protected $reader;
+    protected $interpreter;
 
     /**
      * The column factory.
@@ -29,15 +29,15 @@ class ColumnLoader
     protected $factory;
 
     /**
-     * Create a new ColumnLoader instance.
+     * Create a new ColumnBuilder instance.
      *
-     * @param ColumnReader  $reader
-     * @param ColumnFactory $factory
+     * @param ColumnInterpreter $interpreter
+     * @param ColumnFactory     $factory
      */
-    function __construct(ColumnReader $reader, ColumnFactory $factory)
+    function __construct(ColumnInterpreter $interpreter, ColumnFactory $factory)
     {
-        $this->reader  = $reader;
-        $this->factory = $factory;
+        $this->interpreter = $interpreter;
+        $this->factory     = $factory;
     }
 
     /**
@@ -52,7 +52,7 @@ class ColumnLoader
 
         foreach ($builder->getColumns() as $key => $parameters) {
 
-            $parameters = $this->reader->standardize($key, $parameters);
+            $parameters = $this->interpreter->standardize($key, $parameters);
 
             $column = $this->factory->make($parameters);
 
