@@ -26,10 +26,6 @@ class ColumnFactory
      */
     public function make(array $parameters)
     {
-        if (isset($parameters['column']) && class_exists($parameters['column'])) {
-            return app()->make($parameters['column'], $parameters);
-        }
-
-        return app()->make($this->column, $parameters);
+        return app()->make(array_get($parameters, 'column', $this->column), $parameters);
     }
 }
