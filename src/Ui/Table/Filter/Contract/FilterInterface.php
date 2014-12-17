@@ -15,13 +15,13 @@ interface FilterInterface
 {
 
     /**
-     * Handle the filter.
+     * Hook into the table query.
      *
      * @param Table   $table
      * @param Builder $query
      * @return mixed
      */
-    public function handle(Table $table, Builder $query);
+    public function onTableQuerying(Table $table, Builder $query);
 
     /**
      * Return the view data.

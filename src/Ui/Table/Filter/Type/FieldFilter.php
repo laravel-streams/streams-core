@@ -32,38 +32,12 @@ class FieldFilter extends Filter implements FieldFilterInterface
     protected $stream;
 
     /**
-     * Create a new FieldFilter instance.
-     *
-     * @param                 $slug
-     * @param null            $field
-     * @param null            $prefix
-     * @param bool            $active
-     * @param null            $handler
-     * @param null            $placeholder
-     * @param StreamInterface $stream
-     */
-    public function __construct(
-        $slug,
-        $field,
-        $prefix = null,
-        $active = false,
-        $handler = null,
-        $placeholder = null,
-        StreamInterface $stream
-    ) {
-        $this->field  = $field;
-        $this->stream = $stream;
-
-        parent::__construct($slug, $prefix, $active, $handler, $placeholder);
-    }
-
-    /**
-     * Handle the filter.
+     * Hook into the table query.
      *
      * @param Table   $table
      * @param Builder $query
      */
-    public function handle(Table $table, Builder $query)
+    public function onTableQuerying(Table $table, Builder $query)
     {
         $type = $this->stream->getFieldType($this->field);
 

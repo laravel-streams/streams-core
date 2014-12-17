@@ -18,30 +18,7 @@ class InputFilter extends Filter
      *
      * @var string
      */
-    protected $type;
-
-    /**
-     * Create a new InputFilter instance.
-     *
-     * @param        $slug
-     * @param string $type
-     * @param null   $prefix
-     * @param bool   $active
-     * @param null   $handler
-     * @param null   $placeholder
-     */
-    public function __construct(
-        $slug,
-        $type = 'text',
-        $prefix = null,
-        $active = false,
-        $handler = null,
-        $placeholder = null
-    ) {
-        $this->type = $type;
-
-        parent::__construct($slug, $prefix, $active, $handler, $placeholder);
-    }
+    protected $type = 'text';
 
     /**
      * Set the input type.

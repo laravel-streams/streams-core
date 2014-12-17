@@ -20,61 +20,43 @@ class Filter implements FilterInterface
      *
      * @var
      */
-    protected $slug;
+    protected $slug = null;
 
     /**
      * The filter prefix.
      *
      * @var null
      */
-    protected $prefix;
+    protected $prefix = null;
 
     /**
      * The active flag.
      *
      * @var bool
      */
-    protected $active;
+    protected $active = false;
 
     /**
      * The filter handler.
      *
      * @var null
      */
-    protected $handler;
+    protected $handler = null;
 
     /**
      * The filter placeholder.
      *
      * @var null
      */
-    protected $placeholder;
+    protected $placeholder = null;
 
     /**
-     * Create a new Filter instance.
-     *
-     * @param      $slug
-     * @param null $prefix
-     * @param bool $active
-     * @param null $handler
-     * @param null $placeholder
-     */
-    public function __construct($slug, $prefix = null, $active = false, $handler = null, $placeholder = null)
-    {
-        $this->slug        = $slug;
-        $this->prefix      = $prefix;
-        $this->active      = $active;
-        $this->handler     = $handler;
-        $this->placeholder = $placeholder;
-    }
-
-    /**
-     * Handle the filter.
+     * Hook into the table query.
      *
      * @param Table   $table
      * @param Builder $query
      */
-    public function handle(Table $table, Builder $query)
+    public function onTableQuerying(Table $table, Builder $query)
     {
         $query = $query->where($this->getSlug(), 'LIKE', "%{$this->getValue()}%");
     }
