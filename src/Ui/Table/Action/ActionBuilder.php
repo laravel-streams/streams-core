@@ -4,14 +4,14 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Laracasts\Commander\CommanderTrait;
 
 /**
- * Class ActionLoader
+ * Class ActionBuilder
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Action
  */
-class ActionLoader
+class ActionBuilder
 {
 
     use CommanderTrait;
@@ -31,7 +31,7 @@ class ActionLoader
     protected $factory;
 
     /**
-     * Create a new ActionLoader instance.
+     * Create a new ActionBuilder instance.
      *
      * @param ActionReader  $reader
      * @param ActionFactory $factory
@@ -43,11 +43,11 @@ class ActionLoader
     }
 
     /**
-     * Load actions onto a collection.
+     * Build actions.
      *
      * @param TableBuilder $builder
      */
-    public function load(TableBuilder $builder)
+    public function build(TableBuilder $builder)
     {
         $table   = $builder->getTable();
         $actions = $table->getActions();
