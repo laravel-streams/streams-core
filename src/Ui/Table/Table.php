@@ -80,13 +80,6 @@ class Table
     protected $wrapper = 'streams::wrappers/blank';
 
     /**
-     * The table's view data.
-     *
-     * @var array
-     */
-    protected $data = [];
-
-    /**
      * The stream object.
      *
      * @var null
@@ -113,6 +106,13 @@ class Table
      * @var int
      */
     protected $total = 0;
+
+    /**
+     * The table's view data.
+     *
+     * @var Collection
+     */
+    protected $data;
 
     /**
      * The row collection.
@@ -183,6 +183,7 @@ class Table
      * @param HeaderCollection $headers
      */
     public function __construct(
+        Collection $data,
         Collection $entries,
         RowCollection $rows,
         ViewCollection $views,
@@ -192,6 +193,7 @@ class Table
         FilterCollection $filters,
         HeaderCollection $headers
     ) {
+        $this->data    = $data;
         $this->rows    = $rows;
         $this->views   = $views;
         $this->entries = $entries;
@@ -246,55 +248,6 @@ class Table
     public function getView()
     {
         return $this->view;
-    }
-
-    /**
-     * Set the table data.
-     *
-     * @param $data
-     * @return $this
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-
-        return $this;
-    }
-
-    /**
-     * Get the table data.
-     *
-     * @return array
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
-     * Put some table data.
-     *
-     * @param $key
-     * @param $data
-     * @return $this
-     */
-    public function putData($key, $data)
-    {
-        $this->data[$key] = $data;
-
-        return $this;
-    }
-
-    /**
-     * Pull some table data.
-     *
-     * @param      $key
-     * @param null $default
-     * @return mixed
-     */
-    public function pullData($key, $default = null)
-    {
-        return array_get($this->data, $key, $default);
     }
 
     /**
@@ -622,5 +575,15 @@ class Table
     public function getRows()
     {
         return $this->rows;
+    }
+
+    /**
+     * Get the table data.
+     *
+     * @return Collection
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }

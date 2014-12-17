@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableMakeEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
 use Laracasts\Commander\CommanderTrait;
 
 /**
@@ -14,40 +17,10 @@ use Laracasts\Commander\CommanderTrait;
 class TableBuilder
 {
 
-    use CommanderTrait;
-
-    /**
-     * The standardizer command.
-     *
-     * @var string
-     */
-    protected $standardizerCommand = 'Anomaly\Streams\Platform\Ui\Table\Command\StandardizeInputCommand';
-
-    /**
-     * The build command.
-     *
-     * @var string
-     */
-    protected $buildCommand = 'Anomaly\Streams\Platform\Ui\Table\Command\BuildTableCommand';
-
-    /**
-     * The handle command.
-     *
-     * @var string
-     */
-    protected $handleCommand = 'Anomaly\Streams\Platform\Ui\Table\Command\HandleTableCommand';
-
-    /**
-     * The make command.
-     *
-     * @var string
-     */
-    protected $makeCommand = 'Anomaly\Streams\Platform\Ui\Table\Command\MakeTableCommand';
-
     /**
      * The table model.
      *
-     * @var null
+     * @var string
      */
     protected $model = null;
 
@@ -108,11 +81,10 @@ class TableBuilder
      */
     public function build()
     {
-        $this->execute($this->standardizerCommand, ['builder' => $this]);
-        $this->execute($this->buildCommand, ['builder' => $this]);
+        app('events')->fire('streams::table.build', new TableBuildEvent($this));
 
         if (app('request')->isMethod('post')) {
-            $this->execute($this->handleCommand, ['builder' => $this]);
+            app('events')->fire('streams::table.post', new TablePostEvent($this));
         }
     }
 
@@ -124,7 +96,10 @@ class TableBuilder
         $this->build();
 
         if ($this->table->getResponse() === null) {
-            $this->execute($this->makeCommand, ['builder' => $this]);
+
+            app('events')->fire('streams::table.make', new TableMakeEvent($this));
+
+            $this->table->setContent(view($this->table->getView(), $this->table->getData()));
         }
     }
 
@@ -138,6 +113,7 @@ class TableBuilder
         $this->make();
 
         if ($this->table->getResponse() === null) {
+
             $content = $this->table->getContent();
 
             return view($this->table->getWrapper(), compact('content'));
