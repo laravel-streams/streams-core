@@ -4,14 +4,14 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Laracasts\Commander\CommanderTrait;
 
 /**
- * Class RowLoader
+ * Class RowBuilder
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Row
  */
-class RowLoader
+class RowBuilder
 {
 
     /**
@@ -22,7 +22,7 @@ class RowLoader
     protected $factory;
 
     /**
-     * Create a new RowLoader instance.
+     * Create a new RowBuilder instance.
      *
      * @param RowFactory $factory
      */
