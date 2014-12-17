@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\View\Listener;
 
 use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
-use Anomaly\Streams\Platform\Ui\Table\View\ViewLoader;
+use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class TableBuildListener
@@ -14,31 +14,17 @@ use Anomaly\Streams\Platform\Ui\Table\View\ViewLoader;
 class TableBuildListener
 {
 
-    /**
-     * The view loader.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Table\View\ViewLoader
-     */
-    protected $loader;
+    use CommanderTrait;
 
     /**
-     * Create a new TableBuildListener instance.
-     *
-     * @param ViewLoader $loader
-     */
-    public function __construct(ViewLoader $loader)
-    {
-        $this->loader = $loader;
-    }
-
-    /**
-     * When the table is building we want to build and push
-     * the views onto the table's view collection.
+     * Handle the event.
      *
      * @param TableBuildEvent $event
      */
     public function handle(TableBuildEvent $event)
     {
-        $this->loader->load($event->getBuilder());
+        $builder = $event->getBuilder();
+
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\View\Command\BuildTableViewsCommand', compact('builder'));
     }
 }

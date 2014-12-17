@@ -4,24 +4,24 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Laracasts\Commander\CommanderTrait;
 
 /**
- * Class ViewLoader
+ * Class ViewBuilder
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\View
  */
-class ViewLoader
+class ViewBuilder
 {
 
     use CommanderTrait;
 
     /**
-     * The view reader.
+     * The view interpreter.
      *
-     * @var ViewReader
+     * @var ViewInterpreter
      */
-    protected $reader;
+    protected $interpreter;
 
     /**
      * The view factory.
@@ -31,15 +31,15 @@ class ViewLoader
     protected $factory;
 
     /**
-     * Create a new ViewLoader instance.
+     * Create a new ViewBuilder instance.
      *
-     * @param ViewReader  $reader
-     * @param ViewFactory $factory
+     * @param ViewInterpreter $interpreter
+     * @param ViewFactory     $factory
      */
-    function __construct(ViewReader $reader, ViewFactory $factory)
+    function __construct(ViewInterpreter $interpreter, ViewFactory $factory)
     {
-        $this->reader  = $reader;
-        $this->factory = $factory;
+        $this->interpreter = $interpreter;
+        $this->factory     = $factory;
     }
 
     /**
@@ -54,7 +54,7 @@ class ViewLoader
 
         foreach ($builder->getViews() as $key => $parameters) {
 
-            $parameters = $this->reader->standardize($key, $parameters);
+            $parameters = $this->interpreter->standardize($key, $parameters);
 
             $view = $this->factory->make($parameters);
 
