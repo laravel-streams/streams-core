@@ -17,11 +17,11 @@ class ViewBuilder
     use CommanderTrait;
 
     /**
-     * The view interpreter.
+     * The view converter.
      *
-     * @var ViewInterpreter
+     * @var ViewConverter
      */
-    protected $interpreter;
+    protected $converter;
 
     /**
      * The view factory.
@@ -33,13 +33,13 @@ class ViewBuilder
     /**
      * Create a new ViewBuilder instance.
      *
-     * @param ViewInterpreter $interpreter
-     * @param ViewFactory     $factory
+     * @param ViewConverter $converter
+     * @param ViewFactory   $factory
      */
-    function __construct(ViewInterpreter $interpreter, ViewFactory $factory)
+    function __construct(ViewConverter $converter, ViewFactory $factory)
     {
-        $this->interpreter = $interpreter;
-        $this->factory     = $factory;
+        $this->converter = $converter;
+        $this->factory   = $factory;
     }
 
     /**
@@ -54,7 +54,7 @@ class ViewBuilder
 
         foreach ($builder->getViews() as $key => $parameters) {
 
-            $parameters = $this->interpreter->standardize($key, $parameters);
+            $parameters = $this->converter->standardize($key, $parameters);
 
             $view = $this->factory->make($parameters);
 

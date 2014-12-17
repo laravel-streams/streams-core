@@ -1,14 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Column;
 
 /**
- * Class ColumnInterpreter
+ * Class ColumnConverter
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Column
  */
-class ColumnInterpreter
+class ColumnConverter
 {
 
     /**

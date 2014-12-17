@@ -17,11 +17,11 @@ class FilterBuilder
     use CommanderTrait;
 
     /**
-     * The filter interpreter.
+     * The filter converter.
      *
-     * @var FilterInterpreter
+     * @var FilterConverter
      */
-    protected $interpreter;
+    protected $converter;
 
     /**
      * The filter factory.
@@ -33,13 +33,13 @@ class FilterBuilder
     /**
      * Create a new FilterBuilder instance.
      *
-     * @param FilterInterpreter $interpreter
-     * @param FilterFactory     $factory
+     * @param FilterConverter $converter
+     * @param FilterFactory   $factory
      */
-    function __construct(FilterInterpreter $interpreter, FilterFactory $factory)
+    function __construct(FilterConverter $converter, FilterFactory $factory)
     {
-        $this->interpreter = $interpreter;
-        $this->factory     = $factory;
+        $this->converter = $converter;
+        $this->factory   = $factory;
     }
 
     /**
@@ -54,7 +54,7 @@ class FilterBuilder
 
         foreach ($builder->getViews() as $key => $parameters) {
 
-            $parameters = $this->interpreter->standardize($key, $parameters);
+            $parameters = $this->converter->standardize($key, $parameters);
 
             $parameters['stream'] = $table->getStream();
 

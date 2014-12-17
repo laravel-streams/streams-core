@@ -17,11 +17,11 @@ class ActionBuilder
     use CommanderTrait;
 
     /**
-     * The action input interpreter.
+     * The action input converter.
      *
-     * @var ActionInterpreter
+     * @var ActionConverter
      */
-    protected $interpreter;
+    protected $converter;
 
     /**
      * The action factory.
@@ -33,13 +33,13 @@ class ActionBuilder
     /**
      * Create a new ActionBuilder instance.
      *
-     * @param ActionInterpreter $interpreter
-     * @param ActionFactory     $factory
+     * @param ActionConverter $converter
+     * @param ActionFactory   $factory
      */
-    function __construct(ActionInterpreter $interpreter, ActionFactory $factory)
+    function __construct(ActionConverter $converter, ActionFactory $factory)
     {
-        $this->interpreter = $interpreter;
-        $this->factory     = $factory;
+        $this->converter = $converter;
+        $this->factory   = $factory;
     }
 
     /**
@@ -54,7 +54,7 @@ class ActionBuilder
 
         foreach ($builder->getActions() as $key => $parameters) {
 
-            $parameters = $this->interpreter->standardize($key, $parameters);
+            $parameters = $this->converter->standardize($key, $parameters);
 
             $action = $this->factory->make($parameters);
 
