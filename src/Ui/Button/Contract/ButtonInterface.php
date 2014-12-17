@@ -12,12 +12,11 @@ interface ButtonInterface
 {
 
     /**
-     * Get the view data.
+     * Get table data.
      *
-     * @param array $arguments
-     * @return mixed
+     * @return array
      */
-    public function viewData(array $arguments = []);
+    public function getTableData();
 
     /**
      * Get attributes.

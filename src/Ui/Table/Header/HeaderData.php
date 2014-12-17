@@ -26,7 +26,7 @@ class HeaderData
 
         $headers = array_map(
             function (HeaderInterface $header) {
-                return $header->viewData();
+                return $header->getTableData();
             },
             $table->getHeaders()->all()
         );

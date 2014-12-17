@@ -26,7 +26,7 @@ class RowData
 
         $rows = array_map(
             function (RowInterface $row) {
-                return $row->viewData();
+                return $row->getTableData();
             },
             $table->getRows()->all()
         );

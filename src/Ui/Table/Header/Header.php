@@ -34,7 +34,7 @@ class Header implements HeaderInterface
      * @param array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function getTableData()
     {
         $text = $this->getText();
 

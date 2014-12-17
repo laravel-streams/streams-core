@@ -60,12 +60,11 @@ class Button implements ButtonInterface
     }
 
     /**
-     * Get the view data.
+     * Get the table data.
      *
-     * @param array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function getTableData()
     {
         $type  = $this->getType();
         $icon  = $this->getIcon();

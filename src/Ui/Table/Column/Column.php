@@ -63,7 +63,7 @@ class Column implements ColumnInterface
      * @param array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function getTableData()
     {
         $value = $this->getValue();
         $class = $this->getClass();

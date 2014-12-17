@@ -67,7 +67,7 @@ class Filter implements FilterInterface
      * @param array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function getTableData()
     {
         $input = $this->getInput();
 

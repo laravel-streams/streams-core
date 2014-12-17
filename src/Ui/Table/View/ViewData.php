@@ -26,7 +26,7 @@ class ViewData
 
         $views = array_map(
             function (ViewInterface $view) {
-                return $view->viewData();
+                return $view->getTableData();
             },
             $table->getViews()->all()
         );

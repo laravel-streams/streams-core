@@ -26,7 +26,7 @@ class FilterData
 
         $filters = array_map(
             function (FilterInterface $filter) {
-                return $filter->viewData();
+                return $filter->getTableData();
             },
             $table->getFilters()->all()
         );

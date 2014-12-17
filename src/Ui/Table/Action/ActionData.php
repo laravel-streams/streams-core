@@ -26,7 +26,7 @@ class ActionData
 
         $actions = array_map(
             function (ActionInterface $action) {
-                return $action->viewData();
+                return $action->getTableData();
             },
             $table->getActions()->all()
         );

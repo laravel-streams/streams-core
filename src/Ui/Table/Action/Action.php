@@ -72,9 +72,9 @@ class Action extends Button implements ActionInterface
      * @param array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function getTableData()
     {
-        $data = parent::viewData($arguments);
+        $data = parent::getTableData();
 
         $data['slug'] = $this->getSlug();
 
