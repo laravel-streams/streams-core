@@ -1,14 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Filter;
 
 /**
- * Class FilterReader
+ * Class FilterInterpreter
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Filter
  */
-class FilterReader
+class FilterInterpreter
 {
 
     /**

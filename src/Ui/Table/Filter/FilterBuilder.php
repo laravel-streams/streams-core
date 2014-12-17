@@ -4,14 +4,14 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Laracasts\Commander\CommanderTrait;
 
 /**
- * Class FilterLoader
+ * Class FilterBuilder
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Filter
  */
-class FilterLoader
+class FilterBuilder
 {
 
     use CommanderTrait;
@@ -31,7 +31,7 @@ class FilterLoader
     protected $factory;
 
     /**
-     * Create a new FilterLoader instance.
+     * Create a new FilterBuilder instance.
      *
      * @param FilterReader  $reader
      * @param FilterFactory $factory

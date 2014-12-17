@@ -32,8 +32,7 @@ class TableMakeListener
     }
 
     /**
-     * When the table is being made we need to put the
-     * action data to the table.
+     * Handle the event.
      *
      * @param TableMakeEvent $event
      */

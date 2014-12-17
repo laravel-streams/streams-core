@@ -14,8 +14,7 @@ class TableQueryingListener
 {
 
     /**
-     * When the table is querying for entries
-     * give the active action a chance to modify things.
+     * Handle the event.
      *
      * @param TableQueryingEvent $event
      */
