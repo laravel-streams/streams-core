@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Header;
 
+use Anomaly\Streams\Platform\Ui\Table\Header\Contract\HeaderInterface;
+
 /**
  * Class HeaderFactory
  *
@@ -22,14 +24,10 @@ class HeaderFactory
      * Make a header.
      *
      * @param array $parameters
-     * @return mixed
+     * @return HeaderInterface
      */
     public function make(array $parameters)
     {
-        if (isset($parameters['header']) && class_exists($parameters['header'])) {
-            return app()->make($parameters['header'], $parameters);
-        }
-
-        return app()->make($this->header, $parameters);
+        return app()->make(array_get($parameters, 'header', $this->header), $parameters);
     }
 }
