@@ -83,6 +83,8 @@ class HeaderBuilder
 
             $header = $this->factory->make($parameters);
 
+            $this->loader->load($header, $parameters);
+
             $headers->push($header);
         }
     }
