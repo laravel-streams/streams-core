@@ -31,6 +31,23 @@ class ViewCollection extends Collection
     }
 
     /**
+     * Find a view by it's slug.
+     *
+     * @param $slug
+     * @return ViewInterface|null
+     */
+    public function findBySlug($slug)
+    {
+        foreach ($this->items as $item) {
+            if ($this->viewSlugIs($item, $slug)) {
+                return $item;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Return whether the view is active or not.
      *
      * @param ViewInterface $item
@@ -39,5 +56,17 @@ class ViewCollection extends Collection
     protected function viewIsActive(ViewInterface $item)
     {
         return $item->isActive();
+    }
+
+    /**
+     * Return whether the action slug matches the provided one.
+     *
+     * @param ViewInterface   $item
+     * @param                 $slug
+     * @return bool
+     */
+    protected function viewSlugIs(ViewInterface $item, $slug)
+    {
+        return ($item->getSlug() == $slug);
     }
 }

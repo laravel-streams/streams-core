@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
+use Illuminate\Support\Collection;
 
 /**
  * Class Button
@@ -18,51 +19,43 @@ class Button implements ButtonInterface
      *
      * @var null
      */
-    protected $text;
+    protected $text = null;
 
     /**
      * The button icon.
      *
      * @var null
      */
-    protected $icon;
+    protected $icon = null;
 
     /**
      * The button type.
      *
      * @var string
      */
-    protected $type;
+    protected $type = 'default';
 
     /**
      * The button class.
      *
      * @var null
      */
-    protected $class;
+    protected $class = null;
 
     /**
      * The button's attributes.
      *
-     * @var array
+     * @var Collection
      */
     protected $attributes;
 
     /**
      * Create a new Button instance.
      *
-     * @param string $type
-     * @param null   $text
-     * @param null   $class
-     * @param null   $icon
-     * @param array  $attributes
+     * @param Collection $attributes
      */
-    public function __construct($type = 'default', $text = null, $class = null, $icon = null, array $attributes = [])
+    function __construct(Collection $attributes)
     {
-        $this->icon       = $icon;
-        $this->class      = $class;
-        $this->text       = $text;
-        $this->type       = $type;
         $this->attributes = $attributes;
     }
 
@@ -74,11 +67,12 @@ class Button implements ButtonInterface
      */
     public function viewData(array $arguments = [])
     {
-        $type       = $this->getType();
-        $icon       = $this->getIcon();
-        $text       = $this->getText();
-        $class      = $this->getClass();
-        $attributes = $this->getAttributes();
+        $type  = $this->getType();
+        $icon  = $this->getIcon();
+        $text  = $this->getText();
+        $class = $this->getClass();
+
+        $attributes = $this->attributes->all();
 
         if (is_string($text)) {
             $text = trans($text);
@@ -92,48 +86,9 @@ class Button implements ButtonInterface
     }
 
     /**
-     * Pull an attribute.
-     *
-     * @param      $attribute
-     * @param null $default
-     * @return mixed
-     */
-    public function pullAttribute($attribute, $default = null)
-    {
-        return array_get($this->attributes, $attribute, $default);
-    }
-
-    /**
-     * Put an attribute.
-     *
-     * @param $attribute
-     * @param $value
-     * @return $this
-     */
-    public function putAttribute($attribute, $value)
-    {
-        $this->attributes[$attribute] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Set the attributes.
-     *
-     * @param $attributes
-     * @return $this
-     */
-    public function setAttributes($attributes)
-    {
-        $this->attributes = $attributes;
-
-        return $this;
-    }
-
-    /**
      * Get the attributes.
      *
-     * @return array
+     * @return Collection
      */
     public function getAttributes()
     {

@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Action\Contract;
 
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryingEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
 
 /**
  * Interface ActionInterface
@@ -13,6 +13,28 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryingEvent;
  */
 interface ActionInterface extends ButtonInterface
 {
+
+    /**
+     * Hook into the table querying event.
+     *
+     * @param TablePostEvent $event
+     */
+    public function onTablePost(TablePostEvent $event);
+
+    /**
+     * Set the onTablePost handler.
+     *
+     * @param $onTablePost
+     * @return $this
+     */
+    public function setOnTablePost($onTablePost);
+
+    /**
+     * Get the onTablePost handler.
+     *
+     * @return mixed
+     */
+    public function getOnTablePost();
 
     /**
      * Set the active flag.
@@ -58,11 +80,4 @@ interface ActionInterface extends ButtonInterface
      * @return mixed
      */
     public function getSlug();
-
-    /**
-     * Hook into the table querying event.
-     *
-     * @param TableQueryingEvent $event
-     */
-    public function onTableQuerying(TableQueryingEvent $event);
 }

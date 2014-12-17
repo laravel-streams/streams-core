@@ -20,32 +20,6 @@ interface ButtonInterface
     public function viewData(array $arguments = []);
 
     /**
-     * Pull an attribute.
-     *
-     * @param      $attribute
-     * @param null $default
-     * @return mixed
-     */
-    public function pullAttribute($attribute, $default = null);
-
-    /**
-     * Put an attribute.
-     *
-     * @param $attribute
-     * @param $value
-     * @return mixed
-     */
-    public function putAttribute($attribute, $value);
-
-    /**
-     * Set attributes.
-     *
-     * @param $attributes
-     * @return mixed
-     */
-    public function setAttributes($attributes);
-
-    /**
      * Get attributes.
      *
      * @return mixed

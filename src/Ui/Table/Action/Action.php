@@ -2,7 +2,8 @@
 
 use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryingEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
+use Illuminate\Support\Collection;
 
 /**
  * Class Action
@@ -16,56 +17,53 @@ class Action extends Button implements ActionInterface
 {
 
     /**
-     * The action slug.
+     * The onTablePost handler.
      *
-     * @var string
+     * @var null
      */
-    protected $slug;
+    protected $onTablePost = null;
 
     /**
      * The active flag.
      *
      * @var bool
      */
-    protected $active;
+    protected $active = false;
 
     /**
      * The action's prefix.
      *
-     * @var null
+     * @var string|null
      */
-    protected $prefix;
+    protected $prefix = null;
+
+    /**
+     * The action slug.
+     *
+     * @var string|null
+     */
+    protected $slug = null;
 
     /**
      * Create a new Action instance.
      *
-     * @param string $slug
-     * @param null   $icon
-     * @param null   $text
-     * @param null   $class
-     * @param null   $prefix
-     * @param bool   $active
-     * @param string $type
-     * @param array  $attributes
+     * @param Collection $attributes
      */
-    public function __construct(
-        $slug,
-        $icon = null,
-        $text = null,
-        $class = null,
-        $prefix = null,
-        $active = false,
-        $type = 'default',
-        array $attributes = []
-    ) {
-        parent::__construct($type, $text, $class, $icon, $attributes);
+    public function __construct(Collection $attributes)
+    {
+        $attributes->put('type', 'submit');
+        $attributes->put('name', 'action');
 
-        $this->slug   = $slug;
-        $this->active = $active;
-        $this->prefix = $prefix;
+        parent::__construct($attributes);
+    }
 
-        $this->putAttribute('type', 'submit');
-        $this->putAttribute('name', 'action');
+    /**
+     * Hook into the table querying event.
+     *
+     * @param TablePostEvent $event
+     */
+    public function onTablePost(TablePostEvent $event)
+    {
     }
 
     /**
@@ -81,6 +79,29 @@ class Action extends Button implements ActionInterface
         $data['slug'] = $this->getSlug();
 
         return $data;
+    }
+
+    /**
+     * Set the onTablePost handler.
+     *
+     * @param $onTablePost
+     * @return $this
+     */
+    public function setOnTablePost($onTablePost)
+    {
+        $this->onTablePost = $onTablePost;
+
+        return $this;
+    }
+
+    /**
+     * Get the onTablePost handler.
+     *
+     * @return mixed
+     */
+    public function getOnTablePost()
+    {
+        return $this->onTablePost;
     }
 
     /**
@@ -122,7 +143,7 @@ class Action extends Button implements ActionInterface
     /**
      * Get the prefix.
      *
-     * @return null
+     * @return string
      */
     public function getPrefix()
     {
@@ -150,14 +171,5 @@ class Action extends Button implements ActionInterface
     public function getSlug()
     {
         return $this->slug;
-    }
-
-    /**
-     * Hook into the table querying event.
-     *
-     * @param TableQueryingEvent $event
-     */
-    public function onTableQuerying(TableQueryingEvent $event)
-    {
     }
 }

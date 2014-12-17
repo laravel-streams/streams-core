@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Action;
 
-use Anomaly\Streams\Platform\Ui\Form\Action\Action;
 use Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionInterface;
 use Illuminate\Support\Collection;
 
@@ -32,13 +31,42 @@ class ActionCollection extends Collection
     }
 
     /**
+     * Find an action by it's slug.
+     *
+     * @param $slug
+     * @return null
+     */
+    public function findBySlug($slug)
+    {
+        foreach ($this->items as $item) {
+            if ($this->actionSlugIs($item, $slug)) {
+                return $item;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Return whether the action is active or not.
      *
      * @param Action $item
      * @return bool
      */
-    protected function actionIsActive(Action $item)
+    protected function actionIsActive(ActionInterface $item)
     {
         return $item->isActive();
+    }
+
+    /**
+     * Return whether the action slug matches the provided one.
+     *
+     * @param ActionInterface $item
+     * @param                 $slug
+     * @return bool
+     */
+    protected function actionSlugIs(ActionInterface $item, $slug)
+    {
+        return ($item->getSlug() == $slug);
     }
 }
