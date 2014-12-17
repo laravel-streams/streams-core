@@ -25,60 +25,37 @@ class Column implements ColumnInterface
     /**
      * The column value.
      *
-     * @var
+     * @var null
      */
-    protected $value;
+    protected $value = null;
 
     /**
      * The column class.
      *
      * @var null
      */
-    protected $class;
+    protected $class = null;
 
     /**
      * The column prefix.
      *
      * @var null
      */
-    protected $prefix;
+    protected $prefix = null;
 
     /**
      * The column header.
      *
      * @var null
      */
-    protected $header;
+    protected $header = null;
 
     /**
      * The column stream.
      *
      * @var \Anomaly\Streams\Platform\Stream\Contract\StreamInterface
      */
-    protected $stream;
-
-    /**
-     * Create a new Column instance.
-     *
-     * @param                 $value
-     * @param null            $class
-     * @param null            $prefix
-     * @param null            $header
-     * @param StreamInterface $stream
-     */
-    public function __construct(
-        $value,
-        $class = null,
-        $prefix = null,
-        $header = null,
-        StreamInterface $stream = null
-    ) {
-        $this->value  = $value;
-        $this->class  = $class;
-        $this->prefix = $prefix;
-        $this->header = $header;
-        $this->stream = $stream;
-    }
+    protected $stream = null;
 
     /**
      * Return the view data.

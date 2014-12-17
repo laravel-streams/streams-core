@@ -38,14 +38,27 @@ class HeaderBuilder
     protected $factory;
 
     /**
+     * The header loader.
+     *
+     * @var HeaderLoader
+     */
+    protected $loader;
+
+    /**
      * Create a new HeaderBuilder instance.
      *
      * @param HeaderConverter $converter
      * @param HeaderEvaluator $evaluator
      * @param HeaderFactory   $factory
+     * @param HeaderLoader    $loader
      */
-    function __construct(HeaderConverter $converter, HeaderEvaluator $evaluator, HeaderFactory $factory)
-    {
+    function __construct(
+        HeaderConverter $converter,
+        HeaderEvaluator $evaluator,
+        HeaderFactory $factory,
+        HeaderLoader $loader
+    ) {
+        $this->loader    = $loader;
         $this->factory   = $factory;
         $this->converter = $converter;
         $this->evaluator = $evaluator;
@@ -64,6 +77,7 @@ class HeaderBuilder
         foreach ($builder->getColumns() as $parameters) {
 
             $parameters = $this->converter->standardize($parameters);
+            $parameters = $this->evaluator->process($parameters, $builder);
 
             $parameters['stream'] = $table->getStream();
 

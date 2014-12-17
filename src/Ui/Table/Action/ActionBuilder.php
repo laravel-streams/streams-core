@@ -77,6 +77,7 @@ class ActionBuilder
         foreach ($builder->getActions() as $key => $parameters) {
 
             $parameters = $this->converter->standardize($key, $parameters);
+            $parameters = $this->evaluator->process($parameters, $builder);
 
             $action = $this->factory->make($parameters);
 

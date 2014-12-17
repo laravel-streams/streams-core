@@ -26,17 +26,7 @@ class Header implements HeaderInterface
      *
      * @var null
      */
-    protected $text;
-
-    /**
-     * Create a new Header instance.
-     *
-     * @param null $text
-     */
-    public function __construct($text = null)
-    {
-        $this->text = $text;
-    }
+    protected $text = null;
 
     /**
      * Return the view data.

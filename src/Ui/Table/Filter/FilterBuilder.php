@@ -38,14 +38,27 @@ class FilterBuilder
     protected $factory;
 
     /**
+     * The filter loader.
+     *
+     * @var FilterLoader
+     */
+    protected $loader;
+
+    /**
      * Create a new FilterBuilder instance.
      *
      * @param FilterConverter $converter
      * @param FilterEvaluator $evaluator
      * @param FilterFactory   $factory
+     * @param FilterLoader    $loader
      */
-    function __construct(FilterConverter $converter, FilterEvaluator $evaluator, FilterFactory $factory)
-    {
+    function __construct(
+        FilterConverter $converter,
+        FilterEvaluator $evaluator,
+        FilterFactory $factory,
+        FilterLoader $loader
+    ) {
+        $this->loader    = $loader;
         $this->factory   = $factory;
         $this->converter = $converter;
         $this->evaluator = $evaluator;
@@ -64,10 +77,13 @@ class FilterBuilder
         foreach ($builder->getViews() as $key => $parameters) {
 
             $parameters = $this->converter->standardize($key, $parameters);
+            $parameters = $this->evaluator->process($parameters, $builder);
 
             $parameters['stream'] = $table->getStream();
 
             $filter = $this->factory->make($parameters);
+
+            $this->loader->load($filter, $parameters);
 
             $filters->put($filter->getSlug(), $filter);
         }

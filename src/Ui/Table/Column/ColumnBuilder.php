@@ -36,14 +36,27 @@ class ColumnBuilder
     protected $factory;
 
     /**
+     * The column loader.
+     *
+     * @var ColumnLoader
+     */
+    protected $loader;
+
+    /**
      * Create a new ColumnBuilder instance.
      *
      * @param ColumnConverter $converter
      * @param ColumnEvaluator $evaluator
      * @param ColumnFactory   $factory
+     * @param ColumnLoader    $loader
      */
-    function __construct(ColumnConverter $converter, ColumnEvaluator $evaluator, ColumnFactory $factory)
-    {
+    function __construct(
+        ColumnConverter $converter,
+        ColumnEvaluator $evaluator,
+        ColumnFactory $factory,
+        ColumnLoader $loader
+    ) {
+        $this->loader    = $loader;
         $this->factory   = $factory;
         $this->converter = $converter;
         $this->evaluator = $evaluator;
@@ -62,8 +75,11 @@ class ColumnBuilder
         foreach ($builder->getColumns() as $key => $parameters) {
 
             $parameters = $this->converter->standardize($key, $parameters);
+            $parameters = $this->evaluator->process($parameters, $builder);
 
             $column = $this->factory->make($parameters);
+
+            $this->loader->load($column, $parameters);
 
             $columns->push($column);
         }

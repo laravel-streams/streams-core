@@ -38,13 +38,23 @@ class ViewBuilder
     protected $factory;
 
     /**
+     * The view loader.
+     *
+     * @var ViewLoader
+     */
+    protected $loader;
+
+    /**
      * Create a new ViewBuilder instance.
      *
      * @param ViewConverter $converter
+     * @param ViewEvaluator $evaluator
      * @param ViewFactory   $factory
+     * @param ViewLoader    $loader
      */
-    function __construct(ViewConverter $converter, ViewEvaluator $evaluator, ViewFactory $factory)
+    function __construct(ViewConverter $converter, ViewEvaluator $evaluator, ViewFactory $factory, ViewLoader $loader)
     {
+        $this->loader    = $loader;
         $this->factory   = $factory;
         $this->converter = $converter;
         $this->evaluator = $evaluator;
@@ -63,8 +73,11 @@ class ViewBuilder
         foreach ($builder->getViews() as $key => $parameters) {
 
             $parameters = $this->converter->standardize($key, $parameters);
+            $parameters = $this->evaluator->process($parameters, $builder);
 
             $view = $this->factory->make($parameters);
+
+            $this->loader->load($view, $parameters);
 
             $views->put($view->getSlug(), $view);
         }
