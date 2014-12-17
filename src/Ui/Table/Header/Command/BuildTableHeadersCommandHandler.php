@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Header\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Header\HeaderLoader;
+use Anomaly\Streams\Platform\Ui\Table\Header\HeaderBuilder;
 
 /**
  * Class BuildTableHeadersCommandHandler
@@ -14,20 +14,20 @@ class BuildTableHeadersCommandHandler
 {
 
     /**
-     * The header loader.
+     * The header builder.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Header\HeaderLoader
+     * @var \Anomaly\Streams\Platform\Ui\Table\Header\HeaderBuilder
      */
-    protected $loader;
+    protected $builder;
 
     /**
      * Create a new TableBuildListener instance.
      *
-     * @param HeaderLoader $loader
+     * @param HeaderBuilder $builder
      */
-    public function __construct(HeaderLoader $loader)
+    public function __construct(HeaderBuilder $builder)
     {
-        $this->loader = $loader;
+        $this->builder = $builder;
     }
 
     /**
@@ -37,6 +37,6 @@ class BuildTableHeadersCommandHandler
      */
     public function handle(BuildTableHeadersCommand $command)
     {
-        $this->loader->load($command->getBuilder());
+        $this->builder->load($command->getBuilder());
     }
 }

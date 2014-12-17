@@ -37,6 +37,8 @@ class BuildTableActionsCommandHandler
      */
     public function handle(BuildTableActionsCommand $command)
     {
-        $this->builder->build($command->getBuilder());
+        $builder = $command->getBuilder();
+
+        $this->builder->build($builder);
     }
 }

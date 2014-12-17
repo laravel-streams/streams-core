@@ -4,24 +4,31 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Laracasts\Commander\CommanderTrait;
 
 /**
- * Class HeaderLoader
+ * Class HeaderBuilder
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Header
  */
-class HeaderLoader
+class HeaderBuilder
 {
 
     use CommanderTrait;
 
     /**
-     * The header reader.
+     * The header converter.
      *
-     * @var HeaderReader
+     * @var HeaderConverter
      */
-    protected $reader;
+    protected $converter;
+
+    /**
+     * The header evaluator.
+     *
+     * @var HeaderEvaluator
+     */
+    protected $evaluator;
 
     /**
      * The header factory.
@@ -31,15 +38,17 @@ class HeaderLoader
     protected $factory;
 
     /**
-     * Create a new HeaderLoader instance.
+     * Create a new HeaderBuilder instance.
      *
-     * @param HeaderReader  $reader
-     * @param HeaderFactory $factory
+     * @param HeaderConverter $converter
+     * @param HeaderEvaluator $evaluator
+     * @param HeaderFactory   $factory
      */
-    function __construct(HeaderReader $reader, HeaderFactory $factory)
+    function __construct(HeaderConverter $converter, HeaderEvaluator $evaluator, HeaderFactory $factory)
     {
-        $this->reader  = $reader;
-        $this->factory = $factory;
+        $this->factory   = $factory;
+        $this->converter = $converter;
+        $this->evaluator = $evaluator;
     }
 
     /**
@@ -54,7 +63,7 @@ class HeaderLoader
 
         foreach ($builder->getColumns() as $parameters) {
 
-            $parameters = $this->reader->standardize($parameters);
+            $parameters = $this->converter->standardize($parameters);
 
             $parameters['stream'] = $table->getStream();
 

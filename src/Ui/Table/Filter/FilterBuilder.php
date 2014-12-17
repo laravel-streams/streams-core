@@ -24,6 +24,13 @@ class FilterBuilder
     protected $converter;
 
     /**
+     * The table evaluator.
+     *
+     * @var FilterEvaluator
+     */
+    protected $evaluator;
+
+    /**
      * The filter factory.
      *
      * @var FilterFactory
@@ -34,12 +41,14 @@ class FilterBuilder
      * Create a new FilterBuilder instance.
      *
      * @param FilterConverter $converter
+     * @param FilterEvaluator $evaluator
      * @param FilterFactory   $factory
      */
-    function __construct(FilterConverter $converter, FilterFactory $factory)
+    function __construct(FilterConverter $converter, FilterEvaluator $evaluator, FilterFactory $factory)
     {
-        $this->converter = $converter;
         $this->factory   = $factory;
+        $this->converter = $converter;
+        $this->evaluator = $evaluator;
     }
 
     /**

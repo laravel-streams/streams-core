@@ -24,6 +24,13 @@ class ViewBuilder
     protected $converter;
 
     /**
+     * The view evaluator.
+     *
+     * @var ViewEvaluator
+     */
+    protected $evaluator;
+
+    /**
      * The view factory.
      *
      * @var ViewFactory
@@ -36,10 +43,11 @@ class ViewBuilder
      * @param ViewConverter $converter
      * @param ViewFactory   $factory
      */
-    function __construct(ViewConverter $converter, ViewFactory $factory)
+    function __construct(ViewConverter $converter, ViewEvaluator $evaluator, ViewFactory $factory)
     {
-        $this->converter = $converter;
         $this->factory   = $factory;
+        $this->converter = $converter;
+        $this->evaluator = $evaluator;
     }
 
     /**

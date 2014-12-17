@@ -22,6 +22,13 @@ class ColumnBuilder
     protected $converter;
 
     /**
+     * The column evaluator.
+     *
+     * @var ColumnEvaluator
+     */
+    protected $evaluator;
+
+    /**
      * The column factory.
      *
      * @var ColumnFactory
@@ -32,12 +39,14 @@ class ColumnBuilder
      * Create a new ColumnBuilder instance.
      *
      * @param ColumnConverter $converter
+     * @param ColumnEvaluator $evaluator
      * @param ColumnFactory   $factory
      */
-    function __construct(ColumnConverter $converter, ColumnFactory $factory)
+    function __construct(ColumnConverter $converter, ColumnEvaluator $evaluator, ColumnFactory $factory)
     {
-        $this->converter = $converter;
         $this->factory   = $factory;
+        $this->converter = $converter;
+        $this->evaluator = $evaluator;
     }
 
     /**

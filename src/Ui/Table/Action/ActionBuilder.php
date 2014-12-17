@@ -17,11 +17,18 @@ class ActionBuilder
     use CommanderTrait;
 
     /**
-     * The action input converter.
+     * The action converter.
      *
      * @var ActionConverter
      */
     protected $converter;
+
+    /**
+     * The action evaluator.
+     *
+     * @var ActionEvaluator
+     */
+    protected $evaluator;
 
     /**
      * The action factory.
@@ -34,12 +41,14 @@ class ActionBuilder
      * Create a new ActionBuilder instance.
      *
      * @param ActionConverter $converter
+     * @param ActionEvaluator $evaluator
      * @param ActionFactory   $factory
      */
-    function __construct(ActionConverter $converter, ActionFactory $factory)
+    function __construct(ActionConverter $converter, ActionEvaluator $evaluator, ActionFactory $factory)
     {
-        $this->converter = $converter;
         $this->factory   = $factory;
+        $this->converter = $converter;
+        $this->evaluator = $evaluator;
     }
 
     /**
