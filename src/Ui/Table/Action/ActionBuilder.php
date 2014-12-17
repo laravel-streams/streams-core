@@ -4,24 +4,24 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Laracasts\Commander\CommanderTrait;
 
 /**
- * Class ActionConverter
+ * Class ActionBuilder
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Action
  */
-class ActionConverter
+class ActionBuilder
 {
 
     use CommanderTrait;
 
     /**
-     * The action reader.
+     * The action input interpreter.
      *
-     * @var ActionReader
+     * @var ActionInterpreter
      */
-    protected $reader;
+    protected $interpreter;
 
     /**
      * The action factory.
@@ -31,15 +31,15 @@ class ActionConverter
     protected $factory;
 
     /**
-     * Create a new ActionConverter instance.
+     * Create a new ActionBuilder instance.
      *
-     * @param ActionReader  $reader
-     * @param ActionFactory $factory
+     * @param ActionInterpreter $interpreter
+     * @param ActionFactory     $factory
      */
-    function __construct(ActionReader $reader, ActionFactory $factory)
+    function __construct(ActionInterpreter $interpreter, ActionFactory $factory)
     {
-        $this->reader  = $reader;
-        $this->factory = $factory;
+        $this->interpreter = $interpreter;
+        $this->factory     = $factory;
     }
 
     /**
@@ -54,7 +54,7 @@ class ActionConverter
 
         foreach ($builder->getActions() as $key => $parameters) {
 
-            $parameters = $this->reader->standardize($key, $parameters);
+            $parameters = $this->interpreter->standardize($key, $parameters);
 
             $action = $this->factory->make($parameters);
 

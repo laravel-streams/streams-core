@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Action\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Action\ActionConverter;
+use Anomaly\Streams\Platform\Ui\Table\Action\ActionBuilder;
 
 /**
  * Class BuildTableActionsCommandHandler
@@ -14,29 +14,29 @@ class BuildTableActionsCommandHandler
 {
 
     /**
-     * The action converter.
+     * The action builder.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Action\ActionConverter
+     * @var \Anomaly\Streams\Platform\Ui\Table\Action\ActionBuilder
      */
-    protected $converter;
+    protected $builder;
 
     /**
      * Create a new TableBuildListener instance.
      *
-     * @param ActionConverter $converter
+     * @param ActionBuilder $builder
      */
-    public function __construct(ActionConverter $converter)
+    public function __construct(ActionBuilder $builder)
     {
-        $this->converter = $converter;
+        $this->builder = $builder;
     }
 
     /**
-     * Load the action objects to the table.
+     * Build actions and load them to the table.
      *
      * @param BuildTableActionsCommand $command
      */
     public function handle(BuildTableActionsCommand $command)
     {
-        $this->converter->build($command->getBuilder());
+        $this->builder->build($command->getBuilder());
     }
 }
