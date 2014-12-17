@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryingEvent;
 
 /**
  * Class Action
@@ -149,5 +150,14 @@ class Action extends Button implements ActionInterface
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Hook into the table querying event.
+     *
+     * @param TableQueryingEvent $event
+     */
+    public function onTableQuerying(TableQueryingEvent $event)
+    {
     }
 }

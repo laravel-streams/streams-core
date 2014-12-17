@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Action;
 
 use Anomaly\Streams\Platform\Ui\Form\Action\Action;
+use Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionInterface;
 use Illuminate\Support\Collection;
 
 /**
@@ -15,7 +16,9 @@ class ActionCollection extends Collection
 {
 
     /**
-     * @return null
+     * Return the active table action.
+     *
+     * @return ActionInterface|null
      */
     public function active()
     {
