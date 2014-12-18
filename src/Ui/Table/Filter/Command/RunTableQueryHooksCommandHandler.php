@@ -5,22 +5,22 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class ApplyTableFiltersCommandHandler
+ * Class RunTableQueryHooksCommandHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Table\Filter\Command
  */
-class ApplyTableFiltersCommandHandler
+class RunTableQueryHooksCommandHandler
 {
 
     /**
      * Apply active table filters.
      *
-     * @param ApplyTableFiltersCommand $command
+     * @param RunTableQueryHooksCommand $command
      */
-    public function handle(ApplyTableFiltersCommand $command)
+    public function handle(RunTableQueryHooksCommand $command)
     {
         $query   = $command->getQuery();
         $builder = $command->getBuilder();
@@ -28,7 +28,7 @@ class ApplyTableFiltersCommandHandler
         $filters = $table->getFilters();
 
         foreach ($filters->active() as $filter) {
-            $this->runQueryHook($filter, $builder, $query);
+            $this->runTableQueryHook($filter, $builder, $query);
         }
     }
 
@@ -39,7 +39,7 @@ class ApplyTableFiltersCommandHandler
      * @param TableBuilder    $builder
      * @param Builder         $query
      */
-    protected function runQueryHook(FilterInterface $filter, TableBuilder $builder, Builder $query)
+    protected function runTableQueryHook(FilterInterface $filter, TableBuilder $builder, Builder $query)
     {
         $filter->onTableQuerying($builder, $query);
     }

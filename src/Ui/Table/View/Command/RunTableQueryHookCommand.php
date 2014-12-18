@@ -4,14 +4,14 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class ApplyTableViewCommand
+ * Class RunTableQueryHookCommand
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\View\Command
  */
-class ApplyTableViewCommand
+class RunTableQueryHookCommand
 {
 
     /**
@@ -29,7 +29,7 @@ class ApplyTableViewCommand
     protected $query;
 
     /**
-     * Create a new ApplyTableFiltersCommand instance.
+     * Create a new RunTableQueryHooksCommand instance.
      *
      * @param Builder      $query
      * @param TableBuilder $builder

@@ -5,22 +5,22 @@ use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewInterface;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class ApplyTableViewCommandHandler
+ * Class RunTableQueryHookCommandHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\View\Command
  */
-class ApplyTableViewCommandHandler
+class RunTableQueryHookCommandHandler
 {
 
     /**
      * Apply table views.
      *
-     * @param ApplyTableViewCommand $command
+     * @param RunTableQueryHookCommand $command
      */
-    public function handle(ApplyTableViewCommand $command)
+    public function handle(RunTableQueryHookCommand $command)
     {
         $query   = $command->getQuery();
         $builder = $command->getBuilder();
@@ -31,7 +31,7 @@ class ApplyTableViewCommandHandler
             return;
         }
 
-        $this->runQueryHook($view, $builder, $query);
+        $this->runTableQueryHook($view, $builder, $query);
     }
 
     /**
@@ -41,7 +41,7 @@ class ApplyTableViewCommandHandler
      * @param TableBuilder  $builder
      * @param Builder       $query
      */
-    protected function runQueryHook(ViewInterface $view, TableBuilder $builder, Builder $query)
+    protected function runTableQueryHook(ViewInterface $view, TableBuilder $builder, Builder $query)
     {
         $view->onTableQuerying($builder, $query);
     }

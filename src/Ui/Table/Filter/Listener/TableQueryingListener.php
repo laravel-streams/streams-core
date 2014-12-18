@@ -28,7 +28,7 @@ class TableQueryingListener
         $query   = $event->getQuery();
 
         $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Filter\Command\ApplyTableFiltersCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Filter\Command\RunTableQueryHooksCommand',
             compact('builder', 'query')
         );
     }

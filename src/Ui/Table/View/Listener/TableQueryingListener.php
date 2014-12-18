@@ -27,7 +27,7 @@ class TableQueryingListener
         $query   = $event->getQuery();
 
         $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\View\Command\ApplyTableViewCommand',
+            'Anomaly\Streams\Platform\Ui\Table\View\Command\RunTableQueryHookCommand',
             compact('builder', 'query')
         );
     }
