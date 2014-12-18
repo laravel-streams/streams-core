@@ -28,16 +28,11 @@ class LoadTableEntriesCommandHandler
         /**
          * If the entries have already been set on the
          * table then return. Nothing to do here.
-         */
-        if (!$entries->isEmpty()) {
-            return;
-        }
-
-        /**
+         *
          * If the model is not set then they need
          * to load the table entries themselves.
          */
-        if (!class_exists($model)) {
+        if (!$entries->isEmpty() || !class_exists($model)) {
             return;
         }
 

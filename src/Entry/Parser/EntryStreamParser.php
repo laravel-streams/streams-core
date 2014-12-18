@@ -37,7 +37,7 @@ class EntryStreamParser
      * Parse the stream.
      *
      * @param StreamInterface $stream
-     * @param $string
+     * @param                 $string
      */
     protected function parseStream(StreamInterface $stream, &$string)
     {
@@ -50,7 +50,7 @@ class EntryStreamParser
      * Parse the assignments.
      *
      * @param StreamInterface $stream
-     * @param $string
+     * @param                 $string
      */
     protected function parseAssignments(StreamInterface $stream, &$string)
     {
@@ -67,7 +67,7 @@ class EntryStreamParser
      * Parse an assignment.
      *
      * @param AssignmentInterface $assignment
-     * @param $string
+     * @param                     $string
      */
     protected function parseAssignment(AssignmentInterface $assignment, &$string)
     {
@@ -89,7 +89,7 @@ class EntryStreamParser
      * Parse an assignment field.
      *
      * @param FieldInterface $field
-     * @param $string
+     * @param                $string
      */
     protected function parseField(FieldInterface $field, &$string)
     {

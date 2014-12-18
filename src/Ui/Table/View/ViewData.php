@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\View;
 
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewInterface;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewInterface;
 
 /**
  * Class ViewData
