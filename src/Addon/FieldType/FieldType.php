@@ -723,10 +723,13 @@ class FieldType extends Addon
      *
      * @param Builder $query
      * @param         $value
+     * @return $this|Builder
      */
     public function filter(Builder $query, $value)
     {
         $query = $query->where($this->getColumnName(), 'LIKE', "%{$value}%");
+
+        return $query;
     }
 
     /**
