@@ -21,40 +21,62 @@ class Action extends Button implements ActionInterface
      *
      * @var null
      */
-    protected $onTablePost = null;
+    protected $onTablePost;
 
     /**
      * The active flag.
      *
      * @var bool
      */
-    protected $active = false;
+    protected $active;
 
     /**
      * The action's prefix.
      *
      * @var string|null
      */
-    protected $prefix = null;
+    protected $prefix;
 
     /**
      * The action slug.
      *
      * @var string|null
      */
-    protected $slug = null;
+    protected $slug;
 
     /**
      * Create a new Action instance.
      *
+     * @param Collection $slug
+     * @param null       $text
+     * @param null       $icon
+     * @param null       $class
+     * @param null       $prefix
+     * @param bool       $active
+     * @param string     $type
+     * @param null       $onTablePost
      * @param Collection $attributes
      */
-    public function __construct(Collection $attributes)
-    {
+    public function __construct(
+        $slug,
+        $text = null,
+        $icon = null,
+        $class = null,
+        $prefix = null,
+        $active = false,
+        $type = 'default',
+        $onTablePost = null,
+        Collection $attributes
+    ) {
+        $this->slug        = $slug;
+        $this->prefix      = $prefix;
+        $this->active      = $active;
+        $this->onTablePost = $onTablePost;
+
         $attributes->put('type', 'submit');
         $attributes->put('name', 'action');
 
-        parent::__construct($attributes);
+        parent::__construct($attributes, $class, $icon, $text, $type);
     }
 
     /**

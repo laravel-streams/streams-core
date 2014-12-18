@@ -28,12 +28,12 @@ class TableBuildSubscriber
 
         $events->listen(
             'streams::table.build',
-            'Anomaly\Streams\Platform\Ui\Button\Listener\TableBuildListener'
+            'Anomaly\Streams\Platform\Ui\Table\View\Listener\TableBuildListener'
         );
 
         $events->listen(
             'streams::table.build',
-            'Anomaly\Streams\Platform\Ui\Table\View\Listener\TableBuildListener'
+            'Anomaly\Streams\Platform\Ui\Table\Button\Listener\TableBuildListener'
         );
 
         $events->listen(

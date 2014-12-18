@@ -38,27 +38,17 @@ class ActionBuilder
     protected $factory;
 
     /**
-     * The action loader.
-     *
-     * @var ActionLoader
-     */
-    protected $loader;
-
-    /**
      * Create a new ActionBuilder instance.
      *
      * @param ActionInterpreter $interpreter
      * @param ActionEvaluator   $evaluator
      * @param ActionFactory     $factory
-     * @param ActionLoader      $loader
      */
     function __construct(
         ActionInterpreter $interpreter,
         ActionEvaluator $evaluator,
-        ActionFactory $factory,
-        ActionLoader $loader
+        ActionFactory $factory
     ) {
-        $this->loader      = $loader;
         $this->factory     = $factory;
         $this->interpreter = $interpreter;
         $this->evaluator   = $evaluator;
@@ -80,8 +70,6 @@ class ActionBuilder
             $parameters = $this->evaluator->process($parameters, $builder);
 
             $action = $this->factory->make($parameters);
-
-            $this->loader->load($action, $parameters);
 
             $actions->put($action->getSlug(), $action);
         }

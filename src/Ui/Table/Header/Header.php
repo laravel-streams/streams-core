@@ -17,16 +17,28 @@ class Header implements HeaderInterface
     /**
      * The stream object.
      *
-     * @var null
+     * @var StreamInterface
      */
     protected $stream = null;
 
     /**
      * The header text.
      *
-     * @var null
+     * @var string
      */
     protected $text = null;
+
+    /**
+     * Create a new Header instance.
+     *
+     * @param StreamInterface $stream
+     * @param                 $text
+     */
+    function __construct(StreamInterface $stream, $text)
+    {
+        $this->text   = $text;
+        $this->stream = $stream;
+    }
 
     /**
      * Return the view data.

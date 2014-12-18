@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Button;
 
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-
 /**
  * Class ButtonBuilder
  *
@@ -21,6 +19,13 @@ class ButtonBuilder
     protected $interpreter;
 
     /**
+     * The button evaluator.
+     *
+     * @var ButtonEvaluator
+     */
+    protected $evaluator;
+
+    /**
      * The button factory.
      *
      * @var ButtonFactory
@@ -33,29 +38,13 @@ class ButtonBuilder
      * @param ButtonInterpreter $interpreter
      * @param ButtonFactory     $factory
      */
-    function __construct(ButtonInterpreter $interpreter, ButtonFactory $factory)
-    {
+    function __construct(
+        ButtonInterpreter $interpreter,
+        ButtonEvaluator $evaluator,
+        ButtonFactory $factory
+    ) {
         $this->factory     = $factory;
+        $this->evaluator   = $evaluator;
         $this->interpreter = $interpreter;
-    }
-
-    /**
-     * Load buttons onto a collection.
-     *
-     * @param TableBuilder $builder
-     */
-    public function build(TableBuilder $builder)
-    {
-        $table   = $builder->getTable();
-        $buttons = $table->getButtons();
-
-        foreach ($builder->getButtons() as $key => $parameters) {
-
-            $parameters = $this->interpreter->standardize($key, $parameters);
-
-            $button = $this->factory->make($parameters);
-
-            $buttons->push($button);
-        }
     }
 }

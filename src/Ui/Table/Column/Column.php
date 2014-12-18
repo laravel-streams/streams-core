@@ -50,6 +50,24 @@ class Column implements ColumnInterface
     protected $header = null;
 
     /**
+     * Create a new Column instance.
+     *
+     * @param null $class
+     * @param null $entry
+     * @param null $header
+     * @param null $prefix
+     * @param null $value
+     */
+    function __construct($class = null, $entry = null, $header = null, $prefix = null, $value = null)
+    {
+        $this->class  = $class;
+        $this->entry  = $entry;
+        $this->value  = $value;
+        $this->header = $header;
+        $this->prefix = $prefix;
+    }
+
+    /**
      * Return the view data.
      *
      * @param  array $arguments

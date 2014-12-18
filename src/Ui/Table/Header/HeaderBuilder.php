@@ -38,27 +38,17 @@ class HeaderBuilder
     protected $factory;
 
     /**
-     * The header loader.
-     *
-     * @var HeaderLoader
-     */
-    protected $loader;
-
-    /**
      * Create a new HeaderBuilder instance.
      *
      * @param HeaderInterpreter $interpreter
      * @param HeaderEvaluator   $evaluator
      * @param HeaderFactory     $factory
-     * @param HeaderLoader      $loader
      */
     function __construct(
         HeaderInterpreter $interpreter,
         HeaderEvaluator $evaluator,
-        HeaderFactory $factory,
-        HeaderLoader $loader
+        HeaderFactory $factory
     ) {
-        $this->loader      = $loader;
         $this->factory     = $factory;
         $this->interpreter = $interpreter;
         $this->evaluator   = $evaluator;
@@ -82,8 +72,6 @@ class HeaderBuilder
             $parameters['stream'] = $table->getStream();
 
             $header = $this->factory->make($parameters);
-
-            $this->loader->load($header, $parameters);
 
             $headers->push($header);
         }

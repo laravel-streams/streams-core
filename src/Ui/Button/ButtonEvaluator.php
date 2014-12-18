@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -41,7 +41,9 @@ class ButtonEvaluator
     {
         $parameters = $this->evaluator->evaluate($parameters, compact('builder'));
 
-        $parameters['text'] = trans(array_get($parameters, 'text'));
+        if (isset($parameters['text'])) {
+            $parameters['text'] = trans($parameters['text']);
+        }
 
         return $parameters;
     }

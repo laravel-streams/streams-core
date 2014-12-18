@@ -19,28 +19,28 @@ class Button implements ButtonInterface
      *
      * @var null
      */
-    protected $text = null;
+    protected $text;
 
     /**
      * The button icon.
      *
      * @var null
      */
-    protected $icon = null;
+    protected $icon;
 
     /**
      * The button type.
      *
      * @var string
      */
-    protected $type = 'default';
+    protected $type;
 
     /**
      * The button class.
      *
      * @var null
      */
-    protected $class = null;
+    protected $class;
 
     /**
      * The button's attributes.
@@ -53,9 +53,17 @@ class Button implements ButtonInterface
      * Create a new Button instance.
      *
      * @param Collection $attributes
+     * @param null       $class
+     * @param null       $icon
+     * @param null       $text
+     * @param string     $type
      */
-    function __construct(Collection $attributes)
+    function __construct(Collection $attributes, $class = null, $icon = null, $text = null, $type = 'default')
     {
+        $this->icon       = $icon;
+        $this->text       = $text;
+        $this->type       = $type;
+        $this->class      = $class;
         $this->attributes = $attributes;
     }
 

@@ -38,27 +38,17 @@ class FilterBuilder
     protected $factory;
 
     /**
-     * The filter loader.
-     *
-     * @var FilterLoader
-     */
-    protected $loader;
-
-    /**
      * Create a new FilterBuilder instance.
      *
      * @param FilterInterpreter $interpreter
      * @param FilterEvaluator   $evaluator
      * @param FilterFactory     $factory
-     * @param FilterLoader      $loader
      */
     function __construct(
         FilterInterpreter $interpreter,
         FilterEvaluator $evaluator,
-        FilterFactory $factory,
-        FilterLoader $loader
+        FilterFactory $factory
     ) {
-        $this->loader      = $loader;
         $this->factory     = $factory;
         $this->interpreter = $interpreter;
         $this->evaluator   = $evaluator;
@@ -83,8 +73,6 @@ class FilterBuilder
             $parameters['prefix'] = array_get($parameters, 'prefix', $table->getPrefix());
 
             $filter = $this->factory->make($parameters);
-
-            $this->loader->load($filter, $parameters);
 
             $filters->put($filter->getSlug(), $filter);
         }

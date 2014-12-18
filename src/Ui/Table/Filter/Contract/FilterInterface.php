@@ -17,9 +17,9 @@ interface FilterInterface
     /**
      * Hook into the table query.
      *
-     * @param  TableBuilder $builder
-     * @param  Builder      $query
-     * @return mixed
+     * @param TableBuilder $builder
+     * @param Builder      $query
+     * @return Builder
      */
     public function onTableQuerying(TableBuilder $builder, Builder $query);
 
