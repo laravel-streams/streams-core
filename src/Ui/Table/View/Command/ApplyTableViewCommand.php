@@ -1,17 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Filter\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\View\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class ApplyTableFiltersCommand
+ * Class ApplyTableViewCommand
  *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Filter\Command
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\View\Command
  */
-class ApplyTableFiltersCommand
+class ApplyTableViewCommand
 {
 
     /**

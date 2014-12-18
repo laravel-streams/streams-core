@@ -22,6 +22,11 @@ class TableQueryingSubscriber
     {
         $events->listen(
             'streams::table.querying',
+            'Anomaly\Streams\Platform\Ui\Table\View\Listener\TableQueryingListener'
+        );
+
+        $events->listen(
+            'streams::table.querying',
             'Anomaly\Streams\Platform\Ui\Table\Filter\Listener\TableQueryingListener'
         );
     }

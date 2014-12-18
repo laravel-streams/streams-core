@@ -28,18 +28,18 @@ class ApplyTableFiltersCommandHandler
         $filters = $table->getFilters();
 
         foreach ($filters->active() as $filter) {
-            $this->runFilterHook($filter, $builder, $query);
+            $this->runQueryHook($filter, $builder, $query);
         }
     }
 
     /**
-     * Apply a filter.
+     * Ryan a filter's query hook.
      *
      * @param FilterInterface $filter
      * @param TableBuilder    $builder
      * @param Builder         $query
      */
-    protected function runFilterHook(FilterInterface $filter, TableBuilder $builder, Builder $query)
+    protected function runQueryHook(FilterInterface $filter, TableBuilder $builder, Builder $query)
     {
         $filter->onTableQuerying($builder, $query);
     }

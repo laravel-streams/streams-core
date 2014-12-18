@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\View;
 
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewInterface;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -78,14 +78,15 @@ class View implements ViewInterface
     }
 
     /**
-     * Handle the view.
+     * Hook into the table query.
      *
-     * @param Table   $table
-     * @param Builder $query
+     * @param TableBuilder $builder
+     * @param Builder      $query
+     * @return Builder
      */
-    public function handle(Table $table, Builder $query)
+    public function onTableQuerying(TableBuilder $builder, Builder $query)
     {
-        // No modification by default
+        return $query;
     }
 
     /**
