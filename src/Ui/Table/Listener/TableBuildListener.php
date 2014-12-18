@@ -68,7 +68,7 @@ class TableBuildListener
 
         $entries = $table->getEntries();
 
-        foreach ($model->getTableEntries($table) as $entry) {
+        foreach ($model->getTableEntries($builder) as $entry) {
             $entries->push($entry);
         }
     }

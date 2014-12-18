@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Filter;
 
 use Anomaly\Streams\Platform\Ui\Table\Filter\Contract\FilterInterface;
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -53,10 +53,10 @@ class Filter implements FilterInterface
     /**
      * Hook into the table query.
      *
-     * @param Table   $table
-     * @param Builder $query
+     * @param TableBuilder $builder
+     * @param Builder      $query
      */
-    public function onTableQuerying(Table $table, Builder $query)
+    public function onTableQuerying(TableBuilder $builder, Builder $query)
     {
         $query = $query->where($this->getSlug(), 'LIKE', "%{$this->getValue()}%");
     }
@@ -196,7 +196,7 @@ class Filter implements FilterInterface
      */
     protected function getName()
     {
-        return $this->getPrefix() . $this->getSlug();
+        return $this->getPrefix() . $this->getSlug() . '_filter';
     }
 
     /**

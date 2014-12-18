@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Filter\Contract;
 
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -17,11 +17,11 @@ interface FilterInterface
     /**
      * Hook into the table query.
      *
-     * @param Table   $table
-     * @param Builder $query
+     * @param TableBuilder $builder
+     * @param Builder      $query
      * @return mixed
      */
-    public function onTableQuerying(Table $table, Builder $query);
+    public function onTableQuerying(TableBuilder $builder, Builder $query);
 
     /**
      * Return the view data.

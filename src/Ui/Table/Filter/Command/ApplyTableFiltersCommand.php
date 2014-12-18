@@ -1,18 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Event;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Filter\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class TableQueryingEvent
+ * Class ApplyTableFiltersCommand
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Event
+ * @package       Anomaly\Streams\Platform\Ui\Table\Filter\Command
  */
-class TableQueryingEvent
+class ApplyTableFiltersCommand
 {
 
     /**
@@ -23,26 +22,26 @@ class TableQueryingEvent
     protected $builder;
 
     /**
-     * The query builder.
+     * The query object.
      *
      * @var \Illuminate\Database\Eloquent\Builder
      */
     protected $query;
 
     /**
-     * Create a new TableQueryingEvent instance.
+     * Create a new ApplyTableFiltersCommand instance.
      *
-     * @param Table   $table
-     * @param Builder $query
+     * @param Builder      $query
+     * @param TableBuilder $builder
      */
-    public function __construct(TableBuilder $builder, Builder $query)
+    function __construct(Builder $query, TableBuilder $builder)
     {
-        $this->builder = $builder;
         $this->query   = $query;
+        $this->builder = $builder;
     }
 
     /**
-     * Get the query builder.
+     * Get the query object.
      *
      * @return Builder
      */

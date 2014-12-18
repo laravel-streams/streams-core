@@ -48,9 +48,9 @@ class FilterBuilder
      * Create a new FilterBuilder instance.
      *
      * @param FilterInterpreter $interpreter
-     * @param FilterEvaluator $evaluator
-     * @param FilterFactory   $factory
-     * @param FilterLoader    $loader
+     * @param FilterEvaluator   $evaluator
+     * @param FilterFactory     $factory
+     * @param FilterLoader      $loader
      */
     function __construct(
         FilterInterpreter $interpreter,
@@ -58,10 +58,10 @@ class FilterBuilder
         FilterFactory $factory,
         FilterLoader $loader
     ) {
-        $this->loader    = $loader;
-        $this->factory   = $factory;
+        $this->loader      = $loader;
+        $this->factory     = $factory;
         $this->interpreter = $interpreter;
-        $this->evaluator = $evaluator;
+        $this->evaluator   = $evaluator;
     }
 
     /**
@@ -74,7 +74,7 @@ class FilterBuilder
         $table   = $builder->getTable();
         $filters = $table->getFilters();
 
-        foreach ($builder->getViews() as $key => $parameters) {
+        foreach ($builder->getFilters() as $key => $parameters) {
 
             $parameters = $this->interpreter->standardize($key, $parameters);
             $parameters = $this->evaluator->process($parameters, $builder);

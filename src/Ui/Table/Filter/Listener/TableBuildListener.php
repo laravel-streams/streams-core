@@ -26,5 +26,6 @@ class TableBuildListener
         $builder = $event->getBuilder();
 
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Filter\Command\BuildTableFiltersCommand', compact('builder'));
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Filter\Command\SetActiveFiltersCommand', compact('builder'));
     }
 }

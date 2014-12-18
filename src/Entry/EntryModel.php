@@ -13,7 +13,7 @@ use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryingEvent;
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
  * Class EntryModel
@@ -280,11 +280,14 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
     }
 
     /**
-     * @param Table $table
+     * @param TableBuilder $builder
      * @return mixed
      */
-    public function getTableEntries(Table $table)
+    public function getTableEntries(TableBuilder $builder)
     {
+        $table = $builder->getTable();
+
+        // Start a new query.
         $query = $this->newQuery();
 
         /**
@@ -304,7 +307,7 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
          * other things (including filters / views)
          * to modify the query before proceeding.
          */
-        app('events')->fire('streams::table.querying', new TableQueryingEvent($table, $query));
+        app('events')->fire('streams::table.querying', new TableQueryingEvent($builder, $query));
 
         /**
          * Before we actually adjust the baseline query

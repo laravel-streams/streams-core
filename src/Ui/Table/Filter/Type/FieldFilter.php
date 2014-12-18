@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Filter\Contract\FieldFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Filter\Filter;
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -34,10 +34,10 @@ class FieldFilter extends Filter implements FieldFilterInterface
     /**
      * Hook into the table query.
      *
-     * @param Table   $table
-     * @param Builder $query
+     * @param TableBuilder $builder
+     * @param Builder      $query
      */
-    public function onTableQuerying(Table $table, Builder $query)
+    public function onTableQuerying(TableBuilder $builder, Builder $query)
     {
         $type = $this->stream->getFieldType($this->field);
 
@@ -55,8 +55,9 @@ class FieldFilter extends Filter implements FieldFilterInterface
 
         $type = $field->getType();
 
-        $type->setPrefix($this->getPrefix());
+        $type->setSuffix('filter');
         $type->setValue($this->getValue());
+        $type->setPrefix($this->getPrefix());
         $type->setPlaceholder($this->getPlaceholder() ? trans($this->getPlaceholder()) : trans($field->getName()));
 
         return $type->renderFilter();
@@ -86,7 +87,20 @@ class FieldFilter extends Filter implements FieldFilterInterface
     }
 
     /**
-     * Get the stream object.
+     * Set the stream.
+     *
+     * @param StreamInterface $stream
+     * @return $this
+     */
+    public function setStream(StreamInterface $stream)
+    {
+        $this->stream = $stream;
+
+        return $this;
+    }
+
+    /**
+     * Get the stream.
      *
      * @return StreamInterface
      */
