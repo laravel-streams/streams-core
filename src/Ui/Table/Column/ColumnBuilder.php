@@ -46,9 +46,9 @@ class ColumnBuilder
      * Create a new ColumnBuilder instance.
      *
      * @param ColumnInterpreter $interpreter
-     * @param ColumnEvaluator $evaluator
-     * @param ColumnFactory   $factory
-     * @param ColumnLoader    $loader
+     * @param ColumnEvaluator   $evaluator
+     * @param ColumnFactory     $factory
+     * @param ColumnLoader      $loader
      */
     function __construct(
         ColumnInterpreter $interpreter,
@@ -56,10 +56,10 @@ class ColumnBuilder
         ColumnFactory $factory,
         ColumnLoader $loader
     ) {
-        $this->loader    = $loader;
-        $this->factory   = $factory;
+        $this->loader      = $loader;
+        $this->factory     = $factory;
         $this->interpreter = $interpreter;
-        $this->evaluator = $evaluator;
+        $this->evaluator   = $evaluator;
     }
 
     /**

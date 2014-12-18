@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Column;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Column\Contract\ColumnInterface;
 
 /**
@@ -51,13 +50,6 @@ class Column implements ColumnInterface
     protected $header = null;
 
     /**
-     * The column stream.
-     *
-     * @var \Anomaly\Streams\Platform\Stream\Contract\StreamInterface
-     */
-    protected $stream = null;
-
-    /**
      * Return the view data.
      *
      * @param array $arguments
@@ -68,7 +60,7 @@ class Column implements ColumnInterface
         $value = $this->getValue();
         $class = $this->getClass();
 
-        if ($this->getStream() && is_string($value)) {
+        if ($this->entry instanceof EntryInterface && is_string($value)) {
             $value = $this->getValueFromField($value);
         }
 
@@ -180,29 +172,6 @@ class Column implements ColumnInterface
     public function getPrefix()
     {
         return $this->prefix;
-    }
-
-    /**
-     * Set the stream object.
-     *
-     * @param $stream
-     * @return $this
-     */
-    public function setStream($stream)
-    {
-        $this->stream = $stream;
-
-        return $this;
-    }
-
-    /**
-     * Get the stream object.
-     *
-     * @return StreamInterface
-     */
-    public function getStream()
-    {
-        return $this->stream;
     }
 
     /**

@@ -26,5 +26,6 @@ class TableBuildListener
         $builder = $event->getBuilder();
 
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Action\Command\BuildTableActionsCommand', compact('builder'));
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Action\Command\SetActiveActionCommand', compact('builder'));
     }
 }

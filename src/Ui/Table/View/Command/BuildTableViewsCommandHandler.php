@@ -40,4 +40,3 @@ class BuildTableViewsCommandHandler
         $this->builder->load($command->getBuilder());
     }
 }
- 

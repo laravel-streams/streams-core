@@ -76,7 +76,8 @@ class Action extends Button implements ActionInterface
     {
         $data = parent::getTableData();
 
-        $data['slug'] = $this->getSlug();
+        $data['slug']   = $this->getSlug();
+        $data['active'] = $this->isActive();
 
         return $data;
     }

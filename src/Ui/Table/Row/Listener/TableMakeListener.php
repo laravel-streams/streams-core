@@ -42,4 +42,3 @@ class TableMakeListener
         $this->data->make($event->getBuilder());
     }
 }
- 

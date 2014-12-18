@@ -34,7 +34,7 @@ class ActionCollection extends Collection
      * Find an action by it's slug.
      *
      * @param $slug
-     * @return null
+     * @return ActionInterface|null
      */
     public function findBySlug($slug)
     {
@@ -55,7 +55,7 @@ class ActionCollection extends Collection
      */
     protected function actionIsActive(ActionInterface $item)
     {
-        return $item->isActive();
+        return ($item->isActive());
     }
 
     /**

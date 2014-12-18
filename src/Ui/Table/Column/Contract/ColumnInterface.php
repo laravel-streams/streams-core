@@ -50,21 +50,6 @@ interface ColumnInterface
     public function getPrefix();
 
     /**
-     * Set the stream object.
-     *
-     * @param $stream
-     * @return mixed
-     */
-    public function setStream($stream);
-
-    /**
-     * Get the stream object.
-     *
-     * @return mixed
-     */
-    public function getStream();
-
-    /**
      * Set the class.
      *
      * @param $class
