@@ -17,12 +17,12 @@ class FieldTypePresenter extends Presenter implements StringableInterface
     /**
      * Create a new Presenter instance.
      *
-     * @param $resource
+     * @param $object
      */
-    public function __construct($resource)
+    public function __construct($object)
     {
-        if ($resource instanceof FieldType) {
-            $this->resource = $resource;
+        if ($object instanceof FieldType) {
+            $this->object = $object;
         }
     }
 
@@ -38,7 +38,7 @@ class FieldTypePresenter extends Presenter implements StringableInterface
      */
     public function __toString()
     {
-        return (string)$this->resource->getValue();
+        return (string)$this->object->getValue();
     }
 
     /**
@@ -48,6 +48,6 @@ class FieldTypePresenter extends Presenter implements StringableInterface
      */
     public function toString()
     {
-        return (string)$this->resource->getValue();
+        return (string)$this->object->getValue();
     }
 }
