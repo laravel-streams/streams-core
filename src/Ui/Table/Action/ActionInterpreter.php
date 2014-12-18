@@ -3,10 +3,10 @@
 /**
  * Class ActionInterpreter
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Action
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Action
  */
 class ActionInterpreter
 {
@@ -14,8 +14,8 @@ class ActionInterpreter
     /**
      * Return standardized parameter input.
      *
-     * @param $key
-     * @param $parameters
+     * @param  $key
+     * @param  $parameters
      * @return array
      */
     public function standardize($key, $parameters)

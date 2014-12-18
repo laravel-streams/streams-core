@@ -7,10 +7,10 @@ use Illuminate\View\View;
 /**
  * Class Composer
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Support
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Support
  */
 class Composer
 {
@@ -18,7 +18,7 @@ class Composer
     /**
      * Compose the view before rendering.
      *
-     * @param View $view
+     * @param  View $view
      * @return View|mixed
      */
     public function compose(View $view)
@@ -31,7 +31,7 @@ class Composer
     /**
      * Overload the view path.
      *
-     * @param $view
+     * @param  $view
      * @return mixed
      */
     public function overloadView(View $view)

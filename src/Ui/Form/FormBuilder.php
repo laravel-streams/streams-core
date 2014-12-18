@@ -6,10 +6,10 @@ use Laracasts\Commander\CommanderTrait;
 /**
  * Class FormBuilder
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form
  */
 class FormBuilder
 {
@@ -139,7 +139,7 @@ class FormBuilder
     /**
      * Render the form.
      *
-     * @param null $entry
+     * @param  null $entry
      * @return \Illuminate\View\View|null
      */
     public function render($entry = null)
@@ -168,7 +168,7 @@ class FormBuilder
     /**
      * Set the form handler.
      *
-     * @param $handler
+     * @param  $handler
      * @return $this
      */
     public function setHandler($handler)
@@ -191,7 +191,7 @@ class FormBuilder
     /**
      * Set the form model.
      *
-     * @param $model
+     * @param  $model
      * @return $this
      */
     public function setModel($model)
@@ -214,7 +214,7 @@ class FormBuilder
     /**
      * Set the entry object.
      *
-     * @param $entry
+     * @param  $entry
      * @return $this
      */
     public function setEntry($entry)
@@ -237,7 +237,7 @@ class FormBuilder
     /**
      * Set the sections config.
      *
-     * @param array $sections
+     * @param  array $sections
      * @return $this
      */
     public function setSections(array $sections)
@@ -260,7 +260,7 @@ class FormBuilder
     /**
      * Set the actions config.
      *
-     * @param array $actions
+     * @param  array $actions
      * @return $this
      */
     public function setActions(array $actions)
@@ -283,7 +283,7 @@ class FormBuilder
     /**
      * Set the buttons config.
      *
-     * @param $buttons
+     * @param  $buttons
      * @return $this
      */
     public function setButtons($buttons)

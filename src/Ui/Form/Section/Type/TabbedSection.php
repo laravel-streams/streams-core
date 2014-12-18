@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Ui\Form\Tab\TabCollection;
 /**
  * Class TabbedSection
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Section\Type
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Section\Type
  */
 class TabbedSection implements TabbedSectionInterface
 {
@@ -34,7 +34,7 @@ class TabbedSection implements TabbedSectionInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
     public function viewData(array $arguments = [])
@@ -47,7 +47,7 @@ class TabbedSection implements TabbedSectionInterface
     /**
      * Set the tabs.
      *
-     * @param $tabs
+     * @param  $tabs
      * @return $this
      */
     public function setTabs($tabs)

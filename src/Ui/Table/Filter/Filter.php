@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * Class Filter
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Filter
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Filter
  */
 class Filter implements FilterInterface
 {
@@ -64,7 +64,7 @@ class Filter implements FilterInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
     public function getTableData()
@@ -77,7 +77,7 @@ class Filter implements FilterInterface
     /**
      * Set the active flag.
      *
-     * @param $active
+     * @param  $active
      * @return $this
      */
     public function setActive($active)
@@ -100,7 +100,7 @@ class Filter implements FilterInterface
     /**
      * Set the handler.
      *
-     * @param $handler
+     * @param  $handler
      * @return $this
      */
     public function setHandler($handler)
@@ -123,7 +123,7 @@ class Filter implements FilterInterface
     /**
      * Set the placeholder.
      *
-     * @param $placeholder
+     * @param  $placeholder
      * @return $this
      */
     public function setPlaceholder($placeholder)
@@ -146,7 +146,7 @@ class Filter implements FilterInterface
     /**
      * Set the prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return $this
      */
     public function setPrefix($prefix)
@@ -169,7 +169,7 @@ class Filter implements FilterInterface
     /**
      * Set the slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return $this
      */
     public function setSlug($slug)

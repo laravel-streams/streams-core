@@ -3,10 +3,10 @@
 /**
  * Class EloquentObserver
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Model
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Model
  */
 class EloquentObserver
 {
@@ -34,7 +34,7 @@ class EloquentObserver
      * Run before attempting to save a record.
      * Return false to cancel the operation.
      *
-     * @param EloquentModel $model
+     * @param  EloquentModel $model
      * @return bool
      */
     public function saving(EloquentModel $model)

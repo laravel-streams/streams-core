@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewRepositoryInterface;
 /**
  * Class ViewFactory
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\View
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\View
  */
 class ViewFactory
 {
@@ -41,7 +41,7 @@ class ViewFactory
     /**
      * Make a view.
      *
-     * @param array $parameters
+     * @param  array $parameters
      * @return ViewInterface
      */
     public function make(array $parameters)

@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewRepositoryInterface;
 /**
  * Class ViewRepository
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\View
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\View
  */
 class ViewRepository implements ViewRepositoryInterface
 {
@@ -29,7 +29,7 @@ class ViewRepository implements ViewRepositoryInterface
     /**
      * Find a view.
      *
-     * @param $view
+     * @param  $view
      * @return mixed
      */
     public function find($view)

@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 /**
  * Class ButtonEvaluator
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Button
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Button
  */
 class ButtonEvaluator
 {
@@ -34,7 +34,7 @@ class ButtonEvaluator
     /**
      * Process and evaluate parameter values.
      *
-     * @param array $parameters
+     * @param  array $parameters
      * @return array
      */
     public function process(array $parameters, TableBuilder $builder)

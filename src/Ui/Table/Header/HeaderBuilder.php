@@ -6,10 +6,10 @@ use Laracasts\Commander\CommanderTrait;
 /**
  * Class HeaderBuilder
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Header
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Header
  */
 class HeaderBuilder
 {
@@ -48,9 +48,9 @@ class HeaderBuilder
      * Create a new HeaderBuilder instance.
      *
      * @param HeaderInterpreter $interpreter
-     * @param HeaderEvaluator $evaluator
-     * @param HeaderFactory   $factory
-     * @param HeaderLoader    $loader
+     * @param HeaderEvaluator   $evaluator
+     * @param HeaderFactory     $factory
+     * @param HeaderLoader      $loader
      */
     function __construct(
         HeaderInterpreter $interpreter,
@@ -58,10 +58,10 @@ class HeaderBuilder
         HeaderFactory $factory,
         HeaderLoader $loader
     ) {
-        $this->loader    = $loader;
-        $this->factory   = $factory;
+        $this->loader      = $loader;
+        $this->factory     = $factory;
         $this->interpreter = $interpreter;
-        $this->evaluator = $evaluator;
+        $this->evaluator   = $evaluator;
     }
 
     /**

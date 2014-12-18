@@ -3,10 +3,10 @@
 /**
  * Interface FilterRepositoryInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Filter\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Filter\Contract
  */
 interface FilterRepositoryInterface
 {
@@ -14,7 +14,7 @@ interface FilterRepositoryInterface
     /**
      * Find a filter.
      *
-     * @param $filter
+     * @param  $filter
      * @return FilterInterface
      */
     public function find($filter);

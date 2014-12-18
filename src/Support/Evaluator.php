@@ -3,10 +3,10 @@
 /**
  * Class Evaluator
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Support
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Support
  */
 class Evaluator
 {
@@ -14,8 +14,8 @@ class Evaluator
     /**
      * Evaluate a target entity with arguments.
      *
-     * @param       $target
-     * @param array $arguments
+     * @param        $target
+     * @param  array $arguments
      * @return mixed
      */
     public function evaluate($target, array $arguments = [])
@@ -60,7 +60,7 @@ class Evaluator
     /**
      * Check if a string is in a traversable format.
      *
-     * @param $target
+     * @param  $target
      * @return bool
      */
     protected function isTraversable($target)
@@ -71,7 +71,7 @@ class Evaluator
     /**
      * Check if a string is in a parsable format.
      *
-     * @param $target
+     * @param  $target
      * @return bool
      */
     protected function isParsable($target)

@@ -9,10 +9,10 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
 /**
  * Class TableBuilder
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table
  */
 class TableBuilder
 {
@@ -136,7 +136,7 @@ class TableBuilder
     /**
      * Set the model.
      *
-     * @param $model
+     * @param  $model
      * @return $this
      */
     public function setModel($model)
@@ -159,7 +159,7 @@ class TableBuilder
     /**
      * Set the view config.
      *
-     * @param array $views
+     * @param  array $views
      * @return $this
      */
     public function setViews(array $views)
@@ -182,7 +182,7 @@ class TableBuilder
     /**
      * Set the filter config.
      *
-     * @param array $filters
+     * @param  array $filters
      * @return $this
      */
     public function setFilters(array $filters)
@@ -205,7 +205,7 @@ class TableBuilder
     /**
      * Set the column config.
      *
-     * @param array $columns
+     * @param  array $columns
      * @return $this
      */
     public function setColumns(array $columns)
@@ -228,7 +228,7 @@ class TableBuilder
     /**
      * Set the button config.
      *
-     * @param array $buttons
+     * @param  array $buttons
      * @return $this
      */
     public function setButtons(array $buttons)
@@ -251,7 +251,7 @@ class TableBuilder
     /**
      * Set actions config.
      *
-     * @param $actions
+     * @param  $actions
      * @return $this
      */
     public function setActions($actions)

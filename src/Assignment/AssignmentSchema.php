@@ -6,10 +6,10 @@ use Illuminate\Database\Schema\Builder;
 /**
  * Class AssignmentSchema
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Assignment
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Assignment
  */
 class AssignmentSchema
 {
@@ -32,8 +32,8 @@ class AssignmentSchema
     /**
      * Drop a column.
      *
-     * @param $table
-     * @param $columnName
+     * @param  $table
+     * @param  $columnName
      * @return bool
      */
     public function dropColumn($table, $columnName)

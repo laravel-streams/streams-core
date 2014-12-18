@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Addon\Addon;
 /**
  * Class Module
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Module
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Module
  */
 class Module extends Addon
 {
@@ -78,7 +78,7 @@ class Module extends Addon
     /**
      * Set the installed flag.
      *
-     * @param $installed
+     * @param  $installed
      * @return $this
      */
     public function setInstalled($installed)
@@ -101,7 +101,7 @@ class Module extends Addon
     /**
      * Set the enabled flag.
      *
-     * @param $enabled
+     * @param  $enabled
      * @return $this
      */
     public function setEnabled($enabled)
@@ -124,7 +124,7 @@ class Module extends Addon
     /**
      * Set the active flag.
      *
-     * @param $active
+     * @param  $active
      * @return $this
      */
     public function setActive($active)
@@ -147,7 +147,7 @@ class Module extends Addon
     /**
      * Set the module's tag class.
      *
-     * @param $tag
+     * @param  $tag
      * @return $this
      */
     public function setTag($tag)

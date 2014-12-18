@@ -3,10 +3,10 @@
 /**
  * Interface ButtonRepositoryInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Button\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Button\Contract
  */
 interface ButtonRepositoryInterface
 {
@@ -14,7 +14,7 @@ interface ButtonRepositoryInterface
     /**
      * Find a button.
      *
-     * @param $button
+     * @param  $button
      * @return mixed
      */
     public function find($button);

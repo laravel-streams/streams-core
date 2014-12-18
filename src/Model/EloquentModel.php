@@ -9,10 +9,10 @@ use Laracasts\Commander\CommanderTrait;
 /**
  * Class EloquentModel
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Model
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Model
  */
 class EloquentModel extends Model implements ArrayableInterface
 {
@@ -74,7 +74,7 @@ class EloquentModel extends Model implements ArrayableInterface
     /**
      * Return a new collection class with our models.
      *
-     * @param array $items
+     * @param  array $items
      * @return Collection
      */
     public function newCollection(array $items = array())
@@ -107,7 +107,7 @@ class EloquentModel extends Model implements ArrayableInterface
     /**
      * Set the cache minutes.
      *
-     * @param $cacheMinutes
+     * @param  $cacheMinutes
      * @return $this
      */
     public function setCacheMinutes($cacheMinutes)
@@ -130,7 +130,7 @@ class EloquentModel extends Model implements ArrayableInterface
     /**
      * Get cache collection key.
      *
-     * @param null $suffix
+     * @param  null $suffix
      * @return string
      */
     public function getCacheCollectionKey($suffix = null)

@@ -10,10 +10,10 @@ use Dimsav\Translatable\Translatable;
 /**
  * Class AssignmentModel
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Assignment
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Assignment
  */
 class AssignmentModel extends EloquentModel implements AssignmentInterface
 {
@@ -65,8 +65,8 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     /**
      * Get the assignment's field's type.
      *
-     * @param EntryInterface $entry
-     * @param null           $locale
+     * @param  EntryInterface $entry
+     * @param  null           $locale
      * @return FieldType
      */
     public function getFieldType(EntryInterface $entry = null, $locale = null)
@@ -112,7 +112,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      * Get the label. If it is not translated then
      * then just return null instead.
      *
-     * @param null $locale
+     * @param  null $locale
      * @return string|null
      */
     public function getLabel($locale = null)
@@ -134,7 +134,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      * Get the placeholder. If it is not translated
      * then just return null instead.
      *
-     * @param null $locale
+     * @param  null $locale
      * @return null|string
      */
     public function getPlaceholder($locale = null)
@@ -156,7 +156,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      * Get the instructions. If it is not translated
      * then just return null instead.
      *
-     * @param null $locale
+     * @param  null $locale
      * @return null|string
      */
     public function getInstructions($locale = null)
@@ -251,7 +251,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      * Unserialize the rules attribute
      * after getting from the model.
      *
-     * @param $rules
+     * @param  $rules
      * @return mixed
      */
     public function getRulesAttribute($rules)

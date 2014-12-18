@@ -8,10 +8,10 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
 /**
  * Class AssignmentCollection
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Assignment
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Assignment
  */
 class AssignmentCollection extends EloquentCollection
 {
@@ -19,7 +19,7 @@ class AssignmentCollection extends EloquentCollection
     /**
      * Find an assignment by it's field slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return FieldInterface
      */
     public function findByFieldSlug($slug)

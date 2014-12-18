@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Ui\Table\Header\Contract\HeaderInterface;
 /**
  * Class HeaderFactory
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Header
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Header
  */
 class HeaderFactory
 {
@@ -23,7 +23,7 @@ class HeaderFactory
     /**
      * Make a header.
      *
-     * @param array $parameters
+     * @param  array $parameters
      * @return HeaderInterface
      */
     public function make(array $parameters)

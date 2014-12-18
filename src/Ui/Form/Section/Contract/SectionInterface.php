@@ -3,10 +3,10 @@
 /**
  * Interface SectionInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Section\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Section\Contract
  */
 interface SectionInterface
 {
@@ -14,7 +14,7 @@ interface SectionInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return mixed
      */
     public function viewData(array $arguments = []);
@@ -22,7 +22,7 @@ interface SectionInterface
     /**
      * Set the body content.
      *
-     * @param $body
+     * @param  $body
      * @return mixed
      */
     public function setBody($body);
@@ -37,7 +37,7 @@ interface SectionInterface
     /**
      * Set the title.
      *
-     * @param $title
+     * @param  $title
      * @return mixed
      */
     public function setTitle($title);
@@ -52,7 +52,7 @@ interface SectionInterface
     /**
      * Set the view.
      *
-     * @param $view
+     * @param  $view
      * @return mixed
      */
     public function setView($view);

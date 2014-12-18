@@ -44,7 +44,7 @@ class UnassignFieldCommandValidator
     /**
      * Handle the command.
      *
-     * @param UnassignFieldCommand $command
+     * @param  UnassignFieldCommand $command
      * @return mixed
      */
     public function handle(UnassignFieldCommand $command)

@@ -3,10 +3,10 @@
 /**
  * Class HeaderInterpreter
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Header
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Header
  */
 class HeaderInterpreter
 {
@@ -14,7 +14,7 @@ class HeaderInterpreter
     /**
      * Return standardized parameter input.
      *
-     * @param $parameters
+     * @param  $parameters
      * @return array
      */
     public function standardize($parameters)

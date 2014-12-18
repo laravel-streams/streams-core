@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Ui\Table\Header\Contract\HeaderInterface;
 /**
  * Class Header
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Header
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Header
  */
 class Header implements HeaderInterface
 {
@@ -31,7 +31,7 @@ class Header implements HeaderInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
     public function getTableData()
@@ -50,7 +50,7 @@ class Header implements HeaderInterface
     /**
      * Set the stream object.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return $this
      */
     public function setStream(StreamInterface $stream)
@@ -63,7 +63,7 @@ class Header implements HeaderInterface
     /**
      * Set the text.
      *
-     * @param $text
+     * @param  $text
      * @return $this
      */
     public function setText($text)
@@ -86,7 +86,7 @@ class Header implements HeaderInterface
     /**
      * Get the text from a field.
      *
-     * @param $text
+     * @param  $text
      * @return mixed
      */
     protected function getTextFromField($text)

@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Ui\Table\Filter\Filter;
 /**
  * Class InputFilter
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Filter\Type
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Filter\Type
  */
 class InputFilter extends Filter
 {
@@ -23,7 +23,7 @@ class InputFilter extends Filter
     /**
      * Set the input type.
      *
-     * @param $type
+     * @param  $type
      * @return $this
      */
     public function setType($type)

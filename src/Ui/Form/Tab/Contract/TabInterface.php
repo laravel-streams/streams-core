@@ -3,10 +3,10 @@
 /**
  * Interface TabInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Tab\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Tab\Contract
  */
 interface TabInterface
 {
@@ -14,7 +14,7 @@ interface TabInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return mixed
      */
     public function viewData(array $arguments = []);
@@ -22,7 +22,7 @@ interface TabInterface
     /**
      * Set the text.
      *
-     * @param $text
+     * @param  $text
      * @return mixed
      */
     public function setText($text);

@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Addon\Event\AddonRegisteredEvent;
 /**
  * Class AddonRegisteredListener
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Listener
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Listener
  */
 class AddonRegisteredListener
 {

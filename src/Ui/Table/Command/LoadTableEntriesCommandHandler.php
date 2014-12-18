@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 /**
  * Class LoadTableEntriesCommandHandler
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Command
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Command
  */
 class LoadTableEntriesCommandHandler
 {

@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 /**
  * Class ModuleRepository
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Module
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Module
  */
 class ModuleRepository implements ModuleRepositoryInterface
 {
@@ -43,7 +43,7 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Create a module record.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function create($slug)
@@ -62,7 +62,7 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Delete a module record.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function delete($slug)
@@ -80,7 +80,7 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Mark a module as installed.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function install($slug)
@@ -96,7 +96,7 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Mark a module as uninstalled.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function uninstall($slug)

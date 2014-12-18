@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
 /**
  * Interface FormModelInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Contract
  */
 interface FormModelInterface
 {
@@ -16,7 +16,7 @@ interface FormModelInterface
     /**
      * Find an entry or return a new instance.
      *
-     * @param $id
+     * @param  $id
      * @return mixed
      */
     public static function findOrNew($id);
@@ -24,7 +24,7 @@ interface FormModelInterface
     /**
      * Save the form input data.
      *
-     * @param Form $form
+     * @param  Form $form
      * @return mixed
      */
     public static function saveFormInput(Form $form);

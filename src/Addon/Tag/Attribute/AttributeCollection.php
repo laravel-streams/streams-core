@@ -5,10 +5,10 @@ use Illuminate\Support\Collection;
 /**
  * Class AttributeCollection
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Tag\Attribute
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Tag\Attribute
  */
 class AttributeCollection extends Collection
 {
@@ -29,7 +29,7 @@ class AttributeCollection extends Collection
      * Return attributes except where
      * names appear in keys argument.
      *
-     * @param $keys
+     * @param  $keys
      * @return static
      */
     public function except($keys)
@@ -42,8 +42,8 @@ class AttributeCollection extends Collection
     /**
      * Get an attribute.
      *
-     * @param mixed $key
-     * @param null  $default
+     * @param  mixed $key
+     * @param  null  $default
      * @return Attribute|mixed
      */
     public function get($key, $default = null)
@@ -61,8 +61,8 @@ class AttributeCollection extends Collection
     /**
      * Get an attribute's value.
      *
-     * @param      $key
-     * @param null $default
+     * @param       $key
+     * @param  null $default
      * @return mixed
      */
     public function getValue($key, $default = null)
@@ -75,8 +75,8 @@ class AttributeCollection extends Collection
     /**
      * Get an attribute value cast to a string.
      *
-     * @param      $key
-     * @param null $default
+     * @param       $key
+     * @param  null $default
      * @return string
      */
     public function getString($key, $default = null)
@@ -89,8 +89,8 @@ class AttributeCollection extends Collection
     /**
      * Get an attribute's value evaluated as a boolean.
      *
-     * @param      $key
-     * @param null $default
+     * @param       $key
+     * @param  null $default
      * @return mixed
      */
     public function getBool($key, $default = null)
@@ -103,8 +103,8 @@ class AttributeCollection extends Collection
     /**
      * Get an attribute's value as a URL.
      *
-     * @param      $key
-     * @param null $default
+     * @param       $key
+     * @param  null $default
      * @return string
      */
     public function getUrl($key, $default = null)
@@ -117,8 +117,8 @@ class AttributeCollection extends Collection
     /**
      * Get an attribute's value parsed as an array.
      *
-     * @param      $key
-     * @param null $default
+     * @param       $key
+     * @param  null $default
      * @return array
      */
     public function getArray($key, $default = null)

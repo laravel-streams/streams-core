@@ -3,10 +3,10 @@
 /**
  * Interface TabbedSectionInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Section\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Section\Contract
  */
 interface TabbedSectionInterface
 {
@@ -14,7 +14,7 @@ interface TabbedSectionInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return mixed
      */
     public function viewData(array $arguments = []);
@@ -22,7 +22,7 @@ interface TabbedSectionInterface
     /**
      * Set the tabs.
      *
-     * @param $tabs
+     * @param  $tabs
      * @return mixed
      */
     public function setTabs($tabs);

@@ -6,10 +6,10 @@ use Illuminate\Support\Collection;
 /**
  * Class ActionCollection
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Action
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Action
  */
 class ActionCollection extends Collection
 {
@@ -33,7 +33,7 @@ class ActionCollection extends Collection
     /**
      * Find an action by it's slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return ActionInterface|null
      */
     public function findBySlug($slug)
@@ -50,7 +50,7 @@ class ActionCollection extends Collection
     /**
      * Return whether the action is active or not.
      *
-     * @param Action $item
+     * @param  Action $item
      * @return bool
      */
     protected function actionIsActive(ActionInterface $item)
@@ -61,8 +61,8 @@ class ActionCollection extends Collection
     /**
      * Return whether the action slug matches the provided one.
      *
-     * @param ActionInterface $item
-     * @param                 $slug
+     * @param  ActionInterface $item
+     * @param                  $slug
      * @return bool
      */
     protected function actionSlugIs(ActionInterface $item, $slug)

@@ -5,10 +5,10 @@ use Assetic\Asset\AssetInterface;
 /**
  * Class PhpCssEmbedFilter
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Asset\Filter
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Asset\Filter
  */
 class PhpCssEmbedFilter extends \Assetic\Filter\PhpCssEmbedFilter
 {

@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Addon\Tag\Tag;
 /**
  * Class TagsRegisteredListener
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Tag\Listener
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Tag\Listener
  */
 class TagsRegisteredListener
 {

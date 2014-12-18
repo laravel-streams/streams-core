@@ -5,10 +5,10 @@ use Illuminate\Support\Collection;
 /**
  * Class AddonCollection
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon
  */
 class AddonCollection extends Collection
 {
@@ -46,7 +46,7 @@ class AddonCollection extends Collection
     /**
      * Find an addon by it's slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return null
      */
     public function findBySlug($slug)
@@ -61,7 +61,7 @@ class AddonCollection extends Collection
     /**
      * Order addon's by their name.
      *
-     * @param string $direction
+     * @param  string $direction
      * @return static
      */
     public function orderByName($direction = 'asc')

@@ -18,10 +18,10 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 /**
  * Class EntryModel
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Entry
  */
 class EntryModel extends EloquentModel implements EntryInterface, TableModelInterface, FormModelInterface
 {
@@ -127,9 +127,9 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
      * the accessor method overriding Eloquent
      * take care of this whole ordeal.
      *
-     * @param      $fieldSlug
-     * @param null $locale
-     * @param bool $mutate
+     * @param       $fieldSlug
+     * @param  null $locale
+     * @param  bool $mutate
      * @return mixed
      */
     public function getFieldValue($fieldSlug, $locale = null, $mutate = true)
@@ -152,7 +152,7 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
      *
      * @param  string $key
      * @param  mixed  $value
-     * @param bool    $mutate
+     * @param  bool   $mutate
      * @return void
      */
     public function setAttribute($key, $value, $mutate = true)
@@ -183,7 +183,7 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
      * the field types a chance to modify things.
      *
      * @param  string $key
-     * @param bool    $mutate
+     * @param  bool   $mutate
      * @return void
      */
     public function getAttribute($key, $mutate = true)
@@ -214,7 +214,7 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
     /**
      * Get an entry field.
      *
-     * @param $slug
+     * @param  $slug
      * @return FieldInterface|null
      */
     public function getField($slug)
@@ -231,7 +231,7 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
     /**
      * Get an assignment by field slug.
      *
-     * @param $fieldSlug
+     * @param  $fieldSlug
      * @return AssignmentInterface
      */
     public function getAssignment($fieldSlug)
@@ -246,7 +246,7 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
     /**
      * Get the field type from a field slug.
      *
-     * @param $fieldSlug
+     * @param  $fieldSlug
      * @return FieldType|RelationFieldTypeInterface|DateFieldTypeInterface
      */
     public function getFieldType($fieldSlug)

@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * Class FieldFilter
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Filter\Type
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Filter\Type
  */
 class FieldFilter extends Filter implements FieldFilterInterface
 {
@@ -66,7 +66,7 @@ class FieldFilter extends Filter implements FieldFilterInterface
     /**
      * Set the filter field.
      *
-     * @param $field
+     * @param  $field
      * @return $this
      */
     public function setField($field)
@@ -89,7 +89,7 @@ class FieldFilter extends Filter implements FieldFilterInterface
     /**
      * Set the stream.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return $this
      */
     public function setStream(StreamInterface $stream)

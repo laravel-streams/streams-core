@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 /**
  * Class FieldRepository
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Field
  */
 class FieldRepository implements FieldRepositoryInterface
 {
@@ -34,13 +34,13 @@ class FieldRepository implements FieldRepositoryInterface
     /**
      * Create a new field.
      *
-     * @param       $namespace
-     * @param       $slug
-     * @param       $name
-     * @param       $type
-     * @param array $rules
-     * @param array $config
-     * @param bool  $locked
+     * @param        $namespace
+     * @param        $slug
+     * @param        $name
+     * @param        $type
+     * @param  array $rules
+     * @param  array $config
+     * @param  bool  $locked
      * @return mixed|static
      */
     public function create($namespace, $slug, $name, $type, array $rules = [], array $config = [], $locked = true)
@@ -63,8 +63,8 @@ class FieldRepository implements FieldRepositoryInterface
     /**
      * Delete a field.
      *
-     * @param $namespace
-     * @param $slug
+     * @param  $namespace
+     * @param  $slug
      * @return FieldInterface
      */
     public function delete($namespace, $slug)
@@ -79,8 +79,8 @@ class FieldRepository implements FieldRepositoryInterface
     /**
      * Find a field by it's namespace and slug.
      *
-     * @param $namespace
-     * @param $slug
+     * @param  $namespace
+     * @param  $slug
      * @return FieldInterface|null
      */
     public function findByNamespaceAndSlug($namespace, $slug)
@@ -91,7 +91,7 @@ class FieldRepository implements FieldRepositoryInterface
     /**
      * Get all fields with the given namespace.
      *
-     * @param $namespace
+     * @param  $namespace
      * @return mixed
      */
     public function getAllWithNamespace($namespace)

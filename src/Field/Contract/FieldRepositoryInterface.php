@@ -3,10 +3,10 @@
 /**
  * Interface FieldRepositoryInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Field\Contract
  */
 interface FieldRepositoryInterface
 {
@@ -14,13 +14,13 @@ interface FieldRepositoryInterface
     /**
      * Create a new field.
      *
-     * @param       $namespace
-     * @param       $slug
-     * @param       $name
-     * @param       $type
-     * @param array $rules
-     * @param array $config
-     * @param bool  $isLocked
+     * @param        $namespace
+     * @param        $slug
+     * @param        $name
+     * @param        $type
+     * @param  array $rules
+     * @param  array $config
+     * @param  bool  $isLocked
      * @return mixed
      */
     public function create($namespace, $slug, $name, $type, array $rules = [], array $config = [], $isLocked = true);
@@ -28,8 +28,8 @@ interface FieldRepositoryInterface
     /**
      * Delete a field.
      *
-     * @param $namespace
-     * @param $slug
+     * @param  $namespace
+     * @param  $slug
      * @return FieldInterface
      */
     public function delete($namespace, $slug);
@@ -37,8 +37,8 @@ interface FieldRepositoryInterface
     /**
      * Find a field by it's namespace and slug.
      *
-     * @param $namespace
-     * @param $slug
+     * @param  $namespace
+     * @param  $slug
      * @return mixed
      */
     public function findByNamespaceAndSlug($namespace, $slug);
@@ -46,7 +46,7 @@ interface FieldRepositoryInterface
     /**
      * Get all fields with the given namespace.
      *
-     * @param $namespace
+     * @param  $namespace
      * @return mixed
      */
     public function getAllWithNamespace($namespace);

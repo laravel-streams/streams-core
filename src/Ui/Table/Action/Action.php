@@ -8,10 +8,10 @@ use Illuminate\Support\Collection;
 /**
  * Class Action
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Action
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Action
  */
 class Action extends Button implements ActionInterface
 {
@@ -69,7 +69,7 @@ class Action extends Button implements ActionInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
     public function getTableData()
@@ -85,7 +85,7 @@ class Action extends Button implements ActionInterface
     /**
      * Set the onTablePost handler.
      *
-     * @param $onTablePost
+     * @param  $onTablePost
      * @return $this
      */
     public function setOnTablePost($onTablePost)
@@ -108,7 +108,7 @@ class Action extends Button implements ActionInterface
     /**
      * Set the active flag.
      *
-     * @param $active
+     * @param  $active
      * @return $this
      */
     public function setActive($active)
@@ -131,7 +131,7 @@ class Action extends Button implements ActionInterface
     /**
      * Set the prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return $this
      */
     public function setPrefix($prefix)
@@ -154,7 +154,7 @@ class Action extends Button implements ActionInterface
     /**
      * Set the slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return $this
      */
     public function setSlug($slug)

@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 /**
  * Class FilterEvaluator
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Filter
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Filter
  */
 class FilterEvaluator
 {
@@ -34,7 +34,7 @@ class FilterEvaluator
     /**
      * Process and evaluate parameter values.
      *
-     * @param array $parameters
+     * @param  array $parameters
      * @return array
      */
     public function process(array $parameters, TableBuilder $builder)

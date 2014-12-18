@@ -3,10 +3,10 @@
 /**
  * Class AddonPaths
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon
  */
 class AddonPaths
 {
@@ -14,7 +14,7 @@ class AddonPaths
     /**
      * Return all addon paths in a given folder.
      *
-     * @param $folder
+     * @param  $folder
      * @return array
      */
     public function all($folder)
@@ -29,7 +29,7 @@ class AddonPaths
     /**
      * Return all core addon paths in a given folder.
      *
-     * @param $folder
+     * @param  $folder
      * @return bool
      */
     public function core($folder)
@@ -47,7 +47,7 @@ class AddonPaths
     /**
      * Return all shared addon paths in a given folder.
      *
-     * @param $folder
+     * @param  $folder
      * @return bool
      */
     public function shared($folder)
@@ -65,7 +65,7 @@ class AddonPaths
     /**
      * Return all application addon paths in a given folder.
      *
-     * @param $folder
+     * @param  $folder
      * @return bool
      */
     public function application($folder)

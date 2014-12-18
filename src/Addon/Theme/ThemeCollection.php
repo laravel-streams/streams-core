@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
 /**
  * Class ThemeCollection
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Theme
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Theme
  */
 class ThemeCollection extends AddonCollection
 {
@@ -32,7 +32,7 @@ class ThemeCollection extends AddonCollection
     /**
      * Return whether the theme is active or not.
      *
-     * @param Theme $item
+     * @param  Theme $item
      * @return bool
      */
     protected function themeIsActive(Theme $item)

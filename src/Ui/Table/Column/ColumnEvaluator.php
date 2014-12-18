@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 /**
  * Class ColumnEvaluator
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Column
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Column
  */
 class ColumnEvaluator
 {
@@ -34,7 +34,7 @@ class ColumnEvaluator
     /**
      * Process and evaluate parameter values.
      *
-     * @param array $parameters
+     * @param  array $parameters
      * @return array
      */
     public function process(array $parameters, TableBuilder $builder)

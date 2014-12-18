@@ -6,10 +6,10 @@ use Laracasts\Commander\CommanderTrait;
 /**
  * Class ViewBuilder
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\View
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\View
  */
 class ViewBuilder
 {
@@ -48,16 +48,20 @@ class ViewBuilder
      * Create a new ViewBuilder instance.
      *
      * @param ViewInterpreter $interpreter
-     * @param ViewEvaluator $evaluator
-     * @param ViewFactory   $factory
-     * @param ViewLoader    $loader
+     * @param ViewEvaluator   $evaluator
+     * @param ViewFactory     $factory
+     * @param ViewLoader      $loader
      */
-    function __construct(ViewInterpreter $interpreter, ViewEvaluator $evaluator, ViewFactory $factory, ViewLoader $loader)
-    {
-        $this->loader    = $loader;
-        $this->factory   = $factory;
+    function __construct(
+        ViewInterpreter $interpreter,
+        ViewEvaluator $evaluator,
+        ViewFactory $factory,
+        ViewLoader $loader
+    ) {
+        $this->loader      = $loader;
+        $this->factory     = $factory;
         $this->interpreter = $interpreter;
-        $this->evaluator = $evaluator;
+        $this->evaluator   = $evaluator;
     }
 
     /**

@@ -1,15 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\View;
 
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewInterface;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewInterface;
 
 /**
  * Class ViewData
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\View
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\View
  */
 class ViewData
 {

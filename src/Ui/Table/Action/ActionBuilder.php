@@ -6,10 +6,10 @@ use Laracasts\Commander\CommanderTrait;
 /**
  * Class ActionBuilder
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Action
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Action
  */
 class ActionBuilder
 {
@@ -48,9 +48,9 @@ class ActionBuilder
      * Create a new ActionBuilder instance.
      *
      * @param ActionInterpreter $interpreter
-     * @param ActionEvaluator $evaluator
-     * @param ActionFactory   $factory
-     * @param ActionLoader    $loader
+     * @param ActionEvaluator   $evaluator
+     * @param ActionFactory     $factory
+     * @param ActionLoader      $loader
      */
     function __construct(
         ActionInterpreter $interpreter,
@@ -58,10 +58,10 @@ class ActionBuilder
         ActionFactory $factory,
         ActionLoader $loader
     ) {
-        $this->loader    = $loader;
-        $this->factory   = $factory;
+        $this->loader      = $loader;
+        $this->factory     = $factory;
         $this->interpreter = $interpreter;
-        $this->evaluator = $evaluator;
+        $this->evaluator   = $evaluator;
     }
 
     /**

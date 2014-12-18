@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 /**
  * Interface HeaderInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Header\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Header\Contract
  */
 interface HeaderInterface
 {
@@ -16,7 +16,7 @@ interface HeaderInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return mixed
      */
     public function getTableData();
@@ -24,7 +24,7 @@ interface HeaderInterface
     /**
      * Set the stream object.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return mixed
      */
     public function setStream(StreamInterface $stream);
@@ -32,7 +32,7 @@ interface HeaderInterface
     /**
      * Set the text.
      *
-     * @param $text
+     * @param  $text
      * @return mixed
      */
     public function setText($text);

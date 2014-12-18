@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Ui\Table\Column\Contract\ColumnInterface;
 /**
  * Class Column
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Column
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Column
  */
 class Column implements ColumnInterface
 {
@@ -52,7 +52,7 @@ class Column implements ColumnInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
     public function getTableData()
@@ -70,7 +70,7 @@ class Column implements ColumnInterface
     /**
      * Get the value from a field.
      *
-     * @param $value
+     * @param  $value
      * @return mixed
      */
     protected function getValueFromField($value)
@@ -85,7 +85,7 @@ class Column implements ColumnInterface
     /**
      * Set the class.
      *
-     * @param $class
+     * @param  $class
      * @return $this
      */
     public function setClass($class)
@@ -108,7 +108,7 @@ class Column implements ColumnInterface
     /**
      * Set the entry.
      *
-     * @param $entry
+     * @param  $entry
      * @return $this
      */
     public function setEntry($entry)
@@ -131,7 +131,7 @@ class Column implements ColumnInterface
     /**
      * Set the header.
      *
-     * @param $header
+     * @param  $header
      * @return $this
      */
     public function setHeader($header)
@@ -154,7 +154,7 @@ class Column implements ColumnInterface
     /**
      * Set the prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return $this
      */
     public function setPrefix($prefix)
@@ -177,7 +177,7 @@ class Column implements ColumnInterface
     /**
      * Set the value.
      *
-     * @param $value
+     * @param  $value
      * @return $this
      */
     public function setValue($value)

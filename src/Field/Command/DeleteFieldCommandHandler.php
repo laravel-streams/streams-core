@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 /**
  * Class DeleteFieldCommandHandler
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field\Command
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Field\Command
  */
 class DeleteFieldCommandHandler
 {
@@ -16,8 +16,8 @@ class DeleteFieldCommandHandler
     /**
      * Handle the command.
      *
-     * @param DeleteFieldCommand       $command
-     * @param FieldRepositoryInterface $fields
+     * @param  DeleteFieldCommand       $command
+     * @param  FieldRepositoryInterface $fields
      * @return \Anomaly\Streams\Platform\Field\Contract\FieldInterface
      */
     public function handle(DeleteFieldCommand $command, FieldRepositoryInterface $fields)

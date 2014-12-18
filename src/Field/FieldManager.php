@@ -5,10 +5,10 @@ use Laracasts\Commander\CommanderTrait;
 /**
  * Class FieldManager
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Field
  */
 class FieldManager
 {
@@ -18,7 +18,7 @@ class FieldManager
     /**
      * Create a field.
      *
-     * @param array $field
+     * @param  array $field
      * @return mixed
      */
     public function create(array $field)
@@ -29,8 +29,8 @@ class FieldManager
     /**
      * Delete a field.
      *
-     * @param $namespace
-     * @param $slug
+     * @param  $namespace
+     * @param  $slug
      * @return mixed
      */
     public function delete($namespace, $slug)
@@ -44,10 +44,10 @@ class FieldManager
     /**
      * Assign a field.
      *
-     * @param       $namespace
-     * @param       $stream
-     * @param       $field
-     * @param array $assignment
+     * @param        $namespace
+     * @param        $stream
+     * @param        $field
+     * @param  array $assignment
      * @return mixed
      */
     public function assign($namespace, $stream, $field, array $assignment)
@@ -61,9 +61,9 @@ class FieldManager
     /**
      * Unassign a field.
      *
-     * @param $namespace
-     * @param $stream
-     * @param $field
+     * @param  $namespace
+     * @param  $stream
+     * @param  $field
      * @return mixed
      */
     public function unassign($namespace, $stream, $field)

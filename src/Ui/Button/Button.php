@@ -6,10 +6,10 @@ use Illuminate\Support\Collection;
 /**
  * Class Button
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Button
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Button
  */
 class Button implements ButtonInterface
 {
@@ -97,7 +97,7 @@ class Button implements ButtonInterface
     /**
      * Set the class.
      *
-     * @param $class
+     * @param  $class
      * @return $this
      */
     public function setClass($class)
@@ -120,7 +120,7 @@ class Button implements ButtonInterface
     /**
      * Set the icon.
      *
-     * @param $icon
+     * @param  $icon
      * @return $this
      */
     public function setIcon($icon)
@@ -143,7 +143,7 @@ class Button implements ButtonInterface
     /**
      * Set the button text.
      *
-     * @param $text
+     * @param  $text
      * @return $this
      */
     public function setText($text)
@@ -166,7 +166,7 @@ class Button implements ButtonInterface
     /**
      * Set the button type.
      *
-     * @param $type
+     * @param  $type
      * @return $this
      */
     public function setType($type)

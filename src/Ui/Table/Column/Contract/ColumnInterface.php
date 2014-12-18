@@ -3,10 +3,10 @@
 /**
  * Interface ColumnInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Column\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Column\Contract
  */
 interface ColumnInterface
 {
@@ -14,7 +14,7 @@ interface ColumnInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return mixed
      */
     public function getTableData();
@@ -22,7 +22,7 @@ interface ColumnInterface
     /**
      * Set the header.
      *
-     * @param $header
+     * @param  $header
      * @return mixed
      */
     public function setHeader($header);
@@ -37,7 +37,7 @@ interface ColumnInterface
     /**
      * Set the prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return mixed
      */
     public function setPrefix($prefix);
@@ -52,7 +52,7 @@ interface ColumnInterface
     /**
      * Set the class.
      *
-     * @param $class
+     * @param  $class
      * @return mixed
      */
     public function setClass($class);
@@ -67,7 +67,7 @@ interface ColumnInterface
     /**
      * Set the entry object.
      *
-     * @param $entry
+     * @param  $entry
      * @return mixed
      */
     public function setEntry($entry);
@@ -82,7 +82,7 @@ interface ColumnInterface
     /**
      * Set the value.
      *
-     * @param $value
+     * @param  $value
      * @return mixed
      */
     public function setValue($value);

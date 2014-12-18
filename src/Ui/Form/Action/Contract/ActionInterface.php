@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
 /**
  * Interface ActionInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Action\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Action\Contract
  */
 interface ActionInterface
 {
@@ -16,7 +16,7 @@ interface ActionInterface
     /**
      * Handle the action.
      *
-     * @param Form $form
+     * @param  Form $form
      * @return mixed
      */
     public function handle(Form $form);
@@ -24,7 +24,7 @@ interface ActionInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return mixed
      */
     public function viewData(array $arguments = []);
@@ -32,7 +32,7 @@ interface ActionInterface
     /**
      * Set the handler.
      *
-     * @param $handler
+     * @param  $handler
      * @return mixed
      */
     public function setHandler($handler);
@@ -47,7 +47,7 @@ interface ActionInterface
     /**
      * Set the active flag.
      *
-     * @param $active
+     * @param  $active
      * @return mixed
      */
     public function setActive($active);
@@ -62,7 +62,7 @@ interface ActionInterface
     /**
      * Set the prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return mixed
      */
     public function setPrefix($prefix);
@@ -77,7 +77,7 @@ interface ActionInterface
     /**
      * Set the slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function setSlug($slug);

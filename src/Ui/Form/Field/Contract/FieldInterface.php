@@ -3,10 +3,10 @@
 /**
  * Interface FieldInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Field\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Field\Contract
  */
 interface FieldInterface
 {
@@ -14,7 +14,7 @@ interface FieldInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return mixed
      */
     public function viewData(array $arguments = []);
@@ -22,7 +22,7 @@ interface FieldInterface
     /**
      * Set the instructions.
      *
-     * @param $instructions
+     * @param  $instructions
      * @return mixed
      */
     public function setInstructions($instructions);
@@ -37,7 +37,7 @@ interface FieldInterface
     /**
      * Set the placeholder.
      *
-     * @param $placeholder
+     * @param  $placeholder
      * @return mixed
      */
     public function setPlaceholder($placeholder);
@@ -52,7 +52,7 @@ interface FieldInterface
     /**
      * Set the config.
      *
-     * @param array $config
+     * @param  array $config
      * @return mixed
      */
     public function setConfig(array $config);
@@ -67,7 +67,7 @@ interface FieldInterface
     /**
      * Set the rules.
      *
-     * @param array $rules
+     * @param  array $rules
      * @return mixed
      */
     public function setRules(array $rules);
@@ -82,7 +82,7 @@ interface FieldInterface
     /**
      * Set the include flag.
      *
-     * @param $include
+     * @param  $include
      * @return mixed
      */
     public function setInclude($include);
@@ -97,7 +97,7 @@ interface FieldInterface
     /**
      * Set the label.
      *
-     * @param $label
+     * @param  $label
      * @return mixed
      */
     public function setLabel($label);
@@ -119,7 +119,7 @@ interface FieldInterface
     /**
      * Set the value.
      *
-     * @param $value
+     * @param  $value
      * @return mixed
      */
     public function setValue($value);
@@ -134,7 +134,7 @@ interface FieldInterface
     /**
      * Set the slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function setSlug($slug);
@@ -149,7 +149,7 @@ interface FieldInterface
     /**
      * Set the type.
      *
-     * @param $type
+     * @param  $type
      * @return mixed
      */
     public function setType($type);

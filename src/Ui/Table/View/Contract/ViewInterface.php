@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * Interface ViewInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\View\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\View\Contract
  */
 interface ViewInterface
 {
@@ -17,8 +17,8 @@ interface ViewInterface
     /**
      * Handle the view.
      *
-     * @param Table   $table
-     * @param Builder $query
+     * @param  Table   $table
+     * @param  Builder $query
      * @return mixed
      */
     public function handle(Table $table, Builder $query);
@@ -26,7 +26,7 @@ interface ViewInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return mixed
      */
     public function getTableData();
@@ -34,7 +34,7 @@ interface ViewInterface
     /**
      * Set the attributes.
      *
-     * @param array $attributes
+     * @param  array $attributes
      * @return mixed
      */
     public function setAttributes(array $attributes);
@@ -49,7 +49,7 @@ interface ViewInterface
     /**
      * Set the active flag.
      *
-     * @param $active
+     * @param  $active
      * @return mixed
      */
     public function setActive($active);
@@ -64,7 +64,7 @@ interface ViewInterface
     /**
      * Set the handler.
      *
-     * @param $handler
+     * @param  $handler
      * @return mixed
      */
     public function setHandler($handler);
@@ -79,7 +79,7 @@ interface ViewInterface
     /**
      * Set the prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return mixed
      */
     public function setPrefix($prefix);
@@ -94,7 +94,7 @@ interface ViewInterface
     /**
      * Set the text.
      *
-     * @param $text
+     * @param  $text
      * @return mixed
      */
     public function setText($text);
@@ -109,7 +109,7 @@ interface ViewInterface
     /**
      * Set the slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function setSlug($slug);

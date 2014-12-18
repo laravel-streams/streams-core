@@ -10,10 +10,10 @@ use Dimsav\Translatable\Translatable;
 /**
  * Class FieldModel
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Field
  */
 class FieldModel extends EloquentModel implements FieldInterface
 {
@@ -170,7 +170,7 @@ class FieldModel extends EloquentModel implements FieldInterface
     /**
      * Return the decoded config attribute.
      *
-     * @param $config
+     * @param  $config
      * @return mixed
      */
     public function getConfigAttribute($config)
@@ -191,7 +191,7 @@ class FieldModel extends EloquentModel implements FieldInterface
     /**
      * Return the decoded rules attribute.
      *
-     * @param $rules
+     * @param  $rules
      * @return mixed
      */
     public function getRulesAttribute($rules)

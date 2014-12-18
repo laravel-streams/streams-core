@@ -8,10 +8,10 @@ use Anomaly\Streams\Platform\Contract\InstallableInterface;
 /**
  * Class InstallModuleCommandHandler
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Module\Command
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Module\Command
  */
 class InstallModuleCommandHandler
 {
@@ -19,7 +19,7 @@ class InstallModuleCommandHandler
     /**
      * Install a module.
      *
-     * @param InstallModuleCommand $command
+     * @param  InstallModuleCommand $command
      * @return bool
      */
     public function handle(InstallModuleCommand $command)
@@ -63,8 +63,8 @@ class InstallModuleCommandHandler
     /**
      * Resolve the installer.
      *
-     * @param Module $module
-     * @param        $installer
+     * @param  Module $module
+     * @param         $installer
      * @return mixed
      */
     protected function resolveInstaller(Module $module, $installer)

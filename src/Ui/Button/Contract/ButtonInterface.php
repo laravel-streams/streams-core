@@ -3,10 +3,10 @@
 /**
  * Interface ButtonInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Button\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Button\Contract
  */
 interface ButtonInterface
 {
@@ -28,7 +28,7 @@ interface ButtonInterface
     /**
      * Set the class.
      *
-     * @param $class
+     * @param  $class
      * @return mixed
      */
     public function setClass($class);
@@ -43,7 +43,7 @@ interface ButtonInterface
     /**
      * Set the icon.
      *
-     * @param $icon
+     * @param  $icon
      * @return mixed
      */
     public function setIcon($icon);
@@ -58,7 +58,7 @@ interface ButtonInterface
     /**
      * Set the text.
      *
-     * @param $text
+     * @param  $text
      * @return mixed
      */
     public function setText($text);
@@ -73,7 +73,7 @@ interface ButtonInterface
     /**
      * Set the type.
      *
-     * @param $type
+     * @param  $type
      * @return mixed
      */
     public function setType($type);

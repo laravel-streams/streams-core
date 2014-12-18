@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 /**
  * Class StreamRepository
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Stream
  */
 class StreamRepository implements StreamRepositoryInterface
 {
@@ -34,16 +34,16 @@ class StreamRepository implements StreamRepositoryInterface
     /**
      * Create a new Stream.
      *
-     * @param        $namespace
-     * @param        $slug
-     * @param        $name
-     * @param null   $prefix
-     * @param null   $description
-     * @param array  $viewOptions
-     * @param string $titleColumn
-     * @param string $orderBy
-     * @param bool   $locked
-     * @param bool   $translatable
+     * @param         $namespace
+     * @param         $slug
+     * @param         $name
+     * @param  null   $prefix
+     * @param  null   $description
+     * @param  array  $viewOptions
+     * @param  string $titleColumn
+     * @param  string $orderBy
+     * @param  bool   $locked
+     * @param  bool   $translatable
      * @return StreamInterface
      */
     public function create(
@@ -79,8 +79,8 @@ class StreamRepository implements StreamRepositoryInterface
     /**
      * Delete a Stream.
      *
-     * @param $namespace
-     * @param $slug
+     * @param  $namespace
+     * @param  $slug
      * @return StreamInterface
      */
     public function delete($namespace, $slug)
@@ -95,8 +95,8 @@ class StreamRepository implements StreamRepositoryInterface
     /**
      * Find a stream by it's namespace and slug.
      *
-     * @param $namespace
-     * @param $slug
+     * @param  $namespace
+     * @param  $slug
      * @return mixed
      */
     public function findByNamespaceAndSlug($namespace, $slug)
@@ -107,7 +107,7 @@ class StreamRepository implements StreamRepositoryInterface
     /**
      * Get all streams with a given namespace.
      *
-     * @param $namespace
+     * @param  $namespace
      * @return mixed
      */
     public function getAllWithNamespace($namespace)

@@ -3,10 +3,10 @@
 /**
  * Interface AssignmentRepositoryInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Assignment\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Assignment\Contract
  */
 interface AssignmentRepositoryInterface
 {
@@ -14,14 +14,14 @@ interface AssignmentRepositoryInterface
     /**
      * Create a new assignment.
      *
-     * @param $streamId
-     * @param $fieldId
-     * @param $label
-     * @param $placeholder
-     * @param $instructions
-     * @param $unique
-     * @param $required
-     * @param $translatable
+     * @param  $streamId
+     * @param  $fieldId
+     * @param  $label
+     * @param  $placeholder
+     * @param  $instructions
+     * @param  $unique
+     * @param  $required
+     * @param  $translatable
      * @return mixed
      */
     public function create(
@@ -38,8 +38,8 @@ interface AssignmentRepositoryInterface
     /**
      * Delete an assignment.
      *
-     * @param $streamId
-     * @param $fieldId
+     * @param  $streamId
+     * @param  $fieldId
      * @return mixed
      */
     public function delete($streamId, $fieldId);

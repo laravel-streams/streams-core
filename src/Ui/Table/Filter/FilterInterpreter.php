@@ -3,10 +3,10 @@
 /**
  * Class FilterInterpreter
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Filter
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Filter
  */
 class FilterInterpreter
 {
@@ -14,8 +14,8 @@ class FilterInterpreter
     /**
      * Return standardized parameter input.
      *
-     * @param $key
-     * @param $parameters
+     * @param  $key
+     * @param  $parameters
      * @return array
      */
     public function standardize($key, $parameters)

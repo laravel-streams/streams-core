@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
 /**
  * Interface ActionInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Action\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Action\Contract
  */
 interface ActionInterface extends ButtonInterface
 {
@@ -24,7 +24,7 @@ interface ActionInterface extends ButtonInterface
     /**
      * Set the onTablePost handler.
      *
-     * @param $onTablePost
+     * @param  $onTablePost
      * @return $this
      */
     public function setOnTablePost($onTablePost);
@@ -39,7 +39,7 @@ interface ActionInterface extends ButtonInterface
     /**
      * Set the active flag.
      *
-     * @param $active
+     * @param  $active
      * @return mixed
      */
     public function setActive($active);
@@ -54,7 +54,7 @@ interface ActionInterface extends ButtonInterface
     /**
      * Set the prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return mixed
      */
     public function setPrefix($prefix);
@@ -69,7 +69,7 @@ interface ActionInterface extends ButtonInterface
     /**
      * Set the slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function setSlug($slug);

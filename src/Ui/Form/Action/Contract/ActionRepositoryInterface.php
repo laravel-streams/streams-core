@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonRepositoryInterface;
 /**
  * Interface ActionRepositoryInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Action\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Action\Contract
  */
 interface ActionRepositoryInterface extends ButtonRepositoryInterface
 {

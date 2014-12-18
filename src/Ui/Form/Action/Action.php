@@ -7,10 +7,10 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
 /**
  * Class Action
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Action
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Action
  */
 class Action extends Button implements ActionInterface
 {
@@ -88,7 +88,7 @@ class Action extends Button implements ActionInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
     public function viewData(array $arguments = [])
@@ -103,7 +103,7 @@ class Action extends Button implements ActionInterface
     /**
      * Set the action handler.
      *
-     * @param $handler
+     * @param  $handler
      * @return $this
      */
     public function setHandler($handler)
@@ -126,7 +126,7 @@ class Action extends Button implements ActionInterface
     /**
      * Set the active flag.
      *
-     * @param $active
+     * @param  $active
      * @return $this
      */
     public function setActive($active)
@@ -149,7 +149,7 @@ class Action extends Button implements ActionInterface
     /**
      * Set the action prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return $this
      */
     public function setPrefix($prefix)
@@ -172,7 +172,7 @@ class Action extends Button implements ActionInterface
     /**
      * Set the action slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return $this
      */
     public function setSlug($slug)

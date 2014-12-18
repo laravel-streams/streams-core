@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 /**
  * Class BuildFieldTypeCommandHandler
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\FieldType\Command
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\FieldType\Command
  */
 class BuildFieldTypeCommandHandler
 {
@@ -16,7 +16,7 @@ class BuildFieldTypeCommandHandler
     /**
      * Handle the command.
      *
-     * @param BuildFieldTypeCommand $command
+     * @param  BuildFieldTypeCommand $command
      * @return mixed
      */
     public function handle(BuildFieldTypeCommand $command)
@@ -57,7 +57,7 @@ class BuildFieldTypeCommandHandler
     /**
      * Get the field type class.
      *
-     * @param BuildFieldTypeCommand $command
+     * @param  BuildFieldTypeCommand $command
      * @return mixed
      */
     protected function getFieldType(BuildFieldTypeCommand $command)

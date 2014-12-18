@@ -8,10 +8,10 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 /**
  * Interface StreamInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Stream\Contract
  */
 interface StreamInterface
 {
@@ -82,7 +82,7 @@ interface StreamInterface
     /**
      * Get an assignment by it's field's slug.
      *
-     * @param $fieldSlug
+     * @param  $fieldSlug
      * @return AssignmentInterface
      */
     public function getAssignment($fieldSlug);
@@ -90,7 +90,7 @@ interface StreamInterface
     /**
      * Get a stream field by it's slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return FieldInterface
      */
     public function getField($slug);
@@ -98,7 +98,7 @@ interface StreamInterface
     /**
      * Get a field's type by the field's slug.
      *
-     * @param $fieldSlug
+     * @param  $fieldSlug
      * @return FieldType
      */
     public function getFieldType($fieldSlug);
@@ -134,7 +134,7 @@ interface StreamInterface
     /**
      * Get an attribute.
      *
-     * @param $key
+     * @param  $key
      * @return mixed
      */
     public function getAttribute($key);

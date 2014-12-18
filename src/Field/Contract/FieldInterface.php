@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 /**
  * Interface FieldInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Field\Contract
  */
 interface FieldInterface
 {
@@ -38,8 +38,8 @@ interface FieldInterface
     /**
      * Get the field type.
      *
-     * @param EntryInterface $entry
-     * @param null           $locale
+     * @param  EntryInterface $entry
+     * @param  null           $locale
      * @return FieldType
      */
     public function getType(EntryInterface $entry = null, $locale = null);
@@ -82,7 +82,7 @@ interface FieldInterface
     /**
      * Get an attribute.
      *
-     * @param $key
+     * @param  $key
      * @return mixed
      */
     public function getAttribute($key);

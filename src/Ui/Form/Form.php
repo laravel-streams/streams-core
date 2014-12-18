@@ -9,10 +9,10 @@ use Illuminate\Http\Response;
 /**
  * Class Form
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form
  */
 class Form
 {
@@ -139,7 +139,7 @@ class Form
     /**
      * Set the form prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return $this
      */
     public function setPrefix($prefix)
@@ -162,7 +162,7 @@ class Form
     /**
      * Set included fields.
      *
-     * @param $include
+     * @param  $include
      * @return $this
      */
     public function setInclude($include)
@@ -185,7 +185,7 @@ class Form
     /**
      * Add an included field.
      *
-     * @param $include
+     * @param  $include
      * @return $this
      */
     public function addInclude($include)
@@ -198,7 +198,7 @@ class Form
     /**
      * Set skipped fields.
      *
-     * @param $skips
+     * @param  $skips
      * @return $this
      */
     public function setSkips($skips)
@@ -221,7 +221,7 @@ class Form
     /**
      * Set the form content.
      *
-     * @param $content
+     * @param  $content
      * @return $this
      */
     public function setContent($content)
@@ -244,7 +244,7 @@ class Form
     /**
      * Set the form rules.
      *
-     * @param $rules
+     * @param  $rules
      * @return $this
      */
     public function setRules($rules)
@@ -267,8 +267,8 @@ class Form
     /**
      * Put a rule.
      *
-     * @param $key
-     * @param $rules
+     * @param  $key
+     * @param  $rules
      * @return $this
      */
     public function putRules($key, $rules)
@@ -281,8 +281,8 @@ class Form
     /**
      * Pull a rule.
      *
-     * @param      $key
-     * @param null $default
+     * @param       $key
+     * @param  null $default
      * @return mixed
      */
     public function pullRules($key, $default = null)
@@ -293,7 +293,7 @@ class Form
     /**
      * Set the input.
      *
-     * @param $input
+     * @param  $input
      * @return $this
      */
     public function setInput($input)
@@ -316,8 +316,8 @@ class Form
     /**
      * Put input.
      *
-     * @param $key
-     * @param $input
+     * @param  $key
+     * @param  $input
      * @return $this
      */
     public function putInput($key, $input)
@@ -330,8 +330,8 @@ class Form
     /**
      * Pull input.
      *
-     * @param      $key
-     * @param null $default
+     * @param       $key
+     * @param  null $default
      * @return mixed
      */
     public function pullInput($key, $default = null)
@@ -342,7 +342,7 @@ class Form
     /**
      * Set the form data.
      *
-     * @param $data
+     * @param  $data
      * @return $this
      */
     public function setData($data)
@@ -365,8 +365,8 @@ class Form
     /**
      * Put data.
      *
-     * @param $key
-     * @param $data
+     * @param  $key
+     * @param  $data
      * @return $this
      */
     public function putData($key, $data)
@@ -379,8 +379,8 @@ class Form
     /**
      * Pull data.
      *
-     * @param      $key
-     * @param null $default
+     * @param       $key
+     * @param  null $default
      * @return mixed
      */
     public function pullData($key, $default = null)
@@ -391,7 +391,7 @@ class Form
     /**
      * Set the form response.
      *
-     * @param $response
+     * @param  $response
      * @return $this
      */
     public function setResponse($response)
@@ -414,7 +414,7 @@ class Form
     /**
      * Set the entry.
      *
-     * @param $entry
+     * @param  $entry
      * @return $this
      */
     public function setEntry($entry)
@@ -437,7 +437,7 @@ class Form
     /**
      * Set the stream.
      *
-     * @param $stream
+     * @param  $stream
      * @return $this
      */
     public function setStream($stream)
@@ -460,7 +460,7 @@ class Form
     /**
      * Set the view.
      *
-     * @param $view
+     * @param  $view
      * @return $this
      */
     public function setView($view)
@@ -483,7 +483,7 @@ class Form
     /**
      * Set the wrapper.
      *
-     * @param $wrapper
+     * @param  $wrapper
      * @return $this
      */
     public function setWrapper($wrapper)

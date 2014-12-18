@@ -9,10 +9,10 @@ use Way\Generators\Generator;
 /**
  * Class GenerateEntryTranslationsModelCommandHandler
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry\Command
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Entry\Command
  */
 class GenerateEntryTranslationsModelCommandHandler
 {
@@ -57,7 +57,7 @@ class GenerateEntryTranslationsModelCommandHandler
     /**
      * Get the compiled entry model path for a stream.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return string
      */
     protected function getFilePath(StreamInterface $stream)
@@ -74,7 +74,7 @@ class GenerateEntryTranslationsModelCommandHandler
     /**
      * Get the template data from a stream object.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return array
      */
     protected function getTemplateData(StreamInterface $stream)

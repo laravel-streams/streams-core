@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Ui\Table\Filter\Contract\FilterRepositoryInterface;
 /**
  * Class FilterRepository
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Filter
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Filter
  */
 class FilterRepository implements FilterRepositoryInterface
 {
@@ -36,7 +36,7 @@ class FilterRepository implements FilterRepositoryInterface
     /**
      * Find a filter.
      *
-     * @param $filter
+     * @param  $filter
      * @return FilterInterface
      */
     public function find($filter)

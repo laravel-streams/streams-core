@@ -7,10 +7,10 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 /**
  * Class UnassignFieldCommandHandler
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field\Command
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Field\Command
  */
 class UnassignFieldCommandHandler
 {
@@ -56,7 +56,7 @@ class UnassignFieldCommandHandler
     /**
      * Handle the command.
      *
-     * @param UnassignFieldCommand $command
+     * @param  UnassignFieldCommand $command
      * @return mixed
      */
     public function handle(UnassignFieldCommand $command)

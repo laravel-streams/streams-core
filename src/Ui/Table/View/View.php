@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * Class View
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\View
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\View
  */
 class View implements ViewInterface
 {
@@ -91,7 +91,7 @@ class View implements ViewInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
     public function getTableData()
@@ -107,7 +107,7 @@ class View implements ViewInterface
     /**
      * Set the attributes.
      *
-     * @param array $attributes
+     * @param  array $attributes
      * @return $this
      */
     public function setAttributes(array $attributes)
@@ -130,7 +130,7 @@ class View implements ViewInterface
     /**
      * Set the active flag.
      *
-     * @param $active
+     * @param  $active
      * @return $this
      */
     public function setActive($active)
@@ -153,7 +153,7 @@ class View implements ViewInterface
     /**
      * Set the handler.
      *
-     * @param $handler
+     * @param  $handler
      * @return $this
      */
     public function setHandler($handler)
@@ -176,7 +176,7 @@ class View implements ViewInterface
     /**
      * Set the prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return $this
      */
     public function setPrefix($prefix)
@@ -199,7 +199,7 @@ class View implements ViewInterface
     /**
      * Set the text.
      *
-     * @param $text
+     * @param  $text
      * @return $this
      */
     public function setText($text)
@@ -222,7 +222,7 @@ class View implements ViewInterface
     /**
      * Set the slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return $this
      */
     public function setSlug($slug)

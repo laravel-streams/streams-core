@@ -3,10 +3,10 @@
 /**
  * Class Attribute
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Tag\Attribute
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Tag\Attribute
  */
 class Attribute
 {
@@ -40,8 +40,8 @@ class Attribute
     /**
      * Get the attribute's value parsed to an array.
      *
-     * @param string $itemDelimiter
-     * @param string $valueDelimiter
+     * @param  string $itemDelimiter
+     * @param  string $valueDelimiter
      * @return array
      */
     public function toArray($itemDelimiter = '|', $valueDelimiter = '=')

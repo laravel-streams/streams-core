@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Addon\Module\Event\ModuleInstalledEvent;
 /**
  * Class ModuleInstalledListener
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Module\Listener
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Module\Listener
  */
 class ModuleInstalledListener
 {
