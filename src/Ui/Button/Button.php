@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
-use Illuminate\Support\Collection;
 
 /**
  * Class Button
@@ -45,20 +44,20 @@ class Button implements ButtonInterface
     /**
      * The button's attributes.
      *
-     * @var Collection
+     * @var array
      */
     protected $attributes;
 
     /**
      * Create a new Button instance.
      *
-     * @param Collection $attributes
-     * @param null       $class
-     * @param null       $icon
-     * @param null       $text
-     * @param string     $type
+     * @param array  $attributes
+     * @param null   $class
+     * @param null   $icon
+     * @param null   $text
+     * @param string $type
      */
-    function __construct(Collection $attributes, $class = null, $icon = null, $text = null, $type = 'default')
+    function __construct(array $attributes = [], $class = null, $icon = null, $text = null, $type = 'default')
     {
         $this->icon       = $icon;
         $this->text       = $text;
@@ -79,7 +78,7 @@ class Button implements ButtonInterface
         $text  = $this->getText();
         $class = $this->getClass();
 
-        $attributes = $this->attributes->all();
+        $attributes = $this->getAttributes();
 
         if (is_string($text)) {
             $text = trans($text);
@@ -93,9 +92,22 @@ class Button implements ButtonInterface
     }
 
     /**
+     * Set the attributes.
+     *
+     * @param $attributes
+     * @return $this
+     */
+    public function setAttributes($attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
      * Get the attributes.
      *
-     * @return Collection
+     * @return array
      */
     public function getAttributes()
     {

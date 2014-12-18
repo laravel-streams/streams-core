@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
-use Illuminate\Support\Collection;
 
 /**
  * Class Action
@@ -47,15 +46,15 @@ class Action extends Button implements ActionInterface
     /**
      * Create a new Action instance.
      *
-     * @param Collection $slug
-     * @param null       $text
-     * @param null       $icon
-     * @param null       $class
-     * @param null       $prefix
-     * @param bool       $active
-     * @param string     $type
-     * @param null       $onTablePost
-     * @param Collection $attributes
+     * @param null   $slug
+     * @param null   $text
+     * @param null   $icon
+     * @param null   $class
+     * @param null   $prefix
+     * @param bool   $active
+     * @param string $type
+     * @param null   $onTablePost
+     * @param array  $attributes
      */
     public function __construct(
         $slug,
@@ -66,15 +65,15 @@ class Action extends Button implements ActionInterface
         $active = false,
         $type = 'default',
         $onTablePost = null,
-        Collection $attributes
+        array $attributes = []
     ) {
         $this->slug        = $slug;
         $this->prefix      = $prefix;
         $this->active      = $active;
         $this->onTablePost = $onTablePost;
 
-        $attributes->put('type', 'submit');
-        $attributes->put('name', 'action');
+        $attributes['type'] = 'submit';
+        $attributes['name'] = 'action';
 
         parent::__construct($attributes, $class, $icon, $text, $type);
     }
