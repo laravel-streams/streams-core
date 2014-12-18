@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Listener;
 
-use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableLoadEvent;
 use Laracasts\Commander\CommanderTrait;
 
 /**
@@ -11,7 +11,7 @@ use Laracasts\Commander\CommanderTrait;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Listener
  */
-class TableBuildListener
+class TableLoadListener
 {
 
     use CommanderTrait;
@@ -20,12 +20,12 @@ class TableBuildListener
      * When the table is building we need to load
      * entries from the provided model.
      *
-     * @param TableBuildEvent $event
+     * @param TableLoadEvent $event
      */
-    public function handle(TableBuildEvent $event)
+    public function handle(TableLoadEvent $event)
     {
         $builder = $event->getBuilder();
 
-        $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\SetTableStreamCommand', compact('builder'));
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\LoadTableEntriesCommand', compact('builder'));
     }
 }

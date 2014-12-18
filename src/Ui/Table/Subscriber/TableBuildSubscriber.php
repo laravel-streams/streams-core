@@ -55,11 +55,5 @@ class TableBuildSubscriber
             'streams::table.build',
             'Anomaly\Streams\Platform\Ui\Table\Column\Listener\TableBuildListener'
         );
-
-        $events->listen(
-            'streams::table.build',
-            'Anomaly\Streams\Platform\Ui\Table\Row\Listener\TableBuildListener',
-            -100 // Do this last
-        );
     }
 }
