@@ -5,10 +5,10 @@ use Composer\Autoload\ClassLoader;
 /**
  * Class AddonVendor
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon
  */
 class AddonVendor extends ClassLoader
 {
@@ -25,7 +25,7 @@ class AddonVendor extends ClassLoader
 
         if (is_file($vendorPath . $vendorFile)) {
 
-            $autoload = require_once $vendorPath . $vendorFile;
+            $autoload = include_once $vendorPath . $vendorFile;
 
             if (!empty($autoload['psr-0'])) {
                 foreach ($autoload['psr-0'] as $namespace => $path) {
@@ -46,8 +46,8 @@ class AddonVendor extends ClassLoader
     /**
      * Get vendor paths.
      *
-     * @param $vendorPath
-     * @param $path
+     * @param  $vendorPath
+     * @param  $path
      * @return string
      */
     protected function vendorPaths($vendorPath, $path)

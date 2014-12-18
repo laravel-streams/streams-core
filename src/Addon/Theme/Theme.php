@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Addon\Addon;
 /**
  * Class Theme
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Theme
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Theme
  */
 class Theme extends Addon
 {
@@ -56,7 +56,7 @@ class Theme extends Addon
     /**
      * Set the active flag.
      *
-     * @param $active
+     * @param  $active
      * @return $this
      */
     public function setActive($active)
@@ -79,7 +79,7 @@ class Theme extends Addon
     /**
      * Set the meta data.
      *
-     * @param $meta
+     * @param  $meta
      * @return $this
      */
     public function setMeta($meta)
@@ -102,8 +102,8 @@ class Theme extends Addon
     /**
      * Put meta data.
      *
-     * @param $key
-     * @param $meta
+     * @param  $key
+     * @param  $meta
      * @return $this
      */
     public function putMeta($key, $meta)
@@ -116,8 +116,8 @@ class Theme extends Addon
     /**
      * Pull meta data.
      *
-     * @param      $key
-     * @param null $default
+     * @param       $key
+     * @param  null $default
      * @return mixed
      */
     public function pullMeta($key, $default = null)
@@ -128,7 +128,7 @@ class Theme extends Addon
     /**
      * Set the theme's tag class.
      *
-     * @param $tag
+     * @param  $tag
      * @return $this
      */
     public function setTag($tag)

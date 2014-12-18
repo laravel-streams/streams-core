@@ -3,10 +3,10 @@
 /**
  * Interface StreamRepositoryInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Stream\Contract
  */
 interface StreamRepositoryInterface
 {
@@ -14,16 +14,16 @@ interface StreamRepositoryInterface
     /**
      * Create a new Stream.
      *
-     * @param        $namespace
-     * @param        $slug
-     * @param        $name
-     * @param null   $prefix
-     * @param null   $description
-     * @param array  $viewOptions
-     * @param string $titleColumn
-     * @param string $orderBy
-     * @param bool   $locked
-     * @param bool   $translatable
+     * @param         $namespace
+     * @param         $slug
+     * @param         $name
+     * @param  null   $prefix
+     * @param  null   $description
+     * @param  array  $viewOptions
+     * @param  string $titleColumn
+     * @param  string $orderBy
+     * @param  bool   $locked
+     * @param  bool   $translatable
      * @return StreamInterface
      */
     public function create(
@@ -42,8 +42,8 @@ interface StreamRepositoryInterface
     /**
      * Delete a Stream.
      *
-     * @param $namespace
-     * @param $slug
+     * @param  $namespace
+     * @param  $slug
      * @return mixed
      */
     public function delete($namespace, $slug);
@@ -51,8 +51,8 @@ interface StreamRepositoryInterface
     /**
      * Find a stream by it's namespace and slug.
      *
-     * @param $namespace
-     * @param $slug
+     * @param  $namespace
+     * @param  $slug
      * @return mixed
      */
     public function findByNamespaceAndSlug($namespace, $slug);
@@ -60,7 +60,7 @@ interface StreamRepositoryInterface
     /**
      * Get all streams with a given namespace.
      *
-     * @param $namespace
+     * @param  $namespace
      * @return mixed
      */
     public function getAllWithNamespace($namespace);

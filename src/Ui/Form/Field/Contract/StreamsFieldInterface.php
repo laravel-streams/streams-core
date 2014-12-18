@@ -3,10 +3,10 @@
 /**
  * Interface StreamsFieldInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Field\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Field\Contract
  */
 interface StreamsFieldInterface
 {
@@ -14,7 +14,7 @@ interface StreamsFieldInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return mixed
      */
     public function viewData(array $arguments = []);
@@ -22,7 +22,7 @@ interface StreamsFieldInterface
     /**
      * Set the field.
      *
-     * @param $field
+     * @param  $field
      * @return mixed
      */
     public function setField($field);

@@ -7,10 +7,10 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 /**
  * Class AssignFieldCommandHandler
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field\Command
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Field\Command
  */
 class AssignFieldCommandHandler
 {
@@ -56,7 +56,7 @@ class AssignFieldCommandHandler
     /**
      * Handle the command.
      *
-     * @param $command
+     * @param  $command
      * @return $this|mixed
      */
     public function handle(AssignFieldCommand $command)

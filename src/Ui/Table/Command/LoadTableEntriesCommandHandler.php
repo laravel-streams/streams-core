@@ -5,16 +5,16 @@ use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 /**
  * Class LoadTableEntriesCommandHandler
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Command
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Command
  */
 class LoadTableEntriesCommandHandler
 {
 
     /**
-     * Handle the command.
+     * Load entries onto the table.
      *
      * @param LoadTableEntriesCommand $command
      */
@@ -25,11 +25,29 @@ class LoadTableEntriesCommandHandler
         $model   = $builder->getModel();
         $entries = $table->getEntries();
 
+        /**
+         * If the entries have already been set on the
+         * table then return. Nothing to do here.
+         *
+         * If the model is not set then they need
+         * to load the table entries themselves.
+         */
+        if (!$entries->isEmpty() || !class_exists($model)) {
+            return;
+        }
+
+        $model = app($model);
+
+        /**
+         * If the set the model is not an instance of
+         * TableModelInterface then they need to load
+         * the entries themselves.
+         */
         if (!$model instanceof TableModelInterface) {
             return;
         }
 
-        foreach ($model->getTableEntries($table) as $entry) {
+        foreach ($model->getTableEntries($builder) as $entry) {
             $entries->push($entry);
         }
     }

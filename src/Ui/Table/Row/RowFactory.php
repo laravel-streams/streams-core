@@ -3,10 +3,10 @@
 /**
  * Class RowFactory
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Row
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Row
  */
 class RowFactory
 {
@@ -21,7 +21,7 @@ class RowFactory
     /**
      * Make a row.
      *
-     * @param array $parameters
+     * @param  array $parameters
      * @return mixed
      */
     public function make(array $parameters)

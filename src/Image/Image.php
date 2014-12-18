@@ -5,10 +5,10 @@ use Intervention\Image\ImageManager;
 /**
  * Class Image
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Asset
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Asset
  */
 class Image extends ImageManager
 {
@@ -98,7 +98,7 @@ class Image extends ImageManager
     /**
      * Replace the namespace hint with it's path.
      *
-     * @param $path
+     * @param  $path
      * @return string
      */
     protected function replaceNamespace($path)
@@ -137,7 +137,7 @@ class Image extends ImageManager
     /**
      * Get the extension from a path.
      *
-     * @param $path
+     * @param  $path
      * @return mixed
      */
     protected function getExtension($path)
@@ -148,7 +148,7 @@ class Image extends ImageManager
     /**
      * Apply a blur effect.
      *
-     * @param $pixels
+     * @param  $pixels
      * @return $this
      */
     public function blur($pixels)
@@ -159,7 +159,7 @@ class Image extends ImageManager
     /**
      * Adjust the brightness.
      *
-     * @param $level
+     * @param  $level
      * @return $this
      */
     public function brightness($level)
@@ -170,9 +170,9 @@ class Image extends ImageManager
     /**
      * Modify the color levels.
      *
-     * @param $red
-     * @param $green
-     * @param $blue
+     * @param  $red
+     * @param  $green
+     * @param  $blue
      * @return $this
      */
     public function colorize($red, $green, $blue)
@@ -183,7 +183,7 @@ class Image extends ImageManager
     /**
      * Adjust the contrast.
      *
-     * @param $level
+     * @param  $level
      * @return $this
      */
     public function contrast($level)
@@ -194,10 +194,10 @@ class Image extends ImageManager
     /**
      * Crop the image.
      *
-     * @param      $width
-     * @param      $height
-     * @param null $x
-     * @param null $y
+     * @param       $width
+     * @param       $height
+     * @param  null $x
+     * @param  null $y
      * @return $this
      */
     public function crop($width, $height, $x = null, $y = null)
@@ -208,8 +208,8 @@ class Image extends ImageManager
     /**
      * Fit the image to spec.
      *
-     * @param      $width
-     * @param null $height
+     * @param       $width
+     * @param  null $height
      * @return $this
      */
     public function fit($width, $height = null)
@@ -220,7 +220,7 @@ class Image extends ImageManager
     /**
      * Flip the image.
      *
-     * @param $direction
+     * @param  $direction
      * @return $this
      */
     public function flip($direction)
@@ -231,7 +231,7 @@ class Image extends ImageManager
     /**
      * Adjust the gamma level.
      *
-     * @param $level
+     * @param  $level
      * @return $this
      */
     public function gamma($level)
@@ -252,7 +252,7 @@ class Image extends ImageManager
     /**
      * Adjust the height.
      *
-     * @param $height
+     * @param  $height
      * @return $this
      */
     public function heighten($height)
@@ -273,8 +273,8 @@ class Image extends ImageManager
     /**
      * Limit colors used.
      *
-     * @param      $count
-     * @param null $matte
+     * @param       $count
+     * @param  null $matte
      * @return $this
      */
     public function limitColors($count, $matte = null)
@@ -285,7 +285,7 @@ class Image extends ImageManager
     /**
      * Pixelate the image.
      *
-     * @param $size
+     * @param  $size
      * @return $this
      */
     public function pixelate($size)
@@ -296,7 +296,7 @@ class Image extends ImageManager
     /**
      * Adjust the opacity.
      *
-     * @param $opacity
+     * @param  $opacity
      * @return $this
      */
     public function opacity($opacity)
@@ -307,7 +307,7 @@ class Image extends ImageManager
     /**
      * Adjust the quality.
      *
-     * @param $quality
+     * @param  $quality
      * @return $this
      */
     public function quality($quality)
@@ -318,8 +318,8 @@ class Image extends ImageManager
     /**
      * Resize the image.
      *
-     * @param $width
-     * @param $height
+     * @param  $width
+     * @param  $height
      * @return $this
      */
     public function resize($width, $height)
@@ -330,8 +330,8 @@ class Image extends ImageManager
     /**
      * Rotate the image.
      *
-     * @param      $angle
-     * @param null $background
+     * @param       $angle
+     * @param  null $background
      * @return $this
      */
     public function rotate($angle, $background = null)
@@ -342,7 +342,7 @@ class Image extends ImageManager
     /**
      * Adjust the width.
      *
-     * @param $width
+     * @param  $width
      * @return $this
      */
     public function widen($width)
@@ -353,7 +353,7 @@ class Image extends ImageManager
     /**
      * Return the path to an image.
      *
-     * @param null $image
+     * @param  null $image
      * @return string
      */
     public function path($image = null)
@@ -373,8 +373,8 @@ class Image extends ImageManager
     /**
      * Add a filter to apply to the image.
      *
-     * @param $method
-     * @param $arguments
+     * @param  $method
+     * @param  $arguments
      * @return $this
      */
     protected function applyFilter($method, $arguments)
@@ -387,8 +387,8 @@ class Image extends ImageManager
     /**
      * Add a namespace path hint.
      *
-     * @param $binding
-     * @param $path
+     * @param  $binding
+     * @param  $path
      * @return $this
      */
     public function addNamespace($binding, $path)
@@ -401,7 +401,7 @@ class Image extends ImageManager
     /**
      * Set whether to force publishing.
      *
-     * @param $publish
+     * @param  $publish
      * @return $this
      */
     public function setPublish($publish)
@@ -414,7 +414,7 @@ class Image extends ImageManager
     /**
      * Set the base publishable directory.
      *
-     * @param $directory
+     * @param  $directory
      * @return $this
      */
     public function setDirectory($directory)
@@ -427,7 +427,7 @@ class Image extends ImageManager
     /**
      * Set the image by it's path.
      *
-     * @param $path
+     * @param  $path
      * @return $this
      */
     public function setImage($path)

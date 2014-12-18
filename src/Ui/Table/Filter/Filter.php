@@ -1,16 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Filter;
 
 use Anomaly\Streams\Platform\Ui\Table\Filter\Contract\FilterInterface;
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class Filter
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Filter
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Filter
  */
 class Filter implements FilterInterface
 {
@@ -54,38 +54,41 @@ class Filter implements FilterInterface
      * Create a new Filter instance.
      *
      * @param      $slug
-     * @param null $prefix
      * @param bool $active
      * @param null $handler
      * @param null $placeholder
+     * @param null $prefix
      */
-    public function __construct($slug, $prefix = null, $active = false, $handler = null, $placeholder = null)
+    public function __construct($slug, $active = false, $handler = null, $placeholder = null, $prefix = null)
     {
         $this->slug        = $slug;
-        $this->prefix      = $prefix;
         $this->active      = $active;
+        $this->prefix      = $prefix;
         $this->handler     = $handler;
         $this->placeholder = $placeholder;
     }
 
     /**
-     * Handle the filter.
+     * Hook into the table query.
      *
-     * @param Table   $table
-     * @param Builder $query
+     * @param TableBuilder $builder
+     * @param Builder      $query
+     * @return Builder
      */
-    public function handle(Table $table, Builder $query)
+    public function onTableQuerying(TableBuilder $builder, Builder $query)
     {
         $query = $query->where($this->getSlug(), 'LIKE', "%{$this->getValue()}%");
+
+        return $query;
     }
 
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function getTableData()
     {
         $input = $this->getInput();
 
@@ -95,7 +98,7 @@ class Filter implements FilterInterface
     /**
      * Set the active flag.
      *
-     * @param $active
+     * @param  $active
      * @return $this
      */
     public function setActive($active)
@@ -118,7 +121,7 @@ class Filter implements FilterInterface
     /**
      * Set the handler.
      *
-     * @param $handler
+     * @param  $handler
      * @return $this
      */
     public function setHandler($handler)
@@ -141,7 +144,7 @@ class Filter implements FilterInterface
     /**
      * Set the placeholder.
      *
-     * @param $placeholder
+     * @param  $placeholder
      * @return $this
      */
     public function setPlaceholder($placeholder)
@@ -164,7 +167,7 @@ class Filter implements FilterInterface
     /**
      * Set the prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return $this
      */
     public function setPrefix($prefix)
@@ -187,7 +190,7 @@ class Filter implements FilterInterface
     /**
      * Set the slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return $this
      */
     public function setSlug($slug)
@@ -214,7 +217,7 @@ class Filter implements FilterInterface
      */
     protected function getName()
     {
-        return $this->getPrefix() . $this->getSlug();
+        return $this->getPrefix() . $this->getSlug() . '_filter';
     }
 
     /**

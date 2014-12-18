@@ -5,10 +5,10 @@ use Laracasts\Commander\CommanderTrait;
 /**
  * Class StreamManager
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Stream
  */
 class StreamManager
 {
@@ -18,7 +18,7 @@ class StreamManager
     /**
      * Create a stream.
      *
-     * @param array $stream
+     * @param  array $stream
      * @return mixed
      */
     public function create(array $stream)
@@ -29,8 +29,8 @@ class StreamManager
     /**
      * Delete a stream.
      *
-     * @param $namespace
-     * @param $slug
+     * @param  $namespace
+     * @param  $slug
      * @return mixed
      */
     public function delete($namespace, $slug)

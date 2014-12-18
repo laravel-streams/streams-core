@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Ui\Table\Header\Contract\HeaderInterface;
 /**
  * Class Header
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Header
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Header
  */
 class Header implements HeaderInterface
 {
@@ -17,34 +17,36 @@ class Header implements HeaderInterface
     /**
      * The stream object.
      *
-     * @var null
+     * @var StreamInterface
      */
     protected $stream = null;
 
     /**
      * The header text.
      *
-     * @var null
+     * @var string
      */
-    protected $text;
+    protected $text = null;
 
     /**
      * Create a new Header instance.
      *
-     * @param null $text
+     * @param StreamInterface $stream
+     * @param                 $text
      */
-    public function __construct($text = null)
+    function __construct(StreamInterface $stream, $text)
     {
-        $this->text = $text;
+        $this->text   = $text;
+        $this->stream = $stream;
     }
 
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function getTableData()
     {
         $text = $this->getText();
 
@@ -60,7 +62,7 @@ class Header implements HeaderInterface
     /**
      * Set the stream object.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return $this
      */
     public function setStream(StreamInterface $stream)
@@ -73,7 +75,7 @@ class Header implements HeaderInterface
     /**
      * Set the text.
      *
-     * @param $text
+     * @param  $text
      * @return $this
      */
     public function setText($text)
@@ -96,7 +98,7 @@ class Header implements HeaderInterface
     /**
      * Get the text from a field.
      *
-     * @param $text
+     * @param  $text
      * @return mixed
      */
     protected function getTextFromField($text)

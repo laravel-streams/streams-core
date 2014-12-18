@@ -6,10 +6,10 @@ use Illuminate\Support\Collection;
 /**
  * Class ActionCollection
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Action
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Action
  */
 class ActionCollection extends Collection
 {
@@ -33,7 +33,7 @@ class ActionCollection extends Collection
     /**
      * Return whether the action is active or not.
      *
-     * @param ActionInterface $item
+     * @param  ActionInterface $item
      * @return mixed
      */
     protected function actionIsActive(ActionInterface $item)

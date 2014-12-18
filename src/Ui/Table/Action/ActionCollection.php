@@ -1,21 +1,23 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Action;
 
-use Anomaly\Streams\Platform\Ui\Form\Action\Action;
+use Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionInterface;
 use Illuminate\Support\Collection;
 
 /**
  * Class ActionCollection
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Action
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Action
  */
 class ActionCollection extends Collection
 {
 
     /**
-     * @return null
+     * Return the active table action.
+     *
+     * @return ActionInterface|null
      */
     public function active()
     {
@@ -29,13 +31,42 @@ class ActionCollection extends Collection
     }
 
     /**
+     * Find an action by it's slug.
+     *
+     * @param  $slug
+     * @return ActionInterface|null
+     */
+    public function findBySlug($slug)
+    {
+        foreach ($this->items as $item) {
+            if ($this->actionSlugIs($item, $slug)) {
+                return $item;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Return whether the action is active or not.
      *
-     * @param Action $item
+     * @param  Action $item
      * @return bool
      */
-    protected function actionIsActive(Action $item)
+    protected function actionIsActive(ActionInterface $item)
     {
-        return $item->isActive();
+        return ($item->isActive());
+    }
+
+    /**
+     * Return whether the action slug matches the provided one.
+     *
+     * @param  ActionInterface $item
+     * @param                  $slug
+     * @return bool
+     */
+    protected function actionSlugIs(ActionInterface $item, $slug)
+    {
+        return ($item->getSlug() == $slug);
     }
 }

@@ -1,16 +1,15 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Column;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Column\Contract\ColumnInterface;
 
 /**
  * Class Column
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Column
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Column
  */
 class Column implements ColumnInterface
 {
@@ -25,73 +24,61 @@ class Column implements ColumnInterface
     /**
      * The column value.
      *
-     * @var
+     * @var null
      */
-    protected $value;
+    protected $value = null;
 
     /**
      * The column class.
      *
      * @var null
      */
-    protected $class;
+    protected $class = null;
 
     /**
      * The column prefix.
      *
      * @var null
      */
-    protected $prefix;
+    protected $prefix = null;
 
     /**
      * The column header.
      *
      * @var null
      */
-    protected $header;
-
-    /**
-     * The column stream.
-     *
-     * @var \Anomaly\Streams\Platform\Stream\Contract\StreamInterface
-     */
-    protected $stream;
+    protected $header = null;
 
     /**
      * Create a new Column instance.
      *
-     * @param                 $value
-     * @param null            $class
-     * @param null            $prefix
-     * @param null            $header
-     * @param StreamInterface $stream
+     * @param null $class
+     * @param null $entry
+     * @param null $header
+     * @param null $prefix
+     * @param null $value
      */
-    public function __construct(
-        $value,
-        $class = null,
-        $prefix = null,
-        $header = null,
-        StreamInterface $stream = null
-    ) {
-        $this->value  = $value;
+    function __construct($class = null, $entry = null, $header = null, $prefix = null, $value = null)
+    {
         $this->class  = $class;
-        $this->prefix = $prefix;
+        $this->entry  = $entry;
+        $this->value  = $value;
         $this->header = $header;
-        $this->stream = $stream;
+        $this->prefix = $prefix;
     }
 
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function getTableData()
     {
         $value = $this->getValue();
         $class = $this->getClass();
 
-        if ($this->getStream() && is_string($value)) {
+        if ($this->entry instanceof EntryInterface && is_string($value)) {
             $value = $this->getValueFromField($value);
         }
 
@@ -101,7 +88,7 @@ class Column implements ColumnInterface
     /**
      * Get the value from a field.
      *
-     * @param $value
+     * @param  $value
      * @return mixed
      */
     protected function getValueFromField($value)
@@ -116,7 +103,7 @@ class Column implements ColumnInterface
     /**
      * Set the class.
      *
-     * @param $class
+     * @param  $class
      * @return $this
      */
     public function setClass($class)
@@ -139,7 +126,7 @@ class Column implements ColumnInterface
     /**
      * Set the entry.
      *
-     * @param $entry
+     * @param  $entry
      * @return $this
      */
     public function setEntry($entry)
@@ -162,7 +149,7 @@ class Column implements ColumnInterface
     /**
      * Set the header.
      *
-     * @param $header
+     * @param  $header
      * @return $this
      */
     public function setHeader($header)
@@ -185,7 +172,7 @@ class Column implements ColumnInterface
     /**
      * Set the prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return $this
      */
     public function setPrefix($prefix)
@@ -206,32 +193,9 @@ class Column implements ColumnInterface
     }
 
     /**
-     * Set the stream object.
-     *
-     * @param $stream
-     * @return $this
-     */
-    public function setStream($stream)
-    {
-        $this->stream = $stream;
-
-        return $this;
-    }
-
-    /**
-     * Get the stream object.
-     *
-     * @return StreamInterface
-     */
-    public function getStream()
-    {
-        return $this->stream;
-    }
-
-    /**
      * Set the value.
      *
-     * @param $value
+     * @param  $value
      * @return $this
      */
     public function setValue($value)

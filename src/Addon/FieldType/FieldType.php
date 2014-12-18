@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * Class FieldType
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\FieldType
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\FieldType
  */
 class FieldType extends Addon
 {
@@ -221,7 +221,7 @@ class FieldType extends Addon
     /**
      * Set the config options.
      *
-     * @param array $config
+     * @param  array $config
      * @return $this
      */
     public function setConfig(array $config)
@@ -234,8 +234,8 @@ class FieldType extends Addon
     /**
      * Put a config value.
      *
-     * @param $key
-     * @param $value
+     * @param  $key
+     * @param  $value
      * @return $this
      */
     public function putConfig($key, $value)
@@ -248,8 +248,8 @@ class FieldType extends Addon
     /**
      * Pull a config value.
      *
-     * @param      $key
-     * @param null $default
+     * @param       $key
+     * @param  null $default
      * @return mixed
      */
     public function pullConfig($key, $default = null)
@@ -270,7 +270,7 @@ class FieldType extends Addon
     /**
      * Set the field slug.
      *
-     * @param $field
+     * @param  $field
      * @return $this
      */
     public function setField($field)
@@ -293,7 +293,7 @@ class FieldType extends Addon
     /**
      * Set the value.
      *
-     * @param $value
+     * @param  $value
      * @return $this
      */
     public function setValue($value)
@@ -316,7 +316,7 @@ class FieldType extends Addon
     /**
      * Set the label.
      *
-     * @param $label
+     * @param  $label
      * @return $this
      */
     public function setLabel($label)
@@ -339,7 +339,7 @@ class FieldType extends Addon
     /**
      * Set the input class.
      *
-     * @param $class
+     * @param  $class
      * @return $this
      */
     public function setClass($class)
@@ -362,7 +362,7 @@ class FieldType extends Addon
     /**
      * Set the instructions.
      *
-     * @param $instructions
+     * @param  $instructions
      * @return $this
      */
     public function setInstructions($instructions)
@@ -385,7 +385,7 @@ class FieldType extends Addon
     /**
      * Set the placeholder.
      *
-     * @param $placeholder
+     * @param  $placeholder
      * @return $this
      */
     public function setPlaceholder($placeholder)
@@ -408,7 +408,7 @@ class FieldType extends Addon
     /**
      * Set the locale.
      *
-     * @param $locale
+     * @param  $locale
      * @return $this
      */
     public function setLocale($locale)
@@ -435,7 +435,7 @@ class FieldType extends Addon
     /**
      * Set the translatable flag.
      *
-     * @param $translatable
+     * @param  $translatable
      * @return $this
      */
     public function setTranslatable($translatable)
@@ -458,7 +458,7 @@ class FieldType extends Addon
     /**
      * Ste the prefix.
      *
-     * @param null $prefix
+     * @param  null $prefix
      * @return $this
      */
     public function setPrefix($prefix = null)
@@ -485,7 +485,7 @@ class FieldType extends Addon
     /**
      * Set the suffix.
      *
-     * @param null $suffix
+     * @param  null $suffix
      * @return $this
      */
     public function setSuffix($suffix = null)
@@ -512,7 +512,7 @@ class FieldType extends Addon
     /**
      * Set the hidden flag.
      *
-     * @param $hidden
+     * @param  $hidden
      * @return $this
      */
     public function setHidden($hidden)
@@ -535,7 +535,7 @@ class FieldType extends Addon
     /**
      * Set the required flag.
      *
-     * @param $required
+     * @param  $required
      * @return $this
      */
     public function setRequired($required)
@@ -588,7 +588,7 @@ class FieldType extends Addon
     /**
      * Set the input view.
      *
-     * @param $view
+     * @param  $view
      * @return $this
      */
     public function setInputView($view)
@@ -611,7 +611,7 @@ class FieldType extends Addon
     /**
      * Set the filter view.
      *
-     * @param $view
+     * @param  $view
      * @return $this
      */
     public function setFilterView($view)
@@ -634,7 +634,7 @@ class FieldType extends Addon
     /**
      * Set the wrapper view.
      *
-     * @param $view
+     * @param  $view
      * @return $this
      */
     public function setWrapperView($view)
@@ -657,8 +657,8 @@ class FieldType extends Addon
     /**
      * Set the attribute on the model's attributes array.
      *
-     * @param $attributes
-     * @param $value
+     * @param  $attributes
+     * @param  $value
      * @return mixed
      */
     public function setAttribute(&$attributes, $value)
@@ -668,7 +668,7 @@ class FieldType extends Addon
     /**
      * Mutate a value before setting on the model.
      *
-     * @param $value
+     * @param  $value
      * @return mixed
      */
     public function mutate($value)
@@ -679,7 +679,7 @@ class FieldType extends Addon
     /**
      * Unmutate a value from the model.
      *
-     * @param $value
+     * @param  $value
      * @return mixed
      */
     public function unmutate($value)
@@ -721,20 +721,23 @@ class FieldType extends Addon
      * Filter a query by the value of a
      * field using this field type.
      *
-     * @param Builder $query
-     * @param         $value
+     * @param  Builder $query
+     * @param          $value
+     * @return $this|Builder
      */
     public function filter(Builder $query, $value)
     {
         $query = $query->where($this->getColumnName(), 'LIKE', "%{$value}%");
+
+        return $query;
     }
 
     /**
      * Order a query in the given direction
      * by a field using this field type.
      *
-     * @param Table $table
-     * @param       $direction
+     * @param  Table $table
+     * @param        $direction
      * @return mixed
      */
     public function orderBy(Table $table, $direction)
@@ -746,7 +749,7 @@ class FieldType extends Addon
      * Return the relation from the compiled model. This
      * is where you would modify the relation if needed.
      *
-     * @param Builder $relation
+     * @param  Builder $relation
      * @return Builder
      */
     public function relation(Builder $relation)
@@ -757,9 +760,9 @@ class FieldType extends Addon
     /**
      * Represent Eloquent's hasOne method.
      *
-     * @param      $related
-     * @param null $foreignKey
-     * @param null $localKey
+     * @param       $related
+     * @param  null $foreignKey
+     * @param  null $localKey
      * @return array
      */
     public function hasOne($related, $foreignKey = null, $localKey = null)
@@ -773,11 +776,11 @@ class FieldType extends Addon
     /**
      * Represent Eloquent's morphOne method.
      *
-     * @param      $related
-     * @param      $name
-     * @param null $type
-     * @param null $id
-     * @param null $localKey
+     * @param       $related
+     * @param       $name
+     * @param  null $type
+     * @param  null $id
+     * @param  null $localKey
      * @return array
      */
     public function morphOne($related, $name, $type = null, $id = null, $localKey = null)
@@ -791,8 +794,8 @@ class FieldType extends Addon
     /**
      * Represent Eloquent's belongsTo method.
      *
-     * @param      $related
-     * @param null $foreignKey
+     * @param       $related
+     * @param  null $foreignKey
      * @return array
      */
     public function belongsTo($related, $foreignKey = null)
@@ -806,9 +809,9 @@ class FieldType extends Addon
     /**
      * Represent Eloquent's morphTo method.
      *
-     * @param null $name
-     * @param null $type
-     * @param null $id
+     * @param  null $name
+     * @param  null $type
+     * @param  null $id
      * @return array
      */
     public function morphTo($name = null, $type = null, $id = null)
@@ -822,8 +825,8 @@ class FieldType extends Addon
     /**
      * Represent Eloquent's hasMany method.
      *
-     * @param      $related
-     * @param null $foreignKey
+     * @param       $related
+     * @param  null $foreignKey
      * @return array
      */
     public function hasMany($related, $foreignKey = null)
@@ -837,11 +840,11 @@ class FieldType extends Addon
     /**
      * Represent Eloquent's morphMany method.
      *
-     * @param      $related
-     * @param      $name
-     * @param null $type
-     * @param null $id
-     * @param null $localKey
+     * @param       $related
+     * @param       $name
+     * @param  null $type
+     * @param  null $id
+     * @param  null $localKey
      * @return array
      */
     public function morphMany($related, $name, $type = null, $id = null, $localKey = null)
@@ -855,10 +858,10 @@ class FieldType extends Addon
     /**
      * Represent Eloquent's belongsToMany method.
      *
-     * @param      $related
-     * @param null $table
-     * @param null $foreignKey
-     * @param null $otherKey
+     * @param       $related
+     * @param  null $table
+     * @param  null $foreignKey
+     * @param  null $otherKey
      * @return array
      */
     public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null)
@@ -872,12 +875,12 @@ class FieldType extends Addon
     /**
      * Represent Eloquent's morphToMany method.
      *
-     * @param      $related
-     * @param      $name
-     * @param null $table
-     * @param null $foreignKey
-     * @param null $otherKey
-     * @param bool $inverse
+     * @param       $related
+     * @param       $name
+     * @param  null $table
+     * @param  null $foreignKey
+     * @param  null $otherKey
+     * @param  bool $inverse
      * @return array
      */
     public function morphToMany($related, $name, $table = null, $foreignKey = null, $otherKey = null, $inverse = false)

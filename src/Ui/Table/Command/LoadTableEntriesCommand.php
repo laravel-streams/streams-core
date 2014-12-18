@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 /**
  * Class LoadTableEntriesCommand
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Command
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Command
  */
 class LoadTableEntriesCommand
 {
@@ -21,7 +21,7 @@ class LoadTableEntriesCommand
     protected $builder;
 
     /**
-     * Create a new LoadTableEntriesCommand instance.
+     * Create a new BuildTableColumnsCommand instance.
      *
      * @param TableBuilder $builder
      */
@@ -31,7 +31,7 @@ class LoadTableEntriesCommand
     }
 
     /**
-     * Get table the builder.
+     * Get the table builder.
      *
      * @return TableBuilder
      */

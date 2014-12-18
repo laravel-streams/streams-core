@@ -1,25 +1,26 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Event;
 
 use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class TableQueryingEvent
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Event
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Event
  */
 class TableQueryingEvent
 {
 
     /**
-     * The table object.
+     * The table builder.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Table
+     * @var \Anomaly\Streams\Platform\Ui\Table\TableBuilder
      */
-    protected $table;
+    protected $builder;
 
     /**
      * The query builder.
@@ -34,10 +35,10 @@ class TableQueryingEvent
      * @param Table   $table
      * @param Builder $query
      */
-    public function __construct(Table $table, Builder $query)
+    public function __construct(TableBuilder $builder, Builder $query)
     {
-        $this->table = $table;
-        $this->query = $query;
+        $this->builder = $builder;
+        $this->query   = $query;
     }
 
     /**
@@ -51,12 +52,12 @@ class TableQueryingEvent
     }
 
     /**
-     * Get the table object.
+     * Get the table builder.
      *
-     * @return Table
+     * @return TableBuilder
      */
-    public function getTable()
+    public function getBuilder()
     {
-        return $this->table;
+        return $this->builder;
     }
 }

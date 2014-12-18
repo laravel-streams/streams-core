@@ -1,40 +1,40 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\View\Contract;
 
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Interface ViewInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\View\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\View\Contract
  */
 interface ViewInterface
 {
 
     /**
-     * Handle the view.
+     * Hook into the table query.
      *
-     * @param Table   $table
-     * @param Builder $query
-     * @return mixed
+     * @param TableBuilder $builder
+     * @param Builder      $query
+     * * @return Builder
      */
-    public function handle(Table $table, Builder $query);
+    public function onTableQuerying(TableBuilder $builder, Builder $query);
 
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return mixed
      */
-    public function viewData(array $arguments = []);
+    public function getTableData();
 
     /**
      * Set the attributes.
      *
-     * @param array $attributes
+     * @param  array $attributes
      * @return mixed
      */
     public function setAttributes(array $attributes);
@@ -49,7 +49,7 @@ interface ViewInterface
     /**
      * Set the active flag.
      *
-     * @param $active
+     * @param  $active
      * @return mixed
      */
     public function setActive($active);
@@ -64,7 +64,7 @@ interface ViewInterface
     /**
      * Set the handler.
      *
-     * @param $handler
+     * @param  $handler
      * @return mixed
      */
     public function setHandler($handler);
@@ -79,7 +79,7 @@ interface ViewInterface
     /**
      * Set the prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return mixed
      */
     public function setPrefix($prefix);
@@ -94,7 +94,7 @@ interface ViewInterface
     /**
      * Set the text.
      *
-     * @param $text
+     * @param  $text
      * @return mixed
      */
     public function setText($text);
@@ -109,7 +109,7 @@ interface ViewInterface
     /**
      * Set the slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function setSlug($slug);

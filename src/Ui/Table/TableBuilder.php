@@ -1,53 +1,26 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
-use Laracasts\Commander\CommanderTrait;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableLoadEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableMakeEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
 
 /**
  * Class TableBuilder
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table
  */
 class TableBuilder
 {
 
-    use CommanderTrait;
-
-    /**
-     * The standardizer command.
-     *
-     * @var string
-     */
-    protected $standardizerCommand = 'Anomaly\Streams\Platform\Ui\Table\Command\StandardizeInputCommand';
-
-    /**
-     * The build command.
-     *
-     * @var string
-     */
-    protected $buildCommand = 'Anomaly\Streams\Platform\Ui\Table\Command\BuildTableCommand';
-
-    /**
-     * The handle command.
-     *
-     * @var string
-     */
-    protected $handleCommand = 'Anomaly\Streams\Platform\Ui\Table\Command\HandleTableCommand';
-
-    /**
-     * The make command.
-     *
-     * @var string
-     */
-    protected $makeCommand = 'Anomaly\Streams\Platform\Ui\Table\Command\MakeTableCommand';
-
     /**
      * The table model.
      *
-     * @var null
+     * @var string
      */
     protected $model = null;
 
@@ -108,11 +81,11 @@ class TableBuilder
      */
     public function build()
     {
-        $this->execute($this->standardizerCommand, ['builder' => $this]);
-        $this->execute($this->buildCommand, ['builder' => $this]);
+        app('events')->fire('streams::table.build', new TableBuildEvent($this));
+        app('events')->fire('streams::table.load', new TableLoadEvent($this));
 
         if (app('request')->isMethod('post')) {
-            $this->execute($this->handleCommand, ['builder' => $this]);
+            app('events')->fire('streams::table.post', new TablePostEvent($this));
         }
     }
 
@@ -124,7 +97,10 @@ class TableBuilder
         $this->build();
 
         if ($this->table->getResponse() === null) {
-            $this->execute($this->makeCommand, ['builder' => $this]);
+
+            app('events')->fire('streams::table.make', new TableMakeEvent($this));
+
+            $this->table->setContent(view($this->table->getView(), $this->table->getData()));
         }
     }
 
@@ -138,6 +114,7 @@ class TableBuilder
         $this->make();
 
         if ($this->table->getResponse() === null) {
+
             $content = $this->table->getContent();
 
             return view($this->table->getWrapper(), compact('content'));
@@ -159,7 +136,7 @@ class TableBuilder
     /**
      * Set the model.
      *
-     * @param $model
+     * @param  $model
      * @return $this
      */
     public function setModel($model)
@@ -182,7 +159,7 @@ class TableBuilder
     /**
      * Set the view config.
      *
-     * @param array $views
+     * @param  array $views
      * @return $this
      */
     public function setViews(array $views)
@@ -205,7 +182,7 @@ class TableBuilder
     /**
      * Set the filter config.
      *
-     * @param array $filters
+     * @param  array $filters
      * @return $this
      */
     public function setFilters(array $filters)
@@ -228,7 +205,7 @@ class TableBuilder
     /**
      * Set the column config.
      *
-     * @param array $columns
+     * @param  array $columns
      * @return $this
      */
     public function setColumns(array $columns)
@@ -251,7 +228,7 @@ class TableBuilder
     /**
      * Set the button config.
      *
-     * @param array $buttons
+     * @param  array $buttons
      * @return $this
      */
     public function setButtons(array $buttons)
@@ -274,7 +251,7 @@ class TableBuilder
     /**
      * Set actions config.
      *
-     * @param $actions
+     * @param  $actions
      * @return $this
      */
     public function setActions($actions)

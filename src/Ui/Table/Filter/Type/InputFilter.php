@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Ui\Table\Filter\Filter;
 /**
  * Class InputFilter
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Filter\Type
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Filter\Type
  */
 class InputFilter extends Filter
 {
@@ -24,29 +24,29 @@ class InputFilter extends Filter
      * Create a new InputFilter instance.
      *
      * @param        $slug
-     * @param string $type
      * @param null   $prefix
      * @param bool   $active
      * @param null   $handler
      * @param null   $placeholder
+     * @param string $text
      */
     public function __construct(
         $slug,
-        $type = 'text',
         $prefix = null,
         $active = false,
         $handler = null,
-        $placeholder = null
+        $placeholder = null,
+        $text = 'text'
     ) {
-        $this->type = $type;
+        $this->text = $text;
 
-        parent::__construct($slug, $prefix, $active, $handler, $placeholder);
+        parent::__construct($slug, $active, $handler, $placeholder, $prefix);
     }
 
     /**
      * Set the input type.
      *
-     * @param $type
+     * @param  $type
      * @return $this
      */
     public function setType($type)

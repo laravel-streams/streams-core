@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Ui\Form\Tab\Contract\TabInterface;
 /**
  * Class Tab
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Tab
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Tab
  */
 class Tab implements TabInterface
 {
@@ -33,7 +33,7 @@ class Tab implements TabInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
     public function viewData(array $arguments = [])
@@ -46,7 +46,7 @@ class Tab implements TabInterface
     /**
      * Set the text.
      *
-     * @param $text
+     * @param  $text
      * @return $this
      */
     public function setText($text)

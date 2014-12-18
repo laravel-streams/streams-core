@@ -6,10 +6,10 @@ use Illuminate\Support\Collection;
 /**
  * Class FilterCollection
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Filter
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Filter
  */
 class FilterCollection extends Collection
 {
@@ -35,7 +35,7 @@ class FilterCollection extends Collection
     /**
      * Return whether the filter is active or not.
      *
-     * @param FilterInterface $item
+     * @param  FilterInterface $item
      * @return mixed
      */
     protected function filterIsActive(FilterInterface $item)

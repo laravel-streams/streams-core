@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
 /**
  * Class DistributionCollection
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Distribution
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Distribution
  */
 class DistributionCollection extends AddonCollection
 {
@@ -32,7 +32,7 @@ class DistributionCollection extends AddonCollection
     /**
      * Return whether a given distribution is active or not.
      *
-     * @param Distribution $item
+     * @param  Distribution $item
      * @return bool
      */
     protected function distributionIsActive(Distribution $item)

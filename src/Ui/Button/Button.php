@@ -1,14 +1,15 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
+use Illuminate\Support\Collection;
 
 /**
  * Class Button
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Button
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Button
  */
 class Button implements ButtonInterface
 {
@@ -44,41 +45,41 @@ class Button implements ButtonInterface
     /**
      * The button's attributes.
      *
-     * @var array
+     * @var Collection
      */
     protected $attributes;
 
     /**
      * Create a new Button instance.
      *
-     * @param string $type
-     * @param null   $text
-     * @param null   $class
-     * @param null   $icon
-     * @param array  $attributes
+     * @param Collection $attributes
+     * @param null       $class
+     * @param null       $icon
+     * @param null       $text
+     * @param string     $type
      */
-    public function __construct($type = 'default', $text = null, $class = null, $icon = null, array $attributes = [])
+    function __construct(Collection $attributes, $class = null, $icon = null, $text = null, $type = 'default')
     {
         $this->icon       = $icon;
-        $this->class      = $class;
         $this->text       = $text;
         $this->type       = $type;
+        $this->class      = $class;
         $this->attributes = $attributes;
     }
 
     /**
-     * Get the view data.
+     * Get the table data.
      *
-     * @param array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function getTableData()
     {
-        $type       = $this->getType();
-        $icon       = $this->getIcon();
-        $text       = $this->getText();
-        $class      = $this->getClass();
-        $attributes = $this->getAttributes();
+        $type  = $this->getType();
+        $icon  = $this->getIcon();
+        $text  = $this->getText();
+        $class = $this->getClass();
+
+        $attributes = $this->attributes->all();
 
         if (is_string($text)) {
             $text = trans($text);
@@ -92,48 +93,9 @@ class Button implements ButtonInterface
     }
 
     /**
-     * Pull an attribute.
-     *
-     * @param      $attribute
-     * @param null $default
-     * @return mixed
-     */
-    public function pullAttribute($attribute, $default = null)
-    {
-        return array_get($this->attributes, $attribute, $default);
-    }
-
-    /**
-     * Put an attribute.
-     *
-     * @param $attribute
-     * @param $value
-     * @return $this
-     */
-    public function putAttribute($attribute, $value)
-    {
-        $this->attributes[$attribute] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Set the attributes.
-     *
-     * @param $attributes
-     * @return $this
-     */
-    public function setAttributes($attributes)
-    {
-        $this->attributes = $attributes;
-
-        return $this;
-    }
-
-    /**
      * Get the attributes.
      *
-     * @return array
+     * @return Collection
      */
     public function getAttributes()
     {
@@ -143,7 +105,7 @@ class Button implements ButtonInterface
     /**
      * Set the class.
      *
-     * @param $class
+     * @param  $class
      * @return $this
      */
     public function setClass($class)
@@ -166,7 +128,7 @@ class Button implements ButtonInterface
     /**
      * Set the icon.
      *
-     * @param $icon
+     * @param  $icon
      * @return $this
      */
     public function setIcon($icon)
@@ -189,7 +151,7 @@ class Button implements ButtonInterface
     /**
      * Set the button text.
      *
-     * @param $text
+     * @param  $text
      * @return $this
      */
     public function setText($text)
@@ -212,7 +174,7 @@ class Button implements ButtonInterface
     /**
      * Set the button type.
      *
-     * @param $type
+     * @param  $type
      * @return $this
      */
     public function setType($type)

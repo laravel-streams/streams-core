@@ -7,10 +7,10 @@ use CoffeeScript\Compiler;
 /**
  * Class CoffeePhpFilter
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Asset\Filter
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Asset\Filter
  */
 class CoffeePhpFilter implements FilterInterface
 {

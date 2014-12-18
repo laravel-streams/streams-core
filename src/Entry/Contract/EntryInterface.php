@@ -10,10 +10,10 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 /**
  * Interface EntryInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Entry\Contract
  */
 interface EntryInterface
 {
@@ -56,7 +56,7 @@ interface EntryInterface
     /**
      * Get a field by it's slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return FieldInterface
      */
     public function getField($slug);
@@ -64,7 +64,7 @@ interface EntryInterface
     /**
      * Get an assignment by field slug.
      *
-     * @param $fieldSlug
+     * @param  $fieldSlug
      * @return AssignmentInterface
      */
     public function getAssignment($fieldSlug);
@@ -72,9 +72,9 @@ interface EntryInterface
     /**
      * Get an attribute value by a field slug.
      *
-     * @param      $fieldSlug
-     * @param null $locale
-     * @param bool $mutate
+     * @param       $fieldSlug
+     * @param  null $locale
+     * @param  bool $mutate
      * @return mixed
      */
     public function getFieldValue($fieldSlug, $locale = null, $mutate = true);
@@ -82,7 +82,7 @@ interface EntryInterface
     /**
      * Get a field's type by the field's slug.
      *
-     * @param $fieldSlug
+     * @param  $fieldSlug
      * @return FieldType|RelationFieldTypeInterface|DateFieldTypeInterface
      */
     public function getFieldType($fieldSlug);
@@ -105,8 +105,8 @@ interface EntryInterface
     /**
      * Set an attribute value.
      *
-     * @param $key
-     * @param $value
+     * @param  $key
+     * @param  $value
      * @return mixed
      */
     public function setAttribute($key, $value);
@@ -114,7 +114,7 @@ interface EntryInterface
     /**
      * Get an attribute value.
      *
-     * @param $key
+     * @param  $key
      * @return mixed
      */
     public function getAttribute($key);

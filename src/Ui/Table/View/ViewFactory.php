@@ -1,12 +1,15 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\View;
 
+use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewInterface;
+use Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewRepositoryInterface;
+
 /**
  * Class ViewFactory
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\View
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\View
  */
 class ViewFactory
 {
@@ -19,33 +22,34 @@ class ViewFactory
     protected $view = 'Anomaly\Streams\Platform\Ui\Table\View\View';
 
     /**
-     * Available view defaults.
+     * The view repository.
      *
-     * @var array
+     * @var ViewRepositoryInterface
      */
-    protected $views = [
-        'all' => [
-            'slug' => 'all',
-            'text' => 'streams::misc.all',
-        ]
-    ];
+    protected $views;
+
+    /**
+     * Create a new ViewFactory instance.
+     *
+     * @param ViewRepositoryInterface $views
+     */
+    function __construct(ViewRepositoryInterface $views)
+    {
+        $this->views = $views;
+    }
 
     /**
      * Make a view.
      *
-     * @param array $parameters
-     * @return mixed
+     * @param  array $parameters
+     * @return ViewInterface
      */
     public function make(array $parameters)
     {
-        if (isset($parameters['view']) && class_exists($parameters['view'])) {
-            return app()->make($parameters['view'], $parameters);
-        }
-
-        if ($view = array_get($this->views, array_get($parameters, 'view'))) {
+        if ($view = $this->views->find(array_get($parameters, 'view'))) {
             $parameters = array_replace_recursive($view, array_except($parameters, 'view'));
         }
 
-        return app()->make($this->view, $parameters);
+        return app()->make(array_get($parameters, 'view', $this->view), $parameters);
     }
 }

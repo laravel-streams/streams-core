@@ -5,10 +5,10 @@ use Laracasts\Commander\CommanderTrait;
 /**
  * Class ModuleManager
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Module
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Module
  */
 class ModuleManager
 {
@@ -18,7 +18,7 @@ class ModuleManager
     /**
      * Install a module.
      *
-     * @param $module
+     * @param  $module
      * @return mixed
      */
     public function install($module)
@@ -32,7 +32,7 @@ class ModuleManager
     /**
      * Uninstall a module.
      *
-     * @param $module
+     * @param  $module
      * @return mixed
      */
     public function uninstall($module)

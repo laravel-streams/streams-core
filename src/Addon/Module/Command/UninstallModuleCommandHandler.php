@@ -8,10 +8,10 @@ use Anomaly\Streams\Platform\Contract\InstallableInterface;
 /**
  * Class UninstallModuleCommandHandler
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Module\Command
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Module\Command
  */
 class UninstallModuleCommandHandler
 {
@@ -19,7 +19,7 @@ class UninstallModuleCommandHandler
     /**
      * Handle the command.
      *
-     * @param UninstallModuleCommand $command
+     * @param  UninstallModuleCommand $command
      * @return bool
      */
     public function handle(UninstallModuleCommand $command)
@@ -63,8 +63,8 @@ class UninstallModuleCommandHandler
     /**
      * Resolve the installer.
      *
-     * @param Module $module
-     * @param        $installer
+     * @param  Module $module
+     * @param         $installer
      * @return mixed
      */
     protected function resolveInstaller(Module $module, $installer)

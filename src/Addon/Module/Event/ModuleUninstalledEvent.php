@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
 /**
  * Class ModuleUninstalledEvent
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Module\Event
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Module\Event
  */
 class ModuleUninstalledEvent
 {

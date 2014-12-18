@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Ui\Form\Section\Contract\SectionInterface;
 /**
  * Class Section
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Section
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Section
  */
 class Section implements SectionInterface
 {
@@ -51,7 +51,7 @@ class Section implements SectionInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
     public function viewData(array $arguments = [])
@@ -68,7 +68,7 @@ class Section implements SectionInterface
     /**
      * Set the body content.
      *
-     * @param $body
+     * @param  $body
      * @return $this
      */
     public function setBody($body)
@@ -91,7 +91,7 @@ class Section implements SectionInterface
     /**
      * Set the title.
      *
-     * @param $title
+     * @param  $title
      * @return $this
      */
     public function setTitle($title)
@@ -114,7 +114,7 @@ class Section implements SectionInterface
     /**
      * Set the view.
      *
-     * @param $view
+     * @param  $view
      * @return $this
      */
     public function setView($view)

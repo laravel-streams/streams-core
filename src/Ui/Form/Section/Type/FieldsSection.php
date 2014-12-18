@@ -10,10 +10,10 @@ use Anomaly\Streams\Platform\Ui\Form\Section\Contract\FieldsSectionInterface;
 /**
  * Class FieldsSection
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Section\Type
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Section\Type
  */
 class FieldsSection implements FieldsSectionInterface
 {
@@ -107,7 +107,7 @@ class FieldsSection implements FieldsSectionInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
     public function viewData(array $arguments = [])
@@ -128,7 +128,7 @@ class FieldsSection implements FieldsSectionInterface
     /**
      * Set the entry object.
      *
-     * @param $entry
+     * @param  $entry
      * @return $this
      */
     public function setEntry($entry)
@@ -151,7 +151,7 @@ class FieldsSection implements FieldsSectionInterface
     /**
      * Set the fields.
      *
-     * @param $fields
+     * @param  $fields
      * @return $this
      */
     public function setFields($fields)
@@ -174,7 +174,7 @@ class FieldsSection implements FieldsSectionInterface
     /**
      * Set the form.
      *
-     * @param $form
+     * @param  $form
      * @return $this
      */
     public function setForm($form)
@@ -197,7 +197,7 @@ class FieldsSection implements FieldsSectionInterface
     /**
      * Set the stream.
      *
-     * @param $stream
+     * @param  $stream
      * @return $this
      */
     public function setStream($stream)
@@ -220,7 +220,7 @@ class FieldsSection implements FieldsSectionInterface
     /**
      * Set the title.
      *
-     * @param $title
+     * @param  $title
      * @return $this
      */
     public function setTitle($title)
@@ -243,7 +243,7 @@ class FieldsSection implements FieldsSectionInterface
     /**
      * Set the view.
      *
-     * @param $view
+     * @param  $view
      * @return $this
      */
     public function setView($view)

@@ -18,10 +18,10 @@ use Way\Generators\Generator;
 /**
  * Class GenerateEntryModelCommandHandler
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry\Command
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Entry\Command
  */
 class GenerateEntryModelCommandHandler
 {
@@ -67,24 +67,24 @@ class GenerateEntryModelCommandHandler
     /**
      * Get the destination path the compiled entry model.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return string
      */
     protected function getFilePath(StreamInterface $stream)
     {
         $path = storage_path('models/streams/');
-        
+
         @mkdir($path, 0755);
-        @mkdir($path .= app('streams.application')->getReference().'/', 0755);
-        @mkdir($path .= studly_case($stream->getNamespace()).'/', 0755);
-        
+        @mkdir($path .= app('streams.application')->getReference() . '/', 0755);
+        @mkdir($path .= studly_case($stream->getNamespace()) . '/', 0755);
+
         return $path . studly_case($stream->getNamespace()) . studly_case($stream->getSlug()) . 'EntryModel.php';
     }
 
     /**
      * Get the template data from a stream object.
      *
-     * @param StreamInterface $stream
+     * @param  StreamInterface $stream
      * @return array
      */
     protected function getTemplateData(StreamInterface $stream)

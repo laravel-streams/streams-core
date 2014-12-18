@@ -14,10 +14,10 @@ use Illuminate\Support\Collection;
 /**
  * Class Table
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table
  */
 class Table
 {
@@ -80,13 +80,6 @@ class Table
     protected $wrapper = 'streams::wrappers/blank';
 
     /**
-     * The table's view data.
-     *
-     * @var array
-     */
-    protected $data = [];
-
-    /**
      * The stream object.
      *
      * @var null
@@ -113,6 +106,13 @@ class Table
      * @var int
      */
     protected $total = 0;
+
+    /**
+     * The table's view data.
+     *
+     * @var Collection
+     */
+    protected $data;
 
     /**
      * The row collection.
@@ -183,6 +183,7 @@ class Table
      * @param HeaderCollection $headers
      */
     public function __construct(
+        Collection $data,
         Collection $entries,
         RowCollection $rows,
         ViewCollection $views,
@@ -192,6 +193,7 @@ class Table
         FilterCollection $filters,
         HeaderCollection $headers
     ) {
+        $this->data    = $data;
         $this->rows    = $rows;
         $this->views   = $views;
         $this->entries = $entries;
@@ -205,7 +207,7 @@ class Table
     /**
      * Set the prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return $this
      */
     public function setPrefix($prefix)
@@ -228,7 +230,7 @@ class Table
     /**
      * Set the view.
      *
-     * @param $view
+     * @param  $view
      * @return $this
      */
     public function setView($view)
@@ -249,58 +251,9 @@ class Table
     }
 
     /**
-     * Set the table data.
-     *
-     * @param $data
-     * @return $this
-     */
-    public function setData($data)
-    {
-        $this->data = $data;
-
-        return $this;
-    }
-
-    /**
-     * Get the table data.
-     *
-     * @return array
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
-     * Put some table data.
-     *
-     * @param $key
-     * @param $data
-     * @return $this
-     */
-    public function putData($key, $data)
-    {
-        $this->data[$key] = $data;
-
-        return $this;
-    }
-
-    /**
-     * Pull some table data.
-     *
-     * @param      $key
-     * @param null $default
-     * @return mixed
-     */
-    public function pullData($key, $default = null)
-    {
-        return array_get($this->data, $key, $default);
-    }
-
-    /**
      * Set the stream object.
      *
-     * @param $stream
+     * @param  $stream
      * @return $this
      */
     public function setStream($stream)
@@ -323,7 +276,7 @@ class Table
     /**
      * Set the content.
      *
-     * @param $content
+     * @param  $content
      * @return $this
      */
     public function setContent($content)
@@ -346,7 +299,7 @@ class Table
     /**
      * Set the response.
      *
-     * @param $response
+     * @param  $response
      * @return $this
      */
     public function setResponse($response)
@@ -369,7 +322,7 @@ class Table
     /**
      * Set the total.
      *
-     * @param $total
+     * @param  $total
      * @return $this
      */
     public function setTotal($total)
@@ -392,7 +345,7 @@ class Table
     /**
      * Set the wrapper.
      *
-     * @param $wrapper
+     * @param  $wrapper
      * @return $this
      */
     public function setWrapper($wrapper)
@@ -415,7 +368,7 @@ class Table
     /**
      * Set the sortable.
      *
-     * @param $sortable
+     * @param  $sortable
      * @return $this
      */
     public function setSortable($sortable)
@@ -438,7 +391,7 @@ class Table
     /**
      * Set the eager loaded fields.
      *
-     * @param array $eager
+     * @param  array $eager
      * @return $this
      */
     public function setEager(array $eager)
@@ -461,7 +414,7 @@ class Table
     /**
      * Set the limit.
      *
-     * @param $limit
+     * @param  $limit
      * @return $this
      */
     public function setLimit($limit)
@@ -488,7 +441,7 @@ class Table
     /**
      * Set the order by config.
      *
-     * @param $orderBy
+     * @param  $orderBy
      * @return $this
      */
     public function setOrderBy($orderBy)
@@ -511,7 +464,7 @@ class Table
     /**
      * Set the no results message.
      *
-     * @param $noResultsMessage
+     * @param  $noResultsMessage
      * @return $this
      */
     public function setNoResultsMessage($noResultsMessage)
@@ -594,7 +547,7 @@ class Table
     /**
      * Set the entries.
      *
-     * @param Collection $entries
+     * @param  Collection $entries
      * @return $this
      */
     public function setEntries(Collection $entries)
@@ -622,5 +575,15 @@ class Table
     public function getRows()
     {
         return $this->rows;
+    }
+
+    /**
+     * Get the table data.
+     *
+     * @return Collection
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }

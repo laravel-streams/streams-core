@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
 /**
  * Class ModuleCollection
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Module
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Module
  */
 class ModuleCollection extends AddonCollection
 {
@@ -68,7 +68,7 @@ class ModuleCollection extends AddonCollection
     /**
      * Determine if a module is installed or not.
      *
-     * @param $slug
+     * @param  $slug
      * @return bool
      */
     public function isInstalled($slug)
@@ -102,7 +102,7 @@ class ModuleCollection extends AddonCollection
     /**
      * Return if the module is active or not.
      *
-     * @param Module $module
+     * @param  Module $module
      * @return bool
      */
     protected function moduleIsActive(Module $module)
@@ -113,7 +113,7 @@ class ModuleCollection extends AddonCollection
     /**
      * Return if the module is enabled or not.
      *
-     * @param Module $module
+     * @param  Module $module
      * @return bool
      */
     protected function moduleIsEnabled(Module $module)
@@ -124,7 +124,7 @@ class ModuleCollection extends AddonCollection
     /**
      * Return if the module is installed or not.
      *
-     * @param Module $module
+     * @param  Module $module
      * @return bool
      */
     protected function moduleIsInstalled(Module $module)

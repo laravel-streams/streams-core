@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 /**
  * Class ModuleModel
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Module
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Module
  */
 class ModuleModel extends EloquentModel implements ModuleInterface
 {
@@ -32,7 +32,7 @@ class ModuleModel extends EloquentModel implements ModuleInterface
      * Find a module by it's slug or return a new
      * module with the given slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return ModuleModel
      */
     public function findBySlugOrNew($slug)
@@ -55,7 +55,7 @@ class ModuleModel extends EloquentModel implements ModuleInterface
     /**
      * Find a module by it's slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function findBySlug($slug)

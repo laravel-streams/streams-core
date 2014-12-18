@@ -3,10 +3,10 @@
 /**
  * Interface FieldsSectionInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Section\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Section\Contract
  */
 interface FieldsSectionInterface
 {
@@ -14,7 +14,7 @@ interface FieldsSectionInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return mixed
      */
     public function viewData(array $arguments = []);
@@ -22,7 +22,7 @@ interface FieldsSectionInterface
     /**
      * Set the fields.
      *
-     * @param $fields
+     * @param  $fields
      * @return mixed
      */
     public function setFields($fields);
@@ -37,7 +37,7 @@ interface FieldsSectionInterface
     /**
      * Set the stream object.
      *
-     * @param $stream
+     * @param  $stream
      * @return mixed
      */
     public function setStream($stream);
@@ -52,7 +52,7 @@ interface FieldsSectionInterface
     /**
      * Set the entry object.
      *
-     * @param $entry
+     * @param  $entry
      * @return mixed
      */
     public function setEntry($entry);
@@ -67,7 +67,7 @@ interface FieldsSectionInterface
     /**
      * Set the title.
      *
-     * @param $title
+     * @param  $title
      * @return mixed
      */
     public function setTitle($title);
@@ -82,7 +82,7 @@ interface FieldsSectionInterface
     /**
      * Set the form object.
      *
-     * @param $form
+     * @param  $form
      * @return mixed
      */
     public function setForm($form);
@@ -97,7 +97,7 @@ interface FieldsSectionInterface
     /**
      * Set the view.
      *
-     * @param $view
+     * @param  $view
      * @return mixed
      */
     public function setView($view);

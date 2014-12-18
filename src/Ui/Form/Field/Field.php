@@ -7,10 +7,10 @@ use Laracasts\Commander\CommanderTrait;
 /**
  * Class Field
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Field
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Field
  */
 class Field implements FieldInterface
 {
@@ -160,7 +160,7 @@ class Field implements FieldInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
     public function viewData(array $arguments = [])
@@ -183,7 +183,7 @@ class Field implements FieldInterface
     /**
      * Set the config.
      *
-     * @param array $config
+     * @param  array $config
      * @return $this
      */
     public function setConfig(array $config)
@@ -216,7 +216,7 @@ class Field implements FieldInterface
     /**
      * Set the include.
      *
-     * @param $include
+     * @param  $include
      * @return $this
      */
     public function setInclude($include)
@@ -239,7 +239,7 @@ class Field implements FieldInterface
     /**
      * Set the instructions.
      *
-     * @param $instructions
+     * @param  $instructions
      * @return $this
      */
     public function setInstructions($instructions)
@@ -262,7 +262,7 @@ class Field implements FieldInterface
     /**
      * Set the label.
      *
-     * @param $label
+     * @param  $label
      * @return $this
      */
     public function setLabel($label)
@@ -285,7 +285,7 @@ class Field implements FieldInterface
     /**
      * Set the placeholder.
      *
-     * @param $placeholder
+     * @param  $placeholder
      * @return $this
      */
     public function setPlaceholder($placeholder)
@@ -308,7 +308,7 @@ class Field implements FieldInterface
     /**
      * Set the rules.
      *
-     * @param array $rules
+     * @param  array $rules
      * @return $this
      */
     public function setRules(array $rules)
@@ -331,7 +331,7 @@ class Field implements FieldInterface
     /**
      * Set the slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return $this
      */
     public function setSlug($slug)
@@ -354,7 +354,7 @@ class Field implements FieldInterface
     /**
      * Set the type.
      *
-     * @param $type
+     * @param  $type
      * @return $this
      */
     public function setType($type)
@@ -377,7 +377,7 @@ class Field implements FieldInterface
     /**
      * Set the value.
      *
-     * @param $value
+     * @param  $value
      * @return $this
      */
     public function setValue($value)

@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Model\EloquentPresenter;
 /**
  * Class EntryPresenter
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Entry
  */
 class EntryPresenter extends EloquentPresenter
 {
@@ -24,7 +24,7 @@ class EntryPresenter extends EloquentPresenter
     /**
      * Wrap with a decorated field type if possible.
      *
-     * @param $key
+     * @param  $key
      * @return mixed
      */
     public function __get($key)

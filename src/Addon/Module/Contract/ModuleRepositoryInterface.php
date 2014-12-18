@@ -3,10 +3,10 @@
 /**
  * Interface ModuleRepositoryInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Module\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Module\Contract
  */
 interface ModuleRepositoryInterface
 {
@@ -21,7 +21,7 @@ interface ModuleRepositoryInterface
     /**
      * Create a module record.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function create($slug);
@@ -29,7 +29,7 @@ interface ModuleRepositoryInterface
     /**
      * Delete a module record.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function delete($slug);
@@ -37,7 +37,7 @@ interface ModuleRepositoryInterface
     /**
      * Mark a module as installed.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function install($slug);
@@ -45,7 +45,7 @@ interface ModuleRepositoryInterface
     /**
      * Mark a module as uninstalled.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function uninstall($slug);

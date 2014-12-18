@@ -3,10 +3,10 @@
 /**
  * Class ColumnFactory
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Column
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Column
  */
 class ColumnFactory
 {
@@ -21,15 +21,11 @@ class ColumnFactory
     /**
      * Make a column.
      *
-     * @param array $parameters
+     * @param  array $parameters
      * @return mixed
      */
     public function make(array $parameters)
     {
-        if (isset($parameters['column']) && class_exists($parameters['column'])) {
-            return app()->make($parameters['column'], $parameters);
-        }
-
-        return app()->make($this->column, $parameters);
+        return app()->make(array_get($parameters, 'column', $this->column), $parameters);
     }
 }

@@ -9,10 +9,10 @@ use Anomaly\Streams\Platform\Model\EloquentObserver;
 /**
  * Class AssignmentObserver
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Assignment
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Assignment
  */
 class AssignmentObserver extends EloquentObserver
 {

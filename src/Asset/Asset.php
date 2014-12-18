@@ -16,10 +16,10 @@ use Assetic\Asset\GlobAsset;
  * This is the asset management class. It handles front
  * and backend asset's for everything.
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Asset
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Asset
  */
 class Asset
 {
@@ -62,9 +62,9 @@ class Asset
      * and the asset (for single files) internally
      * so asset.links / asset.scripts will work.
      *
-     * @param       $group
-     * @param       $asset
-     * @param array $filters
+     * @param        $group
+     * @param        $asset
+     * @param  array $filters
      * @return $this
      */
     public function add($group, $file, array $filters = [])
@@ -87,8 +87,8 @@ class Asset
     /**
      * Return the path to a compiled asset group.
      *
-     * @param       $group
-     * @param array $filters
+     * @param        $group
+     * @param  array $filters
      * @return string
      */
     public function path($group, array $filters = [])
@@ -107,8 +107,8 @@ class Asset
      * just returns an array of individual processed
      * paths instead.
      *
-     * @param       $group
-     * @param array $additionalFilters
+     * @param        $group
+     * @param  array $additionalFilters
      * @return array
      */
     public function paths($group, array $additionalFilters = [])
@@ -150,8 +150,8 @@ class Asset
     /**
      * Get the public path.
      *
-     * @param $group
-     * @param $filters
+     * @param  $group
+     * @param  $filters
      * @return string
      */
     protected function getPublicPath($group, $filters)
@@ -211,8 +211,8 @@ class Asset
      * Transform an array of filters to
      * an array of assetic filters.
      *
-     * @param $filters
-     * @param $hint
+     * @param  $filters
+     * @param  $hint
      * @return mixed
      */
     protected function transformFilters($filters, $hint)
@@ -256,8 +256,8 @@ class Asset
      * Add filters that we can assume based
      * on the asset's file name.
      *
-     * @param $file
-     * @param $filters
+     * @param  $file
+     * @param  $filters
      * @return array
      */
     protected function addConvenientFilters($file, $filters)
@@ -280,7 +280,7 @@ class Asset
     /**
      * Get the extension of a path.
      *
-     * @param $path
+     * @param  $path
      * @return mixed
      */
     protected function getExtension($path)
@@ -294,7 +294,7 @@ class Asset
      * JS / CSS extension to hint at what
      * to do with some automation.
      *
-     * @param $path
+     * @param  $path
      * @return mixed|string
      */
     public function getHint($path)
@@ -316,7 +316,7 @@ class Asset
      * Replace the namespace string in a path
      * with the actual path prefix.
      *
-     * @param $path
+     * @param  $path
      * @return string
      */
     protected function replaceNamespace($path)
@@ -336,8 +336,8 @@ class Asset
      * Decide whether we need to publish the file
      * to the path or not.
      *
-     * @param       $path
-     * @param array $filters
+     * @param        $path
+     * @param  array $filters
      * @return bool
      */
     protected function shouldPublish($path, array $filters = [])
@@ -364,8 +364,8 @@ class Asset
     /**
      * Add a namespace path hint.
      *
-     * @param $binding
-     * @param $path
+     * @param  $binding
+     * @param  $path
      * @return $this
      */
     public function addNamespace($binding, $path)
@@ -378,7 +378,7 @@ class Asset
     /**
      * Set the public base directory.
      *
-     * @param $directory
+     * @param  $directory
      * @return $this
      */
     public function setDirectory($directory)
@@ -391,7 +391,7 @@ class Asset
     /**
      * Set the publish flag.
      *
-     * @param $publish
+     * @param  $publish
      * @return $this
      */
     public function setPublish($publish)

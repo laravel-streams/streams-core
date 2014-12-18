@@ -3,47 +3,20 @@
 /**
  * Interface ButtonInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Button\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Button\Contract
  */
 interface ButtonInterface
 {
 
     /**
-     * Get the view data.
+     * Get table data.
      *
-     * @param array $arguments
-     * @return mixed
+     * @return array
      */
-    public function viewData(array $arguments = []);
-
-    /**
-     * Pull an attribute.
-     *
-     * @param      $attribute
-     * @param null $default
-     * @return mixed
-     */
-    public function pullAttribute($attribute, $default = null);
-
-    /**
-     * Put an attribute.
-     *
-     * @param $attribute
-     * @param $value
-     * @return mixed
-     */
-    public function putAttribute($attribute, $value);
-
-    /**
-     * Set attributes.
-     *
-     * @param $attributes
-     * @return mixed
-     */
-    public function setAttributes($attributes);
+    public function getTableData();
 
     /**
      * Get attributes.
@@ -55,7 +28,7 @@ interface ButtonInterface
     /**
      * Set the class.
      *
-     * @param $class
+     * @param  $class
      * @return mixed
      */
     public function setClass($class);
@@ -70,7 +43,7 @@ interface ButtonInterface
     /**
      * Set the icon.
      *
-     * @param $icon
+     * @param  $icon
      * @return mixed
      */
     public function setIcon($icon);
@@ -85,7 +58,7 @@ interface ButtonInterface
     /**
      * Set the text.
      *
-     * @param $text
+     * @param  $text
      * @return mixed
      */
     public function setText($text);
@@ -100,7 +73,7 @@ interface ButtonInterface
     /**
      * Set the type.
      *
-     * @param $type
+     * @param  $type
      * @return mixed
      */
     public function setType($type);

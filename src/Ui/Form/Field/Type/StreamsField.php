@@ -8,10 +8,10 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
 /**
  * Class StreamsField
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Field\Type
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Field\Type
  */
 class StreamsField implements StreamsFieldInterface
 {
@@ -63,7 +63,7 @@ class StreamsField implements StreamsFieldInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
     public function viewData(array $arguments = [])
@@ -129,7 +129,7 @@ class StreamsField implements StreamsFieldInterface
     /**
      * Set the field.
      *
-     * @param $field
+     * @param  $field
      * @return $this
      */
     public function setField($field)

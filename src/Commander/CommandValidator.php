@@ -5,10 +5,10 @@ use Laracasts\Commander\CommandBus;
 /**
  * Class CommandValidator
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Support
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Support
  */
 class CommandValidator implements CommandBus
 {
@@ -16,7 +16,7 @@ class CommandValidator implements CommandBus
     /**
      * Execute a command validator.
      *
-     * @param $command
+     * @param  $command
      * @return mixed
      */
     public function execute($command)

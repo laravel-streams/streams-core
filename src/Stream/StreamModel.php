@@ -8,10 +8,10 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 /**
  * Class StreamModel
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Stream
  */
 class StreamModel extends EloquentModel implements StreamInterface
 {
@@ -53,7 +53,7 @@ class StreamModel extends EloquentModel implements StreamInterface
     /**
      * Make a Stream instance from the provided compile data.
      *
-     * @param array $data
+     * @param  array $data
      * @return StreamInterface
      */
     public function make(array $data)
@@ -184,7 +184,7 @@ class StreamModel extends EloquentModel implements StreamInterface
     /**
      * Get an assignment by it's field's slug.
      *
-     * @param $fieldSlug
+     * @param  $fieldSlug
      * @return AssignmentInterface
      */
     public function getAssignment($fieldSlug)
@@ -197,7 +197,7 @@ class StreamModel extends EloquentModel implements StreamInterface
     /**
      * Get a stream field by it's slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function getField($slug)
@@ -212,7 +212,7 @@ class StreamModel extends EloquentModel implements StreamInterface
     /**
      * Get a field's type by the field's slug.
      *
-     * @param $fieldSlug
+     * @param  $fieldSlug
      * @return mixed
      */
     public function getFieldType($fieldSlug)
@@ -237,7 +237,7 @@ class StreamModel extends EloquentModel implements StreamInterface
     /**
      * Unserialize the view options after getting them off the model.
      *
-     * @param $viewOptions
+     * @param  $viewOptions
      * @return mixed
      */
     public function getViewOptionsAttribute($viewOptions)

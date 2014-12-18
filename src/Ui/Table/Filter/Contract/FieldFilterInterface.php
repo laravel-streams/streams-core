@@ -3,10 +3,10 @@
 /**
  * Interface FieldFilterInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Filter\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Filter\Contract
  */
 interface FieldFilterInterface extends FilterInterface
 {
@@ -14,7 +14,7 @@ interface FieldFilterInterface extends FilterInterface
     /**
      * Set the field.
      *
-     * @param $field
+     * @param  $field
      * @return mixed
      */
     public function setField($field);

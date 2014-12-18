@@ -8,10 +8,10 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 /**
  * Interface AssignmentInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Assignment\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Assignment\Contract
  */
 interface AssignmentInterface
 {
@@ -82,8 +82,8 @@ interface AssignmentInterface
     /**
      * Get the assignment's field's type.
      *
-     * @param EntryInterface $entry
-     * @param null           $locale
+     * @param  EntryInterface $entry
+     * @param  null           $locale
      * @return FieldType
      */
     public function getFieldType(EntryInterface $entry = null, $locale = null);
@@ -105,7 +105,7 @@ interface AssignmentInterface
     /**
      * Get an attribute.
      *
-     * @param $key
+     * @param  $key
      * @return mixed
      */
     public function getAttribute($key);

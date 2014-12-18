@@ -10,10 +10,10 @@ use Anomaly\Streams\Platform\Ui\Table\Row\Contract\RowInterface;
 /**
  * Class Row
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Row
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Row
  */
 class Row implements RowInterface
 {
@@ -56,10 +56,10 @@ class Row implements RowInterface
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function getTableData()
     {
         $entry   = [];
         $buttons = [];
@@ -71,7 +71,7 @@ class Row implements RowInterface
 
         foreach ($this->buttons as $button) {
             if ($button instanceof ButtonInterface) {
-                $buttons[] = $button->viewData(['entry' => $this->entry]);
+                $buttons[] = $button->getTableData();
             }
         }
 
@@ -79,7 +79,7 @@ class Row implements RowInterface
             if ($column instanceof ColumnInterface) {
                 $column->setEntry($this->entry);
 
-                $columns[] = $column->viewData(['entry' => $this->entry]);
+                $columns[] = $column->getTableData();
             }
         }
 

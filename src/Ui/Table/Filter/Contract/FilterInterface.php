@@ -1,40 +1,40 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Filter\Contract;
 
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Interface FilterInterface
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Filter\Contract
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Filter\Contract
  */
 interface FilterInterface
 {
 
     /**
-     * Handle the filter.
+     * Hook into the table query.
      *
-     * @param Table   $table
-     * @param Builder $query
-     * @return mixed
+     * @param TableBuilder $builder
+     * @param Builder      $query
+     * @return Builder
      */
-    public function handle(Table $table, Builder $query);
+    public function onTableQuerying(TableBuilder $builder, Builder $query);
 
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return mixed
      */
-    public function viewData(array $arguments = []);
+    public function getTableData();
 
     /**
      * Set the placeholder.
      *
-     * @param $placeholder
+     * @param  $placeholder
      * @return mixed
      */
     public function setPlaceholder($placeholder);
@@ -49,7 +49,7 @@ interface FilterInterface
     /**
      * Set the handler.
      *
-     * @param $handler
+     * @param  $handler
      * @return mixed
      */
     public function setHandler($handler);
@@ -64,7 +64,7 @@ interface FilterInterface
     /**
      * Set the active flag.
      *
-     * @param $active
+     * @param  $active
      * @return mixed
      */
     public function setActive($active);
@@ -79,7 +79,7 @@ interface FilterInterface
     /**
      * Set the prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return mixed
      */
     public function setPrefix($prefix);
@@ -94,7 +94,7 @@ interface FilterInterface
     /**
      * Set the slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return mixed
      */
     public function setSlug($slug);

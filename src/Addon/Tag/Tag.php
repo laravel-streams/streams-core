@@ -8,10 +8,10 @@ use Anomaly\Streams\Platform\Addon\Tag\Attribute\AttributeCollection;
 /**
  * Class Tag
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Tag
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Tag
  */
 class Tag extends Addon implements PluginInterface
 {
@@ -50,7 +50,7 @@ class Tag extends Addon implements PluginInterface
     /**
      * Set the attributes array.
      *
-     * @param array $attributes
+     * @param  array $attributes
      * @return $this
      */
     public function setAttributes(array $attributes = [])
@@ -73,9 +73,9 @@ class Tag extends Addon implements PluginInterface
     /**
      * Get an attribute.
      *
-     * @param      $key
-     * @param null $default
-     * @param int  $offset
+     * @param       $key
+     * @param  null $default
+     * @param  int  $offset
      * @return mixed
      */
     public function getAttribute($key, $default = null, $offset = 0)
@@ -86,7 +86,7 @@ class Tag extends Addon implements PluginInterface
     /**
      * Set the content between a filter / parse block.
      *
-     * @param string $content
+     * @param  string $content
      * @return $this
      */
     public function setContent($content = '')
@@ -109,7 +109,7 @@ class Tag extends Addon implements PluginInterface
     /**
      * Set the plugin from outside parsers.
      *
-     * @param $pluginName
+     * @param  $pluginName
      * @return $this
      */
     public function setPluginName($pluginName)
@@ -132,7 +132,7 @@ class Tag extends Addon implements PluginInterface
     /**
      * Set the Lexicon parser object.
      *
-     * @param LexiconInterface $lexicon
+     * @param  LexiconInterface $lexicon
      * @return $this
      */
     public function setEnvironment(LexiconInterface $lexicon)
@@ -150,7 +150,7 @@ class Tag extends Addon implements PluginInterface
      *
      * public function filterFoo();
      *
-     * @param $key
+     * @param  $key
      * @return bool
      */
     public function isFilter($key)
@@ -166,7 +166,7 @@ class Tag extends Addon implements PluginInterface
      *
      * public function parseFoo();
      *
-     * @param $key
+     * @param  $key
      * @return bool
      */
     public function isParse($key)
@@ -177,8 +177,8 @@ class Tag extends Addon implements PluginInterface
     /**
      * By default return null on invalid calls.
      *
-     * @param       $key
-     * @param array $params
+     * @param        $key
+     * @param  array $params
      * @return null
      */
     public function __call($key, array $params = [])

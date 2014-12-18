@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 /**
  * Class CreateStreamCommandHandler
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream\Command
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Stream\Command
  */
 class CreateStreamCommandHandler
 {
@@ -33,7 +33,7 @@ class CreateStreamCommandHandler
     /**
      * Handle the command.
      *
-     * @param CreateStreamCommand $command
+     * @param  CreateStreamCommand $command
      * @return \Anomaly\Streams\Platform\Stream\Contract\StreamInterface
      */
     public function handle(CreateStreamCommand $command)

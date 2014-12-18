@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonRepositoryInterface;
 /**
  * Class ButtonRepository
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Button
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Button
  */
 class ButtonRepository implements ButtonRepositoryInterface
 {
@@ -78,7 +78,7 @@ class ButtonRepository implements ButtonRepositoryInterface
     /**
      * Find a button.
      *
-     * @param $button
+     * @param  $button
      * @return mixed
      */
     public function find($button)

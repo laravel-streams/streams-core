@@ -6,10 +6,10 @@ use Anomaly\Streams\Platform\Ui\Table\Filter\Filter;
 /**
  * Class SelectFilter
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Filter\Type
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Filter\Type
  */
 class SelectFilter extends Filter implements SelectFilterInterface
 {
@@ -25,29 +25,29 @@ class SelectFilter extends Filter implements SelectFilterInterface
      * Create a new SelectFilter instance.
      *
      * @param       $slug
-     * @param array $options
      * @param null  $prefix
      * @param bool  $active
      * @param null  $handler
      * @param null  $placeholder
+     * @param array $options
      */
     public function __construct(
         $slug,
-        array $options,
         $prefix = null,
         $active = false,
         $handler = null,
-        $placeholder = null
+        $placeholder = null,
+        $options = []
     ) {
         $this->options = $options;
 
-        parent::__construct($slug, $prefix, $active, $handler, $placeholder);
+        parent::__construct($slug, $active, $handler, $placeholder, $prefix);
     }
 
     /**
      * Set the options.
      *
-     * @param array $options
+     * @param  array $options
      * @return $this
      */
     public function setOptions(array $options)

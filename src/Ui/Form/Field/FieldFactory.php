@@ -3,10 +3,10 @@
 /**
  * Class FieldFactory
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Field
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Form\Field
  */
 class FieldFactory
 {
@@ -14,7 +14,7 @@ class FieldFactory
     /**
      * Make a field.
      *
-     * @param array $parameters
+     * @param  array $parameters
      * @return mixed
      */
     public function make(array $parameters)

@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
 /**
  * Class ExtensionCollection
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Extension
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon\Extension
  */
 class ExtensionCollection extends AddonCollection
 {
@@ -19,7 +19,7 @@ class ExtensionCollection extends AddonCollection
      * Example: module.users::authenticator.*
      * Example: module.users::*
      *
-     * @param $pattern
+     * @param  $pattern
      * @return static
      */
     public function matching($pattern)
@@ -58,7 +58,7 @@ class ExtensionCollection extends AddonCollection
      *
      * Example: module.users::authenticator.default
      *
-     * @param mixed $key
+     * @param  mixed $key
      * @return mixed
      */
     public function get($key, $default = null)
@@ -84,8 +84,8 @@ class ExtensionCollection extends AddonCollection
      * Return whether a given extension's slug
      * matches the given pattern.
      *
-     * @param Extension $extension
-     * @param           $pattern
+     * @param  Extension $extension
+     * @param            $pattern
      * @return bool
      */
     protected function extensionSlugIsPattern(Extension $extension, $pattern)

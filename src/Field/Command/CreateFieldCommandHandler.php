@@ -5,10 +5,10 @@ use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 /**
  * Class CreateFieldCommandHandler
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field\Command
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Field\Command
  */
 class CreateFieldCommandHandler
 {
@@ -33,7 +33,7 @@ class CreateFieldCommandHandler
     /**
      * Handle the command.
      *
-     * @param CreateFieldCommand $command
+     * @param  CreateFieldCommand $command
      * @return \Anomaly\Streams\Platform\Field\Contract\FieldInterface
      */
     public function handle(CreateFieldCommand $command)

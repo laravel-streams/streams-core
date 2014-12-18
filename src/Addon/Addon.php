@@ -5,10 +5,10 @@ use Laracasts\Commander\Events\EventGenerator;
 /**
  * Class Addon
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Addon
  */
 class Addon
 {
@@ -39,7 +39,7 @@ class Addon
     /**
      * Translate a string in the addon's namespace.
      *
-     * @param $key
+     * @param  $key
      * @return string
      */
     public function translate($key)
@@ -90,7 +90,7 @@ class Addon
     /**
      * Get a key prefixed by the addon's namespace.
      *
-     * @param null $key
+     * @param  null $key
      * @return string
      */
     public function getKey($key = null)
@@ -122,7 +122,7 @@ class Addon
     /**
      * Set the addon slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return $this
      */
     public function setSlug($slug)
@@ -145,7 +145,7 @@ class Addon
     /**
      * Set the addon type.
      *
-     * @param $type
+     * @param  $type
      * @return $this
      */
     public function setType($type)

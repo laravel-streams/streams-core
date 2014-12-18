@@ -2,24 +2,26 @@
 
 use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
+use Illuminate\Support\Collection;
 
 /**
  * Class Action
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Action
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Action
  */
 class Action extends Button implements ActionInterface
 {
 
     /**
-     * The action slug.
+     * The onTablePost handler.
      *
-     * @var string
+     * @var null
      */
-    protected $slug;
+    protected $onTablePost;
 
     /**
      * The active flag.
@@ -31,61 +33,104 @@ class Action extends Button implements ActionInterface
     /**
      * The action's prefix.
      *
-     * @var null
+     * @var string|null
      */
     protected $prefix;
 
     /**
+     * The action slug.
+     *
+     * @var string|null
+     */
+    protected $slug;
+
+    /**
      * Create a new Action instance.
      *
-     * @param string $slug
-     * @param null   $icon
-     * @param null   $text
-     * @param null   $class
-     * @param null   $prefix
-     * @param bool   $active
-     * @param string $type
-     * @param array  $attributes
+     * @param Collection $slug
+     * @param null       $text
+     * @param null       $icon
+     * @param null       $class
+     * @param null       $prefix
+     * @param bool       $active
+     * @param string     $type
+     * @param null       $onTablePost
+     * @param Collection $attributes
      */
     public function __construct(
         $slug,
-        $icon = null,
         $text = null,
+        $icon = null,
         $class = null,
         $prefix = null,
         $active = false,
         $type = 'default',
-        array $attributes = []
+        $onTablePost = null,
+        Collection $attributes
     ) {
-        parent::__construct($type, $text, $class, $icon, $attributes);
+        $this->slug        = $slug;
+        $this->prefix      = $prefix;
+        $this->active      = $active;
+        $this->onTablePost = $onTablePost;
 
-        $this->slug   = $slug;
-        $this->active = $active;
-        $this->prefix = $prefix;
+        $attributes->put('type', 'submit');
+        $attributes->put('name', 'action');
 
-        $this->putAttribute('type', 'submit');
-        $this->putAttribute('name', 'action');
+        parent::__construct($attributes, $class, $icon, $text, $type);
+    }
+
+    /**
+     * Hook into the table querying event.
+     *
+     * @param TablePostEvent $event
+     */
+    public function onTablePost(TablePostEvent $event)
+    {
     }
 
     /**
      * Return the view data.
      *
-     * @param array $arguments
+     * @param  array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function getTableData()
     {
-        $data = parent::viewData($arguments);
+        $data = parent::getTableData();
 
-        $data['slug'] = $this->getSlug();
+        $data['slug']   = $this->getSlug();
+        $data['active'] = $this->isActive();
 
         return $data;
     }
 
     /**
+     * Set the onTablePost handler.
+     *
+     * @param  $onTablePost
+     * @return $this
+     */
+    public function setOnTablePost($onTablePost)
+    {
+        $this->onTablePost = $onTablePost;
+
+        return $this;
+    }
+
+    /**
+     * Get the onTablePost handler.
+     *
+     * @return mixed
+     */
+    public function getOnTablePost()
+    {
+        return $this->onTablePost;
+    }
+
+    /**
      * Set the active flag.
      *
-     * @param $active
+     * @param  $active
      * @return $this
      */
     public function setActive($active)
@@ -108,7 +153,7 @@ class Action extends Button implements ActionInterface
     /**
      * Set the prefix.
      *
-     * @param $prefix
+     * @param  $prefix
      * @return $this
      */
     public function setPrefix($prefix)
@@ -121,7 +166,7 @@ class Action extends Button implements ActionInterface
     /**
      * Get the prefix.
      *
-     * @return null
+     * @return string
      */
     public function getPrefix()
     {
@@ -131,7 +176,7 @@ class Action extends Button implements ActionInterface
     /**
      * Set the slug.
      *
-     * @param $slug
+     * @param  $slug
      * @return $this
      */
     public function setSlug($slug)
