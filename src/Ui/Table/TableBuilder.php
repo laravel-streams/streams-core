@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableMakeEvent;
 use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
-use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class TableBuilder
