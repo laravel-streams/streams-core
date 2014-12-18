@@ -19,12 +19,17 @@ class AddonBinder
      * @param $type
      * @param $slug
      * @param $path
+     * @param $namespace
      */
-    public function register($type, $slug, $path)
+    public function register($type, $slug, $path, $namespace = null)
     {
-        $addon = 'Anomaly\Streams\Addon\\' . studly_case($type) . '\\' . studly_case(
-                $slug
-            ) . '\\' . studly_case($slug) . studly_case($type);
+        if (is_null($namespace)) {
+            $addon = 'Anomaly\Streams\Addon\\' . studly_case($type) . '\\' . studly_case(
+                    $slug
+                ) . '\\' . studly_case($slug) . studly_case($type);
+        } else {
+            $addon = $namespace;
+        }
 
         $addon = app($addon)
             ->setPath($path)
