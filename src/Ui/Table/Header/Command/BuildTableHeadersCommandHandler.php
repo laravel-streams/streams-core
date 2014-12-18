@@ -21,7 +21,7 @@ class BuildTableHeadersCommandHandler
     protected $builder;
 
     /**
-     * Create a new TableBuildListener instance.
+     * Create a new TableLoadListener instance.
      *
      * @param HeaderBuilder $builder
      */

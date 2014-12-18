@@ -21,7 +21,7 @@ class BuildTableActionsCommandHandler
     protected $builder;
 
     /**
-     * Create a new TableBuildListener instance.
+     * Create a new TableLoadListener instance.
      *
      * @param ActionBuilder $builder
      */

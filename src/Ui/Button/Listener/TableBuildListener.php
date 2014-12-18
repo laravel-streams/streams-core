@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Ui\Button\ButtonBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
 
 /**
- * Class TableBuildListener
+ * Class TableLoadListener
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -22,7 +22,7 @@ class TableBuildListener
     protected $builder;
 
     /**
-     * Create a new TableBuildListener instance.
+     * Create a new TableLoadListener instance.
      *
      * @param ButtonBuilder $builder
      */

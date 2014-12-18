@@ -21,7 +21,7 @@ class BuildTableViewsCommandHandler
     protected $builder;
 
     /**
-     * Create a new TableBuildListener instance.
+     * Create a new TableLoadListener instance.
      *
      * @param ViewBuilder $builder
      */

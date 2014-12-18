@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
 use Laracasts\Commander\CommanderTrait;
 
 /**
- * Class TableBuildListener
+ * Class TableLoadListener
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>

@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableLoadEvent;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableMakeEvent;
 use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
 
@@ -81,6 +82,7 @@ class TableBuilder
     public function build()
     {
         app('events')->fire('streams::table.build', new TableBuildEvent($this));
+        app('events')->fire('streams::table.load', new TableLoadEvent($this));
 
         if (app('request')->isMethod('post')) {
             app('events')->fire('streams::table.post', new TablePostEvent($this));

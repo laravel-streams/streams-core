@@ -22,7 +22,8 @@ class TableBuildSubscriber
     {
         $events->listen(
             'streams::table.build',
-            'Anomaly\Streams\Platform\Ui\Table\Listener\TableBuildListener'
+            'Anomaly\Streams\Platform\Ui\Table\Listener\TableBuildListener',
+            100 // Do this first!
         );
 
         $events->listen(
@@ -57,7 +58,8 @@ class TableBuildSubscriber
 
         $events->listen(
             'streams::table.build',
-            'Anomaly\Streams\Platform\Ui\Table\Row\Listener\TableBuildListener'
+            'Anomaly\Streams\Platform\Ui\Table\Row\Listener\TableBuildListener',
+            -100 // Do this last
         );
     }
 }

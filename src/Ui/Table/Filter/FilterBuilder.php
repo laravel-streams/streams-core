@@ -80,6 +80,7 @@ class FilterBuilder
             $parameters = $this->evaluator->process($parameters, $builder);
 
             $parameters['stream'] = $table->getStream();
+            $parameters['prefix'] = array_get($parameters, 'prefix', $table->getPrefix());
 
             $filter = $this->factory->make($parameters);
 
