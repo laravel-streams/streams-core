@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Button;
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonRepositoryInterface;
 
 /**
@@ -114,27 +113,21 @@ class ButtonRepository implements ButtonRepositoryInterface
              * the best practice for the "view" URL.
              */
             case 'view':
-                return function (EntryInterface $entry) use ($path) {
-                    return url($path . '/show/' . $entry->getId());
-                };
+                return url($path . '/show/{{ entry.id }}');
                 break;
             /**
              * If using the edit button then suggest
              * the best practice for the "edit" URL.
              */
             case 'edit':
-                return function (EntryInterface $entry) use ($path) {
-                    return url($path . '/edit/' . $entry->getId());
-                };
+                return url($path . '/edit/{{ entry.id }}');
                 break;
             /**
              * If using the edit button then suggest
              * the best practice for the "delete" URL.
              */
             case 'delete':
-                return function (EntryInterface $entry) use ($path) {
-                    return url($path . '/delete/' . $entry->getId());
-                };
+                return url($path . '/delete/{{ entry.id }}');
                 break;
 
             // No default.

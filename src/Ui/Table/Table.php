@@ -173,6 +173,7 @@ class Table
     /**
      * Create a new Table instance.
      *
+     * @param Collection       $data
      * @param Collection       $entries
      * @param RowCollection    $rows
      * @param ViewCollection   $views
