@@ -37,5 +37,8 @@ class LoadTableDataCommandHandler
 
         // Load action data.
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Action\Command\LoadActionsDataCommand', $input);
+
+        // Load row data.
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Row\Command\LoadRowDataCommand', $input);
     }
 }

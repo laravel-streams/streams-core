@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Row\Listener;
 
 use Anomaly\Streams\Platform\Ui\Table\Event\TableMakeEvent;
-use Anomaly\Streams\Platform\Ui\Table\Row\RowData;
+use Anomaly\Streams\Platform\Ui\Table\Row\RowLoader;
 
 /**
  * Class TableMakeListener
@@ -17,16 +17,16 @@ class TableMakeListener
     /**
      * The row data object.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Row\RowData
+     * @var \Anomaly\Streams\Platform\Ui\Table\Row\RowLoader
      */
     protected $data;
 
     /**
      * Create a new TableMakeListener instance.
      *
-     * @param RowData $data
+     * @param RowLoader $data
      */
-    public function __construct(RowData $data)
+    public function __construct(RowLoader $data)
     {
         $this->data = $data;
     }
@@ -39,6 +39,6 @@ class TableMakeListener
      */
     public function handle(TableMakeEvent $event)
     {
-        $this->data->make($event->getBuilder());
+        $this->data->load($event->getBuilder());
     }
 }

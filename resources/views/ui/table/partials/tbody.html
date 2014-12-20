@@ -26,10 +26,20 @@
     <td class="text-right">
         {{ buttons }}
         <div class="btn-group">
-            <a class="bt btn-{{ type }} btn-sm" {{{ attributes }}}>
+            <a class="btn btn-{{ type }} btn-sm" {{{ attributes }}}>
             {{ if icon }}<i class="fa fa-{{ icon }}"></i>{{ endif }}
             {{{ text }}}
             </a>
+            <a class="btn btn-{{ type }} btn-sm dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="dropdown-header">Dropdown header is right here.</li>
+                <li><a href="#">Separated link</a></li>
+            </ul>
         </div>
         {{ /buttons }}
     </td>

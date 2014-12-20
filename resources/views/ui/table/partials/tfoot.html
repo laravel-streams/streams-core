@@ -4,13 +4,23 @@
 <tr>
     <td colspan="100%" style="padding: 10px;">
 
-        <div class="pull-left actions dropup">
+        <div class="btn-group pull-left actions dropup">
 
             {{ actions }}
-            <button value="{{ slug }}" class="btn btn-sm btn-{{ type }}" disabled
+            <button class="btn btn-sm btn-{{ type }}" disabled
             {{{ attributes }}}>
             {{ text }}
             </button>
+            <button class="btn btn-{{ type }} btn-sm dropdown-toggle" data-toggle="dropdown" disabled>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="dropdown-header">Dropdown header is right here.</li>
+                <li><a href="#">Separated link</a></li>
+            </ul>
             {{ /actions }}
 
         </div>

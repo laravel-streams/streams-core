@@ -14,6 +14,7 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryingEvent;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Dimsav\Translatable\Translatable;
 
 /**
  * Class EntryModel
@@ -357,13 +358,17 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
     {
         $entry = $form->getEntry();
 
+        if (!$entry instanceof EntryInterface) {
+            return false;
+        }
+
         foreach ($form->pullInput(config('app.locale'), []) as $key => $value) {
             $entry->{$key} = $value;
         }
 
         $entry->save();
 
-        if ($entry->isTranslatable()) {
+        if ($entry->isTranslatable() and $entry instanceof Translatable) {
             foreach (config('streams::config.available_locales') as $locale) {
                 if ($locale == config('app.locale')) {
                     continue;

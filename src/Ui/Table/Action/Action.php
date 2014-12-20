@@ -72,8 +72,9 @@ class Action extends Button implements ActionInterface
         $this->active      = $active;
         $this->onTablePost = $onTablePost;
 
-        $attributes['type'] = 'submit';
-        $attributes['name'] = 'action';
+        $attributes['type']  = 'submit';
+        $attributes['name']  = 'action';
+        $attributes['value'] = $slug;
 
         parent::__construct($attributes, $class, $icon, $text, $type);
     }
@@ -97,7 +98,6 @@ class Action extends Button implements ActionInterface
     {
         $data = parent::getTableData();
 
-        $data['slug']   = $this->getSlug();
         $data['active'] = $this->isActive();
 
         return $data;

@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Row;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -44,6 +45,14 @@ class RowBuilder
         $rows    = $table->getRows();
 
         $row = $this->factory->make(compact('entry', 'columns', 'buttons'));
+
+        $key = null;
+
+        if ($entry instanceof EntryInterface) {
+            $rows->put($entry->getId(), $row);
+
+            return;
+        }
 
         $rows->push($row);
     }

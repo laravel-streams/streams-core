@@ -55,8 +55,11 @@ class BuildTableCommandHandler
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Action\Command\BuildTableActionsCommand', $input);
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Action\Command\SetActiveActionCommand', $input);
 
-        // Lastly load the entries.
+        // Get the table entries.
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\GetTableEntriesCommand', $input);
+
+        // Build rows finally.
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Row\Command\BuildTableRowsCommand', $input);
 
         // Fire an event after everything has finished building.
         app('events')->fire('streams::table.done', new TableDoneEvent($builder));
