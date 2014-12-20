@@ -1,25 +1,43 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Filter;
 
+use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Table\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class FilterData
+ * Class FilterLoader
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Table\Filter
  */
-class FilterData
+class FilterLoader
 {
 
     /**
-     * Make the filter data.
+     * The evaluator utility.
+     *
+     * @var \Anomaly\Streams\Platform\Support\Evaluator
+     */
+    protected $evaluator;
+
+    /**
+     * Create a new FilterLoader instance.
+     *
+     * @param Evaluator $evaluator
+     */
+    public function __construct(Evaluator $evaluator)
+    {
+        $this->evaluator = $evaluator;
+    }
+
+    /**
+     * Load the view data for filters.
      *
      * @param TableBuilder $builder
      */
-    public function make(TableBuilder $builder)
+    public function load(TableBuilder $builder)
     {
         $table = $builder->getTable();
         $data  = $table->getData();
@@ -30,6 +48,8 @@ class FilterData
             },
             $table->getFilters()->all()
         );
+
+        $filters = $this->evaluator->evaluate($filters);
 
         $data->put('filters', $filters);
     }

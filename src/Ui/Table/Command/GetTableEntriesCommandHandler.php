@@ -3,22 +3,22 @@
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 
 /**
- * Class LoadTableEntriesCommandHandler
+ * Class GetTableEntriesCommandHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Table\Command
  */
-class LoadTableEntriesCommandHandler
+class GetTableEntriesCommandHandler
 {
 
     /**
      * Load entries onto the table.
      *
-     * @param LoadTableEntriesCommand $command
+     * @param GetTableEntriesCommand $command
      */
-    public function handle(LoadTableEntriesCommand $command)
+    public function handle(GetTableEntriesCommand $command)
     {
         $builder = $command->getBuilder();
         $table   = $builder->getTable();

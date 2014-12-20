@@ -24,13 +24,6 @@ class ViewBuilder
     protected $interpreter;
 
     /**
-     * The view evaluator.
-     *
-     * @var ViewEvaluator
-     */
-    protected $evaluator;
-
-    /**
      * The view factory.
      *
      * @var ViewFactory
@@ -41,16 +34,11 @@ class ViewBuilder
      * Create a new ViewBuilder instance.
      *
      * @param ViewInterpreter $interpreter
-     * @param ViewEvaluator   $evaluator
      * @param ViewFactory     $factory
      */
-    function __construct(
-        ViewInterpreter $interpreter,
-        ViewEvaluator $evaluator,
-        ViewFactory $factory
-    ) {
+    function __construct(ViewInterpreter $interpreter, ViewFactory $factory)
+    {
         $this->factory     = $factory;
-        $this->evaluator   = $evaluator;
         $this->interpreter = $interpreter;
     }
 
@@ -67,7 +55,6 @@ class ViewBuilder
         foreach ($builder->getViews() as $key => $parameters) {
 
             $parameters = $this->interpreter->standardize($key, $parameters);
-            $parameters = $this->evaluator->process($parameters, $builder);
 
             $view = $this->factory->make($parameters);
 

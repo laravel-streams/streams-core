@@ -1,10 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableLoadEvent;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableMakeEvent;
 use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
+use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class TableBuilder
@@ -16,6 +15,8 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
  */
 class TableBuilder
 {
+
+    use CommanderTrait;
 
     /**
      * The table model.
@@ -81,8 +82,7 @@ class TableBuilder
      */
     public function build()
     {
-        app('events')->fire('streams::table.build', new TableBuildEvent($this));
-        app('events')->fire('streams::table.load', new TableLoadEvent($this));
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\BuildTableCommand', ['builder' => $this]);
 
         if (app('request')->isMethod('post')) {
             app('events')->fire('streams::table.post', new TablePostEvent($this));
@@ -98,7 +98,7 @@ class TableBuilder
 
         if ($this->table->getResponse() === null) {
 
-            app('events')->fire('streams::table.make', new TableMakeEvent($this));
+            $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\LoadTableDataCommand', ['builder' => $this]);
 
             $this->table->setContent(view($this->table->getView(), $this->table->getData()));
         }

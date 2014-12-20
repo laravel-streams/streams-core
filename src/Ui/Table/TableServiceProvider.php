@@ -51,9 +51,6 @@ class TableServiceProvider extends ServiceProvider
     protected function registerListeners()
     {
         $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TableQueryingSubscriber');
-        $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TableBuildSubscriber');
-        $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TableLoadSubscriber');
-        $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TableMakeSubscriber');
         $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TablePostSubscriber');
     }
 }

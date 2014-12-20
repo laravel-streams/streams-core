@@ -24,14 +24,14 @@ class TableQueryingListener
      */
     public function handle(TableQueryingEvent $event)
     {
-        $table = $event->getTable();
-        $query = $event->getQuery();
+        $builder = $event->getBuilder();
+        $query   = $event->getQuery();
 
         if (app('request')->isMethod('post')) {
             return;
         }
 
-        $args = compact('table', 'query');
+        $args = compact('builder', 'query');
 
         $this->execute('Anomaly\Streams\Platform\Ui\Table\View\Command\HandleTableViewCommand', $args);
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Filter\Command\HandleTableFiltersCommand', $args);

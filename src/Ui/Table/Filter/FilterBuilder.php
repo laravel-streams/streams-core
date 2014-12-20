@@ -24,13 +24,6 @@ class FilterBuilder
     protected $interpreter;
 
     /**
-     * The table evaluator.
-     *
-     * @var FilterEvaluator
-     */
-    protected $evaluator;
-
-    /**
      * The filter factory.
      *
      * @var FilterFactory
@@ -41,17 +34,14 @@ class FilterBuilder
      * Create a new FilterBuilder instance.
      *
      * @param FilterInterpreter $interpreter
-     * @param FilterEvaluator   $evaluator
      * @param FilterFactory     $factory
      */
     function __construct(
         FilterInterpreter $interpreter,
-        FilterEvaluator $evaluator,
         FilterFactory $factory
     ) {
         $this->factory     = $factory;
         $this->interpreter = $interpreter;
-        $this->evaluator   = $evaluator;
     }
 
     /**
@@ -67,7 +57,6 @@ class FilterBuilder
         foreach ($builder->getFilters() as $key => $parameters) {
 
             $parameters = $this->interpreter->standardize($key, $parameters);
-            $parameters = $this->evaluator->process($parameters, $builder);
 
             $parameters['stream'] = $table->getStream();
             $parameters['prefix'] = array_get($parameters, 'prefix', $table->getPrefix());

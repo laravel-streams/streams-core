@@ -24,13 +24,6 @@ class HeaderBuilder
     protected $interpreter;
 
     /**
-     * The header evaluator.
-     *
-     * @var HeaderEvaluator
-     */
-    protected $evaluator;
-
-    /**
      * The header factory.
      *
      * @var HeaderFactory
@@ -41,17 +34,14 @@ class HeaderBuilder
      * Create a new HeaderBuilder instance.
      *
      * @param HeaderInterpreter $interpreter
-     * @param HeaderEvaluator   $evaluator
      * @param HeaderFactory     $factory
      */
     function __construct(
         HeaderInterpreter $interpreter,
-        HeaderEvaluator $evaluator,
         HeaderFactory $factory
     ) {
         $this->factory     = $factory;
         $this->interpreter = $interpreter;
-        $this->evaluator   = $evaluator;
     }
 
     /**
@@ -67,7 +57,6 @@ class HeaderBuilder
         foreach ($builder->getColumns() as $parameters) {
 
             $parameters = $this->interpreter->standardize($parameters);
-            $parameters = $this->evaluator->process($parameters, $builder);
 
             $parameters['stream'] = $table->getStream();
 

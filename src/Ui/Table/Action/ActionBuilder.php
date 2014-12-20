@@ -24,13 +24,6 @@ class ActionBuilder
     protected $interpreter;
 
     /**
-     * The action evaluator.
-     *
-     * @var ActionEvaluator
-     */
-    protected $evaluator;
-
-    /**
      * The action factory.
      *
      * @var ActionFactory
@@ -41,17 +34,14 @@ class ActionBuilder
      * Create a new ActionBuilder instance.
      *
      * @param ActionInterpreter $interpreter
-     * @param ActionEvaluator   $evaluator
      * @param ActionFactory     $factory
      */
     function __construct(
         ActionInterpreter $interpreter,
-        ActionEvaluator $evaluator,
         ActionFactory $factory
     ) {
         $this->factory     = $factory;
         $this->interpreter = $interpreter;
-        $this->evaluator   = $evaluator;
     }
 
     /**
@@ -67,7 +57,6 @@ class ActionBuilder
         foreach ($builder->getActions() as $key => $parameters) {
 
             $parameters = $this->interpreter->standardize($key, $parameters);
-            $parameters = $this->evaluator->process($parameters, $builder);
 
             $action = $this->factory->make($parameters);
 

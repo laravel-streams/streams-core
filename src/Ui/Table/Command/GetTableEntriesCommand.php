@@ -1,16 +1,16 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Event;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class TableMakeEvent
+ * Class GetTableEntriesCommand
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Event
+ * @package Anomaly\Streams\Platform\Ui\Table\Command
  */
-class TableMakeEvent
+class GetTableEntriesCommand
 {
 
     /**
@@ -21,7 +21,7 @@ class TableMakeEvent
     protected $builder;
 
     /**
-     * Create a new TableMakeEvent instance.
+     * Create a new BuildTableColumnsCommand instance.
      *
      * @param TableBuilder $builder
      */

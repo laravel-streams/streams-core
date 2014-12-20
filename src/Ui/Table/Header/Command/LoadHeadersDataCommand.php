@@ -1,37 +1,37 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Event;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Header\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class TableBuildEvent
+ * Class LoadHeadersDataCommand
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Event
+ * @package Anomaly\Streams\Platform\Ui\Table\Header\Command
  */
-class TableBuildEvent
+class LoadHeadersDataCommand
 {
 
     /**
      * The table builder.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TableBuilder
+     * @var TableBuilder
      */
     protected $builder;
 
     /**
-     * Create a new TableBuildEvent instance.
+     * Create a new BuildTableFiltersCommand instance.
      *
      * @param TableBuilder $builder
      */
-    public function __construct(TableBuilder $builder)
+    function __construct(TableBuilder $builder)
     {
         $this->builder = $builder;
     }
 
     /**
-     * Get table the builder.
+     * Get the table builder.
      *
      * @return TableBuilder
      */

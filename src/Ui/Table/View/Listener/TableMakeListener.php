@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\View\Listener;
 
 use Anomaly\Streams\Platform\Ui\Table\Event\TableMakeEvent;
-use Anomaly\Streams\Platform\Ui\Table\View\ViewData;
+use Anomaly\Streams\Platform\Ui\Table\View\ViewLoader;
 
 /**
  * Class TableMakeListener
@@ -17,16 +17,16 @@ class TableMakeListener
     /**
      * The view data object.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\View\ViewData
+     * @var \Anomaly\Streams\Platform\Ui\Table\View\ViewLoader
      */
     protected $data;
 
     /**
      * Create a new TableMakeListener instance.
      *
-     * @param ViewData $data
+     * @param ViewLoader $data
      */
-    public function __construct(ViewData $data)
+    public function __construct(ViewLoader $data)
     {
         $this->data = $data;
     }
@@ -39,6 +39,6 @@ class TableMakeListener
      */
     public function handle(TableMakeEvent $event)
     {
-        $this->data->make($event->getBuilder());
+        $this->data->load($event->getBuilder());
     }
 }
