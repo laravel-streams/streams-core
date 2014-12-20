@@ -257,7 +257,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * Set the dropdown.
+     * Set the action dropdown.
      *
      * @param array $dropdown
      * @return $this
@@ -270,7 +270,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * Get the dropdown.
+     * Get the action dropdown.
      *
      * @return array
      */
@@ -280,7 +280,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * Set the attributes.
+     * Set the action attributes.
      *
      * @param array $attributes
      * @return $this
@@ -293,7 +293,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * Get the attributes.
+     * Get the action attributes.
      *
      * @return array
      */
@@ -303,7 +303,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * Set the class.
+     * Set the action class.
      *
      * @param  $class
      * @return $this
@@ -316,7 +316,7 @@ class Action implements ActionInterface
     }
 
     /**
-     * Get the class.
+     * Get the action class.
      *
      * @return string
      */
