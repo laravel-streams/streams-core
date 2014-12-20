@@ -46,9 +46,8 @@ class RowBuilder
 
         $row = $this->factory->make(compact('entry', 'columns', 'buttons'));
 
-        $key = null;
-
         if ($entry instanceof EntryInterface) {
+
             $rows->put($entry->getId(), $row);
 
             return;
