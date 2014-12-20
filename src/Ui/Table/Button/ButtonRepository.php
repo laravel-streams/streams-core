@@ -1,6 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Button;
 
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonRepositoryInterface;
+use Anomaly\Streams\Platform\Ui\Table\Button\Contract\ButtonRepositoryInterface;
 
 /**
  * Class ButtonRepository
@@ -83,57 +83,6 @@ class ButtonRepository implements ButtonRepositoryInterface
      */
     public function find($button)
     {
-        $href = $this->guessHref($button);
-
-        $button = array_get($this->buttons, $button);
-
-        if (!isset($button['attributes'])) {
-            $button['attributes'] = [];
-        }
-
-        if ($href) {
-            $button['attributes']['href'] = $href;
-        }
-
-        return $button;
-    }
-
-    /**
-     * Guess the HREF based on the button.
-     *
-     * @param array $parameters
-     */
-    protected function guessHref($button)
-    {
-        $path = app('router')->getCurrentRoute()->getPath();
-
-        switch ($button) {
-            /**
-             * If using the view button then suggest
-             * the best practice for the "view" URL.
-             */
-            case 'view':
-                return url($path . '/show/{{ entry.id }}');
-                break;
-            /**
-             * If using the edit button then suggest
-             * the best practice for the "edit" URL.
-             */
-            case 'edit':
-                return url($path . '/edit/{{ entry.id }}');
-                break;
-            /**
-             * If using the edit button then suggest
-             * the best practice for the "delete" URL.
-             */
-            case 'delete':
-                return url($path . '/delete/{{ entry.id }}');
-                break;
-
-            // No default.
-            default:
-                return null;
-                break;
-        }
+        return array_get($this->buttons, $button);
     }
 }

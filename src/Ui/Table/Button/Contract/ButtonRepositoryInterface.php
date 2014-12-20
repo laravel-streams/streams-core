@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button\Contract;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Button\Contract;
 
 /**
  * Interface ButtonRepositoryInterface

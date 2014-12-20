@@ -39,8 +39,8 @@ class UiServiceProvider extends ServiceProvider
     protected function registerBindings()
     {
         $this->app->bind(
-            'Anomaly\Streams\Platform\Ui\Button\Contract\ButtonRepositoryInterface',
-            'Anomaly\Streams\Platform\Ui\Button\ButtonRepository'
+            'Anomaly\Streams\Platform\Ui\Table\Button\Contract\ButtonRepositoryInterface',
+            'Anomaly\Streams\Platform\Ui\Table\Button\ButtonRepository'
         );
     }
 }

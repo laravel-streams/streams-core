@@ -22,8 +22,8 @@ class RunTableQueryHooksCommandHandler
      */
     public function handle(RunTableQueryHooksCommand $command)
     {
-        $query   = $command->getQuery();
         $builder = $command->getBuilder();
+        $query   = $command->getQuery();
         $table   = $builder->getTable();
         $filters = $table->getFilters();
 

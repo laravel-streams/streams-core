@@ -1,8 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Action;
 
-use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
  * Class Action
@@ -12,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Table\Action
  */
-class Action extends Button implements ActionInterface
+class Action implements ActionInterface
 {
 
     /**
@@ -44,6 +43,48 @@ class Action extends Button implements ActionInterface
     protected $slug;
 
     /**
+     * The action text.
+     *
+     * @var null
+     */
+    protected $text;
+
+    /**
+     * The action icon.
+     *
+     * @var null
+     */
+    protected $icon;
+
+    /**
+     * The action type.
+     *
+     * @var string
+     */
+    protected $type;
+
+    /**
+     * The action class.
+     *
+     * @var null
+     */
+    protected $class;
+
+    /**
+     * The action's dropdown.
+     *
+     * @var array
+     */
+    protected $dropdown;
+
+    /**
+     * The action's attributes.
+     *
+     * @var array
+     */
+    protected $attributes;
+
+    /**
      * Create a new Action instance.
      *
      * @param null   $slug
@@ -54,6 +95,7 @@ class Action extends Button implements ActionInterface
      * @param bool   $active
      * @param string $type
      * @param null   $onTablePost
+     * @param array  $dropdown
      * @param array  $attributes
      */
     public function __construct(
@@ -65,26 +107,32 @@ class Action extends Button implements ActionInterface
         $active = false,
         $type = 'default',
         $onTablePost = null,
+        array $dropdown = [],
         array $attributes = []
     ) {
         $this->slug        = $slug;
+        $this->icon        = $icon;
+        $this->text        = $text;
+        $this->type        = $type;
+        $this->class       = $class;
         $this->prefix      = $prefix;
         $this->active      = $active;
+        $this->dropdown    = $dropdown;
         $this->onTablePost = $onTablePost;
 
         $attributes['type']  = 'submit';
         $attributes['name']  = 'action';
         $attributes['value'] = $slug;
 
-        parent::__construct($attributes, $class, $icon, $text, $type);
+        $this->attributes = $attributes;
     }
 
     /**
      * Hook into the table querying event.
      *
-     * @param TablePostEvent $event
+     * @param TableBuilder $builder
      */
-    public function onTablePost(TablePostEvent $event)
+    public function onTablePost(TableBuilder $builder)
     {
     }
 
@@ -96,7 +144,20 @@ class Action extends Button implements ActionInterface
      */
     public function getTableData()
     {
-        $data = parent::getTableData();
+        $type       = $this->getType();
+        $icon       = $this->getIcon();
+        $text       = $this->getText();
+        $class      = $this->getClass();
+        $dropdown   = $this->getDropdown();
+        $attributes = $this->getAttributes();
+
+        if (is_string($text)) {
+            $text = trans($text);
+        }
+
+        $data = compact('text', 'type', 'class', 'icon', 'attributes', 'dropdown');
+
+        $data['attributes'] = app('html')->attributes($data['attributes']);
 
         $data['active'] = $this->isActive();
 
@@ -193,5 +254,143 @@ class Action extends Button implements ActionInterface
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set the dropdown.
+     *
+     * @param array $dropdown
+     * @return $this
+     */
+    public function setDropdown(array $dropdown)
+    {
+        $this->dropdown = $dropdown;
+
+        return $this;
+    }
+
+    /**
+     * Get the dropdown.
+     *
+     * @return array
+     */
+    public function getDropdown()
+    {
+        return $this->dropdown;
+    }
+
+    /**
+     * Set the attributes.
+     *
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * Get the attributes.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Set the class.
+     *
+     * @param  $class
+     * @return $this
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    /**
+     * Get the class.
+     *
+     * @return string
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * Set the icon.
+     *
+     * @param  $icon
+     * @return $this
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * Get the icon.
+     *
+     * @return string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * Set the action text.
+     *
+     * @param  $text
+     * @return $this
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
+
+        return $this;
+    }
+
+    /**
+     * Get the action text.
+     *
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    /**
+     * Set the action type.
+     *
+     * @param  $type
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get the action type.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

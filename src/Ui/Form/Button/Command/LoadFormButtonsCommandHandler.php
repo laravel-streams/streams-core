@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Button\Command;
 
-use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
+use Anomaly\Streams\Platform\Ui\Table\Button\ButtonFactory;
 
 /**
  * Class LoadFormButtonsCommandHandler
@@ -16,7 +16,7 @@ class LoadFormButtonsCommandHandler
     /**
      * The form builder.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Button\ButtonFactory
+     * @var \Anomaly\Streams\Platform\Ui\Table\Button\ButtonFactory
      */
     protected $factory;
 

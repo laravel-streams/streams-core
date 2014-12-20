@@ -30,16 +30,21 @@
             {{ if icon }}<i class="fa fa-{{ icon }}"></i>{{ endif }}
             {{{ text }}}
             </a>
+            {{ if dropdown }}
             <a class="btn btn-{{ type }} btn-sm dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
             </a>
+            {{ dropdown }}
             <ul class="dropdown-menu dropdown-menu-right">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="dropdown-header">Dropdown header is right here.</li>
-                <li><a href="#">Separated link</a></li>
+                <li>
+                    <a href="{{ url }}">
+                        {{ if icon }}<i class="fa fa-{{ icon }}"></i>{{ endif }}
+                        {{ text }}
+                    </a>
+                </li>
             </ul>
+            {{ /dropdown }}
+            {{ endif }}
         </div>
         {{ /buttons }}
     </td>

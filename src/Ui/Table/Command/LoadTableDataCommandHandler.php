@@ -40,5 +40,8 @@ class LoadTableDataCommandHandler
 
         // Load row data.
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Row\Command\LoadRowDataCommand', $input);
+
+        // Load pagination data.
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\LoadPaginationDataCommand', $input);
     }
 }

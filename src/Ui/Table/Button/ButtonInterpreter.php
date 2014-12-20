@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Button;
 
 /**
  * Class ButtonInterpreter

@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button\Contract;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Button\Contract;
 
 /**
  * Interface ButtonInterface
@@ -17,6 +17,29 @@ interface ButtonInterface
      * @return array
      */
     public function getTableData();
+
+    /**
+     * Set the dropdown.
+     *
+     * @param array $dropdown
+     * @return $this
+     */
+    public function setDropdown(array $dropdown);
+
+    /**
+     * Get the dropdown.
+     *
+     * @return array
+     */
+    public function getDropdown();
+
+    /**
+     * Set the attributes.
+     *
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes);
 
     /**
      * Get attributes.

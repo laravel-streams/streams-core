@@ -1,6 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Button;
 
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Ui\Table\Button\Contract\ButtonInterface;
 
 /**
  * Class Button
@@ -49,20 +49,35 @@ class Button implements ButtonInterface
     protected $attributes;
 
     /**
+     * The button's dropdown.
+     *
+     * @var array
+     */
+    protected $dropdown;
+
+    /**
      * Create a new Button instance.
      *
-     * @param array  $attributes
-     * @param null   $class
-     * @param null   $icon
      * @param null   $text
+     * @param null   $icon
+     * @param null   $class
      * @param string $type
+     * @param array  $dropdown
+     * @param array  $attributes
      */
-    function __construct(array $attributes = [], $class = null, $icon = null, $text = null, $type = 'default')
-    {
+    function __construct(
+        $text = null,
+        $icon = null,
+        $class = null,
+        $type = 'default',
+        array $dropdown = [],
+        array $attributes = []
+    ) {
         $this->icon       = $icon;
         $this->text       = $text;
         $this->type       = $type;
         $this->class      = $class;
+        $this->dropdown   = $dropdown;
         $this->attributes = $attributes;
     }
 
@@ -73,18 +88,18 @@ class Button implements ButtonInterface
      */
     public function getTableData()
     {
-        $type  = $this->getType();
-        $icon  = $this->getIcon();
-        $text  = $this->getText();
-        $class = $this->getClass();
-
+        $type       = $this->getType();
+        $icon       = $this->getIcon();
+        $text       = $this->getText();
+        $class      = $this->getClass();
+        $dropdown   = $this->getDropdown();
         $attributes = $this->getAttributes();
 
         if (is_string($text)) {
             $text = trans($text);
         }
 
-        $data = compact('text', 'type', 'class', 'icon', 'attributes');
+        $data = compact('text', 'type', 'class', 'icon', 'attributes', 'dropdown');
 
         $data['attributes'] = app('html')->attributes($data['attributes']);
 
@@ -92,12 +107,35 @@ class Button implements ButtonInterface
     }
 
     /**
-     * Set the attributes.
+     * Set the dropdown.
      *
-     * @param $attributes
+     * @param array $dropdown
      * @return $this
      */
-    public function setAttributes($attributes)
+    public function setDropdown(array $dropdown)
+    {
+        $this->dropdown = $dropdown;
+
+        return $this;
+    }
+
+    /**
+     * Get the dropdown.
+     *
+     * @return array
+     */
+    public function getDropdown()
+    {
+        return $this->dropdown;
+    }
+
+    /**
+     * Set the attributes.
+     *
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
 

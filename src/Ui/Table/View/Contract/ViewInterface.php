@@ -19,7 +19,6 @@ interface ViewInterface
      *
      * @param TableBuilder $builder
      * @param Builder      $query
-     * * @return Builder
      */
     public function onTableQuerying(TableBuilder $builder, Builder $query);
 

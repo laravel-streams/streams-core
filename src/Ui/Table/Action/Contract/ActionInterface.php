@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Action\Contract;
 
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
  * Interface ActionInterface
@@ -11,15 +10,15 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Table\Action\Contract
  */
-interface ActionInterface extends ButtonInterface
+interface ActionInterface
 {
 
     /**
      * Hook into the table querying event.
      *
-     * @param TablePostEvent $event
+     * @param TableBuilder $builder
      */
-    public function onTablePost(TablePostEvent $event);
+    public function onTablePost(TableBuilder $builder);
 
     /**
      * Set the onTablePost handler.
@@ -80,4 +79,100 @@ interface ActionInterface extends ButtonInterface
      * @return mixed
      */
     public function getSlug();
+
+    /**
+     * Get table data.
+     *
+     * @return array
+     */
+    public function getTableData();
+
+    /**
+     * Set the dropdown.
+     *
+     * @param array $dropdown
+     * @return $this
+     */
+    public function setDropdown(array $dropdown);
+
+    /**
+     * Get the dropdown.
+     *
+     * @return array
+     */
+    public function getDropdown();
+
+    /**
+     * Set the attributes.
+     *
+     * @return array
+     */
+    public function setAttributes(array $attributes);
+
+    /**
+     * Get attributes.
+     *
+     * @return array
+     */
+    public function getAttributes();
+
+    /**
+     * Set the class.
+     *
+     * @param  $class
+     * @return mixed
+     */
+    public function setClass($class);
+
+    /**
+     * Get the class.
+     *
+     * @return mixed
+     */
+    public function getClass();
+
+    /**
+     * Set the icon.
+     *
+     * @param  $icon
+     * @return mixed
+     */
+    public function setIcon($icon);
+
+    /**
+     * Get the icon.
+     *
+     * @return mixed
+     */
+    public function getIcon();
+
+    /**
+     * Set the text.
+     *
+     * @param  $text
+     * @return mixed
+     */
+    public function setText($text);
+
+    /**
+     * Get the text.
+     *
+     * @return mixed
+     */
+    public function getText();
+
+    /**
+     * Set the type.
+     *
+     * @param  $type
+     * @return mixed
+     */
+    public function setType($type);
+
+    /**
+     * Get the type.
+     *
+     * @return mixed
+     */
+    public function getType();
 }

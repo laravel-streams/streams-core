@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Action\ActionCollection;
+use Anomaly\Streams\Platform\Ui\Table\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Column\ColumnCollection;
 use Anomaly\Streams\Platform\Ui\Table\Filter\FilterCollection;
 use Anomaly\Streams\Platform\Ui\Table\Header\HeaderCollection;
@@ -152,7 +152,7 @@ class Table
     /**
      * The button collection.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Button\ButtonCollection
+     * @var \Anomaly\Streams\Platform\Ui\Table\Button\ButtonCollection
      */
     protected $buttons;
 
@@ -178,7 +178,7 @@ class Table
      * @param RowCollection    $rows
      * @param ViewCollection   $views
      * @param ActionCollection $actions
-     * @param ButtonCollection $buttons
+     * @param \Anomaly\Streams\Platform\Ui\Table\Button\ButtonCollection $buttons
      * @param ColumnCollection $columns
      * @param FilterCollection $filters
      * @param HeaderCollection $headers

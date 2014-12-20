@@ -11,16 +11,21 @@
             {{{ attributes }}}>
             {{ text }}
             </button>
+            {{ if dropdown }}
             <button class="btn btn-{{ type }} btn-sm dropdown-toggle" data-toggle="dropdown" disabled>
                 <span class="caret"></span>
             </button>
+            {{ dropdown }}
             <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="dropdown-header">Dropdown header is right here.</li>
-                <li><a href="#">Separated link</a></li>
+                <li>
+                    <button value="{{ slug }}" name="{{ name }}">
+                        {{ if icon }}<i class="fa fa-{{ icon }}"></i>{{ endif }}
+                        {{ text }}
+                    </button>
+                </li>
             </ul>
+            {{ /dropdown }}
+            {{ endif }}
             {{ /actions }}
 
         </div>
