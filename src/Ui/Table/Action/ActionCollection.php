@@ -22,7 +22,7 @@ class ActionCollection extends Collection
     public function active()
     {
         foreach ($this->items as $item) {
-            if ($this->actionIsActive($item)) {
+            if ($item->isActive()) {
                 return $item;
             }
         }
@@ -39,34 +39,11 @@ class ActionCollection extends Collection
     public function findBySlug($slug)
     {
         foreach ($this->items as $item) {
-            if ($this->actionSlugIs($item, $slug)) {
+            if ($item->getSlug() == $slug) {
                 return $item;
             }
         }
 
         return null;
-    }
-
-    /**
-     * Return whether the action is active or not.
-     *
-     * @param  Action $item
-     * @return bool
-     */
-    protected function actionIsActive(ActionInterface $item)
-    {
-        return ($item->isActive());
-    }
-
-    /**
-     * Return whether the action slug matches the provided one.
-     *
-     * @param  ActionInterface $item
-     * @param                  $slug
-     * @return bool
-     */
-    protected function actionSlugIs(ActionInterface $item, $slug)
-    {
-        return ($item->getSlug() == $slug);
     }
 }
