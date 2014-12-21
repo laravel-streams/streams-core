@@ -84,7 +84,6 @@ class Action extends Button implements ActionInterface
      */
     public function handle(Form $form)
     {
-        //
     }
 
     /**

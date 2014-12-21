@@ -28,6 +28,9 @@ class BuildFormCommandHandler
 
         $input = compact('builder');
 
+        // Set the form entry.
+        $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\SetFormEntryCommand', $input);
+
         // Fire an even to allow access to config before building.
         app('events')->fire('streams::form.start', new FormStartEvent($builder));
 

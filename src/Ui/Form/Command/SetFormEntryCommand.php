@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class StandardizeInputCommand
+ * Class SetFormEntryCommand
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Form\Command
  */
-class StandardizeInputCommand
+class SetFormEntryCommand
 {
 
     /**
@@ -21,7 +21,7 @@ class StandardizeInputCommand
     protected $builder;
 
     /**
-     * Create a new StandardizeInputCommand instance.
+     * Create a new SetFormEntryCommand instance.
      *
      * @param FormBuilder $builder
      */

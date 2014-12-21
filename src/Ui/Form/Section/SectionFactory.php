@@ -30,6 +30,10 @@ class SectionFactory
      */
     public function make(array $parameters)
     {
+        if (isset($parameters['fields'])) {
+            $parameters['section'] = 'Anomaly\Streams\Platform\Ui\Form\Section\Type\FieldsSection';
+        }
+
         if (isset($parameters['section']) && class_exists($parameters['section'])) {
             return app()->make($parameters['section'], $parameters);
         }

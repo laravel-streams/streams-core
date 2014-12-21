@@ -93,15 +93,22 @@ class FieldsSection implements FieldsSectionInterface
         $this->title        = $title;
         $this->fieldFactory = $fieldFactory;
 
-        foreach ($fields as &$field) {
+        $collection = new FieldCollection();
+
+        foreach ($fields as $field) {
+
+            if (is_string($field)) {
+                $field = compact('field');
+            }
+
             $field['form']   = $form;
             $field['entry']  = $entry;
             $field['stream'] = $stream;
 
-            $field = $this->fieldFactory->make($field);
+            $collection->push($this->fieldFactory->make($field));
         }
 
-        $this->fields = FieldCollection::make($fields);
+        $this->fields = $collection;
     }
 
     /**
