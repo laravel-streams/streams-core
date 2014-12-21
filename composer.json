@@ -8,6 +8,7 @@
         }
     ],
     "require": {
+        "anomaly/lexicon": "1.0.x-dev",
         "barryvdh/laravel-debugbar": "1.*",
         "barryvdh/laravel-ide-helper": "1.11.*@dev",
         "coffeescript/coffeescript": "1.3.1",
