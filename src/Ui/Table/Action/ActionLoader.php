@@ -44,7 +44,7 @@ class ActionLoader
 
         $actions = array_map(
             function (ActionInterface $action) {
-                return $action->getTableData();
+                return $action->toArray();
             },
             $table->getActions()->all()
         );

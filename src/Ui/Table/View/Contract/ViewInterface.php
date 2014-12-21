@@ -28,7 +28,7 @@ interface ViewInterface
      * @param  array $arguments
      * @return mixed
      */
-    public function getTableData();
+    public function toArray();
 
     /**
      * Set the attributes.

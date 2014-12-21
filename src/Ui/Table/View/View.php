@@ -93,7 +93,7 @@ class View implements ViewInterface
      * @param  array $arguments
      * @return array
      */
-    public function getTableData()
+    public function toArray()
     {
         $url        = $this->getUrl();
         $active     = $this->isActive();

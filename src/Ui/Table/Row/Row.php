@@ -59,7 +59,7 @@ class Row implements RowInterface
      * @param  array $arguments
      * @return array
      */
-    public function getTableData()
+    public function toArray()
     {
         $entry   = [];
         $buttons = [];
@@ -71,7 +71,7 @@ class Row implements RowInterface
 
         foreach ($this->buttons as $button) {
             if ($button instanceof ButtonInterface) {
-                $buttons[] = $button->getTableData();
+                $buttons[] = $button->toArray();
             }
         }
 
@@ -79,7 +79,7 @@ class Row implements RowInterface
             if ($column instanceof ColumnInterface) {
                 $column->setEntry($this->entry);
 
-                $columns[] = $column->getTableData();
+                $columns[] = $column->toArray();
             }
         }
 

@@ -86,7 +86,7 @@ class Button implements ButtonInterface
      *
      * @return array
      */
-    public function getTableData()
+    public function toArray()
     {
         $type       = $this->getType();
         $icon       = $this->getIcon();

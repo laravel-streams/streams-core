@@ -85,7 +85,7 @@ interface ActionInterface
      *
      * @return array
      */
-    public function getTableData();
+    public function toArray();
 
     /**
      * Set the dropdown.

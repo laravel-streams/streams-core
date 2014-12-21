@@ -17,5 +17,12 @@ interface RowInterface
      * @param  array $arguments
      * @return mixed
      */
-    public function getTableData();
+    public function toArray();
+
+    /**
+     * Get the entry.
+     *
+     * @return mixed
+     */
+    public function getEntry();
 }

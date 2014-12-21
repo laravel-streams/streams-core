@@ -44,12 +44,10 @@ class RowLoader
 
         $rows = array_map(
             function (RowInterface $row) {
-                return $row->getTableData();
+                return $this->evaluator->evaluate($row->toArray(), ['entry' => $row->getEntry()]);
             },
             $table->getRows()->all()
         );
-
-        $rows = $this->evaluator->evaluate($rows);
 
         $data->put('rows', $rows);
     }

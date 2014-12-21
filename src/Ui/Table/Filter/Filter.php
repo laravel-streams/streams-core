@@ -88,7 +88,7 @@ class Filter implements FilterInterface
      * @param  array $arguments
      * @return array
      */
-    public function getTableData()
+    public function toArray()
     {
         $input = $this->getInput();
 

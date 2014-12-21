@@ -44,7 +44,7 @@ class HeaderLoader
 
         $headers = array_map(
             function (HeaderInterface $header) {
-                return $header->getTableData();
+                return $header->toArray();
             },
             $table->getHeaders()->all()
         );

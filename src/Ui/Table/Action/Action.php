@@ -142,7 +142,7 @@ class Action implements ActionInterface
      * @param  array $arguments
      * @return array
      */
-    public function getTableData()
+    public function toArray()
     {
         $type       = $this->getType();
         $icon       = $this->getIcon();

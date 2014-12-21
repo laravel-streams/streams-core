@@ -56,6 +56,10 @@ class HeaderBuilder
 
         foreach ($builder->getColumns() as $parameters) {
 
+            if ($header = array_get($parameters, 'header')) {
+                $parameters = $header;
+            }
+
             $parameters = $this->interpreter->standardize($parameters);
 
             $parameters['stream'] = $table->getStream();

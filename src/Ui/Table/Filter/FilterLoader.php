@@ -44,7 +44,7 @@ class FilterLoader
 
         $filters = array_map(
             function (FilterInterface $filter) {
-                return $filter->getTableData();
+                return $filter->toArray();
             },
             $table->getFilters()->all()
         );

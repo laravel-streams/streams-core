@@ -44,7 +44,7 @@ class ViewLoader
 
         $views = array_map(
             function (ViewInterface $view) {
-                return $view->getTableData();
+                return $view->toArray();
             },
             $table->getViews()->all()
         );
