@@ -58,23 +58,57 @@ class View implements ViewInterface
     protected $attributes;
 
     /**
+     * The table start handler.
+     *
+     * @var mixed
+     */
+    protected $tableStartHandler;
+
+    /**
+     * The table querying handle.
+     *
+     * @var mixed
+     */
+    protected $tableQueryingHandler;
+
+    /**
      * Create a new View instance.
      *
      * @param       $text
      * @param       $slug
-     * @param bool  $active
      * @param null  $prefix
      * @param null  $handler
+     * @param bool  $active
+     * @param null  $tableQueryingHandler
      * @param array $attributes
      */
-    public function __construct($text, $slug, $active = false, $prefix = null, $handler = null, array $attributes = [])
+    public function __construct(
+        $text,
+        $slug,
+        $prefix = null,
+        $handler = null,
+        $active = false,
+        $tableStartHandler = null,
+        $tableQueryingHandler = null,
+        array $attributes = []
+    ) {
+        $this->text                 = $text;
+        $this->slug                 = $slug;
+        $this->active               = $active;
+        $this->prefix               = $prefix;
+        $this->handler              = $handler;
+        $this->attributes           = $attributes;
+        $this->tableStartHandler    = $tableStartHandler;
+        $this->tableQueryingHandler = $tableQueryingHandler;
+    }
+
+    /**
+     * Hook into the table start.
+     *
+     * @param TableBuilder $builder
+     */
+    public function onTableStart(TableBuilder $builder)
     {
-        $this->text       = $text;
-        $this->slug       = $slug;
-        $this->active     = $active;
-        $this->prefix     = $prefix;
-        $this->handler    = $handler;
-        $this->attributes = $attributes;
     }
 
     /**
@@ -101,6 +135,52 @@ class View implements ViewInterface
         $attributes = app('html')->attributes($this->getAttributes());
 
         return compact('active', 'text', 'url', 'attributes');
+    }
+
+    /**
+     * Set the table start handler.
+     *
+     * @param $tableStartHandler
+     * @return $this
+     */
+    public function setTableStartHandler($tableStartHandler)
+    {
+        $this->tableStartHandler = $tableStartHandler;
+
+        return $this;
+    }
+
+    /**
+     * Get the table start handler.
+     *
+     * @return mixed|null
+     */
+    public function getTableStartHandler()
+    {
+        return $this->tableStartHandler;
+    }
+
+    /**
+     * Set the table querying handler.
+     *
+     * @param $tableQueryingHandler
+     * @return $this
+     */
+    public function setTableQueryingHandler($tableQueryingHandler)
+    {
+        $this->tableQueryingHandler = $tableQueryingHandler;
+
+        return $this;
+    }
+
+    /**
+     * Get the table querying handler.
+     *
+     * @return mixed|null
+     */
+    public function getTableQueryingHandler()
+    {
+        return $this->tableQueryingHandler;
     }
 
     /**

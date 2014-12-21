@@ -33,10 +33,8 @@ class ColumnBuilder
      * @param ColumnInterpreter $interpreter
      * @param ColumnFactory     $factory
      */
-    function __construct(
-        ColumnInterpreter $interpreter,
-        ColumnFactory $factory
-    ) {
+    function __construct(ColumnInterpreter $interpreter, ColumnFactory $factory)
+    {
         $this->factory     = $factory;
         $this->interpreter = $interpreter;
     }

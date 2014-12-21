@@ -21,19 +21,19 @@ interface ActionInterface
     public function onTablePost(TableBuilder $builder);
 
     /**
-     * Set the onTablePost handler.
+     * Set the tablePostHandler handler.
      *
-     * @param  $onTablePost
+     * @param  $tablePostHandler
      * @return $this
      */
-    public function setOnTablePost($onTablePost);
+    public function setTablePostHandler($tablePostHandler);
 
     /**
-     * Get the onTablePost handler.
+     * Get the tablePostHandler handler.
      *
      * @return mixed
      */
-    public function getOnTablePost();
+    public function getTablePostHandler();
 
     /**
      * Set the active flag.

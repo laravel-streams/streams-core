@@ -36,10 +36,8 @@ class HeaderBuilder
      * @param HeaderInterpreter $interpreter
      * @param HeaderFactory     $factory
      */
-    function __construct(
-        HeaderInterpreter $interpreter,
-        HeaderFactory $factory
-    ) {
+    function __construct(HeaderInterpreter $interpreter, HeaderFactory $factory)
+    {
         $this->factory     = $factory;
         $this->interpreter = $interpreter;
     }

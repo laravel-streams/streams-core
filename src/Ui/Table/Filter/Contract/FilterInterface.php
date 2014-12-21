@@ -32,6 +32,21 @@ interface FilterInterface
     public function toArray();
 
     /**
+     * Set the table querying handler.
+     *
+     * @param $tableQueryingHandler
+     * @return $this
+     */
+    public function setTableQueryingHandler($tableQueryingHandler);
+
+    /**
+     * Get the table querying handler.
+     *
+     * @return mixed|null
+     */
+    public function getTableQueryingHandler();
+
+    /**
      * Set the placeholder.
      *
      * @param  $placeholder

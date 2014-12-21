@@ -33,10 +33,8 @@ class ButtonBuilder
      * @param ButtonInterpreter $interpreter
      * @param ButtonFactory     $factory
      */
-    function __construct(
-        ButtonInterpreter $interpreter,
-        ButtonFactory $factory
-    ) {
+    function __construct(ButtonInterpreter $interpreter, ButtonFactory $factory)
+    {
         $this->factory     = $factory;
         $this->interpreter = $interpreter;
     }

@@ -36,10 +36,8 @@ class FilterBuilder
      * @param FilterInterpreter $interpreter
      * @param FilterFactory     $factory
      */
-    function __construct(
-        FilterInterpreter $interpreter,
-        FilterFactory $factory
-    ) {
+    function __construct(FilterInterpreter $interpreter, FilterFactory $factory)
+    {
         $this->factory     = $factory;
         $this->interpreter = $interpreter;
     }

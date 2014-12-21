@@ -15,6 +15,13 @@ interface ViewInterface
 {
 
     /**
+     * Hook into the table start.
+     *
+     * @param TableBuilder $builder
+     */
+    public function onTableStart(TableBuilder $builder);
+
+    /**
      * Hook into the table query.
      *
      * @param TableBuilder $builder
@@ -29,6 +36,36 @@ interface ViewInterface
      * @return mixed
      */
     public function toArray();
+
+    /**
+     * Set the table start handler.
+     *
+     * @param $tableStartHandler
+     * @return $this
+     */
+    public function setTableStartHandler($tableStartHandler);
+
+    /**
+     * Get the table start handler.
+     *
+     * @return mixed|null
+     */
+    public function getTableStartHandler();
+
+    /**
+     * Set the table querying handler.
+     *
+     * @param $tableQueryingHandler
+     * @return $this
+     */
+    public function setTableQueryingHandler($tableQueryingHandler);
+
+    /**
+     * Get the table querying handler.
+     *
+     * @return mixed|null
+     */
+    public function getTableQueryingHandler();
 
     /**
      * Set the attributes.

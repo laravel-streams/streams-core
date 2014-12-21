@@ -36,10 +36,8 @@ class ActionBuilder
      * @param ActionInterpreter $interpreter
      * @param ActionFactory     $factory
      */
-    function __construct(
-        ActionInterpreter $interpreter,
-        ActionFactory $factory
-    ) {
+    function __construct(ActionInterpreter $interpreter, ActionFactory $factory)
+    {
         $this->factory     = $factory;
         $this->interpreter = $interpreter;
     }

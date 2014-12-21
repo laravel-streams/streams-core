@@ -23,7 +23,7 @@ class RunTablePostHookCommandHandler
         $actions = $table->getActions();
 
         if ($action = $actions->active()) {
-            $action->onTablePost($builder);
+            $action->tablePostHandler($builder);
         }
     }
 }

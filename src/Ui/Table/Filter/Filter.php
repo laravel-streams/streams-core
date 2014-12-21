@@ -51,21 +51,36 @@ class Filter implements FilterInterface
     protected $placeholder;
 
     /**
+     * The table querying handler.
+     *
+     * @var mixed
+     */
+    protected $tableQueryingHandler;
+
+    /**
      * Create a new Filter instance.
      *
      * @param      $slug
+     * @param null $prefix
      * @param bool $active
      * @param null $handler
      * @param null $placeholder
-     * @param null $prefix
+     * @param null $tableQueryingHandler
      */
-    public function __construct($slug, $active = false, $handler = null, $placeholder = null, $prefix = null)
-    {
-        $this->slug        = $slug;
-        $this->active      = $active;
-        $this->prefix      = $prefix;
-        $this->handler     = $handler;
-        $this->placeholder = $placeholder;
+    public function __construct(
+        $slug,
+        $prefix = null,
+        $active = false,
+        $handler = null,
+        $placeholder = null,
+        $tableQueryingHandler = null
+    ) {
+        $this->slug                 = $slug;
+        $this->active               = $active;
+        $this->prefix               = $prefix;
+        $this->handler              = $handler;
+        $this->placeholder          = $placeholder;
+        $this->tableQueryingHandler = $tableQueryingHandler;
     }
 
     /**
@@ -93,6 +108,29 @@ class Filter implements FilterInterface
         $input = $this->getInput();
 
         return compact('input');
+    }
+
+    /**
+     * Set the table querying handler.
+     *
+     * @param $tableQueryingHandler
+     * @return $this
+     */
+    public function setTableQueryingHandler($tableQueryingHandler)
+    {
+        $this->tableQueryingHandler = $tableQueryingHandler;
+
+        return $this;
+    }
+
+    /**
+     * Get the table querying handler.
+     *
+     * @return mixed|null
+     */
+    public function getTableQueryingHandler()
+    {
+        return $this->tableQueryingHandler;
     }
 
     /**

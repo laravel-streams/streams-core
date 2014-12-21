@@ -15,13 +15,6 @@ class Action implements ActionInterface
 {
 
     /**
-     * The onTablePost handler.
-     *
-     * @var null
-     */
-    protected $onTablePost;
-
-    /**
      * The active flag.
      *
      * @var bool
@@ -85,6 +78,13 @@ class Action implements ActionInterface
     protected $attributes;
 
     /**
+     * The table post handler.
+     *
+     * @var null
+     */
+    protected $tablePostHandler;
+
+    /**
      * Create a new Action instance.
      *
      * @param null   $slug
@@ -94,7 +94,7 @@ class Action implements ActionInterface
      * @param null   $prefix
      * @param bool   $active
      * @param string $type
-     * @param null   $onTablePost
+     * @param null   $tablePostHandler
      * @param array  $dropdown
      * @param array  $attributes
      */
@@ -106,19 +106,19 @@ class Action implements ActionInterface
         $prefix = null,
         $active = false,
         $type = 'default',
-        $onTablePost = null,
+        $tablePostHandler = null,
         array $dropdown = [],
         array $attributes = []
     ) {
-        $this->slug        = $slug;
-        $this->icon        = $icon;
-        $this->text        = $text;
-        $this->type        = $type;
-        $this->class       = $class;
-        $this->prefix      = $prefix;
-        $this->active      = $active;
-        $this->dropdown    = $dropdown;
-        $this->onTablePost = $onTablePost;
+        $this->slug             = $slug;
+        $this->icon             = $icon;
+        $this->text             = $text;
+        $this->type             = $type;
+        $this->class            = $class;
+        $this->prefix           = $prefix;
+        $this->active           = $active;
+        $this->dropdown         = $dropdown;
+        $this->tablePostHandler = $tablePostHandler;
 
         $attributes['type']  = 'submit';
         $attributes['name']  = 'action';
@@ -165,26 +165,26 @@ class Action implements ActionInterface
     }
 
     /**
-     * Set the onTablePost handler.
+     * Set the tablePostHandler handler.
      *
-     * @param  $onTablePost
+     * @param  $tablePostHandler
      * @return $this
      */
-    public function setOnTablePost($onTablePost)
+    public function setTablePostHandler($tablePostHandler)
     {
-        $this->onTablePost = $onTablePost;
+        $this->tablePostHandler = $tablePostHandler;
 
         return $this;
     }
 
     /**
-     * Get the onTablePost handler.
+     * Get the tablePostHandler handler.
      *
      * @return mixed
      */
-    public function getOnTablePost()
+    public function getTablePostHandler()
     {
-        return $this->onTablePost;
+        return $this->tablePostHandler;
     }
 
     /**
