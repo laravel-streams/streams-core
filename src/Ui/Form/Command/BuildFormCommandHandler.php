@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\Event\FormBuildingEvent;
-use Anomaly\Streams\Platform\Ui\Form\Event\FormBuiltEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\FormDoneEvent;
+use Anomaly\Streams\Platform\Ui\Form\Event\FormStartEvent;
 use Laracasts\Commander\CommanderTrait;
 
 /**
@@ -26,17 +26,20 @@ class BuildFormCommandHandler
     {
         $builder = $command->getBuilder();
 
-        app('events')->fire('streams::form.building', new FormBuildingEvent($builder));
+        $input = compact('builder');
 
-        $args = compact('builder');
+        // Fire an even to allow access to config before building.
+        app('events')->fire('streams::form.start', new FormStartEvent($builder));
 
-        $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\LoadFormInputCommand', $args);
-        $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\LoadFormEntryCommand', $args);
-        $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\LoadFormValidationCommand', $args);
-        $this->execute('Anomaly\Streams\Platform\Ui\Form\Action\Command\LoadFormActionsCommand', $args);
-        $this->execute('Anomaly\Streams\Platform\Ui\Form\Button\Command\LoadFormButtonsCommand', $args);
-        $this->execute('Anomaly\Streams\Platform\Ui\Form\Section\Command\LoadFormSectionsCommand', $args);
+        // Build action objects.
+        $this->execute('Anomaly\Streams\Platform\Ui\Form\Action\Command\BuildFormActionsCommand', $input);
 
-        app('events')->fire('streams::form.built', new FormBuiltEvent($builder));
+        // Build button objects.
+        $this->execute('Anomaly\Streams\Platform\Ui\Form\Button\Command\BuildFormButtonsCommand', $input);
+        dd($builder->getForm()->getButtons());
+        // Build section objects.
+        $this->execute('Anomaly\Streams\Platform\Ui\Form\Section\Command\BuildFormSectionsCommand', $input);
+
+        app('events')->fire('streams::form.done', new FormDoneEvent($builder));
     }
 }

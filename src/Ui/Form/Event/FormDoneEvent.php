@@ -1,16 +1,16 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Button\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Event;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class StandardizeButtonInputCommand
+ * Class FormDoneEvent
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Form\Button\Command
+ * @package Anomaly\Streams\Platform\Ui\Form\Event
  */
-class StandardizeButtonInputCommand
+class FormDoneEvent
 {
 
     /**
@@ -21,7 +21,7 @@ class StandardizeButtonInputCommand
     protected $builder;
 
     /**
-     * Create a new StandardizeButtonInputCommand instance.
+     * Create a new FormDoneEvent instance.
      *
      * @param FormBuilder $builder
      */

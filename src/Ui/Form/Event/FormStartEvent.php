@@ -1,16 +1,16 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Action\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Event;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class LoadFormActionsCommand
+ * Class FormStartEvent
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Form\Action\Command
+ * @package Anomaly\Streams\Platform\Ui\Form\Event
  */
-class LoadFormActionsCommand
+class FormStartEvent
 {
 
     /**
@@ -21,7 +21,7 @@ class LoadFormActionsCommand
     protected $builder;
 
     /**
-     * Create a new LoadFormActionsCommand instance.
+     * Create a new FormStartEvent instance.
      *
      * @param FormBuilder $builder
      */

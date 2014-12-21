@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Ui\Table\Button\ButtonFactory;
 
 /**
- * Class LoadFormButtonsCommandHandler
+ * Class BuildFormButtonsCommandHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Form\Button\Command
  */
-class LoadFormButtonsCommandHandler
+class BuildFormButtonsCommandHandler
 {
 
     /**
@@ -21,7 +21,7 @@ class LoadFormButtonsCommandHandler
     protected $factory;
 
     /**
-     * Create a new LoadFormButtonsCommandHandler instance.
+     * Create a new BuildFormButtonsCommandHandler instance.
      *
      * @param ButtonFactory $factory
      */
@@ -33,9 +33,9 @@ class LoadFormButtonsCommandHandler
     /**
      * Handle the command.
      *
-     * @param LoadFormButtonsCommand $command
+     * @param BuildFormButtonsCommand $command
      */
-    public function handle(LoadFormButtonsCommand $command)
+    public function handle(BuildFormButtonsCommand $command)
     {
         $builder = $command->getBuilder();
         $form    = $builder->getForm();

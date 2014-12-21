@@ -24,27 +24,6 @@ class FormBuilder
     protected $handler = 'Anomaly\Streams\Platform\Ui\Form\FormHandler@handle';
 
     /**
-     * The standardization command.
-     *
-     * @var string
-     */
-    protected $standardizerCommand = 'Anomaly\Streams\Platform\Ui\Form\Command\StandardizeInputCommand';
-
-    /**
-     * The build command.
-     *
-     * @var string
-     */
-    protected $buildCommand = 'Anomaly\Streams\Platform\Ui\Form\Command\BuildFormCommand';
-
-    /**
-     * The handle command.
-     *
-     * @var string
-     */
-    protected $handleCommand = 'Anomaly\Streams\Platform\Ui\Form\Command\HandleFormCommand';
-
-    /**
      * The make command.
      *
      * @var string
@@ -114,8 +93,9 @@ class FormBuilder
             $this->entry = $entry;
         }
 
-        $this->execute($this->standardizerCommand, ['builder' => $this]);
-        $this->execute($this->buildCommand, ['builder' => $this]);
+        $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\BuildFormCommand', ['builder' => $this]);
+
+        die('Done.');
 
         if (app('request')->isMethod('post')) {
             $this->execute($this->handleCommand, ['builder' => $this]);
