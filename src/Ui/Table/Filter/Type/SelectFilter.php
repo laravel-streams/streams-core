@@ -24,24 +24,33 @@ class SelectFilter extends Filter implements SelectFilterInterface
     /**
      * Create a new SelectFilter instance.
      *
-     * @param       $slug
-     * @param null  $prefix
-     * @param bool  $active
-     * @param null  $handler
-     * @param null  $placeholder
-     * @param array $options
+     * @param      $slug
+     * @param null $options
+     * @param null $prefix
+     * @param bool $active
+     * @param null $handler
+     * @param null $placeholder
+     * @param null $tableQueryingHandler
      */
     public function __construct(
         $slug,
+        $options,
         $prefix = null,
         $active = false,
         $handler = null,
         $placeholder = null,
-        $options = []
+        $tableQueryingHandler = null
     ) {
         $this->options = $options;
 
-        parent::__construct($slug, $active, $handler, $placeholder, $prefix);
+        parent::__construct(
+            $slug,
+            $prefix,
+            $active,
+            $handler,
+            $placeholder,
+            $tableQueryingHandler
+        );
     }
 
     /**

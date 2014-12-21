@@ -23,24 +23,33 @@ class InputFilter extends Filter
     /**
      * Create a new InputFilter instance.
      *
-     * @param        $slug
-     * @param null   $prefix
-     * @param bool   $active
-     * @param null   $handler
-     * @param null   $placeholder
-     * @param string $text
+     * @param      $slug
+     * @param null $text
+     * @param null $prefix
+     * @param bool $active
+     * @param null $handler
+     * @param null $placeholder
+     * @param null $tableQueryingHandler
      */
     public function __construct(
         $slug,
+        $text,
         $prefix = null,
         $active = false,
         $handler = null,
         $placeholder = null,
-        $text = 'text'
+        $tableQueryingHandler = null
     ) {
         $this->text = $text;
 
-        parent::__construct($slug, $active, $handler, $placeholder, $prefix);
+        parent::__construct(
+            $slug,
+            $prefix,
+            $active,
+            $handler,
+            $placeholder,
+            $tableQueryingHandler
+        );
     }
 
     /**

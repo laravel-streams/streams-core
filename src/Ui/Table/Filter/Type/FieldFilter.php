@@ -35,11 +35,12 @@ class FieldFilter extends Filter implements FieldFilterInterface
      * Create a new FieldFilter instance.
      *
      * @param                 $slug
-     * @param bool            $field
+     * @param null            $field
      * @param null            $prefix
      * @param bool            $active
      * @param null            $handler
      * @param null            $placeholder
+     * @param null            $tableQueryingHandler
      * @param StreamInterface $stream
      */
     public function __construct(
@@ -49,13 +50,22 @@ class FieldFilter extends Filter implements FieldFilterInterface
         $active = false,
         $handler = null,
         $placeholder = null,
+        $tableQueryingHandler = null,
         StreamInterface $stream
     ) {
         $this->field  = $field;
         $this->stream = $stream;
 
-        parent::__construct($slug, $active, $handler, $placeholder, $prefix);
+        parent::__construct(
+            $slug,
+            $prefix,
+            $active,
+            $handler,
+            $placeholder,
+            $tableQueryingHandler
+        );
     }
+
 
     /**
      * Hook into the table query.
