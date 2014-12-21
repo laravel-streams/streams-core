@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Row;
 
-use Anomaly\Streams\Platform\Ui\Table\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Table\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Table\Column\ColumnCollection;
 use Anomaly\Streams\Platform\Ui\Table\Column\Contract\ColumnInterface;
 use Anomaly\Streams\Platform\Ui\Table\Row\Contract\RowInterface;
@@ -35,7 +35,7 @@ class Row implements RowInterface
     /**
      * The buttons collection.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Button\ButtonCollection
+     * @var \Anomaly\Streams\Platform\Ui\Button\ButtonCollection
      */
     protected $buttons;
 
@@ -43,7 +43,7 @@ class Row implements RowInterface
      * Create a new Row instance.
      *
      * @param                                                            $entry
-     * @param \Anomaly\Streams\Platform\Ui\Table\Button\ButtonCollection $buttons
+     * @param \Anomaly\Streams\Platform\Ui\Button\ButtonCollection $buttons
      * @param ColumnCollection                                           $columns
      */
     public function __construct($entry, ButtonCollection $buttons, ColumnCollection $columns)

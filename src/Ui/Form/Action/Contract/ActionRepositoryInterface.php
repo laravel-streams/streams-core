@@ -8,7 +8,7 @@
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Form\Action\Contract
  */
-interface ActionRepositoryInterface extends \Anomaly\Streams\Platform\Ui\Table\Button\Contract\ButtonRepositoryInterface
+interface ActionRepositoryInterface extends \Anomaly\Streams\Platform\Ui\Button\Contract\ButtonRepositoryInterface
 {
 
 }

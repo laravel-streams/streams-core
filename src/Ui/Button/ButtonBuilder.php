@@ -1,6 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Button;
-
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+<?php namespace Anomaly\Streams\Platform\Ui\Button;
 
 /**
  * Class ButtonBuilder
@@ -8,7 +6,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Button
+ * @package Anomaly\Streams\Platform\Ui\Button
  */
 class ButtonBuilder
 {
@@ -42,20 +40,18 @@ class ButtonBuilder
     /**
      * Build the buttons and load it onto the table.
      *
-     * @param TableBuilder $builder
+     * @param array            $buttons
+     * @param ButtonCollection $collection
      */
-    public function load(TableBuilder $builder)
+    public function load(array $buttons, ButtonCollection $collection)
     {
-        $table   = $builder->getTable();
-        $buttons = $table->getButtons();
-
-        foreach ($builder->getButtons() as $key => $parameters) {
+        foreach ($buttons as $key => $parameters) {
 
             $parameters = $this->interpreter->standardize($key, $parameters);
 
             $button = $this->factory->make($parameters);
 
-            $buttons->push($button);
+            $collection->push($button);
         }
     }
 }

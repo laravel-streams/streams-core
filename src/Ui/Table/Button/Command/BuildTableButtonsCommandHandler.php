@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Button\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Button\ButtonBuilder;
+use Anomaly\Streams\Platform\Ui\Button\ButtonBuilder;
 
 /**
  * Class BuildTableButtonsCommandHandler
@@ -16,7 +16,7 @@ class BuildTableButtonsCommandHandler
     /**
      * The button builder.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Button\ButtonBuilder
+     * @var \Anomaly\Streams\Platform\Ui\Button\ButtonBuilder
      */
     protected $builder;
 
@@ -37,6 +37,9 @@ class BuildTableButtonsCommandHandler
      */
     public function handle(BuildTableButtonsCommand $command)
     {
-        $this->builder->load($command->getBuilder());
+        $builder = $command->getBuilder();
+        $table   = $builder->getTable();
+
+        $this->builder->load($builder->getButtons(), $table->getButtons());
     }
 }

@@ -1,6 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Button;
 
-use Anomaly\Streams\Platform\Ui\Table\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
 /**
  * Class Button

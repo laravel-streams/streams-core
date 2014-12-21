@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Action;
 
+use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Ui\Form\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
-use Anomaly\Streams\Platform\Ui\Table\Button\Button;
 
 /**
  * Class Action

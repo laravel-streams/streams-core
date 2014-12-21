@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Button\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Button\ButtonFactory;
+use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 
 /**
  * Class BuildFormButtonsCommandHandler
@@ -16,14 +16,14 @@ class BuildFormButtonsCommandHandler
     /**
      * The form builder.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Button\ButtonFactory
+     * @var \Anomaly\Streams\Platform\Ui\Button\ButtonFactory
      */
     protected $factory;
 
     /**
      * Create a new BuildFormButtonsCommandHandler instance.
      *
-     * @param ButtonFactory $factory
+     * @param \Anomaly\Streams\Platform\Ui\Button\ButtonFactory $factory
      */
     public function __construct(ButtonFactory $factory)
     {

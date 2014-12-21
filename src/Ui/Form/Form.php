@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Form\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Section\SectionCollection;
-use Anomaly\Streams\Platform\Ui\Table\Button\ButtonCollection;
 use Illuminate\Http\Response;
 
 /**
@@ -118,7 +118,7 @@ class Form
     /**
      * The buttons collection.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Button\ButtonCollection
+     * @var \Anomaly\Streams\Platform\Ui\Button\ButtonCollection
      */
     protected $buttons;
 

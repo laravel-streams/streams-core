@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Button;
 
 /**
  * Class ButtonFactory
@@ -16,7 +16,7 @@ class ButtonFactory
      *
      * @var string
      */
-    protected $button = 'Anomaly\Streams\Platform\Ui\Table\Button\Button';
+    protected $button = 'Anomaly\Streams\Platform\Ui\Button\Button';
 
     /**
      * The button repository.

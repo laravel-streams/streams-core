@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Button;
 
 /**
  * Class ButtonInterpreter
@@ -6,7 +6,7 @@
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Button
+ * @package Anomaly\Streams\Platform\Ui\Button
  */
 class ButtonInterpreter
 {
