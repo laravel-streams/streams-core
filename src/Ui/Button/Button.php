@@ -65,7 +65,7 @@ class Button implements ButtonInterface
      * @param array  $dropdown
      * @param array  $attributes
      */
-    function __construct(
+    public function __construct(
         $text = null,
         $icon = null,
         $class = null,

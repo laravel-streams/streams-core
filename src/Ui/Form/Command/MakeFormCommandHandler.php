@@ -44,7 +44,7 @@ class MakeFormCommandHandler
         $sections = [];
 
         foreach ($form->getSections() as $section) {
-            $sections[] = $section->viewData();
+            $sections[] = $section->toArray();
         }
 
         $form->putData('sections', $sections);
@@ -60,7 +60,7 @@ class MakeFormCommandHandler
         $actions = [];
 
         foreach ($form->getActions() as $action) {
-            $actions[] = $action->viewData();
+            $actions[] = $action->toArray();
         }
 
         $form->putData('actions', $actions);
@@ -76,7 +76,7 @@ class MakeFormCommandHandler
         $buttons = [];
 
         foreach ($form->getButtons() as $button) {
-            $buttons[] = $button->viewData();
+            $buttons[] = $button->toArray();
         }
 
         $form->putData('buttons', $buttons);

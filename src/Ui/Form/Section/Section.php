@@ -54,7 +54,7 @@ class Section implements SectionInterface
      * @param  array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function toArray()
     {
         $title = trans($this->getTitle());
 

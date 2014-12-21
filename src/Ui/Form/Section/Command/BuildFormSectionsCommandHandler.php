@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Ui\Form\Section\SectionFactory;
 
 /**
- * Class LoadFormSectionsCommandHandler
+ * Class BuildFormSectionsCommandHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Form\Section\Command
  */
-class LoadFormSectionsCommandHandler
+class BuildFormSectionsCommandHandler
 {
 
     /**
@@ -21,7 +21,7 @@ class LoadFormSectionsCommandHandler
     protected $factory;
 
     /**
-     * Create a new LoadFormSectionsCommandHandler instance.
+     * Create a new BuildFormSectionsCommandHandler instance.
      *
      * @param SectionFactory $factory
      */
@@ -33,9 +33,9 @@ class LoadFormSectionsCommandHandler
     /**
      * Handle the command.
      *
-     * @param LoadFormSectionsCommand $command
+     * @param BuildFormSectionsCommand $command
      */
-    public function handle(LoadFormSectionsCommand $command)
+    public function handle(BuildFormSectionsCommand $command)
     {
         $builder  = $command->getBuilder();
         $form     = $builder->getForm();

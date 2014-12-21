@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Action\Contract;
 
+use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -10,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Table\Action\Contract
  */
-interface ActionInterface
+interface ActionInterface extends ButtonInterface
 {
 
     /**
@@ -86,93 +87,4 @@ interface ActionInterface
      * @return array
      */
     public function toArray();
-
-    /**
-     * Set the dropdown.
-     *
-     * @param array $dropdown
-     * @return $this
-     */
-    public function setDropdown(array $dropdown);
-
-    /**
-     * Get the dropdown.
-     *
-     * @return array
-     */
-    public function getDropdown();
-
-    /**
-     * Set the attributes.
-     *
-     * @return array
-     */
-    public function setAttributes(array $attributes);
-
-    /**
-     * Get attributes.
-     *
-     * @return array
-     */
-    public function getAttributes();
-
-    /**
-     * Set the class.
-     *
-     * @param  $class
-     * @return mixed
-     */
-    public function setClass($class);
-
-    /**
-     * Get the class.
-     *
-     * @return mixed
-     */
-    public function getClass();
-
-    /**
-     * Set the icon.
-     *
-     * @param  $icon
-     * @return mixed
-     */
-    public function setIcon($icon);
-
-    /**
-     * Get the icon.
-     *
-     * @return mixed
-     */
-    public function getIcon();
-
-    /**
-     * Set the text.
-     *
-     * @param  $text
-     * @return mixed
-     */
-    public function setText($text);
-
-    /**
-     * Get the text.
-     *
-     * @return mixed
-     */
-    public function getText();
-
-    /**
-     * Set the type.
-     *
-     * @param  $type
-     * @return mixed
-     */
-    public function setType($type);
-
-    /**
-     * Get the type.
-     *
-     * @return mixed
-     */
-    public function getType();
 }

@@ -95,8 +95,6 @@ class FormBuilder
 
         $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\BuildFormCommand', ['builder' => $this]);
 
-        die('Done.');
-
         if (app('request')->isMethod('post')) {
             $this->execute($this->handleCommand, ['builder' => $this]);
         }

@@ -17,7 +17,7 @@ interface TabInterface
      * @param  array $arguments
      * @return mixed
      */
-    public function viewData(array $arguments = []);
+    public function toArray();
 
     /**
      * Set the text.

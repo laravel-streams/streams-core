@@ -163,7 +163,7 @@ class Field implements FieldInterface
      * @param  array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function toArray()
     {
         $input = $this->type->render();
 

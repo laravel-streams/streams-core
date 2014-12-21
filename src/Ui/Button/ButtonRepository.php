@@ -41,6 +41,10 @@ class ButtonRepository implements ButtonRepositoryInterface
         'success' => [
             'type' => 'success',
         ],
+        'save'    => [
+            'type' => 'success',
+            'text' => 'streams::button.save',
+        ],
         /**
          * Info type buttons.
          */

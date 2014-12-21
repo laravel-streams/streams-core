@@ -37,7 +37,7 @@ class TabbedSection implements TabbedSectionInterface
      * @param  array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function toArray()
     {
         $html = 'Tabbed Section';
 

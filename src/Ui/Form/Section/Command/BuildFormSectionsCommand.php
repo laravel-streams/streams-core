@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class LoadFormSectionsCommand
+ * Class BuildFormSectionsCommand
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Form\Section\Command
  */
-class LoadFormSectionsCommand
+class BuildFormSectionsCommand
 {
 
     /**
@@ -21,7 +21,7 @@ class LoadFormSectionsCommand
     protected $builder;
 
     /**
-     * Create a new LoadFormSectionsCommand instance.
+     * Create a new BuildFormSectionsCommand instance.
      *
      * @param FormBuilder $builder
      */

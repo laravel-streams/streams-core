@@ -54,6 +54,7 @@ class Action extends Button implements ActionInterface
      * @param bool   $active
      * @param null   $handler
      * @param string $type
+     * @param array  $dropdown
      * @param array  $attributes
      */
     public function __construct(
@@ -65,6 +66,7 @@ class Action extends Button implements ActionInterface
         $active = false,
         $handler = null,
         $type = 'default',
+        array $dropdown = [],
         array $attributes = []
     ) {
         $this->slug    = $slug;
@@ -72,7 +74,7 @@ class Action extends Button implements ActionInterface
         $this->active  = $active;
         $this->handler = $handler;
 
-        parent::__construct($type, $text, $class, $icon, $attributes);
+        parent::__construct($text, $icon, $class, $type, $dropdown, $attributes);
     }
 
     /**
@@ -91,9 +93,9 @@ class Action extends Button implements ActionInterface
      * @param  array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function toArray()
     {
-        $data = parent::viewData();
+        $data = parent::toArray();
 
         $value = $this->getSlug();
 

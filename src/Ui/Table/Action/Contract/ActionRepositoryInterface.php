@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Action\Contract;
 
+use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonRepositoryInterface;
+
 /**
  * Interface ActionRepositoryInterface
  *
@@ -8,7 +10,7 @@
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Table\Action\Contract
  */
-interface ActionRepositoryInterface
+interface ActionRepositoryInterface extends ButtonRepositoryInterface
 {
 
 }

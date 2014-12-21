@@ -36,7 +36,7 @@ class Tab implements TabInterface
      * @param  array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function toArray()
     {
         $text = $this->getText();
 

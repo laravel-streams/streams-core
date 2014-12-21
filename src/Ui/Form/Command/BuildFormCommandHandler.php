@@ -36,10 +36,11 @@ class BuildFormCommandHandler
 
         // Build button objects.
         $this->execute('Anomaly\Streams\Platform\Ui\Form\Button\Command\BuildFormButtonsCommand', $input);
-        dd($builder->getForm()->getButtons());
+
         // Build section objects.
         $this->execute('Anomaly\Streams\Platform\Ui\Form\Section\Command\BuildFormSectionsCommand', $input);
 
+        // Fire an event to allow hooking into the built table.
         app('events')->fire('streams::form.done', new FormDoneEvent($builder));
     }
 }

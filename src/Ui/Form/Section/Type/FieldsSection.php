@@ -110,14 +110,14 @@ class FieldsSection implements FieldsSectionInterface
      * @param  array $arguments
      * @return array
      */
-    public function viewData(array $arguments = [])
+    public function toArray()
     {
         $title = trans($this->title);
 
         $fields = [];
 
         foreach ($this->getFields() as $field) {
-            $fields[$field->getSlug()] = $field->viewData();
+            $fields[$field->getSlug()] = $field->toArray();
         }
 
         $html = view($this->view, compact('title', 'fields'));
