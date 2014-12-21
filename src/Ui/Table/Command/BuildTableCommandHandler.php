@@ -34,7 +34,7 @@ class BuildTableCommandHandler
         // Set the streams object on the table if applicable.
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\SetTableStreamCommand', $input);
 
-        // Build view object.
+        // Build view objects.
         $this->execute('Anomaly\Streams\Platform\Ui\Table\View\Command\BuildTableViewsCommand', $input);
         $this->execute('Anomaly\Streams\Platform\Ui\Table\View\Command\SetActiveViewCommand', $input);
 
@@ -58,7 +58,7 @@ class BuildTableCommandHandler
         // Get the table entries.
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\GetTableEntriesCommand', $input);
 
-        // Build rows finally.
+        // Build rows last.
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Row\Command\BuildTableRowsCommand', $input);
 
         // Fire an event after everything has finished building.

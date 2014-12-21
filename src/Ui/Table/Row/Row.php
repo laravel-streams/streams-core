@@ -1,11 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Row;
 
-use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Anomaly\Streams\Platform\Ui\Table\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Table\Column\ColumnCollection;
 use Anomaly\Streams\Platform\Ui\Table\Column\Contract\ColumnInterface;
 use Anomaly\Streams\Platform\Ui\Table\Row\Contract\RowInterface;
+use Illuminate\Contracts\Support\Arrayable;
 
 /**
  * Class Row
@@ -42,9 +42,9 @@ class Row implements RowInterface
     /**
      * Create a new Row instance.
      *
-     * @param                  $entry
+     * @param                                                            $entry
      * @param \Anomaly\Streams\Platform\Ui\Table\Button\ButtonCollection $buttons
-     * @param ColumnCollection $columns
+     * @param ColumnCollection                                           $columns
      */
     public function __construct($entry, ButtonCollection $buttons, ColumnCollection $columns)
     {
@@ -65,7 +65,7 @@ class Row implements RowInterface
         $buttons = [];
         $columns = [];
 
-        if ($this->entry instanceof ArrayableInterface) {
+        if ($this->entry instanceof Arrayable) {
             $entry = $this->entry->toArray();
         }
 
@@ -84,5 +84,15 @@ class Row implements RowInterface
         }
 
         return compact('buttons', 'columns', 'entry');
+    }
+
+    /**
+     * Get the entry.
+     *
+     * @return mixed
+     */
+    public function getEntry()
+    {
+        return $this->entry;
     }
 }

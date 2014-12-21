@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Collection\CacheCollection;
-use Anomaly\Streams\Platform\Contract\ArrayableInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Laracasts\Commander\CommanderTrait;
@@ -14,7 +13,7 @@ use Laracasts\Commander\CommanderTrait;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Model
  */
-class EloquentModel extends Model implements ArrayableInterface
+class EloquentModel extends Model
 {
 
     use CommanderTrait;
