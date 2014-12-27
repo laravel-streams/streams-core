@@ -1,0 +1,39 @@
+<!-- Table Foot -->
+<tfoot>
+<tr>
+    <td colspan="100%" style="padding: 10px;">
+
+        <div class="btn-group pull-left actions dropup">
+
+            {% for action in actions %}
+                <button class="btn btn-sm btn-{{ action.type }}" disabled {{ action.attributes }}>
+                    {{ action.text }}
+                </button>
+                {% if action.dropdown %}
+                    <button class="btn btn-{{ action.type }} btn-sm dropdown-toggle" data-toggle="dropdown" disabled>
+                        <span class="caret"></span>
+                    </button>
+                    {% for link in dropdown %}
+                        <ul class="dropdown-menu">
+                            <li>
+                                <button value="{{ link.slug }}" name="{{ link.name }}">
+                                    {% if icon %}<i class="fa fa-{{ icon }}"></i>{% endif %}
+                                    {{ link.text }}
+                                </button>
+                            </li>
+                        </ul>
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+
+        </div>
+
+        {% if pagination.links %}
+            <div class="btn-group pull-right">
+                {{ pagination.links }}
+            </div>
+        {% endif %}
+
+    </td>
+</tr>
+</tfoot>

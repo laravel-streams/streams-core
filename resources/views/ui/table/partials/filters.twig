@@ -1,0 +1,14 @@
+<div class="table-filters {{ filtering ? 'active' }}">
+    <form class="form-inline" method="get">
+        <input type="hidden" name="{{ options.prefix }}view" value="{{ options.activeView }}">
+
+        {% for filter in filters %}
+            <div class="form-group">
+                {{ filter.input }}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-success">Filter</button>
+        <a href="{{ url() }}" class="btn btn-link">Clear</a>
+    </form>
+</div>
