@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Tag;
+<?php namespace Anomaly\Streams\Platform\Addon\Plugin;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 

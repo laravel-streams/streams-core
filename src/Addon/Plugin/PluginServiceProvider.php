@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Tag;
+<?php namespace Anomaly\Streams\Platform\Addon\Plugin;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -23,7 +23,7 @@ class PluginServiceProvider extends ServiceProvider
         $this->registerListeners();
         $this->registerCollection();
 
-        $this->registerTags();
+        $this->registerPlugins();
     }
 
     /**
@@ -33,7 +33,7 @@ class PluginServiceProvider extends ServiceProvider
     {
         $this->app->make('events')->listen(
             'streams::plugins.registered',
-            'Anomaly\Streams\Platform\Addon\Tag\Listener\PluginsRegisteredListener'
+            'Anomaly\Streams\Platform\Addon\Plugin\Listener\PluginsRegisteredListener'
         );
     }
 
@@ -48,7 +48,7 @@ class PluginServiceProvider extends ServiceProvider
     /**
      * Register all tag addons.
      */
-    protected function registerTags()
+    protected function registerPlugins()
     {
         $this->app->make('streams.addon.manager')->register('plugin');
     }

@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Tag\Listener;
+<?php namespace Anomaly\Streams\Platform\Addon\Plugin\Listener;
 
 /**
  * Class PluginsRegisteredListener
