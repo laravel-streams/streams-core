@@ -4,7 +4,7 @@
 
         {% for filter in filters %}
             <div class="form-group">
-                {{ filter.input }}
+                {{ filter.input|raw }}
             </div>
         {% endfor %}
 
