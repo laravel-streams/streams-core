@@ -20,6 +20,6 @@ class PhpCssEmbedFilter extends \Assetic\Filter\PhpCssEmbedFilter
      */
     public function filterDump(AssetInterface $asset)
     {
-        $asset->setContent(app('view')->parse($asset->getContent()));
+        $asset->setContent(app('twig.string')->render($asset->getContent()));
     }
 }

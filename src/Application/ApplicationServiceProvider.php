@@ -111,5 +111,17 @@ class ApplicationServiceProvider extends ServiceProvider
                 $commandBus->decorate('Anomaly\Streams\Platform\Commander\CommandValidator');
             }
         );
+
+        // Bind a string loader version of twig.
+        $this->app->bind(
+            'twig.string',
+            function () {
+                $twig = clone(app('twig'));
+
+                $twig->setLoader(new \Twig_Loader_String());
+
+                return $twig;
+            }
+        );
     }
 }

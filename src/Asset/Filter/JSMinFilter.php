@@ -20,6 +20,6 @@ class JSMinFilter extends \Assetic\Filter\JSMinFilter
      */
     public function filterDump(AssetInterface $asset)
     {
-        $asset->setContent(app('view')->parse($asset->getContent()));
+        $asset->setContent(app('twig.string')->render($asset->getContent()));
     }
 }

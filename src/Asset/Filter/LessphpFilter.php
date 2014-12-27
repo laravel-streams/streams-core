@@ -20,6 +20,6 @@ class LessphpFilter extends \Assetic\Filter\LessphpFilter
      */
     public function filterDump(AssetInterface $asset)
     {
-        $asset->setContent(app('view')->parse($asset->getContent()));
+        $asset->setContent(app('twig.string')->render($asset->getContent()));
     }
 }
