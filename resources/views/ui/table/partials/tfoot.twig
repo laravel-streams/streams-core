@@ -30,7 +30,7 @@
 
         {% if pagination.links %}
             <div class="btn-group pull-right">
-                {{ pagination.links }}
+                {{ pagination.links|raw }}
             </div>
         {% endif %}
 
