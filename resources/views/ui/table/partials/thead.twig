@@ -2,18 +2,14 @@
 <thead>
 <tr>
 
-    {% if sortable %}
-        <th>
-            <i class="fa fa-reorder" style="color: #dadada"></i>
-        </th>
-    {% endif %}
+    <th>
+        <i class="fa fa-reorder" style="color: #dadada"></i>
+    </th>
 
-    {% if actions %}
-        <th>
-            <input type="checkbox" data-toggle="all"/>
-        </th>
-    {% endif %}
-
+    <th>
+        <input type="checkbox" data-toggle="all"/>
+    </th>
+    
     {% for header in headers %}
         <th>
             <a href="#">
