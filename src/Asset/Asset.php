@@ -180,7 +180,7 @@ class Asset
             return;
         }
 
-        $collection = new AssetCollection();
+        $assetic = new AssetCollection();
 
         $hint = $this->getHint($collection);
 
@@ -195,7 +195,7 @@ class Asset
                 $file = new FileAsset($file, $filters);
             }
 
-            $collection->add($file);
+            $assetic->add($file);
         }
 
         $path = $this->directory . $path;
@@ -204,7 +204,7 @@ class Asset
 
         $files->makeDirectory((new \SplFileInfo($path))->getPath(), 777, true, true);
 
-        $files->put($path, $collection->dump());
+        $files->put($path, $assetic->dump());
     }
 
     /**
@@ -399,5 +399,15 @@ class Asset
         $this->publish = $publish;
 
         return $this;
+    }
+
+    /**
+     * Catch string output.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return '';
     }
 }
