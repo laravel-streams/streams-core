@@ -32,7 +32,7 @@ class PluginServiceProvider extends ServiceProvider
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
-            'streams::application.bootin',
+            'streams::application.booting',
             'Anomaly\Streams\Platform\Addon\Plugin\Listener\ApplicationBootingListener'
         );
     }
