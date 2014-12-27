@@ -24,13 +24,6 @@ class FormBuilder
     protected $handler = 'Anomaly\Streams\Platform\Ui\Form\FormHandler@handle';
 
     /**
-     * The make command.
-     *
-     * @var string
-     */
-    protected $makeCommand = 'Anomaly\Streams\Platform\Ui\Form\Command\MakeFormCommand';
-
-    /**
      * The form model.
      *
      * @var null
@@ -96,7 +89,7 @@ class FormBuilder
         $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\BuildFormCommand', ['builder' => $this]);
 
         if (app('request')->isMethod('post')) {
-            $this->execute($this->handleCommand, ['builder' => $this]);
+            $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\HandleFormCommand', ['builder' => $this]);
         }
     }
 
@@ -110,7 +103,7 @@ class FormBuilder
         $this->build($entry);
 
         if ($this->form->getResponse() === null || $this->form->getResponse() === false) {
-            $this->execute($this->makeCommand, ['builder' => $this]);
+            $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\MakeFormCommand', ['builder' => $this]);
         }
     }
 
