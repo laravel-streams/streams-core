@@ -76,6 +76,16 @@ class Image extends ImageManager
     ];
 
     /**
+     * An alias to create a new image instance.
+     *
+     * @param string $image
+     */
+    public function make($image)
+    {
+        return $this->setImage($image);
+    }
+
+    /**
      * Publish an image to the publish directory.
      *
      * @param $path
