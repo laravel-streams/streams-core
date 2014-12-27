@@ -53,24 +53,24 @@ class Asset
      *
      * @var array
      */
-    protected $groups = [];
+    protected $collections = [];
 
     /**
-     * Add an asset or glob pattern to an asset group.
+     * Add an asset or glob pattern to an asset collection.
      *
-     * This should support the asset being the group
+     * This should support the asset being the collection
      * and the asset (for single files) internally
      * so asset.links / asset.scripts will work.
      *
-     * @param        $group
+     * @param        $collection
      * @param        $asset
      * @param  array $filters
      * @return $this
      */
-    public function add($group, $file, array $filters = [])
+    public function add($collection, $file, array $filters = [])
     {
-        if (!isset($this->groups[$group])) {
-            $this->groups[$group] = [];
+        if (!isset($this->collections[$collection])) {
+            $this->collections[$collection] = [];
         }
 
         $filters = $this->addConvenientFilters($file, $filters);
@@ -78,42 +78,42 @@ class Asset
         $file = $this->replaceNamespace($file);
 
         if (file_exists($file) || is_dir(trim($file, '*'))) {
-            $this->groups[$group][$file] = $filters;
+            $this->collections[$collection][$file] = $filters;
         }
 
         return $this;
     }
 
     /**
-     * Return the path to a compiled asset group.
+     * Return the path to a compiled asset collection.
      *
-     * @param        $group
+     * @param        $collection
      * @param  array $filters
      * @return string
      */
-    public function path($group, array $filters = [])
+    public function path($collection, array $filters = [])
     {
-        if (!isset($this->groups[$group])) {
-            $this->add($group, $group, $filters);
+        if (!isset($this->collections[$collection])) {
+            $this->add($collection, $collection, $filters);
         }
 
-        return $this->getPath($group, $filters);
+        return $this->getPath($collection, $filters);
     }
 
     /**
-     * Return an array of paths to an asset group.
+     * Return an array of paths to an asset collection.
      *
-     * This instead of combining the group contents
+     * This instead of combining the collection contents
      * just returns an array of individual processed
      * paths instead.
      *
-     * @param        $group
+     * @param        $collection
      * @param  array $additionalFilters
      * @return array
      */
-    public function paths($group, array $additionalFilters = [])
+    public function paths($collection, array $additionalFilters = [])
     {
-        if (!isset($this->groups[$group])) {
+        if (!isset($this->collections[$collection])) {
             return [];
         }
 
@@ -125,23 +125,23 @@ class Asset
 
                     return $this->path($file, $filters);
                 },
-                array_keys($this->groups[$group]),
-                array_values($this->groups[$group])
+                array_keys($this->collections[$collection]),
+                array_values($this->collections[$collection])
             )
         );
     }
 
     /**
-     * @param $group
+     * @param $collection
      * @param $filters
      * @return string
      */
-    protected function getPath($group, $filters)
+    protected function getPath($collection, $filters)
     {
-        $path = $this->getPublicPath($group, $filters);
+        $path = $this->getPublicPath($collection, $filters);
 
         if ($this->shouldPublish($path, $filters)) {
-            $this->publish($path, $group, $filters);
+            $this->publish($path, $collection, $filters);
         }
 
         return $path;
@@ -150,41 +150,41 @@ class Asset
     /**
      * Get the public path.
      *
-     * @param  $group
+     * @param  $collection
      * @param  $filters
      * @return string
      */
-    protected function getPublicPath($group, $filters)
+    protected function getPublicPath($collection, $filters)
     {
-        if (str_contains($group, public_path())) {
-            return ltrim(str_replace(public_path(), '', $group), '/');
+        if (str_contains($collection, public_path())) {
+            return ltrim(str_replace(public_path(), '', $collection), '/');
         }
 
-        $hash = md5(var_export([$this->groups[$group], $filters], true));
+        $hash = md5(var_export([$this->collections[$collection], $filters], true));
 
-        $hint = $this->getHint($group);
+        $hint = $this->getHint($collection);
 
         return 'assets/' . app('streams.application')->getReference() . '/' . $hash . '.' . $hint;
     }
 
     /**
-     * Publish the group of assets to the path.
+     * Publish the collection of assets to the path.
      *
      * @param $path
-     * @param $group
+     * @param $collection
      * @param $additionalFilters
      */
-    protected function publish($path, $group, $additionalFilters)
+    protected function publish($path, $collection, $additionalFilters)
     {
-        if (str_contains($group, public_path())) {
+        if (str_contains($collection, public_path())) {
             return;
         }
 
         $collection = new AssetCollection();
 
-        $hint = $this->getHint($group);
+        $hint = $this->getHint($collection);
 
-        foreach ($this->groups[$group] as $file => $filters) {
+        foreach ($this->collections[$collection] as $file => $filters) {
             $filters = array_filter(array_unique(array_merge($filters, $additionalFilters)));
 
             $filters = $this->transformFilters($filters, $hint);
