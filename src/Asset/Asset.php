@@ -65,7 +65,6 @@ class Asset
      * @param        $collection
      * @param        $asset
      * @param  array $filters
-     * @return $this
      */
     public function add($collection, $file, array $filters = [])
     {
@@ -80,8 +79,6 @@ class Asset
         if (file_exists($file) || is_dir(trim($file, '*'))) {
             $this->collections[$collection][$file] = $filters;
         }
-
-        return $this;
     }
 
     /**
@@ -399,15 +396,5 @@ class Asset
         $this->publish = $publish;
 
         return $this;
-    }
-
-    /**
-     * Catch string output.
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return '';
     }
 }
