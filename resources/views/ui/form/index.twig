@@ -1,12 +1,13 @@
-{{ asset.add group="streams.js" file="streams::js/form/form.js" filters="live" }}
+{{ add_asset("streams.js", "streams::js/form/form.js") }}
 
-{{ section "content" }}
+{% block content %}
 
-{{{ form.open }}}
+    {{ form_open() }}
 
-{{ include "streams::ui/form/partials/toolbar" }}
-{{ include "streams::ui/form/partials/sections" }}
-{{ include "streams::ui/form/partials/footer" }}
+    {% include "streams::ui/form/partials/toolbar" %}
+    {% include "streams::ui/form/partials/sections" %}
+    {% include "streams::ui/form/partials/footer" %}
 
-{{{ form.close }}}
-{{ stop }}
+    {{ form_close() }}
+
+{% endblock %}

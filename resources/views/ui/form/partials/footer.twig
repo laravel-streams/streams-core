@@ -1,0 +1,33 @@
+<section class="panel panel-default">
+    <div class="panel-body">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                {% for action in actions %}
+                    <button
+                            type="submit"
+                            name="{{ prefix }}action"
+                            value="{{ action.value }}"
+                            class="btn btn-{{ action.type }} btn-sm {{ action.class }}"
+                            {{ action.attributes }}
+                            >
+                        {% if action.icon %}<i class="fa fa-{{ action.icon }}"></i>{% endif %}
+                        {{ action.text }}
+                    </button>
+                {% endfor %}
+            </div>
+
+            <div class="col-lg-12 text-right">
+                {% for button in buttons %}
+                    <a class="btn btn-{{ button.type }} btn-sm" {{ button.attributes }}>
+                        {% if button.icon %}<i class="fa fa-{{ button.icon }}"></i>{% endif %}
+                        {{ button.text }}
+                    </a>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+</section>

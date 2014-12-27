@@ -1,0 +1,18 @@
+<div class="{{ class }} {{ hidden ? 'hidden' }}" data-locale="{{ locale }}">
+
+    <label class="control-label {{ required ? 'required' }}">
+        {{ label }}
+        {% if translatable %}
+            <small class="text-muted"><i class="fa fa-language"></i> {{ language }}</small>
+        {% endif %}
+    </label>
+
+    <div class="clearfix"></div>
+
+    <p class="help-block">{{ instructions }}</p>
+
+    <div class="clearfix"></div>
+
+    {{ input|raw }}
+
+</div>
