@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 
 /**
- * Class TagCollection
+ * Class PluginCollection
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Tag
+ * @package Anomaly\Streams\Platform\Addon\Plugin
  */
-class TagCollection extends AddonCollection
+class PluginCollection extends AddonCollection
 {
 
 }

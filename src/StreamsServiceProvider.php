@@ -29,6 +29,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected function registerPackages()
     {
+        $this->app->register('TwigBridge\ServiceProvider');
         $this->app->register('Barryvdh\Debugbar\ServiceProvider');
         $this->app->register('Illuminate\Html\HtmlServiceProvider');
         $this->app->register('Jenssegers\Agent\AgentServiceProvider');

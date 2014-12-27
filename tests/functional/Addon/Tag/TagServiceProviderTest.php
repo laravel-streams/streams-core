@@ -12,7 +12,7 @@ class TagServiceProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testItRegistersTagsToContainer()
     {
-        $provider = new TagServiceProvider(app());
+        $provider = new PluginServiceProvider(app());
 
         $provider->addLocation(__DIR__ . '/../../../../tests/addons');
 

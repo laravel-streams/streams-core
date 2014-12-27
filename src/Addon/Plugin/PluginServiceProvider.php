@@ -3,14 +3,14 @@
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class TagServiceProvider
+ * Class PluginServiceProvider
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Tag
+ * @package Anomaly\Streams\Platform\Addon\Plugin
  */
-class TagServiceProvider extends ServiceProvider
+class PluginServiceProvider extends ServiceProvider
 {
 
     /**
@@ -32,8 +32,8 @@ class TagServiceProvider extends ServiceProvider
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
-            'streams::tags.registered',
-            'Anomaly\Streams\Platform\Addon\Tag\Listener\TagsRegisteredListener'
+            'streams::plugins.registered',
+            'Anomaly\Streams\Platform\Addon\Tag\Listener\PluginsRegisteredListener'
         );
     }
 
@@ -42,7 +42,7 @@ class TagServiceProvider extends ServiceProvider
      */
     protected function registerCollection()
     {
-        $this->app->instance('streams.tags', new TagCollection());
+        $this->app->instance('streams.plugins', new PluginCollection());
     }
 
     /**
@@ -50,6 +50,6 @@ class TagServiceProvider extends ServiceProvider
      */
     protected function registerTags()
     {
-        $this->app->make('streams.addon.manager')->register('tag');
+        $this->app->make('streams.addon.manager')->register('plugin');
     }
 }

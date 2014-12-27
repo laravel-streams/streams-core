@@ -1,16 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
-use Anomaly\Streams\Platform\Addon\Tag\Tag;
+use Anomaly\Streams\Platform\Addon\Tag\Plugin;
 
 /**
- * Class ModuleTag
+ * Class ModulePlugin
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Module
  */
-class ModuleTag extends Tag
+class ModulePlugin extends Plugin
 {
 
     /**
@@ -21,7 +21,7 @@ class ModuleTag extends Tag
     protected $module;
 
     /**
-     * Create a new ModuleTag instance.
+     * Create a new ModulePlugin instance.
      *
      * @param Module $module
      */

@@ -1,16 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme;
 
-use Anomaly\Streams\Platform\Addon\Tag\Tag;
+use Anomaly\Streams\Platform\Addon\Tag\Plugin;
 
 /**
- * Class ThemeTag
+ * Class ThemePlugin
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Theme
  */
-class ThemeTag extends Tag
+class ThemePlugin extends Plugin
 {
 
     /**
@@ -21,7 +21,7 @@ class ThemeTag extends Tag
     protected $theme;
 
     /**
-     * Create a new ThemeTag instance.
+     * Create a new ThemePlugin instance.
      *
      * @param Theme $theme
      */
