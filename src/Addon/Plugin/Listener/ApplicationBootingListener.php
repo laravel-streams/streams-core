@@ -1,19 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Plugin\Listener;
 
 /**
- * Class PluginsRegisteredListener
+ * Class ApplicationBootingListener
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Plugin\Listener
  */
-class PluginsRegisteredListener
+class ApplicationBootingListener
 {
 
     /**
-     * After all the tags have been registered
-     * we need to register them as Twig extensions.
+     * When the application starts booting we need
+     * to register all plugins as Twig extensions.
      */
     public function handle()
     {
