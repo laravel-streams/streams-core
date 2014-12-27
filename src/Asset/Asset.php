@@ -180,7 +180,7 @@ class Asset
             return;
         }
 
-        $assetic = new AssetCollection();
+        $assets = new AssetCollection();
 
         $hint = $this->getHint($collection);
 
@@ -195,7 +195,7 @@ class Asset
                 $file = new FileAsset($file, $filters);
             }
 
-            $assetic->add($file);
+            $assets->add($file);
         }
 
         $path = $this->directory . $path;
@@ -204,7 +204,7 @@ class Asset
 
         $files->makeDirectory((new \SplFileInfo($path))->getPath(), 777, true, true);
 
-        $files->put($path, $assetic->dump());
+        $files->put($path, $assets->dump());
     }
 
     /**
