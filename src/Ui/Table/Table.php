@@ -178,7 +178,7 @@ class Table
      * @param RowCollection    $rows
      * @param ViewCollection   $views
      * @param ActionCollection $actions
-     * @param \Anomaly\Streams\Platform\Ui\Button\ButtonCollection $buttons
+     * @param ButtonCollection $buttons
      * @param ColumnCollection $columns
      * @param FilterCollection $filters
      * @param HeaderCollection $headers

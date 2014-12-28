@@ -21,7 +21,7 @@ class TableServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerBindings();
-        $this->registerListeners();
+        $this->registerSubscribers();
     }
 
     /**
@@ -46,9 +46,9 @@ class TableServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the table listener.
+     * Register the table subscribers.
      */
-    protected function registerListeners()
+    protected function registerSubscribers()
     {
         $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TableQueryingSubscriber');
         $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TablePostSubscriber');
