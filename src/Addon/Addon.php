@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Contract\PresentableInterface;
 use Laracasts\Commander\Events\EventGenerator;
 
 /**
@@ -10,7 +11,7 @@ use Laracasts\Commander\Events\EventGenerator;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon
  */
-class Addon
+class Addon implements PresentableInterface
 {
 
     use EventGenerator;
@@ -45,6 +46,16 @@ class Addon
     public function translate($key)
     {
         return "{$this->getType()}.{$this->getSlug()}::{$key}";
+    }
+
+    /**
+     * Return the addon presenter.
+     *
+     * @return AddonPresenter
+     */
+    public function toPresenter()
+    {
+        return new AddonPresenter($this);
     }
 
     /**
