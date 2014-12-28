@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Contract\PresentableInterface;
 use Laracasts\Commander\Events\EventGenerator;
+use Robbo\Presenter\PresentableInterface;
 
 /**
  * Class Addon
@@ -49,11 +49,11 @@ class Addon implements PresentableInterface
     }
 
     /**
-     * Return the addon presenter.
+     * Get the addon's presenter.
      *
      * @return AddonPresenter
      */
-    public function toPresenter()
+    public function getPresenter()
     {
         return new AddonPresenter($this);
     }

@@ -20,7 +20,7 @@ class AddonPresenter extends Presenter
      */
     public function name()
     {
-        return trans($this->resource->getName());
+        return trans($this->object->getName());
     }
 
     /**
@@ -30,6 +30,6 @@ class AddonPresenter extends Presenter
      */
     public function description()
     {
-        return trans($this->resource->getDescription());
+        return trans($this->object->getDescription());
     }
 }
