@@ -31,7 +31,7 @@ class InstallApplicationTablesCommandHandler
     /**
      * Create a new InstallApplicationTablesCommandHandler instance.
      */
-    function __construct()
+    public function __construct()
     {
         $this->db     = app('db');
         $this->schema = app('db')->connection()->getSchemaBuilder();

@@ -39,7 +39,7 @@ class InstallApplicationTablesCommand
      * @param $domain
      * @param $reference
      */
-    function __construct($name, $domain, $reference)
+    public function __construct($name, $domain, $reference)
     {
         $this->name      = $name;
         $this->domain    = $domain;

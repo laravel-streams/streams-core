@@ -24,7 +24,7 @@ class InstallModulesTableCommandHandler
     /**
      * Create a new InstallModulesTableCommandHandler instance.
      */
-    function __construct()
+    public function __construct()
     {
         $this->schema = app('db')->connection()->getSchemaBuilder();
     }

@@ -30,7 +30,7 @@ class InstallStreamsTablesCommandHandler
     /**
      * Create a new InstallStreamsTablesCommandHandler instance.
      */
-    function __construct()
+    public function __construct()
     {
         $this->db     = app('db');
         $this->schema = app('db')->connection()->getSchemaBuilder();

@@ -26,7 +26,7 @@ class InstallAllModulesCommandHandler
      *
      * @param ModuleManager $service
      */
-    function __construct(ModuleManager $service)
+    public function __construct(ModuleManager $service)
     {
         $this->manager = $service;
     }

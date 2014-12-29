@@ -25,7 +25,7 @@ class AddonRegisteredEvent
      *
      * @param Addon $addon
      */
-    function __construct(Addon $addon)
+    public function __construct(Addon $addon)
     {
         $this->addon = $addon;
     }
