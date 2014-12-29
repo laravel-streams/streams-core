@@ -14,6 +14,14 @@ class UiServiceProvider extends ServiceProvider
 {
 
     /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        app('twig')->addExtension(app('Anomaly\Streams\Platform\Ui\UiPlugin'));
+    }
+
+    /**
      * Register the service provider.
      *
      * @return void
