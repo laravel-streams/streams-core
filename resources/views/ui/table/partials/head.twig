@@ -1,0 +1,21 @@
+<!-- Table Head -->
+<thead>
+<tr>
+
+    <th>
+        <i class="fa fa-reorder text-muted"></i>
+    </th>
+
+    <th>
+        <input data-toggle="all" type="checkbox">
+    </th>
+
+    {% for column in columns %}
+        <th>
+            {{ table_column_header(table, column) }}
+        </th>
+    {% endfor %}
+
+    <th>&nbsp;</th>
+</tr>
+</thead>

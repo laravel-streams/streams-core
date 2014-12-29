@@ -1,27 +1,26 @@
-{{ add_asset("streams.js", "streams::js/table/actions.js", ["live"]) }}
+{{ add_asset("streams.js", "streams::js/table/actions.js") }}
 
 <section class="panel panel-default">
 
-    {% include "streams::ui/table/partials/heading" %}
+    {% include "streams::ui/table/partials/views" %}
 
     <div class="panel-body" style="padding: 0;">
 
         {% include "streams::ui/table/partials/filters" %}
 
-        {% if rows %}
+        {% if entries %}
             <form method="post">
+                <table class="table table-hover">
 
-                <table class="table table-hover{{ options.tableClass }}">
-
-                    {% include "streams::ui/table/partials/thead" %}
-                    {% include "streams::ui/table/partials/tbody" %}
-                    {% include "streams::ui/table/partials/tfoot" %}
+                    {% include "streams::ui/table/partials/head" %}
+                    {% include "streams::ui/table/partials/body" %}
+                    {% include "streams::ui/table/partials/foot" %}
 
                 </table>
             </form>
         {% else %}
             <div class="no-results">
-                <h3>{{ noResultsMessage }}</h3>
+                <h3>{{ trans(options.get('no_results_message', 'streams::message.error.no_results')) }}</h3>
             </div>
         {% endif %}
 
