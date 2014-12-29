@@ -17,7 +17,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <button value="{{ link.slug }}" name="{{ link.name }}">
-                                    {% if icon %}<i class="fa fa-{{ icon }}"></i>{% endif %}
+                                    {{ icon ? icon(link.icon) }}
                                     {{ trans(link.text) }}
                                 </button>
                             </li>

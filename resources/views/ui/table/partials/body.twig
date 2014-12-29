@@ -22,7 +22,7 @@
             {% for button in buttons %}
                 <div class="btn-group">
                     <a class="btn btn-{{ button.type }} btn-sm">
-                        {% if button.icon %}<i class="fa fa-{{ button.icon }}"></i>{% endif %}
+                        {{ icon ? icon(button.icon) }}
                         {{ trans(button.text) }}
                     </a>
                     {% if button.dropdown %}
@@ -33,7 +33,7 @@
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li>
                                     <a href="{{ link.url }}">
-                                        {% if link.icon %}<i class="fa fa-{{ link.icon }}"></i>{% endif %}
+                                        {{ icon ? icon(link.icon) }}
                                         {{ trans(link.text) }}
                                     </a>
                                 </li>
