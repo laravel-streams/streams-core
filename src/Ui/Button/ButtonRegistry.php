@@ -69,6 +69,11 @@ class ButtonRegistry
             'text' => 'streams::button.delete',
             'type' => 'danger',
         ],
+        'reorder' => [
+            'button' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Type\ReorderAction',
+            'text'   => 'streams::button.reorder',
+            'type'   => 'danger',
+        ],
         /**
          * Link type buttons.
          */

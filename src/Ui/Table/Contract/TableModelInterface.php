@@ -20,4 +20,12 @@ interface TableModelInterface
      * @return mixed
      */
     public function getTableEntries(Table $table);
+
+    /**
+     * Update sorting based on the table input.
+     *
+     * @param Table $table
+     * @return mixed
+     */
+    public function sortTableEntries(Table $table);
 }

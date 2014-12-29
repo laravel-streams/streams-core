@@ -1,4 +1,10 @@
-{{ add_asset("streams.js", "streams::js/table/actions.js") }}
+{% if not actions.empty() %}
+    {{ add_asset("streams.js", "streams::js/table/actions.js") }}
+{% endif %}
+
+{% if options.sortable %}
+    {{ add_asset("streams.js", "streams::js/table/sortable.js") }}
+{% endif %}
 
 <section class="panel panel-default">
 
@@ -10,7 +16,7 @@
 
         {% if not entries.empty() %}
             <form method="post">
-                <table class="table table-hover">
+                <table class="table table-hover {{ options.sortable ? 'sortable' }}">
 
                     {% include "streams::ui/table/partials/head" %}
                     {% include "streams::ui/table/partials/body" %}

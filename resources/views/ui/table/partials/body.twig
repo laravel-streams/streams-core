@@ -3,14 +3,18 @@
 {% for entry in entries %}
     <tr class="{{ row.class }}">
 
-        <td>
-            <i class="fa fa-reorder" style="cursor: move;"></i>
-        </td>
+        {% if options.sortable %}
+            <td>
+                <i class="fa fa-reorder handle" style="cursor: move;"></i>
+                <input type="hidden" name="{{ options.prefix }}order[]" value="{{ entry.id }}"/>
+            </td>
+        {% endif %}
 
-        <td>
-            <input type="hidden" name="{{ options.prefix }}order[]" value="{{ entry.id }}"/>
-            <input type="checkbox" name="{{ options.prefix }}id[]" value="{{ entry.id }}"/>
-        </td>
+        {% if not actions.emtpy() %}
+            <td>
+                <input type="checkbox" name="{{ options.prefix }}id[]" value="{{ entry.id }}"/>
+            </td>
+        {% endif %}
 
         {% for column in columns %}
             <td class="{{ column.class }}" {{ column.attributes }}>
@@ -18,7 +22,7 @@
             </td>
         {% endfor %}
 
-        <td class="text-right">
+        <td class="text-right buttons">
             {% for button in buttons %}
                 <div class="btn-group">
                     <a class="btn btn-{{ button.type }} btn-sm" {{ html_attributes(button.getAttributes()) }}>

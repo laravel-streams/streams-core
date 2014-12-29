@@ -348,11 +348,28 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
         /**
          * Order the query results.
          */
-        foreach ($options->get('order_by', ['id' => 'DESC']) as $column => $direction) {
+        foreach ($options->get('order_by', ['sort_order' => 'DESC']) as $column => $direction) {
             $query = $query->orderBy($column, $direction);
         }
 
         return $query->get();
+    }
+
+    /**
+     * Update sorting based on the table input.
+     *
+     * @param Table $table
+     * @return mixed
+     */
+    public function sortTableEntries(Table $table)
+    {
+        $options = $table->getOptions();
+
+        $sortOrder = app('request')->get($options->get('prefix') . 'order');
+
+        foreach ($sortOrder as $order => $id) {
+            $this->where('id', $id)->update(['sort_order' => $order + 1]);
+        }
     }
 
     /**

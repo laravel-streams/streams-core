@@ -31,7 +31,7 @@ class ActionReader
         if (is_numeric($slug) && is_string($action)) {
             $action = [
                 'slug'   => $action,
-                'action' => $action,
+                'button' => $action,
             ];
         }
 
@@ -43,7 +43,7 @@ class ActionReader
         if (!is_numeric($slug) && is_string($action)) {
             $action = [
                 'slug'   => $slug,
-                'action' => $action,
+                'button' => $action,
             ];
         }
 
@@ -62,11 +62,11 @@ class ActionReader
         $action['attributes'] = array_get($action, 'attributes', []);
 
         /**
-         * If the URL is present outside of the attributes
+         * If the HREF is present outside of the attributes
          * then pull it and put it in the attributes array.
          */
-        if (isset($action['url'])) {
-            $action['attributes']['url'] = array_pull($action, 'url');
+        if (isset($action['href'])) {
+            $action['attributes']['href'] = array_pull($action, 'href');
         }
 
         return $action;

@@ -19,4 +19,5 @@ return [
     'logout'        => 'Logout',
     'clear'         => 'Clear',
     'filter'        => 'Filter',
+    'reorder'       => 'Reorder',
 ];

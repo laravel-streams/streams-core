@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
@@ -18,6 +19,13 @@ use Illuminate\Support\Collection;
  */
 class Table
 {
+
+    /**
+     * The table model.
+     *
+     * @var null|TableModelInterface
+     */
+    protected $model = null;
 
     /**
      * The table stream.
@@ -149,6 +157,29 @@ class Table
     public function getResponse()
     {
         return $this->response;
+    }
+
+    /**
+     * Set the model object.
+     *
+     * @param $model
+     * @return $this
+     */
+    public function setModel($model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    /**
+     * Get the model object.
+     *
+     * @return null|TableModelInterface
+     */
+    public function getModel()
+    {
+        return $this->model;
     }
 
     /**

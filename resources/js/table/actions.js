@@ -11,10 +11,10 @@ $(document).ready(function () {
 
         if ($('input[type="checkbox"]:checked').length > 0) {
 
-            $('.actions button').removeAttr('disabled');
+            $('.actions .btn').removeAttr('disabled');
         } else {
 
-            $('.actions button').attr('disabled', 'disabled');
+            $('.actions .btn').attr('disabled', 'disabled');
         }
     });
 

@@ -2,13 +2,17 @@
 <thead>
 <tr>
 
-    <th>
-        <i class="fa fa-reorder text-muted"></i>
-    </th>
+    {% if options.sortable %}
+        <th>
+            <i class="fa fa-reorder text-muted"></i>
+        </th>
+    {% endif %}
 
-    <th>
-        <input data-toggle="all" type="checkbox">
-    </th>
+    {% if not actions.empty() %}
+        <th>
+            <input data-toggle="all" type="checkbox">
+        </th>
+    {% endif %}
 
     {% for column in columns %}
         <th>
