@@ -12,13 +12,6 @@ interface ButtonInterface
 {
 
     /**
-     * Get table data.
-     *
-     * @return array
-     */
-    public function toArray();
-
-    /**
      * Set the dropdown.
      *
      * @param array $dropdown

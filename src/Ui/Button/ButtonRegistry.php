@@ -1,20 +1,18 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Button;
 
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonRepositoryInterface;
-
 /**
- * Class ButtonRepository
+ * Class ButtonRegistry
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Button
+ * @package Anomaly\Streams\Platform\Ui\Table\Component\Button
  */
-class ButtonRepository implements ButtonRepositoryInterface
+class ButtonRegistry
 {
 
     /**
-     * Available button.
+     * Available buttons.
      *
      * @var array
      */
@@ -80,13 +78,27 @@ class ButtonRepository implements ButtonRepositoryInterface
     ];
 
     /**
-     * Find a button.
+     * Get a button.
      *
      * @param  $button
      * @return mixed
      */
-    public function find($button)
+    public function get($button)
     {
         return array_get($this->buttons, $button);
+    }
+
+    /**
+     * Register a button.
+     *
+     * @param       $button
+     * @param array $parameters
+     * @return $this
+     */
+    public function register($button, array $parameters)
+    {
+        array_set($this->buttons, $button, $parameters);
+
+        return $this;
     }
 }

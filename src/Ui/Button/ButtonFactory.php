@@ -1,4 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
+
+use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
+use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
 /**
  * Class ButtonFactory
@@ -6,7 +10,7 @@
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Button
+ * @package Anomaly\Streams\Platform\Ui\Table\Component\Button
  */
 class ButtonFactory
 {
@@ -16,37 +20,50 @@ class ButtonFactory
      *
      * @var string
      */
-    protected $button = 'Anomaly\Streams\Platform\Ui\Button\Button';
+    protected $button = 'Anomaly\Streams\Platform\Ui\Table\Component\Button\Button';
 
     /**
-     * The button repository.
+     * The button registry.
      *
-     * @var ButtonRepository
+     * @var ButtonRegistry
      */
     protected $buttons;
 
     /**
+     * The hydrator utility.
+     *
+     * @var Hydrator
+     */
+    protected $hydrator;
+
+    /**
      * Create a new ButtonFactory instance.
      *
-     * @param ButtonRepository $buttons
+     * @param ButtonRegistry $buttons
+     * @param Hydrator       $hydrator
      */
-    public function __construct(ButtonRepository $buttons)
+    public function __construct(ButtonRegistry $buttons, Hydrator $hydrator)
     {
-        $this->buttons = $buttons;
+        $this->buttons  = $buttons;
+        $this->hydrator = $hydrator;
     }
 
     /**
      * Make a button.
      *
      * @param  array $parameters
-     * @return mixed
+     * @return ButtonInterface
      */
     public function make(array $parameters)
     {
-        if ($button = $this->buttons->find(array_get($parameters, 'button'))) {
+        if ($button = $this->buttons->get(array_get($parameters, 'button'))) {
             $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
         }
 
-        return app()->make(array_get($parameters, 'button', $this->button), $parameters);
+        $button = app()->make(array_get($parameters, 'button', $this->button), $parameters);
+
+        $this->hydrator->hydrate($button, $parameters);
+
+        return $button;
     }
 }
