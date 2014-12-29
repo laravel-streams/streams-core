@@ -32,6 +32,10 @@ class SetTableStreamCommandHandler
             return;
         }
 
+        /*
+         * Resolve the model
+         * from the container.
+         */
         $model = app($model);
 
         /**
