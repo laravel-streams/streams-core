@@ -17,4 +17,6 @@ return [
     'uninstall'     => 'Uninstall',
     'login'         => 'Login',
     'logout'        => 'Logout',
+    'clear'         => 'Clear',
+    'filter'        => 'Filter',
 ];
