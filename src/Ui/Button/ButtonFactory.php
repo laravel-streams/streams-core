@@ -1,7 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
-use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
 /**
@@ -20,7 +19,7 @@ class ButtonFactory
      *
      * @var string
      */
-    protected $button = 'Anomaly\Streams\Platform\Ui\Table\Component\Button\Button';
+    protected $button = 'Anomaly\Streams\Platform\Ui\Button\Button';
 
     /**
      * The button registry.
