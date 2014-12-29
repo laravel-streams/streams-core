@@ -20,7 +20,6 @@ class UiServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerBindings();
         $this->registerUiServices();
     }
 
@@ -31,16 +30,5 @@ class UiServiceProvider extends ServiceProvider
     {
         $this->app->register('Anomaly\Streams\Platform\Ui\Form\FormServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Ui\Table\TableServiceProvider');
-    }
-
-    /**
-     * Register bindings.
-     */
-    protected function registerBindings()
-    {
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Ui\Button\Contract\ButtonRepositoryInterface',
-            'Anomaly\Streams\Platform\Ui\Button\ButtonRepository'
-        );
     }
 }
