@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableInitializedEvent;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableLoadEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableMakeEvent;
 use Laracasts\Commander\CommanderTrait;
 
 /**
@@ -110,7 +110,7 @@ class TableBuilder
 
         if ($this->table->getResponse() === null) {
 
-            app('events')->fire('streams::table.load', new TableLoadEvent($this->table));
+            app('events')->fire('streams::table.make', new TableMakeEvent($this->table));
 
             $options = $this->table->getOptions();
             $data    = $this->table->getData();

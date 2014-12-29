@@ -47,9 +47,20 @@ class TableServiceProvider extends ServiceProvider
      */
     protected function registerSubscribers()
     {
-        $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TableLoadSubscriber');
-        $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TablePostSubscriber');
-        $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TableBuildSubscriber');
-        $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TableQuerySubscriber');
+        $this->app->make('events')->subscribe(
+            'Anomaly\Streams\Platform\Ui\Table\Subscriber\TableMakeSubscriber'
+        );
+
+        $this->app->make('events')->subscribe(
+            'Anomaly\Streams\Platform\Ui\Table\Subscriber\TablePostSubscriber'
+        );
+
+        $this->app->make('events')->subscribe(
+            'Anomaly\Streams\Platform\Ui\Table\Subscriber\TableBuildSubscriber'
+        );
+
+        $this->app->make('events')->subscribe(
+            'Anomaly\Streams\Platform\Ui\Table\Subscriber\TableQuerySubscriber'
+        );
     }
 }

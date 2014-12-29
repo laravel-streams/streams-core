@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
- * Class TableLoadEvent
+ * Class TableMakeEvent
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Event
  */
-class TableLoadEvent
+class TableMakeEvent
 {
 
     /**
@@ -21,7 +21,7 @@ class TableLoadEvent
     protected $table;
 
     /**
-     * Create a new TableLoadEvent instance.
+     * Create a new TableMakeEvent instance.
      *
      * @param Table $table
      */

@@ -1,17 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Listener;
 
-use Anomaly\Streams\Platform\Ui\Table\Event\TableLoadEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableMakeEvent;
 use Laracasts\Commander\CommanderTrait;
 
 /**
- * Class TableLoadListener
+ * Class TableMakeListener
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Listener
  */
-class TableLoadListener
+class TableMakeListener
 {
 
     use CommanderTrait;
@@ -19,9 +19,9 @@ class TableLoadListener
     /**
      * Handle the event.
      *
-     * @param TableLoadEvent $event
+     * @param TableMakeEvent $event
      */
-    public function handle(TableLoadEvent $event)
+    public function handle(TableMakeEvent $event)
     {
         $table = $event->getTable();
 
