@@ -100,4 +100,19 @@ interface ButtonInterface
      * @return mixed
      */
     public function getType();
+
+    /**
+     * Set the button tag.
+     *
+     * @param string $tag
+     * @return $this
+     */
+    public function setTag($tag);
+
+    /**
+     * Get the button tag.
+     *
+     * @return string
+     */
+    public function getTag();
 }
