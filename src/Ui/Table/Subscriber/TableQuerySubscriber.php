@@ -3,14 +3,14 @@
 use Illuminate\Events\Dispatcher;
 
 /**
- * Class TablePostSubscriber
+ * Class TableQuerySubscriber
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Subscriber
  */
-class TablePostSubscriber
+class TableQuerySubscriber
 {
 
     /**
@@ -20,5 +20,9 @@ class TablePostSubscriber
      */
     public function subscribe(Dispatcher $events)
     {
+        $events->listen(
+            'streams::table.query',
+            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\TableQueryListener'
+        );
     }
 }
