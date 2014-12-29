@@ -12,7 +12,7 @@
                     <button class="btn btn-{{ action.type }} btn-sm dropdown-toggle" data-toggle="dropdown" disabled>
                         <span class="caret"></span>
                     </button>
-                    {% for link in dropdown %}
+                    {% for link in action.dropdown %}
                         <ul class="dropdown-menu">
                             <li>
                                 <button value="{{ link.slug }}" name="{{ link.name }}">

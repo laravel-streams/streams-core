@@ -304,7 +304,7 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
          * Eager load any relations to
          * save resources and queries.
          */
-        $query = $query->with($options->get('eager', []));
+        $query = $query->with($options->get('eager'));
 
         /**
          * Raise and dispatch an event here to allow
@@ -327,7 +327,7 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
          * not exist then start walking backwards until
          * we find a page that is has something to show us.
          */
-        $limit  = $options->get('limit', 15);
+        $limit  = $options->get('limit');
         $page   = app('request')->get('page', 1);
         $offset = $limit * ($page - 1);
 
@@ -348,7 +348,7 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
         /**
          * Order the query results.
          */
-        foreach ($options->get('order_by', ['sort_order' => 'DESC']) as $column => $direction) {
+        foreach ($options->get('order_by') as $column => $direction) {
             $query = $query->orderBy($column, $direction);
         }
 

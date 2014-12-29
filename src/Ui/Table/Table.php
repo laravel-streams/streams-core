@@ -134,6 +134,25 @@ class Table
         $this->entries = $entries;
         $this->filters = $filters;
         $this->options = $options;
+
+        /**
+         * Set some default options.
+         */
+        $this->setDefaultOptions();
+    }
+
+    /**
+     * Set default options.
+     */
+    protected function setDefaultOptions()
+    {
+        $this->options->put('limit', 15);
+        $this->options->put('eager', []);
+        $this->options->put('sortable', false);
+        $this->options->put('prefix', 'default_');
+        $this->options->put('view', 'streams::ui/table/index');
+        $this->options->put('wrapper', 'streams::wrappers/blank');
+        $this->options->put('order_by', ['sort_order' => 'DESC']);
     }
 
     /**
