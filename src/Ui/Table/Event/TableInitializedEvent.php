@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class TableStartEvent
+ * Class TableInitializedEvent
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Event
  */
-class TableStartEvent
+class TableInitializedEvent
 {
 
     /**
@@ -21,7 +21,7 @@ class TableStartEvent
     protected $builder;
 
     /**
-     * Create a new TableBuildEvent instance.
+     * Create a new TableInitializedEvent instance.
      *
      * @param TableBuilder $builder
      */
@@ -31,7 +31,7 @@ class TableStartEvent
     }
 
     /**
-     * Get table the builder.
+     * Get the table builder.
      *
      * @return TableBuilder
      */

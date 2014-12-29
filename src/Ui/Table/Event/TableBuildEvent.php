@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class TablePostEvent
+ * Class TableBuildEvent
  *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Event
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Event
  */
-class TablePostEvent
+class TableBuildEvent
 {
 
     /**
@@ -21,7 +21,7 @@ class TablePostEvent
     protected $builder;
 
     /**
-     * Create a new TablePostEvent instance.
+     * Create a new TableBuildEvent instance.
      *
      * @param TableBuilder $builder
      */
