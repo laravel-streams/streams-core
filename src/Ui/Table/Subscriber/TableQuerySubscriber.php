@@ -24,5 +24,10 @@ class TableQuerySubscriber
             'streams::table.query',
             'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\TableQueryListener'
         );
+
+        $events->listen(
+            'streams::table.query',
+            'Anomaly\Streams\Platform\Ui\Table\Component\View\Listener\TableQueryListener'
+        );
     }
 }
