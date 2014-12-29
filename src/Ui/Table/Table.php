@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Illuminate\Http\Response;
@@ -48,7 +49,7 @@ class Table
     /**
      * The table views.
      *
-     * @var View\ViewCollection
+     * @var Component\View\ViewCollection
      */
     protected $views;
 
@@ -76,7 +77,7 @@ class Table
     /**
      * The table filters.
      *
-     * @var Filter\FilterCollection
+     * @var Component\Filter\FilterCollection
      */
     protected $filters;
 
@@ -88,6 +89,13 @@ class Table
     protected $options;
 
     /**
+     * The table actions.
+     *
+     * @var Component\Action\ActionCollection
+     */
+    protected $actions;
+
+    /**
      * Create a new Table instance.
      *
      * @param Collection       $data
@@ -96,6 +104,7 @@ class Table
      * @param Collection       $entries
      * @param Collection       $options
      * @param ViewCollection   $views
+     * @param ActionCollection $actions
      * @param FilterCollection $filters
      */
     public function __construct(
@@ -105,10 +114,12 @@ class Table
         Collection $entries,
         Collection $options,
         ViewCollection $views,
+        ActionCollection $actions,
         FilterCollection $filters
     ) {
         $this->data    = $data;
         $this->views   = $views;
+        $this->actions = $actions;
         $this->buttons = $buttons;
         $this->columns = $columns;
         $this->entries = $entries;
@@ -183,6 +194,29 @@ class Table
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Set the actions.
+     *
+     * @param ActionCollection $actions
+     * @return $this
+     */
+    public function setActions(ActionCollection $actions)
+    {
+        $this->actions = $actions;
+
+        return $this;
+    }
+
+    /**
+     * Get the actions.
+     *
+     * @return ActionCollection
+     */
+    public function getActions()
+    {
+        return $this->actions;
     }
 
     /**
