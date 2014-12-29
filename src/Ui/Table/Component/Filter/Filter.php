@@ -71,9 +71,15 @@ class Filter implements FilterInterface
      * Default handle for the TableQueryEvent.
      *
      * @param TableQueryEvent $event
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function handleTableQueryEvent(TableQueryEvent $event)
     {
+        $query = $event->getQuery();
+
+        $query = $query->where($this->getSlug(), 'LIKE', "%{$this->getValue()}%");
+
+        return $query;
     }
 
     /**

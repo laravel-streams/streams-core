@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract;
 
+use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
+
 /**
  * Interface FilterInterface
  *
@@ -10,6 +12,28 @@
  */
 interface FilterInterface
 {
+
+    /**
+     * Handle the TableQueryEvent.
+     *
+     * @param TableQueryEvent $event
+     */
+    public function onTableQuery(TableQueryEvent $event);
+
+    /**
+     * Set the TableQueryEvent handler.
+     *
+     * @param $tableQueryHandler
+     * @return $this
+     */
+    public function setTableQueryHandler($tableQueryHandler);
+
+    /**
+     * Get the TableQueryEvent handler.
+     *
+     * @return mixed
+     */
+    public function getTableQueryHandler();
 
     /**
      * Get the filter input.

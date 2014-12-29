@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
 
 /**
  * Class FieldFilter
@@ -28,6 +29,23 @@ class FieldFilter extends Filter implements FieldFilterInterface
      * @var \Anomaly\Streams\Platform\Stream\Contract\StreamInterface
      */
     protected $stream;
+
+    /**
+     * Default handle for the TableQueryEvent.
+     *
+     * @param TableQueryEvent $event
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function handleTableQueryEvent(TableQueryEvent $event)
+    {
+        $query = $event->getQuery();
+
+        $type = $this->stream->getFieldType($this->field);
+
+        $query = $type->filter($query, $this->getValue());
+
+        return $query;
+    }
 
     /**
      * Get the input HTML.
