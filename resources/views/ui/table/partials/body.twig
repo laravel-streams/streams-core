@@ -21,7 +21,7 @@
         <td class="text-right">
             {% for button in buttons %}
                 <div class="btn-group">
-                    <a class="btn btn-{{ button.type }} btn-sm">
+                    <a class="btn btn-{{ button.type }} btn-sm" {{ html_attributes(button.getAttributes()) }}>
                         {{ icon ? icon(button.icon) }}
                         {{ trans(button.text) }}
                     </a>
