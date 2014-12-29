@@ -8,7 +8,7 @@
 
         {% include "streams::ui/table/partials/filters" %}
 
-        {% if entries %}
+        {% if not entries.empty() %}
             <form method="post">
                 <table class="table table-hover">
 
