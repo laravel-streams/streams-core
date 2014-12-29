@@ -14,6 +14,13 @@ class Button implements ButtonInterface
 {
 
     /**
+     * The button tag.
+     *
+     * @var string
+     */
+    protected $tag = 'anchor';
+
+    /**
      * The button text.
      *
      * @var null|string
@@ -191,5 +198,28 @@ class Button implements ButtonInterface
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set the button tag.
+     *
+     * @param string $tag
+     * @return $this
+     */
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Get the button tag.
+     *
+     * @return string
+     */
+    public function getTag()
+    {
+        return $this->tag;
     }
 }
