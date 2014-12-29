@@ -319,7 +319,8 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
          * on the table so it can be used later.
          */
         $total = $query->count();
-        //$table->setTotal($total);
+
+        $options->put('total_results', $total);
 
         /**
          * Assure that our page exists. If the page does
