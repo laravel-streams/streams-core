@@ -1,23 +1,21 @@
 <div class="panel-heading">
-
     <h3 class="panel-title">
 
         {% if views %}
             <ul class="table-views">
                 {% for view in views %}
-                    <li class="{{ view.class }} {{ view.active ? 'active' }}">
-                        <a href="{{ view.url }}">{{ view.text }}</a>
+                    <li class="{{ view.class }} {{ view.isActive() ? 'active' }}">
+                        <a href="{{ view.getUrl() }}">{{ trans(view.getText()) }}</a>
                     </li>
                 {% endfor %}
             </ul>
         {% endif %}
 
         {% if filters %}
-            <a href="#" class="pull-right table-filter-toggle {{ filtering ? 'active' }}" data-toggle="filters">
-                <i class="fa fa-filter"></i> Filter
+            <a href="#" class="pull-right table-filter-toggle {{ not filters.active().isEmpty() ? 'active' }}" data-toggle="filters">
+                <i class="fa fa-filter"></i> {{ trans('streams::misc.filter') }}
             </a>
         {% endif %}
 
     </h3>
-
 </div>

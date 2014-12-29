@@ -1,6 +1,6 @@
-<div class="table-filters {{ filtering ? 'active' }}">
+<div class="table-filters {{ not filters.active().isEmpty() ? 'active' }}">
     <form class="form-inline" method="get">
-        <input type="hidden" name="{{ options.prefix }}view" value="{{ options.activeView }}">
+        <input type="hidden" name="{{ options.prefix }}view" value="{{ views.active().getSlug() }}">
 
         {% for filter in filters %}
             <div class="form-group">
@@ -8,7 +8,7 @@
             </div>
         {% endfor %}
 
-        <button type="submit" class="btn btn-success">Filter</button>
-        <a href="{{ url() }}" class="btn btn-link">Clear</a>
+        <button type="submit" class="btn btn-success">{{ trans('streams::button.filter') }}</button>
+        <a href="{{ url_current() }}" class="btn btn-link">{{ trans('streams::button.clear') }}</a>
     </form>
 </div>
