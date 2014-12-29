@@ -43,7 +43,7 @@ class Evaluator
          * format then send it through Lexicon.
          */
         if (is_string($target) && $this->isParsable($target)) {
-            $target = view()->parse($target, $arguments)->render();
+            $target = app('twig.string')->render($target, $arguments);
         }
 
         /**
@@ -76,6 +76,6 @@ class Evaluator
      */
     protected function isParsable($target)
     {
-        return (str_contains($target, ['{{', '}}']));
+        return (str_contains($target, ['{{', '}}', '{%', '%}']));
     }
 }
