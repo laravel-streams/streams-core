@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterHandlerInterface;
+
 /**
  * Class RunTableQueryHooksCommandHandler
  *
@@ -24,7 +26,9 @@ class RunTableQueryHooksCommandHandler
         $filters = $table->getFilters();
 
         foreach ($filters->active() as $filter) {
-            $filter->onTableQuery($command->getEvent());
+            if ($filter instanceof FilterHandlerInterface) {
+                $filter->onTableQuery($command->getEvent());
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
@@ -56,7 +57,7 @@ class Table
     /**
      * The table buttons.
      *
-     * @var \Illuminate\Support\Collection
+     * @var ButtonCollection
      */
     protected $buttons;
 
@@ -99,21 +100,21 @@ class Table
      * Create a new Table instance.
      *
      * @param Collection       $data
-     * @param Collection       $buttons
      * @param Collection       $columns
      * @param Collection       $entries
      * @param Collection       $options
      * @param ViewCollection   $views
+     * @param ButtonCollection $buttons
      * @param ActionCollection $actions
      * @param FilterCollection $filters
      */
     public function __construct(
         Collection $data,
-        Collection $buttons,
         Collection $columns,
         Collection $entries,
         Collection $options,
         ViewCollection $views,
+        ButtonCollection $buttons,
         ActionCollection $actions,
         FilterCollection $filters
     ) {
@@ -222,10 +223,10 @@ class Table
     /**
      * Set the table buttons.
      *
-     * @param Collection $buttons
+     * @param ButtonCollection $buttons
      * @return $this
      */
-    public function setButtons(Collection $buttons)
+    public function setButtons(ButtonCollection $buttons)
     {
         $this->buttons = $buttons;
 
@@ -235,7 +236,7 @@ class Table
     /**
      * Get the table buttons.
      *
-     * @return Collection
+     * @return ButtonCollection
      */
     public function getButtons()
     {

@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Command;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewHandlerInterface;
+
 /**
  * Class RunTableQueryHookCommandHandler
  *
@@ -24,7 +26,9 @@ class RunTableQueryHookCommandHandler
         $views = $table->getViews();
 
         if ($view = $views->active()) {
-            $view->onTableQuery($command->getEvent());
+            if ($view instanceof ViewHandlerInterface) {
+                $view->onTableQuery($command->getEvent());
+            }
         }
     }
 }

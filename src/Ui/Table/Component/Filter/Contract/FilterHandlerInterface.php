@@ -1,16 +1,16 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Contract;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract;
 
 use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
 
 /**
- * Interface ViewHandlerInterface
+ * Interface FilterHandlerInterface
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\View\Contract
+ * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract
  */
-interface ViewHandlerInterface
+interface FilterHandlerInterface
 {
 
     /**

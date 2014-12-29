@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Command;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
+
 /**
  * Class RunTablePostHookCommandHandler
  *
@@ -24,7 +26,9 @@ class RunTablePostHookCommandHandler
         $actions = $table->getActions();
 
         if ($action = $actions->active()) {
-            $action->onTablePost($command->getEvent());
+            if ($action instanceof ActionHandlerInterface) {
+                $action->onTablePost($command->getEvent());
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
 
@@ -11,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\View
  */
-class View implements ViewInterface
+class View implements ViewInterface, ViewHandlerInterface
 {
 
     /**
