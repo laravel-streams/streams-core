@@ -12,8 +12,8 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryingEvent;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 use Dimsav\Translatable\Translatable;
 
 /**
@@ -281,12 +281,15 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
     }
 
     /**
-     * @param TableBuilder $builder
+     * Get table entries.
+     *
+     * @param Table $table
      * @return mixed
      */
-    public function getTableEntries(TableBuilder $builder)
+    public function getTableEntries(Table $table)
     {
-        $table = $builder->getTable();
+        // Get the options off the table.
+        $options = $table->getOptions();
 
         // Start a new query.
         $query = $this->newQuery();
@@ -301,28 +304,29 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
          * Eager load any relations to
          * save resources and queries.
          */
-        $query = $query->with($table->getEager());
+        $query = $query->with($options->get('eager', []));
 
         /**
          * Raise and dispatch an event here to allow
          * other things (including filters / views)
          * to modify the query before proceeding.
          */
-        app('events')->fire('streams::table.querying', new TableQueryingEvent($builder, $query));
+        app('events')->fire('streams::table.query', new TableQueryEvent($table, $query));
 
         /**
          * Before we actually adjust the baseline query
          * set the total amount of entries possible back
          * on the table so it can be used later.
          */
-        $table->setTotal($total = $query->count());
+        $total = $query->count();
+        //$table->setTotal($total);
 
         /**
          * Assure that our page exists. If the page does
          * not exist then start walking backwards until
          * we find a page that is has something to show us.
          */
-        $limit  = $table->getLimit();
+        $limit  = $options->get('limit', 15);
         $page   = app('request')->get('page', 1);
         $offset = $limit * ($page - 1);
 
@@ -336,7 +340,6 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
          * Limit the results to the limit and offset
          * based on the page if any.
          */
-        $limit  = $table->getLimit();
         $offset = $limit * (app('request')->get('page', 1) - 1);
 
         $query = $query->take($limit)->offset($offset);
@@ -344,7 +347,7 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
         /**
          * Order the query results.
          */
-        foreach ($table->getOrderBy() as $column => $direction) {
+        foreach ($options->get('order_by', ['id' => 'DESC']) as $column => $direction) {
             $query = $query->orderBy($column, $direction);
         }
 
