@@ -6,6 +6,7 @@ return [
     'empty'             => 'Empty',
     'filter'            => 'Filter',
     'latest'            => 'Latest',
+    'logout'            => 'Logout',
     'newest'            => 'Newest',
     'untitled'          => 'Untitled',
     'recently_created'  => 'Recently Created',
