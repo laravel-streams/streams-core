@@ -6,8 +6,8 @@
         <div class="btn-group pull-left actions dropup">
 
             {% for action in actions %}
-                <button class="btn btn-sm btn-{{ action.type }}" disabled {{ action.attributes }}>
-                    {{ action.text }}
+                <button class="btn btn-sm btn-{{ action.type }}" disabled>
+                    {{ trans(action.text) }}
                 </button>
                 {% if action.dropdown %}
                     <button class="btn btn-{{ action.type }} btn-sm dropdown-toggle" data-toggle="dropdown" disabled>
@@ -18,7 +18,7 @@
                             <li>
                                 <button value="{{ link.slug }}" name="{{ link.name }}">
                                     {% if icon %}<i class="fa fa-{{ icon }}"></i>{% endif %}
-                                    {{ link.text }}
+                                    {{ trans(link.text) }}
                                 </button>
                             </li>
                         </ul>
