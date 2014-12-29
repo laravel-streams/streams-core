@@ -34,5 +34,15 @@ class TableLoadSubscriber
             'streams::table.load',
             'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\TableLoadListener'
         );
+
+        $events->listen(
+            'streams::table.load',
+            'Anomaly\Streams\Platform\Ui\Table\Component\Column\Listener\TableLoadListener'
+        );
+
+        $events->listen(
+            'streams::table.load',
+            'Anomaly\Streams\Platform\Ui\Table\Component\Button\Listener\TableLoadListener'
+        );
     }
 }

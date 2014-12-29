@@ -34,5 +34,15 @@ class TableBuildSubscriber
             'streams::table.build',
             'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\TableBuildListener'
         );
+
+        $events->listen(
+            'streams::table.build',
+            'Anomaly\Streams\Platform\Ui\Table\Component\Column\Listener\TableBuildListener'
+        );
+
+        $events->listen(
+            'streams::table.build',
+            'Anomaly\Streams\Platform\Ui\Table\Component\Button\Listener\TableBuildListener'
+        );
     }
 }

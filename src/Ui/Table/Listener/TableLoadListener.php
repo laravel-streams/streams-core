@@ -25,7 +25,16 @@ class TableLoadListener
     {
         $table = $event->getTable();
 
+        // Load the table to the table's data.
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\LoadTableCommand', compact('table'));
+
         // Load the options to the table's data.
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\LoadTableOptionsCommand', compact('table'));
+
+        // Load the entries to the table's data.
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\LoadTableEntriesCommand', compact('table'));
+
+        // Load the pagination to the table's data.
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\LoadTablePaginationCommand', compact('table'));
     }
 }

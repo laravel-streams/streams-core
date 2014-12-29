@@ -37,6 +37,9 @@ class TablePlugin extends Plugin
      */
     public function getFunctions()
     {
-        return [];
+        return [
+            new \Twig_SimpleFunction('table_column_header', [$this->functions, 'columnHeader']),
+            new \Twig_SimpleFunction('table_column_value', [$this->functions, 'columnValue']),
+        ];
     }
 }

@@ -55,7 +55,6 @@ class ViewBuilder
         foreach ($builder->getViews() as $slug => $view) {
 
             $view = $this->reader->standardize($slug, $view);
-
             $view = $this->factory->make($view);
 
             $views->put($view->getSlug(), $view);

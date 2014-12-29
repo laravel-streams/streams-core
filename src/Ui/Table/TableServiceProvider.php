@@ -14,6 +14,14 @@ class TableServiceProvider extends ServiceProvider
 {
 
     /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        app('twig')->addExtension(app('Anomaly\Streams\Platform\Ui\Table\TablePlugin'));
+    }
+
+    /**
      * Register the service provider.
      *
      * @return void
@@ -31,6 +39,7 @@ class TableServiceProvider extends ServiceProvider
     {
         $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\View\ViewServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnServiceProvider');
     }
 
     /**

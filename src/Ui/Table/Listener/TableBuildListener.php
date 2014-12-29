@@ -27,5 +27,8 @@ class TableBuildListener
 
         // Set the table's stream object based on the builder's model.
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\SetTableStreamCommand', compact('builder'));
+
+        // Get entries for the table.
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\GetTableEntriesCommand', compact('builder'));
     }
 }
