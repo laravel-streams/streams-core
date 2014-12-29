@@ -1,13 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Table\Action\ActionCollection;
-use Anomaly\Streams\Platform\Ui\Table\Column\ColumnCollection;
-use Anomaly\Streams\Platform\Ui\Table\Filter\FilterCollection;
-use Anomaly\Streams\Platform\Ui\Table\Header\HeaderCollection;
-use Anomaly\Streams\Platform\Ui\Table\Row\RowCollection;
-use Anomaly\Streams\Platform\Ui\Table\View\ViewCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
@@ -23,241 +18,134 @@ class Table
 {
 
     /**
-     * The table prefix.
+     * The table stream.
      *
-     * @var string
-     */
-    protected $prefix = 'table_';
-
-    /**
-     * The sortable flag.
-     *
-     * @var bool
-     */
-    protected $sortable = false;
-
-    /**
-     * The array of fields to eager load.
-     *
-     * @var array
-     */
-    protected $eager = [];
-
-    /**
-     * The limit config.
-     *
-     * @var null
-     */
-    protected $limit = null;
-
-    /**
-     * The ordering config.
-     *
-     * @var array
-     */
-    protected $orderBy = ['id' => 'asc'];
-
-    /**
-     * The message to display when no
-     * results are returned.
-     *
-     * @var string
-     */
-    protected $noResultsMessage = 'message.error.no_results';
-
-    /**
-     * The table view.
-     *
-     * @var string
-     */
-    protected $view = 'streams::ui/table/index';
-
-    /**
-     * The table's wrapper view.
-     *
-     * @var string
-     */
-    protected $wrapper = 'streams::wrappers/blank';
-
-    /**
-     * The stream object.
-     *
-     * @var null
+     * @var null|StreamInterface
      */
     protected $stream = null;
 
     /**
-     * The table's content.
+     * The table content.
      *
-     * @var null
+     * @var null|string
      */
     protected $content = null;
 
     /**
-     * The table's response.
+     * The table response.
      *
-     * @var null
+     * @var null|Response
      */
     protected $response = null;
 
     /**
-     * The total entries returned by the table.
-     *
-     * @var int
-     */
-    protected $total = 0;
-
-    /**
-     * The table's view data.
+     * The table data.
      *
      * @var Collection
      */
     protected $data;
 
     /**
-     * The row collection.
-     *
-     * @var Row\RowCollection
-     */
-    protected $rows;
-
-    /**
-     * The view collection.
+     * The table views.
      *
      * @var View\ViewCollection
      */
     protected $views;
 
     /**
-     * The filter collection.
+     * The table buttons.
      *
-     * @var Filter\FilterCollection
+     * @var \Illuminate\Support\Collection
      */
-    protected $filters;
+    protected $buttons;
 
     /**
-     * The entry collection.
+     * The table columns.
+     *
+     * @var \Illuminate\Support\Collection
+     */
+    protected $columns;
+
+    /**
+     * The table entries.
      *
      * @var \Illuminate\Support\Collection
      */
     protected $entries;
 
     /**
-     * The column collection.
+     * The table filters.
      *
-     * @var Column\ColumnCollection
+     * @var Filter\FilterCollection
      */
-    protected $columns;
+    protected $filters;
 
     /**
-     * The button collection.
+     * The table options.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Button\ButtonCollection
+     * @var \Illuminate\Support\Collection
      */
-    protected $buttons;
-
-    /**
-     * The actions collection.
-     *
-     * @var Action\ActionCollection
-     */
-    protected $actions;
-
-    /**
-     * The header collection.
-     *
-     * @var Header\HeaderCollection
-     */
-    protected $headers;
+    protected $options;
 
     /**
      * Create a new Table instance.
      *
      * @param Collection       $data
+     * @param Collection       $buttons
+     * @param Collection       $columns
      * @param Collection       $entries
-     * @param RowCollection    $rows
+     * @param Collection       $options
      * @param ViewCollection   $views
-     * @param ActionCollection $actions
-     * @param ButtonCollection $buttons
-     * @param ColumnCollection $columns
      * @param FilterCollection $filters
-     * @param HeaderCollection $headers
      */
     public function __construct(
         Collection $data,
+        Collection $buttons,
+        Collection $columns,
         Collection $entries,
-        RowCollection $rows,
+        Collection $options,
         ViewCollection $views,
-        ActionCollection $actions,
-        ButtonCollection $buttons,
-        ColumnCollection $columns,
-        FilterCollection $filters,
-        HeaderCollection $headers
+        FilterCollection $filters
     ) {
         $this->data    = $data;
-        $this->rows    = $rows;
         $this->views   = $views;
-        $this->entries = $entries;
-        $this->actions = $actions;
         $this->buttons = $buttons;
         $this->columns = $columns;
+        $this->entries = $entries;
         $this->filters = $filters;
-        $this->headers = $headers;
+        $this->options = $options;
     }
 
     /**
-     * Set the prefix.
+     * Set the table response.
      *
-     * @param  $prefix
+     * @param null|Response $response
      * @return $this
      */
-    public function setPrefix($prefix)
+    public function setResponse(Response $response = null)
     {
-        $this->prefix = $prefix;
+        $this->response = $response;
 
         return $this;
     }
 
     /**
-     * Get the prefix.
+     * Get the table response.
      *
-     * @return string
+     * @return null|Response
      */
-    public function getPrefix()
+    public function getResponse()
     {
-        return $this->prefix;
+        return $this->response;
     }
 
     /**
-     * Set the view.
+     * Set the table stream.
      *
-     * @param  $view
+     * @param StreamInterface $stream
      * @return $this
      */
-    public function setView($view)
-    {
-        $this->view = $view;
-
-        return $this;
-    }
-
-    /**
-     * Get the view.
-     *
-     * @return string
-     */
-    public function getView()
-    {
-        return $this->view;
-    }
-
-    /**
-     * Set the stream object.
-     *
-     * @param  $stream
-     * @return $this
-     */
-    public function setStream($stream)
+    public function setStream(StreamInterface $stream)
     {
         $this->stream = $stream;
 
@@ -265,9 +153,9 @@ class Table
     }
 
     /**
-     * Get the stream object.
+     * Get the table stream.
      *
-     * @return StreamInterface|null
+     * @return null|StreamInterface
      */
     public function getStream()
     {
@@ -275,9 +163,9 @@ class Table
     }
 
     /**
-     * Set the content.
+     * Set the table content.
      *
-     * @param  $content
+     * @param string $content
      * @return $this
      */
     public function setContent($content)
@@ -288,9 +176,9 @@ class Table
     }
 
     /**
-     * Get the content.
+     * Get the table content.
      *
-     * @return string|null
+     * @return null|string
      */
     public function getContent()
     {
@@ -298,207 +186,22 @@ class Table
     }
 
     /**
-     * Set the response.
+     * Set the table buttons.
      *
-     * @param  $response
+     * @param Collection $buttons
      * @return $this
      */
-    public function setResponse($response)
+    public function setButtons(Collection $buttons)
     {
-        $this->response = $response;
+        $this->buttons = $buttons;
 
         return $this;
     }
 
     /**
-     * Get the response.
+     * Get the table buttons.
      *
-     * @return Response|null
-     */
-    public function getResponse()
-    {
-        return $this->response;
-    }
-
-    /**
-     * Set the total.
-     *
-     * @param  $total
-     * @return $this
-     */
-    public function setTotal($total)
-    {
-        $this->total = $total;
-
-        return $this;
-    }
-
-    /**
-     * Get the total.
-     *
-     * @return int
-     */
-    public function getTotal()
-    {
-        return $this->total;
-    }
-
-    /**
-     * Set the wrapper.
-     *
-     * @param  $wrapper
-     * @return $this
-     */
-    public function setWrapper($wrapper)
-    {
-        $this->wrapper = $wrapper;
-
-        return $this;
-    }
-
-    /**
-     * Get the wrapper.
-     *
-     * @return string
-     */
-    public function getWrapper()
-    {
-        return $this->wrapper;
-    }
-
-    /**
-     * Set the sortable.
-     *
-     * @param  $sortable
-     * @return $this
-     */
-    public function setSortable($sortable)
-    {
-        $this->sortable = $sortable;
-
-        return $this;
-    }
-
-    /**
-     * Return the sortable flag.
-     *
-     * @return bool
-     */
-    public function isSortable()
-    {
-        return $this->sortable;
-    }
-
-    /**
-     * Set the eager loaded fields.
-     *
-     * @param  array $eager
-     * @return $this
-     */
-    public function setEager(array $eager)
-    {
-        $this->eager = $eager;
-
-        return $this;
-    }
-
-    /**
-     * Get the eager fields.
-     *
-     * @return array
-     */
-    public function getEager()
-    {
-        return $this->eager;
-    }
-
-    /**
-     * Set the limit.
-     *
-     * @param  $limit
-     * @return $this
-     */
-    public function setLimit($limit)
-    {
-        $this->limit = $limit;
-
-        return $this;
-    }
-
-    /**
-     * Ge the limit.
-     *
-     * @return int|null
-     */
-    public function getLimit()
-    {
-        if (!$this->limit) {
-            return 15;
-        }
-
-        return $this->limit;
-    }
-
-    /**
-     * Set the order by config.
-     *
-     * @param  $orderBy
-     * @return $this
-     */
-    public function setOrderBy($orderBy)
-    {
-        $this->orderBy = $orderBy;
-
-        return $this;
-    }
-
-    /**
-     * Get the order by config.
-     *
-     * @return array
-     */
-    public function getOrderBy()
-    {
-        return $this->orderBy;
-    }
-
-    /**
-     * Set the no results message.
-     *
-     * @param  $noResultsMessage
-     * @return $this
-     */
-    public function setNoResultsMessage($noResultsMessage)
-    {
-        $this->noResultsMessage = $noResultsMessage;
-
-        return $this;
-    }
-
-    /**
-     * Get the no results message.
-     *
-     * @return string
-     */
-    public function getNoResultsMessage()
-    {
-        return $this->noResultsMessage;
-    }
-
-    /**
-     * Get the actions collection.
-     *
-     * @return ActionCollection
-     */
-    public function getActions()
-    {
-        return $this->actions;
-    }
-
-    /**
-     * Get the buttons collection.
-     *
-     * @return ButtonCollection
+     * @return Collection
      */
     public function getButtons()
     {
@@ -506,9 +209,22 @@ class Table
     }
 
     /**
-     * Get the columns collection.
+     * Set the table columns.
      *
-     * @return ColumnCollection
+     * @param Collection $columns
+     * @return $this
+     */
+    public function setColumns(Collection $columns)
+    {
+        $this->columns = $columns;
+
+        return $this;
+    }
+
+    /**
+     * Get the table columns.
+     *
+     * @return Collection
      */
     public function getColumns()
     {
@@ -516,39 +232,9 @@ class Table
     }
 
     /**
-     * Get the filter collection.
+     * Set the table entries.
      *
-     * @return FilterCollection
-     */
-    public function getFilters()
-    {
-        return $this->filters;
-    }
-
-    /**
-     * Get the header collection.
-     *
-     * @return HeaderCollection
-     */
-    public function getHeaders()
-    {
-        return $this->headers;
-    }
-
-    /**
-     * Get the view collection.
-     *
-     * @return ViewCollection
-     */
-    public function getViews()
-    {
-        return $this->views;
-    }
-
-    /**
-     * Set the entries.
-     *
-     * @param  Collection $entries
+     * @param Collection $entries
      * @return $this
      */
     public function setEntries(Collection $entries)
@@ -559,7 +245,7 @@ class Table
     }
 
     /**
-     * Get the entries.
+     * Get the table entries.
      *
      * @return Collection
      */
@@ -569,13 +255,85 @@ class Table
     }
 
     /**
-     * Get the row collection.
+     * Set the table filters.
      *
-     * @return RowCollection
+     * @param FilterCollection $filters
+     * @return $this
      */
-    public function getRows()
+    public function setFilters(FilterCollection $filters)
     {
-        return $this->rows;
+        $this->filters = $filters;
+
+        return $this;
+    }
+
+    /**
+     * Get the table filters.
+     *
+     * @return FilterCollection
+     */
+    public function getFilters()
+    {
+        return $this->filters;
+    }
+
+    /**
+     * Set the table options.
+     *
+     * @param Collection $options
+     * @return $this
+     */
+    public function setOptions(Collection $options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Get the table options.
+     *
+     * @return Collection
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set the table views.
+     *
+     * @param ViewCollection $views
+     * @return $this
+     */
+    public function setViews(ViewCollection $views)
+    {
+        $this->views = $views;
+
+        return $this;
+    }
+
+    /**
+     * Get the table views.
+     *
+     * @return ViewCollection
+     */
+    public function getViews()
+    {
+        return $this->views;
+    }
+
+    /**
+     * Set the table data.
+     *
+     * @param Collection $data
+     * @return $this
+     */
+    public function setData(Collection $data)
+    {
+        $this->data = $data;
+
+        return $this;
     }
 
     /**

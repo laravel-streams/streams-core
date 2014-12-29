@@ -20,37 +20,27 @@ class TableServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerBindings();
+        $this->registerComponents();
         $this->registerSubscribers();
     }
 
     /**
-     * Register bindings.
+     * Register components.
      */
-    protected function registerBindings()
+    protected function registerComponents()
     {
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Ui\Table\View\Contract\ViewRepositoryInterface',
-            'Anomaly\Streams\Platform\Ui\Table\View\ViewRepository'
-        );
-
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Ui\Table\Filter\Contract\FilterRepositoryInterface',
-            'Anomaly\Streams\Platform\Ui\Table\Filter\FilterRepository'
-        );
-
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Ui\Table\Action\Contract\ActionRepositoryInterface',
-            'Anomaly\Streams\Platform\Ui\Table\Action\ActionRepository'
-        );
+        $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\View\ViewServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterServiceProvider');
     }
 
     /**
-     * Register the table subscribers.
+     * Register event subscribers.
      */
     protected function registerSubscribers()
     {
-        $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TableQueryingSubscriber');
+        $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TableLoadSubscriber');
         $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TablePostSubscriber');
+        $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TableBuildSubscriber');
+        $this->app->make('events')->subscribe('Anomaly\Streams\Platform\Ui\Table\Subscriber\TableQuerySubscriber');
     }
 }

@@ -1,16 +1,18 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableMakeEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableInitializedEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableLoadEvent;
 use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class TableBuilder
  *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table
  */
 class TableBuilder
 {
@@ -20,40 +22,40 @@ class TableBuilder
     /**
      * The table model.
      *
-     * @var string
+     * @var null|string|TableModelInterface
      */
     protected $model = null;
 
     /**
-     * The table's view config.
+     * The views configuration.
      *
      * @var array
      */
     protected $views = [];
 
     /**
-     * The table's filter config.
+     * The filters configuration.
      *
      * @var array
      */
     protected $filters = [];
 
     /**
-     * The table's column config.
+     * The columns configuration.
      *
      * @var array
      */
     protected $columns = [];
 
     /**
-     * The table's button config.
+     * The buttons configuration.
      *
      * @var array
      */
     protected $buttons = [];
 
     /**
-     * The table's actions config.
+     * The actions configuration.
      *
      * @var array
      */
@@ -74,6 +76,17 @@ class TableBuilder
     public function __construct(Table $table)
     {
         $this->table = $table;
+
+        $this->initialize();
+
+        app('events')->fire('streams::table.initialized', new TableInitializedEvent($this));
+    }
+
+    /**
+     * Initialize the table builder.
+     */
+    protected function initialize()
+    {
     }
 
     /**
@@ -81,15 +94,15 @@ class TableBuilder
      */
     public function build()
     {
-        $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\BuildTableCommand', ['builder' => $this]);
+        app('events')->fire('streams::table.build', new TableBuildEvent($this));
 
         if (app('request')->isMethod('post')) {
-            $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\RunTablePostHooksCommand', ['builder' => $this]);
+            app('events')->fire('streams::table.post');
         }
     }
 
     /**
-     * Make the table.
+     * Make the table response.
      */
     public function make()
     {
@@ -97,16 +110,21 @@ class TableBuilder
 
         if ($this->table->getResponse() === null) {
 
-            $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\LoadTableDataCommand', ['builder' => $this]);
+            app('events')->fire('streams::table.load', new TableLoadEvent($this->table));
 
-            $this->table->setContent(view($this->table->getView(), $this->table->getData()));
+            $options = $this->table->getOptions();
+            $data    = $this->table->getData();
+
+            $this->table->setContent(
+                view($options->get('view', 'streams::ui/table/index'), $data->all())
+            );
         }
     }
 
     /**
      * Render the table.
      *
-     * @return \Illuminate\View\View|null
+     * @return \Illuminate\Http\Response|\Illuminate\View\View|null
      */
     public function render()
     {
@@ -114,9 +132,10 @@ class TableBuilder
 
         if ($this->table->getResponse() === null) {
 
+            $options = $this->table->getOptions();
             $content = $this->table->getContent();
 
-            return view($this->table->getWrapper(), compact('content'));
+            return view($options->get('wrapper', 'streams::wrappers/blank'), compact('content'));
         }
 
         return $this->table->getResponse();
@@ -133,9 +152,9 @@ class TableBuilder
     }
 
     /**
-     * Set the model.
+     * Set the table model.
      *
-     * @param  $model
+     * @param string|TableModelInterface $model
      * @return $this
      */
     public function setModel($model)
@@ -146,9 +165,9 @@ class TableBuilder
     }
 
     /**
-     * Get the model object.
+     * Get the table model.
      *
-     * @return TableModelInterface|null
+     * @return null|string|TableModelInterface
      */
     public function getModel()
     {
@@ -156,9 +175,9 @@ class TableBuilder
     }
 
     /**
-     * Set the view config.
+     * Set the views configuration.
      *
-     * @param  array $views
+     * @param array $views
      * @return $this
      */
     public function setViews(array $views)
@@ -169,7 +188,7 @@ class TableBuilder
     }
 
     /**
-     * Get the view config.
+     * Get the views configuration.
      *
      * @return array
      */
@@ -179,9 +198,9 @@ class TableBuilder
     }
 
     /**
-     * Set the filter config.
+     * Set the filters configuration.
      *
-     * @param  array $filters
+     * @param array $filters
      * @return $this
      */
     public function setFilters(array $filters)
@@ -192,7 +211,7 @@ class TableBuilder
     }
 
     /**
-     * Get the filter config.
+     * Get the filters configuration.
      *
      * @return array
      */
@@ -202,9 +221,9 @@ class TableBuilder
     }
 
     /**
-     * Set the column config.
+     * Set the columns configuration.
      *
-     * @param  array $columns
+     * @param array $columns
      * @return $this
      */
     public function setColumns(array $columns)
@@ -215,7 +234,7 @@ class TableBuilder
     }
 
     /**
-     * Get the column config.
+     * Get the columns configuration.
      *
      * @return array
      */
@@ -225,9 +244,9 @@ class TableBuilder
     }
 
     /**
-     * Set the button config.
+     * Set the buttons configuration.
      *
-     * @param  array $buttons
+     * @param array $buttons
      * @return $this
      */
     public function setButtons(array $buttons)
@@ -238,7 +257,7 @@ class TableBuilder
     }
 
     /**
-     * Get the button config.
+     * Get the buttons configuration.
      *
      * @return array
      */
@@ -248,12 +267,12 @@ class TableBuilder
     }
 
     /**
-     * Set actions config.
+     * Set the actions configuration.
      *
-     * @param  $actions
+     * @param array $actions
      * @return $this
      */
-    public function setActions($actions)
+    public function setActions(array $actions = [])
     {
         $this->actions = $actions;
 
@@ -261,7 +280,7 @@ class TableBuilder
     }
 
     /**
-     * Get the actions config.
+     * Get the actions configuration.
      *
      * @return array
      */
