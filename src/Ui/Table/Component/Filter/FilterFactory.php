@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
-use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 
 /**
@@ -29,22 +28,13 @@ class FilterFactory
     protected $filters;
 
     /**
-     * The hydrator utility.
-     *
-     * @var Hydrator
-     */
-    protected $hydrator;
-
-    /**
      * Create a new FilterFactory instance.
      *
      * @param FilterRegistry $filters
-     * @param Hydrator       $hydrator
      */
-    public function __construct(FilterRegistry $filters, Hydrator $hydrator)
+    public function __construct(FilterRegistry $filters)
     {
-        $this->filters  = $filters;
-        $this->hydrator = $hydrator;
+        $this->filters = $filters;
     }
 
     /**
@@ -61,8 +51,26 @@ class FilterFactory
 
         $filter = app()->make(array_get($parameters, 'filter', $this->filter), $parameters);
 
-        $this->hydrator->hydrate($filter, $parameters);
+        $this->hydrate($filter, $parameters);
 
         return $filter;
+    }
+
+    /**
+     * Hydrate the filter with it's remaining parameters.
+     *
+     * @param FilterInterface $filter
+     * @param array           $parameters
+     */
+    protected function hydrate(FilterInterface $filter, array $parameters)
+    {
+        foreach ($parameters as $parameter => $value) {
+
+            $method = camel_case('set_' . $parameter);
+
+            if (method_exists($filter, $method)) {
+                $filter->{$method}($value);
+            }
+        }
     }
 }

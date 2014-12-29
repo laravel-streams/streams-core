@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
-use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 
 /**
@@ -29,22 +28,13 @@ class ViewFactory
     protected $views;
 
     /**
-     * The hydrator utility.
-     *
-     * @var Hydrator
-     */
-    protected $hydrator;
-
-    /**
      * Create a new ViewFactory instance.
      *
      * @param ViewRegistry $views
-     * @param Hydrator     $hydrator
      */
-    public function __construct(ViewRegistry $views, Hydrator $hydrator)
+    public function __construct(ViewRegistry $views)
     {
-        $this->views    = $views;
-        $this->hydrator = $hydrator;
+        $this->views = $views;
     }
 
     /**
@@ -61,8 +51,26 @@ class ViewFactory
 
         $view = app()->make(array_get($parameters, 'view', $this->view), $parameters);
 
-        $this->hydrator->hydrate($view, $parameters);
+        $this->hydrate($view, $parameters);
 
         return $view;
+    }
+
+    /**
+     * Hydrate the view with it's remaining parameters.
+     *
+     * @param ViewInterface $view
+     * @param array         $parameters
+     */
+    protected function hydrate(ViewInterface $view, array $parameters)
+    {
+        foreach ($parameters as $parameter => $value) {
+
+            $method = camel_case('set_' . $parameter);
+
+            if (method_exists($view, $method)) {
+                $view->{$method}($value);
+            }
+        }
     }
 }
