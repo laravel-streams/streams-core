@@ -60,6 +60,10 @@ class TableServiceProvider extends ServiceProvider
         );
 
         $this->app->make('events')->subscribe(
+            'Anomaly\Streams\Platform\Ui\Table\Subscriber\TableReadySubscriber'
+        );
+
+        $this->app->make('events')->subscribe(
             'Anomaly\Streams\Platform\Ui\Table\Subscriber\TableQuerySubscriber'
         );
     }

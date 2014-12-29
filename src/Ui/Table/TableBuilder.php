@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableInitializedEvent;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableMakeEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableReadyEvent;
 use Laracasts\Commander\CommanderTrait;
 
 /**
@@ -95,6 +96,7 @@ class TableBuilder
     public function build()
     {
         app('events')->fire('streams::table.build', new TableBuildEvent($this));
+        app('events')->fire('streams::table.ready', new TableReadyEvent($this));
 
         if (app('request')->isMethod('post')) {
             app('events')->fire('streams::table.post');

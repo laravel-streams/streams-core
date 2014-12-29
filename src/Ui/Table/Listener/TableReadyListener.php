@@ -1,17 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Listener;
 
-use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableReadyEvent;
 use Laracasts\Commander\CommanderTrait;
 
 /**
- * Class TableBuildListener
+ * Class TableReadyListener
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Listener
  */
-class TableBuildListener
+class TableReadyListener
 {
 
     use CommanderTrait;
@@ -19,13 +19,13 @@ class TableBuildListener
     /**
      * Handle the event.
      *
-     * @param TableBuildEvent $event
+     * @param TableReadyEvent $event
      */
-    public function handle(TableBuildEvent $event)
+    public function handle(TableReadyEvent $event)
     {
         $builder = $event->getBuilder();
 
-        // Set the table's stream object based on the builder's model.
-        $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\SetTableStreamCommand', compact('builder'));
+        // Get entries for the table.
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\GetTableEntriesCommand', compact('builder'));
     }
 }
