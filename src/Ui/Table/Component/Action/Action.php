@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
 
 /**
  * Class Action
@@ -34,6 +35,63 @@ class Action extends Button implements ActionInterface
      * @var string
      */
     protected $slug = 'default';
+
+    /**
+     * The TablePostEvent handler.
+     *
+     * @var mixed
+     */
+    protected $tablePostHandler;
+
+    /**
+     * Handle the TablePostEvent.
+     *
+     * @param TablePostEvent $event
+     */
+    public function onTablePost(TablePostEvent $event)
+    {
+        $handler = $this->getTablePostHandler();
+
+        if ($handler === null) {
+            $this->handleTablePostEvent($event);
+        }
+
+        if (is_string($handler) or $handler instanceof \Closure) {
+            app()->call($handler, compact('event'));
+        }
+    }
+
+    /**
+     * Default handle for the TablePostEvent.
+     *
+     * @param TablePostEvent $event
+     */
+    protected function handleTablePostEvent(TablePostEvent $event)
+    {
+    }
+
+    /**
+     * Set the TablePostEvent handler.
+     *
+     * @param $handler
+     * @return $this
+     */
+    public function setTablePostHandler($handler)
+    {
+        $this->tablePostHandler = $handler;
+
+        return $this;
+    }
+
+    /**
+     * Get the TablePostEvent handler.
+     *
+     * @return mixed
+     */
+    public function getTablePostHandler()
+    {
+        return $this->tablePostHandler;
+    }
 
     /**
      * Set the active flag.

@@ -20,5 +20,9 @@ class TablePostSubscriber
      */
     public function subscribe(Dispatcher $events)
     {
+        $events->listen(
+            'streams::table.post',
+            'Anomaly\Streams\Platform\Ui\Table\Component\Action\Listener\TablePostListener'
+        );
     }
 }

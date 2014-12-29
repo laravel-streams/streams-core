@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Listener;
 
-use Anomaly\Streams\Platform\Ui\Table\Event\TableBuildEvent;
+use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
 use Laracasts\Commander\CommanderTrait;
 
 /**
@@ -19,9 +19,9 @@ class TablePostListener
     /**
      * Handle the event.
      *
-     * @param TableBuildEvent $event
+     * @param TablePostEvent $event
      */
-    public function handle(TableBuildEvent $event)
+    public function handle(TablePostEvent $event)
     {
         // Run the active action's TablePostHandler.
         $this->execute(

@@ -79,12 +79,12 @@ class View implements ViewInterface
     /**
      * Set the TableQueryEvent handler.
      *
-     * @param $tableQueryHandler
+     * @param $handler
      * @return $this
      */
-    public function setTableQueryHandler($tableQueryHandler)
+    public function setTableQueryHandler($handler)
     {
-        $this->tableQueryHandler = $tableQueryHandler;
+        $this->tableQueryHandler = $handler;
 
         return $this;
     }

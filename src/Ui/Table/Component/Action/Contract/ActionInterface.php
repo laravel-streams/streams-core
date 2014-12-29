@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract;
 
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
 
 /**
  * Interface ActionInterface
@@ -12,6 +13,28 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
  */
 interface ActionInterface extends ButtonInterface
 {
+
+    /**
+     * Handle the TablePostEvent.
+     *
+     * @param TablePostEvent $event
+     */
+    public function onTablePost(TablePostEvent $event);
+
+    /**
+     * Set the TablePostEvent handler.
+     *
+     * @param $handler
+     * @return $this
+     */
+    public function setTablePostHandler($handler);
+
+    /**
+     * Get the TablePostEvent handler.
+     *
+     * @return mixed
+     */
+    public function getTablePostHandler();
 
     /**
      * Set the active flag.
