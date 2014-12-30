@@ -29,7 +29,6 @@ class FormServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerComponents();
-        $this->registerSubscribers();
     }
 
     /**
@@ -37,16 +36,6 @@ class FormServiceProvider extends ServiceProvider
      */
     protected function registerComponents()
     {
-        //$this->app->register('Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldServiceProvider');
-    }
-
-    /**
-     * Register event subscribers.
-     */
-    protected function registerSubscribers()
-    {
-        /*$this->app->make('events')->subscribe(
-            'Anomaly\Streams\Platform\Ui\Form\Subscriber\FormBuildSubscriber'
-        );*/
+        $this->app->register('Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionServiceProvider');
     }
 }
