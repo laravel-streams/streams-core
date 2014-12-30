@@ -21,6 +21,7 @@ class ViewServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerBindings();
+        $this->registerListeners();
     }
 
     /**
@@ -36,6 +37,17 @@ class ViewServiceProvider extends ServiceProvider
         $this->app->singleton(
             'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry',
             'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry'
+        );
+    }
+
+    /**
+     * Register listeners.
+     */
+    protected function registerListeners()
+    {
+        $this->app->make('events')->listen(
+            'streams::table.query',
+            'Anomaly\Streams\Platform\Ui\Table\Component\View\Listener\TableQueryListener'
         );
     }
 }
