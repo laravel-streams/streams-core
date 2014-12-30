@@ -28,5 +28,7 @@ class ReorderAction extends Action
         if ($model instanceof TableModelInterface) {
             $model->sortTableEntries($table);
         }
+
+        $table->setResponse(redirect(app('request')->fullUrl()));
     }
 }
