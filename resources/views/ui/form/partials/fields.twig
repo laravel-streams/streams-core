@@ -1,9 +1,9 @@
 <section class="panel panel-default">
 
-    {% if title %}
+    {% if form.options.title %}
         <div class="panel-heading">
             <h3 class="panel-title">
-                {{ title }}
+                {{ form.options.title }}
             </h3>
         </div>
     {% endif %}
@@ -12,9 +12,9 @@
         <div class="row">
             <div class="col-lg-24">
 
-                {% for field in fields %}
+                {% for field in form.fields %}
                     <div class="form-group">
-                        {{ field.input|raw }}
+                        {{ field.render|raw }}
                     </div>
                 {% endfor %}
 
