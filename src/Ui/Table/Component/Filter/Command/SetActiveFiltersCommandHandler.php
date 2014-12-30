@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
+
 /**
  * Class SetActiveFiltersCommandHandler
  *
@@ -18,12 +20,15 @@ class SetActiveFiltersCommandHandler
      */
     public function handle(SetActiveFiltersCommand $command)
     {
-        $table   = $command->getTable();
+        $builder = $command->getBuilder();
+        $table   = $builder->getTable();
         $options = $table->getOptions();
 
         foreach ($table->getFilters() as $filter) {
-            if (app('request')->get($options->get('prefix') . $filter->getSlug() . '_filter')) {
-                $filter->setActive(true);
+            if ($filter instanceof FilterInterface) {
+                if (app('request')->get($options->get('prefix') . $filter->getSlug() . '_filter')) {
+                    $filter->setActive(true);
+                }
             }
         }
     }

@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
  * Class SetActiveFiltersCommand
@@ -14,29 +14,29 @@ class SetActiveFiltersCommand
 {
 
     /**
-     * The table object.
+     * The table builder.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Table
+     * @var TableBuilder
      */
-    protected $table;
+    protected $builder;
 
     /**
-     * Create a new SetActiveFiltersCommand instance.
+     * Create a new BuildTableFiltersCommand instance.
      *
-     * @param Table $table
+     * @param TableBuilder $builder
      */
-    public function __construct(Table $table)
+    public function __construct(TableBuilder $builder)
     {
-        $this->table = $table;
+        $this->builder = $builder;
     }
 
     /**
-     * Get the table object.
+     * Get the table builder.
      *
-     * @return Table
+     * @return TableBuilder
      */
-    public function getTable()
+    public function getBuilder()
     {
-        return $this->table;
+        return $this->builder;
     }
 }
