@@ -89,7 +89,7 @@ class FormBuilder
         $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\BuildFormCommand', ['builder' => $this]);
 
         if (app('request')->isMethod('post')) {
-            //$this->execute('Anomaly\Streams\Platform\Ui\Form\Command\HandleFormPostCommand', ['builder' => $this]);
+            $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\HandleFormPostCommand', ['builder' => $this]);
         }
     }
 
