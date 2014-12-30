@@ -45,51 +45,23 @@ class BuildFormCommandHandler
         );
 
         /**
-         * Build form filters and flag active.
-         */
-        /*$this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Component\Filter\Command\BuildFiltersCommand',
-            compact('builder')
-        );
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Component\Filter\Command\SetActiveFiltersCommand',
-            compact('builder')
-        );*/
-
-        /**
          * Build form actions and flag active.
          */
-        /*$this->execute(
+        $this->execute(
             'Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActionsCommand',
             compact('builder')
         );
         $this->execute(
             'Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveActionCommand',
             compact('builder')
-        );*/
-
-        /**
-         * Build form columns.
-         */
-        /*$this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Component\Column\Command\BuildColumnsCommand',
-            compact('builder')
-        );*/
+        );
 
         /**
          * Build form buttons.
          */
-        /*$this->execute(
+        $this->execute(
             'Anomaly\Streams\Platform\Ui\Form\Component\Button\Command\BuildButtonsCommand',
             compact('builder')
-        );*/
-
-        /**
-         * LAST: Get form entries.
-         */
-        /*$this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Command\GetFormEntriesCommand',
-            compact('builder')
-        );*/
+        );
     }
 }

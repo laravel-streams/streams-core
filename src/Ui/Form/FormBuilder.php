@@ -88,8 +88,6 @@ class FormBuilder
 
         $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\BuildFormCommand', ['builder' => $this]);
 
-        dd($this->form->getFields());
-
         if (app('request')->isMethod('post')) {
             //$this->execute('Anomaly\Streams\Platform\Ui\Form\Command\HandleFormPostCommand', ['builder' => $this]);
         }
@@ -104,8 +102,16 @@ class FormBuilder
     {
         $this->build($entry);
 
-        if ($this->form->getResponse() === null || $this->form->getResponse() === false) {
-            $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\MakeFormCommand', ['builder' => $this]);
+        if ($this->form->getResponse() === null) {
+
+            $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\LoadFormCommand', ['form' => $this->form]);
+
+            $options = $this->form->getOptions();
+            $data    = $this->form->getData();
+
+            $this->form->setContent(
+                view($options->get('view', 'streams::ui/form/index'), $data->all())
+            );
         }
     }
 
@@ -120,9 +126,11 @@ class FormBuilder
         $this->make($entry);
 
         if ($this->form->getResponse() === null || $this->form->getResponse() === false) {
+
+            $options = $this->form->getOptions();
             $content = $this->form->getContent();
 
-            return view($this->form->getOptions(), compact('content'));
+            return view($options->get('wrapper', 'streams::wrappers/blank'), compact('content'));
         }
 
         return $this->form->getResponse();

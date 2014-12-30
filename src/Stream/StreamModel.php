@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -212,16 +213,18 @@ class StreamModel extends EloquentModel implements StreamInterface
     /**
      * Get a field's type by the field's slug.
      *
-     * @param  $fieldSlug
+     * @param                $fieldSlug
+     * @param EntryInterface $entry
+     * @param null|string    $locale
      * @return mixed
      */
-    public function getFieldType($fieldSlug)
+    public function getFieldType($fieldSlug, EntryInterface $entry = null, $locale = null)
     {
         if (!$assignment = $this->getAssignment($fieldSlug)) {
             return null;
         }
 
-        return $assignment->getFieldType();
+        return $assignment->getFieldType($entry, $locale);
     }
 
     /**

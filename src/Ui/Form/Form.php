@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
@@ -73,6 +75,20 @@ class Form
     protected $options;
 
     /**
+     * The form actions.
+     *
+     * @var Component\Action\ActionCollection
+     */
+    protected $actions;
+
+    /**
+     * The form buttons.
+     *
+     * @var ButtonCollection
+     */
+    protected $buttons;
+
+    /**
      * Create a new Form instance.
      *
      * @param Collection $data
@@ -82,10 +98,14 @@ class Form
     public function __construct(
         Collection $data,
         Collection $fields,
-        Collection $options
+        Collection $options,
+        ActionCollection $actions,
+        ButtonCollection $buttons
     ) {
         $this->data    = $data;
         $this->fields  = $fields;
+        $this->actions = $actions;
+        $this->buttons = $buttons;
         $this->options = $options;
     }
 
@@ -202,6 +222,52 @@ class Form
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Set the form actions.
+     *
+     * @param ActionCollection $actions
+     * @return $this
+     */
+    public function setActions(ActionCollection $actions)
+    {
+        $this->actions = $actions;
+
+        return $this;
+    }
+
+    /**
+     * Get the form actions.
+     *
+     * @return ActionCollection
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
+     * Set the form buttons.
+     *
+     * @param ButtonCollection $buttons
+     * @return $this
+     */
+    public function setButtons(ButtonCollection $buttons)
+    {
+        $this->buttons = $buttons;
+
+        return $this;
+    }
+
+    /**
+     * Get the form buttons.
+     *
+     * @return ButtonCollection
+     */
+    public function getButtons()
+    {
+        return $this->buttons;
     }
 
     /**

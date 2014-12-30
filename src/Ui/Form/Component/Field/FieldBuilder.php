@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Laracasts\Commander\CommanderTrait;
 
 /**
- * Class FieldBuilder
+ * Class FieldTypeBuilder
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -24,22 +25,22 @@ class FieldBuilder
     protected $reader;
 
     /**
-     * The field factory.
+     * The field type builder.
      *
-     * @var FieldFactory
+     * @var FieldTypeBuilder
      */
-    protected $factory;
+    protected $builder;
 
     /**
-     * Create a new FieldBuilder instance.
+     * Create a new FieldTypeBuilder instance.
      *
-     * @param FieldReader  $reader
-     * @param FieldFactory $factory
+     * @param FieldReader      $reader
+     * @param FieldTypeBuilder $builder
      */
-    public function __construct(FieldReader $reader, FieldFactory $factory)
+    public function __construct(FieldReader $reader, FieldTypeBuilder $builder)
     {
         $this->reader  = $reader;
-        $this->factory = $factory;
+        $this->builder = $builder;
     }
 
     /**
@@ -51,13 +52,27 @@ class FieldBuilder
     {
         $form   = $builder->getForm();
         $fields = $form->getFields();
+        $stream = $form->getStream();
+        $entry  = $form->getEntry();
 
         foreach ($builder->getFields() as $slug => $field) {
 
             $field = $this->reader->standardize($slug, $field);
-            $field = $this->factory->make($field);
 
-            $fields->put($field->getSlug(), $field);
+            /**
+             * If the field is a field type then
+             * use the form's stream to resolve it.
+             *
+             * Otherwise build a generic field type
+             * using the command.
+             */
+            if ($stream->getField($field['field'])) {
+                $field = $stream->getFieldType($field['field'], $entry);
+            } else {
+                $field = $this->builder->build($field);
+            }
+
+            $fields->put($field->getField(), $field);
         }
     }
 }
