@@ -5,11 +5,11 @@
 
         {% for action in actions %}
             <div class="btn-group actions dropup">
-                <button class="btn btn-sm btn-{{ action.type }}" disabled>
+                <button class="btn btn-sm btn-{{ action.type }}">
                     {{ trans(action.text) }}
                 </button>
                 {% if action.dropdown %}
-                    <button class="btn btn-{{ action.type }} btn-sm dropdown-toggle" data-toggle="dropdown" disabled>
+                    <button class="btn btn-{{ action.type }} btn-sm dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                     </button>
                     {% for link in action.dropdown %}
