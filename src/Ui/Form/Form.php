@@ -31,6 +31,13 @@ class Form
     protected $stream = null;
 
     /**
+     * The form entry.
+     *
+     * @var mixed
+     */
+    protected $entry = null;
+
+    /**
      * The form content.
      *
      * @var null|string
@@ -65,6 +72,13 @@ class Form
      */
     protected $options;
 
+    /**
+     * Create a new Form instance.
+     *
+     * @param Collection $data
+     * @param Collection $fields
+     * @param Collection $options
+     */
     public function __construct(
         Collection $data,
         Collection $fields,
@@ -145,6 +159,29 @@ class Form
     }
 
     /**
+     * Set the entry.
+     *
+     * @param mixed $entry
+     * @return $this
+     */
+    public function setEntry($entry)
+    {
+        $this->entry = $entry;
+
+        return $this;
+    }
+
+    /**
+     * Get the entry.
+     *
+     * @return mixed
+     */
+    public function getEntry()
+    {
+        return $this->entry;
+    }
+
+    /**
      * Set the form content.
      *
      * @param string $content
@@ -165,6 +202,29 @@ class Form
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Set the options.
+     *
+     * @param Collection $options
+     * @return $this
+     */
+    public function setOptions(Collection $options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Get the options.
+     *
+     * @return Collection
+     */
+    public function getOptions()
+    {
+        return $this->options;
     }
 
     /**

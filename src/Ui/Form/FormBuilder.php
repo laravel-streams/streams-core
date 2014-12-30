@@ -38,11 +38,11 @@ class FormBuilder
     protected $entry = null;
 
     /**
-     * The section config.
+     * The fields config.
      *
      * @var array
      */
-    protected $sections = [];
+    protected $fields = [];
 
     /**
      * The actions config.
@@ -88,8 +88,10 @@ class FormBuilder
 
         $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\BuildFormCommand', ['builder' => $this]);
 
+        dd($this->form->getFields());
+
         if (app('request')->isMethod('post')) {
-            $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\HandleFormCommand', ['builder' => $this]);
+            //$this->execute('Anomaly\Streams\Platform\Ui\Form\Command\HandleFormPostCommand', ['builder' => $this]);
         }
     }
 
@@ -120,7 +122,7 @@ class FormBuilder
         if ($this->form->getResponse() === null || $this->form->getResponse() === false) {
             $content = $this->form->getContent();
 
-            return view($this->form->getWrapper(), compact('content'));
+            return view($this->form->getOptions(), compact('content'));
         }
 
         return $this->form->getResponse();
@@ -206,12 +208,12 @@ class FormBuilder
     }
 
     /**
-     * Set the sections config.
+     * Set the fields config.
      *
-     * @param  array $sections
+     * @param  array $fields
      * @return $this
      */
-    public function setSections(array $sections)
+    public function setFields(array $sections)
     {
         $this->sections = $sections;
 
@@ -219,13 +221,13 @@ class FormBuilder
     }
 
     /**
-     * Get the sections config.
+     * Get the fields config.
      *
      * @return array
      */
-    public function getSections()
+    public function getFields()
     {
-        return $this->sections;
+        return $this->fields;
     }
 
     /**

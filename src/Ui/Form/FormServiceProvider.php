@@ -45,8 +45,8 @@ class FormServiceProvider extends ServiceProvider
      */
     protected function registerSubscribers()
     {
-        $this->app->make('events')->subscribe(
+        /*$this->app->make('events')->subscribe(
             'Anomaly\Streams\Platform\Ui\Form\Subscriber\FormBuildSubscriber'
-        );
+        );*/
     }
 }

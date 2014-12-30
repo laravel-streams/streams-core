@@ -20,4 +20,12 @@ interface FormModelInterface
      * @return mixed
      */
     public function saveFormInput(Form $form);
+
+    /**
+     * Find an entry or return a new one.
+     *
+     * @param $id
+     * @return mixed
+     */
+    public static function findOrNew($id);
 }
