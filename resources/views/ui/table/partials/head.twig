@@ -2,19 +2,19 @@
 <thead>
 <tr>
 
-    {% if options.sortable %}
+    {% if table.options.sortable %}
         <th>
             <i class="fa fa-reorder text-muted"></i>
         </th>
     {% endif %}
 
-    {% if not actions.empty() %}
+    {% if not table.actions.empty() %}
         <th>
             <input data-toggle="all" type="checkbox">
         </th>
     {% endif %}
 
-    {% for column in columns %}
+    {% for column in table.columns %}
         <th>
             {{ table_column_header(table, column) }}
         </th>

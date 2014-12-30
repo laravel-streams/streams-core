@@ -2,7 +2,7 @@
     {{ add_asset("streams.js", "streams::js/table/actions.js") }}
 {% endif %}
 
-{% if options.sortable %}
+{% if table.options.sortable %}
     {{ add_asset("streams.js", "streams::js/table/sortable.js") }}
 {% endif %}
 
@@ -14,9 +14,9 @@
 
         {% include "streams::ui/table/partials/filters" %}
 
-        {% if not entries.empty() %}
+        {% if not table.entries.empty() %}
             <form method="post">
-                <table class="table table-hover {{ options.sortable ? 'sortable' }}">
+                <table class="table table-hover {{ table.options.sortable ? 'sortable' }}">
 
                     {% include "streams::ui/table/partials/head" %}
                     {% include "streams::ui/table/partials/body" %}
@@ -26,7 +26,7 @@
             </form>
         {% else %}
             <div class="no-results">
-                <h3>{{ trans(options.get('no_results_message', 'streams::message.error.no_results')) }}</h3>
+                <h3>{{ trans(table.options.get('no_results_message', 'streams::message.error.no_results')) }}</h3>
             </div>
         {% endif %}
 

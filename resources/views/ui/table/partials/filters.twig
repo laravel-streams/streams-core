@@ -1,8 +1,8 @@
-<div class="table-filters {{ not filters.active().isEmpty() ? 'active' }}">
+<div class="table-filters {{ not table.filters.active().isEmpty() ? 'active' }}">
     <form class="form-inline" method="get">
-        <input type="hidden" name="{{ options.prefix }}view" value="{{ views.active().getSlug() }}">
+        <input type="hidden" name="{{ table.options.prefix }}view" value="{{ table.views.active().getSlug() }}">
 
-        {% for filter in filters %}
+        {% for filter in table.filters %}
             <div class="form-group">
                 {{ filter.input|raw }}
             </div>
