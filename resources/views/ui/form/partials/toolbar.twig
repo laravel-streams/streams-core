@@ -1,10 +1,10 @@
-{% if translatable %}
+{% if form.options.translatable %}
     <div class="toolbar">
 
-        {% if translatable %}
+        {% if form.options.translatable %}
             <div class="dropdown visible-lg-inline-block">
                 <a href="#" class="btn btn-sm btn-link dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-language"></i>&nbsp;Translations
+                    <i class="fa fa-language"></i> Translations
                 </a>
                 <ul class="dropdown-menu">
                     {% for locale in locales %}
