@@ -20,14 +20,14 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerBindings();
-        $this->registerListeners();
+        $this->registerViewBindings();
+        $this->registerViewListeners();
     }
 
     /**
      * Register bindings.
      */
-    protected function registerBindings()
+    protected function registerViewBindings()
     {
         $this->app->instance(
             'streams::table.view.factory',
@@ -43,7 +43,7 @@ class ViewServiceProvider extends ServiceProvider
     /**
      * Register listeners.
      */
-    protected function registerListeners()
+    protected function registerViewListeners()
     {
         $this->app->make('events')->listen(
             'streams::table.query',
