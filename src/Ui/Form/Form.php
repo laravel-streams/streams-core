@@ -91,9 +91,11 @@ class Form
     /**
      * Create a new Form instance.
      *
-     * @param Collection $data
-     * @param Collection $fields
-     * @param Collection $options
+     * @param Collection       $data
+     * @param Collection       $fields
+     * @param Collection       $options
+     * @param ActionCollection $actions
+     * @param ButtonCollection $buttons
      */
     public function __construct(
         Collection $data,
