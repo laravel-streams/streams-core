@@ -35,7 +35,8 @@
         "venturecraft/revisionable": "1.*"
     },
     "require-dev": {
-        "anomaly/streams": "dev-master"
+        "anomaly/streams": "dev-master",
+        "benconstable/phpspec-laravel": "~1.0"
     },
     "autoload": {
         "psr-4": {
