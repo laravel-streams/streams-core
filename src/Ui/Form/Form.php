@@ -1,10 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Form\Action\ActionCollection;
-use Anomaly\Streams\Platform\Ui\Form\Section\SectionCollection;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 
 /**
  * Class Form
@@ -18,210 +17,137 @@ class Form
 {
 
     /**
-     * The form prefix.
+     * The form model.
      *
-     * @var string
+     * @var null|FormModelInterface
      */
-    protected $prefix = 'form_';
+    protected $model = null;
 
     /**
-     * Included field slugs.
+     * The form stream.
      *
-     * @var array
-     */
-    protected $include = [];
-
-    /**
-     * Skipped field slugs.
-     *
-     * @var array
-     */
-    protected $skips = [];
-
-    /**
-     * The form view.
-     *
-     * @var string
-     */
-    protected $view = 'streams::ui/form/index';
-
-    /**
-     * The form wrapper for rendering.
-     *
-     * @var string
-     */
-    protected $wrapper = 'streams::wrappers/blank';
-
-    /**
-     * The form rules.
-     *
-     * @var array
-     */
-    protected $rules = [];
-
-    /**
-     * The form input.
-     *
-     * @var array
-     */
-    protected $input = [];
-
-    /**
-     * The form view data.
-     *
-     * @var array
-     */
-    protected $data = [];
-
-    /**
-     * The form stream object.
-     *
-     * @var null
+     * @var null|StreamInterface
      */
     protected $stream = null;
 
     /**
      * The form content.
      *
-     * @var null
+     * @var null|string
      */
     protected $content = null;
 
     /**
      * The form response.
      *
-     * @var null
+     * @var null|Response
      */
     protected $response = null;
 
     /**
-     * The form entry object.
+     * The form data.
      *
-     * @var null
+     * @var Collection
      */
-    protected $entry = null;
+    protected $data;
 
     /**
-     * The sections collection.
+     * The form fields.
      *
-     * @var Section\SectionCollection
+     * @var Collection
      */
-    protected $sections;
+    protected $fields;
 
     /**
-     * The actions collection.
+     * The form options.
      *
-     * @var Action\ActionCollection
+     * @var \Illuminate\Support\Collection
      */
-    protected $actions;
+    protected $options;
 
-    /**
-     * The buttons collection.
-     *
-     * @var \Anomaly\Streams\Platform\Ui\Button\ButtonCollection
-     */
-    protected $buttons;
-
-    /**
-     * Create a new Form instance.
-     *
-     * @param SectionCollection $sections
-     * @param ActionCollection  $actions
-     * @param ButtonCollection  $buttons
-     */
-    public function __construct(SectionCollection $sections, ActionCollection $actions, ButtonCollection $buttons)
-    {
-        $this->actions  = $actions;
-        $this->buttons  = $buttons;
-        $this->sections = $sections;
+    public function __construct(
+        Collection $data,
+        Collection $fields,
+        Collection $options
+    ) {
+        $this->data    = $data;
+        $this->fields  = $fields;
+        $this->options = $options;
     }
 
     /**
-     * Set the form prefix.
+     * Set the form response.
      *
-     * @param  $prefix
+     * @param null|Response $response
      * @return $this
      */
-    public function setPrefix($prefix)
+    public function setResponse(Response $response = null)
     {
-        $this->prefix = $prefix;
+        $this->response = $response;
 
         return $this;
     }
 
     /**
-     * Get the form prefix.
+     * Get the form response.
      *
-     * @return string
+     * @return null|Response
      */
-    public function getPrefix()
+    public function getResponse()
     {
-        return $this->prefix;
+        return $this->response;
     }
 
     /**
-     * Set included fields.
+     * Set the model object.
      *
-     * @param  $include
+     * @param $model
      * @return $this
      */
-    public function setInclude($include)
+    public function setModel($model)
     {
-        $this->include = $include;
+        $this->model = $model;
 
         return $this;
     }
 
     /**
-     * Get included fields.
+     * Get the model object.
      *
-     * @return array
+     * @return null|FormModelInterface
      */
-    public function getInclude()
+    public function getModel()
     {
-        return $this->include;
+        return $this->model;
     }
 
     /**
-     * Add an included field.
+     * Set the form stream.
      *
-     * @param  $include
+     * @param StreamInterface $stream
      * @return $this
      */
-    public function addInclude($include)
+    public function setStream(StreamInterface $stream)
     {
-        $this->include[] = $include;
+        $this->stream = $stream;
 
         return $this;
     }
 
     /**
-     * Set skipped fields.
+     * Get the form stream.
      *
-     * @param  $skips
-     * @return $this
+     * @return null|StreamInterface
      */
-    public function setSkips($skips)
+    public function getStream()
     {
-        $this->skips = $skips;
-
-        return $this;
-    }
-
-    /**
-     * Get skipped fields.
-     *
-     * @return array
-     */
-    public function getSkips()
-    {
-        return $this->skips;
+        return $this->stream;
     }
 
     /**
      * Set the form content.
      *
-     * @param  $content
+     * @param string $content
      * @return $this
      */
     public function setContent($content)
@@ -234,7 +160,7 @@ class Form
     /**
      * Get the form content.
      *
-     * @return string|null
+     * @return null|string
      */
     public function getContent()
     {
@@ -242,110 +168,35 @@ class Form
     }
 
     /**
-     * Set the form rules.
+     * Set the form views.
      *
-     * @param  $rules
+     * @param Collection $fields
      * @return $this
      */
-    public function setRules($rules)
+    public function setFields(Collection $fields)
     {
-        $this->rules = $rules;
+        $this->fields = $fields;
 
         return $this;
     }
 
     /**
-     * Get the form rules.
+     * Get the form fields.
      *
-     * @return array
+     * @return Collection
      */
-    public function getRules()
+    public function getFields()
     {
-        return $this->rules;
-    }
-
-    /**
-     * Put a rule.
-     *
-     * @param  $key
-     * @param  $rules
-     * @return $this
-     */
-    public function putRules($key, $rules)
-    {
-        $this->rules[$key] = $rules;
-
-        return $this;
-    }
-
-    /**
-     * Pull a rule.
-     *
-     * @param       $key
-     * @param  null $default
-     * @return mixed
-     */
-    public function pullRules($key, $default = null)
-    {
-        return array_get($this->rules, $key, $default);
-    }
-
-    /**
-     * Set the input.
-     *
-     * @param  $input
-     * @return $this
-     */
-    public function setInput($input)
-    {
-        $this->input = $input;
-
-        return $this;
-    }
-
-    /**
-     * Get the input.
-     *
-     * @return array
-     */
-    public function getInput()
-    {
-        return $this->input;
-    }
-
-    /**
-     * Put input.
-     *
-     * @param  $key
-     * @param  $input
-     * @return $this
-     */
-    public function putInput($key, $input)
-    {
-        $this->input[$key] = $input;
-
-        return $this;
-    }
-
-    /**
-     * Pull input.
-     *
-     * @param       $key
-     * @param  null $default
-     * @return mixed
-     */
-    public function pullInput($key, $default = null)
-    {
-        return array_get($this->input, $key, $default);
+        return $this->fields;
     }
 
     /**
      * Set the form data.
      *
-     * @param  $data
+     * @param Collection $data
      * @return $this
      */
-    public function setData($data)
+    public function setData(Collection $data)
     {
         $this->data = $data;
 
@@ -355,181 +206,10 @@ class Form
     /**
      * Get the form data.
      *
-     * @return array
+     * @return Collection
      */
     public function getData()
     {
         return $this->data;
-    }
-
-    /**
-     * Put data.
-     *
-     * @param  $key
-     * @param  $data
-     * @return $this
-     */
-    public function putData($key, $data)
-    {
-        $this->data[$key] = $data;
-
-        return $this;
-    }
-
-    /**
-     * Pull data.
-     *
-     * @param       $key
-     * @param  null $default
-     * @return mixed
-     */
-    public function pullData($key, $default = null)
-    {
-        return array_get($this->data, $key, $default);
-    }
-
-    /**
-     * Set the form response.
-     *
-     * @param  $response
-     * @return $this
-     */
-    public function setResponse($response)
-    {
-        $this->response = $response;
-
-        return $this;
-    }
-
-    /**
-     * Get the form response.
-     *
-     * @return Response|null
-     */
-    public function getResponse()
-    {
-        return $this->response;
-    }
-
-    /**
-     * Set the entry.
-     *
-     * @param  $entry
-     * @return $this
-     */
-    public function setEntry($entry)
-    {
-        $this->entry = $entry;
-
-        return $this;
-    }
-
-    /**
-     * Get the entry.
-     *
-     * @return Response|null
-     */
-    public function getEntry()
-    {
-        return $this->entry;
-    }
-
-    /**
-     * Set the stream.
-     *
-     * @param  $stream
-     * @return $this
-     */
-    public function setStream($stream)
-    {
-        $this->stream = $stream;
-
-        return $this;
-    }
-
-    /**
-     * Get the stream.
-     *
-     * @return StreamInterface|null
-     */
-    public function getStream()
-    {
-        return $this->stream;
-    }
-
-    /**
-     * Set the view.
-     *
-     * @param  $view
-     * @return $this
-     */
-    public function setView($view)
-    {
-        $this->view = $view;
-
-        return $this;
-    }
-
-    /**
-     * Get the view.
-     *
-     * @return string
-     */
-    public function getView()
-    {
-        return $this->view;
-    }
-
-    /**
-     * Set the wrapper.
-     *
-     * @param  $wrapper
-     * @return $this
-     */
-    public function setWrapper($wrapper)
-    {
-        $this->wrapper = $wrapper;
-
-        return $this;
-    }
-
-    /**
-     * Get the wrapper.
-     *
-     * @return string
-     */
-    public function getWrapper()
-    {
-        return $this->wrapper;
-    }
-
-    /**
-     * Get the actions.
-     *
-     * @return ActionCollection
-     */
-    public function getActions()
-    {
-        return $this->actions;
-    }
-
-    /**
-     * Get the buttons.
-     *
-     * @return ButtonCollection
-     */
-    public function getButtons()
-    {
-        return $this->buttons;
-    }
-
-    /**
-     * Get the sections.
-     *
-     * @return SectionCollection
-     */
-    public function getSections()
-    {
-        return $this->sections;
     }
 }

@@ -375,7 +375,7 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
     /**
      * @param Form $form
      */
-    public static function saveFormInput(Form $form)
+    public function saveFormInput(Form $form)
     {
         $entry = $form->getEntry();
 

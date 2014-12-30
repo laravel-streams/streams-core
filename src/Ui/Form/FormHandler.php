@@ -16,15 +16,14 @@ class FormHandler
     /**
      * Handle the form.
      *
-     * @param FormBuilder $builder
+     * @param Form $form
      */
-    public function handle(FormBuilder $builder)
+    public function handle(Form $form)
     {
-        $model = $builder->getModel();
-        $form  = $builder->getForm();
-
+        $model = $form->getModel();
+        
         if ($model instanceof FormModelInterface) {
-            $model::saveFormInput($form);
+            $model->saveFormInput($form);
         }
     }
 }

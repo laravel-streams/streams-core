@@ -1,27 +1,27 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Action\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Event;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class BuildFormActionsCommand
+ * Class FormBuildEvent
  *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Form\Action\Command
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Event
  */
-class BuildFormActionsCommand
+class FormBuildEvent
 {
 
     /**
-     * The form builder.
+     * The table builder.
      *
      * @var \Anomaly\Streams\Platform\Ui\Form\FormBuilder
      */
     protected $builder;
 
     /**
-     * Create a new BuildFormActionsCommand instance.
+     * Create a new FormBuildEvent instance.
      *
      * @param FormBuilder $builder
      */
@@ -31,7 +31,7 @@ class BuildFormActionsCommand
     }
 
     /**
-     * Get the form builder.
+     * Get the table builder.
      *
      * @return FormBuilder
      */
