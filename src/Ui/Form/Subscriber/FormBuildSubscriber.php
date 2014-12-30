@@ -20,9 +20,9 @@ class FormBuildSubscriber
      */
     public function subscribe(Dispatcher $events)
     {
-        $events->listen(
+        /*$events->listen(
             'streams::table.build',
             'Anomaly\Streams\Platform\Ui\Form\Listener\FormBuildListener'
-        );
+        );*/
     }
 }
