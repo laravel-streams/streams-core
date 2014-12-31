@@ -62,6 +62,14 @@ interface EntryInterface
     public function getField($slug);
 
     /**
+     * Return whether the entry has a field.
+     *
+     * @param  $slug
+     * @return FieldInterface
+     */
+    public function hasField($slug);
+
+    /**
      * Get an assignment by field slug.
      *
      * @param  $fieldSlug

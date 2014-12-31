@@ -230,6 +230,17 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
     }
 
     /**
+     * Return whether the entry has a field.
+     *
+     * @param  $slug
+     * @return FieldInterface
+     */
+    public function hasField($slug)
+    {
+        return ($this->getField($slug) instanceof FieldType);
+    }
+
+    /**
      * Get an assignment by field slug.
      *
      * @param  $fieldSlug
@@ -373,33 +384,39 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
     }
 
     /**
-     * @param Form $form
+     * Save the form input.
+     *
+     * @param Form          $form
+     * @param EntryHydrator $hydrator
      */
-    public function saveFormInput(Form $form)
+    public function saveFormInput(Form $form, EntryHydrator $hydrator)
     {
-        $entry = $form->getEntry();
+        $entry  = $form->getEntry();
+        $fields = $form->getFields();
 
-        if (!$entry instanceof EntryInterface) {
-            return false;
-        }
-
-        foreach ($form->pullInput(config('app.locale'), []) as $key => $value) {
-            $entry->{$key} = $value;
-        }
+        /**
+         * Save default translation input.
+         */
+        $hydrator->fill($entry, $fields->locale(config('app.locale')));
 
         $entry->save();
 
+        /**
+         * Loop through available translations
+         * and save translated input.
+         */
         if ($entry->isTranslatable() and $entry instanceof Translatable) {
+
             foreach (config('streams::config.available_locales') as $locale) {
+
+                //  Skip default - already did it.
                 if ($locale == config('app.locale')) {
                     continue;
                 }
 
                 $entry = $entry->translate($locale);
 
-                foreach ($form->pullInput($locale, []) as $key => $value) {
-                    $entry->{$key} = $value;
-                }
+                $hydrator->fill($entry, $fields->locale($locale));
 
                 $entry->save();
             }
