@@ -54,13 +54,6 @@ class BuildFieldTypeCommand
     protected $hidden;
 
     /**
-     * The field section.
-     *
-     * @var string
-     */
-    protected $section;
-
-    /**
      * The translatable flag.
      *
      * @var null
@@ -133,23 +126,22 @@ class BuildFieldTypeCommand
     /**
      * Create a new BuildFieldTypeCommand instance.
      *
-     * @param        $type
-     * @param        $field
-     * @param null   $value
-     * @param null   $label
-     * @param null   $prefix
-     * @param null   $suffix
-     * @param null   $locale
-     * @param bool   $hidden
-     * @param bool   $required
-     * @param null   $inputView
-     * @param null   $filterView
-     * @param null   $wrapperView
-     * @param null   $placeholder
-     * @param null   $instructions
-     * @param null   $translatable
-     * @param string $section
-     * @param array  $config
+     * @param       $type
+     * @param       $field
+     * @param null  $value
+     * @param null  $label
+     * @param null  $prefix
+     * @param null  $suffix
+     * @param null  $locale
+     * @param bool  $hidden
+     * @param bool  $required
+     * @param null  $inputView
+     * @param null  $filterView
+     * @param null  $wrapperView
+     * @param null  $placeholder
+     * @param null  $instructions
+     * @param null  $translatable
+     * @param array $config
      */
     public function __construct(
         $type,
@@ -167,7 +159,6 @@ class BuildFieldTypeCommand
         $placeholder = null,
         $instructions = null,
         $translatable = null,
-        $section = 'default',
         array $config = []
     ) {
         $this->type         = $type;
@@ -179,7 +170,6 @@ class BuildFieldTypeCommand
         $this->hidden       = $hidden;
         $this->prefix       = $prefix;
         $this->suffix       = $suffix;
-        $this->section      = $section;
         $this->required     = $required;
         $this->inputView    = $inputView;
         $this->filterView   = $filterView;
