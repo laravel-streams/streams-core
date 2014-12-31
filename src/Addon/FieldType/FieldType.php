@@ -107,13 +107,6 @@ class FieldType extends Addon
     protected $prefix = '';
 
     /**
-     * The field's input suffix.
-     *
-     * @var string
-     */
-    protected $suffix = '';
-
-    /**
      * The database column type.
      *
      * @var string
@@ -423,7 +416,7 @@ class FieldType extends Addon
      *
      * @return mixed|null
      */
-    private function getLocale()
+    public function getLocale()
     {
         if (!$this->locale) {
             $this->locale = config('app.locale', 'en');
@@ -483,33 +476,6 @@ class FieldType extends Addon
     }
 
     /**
-     * Set the suffix.
-     *
-     * @param  null $suffix
-     * @return $this
-     */
-    public function setSuffix($suffix = null)
-    {
-        $this->suffix = $suffix;
-
-        return $this;
-    }
-
-    /**
-     * Get the suffix.
-     *
-     * @return string|string
-     */
-    public function getSuffix()
-    {
-        if ($this->suffix) {
-            return (starts_with($this->suffix, '_') ? null : '_') . $this->suffix;
-        }
-
-        return null;
-    }
-
-    /**
      * Set the hidden flag.
      *
      * @param  $hidden
@@ -562,7 +528,7 @@ class FieldType extends Addon
      */
     public function getFieldName()
     {
-        return "{$this->getPrefix()}{$this->getField()}{$this->getSuffix()}";
+        return "{$this->getPrefix()}{$this->getField()}_{$this->getLocale()}";
     }
 
     /**
@@ -652,6 +618,20 @@ class FieldType extends Addon
     public function getWrapperView()
     {
         return $this->wrapperView;
+    }
+
+    /**
+     * Get the field's post value.
+     *
+     * @return null|string|array
+     */
+    public function getPostValue()
+    {
+        if (!$_POST || !array_key_exists($this->getFieldName(), $_POST)) {
+            return null;
+        }
+
+        return $_POST[$this->getFieldName()];
     }
 
     /**

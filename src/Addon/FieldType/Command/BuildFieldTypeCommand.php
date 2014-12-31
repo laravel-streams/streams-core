@@ -89,13 +89,6 @@ class BuildFieldTypeCommand
     protected $prefix;
 
     /**
-     * The field name suffix.
-     *
-     * @var null
-     */
-    protected $suffix;
-
-    /**
      * The field type configuration.
      *
      * @var array
@@ -131,7 +124,6 @@ class BuildFieldTypeCommand
      * @param null  $value
      * @param null  $label
      * @param null  $prefix
-     * @param null  $suffix
      * @param null  $locale
      * @param bool  $hidden
      * @param bool  $required
@@ -149,7 +141,6 @@ class BuildFieldTypeCommand
         $value = null,
         $label = null,
         $prefix = null,
-        $suffix = null,
         $locale = null,
         $hidden = false,
         $required = false,
@@ -169,7 +160,6 @@ class BuildFieldTypeCommand
         $this->config       = $config;
         $this->hidden       = $hidden;
         $this->prefix       = $prefix;
-        $this->suffix       = $suffix;
         $this->required     = $required;
         $this->inputView    = $inputView;
         $this->filterView   = $filterView;
@@ -177,16 +167,6 @@ class BuildFieldTypeCommand
         $this->placeholder  = $placeholder;
         $this->translatable = $translatable;
         $this->instructions = $instructions;
-    }
-
-    /**
-     * Get the field name suffix.
-     *
-     * @return string|null
-     */
-    public function getSuffix()
-    {
-        return $this->suffix;
     }
 
     /**
