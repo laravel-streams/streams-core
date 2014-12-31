@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\Contract\DateFieldTypeInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\Contract\RelationFieldTypeInterface;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 
@@ -25,7 +26,7 @@ class AssignmentCollection extends EloquentCollection
     public function findByFieldSlug($slug)
     {
         foreach ($this->items as $item) {
-            if ($item->getFieldSlug() == $slug) {
+            if ($item instanceof AssignmentInterface && $item->getFieldSlug() == $slug) {
                 return $item;
             }
         }
@@ -43,10 +44,10 @@ class AssignmentCollection extends EloquentCollection
         $relations = [];
 
         foreach ($this->items as $item) {
-            $type = $item->getFieldType();
-
-            if ($type instanceof RelationFieldTypeInterface) {
-                $relations[] = $item;
+            if ($item instanceof AssignmentInterface && $type = $item->getFieldType()) {
+                if ($type instanceof RelationFieldTypeInterface) {
+                    $relations[] = $item;
+                }
             }
         }
 
@@ -63,13 +64,31 @@ class AssignmentCollection extends EloquentCollection
         $dates = [];
 
         foreach ($this->items as $item) {
-            $type = $item->getFieldType();
-
-            if ($type instanceof DateFieldTypeInterface) {
-                $dates[] = $item;
+            if ($item instanceof AssignmentInterface && $type = $item->getFieldType()) {
+                if ($type instanceof DateFieldTypeInterface) {
+                    $dates[] = $item;
+                }
             }
         }
 
         return self::make($dates);
+    }
+
+    /**
+     * Return an array of field slugs.
+     *
+     * @return array
+     */
+    public function fieldSlugs()
+    {
+        $slugs = [];
+
+        foreach ($this->items as $item) {
+            if ($item instanceof AssignmentInterface && $slug = $item->getFieldSlug()) {
+                $slugs[] = $slug;
+            }
+        }
+
+        return $slugs;
     }
 }
