@@ -22,7 +22,7 @@ class ClassGuesser
         /**
          * If the class is already set then skip it.
          */
-        if (array_key_exists('class', $button)) {
+        if (array_key_exists('class', $button['attributes'])) {
             return $button;
         }
 
@@ -37,7 +37,7 @@ class ClassGuesser
          * Guess the button class based
          * on the button type.
          */
-        $button['class'] = 'btn ' . $button['type'] . ' btn-' . $button['size'];
+        $button['attributes']['class'] = 'btn btn-' . $button['type'] . ' btn-sm';
 
         return $button;
     }
