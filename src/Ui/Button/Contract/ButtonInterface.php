@@ -79,6 +79,21 @@ interface ButtonInterface
     public function getText();
 
     /**
+     * Set the button type.
+     *
+     * @param string $type
+     * @return $this
+     */
+    public function setType($type);
+
+    /**
+     * Get the button type.
+     *
+     * @return string
+     */
+    public function getType();
+
+    /**
      * Set the URL.
      *
      * @param $url

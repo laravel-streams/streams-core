@@ -22,30 +22,8 @@
             </td>
         {% endfor %}
 
-        <td class="text-right buttons">
-            {% for button in table.buttons %}
-                <div class="btn-group">
-                    <a class="btn btn-{{ button.type }} btn-sm" {{ html_attributes(button.getAttributes()) }}>
-                        {{ icon ? icon(button.icon) }}
-                        {{ trans(button.text) }}
-                    </a>
-                    {% if button.dropdown %}
-                        <a class="btn btn-{{ button.type }} btn-sm dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                        </a>
-                        {% for link in button.dropdown %}
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li>
-                                    <a href="{{ link.url }}">
-                                        {{ icon ? icon(link.icon) }}
-                                        {{ trans(link.text) }}
-                                    </a>
-                                </li>
-                            </ul>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            {% endfor %}
+        <td class="text-right">
+            {{ buttons(table.buttons)|raw }}
         </td>
     </tr>
 {% endfor %}
