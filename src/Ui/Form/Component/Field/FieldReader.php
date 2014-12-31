@@ -22,20 +22,20 @@ class FieldReader
     {
 
         /**
-         * If the slug is numeric and the field is a
-         * string then use the field the field.
+         * If the field is a string then use it as
+         * the field parameter.
          */
-        if (is_numeric($slug) && is_string($field)) {
+        if (is_string($field)) {
             $field = [
                 'field' => $field,
             ];
         }
 
         /**
-         * If the slug is not numeric and the field is
-         * an array without a slug then use the slug.
+         * Move the slug into the field.
+         * Not sure if this is actually needed.
          */
-        if (!is_numeric($slug) && is_array($field) && !isset($field['slug'])) {
+        if (is_array($field) && !isset($field['slug'])) {
             $field['slug'] = $slug;
         }
 
@@ -49,10 +49,10 @@ class FieldReader
         }
 
         /**
-         * If the slug is not numeric and the field is
-         * missing the field then use the slug as the field.
+         * If the field parameter is missing then
+         * use the slug as the field.
          */
-        if (!is_numeric($slug) && is_array($field) && !isset($field['field'])) {
+        if (is_array($field) && !isset($field['field'])) {
             $field['field'] = $slug;
         }
 
