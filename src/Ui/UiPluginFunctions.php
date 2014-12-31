@@ -65,7 +65,7 @@ class UiPluginFunctions
         }
 
         if ($button->getTag() == 'button') {
-            //return $this->form->button()
+            return $this->form->button('test_value', $button->getAttributes());
         }
     }
 

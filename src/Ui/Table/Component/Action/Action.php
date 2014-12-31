@@ -15,6 +15,13 @@ class Action extends Button implements ActionInterface
 {
 
     /**
+     * The action tag.
+     *
+     * @var string
+     */
+    protected $tag = 'button';
+
+    /**
      * The active flag.
      *
      * @var bool
