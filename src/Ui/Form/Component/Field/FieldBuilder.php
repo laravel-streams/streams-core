@@ -32,15 +32,23 @@ class FieldBuilder
     protected $builder;
 
     /**
+     * The configurator utility.
+     *
+     * @var FieldConfigurator
+     */
+    protected $configurator;
+
+    /**
      * Create a new FieldTypeBuilder instance.
      *
      * @param FieldReader      $reader
      * @param FieldTypeBuilder $builder
      */
-    public function __construct(FieldReader $reader, FieldTypeBuilder $builder)
+    public function __construct(FieldReader $reader, FieldTypeBuilder $builder, FieldConfigurator $configurator)
     {
-        $this->reader  = $reader;
-        $this->builder = $builder;
+        $this->reader       = $reader;
+        $this->builder      = $builder;
+        $this->configurator = $configurator;
     }
 
     /**
@@ -55,9 +63,9 @@ class FieldBuilder
         $stream = $form->getStream();
         $entry  = $form->getEntry();
 
-        foreach ($builder->getFields() as $slug => $field) {
+        foreach ($builder->getFields() as $slug => $parameters) {
 
-            $field = $this->reader->standardize($slug, $field);
+            $parameters = $this->reader->standardize($slug, $parameters);
 
             /**
              * If the field is a field type then
@@ -66,23 +74,16 @@ class FieldBuilder
              * Otherwise build a generic field type
              * using the command.
              */
-            $parameters = $field;
-
-            if ($stream->getField($field['field'])) {
-                $field = $stream->getFieldType($field['field'], $entry);
-
-                foreach ($parameters as $parameter => $value) {
-
-                    $method = camel_case('set_' . $parameter);
-
-                    if (method_exists($field, $method)) {
-                        $field->{$method}($value);
-                    }
-                }
+            if ($stream->getField($parameters['field'])) {
+                $field = $stream->getFieldType($parameters['field'], $entry);
             } else {
-                $field = $this->builder->build($field);
+                $field = $this->builder->build($parameters);
             }
 
+            // Configure the overrides using the configurator.
+            $this->configurator->configure($field, $parameters);
+
+            // Load it up onto the table's fields.
             $fields->put($field->getField(), $field);
         }
     }
