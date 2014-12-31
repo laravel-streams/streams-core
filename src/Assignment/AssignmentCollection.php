@@ -37,7 +37,7 @@ class AssignmentCollection extends EloquentCollection
     /**
      * Return only assignments that have relation fields.
      *
-     * @return static
+     * @return AssignmentCollection
      */
     public function relations()
     {
@@ -57,7 +57,7 @@ class AssignmentCollection extends EloquentCollection
     /**
      * Return only assignments that have date fields.
      *
-     * @return static
+     * @return AssignmentCollection
      */
     public function dates()
     {
@@ -90,5 +90,46 @@ class AssignmentCollection extends EloquentCollection
         }
 
         return $slugs;
+    }
+
+    /**
+     * Return only assignments with locked fields.
+     *
+     * @return AssignmentCollection
+     */
+    public function locked()
+    {
+        $items = [];
+
+        foreach ($this->items as $item) {
+            if ($item instanceof AssignmentInterface && $field = $item->getField()) {
+                if ($field->isLocked()) {
+                    $items[] = $item;
+                }
+            }
+        }
+
+        return new static($items);
+    }
+
+    /**
+     * Return only assignments with fields
+     * that are not locked.
+     *
+     * @return AssignmentCollection
+     */
+    public function notLocked()
+    {
+        $items = [];
+
+        foreach ($this->items as $item) {
+            if ($item instanceof AssignmentInterface && $field = $item->getField()) {
+                if (!$field->isLocked()) {
+                    $items[] = $item;
+                }
+            }
+        }
+
+        return new static($items);
     }
 }

@@ -86,6 +86,9 @@ class FieldBuilder
         $stream = $form->getStream();
         $entry  = $form->getEntry();
 
+        $options  = $form->getOptions();
+        $excluded = $options->get('exclude', []);
+
         $configuration = $builder->getFields();
 
         /**
@@ -110,6 +113,11 @@ class FieldBuilder
 
             // Standardize the input.
             $parameters = $this->reader->standardize($key, $parameters);
+
+            // Skip excluded fields.
+            if (in_array($parameters['field'], $excluded)) {
+                continue;
+            }
 
             // Make the field object.
             $field = $this->factory->make($parameters, $stream, $entry);
