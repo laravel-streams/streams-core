@@ -19,12 +19,9 @@ class FilterHandler
      *
      * @param Builder         $query
      * @param FilterInterface $filter
-     * @return $this|Builder
      */
     public function handle(Builder $query, FilterInterface $filter)
     {
-        $query = $query->where($filter->getSlug(), 'LIKE', "%{$filter->getValue()}%");
-
-        return $query;
+        $query->where($filter->getSlug(), 'LIKE', "%{$filter->getValue()}%");
     }
 }

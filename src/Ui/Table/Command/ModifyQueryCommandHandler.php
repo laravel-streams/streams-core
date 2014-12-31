@@ -29,5 +29,9 @@ class ModifyQueryCommandHandler
             'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\FilterQueryCommand',
             compact('table', 'query')
         );
+        $this->execute(
+            'Anomaly\Streams\Platform\Ui\Table\Component\View\Command\TableQueryCommand',
+            compact('table', 'query')
+        );
     }
 }

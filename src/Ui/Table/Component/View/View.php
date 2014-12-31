@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
 
 /**
  * Class View
@@ -12,7 +10,7 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\View
  */
-class View implements ViewInterface, ViewHandlerInterface
+class View implements ViewInterface
 {
 
     /**
@@ -44,60 +42,33 @@ class View implements ViewInterface, ViewHandlerInterface
     protected $prefix;
 
     /**
-     * The TableQueryEvent handler.
+     * The view handler.
      *
      * @var mixed
      */
-    protected $tableQueryHandler;
+    protected $handler = 'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewHandler@handle';
 
     /**
-     * Handle the TableQueryEvent.
-     *
-     * @param TableQueryEvent $event
-     */
-    public function onTableQuery(TableQueryEvent $event)
-    {
-        $handler = $this->getTableQueryHandler();
-
-        if ($handler === null) {
-            $this->handleTableQueryEvent($event);
-        }
-
-        if (is_string($handler) || $handler instanceof \Closure) {
-            app()->call($handler, compact('event'));
-        }
-    }
-
-    /**
-     * Default handle for the TableQueryEvent.
-     *
-     * @param TableQueryEvent $event
-     */
-    protected function handleTableQueryEvent(TableQueryEvent $event)
-    {
-    }
-
-    /**
-     * Set the TableQueryEvent handler.
+     * Set the view handler.
      *
      * @param $handler
      * @return $this
      */
-    public function setTableQueryHandler($handler)
+    public function setHandler($handler)
     {
-        $this->tableQueryHandler = $handler;
+        $this->handler = $handler;
 
         return $this;
     }
 
     /**
-     * Get the TableQueryEvent handler.
+     * Get the view handler.
      *
      * @return mixed
      */
-    public function getTableQueryHandler()
+    public function getHandler()
     {
-        return $this->tableQueryHandler;
+        return $this->handler;
     }
 
     /**

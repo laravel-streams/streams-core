@@ -20,7 +20,6 @@ class ViewRegistry
         'all' => [
             'slug' => 'all',
             'text' => 'streams::misc.all',
-            'view' => 'Anomaly\Streams\Platform\Ui\Table\Component\View\Type\ViewAll',
         ]
     ];
 

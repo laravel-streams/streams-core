@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Contract;
 
-use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
-
 /**
  * Interface ViewInterface
  *
@@ -14,26 +12,19 @@ interface ViewInterface
 {
 
     /**
-     * Handle the TableQueryEvent.
+     * Set the view handler.
      *
-     * @param TableQueryEvent $event
-     */
-    public function onTableQuery(TableQueryEvent $event);
-
-    /**
-     * Set the TableQueryEvent handler.
-     *
-     * @param $tableQueryHandler
+     * @param $handler
      * @return $this
      */
-    public function setTableQueryHandler($tableQueryHandler);
+    public function setHandler($handler);
 
     /**
-     * Get the TableQueryEvent handler.
+     * Get the view handler.
      *
      * @return mixed
      */
-    public function getTableQueryHandler();
+    public function getHandler();
 
     /**
      * Get the view URL.
