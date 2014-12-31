@@ -37,8 +37,8 @@ class EntryHydrator
     protected function set(EntryInterface $entry, FieldType $field)
     {
         // If the field doesn't exist.. ignore it.
-        if ($entry->hasField($field->getSlug())) {
-            $entry->{$field->getSlug()} = $field->getPostValue();
+        if ($entry->hasField($field->getField())) {
+            $entry->{$field->getField()} = $field->getPostValue();
         }
     }
 }

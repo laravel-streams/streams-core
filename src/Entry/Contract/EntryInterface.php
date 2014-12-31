@@ -65,7 +65,7 @@ interface EntryInterface
      * Return whether the entry has a field.
      *
      * @param  $slug
-     * @return FieldInterface
+     * @return bool
      */
     public function hasField($slug);
 

@@ -233,11 +233,11 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
      * Return whether the entry has a field.
      *
      * @param  $slug
-     * @return FieldInterface
+     * @return bool
      */
     public function hasField($slug)
     {
-        return ($this->getField($slug) instanceof FieldType);
+        return ($this->getField($slug) instanceof FieldInterface);
     }
 
     /**

@@ -32,4 +32,22 @@ class FieldCollection extends Collection
 
         return new static($items);
     }
+
+    /**
+     * Return an array of field slugs.
+     *
+     * @return array
+     */
+    public function fieldSlugs()
+    {
+        $slugs = [];
+
+        foreach ($this->items as $item) {
+            if ($item instanceof FieldType && $slug = $item->getField()) {
+                $slugs[] = $slug;
+            }
+        }
+
+        return $slugs;
+    }
 }
