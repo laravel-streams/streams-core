@@ -4,9 +4,9 @@
 
     {{ form_open() }}
 
-    {% include "streams::ui/form/partials/toolbar" %}
-    {% include "streams::ui/form/partials/fields" %}
-    {% include "streams::ui/form/partials/footer" %}
+    {{ form_toolbar(form)|raw }}
+    {{ form_layout(form)|raw }}
+    {{ form_controls(form)|raw }}
 
     {{ form_close() }}
 

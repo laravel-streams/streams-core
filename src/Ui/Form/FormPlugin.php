@@ -37,6 +37,10 @@ class FormPlugin extends Plugin
      */
     public function getFunctions()
     {
-        return [];
+        return [
+            new \Twig_SimpleFunction('form_toolbar', [$this->functions, 'toolbar']),
+            new \Twig_SimpleFunction('form_layout', [$this->functions, 'layout']),
+            new \Twig_SimpleFunction('form_controls', [$this->functions, 'controls']),
+        ];
     }
 }

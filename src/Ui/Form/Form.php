@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Field\FieldCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
@@ -92,15 +93,15 @@ class Form
      * Create a new Form instance.
      *
      * @param Collection       $data
-     * @param Collection       $fields
      * @param Collection       $options
+     * @param FieldCollection  $fields
      * @param ActionCollection $actions
      * @param ButtonCollection $buttons
      */
     public function __construct(
         Collection $data,
-        Collection $fields,
         Collection $options,
+        FieldCollection $fields,
         ActionCollection $actions,
         ButtonCollection $buttons
     ) {
