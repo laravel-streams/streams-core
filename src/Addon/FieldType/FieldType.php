@@ -114,6 +114,13 @@ class FieldType extends Addon
     protected $suffix = '';
 
     /**
+     * The section this form belongs to.
+     *
+     * @var string
+     */
+    protected $section = 'default';
+
+    /**
      * The database column type.
      *
      * @var string
@@ -507,6 +514,29 @@ class FieldType extends Addon
         }
 
         return null;
+    }
+
+    /**
+     * Set the field section.
+     *
+     * @param $section
+     * @return $this
+     */
+    public function setSection($section)
+    {
+        $this->section = $section;
+
+        return $this;
+    }
+
+    /**
+     * Get the field section.
+     *
+     * @return string
+     */
+    public function getSection()
+    {
+        return $this->section;
     }
 
     /**
