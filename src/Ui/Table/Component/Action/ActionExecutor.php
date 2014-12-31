@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Plattable\Ui\Table\Component\Action;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
@@ -9,7 +9,7 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
  * @link          http://anomaly.is/streams-plattable
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Plattable\Ui\Table\Component\Action
+ * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action
  */
 class ActionExecutor
 {

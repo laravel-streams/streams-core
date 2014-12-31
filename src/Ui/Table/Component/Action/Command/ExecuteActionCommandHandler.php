@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Command;
 
-use Anomaly\Streams\Plattable\Ui\Table\Component\Action\ActionExecutor;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionExecutor;
 
 /**
  * Class ExecuteActionCommandHandler
@@ -16,7 +16,7 @@ class ExecuteActionCommandHandler
     /**
      * The action executor.
      *
-     * @var \Anomaly\Streams\Plattable\Ui\Table\Component\Action\ActionExecutor
+     * @var \Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionExecutor
      */
     protected $executor;
 

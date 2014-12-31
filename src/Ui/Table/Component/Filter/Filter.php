@@ -46,7 +46,7 @@ class Filter implements FilterInterface
      *
      * @var mixed
      */
-    protected $handler = 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter@handle';
+    protected $handler = 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterHandler@handle';
 
     /**
      * Set the filter handler.

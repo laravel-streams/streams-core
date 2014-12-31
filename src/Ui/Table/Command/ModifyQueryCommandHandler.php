@@ -26,7 +26,7 @@ class ModifyQueryCommandHandler
         $query = $command->getQuery();
 
         $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\RunTableQueryHooksCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\FilterQueryCommand',
             compact('table', 'query')
         );
     }

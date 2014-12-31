@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Plattable\Ui\Table\Component\Filter;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Plattable\Ui\Table\Component\Filter
+ * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter
  */
 class FilterQuery
 {
@@ -22,12 +22,13 @@ class FilterQuery
      * @param Table           $table
      * @param Builder         $query
      * @param FilterInterface $filter
-     * @param                 $handler
      * @return mixed
      * @throws \Exception
      */
-    public function filter(Table $table, Builder $query, FilterInterface $filter, $handler)
+    public function filter(Table $table, Builder $query, FilterInterface $filter)
     {
+        $handler = $filter->getHandler();
+
         /**
          * If the handler is a callable string or Closure
          * then call it using the IoC container.

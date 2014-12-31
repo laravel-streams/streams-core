@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
-use Anomaly\Streams\Plattable\Ui\Table\Component\Filter\FilterQuery;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQuery;
 
 /**
  * Class FilterQueryCommandHandler
@@ -17,7 +17,7 @@ class FilterQueryCommandHandler
     /**
      * The filter query utility.
      *
-     * @var \Anomaly\Streams\Plattable\Ui\Table\Component\Filter\FilterQuery
+     * @var \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQuery
      */
     protected $query;
 
@@ -45,7 +45,7 @@ class FilterQueryCommandHandler
 
         foreach ($filters->active() as $filter) {
             if ($filter instanceof FilterInterface) {
-                $this->query->filter($table, $query, $filter->getHandler());
+                $this->query->filter($table, $query, $filter);
             }
         }
     }

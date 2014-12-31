@@ -1,9 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Button\Button;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
 
 /**
  * Class Action
@@ -13,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action
  */
-class Action extends Button implements ActionInterface, ActionHandlerInterface
+class Action extends Button implements ActionInterface
 {
 
     /**
