@@ -1,21 +1,23 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Contract;
 
+use Anomaly\Streams\Platform\Ui\Form\Form;
+
 /**
- * Interface FormModelInterface
+ * Interface FormHandlerInterface
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Contract
  */
-interface FormModelInterface
+interface FormHandlerInterface
 {
 
     /**
-     * Find an entry or return a new one.
+     * Handle the form storage.
      *
-     * @param $id
+     * @param Form $form
      * @return mixed
      */
-    public static function findOrNew($id);
+    public function handle(Form $form);
 }

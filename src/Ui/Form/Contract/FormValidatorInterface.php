@@ -1,21 +1,22 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Contract;
 
+use Anomaly\Streams\Platform\Ui\Form\Form;
+
 /**
- * Interface FormModelInterface
+ * Interface FormValidatorInterface
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Contract
  */
-interface FormModelInterface
+interface FormValidatorInterface
 {
 
     /**
-     * Find an entry or return a new one.
+     * Validate a form's input.
      *
-     * @param $id
-     * @return mixed
+     * @param Form $form
      */
-    public static function findOrNew($id);
+    public function validate(Form $form);
 }

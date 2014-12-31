@@ -15,26 +15,34 @@ interface ActionInterface extends ButtonInterface
 {
 
     /**
-     * Handle the FormPostEvent.
-     *
-     * @param FormPostEvent $event
-     */
-    public function onFormPost(FormPostEvent $event);
-
-    /**
-     * Set the FormPostEvent handler.
+     * Set the form response handler.
      *
      * @param $handler
      * @return $this
      */
-    public function setFormPostHandler($handler);
+    public function setFormResponseHandler($handler);
 
     /**
-     * Get the FormPostEvent handler.
+     * Get the form response handler.
      *
      * @return mixed
      */
-    public function getFormPostHandler();
+    public function getFormResponseHandler();
+
+    /**
+     * Set the redirect URL.
+     *
+     * @param $redirect
+     * @return $this
+     */
+    public function setRedirect($redirect);
+
+    /**
+     * Get the redirect URL.
+     *
+     * @return null|string
+     */
+    public function getRedirect();
 
     /**
      * Set the active flag.

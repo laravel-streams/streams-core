@@ -14,12 +14,20 @@ class FieldReader
     /**
      * Standardize field configuration input.
      *
-     * @param $slug
+     * @param $key
      * @param $field
      * @return array
      */
-    public function standardize($slug, $field)
+    public function standardize($key, $field)
     {
+
+        /**
+         * If the field is a wild card marker
+         * then return it as is.
+         */
+        if ($field == '*') {
+            return $field;
+        }
 
         /**
          * If the field is a string then use it as
@@ -32,28 +40,11 @@ class FieldReader
         }
 
         /**
-         * Move the slug into the field.
-         * Not sure if this is actually needed.
-         */
-        if (is_array($field) && !isset($field['slug'])) {
-            $field['slug'] = $slug;
-        }
-
-        /**
-         * If the slug is numeric and the field is
-         * an array without a slug but has a field
-         * then use the field as the slug as well.
-         */
-        if (is_numeric($slug) && is_array($field) && !isset($field['slug']) && isset($field['field'])) {
-            $field['slug'] = $field['field'];
-        }
-
-        /**
          * If the field parameter is missing then
-         * use the slug as the field.
+         * use the key as the field.
          */
         if (is_array($field) && !isset($field['field'])) {
-            $field['field'] = $slug;
+            $field['field'] = $key;
         }
 
         return $field;

@@ -42,7 +42,7 @@ class FormBuilder
      *
      * @var array
      */
-    protected $fields = [];
+    protected $fields = ['*'];
 
     /**
      * The actions config.
@@ -98,7 +98,7 @@ class FormBuilder
         $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\BuildFormCommand', ['builder' => $this]);
 
         if (app('request')->isMethod('post')) {
-            $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\HandleFormPostCommand', ['builder' => $this]);
+            $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\HandleFormPostCommand', ['form' => $this->form]);
         }
     }
 

@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
-
 /**
  * Class FormHandler
  *
@@ -21,9 +19,7 @@ class FormHandler
     public function handle(Form $form)
     {
         $model = $form->getModel();
-        
-        if ($model instanceof FormModelInterface) {
-            $model->saveFormInput($form);
-        }
+
+        app()->call(get_class($model) . '@saveFormInput', compact('form'));
     }
 }

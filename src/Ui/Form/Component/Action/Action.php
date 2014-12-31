@@ -1,9 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Button\Button;
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Form\Event\FormPostEvent;
 
 /**
  * Class Action
@@ -13,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Form\Event\FormPostEvent;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action
  */
-class Action extends Button implements ActionInterface, ActionHandlerInterface
+class Action extends Button implements ActionInterface
 {
 
     /**
@@ -38,60 +36,63 @@ class Action extends Button implements ActionInterface, ActionHandlerInterface
     protected $slug = 'default';
 
     /**
-     * The FormPostEvent handler.
+     * The responding redirect URL.
+     *
+     * @var null|string
+     */
+    protected $redirect = null;
+
+    /**
+     * The setFormResponse handler.
      *
      * @var mixed
      */
-    protected $formPostHandler;
+    protected $formResponseHandler = 'Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionResponseHandler@handle';
 
     /**
-     * Handle the FormPostEvent.
-     *
-     * @param FormPostEvent $event
-     */
-    public function onFormPost(FormPostEvent $event)
-    {
-        $handler = $this->getFormPostHandler();
-
-        if ($handler === null) {
-            $this->handleFormPostEvent($event);
-        }
-
-        if (is_string($handler) || $handler instanceof \Closure) {
-            app()->call($handler, compact('event'));
-        }
-    }
-
-    /**
-     * Default handle for the FormPostEvent.
-     *
-     * @param FormPostEvent $event
-     */
-    protected function handleFormPostEvent(FormPostEvent $event)
-    {
-    }
-
-    /**
-     * Set the FormPostEvent handler.
+     * Set the form response handler.
      *
      * @param $handler
      * @return $this
      */
-    public function setFormPostHandler($handler)
+    public function setFormResponseHandler($handler)
     {
-        $this->formPostHandler = $handler;
+        $this->formResponseHandler = $handler;
 
         return $this;
     }
 
     /**
-     * Get the FormPostEvent handler.
+     * Get the form response handler.
      *
      * @return mixed
      */
-    public function getFormPostHandler()
+    public function getFormResponseHandler()
     {
-        return $this->formPostHandler;
+        return $this->formResponseHandler;
+    }
+
+    /**
+     * Set the redirect URL.
+     *
+     * @param $redirect
+     * @return $this
+     */
+    public function setRedirect($redirect)
+    {
+        $this->redirect = $redirect;
+
+        return $this;
+    }
+
+    /**
+     * Get the redirect URL.
+     *
+     * @return null|string
+     */
+    public function getRedirect()
+    {
+        return $this->redirect;
     }
 
     /**

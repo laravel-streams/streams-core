@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract;
 
-use Anomaly\Streams\Platform\Ui\Form\Event\FormPostEvent;
+use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
  * Interface ActionHandlerInterface
@@ -10,13 +10,13 @@ use Anomaly\Streams\Platform\Ui\Form\Event\FormPostEvent;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract
  */
-interface ActionHandlerInterface
+interface ActionResponseInterface
 {
 
     /**
-     * Handle the FormPostEvent.
+     * Handle the form response.
      *
-     * @param FormPostEvent $event
+     * @param Form $form
      */
-    public function onFormPost(FormPostEvent $event);
+    public function handle(Form $form);
 }

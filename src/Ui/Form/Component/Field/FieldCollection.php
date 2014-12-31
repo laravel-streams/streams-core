@@ -15,21 +15,21 @@ class FieldCollection extends Collection
 {
 
     /**
-     * Return fields only in a given section.
+     * Return fields only of a certain locale.
      *
-     * @param string $section
+     * @param $locale
      * @return static
      */
-    public function section($section = 'default')
+    public function locale($locale)
     {
-        $fields = [];
+        $items = [];
 
-        foreach ($this->items as $item) {
-            if ($item instanceof FieldType && $item->getSection() == $section) {
-                $fields[] = $item;
+        foreach ($this->items as $slug => $item) {
+            if ($item instanceof FieldType && $item->getLocale() == $locale) {
+                $items[$slug] = $item;
             }
         }
 
-        return new static($fields);
+        return new static($items);
     }
 }
