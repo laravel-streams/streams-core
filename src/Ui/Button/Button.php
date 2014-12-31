@@ -18,7 +18,14 @@ class Button implements ButtonInterface
      *
      * @var string
      */
-    protected $tag = 'anchor';
+    protected $tag = 'a';
+
+    /**
+     * The button URL.
+     *
+     * @var null|string
+     */
+    protected $url = null;
 
     /**
      * The button text.
@@ -198,6 +205,29 @@ class Button implements ButtonInterface
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set the URL.
+     *
+     * @param $url
+     * @return $this
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Get the URL.
+     *
+     * @return null|string
+     */
+    public function getUrl()
+    {
+        return $this->url;
     }
 
     /**

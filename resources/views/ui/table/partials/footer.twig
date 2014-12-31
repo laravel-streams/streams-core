@@ -3,28 +3,7 @@
 <tr>
     <td colspan="100%" style="padding: 10px;">
 
-        {% for action in table.actions %}
-            <div class="btn-group actions dropup">
-                <button class="btn btn-sm btn-{{ action.type }}" {{ html_attributes(action.attributes) }}>
-                    {{ trans(action.text) }}
-                </button>
-                {% if action.dropdown %}
-                    <button class="btn btn-{{ action.type }} btn-sm dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                    </button>
-                    {% for link in action.dropdown %}
-                        <ul class="dropdown-menu">
-                            <li>
-                                <button value="{{ link.slug }}" name="{{ link.name }}">
-                                    {{ icon ? icon(link.icon) }}
-                                    {{ trans(link.text) }}
-                                </button>
-                            </li>
-                        </ul>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        {% endfor %}
+        {{ buttons(table.actions)|raw }}
 
         {% if table.pagination.links %}
             <div class="btn-group pull-right">

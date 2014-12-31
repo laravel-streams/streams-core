@@ -35,14 +35,6 @@ class ButtonReader
          */
         $button['attributes'] = array_get($button, 'attributes', []);
 
-        /**
-         * If the HREF is present outside of the attributes
-         * then pull it and put it in the attributes array.
-         */
-        if (isset($button['href'])) {
-            $button['attributes']['href'] = array_pull($button, 'href');
-        }
-
         return $button;
     }
 }

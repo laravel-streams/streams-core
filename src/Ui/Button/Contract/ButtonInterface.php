@@ -102,6 +102,21 @@ interface ButtonInterface
     public function getType();
 
     /**
+     * Set the URL.
+     *
+     * @param $url
+     * @return $this
+     */
+    public function setUrl($url);
+
+    /**
+     * Get the URL.
+     *
+     * @return null|string
+     */
+    public function getUrl();
+
+    /**
      * Set the button tag.
      *
      * @param string $tag

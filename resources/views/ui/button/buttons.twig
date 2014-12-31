@@ -1,0 +1,23 @@
+{% for button in buttons %}
+    <div class="btn-group">
+
+        {{ button(button)|raw }}
+
+        {#{% if button.dropdown %}
+            <button class="btn btn-{{ button.type }} btn-sm dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            {% for link in button.dropdown %}
+                <ul class="dropdown-menu">
+                    <li>
+                        <button value="{{ link.slug }}" name="{{ link.name }}">
+                            {{ icon ? icon(link.icon) }}
+                            {{ trans(link.text) }}
+                        </button>
+                    </li>
+                </ul>
+            {% endfor %}
+        {% endif %}#}
+
+    </div>
+{% endfor %}
