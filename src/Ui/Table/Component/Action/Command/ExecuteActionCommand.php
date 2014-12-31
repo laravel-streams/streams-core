@@ -1,27 +1,27 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Event;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
- * Class TablePostEvent
+ * Class ExecuteActionCommand
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Event
+ * @link    http://anomaly.is/streams-platform
+ * @author  AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author  Ryan Thompson <ryan@anomaly.is>
+ * @package Anomaly\Streams\Platform\Ui\Table\Component\Action\Command
  */
-class TablePostEvent
+class ExecuteActionCommand
 {
 
     /**
      * The table object.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Table
+     * @var Table
      */
     protected $table;
 
     /**
-     * Create a new TablePostEvent instance.
+     * Create a new LoadTableCommand instance.
      *
      * @param Table $table
      */

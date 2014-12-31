@@ -15,26 +15,19 @@ interface ActionInterface extends ButtonInterface
 {
 
     /**
-     * Handle the TablePostEvent.
-     *
-     * @param TablePostEvent $event
-     */
-    public function onTablePost(TablePostEvent $event);
-
-    /**
-     * Set the TablePostEvent handler.
+     * Set the action handler.
      *
      * @param $handler
      * @return $this
      */
-    public function setTablePostHandler($handler);
+    public function setHandler($handler);
 
     /**
-     * Get the TablePostEvent handler.
+     * Get the action handler.
      *
      * @return mixed
      */
-    public function getTablePostHandler();
+    public function getHandler();
 
     /**
      * Set the active flag.

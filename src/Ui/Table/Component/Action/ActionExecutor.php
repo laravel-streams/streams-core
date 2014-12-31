@@ -1,35 +1,35 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php namespace Anomaly\Streams\Plattable\Ui\Table\Component\Action;
 
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionHandlerInterface;
-use Anomaly\Streams\Platform\Ui\Form\Form;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
- * Class ActionResponder
+ * Class ActionExecutor
  *
- * @link          http://anomaly.is/streams-platform
+ * @link          http://anomaly.is/streams-plattable
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action
+ * @package       Anomaly\Streams\Plattable\Ui\Table\Component\Action
  */
-class ActionResponder
+class ActionExecutor
 {
 
     /**
-     * Set the form response using the active action
-     * form response handler.
+     * Execute an action.
      *
-     * @param Form $form
-     * @param      $handler
+     * @param Table $table
+     * @param       $handler
      * @throws \Exception
+     * @return
      */
-    public function setFormResponse(Form $form, $handler)
+    public function execute(Table $table, $handler)
     {
         /**
          * If the handler is a callable string or Closure
          * then call it using the IoC container.
          */
         if (is_string($handler) || $handler instanceof \Closure) {
-            return app()->call($handler, compact('form'));
+            return app()->call($handler, compact('table'));
         }
 
         /**
@@ -37,7 +37,7 @@ class ActionResponder
          * simply call the handle method on it.
          */
         if ($handler instanceof ActionHandlerInterface) {
-            return $handler->handle($form);
+            return $handler->handle($table);
         }
 
         throw new \Exception('Action $handler must be a callable string, Closure or ActionHandlerInterface.');

@@ -21,7 +21,6 @@ class FilterServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerBindings();
-        $this->registerListeners();
     }
 
     /**
@@ -37,17 +36,6 @@ class FilterServiceProvider extends ServiceProvider
         $this->app->singleton(
             'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry',
             'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry'
-        );
-    }
-
-    /**
-     * Register listeners.
-     */
-    protected function registerListeners()
-    {
-        $this->app->make('events')->listen(
-            'streams::table.query',
-            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\TableQueryListener'
         );
     }
 }

@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract;
 
-use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
+use Anomaly\Streams\Platform\Ui\Table\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Interface FilterHandlerInterface
@@ -14,9 +15,12 @@ interface FilterHandlerInterface
 {
 
     /**
-     * Handle the TableQueryEvent.
+     * Handle the filter.
      *
-     * @param TableQueryEvent $event
+     * @param Table           $table
+     * @param Builder         $query
+     * @param FilterInterface $filter
+     * @return mixed
      */
-    public function onTableQuery(TableQueryEvent $event);
+    public function handle(Table $table, Builder $query, FilterInterface $filter);
 }

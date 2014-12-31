@@ -10,7 +10,7 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract
  */
-interface ActionResponseInterface
+interface ActionHandlerInterface
 {
 
     /**

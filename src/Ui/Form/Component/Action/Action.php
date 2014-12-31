@@ -43,33 +43,33 @@ class Action extends Button implements ActionInterface
     protected $redirect = null;
 
     /**
-     * The setFormResponse handler.
+     * The action handler.
      *
      * @var mixed
      */
-    protected $formResponseHandler = 'Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionResponseHandler@handle';
+    protected $handler = 'Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionHandler@handle';
 
     /**
-     * Set the form response handler.
+     * Set the action handler.
      *
      * @param $handler
      * @return $this
      */
-    public function setFormResponseHandler($handler)
+    public function setHandler($handler)
     {
-        $this->formResponseHandler = $handler;
+        $this->handler = $handler;
 
         return $this;
     }
 
     /**
-     * Get the form response handler.
+     * Get the action handler.
      *
      * @return mixed
      */
-    public function getFormResponseHandler()
+    public function getHandler()
     {
-        return $this->formResponseHandler;
+        return $this->handler;
     }
 
     /**

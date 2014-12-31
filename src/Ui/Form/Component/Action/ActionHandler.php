@@ -4,14 +4,14 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
 use Illuminate\Http\Request;
 
 /**
- * Class ActionResponseHandler
+ * Class ActionHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action
  */
-class ActionResponseHandler
+class ActionHandler
 {
 
     /**
@@ -22,7 +22,7 @@ class ActionResponseHandler
     protected $request;
 
     /**
-     * Create a new ActionResponseHandler instance.
+     * Create a new ActionHandler instance.
      *
      * @param Request $request
      */

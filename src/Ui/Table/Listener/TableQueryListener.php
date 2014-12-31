@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Listener;
 
 use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
 use Laracasts\Commander\CommanderTrait;
@@ -9,7 +9,7 @@ use Laracasts\Commander\CommanderTrait;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener
+ * @package       Anomaly\Streams\Platform\Ui\Table\Listener
  */
 class TableQueryListener
 {
@@ -17,16 +17,18 @@ class TableQueryListener
     use CommanderTrait;
 
     /**
-     * Handle the command.
+     * Handle the event.
      *
      * @param TableQueryEvent $event
      */
     public function handle(TableQueryEvent $event)
     {
-        // Run TableQueryEvent handlers on active filters.
+        $table = $event->getTable();
+        $query = $event->getQuery();
+
         $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\RunTableQueryHooksCommand',
-            compact('event')
+            'Anomaly\Streams\Platform\Ui\Table\Command\ModifyQueryCommand',
+            compact('table', 'query')
         );
     }
 }

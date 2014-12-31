@@ -38,60 +38,33 @@ class Action extends Button implements ActionInterface, ActionHandlerInterface
     protected $slug = 'default';
 
     /**
-     * The TablePostEvent handler.
+     * The action handler.
      *
      * @var mixed
      */
-    protected $tablePostHandler;
+    protected $handler = 'Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler';
 
     /**
-     * Handle the TablePostEvent.
-     *
-     * @param TablePostEvent $event
-     */
-    public function onTablePost(TablePostEvent $event)
-    {
-        $handler = $this->getTablePostHandler();
-
-        if ($handler === null) {
-            $this->handleTablePostEvent($event);
-        }
-
-        if (is_string($handler) || $handler instanceof \Closure) {
-            app()->call($handler, compact('event'));
-        }
-    }
-
-    /**
-     * Default handle for the TablePostEvent.
-     *
-     * @param TablePostEvent $event
-     */
-    protected function handleTablePostEvent(TablePostEvent $event)
-    {
-    }
-
-    /**
-     * Set the TablePostEvent handler.
+     * Set the action handler.
      *
      * @param $handler
      * @return $this
      */
-    public function setTablePostHandler($handler)
+    public function setHandler($handler)
     {
-        $this->tablePostHandler = $handler;
+        $this->handler = $handler;
 
         return $this;
     }
 
     /**
-     * Get the TablePostEvent handler.
+     * Get the action handler.
      *
      * @return mixed
      */
-    public function getTablePostHandler()
+    public function getHandler()
     {
-        return $this->tablePostHandler;
+        return $this->handler;
     }
 
     /**

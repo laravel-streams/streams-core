@@ -15,19 +15,19 @@ interface ActionInterface extends ButtonInterface
 {
 
     /**
-     * Set the form response handler.
+     * Set the action handler.
      *
      * @param $handler
      * @return $this
      */
-    public function setFormResponseHandler($handler);
+    public function setHandler($handler);
 
     /**
-     * Get the form response handler.
+     * Get the action handler.
      *
      * @return mixed
      */
-    public function getFormResponseHandler();
+    public function getHandler();
 
     /**
      * Set the redirect URL.

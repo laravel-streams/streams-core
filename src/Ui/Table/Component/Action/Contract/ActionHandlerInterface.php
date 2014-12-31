@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract;
 
-use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
  * Interface ActionHandlerInterface
@@ -14,9 +14,9 @@ interface ActionHandlerInterface
 {
 
     /**
-     * Handle the TablePostEvent.
+     * Handle the action.
      *
-     * @param TablePostEvent $event
+     * @param Table $table
      */
-    public function onTablePost(TablePostEvent $event);
+    public function handle(Table $table);
 }

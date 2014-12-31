@@ -41,7 +41,7 @@ class SetFormResponseCommandHandler
         $actions = $form->getActions();
 
         if ($action = $actions->active()) {
-            $this->responder->setFormResponse($form, $action->getFormResponseHandler());
+            $this->responder->setFormResponse($form, $action->getHandler());
         }
     }
 }

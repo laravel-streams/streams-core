@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
 
 /**
  * Class Filter
@@ -12,7 +10,7 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Table\Component\Filter
  */
-class Filter implements FilterInterface, FilterHandlerInterface
+class Filter implements FilterInterface
 {
 
     /**
@@ -44,66 +42,33 @@ class Filter implements FilterInterface, FilterHandlerInterface
     protected $placeholder = null;
 
     /**
-     * The TableQueryEvent handler.
+     * The filter handler.
      *
      * @var mixed
      */
-    protected $tableQueryHandler;
+    protected $handler = 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter@handle';
 
     /**
-     * Handle the TableQueryEvent.
-     *
-     * @param TableQueryEvent $event
-     */
-    public function onTableQuery(TableQueryEvent $event)
-    {
-        $handler = $this->getTableQueryHandler();
-
-        if ($handler === null) {
-            $this->handleTableQueryEvent($event);
-        }
-
-        if (is_string($handler) || $handler instanceof \Closure) {
-            app()->call($handler, compact('event'));
-        }
-    }
-
-    /**
-     * Default handle for the TableQueryEvent.
-     *
-     * @param TableQueryEvent $event
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    protected function handleTableQueryEvent(TableQueryEvent $event)
-    {
-        $query = $event->getQuery();
-
-        $query = $query->where($this->getSlug(), 'LIKE', "%{$this->getValue()}%");
-
-        return $query;
-    }
-
-    /**
-     * Set the TableQueryEvent handler.
+     * Set the filter handler.
      *
      * @param $handler
      * @return $this
      */
-    public function setTableQueryHandler($handler)
+    public function setHandler($handler)
     {
-        $this->tableQueryHandler = $handler;
+        $this->handler = $handler;
 
         return $this;
     }
 
     /**
-     * Get the TableQueryEvent handler.
+     * Get the filter handler.
      *
      * @return mixed
      */
-    public function getTableQueryHandler()
+    public function getHandler()
     {
-        return $this->tableQueryHandler;
+        return $this->handler;
     }
 
     /**

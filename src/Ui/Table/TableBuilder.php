@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableInitializedEvent;
-use Anomaly\Streams\Platform\Ui\Table\Event\TablePostEvent;
 use Laracasts\Commander\CommanderTrait;
 
 /**
@@ -77,8 +75,6 @@ class TableBuilder
         $this->table = $table;
 
         $this->initialize();
-
-        app('events')->fire('streams::table.initialized', new TableInitializedEvent($this));
     }
 
     /**
@@ -96,7 +92,10 @@ class TableBuilder
         $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\BuildTableCommand', ['builder' => $this]);
 
         if (app('request')->isMethod('post')) {
-            app('events')->fire('streams::table.post', new TablePostEvent($this->table));
+            $this->execute(
+                'Anomaly\Streams\Platform\Ui\Table\Command\HandleTablePostCommand',
+                ['table' => $this->table]
+            );
         }
     }
 
