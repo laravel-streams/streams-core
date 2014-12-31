@@ -123,7 +123,7 @@ class Filter implements FilterInterface, FilterHandlerInterface
      */
     public function getName()
     {
-        return $this->getPrefix() . $this->getSlug() . '_filter';
+        return $this->getPrefix() . 'filter_' . $this->getSlug();
     }
 
     /**
