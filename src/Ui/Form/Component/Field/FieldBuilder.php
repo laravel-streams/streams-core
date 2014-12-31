@@ -66,8 +66,19 @@ class FieldBuilder
              * Otherwise build a generic field type
              * using the command.
              */
+            $parameters = $field;
+
             if ($stream->getField($field['field'])) {
                 $field = $stream->getFieldType($field['field'], $entry);
+
+                foreach ($parameters as $parameter => $value) {
+
+                    $method = camel_case('set_' . $parameter);
+
+                    if (method_exists($field, $method)) {
+                        $field->{$method}($value);
+                    }
+                }
             } else {
                 $field = $this->builder->build($field);
             }
