@@ -5,7 +5,7 @@
 
         {% for action in table.actions %}
             <div class="btn-group actions dropup">
-                <button class="btn btn-sm btn-{{ action.type }}">
+                <button class="btn btn-sm btn-{{ action.type }}" {{ html_attributes(action.attributes) }}>
                     {{ trans(action.text) }}
                 </button>
                 {% if action.dropdown %}

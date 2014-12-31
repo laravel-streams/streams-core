@@ -70,9 +70,9 @@ class ButtonRegistry
             'type' => 'danger',
         ],
         'reorder' => [
-            'button' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Type\ReorderAction',
-            'text'   => 'streams::button.reorder',
-            'type'   => 'danger',
+            'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\ReorderActionHandler@handle',
+            'text'    => 'streams::button.reorder',
+            'type'    => 'danger',
         ],
         /**
          * Link type buttons.

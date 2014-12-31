@@ -28,7 +28,5 @@ class HandleTablePostCommandHandler
             'Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\ExecuteActionCommand',
             compact('table')
         );
-
-        dd($command);
     }
 }

@@ -50,11 +50,16 @@ class ActionBuilder
     public function build(TableBuilder $builder)
     {
         $table   = $builder->getTable();
+        $options = $table->getOptions();
         $actions = $table->getActions();
 
         foreach ($builder->getActions() as $slug => $action) {
 
             $action = $this->reader->standardize($slug, $action);
+
+            $action['attributes']['name']  = $options->get('prefix') . 'action';
+            $action['attributes']['value'] = $action['slug'];
+
             $action = $this->factory->make($action);
 
             $actions->put($action->getSlug(), $action);

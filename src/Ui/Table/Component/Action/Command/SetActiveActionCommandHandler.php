@@ -26,9 +26,5 @@ class SetActiveActionCommandHandler
         if ($action = $actions->findBySlug(app('request')->get($options->get('prefix') . 'action'))) {
             $action->setActive(true);
         }
-
-        if (!$action && $action = $actions->first()) {
-            $action->setActive(true);
-        }
     }
 }
