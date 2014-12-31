@@ -10,20 +10,20 @@
 
 <section class="panel panel-default">
 
-    {% include "streams::ui/table/partials/views" %}
+    {{ table_views(table)|raw }}
 
     <div class="panel-body" style="padding: 0;">
 
-        {% include "streams::ui/table/partials/filters" %}
+        {{ table_filters(table)|raw }}
 
         {% if not table.entries.empty() %}
             <form method="post">
                 <table class="table table-hover {{ table.options.sortable ? 'sortable' }}">
 
-                    {% include "streams::ui/table/partials/head" %}
-                    {% include "streams::ui/table/partials/body" %}
-                    {% include "streams::ui/table/partials/foot" %}
-
+                    {{ table_header(table)|raw }}
+                    {{ table_body(table)|raw }}
+                    {{ table_footer(table)|raw }}
+                    
                 </table>
             </form>
         {% else %}

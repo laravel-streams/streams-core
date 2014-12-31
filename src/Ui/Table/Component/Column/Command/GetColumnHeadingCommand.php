@@ -4,14 +4,14 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
- * Class GetColumnHeaderCommand
+ * Class GetColumnHeadingCommand
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Command
  */
-class GetColumnHeaderCommand
+class GetColumnHeadingCommand
 {
 
     /**
@@ -29,7 +29,7 @@ class GetColumnHeaderCommand
     protected $column;
 
     /**
-     * Create a new GetColumnHeaderCommand instance.
+     * Create a new GetColumnHeadingCommand instance.
      *
      * @param Table           $table
      * @param ColumnInterface $column

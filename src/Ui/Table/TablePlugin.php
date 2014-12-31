@@ -38,8 +38,13 @@ class TablePlugin extends Plugin
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('table_column_header', [$this->functions, 'columnHeader']),
-            new \Twig_SimpleFunction('table_column_value', [$this->functions, 'columnValue']),
+            new \Twig_SimpleFunction('table_views', [$this->functions, 'views']),
+            new \Twig_SimpleFunction('table_filters', [$this->functions, 'filters']),
+            new \Twig_SimpleFunction('table_header', [$this->functions, 'header']),
+            new \Twig_SimpleFunction('table_body', [$this->functions, 'body']),
+            new \Twig_SimpleFunction('table_footer', [$this->functions, 'footer']),
+            new \Twig_SimpleFunction('table_heading', [$this->functions, 'heading']),
+            new \Twig_SimpleFunction('table_column', [$this->functions, 'column']),
         ];
     }
 }

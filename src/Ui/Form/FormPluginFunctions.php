@@ -40,7 +40,7 @@ class FormPluginFunctions
     {
         $options = $form->getOptions();
 
-        return view($options->get('toolbar', 'streams::ui/form/partials/toolbar'), compact('form'));
+        return view($options->get('toolbar_view', 'streams::ui/form/partials/toolbar'), compact('form'));
     }
 
     /**
@@ -53,7 +53,7 @@ class FormPluginFunctions
     {
         $options = $form->getOptions();
 
-        return view($options->get('layout', 'streams::ui/form/partials/layout'), compact('form'));
+        return view($options->get('layout_view', 'streams::ui/form/partials/layout'), compact('form'));
     }
 
     /**
@@ -66,7 +66,7 @@ class FormPluginFunctions
     {
         $options = $form->getOptions();
 
-        return view($options->get('controls', 'streams::ui/form/partials/controls'), compact('form'));
+        return view($options->get('controls_view', 'streams::ui/form/partials/controls'), compact('form'));
     }
 
     /**

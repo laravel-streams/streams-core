@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnHeader;
 
 /**
- * Class GetColumnHeaderCommandHandler
+ * Class GetColumnHeadingCommandHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Column\Command
  */
-class GetColumnHeaderCommandHandler
+class GetColumnHeadingCommandHandler
 {
 
     /**
@@ -21,7 +21,7 @@ class GetColumnHeaderCommandHandler
     protected $header;
 
     /**
-     * Create a new GetColumnHeaderCommandHandler instance.
+     * Create a new GetColumnHeadingCommandHandler instance.
      *
      * @param ColumnHeader $header
      */
@@ -33,10 +33,10 @@ class GetColumnHeaderCommandHandler
     /**
      * Handle the command.
      *
-     * @param GetColumnHeaderCommand $command
+     * @param GetColumnHeadingCommand $command
      * @return null|string
      */
-    public function handle(GetColumnHeaderCommand $command)
+    public function handle(GetColumnHeadingCommand $command)
     {
         $table  = $command->getTable();
         $column = $command->getColumn();
