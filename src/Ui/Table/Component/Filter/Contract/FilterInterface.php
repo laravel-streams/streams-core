@@ -47,7 +47,7 @@ interface FilterInterface
      *
      * @return string
      */
-    public function getName();
+    public function getFieldName();
 
     /**
      * Get the filter value.

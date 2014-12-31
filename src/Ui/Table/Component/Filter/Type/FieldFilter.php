@@ -66,6 +66,20 @@ class FieldFilter extends Filter implements FieldFilterInterface
     }
 
     /**
+     * Get the filter input name.
+     *
+     * @return string
+     */
+    public function getFieldName()
+    {
+        $field = $this->stream->getField($this->getField());
+
+        $type = $field->getType();
+
+        return $this->getPrefix() . 'filter_' . $type->getFieldName();
+    }
+
+    /**
      * Set the filter field.
      *
      * @param  $field

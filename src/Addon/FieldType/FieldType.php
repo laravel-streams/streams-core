@@ -414,7 +414,7 @@ class FieldType extends Addon
     /**
      * Get the locale.
      *
-     * @return mixed|null
+     * @return null|string
      */
     public function getLocale()
     {

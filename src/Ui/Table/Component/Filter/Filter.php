@@ -121,7 +121,7 @@ class Filter implements FilterInterface, FilterHandlerInterface
      *
      * @return string
      */
-    public function getName()
+    public function getFieldName()
     {
         return $this->getPrefix() . 'filter_' . $this->getSlug();
     }
@@ -133,7 +133,7 @@ class Filter implements FilterInterface, FilterHandlerInterface
      */
     public function getValue()
     {
-        return app('request')->get($this->getName());
+        return app('request')->get($this->getFieldName());
     }
 
     /**
