@@ -3,22 +3,22 @@
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 
 /**
- * Class SetTableEntryCommandHandler
+ * Class SetFormEntryCommandHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Form\Command
  */
-class SetTableEntryCommandHandler
+class SetFormEntryCommandHandler
 {
 
     /**
      * Set the form model object from the builder's model.
      *
-     * @param SetTableEntryCommand $command
+     * @param SetFormEntryCommand $command
      */
-    public function handle(SetTableEntryCommand $command)
+    public function handle(SetFormEntryCommand $command)
     {
         $builder = $command->getBuilder();
         $entry   = $builder->getEntry();

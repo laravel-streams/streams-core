@@ -35,6 +35,10 @@ class BuildFormCommandHandler
             'Anomaly\Streams\Platform\Ui\Form\Command\SetFormStreamCommand',
             compact('builder')
         );
+        $this->execute(
+            'Anomaly\Streams\Platform\Ui\Form\Command\SetFormEntryCommand',
+            compact('builder')
+        );
 
         /*
          * Build form fields.

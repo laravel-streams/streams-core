@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Ui\Form\Guesser\SectionViewGuesser;
+
 /**
  * Class FormPluginFunctions
  *
@@ -10,6 +12,23 @@
  */
 class FormPluginFunctions
 {
+
+    /**
+     * The section view guesser.
+     *
+     * @var Guesser\SectionViewGuesser
+     */
+    protected $sectionViewGuesser;
+
+    /**
+     * Create a new FormPluginFunctions instance.
+     *
+     * @param SectionViewGuesser $sectionViewGuesser
+     */
+    public function __construct(SectionViewGuesser $sectionViewGuesser)
+    {
+        $this->sectionViewGuesser = $sectionViewGuesser;
+    }
 
     /**
      * Render the form's layout.
@@ -48,5 +67,18 @@ class FormPluginFunctions
         $options = $form->getOptions();
 
         return view($options->get('controls', 'streams::ui/form/partials/controls'), compact('form'));
+    }
+
+    /**
+     * Render a form section.
+     *
+     * @param Form $form
+     * @return \Illuminate\View\View
+     */
+    public function section(Form $form, array $section)
+    {
+        $this->sectionViewGuesser->guess($section);
+
+        return view(array_get($section, 'view'), compact('form', 'section'));
     }
 }

@@ -1,0 +1,28 @@
+<section class="panel panel-default">
+
+    <div class="panel-heading">
+        <ul class="nav nav-tabs">
+            {% for slug, tab in section.tabs %}
+                <li class="{{ loop.first ? 'active' }}">
+                    <a href="#{{ slug }}" data-toggle="tab">{{ tab.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="panel-body">
+        <div class="tab-content">
+
+            {% for slug, tab in section.tabs %}
+                <div class="tab-pane {{ loop.first ? 'active' }}" id="{{ slug }}">
+                    {% for field in tab.fields %}
+                        <div class="form-group">
+                            {{ form.fields[field].render|raw }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+</section>

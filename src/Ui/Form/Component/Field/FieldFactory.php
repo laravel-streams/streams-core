@@ -41,8 +41,8 @@ class FieldFactory
      */
     public function make(array $parameters, StreamInterface $stream = null, $entry = null)
     {
-        if ($stream->getField($parameters['field'])) {
-            $field = $stream->getFieldType($parameters['field'], $entry);
+        if ($assignment = $stream->getAssignment($parameters['field'])) {
+            $field = $assignment->getFieldType($entry);
         } else {
             $field = $this->builder->build($parameters);
         }

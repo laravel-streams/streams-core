@@ -1,0 +1,25 @@
+<section class="panel panel-default">
+
+    {% if form.options.title %}
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                {{ trans(form.options.title) }}
+            </h3>
+        </div>
+    {% endif %}
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-24">
+
+                {% for field in form.fields %}
+                    <div class="form-group">
+                        {{ field.render|raw }}
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+</section>

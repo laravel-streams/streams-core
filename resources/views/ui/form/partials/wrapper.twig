@@ -7,11 +7,9 @@
         {% endif %}
     </label>
 
-    <div class="clearfix"></div>
-
-    <p class="help-block">{{ instructions }}</p>
-
-    <div class="clearfix"></div>
+    {% if instructions %}
+        <p class="help-block">{{ instructions }}</p>
+    {% endif %}
 
     {{ input|raw }}
 
