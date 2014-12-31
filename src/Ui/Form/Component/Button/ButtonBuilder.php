@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 use Anomaly\Streams\Platform\Ui\Button\ButtonReader;
-use Anomaly\Streams\Platform\Ui\Button\Guesser\HrefGuesser;
+use Anomaly\Streams\Platform\Ui\Button\Guesser\UrlGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Laracasts\Commander\CommanderTrait;
 
@@ -27,9 +27,9 @@ class ButtonBuilder
     protected $reader;
 
     /**
-     * The href guesser.
+     * The url guesser.
      *
-     * @var HrefGuesser
+     * @var UrlGuesser
      */
     protected $href;
 
@@ -43,12 +43,12 @@ class ButtonBuilder
     /**
      * Create a new ButtonBuilder instance.
      *
-     * @param HrefGuesser   $href
+     * @param UrlGuesser   $href
      * @param ButtonReader  $reader
      * @param ButtonFactory $factory
      */
     public function __construct(
-        HrefGuesser $href,
+        UrlGuesser $href,
         ButtonReader $reader,
         ButtonFactory $factory
     ) {

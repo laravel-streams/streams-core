@@ -49,13 +49,6 @@ class Button implements ButtonInterface
     protected $type = 'default';
 
     /**
-     * The button class.
-     *
-     * @var null|string
-     */
-    protected $class = null;
-
-    /**
      * The button's attributes.
      *
      * @var array
@@ -93,6 +86,16 @@ class Button implements ButtonInterface
     }
 
     /**
+     * Return whether the button is a dropdown or not.
+     *
+     * @return bool
+     */
+    public function isDropdown()
+    {
+        return ($this->getDropdown());
+    }
+
+    /**
      * Set the attributes.
      *
      * @param array $attributes
@@ -113,29 +116,6 @@ class Button implements ButtonInterface
     public function getAttributes()
     {
         return $this->attributes;
-    }
-
-    /**
-     * Set the class.
-     *
-     * @param string $class
-     * @return $this
-     */
-    public function setClass($class)
-    {
-        $this->class = $class;
-
-        return $this;
-    }
-
-    /**
-     * Get the class.
-     *
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->class;
     }
 
     /**

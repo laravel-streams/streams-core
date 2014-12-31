@@ -2,7 +2,8 @@
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 use Anomaly\Streams\Platform\Ui\Button\ButtonReader;
-use Anomaly\Streams\Platform\Ui\Button\Guesser\HrefGuesser;
+use Anomaly\Streams\Platform\Ui\Button\Guesser\ClassGuesser;
+use Anomaly\Streams\Platform\Ui\Button\Guesser\UrlGuesser;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Laracasts\Commander\CommanderTrait;
 
@@ -27,11 +28,18 @@ class ButtonBuilder
     protected $reader;
 
     /**
-     * The href guesser.
+     * The url guesser.
      *
-     * @var HrefGuesser
+     * @var UrlGuesser
      */
-    protected $href;
+    protected $url;
+
+    /**
+     * The class guesser.
+     *
+     * @var ClassGuesser
+     */
+    protected $class;
 
     /**
      * The button factory.
@@ -43,16 +51,18 @@ class ButtonBuilder
     /**
      * Create a new ButtonBuilder instance.
      *
-     * @param HrefGuesser   $href
+     * @param UrlGuesser    $url
      * @param ButtonReader  $reader
      * @param ButtonFactory $factory
      */
     public function __construct(
-        HrefGuesser $href,
+        UrlGuesser $url,
+        ClassGuesser $class,
         ButtonReader $reader,
         ButtonFactory $factory
     ) {
-        $this->href    = $href;
+        $this->url     = $url;
+        $this->class   = $class;
         $this->reader  = $reader;
         $this->factory = $factory;
     }
@@ -70,7 +80,8 @@ class ButtonBuilder
         foreach ($builder->getButtons() as $button) {
 
             $button = $this->reader->standardize($button);
-            $button = $this->href->guess($button);
+            $button = $this->url->guess($button);
+            $button = $this->class->guess($button);
             $button = $this->factory->make($button);
 
             $buttons->push($button);

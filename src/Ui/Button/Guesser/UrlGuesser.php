@@ -1,6 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Button\Guesser;
 
-class HrefGuesser
+/**
+ * Class UrlGuesser
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Button\Guesser
+ */
+class UrlGuesser
 {
 
     /**
@@ -12,9 +20,9 @@ class HrefGuesser
     public function guess(array $button)
     {
         /**
-         * If the href is already set then skip it.
+         * If the url is already set then skip it.
          */
-        if (isset($button['attributes']['href'])) {
+        if (isset($button['url'])) {
             return $button;
         }
 
@@ -31,7 +39,7 @@ class HrefGuesser
              * the best practice for the "view" URL.
              */
             case 'view':
-                $button['attributes']['href'] = url($path . '/show/{{ entry.id }}');
+                $button['url'] = url($path . '/show/{{ entry.id }}');
                 break;
 
             /**
@@ -39,7 +47,7 @@ class HrefGuesser
              * the best practice for the "edit" URL.
              */
             case 'edit':
-                $button['attributes']['href'] = url($path . '/edit/{{ entry.id }}');
+                $button['url'] = url($path . '/edit/{{ entry.id }}');
                 break;
 
             /**
@@ -47,7 +55,7 @@ class HrefGuesser
              * the best practice for the "delete" URL.
              */
             case 'delete':
-                $button['attributes']['href'] = url($path . '/delete/{{ entry.id }}');
+                $button['url'] = url($path . '/delete/{{ entry.id }}');
                 break;
 
             // No guess

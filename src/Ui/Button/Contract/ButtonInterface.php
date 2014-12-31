@@ -27,6 +27,13 @@ interface ButtonInterface
     public function getDropdown();
 
     /**
+     * Return whether the button is a dropdown or not.
+     *
+     * @return bool
+     */
+    public function isDropdown();
+
+    /**
      * Set the attributes.
      *
      * @param array $attributes
@@ -40,21 +47,6 @@ interface ButtonInterface
      * @return mixed
      */
     public function getAttributes();
-
-    /**
-     * Set the class.
-     *
-     * @param  $class
-     * @return mixed
-     */
-    public function setClass($class);
-
-    /**
-     * Get the class.
-     *
-     * @return mixed
-     */
-    public function getClass();
 
     /**
      * Set the icon.
@@ -85,21 +77,6 @@ interface ButtonInterface
      * @return mixed
      */
     public function getText();
-
-    /**
-     * Set the type.
-     *
-     * @param  $type
-     * @return mixed
-     */
-    public function setType($type);
-
-    /**
-     * Get the type.
-     *
-     * @return mixed
-     */
-    public function getType();
 
     /**
      * Set the URL.

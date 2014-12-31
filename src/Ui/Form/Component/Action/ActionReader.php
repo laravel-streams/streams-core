@@ -65,8 +65,8 @@ class ActionReader
          * If the HREF is present outside of the attributes
          * then pull it and put it in the attributes array.
          */
-        if (isset($action['href'])) {
-            $action['attributes']['href'] = array_pull($action, 'href');
+        if (isset($action['url'])) {
+            $action['attributes']['url'] = array_pull($action, 'url');
         }
 
         return $action;
