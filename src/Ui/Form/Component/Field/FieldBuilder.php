@@ -32,6 +32,13 @@ class FieldBuilder
     protected $builder;
 
     /**
+     * The field factory.
+     *
+     * @var FieldFactory
+     */
+    protected $factory;
+
+    /**
      * The configurator utility.
      *
      * @var FieldConfigurator
@@ -44,10 +51,13 @@ class FieldBuilder
      * @param FieldReader      $reader
      * @param FieldTypeBuilder $builder
      */
-    public function __construct(FieldReader $reader, FieldTypeBuilder $builder, FieldConfigurator $configurator)
-    {
+    public function __construct(
+        FieldReader $reader,
+        FieldFactory $factory,
+        FieldConfigurator $configurator
+    ) {
         $this->reader       = $reader;
-        $this->builder      = $builder;
+        $this->factory      = $factory;
         $this->configurator = $configurator;
     }
 
@@ -65,20 +75,11 @@ class FieldBuilder
 
         foreach ($builder->getFields() as $slug => $parameters) {
 
+            // Standardize the input.
             $parameters = $this->reader->standardize($slug, $parameters);
 
-            /**
-             * If the field is a field type then
-             * use the form's stream to resolve it.
-             *
-             * Otherwise build a generic field type
-             * using the command.
-             */
-            if ($stream->getField($parameters['field'])) {
-                $field = $stream->getFieldType($parameters['field'], $entry);
-            } else {
-                $field = $this->builder->build($parameters);
-            }
+            // Make the field object.
+            $field = $this->factory->make($parameters, $stream, $entry);
 
             // Configure the overrides using the configurator.
             $this->configurator->configure($field, $parameters);
