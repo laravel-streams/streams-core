@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract;
 
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
-use Anomaly\Streams\Platform\Ui\Form\Event\FormPostEvent;
 
 /**
  * Interface ActionInterface
