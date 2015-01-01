@@ -38,6 +38,14 @@ class ActionHandler
      */
     public function handle(Form $form)
     {
+        /**
+         * If the form already has a response
+         * then we're being overridden. Abort!
+         */
+        if ($form->getResponse()) {
+            return;
+        }
+
         $action = $form->getActions()->active();
 
         $url = $action->getRedirect();
