@@ -22,7 +22,6 @@ class SetActiveFiltersCommandHandler
     {
         $builder = $command->getBuilder();
         $table   = $builder->getTable();
-        $options = $table->getOptions();
 
         foreach ($table->getFilters() as $filter) {
             if ($filter instanceof FilterInterface) {
