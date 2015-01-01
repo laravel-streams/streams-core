@@ -45,7 +45,7 @@ class ActionHandler
         /**
          * If the URL is null then use the current one.
          */
-        if ($url == null) {
+        if ($url === null) {
             $url = $this->request->fullUrl();
         }
 
