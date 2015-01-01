@@ -17,13 +17,6 @@ class FormBuilder
     use CommanderTrait;
 
     /**
-     * The form handler.
-     *
-     * @var string
-     */
-    protected $handler = 'Anomaly\Streams\Platform\Ui\Form\FormHandler@handle';
-
-    /**
      * The form model.
      *
      * @var null

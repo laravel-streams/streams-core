@@ -418,9 +418,9 @@ class FieldType extends Addon
      */
     public function getLocale()
     {
-        if (!$this->locale) {
+        /*if (!$this->locale) {
             $this->locale = config('app.locale', 'en');
-        }
+        }*/
 
         return $this->locale;
     }
@@ -476,6 +476,16 @@ class FieldType extends Addon
     }
 
     /**
+     * Get the suffix.
+     *
+     * @return null|string
+     */
+    public function getSuffix()
+    {
+        return $this->prefix ? '_' . $this->locale : null;
+    }
+
+    /**
      * Set the hidden flag.
      *
      * @param  $hidden
@@ -528,7 +538,7 @@ class FieldType extends Addon
      */
     public function getFieldName()
     {
-        return "{$this->getPrefix()}{$this->getField()}_{$this->getLocale()}";
+        return "{$this->getPrefix()}{$this->getField()}{$this->getSuffix()}";
     }
 
     /**

@@ -49,12 +49,21 @@ class ActionBuilder
      */
     public function build(FormBuilder $builder)
     {
-        $form   = $builder->getForm();
+        $form    = $builder->getForm();
         $actions = $form->getActions();
+        $options = $form->getOptions();
+
+        $prefix = $options->get('prefix');
 
         foreach ($builder->getActions() as $slug => $action) {
 
             $action = $this->reader->standardize($slug, $action);
+
+            $action['size'] = 'sm';
+
+            $action['attributes']['name']  = $prefix . 'action';
+            $action['attributes']['value'] = $action['slug'];
+
             $action = $this->factory->make($action);
 
             $actions->put($action->getSlug(), $action);

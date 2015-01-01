@@ -43,12 +43,8 @@ class FormInput
     {
         $input = [];
 
-        $options = $form->getOptions();
-
-        $prefix = $options->get('prefix');
-
         foreach ($form->getFields() as $slug => $field) {
-            $input[$slug] = $this->getFieldInput($field, $prefix, $suffix);
+            $input[$slug] = $this->getFieldInput($field, $suffix);
         }
 
         return $input;
@@ -58,12 +54,11 @@ class FormInput
      * Get a field's input.
      *
      * @param FieldType $field
-     * @param           $prefix
      * @param           $suffix
      * @return mixed
      */
-    protected function getFieldInput(FieldType $field, $prefix, $suffix)
+    protected function getFieldInput(FieldType $field, $suffix)
     {
-        return $this->request->get();
+        return $this->request->get($field->getFieldName() . $suffix ? '_' . $suffix : null);
     }
 }

@@ -43,7 +43,7 @@ class ButtonBuilder
     /**
      * Create a new ButtonBuilder instance.
      *
-     * @param UrlGuesser   $href
+     * @param UrlGuesser    $href
      * @param ButtonReader  $reader
      * @param ButtonFactory $factory
      */
@@ -70,6 +70,9 @@ class ButtonBuilder
         foreach ($builder->getButtons() as $button) {
 
             $button = $this->reader->standardize($button);
+
+            $button['size'] = 'sm';
+
             $button = $this->href->guess($button);
             $button = $this->factory->make($button);
 

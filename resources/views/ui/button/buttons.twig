@@ -3,10 +3,23 @@
 
         {# Render normal buttons. #}
         {% if button.dropdown is empty %}
-            <a class="btn btn-{{ button.size }} btn-{{ button.type }}" {{ html_attributes(button.attributes) }}>
-                {{ button.icon ? icon(button.icon) }}
-                {{ trans(button.text) }}
-            </a>
+
+            {# Render normal buttons as an anchor #}
+            {% if not button.attributes.name %}
+                <a class="btn btn-{{ button.size }} btn-{{ button.type }}" {{ html_attributes(button.attributes) }}>
+                    {{ button.icon ? icon(button.icon) }}
+                    {{ trans(button.text) }}
+                </a>
+            {% endif %}
+
+            {# Render normal buttons as a button #}
+            {% if button.attributes.name %}
+                <button class="btn btn-{{ button.size }} btn-{{ button.type }}" {{ html_attributes(button.attributes) }}>
+                    {{ button.icon ? icon(button.icon) }}
+                    {{ trans(button.text) }}
+                </button>
+            {% endif %}
+
         {% endif %}
 
         {# Render dropdown type buttons. #}

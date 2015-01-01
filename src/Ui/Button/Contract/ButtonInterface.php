@@ -94,6 +94,21 @@ interface ButtonInterface
     public function getType();
 
     /**
+     * Set the button size.
+     *
+     * @param $size
+     * @return $this
+     */
+    public function setSize($size);
+
+    /**
+     * Get the button size.
+     *
+     * @return string
+     */
+    public function getSize();
+
+    /**
      * Set the URL.
      *
      * @param $url
