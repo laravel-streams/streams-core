@@ -46,7 +46,7 @@ class FillGuesser
          * in the remaining fill fields in place
          * of the fill marker.
          */
-        if ($position = array_search('*', $fields)) {
+        if (($position = array_search('*', $fields)) !== false) {
 
             array_splice($fields, $position + 1, null, $fill);
 
