@@ -119,7 +119,7 @@ class FormBuilder
             $data    = $this->form->getData();
 
             $this->form->setContent(
-                view($options->get('view', 'streams::ui/form/index'), $data->all())
+                view($options->get('form_view', 'streams::ui/form/index'), $data->all())
             );
         }
     }
@@ -139,7 +139,7 @@ class FormBuilder
             $options = $this->form->getOptions();
             $content = $this->form->getContent();
 
-            return view($options->get('wrapper', 'streams::wrappers/blank'), compact('content'));
+            return view($options->get('wrapper_view', 'streams::wrappers/blank'), compact('content'));
         }
 
         return $this->form->getResponse();
@@ -230,9 +230,9 @@ class FormBuilder
      * @param  array $fields
      * @return $this
      */
-    public function setFields(array $sections)
+    public function setFields(array $fields)
     {
-        $this->sections = $sections;
+        $this->fields = $fields;
 
         return $this;
     }

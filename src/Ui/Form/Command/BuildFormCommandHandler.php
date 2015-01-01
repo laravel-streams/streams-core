@@ -51,6 +51,7 @@ class BuildFormCommandHandler
         /**
          * Build form actions and flag active.
          */
+
         $this->execute(
             'Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActionsCommand',
             compact('builder')

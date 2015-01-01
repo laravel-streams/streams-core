@@ -14,11 +14,11 @@ class FieldReader
     /**
      * Standardize field configuration input.
      *
-     * @param $key
+     * @param $slug
      * @param $field
      * @return array
      */
-    public function standardize($key, $field)
+    public function standardize($slug, $field)
     {
 
         /**
@@ -30,10 +30,10 @@ class FieldReader
         }
 
         /**
-         * If the field is a string then use it as
-         * the field parameter.
+         * If the slug is not a valid field and the field
+         * is a string the use the field as the field's field.. ^_^
          */
-        if (is_string($field)) {
+        if (is_numeric($slug) && is_string($field)) {
             $field = [
                 'field' => $field,
             ];
@@ -44,7 +44,7 @@ class FieldReader
          * use the key as the field.
          */
         if (is_array($field) && !isset($field['field'])) {
-            $field['field'] = $key;
+            $field['field'] = $slug;
         }
 
         return $field;
