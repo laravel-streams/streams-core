@@ -34,7 +34,6 @@ class ButtonReader
          * Make sure some default parameters exist.
          */
         $button['attributes'] = array_get($button, 'attributes', []);
-        $button['type']       = array_get($button, 'type', 'default');
         $button['size']       = array_get($button, 'size', 'md');
 
         return $button;

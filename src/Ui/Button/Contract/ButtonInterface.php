@@ -107,19 +107,4 @@ interface ButtonInterface
      * @return null|string
      */
     public function getUrl();
-
-    /**
-     * Set the button tag.
-     *
-     * @param string $tag
-     * @return $this
-     */
-    public function setTag($tag);
-
-    /**
-     * Get the button tag.
-     *
-     * @return string
-     */
-    public function getTag();
 }

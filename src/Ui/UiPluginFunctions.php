@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui;
 
-use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Illuminate\Html\FormBuilder;
 use Illuminate\Html\HtmlBuilder;
 use Illuminate\Support\Collection;
@@ -51,22 +50,6 @@ class UiPluginFunctions
     public function icon($type)
     {
         return '<i class="fa fa-' . $type . '"></i>';
-    }
-
-    /**
-     * Return a button.
-     *
-     * @param ButtonInterface $button
-     */
-    public function button(ButtonInterface $button)
-    {
-        if ($button->getTag() == 'a') {
-            return $this->html->link($button->getUrl(), trans($button->getText()), $button->getAttributes());
-        }
-
-        if ($button->getTag() == 'button') {
-            return $this->form->button('test_value', $button->getAttributes());
-        }
     }
 
     /**

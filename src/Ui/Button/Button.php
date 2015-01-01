@@ -14,13 +14,6 @@ class Button implements ButtonInterface
 {
 
     /**
-     * The button tag.
-     *
-     * @var string
-     */
-    protected $tag = 'a';
-
-    /**
      * The button URL.
      *
      * @var null|string
@@ -47,6 +40,13 @@ class Button implements ButtonInterface
      * @var null|string
      */
     protected $type = 'default';
+
+    /**
+     * The button size.
+     *
+     * @var string
+     */
+    protected $size = 'md';
 
     /**
      * The button's attributes.
@@ -142,6 +142,52 @@ class Button implements ButtonInterface
     }
 
     /**
+     * Set the button size.
+     *
+     * @param $size
+     * @return $this
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * Get the button size.
+     *
+     * @return string
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+    /**
+     * Set the button type.
+     *
+     * @param string $type
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get the button type.
+     *
+     * @return null|string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * Set the button text.
      *
      * @param string $text
@@ -165,29 +211,6 @@ class Button implements ButtonInterface
     }
 
     /**
-     * Set the button type.
-     *
-     * @param string $type
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get the button type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * Set the URL.
      *
      * @param $url
@@ -201,35 +224,12 @@ class Button implements ButtonInterface
     }
 
     /**
-     * Get the URL.
+     * Get the button URL.
      *
      * @return null|string
      */
     public function getUrl()
     {
         return $this->url;
-    }
-
-    /**
-     * Set the button tag.
-     *
-     * @param string $tag
-     * @return $this
-     */
-    public function setTag($tag)
-    {
-        $this->tag = $tag;
-
-        return $this;
-    }
-
-    /**
-     * Get the button tag.
-     *
-     * @return string
-     */
-    public function getTag()
-    {
-        return $this->tag;
     }
 }

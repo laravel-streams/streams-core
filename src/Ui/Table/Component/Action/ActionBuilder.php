@@ -57,6 +57,8 @@ class ActionBuilder
 
             $action = $this->reader->standardize($slug, $action);
 
+            $action['size'] = 'sm';
+            
             $action['attributes']['name']  = $options->get('prefix') . 'action';
             $action['attributes']['value'] = $action['slug'];
 

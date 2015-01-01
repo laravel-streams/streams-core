@@ -80,6 +80,9 @@ class ButtonBuilder
         foreach ($builder->getButtons() as $button) {
 
             $button = $this->reader->standardize($button);
+
+            $button['size'] = 'sm';
+
             $button = $this->url->guess($button);
             $button = $this->class->guess($button);
             $button = $this->factory->make($button);

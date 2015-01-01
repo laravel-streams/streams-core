@@ -1,23 +1,31 @@
 {% for button in buttons %}
     <div class="btn-group">
 
-        {{ button(button)|raw }}
+        {# Render normal buttons. #}
+        {% if button.dropdown is empty %}
+            <a class="btn btn-{{ button.size }} btn-{{ button.type }}" {{ html_attributes(button.attributes) }}>
+                {{ button.icon ? icon(button.icon) }}
+                {{ trans(button.text) }}
+            </a>
+        {% endif %}
 
-        {#{% if button.dropdown %}
-            <button class="btn btn-{{ button.type }} btn-sm dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
+        {# Render dropdown type buttons. #}
+        {% if button.dropdown %}
+            <a class="btn btn-{{ button.type }} btn-{{ button.size }} dropdown-toggle" data-toggle="dropdown">
+                {{ button.icon ? icon(button.icon) }}
+                {{ trans(button.text) }}
+            </a>
             {% for link in button.dropdown %}
                 <ul class="dropdown-menu">
                     <li>
-                        <button value="{{ link.slug }}" name="{{ link.name }}">
+                        <a {{ html_attributes(link.attributes) }}>
                             {{ icon ? icon(link.icon) }}
                             {{ trans(link.text) }}
-                        </button>
+                        </a>
                     </li>
                 </ul>
             {% endfor %}
-        {% endif %}#}
+        {% endif %}
 
     </div>
 {% endfor %}
