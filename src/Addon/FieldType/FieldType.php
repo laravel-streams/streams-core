@@ -418,10 +418,6 @@ class FieldType extends Addon
      */
     public function getLocale()
     {
-        /*if (!$this->locale) {
-            $this->locale = config('app.locale', 'en');
-        }*/
-
         return $this->locale;
     }
 
