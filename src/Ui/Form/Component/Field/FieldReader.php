@@ -30,22 +30,11 @@ class FieldReader
         }
 
         /**
-         * If the slug is not a valid field and the field
-         * is a string the use the field as the field's field.. ^_^
+         * Set the field as the slug. The
+         * builder will determine if it is
+         * a valid streams field later on.
          */
-        if (is_numeric($slug) && is_string($field)) {
-            $field = [
-                'field' => $field,
-            ];
-        }
-
-        /**
-         * If the field parameter is missing then
-         * use the key as the field.
-         */
-        if (is_array($field) && !isset($field['field'])) {
-            $field['field'] = $slug;
-        }
+        $field['field'] = $slug;
 
         return $field;
     }

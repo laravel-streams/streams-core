@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class FillGuesser
+ * Class FieldsGuesser
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser
  */
-class FillGuesser
+class FieldsGuesser
 {
 
     /**
@@ -48,7 +48,7 @@ class FillGuesser
          */
         if (($position = array_search('*', $fields)) !== false) {
 
-            array_splice($fields, $position + 1, null, $fill);
+            array_splice($fields, $position, null, $fill);
 
             unset($fields[$position]);
         }

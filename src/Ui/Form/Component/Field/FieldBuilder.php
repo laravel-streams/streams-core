@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\FillGuesser;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\FieldsGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Laracasts\Commander\CommanderTrait;
 
@@ -43,9 +43,9 @@ class FieldBuilder
     /**
      * The fill guesser.
      *
-     * @var FillGuesser
+     * @var FieldsGuesser
      */
-    protected $fillGuesser;
+    protected $fields;
 
     /**
      * The configurator utility.
@@ -59,18 +59,18 @@ class FieldBuilder
      *
      * @param FieldReader       $reader
      * @param FieldFactory      $factory
-     * @param FillGuesser       $fillGuesser
+     * @param FieldsGuesser     $fields
      * @param FieldConfigurator $configurator
      */
     public function __construct(
         FieldReader $reader,
         FieldFactory $factory,
-        FillGuesser $fillGuesser,
+        FieldsGuesser $fields,
         FieldConfigurator $configurator
     ) {
         $this->reader       = $reader;
         $this->factory      = $factory;
-        $this->fillGuesser  = $fillGuesser;
+        $this->fields       = $fields;
         $this->configurator = $configurator;
     }
 
@@ -94,25 +94,25 @@ class FieldBuilder
         /**
          * Start by standardizing the input.
          */
-        foreach ($configuration as $key => &$parameters) {
-            $parameters = $this->reader->standardize($key, $parameters);
+        foreach ($configuration as $slug => &$parameters) {
+            $parameters = $this->reader->standardize($slug, $parameters);
         }
 
         /**
          * Guess the filler fields for "*".
          */
         if ($stream instanceof StreamInterface) {
-            $configuration = $this->fillGuesser->guess($stream, $configuration);
+            $configuration = $this->fields->guess($stream, $configuration);
         }
 
         /**
          * Convert each field to a field object
          * and put to the forms field collection.
          */
-        foreach ($configuration as $key => $parameters) {
+        foreach ($configuration as $slug => $parameters) {
 
             // Standardize the input.
-            $parameters = $this->reader->standardize($key, $parameters);
+            $parameters = $this->reader->standardize($slug, $parameters);
 
             // Skip excluded fields.
             if (in_array($parameters['field'], $excluded)) {
