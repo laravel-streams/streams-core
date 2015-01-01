@@ -32,19 +32,19 @@ class FormInput
     }
 
     /**
-     * Get input for a certain suffix.
+     * Get input for a certain locale.
      * Suffixes usually separate languages.
      *
      * @param Form $form
-     * @param null $suffix
+     * @param null $locale
      * @return array
      */
-    public function get(Form $form, $suffix = null)
+    public function get(Form $form, $locale = null)
     {
         $input = [];
 
         foreach ($form->getFields() as $slug => $field) {
-            $input[$slug] = $this->getFieldInput($field, $suffix);
+            $input[$slug] = $this->getFieldInput($field, $locale);
         }
 
         return $input;
@@ -54,11 +54,13 @@ class FormInput
      * Get a field's input.
      *
      * @param FieldType $field
-     * @param           $suffix
+     * @param           $locale
      * @return mixed
      */
-    protected function getFieldInput(FieldType $field, $suffix)
+    protected function getFieldInput(FieldType $field, $locale)
     {
-        return $this->request->get($field->getFieldName() . $suffix ? '_' . $suffix : null);
+        $field->setLocale($locale);
+
+        return $this->request->input($field->getFieldName());
     }
 }

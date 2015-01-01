@@ -23,31 +23,29 @@ class BuildFieldTypeCommandHandler
     {
         $fieldType = $this->getFieldType($command);
 
-        if ($fieldType instanceof FieldType) {
-            $fieldType
-                ->setField($command->getField())
-                ->setValue($command->getValue())
-                ->setLabel($command->getLabel())
-                ->setLocale($command->getLocale())
-                ->setPrefix($command->getPrefix())
-                ->setHidden($command->getHidden())
-                ->setConfig($command->getConfig())
-                ->setRequired($command->getRequired())
-                ->setPlaceholder($command->getPlaceholder())
-                ->setTranslatable($command->getTranslatable())
-                ->setInstructions($command->getInstructions());
+        $fieldType
+            ->setField($command->getField())
+            ->setValue($command->getValue())
+            ->setLabel($command->getLabel())
+            ->setLocale($command->getLocale())
+            ->setPrefix($command->getPrefix())
+            ->setHidden($command->getHidden())
+            ->setConfig($command->getConfig())
+            ->setRequired($command->getRequired())
+            ->setPlaceholder($command->getPlaceholder())
+            ->setTranslatable($command->getTranslatable())
+            ->setInstructions($command->getInstructions());
 
-            if ($inputView = $command->getInputView()) {
-                $fieldType->setInputView($inputView);
-            }
+        if ($inputView = $command->getInputView()) {
+            $fieldType->setInputView($inputView);
+        }
 
-            if ($filterView = $command->getFilterView()) {
-                $fieldType->setFilterView($filterView);
-            }
+        if ($filterView = $command->getFilterView()) {
+            $fieldType->setFilterView($filterView);
+        }
 
-            if ($wrapperView = $command->getWrapperView()) {
-                $fieldType->setWrapperView($wrapperView);
-            }
+        if ($wrapperView = $command->getWrapperView()) {
+            $fieldType->setWrapperView($wrapperView);
         }
 
         return $fieldType;
@@ -57,7 +55,7 @@ class BuildFieldTypeCommandHandler
      * Get the field type class.
      *
      * @param  BuildFieldTypeCommand $command
-     * @return mixed
+     * @return FieldType
      */
     protected function getFieldType(BuildFieldTypeCommand $command)
     {

@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\FieldsGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Laracasts\Commander\CommanderTrait;
@@ -27,6 +28,13 @@ class FieldBuilder
     protected $reader;
 
     /**
+     * The fill guesser.
+     *
+     * @var FieldsGuesser
+     */
+    protected $fields;
+
+    /**
      * The field type builder.
      *
      * @var FieldTypeBuilder
@@ -41,11 +49,11 @@ class FieldBuilder
     protected $factory;
 
     /**
-     * The fill guesser.
+     * The evaluator utility.
      *
-     * @var FieldsGuesser
+     * @var Evaluator
      */
-    protected $fields;
+    protected $evaluator;
 
     /**
      * The configurator utility.
@@ -58,19 +66,22 @@ class FieldBuilder
      * Create a new FieldTypeBuilder instance.
      *
      * @param FieldReader       $reader
+     * @param Evaluator         $evaluator
      * @param FieldFactory      $factory
      * @param FieldsGuesser     $fields
      * @param FieldConfigurator $configurator
      */
     public function __construct(
         FieldReader $reader,
+        Evaluator $evaluator,
         FieldFactory $factory,
         FieldsGuesser $fields,
         FieldConfigurator $configurator
     ) {
         $this->reader       = $reader;
-        $this->factory      = $factory;
         $this->fields       = $fields;
+        $this->factory      = $factory;
+        $this->evaluator    = $evaluator;
         $this->configurator = $configurator;
     }
 
@@ -92,10 +103,15 @@ class FieldBuilder
         $configuration = $builder->getFields();
 
         /**
+         * Evaluate all the closures.
+         */
+        $configuration = $this->evaluator->evaluate($configuration);
+
+        /**
          * Start by standardizing the input.
          */
-        foreach ($configuration as $slug => &$parameters) {
-            $parameters = $this->reader->standardize($slug, $parameters);
+        foreach ($configuration as $slug => $parameters) {
+            $configuration[$slug] = $this->reader->standardize($slug, $parameters);
         }
 
         /**
@@ -111,7 +127,7 @@ class FieldBuilder
          */
         foreach ($configuration as $slug => $parameters) {
 
-            // Standardize the input.
+            // Standardize the input again because of the field guesser.
             $parameters = $this->reader->standardize($slug, $parameters);
 
             // Skip excluded fields.
