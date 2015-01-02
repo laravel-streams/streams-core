@@ -37,7 +37,7 @@ class Image extends ImageManager
     /**
      * The image object.
      *
-     * @var null
+     * @var null|string
      */
     protected $image = null;
 
@@ -79,6 +79,7 @@ class Image extends ImageManager
      * An alias to create a new image instance.
      *
      * @param string $image
+     * @return $this
      */
     public function make($image)
     {

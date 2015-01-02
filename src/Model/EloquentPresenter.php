@@ -17,12 +17,12 @@ class EloquentPresenter extends Presenter
     /**
      * Create a new EloquentPresenter instance.
      *
-     * @param $resource
+     * @param $object
      */
-    public function __construct($resource)
+    public function __construct($object)
     {
-        if ($resource instanceof EloquentModel) {
-            $this->resource = $resource;
+        if ($object instanceof EloquentModel) {
+            $this->object = $object;
         }
     }
 
@@ -33,6 +33,6 @@ class EloquentPresenter extends Presenter
      */
     public function id()
     {
-        return $this->resource->getKey();
+        return $this->object->getKey();
     }
 }

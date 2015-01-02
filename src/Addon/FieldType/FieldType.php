@@ -724,11 +724,12 @@ class FieldType extends Addon
      *
      * @param  Table $table
      * @param        $direction
-     * @return mixed
      */
     public function orderBy(Table $table, $direction)
     {
-        return $table->setOrderBy([$this->getColumnName() => $direction]);
+        $options = $table->getOptions();
+
+        $options->put('order_by', [$this->getColumnName() => $direction]);
     }
 
     /**

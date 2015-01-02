@@ -67,9 +67,12 @@ class StreamModel extends EloquentModel implements StreamInterface
 
         $streamModel->setRawAttributes($data);
 
-        if (isset($data['assignments'])) {
+        if (array_key_exists('assignments', $data)) {
+
             foreach ($data['assignments'] as $assignment) {
+
                 if (isset($assignment['field'])) {
+                    
                     $assignment['field']['rules']  = unserialize($assignment['field']['rules']);
                     $assignment['field']['config'] = unserialize($assignment['field']['config']);
 

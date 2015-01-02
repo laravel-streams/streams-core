@@ -14,14 +14,14 @@ class Application
     /**
      * The application reference.
      *
-     * @var null
+     * @var string
      */
     protected $reference = 'default';
 
     /**
      * Keep installed status around.
      *
-     * @var null
+     * @var bool
      */
     protected $installed = null;
 

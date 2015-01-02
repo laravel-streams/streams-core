@@ -24,7 +24,7 @@ class EloquentQueryBuilder extends Builder
     /**
      * The cache key for the current query.
      *
-     * @var null
+     * @var null|string
      */
     protected $cacheKey = null;
 

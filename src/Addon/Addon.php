@@ -2,6 +2,7 @@
 
 use Laracasts\Commander\Events\EventGenerator;
 use Robbo\Presenter\PresentableInterface;
+use Robbo\Presenter\Presenter;
 
 /**
  * Class Addon
@@ -51,7 +52,7 @@ class Addon implements PresentableInterface
     /**
      * Get the addon's presenter.
      *
-     * @return AddonPresenter
+     * @return Presenter
      */
     public function getPresenter()
     {

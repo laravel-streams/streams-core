@@ -106,7 +106,7 @@ class FieldRepository implements FieldRepositoryInterface
      */
     public function deleteGarbage()
     {
-        return $this
+        return $this->model
             ->table('streams_fields')
             ->leftJoin('streams_streams', 'streams_fields.namespace', '=', 'streams_streams.namespace')
             ->whereNull('streams_streams.id')
