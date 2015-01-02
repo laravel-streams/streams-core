@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 use Laracasts\Commander\CommanderTrait;
 
@@ -210,7 +211,7 @@ class FormBuilder
     /**
      * Get the entry object.
      *
-     * @return null
+     * @return null|EntryInterface|mixed
      */
     public function getEntry()
     {
