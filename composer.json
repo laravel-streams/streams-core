@@ -32,13 +32,13 @@
         "laracasts/commander": "~1.0",
         "way/generators": "~3.0",
         "dimsav/laravel-translatable": "5.0.*@dev",
-        "venturecraft/revisionable": "1.*",
+        "venturecraft/revisionable": "1.*"
+    },
+    "require-dev": {
+        "anomaly/streams": "dev-master",
         "phpspec/phpspec": "~2.0",
         "benconstable/phpspec-laravel": "~1.0",
         "henrikbjorn/phpspec-code-coverage": "~0.2"
-    },
-    "require-dev": {
-        "anomaly/streams": "dev-master"
     },
     "autoload": {
         "psr-4": {
