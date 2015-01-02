@@ -23,6 +23,6 @@ class FieldTypeBuilder
      */
     public function build(array $field)
     {
-        return $this->execute('Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand', $field);
+        return $this->execute('\Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand', $field);
     }
 }

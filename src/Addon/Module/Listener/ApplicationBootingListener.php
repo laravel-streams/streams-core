@@ -21,6 +21,6 @@ class ApplicationBootingListener
      */
     public function handle()
     {
-        $this->execute('Anomaly\Streams\Platform\Addon\Module\Command\DetectActiveModuleCommand');
+        $this->execute('\Anomaly\Streams\Platform\Addon\Module\Command\DetectActiveModuleCommand');
     }
 }

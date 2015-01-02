@@ -23,7 +23,7 @@ class FieldManager
      */
     public function create(array $field)
     {
-        return $this->execute('Anomaly\Streams\Platform\Field\Command\CreateFieldCommand', $field);
+        return $this->execute('\Anomaly\Streams\Platform\Field\Command\CreateFieldCommand', $field);
     }
 
     /**

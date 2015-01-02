@@ -48,6 +48,6 @@ class ModuleManager
      */
     public function sync()
     {
-        $this->execute('Anomaly\Streams\Platform\Addon\Module\Command\SyncModulesCommand');
+        $this->execute('\Anomaly\Streams\Platform\Addon\Module\Command\SyncModulesCommand');
     }
 }

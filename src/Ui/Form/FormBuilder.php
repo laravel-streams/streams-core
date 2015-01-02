@@ -88,10 +88,10 @@ class FormBuilder
             $this->entry = $entry;
         }
 
-        $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\BuildFormCommand', ['builder' => $this]);
+        $this->execute('\Anomaly\Streams\Platform\Ui\Form\Command\BuildFormCommand', ['builder' => $this]);
 
         if (app('request')->isMethod('post')) {
-            $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\HandleFormPostCommand', ['form' => $this->form]);
+            $this->execute('\Anomaly\Streams\Platform\Ui\Form\Command\HandleFormPostCommand', ['form' => $this->form]);
         }
     }
 
@@ -106,7 +106,7 @@ class FormBuilder
 
         if ($this->form->getResponse() === null) {
 
-            $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\LoadFormCommand', ['form' => $this->form]);
+            $this->execute('\Anomaly\Streams\Platform\Ui\Form\Command\LoadFormCommand', ['form' => $this->form]);
 
             $options = $this->form->getOptions();
             $data    = $this->form->getData();

@@ -21,6 +21,6 @@ class ApplicationBootingListener
      */
     public function handle()
     {
-        $this->execute('Anomaly\Streams\Platform\Addon\Distribution\Command\DetectActiveDistributionCommand');
+        $this->execute('\Anomaly\Streams\Platform\Addon\Distribution\Command\DetectActiveDistributionCommand');
     }
 }
