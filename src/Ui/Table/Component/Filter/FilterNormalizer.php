@@ -39,7 +39,9 @@ class FilterNormalizer
             /**
              * Move the slug to the filter.
              */
-            $filter['slug'] = $slug;
+            if (!isset($filter['slug'])) {
+                $filter['slug'] = $slug;
+            }
 
             /**
              * Set the table's stream.
