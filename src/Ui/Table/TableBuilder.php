@@ -105,7 +105,7 @@ class TableBuilder
             $data    = $this->table->getData();
 
             $this->table->setContent(
-                view($options->get('view', 'streams::ui/table/index'), $data->all())
+                view($options->get('view', 'streams::ui/table/index'), $data)
             );
         }
     }

@@ -5,9 +5,9 @@
 
         {{ buttons(table.actions)|raw }}
 
-        {% if pagination.links %}
+        {% if table.data.pagination.links %}
             <div class="btn-group pull-right">
-                {{ pagination.links|raw }}
+                {{ table.data.pagination.links|raw }}
             </div>
         {% endif %}
     </td>
