@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Illuminate\Support\Collection;
@@ -56,25 +56,18 @@ class Table
     protected $data;
 
     /**
+     * The table rows.
+     *
+     * @var RowCollection
+     */
+    protected $rows;
+
+    /**
      * The table views.
      *
      * @var Component\View\ViewCollection
      */
     protected $views;
-
-    /**
-     * The table buttons.
-     *
-     * @var ButtonCollection
-     */
-    protected $buttons;
-
-    /**
-     * The table columns.
-     *
-     * @var \Illuminate\Support\Collection
-     */
-    protected $columns;
 
     /**
      * The table entries.
@@ -105,33 +98,40 @@ class Table
     protected $actions;
 
     /**
+     * The table headers.
+     *
+     * @var \Illuminate\Support\Collection
+     */
+    protected $headers;
+
+    /**
      * Create a new Table instance.
      *
      * @param Collection       $data
-     * @param Collection       $columns
-     * @param Collection       $entries
      * @param Collection       $options
+     * @param Collection       $entries
+     * @param Collection       $headers
+     * @param RowCollection    $rows
      * @param ViewCollection   $views
-     * @param ButtonCollection $buttons
      * @param ActionCollection $actions
      * @param FilterCollection $filters
      */
     public function __construct(
         Collection $data,
-        Collection $columns,
-        Collection $entries,
         Collection $options,
+        Collection $entries,
+        Collection $headers,
+        RowCollection $rows,
         ViewCollection $views,
-        ButtonCollection $buttons,
         ActionCollection $actions,
         FilterCollection $filters
     ) {
         $this->data    = $data;
+        $this->rows    = $rows;
         $this->views   = $views;
         $this->actions = $actions;
-        $this->buttons = $buttons;
-        $this->columns = $columns;
         $this->entries = $entries;
+        $this->headers = $headers;
         $this->filters = $filters;
         $this->options = $options;
     }
@@ -252,75 +252,6 @@ class Table
     }
 
     /**
-     * Set the table buttons.
-     *
-     * @param ButtonCollection $buttons
-     * @return $this
-     */
-    public function setButtons(ButtonCollection $buttons)
-    {
-        $this->buttons = $buttons;
-
-        return $this;
-    }
-
-    /**
-     * Get the table buttons.
-     *
-     * @return ButtonCollection
-     */
-    public function getButtons()
-    {
-        return $this->buttons;
-    }
-
-    /**
-     * Set the table columns.
-     *
-     * @param Collection $columns
-     * @return $this
-     */
-    public function setColumns(Collection $columns)
-    {
-        $this->columns = $columns;
-
-        return $this;
-    }
-
-    /**
-     * Get the table columns.
-     *
-     * @return Collection
-     */
-    public function getColumns()
-    {
-        return $this->columns;
-    }
-
-    /**
-     * Set the table entries.
-     *
-     * @param Collection $entries
-     * @return $this
-     */
-    public function setEntries(Collection $entries)
-    {
-        $this->entries = $entries;
-
-        return $this;
-    }
-
-    /**
-     * Get the table entries.
-     *
-     * @return Collection
-     */
-    public function getEntries()
-    {
-        return $this->entries;
-    }
-
-    /**
      * Set the table filters.
      *
      * @param FilterCollection $filters
@@ -367,6 +298,52 @@ class Table
     }
 
     /**
+     * Set the table entries.
+     *
+     * @param Collection $entries
+     * @return $this
+     */
+    public function setEntries(Collection $entries)
+    {
+        $this->entries = $entries;
+
+        return $this;
+    }
+
+    /**
+     * Get the table entries.
+     *
+     * @return Collection
+     */
+    public function getEntries()
+    {
+        return $this->entries;
+    }
+
+    /**
+     * Set the table headers.
+     *
+     * @param Collection $headers
+     * @return $this
+     */
+    public function setHeaders($headers)
+    {
+        $this->headers = $headers;
+
+        return $this;
+    }
+
+    /**
+     * Get the table headers.
+     *
+     * @return Collection
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
      * Set the table views.
      *
      * @param ViewCollection $views
@@ -410,5 +387,28 @@ class Table
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * Set the table rows.
+     *
+     * @param RowCollection $rows
+     * @return $this
+     */
+    public function setRows(RowCollection $rows)
+    {
+        $this->rows = $rows;
+
+        return $this;
+    }
+
+    /**
+     * Get the table rows.
+     *
+     * @return RowCollection
+     */
+    public function getRows()
+    {
+        return $this->rows;
     }
 }

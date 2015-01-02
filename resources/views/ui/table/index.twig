@@ -16,14 +16,14 @@
 
         {{ table_filters(table)|raw }}
 
-        {% if not table.entries.empty() %}
+        {% if not table.rows.empty() %}
             <form method="post">
                 <table class="table table-hover {{ table.options.sortable ? 'sortable' }}">
 
                     {{ table_header(table)|raw }}
                     {{ table_body(table)|raw }}
                     {{ table_footer(table)|raw }}
-                    
+
                 </table>
             </form>
         {% else %}

@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
 use Laracasts\Commander\CommanderTrait;
 
 /**
@@ -85,14 +86,14 @@ class TablePluginFunctions
      * Return a column heading value.
      *
      * @param Table           $table
-     * @param ColumnInterface $column
+     * @param HeaderInterface $header
      * @return string
      */
-    public function heading(Table $table, ColumnInterface $column)
+    public function heading(Table $table, HeaderInterface $header)
     {
         return $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\GetColumnHeadingCommand',
-            compact('table', 'column')
+            '\Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\GetHeadingCommand',
+            compact('table', 'header')
         );
     }
 

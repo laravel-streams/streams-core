@@ -1,30 +1,30 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
- * Class ColumnHeader
+ * Class HeaderHeading
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Column
+ * @package       Anomaly\Streams\Platform\Ui\Table\Component\Header
  */
-class ColumnHeader
+class HeaderHeading
 {
 
     /**
-     * Return the column header text.
+     * Return the header header text.
      *
      * @param Table           $table
-     * @param ColumnInterface $column
+     * @param HeaderInterface $heading
      * @return null|string
      */
-    public function make(Table $table, ColumnInterface $column)
+    public function make(Table $table, HeaderInterface $heading)
     {
-        $header = $column->getHeader();
+        $heading = $heading->getHeading();
 
         $stream = $table->getStream();
 
@@ -32,7 +32,7 @@ class ColumnHeader
          * If the header is null then the intent was
          * to not have header text at all.
          */
-        if ($header === null) {
+        if ($heading === null) {
             return null;
         }
 
@@ -40,17 +40,17 @@ class ColumnHeader
          * If the header is a closure then return
          * the value from it.
          */
-        if ($header instanceof \Closure) {
-            return app()->call($header, compact('table'));
+        if ($heading instanceof \Closure) {
+            return app()->call($heading, compact('table'));
         }
 
         /**
          * If the table is using streams try getting
-         * the name from the field for the column.
+         * the name from the field for the header.
          */
-        if (is_string($header) && $stream instanceof StreamInterface) {
+        if (is_string($heading) && $stream instanceof StreamInterface) {
 
-            $field = explode('.', $header);
+            $field = explode('.', $heading);
             $field = end($field);
 
             if ($field = $stream->getField($field)) {
@@ -58,6 +58,6 @@ class ColumnHeader
             }
         }
 
-        return trans($header);
+        return trans($heading);
     }
 }

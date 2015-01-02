@@ -73,26 +73,26 @@ class BuildTableCommandHandler
         );
 
         /**
-         * Build table columns.
+         * Build table headers.
          */
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\BuildColumnsCommand',
+            '\Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\BuildHeadersCommand',
             compact('builder')
         );
 
         /**
-         * Build table buttons.
-         */
-        $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Component\Button\Command\BuildButtonsCommand',
-            compact('builder')
-        );
-
-        /**
-         * LAST: Get table entries.
+         * Get table entries.
          */
         $this->execute(
             '\Anomaly\Streams\Platform\Ui\Table\Command\GetTableEntriesCommand',
+            compact('builder')
+        );
+
+        /**
+         * Lastly table rows.
+         */
+        $this->execute(
+            '\Anomaly\Streams\Platform\Ui\Table\Component\Row\Command\BuildRowsCommand',
             compact('builder')
         );
     }

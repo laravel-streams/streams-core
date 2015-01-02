@@ -1,17 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
- * Class GetColumnHeadingCommand
+ * Class GetHeadingCommand
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Command
  */
-class GetColumnHeadingCommand
+class GetHeadingCommand
 {
 
     /**
@@ -22,32 +22,32 @@ class GetColumnHeadingCommand
     protected $table;
 
     /**
-     * The column object.
+     * The header object.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface
+     * @var \Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface
      */
-    protected $column;
+    protected $header;
 
     /**
-     * Create a new GetColumnHeadingCommand instance.
+     * Create a new GetHeadingCommand instance.
      *
      * @param Table           $table
-     * @param ColumnInterface $column
+     * @param HeaderInterface $header
      */
-    function __construct(Table $table, ColumnInterface $column)
+    function __construct(Table $table, HeaderInterface $header)
     {
         $this->table  = $table;
-        $this->column = $column;
+        $this->header = $header;
     }
 
     /**
-     * Get the column object.
+     * Get the header object.
      *
-     * @return ColumnInterface
+     * @return HeaderInterface
      */
-    public function getColumn()
+    public function getHeader()
     {
-        return $this->column;
+        return $this->header;
     }
 
     /**

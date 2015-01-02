@@ -14,9 +14,9 @@
         </th>
     {% endif %}
 
-    {% for column in table.columns %}
+    {% for header in table.headers %}
         <th>
-            {{ table_heading(table, column) }}
+            {{ table_heading(table, header) }}
         </th>
     {% endfor %}
 

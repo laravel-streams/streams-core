@@ -1,29 +1,29 @@
 <!-- Table Body -->
 <tbody>
-{% for entry in table.entries %}
+{% for row in table.rows %}
     <tr>
 
         {% if table.options.sortable %}
             <td>
                 <i class="fa fa-reorder handle" style="cursor: move;"></i>
-                <input type="hidden" name="{{ table.options.prefix }}order[]" value="{{ entry.id }}"/>
+                <input type="hidden" name="{{ table.options.prefix }}order[]" value="{{ row.entry.id }}"/>
             </td>
         {% endif %}
 
         {% if not table.actions.emtpy() %}
             <td>
-                <input type="checkbox" name="{{ options.prefix }}id[]" value="{{ entry.id }}"/>
+                <input type="checkbox" name="{{ options.prefix }}id[]" value="{{ row.entry.id }}"/>
             </td>
         {% endif %}
 
-        {% for column in table.columns %}
+        {% for column in row.columns %}
             <td class="{{ column.class }}" {{ column.attributes }}>
-                {{ table_column(table, column, entry)|raw }}
+                {{ table_column(table, column, row.entry)|raw }}
             </td>
         {% endfor %}
 
         <td class="text-right">
-            {{ buttons(table.buttons)|raw }}
+            {{ buttons(row.buttons)|raw }}
         </td>
     </tr>
 {% endfor %}
