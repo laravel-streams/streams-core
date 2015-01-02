@@ -3,7 +3,8 @@ suites:
         spec_path: ./tests
 
 extensions:
-  #- PhpSpec\Extension\CodeCoverageExtension
+  - PhpSpec\Extension\CodeCoverageExtension
+  - PhpSpec\Laravel\Extension\LaravelExtension
 
 code_coverage:
   format:
