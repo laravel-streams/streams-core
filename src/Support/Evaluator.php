@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Illuminate\Container\Container;
+
 /**
  * Class Evaluator
  *
@@ -10,6 +12,23 @@
  */
 class Evaluator
 {
+
+    /**
+     * The IoC container.
+     *
+     * @var \Illuminate\Container\Container
+     */
+    protected $container;
+
+    /**
+     * Create a new Evaluator instance.
+     *
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * Evaluate a target entity with arguments.
@@ -25,7 +44,7 @@ class Evaluator
          * call through the IoC it with the arguments.
          */
         if ($target instanceof \Closure) {
-            return app()->call($target, $arguments);
+            return $this->container->call($target, $arguments);
         }
 
         /**
@@ -43,7 +62,7 @@ class Evaluator
          * format then send it through Lexicon.
          */
         if (is_string($target) && $this->isParsable($target)) {
-            $target = app('twig.string')->render($target, $arguments);
+            $target = $this->container->make('twig.string')->render($target, $arguments);
         }
 
         /**
