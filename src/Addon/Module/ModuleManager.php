@@ -24,7 +24,7 @@ class ModuleManager
     public function install($module)
     {
         return $this->execute(
-            'Anomaly\Streams\Platform\Addon\Module\Command\InstallModuleCommand',
+            '\Anomaly\Streams\Platform\Addon\Module\Command\InstallModuleCommand',
             compact('module')
         );
     }
@@ -38,7 +38,7 @@ class ModuleManager
     public function uninstall($module)
     {
         return $this->execute(
-            'Anomaly\Streams\Platform\Addon\Module\Command\UninstallModuleCommand',
+            '\Anomaly\Streams\Platform\Addon\Module\Command\UninstallModuleCommand',
             compact('module')
         );
     }

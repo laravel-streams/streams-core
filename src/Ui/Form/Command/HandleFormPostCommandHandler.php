@@ -25,15 +25,15 @@ class HandleFormPostCommandHandler
         $form = $command->getForm();
 
         $this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Command\ValidateFormInputCommand',
+            '\Anomaly\Streams\Platform\Ui\Form\Command\ValidateFormInputCommand',
             compact('form')
         );
         $this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Command\SaveFormInputCommand',
+            '\Anomaly\Streams\Platform\Ui\Form\Command\SaveFormInputCommand',
             compact('form')
         );
         $this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetFormResponseCommand',
+            '\Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetFormResponseCommand',
             compact('form')
         );
     }

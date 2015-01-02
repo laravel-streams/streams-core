@@ -25,7 +25,7 @@ class EntryUtility
     {
         // Generate the base model.
         $this->execute(
-            'Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelCommand',
+            '\Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelCommand',
             compact('stream')
         );
 
@@ -35,7 +35,7 @@ class EntryUtility
          */
         if ($stream->isTranslatable()) {
             $this->execute(
-                'Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModelCommand',
+                '\Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModelCommand',
                 compact('stream')
             );
         }

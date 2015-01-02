@@ -22,7 +22,7 @@ class ReorderAction extends Action
      */
     protected function handleFormPostEvent(FormPostEvent $event)
     {
-        $form = $event->getForm();
+        $form  = $event->getForm();
         $model = $form->getModel();
 
         if ($model instanceof FormModelInterface) {

@@ -27,7 +27,7 @@ class AssignmentDeletedListener
         $assignment = $event->getAssignment();
 
         $this->execute(
-            'Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumnCommand',
+            '\Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumnCommand',
             compact('assignment')
         );
     }

@@ -19,7 +19,7 @@ class SetActiveActionCommandHandler
     public function handle(SetActiveActionCommand $command)
     {
         $builder = $command->getBuilder();
-        $form   = $builder->getForm();
+        $form    = $builder->getForm();
         $options = $form->getOptions();
         $actions = $form->getActions();
 

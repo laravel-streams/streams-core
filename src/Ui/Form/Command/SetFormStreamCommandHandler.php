@@ -21,7 +21,7 @@ class SetFormStreamCommandHandler
     public function handle(SetFormStreamCommand $command)
     {
         $builder = $command->getBuilder();
-        $form   = $builder->getForm();
+        $form    = $builder->getForm();
         $model   = $builder->getModel();
 
         /**

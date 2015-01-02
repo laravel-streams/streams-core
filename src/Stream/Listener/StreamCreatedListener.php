@@ -56,7 +56,7 @@ class StreamCreatedListener
     protected function createStreamsTable(StreamInterface $stream)
     {
         $this->execute(
-            'Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTableCommand',
+            '\Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTableCommand',
             compact('stream')
         );
     }

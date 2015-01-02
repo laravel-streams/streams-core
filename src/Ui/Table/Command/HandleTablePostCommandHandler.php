@@ -25,7 +25,7 @@ class HandleTablePostCommandHandler
         $table = $command->getTable();
 
         $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\ExecuteActionCommand',
+            '\Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\ExecuteActionCommand',
             compact('table')
         );
     }

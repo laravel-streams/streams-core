@@ -93,7 +93,7 @@ class TableBuilder
 
         if (app('request')->isMethod('post')) {
             $this->execute(
-                'Anomaly\Streams\Platform\Ui\Table\Command\HandleTablePostCommand',
+                '\Anomaly\Streams\Platform\Ui\Table\Command\HandleTablePostCommand',
                 ['table' => $this->table]
             );
         }

@@ -91,7 +91,7 @@ class TablePluginFunctions
     public function heading(Table $table, ColumnInterface $column)
     {
         return $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\GetColumnHeadingCommand',
+            '\Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\GetColumnHeadingCommand',
             compact('table', 'column')
         );
     }
@@ -107,7 +107,7 @@ class TablePluginFunctions
     public function column(Table $table, ColumnInterface $column, $entry)
     {
         return $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\GetColumnValueCommand',
+            '\Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\GetColumnValueCommand',
             compact('table', 'column', 'entry')
         );
     }

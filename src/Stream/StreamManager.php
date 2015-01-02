@@ -36,7 +36,7 @@ class StreamManager
     public function delete($namespace, $slug)
     {
         return $this->execute(
-            'Anomaly\Streams\Platform\Stream\Command\DeleteStreamCommand',
+            '\Anomaly\Streams\Platform\Stream\Command\DeleteStreamCommand',
             compact('namespace', 'slug')
         );
     }

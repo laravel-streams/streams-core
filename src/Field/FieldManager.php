@@ -36,7 +36,7 @@ class FieldManager
     public function delete($namespace, $slug)
     {
         return $this->execute(
-            'Anomaly\Streams\Platform\Field\Command\DeleteFieldCommand',
+            '\Anomaly\Streams\Platform\Field\Command\DeleteFieldCommand',
             compact('namespace', 'slug')
         );
     }
@@ -53,7 +53,7 @@ class FieldManager
     public function assign($namespace, $stream, $field, array $assignment)
     {
         return $this->execute(
-            'Anomaly\Streams\Platform\Field\Command\AssignFieldCommand',
+            '\Anomaly\Streams\Platform\Field\Command\AssignFieldCommand',
             array_merge($assignment, compact('namespace', 'stream', 'field'))
         );
     }
@@ -69,7 +69,7 @@ class FieldManager
     public function unassign($namespace, $stream, $field)
     {
         return $this->execute(
-            'Anomaly\Streams\Platform\Field\Command\UnassignFieldCommand',
+            '\Anomaly\Streams\Platform\Field\Command\UnassignFieldCommand',
             compact('namespace', 'stream', 'field')
         );
     }

@@ -19,7 +19,7 @@ class SetFormModelCommandHandler
     public function handle(SetFormModelCommand $command)
     {
         $builder = $command->getBuilder();
-        $form   = $builder->getForm();
+        $form    = $builder->getForm();
         $model   = $builder->getModel();
 
         /**

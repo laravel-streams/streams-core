@@ -22,19 +22,38 @@
 
         {% endif %}
 
+
         {# Render dropdown type buttons. #}
         {% if button.dropdown %}
-            <a class="btn btn-{{ button.type }} btn-{{ button.size }} dropdown-toggle" data-toggle="dropdown">
+
+            {# Render dropdown toggles as an anchor #}
+            <a class="btn btn-{{ button.size }} btn-{{ button.type }} dropdown-toggle"
+               data-toggle="dropdown" {{ html_attributes(button.attributes) }}>
                 {{ button.icon ? icon(button.icon) }}
                 {{ trans(button.text) }}
             </a>
+
+            {# Render the actual dropdown links #}
             {% for link in button.dropdown %}
                 <ul class="dropdown-menu">
                     <li>
-                        <a {{ html_attributes(link.attributes) }}>
-                            {{ icon ? icon(link.icon) }}
-                            {{ trans(link.text) }}
-                        </a>
+
+                        {# Render normal buttons as an anchor #}
+                        {% if not link.attributes.name %}
+                            <a {{ html_attributes(link.attributes) }}>
+                                {{ link.icon ? icon(link.icon) }}
+                                {{ trans(link.text) }}
+                            </a>
+                        {% endif %}
+
+                        {# Render normal buttons as a button #}
+                        {% if link.attributes.name %}
+                            <button {{ html_attributes(link.attributes) }}>
+                                {{ link.icon ? icon(link.icon) }}
+                                {{ trans(link.text) }}
+                            </button>
+                        {% endif %}
+                        
                     </li>
                 </ul>
             {% endfor %}
