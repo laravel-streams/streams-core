@@ -19,9 +19,9 @@ class ViewBuilder
     /**
      * The view reader.
      *
-     * @var ViewReader
+     * @var ViewInput
      */
-    protected $reader;
+    protected $input;
 
     /**
      * The view factory.
@@ -33,12 +33,12 @@ class ViewBuilder
     /**
      * Create a new ViewBuilder instance.
      *
-     * @param ViewReader  $reader
+     * @param ViewInput   $input
      * @param ViewFactory $factory
      */
-    public function __construct(ViewReader $reader, ViewFactory $factory)
+    public function __construct(ViewInput $input, ViewFactory $factory)
     {
-        $this->reader  = $reader;
+        $this->input   = $input;
         $this->factory = $factory;
     }
 
@@ -52,12 +52,10 @@ class ViewBuilder
         $table = $builder->getTable();
         $views = $table->getViews();
 
+        $this->input->read($builder);
+
         foreach ($builder->getViews() as $slug => $view) {
-
-            $view = $this->reader->standardize($slug, $view);
-            $view = $this->factory->make($view);
-
-            $views->put($view->getSlug(), $view);
+            $views->put($slug, $this->factory->make($view));
         }
     }
 }

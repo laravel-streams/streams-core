@@ -21,7 +21,7 @@ class ActionBuilder
      *
      * @var ActionReader
      */
-    protected $reader;
+    protected $input;
 
     /**
      * The action factory.
@@ -33,12 +33,12 @@ class ActionBuilder
     /**
      * Create a new ActionBuilder instance.
      *
-     * @param ActionReader  $reader
+     * @param ActionReader  $input
      * @param ActionFactory $factory
      */
-    public function __construct(ActionReader $reader, ActionFactory $factory)
+    public function __construct(ActionReader $input, ActionFactory $factory)
     {
-        $this->reader  = $reader;
+        $this->input  = $input;
         $this->factory = $factory;
     }
 
@@ -57,7 +57,7 @@ class ActionBuilder
 
         foreach ($builder->getActions() as $slug => $action) {
 
-            $action = $this->reader->standardize($slug, $action);
+            $action = $this->input->standardize($slug, $action);
 
             $action['size'] = 'sm';
 

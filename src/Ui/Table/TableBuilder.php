@@ -73,15 +73,6 @@ class TableBuilder
     public function __construct(Table $table)
     {
         $this->table = $table;
-
-        $this->initialize();
-    }
-
-    /**
-     * Initialize the table builder.
-     */
-    protected function initialize()
-    {
     }
 
     /**

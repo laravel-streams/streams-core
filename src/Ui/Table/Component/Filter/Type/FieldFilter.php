@@ -58,25 +58,12 @@ class FieldFilter extends Filter implements FieldFilterInterface
 
         $type = $field->getType();
 
+        $type->setLocale(null);
         $type->setValue($this->getValue());
         $type->setPrefix($this->getPrefix() . 'filter_');
         $type->setPlaceholder($this->getPlaceholder() ? trans($this->getPlaceholder()) : trans($field->getName()));
 
         return $type->renderFilter();
-    }
-
-    /**
-     * Get the filter input name.
-     *
-     * @return string
-     */
-    public function getFieldName()
-    {
-        $field = $this->stream->getField($this->getField());
-
-        $type = $field->getType();
-
-        return $this->getPrefix() . 'filter_' . $type->getFieldName();
     }
 
     /**

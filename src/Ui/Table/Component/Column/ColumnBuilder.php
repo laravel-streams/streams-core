@@ -19,9 +19,9 @@ class ColumnBuilder
     /**
      * The column reader.
      *
-     * @var ColumnReader
+     * @var ColumnInput
      */
-    protected $reader;
+    protected $input;
 
     /**
      * The column factory.
@@ -33,12 +33,12 @@ class ColumnBuilder
     /**
      * Create a new ColumnBuilder instance.
      *
-     * @param ColumnReader  $reader
+     * @param ColumnInput   $input
      * @param ColumnFactory $factory
      */
-    public function __construct(ColumnReader $reader, ColumnFactory $factory)
+    public function __construct(ColumnInput $input, ColumnFactory $factory)
     {
-        $this->reader  = $reader;
+        $this->input   = $input;
         $this->factory = $factory;
     }
 
@@ -52,12 +52,10 @@ class ColumnBuilder
         $table   = $builder->getTable();
         $columns = $table->getColumns();
 
+        $this->input->read($builder);
+
         foreach ($builder->getColumns() as $column) {
-
-            $column = $this->reader->standardize($column);
-            $column = $this->factory->make($column);
-
-            $columns->push($column);
+            $columns->push($this->factory->make($column));
         }
     }
 }

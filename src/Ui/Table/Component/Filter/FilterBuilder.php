@@ -19,9 +19,9 @@ class FilterBuilder
     /**
      * The filter reader.
      *
-     * @var FilterReader
+     * @var FilterInput
      */
-    protected $reader;
+    protected $input;
 
     /**
      * The filter factory.
@@ -33,12 +33,12 @@ class FilterBuilder
     /**
      * Create a new FilterBuilder instance.
      *
-     * @param FilterReader  $reader
+     * @param FilterInput   $input
      * @param FilterFactory $factory
      */
-    public function __construct(FilterReader $reader, FilterFactory $factory)
+    public function __construct(FilterInput $input, FilterFactory $factory)
     {
-        $this->reader  = $reader;
+        $this->input   = $input;
         $this->factory = $factory;
     }
 
@@ -52,15 +52,10 @@ class FilterBuilder
         $table   = $builder->getTable();
         $filters = $table->getFilters();
 
+        $this->input->read($builder);
+
         foreach ($builder->getFilters() as $slug => $filter) {
-
-            $filter = $this->reader->standardize($slug, $filter);
-
-            $filter['stream'] = $table->getStream();
-
-            $filter = $this->factory->make($filter);
-
-            $filters->put($filter->getSlug(), $filter);
+            $filters->put($slug, $this->factory->make($filter));
         }
     }
 }

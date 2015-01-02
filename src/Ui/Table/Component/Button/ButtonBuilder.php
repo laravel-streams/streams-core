@@ -1,9 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
-use Anomaly\Streams\Platform\Ui\Button\ButtonReader;
-use Anomaly\Streams\Platform\Ui\Button\Guesser\ClassGuesser;
-use Anomaly\Streams\Platform\Ui\Button\Guesser\UrlGuesser;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Laracasts\Commander\CommanderTrait;
 
@@ -23,23 +20,9 @@ class ButtonBuilder
     /**
      * The button reader.
      *
-     * @var ButtonReader
+     * @var ButtonInput
      */
-    protected $reader;
-
-    /**
-     * The url guesser.
-     *
-     * @var UrlGuesser
-     */
-    protected $url;
-
-    /**
-     * The class guesser.
-     *
-     * @var ClassGuesser
-     */
-    protected $class;
+    protected $input;
 
     /**
      * The button factory.
@@ -51,19 +34,12 @@ class ButtonBuilder
     /**
      * Create a new ButtonBuilder instance.
      *
-     * @param UrlGuesser    $url
-     * @param ButtonReader  $reader
+     * @param ButtonInput   $input
      * @param ButtonFactory $factory
      */
-    public function __construct(
-        UrlGuesser $url,
-        ClassGuesser $class,
-        ButtonReader $reader,
-        ButtonFactory $factory
-    ) {
-        $this->url     = $url;
-        $this->class   = $class;
-        $this->reader  = $reader;
+    public function __construct(ButtonInput $input, ButtonFactory $factory)
+    {
+        $this->input   = $input;
         $this->factory = $factory;
     }
 
@@ -77,17 +53,10 @@ class ButtonBuilder
         $table   = $builder->getTable();
         $buttons = $table->getButtons();
 
+        $this->input->read($builder);
+
         foreach ($builder->getButtons() as $button) {
-
-            $button = $this->reader->standardize($button);
-
-            $button['size'] = 'sm';
-
-            $button = $this->url->guess($button);
-            $button = $this->class->guess($button);
-            $button = $this->factory->make($button);
-
-            $buttons->push($button);
+            $buttons->push($this->factory->make($button));
         }
     }
 }

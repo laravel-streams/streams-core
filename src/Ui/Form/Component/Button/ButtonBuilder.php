@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
-use Anomaly\Streams\Platform\Ui\Button\ButtonReader;
+use Anomaly\Streams\Platform\Ui\Button\ButtonInput;
 use Anomaly\Streams\Platform\Ui\Button\Guesser\UrlGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Laracasts\Commander\CommanderTrait;
@@ -22,9 +22,9 @@ class ButtonBuilder
     /**
      * The button reader.
      *
-     * @var ButtonReader
+     * @var ButtonInput
      */
-    protected $reader;
+    protected $input;
 
     /**
      * The url guesser.
@@ -44,16 +44,16 @@ class ButtonBuilder
      * Create a new ButtonBuilder instance.
      *
      * @param UrlGuesser    $href
-     * @param ButtonReader  $reader
+     * @param ButtonInput  $input
      * @param ButtonFactory $factory
      */
     public function __construct(
         UrlGuesser $href,
-        ButtonReader $reader,
+        ButtonInput $input,
         ButtonFactory $factory
     ) {
         $this->href    = $href;
-        $this->reader  = $reader;
+        $this->input  = $input;
         $this->factory = $factory;
     }
 
@@ -69,7 +69,7 @@ class ButtonBuilder
 
         foreach ($builder->getButtons() as $button) {
 
-            $button = $this->reader->standardize($button);
+            $button = $this->input->read($button);
 
             $button['size'] = 'sm';
 

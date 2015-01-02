@@ -25,7 +25,7 @@ class FieldBuilder
      *
      * @var FieldReader
      */
-    protected $reader;
+    protected $input;
 
     /**
      * The fill guesser.
@@ -65,20 +65,20 @@ class FieldBuilder
     /**
      * Create a new FieldTypeBuilder instance.
      *
-     * @param FieldReader       $reader
+     * @param FieldReader       $input
      * @param Evaluator         $evaluator
      * @param FieldFactory      $factory
      * @param FieldsGuesser     $fields
      * @param FieldConfigurator $configurator
      */
     public function __construct(
-        FieldReader $reader,
+        FieldReader $input,
         Evaluator $evaluator,
         FieldFactory $factory,
         FieldsGuesser $fields,
         FieldConfigurator $configurator
     ) {
-        $this->reader       = $reader;
+        $this->input       = $input;
         $this->fields       = $fields;
         $this->factory      = $factory;
         $this->evaluator    = $evaluator;
@@ -111,7 +111,7 @@ class FieldBuilder
          * Start by standardizing the input.
          */
         foreach ($configuration as $slug => $parameters) {
-            $configuration[$slug] = $this->reader->standardize($slug, $parameters);
+            $configuration[$slug] = $this->input->standardize($slug, $parameters);
         }
 
         /**
@@ -128,7 +128,7 @@ class FieldBuilder
         foreach ($configuration as $slug => $parameters) {
 
             // Standardize the input again because of the field guesser.
-            $parameters = $this->reader->standardize($slug, $parameters);
+            $parameters = $this->input->standardize($slug, $parameters);
 
             // Skip excluded fields.
             if (in_array($parameters['field'], $excluded)) {
