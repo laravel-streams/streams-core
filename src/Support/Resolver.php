@@ -43,7 +43,7 @@ class Resolver
      */
     public function resolve($target)
     {
-        if (is_string($target) and str_contains($target, '@')) {
+        if (is_string($target) && str_contains($target, '@')) {
             return $this->container->call($target);
         }
 
