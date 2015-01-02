@@ -33,5 +33,9 @@ class ModifyQueryCommandHandler
             '\Anomaly\Streams\Platform\Ui\Table\Component\View\Command\TableQueryCommand',
             compact('table', 'query')
         );
+        $this->execute(
+            '\Anomaly\Streams\Platform\Ui\Table\Command\OrderQueryCommand',
+            compact('table', 'query')
+        );
     }
 }
