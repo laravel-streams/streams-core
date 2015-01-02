@@ -33,7 +33,8 @@
         "way/generators": "~3.0",
         "dimsav/laravel-translatable": "5.0.*@dev",
         "venturecraft/revisionable": "1.*",
-        "phpspec/phpspec": "~2.0"
+        "phpspec/phpspec": "~2.0",
+        "benconstable/phpspec-laravel": "~1.0"
     },
     "require-dev": {
         "anomaly/streams": "dev-master"
