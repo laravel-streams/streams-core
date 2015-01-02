@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Laracasts\Commander\CommanderTrait;
+
 /**
  * Class LoadTableCommandHandler
  *
@@ -10,6 +12,8 @@
  */
 class LoadTableCommandHandler
 {
+
+    use CommanderTrait;
 
     /**
      * Handle the command.
@@ -23,5 +27,13 @@ class LoadTableCommandHandler
         $data = $table->getData();
 
         $data->put('table', $table);
+
+        /**
+         * Build table pagination.
+         */
+        $this->execute(
+            '\Anomaly\Streams\Platform\Ui\Table\Command\LoadTablePaginationCommand',
+            compact('table')
+        );
     }
 }
