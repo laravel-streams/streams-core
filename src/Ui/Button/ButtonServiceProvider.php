@@ -14,6 +14,14 @@ class ButtonServiceProvider extends ServiceProvider
 {
 
     /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        app('twig')->addExtension(app('Anomaly\Streams\Platform\Ui\Button\ButtonPlugin'));
+    }
+
+    /**
      * Register the service provider.
      *
      * @return void
