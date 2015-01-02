@@ -25,11 +25,10 @@ class FilterNormalizer
         foreach ($filters as $slug => &$filter) {
 
             /**
-             * If the slug is numeric and the parameter is
-             * a string then assume the parameter is a field
-             * type and that the parameter is the field slug.
+             * If the filter is a string then use
+             * it for everything.
              */
-            if (is_numeric($slug) && is_string($filter)) {
+            if (is_string($filter)) {
                 $filter = [
                     'slug'   => $filter,
                     'field'  => $filter,
@@ -38,25 +37,9 @@ class FilterNormalizer
             }
 
             /**
-             * If the slug is NOT numeric and the parameter is a
-             * string then use the slug as the slug and the
-             * parameter as the filter.
+             * Move the slug to the filter.
              */
-            if (!is_numeric($slug) && is_string($filter)) {
-                $filter = [
-                    'slug'   => $slug,
-                    'filter' => $filter,
-                ];
-            }
-
-            /**
-             * If the slug is not numeric and the parameter is an
-             * array without a slug then use the slug for
-             * the slug for the filter.
-             */
-            if (is_array($filter) && !isset($filter['slug']) && !is_numeric($slug)) {
-                $filter['slug'] = $slug;
-            }
+            $filter['slug'] = $slug;
 
             /**
              * Set the table's stream.
