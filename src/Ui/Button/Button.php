@@ -92,7 +92,7 @@ class Button implements ButtonInterface
      */
     public function isDropdown()
     {
-        return ($this->getDropdown());
+        return (bool)$this->getDropdown();
     }
 
     /**
