@@ -18,7 +18,7 @@ class AddonProvider
      */
     public function register($type)
     {
-        $type = ucfirst(camel_case(str_replace('-', '_', $type)));
+        $type = ucfirst(camel_case($type));
 
         $loaded = app("Anomaly\\Streams\\Platform\\Addon\\{$type}\\{$type}Collection");
 

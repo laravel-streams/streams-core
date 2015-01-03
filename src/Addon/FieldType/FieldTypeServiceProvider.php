@@ -41,6 +41,6 @@ class FieldTypeServiceProvider extends ServiceProvider
      */
     protected function registerFieldTypes()
     {
-        $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager')->register('field-type');
+        $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager')->register('field_type');
     }
 }
