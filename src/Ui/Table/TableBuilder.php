@@ -33,35 +33,35 @@ class TableBuilder
     /**
      * The views configuration.
      *
-     * @var array
+     * @var array|string
      */
     protected $views = [];
 
     /**
      * The filters configuration.
      *
-     * @var array
+     * @var array|string
      */
     protected $filters = [];
 
     /**
      * The columns configuration.
      *
-     * @var array
+     * @var array|string
      */
     protected $columns = [];
 
     /**
      * The buttons configuration.
      *
-     * @var array
+     * @var array|string
      */
     protected $buttons = [];
 
     /**
      * The actions configuration.
      *
-     * @var array
+     * @var array|string
      */
     protected $actions = [];
 

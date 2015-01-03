@@ -49,7 +49,30 @@ interface ViewInterface
     public function isActive();
 
     /**
-     * Get the slug.
+     * Set the view prefix.
+     *
+     * @param $prefix
+     * @return $this
+     */
+    public function setPrefix($prefix);
+
+    /**
+     * Get the view prefix.
+     *
+     * @return string
+     */
+    public function getPrefix();
+
+    /**
+     * Set the view slug.
+     *
+     * @param $slug
+     * @return $this
+     */
+    public function setSlug($slug);
+
+    /**
+     * Get the view slug.
      *
      * @return string
      */

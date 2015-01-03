@@ -78,7 +78,7 @@ class View implements ViewInterface
      */
     public function getUrl()
     {
-        return url(app('request')->path()) . '?' . $this->prefix . 'view=' . $this->slug;
+        return url(app('request')->path()) . '?' . $this->getPrefix() . 'view=' . $this->getSlug();
     }
 
     /**
@@ -102,6 +102,42 @@ class View implements ViewInterface
     public function isActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set the view prefix.
+     *
+     * @param $prefix
+     * @return $this
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    /**
+     * Get the view prefix.
+     *
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * Set the view slug.
+     *
+     * @param $slug
+     * @return $this
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 
     /**
