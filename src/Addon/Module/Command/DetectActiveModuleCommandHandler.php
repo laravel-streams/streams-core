@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Asset\Asset;
+use Anomaly\Streams\Platform\Image\Image;
 
 /**
  * Class DetectActiveModuleCommandHandler
@@ -12,6 +15,39 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
  */
 class DetectActiveModuleCommandHandler
 {
+
+    /**
+     * The asset utility.
+     *
+     * @var Asset
+     */
+    protected $asset;
+
+    /**
+     * The image utility.
+     *
+     * @var Image
+     */
+    protected $image;
+
+    /**
+     * The loaded modules.
+     *
+     * @var \Anomaly\Streams\Platform\Addon\Module\ModuleCollection
+     */
+    protected $modules;
+
+    /**
+     * Create a new DetectActiveModuleCommandHandler instance.
+     *
+     * @param ModuleCollection $modules
+     */
+    public function __construct(Asset $asset, Image $image, ModuleCollection $modules)
+    {
+        $this->asset   = $asset;
+        $this->image   = $image;
+        $this->modules = $modules;
+    }
 
     /**
      * Detect the active module and setup our
@@ -26,7 +62,7 @@ class DetectActiveModuleCommandHandler
          * MUST be the active module's slug.
          */
         if (app('request')->segment(1) == 'admin') {
-            $module = app('streams.modules')->findBySlug(app('request')->segment(2));
+            $module = $this->modules->findBySlug(app('request')->segment(2));
         }
 
         if ($module instanceof Module) {
@@ -34,9 +70,10 @@ class DetectActiveModuleCommandHandler
             $module->setActive(true);
 
             app('view')->addNamespace('module', $module->getPath('resources/views'));
-            app('streams.asset')->addNamespace('module', $module->getPath('resources'));
-            app('streams.image')->addNamespace('module', $module->getPath('resources'));
             app('translator')->addNamespace('module', $module->getPath('resources/lang'));
+
+            $this->asset->addNamespace('module', $module->getPath('resources'));
+            $this->image->addNamespace('module', $module->getPath('resources'));
         }
     }
 }

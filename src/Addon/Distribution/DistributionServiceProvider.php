@@ -42,7 +42,10 @@ class DistributionServiceProvider extends ServiceProvider
      */
     protected function registerCollection()
     {
-        $this->app->instance('streams.distributions', new DistributionCollection());
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection',
+            'Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection'
+        );
     }
 
     /**
@@ -50,6 +53,6 @@ class DistributionServiceProvider extends ServiceProvider
      */
     protected function registerDistributions()
     {
-        $this->app->make('streams.addon.manager')->register('distribution');
+        $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager')->register('distribution');
     }
 }

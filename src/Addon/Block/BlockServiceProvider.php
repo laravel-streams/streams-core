@@ -30,7 +30,10 @@ class BlockServiceProvider extends ServiceProvider
      */
     protected function registerCollection()
     {
-        $this->app->instance('streams.blocks', new BlockCollection());
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\Block\BlockCollection',
+            'Anomaly\Streams\Platform\Addon\Block\BlockCollection'
+        );
     }
 
     /**
@@ -38,6 +41,6 @@ class BlockServiceProvider extends ServiceProvider
      */
     protected function registerBlocks()
     {
-        $this->app->make('streams.addon.manager')->register('block');
+        $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager')->register('block');
     }
 }

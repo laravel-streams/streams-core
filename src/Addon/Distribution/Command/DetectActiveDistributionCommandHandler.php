@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Distribution\Command;
 
 use Anomaly\Streams\Platform\Addon\Distribution\Distribution;
+use Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection;
+use Anomaly\Streams\Platform\Asset\Asset;
+use Anomaly\Streams\Platform\Image\Image;
 
 /**
  * Class DetectActiveDistributionCommandHandler
@@ -14,6 +17,39 @@ class DetectActiveDistributionCommandHandler
 {
 
     /**
+     * The asset utility.
+     *
+     * @var Asset
+     */
+    protected $asset;
+
+    /**
+     * The image utility.
+     *
+     * @var Image
+     */
+    protected $image;
+
+    /**
+     * The loaded distributions.
+     *
+     * @var DistributionCollection
+     */
+    protected $distributions;
+
+    /**
+     * Create a new DetectActiveDistributionCommandHandler instance.
+     *
+     * @param DistributionCollection $distributions
+     */
+    public function __construct(Asset $asset, Image $image, DistributionCollection $distributions)
+    {
+        $this->asset         = $asset;
+        $this->image         = $image;
+        $this->distributions = $distributions;
+    }
+
+    /**
      * Handle the command.
      */
     public function handle()
@@ -22,7 +58,7 @@ class DetectActiveDistributionCommandHandler
          * If we have an active distribution then add
          * all it's namespaces to all our utilities.
          */
-        if ($distribution = app('streams.distributions')->active()) {
+        if ($distribution = $this->distributions->active()) {
             $this->setDistributionNamespaces($distribution);
         }
     }
@@ -37,7 +73,7 @@ class DetectActiveDistributionCommandHandler
         app('view')->addNamespace('distribution', $distribution->getPath('resources/views'));
         app('translator')->addNamespace('distribution', $distribution->getPath('resources/lang'));
 
-        app('streams.asset')->addNamespace('distribution', $distribution->getPath('resources'));
-        app('streams.image')->addNamespace('distribution', $distribution->getPath('resources'));
+        $this->asset->addNamespace('distribution', $distribution->getPath('resources'));
+        $this->image->addNamespace('distribution', $distribution->getPath('resources'));
     }
 }

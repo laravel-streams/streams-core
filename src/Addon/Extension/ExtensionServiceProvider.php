@@ -30,7 +30,10 @@ class ExtensionServiceProvider extends ServiceProvider
      */
     protected function registerCollection()
     {
-        $this->app->instance('streams.extensions', new ExtensionCollection());
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
+            'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection'
+        );
     }
 
     /**
@@ -38,6 +41,6 @@ class ExtensionServiceProvider extends ServiceProvider
      */
     protected function registerExtensions()
     {
-        $this->app->make('streams.addon.manager')->register('extension');
+        $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager')->register('extension');
     }
 }

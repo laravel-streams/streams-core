@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Listener;
 
+use Anomaly\Streams\Platform\Addon\AddonIntegrator;
+use Anomaly\Streams\Platform\Addon\AddonProvider;
+
 /**
  * Class ApplicationBootingListener
  *
@@ -10,6 +13,32 @@
  */
 class ApplicationBootingListener
 {
+
+    /**
+     * The addon provider.
+     *
+     * @var AddonProvider
+     */
+    protected $provider;
+
+    /**
+     * The addon integrator.
+     *
+     * @var AddonIntegrator
+     */
+    protected $integrator;
+
+    /**
+     * Create a new ApplicationBootingListener instance.
+     *
+     * @param AddonProvider   $provider
+     * @param AddonIntegrator $integrator
+     */
+    function __construct(AddonProvider $provider, AddonIntegrator $integrator)
+    {
+        $this->provider   = $provider;
+        $this->integrator = $integrator;
+    }
 
     /**
      * When the application is booting add all
@@ -35,7 +64,7 @@ class ApplicationBootingListener
     protected function addNamespaces()
     {
         foreach (config('streams::config.addon_types') as $type) {
-            app('streams.addon.integrator')->register($type);
+            $this->integrator->register($type);
         }
     }
 
@@ -45,7 +74,7 @@ class ApplicationBootingListener
     protected function registerAddonServiceProviders()
     {
         foreach (config('streams::config.addon_types') as $type) {
-            app('streams.addon.provider')->register($type);
+            $this->provider->register($type);
         }
     }
 }

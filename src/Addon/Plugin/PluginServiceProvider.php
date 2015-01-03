@@ -42,7 +42,10 @@ class PluginServiceProvider extends ServiceProvider
      */
     protected function registerCollection()
     {
-        $this->app->instance('streams.plugins', new PluginCollection());
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
+            'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection'
+        );
     }
 
     /**
@@ -50,6 +53,6 @@ class PluginServiceProvider extends ServiceProvider
      */
     protected function registerPlugins()
     {
-        $this->app->make('streams.addon.manager')->register('plugin');
+        $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager')->register('plugin');
     }
 }

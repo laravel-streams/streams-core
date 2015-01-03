@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Laracasts\Commander\CommanderTrait;
 
@@ -21,18 +22,26 @@ class SyncModulesCommandHandler
     /**
      * The module repository.
      *
-     * @var \Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface
+     * @var ModuleRepositoryInterface
      */
     protected $modules;
+
+    /**
+     * The loaded modules.
+     *
+     * @var ModuleCollection
+     */
+    protected $collection;
 
     /**
      * Create a new SyncModulesCommandHandler instance.
      *
      * @param ModuleRepositoryInterface $modules
      */
-    public function __construct(ModuleRepositoryInterface $modules)
+    public function __construct(ModuleCollection $collection, ModuleRepositoryInterface $modules)
     {
-        $this->modules = $modules;
+        $this->modules    = $modules;
+        $this->collection = $collection;
     }
 
     /**
@@ -42,7 +51,7 @@ class SyncModulesCommandHandler
     {
         $modules = $this->modules->all();
 
-        foreach (app('streams.modules')->all() as $module) {
+        foreach ($this->collection->all() as $module) {
             $this->sync($modules, $module);
         }
     }

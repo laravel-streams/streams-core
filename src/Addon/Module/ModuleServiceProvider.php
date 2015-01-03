@@ -69,7 +69,10 @@ class ModuleServiceProvider extends ServiceProvider
      */
     protected function registerCollection()
     {
-        $this->app->instance('streams.modules', new ModuleCollection());
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
+            'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'
+        );
     }
 
     /**
@@ -77,6 +80,6 @@ class ModuleServiceProvider extends ServiceProvider
      */
     protected function registerModules()
     {
-        $this->app->make('streams.addon.manager')->register('module');
+        $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager')->register('module');
     }
 }

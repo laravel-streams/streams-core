@@ -30,7 +30,10 @@ class FieldTypeServiceProvider extends ServiceProvider
      */
     protected function registerCollection()
     {
-        $this->app->instance('streams.field_types', new FieldTypeCollection());
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
+            'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection'
+        );
     }
 
     /**
@@ -38,6 +41,6 @@ class FieldTypeServiceProvider extends ServiceProvider
      */
     protected function registerFieldTypes()
     {
-        $this->app->make('streams.addon.manager')->register('field_type');
+        $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager')->register('field-type');
     }
 }

@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+
 /**
  * Class SetModuleStatesCommandHandler
  *
@@ -12,6 +14,23 @@ class SetModuleStatesCommandHandler
 {
 
     /**
+     * The loaded modules.
+     *
+     * @var \Anomaly\Streams\Platform\Addon\Module\ModuleCollection
+     */
+    protected $modules;
+
+    /**
+     * Create a new SetModuleStatesCommandHandler instance.
+     *
+     * @param ModuleCollection $modules
+     */
+    public function __construct(ModuleCollection $modules)
+    {
+        $this->modules = $modules;
+    }
+
+    /**
      * Set the installed / enabled status of
      * all of the registered modules.
      */
@@ -22,6 +41,6 @@ class SetModuleStatesCommandHandler
             ->where('installed', true)
             ->get();
 
-        app('streams.modules')->setStates($states);
+        $this->modules->setStates($states);
     }
 }

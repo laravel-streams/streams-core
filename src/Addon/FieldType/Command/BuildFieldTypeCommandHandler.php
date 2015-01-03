@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType\Command;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
+use Illuminate\Container\Container;
 
 /**
  * Class BuildFieldTypeCommandHandler
@@ -12,6 +14,29 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
  */
 class BuildFieldTypeCommandHandler
 {
+
+    /**
+     * The IoC container.
+     *
+     * @var Container
+     */
+    protected $container;
+
+    /**
+     * Loaded field types.
+     *
+     * @var FieldTypeCollection
+     */
+    protected $fieldTypes;
+
+    /**
+     * Create a new BuildFieldTypeCommandHandler instance.
+     */
+    public function __construct(Container $container, FieldTypeCollection $fieldTypes)
+    {
+        $this->container  = $container;
+        $this->fieldTypes = $fieldTypes;
+    }
 
     /**
      * Handle the command.
@@ -66,9 +91,15 @@ class BuildFieldTypeCommandHandler
         }
 
         if (starts_with($fieldType, 'Anomaly') && class_exists($fieldType)) {
-            return app($command->getType());
+            return $this->container->make($command->getType());
         }
 
-        return app('streams.field_types')->findBySlug($fieldType)->newInstance();
+        $fieldType = $this->fieldTypes->findBySlug($fieldType);
+
+        if (!$fieldType instanceof FieldType) {
+            throw new \Exception("Field type [{$command->getType()}] not found.");
+        }
+
+        return $fieldType->newInstance();
     }
 }

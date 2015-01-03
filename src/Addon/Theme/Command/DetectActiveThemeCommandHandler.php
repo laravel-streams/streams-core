@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme\Command;
 
+use Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection;
 use Anomaly\Streams\Platform\Addon\Theme\Theme;
+use Anomaly\Streams\Platform\Asset\Asset;
+use Anomaly\Streams\Platform\Image\Image;
 
 /**
  * Class DetectActiveThemeCommandHandler
@@ -14,12 +17,47 @@ class DetectActiveThemeCommandHandler
 {
 
     /**
+     * The asset utility.
+     *
+     * @var Asset
+     */
+    protected $asset;
+
+    /**
+     * The image utility.
+     *
+     * @var Image
+     */
+    protected $image;
+
+    /**
+     * The loaded distributions.
+     *
+     * @var \Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection
+     */
+    protected $distributions;
+
+    /**
+     * Create a new DetectActiveThemeCommandHandler instance.
+     *
+     * @param Asset                  $asset
+     * @param Image                  $image
+     * @param DistributionCollection $distributions
+     */
+    public function __construct(Asset $asset, Image $image, DistributionCollection $distributions)
+    {
+        $this->asset         = $asset;
+        $this->image         = $image;
+        $this->distributions = $distributions;
+    }
+
+    /**
      * Detect the active theme and set up
      * our environment with it.
      */
     public function handle()
     {
-        if (app('streams.distributions')->active()) {
+        if ($this->distributions->active()) {
 
             if (app('request')->segment(1) == 'admin' || app('request')->segment(1) == 'installer') {
                 $theme = config('distribution.admin_theme', 'streams');
@@ -27,7 +65,7 @@ class DetectActiveThemeCommandHandler
                 $theme = config('distribution.public_theme', 'streams');
             }
 
-            $theme = app('streams.theme.' . $theme);
+            $theme = app('anomaly::theme.' . $theme);
 
             if ($theme instanceof Theme) {
 
@@ -35,9 +73,10 @@ class DetectActiveThemeCommandHandler
 
                 app('view')->addNamespace('theme', $theme->getPath('resources/views'));
                 app('config')->addNamespace('theme', $theme->getPath('resources/config'));
-                app('streams.asset')->addNamespace('theme', $theme->getPath('resources'));
-                app('streams.image')->addNamespace('theme', $theme->getPath('resources'));
                 app('translator')->addNamespace('theme', $theme->getPath('resources/lang'));
+
+                $this->asset->addNamespace('theme', $theme->getPath('resources'));
+                $this->image->addNamespace('theme', $theme->getPath('resources'));
             }
         }
     }

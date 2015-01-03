@@ -34,6 +34,8 @@ class AddonRegisteredListener
      */
     protected function pushAddonToCollection(Addon $addon)
     {
-        app('streams.' . str_plural($addon->getType()))->put($addon->getSlug(), $addon);
+        $type = ucfirst(camel_case($addon->getType()));
+
+        app("Anomaly\\Streams\\Platform\\Addon\\{$type}\\{$type}Collection")->put($addon->getSlug(), $addon);
     }
 }

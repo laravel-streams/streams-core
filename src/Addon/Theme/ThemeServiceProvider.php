@@ -42,7 +42,10 @@ class ThemeServiceProvider extends ServiceProvider
      */
     protected function registerCollection()
     {
-        $this->app->instance('streams.themes', new ThemeCollection());
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
+            'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'
+        );
     }
 
     /**
@@ -50,6 +53,6 @@ class ThemeServiceProvider extends ServiceProvider
      */
     protected function registerThemes()
     {
-        $this->app->make('streams.addon.manager')->register('theme');
+        $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager')->register('theme');
     }
 }

@@ -17,7 +17,7 @@ class ApplicationBootingListener
      */
     public function handle()
     {
-        foreach (app('streams.plugins') as $plugin) {
+        foreach (app('\Anomaly\Streams\Platform\Addon\Plugin\PluginCollection') as $plugin) {
             app('twig')->addExtension($plugin);
         }
     }
