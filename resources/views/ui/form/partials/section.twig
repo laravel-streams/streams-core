@@ -14,7 +14,7 @@
 
                 {% for field in form.fields %}
                     <div class="form-group">
-                        FIX NAMESPACES FOR VIEWS{#{{ field.render|raw }}#}
+                        {{ field.render|raw }}
                     </div>
                 {% endfor %}
 
