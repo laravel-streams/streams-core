@@ -145,28 +145,26 @@ class Module extends Addon
     }
 
     /**
-     * Set the module's tag class.
+     * Get the composer json contents.
      *
-     * @param  $tag
-     * @return $this
+     * @return mixed|null
      */
-    public function setTag($tag)
+    public function getComposerJson()
     {
-        $this->tag = $tag;
+        $json = $this->getPath('composer.json');
 
-        return $this;
+        if (!file_exists($json)) {
+            return null;
+        }
+
+        return json_decode(file_get_contents($json));
     }
 
     /**
-     * Get the module's tag class.
+     * Return a new installer instance.
      *
-     * @return string
+     * @return ModuleInstaller
      */
-    public function getTag()
-    {
-        return $this->tag;
-    }
-
     public function newInstaller()
     {
         $installer = get_class($this) . 'Installer';

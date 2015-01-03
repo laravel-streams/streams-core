@@ -1,25 +1,29 @@
-<!-- Table Head -->
-<thead>
-<tr>
+{% if not table.options.show_header %}
 
-    {% if table.options.sortable %}
-        <th>
-            <i class="fa fa-reorder text-muted"></i>
-        </th>
-    {% endif %}
+    <!-- Table Head -->
+    <thead>
+    <tr>
 
-    {% if not table.actions.empty() %}
-        <th>
-            <input data-toggle="all" type="checkbox">
-        </th>
-    {% endif %}
+        {% if table.options.sortable %}
+            <th>
+                <i class="fa fa-reorder text-muted"></i>
+            </th>
+        {% endif %}
 
-    {% for header in table.headers %}
-        <th>
-            {{ table_heading(table, header) }}
-        </th>
-    {% endfor %}
+        {% if not table.actions.empty() %}
+            <th>
+                <input data-toggle="all" type="checkbox">
+            </th>
+        {% endif %}
 
-    <th>&nbsp;</th>
-</tr>
-</thead>
+        {% for header in table.headers %}
+            <th>
+                {{ table_heading(table, header) }}
+            </th>
+        {% endfor %}
+
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+
+{% endif %}

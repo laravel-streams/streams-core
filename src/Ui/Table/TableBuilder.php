@@ -24,6 +24,13 @@ class TableBuilder
     protected $model = null;
 
     /**
+     * The table entries handler.
+     *
+     * @var null|string
+     */
+    protected $entries = null;
+
+    /**
      * The views configuration.
      *
      * @var array
@@ -276,5 +283,28 @@ class TableBuilder
     public function getActions()
     {
         return $this->actions;
+    }
+
+    /**
+     * Set the table entries handler.
+     *
+     * @param $entries
+     * @return $this
+     */
+    public function setEntries($entries)
+    {
+        $this->entries = $entries;
+
+        return $this;
+    }
+
+    /**
+     * Get the table entries handler.
+     *
+     * @return null|string
+     */
+    public function getEntries()
+    {
+        return $this->entries;
     }
 }

@@ -62,7 +62,7 @@ class Addon implements PresentableInterface
      */
     public function isCore()
     {
-        return str_contains($this->getPath(), 'core/' . str_plural($this->getType()));
+        return str_contains($this->getPath(), 'core/' . $this->getVendor());
     }
 
     /**

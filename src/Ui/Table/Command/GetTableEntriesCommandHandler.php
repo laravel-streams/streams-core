@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
+use Illuminate\Support\Collection;
 
 /**
  * Class GetTableEntriesCommandHandler
@@ -17,6 +18,7 @@ class GetTableEntriesCommandHandler
      * Handle the command.
      *
      * @param GetTableEntriesCommand $command
+     * @return null|Collection
      */
     public function handle(GetTableEntriesCommand $command)
     {
@@ -26,6 +28,19 @@ class GetTableEntriesCommandHandler
         $entries = $table->getEntries();
 
         /**
+         * If the builder has an entries handler
+         * then call it through the container.
+         */
+        if ($handler = $builder->getEntries()) {
+
+            $entries = app()->call($handler, compact('table'));
+
+            if ($entries instanceof Collection) {
+                $table->setEntries($entries);
+            }
+        }
+
+        /**
          * If the entries have already been set on the
          * table then return. Nothing to do here.
          *
@@ -33,7 +48,7 @@ class GetTableEntriesCommandHandler
          * to load the table entries themselves.
          */
         if (!$entries->isEmpty() || !class_exists($model)) {
-            return;
+            return null;
         }
 
         /**
@@ -47,7 +62,7 @@ class GetTableEntriesCommandHandler
          * the entries themselves.
          */
         if (!$model instanceof TableModelInterface) {
-            return;
+            return null;
         }
 
         /**

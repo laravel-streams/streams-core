@@ -11,9 +11,10 @@
             </ul>
         {% endif %}
 
-        {% if table.filters %}
-            <a href="#" class="pull-right table-filter-toggle {{ not table.filters.active().isEmpty() ? 'active' }}" data-toggle="filters">
-                <i class="fa fa-filter"></i> {{ trans('streams::misc.filter') }}
+        {% if not table.filters.empty() %}
+            <a href="#" class="pull-right table-filter-toggle {{ not table.filters.active().isEmpty() ? 'active' }}"
+               data-toggle="filters">
+                {{ icon('filter')|raw }} {{ trans('streams::misc.filter') }}
             </a>
         {% endif %}
 

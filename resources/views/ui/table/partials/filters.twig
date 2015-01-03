@@ -1,14 +1,18 @@
-<div class="table-filters {{ not table.filters.active().isEmpty() ? 'active' }}">
-    <form class="form-inline" method="get">
-        <input type="hidden" name="{{ table.options.prefix }}view" value="{{ table.views.active().getSlug() }}">
+{% if not table.filters.empty() %}
 
-        {% for filter in table.filters %}
-            <div class="form-group">
-                {{ filter.input|raw }}
-            </div>
-        {% endfor %}
+    <div class="table-filters {{ not table.filters.active().isEmpty() ? 'active' }}">
+        <form class="form-inline" method="get">
+            <input type="hidden" name="{{ table.options.prefix }}view" value="{{ table.views.active().getSlug() }}">
 
-        <button type="submit" class="btn btn-success">{{ trans('streams::button.filter') }}</button>
-        <a href="{{ url_current() }}" class="btn btn-link">{{ trans('streams::button.clear') }}</a>
-    </form>
-</div>
+            {% for filter in table.filters %}
+                <div class="form-group">
+                    {{ filter.input|raw }}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-success">{{ trans('streams::button.filter') }}</button>
+            <a href="{{ url_current() }}" class="btn btn-link">{{ trans('streams::button.clear') }}</a>
+        </form>
+    </div>
+
+{% endif %}
