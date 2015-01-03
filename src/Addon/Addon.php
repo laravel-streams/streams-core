@@ -97,16 +97,6 @@ class Addon implements PresentableInterface
     }
 
     /**
-     * Get the addon's IoC abstract.
-     *
-     * @return string
-     */
-    public function getAbstract()
-    {
-        return "{$this->getVendor()}::{$this->getType()}.{$this->getSlug()}";
-    }
-
-    /**
      * Get a key prefixed by the addon's namespace.
      *
      * @param  null $key
@@ -114,7 +104,7 @@ class Addon implements PresentableInterface
      */
     public function getKey($key = null)
     {
-        return "{$this->getType()}.{$this->getSlug()}" . ($key ? '::' . $key : $key);
+        return "{$this->getVendor()}.{$this->getType()}.{$this->getSlug()}" . ($key ? '::' . $key : $key);
     }
 
     /**

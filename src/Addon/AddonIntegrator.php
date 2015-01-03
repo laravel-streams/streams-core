@@ -48,13 +48,11 @@ class AddonIntegrator
      */
     protected function addNamespaces(Addon $addon)
     {
-        $abstract = str_replace('streams.', '', $addon->getAbstract());
+        app('view')->addNamespace($addon->getKey(), $addon->getPath('resources/views'));
+        app('config')->addNamespace($addon->getKey(), $addon->getPath('resources/config'));
+        app('translator')->addNamespace($addon->getKey(), $addon->getPath('resources/lang'));
 
-        app('view')->addNamespace($abstract, $addon->getPath('resources/views'));
-        app('config')->addNamespace($abstract, $addon->getPath('resources/config'));
-        app('translator')->addNamespace($abstract, $addon->getPath('resources/lang'));
-
-        $this->asset->addNamespace($abstract, $addon->getPath('resources'));
-        $this->image->addNamespace($abstract, $addon->getPath('resources'));
+        $this->asset->addNamespace($addon->getKey(), $addon->getPath('resources'));
+        $this->image->addNamespace($addon->getKey(), $addon->getPath('resources'));
     }
 }

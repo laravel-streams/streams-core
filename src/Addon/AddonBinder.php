@@ -66,7 +66,6 @@ class AddonBinder
      */
     protected function bind(Addon $addon)
     {
-        $this->container->instance($addon->getAbstract(), $addon);
         $this->container->instance(get_class($addon), $addon);
     }
 }

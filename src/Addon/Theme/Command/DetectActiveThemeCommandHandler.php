@@ -65,7 +65,7 @@ class DetectActiveThemeCommandHandler
                 $theme = config('distribution.public_theme', 'streams');
             }
 
-            $theme = app('anomaly::theme.' . $theme);
+            $theme = app($theme);
 
             if ($theme instanceof Theme) {
 
