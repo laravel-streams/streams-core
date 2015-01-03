@@ -57,12 +57,12 @@ class DetectActiveThemeCommandHandler
      */
     public function handle()
     {
-        if ($this->distributions->active()) {
+        if ($distribution = $this->distributions->active()) {
 
             if (app('request')->segment(1) == 'admin' || app('request')->segment(1) == 'installer') {
-                $theme = config('distribution.admin_theme', 'streams');
+                $theme = config('distribution.admin_theme', 'Anomaly\StreamsTheme\StreamsTheme');
             } else {
-                $theme = config('distribution.public_theme', 'streams');
+                $theme = config('distribution.public_theme', 'Anomaly\StreamsTheme\StreamsTheme');
             }
 
             $theme = app($theme);
