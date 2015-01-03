@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleInstalledEvent;
 use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
 use Anomaly\Streams\Platform\Contract\InstallableInterface;
 
@@ -17,6 +18,23 @@ class InstallModuleCommandHandler
 {
 
     /**
+     * The loaded modules.
+     *
+     * @var \Anomaly\Streams\Platform\Addon\Module\ModuleCollection
+     */
+    protected $modules;
+
+    /**
+     * Create a new InstallModuleCommandHandler instance.
+     *
+     * @param ModuleCollection $modules
+     */
+    public function __construct(ModuleCollection $modules)
+    {
+        $this->modules = $modules;
+    }
+
+    /**
      * Install a module.
      *
      * @param  InstallModuleCommand $command
@@ -24,7 +42,11 @@ class InstallModuleCommandHandler
      */
     public function handle(InstallModuleCommand $command)
     {
-        $module = app('streams.module.' . $command->getModule());
+        $module = $this->modules->findBySlug($command->getModule());
+
+        if (!$module) {
+            throw new \Exception("Module [$command->getModule()] not be found.");
+        }
 
         if ($installer = $module->newInstaller()) {
             $this->runInstallers($module, $installer);
