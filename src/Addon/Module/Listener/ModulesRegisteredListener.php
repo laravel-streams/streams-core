@@ -23,7 +23,7 @@ class ModulesRegisteredListener
     public function handle()
     {
         if (app('streams.application')->isInstalled()) {
-            $this->execute('\Anomaly\Streams\Platform\Addon\Module\Command\SetModuleStatesCommand');
+            $this->execute('Anomaly\Streams\Platform\Addon\Module\Command\SetModuleStatesCommand');
         }
     }
 }

@@ -26,15 +26,15 @@ class ModifyQueryCommandHandler
         $query = $command->getQuery();
 
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\FilterQueryCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\FilterQueryCommand',
             compact('table', 'query')
         );
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Component\View\Command\TableQueryCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Component\View\Command\TableQueryCommand',
             compact('table', 'query')
         );
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Command\OrderQueryCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Command\OrderQueryCommand',
             compact('table', 'query')
         );
     }

@@ -28,15 +28,15 @@ class BuildFormCommandHandler
          * Resolve and set the form model and stream.
          */
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Form\Command\SetFormModelCommand',
+            'Anomaly\Streams\Platform\Ui\Form\Command\SetFormModelCommand',
             compact('builder')
         );
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Form\Command\SetFormStreamCommand',
+            'Anomaly\Streams\Platform\Ui\Form\Command\SetFormStreamCommand',
             compact('builder')
         );
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Form\Command\SetFormEntryCommand',
+            'Anomaly\Streams\Platform\Ui\Form\Command\SetFormEntryCommand',
             compact('builder')
         );
 
@@ -44,7 +44,7 @@ class BuildFormCommandHandler
          * Build form fields.
          */
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\BuildFieldsCommand',
+            'Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\BuildFieldsCommand',
             compact('builder')
         );
 
@@ -53,11 +53,11 @@ class BuildFormCommandHandler
          */
 
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActionsCommand',
+            'Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActionsCommand',
             compact('builder')
         );
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveActionCommand',
+            'Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveActionCommand',
             compact('builder')
         );
 
@@ -65,7 +65,7 @@ class BuildFormCommandHandler
          * Build form buttons.
          */
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Form\Component\Button\Command\BuildButtonsCommand',
+            'Anomaly\Streams\Platform\Ui\Form\Component\Button\Command\BuildButtonsCommand',
             compact('builder')
         );
     }

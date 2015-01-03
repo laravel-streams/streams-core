@@ -27,7 +27,7 @@ class AssignmentCreatedListener
         $assignment = $event->getAssignment();
 
         $this->execute(
-            '\Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumnCommand',
+            'Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumnCommand',
             compact('assignment')
         );
     }

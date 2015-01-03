@@ -28,11 +28,11 @@ class BuildTableCommandHandler
          * Resolve and set the table model and stream.
          */
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Command\SetTableModelCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Command\SetTableModelCommand',
             compact('builder')
         );
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Command\SetTableStreamCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Command\SetTableStreamCommand',
             compact('builder')
         );
 
@@ -40,11 +40,11 @@ class BuildTableCommandHandler
          * Build table views and mark active.
          */
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Component\View\Command\BuildViewsCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Component\View\Command\BuildViewsCommand',
             compact('builder')
         );
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Component\View\Command\SetActiveViewCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Component\View\Command\SetActiveViewCommand',
             compact('builder')
         );
 
@@ -52,11 +52,11 @@ class BuildTableCommandHandler
          * Build table filters and flag active.
          */
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\BuildFiltersCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\BuildFiltersCommand',
             compact('builder')
         );
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\SetActiveFiltersCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\SetActiveFiltersCommand',
             compact('builder')
         );
 
@@ -64,11 +64,11 @@ class BuildTableCommandHandler
          * Build table actions and flag active.
          */
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\BuildActionsCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\BuildActionsCommand',
             compact('builder')
         );
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\SetActiveActionCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\SetActiveActionCommand',
             compact('builder')
         );
 
@@ -76,7 +76,7 @@ class BuildTableCommandHandler
          * Build table headers.
          */
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\BuildHeadersCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\BuildHeadersCommand',
             compact('builder')
         );
 
@@ -84,7 +84,7 @@ class BuildTableCommandHandler
          * Get table entries.
          */
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Command\GetTableEntriesCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Command\GetTableEntriesCommand',
             compact('builder')
         );
 
@@ -92,7 +92,7 @@ class BuildTableCommandHandler
          * Lastly table rows.
          */
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Component\Row\Command\BuildRowsCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Component\Row\Command\BuildRowsCommand',
             compact('builder')
         );
     }

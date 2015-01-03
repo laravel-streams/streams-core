@@ -21,6 +21,6 @@ class ApplicationBootingListener
      */
     public function handle()
     {
-        $this->execute('\Anomaly\Streams\Platform\Addon\Theme\Command\DetectActiveThemeCommand');
+        $this->execute('Anomaly\Streams\Platform\Addon\Theme\Command\DetectActiveThemeCommand');
     }
 }

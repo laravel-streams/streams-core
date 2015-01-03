@@ -80,11 +80,11 @@ class TableBuilder
      */
     public function build()
     {
-        $this->execute('\Anomaly\Streams\Platform\Ui\Table\Command\BuildTableCommand', ['builder' => $this]);
+        $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\BuildTableCommand', ['builder' => $this]);
 
         if (app('request')->isMethod('post')) {
             $this->execute(
-                '\Anomaly\Streams\Platform\Ui\Table\Command\HandleTablePostCommand',
+                'Anomaly\Streams\Platform\Ui\Table\Command\HandleTablePostCommand',
                 ['table' => $this->table]
             );
         }
@@ -99,7 +99,7 @@ class TableBuilder
 
         if ($this->table->getResponse() === null) {
 
-            $this->execute('\Anomaly\Streams\Platform\Ui\Table\Command\LoadTableCommand', ['table' => $this->table]);
+            $this->execute('Anomaly\Streams\Platform\Ui\Table\Command\LoadTableCommand', ['table' => $this->table]);
 
             $options = $this->table->getOptions();
             $data    = $this->table->getData();

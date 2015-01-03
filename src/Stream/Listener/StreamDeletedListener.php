@@ -27,7 +27,7 @@ class StreamDeletedListener
         $stream = $event->getStream();
 
         $this->execute(
-            '\Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTableCommand',
+            'Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTableCommand',
             compact('stream')
         );
     }

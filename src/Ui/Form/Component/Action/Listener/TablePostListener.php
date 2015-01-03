@@ -25,7 +25,7 @@ class FormPostListener
     {
         // Run the active action's FormPostHandler.
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\RunFormPostHookCommand',
+            'Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\RunFormPostHookCommand',
             compact('event')
         );
     }

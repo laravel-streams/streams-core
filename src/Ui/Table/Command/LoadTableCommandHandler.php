@@ -32,7 +32,7 @@ class LoadTableCommandHandler
          * Build table pagination.
          */
         $this->execute(
-            '\Anomaly\Streams\Platform\Ui\Table\Command\LoadTablePaginationCommand',
+            'Anomaly\Streams\Platform\Ui\Table\Command\LoadTablePaginationCommand',
             compact('table')
         );
     }
