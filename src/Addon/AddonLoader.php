@@ -14,17 +14,27 @@ class AddonLoader extends ClassLoader
 {
 
     /**
-     * Load the addon's src folder.
+     * Load the addon.
      *
      * @param $type
      * @param $slug
      * @param $path
      */
-    public function load($type, $slug, $path)
+    public function load($path)
     {
-        $namespace = 'Anomaly\Streams\Addon\\' . studly_case($type) . '\\' . studly_case($slug) . '\\';
+        $composer = json_decode(file_get_contents($path . '/composer.json'), true);
 
-        parent::addPsr4($namespace, $path . '/src', false);
+        if (!array_key_exists('autoload', $composer)) {
+            return;
+        }
+
+        foreach (array_get($composer['autoload'], 'psr-4', []) as $namespace => $autoload) {
+            parent::addPsr4($namespace, $path . '/' . $autoload, false);
+        }
+
+        foreach (array_get($composer['autoload'], 'psr-0', []) as $namespace => $autoload) {
+            parent::add($namespace, $path . '/' . $autoload, false);
+        }
 
         parent::register();
     }
