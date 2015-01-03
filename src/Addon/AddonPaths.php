@@ -14,14 +14,14 @@ class AddonPaths
     /**
      * Return all addon paths in a given folder.
      *
-     * @param  $folder
+     * @param  $type
      * @return array
      */
-    public function all($folder)
+    public function all($type)
     {
-        $core        = $this->core($folder) ? : [];
-        $shared      = $this->shared($folder) ? : [];
-        $application = $this->application($folder) ? : [];
+        $core        = $this->core($type) ? : [];
+        $shared      = $this->shared($type) ? : [];
+        $application = $this->application($type) ? : [];
 
         return array_filter(array_merge($core, $shared, $application));
     }
@@ -29,30 +29,30 @@ class AddonPaths
     /**
      * Return all core addon paths in a given folder.
      *
-     * @param  $folder
+     * @param  $type
      * @return bool
      */
-    public function core($folder)
+    public function core($type)
     {
-        $path = base_path('core/' . $folder);
+        $path = base_path('core');
 
         if (!is_dir($path)) {
 
             return false;
         }
 
-        return app('files')->directories($path);
+        return $this->vendorAddons(app('files')->directories($path), $type);
     }
 
     /**
      * Return all shared addon paths in a given folder.
      *
-     * @param  $folder
+     * @param  $type
      * @return bool
      */
-    public function shared($folder)
+    public function shared($type)
     {
-        $path = base_path('addons/shared/' . $folder);
+        $path = base_path('addons/shared/' . $type);
 
         if (!is_dir($path)) {
 
@@ -65,14 +65,14 @@ class AddonPaths
     /**
      * Return all application addon paths in a given folder.
      *
-     * @param  $folder
+     * @param  $type
      * @return bool
      */
-    public function application($folder)
+    public function application($type)
     {
         $reference = app('streams.application')->getReference();
 
-        $path = base_path('addons/' . $reference . '/' . $folder);
+        $path = base_path('addons/' . $reference . '/' . $type);
 
         if (!is_dir($path)) {
 
@@ -80,5 +80,27 @@ class AddonPaths
         }
 
         return app('files')->directories($path);
+    }
+
+    /**
+     * Return vendor addons of a given type.
+     *
+     * @param $directories
+     * @param $type
+     * @return array
+     */
+    protected function vendorAddons($directories, $type)
+    {
+        $paths = [];
+
+        foreach ($directories as $vendor) {
+            foreach (app('files')->directories($vendor) as $addon) {
+                if (ends_with($addon, "-{$type}")) {
+                    $paths[] = $addon;
+                }
+            }
+        }
+
+        return $paths;
     }
 }
