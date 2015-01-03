@@ -46,17 +46,6 @@ class Addon implements PresentableInterface
     protected $vendor = null;
 
     /**
-     * Translate a string in the addon's namespace.
-     *
-     * @param  $key
-     * @return string
-     */
-    public function translate($key)
-    {
-        return "{$this->getType()}.{$this->getSlug()}::{$key}";
-    }
-
-    /**
      * Get the addon's presenter.
      *
      * @return Presenter
@@ -83,7 +72,7 @@ class Addon implements PresentableInterface
      */
     public function getName()
     {
-        return $this->getType() . '.' . $this->getSlug() . '::addon.name';
+        return $this->getKey('addon.name');
     }
 
     /**
@@ -93,7 +82,7 @@ class Addon implements PresentableInterface
      */
     public function getDescription()
     {
-        return $this->getType() . '.' . $this->getSlug() . '::addon.description';
+        return $this->getKey('addon.description');
     }
 
     /**
