@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Illuminate\Support\Collection;
 
 /**
@@ -47,7 +48,7 @@ class AddonCollection extends Collection
      * Find an addon by it's slug.
      *
      * @param  $slug
-     * @return null
+     * @return null|FieldType
      */
     public function findBySlug($slug)
     {

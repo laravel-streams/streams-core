@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Event\AddonRegisteredEvent;
+use Illuminate\Container\Container;
 
 /**
  * Class AddonBinder
@@ -14,22 +15,42 @@ class AddonBinder
 {
 
     /**
+     * The IoC container.
+     *
+     * @var Container
+     */
+    protected $container;
+
+    /**
+     * Create a new AddonBinder instance.
+     *
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
      * Register an addon.
      *
-     * @param $type
-     * @param $slug
      * @param $path
      */
-    public function register($type, $slug, $path)
+    public function register($path)
     {
-        $addon = 'Anomaly\Streams\Addon\\' . studly_case($type) . '\\' . studly_case(
+        $vendor = basename(dirname($path));
+        $slug   = substr(basename($path), 0, strpos(basename($path), '-'));
+        $type   = substr(basename($path), strpos(basename($path), '-') + 1);
+
+        $addon = studly_case($vendor) . '\\' . studly_case($slug) . studly_case($type) . '\\' . studly_case(
                 $slug
-            ) . '\\' . studly_case($slug) . studly_case($type);
+            ) . studly_case($type);
 
         $addon = app($addon)
             ->setPath($path)
             ->setType($type)
-            ->setSlug($slug);
+            ->setSlug($slug)
+            ->setVendor($vendor);
 
         $this->bind($addon);
 
@@ -45,7 +66,7 @@ class AddonBinder
      */
     protected function bind(Addon $addon)
     {
-        app()->instance($addon->getAbstract(), $addon);
-        app()->instance(get_class($addon), $addon);
+        $this->container->instance($addon->getAbstract(), $addon);
+        $this->container->instance(get_class($addon), $addon);
     }
 }

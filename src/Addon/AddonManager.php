@@ -12,19 +12,51 @@ class AddonManager
 {
 
     /**
+     * The addon paths.
+     *
+     * @var AddonPaths
+     */
+    protected $paths;
+
+    /**
+     * The addon loader.
+     *
+     * @var AddonLoader
+     */
+    protected $loader;
+
+    /**
+     * The addon binder.
+     *
+     * @var AddonBinder
+     */
+    protected $binder;
+
+    /**
+     * Create a new AddonManager instance.
+     *
+     * @param AddonPaths  $paths
+     * @param AddonBinder $binder
+     * @param AddonLoader $loader
+     */
+    function __construct(AddonPaths $paths, AddonBinder $binder, AddonLoader $loader)
+    {
+        $this->paths  = $paths;
+        $this->binder = $binder;
+        $this->loader = $loader;
+    }
+
+    /**
      * Register all addons of a given type.
      */
     public function register($type)
     {
         $plural = str_plural($type);
 
-        foreach (app('streams.addon.paths')->all($plural) as $path) {
+        foreach ($this->paths->all($type) as $path) {
 
-            $slug = basename($path);
-
-            app('streams.addon.vendor')->load($path);
-            app('streams.addon.loader')->load($type, $slug, $path);
-            app('streams.addon.binder')->register($type, $slug, $path);
+            $this->loader->load($path);
+            $this->binder->register($path);
 
             app('events')->fire("streams::{$plural}.registered");
         }

@@ -16,12 +16,31 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
-        $this->app->instance('streams.addon.paths', new AddonPaths());
-        $this->app->instance('streams.addon.binder', new AddonBinder());
-        $this->app->instance('streams.addon.loader', new AddonLoader());
-        $this->app->instance('streams.addon.manager', new AddonManager());
-        $this->app->instance('streams.addon.provider', new AddonProvider());
-        $this->app->instance('streams.addon.integrator', new AddonIntegrator());
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\AddonPaths',
+            'Anomaly\Streams\Platform\Addon\AddonPaths'
+        );
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\AddonBinder',
+            'Anomaly\Streams\Platform\Addon\AddonBinder'
+        );
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\AddonLoader',
+            'Anomaly\Streams\Platform\Addon\AddonLoader'
+        );
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\AddonProvider',
+            'Anomaly\Streams\Platform\Addon\AddonProvider'
+        );
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\AddonIntegrator',
+            'Anomaly\Streams\Platform\Addon\AddonIntegrator'
+        );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\AddonManager',
+            'Anomaly\Streams\Platform\Addon\AddonManager'
+        );
 
         $this->registerListeners();
 

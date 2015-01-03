@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Asset\Asset;
+use Anomaly\Streams\Platform\Image\Image;
+
 /**
  * Class AddonIntegrator
  *
@@ -11,6 +14,16 @@
 class AddonIntegrator
 {
 
+    protected $asset;
+
+    protected $image;
+
+    public function __construct(Asset $asset, Image $image)
+    {
+        $this->asset = $asset;
+        $this->image = $image;
+    }
+
     /**
      * Register the namespaces and integrations for
      * all registered addons of a given type.
@@ -19,7 +32,11 @@ class AddonIntegrator
      */
     public function register($type)
     {
-        foreach (app('streams.' . str_plural($type)) as $addon) {
+        $type = ucfirst(camel_case(str_replace('-', '_', $type)));
+
+        $loaded = app("Anomaly\\Streams\\Platform\\Addon\\{$type}\\{$type}Collection");
+
+        foreach ($loaded as $addon) {
             $this->addNamespaces($addon);
         }
     }
@@ -37,7 +54,7 @@ class AddonIntegrator
         app('config')->addNamespace($abstract, $addon->getPath('resources/config'));
         app('translator')->addNamespace($abstract, $addon->getPath('resources/lang'));
 
-        app('streams.asset')->addNamespace($abstract, $addon->getPath('resources'));
-        app('streams.image')->addNamespace($abstract, $addon->getPath('resources'));
+        $this->asset->addNamespace($abstract, $addon->getPath('resources'));
+        $this->image->addNamespace($abstract, $addon->getPath('resources'));
     }
 }

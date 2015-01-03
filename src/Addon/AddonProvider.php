@@ -18,7 +18,11 @@ class AddonProvider
      */
     public function register($type)
     {
-        foreach (app('streams.' . str_plural($type)) as $addon) {
+        $type = ucfirst(camel_case(str_replace('-', '_', $type)));
+
+        $loaded = app("Anomaly\\Streams\\Platform\\Addon\\{$type}\\{$type}Collection");
+
+        foreach ($loaded as $addon) {
 
             $provider = get_class($addon) . 'ServiceProvider';
 
