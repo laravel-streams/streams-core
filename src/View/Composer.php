@@ -80,7 +80,7 @@ class Composer
 
                 // If the namespace is a shortcut for an "active" addon
                 // then resolve it through the IoC registered addon.
-                $addon = app("streams.{$plural}")->active();
+                $addon = null;//app("streams.{$plural}")->active();
 
                 if (!$addon instanceof Addon) {
                     return $view;
