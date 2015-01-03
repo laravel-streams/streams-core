@@ -50,7 +50,7 @@ class FieldsGuesser
 
             array_splice($fields, $position, null, $fill);
 
-            unset($fields[$position]);
+            unset($fields[array_search('*', $fields)]);
         }
 
         return $fields;

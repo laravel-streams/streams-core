@@ -72,7 +72,8 @@ class FormPluginFunctions
     /**
      * Render a form section.
      *
-     * @param Form $form
+     * @param Form  $form
+     * @param array $section
      * @return \Illuminate\View\View
      */
     public function section(Form $form, array $section)

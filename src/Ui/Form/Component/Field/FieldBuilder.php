@@ -78,7 +78,7 @@ class FieldBuilder
         FieldsGuesser $fields,
         FieldConfigurator $configurator
     ) {
-        $this->input       = $input;
+        $this->input        = $input;
         $this->fields       = $fields;
         $this->factory      = $factory;
         $this->evaluator    = $evaluator;
