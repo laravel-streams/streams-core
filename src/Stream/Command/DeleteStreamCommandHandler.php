@@ -14,13 +14,29 @@ class DeleteStreamCommandHandler
 {
 
     /**
-     * Handle the command.
+     * The streams repository.
      *
-     * @param DeleteStreamCommand       $command
+     * @var \Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface
+     */
+    protected $streams;
+
+    /**
+     * Create a new DeleteStreamCommandHandler instance.
+     *
      * @param StreamRepositoryInterface $streams
      */
-    public function handle(DeleteStreamCommand $command, StreamRepositoryInterface $streams)
+    public function __construct(StreamRepositoryInterface $streams)
     {
-        return $streams->delete($command->getNamespace(), $command->getSlug());
+        $this->streams = $streams;
+    }
+
+    /**
+     * Handle the command.
+     *
+     * @param DeleteStreamCommand $command
+     */
+    public function handle(DeleteStreamCommand $command)
+    {
+        return $this->streams->delete($command->getNamespace(), $command->getSlug());
     }
 }

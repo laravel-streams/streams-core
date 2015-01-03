@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalledEvent;
 use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
 use Anomaly\Streams\Platform\Contract\InstallableInterface;
 
@@ -17,6 +18,23 @@ class UninstallModuleCommandHandler
 {
 
     /**
+     * The loaded module.
+     *
+     * @var ModuleCollection
+     */
+    protected $modules;
+
+    /**
+     * Create a new UninstallModuleCommandHandler instance.
+     *
+     * @param ModuleCollection $modules
+     */
+    function __construct(ModuleCollection $modules)
+    {
+        $this->modules = $modules;
+    }
+
+    /**
      * Handle the command.
      *
      * @param  UninstallModuleCommand $command
@@ -24,7 +42,11 @@ class UninstallModuleCommandHandler
      */
     public function handle(UninstallModuleCommand $command)
     {
-        $module = app('streams.module.' . $command->getModule());
+        $module = $this->modules->findBySlug($command->getModule());
+
+        if (!$module) {
+            throw new \Exception("Module [$command->getModule()] not be found.");
+        }
 
         if ($installer = $module->newInstaller()) {
             $this->runInstallers($module, $installer);
@@ -57,7 +79,7 @@ class UninstallModuleCommandHandler
      */
     protected function runUninstall(InstallableInterface $installer)
     {
-        $installer->install();
+        $installer->uninstall();
     }
 
     /**

@@ -87,9 +87,14 @@ class StreamRepository implements StreamRepositoryInterface
     {
         $stream = $this->findByNamespaceAndSlug($namespace, $slug);
 
-        $stream->delete();
+        if ($stream) {
 
-        return $stream;
+            $stream->delete();
+
+            return $stream;
+        }
+
+        return null;
     }
 
     /**
