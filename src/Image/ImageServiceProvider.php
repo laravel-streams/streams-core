@@ -28,6 +28,6 @@ class ImageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('streams.image', 'Anomaly\Streams\Platform\Image\Image');
+        $this->app->singleton('Anomaly\Streams\Platform\Image\Image', 'Anomaly\Streams\Platform\Image\Image');
     }
 }

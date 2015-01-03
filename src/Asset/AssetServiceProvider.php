@@ -38,7 +38,6 @@ class AssetServiceProvider extends ServiceProvider
      */
     protected function registerAsset()
     {
-        $this->app->singleton('streams.asset', 'Anomaly\Streams\Platform\Asset\Asset');
         $this->app->singleton('Anomaly\Streams\Platform\Asset\Asset', 'Anomaly\Streams\Platform\Asset\Asset');
     }
 
@@ -57,11 +56,14 @@ class AssetServiceProvider extends ServiceProvider
      */
     protected function addNamespaces()
     {
-        $this->app->make('streams.asset')->addNamespace(
+        $this->app->make('Anomaly\Streams\Platform\Asset\Asset')->addNamespace(
             'asset',
             public_path('assets/' . app('streams.application')->getReference())
         );
 
-        $this->app->make('streams.asset')->addNamespace('streams', $this->app->make('streams.path') . '/resources');
+        $this->app->make('Anomaly\Streams\Platform\Asset\Asset')->addNamespace(
+            'streams',
+            $this->app->make('streams.path') . '/resources'
+        );
     }
 }
