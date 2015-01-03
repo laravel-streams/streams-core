@@ -20,23 +20,30 @@ class Addon implements PresentableInterface
     /**
      * The addon path.
      *
-     * @var null
+     * @var string
      */
     protected $path = null;
 
     /**
      * The addon type.
      *
-     * @var
+     * @var string
      */
     protected $type = null;
 
     /**
      * The addon slug.
      *
-     * @var
+     * @var string
      */
     protected $slug = null;
+
+    /**
+     * The addon vendor.
+     *
+     * @var string
+     */
+    protected $vendor = null;
 
     /**
      * Translate a string in the addon's namespace.
@@ -96,7 +103,7 @@ class Addon implements PresentableInterface
      */
     public function getAbstract()
     {
-        return "streams.{$this->getType()}.{$this->getSlug()}";
+        return "{$this->getVendor()}::{$this->getType()}.{$this->getSlug()}";
     }
 
     /**
@@ -175,5 +182,28 @@ class Addon implements PresentableInterface
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set the vendor.
+     *
+     * @param $vendor
+     * @return $this
+     */
+    public function setVendor($vendor)
+    {
+        $this->vendor = $vendor;
+
+        return $this;
+    }
+
+    /**
+     * Get the vendor.
+     *
+     * @return string
+     */
+    public function getVendor()
+    {
+        return $this->vendor;
     }
 }
