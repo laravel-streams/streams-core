@@ -14,6 +14,14 @@ class AssetServiceProvider extends ServiceProvider
 {
 
     /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        app('twig')->addExtension(app('Anomaly\Streams\Platform\Asset\AssetPlugin'));
+    }
+
+    /**
      * Register the service provider.
      *
      * @return void
@@ -31,6 +39,7 @@ class AssetServiceProvider extends ServiceProvider
     protected function registerAsset()
     {
         $this->app->singleton('streams.asset', 'Anomaly\Streams\Platform\Asset\Asset');
+        $this->app->singleton('Anomaly\Streams\Platform\Asset\Asset', 'Anomaly\Streams\Platform\Asset\Asset');
     }
 
     /**
