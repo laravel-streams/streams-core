@@ -76,11 +76,10 @@ class Composer
             if (str_contains($namespace, '.')) {
                 list($type, $slug) = explode('.', $namespace);
             } elseif (in_array($namespace, ['distribution', 'module', 'theme'])) {
-                $plural = str_plural($namespace);
 
                 // If the namespace is a shortcut for an "active" addon
                 // then resolve it through the IoC registered addon.
-                $addon = null;//app("streams.{$plural}")->active();
+                $addon = null;
 
                 if (!$addon instanceof Addon) {
                     return $view;
