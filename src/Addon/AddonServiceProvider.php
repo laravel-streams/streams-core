@@ -19,7 +19,6 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->instance('streams.addon.paths', new AddonPaths());
         $this->app->instance('streams.addon.binder', new AddonBinder());
         $this->app->instance('streams.addon.loader', new AddonLoader());
-        $this->app->instance('streams.addon.vendor', new AddonVendor());
         $this->app->instance('streams.addon.manager', new AddonManager());
         $this->app->instance('streams.addon.provider', new AddonProvider());
         $this->app->instance('streams.addon.integrator', new AddonIntegrator());
