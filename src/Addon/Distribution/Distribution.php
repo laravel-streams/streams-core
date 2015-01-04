@@ -21,6 +21,20 @@ class Distribution extends Addon
     protected $active = false;
 
     /**
+     * The default standard theme.
+     *
+     * @var string
+     */
+    protected $standardTheme = 'Anomaly\StreamsTheme\StreamsTheme';
+
+    /**
+     * The default admin theme.
+     *
+     * @var string
+     */
+    protected $adminTheme = 'Anomaly\StreamsTheme\StreamsTheme';
+
+    /**
      * Set the active flag.
      *
      * @param $active
@@ -41,5 +55,25 @@ class Distribution extends Addon
     public function isActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Get the default admin theme.
+     *
+     * @return string
+     */
+    public function getAdminTheme()
+    {
+        return $this->adminTheme;
+    }
+
+    /**
+     * Get the default standard theme.
+     *
+     * @return string
+     */
+    public function getStandardTheme()
+    {
+        return $this->standardTheme;
     }
 }
