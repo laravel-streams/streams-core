@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
+use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\FieldsGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -23,6 +24,13 @@ class FieldInput
     protected $resolver;
 
     /**
+     * The evaluator utility.
+     *
+     * @var Evaluator
+     */
+    protected $evaluator;
+
+    /**
      * The field normalizer.
      *
      * @var FieldNormalizer
@@ -40,13 +48,15 @@ class FieldInput
      * Create a new FieldInput instance.
      *
      * @param Resolver        $resolver
+     * @param Evaluator       $evaluator
      * @param FieldNormalizer $normalizer
      * @param FieldsGuesser   $guesser
      */
-    function __construct(Resolver $resolver, FieldNormalizer $normalizer, FieldsGuesser $guesser)
+    function __construct(Resolver $resolver, Evaluator $evaluator, FieldNormalizer $normalizer, FieldsGuesser $guesser)
     {
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
+        $this->evaluator  = $evaluator;
         $this->normalizer = $normalizer;
     }
 
@@ -57,13 +67,14 @@ class FieldInput
     {
         $this->resolveInput($builder);
         $this->normalizeInput($builder);
+        $this->evaluateInput($builder);
 
         $this->guessFields($builder);
         $this->normalizeInput($builder); // Again!
     }
 
     /**
-     * Resolve the action input.
+     * Resolve the field input.
      *
      * @param FormBuilder $builder
      */
@@ -86,12 +97,22 @@ class FieldInput
     }
 
     /**
-     * Normalize the action input.
+     * Normalize the field input.
      *
      * @param FormBuilder $builder
      */
     protected function normalizeInput(FormBuilder $builder)
     {
         $builder->setFields($this->normalizer->normalize($builder->getFields()));
+    }
+
+    /**
+     * Evaluate field input.
+     *
+     * @param FormBuilder $builder
+     */
+    protected function evaluateInput(FormBuilder $builder)
+    {
+        $builder->setFields($this->evaluator->evaluate($builder->getFields()));
     }
 }
