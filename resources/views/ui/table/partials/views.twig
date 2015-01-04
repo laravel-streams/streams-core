@@ -1,22 +1,26 @@
-<div class="panel-heading">
-    <h3 class="panel-title">
+{% if not table.views.empty() %}
 
-        {% if table.views %}
-            <ul class="table-views">
-                {% for view in table.views %}
-                    <li class="{{ view.class }} {{ view.isActive() ? 'active' }}">
-                        <a href="{{ view.getUrl() }}">{{ trans(view.getText()) }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+    <div class="panel-heading">
+        <h3 class="panel-title">
 
-        {% if not table.filters.empty() %}
-            <a href="#" class="pull-right table-filter-toggle {{ not table.filters.active().isEmpty() ? 'active' }}"
-               data-toggle="filters">
-                {{ icon('filter')|raw }} {{ trans('streams::misc.filter') }}
-            </a>
-        {% endif %}
+            {% if table.views %}
+                <ul class="table-views">
+                    {% for view in table.views %}
+                        <li class="{{ view.class }} {{ view.isActive() ? 'active' }}">
+                            <a href="{{ view.getUrl() }}">{{ trans(view.getText()) }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
 
-    </h3>
-</div>
+            {% if not table.filters.empty() %}
+                <a href="#" class="pull-right table-filter-toggle {{ not table.filters.active().isEmpty() ? 'active' }}"
+                   data-toggle="filters">
+                    {{ icon('filter')|raw }} {{ trans('streams::misc.filter') }}
+                </a>
+            {% endif %}
+
+        </h3>
+    </div>
+
+{% endif %}
