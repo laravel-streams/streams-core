@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Illuminate\Support\Collection;
 
 /**
@@ -17,7 +16,7 @@ class AddonCollection extends Collection
     /**
      * Return only core addons.
      *
-     * @return static
+     * @return AddonCollection
      */
     public function core()
     {
@@ -48,7 +47,7 @@ class AddonCollection extends Collection
      * Find an addon by it's slug.
      *
      * @param  $slug
-     * @return null|FieldType
+     * @return null|Addon
      */
     public function findBySlug($slug)
     {
@@ -60,17 +59,19 @@ class AddonCollection extends Collection
     }
 
     /**
-     * Order addon's by their name.
+     * Order addon's by their slug.
      *
      * @param  string $direction
-     * @return static
+     * @return AddonCollection
      */
-    public function orderByName($direction = 'asc')
+    public function orderBySlug($direction = 'asc')
     {
         $ordered = [];
 
         foreach ($this->items as $item) {
-            $ordered[trans($item->getName())] = $item;
+            if ($item instanceof Addon) {
+                $ordered[$item->getSlug()] = $item;
+            }
         }
 
         if ($direction == 'asc') {
