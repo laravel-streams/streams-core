@@ -16,7 +16,6 @@
         "cebe/markdown": "~1.0.1",
         "guzzlehttp/guzzle": "~4.0",
         "intervention/image": "2.0.14",
-        "illuminate/html": "~5.0",
         "jenssegers/agent": "2.1.4",
         "kriswallsmith/assetic": "1.2.*@dev",
         "leafo/scssphp": "0.1.0 ",
