@@ -49,6 +49,15 @@ class FieldNormalizer
             if (is_array($field) && !isset($field['field'])) {
                 $field['field'] = $slug;
             }
+
+            /**
+             * Make sure the key is a slug.
+             */
+            if (is_numeric($slug)) {
+                $fields[$field['field']] = $field;
+
+                unset($fields[$slug]);
+            }
         }
 
         return $fields;
