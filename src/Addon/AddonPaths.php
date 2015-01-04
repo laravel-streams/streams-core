@@ -22,8 +22,6 @@ class AddonPaths
         $core        = $this->core($type) ? : [];
         $shared      = $this->shared($type) ? : [];
         $application = $this->application($type) ? : [];
-        print_r($application);
-        die;
 
         return array_filter(array_merge($core, $shared, $application));
     }
