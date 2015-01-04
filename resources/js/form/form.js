@@ -1,6 +1,8 @@
 $(document).ready(function () {
 
-    $('[data-toggle="form-locale"]').click(function () {
+    $('[data-toggle="form-locale"]').click(function (e) {
+
+        e.preventDefault();
 
         var selected = $(this);
         var form = $(this).closest('form');

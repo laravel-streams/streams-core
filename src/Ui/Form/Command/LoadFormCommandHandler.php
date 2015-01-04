@@ -22,6 +22,12 @@ class LoadFormCommandHandler
 
         $data = $form->getData();
 
+        $options = $form->getOptions();
+
+        if ($form->getStream()) {
+            $options->translatable = $form->getStream()->isTranslatable();
+        }
+
         $data->put('form', $form);
     }
 }

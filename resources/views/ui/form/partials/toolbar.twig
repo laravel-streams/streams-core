@@ -7,10 +7,10 @@
                     <i class="fa fa-language"></i> Translations
                 </a>
                 <ul class="dropdown-menu">
-                    {% for locale in locales %}
-                        <li class="{{ locale.active ? 'active' }}">
+                    {% for locale in config_get('streams.available_locales') %}
+                        <li class="{{ loop.first ? 'active' }}">
                             <a href="#" data-toggle="form-locale"
-                               data-locale="{{ locale.locale }}">{{ locale.language }}</a>
+                               data-locale="{{ locale }}">{{ trans('streams::language.' ~ locale) }}</a>
                         </li>
                     {% endfor %}
                 </ul>
