@@ -13,7 +13,7 @@ $(document).ready(function () {
 
         form.find('.form-group').each(function () {
 
-            if ($(this).find('[data-locale="' + locale + '"]').length > 0) {
+            if ($(this).find('[data-locale]').length > 0) {
 
                 $(this).find('[data-locale]').addClass('hidden');
                 $(this).find('[data-locale="' + locale + '"]').removeClass('hidden');
