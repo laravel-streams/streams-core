@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * This file is not currently used. It is duplicated
+ * at config/streams.php for now. Still evaluating the
+ * appropriate location for it.
+ */
+
 return [
 
     /*
@@ -11,8 +17,7 @@ return [
     | distribution is like the DNA of the application's unique characteristics.
 	|
 	*/
-    'distribution'      => 'streams',
-
+    'distribution'      => 'Anomaly\StreamsDistribution\StreamsDistribution',
     /*
     |--------------------------------------------------------------------------
     | Addon Types
@@ -22,7 +27,7 @@ return [
     | are loaded in the order in which they appear here.
     |
     */
-    'addon_types' => [
+    'addon_types'       => [
         'distribution',
         'field_type',
         'extension',
