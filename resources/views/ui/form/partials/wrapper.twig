@@ -3,7 +3,7 @@
     <label class="control-label {{ required ? 'required' }}">
         {{ label }}
         {% if translatable %}
-            <small class="text-muted"><i class="fa fa-language"></i> {{ language }}</small>
+            <small class="text-muted"><i class="fa fa-language"></i> {{ trans('streams::language.' ~ locale) }}</small>
         {% endif %}
     </label>
 
