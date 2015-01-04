@@ -39,7 +39,7 @@ class ColumnValue
      * @param Table           $table
      * @param ColumnInterface $column
      * @param                 $entry
-     * @return mixed
+     * @return string
      */
     public function make(Table $table, ColumnInterface $column, $entry)
     {
