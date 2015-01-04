@@ -97,6 +97,22 @@ class Addon implements PresentableInterface
     }
 
     /**
+     * Get the composer json contents.
+     *
+     * @return mixed|null
+     */
+    public function getComposerJson()
+    {
+        $json = $this->getPath('composer.json');
+
+        if (!file_exists($json)) {
+            return null;
+        }
+
+        return json_decode(file_get_contents($json));
+    }
+
+    /**
      * @param $path
      * @return $this
      */
