@@ -145,22 +145,6 @@ class Module extends Addon
     }
 
     /**
-     * Get the composer json contents.
-     *
-     * @return mixed|null
-     */
-    public function getComposerJson()
-    {
-        $json = $this->getPath('composer.json');
-
-        if (!file_exists($json)) {
-            return null;
-        }
-
-        return json_decode(file_get_contents($json));
-    }
-
-    /**
      * Return a new installer instance.
      *
      * @return ModuleInstaller
