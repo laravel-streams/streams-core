@@ -21,7 +21,7 @@ class ThemeCollection extends AddonCollection
     public function active()
     {
         foreach ($this->items as $item) {
-            if ($this->themeIsActive($item)) {
+            if ($item instanceof Theme && $item->isActive()) {
                 return $item;
             }
         }
@@ -30,13 +30,38 @@ class ThemeCollection extends AddonCollection
     }
 
     /**
-     * Return whether the theme is active or not.
+     * Return only non-admin themes.
      *
-     * @param  Theme $item
-     * @return bool
+     * @return ThemeCollection
      */
-    protected function themeIsActive(Theme $item)
+    public function regular()
     {
-        return $item->isActive();
+        $items = [];
+
+        foreach ($this->items as $item) {
+            if ($item instanceof Theme && !$item->isAdmin()) {
+                $items[] = $item;
+            }
+        }
+
+        return new static($items);
+    }
+
+    /**
+     * Return only admin themes.
+     *
+     * @return ThemeCollection
+     */
+    public function admin()
+    {
+        $items = [];
+
+        foreach ($this->items as $item) {
+            if ($item instanceof Theme && $item->isAdmin()) {
+                $items[] = $item;
+            }
+        }
+
+        return new static($items);
     }
 }
