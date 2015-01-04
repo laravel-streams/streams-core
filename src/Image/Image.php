@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Image;
 
+use Illuminate\Html\HtmlBuilder;
 use Intervention\Image\ImageManager;
 
 /**
@@ -74,6 +75,23 @@ class Image extends ImageManager
         'amount',
         'widen',
     ];
+
+    /**
+     * The HTML builder.
+     *
+     * @var \Illuminate\Html\HtmlBuilder
+     */
+    protected $html;
+
+    /**
+     * Create a new Image instance.
+     *
+     * @param HtmlBuilder $html
+     */
+    public function __construct(HtmlBuilder $html)
+    {
+        $this->html = $html;
+    }
 
     /**
      * An alias to create a new image instance.
@@ -379,6 +397,30 @@ class Image extends ImageManager
         $this->applied = [];
 
         return $path;
+    }
+
+    /**
+     * Return the URL to an image.
+     *
+     * @param null $image
+     * @return string
+     */
+    public function url($image = null)
+    {
+        return url($this->path($image));
+    }
+
+    /**
+     * Return the image tag for an image.
+     *
+     * @param null  $image
+     * @param null  $alt
+     * @param array $attributes
+     * @return string
+     */
+    public function image($image = null, $alt = null, $attributes = [])
+    {
+        return $this->html->image($this->url($image), $alt, $attributes);
     }
 
     /**

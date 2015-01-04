@@ -39,6 +39,7 @@ class ImagePlugin extends Plugin
     {
         return [
             new \Twig_SimpleFunction('image_path', [$this->image, 'path']),
+            new \Twig_SimpleFunction('image_url', [$this->image, 'url']),
         ];
     }
 }
