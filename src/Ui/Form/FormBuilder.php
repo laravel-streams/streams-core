@@ -67,15 +67,6 @@ class FormBuilder
     public function __construct(Form $form)
     {
         $this->form = $form;
-
-        $this->initialize();
-    }
-
-    /**
-     * Initialize the table builder.
-     */
-    protected function initialize()
-    {
     }
 
     /**
