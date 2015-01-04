@@ -22,6 +22,8 @@ class AddonPaths
         $core        = $this->core($type) ? : [];
         $shared      = $this->shared($type) ? : [];
         $application = $this->application($type) ? : [];
+        print_r($application);
+        die;
 
         return array_filter(array_merge($core, $shared, $application));
     }
@@ -52,14 +54,14 @@ class AddonPaths
      */
     public function shared($type)
     {
-        $path = base_path('addons/shared/' . $type);
+        $path = base_path('addons/shared');
 
         if (!is_dir($path)) {
 
             return false;
         }
 
-        return app('files')->directories($path);
+        return $this->vendorAddons(app('files')->directories($path), $type);
     }
 
     /**
@@ -72,14 +74,14 @@ class AddonPaths
     {
         $reference = app('streams.application')->getReference();
 
-        $path = base_path('addons/' . $reference . '/' . $type);
+        $path = base_path('addons/' . $reference);
 
         if (!is_dir($path)) {
 
             return false;
         }
 
-        return app('files')->directories($path);
+        return $this->vendorAddons(app('files')->directories($path), $type);
     }
 
     /**
