@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
+use Illuminate\View\View;
 use Laracasts\Commander\CommanderTrait;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class TableBuilder
@@ -120,7 +122,7 @@ class TableBuilder
     /**
      * Render the table.
      *
-     * @return \Illuminate\Http\Response|\Illuminate\View\View|null
+     * @return View|Response
      */
     public function render()
     {
