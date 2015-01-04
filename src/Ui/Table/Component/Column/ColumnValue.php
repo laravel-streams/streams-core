@@ -57,6 +57,6 @@ class ColumnValue
          * By default we can just pass the value through
          * the evaluator utility and be done with it.
          */
-        $this->evaluator->evaluate($value, compact('table', 'entry'));
+        return $this->evaluator->evaluate($value, compact('table', 'entry'));
     }
 }
