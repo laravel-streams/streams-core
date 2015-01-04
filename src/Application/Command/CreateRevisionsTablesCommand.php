@@ -1,18 +1,18 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
 /**
- * Class InstallRevisionsTablesCommand
+ * Class CreateRevisionsTablesCommand
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Application\Command
  */
-class InstallRevisionsTablesCommand
+class CreateRevisionsTablesCommand
 {
 
     /**
-     * Create a new InstallRevisionsTablesCommand instance.
+     * Create a new CreateRevisionsTablesCommand instance.
      */
     public function __construct()
     {

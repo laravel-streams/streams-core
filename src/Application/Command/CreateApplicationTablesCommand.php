@@ -1,14 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
 /**
- * Class InstallApplicationTablesCommand
+ * Class CreateApplicationTablesCommand
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Application\Command
  */
-class InstallApplicationTablesCommand
+class CreateApplicationTablesCommand
 {
 
     /**
@@ -33,7 +33,7 @@ class InstallApplicationTablesCommand
     protected $reference;
 
     /**
-     * Create a new InstallApplicationTablesCommand instance.
+     * Create a new CreateApplicationTablesCommand instance.
      *
      * @param $name
      * @param $domain

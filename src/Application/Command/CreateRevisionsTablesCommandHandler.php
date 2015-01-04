@@ -4,14 +4,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Schema\Blueprint;
 
 /**
- * Class InstallRevisionsTablesCommandHandler
+ * Class CreateRevisionsTablesCommandHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Application\Command
  */
-class InstallRevisionsTablesCommandHandler
+class CreateRevisionsTablesCommandHandler
 {
 
     /**
@@ -29,7 +29,7 @@ class InstallRevisionsTablesCommandHandler
     protected $schema;
 
     /**
-     * Create a new InstallRevisionsTablesCommandHandler instance.
+     * Create a new CreateRevisionsTablesCommandHandler instance.
      */
     public function __construct()
     {
@@ -57,13 +57,13 @@ class InstallRevisionsTablesCommandHandler
             function (Blueprint $table) {
 
                 $table->increments('id');
+                $table->timestamps();
                 $table->string('revisionable_type');
                 $table->integer('revisionable_id');
                 $table->integer('user_id')->nullable();
                 $table->string('key');
                 $table->text('old_value')->nullable();
                 $table->text('new_value')->nullable();
-                $table->timestamps();
 
                 $table->index(['revisionable_id', 'revisionable_type']);
             }

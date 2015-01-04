@@ -4,14 +4,14 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
 /**
- * Class InstallApplicationTablesCommandHandler
+ * Class CreateApplicationTablesCommandHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Application\Command
  */
-class InstallApplicationTablesCommandHandler
+class CreateApplicationTablesCommandHandler
 {
 
     /**
@@ -29,7 +29,7 @@ class InstallApplicationTablesCommandHandler
     protected $schema;
 
     /**
-     * Create a new InstallApplicationTablesCommandHandler instance.
+     * Create a new CreateApplicationTablesCommandHandler instance.
      */
     public function __construct()
     {
@@ -40,9 +40,9 @@ class InstallApplicationTablesCommandHandler
     /**
      * Install the application table and initial data.
      *
-     * @param InstallApplicationTablesCommand $command
+     * @param CreateApplicationTablesCommand $command
      */
-    public function handle(InstallApplicationTablesCommand $command)
+    public function handle(CreateApplicationTablesCommand $command)
     {
         $this->setPrefix(null);
 
