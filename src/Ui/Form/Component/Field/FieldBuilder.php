@@ -76,8 +76,8 @@ class FieldBuilder
          * Convert each field to a field object
          * and put to the forms field collection.
          */
-        foreach ($builder->getFields() as $slug => $field) {
-            $fields->put($slug, $this->factory->make($field, $stream, $entry));
+        foreach ($builder->getFields() as $field) {
+            $fields->put($field['slug'], $this->factory->make($field, $stream, $entry));
         }
     }
 }

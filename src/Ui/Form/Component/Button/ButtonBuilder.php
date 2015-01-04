@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
-use Anomaly\Streams\Platform\Ui\Button\ButtonNormalizer;
-use Anomaly\Streams\Platform\Ui\Button\Guesser\UrlGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Laracasts\Commander\CommanderTrait;
 
@@ -20,18 +18,11 @@ class ButtonBuilder
     use CommanderTrait;
 
     /**
-     * The button reader.
+     * The input reader.
      *
-     * @var ButtonNormalizer
+     * @var ButtonInput
      */
-    protected $normalizer;
-
-    /**
-     * The url guesser.
-     *
-     * @var UrlGuesser
-     */
-    protected $href;
+    protected $input;
 
     /**
      * The button factory.
@@ -43,18 +34,13 @@ class ButtonBuilder
     /**
      * Create a new ButtonBuilder instance.
      *
-     * @param UrlGuesser       $href
-     * @param ButtonNormalizer $normalizer
-     * @param ButtonFactory    $factory
+     * @param ButtonInput   $input
+     * @param ButtonFactory $factory
      */
-    public function __construct(
-        UrlGuesser $href,
-        ButtonNormalizer $normalizer,
-        ButtonFactory $factory
-    ) {
-        $this->href       = $href;
-        $this->normalizer = $normalizer;
-        $this->factory    = $factory;
+    public function __construct(ButtonInput $input, ButtonFactory $factory)
+    {
+        $this->input   = $input;
+        $this->factory = $factory;
     }
 
     /**
@@ -67,16 +53,10 @@ class ButtonBuilder
         $form    = $builder->getForm();
         $buttons = $form->getButtons();
 
-        $builder->setButtons($this->normalizer->normalize($builder->getButtons()));
+        $this->input->read($builder);
 
         foreach ($builder->getButtons() as $button) {
-
-            $button['size'] = 'sm';
-
-            $button = $this->href->guess($button);
-            $button = $this->factory->make($button);
-
-            $buttons->push($button);
+            $buttons->push($this->factory->make($button));
         }
     }
 }

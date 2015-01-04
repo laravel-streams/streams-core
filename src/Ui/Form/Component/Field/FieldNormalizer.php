@@ -23,10 +23,10 @@ class FieldNormalizer
 
             /**
              * If the field is a wild card marker
-             * then return it as is.
+             * then just continue.
              */
             if ($field == '*') {
-                return $field;
+                continue;
             }
 
             /**
