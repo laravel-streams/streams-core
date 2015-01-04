@@ -34,7 +34,7 @@ class ThemeCollection extends AddonCollection
      *
      * @return ThemeCollection
      */
-    public function regular()
+    public function standard()
     {
         $items = [];
 
