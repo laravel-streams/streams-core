@@ -11,6 +11,6 @@ return [
 	|
 	*/
 
-    'admin_theme' => $ADMIN$,
-    'public_theme' => $STANDARD$,
+    'admin_theme'  => '$ADMIN$',
+    'public_theme' => '$STANDARD$',
 ];
