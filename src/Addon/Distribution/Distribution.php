@@ -13,4 +13,33 @@ use Anomaly\Streams\Platform\Addon\Addon;
 class Distribution extends Addon
 {
 
+    /**
+     * The active flag.
+     *
+     * @var bool
+     */
+    protected $active = false;
+
+    /**
+     * Set the active flag.
+     *
+     * @param $active
+     * @return $this
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get the active flag.
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
 }

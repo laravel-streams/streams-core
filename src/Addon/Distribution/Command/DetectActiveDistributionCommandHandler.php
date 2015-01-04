@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Distribution\Command;
 
 use Anomaly\Streams\Platform\Addon\Distribution\Distribution;
-use Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
+use Illuminate\Container\Container;
 
 /**
  * Class DetectActiveDistributionCommandHandler
@@ -31,22 +31,24 @@ class DetectActiveDistributionCommandHandler
     protected $image;
 
     /**
-     * The loaded distributions.
+     * The IoC container.
      *
-     * @var DistributionCollection
+     * @var Container
      */
-    protected $distributions;
+    protected $container;
 
     /**
      * Create a new DetectActiveDistributionCommandHandler instance.
      *
-     * @param DistributionCollection $distributions
+     * @param Asset     $asset
+     * @param Image     $image
+     * @param Container $container
      */
-    public function __construct(Asset $asset, Image $image, DistributionCollection $distributions)
+    public function __construct(Asset $asset, Image $image, Container $container)
     {
-        $this->asset         = $asset;
-        $this->image         = $image;
-        $this->distributions = $distributions;
+        $this->asset     = $asset;
+        $this->image     = $image;
+        $this->container = $container;
     }
 
     /**
@@ -54,13 +56,9 @@ class DetectActiveDistributionCommandHandler
      */
     public function handle()
     {
-        /**
-         * If we have an active distribution then add
-         * all it's namespaces to all our utilities.
-         */
-        if ($distribution = $this->distributions->active()) {
-            $this->setDistributionNamespaces($distribution);
-        }
+        $distribution = app(config('streams.distribution'))->setActive(true);
+
+        $this->setDistributionNamespaces($distribution);
     }
 
     /**
