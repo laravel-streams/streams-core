@@ -1,9 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Evaluator;
-use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\FieldsGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Laracasts\Commander\CommanderTrait;
 
@@ -23,16 +21,9 @@ class FieldBuilder
     /**
      * The field reader.
      *
-     * @var FieldReader
+     * @var FieldInput
      */
     protected $input;
-
-    /**
-     * The fill guesser.
-     *
-     * @var FieldsGuesser
-     */
-    protected $fields;
 
     /**
      * The field type builder.
@@ -56,33 +47,15 @@ class FieldBuilder
     protected $evaluator;
 
     /**
-     * The configurator utility.
-     *
-     * @var FieldConfigurator
-     */
-    protected $configurator;
-
-    /**
      * Create a new FieldTypeBuilder instance.
      *
-     * @param FieldReader       $input
-     * @param Evaluator         $evaluator
-     * @param FieldFactory      $factory
-     * @param FieldsGuesser     $fields
-     * @param FieldConfigurator $configurator
+     * @param FieldInput   $input
+     * @param FieldFactory $factory
      */
-    public function __construct(
-        FieldReader $input,
-        Evaluator $evaluator,
-        FieldFactory $factory,
-        FieldsGuesser $fields,
-        FieldConfigurator $configurator
-    ) {
-        $this->input        = $input;
-        $this->fields       = $fields;
-        $this->factory      = $factory;
-        $this->evaluator    = $evaluator;
-        $this->configurator = $configurator;
+    public function __construct(FieldInput $input, FieldFactory $factory)
+    {
+        $this->input   = $input;
+        $this->factory = $factory;
     }
 
     /**
@@ -97,52 +70,14 @@ class FieldBuilder
         $stream = $form->getStream();
         $entry  = $form->getEntry();
 
-        $options  = $form->getOptions();
-        $excluded = $options->get('exclude', []);
-
-        $configuration = $builder->getFields();
-
-        /**
-         * Evaluate all the closures.
-         */
-        $configuration = $this->evaluator->evaluate($configuration);
-
-        /**
-         * Start by standardizing the input.
-         */
-        foreach ($configuration as $slug => $parameters) {
-            $configuration[$slug] = $this->input->standardize($slug, $parameters);
-        }
-
-        /**
-         * Guess the filler fields for "*".
-         */
-        if ($stream instanceof StreamInterface) {
-            $configuration = $this->fields->guess($stream, $configuration);
-        }
+        $this->input->read($builder);
 
         /**
          * Convert each field to a field object
          * and put to the forms field collection.
          */
-        foreach ($configuration as $slug => $parameters) {
-
-            // Standardize the input again because of the field guesser.
-            $parameters = $this->input->standardize($slug, $parameters);
-
-            // Skip excluded fields.
-            if (in_array($parameters['field'], $excluded)) {
-                continue;
-            }
-
-            // Make the field object.
-            $field = $this->factory->make($parameters, $stream, $entry);
-
-            // Configure the overrides using the configurator.
-            $this->configurator->configure($field, $parameters);
-
-            // Load it up onto the table's fields.
-            $fields->put($field->getField(), $field);
+        foreach ($builder->getFields() as $slug => $field) {
+            $fields->put($slug, $this->factory->make($field, $stream, $entry));
         }
     }
 }

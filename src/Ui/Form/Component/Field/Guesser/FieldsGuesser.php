@@ -20,9 +20,18 @@ class FieldsGuesser
      * @param array           $fields
      * @return array
      */
-    public function guess(StreamInterface $stream, array $fields)
+    public function guess(StreamInterface $stream = null, array $fields)
     {
-        // Fill with everything by default.
+        /**
+         * If no Stream, skip it.
+         */
+        if (!$stream) {
+            return $fields;
+        }
+
+        /**
+         * Fill with everything by default.
+         */
         $fill = $stream->getAssignments()->fieldSlugs();
 
         /**
