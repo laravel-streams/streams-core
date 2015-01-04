@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Application\Listener;
 
+use Aptoma\Twig\Extension\MarkdownEngine;
+use Aptoma\Twig\Extension\MarkdownExtension;
+
 /**
  * Class ApplicationBootingListener
  *
@@ -21,5 +24,9 @@ class ApplicationBootingListener
         app('translator')->addNamespace(null, base_path('resources/lang'));
 
         app('view')->composer('*', 'Anomaly\Streams\Platform\View\Composer');
+
+        $engine = new MarkdownEngine\MichelfMarkdownEngine();
+
+        app('twig')->addExtension(new MarkdownExtension($engine));
     }
 }
