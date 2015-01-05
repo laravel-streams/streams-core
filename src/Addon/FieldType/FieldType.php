@@ -51,13 +51,6 @@ class FieldType extends Addon
     protected $label = null;
 
     /**
-     * The field's input class.
-     *
-     * @var null
-     */
-    protected $class = 'form-control';
-
-    /**
      * The field's input locale.
      *
      * @var null
@@ -135,73 +128,6 @@ class FieldType extends Addon
     protected $wrapperView = 'streams::ui/form/partials/wrapper';
 
     /**
-     * Return a new instance of the field type.
-     *
-     * @return static
-     */
-    public function newInstance()
-    {
-        return new static;
-    }
-
-    /**
-     * Get data for the input view.
-     *
-     * @return array
-     */
-    public function getInputData()
-    {
-        $value       = $this->getValue();
-        $class       = $this->getClass();
-        $name        = $this->getFieldName();
-        $type        = $this->pullConfig('type', 'text');
-        $placeholder = trans($this->getPlaceholder(), [], null, $this->getLocale());
-
-        return compact('name', 'value', 'type', 'class', 'placeholder');
-    }
-
-    /**
-     * Get data for the filter input view.
-     *
-     * @return array
-     */
-    public function getFilterData()
-    {
-        return $this->getInputData();
-    }
-
-    /**
-     * Get data for the field wrapper.
-     *
-     * @return array
-     */
-    public function getWrapperData()
-    {
-        $locale       = $this->getLocale();
-        $hidden       = $this->isHidden();
-        $required     = $this->isRequired();
-        $translatable = $this->isTranslatable();
-
-        $language     = trans("language.{$locale}");
-        $label        = trans($this->getLabel(), [], null, $locale);
-        $instructions = trans($this->getInstructions(), [], null, $locale);
-
-        $input = view($this->getInputView(), $this->getInputData());
-
-        return compact(
-            'input',
-            'label',
-            'class',
-            'hidden',
-            'locale',
-            'language',
-            'required',
-            'instructions',
-            'translatable'
-        );
-    }
-
-    /**
      * Get the rules.
      *
      * @return array
@@ -212,9 +138,7 @@ class FieldType extends Addon
     }
 
     /**
-     * Set the config options.
-     *
-     * @param  array $config
+     * @param $config
      * @return $this
      */
     public function setConfig(array $config)
@@ -225,35 +149,9 @@ class FieldType extends Addon
     }
 
     /**
-     * Put a config value.
+     * Get the config options.
      *
-     * @param  $key
-     * @param  $value
-     * @return $this
-     */
-    public function putConfig($key, $value)
-    {
-        $this->config[$key] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Pull a config value.
-     *
-     * @param       $key
-     * @param  null $default
-     * @return mixed
-     */
-    public function pullConfig($key, $default = null)
-    {
-        return array_get($this->config, $key, $default);
-    }
-
-    /**
-     * Get config.
-     *
-     * @return array|null
+     * @return array
      */
     public function getConfig()
     {
@@ -327,29 +225,6 @@ class FieldType extends Addon
     public function getLabel()
     {
         return $this->label;
-    }
-
-    /**
-     * Set the input class.
-     *
-     * @param  $class
-     * @return $this
-     */
-    public function setClass($class)
-    {
-        $this->class = $class;
-
-        return $this;
-    }
-
-    /**
-     * Get the input class.
-     *
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->class;
     }
 
     /**
@@ -680,7 +555,7 @@ class FieldType extends Addon
      */
     public function render()
     {
-        return view($this->getWrapperView(), $this->getWrapperData());
+        return view($this->getWrapperView(), ['field_type' => $this]);
     }
 
     /**
@@ -690,7 +565,7 @@ class FieldType extends Addon
      */
     public function renderInput()
     {
-        return view($this->getInputView(), $this->getInputData());
+        return view($this->getInputView(), ['field_type' => $this]);
     }
 
     /**
@@ -700,7 +575,7 @@ class FieldType extends Addon
      */
     public function renderFilter()
     {
-        return view($this->getFilterView(), $this->getFilterData());
+        return view($this->getFilterView(), ['field_type' => $this]);
     }
 
     /**

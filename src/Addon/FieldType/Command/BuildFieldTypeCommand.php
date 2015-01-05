@@ -172,7 +172,7 @@ class BuildFieldTypeCommand
     /**
      * Get the field type configuration.
      *
-     * @return boolean
+     * @return array
      */
     public function getConfig()
     {

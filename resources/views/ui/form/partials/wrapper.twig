@@ -1,16 +1,18 @@
-<div class="{{ class }} {{ hidden ? 'hidden' }}" data-locale="{{ locale }}">
+<div class="{{ field_type.hidden ? 'hidden' }}" data-locale="{{ field_type.locale }}">
 
-    <label class="control-label {{ required ? 'required' }}">
-        {{ label }}
-        {% if translatable %}
-            <small class="text-muted"><i class="fa fa-language"></i> {{ trans('streams::language.' ~ locale) }}</small>
+    <label class="control-label {{ field_type.required ? 'required' }}">
+        {{ trans(field_type.label) }}
+        {% if field_type.translatable %}
+            <small class="text-muted">
+                <i class="fa fa-language"></i> {{ trans('streams::language.' ~ field_type.locale) }}
+            </small>
         {% endif %}
     </label>
 
-    {% if instructions %}
-        <p class="help-block">{{ instructions }}</p>
+    {% if field_type.instructions %}
+        <p class="help-block">{{ trans(field_type.instructions) }}</p>
     {% endif %}
 
-    {{ input|raw }}
+    {{ field_type.renderInput()|raw }}
 
 </div>

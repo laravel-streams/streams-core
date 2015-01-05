@@ -52,10 +52,10 @@ class BuildFieldTypeCommandHandler
             ->setField($command->getField())
             ->setValue($command->getValue())
             ->setLabel($command->getLabel())
+            ->setConfig($command->getConfig())
             ->setLocale($command->getLocale())
             ->setPrefix($command->getPrefix())
             ->setHidden($command->getHidden())
-            ->setConfig($command->getConfig())
             ->setRequired($command->getRequired())
             ->setPlaceholder($command->getPlaceholder())
             ->setTranslatable($command->getTranslatable())
@@ -100,6 +100,6 @@ class BuildFieldTypeCommandHandler
             throw new \Exception("Field type [{$command->getType()}] not found.");
         }
 
-        return $fieldType->newInstance();
+        return clone($fieldType);
     }
 }
