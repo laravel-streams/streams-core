@@ -35,5 +35,9 @@ class FormValidator
      */
     public function validate(Form $form)
     {
+        $fields = $form->getFields();
+
+        print_r($this->input->get($form, config('app.locale')));
+        die;
     }
 }
