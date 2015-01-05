@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Guesser\SectionViewGuesser;
 
 /**
@@ -81,5 +83,33 @@ class FormPluginFunctions
         $this->sectionViewGuesser->guess($section);
 
         return view(array_get($section, 'view'), compact('form', 'section'));
+    }
+
+    /**
+     * Return a form field group complete
+     * with translatable inputs.
+     *
+     * @param Form      $form
+     * @param FieldType $field
+     * @return \Illuminate\View\View|string
+     */
+    public function field(Form $form, FieldType $field)
+    {
+        $output = '';
+
+        $entry = $form->getEntry();
+
+        if ($entry instanceof EntryInterface && $field->isTranslatable()) {
+            foreach (config('streams.available_locales') as $locale) {
+                $output .= $field
+                    ->setLocale($locale)
+                    ->setHidden($locale !== config('app.locale'))
+                    ->render();
+            }
+        } else {
+            $output = $field->render();
+        }
+
+        return $output;
     }
 }

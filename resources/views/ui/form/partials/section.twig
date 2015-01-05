@@ -14,7 +14,7 @@
 
                 {% for field in form.fields %}
                     <div class="form-group">
-                        {{ field.render|raw }}
+                        {{ form_field(form, field)|raw }}
                     </div>
                 {% endfor %}
 

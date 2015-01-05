@@ -42,6 +42,7 @@ class FormPlugin extends Plugin
             new \Twig_SimpleFunction('form_layout', [$this->functions, 'layout']),
             new \Twig_SimpleFunction('form_controls', [$this->functions, 'controls']),
             new \Twig_SimpleFunction('form_section', [$this->functions, 'section']),
+            new \Twig_SimpleFunction('form_field', [$this->functions, 'field']),
         ];
     }
 }
