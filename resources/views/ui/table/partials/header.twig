@@ -18,7 +18,7 @@
 
         {% for header in table.headers %}
             <th>
-                {{ table_heading(table, header) }}
+                {{ table_heading(table, header)|raw }}
             </th>
         {% endfor %}
 
