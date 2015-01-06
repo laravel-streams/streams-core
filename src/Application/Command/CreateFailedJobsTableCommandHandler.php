@@ -50,7 +50,7 @@ class CreateFailedJobsTableCommandHandler
      */
     protected function createApplicationsTable()
     {
-        $this->schema->dropIfExists('revisions');
+        $this->schema->dropIfExists('failed_jobs');
 
         $this->schema->create(
             'failed_jobs',
