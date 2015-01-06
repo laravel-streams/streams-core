@@ -4,14 +4,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Schema\Blueprint;
 
 /**
- * Class CreateRevisionsTablesCommandHandler
+ * Class CreateFailedJobsTableCommandHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Application\Command
  */
-class CreateRevisionsTablesCommandHandler
+class CreateFailedJobsTableCommandHandler
 {
 
     /**
@@ -29,7 +29,7 @@ class CreateRevisionsTablesCommandHandler
     protected $schema;
 
     /**
-     * Create a new CreateRevisionsTablesCommandHandler instance.
+     * Create a new CreateFailedJobsTableCommandHandler instance.
      */
     public function __construct()
     {
@@ -53,19 +53,14 @@ class CreateRevisionsTablesCommandHandler
         $this->schema->dropIfExists('revisions');
 
         $this->schema->create(
-            'revisions',
+            'failed_jobs',
             function (Blueprint $table) {
 
                 $table->increments('id');
-                $table->timestamps();
-                $table->string('revisionable_type');
-                $table->integer('revisionable_id');
-                $table->integer('user_id')->nullable();
-                $table->string('key');
-                $table->text('old_value')->nullable();
-                $table->text('new_value')->nullable();
-
-                $table->index(['revisionable_id', 'revisionable_type']);
+                $table->text('connection');
+                $table->text('queue');
+                $table->text('payload');
+                $table->timestamp('failed_at');
             }
         );
     }
