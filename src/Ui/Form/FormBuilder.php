@@ -43,7 +43,7 @@ class FormBuilder
      *
      * @var array
      */
-    protected $actions = [];
+    protected $actions = ['save'];
 
     /**
      * The buttons config.
@@ -113,7 +113,7 @@ class FormBuilder
      * Render the form.
      *
      * @param  null $entry
-     * @return \Illuminate\View\View|null
+     * @return \Illuminate\View\View|\Symfony\Component\HttpFoundation\Response
      */
     public function render($entry = null)
     {

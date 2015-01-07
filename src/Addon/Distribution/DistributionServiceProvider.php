@@ -14,6 +14,14 @@ class DistributionServiceProvider extends ServiceProvider
 {
 
     /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        app('twig')->addExtension(app('Anomaly\Streams\Platform\Addon\Distribution\DistributionPlugin'));
+    }
+
+    /**
      * Register the service provider.
      *
      * @return void
