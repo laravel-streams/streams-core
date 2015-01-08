@@ -22,7 +22,7 @@ class Plugin extends Addon implements \Twig_ExtensionInterface
      */
     public function getName()
     {
-        return isset($this->slug) ? $this->slug : get_class($this);
+        return isset($this->slug) ? parent::getName() : get_class($this);
     }
 
     /**
