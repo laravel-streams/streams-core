@@ -268,7 +268,7 @@ class FieldType extends Addon
      *
      * @return string
      */
-    protected function getPlaceholder()
+    public function getPlaceholder()
     {
         return $this->placeholder;
     }
