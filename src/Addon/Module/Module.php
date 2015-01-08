@@ -16,14 +16,14 @@ class Module extends Addon
     /**
      * The module's sections.
      *
-     * @var array
+     * @var null|array
      */
-    protected $sections = [];
+    protected $sections = null;
 
     /**
      * The module's navigation group.
      *
-     * @var null
+     * @var null|string
      */
     protected $navigation = null;
 
