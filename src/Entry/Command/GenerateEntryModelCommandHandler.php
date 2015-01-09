@@ -54,14 +54,14 @@ class GenerateEntryModelCommandHandler
 
         $data = $this->getTemplateData($stream);
 
-        $template = app('streams.path') . '/resources/assets/generator/model.txt';
+        $template = file_get_contents(app('streams.path') . '/resources/assets/generator/model.twig');
 
         $file = $this->getFilePath($stream);
 
         @mkdir(dirname($file), 777, true);
         @unlink($file);
 
-        $this->generator->make($template, $data, $file);
+        file_put_contents($file, app('twig.string')->render($template, $data));
     }
 
     /**

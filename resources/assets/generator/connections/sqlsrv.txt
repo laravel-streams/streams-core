@@ -1,8 +1,0 @@
-'sqlsrv' => [
-			'driver'   => 'sqlsrv',
-			'host'     => '$HOST$',
-			'database' => '$DATABASE$',
-			'username' => '$USERNAME$',
-			'password' => '$PASSWORD$',
-			'prefix'   => '',
-		],

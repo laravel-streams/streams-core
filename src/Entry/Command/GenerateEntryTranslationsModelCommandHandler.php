@@ -45,13 +45,13 @@ class GenerateEntryTranslationsModelCommandHandler
 
         $data = $this->getTemplateData($stream);
 
-        $template = app('streams.path') . '/resources/assets/generator/translation.txt';
+        $template = file_get_contents(app('streams.path') . '/resources/assets/generator/translation.txt');
 
         $file = $this->getFilePath($stream);
 
         @unlink($file);
 
-        $this->generator->make($template, $data, $file);
+        file_put_contents($file, app('twig.string')->render($template, $data));
     }
 
     /**
