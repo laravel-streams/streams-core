@@ -98,7 +98,7 @@ class EloquentModel extends Model
      */
     public function flushCacheCollection()
     {
-        (new CacheCollection())->setKey($this->getCacheCollectionKey())->flush();
+        //(new CacheCollection())->setKey($this->getCacheCollectionKey())->flush();
 
         return $this;
     }
