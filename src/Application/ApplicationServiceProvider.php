@@ -69,7 +69,7 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->app->instance('streams.path', base_path('vendor/anomaly/streams-platform'));
 
         $this->app['config']->set(
-            'streams',
+            'streams::config',
             $this->app['files']->getRequire(__DIR__ . '/../../resources/config/config.php')
         );
         //$this->app->make('config')->addNamespace('streams', $this->app['streams.path'] . '/resources/config');

@@ -49,7 +49,11 @@ class AddonIntegrator
     protected function addNamespaces(Addon $addon)
     {
         app('view')->addNamespace($addon->getKey(), $addon->getPath('resources/views'));
-        app('config')->addNamespace($addon->getKey(), $addon->getPath('resources/config'));
+
+        foreach (app('files')->files($addon->getPath('resources/config')) as $config) {
+            app('config')->set($addon->getKey(basename(trim($config, '.php'))), app('files')->getRequire($config));
+        }
+
         app('translator')->addNamespace($addon->getKey(), $addon->getPath('resources/lang'));
 
         $this->asset->addNamespace($addon->getKey(), $addon->getPath('resources'));
