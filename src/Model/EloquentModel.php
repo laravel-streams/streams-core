@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class EloquentModel
@@ -14,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class EloquentModel extends Model
 {
+
+    use DispatchesCommands;
 
     /**
      * Disable timestamps for this model.

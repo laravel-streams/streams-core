@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme;
 
+use Anomaly\Streams\Platform\Addon\Theme\Command\DetectActiveThemeCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -12,6 +14,16 @@ use Illuminate\Support\ServiceProvider;
  */
 class ThemeServiceProvider extends ServiceProvider
 {
+
+    use DispatchesCommands;
+
+    /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        $this->dispatch(new DetectActiveThemeCommand());
+    }
 
     /**
      * Register the service provider.

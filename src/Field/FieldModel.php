@@ -106,7 +106,7 @@ class FieldModel extends EloquentModel implements FieldInterface
 
         $command = 'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand';
 
-        $type = $this->execute($command, $data);
+        $type = $this->dispatchFromArray($command, $data);
 
         if ($entry && $type instanceof FieldType) {
             if (!$type instanceof RelationFieldTypeInterface) {

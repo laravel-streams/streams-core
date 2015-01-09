@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Distribution;
 
+use Anomaly\Streams\Platform\Addon\Distribution\Command\DetectActiveDistributionCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -13,11 +15,14 @@ use Illuminate\Support\ServiceProvider;
 class DistributionServiceProvider extends ServiceProvider
 {
 
+    use DispatchesCommands;
+
     /**
      * Boot the service provider.
      */
     public function boot()
     {
+        $this->dispatch(new DetectActiveDistributionCommand());
         app('twig')->addExtension(app('Anomaly\Streams\Platform\Addon\Distribution\DistributionPlugin'));
     }
 
@@ -43,6 +48,7 @@ class DistributionServiceProvider extends ServiceProvider
             'streams::application.booting',
             'Anomaly\Streams\Platform\Addon\Distribution\Listener\ApplicationBootingListener'
         );
+
     }
 
     /**
