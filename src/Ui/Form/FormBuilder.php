@@ -1,8 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormCommand;
+use Anomaly\Streams\Platform\Ui\Form\Command\HandleFormPostCommand;
+use Anomaly\Streams\Platform\Ui\Form\Command\LoadFormCommand;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
-use Laracasts\Commander\CommanderTrait;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class FormBuilder
@@ -15,7 +18,7 @@ use Laracasts\Commander\CommanderTrait;
 class FormBuilder
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * The form model.
@@ -80,10 +83,10 @@ class FormBuilder
             $this->entry = $entry;
         }
 
-        $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\BuildFormCommand', ['builder' => $this]);
+        $this->dispatch(new BuildFormCommand($this));
 
         if (app('request')->isMethod('post')) {
-            $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\HandleFormPostCommand', ['form' => $this->form]);
+            $this->dispatch(new HandleFormPostCommand($this->form));
         }
     }
 
@@ -98,7 +101,7 @@ class FormBuilder
 
         if ($this->form->getResponse() === null) {
 
-            $this->execute('Anomaly\Streams\Platform\Ui\Form\Command\LoadFormCommand', ['form' => $this->form]);
+            $this->dispatch(new LoadFormCommand($this->form));
 
             $options = $this->form->getOptions();
             $data    = $this->form->getData();
@@ -138,29 +141,6 @@ class FormBuilder
     public function getForm()
     {
         return $this->form;
-    }
-
-    /**
-     * Set the form handler.
-     *
-     * @param  $handler
-     * @return $this
-     */
-    public function setHandler($handler)
-    {
-        $this->handler = $handler;
-
-        return $this;
-    }
-
-    /**
-     * Get the form handler.
-     *
-     * @return string
-     */
-    public function getHandler()
-    {
-        return $this->handler;
     }
 
     /**

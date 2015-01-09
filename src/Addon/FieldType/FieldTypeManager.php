@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Laracasts\Commander\CommanderTrait;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class FieldTypeManager
@@ -13,7 +13,7 @@ use Laracasts\Commander\CommanderTrait;
 class FieldTypeManager
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * A simple public API for the builder command.
@@ -23,6 +23,9 @@ class FieldTypeManager
      */
     public function build(array $data)
     {
-        return $this->execute('Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand', $data);
+        return $this->dispatchFromArray(
+            'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand',
+            $data
+        );
     }
 }

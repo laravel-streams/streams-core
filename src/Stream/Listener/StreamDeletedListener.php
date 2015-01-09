@@ -1,7 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Listener;
 
+use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTableCommand;
 use Anomaly\Streams\Platform\Stream\Event\StreamDeletedEvent;
-use Laracasts\Commander\CommanderTrait;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class StreamDeletedListener
@@ -14,7 +15,7 @@ use Laracasts\Commander\CommanderTrait;
 class StreamDeletedListener
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * When a stream is deleted we need to
@@ -26,9 +27,6 @@ class StreamDeletedListener
     {
         $stream = $event->getStream();
 
-        $this->execute(
-            'Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTableCommand',
-            compact('stream')
-        );
+        $this->dispatch(new DropStreamsEntryTableCommand($stream));
     }
 }

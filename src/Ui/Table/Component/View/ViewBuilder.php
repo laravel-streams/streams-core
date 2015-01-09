@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class ViewBuilder
@@ -13,8 +12,6 @@ use Laracasts\Commander\CommanderTrait;
  */
 class ViewBuilder
 {
-
-    use CommanderTrait;
 
     /**
      * The view reader.

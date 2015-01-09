@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class FieldTypeBuilder
@@ -15,8 +14,6 @@ use Laracasts\Commander\CommanderTrait;
  */
 class FieldBuilder
 {
-
-    use CommanderTrait;
 
     /**
      * The field reader.

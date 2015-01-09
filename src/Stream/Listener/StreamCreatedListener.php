@@ -1,9 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Listener;
 
 use Anomaly\Streams\Platform\Entry\EntryUtility;
+use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTableCommand;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Event\StreamCreatedEvent;
-use Laracasts\Commander\CommanderTrait;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class StreamCreatedListener
@@ -16,7 +17,7 @@ use Laracasts\Commander\CommanderTrait;
 class StreamCreatedListener
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * The entry utility.
@@ -55,10 +56,7 @@ class StreamCreatedListener
      */
     protected function createStreamsTable(StreamInterface $stream)
     {
-        $this->execute(
-            'Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTableCommand',
-            compact('stream')
-        );
+        $this->dispatch(new CreateStreamsEntryTableCommand($stream));
     }
 
     /**

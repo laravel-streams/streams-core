@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelCommand;
+use Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModelCommand;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Laracasts\Commander\CommanderTrait;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class EntryUtility
@@ -14,7 +16,7 @@ use Laracasts\Commander\CommanderTrait;
 class EntryUtility
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * Recompile entry models for a given stream.
@@ -24,20 +26,14 @@ class EntryUtility
     public function recompile(StreamInterface $stream)
     {
         // Generate the base model.
-        $this->execute(
-            'Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelCommand',
-            compact('stream')
-        );
+        $this->dispatch(new GenerateEntryModelCommand($stream));
 
         /**
          * If the stream is translatable generate
          * the translations model too.
          */
         if ($stream->isTranslatable()) {
-            $this->execute(
-                'Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModelCommand',
-                compact('stream')
-            );
+            $this->dispatch(new GenerateEntryTranslationsModelCommand($stream));
         }
     }
 }

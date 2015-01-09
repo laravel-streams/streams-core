@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Entry\EntryUtility;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Event\StreamSavedEvent;
-use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class StreamSavedListener
@@ -15,8 +14,6 @@ use Laracasts\Commander\CommanderTrait;
  */
 class StreamSavedListener
 {
-
-    use CommanderTrait;
 
     /**
      * The entry utility.

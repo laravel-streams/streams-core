@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Laracasts\Commander\CommanderTrait;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\ExecuteActionCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class HandleTablePostCommandHandler
@@ -13,7 +14,7 @@ use Laracasts\Commander\CommanderTrait;
 class HandleTablePostCommandHandler
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * Handle the command.
@@ -24,9 +25,6 @@ class HandleTablePostCommandHandler
     {
         $table = $command->getTable();
 
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\ExecuteActionCommand',
-            compact('table')
-        );
+        $this->dispatch(new ExecuteActionCommand($table));
     }
 }

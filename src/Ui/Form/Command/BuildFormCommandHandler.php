@@ -1,6 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Laracasts\Commander\CommanderTrait;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActionsCommand;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveActionCommand;
+use Anomaly\Streams\Platform\Ui\Form\Component\Button\Command\BuildButtonsCommand;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\BuildFieldsCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class BuildFormCommandHandler
@@ -13,7 +17,7 @@ use Laracasts\Commander\CommanderTrait;
 class BuildFormCommandHandler
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * Handle the command.
@@ -27,45 +31,24 @@ class BuildFormCommandHandler
         /**
          * Resolve and set the form model and stream.
          */
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Command\SetFormModelCommand',
-            compact('builder')
-        );
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Command\SetFormStreamCommand',
-            compact('builder')
-        );
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Command\SetFormEntryCommand',
-            compact('builder')
-        );
+        $this->dispatch(new SetFormModelCommand($builder));
+        $this->dispatch(new SetFormStreamCommand($builder));
+        $this->dispatch(new SetFormEntryCommand($builder));
 
         /*
          * Build form fields.
          */
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\BuildFieldsCommand',
-            compact('builder')
-        );
+        $this->dispatch(new BuildFieldsCommand($builder));
 
         /**
          * Build form actions and flag active.
          */
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActionsCommand',
-            compact('builder')
-        );
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveActionCommand',
-            compact('builder')
-        );
+        $this->dispatch(new BuildActionsCommand($builder));
+        $this->dispatch(new SetActiveActionCommand($builder));
 
         /**
          * Build form buttons.
          */
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Component\Button\Command\BuildButtonsCommand',
-            compact('builder')
-        );
+        $this->dispatch(new BuildButtonsCommand($builder));
     }
 }

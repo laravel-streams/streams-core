@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class FilterBuilder
@@ -13,8 +12,6 @@ use Laracasts\Commander\CommanderTrait;
  */
 class FilterBuilder
 {
-
-    use CommanderTrait;
 
     /**
      * The filter reader.

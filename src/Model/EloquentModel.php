@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class EloquentModel
@@ -15,8 +14,6 @@ use Laracasts\Commander\CommanderTrait;
  */
 class EloquentModel extends Model
 {
-
-    use CommanderTrait;
 
     /**
      * Disable timestamps for this model.

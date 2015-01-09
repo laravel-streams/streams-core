@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class ActionBuilder
@@ -13,8 +12,6 @@ use Laracasts\Commander\CommanderTrait;
  */
 class ActionBuilder
 {
-
-    use CommanderTrait;
 
     /**
      * The action reader.

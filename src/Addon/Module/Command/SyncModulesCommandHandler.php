@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
-use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class SyncModulesCommandHandler
@@ -16,8 +15,6 @@ use Laracasts\Commander\CommanderTrait;
  */
 class SyncModulesCommandHandler
 {
-
-    use CommanderTrait;
 
     /**
      * The module repository.

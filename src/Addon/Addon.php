@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Laracasts\Commander\Events\EventGenerator;
 use Robbo\Presenter\PresentableInterface;
 use Robbo\Presenter\Presenter;
 
@@ -14,8 +13,6 @@ use Robbo\Presenter\Presenter;
  */
 class Addon implements PresentableInterface
 {
-
-    use EventGenerator;
 
     /**
      * The addon path.

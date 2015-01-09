@@ -4,8 +4,6 @@ use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Button\ButtonBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Anomaly\Streams\Platform\Ui\Table\TableEntries;
-use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class RowBuilder
@@ -17,15 +15,6 @@ use Laracasts\Commander\CommanderTrait;
  */
 class RowBuilder
 {
-
-    use CommanderTrait;
-
-    /**
-     * The entries utility.
-     *
-     * @var TableEntries
-     */
-    protected $entries;
 
     /**
      * The column builder.

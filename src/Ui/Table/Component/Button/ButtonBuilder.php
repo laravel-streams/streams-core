@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class ButtonBuilder
@@ -16,8 +15,6 @@ use Laracasts\Commander\CommanderTrait;
  */
 class ButtonBuilder
 {
-
-    use CommanderTrait;
 
     /**
      * The button reader.

@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class HeaderBuilder
@@ -13,8 +12,6 @@ use Laracasts\Commander\CommanderTrait;
  */
 class HeaderBuilder
 {
-
-    use CommanderTrait;
 
     /**
      * The input utility.

@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Laracasts\Commander\CommanderTrait;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\FilterQueryCommand;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Command\TableQueryCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class ModifyQueryCommandHandler
@@ -13,7 +15,7 @@ use Laracasts\Commander\CommanderTrait;
 class ModifyQueryCommandHandler
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * Handle the command.
@@ -25,17 +27,8 @@ class ModifyQueryCommandHandler
         $table = $command->getTable();
         $query = $command->getQuery();
 
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\FilterQueryCommand',
-            compact('table', 'query')
-        );
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Component\View\Command\TableQueryCommand',
-            compact('table', 'query')
-        );
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Command\OrderQueryCommand',
-            compact('table', 'query')
-        );
+        $this->dispatch(new FilterQueryCommand($table, $query));
+        $this->dispatch(new TableQueryCommand($table, $query));
+        $this->dispatch(new OrderQueryCommand($table, $query));
     }
 }

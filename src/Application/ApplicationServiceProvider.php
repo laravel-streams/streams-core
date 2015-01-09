@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
 use Illuminate\Support\ServiceProvider;
-use Laracasts\Commander\DefaultCommandBus;
 
 /**
  * Class ApplicationServiceProvider
@@ -113,15 +112,6 @@ class ApplicationServiceProvider extends ServiceProvider
         // Configure Translatable
         $this->app->make('config')->set('translatable::locales', ['en', 'es']);
         $this->app->make('config')->set('translatable::translation_suffix', 'Translation');
-
-        // Auto-decorate commands with validators.
-        $this->app->resolving(
-            'Laracasts\Commander\DefaultCommandBus',
-            function (DefaultCommandBus $commandBus) {
-                $commandBus->decorate('Anomaly\Streams\Platform\Commander\CommandMediator');
-                $commandBus->decorate('Anomaly\Streams\Platform\Commander\CommandValidator');
-            }
-        );
 
         // Bind a string loader version of twig.
         $this->app->bind(

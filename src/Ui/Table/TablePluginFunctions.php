@@ -1,8 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\GetColumnValueCommand;
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\GetHeadingCommand;
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
-use Laracasts\Commander\CommanderTrait;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class TablePluginFunctions
@@ -15,7 +17,7 @@ use Laracasts\Commander\CommanderTrait;
 class TablePluginFunctions
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * Render the table's views.
@@ -91,10 +93,7 @@ class TablePluginFunctions
      */
     public function heading(Table $table, HeaderInterface $header)
     {
-        return $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\GetHeadingCommand',
-            compact('table', 'header')
-        );
+        return $this->dispatch(new GetHeadingCommand($table, $header));
     }
 
     /**
@@ -107,9 +106,6 @@ class TablePluginFunctions
      */
     public function column(Table $table, ColumnInterface $column, $entry)
     {
-        return $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\GetColumnValueCommand',
-            compact('table', 'column', 'entry')
-        );
+        return $this->dispatch(new GetColumnValueCommand($table, $column, $entry));
     }
 }

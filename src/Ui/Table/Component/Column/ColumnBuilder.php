@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class ColumnBuilder
@@ -14,8 +13,6 @@ use Laracasts\Commander\CommanderTrait;
  */
 class ColumnBuilder
 {
-
-    use CommanderTrait;
 
     /**
      * The column reader.

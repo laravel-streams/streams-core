@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme\Listener;
 
-use Laracasts\Commander\CommanderTrait;
+use Anomaly\Streams\Platform\Addon\Theme\Command\DetectActiveThemeCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class ApplicationBootingListener
@@ -13,7 +14,7 @@ use Laracasts\Commander\CommanderTrait;
 class ApplicationBootingListener
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * When the application is booting detect the active
@@ -21,6 +22,6 @@ class ApplicationBootingListener
      */
     public function handle()
     {
-        $this->execute('Anomaly\Streams\Platform\Addon\Theme\Command\DetectActiveThemeCommand');
+        $this->dispatch(new DetectActiveThemeCommand());
     }
 }

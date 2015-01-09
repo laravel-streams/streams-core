@@ -1,7 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Listener;
 
+use Anomaly\Streams\Platform\Ui\Table\Command\ModifyQueryCommand;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
-use Laracasts\Commander\CommanderTrait;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class TableQueryListener
@@ -14,7 +15,7 @@ use Laracasts\Commander\CommanderTrait;
 class TableQueryListener
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * Handle the event.
@@ -26,9 +27,6 @@ class TableQueryListener
         $table = $event->getTable();
         $query = $event->getQuery();
 
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Table\Command\ModifyQueryCommand',
-            compact('table', 'query')
-        );
+        $this->dispatch(new ModifyQueryCommand($table, $query));
     }
 }

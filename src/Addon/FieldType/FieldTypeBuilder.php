@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Laracasts\Commander\CommanderTrait;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class FieldTypeBuilder
@@ -13,7 +13,7 @@ use Laracasts\Commander\CommanderTrait;
 class FieldTypeBuilder
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * Build a field type.
@@ -23,6 +23,9 @@ class FieldTypeBuilder
      */
     public function build(array $field)
     {
-        return $this->execute('Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand', $field);
+        return $this->dispatchFromArray(
+            'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand',
+            $field
+        );
     }
 }

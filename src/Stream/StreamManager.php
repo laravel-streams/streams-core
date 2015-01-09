@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Laracasts\Commander\CommanderTrait;
+use Anomaly\Streams\Platform\Stream\Command\DeleteStreamCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class StreamManager
@@ -13,7 +14,7 @@ use Laracasts\Commander\CommanderTrait;
 class StreamManager
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * Create a stream.
@@ -23,7 +24,7 @@ class StreamManager
      */
     public function create(array $stream)
     {
-        return $this->execute('Anomaly\Streams\Platform\Stream\Command\CreateStreamCommand', $stream);
+        return $this->dispatchFromArray('Anomaly\Streams\Platform\Stream\Command\CreateStreamCommand', $stream);
     }
 
     /**
@@ -35,9 +36,6 @@ class StreamManager
      */
     public function delete($namespace, $slug)
     {
-        return $this->execute(
-            'Anomaly\Streams\Platform\Stream\Command\DeleteStreamCommand',
-            compact('namespace', 'slug')
-        );
+        $this->dispatch(new DeleteStreamCommand($namespace, $slug));
     }
 }

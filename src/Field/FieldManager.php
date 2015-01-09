@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
-use Laracasts\Commander\CommanderTrait;
+use Anomaly\Streams\Platform\Field\Command\DeleteFieldCommand;
+use Anomaly\Streams\Platform\Field\Command\UnassignFieldCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class FieldManager
@@ -13,7 +15,7 @@ use Laracasts\Commander\CommanderTrait;
 class FieldManager
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * Create a field.
@@ -23,7 +25,7 @@ class FieldManager
      */
     public function create(array $field)
     {
-        return $this->execute('Anomaly\Streams\Platform\Field\Command\CreateFieldCommand', $field);
+        return $this->dispatchFromArray('Anomaly\Streams\Platform\Field\Command\CreateFieldCommand', $field);
     }
 
     /**
@@ -35,10 +37,7 @@ class FieldManager
      */
     public function delete($namespace, $slug)
     {
-        return $this->execute(
-            'Anomaly\Streams\Platform\Field\Command\DeleteFieldCommand',
-            compact('namespace', 'slug')
-        );
+        return $this->dispatch(new DeleteFieldCommand($namespace, $slug));
     }
 
     /**
@@ -52,7 +51,7 @@ class FieldManager
      */
     public function assign($namespace, $stream, $field, array $assignment)
     {
-        return $this->execute(
+        return $this->dispatchFromArray(
             'Anomaly\Streams\Platform\Field\Command\AssignFieldCommand',
             array_merge($assignment, compact('namespace', 'stream', 'field'))
         );
@@ -68,9 +67,6 @@ class FieldManager
      */
     public function unassign($namespace, $stream, $field)
     {
-        return $this->execute(
-            'Anomaly\Streams\Platform\Field\Command\UnassignFieldCommand',
-            compact('namespace', 'stream', 'field')
-        );
+        return $this->dispatch(new UnassignFieldCommand($namespace, $stream, $field));
     }
 }

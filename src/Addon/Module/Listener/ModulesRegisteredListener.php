@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Listener;
 
-use Laracasts\Commander\CommanderTrait;
+use Anomaly\Streams\Platform\Addon\Module\Command\SetModuleStatesCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class ModulesRegisteredListener
@@ -13,7 +14,7 @@ use Laracasts\Commander\CommanderTrait;
 class ModulesRegisteredListener
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * When all the modules have been registered
@@ -23,7 +24,7 @@ class ModulesRegisteredListener
     public function handle()
     {
         if (app('streams.application')->isInstalled()) {
-            $this->execute('Anomaly\Streams\Platform\Addon\Module\Command\SetModuleStatesCommand');
+            $this->dispatch(new SetModuleStatesCommand());
         }
     }
 }

@@ -1,7 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Listener;
 
+use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumnCommand;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentDeletedEvent;
-use Laracasts\Commander\CommanderTrait;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class AssignmentDeletedListener
@@ -14,7 +15,7 @@ use Laracasts\Commander\CommanderTrait;
 class AssignmentDeletedListener
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * When an assignment is deleted we need to drop
@@ -26,9 +27,6 @@ class AssignmentDeletedListener
     {
         $assignment = $event->getAssignment();
 
-        $this->execute(
-            'Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumnCommand',
-            compact('assignment')
-        );
+        $this->dispatch(new DropAssignmentColumnCommand($assignment));
     }
 }

@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class ButtonBuilder
@@ -14,8 +13,6 @@ use Laracasts\Commander\CommanderTrait;
  */
 class ButtonBuilder
 {
-
-    use CommanderTrait;
 
     /**
      * The input reader.

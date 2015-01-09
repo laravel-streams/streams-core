@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Laracasts\Commander\CommanderTrait;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetFormResponseCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class HandleFormPostCommandHandler
@@ -13,7 +14,7 @@ use Laracasts\Commander\CommanderTrait;
 class HandleFormPostCommandHandler
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * Handle the command.
@@ -24,17 +25,8 @@ class HandleFormPostCommandHandler
     {
         $form = $command->getForm();
 
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Command\ValidateFormInputCommand',
-            compact('form')
-        );
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Command\SaveFormInputCommand',
-            compact('form')
-        );
-        $this->execute(
-            'Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetFormResponseCommand',
-            compact('form')
-        );
+        $this->dispatch(new ValidateFormInputCommand($form));
+        $this->dispatch(new SaveFormInputCommand($form));
+        $this->dispatch(new SetFormResponseCommand($form));
     }
 }

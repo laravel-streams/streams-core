@@ -1,7 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Listener;
 
+use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumnCommand;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreatedEvent;
-use Laracasts\Commander\CommanderTrait;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class AssignmentCreatedListener
@@ -14,7 +15,7 @@ use Laracasts\Commander\CommanderTrait;
 class AssignmentCreatedListener
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * When an assignment is created we need to
@@ -26,9 +27,6 @@ class AssignmentCreatedListener
     {
         $assignment = $event->getAssignment();
 
-        $this->execute(
-            'Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumnCommand',
-            compact('assignment')
-        );
+        $this->dispatch(new AddAssignmentColumnCommand($assignment));
     }
 }

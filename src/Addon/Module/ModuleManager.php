@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
-use Laracasts\Commander\CommanderTrait;
+use Anomaly\Streams\Platform\Addon\Module\Command\InstallModuleCommand;
+use Anomaly\Streams\Platform\Addon\Module\Command\SyncModulesCommand;
+use Anomaly\Streams\Platform\Addon\Module\Command\UninstallModuleCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class ModuleManager
@@ -13,7 +16,7 @@ use Laracasts\Commander\CommanderTrait;
 class ModuleManager
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 
     /**
      * Install a module.
@@ -23,10 +26,7 @@ class ModuleManager
      */
     public function install($module)
     {
-        return $this->execute(
-            'Anomaly\Streams\Platform\Addon\Module\Command\InstallModuleCommand',
-            compact('module')
-        );
+        $this->dispatch(new InstallModuleCommand($module));
     }
 
     /**
@@ -37,10 +37,7 @@ class ModuleManager
      */
     public function uninstall($module)
     {
-        return $this->execute(
-            'Anomaly\Streams\Platform\Addon\Module\Command\UninstallModuleCommand',
-            compact('module')
-        );
+        $this->dispatch(new UninstallModuleCommand($module));
     }
 
     /**
@@ -48,6 +45,6 @@ class ModuleManager
      */
     public function sync()
     {
-        $this->execute('Anomaly\Streams\Platform\Addon\Module\Command\SyncModulesCommand');
+        $this->dispatch(new SyncModulesCommand());
     }
 }
