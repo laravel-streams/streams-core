@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Http\Controller;
 
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Routing\Controller;
-use Laracasts\Commander\CommanderTrait;
 
 /**
  * Class BaseController
@@ -14,5 +14,5 @@ use Laracasts\Commander\CommanderTrait;
 class BaseController extends Controller
 {
 
-    use CommanderTrait;
+    use DispatchesCommands;
 }
