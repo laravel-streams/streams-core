@@ -26,7 +26,6 @@
         "robclancy/presenter": "1.3.*",
         "filp/whoops": "~1.0",
         "symfony/yaml": "2.7.*@dev",
-        "laracasts/commander": "~1.0",
         "dimsav/laravel-translatable": "5.0.*@dev",
         "venturecraft/revisionable": "1.*"
     },
