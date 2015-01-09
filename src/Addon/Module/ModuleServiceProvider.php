@@ -59,7 +59,7 @@ class ModuleServiceProvider extends ServiceProvider
         );
 
         $this->app->make('events')->listen(
-            'streams::modules.registered',
+            'streams::application.booting',
             'Anomaly\Streams\Platform\Addon\Module\Listener\ModulesRegisteredListener'
         );
     }
