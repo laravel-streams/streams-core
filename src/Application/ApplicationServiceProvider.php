@@ -19,6 +19,13 @@ class ApplicationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Set the default command mapper.
+        $this->app->make('Illuminate\Bus\Dispatcher')->mapUsing(
+            function ($command) {
+                return get_class($command) . 'Handler@handle';
+            }
+        );
+
         $this->app->make('events')->fire('streams::application.booting');
     }
 
