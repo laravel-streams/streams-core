@@ -25,6 +25,9 @@ class ApplicationServiceProvider extends ServiceProvider
             }
         );
 
+        app('twig')->addExtension(app('TwigBridge\Extension\Laravel\Form'));
+        app('twig')->addExtension(app('TwigBridge\Extension\Laravel\Html'));
+
         $this->app->make('events')->fire('streams::application.booting');
     }
 
