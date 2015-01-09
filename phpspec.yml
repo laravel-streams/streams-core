@@ -4,7 +4,6 @@ suites:
 
 extensions:
   - PhpSpec\Extension\CodeCoverageExtension
-  - PhpSpec\Laravel\Extension\LaravelExtension
 
 code_coverage:
   format:
