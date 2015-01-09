@@ -13,7 +13,6 @@ use Anomaly\Streams\Platform\Entry\Parser\EntryTraitsParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationForeignKeyParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Way\Generators\Generator;
 
 /**
  * Class GenerateEntryModelCommandHandler
@@ -25,23 +24,6 @@ use Way\Generators\Generator;
  */
 class GenerateEntryModelCommandHandler
 {
-
-    /**
-     * The generator object.
-     *
-     * @var \Way\Generators\Generator
-     */
-    protected $generator;
-
-    /**
-     * Create a new GenerateEntryModelCommandHandler instance.
-     *
-     * @param Generator $generator
-     */
-    public function __construct(Generator $generator)
-    {
-        $this->generator = $generator;
-    }
 
     /**
      * Handle the command.
