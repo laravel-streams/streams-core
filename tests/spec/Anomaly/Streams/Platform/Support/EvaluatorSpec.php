@@ -18,10 +18,27 @@ class EvaluatorSpec extends ObjectBehavior
     {
         $this->shouldHaveType('Anomaly\Streams\Platform\Support\Evaluator');
     }
-    /*function it_can_evaluate_array_data_in_a_string()
-    {
-        $data = ['foo' => 'bar'];
 
-        return $this->evaluate('{{ data.foo }}', compact('data'))->shouldReturn('barssdf');
-    }*/
+    function it_can_safely_evaluate_non_applicable_strings()
+    {
+        $target = 'foo';
+
+        return $this->evaluate($target)->shouldReturn('foo');
+    }
+
+    function it_can_evaluate_closures()
+    {
+        $target = function(){
+            return 'foo';
+        };
+
+        $this->evaluate($target)->shouldReturn(null);
+    }
+
+    function it_can_evaluate_arrays()
+    {
+        $target = ['foo' => ['bar']];
+
+        $this->evaluate($target)->shouldReturn($target);
+    }
 }
