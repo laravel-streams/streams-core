@@ -34,7 +34,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Illuminate\Html\HtmlServiceProvider');
         $this->app->register('Jenssegers\Agent\AgentServiceProvider');
         $this->app->register('Intervention\Image\ImageServiceProvider');
-        $this->app->register('Way\Generators\GeneratorsServiceProvider');
         $this->app->register('Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider');
     }
 
