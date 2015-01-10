@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActionsCommand;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveActionCommand;

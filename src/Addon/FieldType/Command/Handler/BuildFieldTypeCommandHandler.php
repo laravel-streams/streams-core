@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType\Command;
+<?php namespace Anomaly\Streams\Platform\Addon\FieldType\Command\Handler;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;

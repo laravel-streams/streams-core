@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldBuilder;
 

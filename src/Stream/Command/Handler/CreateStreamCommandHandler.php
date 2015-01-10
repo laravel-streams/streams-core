@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Command;
+<?php namespace Anomaly\Streams\Platform\Stream\Command\Handler;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 

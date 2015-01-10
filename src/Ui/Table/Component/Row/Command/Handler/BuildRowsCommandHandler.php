@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Row\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Row\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowBuilder;
 

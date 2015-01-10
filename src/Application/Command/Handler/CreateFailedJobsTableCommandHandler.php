@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Application\Command;
+<?php namespace Anomaly\Streams\Platform\Application\Command\Handler;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Schema\Blueprint;

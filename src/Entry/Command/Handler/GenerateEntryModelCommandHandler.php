@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Command;
+<?php namespace Anomaly\Streams\Platform\Entry\Command\Handler;
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Entry\Parser\EntryClassParser;

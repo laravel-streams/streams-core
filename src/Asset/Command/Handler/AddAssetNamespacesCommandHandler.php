@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Asset\Command;
+<?php namespace Anomaly\Streams\Platform\Asset\Command\Handler;
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Asset\Asset;

@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Button\ButtonBuilder;
 

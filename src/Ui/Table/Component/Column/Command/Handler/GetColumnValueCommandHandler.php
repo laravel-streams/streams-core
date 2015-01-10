@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnValue;
 

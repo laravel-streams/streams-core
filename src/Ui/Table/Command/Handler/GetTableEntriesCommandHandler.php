@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Illuminate\Support\Collection;
