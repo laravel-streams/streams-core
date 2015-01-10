@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension;
 
+use Anomaly\Streams\Platform\Addon\Extension\Command\RegisterExtensionsCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -13,6 +15,16 @@ use Illuminate\Support\ServiceProvider;
 class ExtensionServiceProvider extends ServiceProvider
 {
 
+    use DispatchesCommands;
+
+    /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        $this->dispatch(new RegisterExtensionsCommand());
+    }
+
     /**
      * Register the service provider.
      *
@@ -20,26 +32,9 @@ class ExtensionServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerCollection();
-        $this->registerExtensions();
-    }
-
-    /**
-     * Register the extension collection.
-     */
-    protected function registerCollection()
-    {
         $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
             'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection'
         );
-    }
-
-    /**
-     * Register all extension addons.
-     */
-    protected function registerExtensions()
-    {
-        $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager')->register('extension');
     }
 }

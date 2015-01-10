@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
+use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
@@ -27,6 +28,13 @@ class CreateApplicationTablesCommandHandler
      * @var Builder
      */
     protected $schema;
+
+    /**
+     * The stream application.
+     *
+     * @var Application
+     */
+    protected $application;
 
     /**
      * Create a new CreateApplicationTablesCommandHandler instance.
@@ -112,7 +120,7 @@ class CreateApplicationTablesCommandHandler
 
         $this->db->table('applications')->insert($data);
 
-        app('streams.application')->locate();
+        $this->application->locate();
     }
 
     /**

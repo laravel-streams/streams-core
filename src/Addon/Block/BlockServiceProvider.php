@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Block;
 
+use Anomaly\Streams\Platform\Addon\Block\Command\RegisterBlocksCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -13,6 +15,16 @@ use Illuminate\Support\ServiceProvider;
 class BlockServiceProvider extends ServiceProvider
 {
 
+    use DispatchesCommands;
+
+    /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        $this->dispatch(new RegisterBlocksCommand());
+    }
+
     /**
      * Register the service provider.
      *
@@ -20,26 +32,9 @@ class BlockServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerCollection();
-        $this->registerBlocks();
-    }
-
-    /**
-     * Register the block collection.
-     */
-    protected function registerCollection()
-    {
         $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\Block\BlockCollection',
             'Anomaly\Streams\Platform\Addon\Block\BlockCollection'
         );
-    }
-
-    /**
-     * Register all block addons.
-     */
-    protected function registerBlocks()
-    {
-        $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager')->register('block');
     }
 }

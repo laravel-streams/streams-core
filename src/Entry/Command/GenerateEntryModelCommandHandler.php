@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command;
 
+use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Entry\Parser\EntryClassParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryDatesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryInterfacesParser;
@@ -24,6 +25,23 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class GenerateEntryModelCommandHandler
 {
+
+    /**
+     * The streams application.
+     *
+     * @var Application
+     */
+    protected $application;
+
+    /**
+     * Create a new GenerateEntryModelCommandHandler instance.
+     *
+     * @param Application $application
+     */
+    public function __construct(Application $application)
+    {
+        $this->application = $application;
+    }
 
     /**
      * Handle the command.
@@ -57,7 +75,7 @@ class GenerateEntryModelCommandHandler
         $path = storage_path('models/streams/');
 
         @mkdir($path, 0755);
-        @mkdir($path .= app('streams.application')->getReference() . '/', 0755);
+        @mkdir($path .= $this->application->getReference() . '/', 0755);
         @mkdir($path .= studly_case($stream->getNamespace()) . '/', 0755);
 
         return $path . studly_case($stream->getNamespace()) . studly_case($stream->getSlug()) . 'EntryModel.php';

@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Asset;
 
+use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespacesCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -13,12 +15,16 @@ use Illuminate\Support\ServiceProvider;
 class AssetServiceProvider extends ServiceProvider
 {
 
+    use DispatchesCommands;
+
     /**
      * Boot the service provider.
      */
     public function boot()
     {
-        $this->app->make('twig')->addExtension(app('Anomaly\Streams\Platform\Asset\AssetPlugin'));
+        $this->dispatch(new AddAssetNamespacesCommand());
+
+        $this->app->make('twig')->addExtension($this->app->make('Anomaly\Streams\Platform\Asset\AssetPlugin'));
     }
 
     /**
@@ -29,8 +35,6 @@ class AssetServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerAsset();
-        $this->registerAssetPath();
-        $this->addNamespaces();
     }
 
     /**
@@ -39,31 +43,5 @@ class AssetServiceProvider extends ServiceProvider
     protected function registerAsset()
     {
         $this->app->singleton('Anomaly\Streams\Platform\Asset\Asset', 'Anomaly\Streams\Platform\Asset\Asset');
-    }
-
-    /**
-     * Register the asset path.
-     */
-    protected function registerAssetPath()
-    {
-        $path = public_path('assets/' . $this->app->make('streams.application')->getReference());
-
-        $this->app->instance('streams.asset.path', $path);
-    }
-
-    /**
-     * Register a couple initial asset paths.
-     */
-    protected function addNamespaces()
-    {
-        $this->app->make('Anomaly\Streams\Platform\Asset\Asset')->addNamespace(
-            'asset',
-            public_path('assets/' . app('streams.application')->getReference())
-        );
-
-        $this->app->make('Anomaly\Streams\Platform\Asset\Asset')->addNamespace(
-            'streams',
-            $this->app->make('streams.path') . '/resources'
-        );
     }
 }

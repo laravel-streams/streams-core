@@ -27,7 +27,6 @@ class AddonProvider
             $provider = get_class($addon) . 'ServiceProvider';
 
             if (!class_exists($provider)) {
-
                 continue;
             }
 

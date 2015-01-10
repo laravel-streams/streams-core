@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Image;
 
+use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Html\HtmlBuilder;
 use Intervention\Image\ImageManager;
 
@@ -84,13 +85,22 @@ class Image extends ImageManager
     protected $html;
 
     /**
+     * The stream application.
+     *
+     * @var Application
+     */
+    protected $application;
+
+    /**
      * Create a new Image instance.
      *
      * @param HtmlBuilder $html
+     * @param Application $application
      */
-    public function __construct(HtmlBuilder $html)
+    public function __construct(HtmlBuilder $html, Application $application)
     {
-        $this->html = $html;
+        $this->html        = $html;
+        $this->application = $application;
     }
 
     /**
@@ -154,7 +164,7 @@ class Image extends ImageManager
 
         $filename = md5(var_export([$this->image, $this->applied], true)) . '.' . $this->getExtension($this->image);
 
-        $path = 'assets/' . app('streams.application')->getReference() . '/' . $filename;
+        $path = 'assets/' . $this->application->getReference() . '/' . $filename;
 
         if (isset($_GET['_publish']) || !$file->exists($path)) {
             $this->publish($path);

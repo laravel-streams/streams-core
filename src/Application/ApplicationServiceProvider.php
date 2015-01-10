@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
+use Anomaly\Streams\Platform\Application\Command\LocateApplicationCommand;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +23,8 @@ class ApplicationServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->setCommandBusMapper();
+
+        $this->dispatch(new LocateApplicationCommand());
     }
 
     /**
@@ -41,26 +44,19 @@ class ApplicationServiceProvider extends ServiceProvider
      */
     protected function registerApplication()
     {
-        $this->app->instance('streams.application', app('Anomaly\Streams\Platform\Application\Application'));
+        $this->app->instance('streams.path', $this->app->make('path.base') . '/vendor/anomaly/streams-platform');
 
-        $this->app->instance('streams.path', base_path('vendor/anomaly/streams-platform'));
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Application\Application',
+            'Anomaly\Streams\Platform\Application\Application'
+        );
 
-        $this->app['config']->set(
+        $this->app->make('config')->set(
             'streams::config',
-            $this->app['files']->getRequire(__DIR__ . '/../../resources/config/config.php')
+            $this->app->make('files')->getRequire(__DIR__ . '/../../resources/config/config.php')
         );
 
         $this->app->make('view')->addNamespace('streams', $this->app['streams.path'] . '/resources/views');
-
-        if (file_exists(base_path('config/distribution.php'))) {
-
-            app('streams.application')->locate();
-
-            if (file_exists(base_path('config/database.php'))) {
-
-                app('streams.application')->setup();
-            }
-        }
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
+use Anomaly\Streams\Platform\Addon\FieldType\Command\RegisterFieldTypesCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -13,6 +15,16 @@ use Illuminate\Support\ServiceProvider;
 class FieldTypeServiceProvider extends ServiceProvider
 {
 
+    use DispatchesCommands;
+
+    /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        $this->dispatch(new RegisterFieldTypesCommand());
+    }
+
     /**
      * Register the service provider.
      *
@@ -20,26 +32,9 @@ class FieldTypeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerCollection();
-        $this->registerFieldTypes();
-    }
-
-    /**
-     * Register the field type collection.
-     */
-    protected function registerCollection()
-    {
         $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
             'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection'
         );
-    }
-
-    /**
-     * Register all the field type addons.
-     */
-    protected function registerFieldTypes()
-    {
-        $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager')->register('field_type');
     }
 }

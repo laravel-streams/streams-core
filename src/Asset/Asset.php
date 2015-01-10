@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Asset;
 
+use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Asset\Filter\CoffeePhpFilter;
 use Anomaly\Streams\Platform\Asset\Filter\CssMinFilter;
 use Anomaly\Streams\Platform\Asset\Filter\JSMinFilter;
@@ -54,6 +55,23 @@ class Asset
      * @var array
      */
     protected $collections = [];
+
+    /**
+     * The stream application.
+     *
+     * @var Application
+     */
+    protected $application;
+
+    /**
+     * Create a new Application instance.
+     *
+     * @param Application $application
+     */
+    public function __construct(Application $application)
+    {
+        $this->application = $application;
+    }
 
     /**
      * Add an asset or glob pattern to an asset collection.
@@ -161,7 +179,7 @@ class Asset
 
         $hint = $this->getHint($collection);
 
-        return 'assets/' . app('streams.application')->getReference() . '/' . $hash . '.' . $hint;
+        return 'assets/' . $this->application->getReference() . '/' . $hash . '.' . $hint;
     }
 
     /**

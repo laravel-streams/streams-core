@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModelsCommand;
 use Composer\Autoload\ClassLoader;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -14,6 +16,16 @@ use Illuminate\Support\ServiceProvider;
 class EntryServiceProvider extends ServiceProvider
 {
 
+    use DispatchesCommands;
+
+    /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        $this->dispatch(new AutoloadEntryModelsCommand());
+    }
+
     /**
      * Register the service provider.
      *
@@ -22,7 +34,6 @@ class EntryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerBindings();
-        $this->loadEntryModels();
     }
 
     /**
@@ -34,25 +45,9 @@ class EntryServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Entry\EntryModel',
             config('streams::config.entries.model')
         );
-
         $this->app->bind(
             'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface',
             config('streams::config.entries.repository')
         );
-    }
-
-    /**
-     * Load the generated entry models.
-     */
-    protected function loadEntryModels()
-    {
-        $loader = new ClassLoader();
-
-        $loader->addPsr4(
-            'Anomaly\Streams\Platform\Model\\',
-            base_path('storage/models/streams/' . app('streams.application')->getReference())
-        );
-
-        $loader->register();
     }
 }

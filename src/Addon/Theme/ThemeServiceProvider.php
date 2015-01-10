@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme;
 
 use Anomaly\Streams\Platform\Addon\Theme\Command\DetectActiveThemeCommand;
+use Anomaly\Streams\Platform\Addon\Theme\Command\RegisterThemesCommand;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +23,7 @@ class ThemeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->dispatch(new RegisterThemesCommand());
         $this->dispatch(new DetectActiveThemeCommand());
     }
 
@@ -32,27 +34,9 @@ class ThemeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerCollection();
-
-        $this->registerThemes();
-    }
-
-    /**
-     * Register the theme collection.
-     */
-    protected function registerCollection()
-    {
         $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
             'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'
         );
-    }
-
-    /**
-     * Register all theme addons.
-     */
-    protected function registerThemes()
-    {
-        $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager')->register('theme');
     }
 }

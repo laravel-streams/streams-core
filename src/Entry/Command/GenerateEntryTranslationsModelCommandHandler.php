@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command;
 
+use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Entry\Parser\EntryNamespaceParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationsClassParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationsTableParser;
@@ -15,6 +16,23 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class GenerateEntryTranslationsModelCommandHandler
 {
+
+    /**
+     * The streams application.
+     *
+     * @var Application
+     */
+    protected $application;
+
+    /**
+     * Create a new GenerateEntryTranslationsModelCommandHandler instance.
+     *
+     * @param Application $application
+     */
+    public function __construct(Application $application)
+    {
+        $this->application = $application;
+    }
 
     /**
      * Handle the command.
@@ -44,7 +62,7 @@ class GenerateEntryTranslationsModelCommandHandler
      */
     protected function getFilePath(StreamInterface $stream)
     {
-        $path = storage_path('models/streams/' . app('streams.application')->getReference() . '/');
+        $path = storage_path('models/streams/' . $this->application->getReference() . '/');
 
         $path .= studly_case($stream->getNamespace()) . '/';
 
