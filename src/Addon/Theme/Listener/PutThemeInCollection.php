@@ -39,7 +39,7 @@ class PutThemeInCollection
     public function handle(ThemeWasRegistered $event)
     {
         $theme = $event->getTheme();
-        
+
         $this->themes->put(get_class($theme), $theme);
     }
 }
