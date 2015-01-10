@@ -74,7 +74,10 @@ class DetectActiveThemeCommandHandler
                 app('view')->addNamespace('theme', $theme->getPath('resources/views'));
 
                 foreach (app('files')->files($theme->getPath('resources/config')) as $config) {
-                    app('config')->set($theme->getKey(basename(trim($config, '.php'))), app('files')->getRequire($config));
+                    app('config')->set(
+                        $theme->getKey(basename(trim($config, '.php'))),
+                        app('files')->getRequire($config)
+                    );
                 }
 
                 app('translator')->addNamespace('theme', $theme->getPath('resources/lang'));

@@ -54,13 +54,13 @@ class ModuleServiceProvider extends ServiceProvider
         );
 
         $this->app->make('events')->listen(
-            'Anomaly\Streams\Platform\Stream\Event\ModuleWasInstalled',
-            'Anomaly\Streams\Platform\Addon\Module\Listener\ModuleInstalledListener'
+            'streams::application.booting',
+            'Anomaly\Streams\Platform\Addon\Module\Listener\ModulesRegisteredListener'
         );
 
         $this->app->make('events')->listen(
-            'streams::application.booting',
-            'Anomaly\Streams\Platform\Addon\Module\Listener\ModulesRegisteredListener'
+            'Anomaly\Streams\Platform\Stream\Event\ModuleWasInstalled',
+            'Anomaly\Streams\Platform\Addon\Module\Listener\ModuleInstalledListener'
         );
     }
 

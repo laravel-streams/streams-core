@@ -72,7 +72,7 @@ class StreamModel extends EloquentModel implements StreamInterface
             foreach ($data['assignments'] as $assignment) {
 
                 if (isset($assignment['field'])) {
-                    
+
                     $assignment['field']['rules']  = unserialize($assignment['field']['rules']);
                     $assignment['field']['config'] = unserialize($assignment['field']['config']);
 

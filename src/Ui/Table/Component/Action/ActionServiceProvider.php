@@ -20,9 +20,5 @@ class ActionServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->make('events')->listen(
-            'streams::table.post',
-            'Anomaly\Streams\Platform\Ui\Table\Component\Action\Listener\TablePostListener'
-        );
     }
 }
