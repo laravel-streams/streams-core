@@ -20,14 +20,6 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerBindings();
-    }
-
-    /**
-     * Register bindings.
-     */
-    protected function registerBindings()
-    {
         $this->app->singleton(
             'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry',
             'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry'

@@ -34,14 +34,6 @@ class StreamServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerBindings();
-    }
-
-    /**
-     * Register stream management bindings.
-     */
-    protected function registerBindings()
-    {
         $this->app->bind(
             'Anomaly\Streams\Platform\Stream\StreamModel',
             config('streams::config.streams.model')

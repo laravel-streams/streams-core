@@ -34,19 +34,10 @@ class AssignmentServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerBindings();
-    }
-
-    /**
-     * Register assignment management bindings.
-     */
-    protected function registerBindings()
-    {
         $this->app->bind(
             'Anomaly\Streams\Platform\Assignment\AssignmentModel',
             config('streams::config.assignments.model')
         );
-
         $this->app->bind(
             'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface',
             config('streams::config.assignments.repository')

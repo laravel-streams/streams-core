@@ -29,29 +29,9 @@ class TableServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerComponents();
-        $this->registerListeners();
-    }
-
-    /**
-     * Register table components.
-     */
-    protected function registerComponents()
-    {
         $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\View\ViewServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnServiceProvider');
-    }
-
-    /**
-     * Register listeners.
-     */
-    protected function registerListeners()
-    {
-        $this->app->make('events')->listen(
-            'Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent',
-            'Anomaly\Streams\Platform\Ui\Table\Listener\TableQueryListener'
-        );
     }
 }

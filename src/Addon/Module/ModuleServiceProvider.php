@@ -38,15 +38,6 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerBindings();
-        $this->registerCollection();
-    }
-
-    /**
-     * Register the module management bindings.
-     */
-    protected function registerBindings()
-    {
         $this->app->bind(
             'Anomaly\Streams\Platform\Addon\Module\ModuleModel',
             config('streams::config.modules.model')
@@ -55,13 +46,7 @@ class ModuleServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface',
             config('streams::config.modules.repository')
         );
-    }
 
-    /**
-     * Register the module collection.
-     */
-    protected function registerCollection()
-    {
         $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
             'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'

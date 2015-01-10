@@ -35,14 +35,6 @@ class EntryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerBindings();
-    }
-
-    /**
-     * Register entry management bindings.
-     */
-    protected function registerBindings()
-    {
         $this->app->bind(
             'Anomaly\Streams\Platform\Entry\EntryModel',
             config('streams::config.entries.model')

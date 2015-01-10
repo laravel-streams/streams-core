@@ -28,14 +28,6 @@ class ButtonServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerBindings();
-    }
-
-    /**
-     * Register bindings.
-     */
-    protected function registerBindings()
-    {
         $this->app->singleton(
             'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry',
             'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry'

@@ -28,10 +28,6 @@ class FilterServiceProvider extends ServiceProvider
      */
     protected function registerBindings()
     {
-        $this->app->instance(
-            'streams::table.filter.factory',
-            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterFactory'
-        );
         $this->app->singleton(
             'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry',
             'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry'

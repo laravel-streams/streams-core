@@ -42,16 +42,6 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
             'Anomaly\Streams\Platform\Addon\AddonManager'
         );
 
-        // Register events.
-        $this->app->make('events')->listen(
-            'streams::application.booting',
-            'Anomaly\Streams\Platform\Addon\Listener\ApplicationBootingListener'
-        );
-        $this->app->make('events')->listen(
-            '\Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered',
-            'Anomaly\Streams\Platform\Addon\Listener\AddonRegisteredListener'
-        );
-
         // Register component service providers.
         $this->app->register('Anomaly\Streams\Platform\Addon\Distribution\DistributionServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Addon\Extension\ExtensionServiceProvider');
