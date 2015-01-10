@@ -61,16 +61,6 @@ class EloquentModel extends Model
     protected $titleKey = 'id';
 
     /**
-     * Boot the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        self::observe(new EloquentObserver());
-    }
-
-    /**
      * Return a new collection class with our models.
      *
      * @param  array $items
@@ -154,7 +144,7 @@ class EloquentModel extends Model
      */
     public function getTitleKey()
     {
-        return $this->titleKey ? : 'id';
+        return $this->titleKey ?: 'id';
     }
 
     /**

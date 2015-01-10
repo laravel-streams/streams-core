@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension\Command;
+<?php namespace Anomaly\Streams\Platform\Addon\FieldType\Command;
 
 use Illuminate\Events\Dispatcher;
 
@@ -8,7 +8,7 @@ use Illuminate\Events\Dispatcher;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Extension\Command
+ * @package       Anomaly\Streams\Platform\Addon\FieldType\Command
  */
 class RegisterListenersCommandHandler
 {
@@ -36,8 +36,8 @@ class RegisterListenersCommandHandler
     public function handle()
     {
         $this->dispatcher->listen(
-            'Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasRegistered',
-            'Anomaly\Streams\Platform\Addon\Extension\Listener\PutExtensionInCollection'
+            'Anomaly\Streams\Platform\Addon\FieldType\Event\FieldTypeWasRegistered',
+            'Anomaly\Streams\Platform\Addon\FieldType\Listener\PutFieldTypeInCollection'
         );
     }
 }

@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Illuminate\Container\Container;
+use Illuminate\Support\ServiceProvider;
+
 /**
  * Class AddonProvider
  *
@@ -12,25 +15,46 @@ class AddonProvider
 {
 
     /**
-     * Register all addon's of a given type.
+     * The application container.
      *
-     * @param $type
+     * @var Container
      */
-    public function register($type)
+    protected $container;
+
+    /**
+     * Create a new AddonProvider instance.
+     *
+     * @param Container $container
+     */
+    public function __construct(Container $container)
     {
-        $type = ucfirst(camel_case($type));
+        $this->container = $container;
+    }
 
-        $loaded = app("Anomaly\\Streams\\Platform\\Addon\\{$type}\\{$type}Collection");
+    /**
+     * Register the service provider for an addon.
+     *
+     * @param Addon $addon
+     */
+    public function register(Addon $addon)
+    {
+        $provider = get_class($addon) . 'ServiceProvider';
 
-        foreach ($loaded as $addon) {
+        if (class_exists($provider)) {
 
-            $provider = get_class($addon) . 'ServiceProvider';
+            $provider = $this->container->make($provider, [$this->container]);
 
-            if (!class_exists($provider)) {
-                continue;
-            }
-
-            app()->register($provider);
+            $this->registerProvider($provider);
         }
+    }
+
+    /**
+     * Register the actual provider object.
+     *
+     * @param ServiceProvider $provider
+     */
+    protected function registerProvider(ServiceProvider $provider)
+    {
+        $provider->register();
     }
 }

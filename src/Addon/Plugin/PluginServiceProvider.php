@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Plugin;
 
 use Anomaly\Streams\Platform\Addon\Plugin\Command\AddPluginsToTwigCommand;
+use Anomaly\Streams\Platform\Addon\Plugin\Command\RegisterListenersCommand;
 use Anomaly\Streams\Platform\Addon\Plugin\Command\RegisterPluginsCommand;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
@@ -23,6 +24,7 @@ class PluginServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->dispatch(new RegisterListenersCommand());
         $this->dispatch(new RegisterPluginsCommand());
         $this->dispatch(new AddPluginsToTwigCommand());
     }

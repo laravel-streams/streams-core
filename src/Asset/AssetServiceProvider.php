@@ -34,14 +34,11 @@ class AssetServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerAsset();
-    }
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Asset\Asset',
+            'Anomaly\Streams\Platform\Asset\Asset'
+        );
 
-    /**
-     * Register the asset class.
-     */
-    protected function registerAsset()
-    {
-        $this->app->singleton('Anomaly\Streams\Platform\Asset\Asset', 'Anomaly\Streams\Platform\Asset\Asset');
+        $this->app->instance('streams.path', $this->app->make('path.base') . '/vendor/anomaly/streams-platform');
     }
 }

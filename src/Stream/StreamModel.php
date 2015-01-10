@@ -32,16 +32,6 @@ class StreamModel extends EloquentModel implements StreamInterface
     protected $table = 'streams_streams';
 
     /**
-     * Boot the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        self::observe(new StreamObserver());
-    }
-
-    /**
      * Compile the entry models.
      *
      * @return mixed
@@ -63,7 +53,7 @@ class StreamModel extends EloquentModel implements StreamInterface
 
         $streamModel = app('Anomaly\Streams\Platform\Stream\StreamModel');
 
-        $data['view_options'] = serialize($data['view_options']);
+        $data['view_options'] = serialize(array_get($data, 'view_options', []));
 
         $streamModel->setRawAttributes($data);
 

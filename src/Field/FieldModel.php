@@ -49,16 +49,6 @@ class FieldModel extends EloquentModel implements FieldInterface
     protected $table = 'streams_fields';
 
     /**
-     * Boot the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        self::observe(new FieldObserver());
-    }
-
-    /**
      * Get the ID.
      *
      * @return mixed
@@ -100,7 +90,7 @@ class FieldModel extends EloquentModel implements FieldInterface
         $label  = $this->name;
         $config = $this->config;
 
-        $locale = $locale ? : config('app.locale');
+        $locale = $locale ?: config('app.locale');
 
         $data = compact('type', 'field', 'label', 'config', 'locale');
 

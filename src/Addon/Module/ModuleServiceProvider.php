@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Module\Command\DetectActiveModuleCommand;
+use Anomaly\Streams\Platform\Addon\Module\Command\RegisterListenersCommand;
 use Anomaly\Streams\Platform\Addon\Module\Command\RegisterModulesCommand;
 use Anomaly\Streams\Platform\Addon\Module\Command\SetModuleStatesCommand;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -24,9 +25,10 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->dispatch(new DetectActiveModuleCommand());
+        $this->dispatch(new RegisterListenersCommand());
         $this->dispatch(new RegisterModulesCommand());
         $this->dispatch(new SetModuleStatesCommand());
+        $this->dispatch(new DetectActiveModuleCommand());
     }
 
     /**
@@ -37,7 +39,6 @@ class ModuleServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerBindings();
-        $this->registerListeners();
         $this->registerCollection();
     }
 
@@ -50,21 +51,9 @@ class ModuleServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Module\ModuleModel',
             config('streams::config.modules.model')
         );
-
         $this->app->bind(
             'Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface',
             config('streams::config.modules.repository')
-        );
-    }
-
-    /**
-     * Register the module listener.
-     */
-    protected function registerListeners()
-    {
-        $this->app->make('events')->listen(
-            'Anomaly\Streams\Platform\Stream\Event\ModuleWasInstalled',
-            'Anomaly\Streams\Platform\Addon\Module\Listener\ModuleInstalledListener'
         );
     }
 

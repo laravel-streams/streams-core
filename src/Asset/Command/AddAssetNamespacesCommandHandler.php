@@ -55,7 +55,12 @@ class AddAssetNamespacesCommandHandler
      */
     public function handle()
     {
-        $assets    = $this->container->make('path.base') . '/assets/' . $this->application->getReference();
+        $this->container->instance(
+            'streams.asset.path',
+            $this->container->make('path.base') . '/assets/' . $this->application->getReference()
+        );
+
+        $assets    = $this->container->make('streams.asset.path');
         $resources = $this->container->make('streams.path') . '/resources';
 
         $this->asset->addNamespace('asset', $assets);

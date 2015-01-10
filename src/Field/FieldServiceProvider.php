@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
+use Anomaly\Streams\Platform\Field\Command\ObserveFieldModelCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -13,20 +15,22 @@ use Illuminate\Support\ServiceProvider;
 class FieldServiceProvider extends ServiceProvider
 {
 
+    use DispatchesCommands;
+
+    /**
+     * Register the service provider.
+     */
+    public function boot()
+    {
+        $this->dispatch(new ObserveFieldModelCommand());
+    }
+
     /**
      * Register the service provider.
      *
      * @return void
      */
     public function register()
-    {
-        $this->registerBindings();
-    }
-
-    /**
-     * Register field management bindings.
-     */
-    protected function registerBindings()
     {
         $this->app->bind(
             'Anomaly\Streams\Platform\Field\FieldModel',

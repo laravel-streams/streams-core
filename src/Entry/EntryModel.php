@@ -55,16 +55,6 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
     }
 
     /**
-     * Boot the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        self::observe(new EntryObserver());
-    }
-
-    /**
      * Set entry information that every record needs.
      *
      * @return EntryInterface
@@ -135,7 +125,7 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
      */
     public function getFieldValue($fieldSlug, $locale = null, $mutate = true)
     {
-        $locale = $locale ? : config('app.locale');
+        $locale = $locale ?: config('app.locale');
 
         if ($this->isTranslatable() && $translation = $this->translate($locale, false)) {
             return $translation->getAttribute($fieldSlug, false);

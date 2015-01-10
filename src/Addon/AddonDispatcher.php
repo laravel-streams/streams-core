@@ -5,7 +5,17 @@ use Anomaly\Streams\Platform\Addon\Block\Event\BlockWasRegistered;
 use Anomaly\Streams\Platform\Addon\Distribution\Distribution;
 use Anomaly\Streams\Platform\Addon\Distribution\Event\DistributionWasRegistered;
 use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
+use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasRegistered;
+use Anomaly\Streams\Platform\Addon\FieldType\Event\FieldTypeWasRegistered;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasRegistered;
+use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\Plugin\Event\PluginWasRegistered;
+use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
+use Anomaly\Streams\Platform\Addon\Theme\Event\ThemeWasRegistered;
+use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Illuminate\Events\Dispatcher;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * Class AddonDispatcher
@@ -50,6 +60,26 @@ class AddonDispatcher
 
         if ($addon instanceof Distribution) {
             $this->dispatcher->fire(new DistributionWasRegistered($addon));
+        }
+
+        if ($addon instanceof Extension) {
+            $this->dispatcher->fire(new ExtensionWasRegistered($addon));
+        }
+
+        if ($addon instanceof FieldType) {
+            $this->dispatcher->fire(new FieldTypeWasRegistered($addon));
+        }
+
+        if ($addon instanceof Module) {
+            $this->dispatcher->fire(new ModuleWasRegistered($addon));
+        }
+
+        if ($addon instanceof Plugin) {
+            $this->dispatcher->fire(new PluginWasRegistered($addon));
+        }
+
+        if ($addon instanceof Theme) {
+            $this->dispatcher->fire(new ThemeWasRegistered($addon));
         }
     }
 }

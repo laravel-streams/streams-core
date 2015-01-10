@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Addon\FieldType\Command\RegisterFieldTypesCommand;
+use Anomaly\Streams\Platform\Addon\FieldType\Command\RegisterListenersCommand;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +23,7 @@ class FieldTypeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->dispatch(new RegisterListenersCommand());
         $this->dispatch(new RegisterFieldTypesCommand());
     }
 

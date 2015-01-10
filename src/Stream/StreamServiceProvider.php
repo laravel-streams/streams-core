@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Stream\Command\ObserveStreamModelCommand;
+use Anomaly\Streams\Platform\Stream\Command\RegisterListenersCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -13,6 +16,17 @@ use Illuminate\Support\ServiceProvider;
 class StreamServiceProvider extends ServiceProvider
 {
 
+    use DispatchesCommands;
+
+    /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        $this->dispatch(new RegisterListenersCommand());
+        $this->dispatch(new ObserveStreamModelCommand());
+    }
+
     /**
      * Register the service provider.
      *
@@ -21,7 +35,6 @@ class StreamServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerBindings();
-        $this->registerListeners();
     }
 
     /**
@@ -36,25 +49,6 @@ class StreamServiceProvider extends ServiceProvider
         $this->app->bind(
             'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface',
             config('streams::config.streams.repository')
-        );
-    }
-
-    /**
-     * Register the stream listener.
-     */
-    protected function registerListeners()
-    {
-        $this->app->make('events')->listen(
-            'Anomaly\Streams\Platform\Stream\Event\StreamWasCreated',
-            'Anomaly\Streams\Platform\Stream\Listener\StreamCreatedListener'
-        );
-        $this->app->make('events')->listen(
-            'Anomaly\Streams\Platform\Stream\Event\StreamWasSaved',
-            'Anomaly\Streams\Platform\Stream\Listener\StreamSavedListener'
-        );
-        $this->app->make('events')->listen(
-            'Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted',
-            'Anomaly\Streams\Platform\Stream\Listener\StreamDeletedListener'
         );
     }
 }

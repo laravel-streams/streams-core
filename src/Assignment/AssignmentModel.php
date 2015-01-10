@@ -43,16 +43,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     protected $table = 'streams_assignments';
 
     /**
-     * Boot the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        self::observe(new AssignmentObserver());
-    }
-
-    /**
      * Get the field slug.
      *
      * @return mixed
@@ -117,9 +107,9 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getLabel($locale = null)
     {
-        $locale = $locale ? : config('app.locale');
+        $locale = $locale ?: config('app.locale');
 
-        $assignment = $this->translate($locale) ? : $this;
+        $assignment = $this->translate($locale) ?: $this;
 
         $label = $assignment->label;
 
@@ -139,9 +129,9 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getPlaceholder($locale = null)
     {
-        $locale = $locale ? : config('app.locale');
+        $locale = $locale ?: config('app.locale');
 
-        $assignment = $this->translate($locale) ? : $this;
+        $assignment = $this->translate($locale) ?: $this;
 
         $placeholder = $assignment->placeholder;
 
@@ -161,9 +151,9 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getInstructions($locale = null)
     {
-        $locale = $locale ? : config('app.locale');
+        $locale = $locale ?: config('app.locale');
 
-        $assignment = $this->translate($locale) ? : $this;
+        $assignment = $this->translate($locale) ?: $this;
 
         $instructions = $assignment->instructions;
 

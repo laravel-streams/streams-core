@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
 use Illuminate\Container\Container;
 
 /**
@@ -13,6 +12,13 @@ use Illuminate\Container\Container;
  */
 class AddonBinder
 {
+
+    /**
+     * The addon provider.
+     *
+     * @var AddonProvider
+     */
+    protected $provider;
 
     /**
      * The IoC container.
@@ -31,11 +37,13 @@ class AddonBinder
     /**
      * Create a new AddonBinder instance.
      *
+     * @param AddonProvider   $provider
      * @param Container       $container
      * @param AddonDispatcher $dispatcher
      */
-    public function __construct(Container $container, AddonDispatcher $dispatcher)
+    public function __construct(AddonProvider $provider, Container $container, AddonDispatcher $dispatcher)
     {
+        $this->provider   = $provider;
         $this->container  = $container;
         $this->dispatcher = $dispatcher;
     }
@@ -62,6 +70,8 @@ class AddonBinder
             ->setVendor($vendor);
 
         $this->container->instance(get_class($addon), $addon);
+
+        $this->provider->register($addon);
 
         $this->dispatcher->addonWasRegistered($addon);
     }

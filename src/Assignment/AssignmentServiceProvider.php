@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
+use Anomaly\Streams\Platform\Assignment\Command\ObserveAssignmentModelCommand;
+use Anomaly\Streams\Platform\Assignment\Command\RegisterListenersCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -13,6 +16,17 @@ use Illuminate\Support\ServiceProvider;
 class AssignmentServiceProvider extends ServiceProvider
 {
 
+    use DispatchesCommands;
+
+    /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        $this->dispatch(new RegisterListenersCommand());
+        $this->dispatch(new ObserveAssignmentModelCommand());
+    }
+
     /**
      * Register the service provider.
      *
@@ -21,7 +35,6 @@ class AssignmentServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerBindings();
-        $this->registerListeners();
     }
 
     /**
@@ -37,25 +50,6 @@ class AssignmentServiceProvider extends ServiceProvider
         $this->app->bind(
             'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface',
             config('streams::config.assignments.repository')
-        );
-    }
-
-    /**
-     * Register the assignment listener.
-     */
-    protected function registerListeners()
-    {
-        $this->app->make('events')->listen(
-            'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated',
-            'Anomaly\Streams\Platform\Assignment\Listener\AssignmentCreatedListener'
-        );
-        $this->app->make('events')->listen(
-            'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasSaved',
-            'Anomaly\Streams\Platform\Assignment\Listener\AssignmentSavedListener'
-        );
-        $this->app->make('events')->listen(
-            'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted',
-            'Anomaly\Streams\Platform\Assignment\Listener\AssignmentDeletedListener'
         );
     }
 }
