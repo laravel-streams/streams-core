@@ -17,14 +17,20 @@ class ApplicationServiceProvider extends ServiceProvider
     use DispatchesCommands;
 
     /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        $this->setCommandBusMapper();
+    }
+
+    /**
      * Register the service provider.
      *
      * @return void
      */
     public function register()
     {
-        $this->setCommandBusMapper();
-
         $this->registerApplication();
         $this->registerListeners();
         $this->configurePackages();
