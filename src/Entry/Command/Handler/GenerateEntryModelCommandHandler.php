@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command\Handler;
 
 use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelCommand;
 use Anomaly\Streams\Platform\Entry\Parser\EntryClassParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryDatesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryInterfacesParser;
@@ -90,18 +91,18 @@ class GenerateEntryModelCommandHandler
     protected function getTemplateData(StreamInterface $stream)
     {
         return [
-            'class'                 => (new EntryClassParser())->parse($stream),
-            'title'                 => (new EntryTitleParser())->parse($stream),
-            'table'                 => (new EntryTableParser())->parse($stream),
-            'rules'                 => (new EntryRulesParser())->parse($stream),
-            'dates'                 => (new EntryDatesParser())->parse($stream),
-            'stream'                => (new EntryStreamParser())->parse($stream),
-            'traits'                => (new EntryTraitsParser())->parse($stream),
-            'relations'             => (new EntryRelationsParser())->parse($stream),
-            'namespace'             => (new EntryNamespaceParser())->parse($stream),
-            'interfaces'            => (new EntryInterfacesParser())->parse($stream),
-            'translationModel'      => (new EntryTranslationModelParser())->parse($stream),
-            'translationForeignKey' => (new EntryTranslationForeignKeyParser())->parse($stream)
+            'class'                   => (new EntryClassParser())->parse($stream),
+            'title'                   => (new EntryTitleParser())->parse($stream),
+            'table'                   => (new EntryTableParser())->parse($stream),
+            'rules'                   => (new EntryRulesParser())->parse($stream),
+            'dates'                   => (new EntryDatesParser())->parse($stream),
+            'stream'                  => (new EntryStreamParser())->parse($stream),
+            'traits'                  => (new EntryTraitsParser())->parse($stream),
+            'relations'               => (new EntryRelationsParser())->parse($stream),
+            'namespace'               => (new EntryNamespaceParser())->parse($stream),
+            'interfaces'              => (new EntryInterfacesParser())->parse($stream),
+            'translation_model'       => (new EntryTranslationModelParser())->parse($stream),
+            'translation_foreign_key' => (new EntryTranslationForeignKeyParser())->parse($stream)
         ];
     }
 }

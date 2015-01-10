@@ -101,12 +101,12 @@ class CreateStreamCommand
         $slug,
         $prefix,
         $name,
-        $description,
-        array $viewOptions,
-        $titleColumn,
-        $orderBy,
-        $locked,
-        $translatable
+        $description = null,
+        array $viewOptions = [],
+        $titleColumn = null,
+        $orderBy = null,
+        $locked = false,
+        $translatable = false
     ) {
         $this->name         = $name;
         $this->slug         = $slug;

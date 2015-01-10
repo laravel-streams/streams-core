@@ -63,9 +63,9 @@ class Configuration
     {
         foreach ($this->filesystem->files($directory) as $file) {
 
-            dd($file);
+            $key = trim(basename($file), '.php');
 
-            $this->repository->set("{$namespace}::{$key}");
+            $this->repository->set("{$namespace}::{$key}", $this->filesystem->getRequire($file));
         }
     }
 }

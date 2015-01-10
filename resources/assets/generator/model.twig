@@ -1,25 +1,25 @@
-<?php namespace Anomaly\Streams\Platform\Model\$NAMESPACE$;
+<?php namespace Anomaly\Streams\Platform\Model\{{ namespace }};
 
 use Anomaly\Streams\Platform\Entry\EntryModel;
 
-class $CLASS$ extends EntryModel $INTERFACES$
+class {{ class }} extends EntryModel {{ interfaces }}
 {
 
-    $TRAITS$
+    {{ traits }}
 
-    protected $table = '$TABLE$';
+    protected $table = '{{ table }}';
 
-    protected $titleKey = '$TITLE$';
+    protected $titleKey = '{{ title }}';
 
-    public $rules = $RULES$;
+    public $rules = {{ rules }};
 
-    public $dates = $DATES$;
+    public $dates = {{ dates }};
 
-    $TRANSLATIONFOREIGNKEY$
+    {{ translation_foreign_key }}
 
-    $TRANSLATIONMODEL$
+    {{ translation_model }}
 
-    protected $stream = $STREAM$;
+    protected $stream = {{ stream }};
 
-    $RELATIONS$
+    {{ relations }}
 }

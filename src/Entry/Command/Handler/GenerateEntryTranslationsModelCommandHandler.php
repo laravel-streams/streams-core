@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command\Handler;
 
 use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModelCommand;
 use Anomaly\Streams\Platform\Entry\Parser\EntryNamespaceParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationsClassParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationsTableParser;
@@ -45,7 +46,7 @@ class GenerateEntryTranslationsModelCommandHandler
 
         $data = $this->getTemplateData($stream);
 
-        $template = file_get_contents(app('streams.path') . '/resources/assets/generator/translation.txt');
+        $template = file_get_contents(app('streams.path') . '/resources/assets/generator/translation.twig');
 
         $file = $this->getFilePath($stream);
 
