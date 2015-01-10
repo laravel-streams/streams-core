@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Plugin;
 
+use Anomaly\Streams\Platform\Addon\Plugin\Command\AddPluginsToTwigCommand;
+use Anomaly\Streams\Platform\Addon\Plugin\Command\RegisterPluginsCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -13,6 +16,17 @@ use Illuminate\Support\ServiceProvider;
 class PluginServiceProvider extends ServiceProvider
 {
 
+    use DispatchesCommands;
+
+    /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        $this->dispatch(new RegisterPluginsCommand());
+        $this->dispatch(new AddPluginsToTwigCommand());
+    }
+
     /**
      * Register the service provider.
      *
@@ -20,39 +34,9 @@ class PluginServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerListeners();
-        $this->registerCollection();
-
-        $this->registerPlugins();
-    }
-
-    /**
-     * Register the tag listener.
-     */
-    protected function registerListeners()
-    {
-        $this->app->make('events')->listen(
-            'streams::application.booting',
-            'Anomaly\Streams\Platform\Addon\Plugin\Listener\ApplicationBootingListener'
-        );
-    }
-
-    /**
-     * Register the tag collection.
-     */
-    protected function registerCollection()
-    {
         $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
             'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection'
         );
-    }
-
-    /**
-     * Register all tag addons.
-     */
-    protected function registerPlugins()
-    {
-        $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager')->register('plugin');
     }
 }

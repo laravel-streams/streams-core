@@ -1,5 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
+use Anomaly\Streams\Platform\Addon\Module\Command\DetectActiveModuleCommand;
+use Anomaly\Streams\Platform\Addon\Module\Command\RegisterModulesCommand;
+use Anomaly\Streams\Platform\Addon\Module\Command\SetModuleStatesCommand;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -13,6 +17,18 @@ use Illuminate\Support\ServiceProvider;
 class ModuleServiceProvider extends ServiceProvider
 {
 
+    use DispatchesCommands;
+
+    /**
+     * Boot the service.
+     */
+    public function boot()
+    {
+        $this->dispatch(new DetectActiveModuleCommand());
+        $this->dispatch(new RegisterModulesCommand());
+        $this->dispatch(new SetModuleStatesCommand());
+    }
+
     /**
      * Register the service provider.
      *
@@ -23,8 +39,6 @@ class ModuleServiceProvider extends ServiceProvider
         $this->registerBindings();
         $this->registerListeners();
         $this->registerCollection();
-
-        $this->registerModules();
     }
 
     /**
@@ -49,16 +63,6 @@ class ModuleServiceProvider extends ServiceProvider
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
-            'streams::application.booting',
-            'Anomaly\Streams\Platform\Addon\Module\Listener\ApplicationBootingListener'
-        );
-
-        $this->app->make('events')->listen(
-            'streams::application.booting',
-            'Anomaly\Streams\Platform\Addon\Module\Listener\ModulesRegisteredListener'
-        );
-
-        $this->app->make('events')->listen(
             'Anomaly\Streams\Platform\Stream\Event\ModuleWasInstalled',
             'Anomaly\Streams\Platform\Addon\Module\Listener\ModuleInstalledListener'
         );
@@ -73,13 +77,5 @@ class ModuleServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
             'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'
         );
-    }
-
-    /**
-     * Register all module addons.
-     */
-    protected function registerModules()
-    {
-        $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager')->register('module');
     }
 }
