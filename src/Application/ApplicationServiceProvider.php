@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Application\Command\LocateApplicationCommand;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Translation\Translator;
 
 /**
  * Class ApplicationServiceProvider
@@ -26,6 +27,8 @@ class ApplicationServiceProvider extends ServiceProvider
 
         $this->app->make('twig')->addExtension(app('TwigBridge\Extension\Laravel\Form'));
         $this->app->make('twig')->addExtension(app('TwigBridge\Extension\Laravel\Html'));
+
+        $this->app->make('Illuminate\Translation\Translator')->addNamespace('streams', $this->app['streams.path'] . '/resources/lang');
 
         $this->dispatch(new LocateApplicationCommand());
     }

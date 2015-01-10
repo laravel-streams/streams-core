@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\BuildColumnsCommand;
 
 /**
  * Class BuildColumnsCommandHandler

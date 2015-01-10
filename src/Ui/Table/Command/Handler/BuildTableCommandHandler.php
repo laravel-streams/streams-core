@@ -1,5 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command\Handler;
 
+use Anomaly\Streams\Platform\Ui\Table\Command\BuildTableCommand;
+use Anomaly\Streams\Platform\Ui\Table\Command\GetTableEntriesCommand;
+use Anomaly\Streams\Platform\Ui\Table\Command\SetTableModelCommand;
+use Anomaly\Streams\Platform\Ui\Table\Command\SetTableStreamCommand;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\BuildActionsCommand;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\SetActiveActionCommand;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\BuildFiltersCommand;

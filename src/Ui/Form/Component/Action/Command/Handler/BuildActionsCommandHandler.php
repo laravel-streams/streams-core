@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActionsCommand;
 
 /**
  * Class BuildActionsCommandHandler

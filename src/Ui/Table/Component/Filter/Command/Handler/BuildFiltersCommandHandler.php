@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\Handler;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\BuildFiltersCommand;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterBuilder;
 
 /**
