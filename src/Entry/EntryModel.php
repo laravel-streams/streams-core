@@ -286,7 +286,6 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
          * other things (including filters / views)
          * to modify the query before proceeding.
          */
-        // TODO: convert this to a command.
         app('events')->fire('streams::table.query', new TableQueryEvent($table, $query));
 
         /**
