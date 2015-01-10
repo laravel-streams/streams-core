@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -13,23 +14,7 @@ use Illuminate\Support\ServiceProvider;
 class ApplicationServiceProvider extends ServiceProvider
 {
 
-    /**
-     * Boot the service provider.
-     */
-    public function boot()
-    {
-        // Set the default command mapper.
-        $this->app->make('Illuminate\Bus\Dispatcher')->mapUsing(
-            function ($command) {
-                return get_class($command) . 'Handler@handle';
-            }
-        );
-
-        app('twig')->addExtension(app('TwigBridge\Extension\Laravel\Form'));
-        app('twig')->addExtension(app('TwigBridge\Extension\Laravel\Html'));
-
-        $this->app->make('events')->fire('streams::application.booting');
-    }
+    use DispatchesCommands;
 
     /**
      * Register the service provider.
@@ -38,34 +23,11 @@ class ApplicationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->checkDirectories();
+        $this->setCommandBusMapper();
+
         $this->registerApplication();
         $this->registerListeners();
         $this->configurePackages();
-    }
-
-    /**
-     * Check required directories as readable / writable.
-     */
-    protected function checkDirectories()
-    {
-        $directories = [
-            'storage/models',
-            'public/assets'
-        ];
-
-        if (config('app.debug')) {
-            foreach ($directories as $directory) {
-
-                $directory = base_path($directory);
-
-                if (app('request')->url() !== config('app.url')) {
-                    if (!is_writable($directory) || !is_readable($directory)) {
-                        throw new \Exception("[{$directory}] must be readable and writable.");
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -81,7 +43,6 @@ class ApplicationServiceProvider extends ServiceProvider
             'streams::config',
             $this->app['files']->getRequire(__DIR__ . '/../../resources/config/config.php')
         );
-        //$this->app->make('config')->addNamespace('streams', $this->app['streams.path'] . '/resources/config');
 
         $this->app->make('view')->addNamespace('streams', $this->app['streams.path'] . '/resources/views');
 
@@ -125,6 +86,19 @@ class ApplicationServiceProvider extends ServiceProvider
                 $twig->setLoader(new \Twig_Loader_String());
 
                 return $twig;
+            }
+        );
+    }
+
+    /**
+     * Use a custom mapper for commands.
+     */
+    protected function setCommandBusMapper()
+    {
+        // Set the default command mapper.
+        $this->app->make('Illuminate\Bus\Dispatcher')->mapUsing(
+            function ($command) {
+                return get_class($command) . 'Handler@handle';
             }
         );
     }

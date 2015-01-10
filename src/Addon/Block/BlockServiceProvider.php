@@ -21,7 +21,6 @@ class BlockServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerCollection();
-
         $this->registerBlocks();
     }
 

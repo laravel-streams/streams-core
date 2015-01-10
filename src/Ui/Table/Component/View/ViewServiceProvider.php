@@ -28,11 +28,6 @@ class ViewServiceProvider extends ServiceProvider
      */
     protected function registerBindings()
     {
-        $this->app->instance(
-            'streams::table.view.factory',
-            'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewFactory'
-        );
-
         $this->app->singleton(
             'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry',
             'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry'

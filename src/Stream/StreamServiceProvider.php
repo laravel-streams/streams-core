@@ -33,7 +33,6 @@ class StreamServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Stream\StreamModel',
             config('streams::config.streams.model')
         );
-
         $this->app->bind(
             'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface',
             config('streams::config.streams.repository')
@@ -49,12 +48,10 @@ class StreamServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Stream\Event\StreamWasCreated',
             'Anomaly\Streams\Platform\Stream\Listener\StreamCreatedListener'
         );
-
         $this->app->make('events')->listen(
             'Anomaly\Streams\Platform\Stream\Event\StreamWasSaved',
             'Anomaly\Streams\Platform\Stream\Listener\StreamSavedListener'
         );
-
         $this->app->make('events')->listen(
             'Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted',
             'Anomaly\Streams\Platform\Stream\Listener\StreamDeletedListener'

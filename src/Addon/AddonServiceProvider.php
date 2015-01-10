@@ -16,6 +16,7 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function register()
     {
+        // Register utilities.
         $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\AddonPaths',
             'Anomaly\Streams\Platform\Addon\AddonPaths'
@@ -36,14 +37,22 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
             'Anomaly\Streams\Platform\Addon\AddonIntegrator',
             'Anomaly\Streams\Platform\Addon\AddonIntegrator'
         );
-
         $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\AddonManager',
             'Anomaly\Streams\Platform\Addon\AddonManager'
         );
 
-        $this->registerListeners();
+        // Register events.
+        $this->app->make('events')->listen(
+            'streams::application.booting',
+            'Anomaly\Streams\Platform\Addon\Listener\ApplicationBootingListener'
+        );
+        $this->app->make('events')->listen(
+            '\Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered',
+            'Anomaly\Streams\Platform\Addon\Listener\AddonRegisteredListener'
+        );
 
+        // Register component service providers.
         $this->app->register('Anomaly\Streams\Platform\Addon\Distribution\DistributionServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Addon\Extension\ExtensionServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Addon\FieldType\FieldTypeServiceProvider');
@@ -51,23 +60,5 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Addon\Plugin\PluginServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Addon\Block\BlockServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Addon\Theme\ThemeServiceProvider');
-
-        $this->app->make('events')->fire('streams::addons.registered');
-    }
-
-    /**
-     * Register the addon listener.
-     */
-    protected function registerListeners()
-    {
-        $this->app->make('events')->listen(
-            'streams::application.booting',
-            'Anomaly\Streams\Platform\Addon\Listener\ApplicationBootingListener'
-        );
-
-        $this->app->make('events')->listen(
-            '\Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered',
-            'Anomaly\Streams\Platform\Addon\Listener\AddonRegisteredListener'
-        );
     }
 }

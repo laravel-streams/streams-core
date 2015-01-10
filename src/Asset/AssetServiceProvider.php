@@ -18,7 +18,7 @@ class AssetServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        app('twig')->addExtension(app('Anomaly\Streams\Platform\Asset\AssetPlugin'));
+        $this->app->make('twig')->addExtension(app('Anomaly\Streams\Platform\Asset\AssetPlugin'));
     }
 
     /**

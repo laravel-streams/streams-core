@@ -19,7 +19,7 @@ class TableServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        app('twig')->addExtension(app('Anomaly\Streams\Platform\Ui\Table\TablePlugin'));
+        $this->app->make('twig')->addExtension(app('Anomaly\Streams\Platform\Ui\Table\TablePlugin'));
     }
 
     /**

@@ -21,7 +21,6 @@ class FieldTypeServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerCollection();
-
         $this->registerFieldTypes();
     }
 

@@ -32,21 +32,9 @@ class ThemeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerListeners();
         $this->registerCollection();
 
         $this->registerThemes();
-    }
-
-    /**
-     * Register the theme listener.
-     */
-    protected function registerListeners()
-    {
-        $this->app->make('events')->listen(
-            'streams::application.booting',
-            'Anomaly\Streams\Platform\Addon\Theme\Listener\ApplicationBootingListener'
-        );
     }
 
     /**

@@ -18,7 +18,7 @@ class ButtonServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        app('twig')->addExtension(app('Anomaly\Streams\Platform\Ui\Button\ButtonPlugin'));
+        $this->app->make('twig')->addExtension(app('Anomaly\Streams\Platform\Ui\Button\ButtonPlugin'));
     }
 
     /**
@@ -36,11 +36,6 @@ class ButtonServiceProvider extends ServiceProvider
      */
     protected function registerBindings()
     {
-        $this->app->instance(
-            'streams::table.button.factory',
-            'Anomaly\Streams\Platform\Ui\Button\ButtonFactory'
-        );
-
         $this->app->singleton(
             'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry',
             'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry'

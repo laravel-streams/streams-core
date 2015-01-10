@@ -18,7 +18,7 @@ class ImageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        app('twig')->addExtension(app('Anomaly\Streams\Platform\Image\ImagePlugin'));
+        $this->app->make('twig')->addExtension(app('Anomaly\Streams\Platform\Image\ImagePlugin'));
     }
 
     /**

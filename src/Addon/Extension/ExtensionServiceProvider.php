@@ -21,7 +21,6 @@ class ExtensionServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerCollection();
-
         $this->registerExtensions();
     }
 
