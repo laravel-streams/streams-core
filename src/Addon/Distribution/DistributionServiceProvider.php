@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Distribution\Command\DetectActiveDistributionCommand;
 use Anomaly\Streams\Platform\Addon\Distribution\Command\RegisterDistributionsCommand;
+use Anomaly\Streams\Platform\Addon\Distribution\Command\RegisterListenersCommand;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,6 +24,7 @@ class DistributionServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->dispatch(new RegisterListenersCommand());
         $this->dispatch(new RegisterDistributionsCommand());
         $this->dispatch(new DetectActiveDistributionCommand());
 
@@ -35,26 +37,6 @@ class DistributionServiceProvider extends ServiceProvider
      * @return void
      */
     public function register()
-    {
-        $this->registerListeners();
-        $this->registerCollection();
-    }
-
-    /**
-     * Register the distribution listener.
-     */
-    protected function registerListeners()
-    {
-        $this->app->make('events')->listen(
-            'streams::application.booting',
-            'Anomaly\Streams\Platform\Addon\Distribution\Listener\ApplicationBootingListener'
-        );
-    }
-
-    /**
-     * Register the distribution collection.
-     */
-    protected function registerCollection()
     {
         $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection',
