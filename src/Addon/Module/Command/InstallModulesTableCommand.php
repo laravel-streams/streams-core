@@ -11,10 +11,4 @@
 class InstallModulesTableCommand
 {
 
-    /**
-     * Create a new InstallModulesTableCommand instance.
-     */
-    public function __construct()
-    {
-    }
 }

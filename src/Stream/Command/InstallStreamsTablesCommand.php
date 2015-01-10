@@ -11,10 +11,4 @@
 class InstallStreamsTablesCommand
 {
 
-    /**
-     * Create a new InstallStreamsTablesCommand instance.
-     */
-    public function __construct()
-    {
-    }
 }
