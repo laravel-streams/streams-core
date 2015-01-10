@@ -36,7 +36,7 @@ class RegisterListenersCommandHandler
     public function handle()
     {
         $this->dispatcher->listen(
-            'Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled',
+            'Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasRegistered',
             'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection'
         );
     }
