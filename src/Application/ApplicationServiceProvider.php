@@ -103,7 +103,12 @@ class ApplicationServiceProvider extends ServiceProvider
         // Set the default command mapper.
         $this->app->make('Illuminate\Bus\Dispatcher')->mapUsing(
             function ($command) {
-                return get_class($command) . 'Handler@handle';
+
+                $handler = explode('\\', get_class($command));
+
+                array_splice($handler, count($handler) - 1, 0, 'Handler');
+
+                return implode('\\', $handler) . 'Handler@handle';
             }
         );
     }
