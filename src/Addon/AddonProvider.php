@@ -55,6 +55,6 @@ class AddonProvider
      */
     protected function registerProvider(ServiceProvider $provider)
     {
-        $provider->register();
+        $this->container->register($provider);
     }
 }
