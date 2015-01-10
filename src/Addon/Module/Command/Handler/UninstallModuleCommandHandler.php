@@ -102,6 +102,6 @@ class UninstallModuleCommandHandler
      */
     protected function resolveInstaller(Module $module, $installer)
     {
-        return app()->make($installer, compact('module'));
+        return app()->make($installer, ['addon' => $module]);
     }
 }
