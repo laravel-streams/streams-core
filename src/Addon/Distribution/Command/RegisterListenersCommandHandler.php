@@ -41,7 +41,7 @@ class RegisterListenersCommandHandler
         );
         $this->dispatcher->listen(
             'Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered',
-            'Anomaly\Streams\Platform\Addon\Distribution\Listener\FireDistributionWasRegisteredEvent'
+            'Anomaly\Streams\Platform\Addon\Distribution\Listener\FireDistributionWasRegistered'
         );
     }
 }

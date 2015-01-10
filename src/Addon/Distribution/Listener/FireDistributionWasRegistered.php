@@ -6,14 +6,14 @@ use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
 use Illuminate\Events\Dispatcher;
 
 /**
- * Class FireDistributionWasRegisteredEvent
+ * Class FireDistributionWasRegistered
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Distribution\Listener
  */
-class FireDistributionWasRegisteredEvent
+class FireDistributionWasRegistered
 {
 
     /**
@@ -24,7 +24,7 @@ class FireDistributionWasRegisteredEvent
     protected $dispatcher;
 
     /**
-     * Create a new FireDistributionWasRegisteredEvent instance.
+     * Create a new FireDistributionWasRegistered instance.
      *
      * @param Dispatcher $dispatcher
      */
