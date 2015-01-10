@@ -50,7 +50,7 @@ class TableServiceProvider extends ServiceProvider
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
-            'streams::table.query',
+            'Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent',
             'Anomaly\Streams\Platform\Ui\Table\Listener\TableQueryListener'
         );
     }

@@ -46,17 +46,17 @@ class StreamServiceProvider extends ServiceProvider
     protected function registerListeners()
     {
         $this->app->make('events')->listen(
-            'streams::stream.created',
+            'Anomaly\Streams\Platform\Stream\Event\StreamWasCreated',
             'Anomaly\Streams\Platform\Stream\Listener\StreamCreatedListener'
         );
 
         $this->app->make('events')->listen(
-            'streams::stream.saved',
+            'Anomaly\Streams\Platform\Stream\Event\StreamWasSaved',
             'Anomaly\Streams\Platform\Stream\Listener\StreamSavedListener'
         );
 
         $this->app->make('events')->listen(
-            'streams::stream.deleted',
+            'Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted',
             'Anomaly\Streams\Platform\Stream\Listener\StreamDeletedListener'
         );
     }

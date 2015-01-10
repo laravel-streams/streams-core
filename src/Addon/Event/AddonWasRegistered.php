@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 
 /**
- * Class AddonRegisteredEvent
+ * Class AddonWasRegistered
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Event
  */
-class AddonRegisteredEvent
+class AddonWasRegistered
 {
 
     /**
@@ -21,7 +21,7 @@ class AddonRegisteredEvent
     protected $addon;
 
     /**
-     * Create a new AddonRegisteredEvent instance.
+     * Create a new AddonWasRegistered instance.
      *
      * @param Addon $addon
      */

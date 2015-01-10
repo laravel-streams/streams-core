@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Listener;
 
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentSavedEvent;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasSaved;
 
 /**
  * Class AssignmentSavedListener
@@ -17,9 +17,9 @@ class AssignmentSavedListener
      * When an assignment is saved we
      * need to recompile it's stream.
      *
-     * @param AssignmentSavedEvent $event
+     * @param AssignmentWasSaved $event
      */
-    public function handle(AssignmentSavedEvent $event)
+    public function handle(AssignmentWasSaved $event)
     {
         $assignment = $event->getAssignment();
 

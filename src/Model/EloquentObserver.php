@@ -1,5 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\Streams\Platform\Model\Event\ModelWasCreated;
+use Anomaly\Streams\Platform\Model\Event\ModelWasDeleted;
+use Anomaly\Streams\Platform\Model\Event\ModelWasRestored;
+use Anomaly\Streams\Platform\Model\Event\ModelWasSaved;
+use Anomaly\Streams\Platform\Model\Event\ModelWasUpdated;
+use Illuminate\Events\Dispatcher;
+
 /**
  * Class EloquentObserver
  *
@@ -10,6 +17,23 @@
  */
 class EloquentObserver
 {
+
+    /**
+     * The event dispatcher.
+     *
+     * @var \Illuminate\Events\Dispatcher
+     */
+    protected $dispatcher;
+
+    /**
+     * Create a new EloquentObserver instance.
+     *
+     * @param Dispatcher $dispatcher
+     */
+    public function __construct(Dispatcher $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
 
     /**
      * Run before creating a record.
@@ -27,7 +51,7 @@ class EloquentObserver
      */
     public function created(EloquentModel $model)
     {
-        $model->flushCacheCollection();
+        $this->dispatcher->fire(new ModelWasCreated($model));
     }
 
     /**
@@ -49,6 +73,7 @@ class EloquentObserver
      */
     public function saved(EloquentModel $model)
     {
+        $this->dispatcher->fire(new ModelWasSaved($model));
     }
 
     /**
@@ -67,7 +92,7 @@ class EloquentObserver
      */
     public function updated(EloquentModel $model)
     {
-        $model->flushCacheCollection();
+        $this->dispatcher->fire(new ModelWasUpdated($model));
     }
 
     /**
@@ -86,7 +111,7 @@ class EloquentObserver
      */
     public function deleted(EloquentModel $model)
     {
-        $model->flushCacheCollection();
+        $this->dispatcher->fire(new ModelWasDeleted($model));
     }
 
     /**
@@ -105,6 +130,6 @@ class EloquentObserver
      */
     public function restored(EloquentModel $model)
     {
-        $model->flushCacheCollection();
+        $this->dispatcher->fire(new ModelWasRestored($model));
     }
 }

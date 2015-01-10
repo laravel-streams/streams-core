@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Entry\EntryUtility;
 use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTableCommand;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Stream\Event\StreamCreatedEvent;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasCreated;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
@@ -41,9 +41,9 @@ class StreamCreatedListener
      * generation to do. Create the streams
      * table as well as the entry models.
      *
-     * @param StreamCreatedEvent $event
+     * @param StreamWasCreated $event
      */
-    public function handle(StreamCreatedEvent $event)
+    public function handle(StreamWasCreated $event)
     {
         $this->createStreamsTable($event->getStream());
         $this->generateEntryModels($event->getStream());

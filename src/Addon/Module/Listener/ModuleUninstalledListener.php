@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Listener;
 
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
-use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalledEvent;
+use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalled;
 
 /**
  * Class ModuleUninstalledListener
@@ -35,9 +35,9 @@ class ModuleUninstalledListener
      * When a module is physically uninstalled we need
      * to update it's database record as uninstalled too.
      *
-     * @param ModuleUninstalledEvent $event
+     * @param ModuleWasUninstalled $event
      */
-    public function handle(ModuleUninstalledEvent $event)
+    public function handle(ModuleWasUninstalled $event)
     {
         $module = $event->getModule();
 

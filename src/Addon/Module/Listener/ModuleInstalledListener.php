@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Listener;
 
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
-use Anomaly\Streams\Platform\Addon\Module\Event\ModuleInstalledEvent;
+use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
 
 /**
  * Class ModuleInstalledListener
@@ -35,9 +35,9 @@ class ModuleInstalledListener
      * When a module is physically installed we need
      * to update it's database record as installed too.
      *
-     * @param ModuleInstalledEvent $event
+     * @param ModuleWasInstalled $event
      */
-    public function handle(ModuleInstalledEvent $event)
+    public function handle(ModuleWasInstalled $event)
     {
         $module = $event->getModule();
 

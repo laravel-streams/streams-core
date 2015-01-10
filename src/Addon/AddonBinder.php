@@ -1,7 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Event\AddonRegisteredEvent;
+use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
 use Illuminate\Container\Container;
+use Illuminate\Events\Dispatcher;
 
 /**
  * Class AddonBinder
@@ -22,13 +23,22 @@ class AddonBinder
     protected $container;
 
     /**
+     * The event dispatcher.
+     *
+     * @var Dispatcher
+     */
+    protected $dispatcher;
+
+    /**
      * Create a new AddonBinder instance.
      *
-     * @param Container $container
+     * @param Container  $container
+     * @param Dispatcher $dispatcher
      */
-    public function __construct(Container $container)
+    public function __construct(Container $container, Dispatcher $dispatcher)
     {
-        $this->container = $container;
+        $this->container  = $container;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -52,20 +62,8 @@ class AddonBinder
             ->setSlug($slug)
             ->setVendor($vendor);
 
-        $this->bind($addon);
-
-        app('events')->fire("streams::addon.registered", new AddonRegisteredEvent($addon));
-        app('events')->fire("streams::{$type}.registered", new AddonRegisteredEvent($addon));
-        app('events')->fire("streams::{$type}.{$slug}.registered", new AddonRegisteredEvent($addon));
-    }
-
-    /**
-     * Bind the addon to the IoC container.
-     *
-     * @param Addon $addon
-     */
-    protected function bind(Addon $addon)
-    {
         $this->container->instance(get_class($addon), $addon);
+
+        $this->dispatcher->fire(new AddonWasRegistered($addon));
     }
 }

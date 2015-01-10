@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
-use Anomaly\Streams\Platform\Addon\Module\Event\ModuleUninstalledEvent;
+use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
 use Anomaly\Streams\Platform\Contract\InstallableInterface;
+use Illuminate\Events\Dispatcher;
 
 /**
  * Class UninstallModuleCommandHandler
@@ -25,13 +26,22 @@ class UninstallModuleCommandHandler
     protected $modules;
 
     /**
+     * The event dispatcher.
+     *
+     * @var Dispatcher
+     */
+    protected $dispatcher;
+
+    /**
      * Create a new UninstallModuleCommandHandler instance.
      *
      * @param ModuleCollection $modules
+     * @param Dispatcher       $dispatcher
      */
-    function __construct(ModuleCollection $modules)
+    function __construct(ModuleCollection $modules, Dispatcher $dispatcher)
     {
-        $this->modules = $modules;
+        $this->modules    = $modules;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -44,7 +54,7 @@ class UninstallModuleCommandHandler
     {
         $module = $this->modules->findBySlug($command->getModule());
 
-        if (!$module) {
+        if (!$module instanceof Module) {
             throw new \Exception("Module [$command->getModule()] not be found.");
         }
 
@@ -52,7 +62,7 @@ class UninstallModuleCommandHandler
             $this->runInstallers($module, $installer);
         }
 
-        app('events')->fire('streams::module.uninstalled', new ModuleUninstalledEvent($module));
+        $this->dispatcher->fire(new ModuleWasUninstalled($module));
 
         return true;
     }
@@ -91,6 +101,6 @@ class UninstallModuleCommandHandler
      */
     protected function resolveInstaller(Module $module, $installer)
     {
-        return app($installer, ['addon' => $module]);
+        return app()->make($installer, compact('module'));
     }
 }

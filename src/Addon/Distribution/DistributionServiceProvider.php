@@ -23,6 +23,7 @@ class DistributionServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->dispatch(new DetectActiveDistributionCommand());
+
         app('twig')->addExtension(app('Anomaly\Streams\Platform\Addon\Distribution\DistributionPlugin'));
     }
 
@@ -48,7 +49,6 @@ class DistributionServiceProvider extends ServiceProvider
             'streams::application.booting',
             'Anomaly\Streams\Platform\Addon\Distribution\Listener\ApplicationBootingListener'
         );
-
     }
 
     /**

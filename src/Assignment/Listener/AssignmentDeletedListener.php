@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Listener;
 
 use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumnCommand;
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentDeletedEvent;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
@@ -21,9 +21,9 @@ class AssignmentDeletedListener
      * When an assignment is deleted we need to drop
      * it's database column from the entry table.
      *
-     * @param AssignmentDeletedEvent $event
+     * @param AssignmentWasDeleted $event
      */
-    public function handle(AssignmentDeletedEvent $event)
+    public function handle(AssignmentWasDeleted $event)
     {
         $assignment = $event->getAssignment();
 

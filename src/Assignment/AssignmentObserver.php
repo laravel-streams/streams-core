@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreatedEvent;
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentDeletedEvent;
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentSavedEvent;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasSaved;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
 
@@ -24,7 +24,7 @@ class AssignmentObserver extends EloquentObserver
      */
     public function saved(EloquentModel $model)
     {
-        app('events')->fire('streams::assignment.saved', new AssignmentSavedEvent($model));
+        $this->dispatcher->fire(new AssignmentWasSaved($model));
 
         parent::saved($model);
     }
@@ -36,7 +36,7 @@ class AssignmentObserver extends EloquentObserver
      */
     public function created(EloquentModel $model)
     {
-        app('events')->fire('streams::assignment.created', new AssignmentCreatedEvent($model));
+        $this->dispatcher->fire(new AssignmentWasCreated($model));
 
         parent::created($model);
     }
@@ -48,7 +48,7 @@ class AssignmentObserver extends EloquentObserver
      */
     public function deleted(EloquentModel $model)
     {
-        app('events')->fire('streams::assignment.deleted', new AssignmentDeletedEvent($model));
+        $this->dispatcher->fire(new AssignmentWasDeleted($model));
 
         parent::deleted($model);
     }

@@ -66,7 +66,7 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
         );
 
         $this->app->make('events')->listen(
-            'streams::addon.registered',
+            '\Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered',
             'Anomaly\Streams\Platform\Addon\Listener\AddonRegisteredListener'
         );
     }

@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Addon\Event\AddonTypeWasRegistered;
+use Illuminate\Events\Dispatcher;
+
 /**
  * Class AddonManager
  *
@@ -33,17 +36,26 @@ class AddonManager
     protected $binder;
 
     /**
+     * The event dispatcher.
+     *
+     * @var Dispatcher
+     */
+    protected $dispatcher;
+
+    /**
      * Create a new AddonManager instance.
      *
      * @param AddonPaths  $paths
      * @param AddonBinder $binder
      * @param AddonLoader $loader
+     * @param Dispatcher  $dispatcher
      */
-    function __construct(AddonPaths $paths, AddonBinder $binder, AddonLoader $loader)
+    function __construct(AddonPaths $paths, AddonBinder $binder, AddonLoader $loader, Dispatcher $dispatcher)
     {
-        $this->paths  = $paths;
-        $this->binder = $binder;
-        $this->loader = $loader;
+        $this->paths      = $paths;
+        $this->binder     = $binder;
+        $this->loader     = $loader;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -51,14 +63,12 @@ class AddonManager
      */
     public function register($type)
     {
-        $plural = str_plural($type);
-
         foreach ($this->paths->all($type) as $path) {
 
             $this->loader->load($path);
             $this->binder->register($path);
 
-            app('events')->fire("streams::{$plural}.registered");
+            $this->dispatcher->fire(new AddonTypeWasRegistered($type));
         }
     }
 }

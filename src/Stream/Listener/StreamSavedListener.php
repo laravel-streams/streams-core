@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Entry\EntryUtility;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Stream\Event\StreamSavedEvent;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasSaved;
 
 /**
  * Class StreamSavedListener
@@ -36,9 +36,9 @@ class StreamSavedListener
      * When a stream is saved we need to
      * regenerate it's entry models.
      *
-     * @param StreamSavedEvent $event
+     * @param StreamWasSaved $event
      */
-    public function handle(StreamSavedEvent $event)
+    public function handle(StreamWasSaved $event)
     {
         $this->generateEntryModels($event->getStream());
     }

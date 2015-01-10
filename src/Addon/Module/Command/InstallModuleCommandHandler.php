@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
-use Anomaly\Streams\Platform\Addon\Module\Event\ModuleInstalledEvent;
+use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
 use Anomaly\Streams\Platform\Contract\InstallableInterface;
+use Illuminate\Events\Dispatcher;
 
 /**
  * Class InstallModuleCommandHandler
@@ -25,13 +26,22 @@ class InstallModuleCommandHandler
     protected $modules;
 
     /**
+     * The event dispatcher.
+     *
+     * @var \Illuminate\Events\Dispatcher
+     */
+    protected $dispatcher;
+
+    /**
      * Create a new InstallModuleCommandHandler instance.
      *
      * @param ModuleCollection $modules
+     * @param Dispatcher       $dispatcher
      */
-    public function __construct(ModuleCollection $modules)
+    public function __construct(ModuleCollection $modules, Dispatcher $dispatcher)
     {
-        $this->modules = $modules;
+        $this->modules    = $modules;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -52,7 +62,7 @@ class InstallModuleCommandHandler
             $this->runInstallers($module, $installer);
         }
 
-        app('events')->fire('streams::module.installed', new ModuleInstalledEvent($module));
+        $this->dispatcher->fire(new ModuleWasInstalled($module));
 
         return true;
     }
@@ -91,6 +101,6 @@ class InstallModuleCommandHandler
      */
     protected function resolveInstaller(Module $module, $installer)
     {
-        return app()->make($installer, ['addon' => $module]);
+        return app()->make($installer, compact('module'));
     }
 }

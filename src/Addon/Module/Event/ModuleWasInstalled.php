@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Addon\Module\Module;
 
 /**
- * Class ModuleInstalledEvent
+ * Class ModuleWasInstalled
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Module\Event
  */
-class ModuleInstalledEvent
+class ModuleWasInstalled
 {
 
     /**
@@ -21,7 +21,7 @@ class ModuleInstalledEvent
     protected $module;
 
     /**
-     * Create a new ModuleInstalledEvent instance.
+     * Create a new ModuleWasInstalled instance.
      *
      * @param Module $module
      */

@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Listener;
 
 use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumnCommand;
-use Anomaly\Streams\Platform\Assignment\Event\AssignmentCreatedEvent;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
@@ -21,9 +21,9 @@ class AssignmentCreatedListener
      * When an assignment is created we need to
      * add it's database column to the entry table.
      *
-     * @param AssignmentCreatedEvent $event
+     * @param AssignmentWasCreated $event
      */
-    public function handle(AssignmentCreatedEvent $event)
+    public function handle(AssignmentWasCreated $event)
     {
         $assignment = $event->getAssignment();
 

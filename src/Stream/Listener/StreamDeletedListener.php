@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Listener;
 
 use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTableCommand;
-use Anomaly\Streams\Platform\Stream\Event\StreamDeletedEvent;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
@@ -21,9 +21,9 @@ class StreamDeletedListener
      * When a stream is deleted we need to
      * drop the database table.
      *
-     * @param StreamDeletedEvent $event
+     * @param StreamWasDeleted $event
      */
-    public function handle(StreamDeletedEvent $event)
+    public function handle(StreamWasDeleted $event)
     {
         $stream = $event->getStream();
 

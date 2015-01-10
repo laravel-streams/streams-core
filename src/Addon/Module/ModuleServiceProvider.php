@@ -54,7 +54,7 @@ class ModuleServiceProvider extends ServiceProvider
         );
 
         $this->app->make('events')->listen(
-            'streams::module.installed',
+            'Anomaly\Streams\Platform\Stream\Event\ModuleWasInstalled',
             'Anomaly\Streams\Platform\Addon\Module\Listener\ModuleInstalledListener'
         );
 
