@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType\Command\Handler;
 
+use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
 use Illuminate\Container\Container;
