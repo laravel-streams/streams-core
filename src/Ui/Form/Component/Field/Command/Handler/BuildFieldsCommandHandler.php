@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\Handler;
 
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\BuildFieldsCommand;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldBuilder;
 
 /**

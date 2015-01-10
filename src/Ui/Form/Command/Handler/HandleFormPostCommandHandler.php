@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command\Handler;
 
+use Anomaly\Streams\Platform\Ui\Form\Command\HandleFormPostCommand;
+use Anomaly\Streams\Platform\Ui\Form\Command\SaveFormInputCommand;
+use Anomaly\Streams\Platform\Ui\Form\Command\ValidateFormInputCommand;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetFormResponseCommand;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 

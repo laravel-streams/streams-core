@@ -1,5 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command\Handler;
 
+use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormCommand;
+use Anomaly\Streams\Platform\Ui\Form\Command\SetFormEntryCommand;
+use Anomaly\Streams\Platform\Ui\Form\Command\SetFormModelCommand;
+use Anomaly\Streams\Platform\Ui\Form\Command\SetFormStreamCommand;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActionsCommand;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveActionCommand;
 use Anomaly\Streams\Platform\Ui\Form\Component\Button\Command\BuildButtonsCommand;

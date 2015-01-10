@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\Handler;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\GetHeadingCommand;
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\HeaderHeading;
 
 /**
