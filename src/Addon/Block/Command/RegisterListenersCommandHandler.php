@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Distribution\Command;
+<?php namespace Anomaly\Streams\Platform\Addon\Block\Command;
 
 use Illuminate\Events\Dispatcher;
 
@@ -8,7 +8,7 @@ use Illuminate\Events\Dispatcher;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Distribution\Command
+ * @package       Anomaly\Streams\Platform\Addon\Block\Command
  */
 class RegisterListenersCommandHandler
 {
@@ -21,11 +21,11 @@ class RegisterListenersCommandHandler
     protected $dispatcher;
 
     /**
-     * Create a new RegisterListenersCommandHandler instance.
+     * Create a new RegisterListenersCommand instance.
      *
      * @param Dispatcher $dispatcher
      */
-    function __construct(Dispatcher $dispatcher)
+    public function __construct(Dispatcher $dispatcher)
     {
         $this->dispatcher = $dispatcher;
     }
@@ -36,8 +36,8 @@ class RegisterListenersCommandHandler
     public function handle()
     {
         $this->dispatcher->listen(
-            'Anomaly\Streams\Platform\Addon\Distribution\Event\DistributionWasRegistered',
-            'Anomaly\Streams\Platform\Addon\Distribution\Listener\PutDistributionInCollection'
+            'Anomaly\Streams\Platform\Addon\Block\Event\BlockWasRegistered',
+            'Anomaly\Streams\Platform\Addon\Block\Listener\PutBlockInCollection'
         );
     }
 }

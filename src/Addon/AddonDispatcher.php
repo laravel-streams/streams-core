@@ -1,19 +1,21 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Distribution\Listener;
+<?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Addon\Block\Block;
+use Anomaly\Streams\Platform\Addon\Block\Event\BlockWasRegistered;
 use Anomaly\Streams\Platform\Addon\Distribution\Distribution;
 use Anomaly\Streams\Platform\Addon\Distribution\Event\DistributionWasRegistered;
 use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
 use Illuminate\Events\Dispatcher;
 
 /**
- * Class FireDistributionWasRegistered
+ * Class AddonDispatcher
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Addon\Distribution\Listener
+ * @package       Anomaly\Streams\Platform\Addon
  */
-class FireDistributionWasRegistered
+class AddonDispatcher
 {
 
     /**
@@ -24,7 +26,7 @@ class FireDistributionWasRegistered
     protected $dispatcher;
 
     /**
-     * Create a new FireDistributionWasRegistered instance.
+     * Create a new AddonDispatcher instance.
      *
      * @param Dispatcher $dispatcher
      */
@@ -34,13 +36,17 @@ class FireDistributionWasRegistered
     }
 
     /**
-     * Handle the event.
+     * Disperse the AddonWasRegistered event.
      *
-     * @param AddonWasRegistered $event
+     * @param Addon $addon
      */
-    public function handle(AddonWasRegistered $event)
+    public function addonWasRegistered(Addon $addon)
     {
-        $addon = $event->getAddon();
+        $this->dispatcher->fire(new AddonWasRegistered($addon));
+
+        if ($addon instanceof Block) {
+            $this->dispatcher->fire(new BlockWasRegistered($addon));
+        }
 
         if ($addon instanceof Distribution) {
             $this->dispatcher->fire(new DistributionWasRegistered($addon));

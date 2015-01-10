@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
 use Illuminate\Container\Container;
-use Illuminate\Events\Dispatcher;
 
 /**
  * Class AddonBinder
@@ -23,19 +22,19 @@ class AddonBinder
     protected $container;
 
     /**
-     * The event dispatcher.
+     * The addon dispatcher.
      *
-     * @var Dispatcher
+     * @var AddonDispatcher
      */
     protected $dispatcher;
 
     /**
      * Create a new AddonBinder instance.
      *
-     * @param Container  $container
-     * @param Dispatcher $dispatcher
+     * @param Container       $container
+     * @param AddonDispatcher $dispatcher
      */
-    public function __construct(Container $container, Dispatcher $dispatcher)
+    public function __construct(Container $container, AddonDispatcher $dispatcher)
     {
         $this->container  = $container;
         $this->dispatcher = $dispatcher;
@@ -64,6 +63,6 @@ class AddonBinder
 
         $this->container->instance(get_class($addon), $addon);
 
-        $this->dispatcher->fire(new AddonWasRegistered($addon));
+        $this->dispatcher->addonWasRegistered($addon);
     }
 }
