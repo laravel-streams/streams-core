@@ -11,15 +11,15 @@ class {{ class }} extends EntryModel {{ interfaces }}
 
     protected $titleKey = '{{ title }}';
 
-    public $rules = {{ rules }};
+    public $rules = {{ rules|raw }};
 
-    public $dates = {{ dates }};
+    public $dates = {{ dates|raw }};
 
-    {{ translation_foreign_key }}
+    {{ translation_foreign_key|raw }}
 
-    {{ translation_model }}
+    {{ translation_model|raw }}
 
-    protected $stream = {{ stream }};
+    protected $stream = {{ stream|raw }};
 
-    {{ relations }}
+    {{ relations|raw }}
 }
