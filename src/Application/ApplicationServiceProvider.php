@@ -24,6 +24,9 @@ class ApplicationServiceProvider extends ServiceProvider
     {
         $this->setCommandBusMapper();
 
+        $this->app->make('twig')->addExtension(app('TwigBridge\Extension\Laravel\Form'));
+        $this->app->make('twig')->addExtension(app('TwigBridge\Extension\Laravel\Html'));
+
         $this->dispatch(new LocateApplicationCommand());
     }
 

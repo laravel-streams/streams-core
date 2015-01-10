@@ -28,6 +28,13 @@ class AddonBinder
     protected $container;
 
     /**
+     * The addon integrator.
+     *
+     * @var AddonIntegrator
+     */
+    protected $integrator;
+
+    /**
      * The addon dispatcher.
      *
      * @var AddonDispatcher
@@ -37,15 +44,21 @@ class AddonBinder
     /**
      * Create a new AddonBinder instance.
      *
-     * @param AddonProvider   $provider
      * @param Container       $container
+     * @param AddonProvider   $provider
+     * @param AddonIntegrator $integrator
      * @param AddonDispatcher $dispatcher
      */
-    public function __construct(AddonProvider $provider, Container $container, AddonDispatcher $dispatcher)
-    {
+    public function __construct(
+        Container $container,
+        AddonProvider $provider,
+        AddonIntegrator $integrator,
+        AddonDispatcher $dispatcher
+    ) {
         $this->provider   = $provider;
         $this->container  = $container;
         $this->dispatcher = $dispatcher;
+        $this->integrator = $integrator;
     }
 
     /**
@@ -72,6 +85,7 @@ class AddonBinder
         $this->container->instance(get_class($addon), $addon);
 
         $this->provider->register($addon);
+        $this->integrator->register($addon);
 
         $this->dispatcher->addonWasRegistered($addon);
     }

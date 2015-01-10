@@ -57,7 +57,7 @@ class AddAssetNamespacesCommandHandler
     {
         $this->container->instance(
             'streams.asset.path',
-            $this->container->make('path.base') . '/assets/' . $this->application->getReference()
+            $this->container->make('path.public') . '/assets/' . $this->application->getReference()
         );
 
         $assets    = $this->container->make('streams.asset.path');

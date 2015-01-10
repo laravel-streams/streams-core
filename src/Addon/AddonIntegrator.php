@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
+use Illuminate\View\Factory;
 
 /**
  * Class AddonIntegrator
@@ -14,10 +15,27 @@ use Anomaly\Streams\Platform\Image\Image;
 class AddonIntegrator
 {
 
+    /**
+     * The asset utility.
+     *
+     * @var Asset
+     */
     protected $asset;
 
+    /**
+     * The image utility.
+     *
+     * @var Image
+     */
     protected $image;
 
+    /**
+     * Create a new AddonIntegrator instance.
+     *
+     * @param Asset   $asset
+     * @param Image   $image
+     * @param Factory $views
+     */
     public function __construct(Asset $asset, Image $image)
     {
         $this->asset = $asset;
@@ -25,28 +43,11 @@ class AddonIntegrator
     }
 
     /**
-     * Register the namespaces and integrations for
-     * all registered addons of a given type.
-     *
-     * @param $type
-     */
-    public function register($type)
-    {
-        $type = ucfirst(camel_case($type));
-
-        $loaded = app("Anomaly\\Streams\\Platform\\Addon\\{$type}\\{$type}Collection");
-
-        foreach ($loaded as $addon) {
-            $this->addNamespaces($addon);
-        }
-    }
-
-    /**
-     * Add utility namespaces for an addon.
+     * Register integrations for an addon.
      *
      * @param Addon $addon
      */
-    protected function addNamespaces(Addon $addon)
+    public function register(Addon $addon)
     {
         app('view')->addNamespace($addon->getKey(), $addon->getPath('resources/views'));
 
