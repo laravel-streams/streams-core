@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command\Handler;
 
 use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Application\Command\CreateApplicationTablesCommand;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
@@ -38,11 +39,15 @@ class CreateApplicationTablesCommandHandler
 
     /**
      * Create a new CreateApplicationTablesCommandHandler instance.
+     *
+     * @param Application $application
      */
-    public function __construct()
+    public function __construct(Application $application)
     {
         $this->db     = app('db');
         $this->schema = app('db')->connection()->getSchemaBuilder();
+
+        $this->application = $application;
     }
 
     /**
