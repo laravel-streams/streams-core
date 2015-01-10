@@ -86,7 +86,6 @@ class AddonBinder
 
         $this->provider->register($addon);
         $this->integrator->register($addon);
-
         $this->dispatcher->addonWasRegistered($addon);
     }
 }

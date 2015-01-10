@@ -33,7 +33,7 @@ class DetectActiveModuleCommandHandler
     /**
      * The loaded modules.
      *
-     * @var \Anomaly\Streams\Platform\Addon\Module\ModuleCollection
+     * @var ModuleCollection
      */
     protected $modules;
 

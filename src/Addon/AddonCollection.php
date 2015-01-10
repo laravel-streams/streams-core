@@ -51,8 +51,10 @@ class AddonCollection extends Collection
      */
     public function findBySlug($slug)
     {
-        if (isset($this->items[$slug])) {
-            return $this->items[$slug];
+        foreach ($this->items as $item) {
+            if ($item instanceof Addon && $item->getSlug() == $slug) {
+                return $item;
+            }
         }
 
         return null;

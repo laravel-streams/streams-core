@@ -11,10 +11,4 @@
 class DetectActiveModuleCommand
 {
 
-    /**
-     * Create a new DetectActiveModuleCommand instance.
-     */
-    public function __construct()
-    {
-    }
 }
