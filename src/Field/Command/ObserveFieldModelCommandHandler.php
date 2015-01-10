@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Field\Command;
+<?php namespace Anomaly\Streams\Platform\Field\Command\Handler;
 
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Field\FieldObserver;

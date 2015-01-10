@@ -1,5 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Command\Handler;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Command\TableQueryCommand;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewQuery;
 
 /**

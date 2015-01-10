@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Application\Command;
+<?php namespace Anomaly\Streams\Platform\Application\Command\Handler;
 
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Container\Container;

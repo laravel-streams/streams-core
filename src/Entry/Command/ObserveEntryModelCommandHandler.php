@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Command;
+<?php namespace Anomaly\Streams\Platform\Entry\Command\Handler;
 
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Entry\EntryObserver;

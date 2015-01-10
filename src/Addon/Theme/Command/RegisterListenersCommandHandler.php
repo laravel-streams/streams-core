@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Theme\Command;
+<?php namespace Anomaly\Streams\Platform\Addon\Theme\Command\Handler;
 
 use Illuminate\Events\Dispatcher;
 

@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Model\Command;
+<?php namespace Anomaly\Streams\Platform\Model\Command\Handler;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;

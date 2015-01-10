@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Command;
+s<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Command\Handler;
+
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Command\SetActiveViewCommand;
 
 /**
  * Class SetActiveViewCommandHandler

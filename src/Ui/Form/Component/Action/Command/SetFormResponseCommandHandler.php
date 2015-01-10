@@ -1,6 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionResponder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetFormResponseCommand;
 
 /**
  * Class SetFormResponseCommandHandler

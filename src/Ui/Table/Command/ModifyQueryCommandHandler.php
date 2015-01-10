@@ -1,5 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Command\Handler;
 
+use Anomaly\Streams\Platform\Ui\Table\Command\ModifyQueryCommand;
+use Anomaly\Streams\Platform\Ui\Table\Command\OrderQueryCommand;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\FilterQueryCommand;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Command\TableQueryCommand;
 use Illuminate\Foundation\Bus\DispatchesCommands;

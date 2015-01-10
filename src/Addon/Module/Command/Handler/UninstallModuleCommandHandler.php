@@ -1,5 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
+<?php namespace Anomaly\Streams\Platform\Addon\Module\Command\Handler;
 
+use Anomaly\Streams\Platform\Addon\Module\Command\UninstallModuleCommand;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;

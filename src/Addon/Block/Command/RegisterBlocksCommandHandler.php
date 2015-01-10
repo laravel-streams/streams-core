@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Block\Command;
+<?php namespace Anomaly\Streams\Platform\Addon\Block\Command\Handler;
 
 use Anomaly\Streams\Platform\Addon\AddonManager;
 

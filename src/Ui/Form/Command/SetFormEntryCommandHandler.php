@@ -1,5 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Command\Handler;
 
+use Anomaly\Streams\Platform\Ui\Form\Command\SetFormEntryCommand;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 
 /**

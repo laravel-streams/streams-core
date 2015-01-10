@@ -1,6 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Command\Handler;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Ui\Table\Command\SetTableStreamCommand;
 
 /**
  * Class SetTableStreamCommandHandler
