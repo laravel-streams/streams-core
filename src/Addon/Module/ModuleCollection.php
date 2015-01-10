@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Illuminate\Support\Collection;
 
 /**
  * Class ModuleCollection
@@ -108,9 +107,9 @@ class ModuleCollection extends AddonCollection
     /**
      * Set the installed and enabled states.
      *
-     * @param Collection $installed
+     * @param array $installed
      */
-    public function setStates(Collection $states)
+    public function setStates(array $states)
     {
         foreach ($states as $state) {
             if (isset($this->items[$state->slug]) && $module = $this->items[$state->slug]) {
