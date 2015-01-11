@@ -73,7 +73,7 @@ class FieldInstaller implements InstallableInterface
             $locked = (array_get($field, 'locked', true));
 
             $namespace = array_get($field, 'namespace', $this->addon->getSlug());
-            $name      = array_get($field, 'name', $this->addon->getKey("field.{$slug}.name"));
+            $name      = array_get($field, 'name', $this->addon->getNamespace("field.{$slug}.name"));
 
             $this->manager->create(compact('slug', 'type', 'namespace', 'name', 'rules', 'config', 'locked'));
         }

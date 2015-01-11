@@ -69,7 +69,7 @@ class Addon implements PresentableInterface
      */
     public function getName()
     {
-        return $this->getKey('addon.name');
+        return $this->getNamespace('addon.name');
     }
 
     /**
@@ -79,16 +79,16 @@ class Addon implements PresentableInterface
      */
     public function getDescription()
     {
-        return $this->getKey('addon.description');
+        return $this->getNamespace('addon.description');
     }
 
     /**
-     * Get a key prefixed by the addon's namespace.
+     * Get a namespaced key string.
      *
      * @param  null $key
      * @return string
      */
-    public function getKey($key = null)
+    public function getNamespace($key = null)
     {
         return "{$this->getVendor()}.{$this->getType()}.{$this->getSlug()}" . ($key ? '::' . $key : $key);
     }

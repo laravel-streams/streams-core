@@ -40,6 +40,6 @@ class PutDistributionInCollection
     {
         $distribution = $event->getDistribution();
 
-        $this->distributions->put($distribution->getKey(), $distribution);
+        $this->distributions->put($distribution->getNamespace(), $distribution);
     }
 }

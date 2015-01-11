@@ -75,7 +75,7 @@ class DetectActiveThemeHandler
 
                 foreach (app('files')->files($theme->getPath('resources/config')) as $config) {
                     app('config')->set(
-                        $theme->getKey(basename(trim($config, '.php'))),
+                        $theme->getNamespace(basename(trim($config, '.php'))),
                         app('files')->getRequire($config)
                     );
                 }

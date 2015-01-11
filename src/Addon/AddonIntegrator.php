@@ -49,15 +49,15 @@ class AddonIntegrator
      */
     public function register(Addon $addon)
     {
-        app('view')->addNamespace($addon->getKey(), $addon->getPath('resources/views'));
+        app('view')->addNamespace($addon->getNamespace(), $addon->getPath('resources/views'));
 
         foreach (app('files')->files($addon->getPath('resources/config')) as $config) {
-            app('config')->set($addon->getKey(basename(trim($config, '.php'))), app('files')->getRequire($config));
+            app('config')->set($addon->getNamespace(basename(trim($config, '.php'))), app('files')->getRequire($config));
         }
 
-        app('translator')->addNamespace($addon->getKey(), $addon->getPath('resources/lang'));
+        app('translator')->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
 
-        $this->asset->addNamespace($addon->getKey(), $addon->getPath('resources'));
-        $this->image->addNamespace($addon->getKey(), $addon->getPath('resources'));
+        $this->asset->addNamespace($addon->getNamespace(), $addon->getPath('resources'));
+        $this->image->addNamespace($addon->getNamespace(), $addon->getPath('resources'));
     }
 }
