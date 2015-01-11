@@ -114,7 +114,6 @@ class ModuleCollection extends AddonCollection
         foreach ($states as $state) {
             if ($module = $this->findBySlug($state->slug)) {
                 $this->setFlags($module, $state);
-                $this->push($module);
             }
         }
     }
