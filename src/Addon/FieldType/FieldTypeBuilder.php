@@ -24,7 +24,7 @@ class FieldTypeBuilder
     public function build(array $field)
     {
         return $this->dispatchFromArray(
-            'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand',
+            'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType',
             $field
         );
     }

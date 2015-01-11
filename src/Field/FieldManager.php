@@ -25,7 +25,7 @@ class FieldManager
      */
     public function create(array $field)
     {
-        return $this->dispatchFromArray('Anomaly\Streams\Platform\Field\Command\CreateFieldCommand', $field);
+        return $this->dispatchFromArray('Anomaly\Streams\Platform\Field\Command\CreateField', $field);
     }
 
     /**
@@ -52,7 +52,7 @@ class FieldManager
     public function assign($namespace, $stream, $field, array $assignment)
     {
         return $this->dispatchFromArray(
-            'Anomaly\Streams\Platform\Field\Command\AssignFieldCommand',
+            'Anomaly\Streams\Platform\Field\Command\AssignField',
             array_merge($assignment, compact('namespace', 'stream', 'field'))
         );
     }

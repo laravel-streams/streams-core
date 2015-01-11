@@ -24,7 +24,7 @@ class StreamManager
      */
     public function create(array $stream)
     {
-        return $this->dispatchFromArray('Anomaly\Streams\Platform\Stream\Command\CreateStreamCommand', $stream);
+        return $this->dispatchFromArray('Anomaly\Streams\Platform\Stream\Command\CreateStream', $stream);
     }
 
     /**

@@ -1,14 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType\Command;
 
 /**
- * Class BuildFieldTypeCommand
+ * Class BuildFieldType
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\FieldType\Command
  */
-class BuildFieldTypeCommand
+class BuildFieldType
 {
 
     /**
@@ -117,7 +117,7 @@ class BuildFieldTypeCommand
     protected $wrapperView;
 
     /**
-     * Create a new BuildFieldTypeCommand instance.
+     * Create a new BuildFieldType instance.
      *
      * @param       $type
      * @param       $field

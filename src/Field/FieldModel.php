@@ -94,7 +94,7 @@ class FieldModel extends EloquentModel implements FieldInterface
 
         $data = compact('type', 'field', 'label', 'config', 'locale');
 
-        $command = 'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand';
+        $command = 'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType';
 
         $type = $this->dispatchFromArray($command, $data);
 

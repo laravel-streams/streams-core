@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType\Command\Handler;
 
-use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldTypeCommand;
+use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
 use Illuminate\Container\Container;
@@ -42,10 +42,10 @@ class BuildFieldTypeHandler
     /**
      * Handle the command.
      *
-     * @param  BuildFieldTypeCommand $command
+     * @param  BuildFieldType $command
      * @return mixed
      */
-    public function handle(BuildFieldTypeCommand $command)
+    public function handle(BuildFieldType $command)
     {
         $fieldType = $this->getFieldType($command);
 
@@ -80,10 +80,10 @@ class BuildFieldTypeHandler
     /**
      * Get the field type class.
      *
-     * @param  BuildFieldTypeCommand $command
+     * @param  BuildFieldType $command
      * @return FieldType
      */
-    protected function getFieldType(BuildFieldTypeCommand $command)
+    protected function getFieldType(BuildFieldType $command)
     {
         $fieldType = $command->getType();
 
