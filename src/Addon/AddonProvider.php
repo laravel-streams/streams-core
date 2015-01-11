@@ -42,7 +42,7 @@ class AddonProvider
 
         if (class_exists($provider)) {
 
-            $provider = $this->container->make($provider, [$this->container]);
+            $provider = new $provider($this->container);
 
             $this->registerProvider($provider);
         }

@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
-use Illuminate\View\Factory;
 
 /**
  * Class AddonIntegrator
@@ -32,9 +31,8 @@ class AddonIntegrator
     /**
      * Create a new AddonIntegrator instance.
      *
-     * @param Asset   $asset
-     * @param Image   $image
-     * @param Factory $views
+     * @param Asset $asset
+     * @param Image $image
      */
     public function __construct(Asset $asset, Image $image)
     {
@@ -52,7 +50,10 @@ class AddonIntegrator
         app('view')->addNamespace($addon->getNamespace(), $addon->getPath('resources/views'));
 
         foreach (app('files')->files($addon->getPath('resources/config')) as $config) {
-            app('config')->set($addon->getNamespace(basename(trim($config, '.php'))), app('files')->getRequire($config));
+            app('config')->set(
+                $addon->getNamespace(basename(trim($config, '.php'))),
+                app('files')->getRequire($config)
+            );
         }
 
         app('translator')->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));

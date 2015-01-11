@@ -42,23 +42,33 @@ class AddonBinder
     protected $dispatcher;
 
     /**
+     * The addon configuration utility.
+     *
+     * @var AddonConfiguration
+     */
+    protected $configuration;
+
+    /**
      * Create a new AddonBinder instance.
      *
-     * @param Container       $container
-     * @param AddonProvider   $provider
-     * @param AddonIntegrator $integrator
-     * @param AddonDispatcher $dispatcher
+     * @param Container          $container
+     * @param AddonProvider      $provider
+     * @param AddonIntegrator    $integrator
+     * @param AddonDispatcher    $dispatcher
+     * @param AddonConfiguration $configuration
      */
     public function __construct(
         Container $container,
         AddonProvider $provider,
         AddonIntegrator $integrator,
-        AddonDispatcher $dispatcher
+        AddonDispatcher $dispatcher,
+        AddonConfiguration $configuration
     ) {
-        $this->provider   = $provider;
-        $this->container  = $container;
-        $this->dispatcher = $dispatcher;
-        $this->integrator = $integrator;
+        $this->provider      = $provider;
+        $this->container     = $container;
+        $this->dispatcher    = $dispatcher;
+        $this->integrator    = $integrator;
+        $this->configuration = $configuration;
     }
 
     /**
@@ -83,6 +93,13 @@ class AddonBinder
             ->setVendor($vendor);
 
         $this->container->instance(get_class($addon), $addon);
+
+        /**
+         * Load addon configuration before running
+         * the addon's service provider so we can
+         * use configurable bindings.
+         */
+        $this->configuration->load($addon);
 
         $this->provider->register($addon);
         $this->integrator->register($addon);
