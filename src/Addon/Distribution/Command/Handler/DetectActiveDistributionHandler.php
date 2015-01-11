@@ -6,14 +6,14 @@ use Anomaly\Streams\Platform\Image\Image;
 use Illuminate\Container\Container;
 
 /**
- * Class DetectActiveDistributionCommandHandler
+ * Class DetectActiveDistributionHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Distribution\Command
  */
-class DetectActiveDistributionCommandHandler
+class DetectActiveDistributionHandler
 {
 
     /**
@@ -38,7 +38,7 @@ class DetectActiveDistributionCommandHandler
     protected $container;
 
     /**
-     * Create a new DetectActiveDistributionCommandHandler instance.
+     * Create a new DetectActiveDistributionHandler instance.
      *
      * @param Asset     $asset
      * @param Image     $image

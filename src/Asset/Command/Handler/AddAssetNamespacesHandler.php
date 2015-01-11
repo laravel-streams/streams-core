@@ -5,14 +5,14 @@ use Anomaly\Streams\Platform\Asset\Asset;
 use Illuminate\Container\Container;
 
 /**
- * Class AddAssetNamespacesCommandHandler
+ * Class AddAssetNamespacesHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Asset\Command
  */
-class AddAssetNamespacesCommandHandler
+class AddAssetNamespacesHandler
 {
 
     /**
@@ -37,7 +37,7 @@ class AddAssetNamespacesCommandHandler
     protected $application;
 
     /**
-     * Create a new AddAssetNamespacesCommandHandler instance.
+     * Create a new AddAssetNamespacesHandler instance.
      *
      * @param Asset       $asset
      * @param Container   $container

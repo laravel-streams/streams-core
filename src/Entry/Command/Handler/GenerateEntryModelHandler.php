@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command\Handler;
 
 use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelCommand;
+use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModel;
 use Anomaly\Streams\Platform\Entry\Parser\EntryClassParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryDatesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryInterfacesParser;
@@ -17,14 +17,14 @@ use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class GenerateEntryModelCommandHandler
+ * Class GenerateEntryModelHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Entry\Command
  */
-class GenerateEntryModelCommandHandler
+class GenerateEntryModelHandler
 {
 
     /**
@@ -35,7 +35,7 @@ class GenerateEntryModelCommandHandler
     protected $application;
 
     /**
-     * Create a new GenerateEntryModelCommandHandler instance.
+     * Create a new GenerateEntryModelHandler instance.
      *
      * @param Application $application
      */
@@ -47,9 +47,9 @@ class GenerateEntryModelCommandHandler
     /**
      * Handle the command.
      *
-     * @param GenerateEntryModelCommand $command
+     * @param GenerateEntryModel $command
      */
-    public function handle(GenerateEntryModelCommand $command)
+    public function handle(GenerateEntryModel $command)
     {
         $stream = $command->getStream();
 

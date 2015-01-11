@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Addon\AddonManager;
 
 /**
- * Class RegisterFieldTypesCommandHandler
+ * Class RegisterFieldTypesHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\FieldType\Command
  */
-class RegisterFieldTypesCommandHandler
+class RegisterFieldTypesHandler
 {
 
     /**
@@ -21,7 +21,7 @@ class RegisterFieldTypesCommandHandler
     protected $manager;
 
     /**
-     * Create a new RegisterFieldTypesCommandHandler instance.
+     * Create a new RegisterFieldTypesHandler instance.
      *
      * @param AddonManager $manager
      */

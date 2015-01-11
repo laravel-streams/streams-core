@@ -4,14 +4,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Schema\Blueprint;
 
 /**
- * Class CreateRevisionsTableCommandHandler
+ * Class CreateRevisionsTableHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Application\Command
  */
-class CreateRevisionsTableCommandHandler
+class CreateRevisionsTableHandler
 {
 
     /**
@@ -29,7 +29,7 @@ class CreateRevisionsTableCommandHandler
     protected $schema;
 
     /**
-     * Create a new CreateRevisionsTableCommandHandler instance.
+     * Create a new CreateRevisionsTableHandler instance.
      */
     public function __construct()
     {

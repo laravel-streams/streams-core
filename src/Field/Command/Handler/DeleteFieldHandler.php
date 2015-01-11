@@ -1,17 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command\Handler;
 
-use Anomaly\Streams\Platform\Field\Command\DeleteFieldCommand;
+use Anomaly\Streams\Platform\Field\Command\DeleteField;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 
 /**
- * Class DeleteFieldCommandHandler
+ * Class DeleteFieldHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Field\Command
  */
-class DeleteFieldCommandHandler
+class DeleteFieldHandler
 {
 
     /**
@@ -22,7 +22,7 @@ class DeleteFieldCommandHandler
     protected $fields;
 
     /**
-     * Create a new DeleteFieldCommandHandler instance.
+     * Create a new DeleteFieldHandler instance.
      *
      * @param FieldRepositoryInterface $fields
      */
@@ -34,10 +34,10 @@ class DeleteFieldCommandHandler
     /**
      * Handle the command.
      *
-     * @param  DeleteFieldCommand $command
+     * @param  DeleteField $command
      * @return \Anomaly\Streams\Platform\Field\Contract\FieldInterface
      */
-    public function handle(DeleteFieldCommand $command)
+    public function handle(DeleteField $command)
     {
         return $this->fields->delete(
             $command->getNamespace(),

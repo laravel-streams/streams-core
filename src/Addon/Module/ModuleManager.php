@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
-use Anomaly\Streams\Platform\Addon\Module\Command\InstallModuleCommand;
-use Anomaly\Streams\Platform\Addon\Module\Command\SyncModulesCommand;
-use Anomaly\Streams\Platform\Addon\Module\Command\UninstallModuleCommand;
+use Anomaly\Streams\Platform\Addon\Module\Command\InstallModule;
+use Anomaly\Streams\Platform\Addon\Module\Command\SyncModules;
+use Anomaly\Streams\Platform\Addon\Module\Command\UninstallModule;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
@@ -26,7 +26,7 @@ class ModuleManager
      */
     public function install($module)
     {
-        $this->dispatch(new InstallModuleCommand($module));
+        $this->dispatch(new InstallModule($module));
     }
 
     /**
@@ -37,7 +37,7 @@ class ModuleManager
      */
     public function uninstall($module)
     {
-        $this->dispatch(new UninstallModuleCommand($module));
+        $this->dispatch(new UninstallModule($module));
     }
 
     /**
@@ -45,6 +45,6 @@ class ModuleManager
      */
     public function sync()
     {
-        $this->dispatch(new SyncModulesCommand());
+        $this->dispatch(new SyncModules());
     }
 }

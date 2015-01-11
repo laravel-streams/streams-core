@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
-use Anomaly\Streams\Platform\Field\Command\DeleteFieldCommand;
+use Anomaly\Streams\Platform\Field\Command\DeleteField;
 use Anomaly\Streams\Platform\Field\Command\UnassignField;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
@@ -37,7 +37,7 @@ class FieldManager
      */
     public function delete($namespace, $slug)
     {
-        return $this->dispatch(new DeleteFieldCommand($namespace, $slug));
+        return $this->dispatch(new DeleteField($namespace, $slug));
     }
 
     /**

@@ -1,19 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command\Handler;
 
 use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Application\Command\CreateApplicationTablesCommand;
+use Anomaly\Streams\Platform\Application\Command\CreateApplicationTables;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
 /**
- * Class CreateApplicationTablesCommandHandler
+ * Class CreateApplicationTablesHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Application\Command
  */
-class CreateApplicationTablesCommandHandler
+class CreateApplicationTablesHandler
 {
 
     /**
@@ -38,7 +38,7 @@ class CreateApplicationTablesCommandHandler
     protected $application;
 
     /**
-     * Create a new CreateApplicationTablesCommandHandler instance.
+     * Create a new CreateApplicationTablesHandler instance.
      *
      * @param Application $application
      */
@@ -53,9 +53,9 @@ class CreateApplicationTablesCommandHandler
     /**
      * Install the application table and initial data.
      *
-     * @param CreateApplicationTablesCommand $command
+     * @param CreateApplicationTables $command
      */
-    public function handle(CreateApplicationTablesCommand $command)
+    public function handle(CreateApplicationTables $command)
     {
         $this->setPrefix(null);
 

@@ -5,14 +5,14 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Module\ModuleManager;
 
 /**
- * Class InstallAllModulesCommandHandler
+ * Class InstallAllModulesHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Module\Command
  */
-class InstallAllModulesCommandHandler
+class InstallAllModulesHandler
 {
 
     /**
@@ -30,7 +30,7 @@ class InstallAllModulesCommandHandler
     protected $modules;
 
     /**
-     * Create a new InstallAllModulesCommandHandler instance.
+     * Create a new InstallAllModulesHandler instance.
      *
      * @param ModuleManager $service
      */

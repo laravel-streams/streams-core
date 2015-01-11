@@ -6,14 +6,14 @@ use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
 
 /**
- * Class DetectActiveModuleCommandHandler
+ * Class DetectActiveModuleHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Module\Command
  */
-class DetectActiveModuleCommandHandler
+class DetectActiveModuleHandler
 {
 
     /**
@@ -38,7 +38,7 @@ class DetectActiveModuleCommandHandler
     protected $modules;
 
     /**
-     * Create a new DetectActiveModuleCommandHandler instance.
+     * Create a new DetectActiveModuleHandler instance.
      *
      * @param ModuleCollection $modules
      */

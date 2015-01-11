@@ -4,14 +4,14 @@ use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
 
 /**
- * Class ObserveAssignmentModelCommandHandler
+ * Class ObserveAssignmentModelHandler
  *
  * @link          http://anomaly.is/assignments-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Model\Command
  */
-class ObserveAssignmentModelCommandHandler
+class ObserveAssignmentModelHandler
 {
 
     /**
@@ -29,7 +29,7 @@ class ObserveAssignmentModelCommandHandler
     protected $observer;
 
     /**
-     * Create a new ObserveAssignmentModelCommandHandler instance.
+     * Create a new ObserveAssignmentModelHandler instance.
      *
      * @param AssignmentModel    $model
      * @param AssignmentObserver $observer

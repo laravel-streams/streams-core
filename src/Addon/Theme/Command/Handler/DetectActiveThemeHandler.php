@@ -6,14 +6,14 @@ use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
 
 /**
- * Class DetectActiveThemeCommandHandler
+ * Class DetectActiveThemeHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Theme\Command
  */
-class DetectActiveThemeCommandHandler
+class DetectActiveThemeHandler
 {
 
     /**
@@ -38,7 +38,7 @@ class DetectActiveThemeCommandHandler
     protected $distributions;
 
     /**
-     * Create a new DetectActiveThemeCommandHandler instance.
+     * Create a new DetectActiveThemeHandler instance.
      *
      * @param Asset                  $asset
      * @param Image                  $image

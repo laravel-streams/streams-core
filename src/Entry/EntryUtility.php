@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModelCommand;
-use Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModelCommand;
+use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModel;
+use Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
@@ -26,14 +26,14 @@ class EntryUtility
     public function recompile(StreamInterface $stream)
     {
         // Generate the base model.
-        $this->dispatch(new GenerateEntryModelCommand($stream));
+        $this->dispatch(new GenerateEntryModel($stream));
 
         /**
          * If the stream is translatable generate
          * the translations model too.
          */
         if ($stream->isTranslatable()) {
-            $this->dispatch(new GenerateEntryTranslationsModelCommand($stream));
+            $this->dispatch(new GenerateEntryTranslationsModel($stream));
         }
     }
 }

@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
-use Anomaly\Streams\Platform\Application\Command\LocateApplicationCommand;
+use Anomaly\Streams\Platform\Application\Command\LocateApplication;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Translation\Translator;
@@ -30,7 +30,7 @@ class ApplicationServiceProvider extends ServiceProvider
 
         $this->app->make('Illuminate\Translation\Translator')->addNamespace('streams', $this->app['streams.path'] . '/resources/lang');
 
-        $this->dispatch(new LocateApplicationCommand());
+        $this->dispatch(new LocateApplication());
     }
 
     /**

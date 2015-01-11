@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Block;
 
-use Anomaly\Streams\Platform\Addon\Block\Command\RegisterBlocksCommand;
-use Anomaly\Streams\Platform\Addon\Block\Command\RegisterListenersCommand;
+use Anomaly\Streams\Platform\Addon\Block\Command\RegisterBlocks;
+use Anomaly\Streams\Platform\Addon\Block\Command\RegisterListeners;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,8 +23,8 @@ class BlockServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->dispatch(new RegisterListenersCommand());
-        $this->dispatch(new RegisterBlocksCommand());
+        $this->dispatch(new RegisterListeners());
+        $this->dispatch(new RegisterBlocks());
     }
 
     /**

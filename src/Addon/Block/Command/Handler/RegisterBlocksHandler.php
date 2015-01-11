@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Addon\AddonManager;
 
 /**
- * Class RegisterBlocksCommandHandler
+ * Class RegisterBlocksHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Block\Command
  */
-class RegisterBlocksCommandHandler
+class RegisterBlocksHandler
 {
 
     /**
@@ -21,7 +21,7 @@ class RegisterBlocksCommandHandler
     protected $manager;
 
     /**
-     * Create a new RegisterBlocksCommandHandler instance.
+     * Create a new RegisterBlocksHandler instance.
      *
      * @param AddonManager $manager
      */

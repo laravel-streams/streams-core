@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command\Handler;
 
-use Anomaly\Streams\Platform\Addon\Module\Command\UninstallModuleCommand;
+use Anomaly\Streams\Platform\Addon\Module\Command\UninstallModule;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
@@ -9,14 +9,14 @@ use Anomaly\Streams\Platform\Contract\InstallableInterface;
 use Illuminate\Events\Dispatcher;
 
 /**
- * Class UninstallModuleCommandHandler
+ * Class UninstallModuleHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Module\Command
  */
-class UninstallModuleCommandHandler
+class UninstallModuleHandler
 {
 
     /**
@@ -34,7 +34,7 @@ class UninstallModuleCommandHandler
     protected $dispatcher;
 
     /**
-     * Create a new UninstallModuleCommandHandler instance.
+     * Create a new UninstallModuleHandler instance.
      *
      * @param ModuleCollection $modules
      * @param Dispatcher       $dispatcher
@@ -48,10 +48,10 @@ class UninstallModuleCommandHandler
     /**
      * Handle the command.
      *
-     * @param  UninstallModuleCommand $command
+     * @param  UninstallModule $command
      * @return bool
      */
-    public function handle(UninstallModuleCommand $command)
+    public function handle(UninstallModule $command)
     {
         $module = $this->modules->findBySlug($command->getModule());
 

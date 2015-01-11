@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Model\Command\ObserveEloquentModelCommand;
+use Anomaly\Streams\Platform\Model\Command\ObserveEloquentModel;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,7 +22,7 @@ class EloquentServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->dispatch(new ObserveEloquentModelCommand());
+        $this->dispatch(new ObserveEloquentModel());
     }
 
     /**

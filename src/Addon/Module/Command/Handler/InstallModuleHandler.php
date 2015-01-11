@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command\Handler;
 
-use Anomaly\Streams\Platform\Addon\Module\Command\InstallModuleCommand;
+use Anomaly\Streams\Platform\Addon\Module\Command\InstallModule;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
@@ -9,14 +9,14 @@ use Anomaly\Streams\Platform\Contract\InstallableInterface;
 use Illuminate\Events\Dispatcher;
 
 /**
- * Class InstallModuleCommandHandler
+ * Class InstallModuleHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Module\Command
  */
-class InstallModuleCommandHandler
+class InstallModuleHandler
 {
 
     /**
@@ -34,7 +34,7 @@ class InstallModuleCommandHandler
     protected $dispatcher;
 
     /**
-     * Create a new InstallModuleCommandHandler instance.
+     * Create a new InstallModuleHandler instance.
      *
      * @param ModuleCollection $modules
      * @param Dispatcher       $dispatcher
@@ -48,10 +48,10 @@ class InstallModuleCommandHandler
     /**
      * Install a module.
      *
-     * @param  InstallModuleCommand $command
+     * @param  InstallModule $command
      * @return bool
      */
-    public function handle(InstallModuleCommand $command)
+    public function handle(InstallModule $command)
     {
         $module = $this->modules->findBySlug($command->getModule());
 

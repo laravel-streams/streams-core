@@ -6,14 +6,14 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
 use Illuminate\Container\Container;
 
 /**
- * Class BuildFieldTypeCommandHandler
+ * Class BuildFieldTypeHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\FieldType\Command
  */
-class BuildFieldTypeCommandHandler
+class BuildFieldTypeHandler
 {
 
     /**
@@ -31,7 +31,7 @@ class BuildFieldTypeCommandHandler
     protected $fieldTypes;
 
     /**
-     * Create a new BuildFieldTypeCommandHandler instance.
+     * Create a new BuildFieldTypeHandler instance.
      */
     public function __construct(Container $container, FieldTypeCollection $fieldTypes)
     {

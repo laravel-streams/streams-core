@@ -3,14 +3,14 @@
 use Illuminate\Events\Dispatcher;
 
 /**
- * Class RegisterListenersCommandHandler
+ * Class RegisterListenersHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\Distribution\Command
  */
-class RegisterListenersCommandHandler
+class RegisterListenersHandler
 {
 
     /**
@@ -21,7 +21,7 @@ class RegisterListenersCommandHandler
     protected $dispatcher;
 
     /**
-     * Create a new RegisterListenersCommandHandler instance.
+     * Create a new RegisterListenersHandler instance.
      *
      * @param Dispatcher $dispatcher
      */

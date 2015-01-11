@@ -3,13 +3,13 @@
 use Anomaly\Streams\Platform\Addon\AddonManager;
 
 /**
- * Class RegisterPluginsCommandHandler
+ * Class RegisterPluginsHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  */
-class RegisterPluginsCommandHandler
+class RegisterPluginsHandler
 {
 
     /**
@@ -20,7 +20,7 @@ class RegisterPluginsCommandHandler
     protected $manager;
 
     /**
-     * Create a new RegisterPluginsCommandHandler instance.
+     * Create a new RegisterPluginsHandler instance.
      *
      * @param AddonManager $manager
      */

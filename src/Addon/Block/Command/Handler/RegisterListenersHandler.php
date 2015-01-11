@@ -21,7 +21,7 @@ class RegisterListenersHandler
     protected $dispatcher;
 
     /**
-     * Create a new RegisterListenersCommand instance.
+     * Create a new RegisterListeners instance.
      *
      * @param Dispatcher $dispatcher
      */

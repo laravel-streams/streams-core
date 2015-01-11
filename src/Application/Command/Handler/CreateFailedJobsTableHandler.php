@@ -4,14 +4,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Schema\Blueprint;
 
 /**
- * Class CreateFailedJobsTableCommandHandler
+ * Class CreateFailedJobsTableHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Application\Command
  */
-class CreateFailedJobsTableCommandHandler
+class CreateFailedJobsTableHandler
 {
 
     /**
@@ -29,7 +29,7 @@ class CreateFailedJobsTableCommandHandler
     protected $schema;
 
     /**
-     * Create a new CreateFailedJobsTableCommandHandler instance.
+     * Create a new CreateFailedJobsTableHandler instance.
      */
     public function __construct()
     {

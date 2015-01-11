@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Distribution;
 
-use Anomaly\Streams\Platform\Addon\Distribution\Command\DetectActiveDistributionCommand;
-use Anomaly\Streams\Platform\Addon\Distribution\Command\RegisterDistributionsCommand;
-use Anomaly\Streams\Platform\Addon\Distribution\Command\RegisterListenersCommand;
+use Anomaly\Streams\Platform\Addon\Distribution\Command\DetectActiveDistribution;
+use Anomaly\Streams\Platform\Addon\Distribution\Command\RegisterDistributions;
+use Anomaly\Streams\Platform\Addon\Distribution\Command\RegisterListeners;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,9 +24,9 @@ class DistributionServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->dispatch(new RegisterListenersCommand());
-        $this->dispatch(new RegisterDistributionsCommand());
-        $this->dispatch(new DetectActiveDistributionCommand());
+        $this->dispatch(new RegisterListeners());
+        $this->dispatch(new RegisterDistributions());
+        $this->dispatch(new DetectActiveDistribution());
 
         $this->app->make('twig')->addExtension(app('Anomaly\Streams\Platform\Addon\Distribution\DistributionPlugin'));
     }

@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Assignment\Command\ObserveAssignmentModelCommand;
-use Anomaly\Streams\Platform\Assignment\Command\RegisterListenersCommand;
+use Anomaly\Streams\Platform\Assignment\Command\ObserveAssignmentModel;
+use Anomaly\Streams\Platform\Assignment\Command\RegisterListeners;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,8 +23,8 @@ class AssignmentServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->dispatch(new RegisterListenersCommand());
-        $this->dispatch(new ObserveAssignmentModelCommand());
+        $this->dispatch(new RegisterListeners());
+        $this->dispatch(new ObserveAssignmentModel());
     }
 
     /**

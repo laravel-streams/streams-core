@@ -4,14 +4,14 @@ use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
 
 /**
- * Class ObserveEntryModelCommandHandler
+ * Class ObserveEntryModelHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry\Command
  */
-class ObserveEntryModelCommandHandler
+class ObserveEntryModelHandler
 {
 
     /**
@@ -29,7 +29,7 @@ class ObserveEntryModelCommandHandler
     protected $observer;
 
     /**
-     * Create a new ObserveEntryModelCommandHandler instance.
+     * Create a new ObserveEntryModelHandler instance.
      *
      * @param EntryModel    $model
      * @param EntryObserver $observer

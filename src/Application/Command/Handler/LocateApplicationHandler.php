@@ -4,14 +4,14 @@ use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Container\Container;
 
 /**
- * Class LocateApplicationCommandHandler
+ * Class LocateApplicationHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Application\Command
  */
-class LocateApplicationCommandHandler
+class LocateApplicationHandler
 {
 
     /**
@@ -29,7 +29,7 @@ class LocateApplicationCommandHandler
     protected $application;
 
     /**
-     * Create a new LocateApplicationCommandHandler instance.
+     * Create a new LocateApplicationHandler instance.
      *
      * @param Container   $container
      * @param Application $application

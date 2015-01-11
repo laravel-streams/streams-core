@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 
 /**
- * Class SetModuleStatesCommandHandler
+ * Class SetModuleStatesHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Module\Command
  */
-class SetModuleStatesCommandHandler
+class SetModuleStatesHandler
 {
 
     /**
@@ -21,7 +21,7 @@ class SetModuleStatesCommandHandler
     protected $modules;
 
     /**
-     * Create a new SetModuleStatesCommandHandler instance.
+     * Create a new SetModuleStatesHandler instance.
      *
      * @param ModuleCollection $modules
      */

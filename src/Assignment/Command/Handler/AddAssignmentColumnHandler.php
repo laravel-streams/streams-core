@@ -1,17 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Command\Handler;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
-use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumnCommand;
+use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumn;
 
 /**
- * Class AddAssignmentColumnCommandHandler
+ * Class AddAssignmentColumnHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Assignment\Command
  */
-class AddAssignmentColumnCommandHandler
+class AddAssignmentColumnHandler
 {
 
     /**
@@ -22,7 +22,7 @@ class AddAssignmentColumnCommandHandler
     protected $schema;
 
     /**
-     * Create a new AddAssignmentColumnCommandHandler instance.
+     * Create a new AddAssignmentColumnHandler instance.
      *
      * @param AssignmentSchema $schema
      */
@@ -34,9 +34,9 @@ class AddAssignmentColumnCommandHandler
     /**
      * Handle the command.
      *
-     * @param AddAssignmentColumnCommand $command
+     * @param AddAssignmentColumn $command
      */
-    public function handle(AddAssignmentColumnCommand $command)
+    public function handle(AddAssignmentColumn $command)
     {
         $assignment = $command->getAssignment();
 

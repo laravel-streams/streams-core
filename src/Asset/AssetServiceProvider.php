@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Asset;
 
-use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespacesCommand;
+use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,7 +22,7 @@ class AssetServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->dispatch(new AddAssetNamespacesCommand());
+        $this->dispatch(new AddAssetNamespaces());
 
         $this->app->make('twig')->addExtension($this->app->make('Anomaly\Streams\Platform\Asset\AssetPlugin'));
     }

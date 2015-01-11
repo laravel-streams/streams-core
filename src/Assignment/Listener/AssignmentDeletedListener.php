@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Listener;
 
-use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumnCommand;
+use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
@@ -27,6 +27,6 @@ class AssignmentDeletedListener
     {
         $assignment = $event->getAssignment();
 
-        $this->dispatch(new DropAssignmentColumnCommand($assignment));
+        $this->dispatch(new DropAssignmentColumn($assignment));
     }
 }

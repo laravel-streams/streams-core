@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Listener;
 
-use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumnCommand;
+use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
@@ -27,6 +27,6 @@ class AssignmentCreatedListener
     {
         $assignment = $event->getAssignment();
 
-        $this->dispatch(new AddAssignmentColumnCommand($assignment));
+        $this->dispatch(new AddAssignmentColumn($assignment));
     }
 }

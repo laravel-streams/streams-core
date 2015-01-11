@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
-use Anomaly\Streams\Platform\Addon\Module\Command\DetectActiveModuleCommand;
-use Anomaly\Streams\Platform\Addon\Module\Command\RegisterListenersCommand;
-use Anomaly\Streams\Platform\Addon\Module\Command\RegisterModulesCommand;
-use Anomaly\Streams\Platform\Addon\Module\Command\SetModuleStatesCommand;
+use Anomaly\Streams\Platform\Addon\Module\Command\DetectActiveModule;
+use Anomaly\Streams\Platform\Addon\Module\Command\RegisterListeners;
+use Anomaly\Streams\Platform\Addon\Module\Command\RegisterModules;
+use Anomaly\Streams\Platform\Addon\Module\Command\SetModuleStates;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,10 +25,10 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->dispatch(new RegisterListenersCommand());
-        $this->dispatch(new RegisterModulesCommand());
-        $this->dispatch(new SetModuleStatesCommand());
-        $this->dispatch(new DetectActiveModuleCommand());
+        $this->dispatch(new RegisterListeners());
+        $this->dispatch(new RegisterModules());
+        $this->dispatch(new SetModuleStates());
+        $this->dispatch(new DetectActiveModule());
     }
 
     /**

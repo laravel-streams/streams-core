@@ -5,14 +5,14 @@ use Composer\Autoload\ClassLoader;
 use Illuminate\Container\Container;
 
 /**
- * Class AutoloadEntryModelsCommandHandler
+ * Class AutoloadEntryModelsHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry\Command
  */
-class AutoloadEntryModelsCommandHandler
+class AutoloadEntryModelsHandler
 {
 
     /**
@@ -37,7 +37,7 @@ class AutoloadEntryModelsCommandHandler
     protected $application;
 
     /**
-     * Create a new AutoloadEntryModelsCommandHandler instance.
+     * Create a new AutoloadEntryModelsHandler instance.
      *
      * @param ClassLoader $loader
      * @param Container   $container

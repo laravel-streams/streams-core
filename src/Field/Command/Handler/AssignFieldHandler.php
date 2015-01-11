@@ -1,19 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command\Handler;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
-use Anomaly\Streams\Platform\Field\Command\AssignFieldCommand;
+use Anomaly\Streams\Platform\Field\Command\AssignField;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 
 /**
- * Class AssignFieldCommandHandler
+ * Class AssignFieldHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Field\Command
  */
-class AssignFieldCommandHandler
+class AssignFieldHandler
 {
 
     /**
@@ -38,7 +38,7 @@ class AssignFieldCommandHandler
     protected $assignments;
 
     /**
-     * Create a new AssignFieldCommandHandler instance.
+     * Create a new AssignFieldHandler instance.
      *
      * @param FieldRepositoryInterface      $fields
      * @param StreamRepositoryInterface     $streams
@@ -60,7 +60,7 @@ class AssignFieldCommandHandler
      * @param  $command
      * @return $this|mixed
      */
-    public function handle(AssignFieldCommand $command)
+    public function handle(AssignField $command)
     {
         $namespace = $command->getNamespace();
         $stream    = $command->getStream();

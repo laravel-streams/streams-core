@@ -1,26 +1,26 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Command\Handler;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
-use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumnCommand;
+use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumn;
 
 /**
- * Class DropAssignmentColumnCommandHandler
+ * Class DropAssignmentColumnHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Assignment\Command
  */
-class DropAssignmentColumnCommandHandler
+class DropAssignmentColumnHandler
 {
 
     /**
      * Handle the command.
      *
-     * @param DropAssignmentColumnCommand $command
+     * @param DropAssignmentColumn $command
      * @param AssignmentSchema            $schema
      */
-    public function handle(DropAssignmentColumnCommand $command, AssignmentSchema $schema)
+    public function handle(DropAssignmentColumn $command, AssignmentSchema $schema)
     {
         $assignment = $command->getAssignment();
 

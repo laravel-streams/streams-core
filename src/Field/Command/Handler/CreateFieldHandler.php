@@ -1,17 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command\Handler;
 
-use Anomaly\Streams\Platform\Field\Command\CreateFieldCommand;
+use Anomaly\Streams\Platform\Field\Command\CreateField;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 
 /**
- * Class CreateFieldCommandHandler
+ * Class CreateFieldHandler
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Field\Command
  */
-class CreateFieldCommandHandler
+class CreateFieldHandler
 {
 
     /**
@@ -22,7 +22,7 @@ class CreateFieldCommandHandler
     protected $fields;
 
     /**
-     * Create a new CreateFieldCommandHandler instance.
+     * Create a new CreateFieldHandler instance.
      *
      * @param FieldRepositoryInterface $fields
      */
@@ -34,10 +34,10 @@ class CreateFieldCommandHandler
     /**
      * Handle the command.
      *
-     * @param  CreateFieldCommand $command
+     * @param  CreateField $command
      * @return \Anomaly\Streams\Platform\Field\Contract\FieldInterface
      */
-    public function handle(CreateFieldCommand $command)
+    public function handle(CreateField $command)
     {
         return $this->fields->create(
             $command->getNamespace(),
