@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Table\Command\TableQueryEvent;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
 
 /**
  * Class FieldFilter
@@ -33,7 +33,7 @@ class FieldFilter extends Filter implements FieldFilterInterface
     /**
      * Default handle for the TableQueryEvent.
      *
-     * @param TableQueryEvent $event
+     * @param \Anomaly\Streams\Platform\Ui\Table\Command\TableQueryEvent $event
      * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function handleTableQueryEvent(TableQueryEvent $event)

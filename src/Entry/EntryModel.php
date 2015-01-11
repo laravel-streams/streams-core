@@ -11,8 +11,8 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
+use Anomaly\Streams\Platform\Ui\Table\Command\ModifyQuery;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Dimsav\Translatable\Translatable;
 
@@ -286,7 +286,7 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
          * other things (including filters / views)
          * to modify the query before proceeding.
          */
-        app('events')->fire('streams::table.query', new TableQueryEvent($table, $query));
+        $this->dispatch(new ModifyQuery($table, $query));
 
         /**
          * Before we actually adjust the baseline query
