@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\FilterQuery;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQueryer;
 
 /**
  * Class FilterQueryHandler
@@ -17,16 +18,16 @@ class FilterQueryHandler
     /**
      * The filter query utility.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQuery
+     * @var \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQueryer
      */
     protected $query;
 
     /**
      * Create a new FilterQueryHandler instance.
      *
-     * @param FilterQuery $query
+     * @param FilterQueryer $query
      */
-    public function __construct(FilterQuery $query)
+    public function __construct(FilterQueryer $query)
     {
         $this->query = $query;
     }

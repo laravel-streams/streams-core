@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class FilterQuery
+ * Class FilterQueryer
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>

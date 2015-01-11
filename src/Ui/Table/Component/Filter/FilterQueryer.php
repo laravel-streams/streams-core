@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter
  */
-class FilterQuery
+class FilterQueryer
 {
 
     /**
