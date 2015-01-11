@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\GetColumnValueCommand;
+use Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\GetColumnValue;
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\GetHeadingCommand;
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\GetHeading;
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
@@ -93,7 +93,7 @@ class TablePluginFunctions
      */
     public function heading(Table $table, HeaderInterface $header)
     {
-        return $this->dispatch(new GetHeadingCommand($table, $header));
+        return $this->dispatch(new GetHeading($table, $header));
     }
 
     /**
@@ -106,6 +106,6 @@ class TablePluginFunctions
      */
     public function column(Table $table, ColumnInterface $column, $entry)
     {
-        return $this->dispatch(new GetColumnValueCommand($table, $column, $entry));
+        return $this->dispatch(new GetColumnValue($table, $column, $entry));
     }
 }

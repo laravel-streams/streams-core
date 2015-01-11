@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Listener;
 
 use Anomaly\Streams\Platform\Entry\EntryUtility;
-use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTableCommand;
+use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasCreated;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -56,7 +56,7 @@ class StreamCreatedListener
      */
     protected function createStreamsTable(StreamInterface $stream)
     {
-        $this->dispatch(new CreateStreamsEntryTableCommand($stream));
+        $this->dispatch(new CreateStreamsEntryTable($stream));
     }
 
     /**

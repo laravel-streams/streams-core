@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Listener;
 
-use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTableCommand;
+use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
@@ -27,6 +27,6 @@ class StreamDeletedListener
     {
         $stream = $event->getStream();
 
-        $this->dispatch(new DropStreamsEntryTableCommand($stream));
+        $this->dispatch(new DropStreamsEntryTable($stream));
     }
 }

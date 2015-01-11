@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Listener;
 
-use Anomaly\Streams\Platform\Ui\Table\Command\ModifyQueryCommand;
+use Anomaly\Streams\Platform\Ui\Table\Command\ModifyQuery;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableQueryEvent;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
@@ -27,6 +27,6 @@ class TableQueryListener
         $table = $event->getTable();
         $query = $event->getQuery();
 
-        $this->dispatch(new ModifyQueryCommand($table, $query));
+        $this->dispatch(new ModifyQuery($table, $query));
     }
 }

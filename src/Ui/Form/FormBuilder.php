@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Ui\Form\Command\BuildFormCommand;
-use Anomaly\Streams\Platform\Ui\Form\Command\HandleFormPostCommand;
-use Anomaly\Streams\Platform\Ui\Form\Command\LoadFormCommand;
+use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\HandleFormPost;
+use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
@@ -83,10 +83,10 @@ class FormBuilder
             $this->entry = $entry;
         }
 
-        $this->dispatch(new BuildFormCommand($this));
+        $this->dispatch(new BuildForm($this));
 
         if (app('request')->isMethod('post')) {
-            $this->dispatch(new HandleFormPostCommand($this->form));
+            $this->dispatch(new HandleFormPost($this->form));
         }
     }
 
@@ -101,7 +101,7 @@ class FormBuilder
 
         if ($this->form->getResponse() === null) {
 
-            $this->dispatch(new LoadFormCommand($this->form));
+            $this->dispatch(new LoadForm($this->form));
 
             $options = $this->form->getOptions();
             $data    = $this->form->getData();

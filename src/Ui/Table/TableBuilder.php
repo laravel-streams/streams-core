@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
-use Anomaly\Streams\Platform\Ui\Table\Command\BuildTableCommand;
-use Anomaly\Streams\Platform\Ui\Table\Command\HandleTablePostCommand;
-use Anomaly\Streams\Platform\Ui\Table\Command\LoadTableCommand;
+use Anomaly\Streams\Platform\Ui\Table\Command\BuildTable;
+use Anomaly\Streams\Platform\Ui\Table\Command\HandleTablePost;
+use Anomaly\Streams\Platform\Ui\Table\Command\LoadTable;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\View\View;
@@ -92,10 +92,10 @@ class TableBuilder
      */
     public function build()
     {
-        $this->dispatch(new BuildTableCommand($this));
+        $this->dispatch(new BuildTable($this));
 
         if (app('request')->isMethod('post')) {
-            $this->dispatch(new HandleTablePostCommand($this->table));
+            $this->dispatch(new HandleTablePost($this->table));
         }
     }
 
@@ -108,7 +108,7 @@ class TableBuilder
 
         if ($this->table->getResponse() === null) {
 
-            $this->dispatch(new LoadTableCommand($this->table));
+            $this->dispatch(new LoadTable($this->table));
 
             $options = $this->table->getOptions();
             $data    = $this->table->getData();

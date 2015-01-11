@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
 use Anomaly\Streams\Platform\Field\Command\DeleteFieldCommand;
-use Anomaly\Streams\Platform\Field\Command\UnassignFieldCommand;
+use Anomaly\Streams\Platform\Field\Command\UnassignField;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
@@ -67,6 +67,6 @@ class FieldManager
      */
     public function unassign($namespace, $stream, $field)
     {
-        return $this->dispatch(new UnassignFieldCommand($namespace, $stream, $field));
+        return $this->dispatch(new UnassignField($namespace, $stream, $field));
     }
 }

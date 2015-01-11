@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Stream\Command\DeleteStreamCommand;
+use Anomaly\Streams\Platform\Stream\Command\DeleteStream;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
@@ -36,6 +36,6 @@ class StreamManager
      */
     public function delete($namespace, $slug)
     {
-        $this->dispatch(new DeleteStreamCommand($namespace, $slug));
+        $this->dispatch(new DeleteStream($namespace, $slug));
     }
 }
