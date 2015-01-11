@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Button\ButtonBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\Button\Command\BuildButtonsCommand;
 
 /**
  * Class BuildButtonsCommandHandler

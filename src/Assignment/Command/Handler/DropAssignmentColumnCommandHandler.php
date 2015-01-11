@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Command\Handler;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
+use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumnCommand;
 
 /**
  * Class DropAssignmentColumnCommandHandler

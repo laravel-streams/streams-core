@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command\Handler;
 
+use Anomaly\Streams\Platform\Field\Command\DeleteFieldCommand;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 
 /**
