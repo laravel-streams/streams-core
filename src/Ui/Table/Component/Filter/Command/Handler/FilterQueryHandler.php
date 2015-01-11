@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\Handler;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\FilterQuery;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQuery;
 
 /**
  * Class FilterQueryHandler
