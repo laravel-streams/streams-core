@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\Streams\Platform\Entry\Command\SetMetaInformation;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
 
@@ -9,6 +10,7 @@ use Anomaly\Streams\Platform\Model\EloquentObserver;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
+ *
  * @package Anomaly\Streams\Platform\Entry
  */
 class EntryObserver extends EloquentObserver
@@ -23,7 +25,7 @@ class EntryObserver extends EloquentObserver
      */
     public function saving(EloquentModel $model)
     {
-        $model->touchMeta();
+        $this->commands->dispatch(new SetMetaInformation($model));
 
         return parent::saving($model);
     }

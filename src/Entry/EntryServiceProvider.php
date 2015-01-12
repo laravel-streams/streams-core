@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
-use Anomaly\Streams\Platform\Entry\Command\ObserveEntryModel;
 use Composer\Autoload\ClassLoader;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
@@ -24,7 +23,6 @@ class EntryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->dispatch(new ObserveEntryModel());
         $this->dispatch(new AutoloadEntryModels());
     }
 

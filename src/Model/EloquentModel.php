@@ -61,6 +61,16 @@ class EloquentModel extends Model
     protected $titleKey = 'id';
 
     /**
+     * Boot the model.
+     */
+    protected static function boot()
+    {
+        self::observe(app('Anomaly\Streams\Platform\Model\EloquentObserver'));
+
+        parent::boot();
+    }
+
+    /**
      * Return a new collection class with our models.
      *
      * @param  array $items

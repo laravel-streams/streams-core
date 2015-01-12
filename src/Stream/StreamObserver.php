@@ -24,7 +24,7 @@ class StreamObserver extends EloquentObserver
      */
     public function saved(EloquentModel $model)
     {
-        $this->dispatcher->fire(new StreamWasSaved($model));
+        $this->events->fire(new StreamWasSaved($model));
 
         parent::saved($model);
     }
@@ -36,7 +36,7 @@ class StreamObserver extends EloquentObserver
      */
     public function created(EloquentModel $model)
     {
-        $this->dispatcher->fire(new StreamWasCreated($model));
+        $this->events->fire(new StreamWasCreated($model));
 
         parent::created($model);
     }
@@ -48,7 +48,7 @@ class StreamObserver extends EloquentObserver
      */
     public function deleted(EloquentModel $model)
     {
-        $this->dispatcher->fire(new StreamWasDeleted($model));
+        $this->events->fire(new StreamWasDeleted($model));
 
         parent::deleted($model);
     }

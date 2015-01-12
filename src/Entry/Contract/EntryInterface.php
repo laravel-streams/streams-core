@@ -40,13 +40,6 @@ interface EntryInterface
     public function getRules();
 
     /**
-     * Touch meta columns.
-     *
-     * @return EntryInterface
-     */
-    public function touchMeta();
-
-    /**
      * Get the stream.
      *
      * @return StreamInterface

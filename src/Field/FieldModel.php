@@ -49,6 +49,16 @@ class FieldModel extends EloquentModel implements FieldInterface
     protected $table = 'streams_fields';
 
     /**
+     * Boot the model.
+     */
+    protected static function boot()
+    {
+        self::observe(app('Anomaly\Streams\Platform\Field\FieldObserver'));
+
+        parent::boot();
+    }
+
+    /**
      * Get the ID.
      *
      * @return mixed

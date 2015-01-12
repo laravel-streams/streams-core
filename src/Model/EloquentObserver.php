@@ -5,7 +5,8 @@ use Anomaly\Streams\Platform\Model\Event\ModelWasDeleted;
 use Anomaly\Streams\Platform\Model\Event\ModelWasRestored;
 use Anomaly\Streams\Platform\Model\Event\ModelWasSaved;
 use Anomaly\Streams\Platform\Model\Event\ModelWasUpdated;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Bus\Dispatcher as CommandDispatcher;
+use Illuminate\Events\Dispatcher as EventDispatcher;
 
 /**
  * Class EloquentObserver
@@ -23,16 +24,25 @@ class EloquentObserver
      *
      * @var \Illuminate\Events\Dispatcher
      */
-    protected $dispatcher;
+    protected $events;
+
+    /**
+     * The command dispatcher.
+     *
+     * @var \Illuminate\Bus\Dispatcher
+     */
+    protected $commands;
 
     /**
      * Create a new EloquentObserver instance.
      *
-     * @param Dispatcher $dispatcher
+     * @param EventDispatcher   $events
+     * @param CommandDispatcher $commands
      */
-    public function __construct(Dispatcher $dispatcher)
+    public function __construct(EventDispatcher $events, CommandDispatcher $commands)
     {
-        $this->dispatcher = $dispatcher;
+        $this->events   = $events;
+        $this->commands = $commands;
     }
 
     /**
@@ -51,7 +61,7 @@ class EloquentObserver
      */
     public function created(EloquentModel $model)
     {
-        $this->dispatcher->fire(new ModelWasCreated($model));
+        $this->events->fire(new ModelWasCreated($model));
     }
 
     /**
@@ -73,7 +83,7 @@ class EloquentObserver
      */
     public function saved(EloquentModel $model)
     {
-        $this->dispatcher->fire(new ModelWasSaved($model));
+        $this->events->fire(new ModelWasSaved($model));
     }
 
     /**
@@ -92,7 +102,7 @@ class EloquentObserver
      */
     public function updated(EloquentModel $model)
     {
-        $this->dispatcher->fire(new ModelWasUpdated($model));
+        $this->events->fire(new ModelWasUpdated($model));
     }
 
     /**
@@ -111,7 +121,7 @@ class EloquentObserver
      */
     public function deleted(EloquentModel $model)
     {
-        $this->dispatcher->fire(new ModelWasDeleted($model));
+        $this->events->fire(new ModelWasDeleted($model));
     }
 
     /**
@@ -130,6 +140,6 @@ class EloquentObserver
      */
     public function restored(EloquentModel $model)
     {
-        $this->dispatcher->fire(new ModelWasRestored($model));
+        $this->events->fire(new ModelWasRestored($model));
     }
 }

@@ -24,7 +24,7 @@ class AssignmentObserver extends EloquentObserver
      */
     public function saved(EloquentModel $model)
     {
-        $this->dispatcher->fire(new AssignmentWasSaved($model));
+        $this->events->fire(new AssignmentWasSaved($model));
 
         parent::saved($model);
     }
@@ -36,7 +36,7 @@ class AssignmentObserver extends EloquentObserver
      */
     public function created(EloquentModel $model)
     {
-        $this->dispatcher->fire(new AssignmentWasCreated($model));
+        $this->events->fire(new AssignmentWasCreated($model));
 
         parent::created($model);
     }
@@ -48,7 +48,7 @@ class AssignmentObserver extends EloquentObserver
      */
     public function deleted(EloquentModel $model)
     {
-        $this->dispatcher->fire(new AssignmentWasDeleted($model));
+        $this->events->fire(new AssignmentWasDeleted($model));
 
         parent::deleted($model);
     }

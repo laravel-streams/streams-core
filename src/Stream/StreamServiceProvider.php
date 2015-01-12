@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Stream\Command\ObserveStreamModel;
 use Anomaly\Streams\Platform\Stream\Command\RegisterListeners;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
@@ -24,7 +23,6 @@ class StreamServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->dispatch(new RegisterListeners());
-        $this->dispatch(new ObserveStreamModel());
     }
 
     /**

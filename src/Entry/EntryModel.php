@@ -15,6 +15,7 @@ use Anomaly\Streams\Platform\Ui\Table\Command\ModifyQuery;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Dimsav\Translatable\Translatable;
+use Illuminate\Events\Dispatcher;
 
 /**
  * Class EntryModel
@@ -54,30 +55,11 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
         $this->stream->parent = $this;
     }
 
-    /**
-     * Set entry information that every record needs.
-     *
-     * @return EntryInterface
-     */
-    public function touchMeta()
+    protected static function boot()
     {
-        $userId = null;
+        self::observe(new EntryObserver(new Dispatcher(app()), new \Illuminate\Bus\Dispatcher(app())));
 
-        if ($user = app('auth')->user()) {
-            $userId = $user->getKey();
-        }
-
-        if (!$this->exists) {
-            $this->created_at = date('Y-m-d H:i:s');
-            $this->created_by = $userId;
-            $this->updated_at = null;
-            $this->sort_order = $this->count('id') + 1;
-        } else {
-            $this->updated_at = date('Y-m-d H:i:s');
-            $this->updated_by = $userId;
-        }
-
-        return $this;
+        parent::boot();
     }
 
     /**
