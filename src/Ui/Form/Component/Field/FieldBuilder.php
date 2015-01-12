@@ -63,6 +63,7 @@ class FieldBuilder
     public function build(FormBuilder $builder)
     {
         $form   = $builder->getForm();
+        $skips  = $builder->getSkips();
         $fields = $form->getFields();
         $stream = $form->getStream();
         $entry  = $form->getEntry();
@@ -74,7 +75,9 @@ class FieldBuilder
          * and put to the forms field collection.
          */
         foreach ($builder->getFields() as $slug => $field) {
-            $fields->put($slug, $this->factory->make($field, $stream, $entry));
+            if (!in_array($field['slug'], $skips)) {
+                $fields->put($slug, $this->factory->make($field, $stream, $entry));
+            }
         }
     }
 }

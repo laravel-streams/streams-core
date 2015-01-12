@@ -20,64 +20,69 @@ class ButtonRegistry
         /**
          * Default type buttons.
          */
-        'default' => [
+        'default'     => [
             'type' => 'default',
         ],
-        'cancel'  => [
+        'cancel'      => [
             'text' => 'streams::button.cancel',
             'type' => 'default',
         ],
         /**
          * Primary type buttons.
          */
-        'primary' => [
+        'primary'     => [
             'type' => 'primary',
         ],
         /**
          * Success type buttons.
          */
-        'success' => [
+        'success'     => [
             'type' => 'success',
         ],
-        'save'    => [
+        'save'        => [
             'type' => 'success',
             'text' => 'streams::button.save',
         ],
         /**
          * Info type buttons.
          */
-        'info'    => [
+        'info'        => [
             'type' => 'info',
         ],
         /**
          * Warning type buttons.
          */
-        'warning' => [
+        'warning'     => [
             'type' => 'warning',
         ],
-        'edit'    => [
+        'edit'        => [
             'text' => 'streams::button.edit',
             'type' => 'warning',
         ],
         /**
          * Danger type buttons.
          */
-        'danger'  => [
+        'danger'      => [
             'type' => 'danger',
         ],
-        'delete'  => [
+        'delete'      => [
             'text' => 'streams::button.delete',
             'type' => 'danger',
         ],
-        'reorder' => [
+        'reorder'     => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\ReorderActionHandler@handle',
             'text'    => 'streams::button.reorder',
             'type'    => 'danger',
         ],
+        // Danger type icon buttons.
+        'delete-icon' => [
+            'icon' => 'trash',
+            'type' => 'danger'
+        ],
         /**
          * Link type buttons.
          */
-        'link'    => [
+        'link'        => [
             'type' => 'link',
         ],
     ];

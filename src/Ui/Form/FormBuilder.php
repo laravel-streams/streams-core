@@ -42,6 +42,13 @@ class FormBuilder
     protected $fields = ['*'];
 
     /**
+     * Fields to skip.
+     *
+     * @var array
+     */
+    protected $skips = [];
+
+    /**
      * The actions config.
      *
      * @var array
@@ -210,6 +217,29 @@ class FormBuilder
     public function getFields()
     {
         return $this->fields;
+    }
+
+    /**
+     * Get the skipped fields.
+     *
+     * @return array
+     */
+    public function getSkips()
+    {
+        return $this->skips;
+    }
+
+    /**
+     * Set the skipped fields.
+     *
+     * @param $skips
+     * @return $this
+     */
+    public function setSkips($skips)
+    {
+        $this->skips = $skips;
+
+        return $this;
     }
 
     /**
