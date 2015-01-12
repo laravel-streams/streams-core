@@ -43,6 +43,13 @@ class Action extends Button implements ActionInterface
     protected $slug = 'default';
 
     /**
+     * The required permission.
+     *
+     * @var null|string
+     */
+    protected $permission = null;
+
+    /**
      * The action handler.
      *
      * @var null|mixed
@@ -70,6 +77,29 @@ class Action extends Button implements ActionInterface
     public function getHandler()
     {
         return $this->handler;
+    }
+
+    /**
+     * Get the required permission.
+     *
+     * @return null|string
+     */
+    public function getPermission()
+    {
+        return $this->permission;
+    }
+
+    /**
+     * Set the required permission.
+     *
+     * @param $permission
+     * @return $this
+     */
+    public function setPermission($permission)
+    {
+        $this->permission = $permission;
+
+        return $this;
     }
 
     /**

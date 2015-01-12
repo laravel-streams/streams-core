@@ -29,6 +29,21 @@ interface ActionInterface extends ButtonInterface
     public function getHandler();
 
     /**
+     * Set the required permission.
+     *
+     * @param $permission
+     * @return $this
+     */
+    public function setPermission($permission);
+
+    /**
+     * Get the required permission.
+     *
+     * @return null|string
+     */
+    public function getPermission();
+
+    /**
      * Set the active flag.
      *
      * @param  $active
