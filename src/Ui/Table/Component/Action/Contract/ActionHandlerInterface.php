@@ -17,6 +17,8 @@ interface ActionHandlerInterface
      * Handle the action.
      *
      * @param Table $table
+     * @param array $selected
+     * @return mixed
      */
-    public function handle(Table $table);
+    public function handle(Table $table, array $selected);
 }
