@@ -58,6 +58,15 @@ class ActionNormalizer
             }
 
             /**
+             * If the slug is not numeric and the action is an
+             * array without a button then use the slug for
+             * the button for the action.
+             */
+            if (is_array($action) && !isset($action['button']) && !is_numeric($slug)) {
+                $action['button'] = $slug;
+            }
+
+            /**
              * Make sure the attributes array is set.
              */
             $action['attributes'] = array_get($action, 'attributes', []);
