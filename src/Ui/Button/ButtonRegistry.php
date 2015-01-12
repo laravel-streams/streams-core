@@ -66,11 +66,12 @@ class ButtonRegistry
             'type' => 'danger',
         ],
         'delete'      => [
-            'text' => 'streams::button.delete',
-            'type' => 'danger',
+            'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete@handle',
+            'text'    => 'streams::button.delete',
+            'type'    => 'danger',
         ],
         'reorder'     => [
-            'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\ReorderActionHandler@handle',
+            'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder@handle',
             'text'    => 'streams::button.reorder',
             'type'    => 'danger',
         ],
