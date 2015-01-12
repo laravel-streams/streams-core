@@ -43,7 +43,7 @@ class ExecuteActionHandler
         $actions = $table->getActions();
 
         if ($action = $actions->active()) {
-            $this->executor->execute($table, $action->getHandler());
+            $this->executor->execute($table, $action);
         }
     }
 }

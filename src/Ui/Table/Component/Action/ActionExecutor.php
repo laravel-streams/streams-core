@@ -1,7 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\UsersModule\User\Contract\UserInterface;
+use Illuminate\Auth\Guard;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
 /**
@@ -16,6 +20,13 @@ class ActionExecutor
 {
 
     /**
+     * The authentication guard.
+     *
+     * @var Guard
+     */
+    protected $guard;
+
+    /**
      * The request object.
      *
      * @var Request
@@ -23,26 +34,47 @@ class ActionExecutor
     protected $request;
 
     /**
+     * The application.
+     *
+     * @var Application
+     */
+    protected $application;
+
+    /**
      * Create a new ActionExecutor instance.
      *
-     * @param Request $request
+     * @param Guard       $guard
+     * @param Request     $request
+     * @param Application $application
      */
-    public function __construct(Request $request)
+    public function __construct(Guard $guard, Request $request, Application $application)
     {
-        $this->request = $request;
+        $this->guard       = $guard;
+        $this->request     = $request;
+        $this->application = $application;
     }
 
     /**
      * Execute an action.
      *
-     * @param Table $table
-     * @param       $handler
+     * @param Table           $table
+     * @param ActionInterface $action
+     * @return mixed
      * @throws \Exception
-     * @return
      */
-    public function execute(Table $table, $handler)
+    public function execute(Table $table, ActionInterface $action)
     {
         $options = $table->getOptions();
+        $handler = $action->getHandler();
+
+        $user = $this->guard->getUser();
+
+        /**
+         * Make sure the permission is met if present.
+         */
+        if ($user instanceof UserInterface && !$user->hasPermission($action->getPermission())) {
+            $this->application->abort(403, "You do not have permission to perform this action [{$action->getSlug()}].");
+        }
 
         /**
          * Get the IDs of the selected rows.
