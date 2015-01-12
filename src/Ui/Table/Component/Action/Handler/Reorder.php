@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler
  */
-class ReorderActionHandler
+class Reorder
 {
 
     /**
