@@ -167,6 +167,31 @@ class EntryModel extends EloquentModel implements EntryInterface, TableModelInte
     }
 
     /**
+     * Get a given attribute on the model.
+     *
+     * Override the behavior here to give
+     * the field types a chance to modify things.
+     *
+     * @param  string $key
+     * @param  bool   $mutate
+     * @return void
+     */
+    public function getAttribute($key, $mutate = true)
+    {
+        $value = parent::getAttribute($key);
+
+        /**
+         * If we have a field type for this key use
+         * it's unmutate method to modify the value.
+         */
+        if ($mutate && $type = $this->getFieldType($key)) {
+            return $type->unmutate($value);
+        }
+
+        return $value;
+    }
+
+    /**
      * Get the stream.
      *
      * @return StreamInterface

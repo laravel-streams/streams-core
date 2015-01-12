@@ -39,7 +39,7 @@ class ColumnValue
      * @param Table           $table
      * @param ColumnInterface $column
      * @param                 $entry
-     * @return string
+     * @return \Illuminate\View\View|mixed|null
      */
     public function make(Table $table, ColumnInterface $column, $entry)
     {
@@ -57,7 +57,15 @@ class ColumnValue
          * By default we can just pass the value through
          * the evaluator utility and be done with it.
          */
+        $value = $this->evaluator->evaluate($value, compact('table', 'entry'));
 
-        return $this->evaluator->evaluate($value, compact('table', 'entry'));
+        /**
+         * If the value is a view path then return a view.
+         */
+        if (str_is('*.*.*::*', $value)) {
+            return view($value, compact('table', 'entry'));
+        }
+
+        return $value;
     }
 }

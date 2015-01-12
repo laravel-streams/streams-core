@@ -3,6 +3,7 @@
 return [
     'all'               => 'All',
     'any'               => 'Any',
+    'addon'             => 'Addon',
     'empty'             => 'Empty',
     'filter'            => 'Filter',
     'latest'            => 'Latest',
