@@ -37,6 +37,13 @@ class ButtonNormalizer
             $button['attributes'] = array_get($button, 'attributes', []);
 
             /**
+             * Move the URL if any to the attributes as HREF.
+             */
+            if (isset($button['url'])) {
+                array_set($button['attributes'], 'href', array_pull($button, 'url'));
+            }
+
+            /**
              * All actions use the sm button size.
              */
             $button['size'] = 'sm';

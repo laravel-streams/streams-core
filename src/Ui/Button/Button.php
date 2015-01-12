@@ -49,6 +49,13 @@ class Button implements ButtonInterface
     protected $size = 'md';
 
     /**
+     * The enabled flag.
+     *
+     * @var bool
+     */
+    protected $enabled = true;
+
+    /**
      * The button's attributes.
      *
      * @var array
@@ -116,6 +123,29 @@ class Button implements ButtonInterface
     public function getAttributes()
     {
         return $this->attributes;
+    }
+
+    /**
+     * Set the enabled flag.
+     *
+     * @param $enabled
+     * @return $this
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get the enabled flag.
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->enabled;
     }
 
     /**

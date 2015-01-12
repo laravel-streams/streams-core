@@ -49,6 +49,21 @@ interface ButtonInterface
     public function getAttributes();
 
     /**
+     * Set the enabled flag.
+     *
+     * @param $enabled
+     * @return mixed
+     */
+    public function setEnabled($enabled);
+
+    /**
+     * Get the enabled flag.
+     *
+     * @return bool
+     */
+    public function isEnabled();
+
+    /**
      * Set the icon.
      *
      * @param  $icon

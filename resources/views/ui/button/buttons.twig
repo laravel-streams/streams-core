@@ -7,7 +7,7 @@
             {# Render normal buttons as an anchor #}
             {% if not button.attributes.name %}
                 <a class="btn btn-{{ button.size }} btn-{{ button.type }}" {{ html_attributes(button.attributes) }}>
-                    {{ button.icon ? icon(button.icon) }}
+                    {{ button.icon ? icon(button.icon)|raw }}
                     {{ trans(button.text) }}
                 </a>
             {% endif %}
@@ -15,7 +15,7 @@
             {# Render normal buttons as a button #}
             {% if button.attributes.name %}
                 <button class="btn btn-{{ button.size }} btn-{{ button.type }}" {{ html_attributes(button.attributes) }}>
-                    {{ button.icon ? icon(button.icon) }}
+                    {{ button.icon ? icon(button.icon)|raw }}
                     {{ trans(button.text) }}
                 </button>
             {% endif %}
@@ -29,7 +29,7 @@
             {# Render dropdown toggles as an anchor #}
             <a class="btn btn-{{ button.size }} btn-{{ button.type }} dropdown-toggle"
                data-toggle="dropdown" {{ html_attributes(button.attributes) }}>
-                {{ button.icon ? icon(button.icon) }}
+                {{ button.icon ? icon(button.icon)|raw }}
                 {{ trans(button.text) }}
             </a>
 
@@ -41,7 +41,7 @@
                         {# Render normal buttons as an anchor #}
                         {% if not link.attributes.name %}
                             <a {{ html_attributes(link.attributes) }}>
-                                {{ link.icon ? icon(link.icon) }}
+                                {{ link.icon ? icon(link.icon)|raw }}
                                 {{ trans(link.text) }}
                             </a>
                         {% endif %}
@@ -49,7 +49,7 @@
                         {# Render normal buttons as a button #}
                         {% if link.attributes.name %}
                             <button {{ html_attributes(link.attributes) }}>
-                                {{ link.icon ? icon(link.icon) }}
+                                {{ link.icon ? icon(link.icon)|raw }}
                                 {{ trans(link.text) }}
                             </button>
                         {% endif %}

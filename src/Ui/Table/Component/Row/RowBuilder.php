@@ -79,6 +79,8 @@ class RowBuilder
             $columns = $this->columns->build($builder, $entry);
             $buttons = $this->buttons->build($builder, $entry);
 
+            $buttons = $buttons->enabled();
+
             $row = compact('columns', 'buttons', 'entry');
 
             $row = $this->evaluator->evaluate($row, compact('table', 'entry'));
