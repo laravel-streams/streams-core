@@ -102,8 +102,8 @@ class StreamInstaller implements InstallableInterface
     {
         $slug        = array_get($this->stream, 'slug');
         $namespace   = array_get($this->stream, 'namespace', $this->addon->getSlug());
-        $name        = array_get($this->stream, 'name', $this->addon->getKey("stream.{$slug}.name"));
-        $description = array_get($this->stream, 'name', $this->addon->getKey("stream.{$slug}.description"));
+        $name        = array_get($this->stream, 'name', $this->addon->getNamespace("stream.{$slug}.name"));
+        $description = array_get($this->stream, 'name', $this->addon->getNamespace("stream.{$slug}.description"));
 
         $orderBy     = array_get($this->stream, 'order_by', 'id');
         $titleColumn = array_get($this->stream, 'title_column', 'id');
@@ -148,9 +148,13 @@ class StreamInstaller implements InstallableInterface
         $required     = (array_get($assignment, 'required', false));
         $translatable = (array_get($assignment, 'translatable', false));
 
-        $label        = array_get($assignment, 'label', $this->addon->getKey("field.{$field}.label"));
-        $placeholder  = array_get($assignment, 'placeholder', $this->addon->getKey("field.{$field}.placeholder"));
-        $instructions = array_get($assignment, 'instructions', $this->addon->getKey("field.{$field}.instructions"));
+        $label        = array_get($assignment, 'label', $this->addon->getNamespace("field.{$field}.label"));
+        $placeholder  = array_get($assignment, 'placeholder', $this->addon->getNamespace("field.{$field}.placeholder"));
+        $instructions = array_get(
+            $assignment,
+            'instructions',
+            $this->addon->getNamespace("field.{$field}.instructions")
+        );
 
         $assignment = compact('label', 'placeholder', 'instructions', 'unique', 'required', 'translatable');
 
