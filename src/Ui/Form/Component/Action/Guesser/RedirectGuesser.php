@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Guesser;
 
-use Illuminate\Routing\Router;
+use Illuminate\Http\Request;
 
 /**
  * Class RedirectGuesser
@@ -14,20 +14,20 @@ class RedirectGuesser
 {
 
     /**
-     * The router object.
+     * The request object.
      *
-     * @var Router
+     * @var Request
      */
-    protected $router;
+    protected $request;
 
     /**
      * Create a new RedirectGuesser instance.
      *
-     * @param Router $router
+     * @param Request $request
      */
-    public function __construct(Router $router)
+    public function __construct(Request $request)
     {
-        $this->router = $router;
+        $this->request = $request;
     }
 
     /**
@@ -55,17 +55,29 @@ class RedirectGuesser
      * Guess the save redirect.
      *
      * Since this is for a form we can assume the last
-     * segment is either edit / create or something so we
-     * can simply lop off the last segment (becoming index).
+     * segment is either edit / create or similar and it
+     * might end with a numerical ID so we can simply lop off
+     * the last segment and ID leaving us with index.
      *
      * @return string
      */
     protected function guessSaveRedirect()
     {
-        $route = $this->router->getCurrentRoute();
+        $segments = $this->request->segments();
 
-        $path = $route->getPath();
+        /**
+         * If the last segment is an ID then remove it.
+         */
+        if (is_numeric(end($segments))) {
+            array_pop($segments);
+        }
 
-        return '/' . substr($path, 0, strrpos($path, '/'));
+        /**
+         * Now remove the actionable
+         * segment (create / edit).
+         */
+        array_pop($segments);
+
+        return '/' . implode('/', $segments);
     }
 }
