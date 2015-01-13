@@ -133,7 +133,7 @@ class TableBuilder
             $options = $this->table->getOptions();
             $content = $this->table->getContent();
 
-            return view($options->get('wrapper_view', 'streams::wrappers/blank'), compact('content'));
+            return view($options->get('wrapper_view', 'streams::blank'), compact('content'));
         }
 
         return $this->table->getResponse();
