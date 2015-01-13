@@ -67,6 +67,8 @@ class Composer
 
         $environment = $view->getFactory();
 
+        $overload = "theme::{$overload}";
+
         if ($overload && $environment->exists($overload)) {
             $view->setPath($environment->getFinder()->find($overload));
         }
