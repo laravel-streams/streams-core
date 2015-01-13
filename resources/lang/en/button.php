@@ -23,8 +23,6 @@ return [
     'save_exit'     => 'Save &amp; Exit',
     'save_create'   => 'Save &amp; Create',
     'save_continue' => 'Save &amp; Continue',
-    'login'         => 'Login',
-    'logout'        => 'Logout',
     'clear'         => 'Clear',
     'filter'        => 'Filter',
     'reorder'       => 'Reorder',
