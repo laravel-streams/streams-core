@@ -45,9 +45,12 @@ class LocateApplicationHandler
      */
     public function handle()
     {
-        if (file_exists($this->container->make('path.base') . '/config/distribution.php')) {
+        if ($this->application->isInstalled()) {
 
             $this->application->locate();
+
+            define('INSTALLED', true);
+            define('APP_REF', $this->application->getReference());
 
             if (file_exists($this->container->make('path.base') . '/config/database.php')) {
 
