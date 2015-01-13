@@ -59,9 +59,9 @@ class HrefGuesser
     /**
      * Guess the edit URL.
      *
-     * Since this is for tables we can assume
-     * and SHOULD assume this is the index so
-     * we can simply append the action and the ID.
+     * Since this is for tables we can assume the
+     * last segment is index so we can simply append
+     * the action and the ID.
      *
      * @return string
      */
@@ -75,9 +75,9 @@ class HrefGuesser
     /**
      * Guess the delete URL.
      *
-     * Since this is for tables we can assume
-     * and SHOULD assume this is the index so
-     * we can simply append the action and the ID.
+     * Since this is for tables we can assume the
+     * last segment is index so we can simply append
+     * the action and the ID.
      *
      * @return string
      */

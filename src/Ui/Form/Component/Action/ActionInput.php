@@ -15,6 +15,13 @@ class ActionInput
 {
 
     /**
+     * The action guesser.
+     *
+     * @var ActionGuesser
+     */
+    protected $guesser;
+
+    /**
      * The resolver utility.
      *
      * @var \Anomaly\Streams\Platform\Support\Resolver
@@ -32,12 +39,14 @@ class ActionInput
      * Create an ActionInput instance.
      *
      * @param Resolver         $resolver
+     * @param ActionGuesser    $guesser
      * @param ActionNormalizer $normalizer
      */
-    function __construct(Resolver $resolver, ActionNormalizer $normalizer)
+    function __construct(Resolver $resolver, ActionGuesser $guesser, ActionNormalizer $normalizer)
     {
-        $this->normalizer = $normalizer;
+        $this->guesser    = $guesser;
         $this->resolver   = $resolver;
+        $this->normalizer = $normalizer;
     }
 
     /**
@@ -50,6 +59,7 @@ class ActionInput
     {
         $this->resolveInput($builder);
         $this->normalizeInput($builder);
+        $this->guessInput($builder);
     }
 
     /**
@@ -74,5 +84,15 @@ class ActionInput
         $prefix  = $options->get('prefix');
 
         $builder->setActions($this->normalizer->normalize($builder->getActions(), $prefix));
+    }
+
+    /**
+     * Guess the action input.
+     *
+     * @param FormBuilder $builder
+     */
+    protected function guessInput(FormBuilder $builder)
+    {
+        $builder->setActions($this->guesser->guess($builder->getActions()));
     }
 }

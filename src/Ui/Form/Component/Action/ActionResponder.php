@@ -25,10 +25,18 @@ class ActionResponder
     public function setFormResponse(Form $form, $handler)
     {
         /**
-         * If the handler is a callable string or Closure
-         * then call it using the IoC container.
+         * If the handler is a Closure then call
+         * it using the application container.
          */
-        if (is_string($handler) || $handler instanceof \Closure) {
+        if ($handler instanceof \Closure) {
+            return app()->call($handler, compact('form'));
+        }
+
+        /**
+         * If the handler is a callable string then
+         * call it using the application container.
+         */
+        if (is_string($handler) && str_contains($handler, '@')) {
             return app()->call($handler, compact('form'));
         }
 
