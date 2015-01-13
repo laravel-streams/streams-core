@@ -15,23 +15,41 @@ class DropStreamsEntryTableHandler
 {
 
     /**
+     * The stream schema.
+     *
+     * @var StreamSchema
+     */
+    protected $schema;
+
+    /**
+     * Create a new DropStreamsEntryTableHandler instance.
+     *
+     * @param StreamSchema $schema
+     */
+    public function __construct(StreamSchema $schema)
+    {
+        $this->schema = $schema;
+    }
+
+
+    /**
      * Handle the command.
      *
      * @param DropStreamsEntryTable $command
-     * @param StreamSchema                 $schema
      */
-    public function handle(DropStreamsEntryTable $command, StreamSchema $schema)
+    public function handle(DropStreamsEntryTable $command)
     {
         $stream = $command->getStream();
 
         $table = $stream->getEntryTableName();
 
-        $schema->dropTable($table);
+        $this->schema->dropTable($table);
 
         if ($stream->isTranslatable()) {
+
             $table = $stream->getEntryTranslationsTableName();
 
-            $schema->dropTable($table);
+            $this->schema->dropTable($table);
         }
     }
 }

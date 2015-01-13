@@ -65,15 +65,20 @@ class FieldRepository implements FieldRepositoryInterface
      *
      * @param  $namespace
      * @param  $slug
-     * @return FieldInterface
+     * @return FieldInterface|null
      */
     public function delete($namespace, $slug)
     {
         $field = $this->findByNamespaceAndSlug($namespace, $slug);
 
-        $field->delete();
+        if ($field) {
 
-        return $field;
+            $field->delete();
+
+            return $field;
+        }
+
+        return null;
     }
 
     /**
