@@ -175,7 +175,7 @@ class Asset
             return ltrim(str_replace(public_path(), '', $collection), '/');
         }
 
-        $hash = md5(var_export([$this->collections[$collection], $filters], true));
+        $hash = $this->hashCollection($collection, $filters);
 
         $hint = $this->getHint($collection);
 
@@ -374,6 +374,29 @@ class Asset
         }
 
         return false;
+    }
+
+    /**
+     * Hash the collection.
+     *
+     * This hashes the files in a way so that the
+     * computer's base directory path does not affect
+     * the file name. This makes it easier to distribute
+     * built assets.
+     *
+     * @param $collection
+     * @param $filters
+     * @return string
+     */
+    protected function hashCollection($collection, $filters)
+    {
+        $key = [];
+
+        foreach ($this->collections[$collection] as $file => $filters) {
+            $key[str_replace(base_path(), '', $file)] = $filters;
+        }
+
+        return md5(var_export([$key, $filters], true));
     }
 
     /**
