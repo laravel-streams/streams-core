@@ -92,7 +92,7 @@ class ButtonRegistry
      * Get a button.
      *
      * @param  $button
-     * @return mixed
+     * @return array|null
      */
     public function get($button)
     {
