@@ -49,7 +49,6 @@ class ModuleServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface',
             config('streams::config.modules.repository')
         );
-
         $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
             'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'

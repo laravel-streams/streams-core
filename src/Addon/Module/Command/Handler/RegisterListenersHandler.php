@@ -39,5 +39,13 @@ class RegisterListenersHandler
             'Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasRegistered',
             'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection'
         );
+        $this->dispatcher->listen(
+            'Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled',
+            'Anomaly\Streams\Platform\Addon\Module\Listener\MarkModuleInstalled'
+        );
+        $this->dispatcher->listen(
+            'Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalled',
+            'Anomaly\Streams\Platform\Addon\Module\Listener\MarkModuleUninstalled'
+        );
     }
 }

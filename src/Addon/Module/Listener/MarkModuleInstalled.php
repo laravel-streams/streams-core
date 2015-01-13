@@ -1,17 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Listener;
 
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
-use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalled;
+use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
 
 /**
- * Class ModuleUninstalledListener
+ * Class ModuleInstalledListener
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Module\Listener
  */
-class ModuleUninstalledListener
+class MarkModuleInstalled
 {
 
     /**
@@ -22,7 +22,7 @@ class ModuleUninstalledListener
     protected $modules;
 
     /**
-     * Create a new ModuleUninstalledListener instance.
+     * Create a new ModuleInstalledListener instance.
      *
      * @param ModuleRepositoryInterface $modules
      */
@@ -32,15 +32,15 @@ class ModuleUninstalledListener
     }
 
     /**
-     * When a module is physically uninstalled we need
-     * to update it's database record as uninstalled too.
+     * When a module is physically installed we need
+     * to update it's database record as installed too.
      *
-     * @param ModuleWasUninstalled $event
+     * @param ModuleWasInstalled $event
      */
-    public function handle(ModuleWasUninstalled $event)
+    public function handle(ModuleWasInstalled $event)
     {
         $module = $event->getModule();
 
-        $this->modules->uninstall($module->getSlug());
+        $this->modules->install($module->getSlug());
     }
 }
