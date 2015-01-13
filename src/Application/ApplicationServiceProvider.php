@@ -1,9 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
 use Anomaly\Streams\Platform\Application\Command\LocateApplication;
+use Anomaly\Streams\Platform\Application\Command\SetupTranslator;
+use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
+use Aptoma\Twig\Extension\MarkdownExtension;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Translation\Translator;
 
 /**
  * Class ApplicationServiceProvider
@@ -23,13 +25,28 @@ class ApplicationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Set custom command mapper.
         $this->setCommandBusMapper();
 
+        // Add HTML / form builder extensions to Twig.
         $this->app->make('twig')->addExtension(app('TwigBridge\Extension\Laravel\Form'));
         $this->app->make('twig')->addExtension(app('TwigBridge\Extension\Laravel\Html'));
 
-        $this->app->make('Illuminate\Translation\Translator')->addNamespace('streams', $this->app['streams.path'] . '/resources/lang');
+        // Add streams translation path.
+        $this->app->make('Illuminate\Translation\Translator')->addNamespace(
+            'streams',
+            $this->app['streams.path'] . '/resources/lang'
+        );
 
+        // Handle view  overloading for theme / mobile.
+        $this->app->make('view')->composer('*', 'Anomaly\Streams\Platform\View\Composer');
+
+        // Add markdown support to Twig
+        $engine = new MichelfMarkdownEngine();
+
+        $this->app->make('twig')->addExtension(new MarkdownExtension($engine));
+
+        // Locate the application.
         $this->dispatch(new LocateApplication());
     }
 
