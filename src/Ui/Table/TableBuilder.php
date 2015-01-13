@@ -114,7 +114,7 @@ class TableBuilder
             $data    = $this->table->getData();
 
             $this->table->setContent(
-                view($options->get('view', 'streams::ui/table/index'), $data)
+                view($options->get('table_view', 'streams::ui/table/index'), $data)
             );
         }
     }
@@ -133,7 +133,7 @@ class TableBuilder
             $options = $this->table->getOptions();
             $content = $this->table->getContent();
 
-            return view($options->get('wrapper', 'streams::wrappers/blank'), compact('content'));
+            return view($options->get('wrapper_view', 'streams::wrappers/blank'), compact('content'));
         }
 
         return $this->table->getResponse();
