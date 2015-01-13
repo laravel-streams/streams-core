@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
-use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
+use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 
 /**
@@ -11,15 +11,41 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action
  */
-class ActionFactory extends ButtonFactory
+class ActionFactory
 {
 
     /**
-     * The default button.
+     * The default action.
      *
      * @var string
      */
-    protected $button = 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Action';
+    protected $action = 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Action';
+
+    /**
+     * The action registry.
+     *
+     * @var ActionRegistry
+     */
+    protected $actions;
+
+    /**
+     * The button registry.
+     *
+     * @var ButtonRegistry
+     */
+    protected $buttons;
+
+    /**
+     * Create a new ActionFactory instance.
+     *
+     * @param ActionRegistry $actions
+     * @param ButtonRegistry $buttons
+     */
+    function __construct(ActionRegistry $actions, ButtonRegistry $buttons)
+    {
+        $this->actions = $actions;
+        $this->buttons = $buttons;
+    }
 
     /**
      * Make an action.
@@ -29,6 +55,40 @@ class ActionFactory extends ButtonFactory
      */
     public function make(array $parameters)
     {
-        return parent::make($parameters);
+        $action = $original = array_get($parameters, 'action');
+
+        if ($action && $action = $this->actions->get($action)) {
+            $parameters = array_replace_recursive($action, array_except($parameters, 'action'));
+        }
+
+        $button = array_get($parameters, 'button', $original);
+
+        if ($button && $button = $this->buttons->get($button)) {
+            $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
+        }
+
+        $action = app()->make(array_get($parameters, 'action', $this->action), $parameters);
+
+        $this->hydrate($action, $parameters);
+
+        return $action;
+    }
+
+    /**
+     * Hydrate the button with it's remaining parameters.
+     *
+     * @param ActionInterface $action
+     * @param array           $parameters
+     */
+    protected function hydrate(ActionInterface $action, array $parameters)
+    {
+        foreach ($parameters as $parameter => $value) {
+
+            $method = camel_case('set_' . $parameter);
+
+            if (method_exists($action, $method)) {
+                $action->{$method}($value);
+            }
+        }
     }
 }

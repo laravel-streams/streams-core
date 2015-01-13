@@ -32,7 +32,7 @@ class ActionNormalizer
             if (is_numeric($slug) && is_string($action)) {
                 $action = [
                     'slug'   => $action,
-                    'button' => $action,
+                    'action' => $action,
                 ];
             }
 
@@ -44,7 +44,7 @@ class ActionNormalizer
             if (!is_numeric($slug) && is_string($action)) {
                 $action = [
                     'slug'   => $slug,
-                    'button' => $action,
+                    'action' => $action,
                 ];
             }
 
@@ -59,11 +59,11 @@ class ActionNormalizer
 
             /**
              * If the slug is not numeric and the action is an
-             * array without a button then use the slug for
-             * the button for the action.
+             * array without a action then use the slug for
+             * the action for the action.
              */
-            if (is_array($action) && !isset($action['button']) && !is_numeric($slug)) {
-                $action['button'] = $slug;
+            if (is_array($action) && !isset($action['action']) && !is_numeric($slug)) {
+                $action['action'] = $slug;
             }
 
             /**
