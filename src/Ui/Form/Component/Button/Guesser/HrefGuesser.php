@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser;
 
 use Illuminate\Http\Request;
 
@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser
+ * @package       Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser
  */
 class HrefGuesser
 {
@@ -45,8 +45,8 @@ class HrefGuesser
         // Determine the HREF based on the button type.
         switch (array_get($button, 'button')) {
 
-            case 'edit':
-                $button['attributes']['href'] = $this->guessEditHref();
+            case 'cancel':
+                $button['attributes']['href'] = $this->guessCancelHref();
                 break;
 
             case 'delete':
@@ -56,19 +56,33 @@ class HrefGuesser
     }
 
     /**
-     * Guess the edit URL.
+     * Guess the cancel URL.
      *
-     * Since this is for tables we can assume the
-     * last segment is index so we can simply append
-     * the action and the ID.
+     * Since this is for a form we can assume the last
+     * segment is either edit / create or similar and it
+     * might end with an integer ID so we can simply lop off
+     * the last segment and ID leaving us with index.
      *
      * @return string
      */
-    protected function guessEditHref()
+    protected function guessCancelHref()
     {
         $segments = $this->request->segments();
 
-        return '/' . implode('/', $segments) . '/edit/{{ entry.id }}';
+        /**
+         * If the last segment is an ID then remove it.
+         */
+        if (is_numeric(end($segments))) {
+            array_pop($segments);
+        }
+
+        /**
+         * Now remove the actionable
+         * segment (create / edit).
+         */
+        array_pop($segments);
+
+        return '/' . implode('/', $segments);
     }
 
     /**
@@ -84,6 +98,6 @@ class HrefGuesser
     {
         $segments = $this->request->segments();
 
-        return '/' . implode('/', $segments) . '/delete/{{ entry.id }}';
+        return $this->guessCancelHref() . '/delete/' . end($segments);
     }
 }

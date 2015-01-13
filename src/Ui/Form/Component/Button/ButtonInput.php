@@ -16,6 +16,13 @@ class ButtonInput
 {
 
     /**
+     * The button guesser.
+     *
+     * @var ButtonGuesser
+     */
+    protected $guesser;
+
+    /**
      * The resolver utility.
      *
      * @var Resolver
@@ -33,10 +40,12 @@ class ButtonInput
      * Create a new ButtonInput instance.
      *
      * @param Resolver         $resolver
+     * @param ButtonGuesser    $guesser
      * @param ButtonNormalizer $normalizer
      */
-    public function __construct(Resolver $resolver, ButtonNormalizer $normalizer)
+    public function __construct(Resolver $resolver, ButtonGuesser $guesser, ButtonNormalizer $normalizer)
     {
+        $this->guesser    = $guesser;
         $this->resolver   = $resolver;
         $this->normalizer = $normalizer;
     }
@@ -51,6 +60,7 @@ class ButtonInput
     {
         $this->resolveInput($builder);
         $this->normalizeInput($builder);
+        $this->guessInput($builder);
     }
 
     /**
@@ -71,5 +81,15 @@ class ButtonInput
     protected function normalizeInput(FormBuilder $builder)
     {
         $builder->setButtons($this->normalizer->normalize($builder->getButtons()));
+    }
+
+    /**
+     * Guess the button input.
+     *
+     * @param FormBuilder $builder
+     */
+    protected function guessInput(FormBuilder $builder)
+    {
+        $builder->setButtons($this->guesser->guess($builder->getButtons()));
     }
 }
