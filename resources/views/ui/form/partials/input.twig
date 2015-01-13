@@ -1,7 +1,7 @@
 <input
-        type="text"
-        name="{{ field_type.getFieldName() }}"
         value="{{ field_type.value }}"
+        name="{{ field_type.getFieldName() }}"
+        type="{{ field_type.config.type ?: 'text' }}"
         placeholder="{{ trans(field_type.placeholder) }}"
         class="form-control"
         >

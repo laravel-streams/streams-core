@@ -19,12 +19,12 @@ class ViewRegistry
     protected $views = [
         'all'              => [
             'slug' => 'all',
-            'text' => 'streams::misc.all',
+            'text' => 'streams::view.all',
             'view' => 'Anomaly\Streams\Platform\Ui\Table\Component\View\Type\ViewAll',
         ],
         'recently_created' => [
             'slug' => 'recently_created',
-            'text' => 'streams::misc.recently_created',
+            'text' => 'streams::view.recently_created',
             'view' => 'Anomaly\Streams\Platform\Ui\Table\Component\View\Type\ViewRecentlyCreated',
         ]
     ];

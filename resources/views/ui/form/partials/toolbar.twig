@@ -3,9 +3,11 @@
 
         {% if form.options.translatable %}
             <div class="dropdown visible-lg-inline-block">
+
                 <a href="#" class="btn btn-sm btn-link dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-language"></i> Translations
                 </a>
+                
                 <ul class="dropdown-menu">
                     {% for locale in config_get('streams.available_locales') %}
                         <li class="{{ loop.first ? 'active' }}">
