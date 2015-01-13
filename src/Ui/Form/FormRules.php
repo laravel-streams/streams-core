@@ -45,7 +45,7 @@ class FormRules
                     $unique = 'unique:' . $stream->getEntryTableName() . ',' . $field->getColumnName();
 
                     if ($id = $entry->getId()) {
-                        $unique .= ',' . $entry->getId();
+                        $unique .= ',' . $id;
                     }
 
                     $fieldRules[] = $unique;
