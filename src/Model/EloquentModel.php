@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Collection\CacheCollection;
+use Anomaly\Streams\Platform\Ui\Table\Command\ModifyQuery;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -13,7 +16,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Model
  */
-class EloquentModel extends Model
+class EloquentModel extends Model implements TableModelInterface
 {
 
     use DispatchesCommands;
@@ -204,5 +207,97 @@ class EloquentModel extends Model
     public function getCacheCollectionPrefix()
     {
         return get_called_class();
+    }
+
+    /**
+     * Get table entries.
+     *
+     * @param Table $table
+     * @return mixed
+     */
+    public function getTableEntries(Table $table)
+    {
+        // Get the options off the table.
+        $options = $table->getOptions();
+
+        // Start a new query.
+        $query = $this->newQuery();
+
+        /**
+         * Prevent joins from overriding intended columns
+         * by prefixing with the model's table name.
+         */
+        $query = $query->select($this->getTable() . '.*');
+
+        /**
+         * Eager load any relations to
+         * save resources and queries.
+         */
+        $query = $query->with($options->get('eager', []));
+
+        /**
+         * Raise and dispatch an event here to allow
+         * other things (including filters / views)
+         * to modify the query before proceeding.
+         */
+        $this->dispatch(new ModifyQuery($table, $query));
+
+        /**
+         * Before we actually adjust the baseline query
+         * set the total amount of entries possible back
+         * on the table so it can be used later.
+         */
+        $total = $query->count();
+
+        $options->put('total_results', $total);
+
+        /**
+         * Assure that our page exists. If the page does
+         * not exist then start walking backwards until
+         * we find a page that is has something to show us.
+         */
+        $limit  = $options->get('limit', 15);
+        $page   = app('request')->get('page', 1);
+        $offset = $limit * ($page - 1);
+
+        if ($total < $offset && $page > 1) {
+            $url = str_replace('page=' . $page, 'page=' . ($page - 1), app('request')->fullUrl());
+
+            header('Location: ' . $url);
+        }
+
+        /**
+         * Limit the results to the limit and offset
+         * based on the page if any.
+         */
+        $offset = $limit * (app('request')->get('page', 1) - 1);
+
+        $query = $query->take($limit)->offset($offset);
+
+        /**
+         * Order the query results.
+         */
+        foreach ($options->get('order_by', ['id' => 'asc']) as $column => $direction) {
+            $query = $query->orderBy($column, $direction);
+        }
+
+        return $query->get();
+    }
+
+    /**
+     * Update sorting based on the table input.
+     *
+     * @param Table $table
+     * @return mixed
+     */
+    public function sortTableEntries(Table $table)
+    {
+        $options = $table->getOptions();
+
+        $sortOrder = app('request')->get($options->get('prefix') . 'order');
+
+        foreach ($sortOrder as $order => $id) {
+            $this->where('id', $id)->update(['sort_order' => $order + 1]);
+        }
     }
 }
