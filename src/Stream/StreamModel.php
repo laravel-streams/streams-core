@@ -148,11 +148,21 @@ class StreamModel extends EloquentModel implements StreamInterface
     /**
      * Get the name.
      *
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Get the description.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     /**

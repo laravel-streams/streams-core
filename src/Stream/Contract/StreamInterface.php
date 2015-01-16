@@ -59,6 +59,13 @@ interface StreamInterface
     public function getName();
 
     /**
+     * Get the description.
+     *
+     * @return string
+     */
+    public function getDescription();
+
+    /**
      * Get the translatable flag.
      *
      * @return bool
