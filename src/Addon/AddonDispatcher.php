@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Addon\Distribution\Distribution;
 use Anomaly\Streams\Platform\Addon\Distribution\Event\DistributionWasRegistered;
 use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasRegistered;
+use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\FieldType\Event\FieldTypeWasRegistered;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasRegistered;
@@ -15,7 +16,6 @@ use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 use Anomaly\Streams\Platform\Addon\Theme\Event\ThemeWasRegistered;
 use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Illuminate\Events\Dispatcher;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * Class AddonDispatcher
