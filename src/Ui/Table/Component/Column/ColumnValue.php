@@ -54,17 +54,17 @@ class ColumnValue
         }
 
         /**
+         * If the value is a view path then return a view.
+         */
+        if (str_is('*.*.*::*', $value)) {
+            return view($value, compact('table', 'entry'));
+        }
+
+        /**
          * By default we can just pass the value through
          * the evaluator utility and be done with it.
          */
         $value = $this->evaluator->evaluate($value, compact('table', 'entry'));
-
-        /**
-         * If the value is a view path then return a view.
-         */
-        if (str_is('view::*.*.*::*', $value)) {
-            return view(str_replace('view::', '', $value), compact('table', 'entry'));
-        }
 
         return $value;
     }
