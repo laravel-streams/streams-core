@@ -14,15 +14,13 @@ class ExtensionCollection extends AddonCollection
 {
 
     /**
-     * Find all extensions matching a pattern.
+     * Search for and return matching extensions.
      *
-     * Example: module.users::authenticator.*
-     * Example: module.users::*
-     *
-     * @param  $pattern
-     * @return static|ExtensionCollection
+     * @param mixed $pattern
+     * @param bool  $strict
+     * @return static
      */
-    public function matching($pattern)
+    public function search($pattern, $strict = false)
     {
         $matches = [];
 
