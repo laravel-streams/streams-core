@@ -89,6 +89,16 @@ class FieldModel extends EloquentModel implements FieldInterface
     }
 
     /**
+     * Get the namespace.
+     *
+     * @return string
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+    /**
      * Get the field type.
      *
      * @return mixed

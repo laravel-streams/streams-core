@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
@@ -17,21 +18,28 @@ interface FieldInterface
     /**
      * Get the ID.
      *
-     * @return mixed
+     * @return int
      */
     public function getId();
 
     /**
      * Get the name.
      *
-     * @return mixed
+     * @return string
      */
     public function getName();
 
     /**
+     * Get the namespace.
+     *
+     * @return string
+     */
+    public function getNamespace();
+
+    /**
      * Get the slug.
      *
-     * @return mixed
+     * @return string
      */
     public function getSlug();
 
@@ -61,14 +69,14 @@ interface FieldInterface
     /**
      * Get the related assignments.
      *
-     * @return mixed
+     * @return AssignmentCollection
      */
     public function getAssignments();
 
     /**
      * Get the locked flag.
      *
-     * @return mixed
+     * @return bool
      */
     public function isLocked();
 }
