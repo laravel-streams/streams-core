@@ -62,8 +62,8 @@ class ColumnValue
         /**
          * If the value is a view path then return a view.
          */
-        if (str_is('*.*.*::*', $value)) {
-            return view($value, compact('table', 'entry'));
+        if (str_is('view::*.*.*::*', $value)) {
+            return view(str_replace('view::', '', $value), compact('table', 'entry'));
         }
 
         return $value;
