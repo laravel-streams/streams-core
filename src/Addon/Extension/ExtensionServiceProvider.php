@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension;
 
 use Anomaly\Streams\Platform\Addon\Extension\Command\RegisterExtensions;
+use Anomaly\Streams\Platform\Addon\Extension\Command\RegisterListeners;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +23,7 @@ class ExtensionServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->dispatch(new RegisterListeners());
         $this->dispatch(new RegisterExtensions());
     }
 
