@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -279,6 +280,21 @@ class StreamModel extends EloquentModel implements StreamInterface
     public function getEntryTranslationsTableName()
     {
         return $this->getEntryTableName() . '_translations';
+    }
+
+    /**
+     * Get the entry model.
+     *
+     * @return EntryModel
+     */
+    public function getEntryModel()
+    {
+        $slug      = camel_case($this->getSlug());
+        $namespace = camel_case($this->getNamespace());
+
+        $model = "Anomaly\\Streams\\Platform\\Model\\{$namespace}\\{$namespace}{$slug}EntryModel";
+
+        return new $model;
     }
 
     /**

@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 
 /**
@@ -113,38 +114,30 @@ interface StreamInterface
     public function getFieldType($fieldSlug, EntryInterface $entry = null, $locale = null);
 
     /**
+     * Get the entry model.
+     *
+     * @return EntryModel
+     */
+    public function getEntryModel();
+
+    /**
      * Get the entry table name.
      *
-     * @return mixed
+     * @return string
      */
     public function getEntryTableName();
 
     /**
      * Get the entry translations table name.
      *
-     * @return mixed
+     * @return string
      */
     public function getEntryTranslationsTableName();
 
     /**
      * Get the foreign key.
      *
-     * @return mixed
+     * @return string
      */
     public function getForeignKey();
-
-    /**
-     * Get all attributes.
-     *
-     * @return mixed
-     */
-    public function getAttributes();
-
-    /**
-     * Get an attribute.
-     *
-     * @param  $key
-     * @return mixed
-     */
-    public function getAttribute($key);
 }
