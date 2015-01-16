@@ -13,4 +13,20 @@ use Anomaly\Streams\Platform\Addon\Addon;
 class Extension extends Addon
 {
 
+    /**
+     * The extension identifier.
+     *
+     * @var null|string
+     */
+    protected $identifier = null;
+
+    /**
+     * Get the identifier.
+     *
+     * @return null|string
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
+    }
 }
