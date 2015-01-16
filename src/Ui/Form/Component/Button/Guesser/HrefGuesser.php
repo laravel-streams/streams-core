@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\UrlGenerator;
 
 /**
  * Class HrefGuesser
@@ -14,6 +15,13 @@ class HrefGuesser
 {
 
     /**
+     * The URL generator.
+     *
+     * @var UrlGenerator
+     */
+    protected $url;
+
+    /**
      * The request object.
      *
      * @var Request
@@ -23,10 +31,12 @@ class HrefGuesser
     /**
      * Create a new HrefGuesser instance.
      *
-     * @param Request $request
+     * @param UrlGenerator $url
+     * @param Request      $request
      */
-    public function __construct(Request $request)
+    public function __construct(UrlGenerator $url, Request $request)
     {
+        $this->url     = $url;
         $this->request = $request;
     }
 
@@ -82,7 +92,7 @@ class HrefGuesser
          */
         array_pop($segments);
 
-        return '/' . implode('/', $segments);
+        return $this->url->to(implode('/', $segments));
     }
 
     /**
