@@ -49,6 +49,9 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Asset\AssetServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Image\ImageServiceProvider');
 
+        // Register the message service.
+        $this->app->register('Anomaly\Streams\Platform\Message\MessageServiceProvider');
+
         // Register our base model service.
         $this->app->register('Anomaly\Streams\Platform\Model\EloquentServiceProvider');
 
