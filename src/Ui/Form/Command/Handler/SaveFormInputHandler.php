@@ -23,6 +23,11 @@ class SaveFormInputHandler
     {
         $form = $command->getForm();
 
+        // If validation failed then skip it.
+        if ($form->getErrors()) {
+            return;
+        }
+
         $options = $form->getOptions();
 
         $handler = $options->get('handler', 'Anomaly\Streams\Platform\Ui\Form\FormHandler@handle');

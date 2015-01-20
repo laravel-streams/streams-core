@@ -41,6 +41,10 @@ class SetFormResponseHandler
         $form    = $command->getForm();
         $actions = $form->getActions();
 
+        if ($form->getErrors()) {
+            return;
+        }
+
         if ($action = $actions->active()) {
             $this->responder->setFormResponse($form, $action->getHandler());
         }
