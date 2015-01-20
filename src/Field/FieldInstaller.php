@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Contract\InstallableInterface;
+use Anomaly\Streams\Platform\Contract\Installable;
 
 /**
  * Class FieldInstaller
@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Contract\InstallableInterface;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Field
  */
-class FieldInstaller implements InstallableInterface
+class FieldInstaller implements Installable
 {
 
     /**

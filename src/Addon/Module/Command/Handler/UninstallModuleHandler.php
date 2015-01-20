@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
-use Anomaly\Streams\Platform\Contract\InstallableInterface;
+use Anomaly\Streams\Platform\Contract\Installable;
 use Illuminate\Events\Dispatcher;
 
 /**
@@ -86,9 +86,9 @@ class UninstallModuleHandler
     /**
      * Run the installer's uninstall method.
      *
-     * @param InstallableInterface $installer
+     * @param Installable $installer
      */
-    protected function runUninstall(InstallableInterface $installer)
+    protected function runUninstall(Installable $installer)
     {
         $installer->uninstall();
     }

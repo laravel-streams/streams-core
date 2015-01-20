@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Contract\InstallableInterface;
+use Anomaly\Streams\Platform\Contract\Installable;
 use Anomaly\Streams\Platform\Field\FieldManager;
 
 /**
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Field\FieldManager;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Stream
  */
-class StreamInstaller implements InstallableInterface
+class StreamInstaller implements Installable
 {
 
     /**

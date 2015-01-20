@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
-use Anomaly\Streams\Platform\Contract\InstallableInterface;
+use Anomaly\Streams\Platform\Contract\Installable;
 use Illuminate\Events\Dispatcher;
 
 /**
@@ -86,9 +86,9 @@ class InstallModuleHandler
     /**
      * Run an installer.
      *
-     * @param InstallableInterface $installer
+     * @param Installable $installer
      */
-    protected function runInstaller(InstallableInterface $installer)
+    protected function runInstaller(Installable $installer)
     {
         $installer->install();
     }
