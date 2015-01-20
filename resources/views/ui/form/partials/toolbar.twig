@@ -11,7 +11,7 @@
                 <ul class="dropdown-menu">
                     {% for locale in config_get('streams.available_locales') %}
                         <li class="{{ loop.first ? 'active' }}">
-                            <a href="#" data-toggle="form-locale"
+                            <a href="#" data-toggle="locale"
                                data-locale="{{ locale }}">{{ trans('streams::language.' ~ locale) }}</a>
                         </li>
                     {% endfor %}

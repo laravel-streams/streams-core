@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $('[data-toggle="form-locale"]').click(function (e) {
+    $('[data-toggle="locale"]').click(function (e) {
 
         e.preventDefault();
 
