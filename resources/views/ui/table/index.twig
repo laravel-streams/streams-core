@@ -1,11 +1,11 @@
-{{ asset_add("streams.js", "streams::js/table/table.js") }}
+{{ asset_add("scripts.js", "streams::js/table/table.js") }}
 
 {% if not actions.empty() %}
-    {{ asset_add("streams.js", "streams::js/table/actions.js") }}
+    {{ asset_add("scripts.js", "streams::js/table/actions.js") }}
 {% endif %}
 
 {% if table.options.sortable %}
-    {{ asset_add("streams.js", "streams::js/table/sortable.js") }}
+    {{ asset_add("scripts.js", "streams::js/table/sortable.js") }}
 {% endif %}
 
 <section class="panel panel-default">
