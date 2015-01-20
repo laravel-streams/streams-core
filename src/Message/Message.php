@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Message;
 
 use Illuminate\Session\Store;
-use Illuminate\Support\MessageBag;
 
 /**
  * Class Message
@@ -11,7 +10,7 @@ use Illuminate\Support\MessageBag;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Message
  */
-class Message extends MessageBag
+class Message
 {
 
     /**
@@ -25,28 +24,64 @@ class Message extends MessageBag
      * Create a new Message instance.
      *
      * @param Store $session
-     * @param array $messages
      */
-    public function __construct(Store $session, array $messages = [])
+    public function __construct(Store $session)
     {
         $this->session = $session;
-
-        if ($session->has('messages')) {
-            $messages = array_merge_recursive($session->get('messages'), $messages);
-        }
-
-        parent::__construct($messages);
     }
 
     /**
-     * Flash the messages.
+     * Add an error message.
      *
-     * @return $this
+     * @param $message
      */
-    public function flash()
+    public function error($message)
     {
-        $this->session->flash('messages', $this->messages);
+        $this->merge(__FUNCTION__, $message);
+    }
 
-        return $this;
+    /**
+     * Add an info message.
+     *
+     * @param $message
+     */
+    public function info($message)
+    {
+        $this->merge(__FUNCTION__, $message);
+    }
+
+    /**
+     * Add a success message.
+     *
+     * @param $message
+     */
+    public function success($message)
+    {
+        $this->merge(__FUNCTION__, $message);
+    }
+
+    /**
+     * Add a warning message.
+     *
+     * @param $message
+     */
+    public function warning($message)
+    {
+        $this->merge(__FUNCTION__, $message);
+    }
+
+    /**
+     * Merge a message onto the session.
+     *
+     * @param $type
+     * @param $message
+     */
+    protected function merge($type, $message)
+    {
+        $messages = $this->session->get($type, []);
+
+        array_push($messages, $message);
+
+        $this->session->set($type, $messages);
     }
 }
