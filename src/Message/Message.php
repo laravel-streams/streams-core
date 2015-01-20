@@ -80,7 +80,13 @@ class Message
     {
         $messages = $this->session->get($type, []);
 
-        array_push($messages, $message);
+        if (is_array($message)) {
+            $messages = array_merge($messages, $message);
+        }
+
+        if (is_string($message)) {
+            array_push($messages, $message);
+        }
 
         $this->session->set($type, $messages);
     }
