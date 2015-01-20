@@ -55,6 +55,13 @@ class Form
     protected $response = null;
 
     /**
+     * The form errors.
+     *
+     * @var null|array
+     */
+    protected $errors = null;
+
+    /**
      * The form data.
      *
      * @var Collection
@@ -115,10 +122,10 @@ class Form
     /**
      * Set the form response.
      *
-     * @param null|Response $response
+     * @param null|false|Response $response
      * @return $this
      */
-    public function setResponse(Response $response = null)
+    public function setResponse($response)
     {
         $this->response = $response;
 
@@ -133,6 +140,29 @@ class Form
     public function getResponse()
     {
         return $this->response;
+    }
+
+    /**
+     * Get the errors.
+     *
+     * @return array|null
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    /**
+     * Set the errors.
+     *
+     * @param $errors
+     * @return $this
+     */
+    public function setErrors($errors)
+    {
+        $this->errors = $errors;
+
+        return $this;
     }
 
     /**

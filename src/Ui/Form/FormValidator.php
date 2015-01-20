@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Message\Message;
 use Illuminate\Validation\Validator;
 
 /**
@@ -28,15 +29,23 @@ class FormValidator
     protected $rules;
 
     /**
+     * The message bag.
+     *
+     * @var Message
+     */
+    protected $message;
+
+    /**
      * Create a new FormValidator instance.
      *
      * @param FormInput $input
      * @param FormRules $rules
      */
-    public function __construct(FormInput $input, FormRules $rules)
+    public function __construct(FormInput $input, FormRules $rules, Message $message)
     {
-        $this->input = $input;
-        $this->rules = $rules;
+        $this->input   = $input;
+        $this->rules   = $rules;
+        $this->message = $message;
     }
 
     /**
@@ -64,9 +73,9 @@ class FormValidator
     {
         if (!$validator->passes()) {
 
-            $form->setResponse(false);
+            $form->setErrors($validator->getMessageBag());
 
-            throw new \Exception($validator->getMessageBag()->all());
+            $this->message->error($validator->getMessageBag()->all());
         }
     }
 }
