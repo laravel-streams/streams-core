@@ -69,6 +69,13 @@ class ApplicationServiceProvider extends ServiceProvider
     {
         $this->app->instance('streams.path', $this->app->make('path.base') . '/vendor/anomaly/streams-platform');
 
+        $this->app->bind(
+            'path.lang',
+            function () {
+                return __DIR__ . '/../../resources/lang';
+            }
+        );
+
         $this->app->singleton(
             'Anomaly\Streams\Platform\Application\Application',
             'Anomaly\Streams\Platform\Application\Application'
