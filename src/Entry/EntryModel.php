@@ -25,6 +25,8 @@ use Illuminate\Events\Dispatcher;
 class EntryModel extends EloquentModel implements EntryInterface, FormModelInterface
 {
 
+    use Translatable;
+
     /**
      * Validation rules. These are overridden
      * on the compiled models.
