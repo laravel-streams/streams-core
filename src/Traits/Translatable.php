@@ -10,6 +10,7 @@
  */
 trait Translatable
 {
+
     /*
      * Alias for getTranslation()
      */
@@ -23,7 +24,7 @@ trait Translatable
      */
     public function translateOrDefault($locale)
     {
-        return $this->getTranslation($locale, true);
+        return $this;
     }
 
     /*
@@ -35,7 +36,7 @@ trait Translatable
     }
 
     /**
-     * @param null $locale
+     * @param null      $locale
      * @param bool|null $withFallback
      * @return Model|null
      */
@@ -43,24 +44,18 @@ trait Translatable
     {
         $locale = $locale ?: config('app.locale');
 
-        if ($withFallback === null)
-        {
+        if ($withFallback === null) {
             $withFallback = isset($this->useTranslationFallback) ? $this->useTranslationFallback : false;
         }
 
-        if ($this->getTranslationByLocaleKey($locale))
-        {
+        if ($this->getTranslationByLocaleKey($locale)) {
             $translation = $this->getTranslationByLocaleKey($locale);
-        }
-        elseif ($withFallback
+        } elseif ($withFallback
             && config('translatable::fallback_locale')
             && $this->getTranslationByLocaleKey(config('translatable::fallback_locale'))
-        )
-        {
+        ) {
             $translation = $this->getTranslationByLocaleKey(config('translatable::fallback_locale'));
-        }
-        else
-        {
+        } else {
             $translation = null;
         }
 
@@ -71,10 +66,8 @@ trait Translatable
     {
         $locale = $locale ?: config('app.locale');
 
-        foreach ($this->translations as $translation)
-        {
-            if ($translation->getAttribute($this->getLocaleKey()) == $locale)
-            {
+        foreach ($this->translations as $translation) {
+            if ($translation->getAttribute($this->getLocaleKey()) == $locale) {
                 return true;
             }
         }
@@ -99,7 +92,7 @@ trait Translatable
 
     public function getLocaleKey()
     {
-        return $this->localeKey ?: config('app.default_locale');
+        return $this->localeKey ?: 'locale';
     }
 
     public function translations()
@@ -109,10 +102,8 @@ trait Translatable
 
     public function getAttribute($key)
     {
-        if ($this->isKeyReturningTranslationText($key))
-        {
-            if ($this->getTranslation() === null)
-            {
+        if ($this->isKeyReturningTranslationText($key)) {
+            if ($this->getTranslation() === null) {
                 return null;
             }
             return $this->getTranslation()->$key;
@@ -122,39 +113,29 @@ trait Translatable
 
     public function setAttribute($key, $value)
     {
-        if (in_array($key, $this->translatedAttributes))
-        {
+        if (in_array($key, $this->translatedAttributes)) {
             $this->getTranslationOrNew(config('app.locale'))->$key = $value;
-        }
-        else
-        {
+        } else {
             parent::setAttribute($key, $value);
         }
     }
 
     public function save(array $options = array())
     {
-        if ($this->exists)
-        {
-            if (count($this->getDirty()) > 0)
-            {
+        if ($this->exists) {
+            if (count($this->getDirty()) > 0) {
                 // If $this->exists and dirty, parent::save() has to return true. If not,
                 // an error has occurred. Therefore we shouldn't save the translations.
-                if (parent::save($options))
-                {
+                if (parent::save($options)) {
                     return $this->saveTranslations();
                 }
                 return false;
-            }
-            else
-            {
+            } else {
                 // If $this->exists and not dirty, parent::save() skips saving and returns
                 // false. So we have to save the translations
                 return $this->saveTranslations();
             }
-        }
-        elseif (parent::save($options))
-        {
+        } elseif (parent::save($options)) {
             // We save the translations only if the instance is saved in the database.
             return $this->saveTranslations();
         }
@@ -163,8 +144,7 @@ trait Translatable
 
     protected function getTranslationOrNew($locale)
     {
-        if (($translation = $this->getTranslation($locale, false)) === null)
-        {
+        if (($translation = $this->getTranslation($locale, false)) === null) {
             $translation = $this->getNewTranslation($locale);
         }
         return $translation;
@@ -174,18 +154,12 @@ trait Translatable
     {
         $totallyGuarded = $this->totallyGuarded();
 
-        foreach ($attributes as $key => $values)
-        {
-            if ($this->isKeyALocale($key))
-            {
-                foreach ($values as $translationAttribute => $translationValue)
-                {
-                    if ($this->alwaysFillable() or $this->isFillable($translationAttribute))
-                    {
+        foreach ($attributes as $key => $values) {
+            if ($this->isKeyALocale($key)) {
+                foreach ($values as $translationAttribute => $translationValue) {
+                    if ($this->alwaysFillable() or $this->isFillable($translationAttribute)) {
                         $this->getTranslationOrNew($key)->$translationAttribute = $translationValue;
-                    }
-                    elseif ($totallyGuarded)
-                    {
+                    } elseif ($totallyGuarded) {
                         throw new MassAssignmentException($key);
                     }
                 }
@@ -198,10 +172,8 @@ trait Translatable
 
     private function getTranslationByLocaleKey($key)
     {
-        foreach ($this->translations as $translation)
-        {
-            if ($translation->getAttribute($this->getLocaleKey()) == $key)
-            {
+        foreach ($this->translations as $translation) {
+            if ($translation->getAttribute($this->getLocaleKey()) == $key) {
                 return $translation;
             }
         }
@@ -223,9 +195,8 @@ trait Translatable
     {
         $locales = config('streams.available_locales');
 
-        if (empty($locales))
-        {
-            throw new LocalesNotDefinedException('Please make sure you have run "php artisan config:publish dimsav/laravel-translatable" '.
+        if (empty($locales)) {
+            throw new LocalesNotDefinedException('Please make sure you have run "php artisan config:publish dimsav/laravel-translatable" ' .
                 ' and that the locales configuration is defined.');
         }
         return $locales;
@@ -234,10 +205,8 @@ trait Translatable
     protected function saveTranslations()
     {
         $saved = true;
-        foreach ($this->translations as $translation)
-        {
-            if ($saved && $this->isTranslationDirty($translation))
-            {
+        foreach ($this->translations as $translation) {
+            if ($saved && $this->isTranslationDirty($translation)) {
                 $translation->setAttribute($this->getRelationKey(), $this->getKey());
                 $saved = $translation->save();
             }
@@ -254,7 +223,7 @@ trait Translatable
 
     public function getNewTranslation($locale)
     {
-        $modelName = $this->getTranslationModelName();
+        $modelName   = $this->getTranslationModelName();
         $translation = new $modelName;
         $translation->setAttribute($this->getLocaleKey(), $locale);
         $translation->setAttribute($this->getRelationKey(), $this->getKey());
@@ -269,8 +238,7 @@ trait Translatable
 
     public function scopeTranslatedIn(Builder $query, $locale)
     {
-        return $query->whereHas('translations', function(Builder $q) use ($locale)
-        {
+        return $query->whereHas('translations', function (Builder $q) use ($locale) {
             $q->where($this->getLocaleKey(), '=', $locale);
         });
     }
@@ -284,10 +252,8 @@ trait Translatable
     {
         $attributes = parent::toArray();
 
-        foreach($this->translatedAttributes AS $field)
-        {
-            if ($translations = $this->getTranslation())
-            {
+        foreach ($this->translatedAttributes AS $field) {
+            if ($translations = $this->getTranslation()) {
                 $attributes[$field] = $translations->$field;
             }
         }
