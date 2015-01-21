@@ -77,32 +77,34 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
         $type->setRequired($this->isRequired());
         $type->setTranslatable($this->isTranslatable());
 
+        $locale = 'en';
+
         /**
          * This is already set as the field name.
          * If the label is available (translated)
          * set it as type's label.
          */
-        /*if ($label = $this->getLabel($locale)) {
+        if ($label = $this->getLabel($locale)) {
             $type->setLabel($label);
-        }*/
+        }
 
         /**
          * This defaults to null but it's translation
          * string is automated. If the translation is
          * available set the placeholder on the type.
          */
-        /*if ($placeholder = $this->getPlaceholder($locale)) {
+        if ($placeholder = $this->getPlaceholder($locale)) {
             $type->setPlaceholder($placeholder);
-        }*/
+        }
 
         /**
          * This defaults to null but it's translation
          * string is automated. If the translation is
          * available set the  instructions on the type.
          */
-        /*if ($instructions = $this->getInstructions($locale)) {
+        if ($instructions = $this->getInstructions($locale)) {
             $type->setInstructions($instructions);
-        }*/
+        }
 
         return $type;
     }
