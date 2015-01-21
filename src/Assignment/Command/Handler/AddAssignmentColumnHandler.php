@@ -63,7 +63,7 @@ class AddAssignmentColumnHandler
                 $table,
                 $columnName,
                 $columnType,
-                $required = false,
+                false, // Force non-required on translations.
                 $assignment->isUnique()
             );
         }
