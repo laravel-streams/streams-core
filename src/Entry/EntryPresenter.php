@@ -15,22 +15,26 @@ class EntryPresenter extends EloquentPresenter
 {
 
     /**
-     * The decorated resource.
+     * The resource object.
+     * This is for IDE hinting.
      *
      * @var EntryInterface
      */
-    protected $resource;
+    protected $object;
 
     /**
-     * Wrap with a decorated field type if possible.
+     * When accessing a property of a decorated entry
+     * object first check to see if the key represents
+     * a streams field. If it does then return the field
+     * type's presenter object. Otherwise handle normally.
      *
      * @param  $key
      * @return mixed
      */
     public function __get($key)
     {
-        if ($type = $this->resource->getFieldType($key)) {
-            return $type->newPresenter();
+        if ($type = $this->object->getFieldType($key)) {
+            return $type->getPresenter();
         }
 
         return $this->resource->getAttribute($key);

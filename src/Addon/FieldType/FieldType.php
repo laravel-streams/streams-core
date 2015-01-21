@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Robbo\Presenter\PresentableInterface;
 
 /**
  * Class FieldType
@@ -513,6 +514,22 @@ class FieldType extends Addon
         }
 
         return $_POST[$this->getFieldName()];
+    }
+
+    /**
+     * Get the presenter field type.
+     *
+     * @return \Robbo\Presenter\Presenter
+     */
+    public function getPresenter()
+    {
+        $presenter = get_class($this) . 'Presenter';
+
+        if (!class_exists($presenter)) {
+            return new FieldTypePresenter($this);
+        }
+
+        return new $presenter($this);
     }
 
     /**

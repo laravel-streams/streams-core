@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Dimsav\Translatable\Translatable;
 use Illuminate\Events\Dispatcher;
+use Robbo\Presenter\PresentableInterface;
 
 /**
  * Class EntryModel
@@ -22,7 +23,7 @@ use Illuminate\Events\Dispatcher;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Entry
  */
-class EntryModel extends EloquentModel implements EntryInterface, FormModelInterface
+class EntryModel extends EloquentModel implements EntryInterface, FormModelInterface, PresentableInterface
 {
 
     use Translatable;
@@ -94,7 +95,6 @@ class EntryModel extends EloquentModel implements EntryInterface, FormModelInter
 
     /**
      * Get an attribute value by a field slug.
-     *
      * This is a pretty automated process. Let
      * the accessor method overriding Eloquent
      * take care of this whole ordeal.
@@ -117,7 +117,6 @@ class EntryModel extends EloquentModel implements EntryInterface, FormModelInter
 
     /**
      * Set a given attribute on the model.
-     *
      * Override the behavior here to give
      * the field types a chance to modify things.
      *
@@ -149,7 +148,6 @@ class EntryModel extends EloquentModel implements EntryInterface, FormModelInter
 
     /**
      * Get a given attribute on the model.
-     *
      * Override the behavior here to give
      * the field types a chance to modify things.
      *
@@ -299,5 +297,15 @@ class EntryModel extends EloquentModel implements EntryInterface, FormModelInter
                 $entry->save();
             }
         }
+    }
+
+    /**
+     * Return the entry presenter.
+     *
+     * @return EntryPresenter
+     */
+    public function getPresenter()
+    {
+        return new EntryPresenter($this);
     }
 }

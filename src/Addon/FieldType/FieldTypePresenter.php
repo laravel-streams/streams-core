@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Contract\StringableInterface;
 use Robbo\Presenter\Presenter;
 
 /**
@@ -11,24 +10,19 @@ use Robbo\Presenter\Presenter;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\FieldType
  */
-class FieldTypePresenter extends Presenter implements StringableInterface
+class FieldTypePresenter extends Presenter
 {
 
     /**
-     * Create a new Presenter instance.
+     * The resource object.
+     * This is for IDE hinting.
      *
-     * @param $object
+     * @var FieldType
      */
-    public function __construct($object)
-    {
-        if ($object instanceof FieldType) {
-            $this->object = $object;
-        }
-    }
+    protected $object;
 
     /**
      * By default return the value.
-     *
      * This can be dangerous if used in a loop!
      * There is a PHP bug that caches it's
      * output when used in a loop.
@@ -42,12 +36,21 @@ class FieldTypePresenter extends Presenter implements StringableInterface
     }
 
     /**
-     * Return the instance as a string.
+     * If attempting to access a property first
+     * check if the method exists and return it's
+     * result before handling natively. This makes
+     * a much sexier syntax for presenter methods off
+     * of entry objects.
      *
+     * @param string $key
      * @return mixed
      */
-    public function toString()
+    public function __get($key)
     {
-        return (string)$this->object->getValue();
+        if (method_exists($this, $key)) {
+            return call_user_func_array([$this, $key], []);
+        }
+
+        return parent::__get($key);
     }
 }
