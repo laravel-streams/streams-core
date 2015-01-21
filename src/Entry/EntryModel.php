@@ -134,7 +134,7 @@ class EntryModel extends EloquentModel implements EntryInterface, FormModelInter
      */
     public function setAttribute($key, $value)
     {
-        if ($this->getFieldType($key, $value)) {
+        if (!$this->hasSetMutator($key) && $this->getFieldType($key, $value)) {
             $this->setFieldValue($key, $value);
         } else {
             parent::setAttribute($key, $value);
@@ -151,7 +151,7 @@ class EntryModel extends EloquentModel implements EntryInterface, FormModelInter
      */
     public function getAttribute($key)
     {
-        if ($this->getFieldType($key)) {
+        if (!$this->hasGetMutator($key) && $this->getFieldType($key)) {
             return $this->getFieldValue($key);
         } else {
             return parent::getAttribute($key);
