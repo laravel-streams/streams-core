@@ -28,8 +28,7 @@
         "phpseclib/phpseclib": "0.3.*",
         "robclancy/presenter": "1.3.*",
         "filp/whoops": "1.2.*",
-        "symfony/yaml": "2.7.*",
-        "dimsav/laravel-translatable": "5.0.*"
+        "symfony/yaml": "2.7.*"
     },
     "require-dev": {
         "anomaly/streams": "dev-master",
