@@ -1,17 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Addon\FieldType\Contract\DateFieldTypeInterface;
-use Anomaly\Streams\Platform\Addon\FieldType\Contract\RelationFieldTypeInterface;
-use Anomaly\Streams\Platform\Addon\FieldType\Contract\SetterFieldTypeInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Traits\Translatable;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
-use Dimsav\Translatable\Translatable;
 use Illuminate\Events\Dispatcher;
 use Robbo\Presenter\PresentableInterface;
 

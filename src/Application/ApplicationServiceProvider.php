@@ -105,10 +105,6 @@ class ApplicationServiceProvider extends ServiceProvider
      */
     protected function configurePackages()
     {
-        // Configure Translatable
-        $this->app->make('config')->set('translatable::locales', ['en', 'es']);
-        $this->app->make('config')->set('translatable::translation_suffix', 'Translation');
-
         // Bind a string loader version of twig.
         $this->app->bind(
             'twig.string',
