@@ -41,7 +41,7 @@ trait Translatable
      */
     public function getTranslation($locale = null, $withFallback = null)
     {
-        $locale = $locale ?: App::getLocale();
+        $locale = $locale ?: config('app.locale');
 
         if ($withFallback === null)
         {
@@ -53,11 +53,11 @@ trait Translatable
             $translation = $this->getTranslationByLocaleKey($locale);
         }
         elseif ($withFallback
-            && App::make('config')->get('translatable::fallback_locale')
-            && $this->getTranslationByLocaleKey(App::make('config')->get('translatable::fallback_locale'))
+            && config('translatable::fallback_locale')
+            && $this->getTranslationByLocaleKey(config('translatable::fallback_locale'))
         )
         {
-            $translation = $this->getTranslationByLocaleKey(App::make('config')->get('translatable::fallback_locale'));
+            $translation = $this->getTranslationByLocaleKey(config('translatable::fallback_locale'));
         }
         else
         {
@@ -69,7 +69,7 @@ trait Translatable
 
     public function hasTranslation($locale = null)
     {
-        $locale = $locale ?: App::getLocale();
+        $locale = $locale ?: config('app.locale');
 
         foreach ($this->translations as $translation)
         {
@@ -89,7 +89,6 @@ trait Translatable
 
     public function getTranslationModelNameDefault()
     {
-        $config = App::make('config');
         return get_class($this) . 'Translation';
     }
 
@@ -125,7 +124,7 @@ trait Translatable
     {
         if (in_array($key, $this->translatedAttributes))
         {
-            $this->getTranslationOrNew(App::getLocale())->$key = $value;
+            $this->getTranslationOrNew(config('app.locale'))->$key = $value;
         }
         else
         {
@@ -222,7 +221,7 @@ trait Translatable
 
     protected function getLocales()
     {
-        $locales = config('streams::available_locales');
+        $locales = config('streams.available_locales');
 
         if (empty($locales))
         {

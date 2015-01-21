@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Dimsav\Translatable\Translatable;
+use Anomaly\Streams\Platform\Traits\Translatable;
 
 /**
  * Class FieldModel
