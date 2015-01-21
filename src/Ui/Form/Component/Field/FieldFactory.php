@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Illuminate\Http\Request;
 
 /**
  * Class FieldFactory
@@ -22,13 +23,22 @@ class FieldFactory
     protected $builder;
 
     /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * Create a new FieldFactory instance.
      *
      * @param FieldTypeBuilder $builder
+     * @param Request          $request
      */
-    public function __construct(FieldTypeBuilder $builder)
+    public function __construct(FieldTypeBuilder $builder, Request $request)
     {
         $this->builder = $builder;
+        $this->request = $request;
     }
 
     /**
@@ -45,6 +55,10 @@ class FieldFactory
             $field = $assignment->getFieldType($entry);
         } else {
             $field = $this->builder->build($parameters);
+        }
+
+        if ($this->request->has($field->getFieldName())) {
+            $field->setValue($this->request->get($field->getFieldName()));
         }
 
         return $field;
