@@ -51,6 +51,13 @@ class EloquentModel extends Model implements TableModelInterface
     protected $cacheMinutes = false;
 
     /**
+     * Not translatable by default.
+     *
+     * @var bool
+     */
+    protected $translatable = false;
+
+    /**
      * The attributes that are not mass assignable
      *
      * @var array
@@ -397,8 +404,10 @@ class EloquentModel extends Model implements TableModelInterface
             if ($this->getTranslation() === null) {
                 return null;
             }
+
             return $this->getTranslation()->$key;
         }
+
         return parent::getAttribute($key);
     }
 
@@ -413,6 +422,10 @@ class EloquentModel extends Model implements TableModelInterface
 
     public function save(array $options = array())
     {
+        if (!$this->isTranslatable()) {
+            return parent::save($options);
+        }
+
         if ($this->exists) {
             if (count($this->getDirty()) > 0) {
                 // If $this->exists and dirty, parent::save() has to return true. If not,
@@ -420,6 +433,7 @@ class EloquentModel extends Model implements TableModelInterface
                 if (parent::save($options)) {
                     return $this->saveTranslations();
                 }
+
                 return false;
             } else {
                 // If $this->exists and not dirty, parent::save() skips saving and returns
@@ -430,6 +444,7 @@ class EloquentModel extends Model implements TableModelInterface
             // We save the translations only if the instance is saved in the database.
             return $this->saveTranslations();
         }
+
         return false;
     }
 
@@ -438,6 +453,7 @@ class EloquentModel extends Model implements TableModelInterface
         if (($translation = $this->getTranslation($locale, false)) === null) {
             $translation = $this->getNewTranslation($locale);
         }
+
         return $translation;
     }
 
@@ -468,6 +484,7 @@ class EloquentModel extends Model implements TableModelInterface
                 return $translation;
             }
         }
+
         return null;
     }
 
@@ -479,6 +496,7 @@ class EloquentModel extends Model implements TableModelInterface
     protected function isKeyALocale($key)
     {
         $locales = $this->getLocales();
+
         return in_array($key, $locales);
     }
 
@@ -487,9 +505,12 @@ class EloquentModel extends Model implements TableModelInterface
         $locales = config('streams.available_locales');
 
         if (empty($locales)) {
-            throw new LocalesNotDefinedException('Please make sure you have run "php artisan config:publish dimsav/laravel-translatable" ' .
-                ' and that the locales configuration is defined.');
+            throw new LocalesNotDefinedException(
+                'Please make sure you have run "php artisan config:publish dimsav/laravel-translatable" ' .
+                ' and that the locales configuration is defined.'
+            );
         }
+
         return $locales;
     }
 
@@ -502,6 +523,7 @@ class EloquentModel extends Model implements TableModelInterface
                 $saved = $translation->save();
             }
         }
+
         return $saved;
     }
 
@@ -509,6 +531,7 @@ class EloquentModel extends Model implements TableModelInterface
     {
         $dirtyAttributes = $translation->getDirty();
         unset($dirtyAttributes[$this->getLocaleKey()]);
+
         return count($dirtyAttributes) > 0;
     }
 
@@ -519,6 +542,7 @@ class EloquentModel extends Model implements TableModelInterface
         $translation->setAttribute($this->getLocaleKey(), $locale);
         $translation->setAttribute($this->getRelationKey(), $this->getKey());
         $this->translations->add($translation);
+
         return $translation;
     }
 
@@ -529,9 +553,12 @@ class EloquentModel extends Model implements TableModelInterface
 
     public function scopeTranslatedIn(Builder $query, $locale)
     {
-        return $query->whereHas('translations', function (Builder $q) use ($locale) {
-            $q->where($this->getLocaleKey(), '=', $locale);
-        });
+        return $query->whereHas(
+            'translations',
+            function (Builder $q) use ($locale) {
+                $q->where($this->getLocaleKey(), '=', $locale);
+            }
+        );
     }
 
     public function scopeTranslated(Builder $query)
