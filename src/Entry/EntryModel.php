@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Traits\Translatable;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Illuminate\Events\Dispatcher;
@@ -22,8 +21,6 @@ use Robbo\Presenter\PresentableInterface;
  */
 class EntryModel extends EloquentModel implements EntryInterface, FormModelInterface, PresentableInterface
 {
-
-    use Translatable;
 
     /**
      * Validation rules. These are overridden

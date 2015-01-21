@@ -17,8 +17,6 @@ use Anomaly\Streams\Platform\Traits\Translatable;
 class AssignmentModel extends EloquentModel implements AssignmentInterface
 {
 
-    use Translatable;
-
     /**
      * Do not use timestamps.
      *
@@ -26,6 +24,12 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public $timestamps = false;
 
+    /**
+     * This is a translatable model.
+     *
+     * @var bool
+     */
+    protected $translatable = true;
 
     /**
      * The foreign key for translations.

@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Traits\Translatable;
 
 /**
  * Class FieldModel
@@ -15,8 +14,6 @@ use Anomaly\Streams\Platform\Traits\Translatable;
  */
 class FieldModel extends EloquentModel implements FieldInterface
 {
-
-    use Translatable;
 
     /**
      * Do not use timestamps.
