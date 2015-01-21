@@ -22,11 +22,35 @@ class Header implements HeaderInterface
 {
 
     /**
+     * The header field.
+     *
+     * @var string
+     */
+    protected $field;
+
+    /**
      * The header heading.
      *
      * @var string
      */
     protected $heading;
+
+    /**
+     * The sortable flag.
+     *
+     * @var bool
+     */
+    protected $sortable = true;
+
+    /**
+     * Get the header heading.
+     *
+     * @return mixed
+     */
+    public function getHeading()
+    {
+        return $this->heading;
+    }
 
     /**
      * Set the header heading.
@@ -42,12 +66,48 @@ class Header implements HeaderInterface
     }
 
     /**
-     * Get the header heading.
+     * Get the sortable flag.
      *
-     * @return mixed
+     * @return boolean
      */
-    public function getHeading()
+    public function isSortable()
     {
-        return $this->heading;
+        return $this->sortable;
+    }
+
+    /**
+     * Set the sortable flag.
+     *
+     * @param boolean $sortable
+     * @return $this
+     */
+    public function setSortable($sortable)
+    {
+        $this->sortable = $sortable;
+
+        return $this;
+    }
+
+    /**
+     * Get the field.
+     *
+     * @return string
+     */
+    public function getField()
+    {
+        return $this->field;
+    }
+
+    /**
+     * Set the field.
+     *
+     * @param string $field
+     * @return $this
+     */
+    public function setField($field)
+    {
+        $this->field = $field;
+
+        return $this;
     }
 }
