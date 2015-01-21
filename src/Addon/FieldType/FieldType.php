@@ -517,7 +517,7 @@ class FieldType extends Addon
     }
 
     /**
-     * Get the presenter field type.
+     * Get the presenter.
      *
      * @return \Robbo\Presenter\Presenter
      */
@@ -530,6 +530,38 @@ class FieldType extends Addon
         }
 
         return new $presenter($this);
+    }
+
+    /**
+     * Get the modifier.
+     *
+     * @return FieldTypeModifier
+     */
+    public function getModifier()
+    {
+        $modifier = get_class($this) . 'Modifier';
+
+        if (!class_exists($modifier)) {
+            return new FieldTypeModifier($this);
+        }
+
+        return app()->make($modifier, ['fieldType' => $this]);
+    }
+
+    /**
+     * Get the accessor.
+     *
+     * @return FieldTypeAccessor
+     */
+    public function getAccessor()
+    {
+        $accessor = get_class($this) . 'Accessor';
+
+        if (!class_exists($accessor)) {
+            return new FieldTypeAccessor($this);
+        }
+
+        return app()->make($accessor, ['fieldType' => $this]);
     }
 
     /**

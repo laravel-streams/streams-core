@@ -54,18 +54,24 @@ class AssignmentSchema
     /**
      * Add a column.
      *
-     * @param $table
-     * @param $columnName
-     * @param $columnType
+     * @param      $table
+     * @param      $columnName
+     * @param      $columnType
+     * @param bool $required
+     * @param bool $unique
      */
-    public function addColumn($table, $columnName, $columnType)
+    public function addColumn($table, $columnName, $columnType, $required = false, $unique = false)
     {
         if (!$this->schema->hasColumn($table, $columnName)) {
             $this->schema->table(
                 $table,
-                function (Blueprint $table) use ($columnName, $columnType) {
+                function (Blueprint $table) use ($columnName, $columnType, $required, $unique) {
 
-                    $table->{$columnType}($columnName)->nullable(true);
+                    $table->{$columnType}($columnName)->nullable(!$required);
+
+                    if ($unique) {
+                        $table->unique($columnName);
+                    }
                 }
             );
         }
