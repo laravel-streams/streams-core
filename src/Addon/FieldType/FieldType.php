@@ -135,11 +135,11 @@ class FieldType extends Addon
      */
     protected $wrapperView = 'streams::ui/form/partials/wrapper';
 
-    protected $presenter = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter';
+    protected $presenter = null;
 
-    protected $modifier = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeModifier';
+    protected $modifier = null;
 
-    protected $accessor = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor';
+    protected $accessor = null;
 
     /**
      * Get the rules.
@@ -546,6 +546,14 @@ class FieldType extends Addon
      */
     public function getPresenter()
     {
+        if (!$this->presenter) {
+            $this->presenter = get_class($this) . 'Presenter';
+        }
+
+        if (!class_exists($this->presenter)) {
+            $this->presenter = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter';
+        }
+
         return app()->make($this->presenter, [$this]);
     }
 
@@ -556,6 +564,14 @@ class FieldType extends Addon
      */
     public function getModifier()
     {
+        if (!$this->modifier) {
+            $this->modifier = get_class($this) . 'Modifier';
+        }
+
+        if (!class_exists($this->modifier)) {
+            $this->modifier = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeModifier';
+        }
+
         return app()->make($this->modifier, [$this]);
     }
 
@@ -566,6 +582,14 @@ class FieldType extends Addon
      */
     public function getAccessor()
     {
+        if (!$this->accessor) {
+            $this->accessor = get_class($this) . 'Accessor';
+        }
+
+        if (!class_exists($this->accessor)) {
+            $this->accessor = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor';
+        }
+
         return app()->make($this->accessor, [$this]);
     }
 
