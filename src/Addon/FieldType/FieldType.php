@@ -23,6 +23,14 @@ class FieldType extends Addon
     protected $rules = [];
 
     /**
+     * Custom validators.
+     * i.e. 'rule' => ['message', 'handler']
+     *
+     * @var array
+     */
+    protected $validators = [];
+
+    /**
      * Configuration options.
      *
      * @var array
@@ -141,6 +149,16 @@ class FieldType extends Addon
     public function getRules()
     {
         return $this->rules;
+    }
+
+    /**
+     * Get the validators.
+     *
+     * @return array
+     */
+    public function getValidators()
+    {
+        return $this->validators;
     }
 
     /**

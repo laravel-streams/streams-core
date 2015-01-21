@@ -17,7 +17,7 @@
         {{ table_filters(table)|raw }}
 
         {% if not table.rows.empty() %}
-            <form method="post">
+            {{ form_open() }}
                 <table class="{{ table.options.class ?: 'table table-hover' }} {{ table.options.sortable ? 'sortable' }}">
 
                     {{ table_header(table)|raw }}
@@ -25,7 +25,7 @@
                     {{ table_footer(table)|raw }}
 
                 </table>
-            </form>
+            {{ form_close() }}
         {% else %}
             <div class="no-results">
                 <h3>{{ trans(table.options.get('no_results_message', 'streams::error.no_results')) }}</h3>

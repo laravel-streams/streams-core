@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Message\Message;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
+use Illuminate\Validation\Factory;
 use Illuminate\Validation\Validator;
 
 /**
@@ -55,10 +58,14 @@ class FormValidator
      */
     public function validate(Form $form)
     {
+        $validator = app('validator');
+
         $rules = $this->rules->compile($form);
         $input = $this->input->get($form, config('app.locale'));
 
-        $validator = app('validator')->make($input, $rules);
+        $this->extendValidator($validator, $form->getFields());
+
+        $validator = $validator->make($input, $rules);
 
         $this->setResponse($validator, $form);
     }
@@ -76,6 +83,25 @@ class FormValidator
             $form->setErrors($validator->getMessageBag());
 
             $this->message->error($validator->getMessageBag()->all());
+        }
+    }
+
+    /**
+     * Extend the validator with the fields.
+     *
+     * @param Factory         $factory
+     * @param FieldCollection $fields
+     */
+    protected function extendValidator(Factory $factory, FieldCollection $fields)
+    {
+        foreach ($fields as $field) {
+            if ($field instanceof FieldType && $validators = $field->getValidators()) {
+                foreach ($validators as $rule => $validator) {
+                    if ($handler = array_get($validator, 'handler')) {
+                        $factory->extend($rule, $handler);
+                    }
+                }
+            }
         }
     }
 }
