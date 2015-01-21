@@ -57,10 +57,6 @@ class FieldFactory
             $field = $this->builder->build($parameters);
         }
 
-        if ($this->request->has($field->getFieldName())) {
-            $field->setValue($this->request->get($field->getFieldName()));
-        }
-
         return $field;
     }
 }

@@ -107,7 +107,7 @@ class FormPluginFunctions
                     ->render();
             }
         } else {
-            $output = $field->render();
+            $output = $field->setLocale(config('app.locale'))->render();
         }
 
         return $output;
