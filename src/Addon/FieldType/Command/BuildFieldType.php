@@ -150,7 +150,7 @@ class BuildFieldType
         $placeholder = null,
         $instructions = null,
         $translatable = null,
-        array $config = []
+        $config = null
     ) {
         $this->type         = $type;
         $this->field        = $field;

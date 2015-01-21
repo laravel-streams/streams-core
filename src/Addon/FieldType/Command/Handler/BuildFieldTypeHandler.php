@@ -53,7 +53,7 @@ class BuildFieldTypeHandler
             ->setField($command->getField())
             ->setValue($command->getValue())
             ->setLabel($command->getLabel())
-            ->setConfig($command->getConfig())
+            ->setConfig((array)$command->getConfig())
             ->setLocale($command->getLocale())
             ->setPrefix($command->getPrefix())
             ->setHidden($command->getHidden())
