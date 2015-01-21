@@ -74,11 +74,9 @@ interface EntryInterface
      * Get an attribute value by a field slug.
      *
      * @param       $fieldSlug
-     * @param  null $locale
-     * @param  bool $mutate
      * @return mixed
      */
-    public function getFieldValue($fieldSlug, $locale = null, $mutate = true);
+    public function getFieldValue($fieldSlug);
 
     /**
      * Get a field's type by the field's slug.

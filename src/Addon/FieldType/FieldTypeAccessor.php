@@ -50,6 +50,6 @@ class FieldTypeAccessor
      */
     public function get(array $attributes)
     {
-        return $attributes[$this->fieldType->getColumnName()];
+        return array_get($attributes, $this->fieldType->getColumnName());
     }
 }

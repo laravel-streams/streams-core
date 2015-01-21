@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
-use Anomaly\Streams\Platform\Addon\FieldType\Contract\RelationFieldTypeInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Dimsav\Translatable\Translatable;
@@ -101,30 +99,20 @@ class FieldModel extends EloquentModel implements FieldInterface
     /**
      * Get the field type.
      *
-     * @return mixed
+     * @return FieldType
      */
-    public function getType(EntryInterface $entry = null, $locale = null)
+    public function getType()
     {
         $type   = $this->type;
         $field  = $this->slug;
         $label  = $this->name;
         $config = $this->config;
 
-        $locale = $locale ?: config('app.locale');
-
         $data = compact('type', 'field', 'label', 'config', 'locale');
 
         $command = 'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType';
 
-        $type = $this->dispatchFromArray($command, $data);
-
-        if ($entry && $type instanceof FieldType) {
-            if (!$type instanceof RelationFieldTypeInterface) {
-                $type->setValue($entry->getFieldValue($field, $locale, false));
-            }
-        }
-
-        return $type;
+        return $this->dispatchFromArray($command, $data);
     }
 
     /**

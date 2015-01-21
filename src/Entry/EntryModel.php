@@ -94,25 +94,39 @@ class EntryModel extends EloquentModel implements EntryInterface, FormModelInter
 
 
     /**
-     * Get an attribute value by a field slug.
-     * This is a pretty automated process. Let
-     * the accessor method overriding Eloquent
-     * take care of this whole ordeal.
+     * Get the value of a field property.
      *
      * @param       $fieldSlug
-     * @param  null $locale
-     * @param  bool $mutate
      * @return mixed
      */
-    public function getFieldValue($fieldSlug, $locale = null, $mutate = true)
+    public function getFieldValue($fieldSlug)
     {
-        $locale = $locale ?: config('app.locale');
+        $assignment = $this->getAssignment($fieldSlug);
 
-        if ($this->isTranslatable() && $translation = $this->translate($locale, false)) {
-            return $translation->getAttribute($fieldSlug, false);
-        }
+        $type = $assignment->getFieldType($this);
 
-        return parent::getAttribute($fieldSlug);
+        $accessor = $type->getAccessor();
+        $modifier = $type->getModifier();
+
+        return $modifier->reverse($accessor->get($this->getAttributes(), $fieldSlug));
+    }
+
+    /**
+     * Set the value of a field property.
+     *
+     * @param $fieldSlug
+     * @param $value
+     */
+    public function setFieldValue($fieldSlug, $value)
+    {
+        $assignment = $this->getAssignment($fieldSlug);
+
+        $type = $assignment->getFieldType($this);
+
+        $accessor = $type->getAccessor();
+        $modifier = $type->getModifier();
+
+        $this->setRawAttributes($accessor->set($this->getAttributes(), $modifier->modify($value)));
     }
 
     /**
@@ -122,28 +136,15 @@ class EntryModel extends EloquentModel implements EntryInterface, FormModelInter
      *
      * @param  string $key
      * @param  mixed  $value
-     * @param  bool   $mutate
      * @return void
      */
-    public function setAttribute($key, $value, $mutate = true)
+    public function setAttribute($key, $value)
     {
-        /**
-         * If we have a field type for this key use
-         * it's setAttribute method to set the value.
-         */
-        if ($mutate && $field = $this->getField($key)) {
-            $type = $field->getType();
-
-            if ($type instanceof SetterFieldTypeInterface) {
-                $type->setAttribute($this->attributes, $value);
-
-                return;
-            }
-
-            $value = $type->mutate($value);
+        if ($this->getFieldType($key, $value)) {
+            $this->setFieldValue($key, $value);
+        } else {
+            parent::setAttribute($key, $value);
         }
-
-        parent::setAttribute($key, $value);
     }
 
     /**
@@ -152,22 +153,15 @@ class EntryModel extends EloquentModel implements EntryInterface, FormModelInter
      * the field types a chance to modify things.
      *
      * @param  string $key
-     * @param  bool   $mutate
-     * @return void
+     * @return mixed
      */
-    public function getAttribute($key, $mutate = true)
+    public function getAttribute($key)
     {
-        $value = parent::getAttribute($key);
-
-        /**
-         * If we have a field type for this key use
-         * it's unmutate method to modify the value.
-         */
-        if ($mutate && $type = $this->getFieldType($key)) {
-            return $type->unmutate($value);
+        if ($this->getFieldType($key)) {
+            return $this->getFieldValue($key);
+        } else {
+            return parent::getAttribute($key);
         }
-
-        return $value;
     }
 
     /**
@@ -227,7 +221,7 @@ class EntryModel extends EloquentModel implements EntryInterface, FormModelInter
      * Get the field type from a field slug.
      *
      * @param  $fieldSlug
-     * @return FieldType|RelationFieldTypeInterface|DateFieldTypeInterface
+     * @return null|FieldType
      */
     public function getFieldType($fieldSlug)
     {
@@ -237,7 +231,11 @@ class EntryModel extends EloquentModel implements EntryInterface, FormModelInter
             return null;
         }
 
-        return $assignment->getFieldType($this);
+        $type = $assignment->getFieldType($this);
+
+        $type->setValue($this->getFieldValue($fieldSlug));
+
+        return $type;
     }
 
     /**

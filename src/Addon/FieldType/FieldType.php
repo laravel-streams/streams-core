@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Robbo\Presenter\PresentableInterface;
 
 /**
  * Class FieldType
@@ -127,6 +126,12 @@ class FieldType extends Addon
      * @var string
      */
     protected $wrapperView = 'streams::ui/form/partials/wrapper';
+
+    protected $presenter = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter';
+
+    protected $modifier = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeModifier';
+
+    protected $accessor = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor';
 
     /**
      * Get the rules.
@@ -519,17 +524,11 @@ class FieldType extends Addon
     /**
      * Get the presenter.
      *
-     * @return \Robbo\Presenter\Presenter
+     * @return FieldTypePresenter
      */
     public function getPresenter()
     {
-        $presenter = get_class($this) . 'Presenter';
-
-        if (!class_exists($presenter)) {
-            return new FieldTypePresenter($this);
-        }
-
-        return new $presenter($this);
+        return app()->make($this->presenter, [$this]);
     }
 
     /**
@@ -539,13 +538,7 @@ class FieldType extends Addon
      */
     public function getModifier()
     {
-        $modifier = get_class($this) . 'Modifier';
-
-        if (!class_exists($modifier)) {
-            return new FieldTypeModifier($this);
-        }
-
-        return app()->make($modifier, ['fieldType' => $this]);
+        return app()->make($this->modifier, [$this]);
     }
 
     /**
@@ -555,13 +548,7 @@ class FieldType extends Addon
      */
     public function getAccessor()
     {
-        $accessor = get_class($this) . 'Accessor';
-
-        if (!class_exists($accessor)) {
-            return new FieldTypeAccessor($this);
-        }
-
-        return app()->make($accessor, ['fieldType' => $this]);
+        return app()->make($this->accessor, [$this]);
     }
 
     /**

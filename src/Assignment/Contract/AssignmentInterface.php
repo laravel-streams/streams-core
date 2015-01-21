@@ -82,11 +82,9 @@ interface AssignmentInterface
     /**
      * Get the assignment's field's type.
      *
-     * @param  EntryInterface $entry
-     * @param  null|string    $locale
      * @return FieldType
      */
-    public function getFieldType(EntryInterface $entry = null, $locale = null);
+    public function getFieldType();
 
     /**
      * Get the column name.

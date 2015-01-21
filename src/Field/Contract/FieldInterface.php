@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
  * Interface FieldInterface
@@ -46,11 +47,9 @@ interface FieldInterface
     /**
      * Get the field type.
      *
-     * @param  EntryInterface $entry
-     * @param  null           $locale
      * @return FieldType
      */
-    public function getType(EntryInterface $entry = null, $locale = null);
+    public function getType();
 
     /**
      * Get the configuration.

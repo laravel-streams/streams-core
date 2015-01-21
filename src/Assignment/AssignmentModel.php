@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Dimsav\Translatable\Translatable;
@@ -65,14 +64,14 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     /**
      * Get the assignment's field's type.
      *
-     * @param  EntryInterface $entry
-     * @param  null           $locale
      * @return FieldType
      */
-    public function getFieldType(EntryInterface $entry = null, $locale = null)
+    public function getFieldType()
     {
         // Get the type object from our related field.
-        $type = $this->getField()->getType($entry, $locale);
+        $field = $this->getField();
+
+        $type = $field->getType();
 
         // These are always on or off so set em.
         $type->setRequired($this->isRequired());
@@ -83,27 +82,27 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
          * If the label is available (translated)
          * set it as type's label.
          */
-        if ($label = $this->getLabel($locale)) {
+        /*if ($label = $this->getLabel($locale)) {
             $type->setLabel($label);
-        }
+        }*/
 
         /**
          * This defaults to null but it's translation
          * string is automated. If the translation is
          * available set the placeholder on the type.
          */
-        if ($placeholder = $this->getPlaceholder($locale)) {
+        /*if ($placeholder = $this->getPlaceholder($locale)) {
             $type->setPlaceholder($placeholder);
-        }
+        }*/
 
         /**
          * This defaults to null but it's translation
          * string is automated. If the translation is
          * available set the  instructions on the type.
          */
-        if ($instructions = $this->getInstructions($locale)) {
+        /*if ($instructions = $this->getInstructions($locale)) {
             $type->setInstructions($instructions);
-        }
+        }*/
 
         return $type;
     }
