@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\Entry\Parser\EntryRulesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryStreamParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTableParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTitleParser;
-use Anomaly\Streams\Platform\Entry\Parser\EntryTraitsParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationForeignKeyParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
