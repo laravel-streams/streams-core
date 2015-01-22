@@ -73,7 +73,6 @@ class AssignFieldHandler
             $stream->getKey(),
             $field->getKey(),
             $command->getLabel(),
-            $command->getPlaceholder(),
             $command->getInstructions(),
             $command->isUnique(),
             $command->isRequired(),

@@ -55,8 +55,6 @@ class SelectFilter extends Filter implements SelectFilterInterface
 
         $options = compact('class');
 
-        $list = [null => trans($this->getPlaceholder())] + $this->getOptions();
-
-        return app('form')->select($this->getFieldName(), $list, $this->getValue(), $options);
+        return app('form')->select($this->getFieldName(), $this->getOptions(), $this->getValue(), $options);
     }
 }

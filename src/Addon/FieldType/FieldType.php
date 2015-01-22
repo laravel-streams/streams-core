@@ -66,13 +66,6 @@ class FieldType extends Addon
     protected $locale = null;
 
     /**
-     * The field's input placeholder.
-     *
-     * @var null
-     */
-    protected $placeholder = null;
-
-    /**
      * The field instructions.
      *
      * @var null
@@ -272,29 +265,6 @@ class FieldType extends Addon
     public function getInstructions()
     {
         return $this->instructions;
-    }
-
-    /**
-     * Set the placeholder.
-     *
-     * @param  $placeholder
-     * @return $this
-     */
-    public function setPlaceholder($placeholder)
-    {
-        $this->placeholder = $placeholder;
-
-        return $this;
-    }
-
-    /**
-     * Get the placeholder.
-     *
-     * @return string
-     */
-    public function getPlaceholder()
-    {
-        return $this->placeholder;
     }
 
     /**

@@ -36,7 +36,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
      * @param  $streamId
      * @param  $fieldId
      * @param  $label
-     * @param  $placeholder
      * @param  $instructions
      * @param  $unique
      * @param  $required
@@ -47,7 +46,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $streamId,
         $fieldId,
         $label,
-        $placeholder,
         $instructions,
         $unique,
         $required,
@@ -60,7 +58,6 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $assignment->stream_id    = $streamId;
         $assignment->unique       = $unique;
         $assignment->required     = $required;
-        $assignment->placeholder  = $placeholder;
         $assignment->instructions = $instructions;
         $assignment->translatable = $translatable;
         $assignment->sort_order   = $this->model->count('id') + 1;

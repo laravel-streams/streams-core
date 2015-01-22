@@ -50,10 +50,9 @@ class InputFilter extends Filter
      */
     public function getInput()
     {
-        $class       = 'form-control';
-        $placeholder = trans($this->getPlaceholder());
+        $class = 'form-control';
 
-        $options = compact('class', 'placeholder');
+        $options = compact('class');
 
         return app('form')->input($this->getType(), $this->getFieldName(), $this->getValue(), $options);
     }

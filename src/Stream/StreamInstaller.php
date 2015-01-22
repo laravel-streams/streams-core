@@ -149,14 +149,13 @@ class StreamInstaller implements Installable
         $translatable = (array_get($assignment, 'translatable', false));
 
         $label        = array_get($assignment, 'label', $this->addon->getNamespace("field.{$field}.label"));
-        $placeholder  = array_get($assignment, 'placeholder', $this->addon->getNamespace("field.{$field}.placeholder"));
         $instructions = array_get(
             $assignment,
             'instructions',
             $this->addon->getNamespace("field.{$field}.instructions")
         );
 
-        $assignment = compact('label', 'placeholder', 'instructions', 'unique', 'required', 'translatable');
+        $assignment = compact('label', 'instructions', 'unique', 'required', 'translatable');
 
         $stream    = array_get($this->stream, 'slug');
         $namespace = array_get($this->stream, 'namespace', $this->addon->getSlug());

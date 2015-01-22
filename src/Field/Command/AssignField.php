@@ -47,13 +47,6 @@ class AssignField
     protected $label;
 
     /**
-     * The placeholder.
-     *
-     * @var
-     */
-    protected $placeholder;
-
-    /**
      * The instructions.
      *
      * @var
@@ -91,7 +84,6 @@ class AssignField
      * @param int  $sortOrder
      * @param bool $unique
      * @param bool $required
-     * @param null $placeholder
      * @param null $instructions
      * @param bool $translatable
      */
@@ -103,7 +95,6 @@ class AssignField
         $sortOrder = 0,
         $unique = false,
         $required = false,
-        $placeholder = null,
         $instructions = null,
         $translatable = false
     ) {
@@ -114,7 +105,6 @@ class AssignField
         $this->sortOrder    = $sortOrder;
         $this->namespace    = $namespace;
         $this->required     = $required;
-        $this->placeholder  = $placeholder;
         $this->instructions = $instructions;
         $this->translatable = $translatable;
     }
@@ -127,16 +117,6 @@ class AssignField
     public function isRequired()
     {
         return $this->required;
-    }
-
-    /**
-     * Get the placeholder.
-     *
-     * @return mixed
-     */
-    public function getPlaceholder()
-    {
-        return $this->placeholder;
     }
 
     /**

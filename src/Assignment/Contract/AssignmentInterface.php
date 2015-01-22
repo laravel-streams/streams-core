@@ -37,13 +37,6 @@ interface AssignmentInterface
     public function getLabel();
 
     /**
-     * Get the placeholder.
-     *
-     * @return mixed
-     */
-    public function getPlaceholder();
-
-    /**
      * Get the instructions.
      *
      * @return mixed
