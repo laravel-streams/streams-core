@@ -21,6 +21,12 @@ class ExtensionEventProvider extends EventServiceProvider
     protected $listen = [
         'Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasRegistered' => [
             'Anomaly\Streams\Platform\Addon\Extension\Listener\PutExtensionInCollection'
+        ],
+        'Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasInstalled'   => [
+            'Anomaly\Streams\Platform\Addon\Extension\Listener\MarkExtensionInstalled'
+        ],
+        'Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasUninstalled' => [
+            'Anomaly\Streams\Platform\Addon\Extension\Listener\MarkExtensionUninstalled'
         ]
     ];
 

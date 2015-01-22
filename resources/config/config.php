@@ -94,4 +94,13 @@ return [
         'model'      => 'Anomaly\Streams\Platform\Addon\Module\ModuleModel',
         'repository' => 'Anomaly\Streams\Platform\Addon\Module\ModuleRepository',
     ],
+    /*
+	|--------------------------------------------------------------------------
+	| Extension Management
+	|--------------------------------------------------------------------------
+	*/
+    'extensions'           => [
+        'model'      => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionModel',
+        'repository' => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionRepository',
+    ],
 ];

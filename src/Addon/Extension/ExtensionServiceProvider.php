@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Extension\Command\RegisterExtensions;
 use Anomaly\Streams\Platform\Addon\Extension\Command\RegisterListeners;
+use Anomaly\Streams\Platform\Addon\Extension\Command\SetExtensionStates;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +25,7 @@ class ExtensionServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->dispatch(new RegisterExtensions());
+        $this->dispatch(new SetExtensionStates());
     }
 
     /**
@@ -33,6 +35,14 @@ class ExtensionServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(
+            'Anomaly\Streams\Platform\Addon\Extension\ExtensionModel',
+            config('streams::config.extensions.model')
+        );
+        $this->app->bind(
+            'Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface',
+            config('streams::config.extensions.repository')
+        );
         $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
             'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection'

@@ -36,7 +36,7 @@ class ExtensionCollection extends AddonCollection
     /**
      * Get an extension by it's reference.
      *
-     * Example: module.users::authenticator.default
+     * Example: extension.users::authenticator.default
      *
      * @param  mixed $key
      * @return mixed
@@ -57,15 +57,119 @@ class ExtensionCollection extends AddonCollection
     }
 
     /**
-     * Return whether a given extension's slug
-     * matches the given pattern.
+     * Return the active extension.
      *
-     * @param  Extension $extension
-     * @param            $pattern
+     * @return Extension
+     */
+    public function active()
+    {
+        foreach ($this->items as $item) {
+            if ($item instanceof Extension && $item->isActive()) {
+                return $item;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Return installed extensions.
+     *
+     * @return static
+     */
+    public function installed()
+    {
+        $installed = [];
+
+        foreach ($this->items as $item) {
+            if ($item instanceof Extension && $item->isInstalled()) {
+                $installed[] = $item;
+            }
+        }
+
+        return self::make($installed);
+    }
+
+    /**
+     * Return uninstalled extensions.
+     *
+     * @return static
+     */
+    public function uninstalled()
+    {
+        $installed = [];
+
+        foreach ($this->items as $item) {
+            if ($item instanceof Extension && !$item->isInstalled()) {
+                $installed[] = $item;
+            }
+        }
+
+        return self::make($installed);
+    }
+
+    /**
+     * Return enabled extensions.
+     *
+     * @return static
+     */
+    public function enabled()
+    {
+        $enabled = [];
+
+        foreach ($this->items as $item) {
+            if ($item instanceof Extension && $item->isEnabled()) {
+                $enabled[] = $item;
+            }
+        }
+
+        return self::make($enabled);
+    }
+
+    /**
+     * Determine if a extension is installed or not.
+     *
+     * @param  $slug
      * @return bool
      */
-    protected function extensionSlugIsPattern(Extension $extension, $pattern)
+    public function isInstalled($slug)
     {
-        return (str_is($pattern, $extension->getSlug()));
+        if (!isset($this->items[$slug])) {
+            return false;
+        }
+
+        $item = $this->items[$slug];
+
+        if ($item instanceof Extension) {
+            return $item->isInstalled();
+        }
+
+        return false;
+    }
+
+    /**
+     * Set the installed and enabled states.
+     *
+     * @param array $installed
+     */
+    public function setStates(array $states)
+    {
+        foreach ($states as $state) {
+            if ($extension = $this->findBySlug($state->slug)) {
+                $this->setFlags($extension, $state);
+            }
+        }
+    }
+
+    /**
+     * Set the extension flags from a state object.
+     *
+     * @param Extension $extension
+     * @param        $state
+     */
+    protected function setFlags(Extension $extension, $state)
+    {
+        $extension->setEnabled($state->enabled);
+        $extension->setInstalled($state->installed);
     }
 }
