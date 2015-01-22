@@ -68,13 +68,6 @@ class BuildFieldType
     protected $instructions;
 
     /**
-     * The input placeholder.
-     *
-     * @var null
-     */
-    protected $placeholder;
-
-    /**
      * The required flag.
      *
      * @var bool
@@ -130,7 +123,6 @@ class BuildFieldType
      * @param null  $inputView
      * @param null  $filterView
      * @param null  $wrapperView
-     * @param null  $placeholder
      * @param null  $instructions
      * @param null  $translatable
      * @param array $config
@@ -147,7 +139,6 @@ class BuildFieldType
         $inputView = null,
         $filterView = null,
         $wrapperView = null,
-        $placeholder = null,
         $instructions = null,
         $translatable = null,
         $config = null
@@ -164,7 +155,6 @@ class BuildFieldType
         $this->inputView    = $inputView;
         $this->filterView   = $filterView;
         $this->wrapperView  = $wrapperView;
-        $this->placeholder  = $placeholder;
         $this->translatable = $translatable;
         $this->instructions = $instructions;
     }
@@ -217,16 +207,6 @@ class BuildFieldType
     public function getInstructions()
     {
         return $this->instructions;
-    }
-
-    /**
-     * Get the input placeholder.
-     *
-     * @return string
-     */
-    public function getPlaceholder()
-    {
-        return $this->placeholder;
     }
 
     /**

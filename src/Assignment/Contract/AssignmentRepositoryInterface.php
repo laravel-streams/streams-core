@@ -17,7 +17,6 @@ interface AssignmentRepositoryInterface
      * @param  $streamId
      * @param  $fieldId
      * @param  $label
-     * @param  $placeholder
      * @param  $instructions
      * @param  $unique
      * @param  $required
@@ -28,7 +27,6 @@ interface AssignmentRepositoryInterface
         $streamId,
         $fieldId,
         $label,
-        $placeholder,
         $instructions,
         $unique,
         $required,

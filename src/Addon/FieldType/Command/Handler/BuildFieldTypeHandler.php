@@ -58,7 +58,6 @@ class BuildFieldTypeHandler
             ->setPrefix($command->getPrefix())
             ->setHidden($command->getHidden())
             ->setRequired($command->getRequired())
-            ->setPlaceholder($command->getPlaceholder())
             ->setTranslatable($command->getTranslatable())
             ->setInstructions($command->getInstructions());
 

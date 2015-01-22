@@ -63,21 +63,6 @@ interface FilterInterface
     public function isActive();
 
     /**
-     * Set the filter placeholder.
-     *
-     * @param string $placeholder
-     * @return $this
-     */
-    public function setPlaceholder($placeholder);
-
-    /**
-     * Get the filter placeholder.
-     *
-     * @return null|string
-     */
-    public function getPlaceholder();
-
-    /**
      * Set the filter prefix.
      *
      * @param string $prefix

@@ -95,15 +95,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
         /**
          * This defaults to null but it's translation
          * string is automated. If the translation is
-         * available set the placeholder on the type.
-         */
-        if ($placeholder = $this->getPlaceholder($locale)) {
-            $type->setPlaceholder($placeholder);
-        }
-
-        /**
-         * This defaults to null but it's translation
-         * string is automated. If the translation is
          * available set the  instructions on the type.
          */
         if ($instructions = $this->getInstructions($locale)) {
@@ -130,28 +121,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
 
         if (trans($label) !== $label) {
             return trans($label, [], null, $locale);
-        }
-
-        return null;
-    }
-
-    /**
-     * Get the placeholder. If it is not translated
-     * then just return null instead.
-     *
-     * @param  null $locale
-     * @return null|string
-     */
-    public function getPlaceholder($locale = null)
-    {
-        $locale = $locale ?: config('app.locale');
-
-        $assignment = $this->translate($locale) ?: $this;
-
-        $placeholder = $assignment->placeholder;
-
-        if (trans($placeholder) !== $placeholder) {
-            return trans($placeholder, [], null, $locale);
         }
 
         return null;

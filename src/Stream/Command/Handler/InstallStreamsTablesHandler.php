@@ -158,7 +158,6 @@ class InstallStreamsTablesHandler
                 $table->integer('stream_id');
                 $table->integer('field_id');
                 $table->string('label')->nullable();
-                $table->string('placeholder')->nullable();
                 $table->text('instructions')->nullable();
                 $table->boolean('unique')->default(0);
                 $table->boolean('required')->default(0);
@@ -183,7 +182,6 @@ class InstallStreamsTablesHandler
                 $table->string('locale')->index();
 
                 $table->string('label')->nullable();
-                $table->string('placeholder')->nullable();
                 $table->text('instructions')->nullable();
             }
         );

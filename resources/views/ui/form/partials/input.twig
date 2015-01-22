@@ -2,6 +2,6 @@
         value="{{ field_type.value }}"
         name="{{ field_type.getFieldName() }}"
         type="{{ field_type.config.type ?: 'text' }}"
-        placeholder="{{ trans(field_type.placeholder) }}"
+        placeholder="{{ trans(field_type.config.placeholder) }}"
         class="form-control"
         >
