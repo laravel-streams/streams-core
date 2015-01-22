@@ -166,7 +166,7 @@ class BuildFieldType
      */
     public function getConfig()
     {
-        return $this->config;
+        return $this->config ?: [];
     }
 
     /**
