@@ -43,19 +43,33 @@ class FormValidator
     protected $extender;
 
     /**
+     * The messages utility.
+     *
+     * @var FormMessages
+     */
+    protected $messages;
+
+    /**
      * Create a new FormValidator instance.
      *
      * @param FormInput    $input
      * @param FormRules    $rules
      * @param Message      $message
      * @param FormExtender $extender
+     * @param FormMessages $messages
      */
-    public function __construct(FormInput $input, FormRules $rules, Message $message, FormExtender $extender)
-    {
+    public function __construct(
+        FormInput $input,
+        FormRules $rules,
+        Message $message,
+        FormExtender $extender,
+        FormMessages $messages
+    ) {
         $this->input    = $input;
         $this->rules    = $rules;
         $this->message  = $message;
         $this->extender = $extender;
+        $this->messages = $messages;
     }
 
     /**
@@ -67,12 +81,13 @@ class FormValidator
     {
         $validator = app('validator');
 
-        $rules = $this->rules->compile($form);
-        $input = $this->input->get($form, config('app.locale'));
+        $messages = $this->messages->get($form);
+        $rules    = $this->rules->compile($form);
+        $input    = $this->input->get($form, config('app.locale'));
 
-        $this->extender->extend($validator, $form->getFields());
+        $this->extender->extend($validator, $form);
 
-        $validator = $validator->make($input, $rules);
+        $validator = $validator->make($input, $rules, $messages);
 
         $this->setResponse($validator, $form);
     }

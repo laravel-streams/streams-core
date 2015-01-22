@@ -1,42 +1,45 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Illuminate\Validation\Factory;
 
 /**
- * Class FormExtender
+ * Class FormMessages
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form
  */
-class FormExtender
+class FormMessages
 {
 
     /**
      * Extend the validation factory.
      *
-     * @param Factory $factory
-     * @param Form    $form
+     * @param Form $form
+     * @return array
      */
-    public function extend(Factory $factory, Form $form)
+    public function get(Form $form)
     {
+        $messages = [];
+
         foreach ($form->getFields() as $field) {
-            $this->registerValidators($factory, $field);
+            $this->registerValidationMessages($field, $messages);
         }
+
+        return $messages;
     }
 
     /**
      * Register field's custom validators.
      *
-     * @param Factory   $factory
      * @param FieldType $field
+     * @param array     $messages
      */
-    protected function registerValidators(Factory $factory, FieldType $field)
+    protected function registerValidationMessages(FieldType $field, array &$messages)
     {
         foreach ($field->getValidators() as $rule => $validator) {
-            $factory->extend($rule, array_get($validator, 'handler'));
+            $messages[$rule] = array_get($validator, 'message');
         }
     }
 }
