@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Module\Command\DetectActiveModule;
-use Anomaly\Streams\Platform\Addon\Module\Command\RegisterListeners;
 use Anomaly\Streams\Platform\Addon\Module\Command\RegisterModules;
 use Anomaly\Streams\Platform\Addon\Module\Command\SetModuleStates;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -25,7 +24,6 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->dispatch(new RegisterListeners());
         $this->dispatch(new RegisterModules());
 
         if (INSTALLED) {
@@ -53,5 +51,7 @@ class ModuleServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
             'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'
         );
+
+        $this->app->register('Anomaly\Streams\Platform\Addon\Module\ModuleEventProvider');
     }
 }

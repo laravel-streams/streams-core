@@ -23,7 +23,6 @@ class FieldTypeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->dispatch(new RegisterListeners());
         $this->dispatch(new RegisterFieldTypes());
     }
 
@@ -38,5 +37,7 @@ class FieldTypeServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
             'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection'
         );
+
+        $this->app->register('Anomaly\Streams\Platform\Addon\FieldType\FieldTypeEventProvider');
     }
 }

@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Assignment\Command\RegisterListeners;
-use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -14,16 +12,6 @@ use Illuminate\Support\ServiceProvider;
  */
 class AssignmentServiceProvider extends ServiceProvider
 {
-
-    use DispatchesCommands;
-
-    /**
-     * Boot the service provider.
-     */
-    public function boot()
-    {
-        $this->dispatch(new RegisterListeners());
-    }
 
     /**
      * Register the service provider.
@@ -40,5 +28,7 @@ class AssignmentServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface',
             config('streams::config.assignments.repository')
         );
+
+        $this->app->register('Anomaly\Streams\Platform\Assignment\AssignmentEventProvider');
     }
 }

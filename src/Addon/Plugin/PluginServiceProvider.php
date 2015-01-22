@@ -24,7 +24,6 @@ class PluginServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->dispatch(new RegisterListeners());
         $this->dispatch(new RegisterPlugins());
         $this->dispatch(new AddPluginsToTwig());
     }
@@ -40,5 +39,7 @@ class PluginServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
             'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection'
         );
+
+        $this->app->register('Anomaly\Streams\Platform\Addon\Plugin\PluginEventProvider');
     }
 }

@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Stream\Command\RegisterListeners;
-use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -14,16 +12,6 @@ use Illuminate\Support\ServiceProvider;
  */
 class StreamServiceProvider extends ServiceProvider
 {
-
-    use DispatchesCommands;
-
-    /**
-     * Boot the service provider.
-     */
-    public function boot()
-    {
-        $this->dispatch(new RegisterListeners());
-    }
 
     /**
      * Register the service provider.
@@ -40,5 +28,7 @@ class StreamServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface',
             config('streams::config.streams.repository')
         );
+
+        $this->app->register('Anomaly\Streams\Platform\Stream\StreamEventProvider');
     }
 }

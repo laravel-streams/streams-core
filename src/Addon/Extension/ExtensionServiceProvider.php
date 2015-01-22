@@ -23,7 +23,6 @@ class ExtensionServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->dispatch(new RegisterListeners());
         $this->dispatch(new RegisterExtensions());
     }
 
@@ -38,5 +37,7 @@ class ExtensionServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
             'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection'
         );
+
+        $this->app->register('Anomaly\Streams\Platform\Addon\Extension\ExtensionEventProvider');
     }
 }

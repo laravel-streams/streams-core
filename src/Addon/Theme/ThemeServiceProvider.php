@@ -24,7 +24,6 @@ class ThemeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->dispatch(new RegisterListeners());
         $this->dispatch(new RegisterThemes());
         $this->dispatch(new DetectActiveTheme());
     }
@@ -40,5 +39,7 @@ class ThemeServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
             'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'
         );
+
+        $this->app->register('Anomaly\Streams\Platform\Addon\Theme\ThemeEventProvider');
     }
 }

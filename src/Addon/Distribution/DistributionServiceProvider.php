@@ -24,7 +24,6 @@ class DistributionServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->dispatch(new RegisterListeners());
         $this->dispatch(new RegisterDistributions());
         $this->dispatch(new DetectActiveDistribution());
 
@@ -42,5 +41,7 @@ class DistributionServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection',
             'Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection'
         );
+
+        $this->app->register('Anomaly\Streams\Platform\Addon\Distribution\DistributionEventProvider');
     }
 }

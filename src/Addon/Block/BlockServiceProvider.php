@@ -23,7 +23,6 @@ class BlockServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->dispatch(new RegisterListeners());
         $this->dispatch(new RegisterBlocks());
     }
 
@@ -38,5 +37,7 @@ class BlockServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Block\BlockCollection',
             'Anomaly\Streams\Platform\Addon\Block\BlockCollection'
         );
+
+        $this->app->register('Anomaly\Streams\Platform\Addon\Block\BlockEventProvider');
     }
 }
