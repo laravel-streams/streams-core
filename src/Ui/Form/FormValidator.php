@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Message\Message;
+use Anomaly\Streams\Platform\Ui\Form\Event\ValidationFailed;
+use Illuminate\Events\Dispatcher;
 use Illuminate\Validation\Validator;
 
 /**
@@ -29,18 +31,18 @@ class FormValidator
     protected $rules;
 
     /**
-     * The message bag.
-     *
-     * @var Message
-     */
-    protected $message;
-
-    /**
      * The extender utility.
      *
      * @var FormExtender
      */
     protected $extender;
+
+    /**
+     * The event dispatcher.
+     *
+     * @var Dispatcher
+     */
+    protected $dispatcher;
 
     /**
      * The messages utility.
@@ -54,22 +56,22 @@ class FormValidator
      *
      * @param FormInput    $input
      * @param FormRules    $rules
-     * @param Message      $message
+     * @param Dispatcher   $dispatcher
      * @param FormExtender $extender
      * @param FormMessages $messages
      */
     public function __construct(
         FormInput $input,
         FormRules $rules,
-        Message $message,
+        Dispatcher $dispatcher,
         FormExtender $extender,
         FormMessages $messages
     ) {
-        $this->input    = $input;
-        $this->rules    = $rules;
-        $this->message  = $message;
-        $this->extender = $extender;
-        $this->messages = $messages;
+        $this->input      = $input;
+        $this->rules      = $rules;
+        $this->extender   = $extender;
+        $this->messages   = $messages;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -104,7 +106,7 @@ class FormValidator
 
             $form->setErrors($validator->getMessageBag());
 
-            $this->message->error($validator->getMessageBag()->all());
+            $this->dispatcher->fire(new ValidationFailed($form));
         }
     }
 }

@@ -28,6 +28,7 @@ class FormServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->register('Anomaly\Streams\Platform\Ui\Form\FormEventProvider');
         $this->app->register('Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionServiceProvider');
     }
 }
