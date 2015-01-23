@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Message\Message;
 use Anomaly\Streams\Platform\Ui\Form\Event\ValidationFailed;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Validation\Validator;
