@@ -322,7 +322,7 @@ class EloquentModel extends Model implements TableModelInterface
      */
     public function translateOrDefault($locale)
     {
-        return $this;
+        return $this->getTranslation($locale, false) ?: $this;
     }
 
     /*
