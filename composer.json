@@ -32,7 +32,7 @@
         "jenssegers/agent": "2.1.*"
     },
     "require-dev": {
-        "anomaly/streams": "dev-master@dev",
+        "anomaly/streams": "1.0.*@dev",
         "phpspec/phpspec": "~2.0",
         "benconstable/phpspec-laravel": "~1.0",
         "henrikbjorn/phpspec-code-coverage": "~0.2"
