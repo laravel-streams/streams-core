@@ -54,7 +54,12 @@ class ButtonBuilder
 
         foreach ($builder->getButtons() as $button) {
             if (array_get($button, 'enabled', true)) {
-                $buttons->push($this->factory->make($button));
+
+                $button = $this->factory->make($button);
+
+                $button->setSize('sm');
+
+                $buttons->push($button);
             }
         }
     }

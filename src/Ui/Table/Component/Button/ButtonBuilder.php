@@ -70,7 +70,11 @@ class ButtonBuilder
 
             $button = $this->evaluator->evaluate($button, compact('entry', 'table'));
 
-            $buttons->push($this->factory->make($button));
+            $button = $this->factory->make($button);
+
+            $button->setSize('sm');
+
+            $buttons->push($button);
         }
 
         return $buttons;
