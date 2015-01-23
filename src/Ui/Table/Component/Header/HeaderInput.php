@@ -85,7 +85,7 @@ class HeaderInput
      *
      * @param TableBuilder $builder
      */
-    protected function guessInput($builder)
+    protected function guessInput(TableBuilder $builder)
     {
         $builder->setColumns($this->guesser->guess($builder->getColumns()));
     }

@@ -273,7 +273,7 @@ class EntryModel extends EloquentModel implements EntryInterface, FormModelInter
          * Loop through available translations
          * and save translated input.
          */
-        if ($entry->isTranslatable() and $entry instanceof Translatable) {
+        if ($entry->isTranslatable()) {
 
             foreach (config('streams::config.available_locales') as $locale) {
 
