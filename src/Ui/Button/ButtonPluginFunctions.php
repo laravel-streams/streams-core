@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Button;
 
-use Illuminate\Support\Collection;
-
 /**
  * Class ButtonPluginFunctions
  *
@@ -16,10 +14,10 @@ class ButtonPluginFunctions
     /**
      * Render buttons.
      *
-     * @param Collection $buttons
+     * @param $buttons
      * @return \Illuminate\View\View
      */
-    public function buttons(Collection $buttons)
+    public function buttons($buttons)
     {
         return view('streams::ui/button/index', compact('buttons'));
     }

@@ -44,9 +44,11 @@ class ButtonNormalizer
             }
 
             /**
-             * All actions use the sm button size.
+             * Make sure the HREF is absolute.
              */
-            $button['size'] = 'sm';
+            if (isset($button['attributes']['href']) && !starts_with($button['attributes']['href'], 'http')) {
+                $button['attributes']['href'] = url($button['attributes']['href']);
+            }
         }
 
         return $buttons;

@@ -43,6 +43,10 @@ class ButtonRegistry
             'type' => 'success',
             'text' => 'streams::button.save',
         ],
+        'create'        => [
+            'type' => 'success',
+            'text' => 'streams::button.create',
+        ],
         /**
          * Info type buttons.
          */
