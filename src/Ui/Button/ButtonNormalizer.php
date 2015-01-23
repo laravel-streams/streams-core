@@ -46,7 +46,11 @@ class ButtonNormalizer
             /**
              * Make sure the HREF is absolute.
              */
-            if (isset($button['attributes']['href']) && !starts_with($button['attributes']['href'], 'http')) {
+            if (
+                isset($button['attributes']['href']) &&
+                is_string($button['attributes']['href']) &&
+                !starts_with($button['attributes']['href'], 'http')
+            ) {
                 $button['attributes']['href'] = url($button['attributes']['href']);
             }
         }
