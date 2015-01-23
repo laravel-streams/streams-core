@@ -459,12 +459,10 @@ class EloquentModel extends Model implements TableModelInterface
 
     public function fill(array $attributes)
     {
-        $totallyGuarded = $this->totallyGuarded();
-
         foreach ($attributes as $key => $values) {
             if ($this->isKeyALocale($key)) {
                 foreach ($values as $translationAttribute => $translationValue) {
-                    if ($this->alwaysFillable() or $this->isFillable($translationAttribute)) {
+                    if ($this->alwaysFillable() || $this->isFillable($translationAttribute)) {
                         $this->getTranslationOrNew($key)->$translationAttribute = $translationValue;
                     }
                 }
