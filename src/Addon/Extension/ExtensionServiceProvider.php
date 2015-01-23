@@ -25,7 +25,10 @@ class ExtensionServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->dispatch(new RegisterExtensions());
-        $this->dispatch(new SetExtensionStates());
+
+        if (INSTALLED) {
+            $this->dispatch(new SetExtensionStates());
+        }
     }
 
     /**
