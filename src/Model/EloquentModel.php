@@ -466,8 +466,6 @@ class EloquentModel extends Model implements TableModelInterface
                 foreach ($values as $translationAttribute => $translationValue) {
                     if ($this->alwaysFillable() or $this->isFillable($translationAttribute)) {
                         $this->getTranslationOrNew($key)->$translationAttribute = $translationValue;
-                    } elseif ($totallyGuarded) {
-                        throw new MassAssignmentException($key);
                     }
                 }
                 unset($attributes[$key]);
@@ -502,16 +500,7 @@ class EloquentModel extends Model implements TableModelInterface
 
     protected function getLocales()
     {
-        $locales = config('streams.available_locales');
-
-        if (empty($locales)) {
-            throw new LocalesNotDefinedException(
-                'Please make sure you have run "php artisan config:publish dimsav/laravel-translatable" ' .
-                ' and that the locales configuration is defined.'
-            );
-        }
-
-        return $locales;
+        return config('streams.available_locales');
     }
 
     protected function saveTranslations()
