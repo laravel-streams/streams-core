@@ -31,5 +31,6 @@ class UiServiceProvider extends ServiceProvider
         $this->app->register('Anomaly\Streams\Platform\Ui\Form\FormServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Ui\Table\TableServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Ui\Button\ButtonServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelServiceProvider');
     }
 }
