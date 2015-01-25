@@ -298,6 +298,32 @@ class Table
     }
 
     /**
+     * Set an option.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function setOption($key, $value)
+    {
+        $this->options->put($key, $value);
+
+        return $this;
+    }
+
+    /**
+     * Get an option value.
+     *
+     * @param $key
+     * @param $default
+     * @return mixed
+     */
+    public function getOption($key, $default)
+    {
+        return $this->options->get($key, $default);
+    }
+
+    /**
      * Set the table entries.
      *
      * @param Collection $entries
