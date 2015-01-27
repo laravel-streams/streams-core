@@ -16,9 +16,9 @@ class Module extends Addon
     /**
      * The module's sections.
      *
-     * @var null|array
+     * @var string|array
      */
-    protected $sections = null;
+    protected $sections = [];
 
     /**
      * The module's navigation group.
