@@ -44,9 +44,11 @@ class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 
         // Register component service providers.
         $this->app->register('Anomaly\Streams\Platform\Addon\Distribution\DistributionServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Addon\Module\ModuleServiceProvider');
+
+        // Keep this order (modules before extensions) for now..
         $this->app->register('Anomaly\Streams\Platform\Addon\Extension\ExtensionServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Addon\FieldType\FieldTypeServiceProvider');
-        $this->app->register('Anomaly\Streams\Platform\Addon\Module\ModuleServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Addon\Plugin\PluginServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Addon\Block\BlockServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Addon\Theme\ThemeServiceProvider');
