@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Asset\Filter\CoffeePhpFilter;
 use Anomaly\Streams\Platform\Asset\Filter\CssMinFilter;
 use Anomaly\Streams\Platform\Asset\Filter\JSMinFilter;
 use Anomaly\Streams\Platform\Asset\Filter\LessphpFilter;
+use Anomaly\Streams\Platform\Asset\Filter\ParseFilter;
 use Anomaly\Streams\Platform\Asset\Filter\PhpCssEmbedFilter;
 use Anomaly\Streams\Platform\Asset\Filter\ScssphpFilter;
 use Assetic\Asset\AssetCollection;
@@ -234,6 +235,10 @@ class Asset
     {
         foreach ($filters as $k => &$filter) {
             switch ($filter) {
+                case 'parse':
+                    $filter = new ParseFilter();
+                    break;
+                
                 case 'less':
                     $filter = new LessphpFilter();
                     break;
