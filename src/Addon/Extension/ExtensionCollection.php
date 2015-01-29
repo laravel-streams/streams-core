@@ -25,7 +25,7 @@ class ExtensionCollection extends AddonCollection
         $matches = [];
 
         foreach ($this->items as $item) {
-            if ($item instanceof Extension && str_is($pattern, $item->getIdentifier())) {
+            if ($item instanceof Extension && str_is($pattern, $item->getProvides())) {
                 $matches[] = $item;
             }
         }
@@ -44,7 +44,7 @@ class ExtensionCollection extends AddonCollection
     public function get($key, $default = null)
     {
         foreach ($this->items as $item) {
-            if ($item instanceof Extension && $item->getIdentifier() == $key) {
+            if ($item instanceof Extension && $item->getProvides() == $key) {
                 return $item;
             }
         }
@@ -165,7 +165,7 @@ class ExtensionCollection extends AddonCollection
      * Set the extension flags from a state object.
      *
      * @param Extension $extension
-     * @param        $state
+     * @param           $state
      */
     protected function setFlags(Extension $extension, $state)
     {

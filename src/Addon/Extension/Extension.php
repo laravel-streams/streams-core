@@ -14,11 +14,11 @@ class Extension extends Addon
 {
 
     /**
-     * The extension identifier.
+     * The provides string.
      *
      * @var null|string
      */
-    protected $identifier = null;
+    protected $provides = null;
 
     /**
      * The installed flag.
@@ -42,13 +42,13 @@ class Extension extends Addon
     protected $active = false;
 
     /**
-     * Get the identifier.
+     * Get the provides string.
      *
      * @return null|string
      */
-    public function getIdentifier()
+    public function getProvides()
     {
-        return $this->identifier;
+        return $this->provides;
     }
 
     /**
