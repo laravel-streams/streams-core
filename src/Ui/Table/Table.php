@@ -315,10 +315,10 @@ class Table
      * Get an option value.
      *
      * @param $key
-     * @param $default
+     * @param null $default
      * @return mixed
      */
-    public function getOption($key, $default)
+    public function getOption($key, $default = null)
     {
         return $this->options->get($key, $default);
     }

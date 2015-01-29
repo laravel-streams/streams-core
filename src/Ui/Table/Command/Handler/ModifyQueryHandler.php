@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command\Handler;
 
+use Anomaly\Streams\Platform\Ui\Table\Command\ApplyScope;
 use Anomaly\Streams\Platform\Ui\Table\Command\ModifyQuery;
 use Anomaly\Streams\Platform\Ui\Table\Command\OrderQuery;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\FilterQuery;
@@ -29,6 +30,7 @@ class ModifyQueryHandler
         $table = $command->getTable();
         $query = $command->getQuery();
 
+        $this->dispatch(new ApplyScope($table, $query));
         $this->dispatch(new FilterQuery($table, $query));
         $this->dispatch(new TableQuery($table, $query));
         $this->dispatch(new OrderQuery($table, $query));
