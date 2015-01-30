@@ -41,7 +41,6 @@
             "Anomaly\\Streams\\Platform\\": "src/"
         }
     },
-    "minimum-stability": "dev",
     "config": {
         "bin-dir": "bin"
     },
