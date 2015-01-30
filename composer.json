@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "laravel/framework": "5.0.*@dev",
+        "laravel/framework": "5.1.*@dev",
         "illuminate/html": "~5.0",
         "twig/twig": "1.18.*",
         "rcrowe/twigbridge": "0.7.*",
