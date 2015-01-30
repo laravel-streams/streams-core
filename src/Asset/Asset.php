@@ -1,16 +1,15 @@
 <?php namespace Anomaly\Streams\Platform\Asset;
 
 use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Asset\Filter\CoffeePhpFilter;
-use Anomaly\Streams\Platform\Asset\Filter\CssMinFilter;
-use Anomaly\Streams\Platform\Asset\Filter\JSMinFilter;
-use Anomaly\Streams\Platform\Asset\Filter\LessphpFilter;
-use Anomaly\Streams\Platform\Asset\Filter\ParseFilter;
-use Anomaly\Streams\Platform\Asset\Filter\PhpCssEmbedFilter;
-use Anomaly\Streams\Platform\Asset\Filter\ScssphpFilter;
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\GlobAsset;
+use Assetic\Filter\CoffeeScriptFilter;
+use Assetic\Filter\CssMinFilter;
+use Assetic\Filter\JSMinFilter;
+use Assetic\Filter\LessphpFilter;
+use Assetic\Filter\PhpCssEmbedFilter;
+use Assetic\Filter\ScssphpFilter;
 
 /**
  * Class Asset
@@ -221,6 +220,10 @@ class Asset
         $files->makeDirectory((new \SplFileInfo($path))->getPath(), 777, true, true);
 
         $files->put($path, $assets->dump());
+
+        if ($this->getExtension($path) == 'css') {
+            $files->put($path, app('twig')->render(str_replace($this->directory, 'assets::', $path)));
+        }
     }
 
     /**
@@ -235,10 +238,6 @@ class Asset
     {
         foreach ($filters as $k => &$filter) {
             switch ($filter) {
-                case 'parse':
-                    $filter = new ParseFilter();
-                    break;
-                
                 case 'less':
                     $filter = new LessphpFilter();
                     break;
@@ -248,7 +247,7 @@ class Asset
                     break;
 
                 case 'coffee':
-                    $filter = new CoffeePhpFilter();
+                    $filter = new CoffeeScriptFilter();
                     break;
 
                 case 'embed':
