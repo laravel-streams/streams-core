@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Message
+ * @package       Anomaly\Streams\Platform\MessageBag
  */
 class MessageServiceProvider extends ServiceProvider
 {
@@ -29,8 +29,8 @@ class MessageServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(
-            'Anomaly\Streams\Platform\Message\Message',
-            'Anomaly\Streams\Platform\Message\Message'
+            'Anomaly\Streams\Platform\Message\MessageBag',
+            'Anomaly\Streams\Platform\Message\MessageBag'
         );
     }
 }

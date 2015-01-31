@@ -3,14 +3,14 @@
 use Illuminate\Session\Store;
 
 /**
- * Class Message
+ * Class MessageBag
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Message
+ * @package       Anomaly\Streams\Platform\MessageBag
  */
-class Message
+class MessageBag
 {
 
     /**
@@ -21,7 +21,7 @@ class Message
     protected $session;
 
     /**
-     * Create a new Message instance.
+     * Create a new MessageBag instance.
      *
      * @param Store $session
      */
