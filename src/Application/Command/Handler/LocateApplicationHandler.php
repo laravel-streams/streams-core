@@ -57,6 +57,10 @@ class LocateApplicationHandler
 
                 $this->application->setup();
             }
+
+            return;
         }
+
+        define('APP_REF', 'default');
     }
 }

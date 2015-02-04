@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
+use Anomaly\Streams\Platform\Application\Command\CheckDirectoryPermissions;
 use Anomaly\Streams\Platform\Application\Command\LocateApplication;
 use Anomaly\Streams\Platform\Application\Command\SetupTranslator;
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
@@ -48,6 +49,11 @@ class ApplicationServiceProvider extends ServiceProvider
 
         // Locate the application.
         $this->dispatch(new LocateApplication());
+
+        // Check directory permissions.
+        if (!INSTALLED) {
+            $this->dispatch(new CheckDirectoryPermissions());
+        }
     }
 
     /**
