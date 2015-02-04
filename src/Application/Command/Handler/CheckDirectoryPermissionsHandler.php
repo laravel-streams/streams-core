@@ -43,7 +43,7 @@ class CheckDirectoryPermissionsHandler
 
         foreach ($paths as $path) {
             if (!$this->files->isWritable(base_path($path))) {
-                die("chmod -R 775 " . base_path($path) . "\n");
+                die("ERROR: chmod -R 775 " . base_path($path) . "\n");
             }
         }
     }
