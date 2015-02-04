@@ -59,30 +59,48 @@ class Composer
      */
     public function compose(View $view)
     {
-        $overload = $this->getOverloadPath($view);
-
-        if ($this->agent->isMobile()) {
-            $overload = "mobile/{$overload}";
-        }
+        $isMobile = $this->agent->isMobile();
 
         $environment = $view->getFactory();
 
-        $overload = "theme::{$overload}";
+        $path = $this->getViewPath($view);
 
-        if ($overload && $environment->exists($overload)) {
-            $view->setPath($environment->getFinder()->find($overload));
+        $result = null;
+
+        if ($isMobile) {
+
+            $mobileView     = "mobile/{$path}";
+            $mobileOverload = "theme::overload/{$mobileView}";
+
+            if ($environment->exists($mobileView)) {
+                $result = $mobileView;
+            }
+
+            if ($environment->exists($mobileOverload)) {
+                $result = $mobileOverload;
+            }
+        }
+
+        $overload = "theme::overload/{$path}";
+
+        if (!$result && $environment->exists($overload)) {
+            $result = $overload;
+        }
+
+        if ($result) {
+            $view->setPath($environment->getFinder()->find($result));
         }
 
         return $view;
     }
 
     /**
-     * Get the overload view path.
+     * Get the view path.
      *
      * @param  $view
      * @return null|string
      */
-    public function getOverloadPath(View $view)
+    public function getViewPath(View $view)
     {
         /**
          * If the view is already in
@@ -101,10 +119,7 @@ class Composer
          * overload path should be.
          */
         if (starts_with($view->getName(), 'streams::')) {
-
-            $path = str_replace('::', '/', $view->getName());
-
-            return "overload/{$path}";
+            return str_replace('::', '/', $view->getName());
         }
 
         /**
@@ -118,7 +133,7 @@ class Composer
             $path = str_replace('.', '/', $module->getNamespace());
             $path .= str_replace('module::', '', '/' . $view->getName());
 
-            return "overload/{$path}";
+            return $path;
         }
 
         /**
@@ -126,10 +141,7 @@ class Composer
          * transform it all into the overload view path.
          */
         if (str_contains($view->getName(), '::')) {
-
-            $path = str_replace(['.', '::'], '/', $view->getName());
-
-            return "overload/{$path}";
+            return str_replace(['.', '::'], '/', $view->getName());
         }
 
         return null;
