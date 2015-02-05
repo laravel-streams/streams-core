@@ -31,6 +31,9 @@ class FormRules
             $fieldRules = $field->getRules();
 
             if (!$stream instanceof StreamInterface) {
+
+                $rules[$field->getField()] = implode('|', $fieldRules);
+
                 continue;
             }
 

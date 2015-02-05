@@ -57,6 +57,9 @@ class FieldFactory
             $field = $this->builder->build($parameters);
         }
 
+        // Merge in rules.
+        $field->mergeRules(array_get($parameters, 'rules', []));
+
         return $field;
     }
 }

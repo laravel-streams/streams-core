@@ -145,6 +145,16 @@ class FieldType extends Addon
     }
 
     /**
+     * Merge rules.
+     *
+     * @param array $rules
+     */
+    public function mergeRules(array $rules)
+    {
+        $this->rules = array_unique($this->rules + $rules);
+    }
+
+    /**
      * Get the validators.
      *
      * @return array

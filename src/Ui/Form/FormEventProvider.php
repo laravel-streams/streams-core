@@ -20,7 +20,8 @@ class FormEventProvider extends EventServiceProvider
      */
     protected $listen = [
         'Anomaly\Streams\Platform\Ui\Form\Event\ValidationFailed' => [
-            'Anomaly\Streams\Platform\Ui\Form\Listener\RepopulateFields'
+            'Anomaly\Streams\Platform\Ui\Form\Listener\RepopulateFields',
+            'Anomaly\Streams\Platform\Ui\Form\Listener\AddErrorMessages'
         ]
     ];
 
