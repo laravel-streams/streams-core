@@ -63,13 +63,13 @@ class Composer
 
         $environment = $view->getFactory();
 
-        $path = $this->getViewPath($view);
+        $path = $this->getOverloadPath($view);
 
         $result = null;
 
         if ($isMobile) {
 
-            $mobileView     = "mobile/{$path}";
+            $mobileView     = str_replace('::', '::mobile/', $view->getName());
             $mobileOverload = "theme::overload/{$mobileView}";
 
             if ($environment->exists($mobileView)) {
@@ -95,12 +95,12 @@ class Composer
     }
 
     /**
-     * Get the view path.
+     * Get the overload view path.
      *
      * @param  $view
      * @return null|string
      */
-    public function getViewPath(View $view)
+    public function getOverloadPath(View $view)
     {
         /**
          * If the view is already in
