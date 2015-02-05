@@ -69,6 +69,18 @@ class AssignFieldHandler
         $stream = $this->streams->findByNamespaceAndSlug($namespace, $stream);
         $field  = $this->fields->findByNamespaceAndSlug($namespace, $field);
 
+        if (!$stream) {
+            throw new \Exception(
+                "The stream [{$command->getField()}] does not exist."
+            );
+        }
+
+        if (!$field) {
+            throw new \Exception(
+                "The field [{$command->getField()}] does not exist in the stream [{$command->getStream()}]."
+            );
+        }
+
         return $this->assignments->create(
             $stream->getKey(),
             $field->getKey(),
