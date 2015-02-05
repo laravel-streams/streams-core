@@ -17,7 +17,7 @@ class SectionCollection extends Collection
     /**
      * Return the active section.
      *
-     * @return SectionInterface|null
+     * @return null|SectionInterface
      */
     public function active()
     {
@@ -27,6 +27,6 @@ class SectionCollection extends Collection
             }
         }
 
-        return $this->first();
+        return null;
     }
 }

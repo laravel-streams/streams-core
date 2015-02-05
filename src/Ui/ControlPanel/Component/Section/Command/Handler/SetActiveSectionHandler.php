@@ -69,7 +69,7 @@ class SetActiveSectionHandler
              * If the request URL does not even
              * contain the HREF then skip it.
              */
-            if (!str_contains($this->request->url(), array_get($section->getAttributes(), 'href'))) {
+            if (!str_contains($this->request->url(), $href)) {
                 continue;
             }
 
