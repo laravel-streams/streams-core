@@ -357,7 +357,7 @@ class FieldType extends Addon
      */
     public function getSuffix()
     {
-        return $this->locale ? '_' . $this->locale : null;
+        return $this->locale ? '_' . $this->locale : '_' . config('app.locale');
     }
 
     /**
