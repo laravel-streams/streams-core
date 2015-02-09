@@ -1,16 +1,16 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Event;
 
 use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
- * Class HandleTablePost
+ * Class TableWasPosted
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Command
+ * @package       Anomaly\Streams\Platform\Ui\Table\Event
  */
-class HandleTablePost
+class TableWasPosted
 {
 
     /**
@@ -21,7 +21,7 @@ class HandleTablePost
     protected $table;
 
     /**
-     * Create a new HandleTablePost instance.
+     * Create a new TableWasPosted instance.
      *
      * @param Table $table
      */
