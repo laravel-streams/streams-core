@@ -6,6 +6,7 @@ $(document).ready(function () {
 
         // Toggle filters display.
         $('[data-toggle="filters"]').toggleClass('active');
+        $('.table-filters').toggleClass('active');
     });
 
     $('ul.pagination li a').on('click', function (e) {
