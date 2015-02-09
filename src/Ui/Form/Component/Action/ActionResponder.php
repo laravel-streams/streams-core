@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionHandlerInterface;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
@@ -19,11 +20,13 @@ class ActionResponder
      * form response handler.
      *
      * @param Form $form
-     * @param      $handler
+     * @param      $action
      * @throws \Exception
      */
-    public function setFormResponse(Form $form, $handler)
+    public function setFormResponse(Form $form, ActionInterface $action)
     {
+        $handler = $action->getHandler();
+        
         /**
          * If the handler is a Closure then call
          * it using the application container.

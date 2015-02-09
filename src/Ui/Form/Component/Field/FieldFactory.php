@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
+use Anomaly\Streams\Platform\Entry\Contract\HasFieldValues;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Http\Request;
 
@@ -57,8 +58,14 @@ class FieldFactory
             $field = $this->builder->build($parameters);
         }
 
-        // Merge in rules.
+        // Set the value if the entry is compatible.
+        if ($entry instanceof HasFieldValues) {
+            $field->setValue($entry->getFieldValue($field->getField()));
+        }
+
+        // Merge in rules and validators.
         $field->mergeRules(array_get($parameters, 'rules', []));
+        $field->mergeValidators(array_get($parameters, 'validators', []));
 
         return $field;
     }

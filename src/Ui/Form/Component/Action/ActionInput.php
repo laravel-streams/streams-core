@@ -57,42 +57,9 @@ class ActionInput
      */
     public function read(FormBuilder $builder)
     {
-        $this->resolveInput($builder);
-        $this->normalizeInput($builder);
-        $this->guessInput($builder);
-    }
-
-    /**
-     * Resolve the action input.
-     *
-     * @param FormBuilder $builder
-     */
-    protected function resolveInput(FormBuilder $builder)
-    {
         $builder->setActions($this->resolver->resolve($builder->getActions()));
-    }
 
-    /**
-     * Normalize the action input.
-     *
-     * @param FormBuilder $builder
-     */
-    protected function normalizeInput(FormBuilder $builder)
-    {
-        $form    = $builder->getForm();
-        $options = $form->getOptions();
-        $prefix  = $options->get('prefix');
-
-        $builder->setActions($this->normalizer->normalize($builder->getActions(), $prefix));
-    }
-
-    /**
-     * Guess the action input.
-     *
-     * @param FormBuilder $builder
-     */
-    protected function guessInput(FormBuilder $builder)
-    {
-        $builder->setActions($this->guesser->guess($builder->getActions()));
+        $this->normalizer->normalize($builder);
+        $this->guesser->guess($builder);
     }
 }

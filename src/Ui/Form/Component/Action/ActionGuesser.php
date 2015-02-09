@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Guesser\RedirectGuesser;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
  * Class ActionGuesser
@@ -33,15 +34,16 @@ class ActionGuesser
     /**
      * Guess action properties.
      *
-     * @param array $actions
-     * @return array
+     * @param FormBuilder $builder
      */
-    public function guess(array $actions)
+    public function guess(FormBuilder $builder)
     {
+        $actions = $builder->getActions();
+
         foreach ($actions as &$action) {
             $this->redirect->guess($action);
         }
 
-        return $actions;
+        $builder->setActions($actions);
     }
 }

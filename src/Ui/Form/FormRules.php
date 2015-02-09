@@ -32,7 +32,7 @@ class FormRules
 
             if (!$stream instanceof StreamInterface) {
 
-                $rules[$field->getField()] = implode('|', $fieldRules);
+                $rules[$field->getInputName()] = implode('|', $fieldRules);
 
                 continue;
             }
@@ -47,7 +47,7 @@ class FormRules
 
                     $unique = 'unique:' . $stream->getEntryTableName() . ',' . $field->getColumnName();
 
-                    if ($id = $entry->getId()) {
+                    if ($entry && $id = $entry->getId()) {
                         $unique .= ',' . $id;
                     }
 
@@ -55,7 +55,7 @@ class FormRules
                 }
             }
 
-            $rules[$field->getField()] = implode('|', $fieldRules);
+            $rules[$field->getInputName()] = implode('|', $fieldRules);
         }
 
         return array_filter($rules);

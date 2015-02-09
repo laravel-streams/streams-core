@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Support\Resolver;
-use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\FieldsGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -38,9 +37,9 @@ class FieldInput
     protected $normalizer;
 
     /**
-     * The fields guesser.
+     * The field guesser.
      *
-     * @var FieldsGuesser
+     * @var FieldGuesser
      */
     protected $guesser;
 
@@ -50,9 +49,9 @@ class FieldInput
      * @param Resolver        $resolver
      * @param Evaluator       $evaluator
      * @param FieldNormalizer $normalizer
-     * @param FieldsGuesser   $guesser
+     * @param FieldGuesser    $guesser
      */
-    function __construct(Resolver $resolver, Evaluator $evaluator, FieldNormalizer $normalizer, FieldsGuesser $guesser)
+    function __construct(Resolver $resolver, Evaluator $evaluator, FieldNormalizer $normalizer, FieldGuesser $guesser)
     {
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
@@ -90,10 +89,7 @@ class FieldInput
      */
     protected function guessFields(FormBuilder $builder)
     {
-        $form   = $builder->getForm();
-        $stream = $form->getStream();
-
-        $builder->setFields($this->guesser->guess($stream, $builder->getFields()));
+        $this->guesser->guess($builder);
     }
 
     /**

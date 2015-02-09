@@ -100,14 +100,16 @@ class FormPluginFunctions
         $entry = $form->getEntry();
 
         if ($entry instanceof EntryInterface && $field->isTranslatable()) {
+
             foreach (config('streams.available_locales') as $locale) {
                 $output .= $field
+                    ->setSuffix('_' . $locale)
                     ->setLocale($locale)
                     ->setHidden($locale !== config('app.locale'))
                     ->render();
             }
         } else {
-            $output = $field->setLocale(config('app.locale'))->render();
+            $output = $field->render();
         }
 
         return $output;

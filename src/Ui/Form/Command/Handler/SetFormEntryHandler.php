@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormEntry;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepository;
 
 /**
  * Class SetFormEntryHandler
@@ -21,10 +22,10 @@ class SetFormEntryHandler
      */
     public function handle(SetFormEntry $command)
     {
-        $builder = $command->getBuilder();
-        $entry   = $builder->getEntry();
-        $form    = $builder->getForm();
-        $model   = $form->getModel();
+        $builder    = $command->getBuilder();
+        $entry      = $builder->getEntry();
+        $form       = $builder->getForm();
+        $repository = $form->getRepository();
 
         /**
          * If the entry is null or scalar and the
@@ -33,8 +34,8 @@ class SetFormEntryHandler
          * or create a new one.
          */
         if (is_scalar($entry) || $entry === null) {
-            if ($model instanceof FormModelInterface) {
-                $form->setEntry($model::findOrNew($entry));
+            if ($repository instanceof FormRepository) {
+                $form->setEntry($repository->findOrNew($entry));
             }
         }
 

@@ -1,8 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\SetDefaultOptions;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormEntry;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormModel;
+use Anomaly\Streams\Platform\Ui\Form\Command\SetFormRepository;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormStream;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActions;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveAction;
@@ -33,11 +35,14 @@ class BuildFormHandler
         $builder = $command->getBuilder();
 
         /**
-         * Resolve and set the form model and stream.
+         * Setup some objects and options using
+         * provided input or sensible defaults.
          */
         $this->dispatch(new SetFormModel($builder));
         $this->dispatch(new SetFormStream($builder));
-        $this->dispatch(new SetFormEntry($builder));
+        $this->dispatch(new SetDefaultOptions($builder));
+        $this->dispatch(new SetFormRepository($builder));
+        $this->dispatch(new SetFormEntry($builder)); // Do this last.
 
         /*
          * Build form fields.

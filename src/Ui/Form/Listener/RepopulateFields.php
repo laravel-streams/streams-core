@@ -53,8 +53,8 @@ class RepopulateFields
      */
     protected function repopulateField(FieldType $field)
     {
-        if ($this->request->has($field->getFieldName())) {
-            $field->setValue($this->request->get($field->getFieldName()));
+        if ($this->request->has($field->getInputName())) {
+            $field->setValue($this->request->get($field->getInputName()));
         }
     }
 }

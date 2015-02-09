@@ -1,10 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepository;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,9 +28,16 @@ class Form
     /**
      * The form model.
      *
-     * @var null|FormModelInterface
+     * @var null|mixed
      */
     protected $model = null;
+
+    /**
+     * The form repository.
+     *
+     * @var null|FormRepository
+     */
+    protected $repository = null;
 
     /**
      * The form stream.
@@ -97,6 +110,13 @@ class Form
     protected $buttons;
 
     /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * Create a new Form instance.
      *
      * @param Collection       $data
@@ -110,13 +130,25 @@ class Form
         Collection $options,
         FieldCollection $fields,
         ActionCollection $actions,
-        ButtonCollection $buttons
+        ButtonCollection $buttons,
+        Request $request
     ) {
         $this->data    = $data;
         $this->fields  = $fields;
         $this->actions = $actions;
         $this->buttons = $buttons;
         $this->options = $options;
+        $this->request = $request;
+    }
+
+    /**
+     * Save the form.
+     *
+     * @return bool|mixed
+     */
+    public function save()
+    {
+        return $this->repository->save($this);
     }
 
     /**
@@ -181,11 +213,34 @@ class Form
     /**
      * Get the model object.
      *
-     * @return null|FormModelInterface
+     * @return null|EloquentModel|EntryModel
      */
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * Get the form repository.
+     *
+     * @return FormRepository|null
+     */
+    public function getRepository()
+    {
+        return $this->repository;
+    }
+
+    /**
+     * Set the form repository.
+     *
+     * @param FormRepository $repository
+     * @return $this
+     */
+    public function setRepository(FormRepository $repository)
+    {
+        $this->repository = $repository;
+
+        return $this;
     }
 
     /**
@@ -258,6 +313,19 @@ class Form
     }
 
     /**
+     * Add an action to the actions collection.
+     *
+     * @param ActionInterface $action
+     * @return $this
+     */
+    public function addAction(ActionInterface $action)
+    {
+        $this->actions->put($action->getSlug(), $action);
+
+        return $this;
+    }
+
+    /**
      * Set the form actions.
      *
      * @param ActionCollection $actions
@@ -278,6 +346,19 @@ class Form
     public function getActions()
     {
         return $this->actions;
+    }
+
+    /**
+     * Add a button to the buttons collection.
+     *
+     * @param ButtonInterface $button
+     * @return $this
+     */
+    public function addButton(ButtonInterface $button)
+    {
+        $this->buttons->push($button);
+
+        return $this;
     }
 
     /**
@@ -343,13 +424,26 @@ class Form
     /**
      * Get an option value.
      *
-     * @param $key
-     * @param $default
+     * @param      $key
+     * @param null $default
      * @return mixed
      */
-    public function getOption($key, $default)
+    public function getOption($key, $default = null)
     {
         return $this->options->get($key, $default);
+    }
+
+    /**
+     * Add a field to the collection of fields.
+     *
+     * @param FieldType $field
+     * @return $this
+     */
+    public function addField(FieldType $field)
+    {
+        $this->fields->put($field->getField(), $field);
+
+        return $this;
     }
 
     /**
@@ -376,6 +470,20 @@ class Form
     }
 
     /**
+     * Add data to the view data collection.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function addData($key, $value)
+    {
+        $this->data->put($key, $value);
+
+        return $this;
+    }
+
+    /**
      * Set the form data.
      *
      * @param Collection $data
@@ -396,5 +504,15 @@ class Form
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * Get the request.
+     *
+     * @return Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
     }
 }

@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+
 /**
  * Class ActionNormalizer
  *
@@ -14,12 +16,16 @@ class ActionNormalizer
     /**
      * Normalize action input.
      *
-     * @param array $actions
-     * @param       $prefix
-     * @return array
+     * @param FormBuilder $builder
+     * @return mixed
      */
-    public function normalize(array $actions, $prefix)
+    public function normalize(FormBuilder $builder)
     {
+        $form    = $builder->getForm();
+        $actions = $builder->getActions();
+
+        $prefix = $form->getOption('prefix');
+
         foreach ($actions as $slug => &$action) {
 
             /**
@@ -88,6 +94,6 @@ class ActionNormalizer
             $action['attributes']['value'] = $action['slug'];
         }
 
-        return $actions;
+        $builder->setActions($actions);
     }
 }

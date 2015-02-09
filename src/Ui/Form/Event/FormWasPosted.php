@@ -1,16 +1,16 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Event;
 
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
- * Class SaveFormInput
+ * Class FormWasPosted
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Command
+ * @package       Anomaly\Streams\Platform\Ui\Form\Event
  */
-class SaveFormInput
+class FormWasPosted
 {
 
     /**
@@ -21,7 +21,7 @@ class SaveFormInput
     protected $form;
 
     /**
-     * Create a new LoadForm instance.
+     * Create a FormWasPosted instance.
      *
      * @param Form $form
      */
@@ -31,7 +31,7 @@ class SaveFormInput
     }
 
     /**
-     * Get the form object.
+     * Get the form.
      *
      * @return Form
      */

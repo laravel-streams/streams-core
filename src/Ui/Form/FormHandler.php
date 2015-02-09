@@ -18,8 +18,6 @@ class FormHandler
      */
     public function handle(Form $form)
     {
-        $model = $form->getModel();
-
-        app()->call(get_class($model) . '@saveFormInput', compact('form'));
+        $form->save();
     }
 }

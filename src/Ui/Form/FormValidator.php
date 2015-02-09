@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Event\ValidationFailed;
 use Illuminate\Events\Dispatcher;
+use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
 
 /**
@@ -14,13 +15,6 @@ use Illuminate\Validation\Validator;
  */
 class FormValidator
 {
-
-    /**
-     * The form input utility.
-     *
-     * @var FormInput
-     */
-    protected $input;
 
     /**
      * The form rules compiler.
@@ -51,23 +45,29 @@ class FormValidator
     protected $messages;
 
     /**
+     * The HTTP request.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * Create a new FormValidator instance.
      *
-     * @param FormInput    $input
-     * @param FormRules    $rules
+     * @param Request      $request
      * @param Dispatcher   $dispatcher
      * @param FormExtender $extender
      * @param FormMessages $messages
      */
     public function __construct(
-        FormInput $input,
+        Request $request,
         FormRules $rules,
         Dispatcher $dispatcher,
         FormExtender $extender,
         FormMessages $messages
     ) {
-        $this->input      = $input;
         $this->rules      = $rules;
+        $this->request    = $request;
         $this->extender   = $extender;
         $this->messages   = $messages;
         $this->dispatcher = $dispatcher;
@@ -80,15 +80,15 @@ class FormValidator
      */
     public function validate(Form $form)
     {
-        $validator = app('validator');
+        $factory = app('validator');
 
+        $this->extender->extend($factory, $form);
+
+        $input    = $this->request->all();
         $messages = $this->messages->get($form);
         $rules    = $this->rules->compile($form);
-        $input    = $this->input->get($form, config('app.locale'));
 
-        $this->extender->extend($validator, $form);
-
-        $validator = $validator->make($input, $rules, $messages);
+        $validator = $factory->make($input, $rules, $messages);
 
         $this->setResponse($validator, $form);
     }

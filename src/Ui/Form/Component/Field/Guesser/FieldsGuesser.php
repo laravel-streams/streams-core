@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
  * Class FieldsGuesser
@@ -16,12 +16,16 @@ class FieldsGuesser
     /**
      * Guess the fill fields.
      *
-     * @param StreamInterface $stream
-     * @param array           $fields
-     * @return array
+     * @param FormBuilder $builder
+     * @return mixed
      */
-    public function guess(StreamInterface $stream = null, array $fields)
+    public function guess(FormBuilder $builder)
     {
+        $form   = $builder->getForm();
+        $stream = $form->getStream();
+
+        $fields = $builder->getFields();
+
         /**
          * If no Stream, skip it.
          */
@@ -62,6 +66,6 @@ class FieldsGuesser
             unset($fields[array_search('*', $fields)]);
         }
 
-        return $fields;
+        $builder->setFields($fields);
     }
 }
