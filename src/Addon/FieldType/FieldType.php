@@ -96,9 +96,16 @@ class FieldType extends Addon
     /**
      * The field's input prefix.
      *
-     * @var string
+     * @var null|string
      */
-    protected $prefix = '';
+    protected $prefix = null;
+
+    /**
+     * The field's input prefix.
+     *
+     * @var null|string
+     */
+    protected $suffix = null;
 
     /**
      * The database column type.
@@ -162,6 +169,16 @@ class FieldType extends Addon
     public function getValidators()
     {
         return $this->validators;
+    }
+
+    /**
+     * Merge validators.
+     *
+     * @param array $validators
+     */
+    public function mergeValidators(array $validators)
+    {
+        $this->validators = array_unique($this->validators + $validators);
     }
 
     /**
@@ -324,12 +341,12 @@ class FieldType extends Addon
     }
 
     /**
-     * Ste the prefix.
+     * Set the prefix.
      *
-     * @param  null $prefix
+     * @param  $prefix
      * @return $this
      */
-    public function setPrefix($prefix = null)
+    public function setPrefix($prefix)
     {
         $this->prefix = $prefix;
 
@@ -343,10 +360,6 @@ class FieldType extends Addon
      */
     public function getPrefix()
     {
-        if ($this->prefix) {
-            return $this->prefix . (ends_with($this->prefix, '_') ? null : '_');
-        }
-
         return $this->prefix;
     }
 
@@ -357,7 +370,20 @@ class FieldType extends Addon
      */
     public function getSuffix()
     {
-        return $this->locale ? '_' . $this->locale : '_' . config('app.locale');
+        return $this->suffix;
+    }
+
+    /**
+     * Set the suffix.
+     *
+     * @param  $suffix
+     * @return $this
+     */
+    public function setSuffix($suffix)
+    {
+        $this->suffix = $suffix;
+
+        return $this;
     }
 
     /**
@@ -407,11 +433,11 @@ class FieldType extends Addon
     }
 
     /**
-     * Get the field name.
+     * Get the name of the input.
      *
      * @return string
      */
-    public function getFieldName()
+    public function getInputName()
     {
         return "{$this->getPrefix()}{$this->getField()}{$this->getSuffix()}";
     }
@@ -503,20 +529,6 @@ class FieldType extends Addon
     public function getWrapperView()
     {
         return $this->wrapperView;
-    }
-
-    /**
-     * Get the field's post value.
-     *
-     * @return null|string|array
-     */
-    public function getPostValue()
-    {
-        if (!$_POST || !array_key_exists($this->getFieldName(), $_POST)) {
-            return null;
-        }
-
-        return $_POST[$this->getFieldName()];
     }
 
     /**
