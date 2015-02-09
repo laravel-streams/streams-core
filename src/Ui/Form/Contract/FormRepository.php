@@ -1,14 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Contract;
 
+use Anomaly\Streams\Platform\Ui\Form\Form;
+use Illuminate\Http\Request;
+
 /**
- * Interface FormModelInterface
+ * Interface FormRepository
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Contract
  */
-interface FormModelInterface
+interface FormRepository
 {
 
     /**
@@ -17,5 +20,13 @@ interface FormModelInterface
      * @param $id
      * @return mixed
      */
-    public static function findOrNew($id);
+    public function findOrNew($id);
+
+    /**
+     * Save the form.
+     *
+     * @param Form $form
+     * @return bool|mixed
+     */
+    public function save(Form $form);
 }

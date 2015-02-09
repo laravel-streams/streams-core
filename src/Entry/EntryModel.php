@@ -3,11 +3,10 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Entry\Contract\HasFieldValues;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
-use Anomaly\Streams\Platform\Ui\Form\Form;
 use Illuminate\Events\Dispatcher;
 use Robbo\Presenter\PresentableInterface;
 
@@ -19,7 +18,7 @@ use Robbo\Presenter\PresentableInterface;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Entry
  */
-class EntryModel extends EloquentModel implements EntryInterface, FormModelInterface, PresentableInterface
+class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface, HasFieldValues
 {
 
     /**
@@ -88,7 +87,7 @@ class EntryModel extends EloquentModel implements EntryInterface, FormModelInter
 
 
     /**
-     * Get the value of a field property.
+     * Get a field value.
      *
      * @param       $fieldSlug
      * @return mixed
@@ -106,7 +105,7 @@ class EntryModel extends EloquentModel implements EntryInterface, FormModelInter
     }
 
     /**
-     * Set the value of a field property.
+     * Set a field value.
      *
      * @param $fieldSlug
      * @param $value
@@ -249,46 +248,6 @@ class EntryModel extends EloquentModel implements EntryInterface, FormModelInter
     public function newCollection(array $items = array())
     {
         return new EntryCollection($items);
-    }
-
-    /**
-     * Save the form input.
-     *
-     * @param Form          $form
-     * @param EntryHydrator $hydrator
-     */
-    public function saveFormInput(Form $form, EntryHydrator $hydrator)
-    {
-        $entry  = $form->getEntry();
-        $fields = $form->getFields();
-
-        /**
-         * Save default translation input.
-         */
-        $hydrator->fill($entry, $fields->locale(config('app.locale')));
-
-        $entry->save();
-
-        /**
-         * Loop through available translations
-         * and save translated input.
-         */
-        if ($entry->isTranslatable()) {
-
-            foreach (config('streams::config.available_locales') as $locale) {
-
-                //  Skip default - already did it.
-                if ($locale == config('app.locale')) {
-                    continue;
-                }
-
-                $entry = $entry->translate($locale);
-
-                $hydrator->fill($entry, $fields->locale($locale));
-
-                $entry->save();
-            }
-        }
     }
 
     /**
