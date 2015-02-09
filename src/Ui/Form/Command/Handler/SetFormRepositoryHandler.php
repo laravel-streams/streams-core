@@ -27,6 +27,13 @@ class SetFormRepositoryHandler
         $repository = $form->getOption('repository');
 
         /**
+         * If there is no repository skip this step.
+         */
+        if (!$repository) {
+            return;
+        }
+
+        /**
          * Set the repository on the form!
          */
         $form->setRepository(app()->make($repository, compact('model', 'form')));
