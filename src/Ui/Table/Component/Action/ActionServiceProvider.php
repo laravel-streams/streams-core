@@ -20,5 +20,6 @@ class ActionServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionEventProvider');
     }
 }

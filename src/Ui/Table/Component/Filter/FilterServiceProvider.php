@@ -20,17 +20,11 @@ class FilterServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerBindings();
-    }
-
-    /**
-     * Register bindings.
-     */
-    protected function registerBindings()
-    {
         $this->app->singleton(
             'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry',
             'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry'
         );
+
+        $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterEventProvider');
     }
 }

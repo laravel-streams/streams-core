@@ -1,17 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Command\Handler;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Listener;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Command\TableQuery;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewQuery;
+use Anomaly\Streams\Platform\Ui\Table\Event\QueryHasStarted;
 
 /**
- * Class TableQueryHandler
+ * Class ApplyView
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\View\Command
+ * @package       Anomaly\Streams\Platform\Ui\Table\Listener
  */
-class TableQueryHandler
+class ApplyView
 {
 
     /**
@@ -32,14 +32,14 @@ class TableQueryHandler
     }
 
     /**
-     * Handle the command.
+     * Handle the event.
      *
-     * @param TableQuery $command
+     * @param QueryHasStarted $event
      */
-    public function handle(TableQuery $command)
+    public function handle(QueryHasStarted $event)
     {
-        $table = $command->getTable();
-        $query = $command->getQuery();
+        $table = $event->getTable();
+        $query = $event->getQuery();
 
         $views = $table->getViews();
 

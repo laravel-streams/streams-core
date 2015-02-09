@@ -1,47 +1,47 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Event;
 
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class ApplyScope
+ * Class QueryHasStarted
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Command
+ * @package       Anomaly\Streams\Platform\Ui\Table\Event
  */
-class ApplyScope
+class QueryHasStarted
 {
 
     /**
      * The table object.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Table
+     * @var Table
      */
     protected $table;
 
     /**
-     * The query builder.
+     * The table query.
      *
-     * @var \Illuminate\Database\Eloquent\Builder
+     * @var Builder
      */
     protected $query;
 
     /**
-     * Create a new ModifyQuery instance.
+     * Create a new QueryHasStarted instance.
      *
      * @param Table   $table
      * @param Builder $query
      */
-    function __construct(Table $table, Builder $query)
+    public function __construct(Table $table, Builder $query)
     {
-        $this->query = $query;
         $this->table = $table;
+        $this->query = $query;
     }
 
     /**
-     * Get the query builder.
+     * Get the query.
      *
      * @return Builder
      */
@@ -51,7 +51,7 @@ class ApplyScope
     }
 
     /**
-     * Get the table object.
+     * Get the table.
      *
      * @return Table
      */

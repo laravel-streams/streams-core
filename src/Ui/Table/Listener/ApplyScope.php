@@ -1,27 +1,27 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command\Handler;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Listener;
 
-use Anomaly\Streams\Platform\Ui\Table\Command\ApplyScope;
+use Anomaly\Streams\Platform\Ui\Table\Event\QueryHasStarted;
 
 /**
- * Class ApplyScopeHandler
+ * Class ApplyScope
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Command\Handler
+ * @package       Anomaly\Streams\Platform\Ui\Table\Listener
  */
-class ApplyScopeHandler
+class ApplyScope
 {
 
     /**
-     * Handle the command.
+     * Handle the event.
      *
-     * @param ApplyScope $command
+     * @param QueryHasStarted $event
      */
-    public function handle(ApplyScope $command)
+    public function handle(QueryHasStarted $event)
     {
-        $table = $command->getTable();
-        $query = $command->getQuery();
+        $table = $event->getTable();
+        $query = $event->getQuery();
 
         $scope = $table->getOption('scope');
 

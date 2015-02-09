@@ -20,17 +20,6 @@ class ColumnServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerBindings();
-    }
-
-    /**
-     * Register bindings.
-     */
-    protected function registerBindings()
-    {
-        $this->app->instance(
-            'streams::table.column.factory',
-            'Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnFactory'
-        );
+        $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnEventProvider');
     }
 }

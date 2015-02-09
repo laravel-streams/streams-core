@@ -1,18 +1,18 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\Handler;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command\FilterQuery;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQueryer;
+use Anomaly\Streams\Platform\Ui\Table\Event\QueryHasStarted;
 
 /**
- * Class FilterQueryHandler
+ * Class FilterResults
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command
+ * @package       Anomaly\Streams\Platform\Ui\Table\Listener
  */
-class FilterQueryHandler
+class FilterResults
 {
 
     /**
@@ -33,14 +33,15 @@ class FilterQueryHandler
     }
 
     /**
-     * Handle the command.
+     * Handle the event.
      *
-     * @param FilterQuery $command
+     * @param QueryHasStarted $event
+     * @throws \Exception
      */
-    public function handle(FilterQuery $command)
+    public function handle(QueryHasStarted $event)
     {
-        $table = $command->getTable();
-        $query = $command->getQuery();
+        $table = $event->getTable();
+        $query = $event->getQuery();
 
         $filters = $table->getFilters();
 

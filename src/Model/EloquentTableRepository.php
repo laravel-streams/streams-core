@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Ui\Table\Command\ModifyQuery;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepository;
+use Anomaly\Streams\Platform\Ui\Table\Event\QueryHasStarted;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\Collection;
@@ -63,11 +63,11 @@ class EloquentTableRepository implements TableRepository
         $query = $query->with($options->get('eager', []));
 
         /**
-         * Raise and dispatch an event here to allow
+         * Raise and fire an event here to allow
          * other things (including filters / views)
          * to modify the query before proceeding.
          */
-        $this->dispatch(new ModifyQuery($table, $query));
+        app('events')->fire(new QueryHasStarted($table, $query));
 
         /**
          * Before we actually adjust the baseline query

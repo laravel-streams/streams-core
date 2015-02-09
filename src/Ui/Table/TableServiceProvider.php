@@ -29,6 +29,8 @@ class TableServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->register('Anomaly\Streams\Platform\Ui\Table\TableEventProvider');
+
         $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\View\ViewServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterServiceProvider');

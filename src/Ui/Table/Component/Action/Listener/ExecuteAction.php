@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Listener;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Listener;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionExecutor;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableWasPosted;

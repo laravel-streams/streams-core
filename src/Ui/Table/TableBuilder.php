@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Ui\Table\Command\BuildTable;
-use Anomaly\Streams\Platform\Ui\Table\Command\HandleTablePost;
 use Anomaly\Streams\Platform\Ui\Table\Command\LoadTable;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableWasPosted;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +24,7 @@ class TableBuilder
     /**
      * The table model.
      *
-     * @var null|string|TableModelInterface
+     * @var null|string
      */
     protected $model = null;
 
@@ -95,7 +95,7 @@ class TableBuilder
         $this->dispatch(new BuildTable($this));
 
         if (app('request')->isMethod('post')) {
-            $this->dispatch(new HandleTablePost($this->table));
+            app('events')->fire(new TableWasPosted($this->table));
         }
     }
 

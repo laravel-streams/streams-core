@@ -24,5 +24,7 @@ class ViewServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry',
             'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry'
         );
+
+        $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\View\ViewEventProvider');
     }
 }
