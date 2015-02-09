@@ -71,14 +71,6 @@ interface EntryInterface
     public function getAssignment($fieldSlug);
 
     /**
-     * Get an attribute value by a field slug.
-     *
-     * @param       $fieldSlug
-     * @return mixed
-     */
-    public function getFieldValue($fieldSlug);
-
-    /**
      * Get a field's type by the field's slug.
      *
      * @param  $fieldSlug
