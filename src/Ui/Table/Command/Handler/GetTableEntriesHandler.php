@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Command\GetTableEntries;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepository;
 use Illuminate\Support\Collection;
 
 /**
@@ -55,22 +56,20 @@ class GetTableEntriesHandler
         /**
          * Resolve the model out of the container.
          */
-        $model = app($model);
+        $repository = $table->getRepository();
 
         /**
-         * If the set the model is not an instance of
-         * TableModelInterface then they need to load
+         * If the repository is not an instance of
+         * TableRepository then they need to load
          * the entries themselves.
          */
-        if (!$model instanceof TableModelInterface) {
+        if (!$repository instanceof TableRepository) {
             return null;
         }
 
         /**
          * Get table entries and set them on the table.
          */
-        if ($entries = $model->getTableEntries($table)) {
-            $table->setEntries($entries);
-        }
+        $table->setEntries($repository->get($table));
     }
 }

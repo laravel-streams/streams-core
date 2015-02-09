@@ -1,11 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepository;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,9 +25,16 @@ class Table
     /**
      * The table model.
      *
-     * @var null|TableModelInterface
+     * @var null|EloquentModel
      */
     protected $model = null;
+
+    /**
+     * The table repository.
+     *
+     * @var TableRepository
+     */
+    protected $repository = null;
 
     /**
      * The table stream.
@@ -175,11 +184,34 @@ class Table
     /**
      * Get the model object.
      *
-     * @return null|TableModelInterface
+     * @return null|EloquentModel
      */
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * Get the table repository.
+     *
+     * @return TableRepository
+     */
+    public function getRepository()
+    {
+        return $this->repository;
+    }
+
+    /**
+     * Set the table repository.
+     *
+     * @param TableRepository $repository
+     * @return $this
+     */
+    public function setRepository(TableRepository $repository)
+    {
+        $this->repository = $repository;
+
+        return $this;
     }
 
     /**
@@ -314,7 +346,7 @@ class Table
     /**
      * Get an option value.
      *
-     * @param $key
+     * @param      $key
      * @param null $default
      * @return mixed
      */

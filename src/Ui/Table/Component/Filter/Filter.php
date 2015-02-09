@@ -79,7 +79,7 @@ class Filter implements FilterInterface
      *
      * @return string
      */
-    public function getFieldName()
+    public function getInputName()
     {
         return $this->getPrefix() . 'filter_' . $this->getSlug();
     }
@@ -91,7 +91,7 @@ class Filter implements FilterInterface
      */
     public function getValue()
     {
-        return app('request')->get($this->getFieldName());
+        return app('request')->get($this->getInputName());
     }
 
     /**

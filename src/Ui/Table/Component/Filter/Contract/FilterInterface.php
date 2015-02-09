@@ -38,7 +38,7 @@ interface FilterInterface
      *
      * @return string
      */
-    public function getFieldName();
+    public function getInputName();
 
     /**
      * Get the filter value.

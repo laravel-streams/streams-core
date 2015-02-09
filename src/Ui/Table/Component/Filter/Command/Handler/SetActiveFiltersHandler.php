@@ -26,7 +26,7 @@ class SetActiveFiltersHandler
 
         foreach ($table->getFilters() as $filter) {
             if ($filter instanceof FilterInterface) {
-                if (app('request')->get($filter->getFieldName())) {
+                if (app('request')->get($filter->getInputName())) {
                     $filter->setActive(true);
                 }
             }

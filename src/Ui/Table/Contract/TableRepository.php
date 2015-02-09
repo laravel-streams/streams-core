@@ -1,31 +1,24 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Contract;
 
 use Anomaly\Streams\Platform\Ui\Table\Table;
+use Illuminate\Support\Collection;
 
 /**
- * Interface TableModelInterface
+ * Interface TableRepository
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Contract
  */
-interface TableModelInterface
+interface TableRepository
 {
 
     /**
      * Get the table entries.
      *
      * @param Table $table
-     * @return mixed
+     * @return Collection
      */
-    public function getTableEntries(Table $table);
-
-    /**
-     * Update sorting based on the table input.
-     *
-     * @param Table $table
-     * @return mixed
-     */
-    public function sortTableEntries(Table $table);
+    public function get(Table $table);
 }

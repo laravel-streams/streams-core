@@ -54,6 +54,6 @@ class InputFilter extends Filter
 
         $options = compact('class');
 
-        return app('form')->input($this->getType(), $this->getFieldName(), $this->getValue(), $options);
+        return app('form')->input($this->getType(), $this->getInputName(), $this->getValue(), $options);
     }
 }

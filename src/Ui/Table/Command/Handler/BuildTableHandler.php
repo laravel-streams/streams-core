@@ -2,7 +2,9 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Command\BuildTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\GetTableEntries;
+use Anomaly\Streams\Platform\Ui\Table\Command\SetDefaultOptions;
 use Anomaly\Streams\Platform\Ui\Table\Command\SetTableModel;
+use Anomaly\Streams\Platform\Ui\Table\Command\SetTableRepository;
 use Anomaly\Streams\Platform\Ui\Table\Command\SetTableStream;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\BuildActions;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\SetActiveAction;
@@ -41,6 +43,8 @@ class BuildTableHandler
          */
         $this->dispatch(new SetTableModel($builder));
         $this->dispatch(new SetTableStream($builder));
+        $this->dispatch(new SetDefaultOptions($builder));
+        $this->dispatch(new SetTableRepository($builder));
 
         /*
          * Build table views and mark active.
