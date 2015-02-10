@@ -40,7 +40,7 @@ class FormBuilder
      *
      * @var array
      */
-    protected $fields = ['*'];
+    protected $fields = [];
 
     /**
      * Fields to skip.
@@ -167,7 +167,7 @@ class FormBuilder
     /**
      * Get the form model.
      *
-     * @return FormModelInterface|null
+     * @return null
      */
     public function getModel()
     {
@@ -200,10 +200,10 @@ class FormBuilder
     /**
      * Set the fields config.
      *
-     * @param  array $fields
+     * @param  $fields
      * @return $this
      */
-    public function setFields(array $fields)
+    public function setFields($fields)
     {
         $this->fields = $fields;
 
@@ -246,10 +246,10 @@ class FormBuilder
     /**
      * Set the actions config.
      *
-     * @param  array $actions
+     * @param  $actions
      * @return $this
      */
-    public function setActions(array $actions)
+    public function setActions($actions)
     {
         $this->actions = $actions;
 
