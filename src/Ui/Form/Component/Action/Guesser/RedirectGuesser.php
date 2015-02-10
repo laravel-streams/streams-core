@@ -73,6 +73,14 @@ class RedirectGuesser
         }
 
         /**
+         * If the last segment is an addon namespace
+         * then remove it as well.. This is kinda cheating.
+         */
+        if (str_is('*.*.*', end($segments))) {
+            array_pop($segments);
+        }
+
+        /**
          * Now remove the actionable
          * segment (create / edit).
          */
