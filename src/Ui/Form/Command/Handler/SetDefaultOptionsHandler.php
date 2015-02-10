@@ -70,7 +70,7 @@ class SetDefaultOptionsHandler
                 $options = null;
             }
 
-            $form->setOption('options', $options . '@handler');
+            $form->setOption('options', $options . '@handle');
         }
 
         /**

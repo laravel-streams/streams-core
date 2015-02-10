@@ -32,13 +32,30 @@ class SetDefaultOptionsHandler
          */
         if (!$table->getOption('options')) {
 
-            $options = str_replace('FormBuilder', 'FormOptions', get_class($builder));
+            $options = str_replace('TableBuilder', 'TableOptions', get_class($builder));
 
             if (!class_exists($options)) {
                 $options = null;
             }
 
-            $table->setOption('options', $options . '@handler');
+            $table->setOption('options', $options . '@handle');
+        }
+
+        /**
+         * Set a optional entries handler based
+         * on the builder class. Defaulting to
+         * no handler in which case we will use
+         * the model and included repositories.
+         */
+        if (!$table->getOption('entries')) {
+
+            $entries = str_replace('TableBuilder', 'TableEntries', get_class($builder));
+
+            if (!class_exists($entries)) {
+                $entries = null;
+            }
+
+            $table->setOption('entries', $entries . '@handle');
         }
 
         /**

@@ -27,7 +27,8 @@ class SetFormRepositoryHandler
         $repository = $form->getOption('repository');
 
         /**
-         * If there is no repository skip this step.
+         * If there is no repository
+         * then skip this step.
          */
         if (!$repository) {
             return;

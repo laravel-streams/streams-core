@@ -27,6 +27,14 @@ class SetTableRepositoryHandler
         $repository = $table->getOption('repository');
 
         /**
+         * If there is no repository
+         * then skip this step.
+         */
+        if (!$repository) {
+            return;
+        }
+
+        /**
          * Set the repository on the form!
          */
         $table->setRepository(app()->make($repository, compact('model', 'table')));

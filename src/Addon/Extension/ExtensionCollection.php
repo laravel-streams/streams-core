@@ -18,7 +18,7 @@ class ExtensionCollection extends AddonCollection
      *
      * @param mixed $pattern
      * @param bool  $strict
-     * @return static
+     * @return ExtensionCollection
      */
     public function search($pattern, $strict = false)
     {

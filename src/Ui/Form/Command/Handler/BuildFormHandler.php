@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetDefaultOptions;
+use Anomaly\Streams\Platform\Ui\Form\Command\SetDefaultParameters;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormEntry;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormModel;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormRepository;
@@ -42,6 +43,7 @@ class BuildFormHandler
         $this->dispatch(new SetFormStream($builder));
         $this->dispatch(new SetDefaultOptions($builder));
         $this->dispatch(new SetFormRepository($builder));
+        $this->dispatch(new SetDefaultParameters($builder));
         $this->dispatch(new SetFormEntry($builder)); // Do this last.
 
         /*

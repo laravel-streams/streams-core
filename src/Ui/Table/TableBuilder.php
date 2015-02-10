@@ -29,13 +29,6 @@ class TableBuilder
     protected $model = null;
 
     /**
-     * The table entries handler.
-     *
-     * @var null|string
-     */
-    protected $entries = null;
-
-    /**
      * The views configuration.
      *
      * @var array|string
@@ -152,7 +145,7 @@ class TableBuilder
     /**
      * Set the table model.
      *
-     * @param string|TableModelInterface $model
+     * @param string $model
      * @return $this
      */
     public function setModel($model)
@@ -165,7 +158,7 @@ class TableBuilder
     /**
      * Get the table model.
      *
-     * @return null|string|TableModelInterface
+     * @return null|string
      */
     public function getModel()
     {
@@ -175,10 +168,10 @@ class TableBuilder
     /**
      * Set the views configuration.
      *
-     * @param array $views
+     * @param $views
      * @return $this
      */
-    public function setViews(array $views)
+    public function setViews($views)
     {
         $this->views = $views;
 
@@ -198,10 +191,10 @@ class TableBuilder
     /**
      * Set the filters configuration.
      *
-     * @param array $filters
+     * @param $filters
      * @return $this
      */
-    public function setFilters(array $filters)
+    public function setFilters($filters)
     {
         $this->filters = $filters;
 
@@ -221,10 +214,10 @@ class TableBuilder
     /**
      * Set the columns configuration.
      *
-     * @param array $columns
+     * @param $columns
      * @return $this
      */
-    public function setColumns(array $columns)
+    public function setColumns($columns)
     {
         $this->columns = $columns;
 
@@ -244,10 +237,10 @@ class TableBuilder
     /**
      * Set the buttons configuration.
      *
-     * @param array $buttons
+     * @param $buttons
      * @return $this
      */
-    public function setButtons(array $buttons)
+    public function setButtons($buttons)
     {
         $this->buttons = $buttons;
 
@@ -267,10 +260,10 @@ class TableBuilder
     /**
      * Set the actions configuration.
      *
-     * @param array $actions
+     * @param $actions
      * @return $this
      */
-    public function setActions(array $actions = [])
+    public function setActions($actions)
     {
         $this->actions = $actions;
 
@@ -285,28 +278,5 @@ class TableBuilder
     public function getActions()
     {
         return $this->actions;
-    }
-
-    /**
-     * Set the table entries handler.
-     *
-     * @param $entries
-     * @return $this
-     */
-    public function setEntries($entries)
-    {
-        $this->entries = $entries;
-
-        return $this;
-    }
-
-    /**
-     * Get the table entries handler.
-     *
-     * @return null|string
-     */
-    public function getEntries()
-    {
-        return $this->entries;
     }
 }

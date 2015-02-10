@@ -33,8 +33,8 @@ class GetTableEntriesHandler
          * If the builder has an entries handler
          * then call it through the container.
          */
-        if ($handler = $builder->getEntries()) {
-
+        if ($handler = $table->getOption('entries')) {
+            
             $entries = app()->call($handler, compact('table'));
 
             if ($entries instanceof Collection) {
