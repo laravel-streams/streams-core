@@ -66,7 +66,7 @@ class FieldInput
      */
     public function read(FormBuilder $builder)
     {
-        $builder->setFields($this->resolver->resolve($builder->getFields()));
+        $builder->setFields($this->resolver->resolve($builder->getFields(), compact('builder')));
 
         $this->normalizer->normalize($builder);
         $builder->setFields($this->evaluator->evaluate($builder->getFields()));

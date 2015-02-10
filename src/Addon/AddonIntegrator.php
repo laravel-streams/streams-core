@@ -49,11 +49,16 @@ class AddonIntegrator
     {
         app('view')->addNamespace($addon->getNamespace(), $addon->getPath('resources/views'));
 
-        foreach (app('files')->files($addon->getPath('resources/config')) as $config) {
-            app('config')->set(
-                $addon->getNamespace(basename(trim($config, '.php'))),
-                app('files')->getRequire($config)
-            );
+        if (app('files')->isDirectory($addon->getPath('resources/config'))) {
+            foreach (app('files')->allFiles($addon->getPath('resources/config')) as $config) {
+
+                $key = str_replace($addon->getPath('resources/config/'), '', trim($config->getPathname(), '.php'));
+
+                app('config')->set(
+                    $addon->getNamespace(str_replace('/', '.', $key)),
+                    app('files')->getRequire($config)
+                );
+            }
         }
 
         app('translator')->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));

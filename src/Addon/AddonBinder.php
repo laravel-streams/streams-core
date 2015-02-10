@@ -92,7 +92,12 @@ class AddonBinder
             ->setSlug($slug)
             ->setVendor($vendor);
 
+        if (!$addon instanceof Addon) {
+            return;
+        }
+
         $this->container->instance(get_class($addon), $addon);
+        $this->container->instance($addon->getNamespace(), $addon);
 
         /**
          * Load addon configuration before running

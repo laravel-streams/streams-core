@@ -94,6 +94,10 @@ class BuildFieldTypeHandler
             return $this->container->make($command->getType());
         }
 
+        if (str_is('*.*.*', $fieldType)) {
+            return $this->container->make($fieldType);
+        }
+
         $fieldType = $this->fieldTypes->findBySlug($fieldType);
 
         if (!$fieldType instanceof FieldType) {
