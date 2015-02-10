@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
+use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
@@ -34,6 +35,13 @@ class ActionExecutor
     protected $request;
 
     /**
+     * The message bag.
+     *
+     * @var MessageBag
+     */
+    protected $messages;
+
+    /**
      * The application.
      *
      * @var Application
@@ -45,12 +53,14 @@ class ActionExecutor
      *
      * @param Guard       $guard
      * @param Request     $request
+     * @param MessageBag  $messages
      * @param Application $application
      */
-    public function __construct(Guard $guard, Request $request, Application $application)
+    public function __construct(Guard $guard, Request $request, Application $application, MessageBag $messages)
     {
         $this->guard       = $guard;
         $this->request     = $request;
+        $this->messages    = $messages;
         $this->application = $application;
     }
 
@@ -60,7 +70,6 @@ class ActionExecutor
      * @param Table           $table
      * @param ActionInterface $action
      * @return mixed
-     * @throws \Exception
      */
     public function execute(Table $table, ActionInterface $action)
     {
@@ -73,7 +82,11 @@ class ActionExecutor
          * Make sure the permission is met if present.
          */
         if ($user instanceof UserInterface && !$user->hasPermission($action->getPermission())) {
-            $this->application->abort(403, "You do not have permission to perform this action [{$action->getSlug()}].");
+
+            // TODO: Translate and allow actions to have error message parameters.
+            $this->messages->error('You do not have permission to do that.');
+
+            return false;
         }
 
         /**
