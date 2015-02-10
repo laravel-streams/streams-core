@@ -66,11 +66,9 @@ class SetDefaultOptionsHandler
 
             $options = str_replace('FormBuilder', 'FormOptions', get_class($builder));
 
-            if (!class_exists($options)) {
-                $options = null;
+            if (class_exists($options)) {
+                $form->setOption('options', $options . '@handle');
             }
-
-            $form->setOption('options', $options . '@handle');
         }
 
         /**
@@ -82,16 +80,12 @@ class SetDefaultOptionsHandler
 
             $model = $form->getModel();
 
-            if (!$repository && $model instanceof EntryModel) {
-                $repository = 'Anomaly\Streams\Platform\Entry\EntryFormRepository';
+            if (!$form->getOption('repository') && $model instanceof EntryModel) {
+                $form->setOption('repository', 'Anomaly\Streams\Platform\Entry\EntryFormRepository');
             }
 
-            if (!$repository && $model instanceof EloquentModel) {
-                $repository = 'Anomaly\Streams\Platform\Model\EloquentFormRepository';
-            }
-
-            if ($repository) {
-                $form->setOption('repository', $repository);
+            if (!$form->getOption('repository') && $model instanceof EloquentModel) {
+                $form->setOption('repository', 'Anomaly\Streams\Platform\Model\EloquentFormRepository');
             }
         }
     }

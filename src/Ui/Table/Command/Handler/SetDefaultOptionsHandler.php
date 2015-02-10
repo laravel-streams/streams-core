@@ -34,11 +34,9 @@ class SetDefaultOptionsHandler
 
             $options = str_replace('TableBuilder', 'TableOptions', get_class($builder));
 
-            if (!class_exists($options)) {
-                $options = null;
+            if (class_exists($options)) {
+                $table->setOption('options', $options . '@handle');
             }
-
-            $table->setOption('options', $options . '@handle');
         }
 
         /**
@@ -52,10 +50,8 @@ class SetDefaultOptionsHandler
             $entries = str_replace('TableBuilder', 'TableEntries', get_class($builder));
 
             if (!class_exists($entries)) {
-                $entries = null;
+                $table->setOption('entries', $entries . '@handle');
             }
-
-            $table->setOption('entries', $entries . '@handle');
         }
 
         /**
@@ -63,20 +59,16 @@ class SetDefaultOptionsHandler
          * on the builder class. Defaulting to
          * no handler.
          */
-        if (!$repository = $table->getOption('repository')) {
+        if (!$table->getOption('repository')) {
 
             $model = $table->getModel();
 
-            if (!$repository && $model instanceof EntryModel) {
-                $repository = 'Anomaly\Streams\Platform\Entry\EntryTableRepository';
+            if (!$table->getOption('repository') && $model instanceof EntryModel) {
+                $table->setOption('repository', 'Anomaly\Streams\Platform\Entry\EntryTableRepository');
             }
 
-            if (!$repository && $model instanceof EloquentModel) {
-                $repository = 'Anomaly\Streams\Platform\Model\EloquentTableRepository';
-            }
-
-            if ($repository) {
-                $table->setOption('repository', $repository);
+            if (!$table->getOption('repository') && $model instanceof EntryModel) {
+                $table->setOption('repository', 'Anomaly\Streams\Platform\Model\EloquentTableRepository');
             }
         }
     }
