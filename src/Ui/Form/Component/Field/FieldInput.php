@@ -64,51 +64,12 @@ class FieldInput
      */
     public function read(FormBuilder $builder)
     {
-        $this->resolveInput($builder);
-        $this->normalizeInput($builder);
-        $this->evaluateInput($builder);
-
-        $this->guessFields($builder);
-        $this->normalizeInput($builder); // Again!
-    }
-
-    /**
-     * Resolve the field input.
-     *
-     * @param FormBuilder $builder
-     */
-    protected function resolveInput(FormBuilder $builder)
-    {
         $builder->setFields($this->resolver->resolve($builder->getFields()));
-    }
 
-    /**
-     * Guess * fields replacer.
-     *
-     * @param FormBuilder $builder
-     */
-    protected function guessFields(FormBuilder $builder)
-    {
-        $this->guesser->guess($builder);
-    }
-
-    /**
-     * Normalize the field input.
-     *
-     * @param FormBuilder $builder
-     */
-    protected function normalizeInput(FormBuilder $builder)
-    {
-        $builder->setFields($this->normalizer->normalize($builder->getFields()));
-    }
-
-    /**
-     * Evaluate field input.
-     *
-     * @param FormBuilder $builder
-     */
-    protected function evaluateInput(FormBuilder $builder)
-    {
+        $this->normalizer->normalize($builder);
         $builder->setFields($this->evaluator->evaluate($builder->getFields()));
+
+        $this->guesser->guess($builder);
+        $this->normalizer->normalize($builder); //Yes, again.
     }
 }

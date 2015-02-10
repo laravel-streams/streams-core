@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+
 /**
  * Class FieldNormalizer
  *
@@ -14,11 +16,12 @@ class FieldNormalizer
     /**
      * Normalize field input.
      *
-     * @param array $fields
-     * @return array
+     * @param FormBuilder $builder
      */
-    public function normalize(array $fields)
+    public function normalize(FormBuilder $builder)
     {
+        $fields = $builder->getFields();
+
         foreach ($fields as $slug => &$field) {
 
             /**
@@ -69,6 +72,6 @@ class FieldNormalizer
             }
         }
 
-        return $fields;
+        $builder->setFields($fields);
     }
 }

@@ -38,13 +38,14 @@ class Resolver
     /**
      * Resolve the target.
      *
-     * @param $target
+     * @param       $target
+     * @param array $arguments
      * @return mixed
      */
-    public function resolve($target)
+    public function resolve($target, array $arguments = [])
     {
         if (is_string($target) && str_contains($target, '@')) {
-            return $this->container->call($target);
+            return $this->container->call($target, $arguments);
         }
 
         return $target;
