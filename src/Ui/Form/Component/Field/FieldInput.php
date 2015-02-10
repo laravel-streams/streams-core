@@ -60,6 +60,8 @@ class FieldInput
     }
 
     /**
+     * Read the form input.
+     *
      * @param FormBuilder $builder
      */
     public function read(FormBuilder $builder)
