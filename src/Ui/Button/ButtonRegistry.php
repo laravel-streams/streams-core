@@ -21,47 +21,47 @@ class ButtonRegistry
          * Default type buttons.
          */
         'default'     => [
-            'type' => 'default',
+            'type' => 'default'
         ],
         'cancel'      => [
             'text' => 'streams::button.cancel',
-            'type' => 'default',
+            'type' => 'default'
         ],
         /**
          * Primary type buttons.
          */
         'primary'     => [
-            'type' => 'primary',
+            'type' => 'primary'
         ],
         /**
          * Success type buttons.
          */
         'success'     => [
-            'type' => 'success',
+            'type' => 'success'
         ],
         'save'        => [
-            'type' => 'success',
             'text' => 'streams::button.save',
+            'type' => 'success'
         ],
-        'create'        => [
-            'type' => 'success',
+        'create'      => [
             'text' => 'streams::button.create',
+            'type' => 'success'
         ],
         /**
          * Info type buttons.
          */
         'info'        => [
-            'type' => 'info',
+            'type' => 'info'
         ],
         /**
          * Warning type buttons.
          */
         'warning'     => [
-            'type' => 'warning',
+            'type' => 'warning'
         ],
         'edit'        => [
             'text' => 'streams::button.edit',
-            'type' => 'warning',
+            'type' => 'warning'
         ],
         /**
          * Danger type buttons.
@@ -72,12 +72,12 @@ class ButtonRegistry
         'delete'      => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete@handle',
             'text'    => 'streams::button.delete',
-            'type'    => 'danger',
+            'type'    => 'danger'
         ],
         'reorder'     => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder@handle',
             'text'    => 'streams::button.reorder',
-            'type'    => 'danger',
+            'type'    => 'danger'
         ],
         // Danger type icon buttons.
         'delete-icon' => [
@@ -88,7 +88,7 @@ class ButtonRegistry
          * Link type buttons.
          */
         'link'        => [
-            'type' => 'link',
+            'type' => 'link'
         ],
     ];
 
