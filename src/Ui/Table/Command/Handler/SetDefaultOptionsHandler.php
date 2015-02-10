@@ -49,7 +49,7 @@ class SetDefaultOptionsHandler
 
             $entries = str_replace('TableBuilder', 'TableEntries', get_class($builder));
 
-            if (!class_exists($entries)) {
+            if (class_exists($entries)) {
                 $table->setOption('entries', $entries . '@handle');
             }
         }
