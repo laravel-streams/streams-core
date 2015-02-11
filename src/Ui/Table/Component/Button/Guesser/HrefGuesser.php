@@ -62,6 +62,10 @@ class HrefGuesser
             case 'delete':
                 $button['attributes']['href'] = $this->guessDeleteHref();
                 break;
+
+            case 'view':
+                $button['attributes']['href'] = $this->guessViewHref();
+                break;
         }
     }
 
@@ -95,5 +99,21 @@ class HrefGuesser
         $segments = $this->request->segments();
 
         return $this->url->to(implode('/', $segments) . '/delete/{{ entry.id }}');
+    }
+
+    /**
+     * Guess the view URL.
+     *
+     * Since this is for tables we can assume the
+     * last segment is index so we can simply append
+     * the action and the ID.
+     *
+     * @return string
+     */
+    protected function guessViewHref()
+    {
+        $segments = $this->request->segments();
+
+        return $this->url->to(implode('/', $segments) . '/show/{{ entry.id }}');
     }
 }

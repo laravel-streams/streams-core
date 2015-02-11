@@ -53,6 +53,10 @@ class ButtonRegistry
         'info'        => [
             'type' => 'info'
         ],
+        'view'        => [
+            'text' => 'streams::button.view',
+            'type' => 'info'
+        ],
         /**
          * Warning type buttons.
          */
