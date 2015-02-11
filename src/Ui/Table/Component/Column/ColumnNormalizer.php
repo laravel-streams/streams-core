@@ -22,13 +22,12 @@ class ColumnNormalizer
         foreach ($columns as &$column) {
 
             /**
-             * If the column is just a string then treat
-             * it as the header AND the value.
+             * If the column is not already an
+             * array then treat it as the value.
              */
-            if (is_string($column)) {
+            if (!is_array($column)) {
                 $column = [
-                    'header' => $column,
-                    'value'  => $column,
+                    'value' => $column,
                 ];
             }
         }
