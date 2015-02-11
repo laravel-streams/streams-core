@@ -45,8 +45,6 @@ class ColumnValue
     {
         $value = $column->getValue();
 
-        $entry = $entry->getPresenter();
-
         /**
          * If the entry is an instance of EntryInterface
          * then try getting the field value from the entry.
@@ -61,6 +59,13 @@ class ColumnValue
         if (str_is('*.*.*::*', $value)) {
             return view($value, compact('table', 'entry'));
         }
+
+        /**
+         * Decorate the entry object before
+         * sending to decorate so that data_get()
+         * can get into the presenter methods.
+         */
+        $entry = $entry->getPresenter();
 
         /**
          * By default we can just pass the value through
