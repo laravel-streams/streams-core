@@ -45,6 +45,8 @@ class ColumnValue
     {
         $value = $column->getValue();
 
+        $entry = $entry->getPresenter();
+
         /**
          * If the entry is an instance of EntryInterface
          * then try getting the field value from the entry.

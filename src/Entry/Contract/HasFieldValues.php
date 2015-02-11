@@ -14,10 +14,11 @@ interface HasFieldValues
     /**
      * Get a field value.
      *
-     * @param       $fieldSlug
+     * @param      $fieldSlug
+     * @param bool $decorate
      * @return mixed
      */
-    public function getFieldValue($fieldSlug);
+    public function getFieldValue($fieldSlug, $decorate = false);
 
     /**
      * Set a field value.

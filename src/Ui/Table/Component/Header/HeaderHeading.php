@@ -51,7 +51,12 @@ class HeaderHeading
         if (is_string($heading) && $stream instanceof StreamInterface) {
 
             $field = explode('.', $heading);
-            $field = end($field);
+
+            if ($field[0] == 'entry') {
+                array_shift($field);
+            }
+
+            $field = array_shift($field);
 
             if ($field = $stream->getField($field)) {
                 return trans($field->getName());

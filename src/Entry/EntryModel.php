@@ -92,7 +92,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * @param       $fieldSlug
      * @return mixed
      */
-    public function getFieldValue($fieldSlug)
+    public function getFieldValue($fieldSlug, $decorate = false)
     {
         $assignment = $this->getAssignment($fieldSlug);
 
@@ -101,7 +101,15 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
 
-        return $modifier->reverse($accessor->get($this->getAttributes(), $fieldSlug));
+        $value = $modifier->reverse($accessor->get($this->getAttributes(), $fieldSlug));
+
+        if (!$decorate) {
+            return $value;
+        }
+
+        $type->setValue($value);
+
+        return $type->getPresenter();
     }
 
     /**
