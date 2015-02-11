@@ -40,6 +40,6 @@ class PutFieldTypeInCollection
     {
         $fieldType = $event->getFieldType();
 
-        $this->fieldTypes->put(get_class($fieldType), $fieldType);
+        $this->fieldTypes->put($fieldType->getNamespace(), $fieldType);
     }
 }

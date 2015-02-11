@@ -40,6 +40,6 @@ class PutPluginInCollection
     {
         $plugin = $event->getPlugin();
 
-        $this->plugins->put(get_class($plugin), $plugin);
+        $this->plugins->put($plugin->getNamespace(), $plugin);
     }
 }

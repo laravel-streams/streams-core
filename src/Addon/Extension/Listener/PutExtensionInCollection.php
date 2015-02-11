@@ -40,6 +40,6 @@ class PutExtensionInCollection
     {
         $extension = $event->getExtension();
 
-        $this->extensions->put(get_class($extension), $extension);
+        $this->extensions->put($extension->getNamespace(), $extension);
     }
 }

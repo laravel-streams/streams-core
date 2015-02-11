@@ -40,6 +40,6 @@ class PutBlockInCollection
     {
         $block = $event->getBlock();
 
-        $this->blocks->put(get_class($block), $block);
+        $this->blocks->put($block->getNamespace(), $block);
     }
 }

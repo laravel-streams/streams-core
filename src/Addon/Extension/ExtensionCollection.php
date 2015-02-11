@@ -39,18 +39,14 @@ class ExtensionCollection extends AddonCollection
      * Example: extension.users::authenticator.default
      *
      * @param  mixed $key
-     * @return mixed
+     * @return null|Extension
      */
-    public function get($key, $default = null)
+    public function find($key)
     {
         foreach ($this->items as $item) {
             if ($item instanceof Extension && $item->getProvides() == $key) {
                 return $item;
             }
-        }
-
-        if ($default) {
-            $this->get($default);
         }
 
         return null;

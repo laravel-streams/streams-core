@@ -40,6 +40,6 @@ class PutModuleInCollection
     {
         $module = $event->getModule();
 
-        $this->modules->put(get_class($module), $module);
+        $this->modules->put($module->getNamespace(), $module);
     }
 }

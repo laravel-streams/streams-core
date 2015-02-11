@@ -40,6 +40,6 @@ class PutThemeInCollection
     {
         $theme = $event->getTheme();
 
-        $this->themes->put(get_class($theme), $theme);
+        $this->themes->put($theme->getNamespace(), $theme);
     }
 }
