@@ -135,11 +135,33 @@ class FieldType extends Addon
      */
     protected $wrapperView = 'streams::ui/form/partials/wrapper';
 
+    /**
+     * The field type presenter.
+     *
+     * @var null|string
+     */
     protected $presenter = null;
 
+    /**
+     * The field type modifier.
+     *
+     * @var null|string
+     */
     protected $modifier = null;
 
+    /**
+     * The field type accessor.
+     *
+     * @var null|string
+     */
     protected $accessor = null;
+
+    /**
+     * The field type schema.
+     *
+     * @var null|string
+     */
+    protected $schema = null;
 
     /**
      * Get the rules.
@@ -583,6 +605,24 @@ class FieldType extends Addon
         }
 
         return app()->make($this->accessor, [$this]);
+    }
+
+    /**
+     * Get the schema.
+     *
+     * @return FieldTypeSchema
+     */
+    public function getSchema()
+    {
+        if (!$this->schema) {
+            $this->schema = get_class($this) . 'Schema';
+        }
+
+        if (!class_exists($this->schema)) {
+            $this->schema = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeSchema';
+        }
+
+        return app()->make($this->schema, [$this]);
     }
 
     /**

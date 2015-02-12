@@ -18,7 +18,7 @@ class DropAssignmentColumnHandler
      * Handle the command.
      *
      * @param DropAssignmentColumn $command
-     * @param AssignmentSchema            $schema
+     * @param AssignmentSchema     $schema
      */
     public function handle(DropAssignmentColumn $command, AssignmentSchema $schema)
     {
@@ -27,16 +27,10 @@ class DropAssignmentColumnHandler
         $stream = $assignment->getStream();
         $type   = $assignment->getFieldType();
 
-        $table = $stream->getEntryTableName();
-
-        $columnName = $type->getColumnName();
-
-        $schema->dropColumn($table, $columnName);
+        $schema->dropColumn($stream->getEntryTableName(), $type, $assignment);
 
         if ($assignment->isTranslatable()) {
-            $table = $stream->getEntryTranslationsTableName();
-
-            $schema->dropColumn($table, $columnName);
+            $schema->dropColumn($stream->getEntryTranslationsTableName(), $type, $assignment);
         }
     }
 }

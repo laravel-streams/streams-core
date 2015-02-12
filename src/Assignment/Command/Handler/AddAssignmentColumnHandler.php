@@ -43,29 +43,10 @@ class AddAssignmentColumnHandler
         $stream = $assignment->getStream();
         $type   = $assignment->getFieldType();
 
-        $table = $stream->getEntryTableName();
-
-        $columnName = $type->getColumnName();
-        $columnType = $type->getColumnType();
-
-        $this->schema->addColumn(
-            $table,
-            $columnName,
-            $columnType,
-            $assignment->isRequired(),
-            $assignment->isUnique()
-        );
+        $this->schema->addColumn($stream->getEntryTableName(), $type, $assignment);
 
         if ($assignment->isTranslatable()) {
-            $table = $stream->getEntryTranslationsTableName();
-
-            $this->schema->addColumn(
-                $table,
-                $columnName,
-                $columnType,
-                false, // Force non-required on translations.
-                $assignment->isUnique()
-            );
+            $this->schema->addColumn($stream->getEntryTranslationsTableName(), $type, $assignment);
         }
     }
 }

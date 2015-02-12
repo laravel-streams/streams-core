@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
@@ -32,48 +34,38 @@ class AssignmentSchema
     /**
      * Drop a column.
      *
-     * @param  $table
-     * @param  $columnName
-     * @return bool
+     * @param                     $table
+     * @param FieldType           $type
+     * @param AssignmentInterface $assignment
      */
-    public function dropColumn($table, $columnName)
+    public function dropColumn($table, FieldType $type, AssignmentInterface $assignment)
     {
-        if ($this->schema->hasColumn($table, $columnName)) {
-            $this->schema->table(
-                $table,
-                function (Blueprint $table) use ($columnName) {
+        $schema = $type->getSchema();
 
-                    $table->dropColumn($columnName);
-                }
-            );
-        }
-
-        return true;
+        $this->schema->table(
+            $table,
+            function (Blueprint $table) use ($schema, $assignment) {
+                $schema->dropColumn($table, $assignment);
+            }
+        );
     }
 
     /**
      * Add a column.
      *
-     * @param      $table
-     * @param      $columnName
-     * @param      $columnType
-     * @param bool $required
-     * @param bool $unique
+     * @param                     $table
+     * @param FieldType           $type
+     * @param AssignmentInterface $assignment
      */
-    public function addColumn($table, $columnName, $columnType, $required = false, $unique = false)
+    public function addColumn($table, FieldType $type, AssignmentInterface $assignment)
     {
-        if (!$this->schema->hasColumn($table, $columnName)) {
-            $this->schema->table(
-                $table,
-                function (Blueprint $table) use ($columnName, $columnType, $required, $unique) {
+        $schema = $type->getSchema();
 
-                    $table->{$columnType}($columnName)->nullable(!$required);
-
-                    if ($unique) {
-                        $table->unique($columnName);
-                    }
-                }
-            );
-        }
+        $this->schema->table(
+            $table,
+            function (Blueprint $table) use ($schema, $assignment) {
+                $schema->addColumn($table, $assignment);
+            }
+        );
     }
 }

@@ -38,6 +38,6 @@ class FieldEvaluator
      */
     public function evaluate(FormBuilder $builder)
     {
-        $this->evaluator->evaluate($builder->getFields(), compact('builder'));
+        $builder->setFields($this->evaluator->evaluate($builder->getFields(), compact('builder')));
     }
 }

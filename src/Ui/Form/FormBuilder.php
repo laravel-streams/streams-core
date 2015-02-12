@@ -40,7 +40,7 @@ class FormBuilder
      *
      * @var array|string
      */
-    protected $fields = ['*'];
+    protected $fields = [];
 
     /**
      * Fields to skip.
