@@ -40,12 +40,12 @@ class FieldTypeModifier
     }
 
     /**
-     * Reverse the above modification.
+     * Restore the value.
      *
      * @param  $value
      * @return mixed
      */
-    public function reverse($value)
+    public function restore($value)
     {
         return $value;
     }

@@ -101,7 +101,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
 
-        $value = $modifier->reverse($accessor->get($this->getAttributes(), $fieldSlug));
+        $value = $modifier->restore($accessor->get($this->getAttributes(), $fieldSlug));
 
         if (!$decorate) {
             return $value;
