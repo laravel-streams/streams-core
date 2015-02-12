@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+
 /**
  * Class ActionNormalizer
  *
@@ -14,12 +16,13 @@ class ActionNormalizer
     /**
      * Normalize action input.
      *
-     * @param array $actions
-     * @param       $prefix
-     * @return array
+     * @param TableBuilder $builder
      */
-    public function normalize(array $actions, $prefix)
+    public function normalize(TableBuilder $builder)
     {
+        $actions = $builder->getActions();
+        $prefix  = $builder->getTableOption('prefix');
+
         foreach ($actions as $slug => &$action) {
 
             /**
@@ -88,6 +91,6 @@ class ActionNormalizer
             $action['attributes']['value'] = $action['slug'];
         }
 
-        return $actions;
+        $builder->setActions($actions);
     }
 }

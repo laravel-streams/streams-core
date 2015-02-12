@@ -17,7 +17,7 @@ class FilterInput
     /**
      * The resolver utility.
      *
-     * @var Resolver
+     * @var FilterResolver
      */
     protected $resolver;
 
@@ -31,10 +31,10 @@ class FilterInput
     /**
      * Create a new FilterInput instance.
      *
-     * @param Resolver         $resolver
+     * @param FilterResolver   $resolver
      * @param FilterNormalizer $normalizer
      */
-    public function __construct(Resolver $resolver, FilterNormalizer $normalizer)
+    public function __construct(FilterResolver $resolver, FilterNormalizer $normalizer)
     {
         $this->resolver   = $resolver;
         $this->normalizer = $normalizer;
@@ -48,30 +48,7 @@ class FilterInput
      */
     public function read(TableBuilder $builder)
     {
-        $this->resolveInput($builder);
-        $this->normalizeInput($builder);
-    }
-
-    /**
-     * Resolve filter input.
-     *
-     * @param TableBuilder $builder
-     */
-    protected function resolveInput(TableBuilder $builder)
-    {
-        $builder->setFilters($this->resolver->resolve($builder->getFilters()));
-    }
-
-    /**
-     * Normalize filter input.
-     *
-     * @param TableBuilder $builder
-     */
-    protected function normalizeInput(TableBuilder $builder)
-    {
-        $table  = $builder->getTable();
-        $stream = $table->getStream();
-
-        $builder->setFilters($this->normalizer->normalize($builder->getFilters(), $stream));
+        $this->resolver->resolve($builder);
+        $this->normalizer->normalize($builder);
     }
 }

@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+
 /**
  * Class ViewNormalizer
  *
@@ -14,11 +16,12 @@ class ViewNormalizer
     /**
      * Normalize the view input.
      *
-     * @param array $views
-     * @return array
+     * @param TableBuilder $builder
      */
-    public function normalize(array $views)
+    public function normalize(TableBuilder $builder)
     {
+        $views = $builder->getViews();
+
         foreach ($views as $slug => &$view) {
 
             /**
@@ -57,6 +60,6 @@ class ViewNormalizer
             }
         }
 
-        return $views;
+        $builder->setViews($views);
     }
 }

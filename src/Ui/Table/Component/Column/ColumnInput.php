@@ -17,7 +17,7 @@ class ColumnInput
     /**
      * The resolver utility.
      *
-     * @var Resolver
+     * @var ColumnResolver
      */
     protected $resolver;
 
@@ -31,10 +31,10 @@ class ColumnInput
     /**
      * Create a new ColumnInput instance.
      *
-     * @param Resolver         $resolver
+     * @param ColumnResolver   $resolver
      * @param ColumnNormalizer $normalizer
      */
-    public function __construct(Resolver $resolver, ColumnNormalizer $normalizer)
+    public function __construct(ColumnResolver $resolver, ColumnNormalizer $normalizer)
     {
         $this->resolver   = $resolver;
         $this->normalizer = $normalizer;
@@ -47,27 +47,7 @@ class ColumnInput
      */
     public function read(TableBuilder $builder)
     {
-        $this->resolveInput($builder);
-        $this->normalizeInput($builder);
-    }
-
-    /**
-     * Resolve the input.
-     *
-     * @param TableBuilder $builder
-     */
-    protected function resolveInput(TableBuilder $builder)
-    {
-        $builder->setColumns($this->resolver->resolve($builder->getColumns()));
-    }
-
-    /**
-     * Normalize the input.
-     *
-     * @param TableBuilder $builder
-     */
-    protected function normalizeInput(TableBuilder $builder)
-    {
-        $builder->setColumns($this->normalizer->normalize($builder->getColumns()));
+        $this->resolver->resolve($builder);
+        $this->normalizer->normalize($builder);
     }
 }

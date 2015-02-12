@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
-use Anomaly\Streams\Platform\Support\Evaluator;
-use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -18,14 +16,14 @@ class FieldInput
     /**
      * The resolver utility.
      *
-     * @var \Anomaly\Streams\Platform\Support\Resolver
+     * @var FieldResolver
      */
     protected $resolver;
 
     /**
      * The evaluator utility.
      *
-     * @var Evaluator
+     * @var FieldEvaluator
      */
     protected $evaluator;
 
@@ -46,13 +44,17 @@ class FieldInput
     /**
      * Create a new FieldInput instance.
      *
-     * @param Resolver        $resolver
-     * @param Evaluator       $evaluator
+     * @param FieldResolver   $resolver
+     * @param FieldEvaluator  $evaluator
      * @param FieldNormalizer $normalizer
      * @param FieldGuesser    $guesser
      */
-    function __construct(Resolver $resolver, Evaluator $evaluator, FieldNormalizer $normalizer, FieldGuesser $guesser)
-    {
+    function __construct(
+        FieldResolver $resolver,
+        FieldEvaluator $evaluator,
+        FieldNormalizer $normalizer,
+        FieldGuesser $guesser
+    ) {
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
         $this->evaluator  = $evaluator;
@@ -66,10 +68,10 @@ class FieldInput
      */
     public function read(FormBuilder $builder)
     {
-        $builder->setFields($this->resolver->resolve($builder->getFields(), compact('builder')));
+        $this->resolver->resolve($builder);
 
         $this->normalizer->normalize($builder);
-        $builder->setFields($this->evaluator->evaluate($builder->getFields()));
+        $this->evaluator->evaluate($builder);
 
         $this->guesser->guess($builder);
         $this->normalizer->normalize($builder); //Yes, again.

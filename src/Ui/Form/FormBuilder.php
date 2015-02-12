@@ -31,35 +31,35 @@ class FormBuilder
     /**
      * The entry object.
      *
-     * @var null
+     * @var null|int
      */
     protected $entry = null;
 
     /**
      * The fields config.
      *
-     * @var array
+     * @var array|string
      */
-    protected $fields = [];
+    protected $fields = ['*'];
 
     /**
      * Fields to skip.
      *
-     * @var array
+     * @var array|string
      */
     protected $skips = [];
 
     /**
      * The actions config.
      *
-     * @var array
+     * @var array|string
      */
     protected $actions = ['save'];
 
     /**
      * The buttons config.
      *
-     * @var array
+     * @var array|string
      */
     protected $buttons = [];
 
@@ -287,5 +287,41 @@ class FormBuilder
     public function getButtons()
     {
         return $this->buttons;
+    }
+
+    /**
+     * Get the form's stream.
+     *
+     * @return \Anomaly\Streams\Platform\Stream\Contract\StreamInterface|null
+     */
+    public function getFormStream()
+    {
+        return $this->form->getStream();
+    }
+
+    /**
+     * Get a form option value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getFormOption($key, $default = null)
+    {
+        return $this->form->getOption($key, $default);
+    }
+
+    /**
+     * Set a form option value.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function setFormOption($key, $value)
+    {
+        $this->form->setOption($key, $value);
+
+        return $this;
     }
 }

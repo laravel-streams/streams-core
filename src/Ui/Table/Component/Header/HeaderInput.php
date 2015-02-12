@@ -22,7 +22,7 @@ class HeaderInput
     /**
      * The resolver utility.
      *
-     * @var Resolver
+     * @var HeaderResolver
      */
     protected $resolver;
 
@@ -36,11 +36,11 @@ class HeaderInput
     /**
      * Create a new HeaderInput instance.
      *
-     * @param Resolver         $resolver
+     * @param HeaderResolver   $resolver
      * @param HeaderNormalizer $normalizer
      * @param HeaderGuesser    $guesser
      */
-    public function __construct(Resolver $resolver, HeaderNormalizer $normalizer, HeaderGuesser $guesser)
+    public function __construct(HeaderResolver $resolver, HeaderNormalizer $normalizer, HeaderGuesser $guesser)
     {
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
@@ -55,38 +55,8 @@ class HeaderInput
      */
     public function read(TableBuilder $builder)
     {
-        $this->resolveInput($builder);
-        $this->normalizeInput($builder);
-        $this->guessInput($builder);
-    }
-
-    /**
-     * Resolve the header input.
-     *
-     * @param TableBuilder $builder
-     */
-    protected function resolveInput(TableBuilder $builder)
-    {
-        $builder->setColumns($this->resolver->resolve($builder->getColumns()));
-    }
-
-    /**
-     * Normalize the header input.
-     *
-     * @param TableBuilder $builder
-     */
-    protected function normalizeInput(TableBuilder $builder)
-    {
-        $builder->setColumns($this->normalizer->normalize($builder->getColumns()));
-    }
-
-    /**
-     * Guess the header input.
-     *
-     * @param TableBuilder $builder
-     */
-    protected function guessInput(TableBuilder $builder)
-    {
-        $builder->setColumns($this->guesser->guess($builder->getColumns()));
+        $this->resolver->resolve($builder);
+        $this->normalizer->normalize($builder);
+        $this->guesser->guess($builder);
     }
 }

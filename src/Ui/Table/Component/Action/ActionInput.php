@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
-use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -17,7 +16,7 @@ class ActionInput
     /**
      * The resolver utility.
      *
-     * @var Resolver
+     * @var ActionResolver
      */
     protected $resolver;
 
@@ -31,10 +30,10 @@ class ActionInput
     /**
      * Create a new ActionInput instance.
      *
-     * @param Resolver         $resolver
+     * @param ActionResolver   $resolver
      * @param ActionNormalizer $normalizer
      */
-    public function __construct(Resolver $resolver, ActionNormalizer $normalizer)
+    public function __construct(ActionResolver $resolver, ActionNormalizer $normalizer)
     {
         $this->resolver   = $resolver;
         $this->normalizer = $normalizer;
@@ -48,31 +47,7 @@ class ActionInput
      */
     public function read(TableBuilder $builder)
     {
-        $this->resolveInput($builder);
-        $this->normalizeInput($builder);
-    }
-
-    /**
-     * Resolve the action input.
-     *
-     * @param TableBuilder $builder
-     */
-    protected function resolveInput(TableBuilder $builder)
-    {
-        $builder->setActions($this->resolver->resolve($builder->getActions()));
-    }
-
-    /**
-     * Normalize the action input.
-     *
-     * @param TableBuilder $builder
-     */
-    protected function normalizeInput(TableBuilder $builder)
-    {
-        $table   = $builder->getTable();
-        $options = $table->getOptions();
-        $prefix  = $options->get('prefix');
-
-        $builder->setActions($this->normalizer->normalize($builder->getActions(), $prefix));
+        $this->resolver->resolve($builder);
+        $this->normalizer->normalize($builder);
     }
 }

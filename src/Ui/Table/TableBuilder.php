@@ -279,4 +279,40 @@ class TableBuilder
     {
         return $this->actions;
     }
+
+    /**
+     * Get the table's stream.
+     *
+     * @return \Anomaly\Streams\Platform\Stream\Contract\StreamInterface|null
+     */
+    public function getTableStream()
+    {
+        return $this->table->getStream();
+    }
+
+    /**
+     * Get a table option value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getTableOption($key, $default = null)
+    {
+        return $this->table->getOption($key, $default);
+    }
+
+    /**
+     * Set a table option value.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function setTableOption($key, $value)
+    {
+        $this->table->setOption($key, $value);
+
+        return $this;
+    }
 }

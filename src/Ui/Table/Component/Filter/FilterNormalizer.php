@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
  * Class FilterNormalizer
@@ -16,12 +17,13 @@ class FilterNormalizer
     /**
      * Normalize filter input.
      *
-     * @param array           $filters
-     * @param StreamInterface $stream
-     * @return array
+     * @param TableBuilder $builder
      */
-    public function normalize(array $filters, StreamInterface $stream = null)
+    public function normalize(TableBuilder $builder)
     {
+        $filters = $builder->getFilters();
+        $stream  = $builder->getTableStream();
+
         foreach ($filters as $slug => &$filter) {
 
             /**
@@ -49,6 +51,6 @@ class FilterNormalizer
             $filter['stream'] = $stream;
         }
 
-        return $filters;
+        $builder->setFilters($filters);
     }
 }

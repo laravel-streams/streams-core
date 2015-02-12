@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser\EnabledGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser\HrefGuesser;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
  * Class ButtonGuesser
@@ -43,16 +44,17 @@ class ButtonGuesser
     /**
      * Guess button properties.
      *
-     * @param array $buttons
-     * @return array
+     * @param FormBuilder $builder
      */
-    public function guess(array $buttons)
+    public function guess(FormBuilder $builder)
     {
+        $buttons = $builder->getButtons();
+
         foreach ($buttons as &$button) {
             $this->href->guess($button);
             $this->enabled->guess($button);
         }
 
-        return $buttons;
+        $builder->setButtons($buttons);
     }
 }

@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+
 /**
  * Class ColumnNormalizer
  *
@@ -14,11 +16,12 @@ class ColumnNormalizer
     /**
      * Normalize the column input.
      *
-     * @param array $columns
-     * @return array
+     * @param TableBuilder $builder
      */
-    public function normalize(array $columns)
+    public function normalize(TableBuilder $builder)
     {
+        $columns = $builder->getColumns();
+
         foreach ($columns as &$column) {
 
             /**
@@ -32,6 +35,6 @@ class ColumnNormalizer
             }
         }
 
-        return $columns;
+        $builder->setColumns($columns);
     }
 }

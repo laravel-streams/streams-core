@@ -31,15 +31,11 @@ class GetTableEntriesHandler
 
         /**
          * If the builder has an entries handler
-         * then call it through the container.
+         * then call it through the container and
+         * let it load the entries itself.
          */
         if ($handler = $table->getOption('entries')) {
-            
-            $entries = app()->call($handler, compact('table'));
-
-            if ($entries instanceof Collection) {
-                $table->setEntries($entries);
-            }
+            app()->call($handler, compact('table'));
         }
 
         /**
@@ -49,7 +45,7 @@ class GetTableEntriesHandler
          * If the model is not set then they need
          * to load the table entries themselves.
          */
-        if (!$entries->isEmpty() || !class_exists($model)) {
+        if (!$entries->isEmpty() || !$model) {
             return null;
         }
 

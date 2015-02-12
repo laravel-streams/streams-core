@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+
 /**
  * Class HeaderNormalizer
  *
@@ -14,11 +16,12 @@ class HeaderNormalizer
     /**
      * Normalize header input.
      *
-     * @param array $columns
-     * @return array
+     * @param TableBuilder $builder
      */
-    public function normalize(array $columns)
+    public function normalize(TableBuilder $builder)
     {
+        $columns = $builder->getColumns();
+
         foreach ($columns as $key => &$column) {
 
             /**
@@ -45,6 +48,6 @@ class HeaderNormalizer
             }
         }
 
-        return $columns;
+        $builder->setColumns($columns);
     }
 }

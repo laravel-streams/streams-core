@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser\HrefGuesser;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
  * Class ButtonGuesser
@@ -33,15 +34,16 @@ class ButtonGuesser
     /**
      * Guess button properties.
      *
-     * @param array $buttons
-     * @return array
+     * @param TableBuilder $builder
      */
-    public function guess(array $buttons)
+    public function guess(TableBuilder $builder)
     {
+        $buttons = $builder->getButtons();
+
         foreach ($buttons as &$button) {
             $this->href->guess($button);
         }
 
-        return $buttons;
+        $builder->setButtons($buttons);
     }
 }

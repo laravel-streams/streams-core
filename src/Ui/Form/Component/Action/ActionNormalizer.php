@@ -17,7 +17,6 @@ class ActionNormalizer
      * Normalize action input.
      *
      * @param FormBuilder $builder
-     * @return mixed
      */
     public function normalize(FormBuilder $builder)
     {

@@ -21,10 +21,8 @@ class FieldsGuesser
      */
     public function guess(FormBuilder $builder)
     {
-        $form   = $builder->getForm();
-        $stream = $form->getStream();
-
         $fields = $builder->getFields();
+        $stream = $builder->getFormStream();
 
         /**
          * If no Stream, skip it.

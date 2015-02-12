@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
-use Anomaly\Streams\Platform\Support\Resolver;
-use Anomaly\Streams\Platform\Ui\Button\ButtonNormalizer;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -25,7 +23,7 @@ class ButtonInput
     /**
      * The resolver utility.
      *
-     * @var Resolver
+     * @var ButtonResolver
      */
     protected $resolver;
 
@@ -39,11 +37,11 @@ class ButtonInput
     /**
      * Create a new ButtonInput instance.
      *
-     * @param Resolver         $resolver
+     * @param ButtonResolver   $resolver
      * @param ButtonGuesser    $guesser
      * @param ButtonNormalizer $normalizer
      */
-    public function __construct(Resolver $resolver, ButtonGuesser $guesser, ButtonNormalizer $normalizer)
+    public function __construct(ButtonResolver $resolver, ButtonGuesser $guesser, ButtonNormalizer $normalizer)
     {
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
@@ -58,38 +56,8 @@ class ButtonInput
      */
     public function read(TableBuilder $builder)
     {
-        $this->resolveInput($builder);
-        $this->normalizeInput($builder);
-        $this->guessInput($builder);
-    }
-
-    /**
-     * Resolve the button input.
-     *
-     * @param TableBuilder $builder
-     */
-    protected function resolveInput(TableBuilder $builder)
-    {
-        $builder->setButtons($this->resolver->resolve($builder->getButtons()));
-    }
-
-    /**
-     * Normalize the button input.
-     *
-     * @param TableBuilder $builder
-     */
-    protected function normalizeInput(TableBuilder $builder)
-    {
-        $builder->setButtons($this->normalizer->normalize($builder->getButtons()));
-    }
-
-    /**
-     * Guess the button input.
-     *
-     * @param TableBuilder $builder
-     */
-    protected function guessInput(TableBuilder $builder)
-    {
-        $builder->setButtons($this->guesser->guess($builder->getButtons()));
+        $this->resolver->resolve($builder);
+        $this->normalizer->normalize($builder);
+        $this->guesser->guess($builder);
     }
 }

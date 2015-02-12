@@ -15,9 +15,9 @@ class ViewInput
 {
 
     /**
-     * The resolver utility.
+     * The view resolver.
      *
-     * @var Resolver
+     * @var ViewResolver
      */
     protected $resolver;
 
@@ -31,10 +31,10 @@ class ViewInput
     /**
      * Create a new ViewInput instance.
      *
-     * @param Resolver       $resolver
+     * @param ViewResolver   $resolver
      * @param ViewNormalizer $normalizer
      */
-    public function __construct(Resolver $resolver, ViewNormalizer $normalizer)
+    public function __construct(ViewResolver $resolver, ViewNormalizer $normalizer)
     {
         $this->resolver   = $resolver;
         $this->normalizer = $normalizer;
@@ -48,27 +48,7 @@ class ViewInput
      */
     public function read(TableBuilder $builder)
     {
-        $this->resolveInput($builder);
-        $this->normalizeInput($builder);
-    }
-
-    /**
-     * Resolve the view input.
-     *
-     * @param TableBuilder $builder
-     */
-    protected function resolveInput(TableBuilder $builder)
-    {
-        $builder->setViews($this->resolver->resolve($builder->getViews()));
-    }
-
-    /**
-     * Normalize the view input.
-     *
-     * @param TableBuilder $builder
-     */
-    protected function normalizeInput(TableBuilder $builder)
-    {
-        $builder->setViews($this->normalizer->normalize($builder->getViews()));
+        $this->resolver->resolve($builder);
+        $this->normalizer->normalize($builder);
     }
 }

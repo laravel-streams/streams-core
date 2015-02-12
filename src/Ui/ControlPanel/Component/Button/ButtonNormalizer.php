@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button;
+<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
+
+use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
  * Class ButtonNormalizer
@@ -14,11 +16,12 @@ class ButtonNormalizer
     /**
      * Normalize button input.
      *
-     * @param array $buttons
-     * @return array
+     * @param ControlPanelBuilder $builder
      */
-    public function normalize(array $buttons)
+    public function normalize(ControlPanelBuilder $builder)
     {
+        $buttons = $builder->getButtons();
+
         foreach ($buttons as &$button) {
 
             /**
@@ -55,6 +58,6 @@ class ButtonNormalizer
             }
         }
 
-        return $buttons;
+        $builder->setButtons($buttons);
     }
 }
