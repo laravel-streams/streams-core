@@ -46,13 +46,12 @@ class HeaderBuilder
      */
     public function build(TableBuilder $builder)
     {
-        $table   = $builder->getTable();
-        $headers = $table->getHeaders();
+        $table = $builder->getTable();
 
         $this->input->read($builder);
 
         foreach ($builder->getColumns() as $column) {
-            $headers->push($this->factory->make($column));
+            $table->addHeader($this->factory->make($column));
         }
     }
 }

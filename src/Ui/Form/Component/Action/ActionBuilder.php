@@ -46,13 +46,12 @@ class ActionBuilder
      */
     public function build(FormBuilder $builder)
     {
-        $form    = $builder->getForm();
-        $actions = $form->getActions();
+        $form = $builder->getForm();
 
         $this->input->read($builder);
 
-        foreach ($builder->getActions() as $slug => $action) {
-            $actions->put($slug, $this->factory->make($action));
+        foreach ($builder->getActions() as $action) {
+            $form->addAction($this->factory->make($action));
         }
     }
 }

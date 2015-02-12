@@ -47,19 +47,19 @@ class ButtonBuilder
      */
     public function build(FormBuilder $builder)
     {
-        $form    = $builder->getForm();
-        $buttons = $form->getButtons();
+        $form = $builder->getForm();
 
         $this->input->read($builder);
 
         foreach ($builder->getButtons() as $button) {
+
             if (array_get($button, 'enabled', true)) {
 
                 $button = $this->factory->make($button);
 
                 $button->setSize('sm');
 
-                $buttons->push($button);
+                $form->addButton($button);
             }
         }
     }

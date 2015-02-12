@@ -64,7 +64,6 @@ class FieldBuilder
     {
         $form   = $builder->getForm();
         $skips  = $builder->getSkips();
-        $fields = $form->getFields();
         $stream = $form->getStream();
         $entry  = $form->getEntry();
 
@@ -76,7 +75,7 @@ class FieldBuilder
          */
         foreach ($builder->getFields() as $slug => $field) {
             if (!in_array($field['slug'], $skips)) {
-                $fields->put($slug, $this->factory->make($field, $stream, $entry));
+                $form->addField($this->factory->make($field, $stream, $entry));
             }
         }
     }

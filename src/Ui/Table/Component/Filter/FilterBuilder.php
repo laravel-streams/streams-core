@@ -46,13 +46,12 @@ class FilterBuilder
      */
     public function build(TableBuilder $builder)
     {
-        $table   = $builder->getTable();
-        $filters = $table->getFilters();
+        $table = $builder->getTable();
 
         $this->input->read($builder);
 
-        foreach ($builder->getFilters() as $slug => $filter) {
-            $filters->put($slug, $this->factory->make($filter));
+        foreach ($builder->getFilters() as $filter) {
+            $table->addFilter($this->factory->make($filter));
         }
     }
 }

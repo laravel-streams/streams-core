@@ -46,13 +46,12 @@ class ActionBuilder
      */
     public function build(TableBuilder $builder)
     {
-        $table   = $builder->getTable();
-        $actions = $table->getActions();
+        $table = $builder->getTable();
 
         $this->input->read($builder);
 
-        foreach ($builder->getActions() as $slug => $action) {
-            $actions->put($slug, $this->factory->make($action));
+        foreach ($builder->getActions() as $action) {
+            $table->addAction($this->factory->make($action));
         }
     }
 }

@@ -26,9 +26,7 @@ class LoadTableHandler
     {
         $table = $command->getTable();
 
-        $data = $table->getData();
-
-        $data->put('table', $table);
+        $table->addData('table', $table);
 
         $this->dispatch(new LoadTablePagination($table));
     }

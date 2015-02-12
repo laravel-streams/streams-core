@@ -47,12 +47,11 @@ class ViewBuilder
     public function build(TableBuilder $builder)
     {
         $table = $builder->getTable();
-        $views = $table->getViews();
 
         $this->input->read($builder);
 
-        foreach ($builder->getViews() as $slug => $view) {
-            $views->put($slug, $this->factory->make($view));
+        foreach ($builder->getViews() as $view) {
+            $table->addView($this->factory->make($view));
         }
     }
 }

@@ -3,8 +3,13 @@
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowCollection;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepository;
@@ -261,6 +266,19 @@ class Table
     }
 
     /**
+     * Add an action to the action collection.
+     *
+     * @param ActionInterface $action
+     * @return $this
+     */
+    public function addAction(ActionInterface $action)
+    {
+        $this->actions->put($action->getSlug(), $action);
+
+        return $this;
+    }
+
+    /**
      * Set the actions.
      *
      * @param ActionCollection $actions
@@ -281,6 +299,19 @@ class Table
     public function getActions()
     {
         return $this->actions;
+    }
+
+    /**
+     * Add a filter to the filter collection.
+     *
+     * @param FilterInterface $filter
+     * @return $this
+     */
+    public function addFilter(FilterInterface $filter)
+    {
+        $this->filters->put($filter->getSlug(), $filter);
+
+        return $this;
     }
 
     /**
@@ -379,12 +410,25 @@ class Table
     }
 
     /**
+     * Add a header to the header collection.
+     *
+     * @param HeaderInterface $header
+     * @return $this
+     */
+    public function addHeader(HeaderInterface $header)
+    {
+        $this->headers->push($header);
+
+        return $this;
+    }
+
+    /**
      * Set the table headers.
      *
      * @param Collection $headers
      * @return $this
      */
-    public function setHeaders($headers)
+    public function setHeaders(Collection $headers)
     {
         $this->headers = $headers;
 
@@ -399,6 +443,19 @@ class Table
     public function getHeaders()
     {
         return $this->headers;
+    }
+
+    /**
+     * Add a view to the view collection.
+     *
+     * @param ViewInterface $view
+     * @return $this
+     */
+    public function addView(ViewInterface $view)
+    {
+        $this->views->put($view->getSlug(), $view);
+
+        return $this;
     }
 
     /**
@@ -425,6 +482,20 @@ class Table
     }
 
     /**
+     * Add data to the data collection.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function addData($key, $value)
+    {
+        $this->data->put($key, $value);
+
+        return $this;
+    }
+
+    /**
      * Set the table data.
      *
      * @param Collection $data
@@ -445,6 +516,19 @@ class Table
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * Add a row to the row collection.
+     *
+     * @param RowInterface $row
+     * @return $this
+     */
+    public function addRow(RowInterface $row)
+    {
+        $this->rows->push($row);
+
+        return $this;
     }
 
     /**

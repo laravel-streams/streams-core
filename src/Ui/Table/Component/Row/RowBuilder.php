@@ -72,7 +72,6 @@ class RowBuilder
     public function build(TableBuilder $builder)
     {
         $table = $builder->getTable();
-        $rows  = $table->getRows();
 
         foreach ($table->getEntries() as $entry) {
 
@@ -85,7 +84,7 @@ class RowBuilder
 
             $row = $this->evaluator->evaluate($row, compact('table', 'entry'));
 
-            $rows->push($this->factory->make($row));
+            $table->addRow($this->factory->make($row));
         }
     }
 }
