@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Ui\Table\Command\TableQueryEvent;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 
@@ -15,6 +14,13 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
  */
 class FieldFilter extends Filter implements FieldFilterInterface
 {
+
+    /**
+     * The filter handler.
+     *
+     * @var string
+     */
+    protected $handler = 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Handler\FieldFilterHandler@handle';
 
     /**
      * The filter field.

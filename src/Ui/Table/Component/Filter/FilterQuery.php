@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter
  */
-class FilterQueryer
+class FilterQuery
 {
 
     /**
@@ -23,7 +23,6 @@ class FilterQueryer
      * @param Builder         $query
      * @param FilterInterface $filter
      * @return mixed
-     * @throws \Exception
      */
     public function filter(Table $table, Builder $query, FilterInterface $filter)
     {
@@ -36,15 +35,5 @@ class FilterQueryer
         if (is_string($handler) || $handler instanceof \Closure) {
             return app()->call($handler, compact('table', 'query', 'filter'));
         }
-
-        /**
-         * If the handle is an instance of FilterHandlerInterface
-         * simply call the handle method on it.
-         */
-        if ($handler instanceof FilterHandlerInterface) {
-            return $handler->handle($table, $query, $filter);
-        }
-
-        throw new \Exception('Filter $handler must be a callable string, Closure or FilterHandlerInterface.');
     }
 }

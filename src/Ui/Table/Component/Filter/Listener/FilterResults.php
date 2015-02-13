@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQueryer;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQuery;
 use Anomaly\Streams\Platform\Ui\Table\Event\QueryHasStarted;
 
 /**
@@ -18,16 +18,16 @@ class FilterResults
     /**
      * The filter query utility.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQueryer
+     * @var \Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQuery
      */
     protected $query;
 
     /**
      * Create a new FilterQueryHandler instance.
      *
-     * @param FilterQueryer $query
+     * @param FilterQuery $query
      */
-    public function __construct(FilterQueryer $query)
+    public function __construct(FilterQuery $query)
     {
         $this->query = $query;
     }

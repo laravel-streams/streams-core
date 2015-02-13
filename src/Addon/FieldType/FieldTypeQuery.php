@@ -37,24 +37,21 @@ class FieldTypeQuery
      *
      * @param  Builder $query
      * @param          $value
-     * @return $this|Builder
      */
     public function filter(Builder $query, $value)
     {
-        $query = $query->where($this->type->getColumnName(), 'LIKE', "%{$value}%");
-
-        return $query;
+        $query->where($this->type->getColumnName(), 'LIKE', "%{$value}%");
     }
 
     /**
      * Order a query in the given direction
      * by a field using this field type.
      *
-     * @param  Table $table
-     * @param        $direction
+     * @param  Builder $query
+     * @param          $direction
      */
-    public function orderBy(Table $table, $direction)
+    public function orderBy(Builder $query, $direction)
     {
-        $table->setOption('order_by', [$this->type->getColumnName() => $direction]);
+        $query->orderBy($this->type->getColumnName(), $direction);
     }
 }
