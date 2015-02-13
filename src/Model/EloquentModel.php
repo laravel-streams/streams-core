@@ -387,6 +387,8 @@ class EloquentModel extends Model
             }
         }
 
+        $this->fireModelEvent('saved');
+
         return $saved;
     }
 
