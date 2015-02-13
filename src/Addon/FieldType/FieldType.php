@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -143,25 +142,32 @@ class FieldType extends Addon
     protected $presenter = null;
 
     /**
-     * The field type modifier.
+     * The field type modification handler.
      *
      * @var null|string
      */
     protected $modifier = null;
 
     /**
-     * The field type accessor.
+     * The field type access handler.
      *
      * @var null|string
      */
     protected $accessor = null;
 
     /**
-     * The field type schema.
+     * The field type schema handler.
      *
      * @var null|string
      */
     protected $schema = null;
+
+    /**
+     * The field type query handler.
+     *
+     * @var null|string
+     */
+    protected $query = null;
 
     /**
      * Get the rules.
@@ -608,7 +614,7 @@ class FieldType extends Addon
     }
 
     /**
-     * Get the schema.
+     * Get the field type schema handler.
      *
      * @return FieldTypeSchema
      */
@@ -623,6 +629,24 @@ class FieldType extends Addon
         }
 
         return app()->make($this->schema, [$this]);
+    }
+
+    /**
+     * Get the field type query handler.
+     *
+     * @return FieldTypeQuery
+     */
+    public function getQuery()
+    {
+        if (!$this->query) {
+            $this->query = get_class($this) . 'Query';
+        }
+
+        if (!class_exists($this->query)) {
+            $this->query = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery';
+        }
+
+        return app()->make($this->query, [$this]);
     }
 
     /**
@@ -686,35 +710,6 @@ class FieldType extends Addon
     public function renderFilter()
     {
         return view($this->getFilterView(), ['field_type' => $this]);
-    }
-
-    /**
-     * Filter a query by the value of a
-     * field using this field type.
-     *
-     * @param  Builder $query
-     * @param          $value
-     * @return $this|Builder
-     */
-    public function filter(Builder $query, $value)
-    {
-        $query = $query->where($this->getColumnName(), 'LIKE', "%{$value}%");
-
-        return $query;
-    }
-
-    /**
-     * Order a query in the given direction
-     * by a field using this field type.
-     *
-     * @param  Table $table
-     * @param        $direction
-     */
-    public function orderBy(Table $table, $direction)
-    {
-        $options = $table->getOptions();
-
-        $options->put('order_by', [$this->getColumnName() => $direction]);
     }
 
     /**

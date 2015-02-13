@@ -31,23 +31,6 @@ class FieldFilter extends Filter implements FieldFilterInterface
     protected $stream;
 
     /**
-     * Default handle for the TableQueryEvent.
-     *
-     * @param \Anomaly\Streams\Platform\Ui\Table\Command\TableQueryEvent $event
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    protected function handleTableQueryEvent(TableQueryEvent $event)
-    {
-        $query = $event->getQuery();
-
-        $type = $this->stream->getFieldType($this->field);
-
-        $query = $type->filter($query, $this->getValue());
-
-        return $query;
-    }
-
-    /**
      * Get the input HTML.
      *
      * @return \Illuminate\View\View
