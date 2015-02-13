@@ -75,10 +75,10 @@ class EloquentModel extends Model
      * @var array
      */
     protected $observables = [
-        'updatingMany',
-        'updatedMany',
-        'deletingMany',
-        'deletedMany'
+        'updatingMultiple',
+        'updatedMultiple',
+        'deletingMultiple',
+        'deletedMultiple'
     ];
 
     /**

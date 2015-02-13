@@ -100,11 +100,11 @@ class EloquentObserver
     }
 
     /**
-     * Run before multiple records are updated.
+     * Run before updating multiple records.
      *
      * @param EloquentModel $model
      */
-    public function updatingMany(EloquentModel $model)
+    public function updatingMultiple(EloquentModel $model)
     {
     }
 
@@ -125,7 +125,7 @@ class EloquentObserver
      *
      * @param EloquentModel $model
      */
-    public function updatedMany(EloquentModel $model)
+    public function updatedMultiple(EloquentModel $model)
     {
         $model->flushCacheCollection();
     }
@@ -140,11 +140,11 @@ class EloquentObserver
     }
 
     /**
-     * Run before deleting multiple records.
+     * Run before multiple records are deleted.
      *
      * @param EloquentModel $model
      */
-    public function deletingMany(EloquentModel $model)
+    public function deletingMultiple(EloquentModel $model)
     {
     }
 
@@ -165,7 +165,7 @@ class EloquentObserver
      *
      * @param EloquentModel $model
      */
-    public function deletedMany(EloquentModel $model)
+    public function deletedMultiple(EloquentModel $model)
     {
         $model->flushCacheCollection();
     }

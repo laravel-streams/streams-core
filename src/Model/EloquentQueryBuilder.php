@@ -108,11 +108,27 @@ class EloquentQueryBuilder extends Builder
      */
     public function update(array $values)
     {
-        $this->model->fireEvent('updatingMany');
+        $this->model->fireEvent('updatingMultiple');
 
         $return = parent::update($values);
 
-        $this->model->fireEvent('updatedMany');
+        $this->model->fireEvent('updatedMultiple');
+
+        return $return;
+    }
+
+    /**
+     * Delete a record from the database.
+     *
+     * @return mixed
+     */
+    public function delete()
+    {
+        $this->model->fireEvent('deletingMultiple');
+
+        $return = parent::delete();
+
+        $this->model->fireEvent('deletedMultiple');
 
         return $return;
     }
