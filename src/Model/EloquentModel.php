@@ -28,13 +28,6 @@ class EloquentModel extends Model
     public $timestamps = false;
 
     /**
-     * Default translatable models to allow fallback.
-     *
-     * @var bool
-     */
-    protected $useTranslationFallback = true;
-
-    /**
      * Translatable attributes.
      *
      * @var array
@@ -47,13 +40,6 @@ class EloquentModel extends Model
      * @var null
      */
     protected $cacheMinutes = false;
-
-    /**
-     * Not translatable by default.
-     *
-     * @var bool
-     */
-    protected $translatable = false;
 
     /**
      * The attributes that are not mass assignable
@@ -120,7 +106,7 @@ class EloquentModel extends Model
      */
     public function isTranslatable()
     {
-        return ($this->translatable);
+        return isset($this->translationModel);
     }
 
     /**
@@ -203,47 +189,6 @@ class EloquentModel extends Model
         return $this->applyGlobalScopes($builder);
     }
 
-    /**
-     * Get a cache collection of keys or set the keys to be indexed.
-     *
-     * @param  string $collectionKey
-     * @param  array  $keys
-     * @return object
-     */
-    public function cacheCollection($collectionKey, $keys = [])
-    {
-        if (is_string($keys)) {
-            $keys = [$keys];
-        }
-
-        $cached = app('cache')->get($collectionKey);
-
-        if (is_array($cached)) {
-            $keys = array_merge($keys, $cached);
-        }
-
-        $collection = CacheCollection::make($keys);
-
-        return $collection->setKey($collectionKey);
-    }
-
-    /**
-     * Update sorting based on the table input.
-     *
-     * @param Table $table
-     * @return mixed
-     */
-    public function sortTableEntries(Table $table)
-    {
-        $options = $table->getOptions();
-
-        $sortOrder = app('request')->get($options->get('prefix') . 'order');
-
-        foreach ($sortOrder as $order => $id) {
-            $this->where('id', $id)->update(['sort_order' => $order + 1]);
-        }
-    }
-
     /*
      * Alias for getTranslation()
      */
@@ -273,13 +218,9 @@ class EloquentModel extends Model
      * @param bool|null $withFallback
      * @return Model|null
      */
-    public function getTranslation($locale = null, $withFallback = null)
+    public function getTranslation($locale = null, $withFallback = false)
     {
         $locale = $locale ?: config('app.locale');
-
-        if ($withFallback === null) {
-            $withFallback = isset($this->useTranslationFallback) ? $this->useTranslationFallback : false;
-        }
 
         if ($this->getTranslationByLocaleKey($locale)) {
             $translation = $this->getTranslationByLocaleKey($locale);

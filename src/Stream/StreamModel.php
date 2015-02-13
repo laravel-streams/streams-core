@@ -307,7 +307,6 @@ class StreamModel extends EloquentModel implements StreamInterface
         return str_singular($this->getSlug()) . '_id';
     }
 
-
     /**
      * Return the assignments relation.
      *

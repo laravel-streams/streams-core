@@ -24,13 +24,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     public $timestamps = false;
 
     /**
-     * This is a translatable model.
-     *
-     * @var bool
-     */
-    protected $translatable = true;
-
-    /**
      * The foreign key for translations.
      *
      * @var string
@@ -194,7 +187,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function isTranslatable()
     {
-        return ($this->translatable && $this->stream->translatable);
+        return ($this->translatable && $this->stream->isTranslatable());
     }
 
     /**
