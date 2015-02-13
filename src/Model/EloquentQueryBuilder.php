@@ -99,4 +99,21 @@ class EloquentQueryBuilder extends Builder
 
         return $this;
     }
+
+    /**
+     * Update a record in the database.
+     *
+     * @param array $values
+     * @return int
+     */
+    public function update(array $values)
+    {
+        $this->model->fireEvent('updatingMany');
+
+        $return = parent::update($values);
+
+        $this->model->fireEvent('updatedMany');
+
+        return $return;
+    }
 }

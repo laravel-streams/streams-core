@@ -70,6 +70,18 @@ class EloquentModel extends Model
     protected $titleKey = 'id';
 
     /**
+     * Observable model events.
+     *
+     * @var array
+     */
+    protected $observables = [
+        'updatingMany',
+        'updatedMany',
+        'deletingMany',
+        'deletedMany'
+    ];
+
+    /**
      * Boot the model.
      */
     protected static function boot()
@@ -77,6 +89,17 @@ class EloquentModel extends Model
         self::observe(app('Anomaly\Streams\Platform\Model\EloquentObserver'));
 
         parent::boot();
+    }
+
+    /**
+     * Fire a model event.
+     *
+     * @param $event
+     * @return mixed
+     */
+    public function fireEvent($event)
+    {
+        return $this->fireModelEvent($event);
     }
 
     /**

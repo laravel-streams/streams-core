@@ -100,6 +100,15 @@ class EloquentObserver
     }
 
     /**
+     * Run before multiple records are updated.
+     *
+     * @param EloquentModel $model
+     */
+    public function updatingMany(EloquentModel $model)
+    {
+    }
+
+    /**
      * Run after a record has been updated.
      *
      * @param EloquentModel $model
@@ -112,11 +121,30 @@ class EloquentObserver
     }
 
     /**
+     * Run after multiple records have been updated.
+     *
+     * @param EloquentModel $model
+     */
+    public function updatedMany(EloquentModel $model)
+    {
+        $model->flushCacheCollection();
+    }
+
+    /**
      * Run before deleting a record.
      *
      * @param EloquentModel $model
      */
     public function deleting(EloquentModel $model)
+    {
+    }
+
+    /**
+     * Run before deleting multiple records.
+     *
+     * @param EloquentModel $model
+     */
+    public function deletingMany(EloquentModel $model)
     {
     }
 
@@ -130,6 +158,16 @@ class EloquentObserver
         $model->flushCacheCollection();
 
         $this->events->fire(new ModelWasDeleted($model));
+    }
+
+    /**
+     * Run after multiple records have been deleted.
+     *
+     * @param EloquentModel $model
+     */
+    public function deletedMany(EloquentModel $model)
+    {
+        $model->flushCacheCollection();
     }
 
     /**
