@@ -22,13 +22,6 @@ class EloquentQueryBuilder extends Builder
     protected $model;
 
     /**
-     * The cache key for the current query.
-     *
-     * @var null|string
-     */
-    protected $cacheKey = null;
-
-    /**
      * Execute the query as a "select" statement.
      *
      * @param  array $columns
@@ -38,12 +31,11 @@ class EloquentQueryBuilder extends Builder
     {
         $this->rememberIndex();
 
-        if ($this->cacheKey) {
+        if ($this->model->getCacheMinutes()) {
             return app('cache')->remember(
-                $this->cacheKey,
+                $this->getCacheKey(),
                 $this->model->getCacheMinutes(),
                 function () use ($columns) {
-
                     return parent::get($columns);
                 }
             );
@@ -88,13 +80,9 @@ class EloquentQueryBuilder extends Builder
      */
     public function getCacheKey()
     {
-        if ($this->cacheKey) {
-            return $this->cacheKey;
-        }
-
         $name = $this->model->getConnectionName();
 
-        return $this->cacheKey = md5($name . $this->toSql() . serialize($this->getBindings()));
+        return md5($name . $this->toSql() . serialize($this->getBindings()));
     }
 
     /**

@@ -107,7 +107,7 @@ class EloquentModel extends Model
      */
     public function flushCacheCollection()
     {
-        return $this;
+        (new CacheCollection())->setKey($this->getCacheCollectionKey())->flush();
     }
 
     /**
@@ -136,12 +136,11 @@ class EloquentModel extends Model
     /**
      * Get cache collection key.
      *
-     * @param  null $suffix
      * @return string
      */
-    public function getCacheCollectionKey($suffix = null)
+    public function getCacheCollectionKey()
     {
-        return get_called_class() . $suffix;
+        return get_called_class();
     }
 
     /**
@@ -203,16 +202,6 @@ class EloquentModel extends Model
         $collection = CacheCollection::make($keys);
 
         return $collection->setKey($collectionKey);
-    }
-
-    /**
-     * Get a cache collection prefix.
-     *
-     * @return string
-     */
-    public function getCacheCollectionPrefix()
-    {
-        return get_called_class();
     }
 
     /**

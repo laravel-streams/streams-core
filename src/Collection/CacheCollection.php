@@ -2,17 +2,42 @@
 
 use Illuminate\Support\Collection;
 
+/**
+ * Class CacheCollection
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Collection
+ */
 class CacheCollection extends Collection
 {
 
-    protected $key;
+    /**
+     * The collection key.
+     *
+     * @var null
+     */
+    protected $key = null;
 
+    /**
+     * Create a new CacheCollection instance.
+     *
+     * @param array $items
+     * @param null  $key
+     */
     public function __construct(array $items = [], $key = null)
     {
         $this->key   = $key;
         $this->items = $items;
     }
 
+    /**
+     * Add cached keys.
+     *
+     * @param array $keys
+     * @return $this
+     */
     public function addKeys(array $keys = [])
     {
         foreach ($keys as $key) {
@@ -24,6 +49,11 @@ class CacheCollection extends Collection
         return $this;
     }
 
+    /**
+     * Index the collection.
+     *
+     * @return $this
+     */
     public function index()
     {
         if ($keys = app('cache')->get($this->key)) {
@@ -46,8 +76,19 @@ class CacheCollection extends Collection
         return $this;
     }
 
+    /**
+     * Flush the cache collection.
+     *
+     * @return $this
+     */
     public function flush()
     {
+        $this->index();
+
+        foreach ($this->items as $key) {
+            app('cache')->forget($key);
+        }
+
         foreach ($this->items as $key) {
             app('cache')->forget($key);
         }
@@ -59,6 +100,11 @@ class CacheCollection extends Collection
         return $this;
     }
 
+    /**
+     * Make the items unique.
+     *
+     * @return $this
+     */
     public function unique()
     {
         $this->items = array_unique($this->items);
@@ -68,6 +114,12 @@ class CacheCollection extends Collection
         return $this;
     }
 
+    /**
+     * Set the collection key.
+     *
+     * @param null $key
+     * @return $this
+     */
     public function setKey($key = null)
     {
         $this->key = $key;
@@ -75,6 +127,11 @@ class CacheCollection extends Collection
         return $this;
     }
 
+    /**
+     * Get the collection key.
+     *
+     * @return null
+     */
     public function getKey()
     {
         return $this->key;

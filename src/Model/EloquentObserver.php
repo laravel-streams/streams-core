@@ -61,6 +61,8 @@ class EloquentObserver
      */
     public function created(EloquentModel $model)
     {
+        $model->flushCacheCollection();
+
         $this->events->fire(new ModelWasCreated($model));
     }
 
@@ -83,6 +85,8 @@ class EloquentObserver
      */
     public function saved(EloquentModel $model)
     {
+        $model->flushCacheCollection();
+
         $this->events->fire(new ModelWasSaved($model));
     }
 
@@ -102,6 +106,8 @@ class EloquentObserver
      */
     public function updated(EloquentModel $model)
     {
+        $model->flushCacheCollection();
+
         $this->events->fire(new ModelWasUpdated($model));
     }
 
@@ -121,6 +127,8 @@ class EloquentObserver
      */
     public function deleted(EloquentModel $model)
     {
+        $model->flushCacheCollection();
+
         $this->events->fire(new ModelWasDeleted($model));
     }
 
@@ -140,6 +148,8 @@ class EloquentObserver
      */
     public function restored(EloquentModel $model)
     {
+        $model->flushCacheCollection();
+
         $this->events->fire(new ModelWasRestored($model));
     }
 }
