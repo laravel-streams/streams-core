@@ -18,16 +18,16 @@ class FieldTypeQuery
      *
      * @var FieldType
      */
-    protected $type;
+    protected $fieldType;
 
     /**
      * Create a new FieldTypeQuery instance.
      *
-     * @param FieldType $type
+     * @param FieldType $fieldType
      */
-    public function __construct(FieldType $type)
+    public function __construct(FieldType $fieldType)
     {
-        $this->type = $type;
+        $this->fieldType = $fieldType;
     }
 
     /**
@@ -39,7 +39,7 @@ class FieldTypeQuery
      */
     public function filter(Builder $query, $value)
     {
-        $query->where($this->type->getColumnName(), 'LIKE', "%{$value}%");
+        $query->where($this->fieldType->getColumnName(), 'LIKE', "%{$value}%");
     }
 
     /**
@@ -51,6 +51,6 @@ class FieldTypeQuery
      */
     public function orderBy(Builder $query, $direction)
     {
-        $query->orderBy($this->type->getColumnName(), $direction);
+        $query->orderBy($this->fieldType->getColumnName(), $direction);
     }
 }

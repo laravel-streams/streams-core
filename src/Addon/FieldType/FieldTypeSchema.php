@@ -19,16 +19,16 @@ class FieldTypeSchema
      *
      * @var FieldType
      */
-    protected $type;
+    protected $fieldType;
 
     /**
      * Create a new FieldTypeSchema instance.
      *
-     * @param FieldType $type
+     * @param FieldType $fieldType
      */
-    public function __construct(FieldType $type)
+    public function __construct(FieldType $fieldType)
     {
-        $this->type = $type;
+        $this->fieldType = $fieldType;
     }
 
     /**
@@ -39,10 +39,12 @@ class FieldTypeSchema
      */
     public function addColumn(Blueprint $table, AssignmentInterface $assignment)
     {
-        $table->{$this->type->getColumnType()}($this->type->getColumnName())->nullable(!$assignment->isRequired());
+        $table->{$this->fieldType->getColumnType()}($this->fieldType->getColumnName())->nullable(
+            !$assignment->isRequired()
+        );
 
         if ($assignment->isUnique()) {
-            $table->unique($this->type->getColumnName());
+            $table->unique($this->fieldType->getColumnName());
         }
     }
 
@@ -54,6 +56,6 @@ class FieldTypeSchema
      */
     public function dropColumn(Blueprint $table, AssignmentInterface $assignment)
     {
-        $table->dropColumn($this->type->getColumnName());
+        $table->dropColumn($this->fieldType->getColumnName());
     }
 }

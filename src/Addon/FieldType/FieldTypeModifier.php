@@ -16,16 +16,16 @@ class FieldTypeModifier
      *
      * @var FieldType
      */
-    protected $type;
+    protected $fieldType;
 
     /**
      * Create a new FieldTypeAccessor instance.
      *
-     * @param FieldType $type
+     * @param FieldType $fieldType
      */
-    public function __construct(FieldType $type)
+    public function __construct(FieldType $fieldType)
     {
-        $this->type = $type;
+        $this->fieldType = $fieldType;
     }
 
     /**
