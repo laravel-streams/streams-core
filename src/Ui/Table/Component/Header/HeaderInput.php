@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
-use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
