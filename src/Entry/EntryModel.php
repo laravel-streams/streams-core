@@ -101,7 +101,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $handler  = $type->getHandler();
         $modifier = $type->getModifier();
 
-        $value = $modifier->restore($handler->get($this->getAttributes(), $fieldSlug));
+        $value = $modifier->restore($handler->get($this, $fieldSlug));
 
         if (!$decorate) {
             return $value;
@@ -127,7 +127,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $handler  = $type->getHandler();
         $modifier = $type->getModifier();
 
-        $this->setRawAttributes($handler->set($this->getAttributes(), $modifier->modify($value)));
+        $handler->set($this, $modifier->modify($value));
     }
 
     /**

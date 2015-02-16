@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
+use Anomaly\Streams\Platform\Entry\EntryModel;
+
 /**
  * Class FieldTypeHandler
  *
@@ -29,27 +31,31 @@ class FieldTypeHandler
     }
 
     /**
-     * Set the attribute value.
+     * Set the value.
      *
-     * @param array $attributes
-     * @param       $value
+     * @param EntryModel $entry
+     * @param            $value
      * @return array
      */
-    public function set(array $attributes, $value)
+    public function set(EntryModel $entry, $value)
     {
+        $attributes = $entry->getAttributes();
+
         $attributes[$this->fieldType->getColumnName()] = $value;
 
-        return $attributes;
+        $entry->setRawAttributes($attributes);
     }
 
     /**
-     * Get the attribute value.
+     * Get the value.
      *
-     * @param array $attributes
+     * @param EntryModel $entry
      * @return mixed
      */
-    public function get(array $attributes)
+    public function get(EntryModel $entry)
     {
+        $attributes = $entry->getAttributes();
+
         return array_get($attributes, $this->fieldType->getColumnName());
     }
 }
