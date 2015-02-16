@@ -43,6 +43,10 @@ class AddAssignmentColumnHandler
         $stream = $assignment->getStream();
         $type   = $assignment->getFieldType();
 
+        if (!$type->getColumnType()) {
+            return;
+        }
+
         $this->schema->addColumn($stream->getEntryTableName(), $type, $assignment);
 
         if ($assignment->isTranslatable()) {

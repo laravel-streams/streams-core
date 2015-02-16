@@ -27,6 +27,10 @@ class DropAssignmentColumnHandler
         $stream = $assignment->getStream();
         $type   = $assignment->getFieldType();
 
+        if (!$type->getColumnType()) {
+            return;
+        }
+
         $schema->dropColumn($stream->getEntryTableName(), $type, $assignment);
 
         if ($assignment->isTranslatable()) {
