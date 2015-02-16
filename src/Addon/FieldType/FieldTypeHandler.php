@@ -1,14 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 /**
- * Class FieldTypeAccessor
+ * Class FieldTypeHandler
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\FieldType
  */
-class FieldTypeAccessor
+class FieldTypeHandler
 {
 
     /**
@@ -19,7 +19,7 @@ class FieldTypeAccessor
     protected $fieldType;
 
     /**
-     * Create a new FieldTypeAccessor instance.
+     * Create a new FieldTypeHandler instance.
      *
      * @param FieldType $fieldType
      */

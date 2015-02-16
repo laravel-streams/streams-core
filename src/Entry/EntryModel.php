@@ -98,10 +98,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $type = $assignment->getFieldType($this);
 
-        $accessor = $type->getAccessor();
+        $handler  = $type->getHandler();
         $modifier = $type->getModifier();
 
-        $value = $modifier->restore($accessor->get($this->getAttributes(), $fieldSlug));
+        $value = $modifier->restore($handler->get($this->getAttributes(), $fieldSlug));
 
         if (!$decorate) {
             return $value;
@@ -124,10 +124,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $type = $assignment->getFieldType($this);
 
-        $accessor = $type->getAccessor();
+        $handler  = $type->getHandler();
         $modifier = $type->getModifier();
 
-        $this->setRawAttributes($accessor->set($this->getAttributes(), $modifier->modify($value)));
+        $this->setRawAttributes($handler->set($this->getAttributes(), $modifier->modify($value)));
     }
 
     /**

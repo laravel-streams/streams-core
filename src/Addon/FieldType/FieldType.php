@@ -149,11 +149,11 @@ class FieldType extends Addon
     protected $modifier = null;
 
     /**
-     * The field type access handler.
+     * The field type handler.
      *
      * @var null|string
      */
-    protected $accessor = null;
+    protected $handler = null;
 
     /**
      * The field type schema handler.
@@ -596,21 +596,21 @@ class FieldType extends Addon
     }
 
     /**
-     * Get the accessor.
+     * Get the handler.
      *
-     * @return FieldTypeAccessor
+     * @return FieldTypeHandler
      */
-    public function getAccessor()
+    public function getHandler()
     {
-        if (!$this->accessor) {
-            $this->accessor = get_class($this) . 'Accessor';
+        if (!$this->handler) {
+            $this->handler = get_class($this) . 'Handler';
         }
 
-        if (!class_exists($this->accessor)) {
-            $this->accessor = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor';
+        if (!class_exists($this->handler)) {
+            $this->handler = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeHandler';
         }
 
-        return app()->make($this->accessor, [$this]);
+        return app()->make($this->handler, [$this]);
     }
 
     /**
