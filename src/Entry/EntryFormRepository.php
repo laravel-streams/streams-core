@@ -69,7 +69,18 @@ class EntryFormRepository implements FormRepository
         /**
          * Save default translation input.
          */
-        foreach ($fields as $field) {
+        foreach ($fields->immediate() as $field) {
+            if ($field instanceof FieldType) {
+                $entry->{$field->getInputName()} = $request->get($field->getInputName());
+            }
+        }
+
+        $entry->save();
+
+        /**
+         * Save default translation input (deferred).
+         */
+        foreach ($fields->deferred() as $field) {
             if ($field instanceof FieldType) {
                 $entry->{$field->getInputName()} = $request->get($field->getInputName());
             }
@@ -90,16 +101,16 @@ class EntryFormRepository implements FormRepository
                     continue;
                 }
 
-                $entry = $entry->translate($locale);
+                $translation = $entry->translate($locale);
 
                 foreach ($fields as $field) {
 
                     if ($field instanceof FieldType) {
-                        $entry->{$field->getInputName()} = $request->get($field->getInputName());
+                        $translation->{$field->getInputName()} = $request->get($field->getInputName());
                     }
                 }
 
-                $entry->save();
+                $translation->save();
             }
         }
     }

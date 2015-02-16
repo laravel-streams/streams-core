@@ -50,4 +50,40 @@ class FieldCollection extends Collection
 
         return $slugs;
     }
+
+    /**
+     * Return fields to be processed immediately.
+     *
+     * @return static
+     */
+    public function immediate()
+    {
+        $immediate = [];
+
+        foreach ($this->items as $item) {
+            if ($item instanceof FieldType && !$item->isDeferred()) {
+                $immediate[] = $item;
+            }
+        }
+
+        return new static($immediate);
+    }
+
+    /**
+     * Return fields to be processed later.
+     *
+     * @return static
+     */
+    public function deferred()
+    {
+        $immediate = [];
+
+        foreach ($this->items as $item) {
+            if ($item instanceof FieldType && $item->isDeferred()) {
+                $immediate[] = $item;
+            }
+        }
+
+        return new static($immediate);
+    }
 }

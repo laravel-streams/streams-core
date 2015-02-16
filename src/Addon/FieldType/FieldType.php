@@ -15,6 +15,15 @@ class FieldType extends Addon
 {
 
     /**
+     * The deferred flag. Deferred field
+     * types will not be processed until
+     * after the entry is saved.
+     *
+     * @var bool
+     */
+    protected $deferred = false;
+
+    /**
      * Validation rules.
      *
      * @var array
@@ -168,6 +177,16 @@ class FieldType extends Addon
      * @var null|string
      */
     protected $query = null;
+
+    /**
+     * Get the deferred flag.
+     *
+     * @return bool
+     */
+    public function isDeferred()
+    {
+        return $this->deferred;
+    }
 
     /**
      * Get the rules.
