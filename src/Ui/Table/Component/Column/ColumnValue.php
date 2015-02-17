@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
+use Robbo\Presenter\PresentableInterface;
 
 /**
  * Class ColumnValue
@@ -65,7 +66,9 @@ class ColumnValue
          * sending to decorate so that data_get()
          * can get into the presenter methods.
          */
-        $entry = $entry->getPresenter();
+        if ($entry instanceof PresentableInterface) {
+            $entry = $entry->getPresenter();
+        }
 
         /**
          * By default we can just pass the value through
