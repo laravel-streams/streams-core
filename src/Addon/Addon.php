@@ -53,13 +53,23 @@ class Addon implements PresentableInterface
     }
 
     /**
-     * Get the core addon flag.
+     * Return whether the addon is core or not.
      *
      * @return bool
      */
     public function isCore()
     {
         return str_contains($this->getPath(), 'core/' . $this->getVendor());
+    }
+
+    /**
+     * Return whether the addon is shared or not.
+     *
+     * @return bool
+     */
+    public function isShared()
+    {
+        return str_contains($this->getPath(), 'addons/shared/' . $this->getVendor());
     }
 
     /**
