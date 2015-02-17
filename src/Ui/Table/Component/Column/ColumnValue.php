@@ -76,6 +76,6 @@ class ColumnValue
          */
         $value = $this->evaluator->evaluate($value, compact('table', 'entry'));
 
-        return $value;
+        return str_replace(':value', $value, $column->getWrap());
     }
 }

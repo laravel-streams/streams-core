@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Anomaly\UsersModule\User\Contract\UserInterface;
+use Anomaly\UsersModule\User\Contract\User;
 use Illuminate\Auth\Guard;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -81,7 +81,7 @@ class ActionExecutor
         /**
          * Make sure the permission is met if present.
          */
-        if ($user instanceof UserInterface && !$user->hasPermission($action->getPermission())) {
+        if ($user instanceof User && !$user->hasPermission($action->getPermission())) {
 
             // TODO: Translate and allow actions to have error message parameters.
             $this->messages->error('You do not have permission to do that.');

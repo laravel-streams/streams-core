@@ -12,6 +12,21 @@ interface ColumnInterface
 {
 
     /**
+     * Get the wrap.
+     *
+     * @return null|string
+     */
+    public function getWrap();
+
+    /**
+     * Set the wrap.
+     *
+     * @param $wrap
+     * @return $this
+     */
+    public function setWrap($wrap);
+
+    /**
      * Set the column class.
      *
      * @param $class

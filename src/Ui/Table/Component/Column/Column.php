@@ -14,6 +14,13 @@ class Column implements ColumnInterface
 {
 
     /**
+     * The wrap string.
+     *
+     * @var null|string
+     */
+    protected $wrap = ':value';
+
+    /**
      * The column value.
      *
      * @var null|mixed
@@ -33,6 +40,29 @@ class Column implements ColumnInterface
      * @var null|string
      */
     protected $header = null;
+
+    /**
+     * Get the wrap.
+     *
+     * @return null|string
+     */
+    public function getWrap()
+    {
+        return $this->wrap;
+    }
+
+    /**
+     * Set the wrap.
+     *
+     * @param $wrap
+     * @return $this
+     */
+    public function setWrap($wrap)
+    {
+        $this->wrap = $wrap;
+
+        return $this;
+    }
 
     /**
      * Set the column class.
