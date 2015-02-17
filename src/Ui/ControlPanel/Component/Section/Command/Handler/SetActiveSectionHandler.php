@@ -51,11 +51,6 @@ class SetActiveSectionHandler
             return;
         }
 
-        /**
-         * By default the first section is active.
-         */
-        $active = $sections->first();
-
         foreach ($sections as $section) {
 
             /**
@@ -63,7 +58,11 @@ class SetActiveSectionHandler
              * and loop iteration section.
              */
             $href       = array_get($section->getAttributes(), 'href');
-            $activeHref = array_get($active->getAttributes(), 'href');
+            $activeHref = '';
+
+            if ($active && $active instanceof SectionInterface) {
+                $activeHref = array_get($active->getAttributes(), 'href');
+            }
 
             /**
              * If the request URL does not even
@@ -92,7 +91,7 @@ class SetActiveSectionHandler
          * If we have an active section determined
          * then mark it as such.
          */
-        if ($active instanceof SectionInterface) {
+        if ($active && $active instanceof SectionInterface) {
             $active->setActive(true);
         }
     }
