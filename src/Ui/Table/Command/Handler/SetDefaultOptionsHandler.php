@@ -67,7 +67,7 @@ class SetDefaultOptionsHandler
                 $table->setOption('repository', 'Anomaly\Streams\Platform\Entry\EntryTableRepository');
             }
 
-            if (!$table->getOption('repository') && $model instanceof EntryModel) {
+            if (!$table->getOption('repository') && $model instanceof EloquentModel) {
                 $table->setOption('repository', 'Anomaly\Streams\Platform\Model\EloquentTableRepository');
             }
         }
