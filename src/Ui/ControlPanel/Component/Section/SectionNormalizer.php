@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
  * Class SectionNormalizer
@@ -33,12 +34,11 @@ class SectionNormalizer
     /**
      * Normalize the section input.
      *
-     * @param array $sections
-     * @return array
+     * @param ControlPanelBuilder $builder
      */
-    public function normalize(array $sections)
+    public function normalize(ControlPanelBuilder $builder)
     {
-        $module = $this->modules->active();
+        $sections = $builder->getSections();
 
         /**
          * Loop over each section and make sense of the input
@@ -88,6 +88,6 @@ class SectionNormalizer
             }
         }
 
-        return $sections;
+        $builder->setSections($sections);
     }
 }

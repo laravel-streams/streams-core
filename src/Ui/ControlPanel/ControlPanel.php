@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
+use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Illuminate\Support\Collection;
 
@@ -22,7 +24,7 @@ class ControlPanel
     protected $buttons;
 
     /**
-     * The module sections.
+     * The theme sections.
      *
      * @var SectionCollection
      */
@@ -41,6 +43,19 @@ class ControlPanel
     }
 
     /**
+     * Add a button to the button collection.
+     *
+     * @param ButtonInterface $button
+     * @return $this
+     */
+    public function addButton(ButtonInterface $button)
+    {
+        $this->buttons->push($button);
+
+        return $this;
+    }
+
+    /**
      * Get the section buttons.
      *
      * @return Collection
@@ -48,6 +63,19 @@ class ControlPanel
     public function getButtons()
     {
         return $this->buttons;
+    }
+
+    /**
+     * Add a section to the section collection.
+     *
+     * @param SectionInterface $section
+     * @return $this
+     */
+    public function addSection(SectionInterface $section)
+    {
+        $this->sections->push($section);
+
+        return $this;
     }
 
     /**

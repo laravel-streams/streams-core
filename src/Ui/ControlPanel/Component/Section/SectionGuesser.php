@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser\HrefGuesser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser\TextGuesser;
+use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
  * Class SectionGuesser
@@ -43,16 +44,17 @@ class SectionGuesser
     /**
      * Guess section properties.
      *
-     * @param array $sections
-     * @return array
+     * @param ControlPanelBuilder $builder
      */
-    public function guess(array $sections)
+    public function guess(ControlPanelBuilder $builder)
     {
+        $sections = $builder->getSections();
+
         foreach ($sections as &$section) {
             $this->text->guess($section);
             $this->href->guess($section);
         }
 
-        return $sections;
+        $builder->setSections($sections);
     }
 }
