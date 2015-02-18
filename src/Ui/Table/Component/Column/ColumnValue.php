@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Robbo\Presenter\PresentableInterface;
+use StringTemplate\Engine;
 
 /**
  * Class ColumnValue
@@ -18,6 +19,13 @@ class ColumnValue
 {
 
     /**
+     * The string parser.
+     *
+     * @var Engine
+     */
+    protected $parser;
+
+    /**
      * The evaluator utility.
      *
      * @var \Anomaly\Streams\Platform\Support\Evaluator
@@ -27,10 +35,12 @@ class ColumnValue
     /**
      * Create a new ColumnValue instance.
      *
+     * @param Engine    $parser
      * @param Evaluator $evaluator
      */
-    public function __construct(Evaluator $evaluator)
+    public function __construct(Engine $parser, Evaluator $evaluator)
     {
+        $this->parser    = $parser;
         $this->evaluator = $evaluator;
     }
 
@@ -76,6 +86,6 @@ class ColumnValue
          */
         $value = $this->evaluator->evaluate($value, compact('table', 'entry'));
 
-        return str_replace(':value', $value, $column->getWrap());
+        return $this->parser->render($column->getWrap(), compact('value'));
     }
 }

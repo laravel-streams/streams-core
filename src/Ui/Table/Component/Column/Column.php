@@ -18,7 +18,7 @@ class Column implements ColumnInterface
      *
      * @var null|string
      */
-    protected $wrap = ':value';
+    protected $wrap = '{value}';
 
     /**
      * The column value.
