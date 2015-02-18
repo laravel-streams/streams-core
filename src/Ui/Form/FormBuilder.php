@@ -325,4 +325,14 @@ class FormBuilder
 
         return $this;
     }
+
+    /**
+     * Get the form entry.
+     *
+     * @return mixed
+     */
+    public function getFormEntry()
+    {
+        return $this->form->getEntry();
+    }
 }

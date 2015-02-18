@@ -52,7 +52,6 @@ class ButtonInput
      * Read builder button input.
      *
      * @param TableBuilder $builder
-     * @return array
      */
     public function read(TableBuilder $builder)
     {

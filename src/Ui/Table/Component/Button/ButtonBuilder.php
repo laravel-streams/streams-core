@@ -24,6 +24,13 @@ class ButtonBuilder
     protected $input;
 
     /**
+     * The button parser.
+     *
+     * @var ButtonParser
+     */
+    protected $parser;
+
+    /**
      * The button factory.
      *
      * @var ButtonFactory
@@ -41,12 +48,14 @@ class ButtonBuilder
      * Create a new ButtonBuilder instance.
      *
      * @param ButtonInput   $input
+     * @param ButtonParser  $parser
      * @param ButtonFactory $factory
      * @param Evaluator     $evaluator
      */
-    public function __construct(ButtonInput $input, ButtonFactory $factory, Evaluator $evaluator)
+    public function __construct(ButtonInput $input, ButtonParser $parser, ButtonFactory $factory, Evaluator $evaluator)
     {
         $this->input     = $input;
+        $this->parser    = $parser;
         $this->factory   = $factory;
         $this->evaluator = $evaluator;
     }
@@ -69,6 +78,7 @@ class ButtonBuilder
         foreach ($builder->getButtons() as $button) {
 
             $button = $this->evaluator->evaluate($button, compact('entry', 'table'));
+            $button = $this->parser->parser($button, $entry);
 
             $button = $this->factory->make($button);
 

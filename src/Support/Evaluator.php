@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
 use Illuminate\Container\Container;
+use StringTemplate\Engine;
 
 /**
  * Class Evaluator
@@ -58,14 +59,6 @@ class Evaluator
         }
 
         /**
-         * If the target is a string and is in a parsable
-         * format then send it through Lexicon.
-         */
-        if (is_string($target) && $this->isParsable($target)) {
-            $target = $this->container->make('twig.string')->render($target, $arguments);
-        }
-
-        /**
          * if the target is a string and is in a traversable
          * format then traverse the target using the arguments.
          */
@@ -85,16 +78,5 @@ class Evaluator
     protected function isTraversable($target)
     {
         return (!preg_match('/[^a-z.]/', $target));
-    }
-
-    /**
-     * Check if a string is in a parsable format.
-     *
-     * @param  $target
-     * @return bool
-     */
-    protected function isParsable($target)
-    {
-        return (str_contains($target, ['{{', '}}', '{%', '%}']));
     }
 }

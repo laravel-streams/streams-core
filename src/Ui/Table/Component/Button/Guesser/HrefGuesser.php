@@ -82,7 +82,7 @@ class HrefGuesser
     {
         $segments = $this->request->segments();
 
-        return $this->url->to(implode('/', $segments) . '/edit/{{ entry.id }}');
+        return $this->url->to(implode('/', $segments) . '/edit/{entry.id}');
     }
 
     /**
@@ -98,7 +98,7 @@ class HrefGuesser
     {
         $segments = $this->request->segments();
 
-        return $this->url->to(implode('/', $segments) . '/delete/{{ entry.id }}');
+        return $this->url->to(implode('/', $segments) . '/delete/{entry.id}');
     }
 
     /**
@@ -114,6 +114,6 @@ class HrefGuesser
     {
         $segments = $this->request->segments();
 
-        return $this->url->to(implode('/', $segments) . '/show/{{ entry.id }}');
+        return $this->url->to(implode('/', $segments) . '/show/{entry.id}');
     }
 }
