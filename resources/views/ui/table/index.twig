@@ -18,13 +18,13 @@
 
         {% if not table.rows.empty() %}
             {{ form_open() }}
-                <table class="{{ table.options.class ?: 'table table-hover' }} {{ table.options.sortable ? 'sortable' }}">
+            <table class="{{ table.options.class ?: 'table table-hover' }} {{ table.options.sortable ? 'sortable' }}" {{ html_attributes(table.options.attributes) }}>
 
-                    {{ table_header(table)|raw }}
-                    {{ table_body(table)|raw }}
-                    {{ table_footer(table)|raw }}
+                {{ table_header(table)|raw }}
+                {{ table_body(table)|raw }}
+                {{ table_footer(table)|raw }}
 
-                </table>
+            </table>
             {{ form_close() }}
         {% else %}
             <div class="no-results">
