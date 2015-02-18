@@ -106,9 +106,10 @@ class TableBuilder
             $options = $this->table->getOptions();
             $data    = $this->table->getData();
 
-            $this->table->setContent(
-                view($options->get('table_view', 'streams::ui/table/index'), $data)
-            );
+            $content = view($options->get('table_view', 'streams::ui/table/index'), $data);
+
+            $this->table->setContent($content);
+            $this->table->addData('content', $content);
         }
     }
 
@@ -124,9 +125,9 @@ class TableBuilder
         if ($this->table->getResponse() === null) {
 
             $options = $this->table->getOptions();
-            $content = $this->table->getContent();
+            $data    = $this->table->getData();
 
-            return view($options->get('wrapper_view', 'streams::blank'), compact('content'));
+            return view($options->get('wrapper_view', 'streams::blank'), $data);
         }
 
         return $this->table->getResponse();

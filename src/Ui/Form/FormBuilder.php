@@ -114,9 +114,10 @@ class FormBuilder
             $options = $this->form->getOptions();
             $data    = $this->form->getData();
 
-            $this->form->setContent(
-                view($options->get('form_view', 'streams::ui/form/index'), $data->all())
-            );
+            $content = view($options->get('form_view', 'streams::ui/form/index'), $data->all());
+
+            $this->form->setContent($content);
+            $this->form->addData('content', $content);
         }
     }
 
@@ -133,9 +134,9 @@ class FormBuilder
         if ($this->form->getResponse() === null || $this->form->getResponse() === false) {
 
             $options = $this->form->getOptions();
-            $content = $this->form->getContent();
+            $data    = $this->form->getData();
 
-            return view($options->get('wrapper_view', 'streams::blank'), compact('content'));
+            return view($options->get('wrapper_view', 'streams::blank'), $data);
         }
 
         return $this->form->getResponse();
