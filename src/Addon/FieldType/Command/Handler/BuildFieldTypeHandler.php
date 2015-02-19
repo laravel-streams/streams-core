@@ -96,7 +96,7 @@ class BuildFieldTypeHandler
         }
 
         if (str_is('*.*.*', $fieldType)) {
-            return $this->container->make($fieldType);
+            return clone($this->container->make($fieldType));
         }
 
         $fieldType = $this->fieldTypes->findBySlug($fieldType);
