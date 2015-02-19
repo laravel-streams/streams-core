@@ -5,14 +5,14 @@ use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
- * Class AssignmentDeletedListener
+ * Class DropTableColumn
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Assignment\Listener
  */
-class AssignmentDeletedListener
+class DropTableColumn
 {
 
     use DispatchesCommands;

@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasSaved;
 
 /**
- * Class AssignmentSavedListener
+ * Class SaveStream
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Assignment\Listener
  */
-class AssignmentSavedListener
+class SaveStream
 {
 
     /**

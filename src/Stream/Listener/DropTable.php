@@ -5,14 +5,14 @@ use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
- * Class StreamDeletedListener
+ * Class DropTable
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Stream\Listener
  */
-class StreamDeletedListener
+class DropTable
 {
 
     use DispatchesCommands;
@@ -25,8 +25,6 @@ class StreamDeletedListener
      */
     public function handle(StreamWasDeleted $event)
     {
-        $stream = $event->getStream();
-
-        $this->dispatch(new DropStreamsEntryTable($stream));
+        $this->dispatch(new DropStreamsEntryTable($event->getStream()));
     }
 }

@@ -20,13 +20,14 @@ class StreamEventProvider extends EventServiceProvider
      */
     protected $listen = [
         'Anomaly\Streams\Platform\Stream\Event\StreamWasCreated' => [
-            'Anomaly\Streams\Platform\Stream\Listener\StreamCreatedListener'
-        ],
-        'Anomaly\Streams\Platform\Stream\Event\StreamWasSaved'   => [
-            'Anomaly\Streams\Platform\Stream\Listener\StreamSavedListener'
+            'Anomaly\Streams\Platform\Stream\Listener\CreateTable',
+            'Anomaly\Streams\Platform\Stream\Listener\Recompile'
         ],
         'Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted' => [
-            'Anomaly\Streams\Platform\Stream\Listener\StreamDeletedListener'
+            'Anomaly\Streams\Platform\Stream\Listener\DropTable'
+        ],
+        'Anomaly\Streams\Platform\Stream\Event\StreamWasSaved'   => [
+            'Anomaly\Streams\Platform\Stream\Listener\Recompile'
         ]
     ];
 
