@@ -65,6 +65,7 @@ class FieldFactory
 
         // Merge in rules and validators.
         $field->mergeRules(array_get($parameters, 'rules', []));
+        $field->setDisabled(array_get($parameters, 'disabled', false));
         $field->mergeValidators(array_get($parameters, 'validators', []));
 
         return $field;

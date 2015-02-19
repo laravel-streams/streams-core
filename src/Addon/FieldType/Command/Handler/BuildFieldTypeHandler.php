@@ -53,13 +53,14 @@ class BuildFieldTypeHandler
             ->setField($command->getField())
             ->setValue($command->getValue())
             ->setLabel($command->getLabel())
-            ->setConfig((array)$command->getConfig())
             ->setLocale($command->getLocale())
             ->setPrefix($command->getPrefix())
             ->setHidden($command->getHidden())
+            ->setDisabled($command->getDisabled())
             ->setRequired($command->getRequired())
             ->setTranslatable($command->getTranslatable())
-            ->setInstructions($command->getInstructions());
+            ->setInstructions($command->getInstructions())
+            ->setConfig((array)$command->getConfig());
 
         if ($inputView = $command->getInputView()) {
             $fieldType->setInputView($inputView);

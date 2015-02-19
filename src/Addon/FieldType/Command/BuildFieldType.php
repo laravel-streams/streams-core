@@ -54,6 +54,13 @@ class BuildFieldType
     protected $hidden;
 
     /**
+     * The disabled flag.
+     *
+     * @var bool
+     */
+    protected $disabled;
+
+    /**
      * The translatable flag.
      *
      * @var null
@@ -119,6 +126,7 @@ class BuildFieldType
      * @param null  $prefix
      * @param null  $locale
      * @param bool  $hidden
+     * @param bool  $disabled
      * @param bool  $required
      * @param null  $inputView
      * @param null  $filterView
@@ -135,6 +143,7 @@ class BuildFieldType
         $prefix = null,
         $locale = null,
         $hidden = false,
+        $disabled = false,
         $required = false,
         $inputView = null,
         $filterView = null,
@@ -147,10 +156,11 @@ class BuildFieldType
         $this->field        = $field;
         $this->label        = $label;
         $this->value        = $value;
+        $this->prefix       = $prefix;
         $this->locale       = $locale;
         $this->config       = $config;
         $this->hidden       = $hidden;
-        $this->prefix       = $prefix;
+        $this->disabled     = $disabled;
         $this->required     = $required;
         $this->inputView    = $inputView;
         $this->filterView   = $filterView;
@@ -177,6 +187,16 @@ class BuildFieldType
     public function getHidden()
     {
         return $this->hidden;
+    }
+
+    /**
+     * Get the disabled flag.
+     *
+     * @return bool
+     */
+    public function getDisabled()
+    {
+        return $this->disabled;
     }
 
     /**

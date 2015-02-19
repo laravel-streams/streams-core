@@ -24,6 +24,13 @@ class FieldType extends Addon
     protected $deferred = false;
 
     /**
+     * The disabled flag.
+     *
+     * @var bool
+     */
+    protected $disabled = false;
+
+    /**
      * Validation rules.
      *
      * @var array
@@ -186,6 +193,29 @@ class FieldType extends Addon
     public function isDeferred()
     {
         return $this->deferred;
+    }
+
+    /**
+     * Get the disabled flag.
+     *
+     * @return bool
+     */
+    public function isDisabled()
+    {
+        return $this->disabled;
+    }
+
+    /**
+     * Set the disabled flag.
+     *
+     * @param $disabled
+     * @return $this
+     */
+    public function setDisabled($disabled)
+    {
+        $this->disabled = $disabled;
+
+        return $this;
     }
 
     /**
