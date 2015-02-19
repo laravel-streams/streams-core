@@ -53,8 +53,7 @@ class LocateApplicationHandler
 
             define('APP_REF', $this->application->getReference());
 
-            if (file_exists($this->container->make('path.base') . '/config/database.php')) {
-
+            if (env('DB_PASSWORD')) {
                 $this->application->setup();
             }
 
