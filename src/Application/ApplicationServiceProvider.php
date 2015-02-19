@@ -92,6 +92,11 @@ class ApplicationServiceProvider extends ServiceProvider
             $this->app->make('files')->getRequire(__DIR__ . '/../../resources/config/config.php')
         );
 
+        $this->app->make('config')->set(
+            'streams::settings',
+            $this->app->make('files')->getRequire(__DIR__ . '/../../resources/config/settings.php')
+        );
+
         $this->app->make('view')->addNamespace('streams', $this->app['streams.path'] . '/resources/views');
     }
 
