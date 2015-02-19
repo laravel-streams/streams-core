@@ -21,6 +21,13 @@ class Column implements ColumnInterface
     protected $wrap = '{value}';
 
     /**
+     * The column view.
+     *
+     * @var null
+     */
+    protected $view = null;
+
+    /**
      * The column value.
      *
      * @var null|mixed
@@ -60,6 +67,29 @@ class Column implements ColumnInterface
     public function setWrap($wrap)
     {
         $this->wrap = $wrap;
+
+        return $this;
+    }
+
+    /**
+     * Get the view.
+     *
+     * @return null|string
+     */
+    public function getView()
+    {
+        return $this->view;
+    }
+
+    /**
+     * Set the view.
+     *
+     * @param $view
+     * @return $this
+     */
+    public function setView($view)
+    {
+        $this->view = $view;
 
         return $this;
     }

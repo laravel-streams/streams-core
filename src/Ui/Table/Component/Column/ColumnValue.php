@@ -67,8 +67,8 @@ class ColumnValue
         /**
          * If the value is a view path then return a view.
          */
-        if (str_is('*.*.*::*', $value)) {
-            return view($value, compact('table', 'entry'));
+        if ($view = $column->getView()) {
+            return view($view, compact('table', 'entry', 'value'));
         }
 
         /**

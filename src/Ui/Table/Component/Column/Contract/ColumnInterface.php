@@ -27,6 +27,21 @@ interface ColumnInterface
     public function setWrap($wrap);
 
     /**
+     * Get the view.
+     *
+     * @return null|string
+     */
+    public function getView();
+
+    /**
+     * Set the view.
+     *
+     * @param $view
+     * @return $this
+     */
+    public function setView($view);
+
+    /**
      * Set the column class.
      *
      * @param $class
