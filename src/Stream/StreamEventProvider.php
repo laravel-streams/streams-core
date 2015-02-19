@@ -21,7 +21,7 @@ class StreamEventProvider extends EventServiceProvider
     protected $listen = [
         'Anomaly\Streams\Platform\Stream\Event\StreamWasCreated' => [
             'Anomaly\Streams\Platform\Stream\Listener\CreateTable',
-            'Anomaly\Streams\Platform\Stream\Listener\Recompile'
+            'Anomaly\Streams\Platform\Stream\Listener\Compile'
         ],
         'Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted' => [
             'Anomaly\Streams\Platform\Stream\Listener\DropTable'

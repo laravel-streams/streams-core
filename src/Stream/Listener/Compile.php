@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Listener;
 
 use Anomaly\Streams\Platform\Entry\EntryUtility;
-use Anomaly\Streams\Platform\Stream\Event\StreamWasSaved;
+use Anomaly\Streams\Platform\Stream\Event\StreamWasCreated;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
@@ -12,9 +12,9 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Stream\Listener
  */
-class Recompile
+class Compile
 {
-    
+
     /**
      * The entry utility.
      *
@@ -37,9 +37,9 @@ class Recompile
      * generation to do. Create the streams
      * table as well as the entry models.
      *
-     * @param StreamWasSaved $event
+     * @param StreamWasCreated $event
      */
-    public function handle(StreamWasSaved $event)
+    public function handle(StreamWasCreated $event)
     {
         $this->utility->recompile($event->getStream());
     }
