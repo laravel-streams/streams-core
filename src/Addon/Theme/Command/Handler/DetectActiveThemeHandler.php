@@ -62,7 +62,7 @@ class DetectActiveThemeHandler
             if (app('request')->segment(1) == 'admin' || app('request')->segment(1) == 'installer') {
                 $theme = config('distribution.admin_theme', $distribution->getAdminTheme());
             } else {
-                $theme = config('distribution.public_theme', $distribution->getStandardTheme());
+                $theme = config('distribution.standard_theme', $distribution->getStandardTheme());
             }
 
             $theme = app($theme);
