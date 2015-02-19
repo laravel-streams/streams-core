@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'test' => [
-        'type' => 'boolean'
-    ]
+    'name'        => 'text',
+    'description' => 'text'
 ];

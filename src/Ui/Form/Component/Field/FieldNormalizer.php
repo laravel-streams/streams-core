@@ -40,7 +40,20 @@ class FieldNormalizer
             if (is_numeric($slug) && is_string($field)) {
                 $field = [
                     'slug'  => $field,
-                    'field' => $field,
+                    'field' => $field
+                ];
+            }
+
+            /**
+             * If the slug is a string and the field
+             * is a string too then use the field as the
+             * type and the slug as the field as well.
+             */
+            if (!is_numeric($slug) && is_string($slug) && is_string($field)) {
+                $field = [
+                    'slug'  => $slug,
+                    'field' => $slug,
+                    'type'  => $field
                 ];
             }
 
