@@ -8,8 +8,8 @@ $(document).ready(function () {
         var form = $(this).closest('form');
         var locale = $(this).data('locale');
 
-        selected.closest('ul').find('li').removeClass('active');
-        selected.closest('li').addClass('active');
+        selected.closest('ul').find('.btn').removeClass('btn-primary').addClass('btn-default');
+        selected.removeClass('btn-default').addClass('btn-primary');
 
         form.find('.form-group').each(function () {
 

@@ -101,12 +101,16 @@ class EntryFormRepository implements FormRepository
                     continue;
                 }
 
-                $translation = $entry->translate($locale);
+                $translation = $entry->translateOrNew($locale);
 
                 foreach ($fields as $field) {
 
-                    if ($field instanceof FieldType) {
-                        $translation->{$field->getInputName()} = $request->get($field->getInputName());
+                    $field->setSuffix('_' . $locale);
+
+                    $assignment = $entry->getAssignment($field->getField());
+
+                    if ($assignment->isTranslatable() && $field instanceof FieldType) {
+                        $translation->{$field->getColumnName()} = $request->get($field->getInputName());
                     }
                 }
 

@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
+use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 
@@ -13,6 +14,23 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
  */
 class Delete
 {
+
+    /**
+     * The message bag.
+     *
+     * @var MessageBag
+     */
+    protected $messages;
+
+    /**
+     * Create a new Delete instance.
+     *
+     * @param MessageBag $messages
+     */
+    public function __construct(MessageBag $messages)
+    {
+        $this->messages = $messages;
+    }
 
     /**
      * Save the order of the entries.

@@ -63,6 +63,24 @@ interface EntryInterface
     public function hasField($slug);
 
     /**
+     * Get a field value.
+     *
+     * @param      $fieldSlug
+     * @param bool $decorate
+     * @return mixed
+     */
+    public function getFieldValue($fieldSlug, $decorate = false);
+
+    /**
+     * Set a field value.
+     *
+     * @param $fieldSlug
+     * @param $value
+     * @return mixed
+     */
+    public function setFieldValue($fieldSlug, $value);
+
+    /**
      * Get an assignment by field slug.
      *
      * @param  $fieldSlug

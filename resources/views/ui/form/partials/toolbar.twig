@@ -2,22 +2,16 @@
     <div class="toolbar">
 
         {% if form.options.translatable %}
-            <div class="dropdown visible-lg-inline-block">
 
-                <a href="#" class="btn btn-sm btn-link dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-language"></i> Translations
-                </a>
-                
-                <ul class="dropdown-menu">
-                    {% for locale in config_get('streams.available_locales') %}
-                        <li class="{{ loop.first ? 'active' }}">
-                            <a href="#" data-toggle="locale"
-                               data-locale="{{ locale }}">{{ trans('streams::language.' ~ locale) }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-
-            </div>
+            <ul class="list-inline">
+                {% for locale in config_get('streams.available_locales') %}
+                    <li>
+                        <a href="#" data-toggle="locale" class="btn btn-xs btn-{{ loop.first ? 'primary' : 'default' }}"
+                           data-locale="{{ locale }}">{{ trans('streams::language.' ~ locale) }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            
         {% endif %}
 
     </div>

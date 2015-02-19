@@ -102,16 +102,23 @@ class FormPluginFunctions
         if ($entry instanceof EntryInterface && $field->isTranslatable()) {
 
             foreach (config('streams.available_locales') as $locale) {
-                $output .= $field
-                    ->setSuffix('_' . $locale)
-                    ->setLocale($locale)
-                    ->setHidden($locale !== config('app.locale'))
-                    ->render();
+
+                // Only suffix non-primary locales.
+                if ($locale !== config('app.locale')) {
+                    $field->setSuffix('_' . $locale);
+                }
+
+                // If non-primary local then can't be required. For now.
+                if ($locale !== config('app.locale')) {
+                    $field->setRequired(false);
+                }
+
+                $output .= $field->setLocale($locale)->setHidden($locale !== config('app.locale'))->render();
             }
-        } else {
-            $output = $field->render();
+
+            return $output;
         }
 
-        return $output;
+        return $field->render();
     }
 }
