@@ -48,7 +48,7 @@ return [
             'off_style'     => 'danger'
         ]
     ],
-    'ip_whitelist'   => 'anomaly.field_type.textarea',
+    'ip_whitelist'   => 'anomaly.field_type.tags',
     'force_https'    => [
         'type'   => 'anomaly.field_type.select',
         'config' => [

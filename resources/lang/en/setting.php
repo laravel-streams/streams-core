@@ -27,7 +27,8 @@ return [
     ],
     'ip_whitelist'   => [
         'label'        => 'IP Whitelist',
-        'instructions' => 'When the status is set to "disabled" these IP addresses will be allowed to access the website or application.<br>Enter each IP access on a new line.'
+        'instructions' => 'When the status is set to "disabled" these IP addresses will be allowed to access the website or application.',
+        'placeholder'  => 'Separate each IP address with a comma.'
     ],
     'force_https'    => [
         'label'        => 'Force HTTPS',
