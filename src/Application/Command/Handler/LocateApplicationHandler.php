@@ -36,7 +36,7 @@ class LocateApplicationHandler
      */
     public function __construct(Container $container, Application $application)
     {
-        $this->container   = $container;
+        $this->container = $container;
         $this->application = $application;
     }
 
@@ -49,11 +49,12 @@ class LocateApplicationHandler
 
         if (INSTALLED) {
 
-            $this->application->locate();
-
-            define('APP_REF', $this->application->getReference());
-
             if (env('DB_PASSWORD')) {
+
+                $this->application->locate();
+
+                define('APP_REF', $this->application->getReference());
+
                 $this->application->setup();
             }
 
