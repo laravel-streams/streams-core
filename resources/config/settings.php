@@ -20,7 +20,7 @@ return [
     'date_format'    => [
         'type'   => 'anomaly.field_type.text',
         'config' => [
-            'default_value' => 'm/d/Y',
+            'default_value' => 'n/j/Y',
         ]
     ],
     'default_locale' => [

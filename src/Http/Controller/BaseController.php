@@ -15,4 +15,12 @@ class BaseController extends Controller
 {
 
     use DispatchesCommands;
+
+    /**
+     * Create a new BaseController instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\SetLocale');
+    }
 }

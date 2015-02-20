@@ -16,6 +16,15 @@ class AdminController extends BaseController
      */
     public function __construct()
     {
+
+        /**
+         * The authenticate middleware in
+         * Laravel is re-bound in the Users
+         * module unless you are not using
+         * the core Users module.
+         */
         $this->middleware('auth');
+        
+        parent::__construct();
     }
 }
