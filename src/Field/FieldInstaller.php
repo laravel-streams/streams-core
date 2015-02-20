@@ -72,8 +72,8 @@ class FieldInstaller implements InstallableInterface
             $config = array_get($field, 'config', []);
             $locked = (array_get($field, 'locked', true));
 
-            $namespace = array_get($field, 'namespace', $this->addon->getSlug());
-            $name      = array_get($field, 'name', $this->addon->getNamespace("field.{$slug}.name"));
+            $namespace = array_get($field, 'namespace', ($this->namespace)?$this->namespace:$this->addon->getSlug());
+            $name      = array_get($field, 'name', $this->addon->getNamespace("field.{$slug}.name", $namespace));
 
             $this->manager->create(compact('slug', 'type', 'namespace', 'name', 'rules', 'config', 'locked'));
         }
@@ -90,7 +90,7 @@ class FieldInstaller implements InstallableInterface
     {
         foreach ($this->getFields() as $slug => $field) {
 
-            $namespace = array_get($field, 'namespace', $this->addon->getSlug());
+            $namespace = array_get($field, 'namespace', ($this->namespace)?$this->namespace:$this->addon->getSlug());
 
             $this->manager->delete($namespace, $slug);
         }
