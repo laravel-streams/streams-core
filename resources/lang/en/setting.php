@@ -11,6 +11,16 @@ return [
         'instructions' => 'What is the description or slogan of the website or application?',
         'placeholder'  => trans('distribution::addon.description')
     ],
+    'contact_email'  => [
+        'label'        => 'Contact Email',
+        'instructions' => 'All e-mails from users, guests and the website or application will go to this e-mail address by default.',
+        'placeholder'  => 'example@domain.com'
+    ],
+    'server_email'   => [
+        'label'        => 'Site Description',
+        'instructions' => 'All emails sent from your server will come from this email address.',
+        'placeholder'  => 'noreply@domain.com'
+    ],
     'date_format'    => [
         'label'        => 'Date Format',
         'instructions' => 'How should dates be displayed across the website and control panel? Using the <a target="_blank" href="http://php.net/manual/en/function.date.php">date format</a> from PHP.',

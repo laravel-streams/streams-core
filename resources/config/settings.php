@@ -17,6 +17,22 @@ return [
             },
         ]
     ],
+    'contact_email'  => [
+        'type'   => 'anomaly.field_type.email',
+        'config' => [
+            'default_value' => function () {
+                return app('auth')->user()->email;
+            },
+        ]
+    ],
+    'server_email'   => [
+        'type'   => 'anomaly.field_type.email',
+        'config' => [
+            'default_value' => function () {
+                return app('auth')->user()->email;
+            },
+        ]
+    ],
     'date_format'    => [
         'type'   => 'anomaly.field_type.text',
         'config' => [
