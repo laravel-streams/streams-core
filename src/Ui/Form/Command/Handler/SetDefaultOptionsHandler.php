@@ -72,6 +72,20 @@ class SetDefaultOptionsHandler
         }
 
         /**
+         * Set the default data handler based
+         * on the builder class. Defaulting to
+         * no handler.
+         */
+        if (!$form->getOption('data')) {
+
+            $options = str_replace('FormBuilder', 'FormData', get_class($builder));
+
+            if (class_exists($options)) {
+                $form->setOption('data', $options . '@handle');
+            }
+        }
+
+        /**
          * Set the default options handler based
          * on the builder class. Defaulting to
          * no handler.

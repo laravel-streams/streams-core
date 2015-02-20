@@ -40,6 +40,20 @@ class SetDefaultOptionsHandler
         }
 
         /**
+         * Set the default data handler based
+         * on the builder class. Defaulting to
+         * no handler.
+         */
+        if (!$table->getOption('data')) {
+
+            $options = str_replace('TableBuilder', 'TableData', get_class($builder));
+
+            if (class_exists($options)) {
+                $table->setOption('data', $options . '@handle');
+            }
+        }
+
+        /**
          * Set a optional entries handler based
          * on the builder class. Defaulting to
          * no handler in which case we will use

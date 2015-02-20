@@ -1,12 +1,20 @@
 <?php
 
 return [
-    'addon'        => 'Addon',
-    'block'        => 'Block',
-    'theme'        => 'Theme',
-    'module'       => 'Module',
-    'plugin'       => 'Plugin',
-    'extension'    => 'Extension',
-    'field_type'   => 'Field Type',
-    'distribution' => 'Distribution',
+    'addon'         => 'Addon',
+    'addons'        => 'Addons',
+    'block'         => 'Block',
+    'blocks'        => 'Blocks',
+    'theme'         => 'Theme',
+    'themes'        => 'Themes',
+    'module'        => 'Module',
+    'modules'       => 'Modules',
+    'plugin'        => 'Plugin',
+    'plugins'       => 'Plugins',
+    'extension'     => 'Extension',
+    'extensions'    => 'Extensions',
+    'field_type'    => 'Field Type',
+    'field_types'   => 'Field Types',
+    'distribution'  => 'Distribution',
+    'distributions' => 'Distributions'
 ];

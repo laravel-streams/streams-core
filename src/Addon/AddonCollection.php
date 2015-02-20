@@ -84,4 +84,24 @@ class AddonCollection extends Collection
 
         return self::make($ordered);
     }
+
+    /**
+     * Return only extensions with config
+     * matching the given pattern.
+     *
+     * @param $string
+     * @return static
+     */
+    public function withConfig($pattern = '*')
+    {
+        $addons = [];
+
+        foreach ($this->items as $item) {
+            if ($item instanceof Addon && config($item->getNamespace($pattern))) {
+                $addons[$item->getNamespace()] = $item;
+            }
+        }
+
+        return self::make($addons);
+    }
 }

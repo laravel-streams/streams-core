@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Command\LoadTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\LoadTablePagination;
+use Illuminate\Container\Container;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
@@ -18,6 +19,23 @@ class LoadTableHandler
     use DispatchesCommands;
 
     /**
+     * The IoC container.
+     *
+     * @var Container
+     */
+    protected $container;
+
+    /**
+     * Create a new LoadTableHandler instance.
+     *
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
      * Handle the command.
      *
      * @param LoadTable $command
@@ -27,6 +45,10 @@ class LoadTableHandler
         $table = $command->getTable();
 
         $table->addData('table', $table);
+
+        if ($handler = $table->getOption('data')) {
+            $this->container->call($handler, compact('table'));
+        }
 
         $this->dispatch(new LoadTablePagination($table));
     }

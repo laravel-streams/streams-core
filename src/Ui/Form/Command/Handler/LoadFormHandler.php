@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
+use Illuminate\Container\Container;
 
 /**
  * Class LoadFormHandler
@@ -14,6 +15,23 @@ class LoadFormHandler
 {
 
     /**
+     * The IoC container.
+     *
+     * @var Container
+     */
+    protected $container;
+
+    /**
+     * Create a new LoadTableHandler instance.
+     *
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
      * Handle the command.
      *
      * @param LoadForm $command
@@ -22,14 +40,14 @@ class LoadFormHandler
     {
         $form = $command->getForm();
 
-        $data = $form->getData();
-
-        $options = $form->getOptions();
-
         if ($form->getStream()) {
-            $options->translatable = $form->getStream()->isTranslatable();
+            $form->setOption('translatable', $form->getStream()->isTranslatable());
         }
 
-        $data->put('form', $form);
+        if ($handler = $form->getOption('data')) {
+            $this->container->call($handler, compact('form'));
+        }
+
+        $form->addData('form', $form);
     }
 }
