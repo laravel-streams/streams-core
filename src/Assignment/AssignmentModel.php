@@ -107,7 +107,11 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     {
         $locale = $locale ?: config('app.locale');
 
-        $assignment = $this->translate($locale) ?: $this;
+        if ($locale !== config('app.locale')) {
+            $assignment = $this->translate($locale) ?: $this;
+        } else {
+            $assignment = $this;
+        }
 
         $label = $assignment->label;
 
@@ -129,7 +133,11 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     {
         $locale = $locale ?: config('app.locale');
 
-        $assignment = $this->translate($locale) ?: $this;
+        if ($locale != config('app.locale')) {
+            $assignment = $this->translate($locale) ?: $this;
+        } else {
+            $assignment = $this;
+        }
 
         $instructions = $assignment->instructions;
 

@@ -62,7 +62,7 @@ class SetLocale
     public function handle($request, Closure $next)
     {
         $this->application->setLocale(
-            $this->settings->get('streams::locale', $this->config->get('app.locale'))
+            $this->settings->get('streams::default_locale', $this->config->get('app.locale'))
         );
 
         return $next($request);
