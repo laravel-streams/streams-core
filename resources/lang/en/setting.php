@@ -17,7 +17,7 @@ return [
         'placeholder'  => 'example@domain.com'
     ],
     'server_email'   => [
-        'label'        => 'Site Description',
+        'label'        => 'Server Email',
         'instructions' => 'All emails sent from your server will come from this email address.',
         'placeholder'  => 'noreply@domain.com'
     ],
