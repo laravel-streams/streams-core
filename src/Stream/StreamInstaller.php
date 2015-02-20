@@ -15,6 +15,15 @@ use Anomaly\Streams\Platform\Field\FieldManager;
 class StreamInstaller implements InstallableInterface
 {
 
+
+    /**
+     * The namespace if different than
+     * the addon slug.
+     *
+     * @var null
+     */
+    protected $namespace = null;
+   
     /**
      * The stream configuration.
      *
@@ -86,7 +95,7 @@ class StreamInstaller implements InstallableInterface
     public function uninstall()
     {
         $stream    = array_get($this->stream, 'slug');
-        $namespace = array_get($this->stream, 'namespace', $this->addon->getSlug());
+        $namespace = array_get($this->stream, 'namespace', ($this->namespace)?$this->namespace:$this->addon->getSlug());
 
         foreach ($this->getAssignments() as $field => $assignment) {
             $this->fieldManager->unassign($namespace, $stream, $field, $assignment);
@@ -101,9 +110,9 @@ class StreamInstaller implements InstallableInterface
     protected function installStream()
     {
         $slug        = array_get($this->stream, 'slug');
-        $namespace   = array_get($this->stream, 'namespace', $this->addon->getSlug());
-        $name        = array_get($this->stream, 'name', $this->addon->getNamespace("stream.{$slug}.name"));
-        $description = array_get($this->stream, 'name', $this->addon->getNamespace("stream.{$slug}.description"));
+        $namespace   = array_get($this->stream, 'namespace', ($this->namespace)?$this->namespace:$this->addon->getSlug());
+        $name        = array_get($this->stream, 'name', $this->addon->getNamespace("stream.{$slug}.name", $namespace));
+        $description = array_get($this->stream, 'name', $this->addon->getNamespace("stream.{$slug}.description", $namespace));
 
         $orderBy     = array_get($this->stream, 'order_by', 'id');
         $titleColumn = array_get($this->stream, 'title_column', 'id');
@@ -143,23 +152,24 @@ class StreamInstaller implements InstallableInterface
             $field      = $assignment;
             $assignment = [];
         }
+        
+        $namespace = array_get($this->stream, 'namespace', ($this->namespace)?$this->namespace:$this->addon->getSlug());
 
         $unique       = (array_get($assignment, 'unique', false));
         $required     = (array_get($assignment, 'required', false));
         $translatable = (array_get($assignment, 'translatable', false));
 
-        $label        = array_get($assignment, 'label', $this->addon->getNamespace("field.{$field}.label"));
-        $placeholder  = array_get($assignment, 'placeholder', $this->addon->getNamespace("field.{$field}.placeholder"));
+        $label        = array_get($assignment, 'label', $this->addon->getNamespace("field.{$field}.label", $namespace));
+        $placeholder  = array_get($assignment, 'placeholder', $this->addon->getNamespace("field.{$field}.placeholder", $namespace));
         $instructions = array_get(
             $assignment,
             'instructions',
-            $this->addon->getNamespace("field.{$field}.instructions")
+            $this->addon->getNamespace("field.{$field}.instructions", $namespace)
         );
 
         $assignment = compact('label', 'placeholder', 'instructions', 'unique', 'required', 'translatable');
 
         $stream    = array_get($this->stream, 'slug');
-        $namespace = array_get($this->stream, 'namespace', $this->addon->getSlug());
 
         $this->fieldManager->assign(
             $namespace,
