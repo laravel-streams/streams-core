@@ -88,9 +88,10 @@ class Addon implements PresentableInterface
      * @param  null $key
      * @return string
      */
-    public function getNamespace($key = null)
-    {
-        return "{$this->getVendor()}.{$this->getType()}.{$this->getSlug()}" . ($key ? '::' . $key : $key);
+    public function getNamespace($key = null, $namespace = null)
+    {   
+        $namespace = ($namespace)?$namespace : $this->getSlug();
+        return "{$this->getVendor()}.{$this->getType()}.{$namespace}" . ($key ? '::' . $key : $key);
     }
 
     /**
