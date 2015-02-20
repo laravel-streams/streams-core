@@ -72,7 +72,7 @@ class FieldInstaller implements Installable
             $config = array_get($field, 'config', []);
             $locked = (array_get($field, 'locked', true));
 
-            $namespace = array_get($field, 'namespace', $this->addon->getSlug());
+            $namespace = array_get($field, 'namespace', $this->namespace ?: $this->addon->getSlug());
             $name      = array_get($field, 'name', $this->addon->getNamespace("field.{$slug}.name"));
 
             $this->manager->create(compact('slug', 'type', 'namespace', 'name', 'rules', 'config', 'locked'));
