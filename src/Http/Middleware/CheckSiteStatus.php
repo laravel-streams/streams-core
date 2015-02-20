@@ -44,11 +44,20 @@ class CheckSiteStatus
     {
         $enabled = $this->settings->get('streams::site_enabled', true);
 
-        if (!$enabled && !in_array($request->getClientIp(), $this->settings->get('ip_whitelist', []))) {
+        /**
+         * Continue on if we're enabled.
+         */
+        if ($enabled) {
+            return $next($request);
+        }
+
+        /**
+         * If we're disabled then we need to abort.
+         */
+        if (!in_array($request->getClientIp(), $this->settings->get('ip_whitelist', []))) {
             abort(404);
         }
 
-        // Default to whatever.
         return $next($request);
     }
 }

@@ -25,7 +25,6 @@ class BaseController extends Controller
         if (app('Anomaly\Streams\Platform\Application\Application')->isInstalled()) {
             $this->middleware('Anomaly\Streams\Platform\Http\Middleware\SetLocale');
             $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ForceHttps');
-            $this->middleware('Anomaly\Streams\Platform\Http\Middleware\CheckSiteStatus');
         }
     }
 }
