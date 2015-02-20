@@ -90,7 +90,7 @@ class FieldInstaller implements Installable
     {
         foreach ($this->getFields() as $slug => $field) {
 
-            $namespace = array_get($field, 'namespace', $this->addon->getSlug());
+            $namespace = array_get($field, 'namespace', $this->namespace ?: $this->addon->getSlug());
 
             $this->manager->delete($namespace, $slug);
         }
