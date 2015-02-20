@@ -4,6 +4,7 @@ use Anomaly\SettingsModule\Setting\Contract\SettingRepositoryInterface;
 use Closure;
 use Illuminate\Config\Repository;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 
 /**
  * Class SetLocale
@@ -55,11 +56,11 @@ class SetLocale
      * Set the application locale based
      * on settings and configuration.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure                 $next
+     * @param  Request  $request
+     * @param  \Closure $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         $this->application->setLocale(
             $this->settings->get('streams::default_locale', $this->config->get('app.locale'))

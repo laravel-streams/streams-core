@@ -39,7 +39,7 @@ return [
             }
         ],
     ],
-    'status'         => [
+    'site_enabled'   => [
         'type'   => 'anomaly.field_type.boolean',
         'config' => [
             'default_value' => true,
@@ -52,10 +52,10 @@ return [
     'force_https'    => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
-            'default_value' => 'no',
+            'default_value' => 'none',
             'options'       => [
-                'yes'           => 'streams::setting.force_https.option.yes',
-                'no'            => 'streams::setting.force_https.option.no',
+                'all'           => 'streams::setting.force_https.option.all',
+                'none'          => 'streams::setting.force_https.option.none',
                 'control_panel' => 'streams::setting.force_https.option.control_panel',
                 'public'        => 'streams::setting.force_https.option.public'
             ]

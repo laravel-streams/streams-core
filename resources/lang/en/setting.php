@@ -21,7 +21,7 @@ return [
         'instructions' => 'What is the default language for your website or application?',
         'placeholder'  => config('app.locale')
     ],
-    'status'         => [
+    'site_enabled'   => [
         'label'        => 'Site Status',
         'instructions' => 'Use this option to the enable or disable the public-facing part of the website or application.<br>This is useful when you want to take the website or application down for maintenance or development.'
     ],
@@ -34,8 +34,8 @@ return [
         'label'        => 'Force HTTPS',
         'instructions' => 'Allow only the HTTPS protocol when accessing the website or application?',
         'option'       => [
-            'yes'           => 'Force HTTPS on all connections.',
-            'no'            => 'Do NOT force HTTPS connections.',
+            'all'           => 'Force HTTPS on all connections.',
+            'none'          => 'Do NOT force HTTPS connections.',
             'control_panel' => 'Only force HTTPS for control panel access.',
             'public'        => 'Only force HTTPS for public-facing content.'
         ]
