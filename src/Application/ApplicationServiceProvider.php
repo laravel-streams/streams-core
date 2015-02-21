@@ -89,7 +89,7 @@ class ApplicationServiceProvider extends ServiceProvider
 
         foreach ($this->app->make('files')->files(__DIR__ . '/../../resources/config') as $file) {
             $this->app->make('config')->set(
-                'streams::' . trim(basename($file), '.php'),
+                'streams::' . basename($file, '.php'),
                 $this->app->make('files')->getRequire($file)
             );
         }
