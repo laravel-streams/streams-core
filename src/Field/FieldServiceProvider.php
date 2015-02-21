@@ -25,11 +25,11 @@ class FieldServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             'Anomaly\Streams\Platform\Field\FieldModel',
-            config('streams::config.fields.model')
+            config('streams.fields.model')
         );
         $this->app->bind(
             'Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface',
-            config('streams::config.fields.repository')
+            config('streams.fields.repository')
         );
     }
 }

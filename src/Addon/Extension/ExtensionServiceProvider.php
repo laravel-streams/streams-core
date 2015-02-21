@@ -40,11 +40,11 @@ class ExtensionServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             'Anomaly\Streams\Platform\Addon\Extension\ExtensionModel',
-            config('streams::config.extensions.model')
+            config('streams.extensions.model')
         );
         $this->app->bind(
             'Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface',
-            config('streams::config.extensions.repository')
+            config('streams.extensions.repository')
         );
         $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',

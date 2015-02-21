@@ -41,11 +41,11 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             'Anomaly\Streams\Platform\Addon\Module\ModuleModel',
-            config('streams::config.modules.model')
+            config('streams.modules.model')
         );
         $this->app->bind(
             'Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface',
-            config('streams::config.modules.repository')
+            config('streams.modules.repository')
         );
         $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',

@@ -93,7 +93,7 @@ class EntryFormRepository implements FormRepository
          */
         if ($entry->isTranslatable()) {
 
-            foreach (config('streams::config.available_locales') as $locale) {
+            foreach (config('streams.available_locales') as $locale) {
 
                 //  Skip default - already did it.
                 if ($locale == config('app.locale')) {

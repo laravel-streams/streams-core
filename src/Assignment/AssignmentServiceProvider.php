@@ -22,11 +22,11 @@ class AssignmentServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             'Anomaly\Streams\Platform\Assignment\AssignmentModel',
-            config('streams::config.assignments.model')
+            config('streams.assignments.model')
         );
         $this->app->bind(
             'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface',
-            config('streams::config.assignments.repository')
+            config('streams.assignments.repository')
         );
 
         $this->app->register('Anomaly\Streams\Platform\Assignment\AssignmentEventProvider');
