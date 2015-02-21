@@ -194,6 +194,6 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function assignments()
     {
-        return $this->hasMany(config('streams.assignments.model'), 'field_id')->orderBy('sort_order');
+        return $this->hasMany('Anomaly\Streams\Platform\Assignment\AssignmentModel', 'field_id')->orderBy('sort_order');
     }
 }

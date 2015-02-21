@@ -35,11 +35,11 @@ class EntryServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             'Anomaly\Streams\Platform\Entry\EntryModel',
-            config('streams.entries.model')
+            'Anomaly\Streams\Platform\Entry\EntryModel'
         );
         $this->app->bind(
             'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface',
-            config('streams.entries.repository')
+            'Anomaly\Streams\Platform\Entry\EntryRepository'
         );
     }
 }

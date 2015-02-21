@@ -314,6 +314,7 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     public function assignments()
     {
-        return $this->hasMany(config('streams.assignments.model'), 'stream_id')->orderBy('sort_order');
+        return $this->hasMany('Anomaly\Streams\Platform\assignment\AssignmentModel', 'stream_id')
+            ->orderBy('sort_order');
     }
 }

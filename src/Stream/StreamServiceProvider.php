@@ -22,11 +22,11 @@ class StreamServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             'Anomaly\Streams\Platform\Stream\StreamModel',
-            config('streams.streams.model')
+            'Anomaly\Streams\Platform\Stream\StreamModel'
         );
         $this->app->bind(
             'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface',
-            config('streams.streams.repository')
+            'Anomaly\Streams\Platform\Stream\StreamRepository'
         );
 
         $this->app->register('Anomaly\Streams\Platform\Stream\StreamEventProvider');
