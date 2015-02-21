@@ -26,7 +26,7 @@ class ModuleServiceProvider extends ServiceProvider
     {
         $this->dispatch(new RegisterModules());
 
-        if (INSTALLED) {
+        if (app('Anomaly\Streams\Platform\Application\Application')->isInstalled()) {
             $this->dispatch(new SetModuleStates());
             $this->dispatch(new DetectActiveModule());
         }

@@ -51,7 +51,7 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->dispatch(new LocateApplication());
 
         // Check directory permissions.
-        if (!INSTALLED) {
+        if (!app('Anomaly\Streams\Platform\Application\Application')->isInstalled()) {
             $this->dispatch(new CheckDirectoryPermissions());
         }
     }

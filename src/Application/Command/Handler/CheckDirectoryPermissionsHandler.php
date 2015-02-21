@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command\Handler;
 
+use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -21,13 +22,22 @@ class CheckDirectoryPermissionsHandler
     protected $files;
 
     /**
+     * The streams application.
+     *
+     * @var Application
+     */
+    protected $application;
+
+    /**
      * Create a new CheckDirectoryPermissionsHandler instance.
      *
-     * @param Filesystem $files
+     * @param Filesystem  $files
+     * @param Application $application
      */
-    public function __construct(Filesystem $files)
+    public function __construct(Filesystem $files, Application $application)
     {
-        $this->files = $files;
+        $this->files       = $files;
+        $this->application = $application;
     }
 
     /**
@@ -37,7 +47,7 @@ class CheckDirectoryPermissionsHandler
     {
         $paths = [
             'public/assets',
-            'public/assets/' . APP_REF,
+            'public/assets/' . $this->application->getReference(),
             'storage'
         ];
 

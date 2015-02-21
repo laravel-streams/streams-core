@@ -45,22 +45,16 @@ class LocateApplicationHandler
      */
     public function handle()
     {
-        define('INSTALLED', $this->application->isInstalled());
-
-        if (INSTALLED) {
+        if ($this->application->isInstalled()) {
 
             if (env('DB_PASSWORD')) {
 
                 $this->application->locate();
-
-                define('APP_REF', $this->application->getReference());
 
                 $this->application->setup();
             }
 
             return;
         }
-
-        define('APP_REF', 'default');
     }
 }
