@@ -1,8 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormEntry;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepository;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 
 /**
  * Class SetFormEntryHandler
@@ -34,7 +33,7 @@ class SetFormEntryHandler
          * or create a new one.
          */
         if (is_scalar($entry) || $entry === null) {
-            if ($repository instanceof FormRepository) {
+            if ($repository instanceof FormRepositoryInterface) {
                 $form->setEntry($repository->findOrNew($entry));
             }
         }

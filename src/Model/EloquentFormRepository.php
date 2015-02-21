@@ -1,17 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepository;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
- * Class EloquentFormRepository
+ * Class EloquentFormRepositoryInterface
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Model
  */
-class EloquentFormRepository implements FormRepository
+class EloquentFormRepositoryInterface implements FormRepositoryInterface
 {
 
     /**
@@ -22,7 +22,7 @@ class EloquentFormRepository implements FormRepository
     protected $model;
 
     /**
-     * Create a new EloquentFormRepository instance.
+     * Create a new EloquentFormRepositoryInterface instance.
      *
      * @param EloquentModel $model
      */

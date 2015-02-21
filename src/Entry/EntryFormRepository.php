@@ -1,18 +1,18 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepository;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
- * Class EntryFormRepository
+ * Class EntryFormRepositoryInterface
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry
  */
-class EntryFormRepository implements FormRepository
+class EntryFormRepositoryInterface implements FormRepositoryInterface
 {
 
     /**
@@ -23,7 +23,7 @@ class EntryFormRepository implements FormRepository
     protected $model;
 
     /**
-     * Create a new EloquentFormRepository instance.
+     * Create a new EloquentFormRepositoryInterface instance.
      *
      * @param EntryModel $model
      */

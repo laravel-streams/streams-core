@@ -11,8 +11,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepository;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,7 +36,7 @@ class Table
     /**
      * The table repository.
      *
-     * @var TableRepository
+     * @var TableRepositoryInterface
      */
     protected $repository = null;
 
@@ -199,7 +198,7 @@ class Table
     /**
      * Get the table repository.
      *
-     * @return TableRepository
+     * @return TableRepositoryInterface
      */
     public function getRepository()
     {
@@ -209,10 +208,10 @@ class Table
     /**
      * Set the table repository.
      *
-     * @param TableRepository $repository
+     * @param TableRepositoryInterface $repository
      * @return $this
      */
-    public function setRepository(TableRepository $repository)
+    public function setRepository(TableRepositoryInterface $repository)
     {
         $this->repository = $repository;
 

@@ -9,7 +9,7 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepository;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,7 +35,7 @@ class Form
     /**
      * The form repository.
      *
-     * @var null|FormRepository
+     * @var null|FormRepositoryInterface
      */
     protected $repository = null;
 
@@ -223,7 +223,7 @@ class Form
     /**
      * Get the form repository.
      *
-     * @return FormRepository|null
+     * @return FormRepositoryInterface|null
      */
     public function getRepository()
     {
@@ -233,10 +233,10 @@ class Form
     /**
      * Set the form repository.
      *
-     * @param FormRepository $repository
+     * @param FormRepositoryInterface $repository
      * @return $this
      */
-    public function setRepository(FormRepository $repository)
+    public function setRepository(FormRepositoryInterface $repository)
     {
         $this->repository = $repository;
 

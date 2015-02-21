@@ -1,20 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepository;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\QueryHasStarted;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\Collection;
 
 /**
- * Class EloquentTableRepository
+ * Class EloquentTableRepositoryInterface
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Model
  */
-class EloquentTableRepository implements TableRepository
+class EloquentTableRepositoryInterface implements TableRepositoryInterface
 {
 
     use DispatchesCommands;

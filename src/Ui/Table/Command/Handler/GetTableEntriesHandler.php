@@ -1,8 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Table\Command\GetTableEntries;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepository;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Illuminate\Support\Collection;
 
 /**
@@ -56,10 +55,10 @@ class GetTableEntriesHandler
 
         /**
          * If the repository is not an instance of
-         * TableRepository then they need to load
+         * TableRepositoryInterface then they need to load
          * the entries themselves.
          */
-        if (!$repository instanceof TableRepository) {
+        if (!$repository instanceof TableRepositoryInterface) {
             return null;
         }
 

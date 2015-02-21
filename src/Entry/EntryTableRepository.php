@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Model\EloquentTableRepository;
+use Anomaly\Streams\Platform\Model\EloquentTableRepositoryInterface;
 
 /**
  * Class EntryTableRepository
@@ -10,7 +10,7 @@ use Anomaly\Streams\Platform\Model\EloquentTableRepository;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry
  */
-class EntryTableRepository extends EloquentTableRepository
+class EntryTableRepository extends EloquentTableRepositoryInterface
 {
 
 }

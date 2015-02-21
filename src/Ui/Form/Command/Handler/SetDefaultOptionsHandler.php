@@ -90,7 +90,7 @@ class SetDefaultOptionsHandler
          * on the builder class. Defaulting to
          * no handler.
          */
-        if (!$repository = $form->getOption('repository')) {
+        if (!$form->getOption('repository')) {
 
             $model = $form->getModel();
 
