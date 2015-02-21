@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
-use Anomaly\Streams\Platform\Entry\Contract\HasFieldValues;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Http\Request;
 
@@ -59,7 +59,7 @@ class FieldFactory
         }
 
         // Set the value if the entry is compatible.
-        if ($entry instanceof HasFieldValues) {
+        if ($entry instanceof EntryInterface) {
             $field->setValue($entry->getFieldValue($field->getField()));
         }
 

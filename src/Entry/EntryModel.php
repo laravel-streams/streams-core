@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Entry\Contract\HasFieldValues;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -18,7 +17,7 @@ use Robbo\Presenter\PresentableInterface;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Entry
  */
-class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface, HasFieldValues
+class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface
 {
 
     /**
