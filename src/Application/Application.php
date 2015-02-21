@@ -128,8 +128,10 @@ class Application
      */
     public function isInstalled()
     {
-        $config = base_path('config/distribution.php');
+        if (is_null($this->installed)) {
+            $this->installed = file_exists(base_path('.env'));
+        }
 
-        return file_exists($config);
+        return $this->installed;
     }
 }
