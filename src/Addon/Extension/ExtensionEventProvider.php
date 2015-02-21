@@ -19,7 +19,7 @@ class ExtensionEventProvider extends EventServiceProvider
      * @var array
      */
     protected $listen = [
-        'Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasRegistered' => [
+        'Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasRegistered'  => [
             'Anomaly\Streams\Platform\Addon\Extension\Listener\PutExtensionInCollection'
         ],
         'Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasInstalled'   => [

@@ -46,8 +46,8 @@ class SectionBuilder
      */
     public function build(ControlPanelBuilder $builder)
     {
-        $controlPanel  = $builder->getControlPanel();
-        $sections = $controlPanel->getSections();
+        $controlPanel = $builder->getControlPanel();
+        $sections     = $controlPanel->getSections();
 
         $this->input->read($builder);
 

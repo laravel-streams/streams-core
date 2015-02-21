@@ -37,11 +37,11 @@ class InstallExtensionHandler
      * Create a new InstallExtensionHandler instance.
      *
      * @param ExtensionCollection $extensions
-     * @param Dispatcher       $dispatcher
+     * @param Dispatcher          $dispatcher
      */
     public function __construct(ExtensionCollection $extensions, Dispatcher $dispatcher)
     {
-        $this->extensions    = $extensions;
+        $this->extensions = $extensions;
         $this->dispatcher = $dispatcher;
     }
 
@@ -97,7 +97,7 @@ class InstallExtensionHandler
      * Resolve the installer.
      *
      * @param  Extension $extension
-     * @param         $installer
+     * @param            $installer
      * @return mixed
      */
     protected function resolveInstaller(Extension $extension, $installer)

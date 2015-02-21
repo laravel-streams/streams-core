@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Entry\EntryUtility;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasSaved;
-use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class CreateTable
@@ -14,7 +13,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
  */
 class Recompile
 {
-    
+
     /**
      * The entry utility.
      *

@@ -47,8 +47,8 @@ class ButtonBuilder
      */
     public function build(ControlPanelBuilder $builder)
     {
-        $controlPanel  = $builder->getControlPanel();
-        $buttons  = $controlPanel->getButtons();
+        $controlPanel = $builder->getControlPanel();
+        $buttons      = $controlPanel->getButtons();
 
         $this->input->read($builder);
 

@@ -37,7 +37,7 @@ class SyncExtensionsHandler
      */
     public function __construct(ExtensionCollection $collection, ExtensionRepositoryInterface $extensions)
     {
-        $this->extensions    = $extensions;
+        $this->extensions = $extensions;
         $this->collection = $collection;
     }
 
@@ -57,7 +57,7 @@ class SyncExtensionsHandler
      * Sync a extension.
      *
      * @param \Anomaly\Streams\Platform\Model\EloquentCollection $extensions
-     * @param Extension                                             $extension
+     * @param Extension                                          $extension
      */
     protected function sync(EloquentCollection $extensions, Extension $extension)
     {

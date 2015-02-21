@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepository;
 use Anomaly\Streams\Platform\Ui\Form\Form;
-use Illuminate\Http\Request;
 
 /**
  * Class EntryFormRepository

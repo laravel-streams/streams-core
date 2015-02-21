@@ -5,12 +5,17 @@ use Anomaly\Streams\Platform\Application\Command\GenerateEnvironmentFile;
 /**
  * Class GenerateEnvironmentFileHandler
  *
- * @package Anomaly\Streams\Platform\Application\Command\Handler
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Application\Command\Handler
  */
 class GenerateEnvironmentFileHandler
 {
 
     /**
+     * Handle the command.
+     *
      * @param GenerateEnvironmentFile $command
      */
     public function handle(GenerateEnvironmentFile $command)
@@ -23,5 +28,4 @@ class GenerateEnvironmentFileHandler
 
         file_put_contents(base_path('.env'), $contents);
     }
-
 }

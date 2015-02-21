@@ -12,18 +12,18 @@ class Application
 {
 
     /**
-     * The application reference.
-     *
-     * @var string
-     */
-    protected $reference = 'default';
-
-    /**
      * Keep installed status around.
      *
      * @var bool
      */
     protected $installed = null;
+
+    /**
+     * The application reference.
+     *
+     * @var string
+     */
+    protected $reference = 'default';
 
     /**
      * The application model.
@@ -33,9 +33,11 @@ class Application
     protected $model;
 
     /**
-     * Create a new Application instance
+     * Create a new Application instance.
+     *
+     * @param ApplicationModel $model
      */
-    public function __construct(ApplicationModel $model = null)
+    public function __construct(ApplicationModel $model)
     {
         $this->model = $model;
     }
@@ -59,18 +61,21 @@ class Application
     }
 
     /**
-     * Locate the app by request or passed variable and set the application reference.
+     * Locate the app by request or passed
+     * variable and set the application reference.
      *
      * @return bool
      */
     public function locate($domain = null)
     {
         if (app('db')->getSchemaBuilder()->hasTable('applications')) {
-            if (!$domain) {
+
+            if (is_null($domain)) {
                 $domain = app('request')->root();
             }
 
             if ($app = $this->model->findByDomain($domain)) {
+
                 $this->installed = true;
 
                 $this->reference = $app->reference;
@@ -87,6 +92,8 @@ class Application
     }
 
     /**
+     * Set the reference.
+     *
      * @param $reference
      * @return $this
      */
@@ -114,7 +121,7 @@ class Application
      */
     public function tablePrefix()
     {
-        if (!$this->reference) {
+        if (is_null($this->reference)) {
             $this->locate();
         }
 

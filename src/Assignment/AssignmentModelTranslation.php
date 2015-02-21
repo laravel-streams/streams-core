@@ -26,4 +26,5 @@ class AssignmentModelTranslation extends EloquentModel
      * @var string
      */
     protected $table = 'streams_assignments_translations';
+
 }

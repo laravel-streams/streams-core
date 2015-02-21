@@ -36,7 +36,7 @@ class LocateApplicationHandler
      */
     public function __construct(Container $container, Application $application)
     {
-        $this->container = $container;
+        $this->container   = $container;
         $this->application = $application;
     }
 

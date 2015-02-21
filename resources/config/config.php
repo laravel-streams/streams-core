@@ -99,7 +99,7 @@ return [
 	| Extension Management
 	|--------------------------------------------------------------------------
 	*/
-    'extensions'           => [
+    'extensions'        => [
         'model'      => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionModel',
         'repository' => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionRepository',
     ],

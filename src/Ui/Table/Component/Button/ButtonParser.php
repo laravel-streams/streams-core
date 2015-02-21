@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
 use Anomaly\Streams\Platform\Support\Parser;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Support\Arrayable;
 
 /**

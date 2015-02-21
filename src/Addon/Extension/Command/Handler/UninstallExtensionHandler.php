@@ -37,11 +37,11 @@ class UninstallExtensionHandler
      * Create a new UninstallExtensionHandler instance.
      *
      * @param ExtensionCollection $extensions
-     * @param Dispatcher       $dispatcher
+     * @param Dispatcher          $dispatcher
      */
     function __construct(ExtensionCollection $extensions, Dispatcher $dispatcher)
     {
-        $this->extensions    = $extensions;
+        $this->extensions = $extensions;
         $this->dispatcher = $dispatcher;
     }
 
@@ -97,7 +97,7 @@ class UninstallExtensionHandler
      * Resolve the installer.
      *
      * @param  Extension $extension
-     * @param         $installer
+     * @param            $installer
      * @return mixed
      */
     protected function resolveInstaller(Extension $extension, $installer)

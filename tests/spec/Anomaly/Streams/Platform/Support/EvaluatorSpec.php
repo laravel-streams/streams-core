@@ -28,7 +28,7 @@ class EvaluatorSpec extends ObjectBehavior
 
     function it_can_evaluate_closures()
     {
-        $target = function(){
+        $target = function () {
             return 'foo';
         };
 

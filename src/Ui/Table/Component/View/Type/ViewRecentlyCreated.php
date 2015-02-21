@@ -19,4 +19,5 @@ class ViewRecentlyCreated extends View
      * @var mixed
      */
     protected $handler = 'Anomaly\Streams\Platform\Ui\Table\Component\View\Type\ViewRecentlyCreatedHandler@handle';
+
 }

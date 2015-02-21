@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Contract;
 
 use Anomaly\Streams\Platform\Ui\Form\Form;
-use Illuminate\Http\Request;
 
 /**
  * Interface FormRepository

@@ -24,7 +24,7 @@ class AdminController extends BaseController
          * the core Users module.
          */
         $this->middleware('auth');
-        
+
         parent::__construct();
     }
 }

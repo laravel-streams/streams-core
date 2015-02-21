@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
 use Illuminate\Container\Container;
-use StringTemplate\Engine;
 
 /**
  * Class Evaluator

@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Entry\EntryUtility;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasCreated;
-use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class CreateTable

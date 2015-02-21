@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
 
-use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 

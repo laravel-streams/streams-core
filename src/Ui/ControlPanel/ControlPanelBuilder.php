@@ -3,8 +3,6 @@
 use Anomaly\Streams\Platform\Ui\ControlPanel\Command\BuildControlPanel;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Command\LoadControlPanel;
 use Illuminate\Foundation\Bus\DispatchesCommands;
-use Illuminate\Http\Response;
-use Illuminate\View\View;
 
 /**
  * Class ControlPanelBuilder

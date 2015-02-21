@@ -26,7 +26,7 @@ class ActionResponder
     public function setFormResponse(Form $form, ActionInterface $action)
     {
         $handler = $action->getHandler();
-        
+
         /**
          * If the handler is a Closure then call
          * it using the application container.
