@@ -51,10 +51,9 @@ class FieldTypeSchema
     /**
      * Drop the field type column from the table.
      *
-     * @param Blueprint           $table
-     * @param AssignmentInterface $assignment
+     * @param Blueprint $table
      */
-    public function dropColumn(Blueprint $table, AssignmentInterface $assignment)
+    public function dropColumn(Blueprint $table)
     {
         $table->dropColumn($this->fieldType->getColumnName());
     }

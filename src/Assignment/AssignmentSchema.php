@@ -32,25 +32,6 @@ class AssignmentSchema
     }
 
     /**
-     * Drop a column.
-     *
-     * @param                     $table
-     * @param FieldType           $type
-     * @param AssignmentInterface $assignment
-     */
-    public function dropColumn($table, FieldType $type, AssignmentInterface $assignment)
-    {
-        $schema = $type->getSchema();
-
-        $this->schema->table(
-            $table,
-            function (Blueprint $table) use ($schema, $assignment) {
-                $schema->dropColumn($table, $assignment);
-            }
-        );
-    }
-
-    /**
      * Add a column.
      *
      * @param                     $table
@@ -65,6 +46,24 @@ class AssignmentSchema
             $table,
             function (Blueprint $table) use ($schema, $assignment) {
                 $schema->addColumn($table, $assignment);
+            }
+        );
+    }
+
+    /**
+     * Drop a column.
+     *
+     * @param           $table
+     * @param FieldType $type
+     */
+    public function dropColumn($table, FieldType $type)
+    {
+        $schema = $type->getSchema();
+
+        $this->schema->table(
+            $table,
+            function (Blueprint $table) use ($schema) {
+                $schema->dropColumn($table);
             }
         );
     }
