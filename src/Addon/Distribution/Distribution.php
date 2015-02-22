@@ -25,14 +25,14 @@ class Distribution extends Addon
      *
      * @var string
      */
-    protected $standardTheme = 'Anomaly\StreamsTheme\StreamsTheme';
+    protected $standardTheme = 'anomaly.theme.streams';
 
     /**
      * The default admin theme.
      *
      * @var string
      */
-    protected $adminTheme = 'Anomaly\StreamsTheme\StreamsTheme';
+    protected $adminTheme = 'anomaly.theme.streams';
 
     /**
      * Set the active flag.

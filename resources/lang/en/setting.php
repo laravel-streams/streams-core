@@ -54,5 +54,13 @@ return [
             'control_panel' => 'Only force HTTPS for control panel access.',
             'public'        => 'Only force HTTPS for public-facing content.'
         ]
+    ],
+    'admin_theme'    => [
+        'label'        => 'Admin Theme',
+        'instructions' => 'This is the theme used for the control panel.'
+    ],
+    'standard_theme' => [
+        'label'        => 'Standard Theme',
+        'instructions' => 'This is the default theme used for public facing content.'
     ]
 ];

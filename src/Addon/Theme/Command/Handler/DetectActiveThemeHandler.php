@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme\Command\Handler;
 
+use Anomaly\SettingsModule\Setting\Contract\SettingRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection;
 use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Anomaly\Streams\Platform\Asset\Asset;
@@ -31,6 +32,13 @@ class DetectActiveThemeHandler
     protected $image;
 
     /**
+     * The settings repository.
+     *
+     * @var SettingRepositoryInterface
+     */
+    protected $settings;
+
+    /**
      * The loaded distributions.
      *
      * @var \Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection
@@ -40,14 +48,20 @@ class DetectActiveThemeHandler
     /**
      * Create a new DetectActiveThemeHandler instance.
      *
-     * @param Asset                  $asset
-     * @param Image                  $image
-     * @param DistributionCollection $distributions
+     * @param Asset                      $asset
+     * @param Image                      $image
+     * @param SettingRepositoryInterface $settings
+     * @param DistributionCollection     $distributions
      */
-    public function __construct(Asset $asset, Image $image, DistributionCollection $distributions)
-    {
+    public function __construct(
+        Asset $asset,
+        Image $image,
+        SettingRepositoryInterface $settings,
+        DistributionCollection $distributions
+    ) {
         $this->asset         = $asset;
         $this->image         = $image;
+        $this->settings      = $settings;
         $this->distributions = $distributions;
     }
 
@@ -60,9 +74,9 @@ class DetectActiveThemeHandler
         if ($distribution = $this->distributions->active()) {
 
             if (app('request')->segment(1) == 'admin' || app('request')->segment(1) == 'installer') {
-                $theme = config('distribution.admin_theme', $distribution->getAdminTheme());
+                $theme = $this->settings->get('streams::admin_theme', env('ADMIN_THEME'));
             } else {
-                $theme = config('distribution.standard_theme', $distribution->getStandardTheme());
+                $theme = $this->settings->get('streams::standard_theme', env('STANDARD_THEME'));
             }
 
             $theme = app($theme);
@@ -72,14 +86,6 @@ class DetectActiveThemeHandler
                 $theme->setActive(true);
 
                 app('view')->addNamespace('theme', $theme->getPath('resources/views'));
-
-                foreach (app('files')->files($theme->getPath('resources/config')) as $config) {
-                    app('config')->set(
-                        $theme->getNamespace(basename(trim($config, '.php'))),
-                        app('files')->getRequire($config)
-                    );
-                }
-
                 app('translator')->addNamespace('theme', $theme->getPath('resources/lang'));
 
                 $this->asset->addNamespace('theme', $theme->getPath('resources'));
