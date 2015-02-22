@@ -25,7 +25,7 @@ class ExceptionHandler extends Handler
     {
         $status = $e->getStatusCode();
 
-        if (config('app.debug') && view()->exists("streams::errors.{$status}")) {
+        if (!config('app.debug') && view()->exists("streams::errors.{$status}")) {
             return response()->view("streams::errors.{$status}", [], $status);
         } else {
             return (new SymfonyDisplayer(config('app.debug')))->createResponse($e);
