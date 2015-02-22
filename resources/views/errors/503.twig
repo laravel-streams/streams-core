@@ -35,7 +35,9 @@
 
 <div class="container">
     <div class="content">
-        <div class="title">Be right back.</div>
+        <div class="title">
+            {{ trans(setting_get('streams::unavailable_message', 'streams::message.unavailable'))|markdown }}
+        </div>
     </div>
 </div>
 

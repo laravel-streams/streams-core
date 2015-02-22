@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name'           => [
+    'name'                => [
         'type'   => 'anomaly.field_type.text',
         'config' => [
             'default_value' => function () {
@@ -9,7 +9,7 @@ return [
             },
         ]
     ],
-    'description'    => [
+    'description'         => [
         'type'   => 'anomaly.field_type.text',
         'config' => [
             'default_value' => function () {
@@ -17,7 +17,7 @@ return [
             },
         ]
     ],
-    'contact_email'  => [
+    'contact_email'       => [
         'type'   => 'anomaly.field_type.email',
         'config' => [
             'default_value' => function () {
@@ -25,7 +25,7 @@ return [
             },
         ]
     ],
-    'server_email'   => [
+    'server_email'        => [
         'type'   => 'anomaly.field_type.email',
         'config' => [
             'default_value' => function () {
@@ -33,13 +33,13 @@ return [
             },
         ]
     ],
-    'date_format'    => [
+    'date_format'         => [
         'type'   => 'anomaly.field_type.text',
         'config' => [
             'default_value' => 'n/j/Y',
         ]
     ],
-    'default_locale' => [
+    'default_locale'      => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'default_value' => config('app.locale'),
@@ -55,7 +55,7 @@ return [
             }
         ],
     ],
-    'site_enabled'   => [
+    'site_enabled'        => [
         'type'   => 'anomaly.field_type.boolean',
         'config' => [
             'default_value' => true,
@@ -64,8 +64,16 @@ return [
             'off_style'     => 'danger'
         ]
     ],
-    'ip_whitelist'   => 'anomaly.field_type.tags',
-    'force_https'    => [
+    'unavailable_message' => [
+        'type'   => 'anomaly.field_type.textarea',
+        'config' => [
+            'default_value' => function () {
+                return 'streams::message.unavailable';
+            }
+        ]
+    ],
+    'ip_whitelist'        => 'anomaly.field_type.tags',
+    'force_https'         => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'default_value' => 'none',
