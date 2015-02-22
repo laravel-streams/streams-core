@@ -384,6 +384,10 @@ class Asset
             return true;
         }
 
+        if (in_array('debug', $filters) && config('app.debug')) {
+            return true;
+        }
+
         return false;
     }
 
