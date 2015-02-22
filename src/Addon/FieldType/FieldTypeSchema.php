@@ -39,7 +39,7 @@ class FieldTypeSchema
      */
     public function addColumn(Blueprint $table, AssignmentInterface $assignment)
     {
-        if (!$this->fieldType->getColumnName()) {
+        if (!$this->fieldType->getColumnType()) {
             return;
         }
 
@@ -59,10 +59,10 @@ class FieldTypeSchema
      */
     public function dropColumn(Blueprint $table)
     {
-        if (!$this->fieldType->getColumnName()) {
+        if (!$this->fieldType->getColumnType()) {
             return;
         }
-        
+
         $table->dropColumn($this->fieldType->getColumnName());
     }
 }
