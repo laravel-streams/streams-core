@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Model
  */
-class EloquentTableRepositoryInterface implements TableRepositoryInterface
+class EloquentTableRepository implements TableRepositoryInterface
 {
 
     use DispatchesCommands;

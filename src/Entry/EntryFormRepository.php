@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry
  */
-class EntryFormRepositoryInterface implements FormRepositoryInterface
+class EntryFormRepository implements FormRepositoryInterface
 {
 
     /**

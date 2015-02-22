@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Model
  */
-class EloquentFormRepositoryInterface implements FormRepositoryInterface
+class EloquentFormRepository implements FormRepositoryInterface
 {
 
     /**

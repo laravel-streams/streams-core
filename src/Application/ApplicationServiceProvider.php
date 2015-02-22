@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Application\Command\CheckDirectoryPermissions;
 use Anomaly\Streams\Platform\Application\Command\LocateApplication;
-use Anomaly\Streams\Platform\Application\Command\SetupTranslator;
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
 use Illuminate\Foundation\Bus\DispatchesCommands;
