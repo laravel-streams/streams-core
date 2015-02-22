@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme;
 
 use Anomaly\Streams\Platform\Addon\Theme\Command\DetectActiveTheme;
+use Anomaly\Streams\Platform\Addon\Theme\Command\DetectDefaultTheme;
 use Anomaly\Streams\Platform\Addon\Theme\Command\RegisterListeners;
 use Anomaly\Streams\Platform\Addon\Theme\Command\RegisterThemes;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -25,7 +26,12 @@ class ThemeServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->dispatch(new RegisterThemes());
-        $this->dispatch(new DetectActiveTheme());
+
+        if (app('Anomaly\Streams\Platform\Application\Application')->isInstalled()) {
+            $this->dispatch(new DetectActiveTheme());
+        } else {
+            $this->dispatch(new DetectDefaultTheme());
+        }
     }
 
     /**
