@@ -155,7 +155,7 @@ class Asset
     {
         $path = $this->getPublicPath($collection, $filters);
 
-        if ($this->shouldPublish($path, $filters)) {
+        if ($this->shouldPublish($path, $collection, $filters)) {
             $this->publish($path, $collection, $filters);
         }
 
@@ -200,6 +200,7 @@ class Asset
         $hint = $this->getHint($collection);
 
         foreach ($this->collections[$collection] as $file => $filters) {
+
             $filters = array_filter(array_unique(array_merge($filters, $additionalFilters)));
 
             $filters = $this->transformFilters($filters, $hint);
@@ -356,10 +357,11 @@ class Asset
      * to the path or not.
      *
      * @param        $path
+     * @param        $collection
      * @param  array $filters
      * @return bool
      */
-    protected function shouldPublish($path, array $filters = [])
+    protected function shouldPublish($path, $collection, array $filters = [])
     {
         if (isset($_GET['_publish'])) {
             return true;
@@ -371,6 +373,11 @@ class Asset
 
         if (!file_exists($path)) {
             return true;
+        }
+
+        // Merge filters from collection files.
+        foreach ($this->collections[$collection] as $fileFilters) {
+            $filters = array_filter(array_unique(array_merge($filters, $fileFilters)));
         }
 
         if (in_array('live', $filters)) {
