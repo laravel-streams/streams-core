@@ -40,7 +40,7 @@ return [
         'instructions' => 'When the status is set to "disabled" these IP addresses will be allowed to access the website or application.',
         'placeholder'  => 'Separate each IP address with a comma.'
     ],
-    'unavailable_message' => [
+    '503_message' => [
         'label'        => 'Unavailable Message',
         'instructions' => 'When the site is disabled or there is a major problem, this message will display to users.'
     ],
