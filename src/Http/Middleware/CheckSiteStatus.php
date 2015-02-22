@@ -62,7 +62,7 @@ class CheckSiteStatus
          * If we're disabled then we need to abort.
          */
         if (!in_array($request->getClientIp(), $this->settings->get('ip_whitelist', []))) {
-            response()->view('streams::errors/503', [], 503);
+            return response()->view('streams::errors/503', [], 503);
         }
 
         return $next($request);
