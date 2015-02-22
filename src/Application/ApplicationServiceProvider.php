@@ -86,10 +86,24 @@ class ApplicationServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Application\Application'
         );
 
-        foreach ($this->app->make('files')->files(__DIR__ . '/../../resources/config') as $file) {
+        foreach ($this->app->make('files')->allFiles(__DIR__ . '/../../resources/config') as $file) {
+
+            if (!$file instanceof \SplFileInfo) {
+                continue;
+            }
+            
+            $key = ltrim(
+                str_replace(
+                    __DIR__ . '/../../resources/config',
+                    '',
+                    $file->getPath()
+                ) . '/' . $file->getBaseName('.php'),
+                '/'
+            );
+
             $this->app->make('config')->set(
-                'streams::' . basename($file, '.php'),
-                $this->app->make('files')->getRequire($file)
+                'streams::' . $key,
+                $this->app->make('files')->getRequire($file->getPathname())
             );
         }
 

@@ -50,13 +50,24 @@ class AddonIntegrator
         app('view')->addNamespace($addon->getNamespace(), $addon->getPath('resources/views'));
 
         if (app('files')->isDirectory($addon->getPath('resources/config'))) {
-            foreach (app('files')->allFiles($addon->getPath('resources/config')) as $config) {
+            foreach (app('files')->allFiles($addon->getPath('resources/config')) as $file) {
 
-                $key = str_replace($addon->getPath('resources/config/'), '', trim($config->getPathname(), '.php'));
+                if (!$file instanceof \SplFileInfo) {
+                    continue;
+                }
+
+                $key = ltrim(
+                    str_replace(
+                        $addon->getPath('resources/config'),
+                        '',
+                        $file->getPath()
+                    ) . '/' . $file->getBaseName('.php'),
+                    '/'
+                );
 
                 app('config')->set(
-                    $addon->getNamespace(str_replace('/', '.', $key)),
-                    app('files')->getRequire($config)
+                    $addon->getNamespace($key),
+                    app('files')->getRequire($file->getPathname())
                 );
             }
         }
