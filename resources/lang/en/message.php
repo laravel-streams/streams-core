@@ -1,7 +1,9 @@
 <?php
 
 return [
-    'unavailable'     => 'Be right back.',
+    '404'             => 'Page not found.',
+    '500'             => 'There was an error.',
+    '503'             => 'Be right back.',
     'no_results'      => 'No results.',
     'error'           => 'Error!',
     'success'         => 'Success!',

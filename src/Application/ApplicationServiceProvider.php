@@ -75,6 +75,11 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->app->instance('streams.path', $this->app->make('path.base') . '/vendor/anomaly/streams-platform');
 
         $this->app->bind(
+            'Illuminate\Contracts\Debug\ExceptionHandler',
+            'Anomaly\Streams\Platform\Exception\ExceptionHandler'
+        );
+
+        $this->app->bind(
             'path.lang',
             function () {
                 return __DIR__ . '/../../resources/lang';
@@ -91,7 +96,7 @@ class ApplicationServiceProvider extends ServiceProvider
             if (!$file instanceof \SplFileInfo) {
                 continue;
             }
-            
+
             $key = ltrim(
                 str_replace(
                     __DIR__ . '/../../resources/config',
