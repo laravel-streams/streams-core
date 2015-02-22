@@ -52,10 +52,17 @@ class CheckSiteStatus
         }
 
         /**
+         * Continue on if we're in admin.
+         */
+        if ($request->segment(1) == 'admin') {
+            return $next($request);
+        }
+
+        /**
          * If we're disabled then we need to abort.
          */
         if (!in_array($request->getClientIp(), $this->settings->get('ip_whitelist', []))) {
-            abort(404);
+            response()->view('streams::errors/503', [], 503);
         }
 
         return $next($request);
