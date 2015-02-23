@@ -19,8 +19,8 @@ class ResetCommand extends BaseResetCommand
      */
     public function fire()
     {
-        // Reset specific adddons
-        if ($namespaces = $this->input->getOption('addons')) {
+        // Reset a specific addon
+        if ($namespaces = $this->input->getOption('addon')) {
 
             $pretend = $this->input->getOption('pretend');
 
@@ -58,7 +58,7 @@ class ResetCommand extends BaseResetCommand
     public function getOptions()
     {
         return array_merge(parent::getOptions(), [
-            ['addons', null, InputOption::VALUE_OPTIONAL, 'The comma separated list of addons to migrate.'],
+            ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to reset migrations.'],
             ['no-addons', null, InputOption::VALUE_NONE, 'Don\'t run addon migrations, only laravel migrations.'],
         ]);
     }

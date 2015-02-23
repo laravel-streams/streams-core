@@ -26,7 +26,7 @@ class MigrateCommand extends BaseMigrateCommand
 
             $addonCollection = (new AddonCollection())->merged();
 
-            if ($namespaces = $this->input->getOption('addons')) {
+            if ($namespaces = $this->input->getOption('addon')) {
 
                 $namespaces = explode(',', $namespaces);
 
@@ -72,7 +72,7 @@ class MigrateCommand extends BaseMigrateCommand
     protected function getOptions()
     {
         return array_merge(parent::getOptions(), [
-            ['addons', null, InputOption::VALUE_OPTIONAL, 'The comma separated list of addons to migrate.'],
+            ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to migrate.'],
             ['no-addons', null, InputOption::VALUE_NONE, 'Don\'t run addon migrations, only laravel migrations.'],
         ]);
     }
