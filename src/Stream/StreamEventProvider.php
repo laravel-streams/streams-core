@@ -24,7 +24,8 @@ class StreamEventProvider extends EventServiceProvider
             'Anomaly\Streams\Platform\Stream\Listener\Compile'
         ],
         'Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted' => [
-            'Anomaly\Streams\Platform\Stream\Listener\DropTable'
+            'Anomaly\Streams\Platform\Stream\Listener\DropTable',
+            'Anomaly\Streams\Platform\Stream\Listener\FlushCache'
         ],
         'Anomaly\Streams\Platform\Stream\Event\StreamWasSaved'   => [
             'Anomaly\Streams\Platform\Stream\Listener\Recompile'
