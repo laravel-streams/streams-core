@@ -2,9 +2,7 @@
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
-use Anomaly\Streams\Platform\Ui\Form\Command\HandleForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormModelInterface;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
