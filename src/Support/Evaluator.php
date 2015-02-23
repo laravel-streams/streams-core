@@ -62,11 +62,7 @@ class Evaluator
          * format then traverse the target using the arguments.
          */
         if (is_string($target) && $this->isTraversable($target)) {
-            try {
-                $target = data_get($arguments, $target, $target);
-            } catch (\Exception $e) {
-                dd($e->getMessage());
-            }
+            $target = data_get($arguments, $target, $target);
         }
 
         return $target;
