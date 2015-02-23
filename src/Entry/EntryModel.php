@@ -157,7 +157,12 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAttribute($key)
     {
-        if (!$this->hasGetMutator($key) && $this->getFieldType($key)) {
+        if (
+            !$this->hasGetMutator($key)
+            && !in_array($key, [$this->relations])
+            && !method_exists($this, $key)
+            && $this->getFieldType($key)
+        ) {
             return $this->getFieldValue($key);
         } else {
             return parent::getAttribute($key);
