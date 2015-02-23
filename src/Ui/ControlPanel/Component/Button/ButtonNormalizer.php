@@ -47,6 +47,13 @@ class ButtonNormalizer
             }
 
             /**
+             * Move the target if any to the attributes.
+             */
+            if (isset($button['target'])) {
+                array_set($button['attributes'], 'target', array_pull($button, 'target'));
+            }
+
+            /**
              * Make sure the HREF is absolute.
              */
             if (
