@@ -40,6 +40,11 @@ class PluginServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection'
         );
 
+        $this->app->bind(
+            'plugin.collection',
+            'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection'
+        );
+
         $this->app->register('Anomaly\Streams\Platform\Addon\Plugin\PluginEventProvider');
     }
 }

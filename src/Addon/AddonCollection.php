@@ -47,6 +47,7 @@ class AddonCollection extends Collection
      * Find an addon by it's slug.
      *
      * @param  $slug
+     *
      * @return null|Addon
      */
     public function findBySlug($slug)
@@ -64,6 +65,7 @@ class AddonCollection extends Collection
      * Order addon's by their slug.
      *
      * @param  string $direction
+     *
      * @return AddonCollection
      */
     public function orderBySlug($direction = 'asc')
@@ -89,7 +91,8 @@ class AddonCollection extends Collection
      * Return only extensions with config
      * matching the given pattern.
      *
-     * @param $string
+     * @param $pattern
+     *
      * @return static
      */
     public function withConfig($pattern = '*')
@@ -104,4 +107,19 @@ class AddonCollection extends Collection
 
         return self::make($addons);
     }
+
+    /**
+     * @return static
+     */
+    public function merged()
+    {
+        $addons = [];
+
+        foreach (config('streams.addon_types') as $type) {
+            $addons = array_merge($addons, app("{$type}.collection")->toArray());
+        }
+
+        return new AddonCollection($addons);
+    }
+
 }

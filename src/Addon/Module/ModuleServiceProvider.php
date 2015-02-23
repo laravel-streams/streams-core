@@ -54,6 +54,11 @@ class ModuleServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'
         );
 
+        $this->app->bind(
+            'module.collection',
+            'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'
+        );
+
         $this->app->register('Anomaly\Streams\Platform\Addon\Module\ModuleEventProvider');
     }
 }

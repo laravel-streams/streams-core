@@ -38,6 +38,11 @@ class BlockServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Block\BlockCollection'
         );
 
+        $this->app->bind(
+            'block.collection',
+            'Anomaly\Streams\Platform\Addon\Block\BlockCollection'
+        );
+
         $this->app->register('Anomaly\Streams\Platform\Addon\Block\BlockEventProvider');
     }
 }

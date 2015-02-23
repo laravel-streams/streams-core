@@ -42,6 +42,11 @@ class DistributionServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection'
         );
 
+        $this->app->bind(
+            'distribution.collection',
+            'Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection'
+        );
+
         $this->app->register('Anomaly\Streams\Platform\Addon\Distribution\DistributionEventProvider');
     }
 }
