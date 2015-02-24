@@ -46,6 +46,11 @@ class ThemeServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'
         );
 
+        $this->app->bind(
+            'theme.collection',
+            'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'
+        );
+
         $this->app->register('Anomaly\Streams\Platform\Addon\Theme\ThemeEventProvider');
     }
 }

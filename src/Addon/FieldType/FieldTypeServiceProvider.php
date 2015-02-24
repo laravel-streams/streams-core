@@ -38,6 +38,11 @@ class FieldTypeServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection'
         );
 
+        $this->app->bind(
+            'field_type.collection',
+            'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection'
+        );
+
         $this->app->register('Anomaly\Streams\Platform\Addon\FieldType\FieldTypeEventProvider');
     }
 }

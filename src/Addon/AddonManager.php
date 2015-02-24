@@ -60,6 +60,8 @@ class AddonManager
 
     /**
      * Register all addons of a given type.
+     *
+     * @param $type
      */
     public function register($type)
     {

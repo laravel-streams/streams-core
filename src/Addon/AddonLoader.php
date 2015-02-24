@@ -16,8 +16,6 @@ class AddonLoader extends ClassLoader
     /**
      * Load the addon.
      *
-     * @param $type
-     * @param $slug
      * @param $path
      */
     public function load($path)
