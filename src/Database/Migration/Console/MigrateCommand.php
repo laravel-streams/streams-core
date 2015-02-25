@@ -51,9 +51,12 @@ class MigrateCommand extends BaseMigrateCommand
                 // seed task to re-populate the database, which is convenient when adding
                 // a migration and a seed at the same time, as it is only this command.
                 // @todo - add this when done with addon seeding
-                /*if ($this->input->getOption('seed')) {
-                    $this->call('db:seed', ['--force' => true]);
-                }*/
+                if ($this->input->getOption('seed')) {
+                    $this->call('db:seed', [
+                        '--addon' => $addon->getNamespace(),
+                        '--force' => true,
+                    ]);
+                }
 
                 // Once the migrator has run we will grab the note output and send it out to
                 // the console screen, since the migrator itself functions without having
