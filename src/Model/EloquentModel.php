@@ -158,7 +158,7 @@ class EloquentModel extends Model
      */
     public function getTitle()
     {
-        return $this->{$this->getTitleKey()};
+        return $this->{$this->getTitleName()};
     }
 
     /**
@@ -166,7 +166,7 @@ class EloquentModel extends Model
      *
      * @return string
      */
-    public function getTitleKey()
+    public function getTitleName()
     {
         return $this->titleKey ?: 'id';
     }
