@@ -85,9 +85,10 @@ class StreamRepository implements StreamRepositoryInterface
      */
     public function delete($namespace, $slug)
     {
-        $stream = $this->findByNamespaceAndSlug($namespace, $slug);
-
-        $stream->delete();
+        /** @var StreamModel $stream */
+        if ($stream = $this->findByNamespaceAndSlug($namespace, $slug)) {
+            $stream->delete();
+        }
 
         return $stream;
     }
