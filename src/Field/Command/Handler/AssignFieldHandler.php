@@ -70,13 +70,13 @@ class AssignFieldHandler
         $field  = $this->fields->findByNamespaceAndSlug($namespace, $field);
 
         if (!$stream) {
-            throw new \Exception(
+            throw new \InvalidArgumentException(
                 "The stream [{$command->getField()}] does not exist."
             );
         }
 
         if (!$field) {
-            throw new \Exception(
+            throw new \InvalidArgumentException(
                 "The field [{$command->getField()}] does not exist in the stream [{$command->getStream()}]."
             );
         }
