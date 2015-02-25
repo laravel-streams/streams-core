@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Database\Migration\Command\Migrate;
+use Anomaly\Streams\Platform\Database\Migration\Command\Rollback;
 use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameToClass;
 use Illuminate\Database\Migrations\Migrator as BaseMigrator;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -62,6 +64,41 @@ class Migrator extends BaseMigrator
     }
 
     /**
+     * Run "up" a migration instance.
+     *
+     * @param  string $file
+     * @param  int    $batch
+     * @param  bool   $pretend
+     *
+     * @return void
+     */
+    protected function runUp($file, $batch, $pretend)
+    {
+        $instance = $this->resolve($file);
+        if ($instance instanceof Migration) {
+            $this->dispatch(new Migrate($instance));
+        }
+        parent::runUp($file, $batch, $pretend);
+    }
+
+    /**
+     * Run "down" a migration instance.
+     *
+     * @param  object $migration
+     * @param  bool   $pretend
+     *
+     * @return void
+     */
+    protected function runDown($migration, $pretend)
+    {
+        $instance = $this->resolve($migration->migration);
+        if ($instance instanceof Migration) {
+            $this->dispatch(new Rollback($instance));
+        }
+        parent::runDown($migration, $pretend);
+    }
+
+    /**
      * @param $file
      */
     protected function requireOnce($file)
@@ -90,7 +127,7 @@ class Migrator extends BaseMigrator
      *
      * @param  string $file
      *
-     * @return object
+     * @return Migration
      */
     public function resolve($file)
     {
