@@ -58,9 +58,11 @@ class FieldFactory
             $field = $this->builder->build($parameters);
         }
 
-        // Set the value if the entry is compatible.
-        if ($entry instanceof EntryInterface) {
+        // Set the value if the entry is compatible and the value is not forced.
+        if (!isset($parameters['value']) && $entry instanceof EntryInterface) {
             $field->setValue($entry->getFieldValue($field->getField()));
+        } else {
+            $field->setValue(array_get($parameters, 'value'));
         }
 
         // Merge in rules and validators.

@@ -60,6 +60,8 @@ class BuildFieldType
      */
     protected $disabled;
 
+
+
     /**
      * The translatable flag.
      *
