@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -52,7 +53,7 @@ class FieldFactory
      */
     public function make(array $parameters, StreamInterface $stream = null, $entry = null)
     {
-        if ($stream && $assignment = $stream->getAssignment($parameters['field'])) {
+        if ($stream && $assignment = $stream->getAssignment(array_pull($parameters, 'field'))) {
             $field = $assignment->getFieldType($entry);
         } else {
             $field = $this->builder->build($parameters);
@@ -62,14 +63,34 @@ class FieldFactory
         if (!isset($parameters['value']) && $entry instanceof EntryInterface) {
             $field->setValue($entry->getFieldValue($field->getField()));
         } else {
-            $field->setValue(array_get($parameters, 'value'));
+            $field->setValue(array_pull($parameters, 'value'));
         }
 
         // Merge in rules and validators.
-        $field->mergeRules(array_get($parameters, 'rules', []));
-        $field->setDisabled(array_get($parameters, 'disabled', false));
-        $field->mergeValidators(array_get($parameters, 'validators', []));
+        $field->mergeRules(array_pull($parameters, 'rules', []));
+        $field->mergeValidators(array_pull($parameters, 'validators', []));
+
+        // Hydrate the field with parameters.
+        $this->hydrate($field, $parameters);
 
         return $field;
+    }
+
+    /**
+     * Hydrate the field type object with the parameters.
+     *
+     * @param FieldType $fieldType
+     * @param array     $parameters
+     */
+    protected function hydrate(FieldType $fieldType, array $parameters)
+    {
+        foreach ($parameters as $parameter => $value) {
+
+            $method = camel_case('set_' . $parameter);
+
+            if (method_exists($fieldType, $method)) {
+                $fieldType->{$method}($value);
+            }
+        }
     }
 }

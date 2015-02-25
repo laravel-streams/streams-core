@@ -13,9 +13,7 @@
             <div class="col-lg-24">
 
                 {% for field in form.fields %}
-                    <div class="form-group">
-                        {{ form_field(form, field)|raw }}
-                    </div>
+                    {{ field.render()|raw }}
                 {% endfor %}
 
             </div>

@@ -52,7 +52,7 @@ class FieldTypeHandler
      * @param EntryModel $entry
      * @return mixed
      */
-    public function get(EntryModel $entry)
+    public function get($entry)
     {
         $attributes = $entry->getAttributes();
 

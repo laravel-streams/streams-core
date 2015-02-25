@@ -24,6 +24,7 @@ class FormEventProvider extends EventServiceProvider
             'Anomaly\Streams\Platform\Ui\Form\Listener\AddErrorMessages'
         ],
         'Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted'    => [
+            'Anomaly\Streams\Platform\Ui\Form\Listener\LoadFormValues',
             'Anomaly\Streams\Platform\Ui\Form\Listener\ValidateForm',
             'Anomaly\Streams\Platform\Ui\Form\Listener\HandleForm',
             'Anomaly\Streams\Platform\Ui\Form\Listener\SetFormResponse'

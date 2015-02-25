@@ -47,34 +47,9 @@ class BuildFieldTypeHandler
      */
     public function handle(BuildFieldType $command)
     {
-        $fieldType = $this->getFieldType($command);
+        $parameters = $command->getParameters();
 
-        $fieldType
-            ->setField($command->getField())
-            ->setValue($command->getValue())
-            ->setLabel($command->getLabel())
-            ->setLocale($command->getLocale())
-            ->setPrefix($command->getPrefix())
-            ->setHidden($command->getHidden())
-            ->setDisabled($command->getDisabled())
-            ->setRequired($command->getRequired())
-            ->setTranslatable($command->getTranslatable())
-            ->setInstructions($command->getInstructions())
-            ->setConfig((array)$command->getConfig());
-
-        if ($inputView = $command->getInputView()) {
-            $fieldType->setInputView($inputView);
-        }
-
-        if ($filterView = $command->getFilterView()) {
-            $fieldType->setFilterView($filterView);
-        }
-
-        if ($wrapperView = $command->getWrapperView()) {
-            $fieldType->setWrapperView($wrapperView);
-        }
-
-        return $fieldType;
+        return $this->hydrate($this->getFieldType(array_pull($parameters, 'type')), $parameters);
     }
 
     /**
@@ -83,28 +58,76 @@ class BuildFieldTypeHandler
      * @param  BuildFieldType $command
      * @return FieldType
      */
-    protected function getFieldType(BuildFieldType $command)
+    protected function getFieldType($type)
     {
-        $fieldType = $command->getType();
-
-        if ($fieldType instanceof FieldType) {
-            return $fieldType;
+        /**
+         * If the field type is an instance
+         * of the field type class then
+         * just return it as is.
+         */
+        if ($type instanceof FieldType) {
+            return $type;
         }
 
-        if (starts_with($fieldType, 'Anomaly') && class_exists($fieldType)) {
-            return $this->container->make($command->getType());
+        /**
+         * If the field type is a string and
+         * starts with the root namespace for
+         * streams then it's a class path and
+         * we can resolve it from the container.
+         */
+        if (is_string($type) && starts_with($type, 'Anomaly') && class_exists($type)) {
+            return $this->container->make($type);
         }
 
-        if (str_is('*.*.*', $fieldType)) {
-            return clone($this->container->make($fieldType));
+        /**
+         * If the field type is a dot format
+         * namespace then we can also resolve
+         * the field type from the container.
+         */
+        if (str_is('*.*.*', $type)) {
+            return clone($this->container->make($type));
         }
 
-        $fieldType = $this->fieldTypes->findBySlug($fieldType);
+        /**
+         * If we have gotten this far then it's
+         * likely a simple slug and we can try
+         * returning the first match for the slug.
+         */
+        $type = $this->fieldTypes->findBySlug($type);
 
-        if (!$fieldType instanceof FieldType) {
-            throw new \Exception("Field type [{$command->getType()}] not found.");
+        /**
+         * If we don't have a field type let em know.
+         */
+        if (!$type instanceof FieldType) {
+            throw new \Exception("Field type [{$type}] not found.");
         }
 
-        return clone($fieldType);
+        /**
+         * Always clone back field types because
+         * they are modified from use to use.
+         */
+
+        return clone($type);
+    }
+
+    /**
+     * Hydrate the field type object with the parameters.
+     *
+     * @param FieldType $fieldType
+     * @param array     $parameters
+     * @return FieldType
+     */
+    protected function hydrate(FieldType $fieldType, array $parameters)
+    {
+        foreach ($parameters as $parameter => $value) {
+
+            $method = camel_case('set_' . $parameter);
+
+            if (method_exists($fieldType, $method)) {
+                $fieldType->{$method}($value);
+            }
+        }
+
+        return $fieldType;
     }
 }

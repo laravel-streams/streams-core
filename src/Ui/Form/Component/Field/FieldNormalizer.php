@@ -85,6 +85,6 @@ class FieldNormalizer
             }
         }
 
-        $builder->setFields($fields);
+        $builder->setFields(array_values($fields));
     }
 }

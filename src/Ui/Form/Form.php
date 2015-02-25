@@ -82,6 +82,13 @@ class Form
     protected $data;
 
     /**
+     * The form values.
+     *
+     * @var Collection
+     */
+    protected $values;
+
+    /**
      * The form fields.
      *
      * @var Collection
@@ -110,16 +117,10 @@ class Form
     protected $buttons;
 
     /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
      * Create a new Form instance.
      *
      * @param Collection       $data
+     * @param Collection       $values
      * @param Collection       $options
      * @param FieldCollection  $fields
      * @param ActionCollection $actions
@@ -127,18 +128,18 @@ class Form
      */
     public function __construct(
         Collection $data,
+        Collection $values,
         Collection $options,
         FieldCollection $fields,
         ActionCollection $actions,
-        ButtonCollection $buttons,
-        Request $request
+        ButtonCollection $buttons
     ) {
         $this->data    = $data;
+        $this->values  = $values;
         $this->fields  = $fields;
         $this->actions = $actions;
         $this->buttons = $buttons;
         $this->options = $options;
-        $this->request = $request;
     }
 
     /**
@@ -441,7 +442,7 @@ class Form
      */
     public function addField(FieldType $field)
     {
-        $this->fields->put($field->getField(), $field);
+        $this->fields->push($field);
 
         return $this;
     }
@@ -507,12 +508,48 @@ class Form
     }
 
     /**
-     * Get the request.
+     * Set a value on the value collection.
      *
-     * @return Request
+     * @param $key
+     * @param $value
      */
-    public function getRequest()
+    public function setValue($key, $value)
     {
-        return $this->request;
+        $this->values->put($key, $value);
+    }
+
+    /**
+     * Get a value from the value collection.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getValue($key, $default = null)
+    {
+        return $this->values->get($key, $default);
+    }
+
+    /**
+     * Set the form values.
+     *
+     * @param Collection $values
+     * @return $this
+     */
+    public function setValues(Collection $values)
+    {
+        $this->values = $values;
+
+        return $this;
+    }
+
+    /**
+     * Get the form values.
+     *
+     * @return Collection
+     */
+    public function getValues()
+    {
+        return $this->values;
     }
 }

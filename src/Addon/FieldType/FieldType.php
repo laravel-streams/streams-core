@@ -116,13 +116,6 @@ class FieldType extends Addon
     protected $prefix = null;
 
     /**
-     * The field's input prefix.
-     *
-     * @var null|string
-     */
-    protected $suffix = null;
-
-    /**
      * The database column type.
      *
      * @var string
@@ -395,6 +388,16 @@ class FieldType extends Addon
     }
 
     /**
+     * Get the suffix.
+     *
+     * @return null|string
+     */
+    public function getSuffix()
+    {
+        return $this->locale ? '_' . $this->locale : null;
+    }
+
+    /**
      * Set the translatable flag.
      *
      * @param  $translatable
@@ -438,29 +441,6 @@ class FieldType extends Addon
     public function getPrefix()
     {
         return $this->prefix;
-    }
-
-    /**
-     * Get the suffix.
-     *
-     * @return null|string
-     */
-    public function getSuffix()
-    {
-        return $this->suffix;
-    }
-
-    /**
-     * Set the suffix.
-     *
-     * @param  $suffix
-     * @return $this
-     */
-    public function setSuffix($suffix)
-    {
-        $this->suffix = $suffix;
-
-        return $this;
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
+use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
@@ -18,14 +19,11 @@ class FieldTypeBuilder
     /**
      * Build a field type.
      *
-     * @param array $field
+     * @param array $parameters
      * @return FieldType
      */
-    public function build(array $field)
+    public function build(array $parameters)
     {
-        return $this->dispatchFromArray(
-            'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType',
-            $field
-        );
+        return $this->dispatch(new BuildFieldType($parameters));
     }
 }

@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\FieldType\Contract\DateFieldTypeInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\Contract\RelationFieldTypeInterface;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -66,10 +67,18 @@ interface EntryInterface
      * Get a field value.
      *
      * @param      $fieldSlug
-     * @param bool $decorate
+     * @param null $locale
      * @return mixed
      */
-    public function getFieldValue($fieldSlug, $decorate = false);
+    public function getFieldValue($fieldSlug, $locale = null);
+
+    /**
+     * Get a field type presenter.
+     *
+     * @param $fieldSlug
+     * @return FieldTypePresenter
+     */
+    public function getFieldPresenter($fieldSlug);
 
     /**
      * Set a field value.
@@ -110,6 +119,15 @@ interface EntryInterface
      * @return mixed
      */
     public function isTranslatable();
+
+    /**
+     * Return whether or not the assignment for
+     * the given field slug is translatable.
+     *
+     * @param $fieldSlug
+     * @return bool
+     */
+    public function assignmentIsTranslatable($fieldSlug);
 
     /**
      * Set an attribute value.

@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
+use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -98,11 +99,7 @@ class FieldModel extends EloquentModel implements FieldInterface
         $label  = $this->name;
         $config = $this->config;
 
-        $data = compact('type', 'field', 'label', 'config', 'locale');
-
-        $command = 'Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType';
-
-        return $this->dispatchFromArray($command, $data);
+        return $this->dispatch(new BuildFieldType(compact('type', 'field', 'label', 'config', 'locale')));
     }
 
     /**

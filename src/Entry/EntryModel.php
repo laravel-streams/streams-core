@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
@@ -88,10 +89,11 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Get a field value.
      *
-     * @param       $fieldSlug
+     * @param      $fieldSlug
+     * @param null $locale
      * @return mixed
      */
-    public function getFieldValue($fieldSlug, $decorate = false)
+    public function getFieldValue($fieldSlug, $locale = null)
     {
         $assignment = $this->getAssignment($fieldSlug);
 
@@ -100,15 +102,31 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $handler  = $type->getHandler();
         $modifier = $type->getModifier();
 
-        $value = $modifier->restore($handler->get($this, $fieldSlug));
-
-        if (!$decorate) {
-            return $value;
+        if ($locale && $locale !== config('app.locale')) {
+            $entry = $this->translateOrNew($locale);
+        } else {
+            $entry = $this;
         }
 
-        $type->setValue($value);
+        return $modifier->restore($handler->get($entry, $fieldSlug));
+    }
 
-        return $type->getPresenter();
+    /**
+     * Get a field type presenter.
+     *
+     * @param $fieldSlug
+     * @return FieldTypePresenter
+     */
+    public function getFieldPresenter($fieldSlug)
+    {
+        $assignment = $this->getAssignment($fieldSlug);
+
+        $type = $assignment->getFieldType($this);
+
+        $handler  = $type->getHandler();
+        $modifier = $type->getModifier();
+
+        return $type->setValue($modifier->restore($handler->get($this, $fieldSlug)));
     }
 
     /**
@@ -251,6 +269,20 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function isTranslatable()
     {
         return ($this->stream->isTranslatable());
+    }
+
+    /**
+     * Return whether or not the assignment for
+     * the given field slug is translatable.
+     *
+     * @param $fieldSlug
+     * @return bool
+     */
+    public function assignmentIsTranslatable($fieldSlug)
+    {
+        $assignment = $this->getAssignment($fieldSlug);
+
+        return $assignment->isTranslatable();
     }
 
     /**

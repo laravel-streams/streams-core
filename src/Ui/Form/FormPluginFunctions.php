@@ -84,41 +84,4 @@ class FormPluginFunctions
 
         return view(array_get($section, 'view'), compact('form', 'section'));
     }
-
-    /**
-     * Return a form field group complete
-     * with translatable inputs.
-     *
-     * @param Form      $form
-     * @param FieldType $field
-     * @return \Illuminate\View\View|string
-     */
-    public function field(Form $form, FieldType $field)
-    {
-        $output = '';
-
-        $entry = $form->getEntry();
-
-        if ($entry instanceof EntryInterface && $field->isTranslatable()) {
-
-            foreach (config('streams.available_locales') as $locale) {
-
-                // Only suffix non-primary locales.
-                if ($locale !== config('app.locale')) {
-                    $field->setSuffix('_' . $locale);
-                }
-
-                // If non-primary local then can't be required. For now.
-                if ($locale !== config('app.locale')) {
-                    $field->setRequired(false);
-                }
-
-                $output .= $field->setLocale($locale)->setHidden($locale !== config('app.locale'))->render();
-            }
-
-            return $output;
-        }
-
-        return $field->render();
-    }
 }
