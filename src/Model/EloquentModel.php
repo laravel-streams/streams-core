@@ -168,7 +168,7 @@ class EloquentModel extends Model
      */
     public function getTitleName()
     {
-        return $this->titleKey ?: 'id';
+        return $this->titleName ?: 'id';
     }
 
     /**
