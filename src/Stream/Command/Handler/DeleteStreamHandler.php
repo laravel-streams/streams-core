@@ -35,6 +35,8 @@ class DeleteStreamHandler
      * Handle the command.
      *
      * @param DeleteStream $command
+     *
+     * @return mixed
      */
     public function handle(DeleteStream $command)
     {
