@@ -41,20 +41,21 @@ class FieldTranslator
          */
         foreach ($fields as $field) {
 
-            $translations[] = array_set($field, 'locale', config('app.locale'));
-
             $assignment = $entry->getAssignment($field['field']);
 
             if (!$assignment->isTranslatable()) {
+
+                $translations[] = $field;
+
                 continue;
             }
 
-            foreach (array_diff(config('streams.available_locales'), [config('app.locale')]) as $locale) {
+            foreach (config('streams.available_locales') as $locale) {
 
                 $translation = $field;
 
                 array_set($translation, 'locale', $locale);
-                array_set($translation, 'hidden', true);
+                array_set($translation, 'hidden', $locale !== config('app.locale'));
 
                 $translations[] = $translation;
             }

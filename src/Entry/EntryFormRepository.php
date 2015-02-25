@@ -68,7 +68,7 @@ class EntryFormRepository implements FormRepositoryInterface
          * Save default translation input.
          */
         foreach ($fields->immediate() as $field) {
-            if ($field instanceof FieldType && (!$field->getLocale() || $field->getLocale() == config('app.locale'))) {
+            if ($field instanceof FieldType && !$field->getLocale()) {
                 $entry->{$field->getColumnName()} = $form->getValue($field->getInputName());
             }
         }
@@ -79,7 +79,7 @@ class EntryFormRepository implements FormRepositoryInterface
          * Save default translation input (deferred).
          */
         foreach ($fields->deferred() as $field) {
-            if ($field instanceof FieldType && (!$field->getLocale() || $field->getLocale() == config('app.locale'))) {
+            if ($field instanceof FieldType && !$field->getLocale()) {
                 $entry->{$field->getColumnName()} = $form->getValue($field->getInputName());
             }
         }
@@ -92,7 +92,7 @@ class EntryFormRepository implements FormRepositoryInterface
          */
         if ($entry->isTranslatable()) {
 
-            foreach (array_diff(config('streams.available_locales'), [config('app.locale')]) as $locale) {
+            foreach (config('streams.available_locales') as $locale) {
 
                 $translation = $entry->translateOrNew($locale);
 
@@ -102,7 +102,7 @@ class EntryFormRepository implements FormRepositoryInterface
                         continue;
                     }
 
-                    if ($field instanceof FieldType && ($field->getLocale() && $field->getLocale() !== config('app.locale'))) {
+                    if ($field instanceof FieldType && $field->getLocale() == $locale) {
                         $translation->{$field->getColumnName()} = $form->getValue($field->getInputName());
                     }
                 }

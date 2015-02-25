@@ -31,10 +31,12 @@ class DropAssignmentColumnHandler
             return;
         }
 
-        $schema->dropColumn($stream->getEntryTableName(), $type);
-
-        if ($assignment->isTranslatable()) {
-            $schema->dropColumn($stream->getEntryTranslationsTableName(), $type);
+        if (!$assignment->isTranslatable()) {
+            $table = $stream->getEntryTableName();
+        } else {
+            $table = $stream->getEntryTranslationsTableName();
         }
+
+        $schema->dropColumn($table, $type);
     }
 }

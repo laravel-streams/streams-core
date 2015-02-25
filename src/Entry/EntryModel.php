@@ -95,6 +95,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getFieldValue($fieldSlug, $locale = null)
     {
+        if (!$locale) {
+            $locale = config('app.locale');
+        }
+
         $assignment = $this->getAssignment($fieldSlug);
 
         $type = $assignment->getFieldType($this);
@@ -102,7 +106,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $handler  = $type->getHandler();
         $modifier = $type->getModifier();
 
-        if ($locale && $locale !== config('app.locale')) {
+        if ($assignment->isTranslatable()) {
             $entry = $this->translateOrNew($locale);
         } else {
             $entry = $this;

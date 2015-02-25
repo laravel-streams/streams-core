@@ -47,10 +47,8 @@ class FieldTypeSchema
             !$assignment->isRequired() && !$assignment->isTranslatable()
         );
 
-        if (!ends_with($table->getTable(), '_translations')) {
-            if ($assignment->isUnique()) {
-                $table->unique($this->fieldType->getColumnName());
-            }
+        if ($assignment->isUnique()) {
+            $table->unique($this->fieldType->getColumnName());
         }
     }
 
