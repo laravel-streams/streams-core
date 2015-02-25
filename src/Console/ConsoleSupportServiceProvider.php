@@ -15,7 +15,7 @@ class ConsoleSupportServiceProvider extends BaseConsoleSupportServiceProvider
         'Illuminate\Auth\GeneratorServiceProvider',
         'Illuminate\Console\ScheduleServiceProvider',
         'Anomaly\Streams\Platform\Database\Migration\MigrationServiceProvider',
-        'Illuminate\Database\SeedServiceProvider',
+        'Anomaly\Streams\Platform\Database\Seeder\SeederServiceProvider',
         'Illuminate\Foundation\Providers\ComposerServiceProvider',
         'Illuminate\Queue\ConsoleServiceProvider',
         'Illuminate\Routing\GeneratorServiceProvider',
