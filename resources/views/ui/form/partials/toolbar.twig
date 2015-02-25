@@ -6,7 +6,7 @@
             <ul class="list-inline">
                 {% for locale in config_get('streams.available_locales') %}
                     <li>
-                        <a href="#" data-toggle="locale" class="btn btn-xs btn-{{ loop.first ? 'primary' : 'default' }}"
+                        <a href="#" data-toggle="locale" class="btn btn-xs btn-{{ locale == config_get('app.locale') ? 'primary' : 'default' }}"
                            data-locale="{{ locale }}">{{ trans('streams::language.' ~ locale) }}</a>
                     </li>
                 {% endfor %}

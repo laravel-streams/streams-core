@@ -15,22 +15,30 @@ class FieldCollection extends Collection
 {
 
     /**
-     * Return fields only of a certain locale.
+     * Return fields matching the given field.
      *
-     * @param $locale
-     * @return static
+     * @param $field
+     * @return mixed
      */
-    public function locale($locale)
+    public function translations($field)
     {
-        $items = [];
+        $fields = [];
 
-        foreach ($this->items as $slug => $item) {
-            if ($item instanceof FieldType && $item->getLocale() == $locale) {
-                $items[$slug] = $item;
+        foreach ($this->items as $item) {
+            if ($item instanceof FieldType && !$item->getLocale() && $item->getField() == $field) {
+                $fields[] = $item;
             }
         }
 
-        return new static($items);
+        foreach (config('streams.available_locales') as $locale) {
+            foreach ($this->items as $item) {
+                if ($item instanceof FieldType && $item->getLocale() == $locale && $item->getField() == $field) {
+                    $fields[] = $item;
+                }
+            }
+        }
+
+        return new static($fields);
     }
 
     /**
@@ -38,7 +46,7 @@ class FieldCollection extends Collection
      *
      * @return array
      */
-    public function fieldSlugs()
+    /*public function fieldSlugs()
     {
         $slugs = [];
 
@@ -49,7 +57,7 @@ class FieldCollection extends Collection
         }
 
         return $slugs;
-    }
+    }*/
 
     /**
      * Return fields to be processed immediately.

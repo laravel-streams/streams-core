@@ -145,4 +145,11 @@ interface EntryInterface
      * @return mixed
      */
     public function getAttribute($key);
+
+    /**
+     * Get the entry attributes.
+     *
+     * @return array
+     */
+    public function getAttributes();
 }

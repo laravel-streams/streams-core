@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
  * Class FieldTypeHandler
@@ -33,11 +33,11 @@ class FieldTypeHandler
     /**
      * Set the value.
      *
-     * @param EntryModel $entry
+     * @param EloquentModel $entry
      * @param            $value
      * @return array
      */
-    public function set(EntryModel $entry, $value)
+    public function set(EloquentModel $entry, $value)
     {
         $attributes = $entry->getAttributes();
 
@@ -49,10 +49,10 @@ class FieldTypeHandler
     /**
      * Get the value.
      *
-     * @param EntryModel $entry
+     * @param EloquentModel $entry
      * @return mixed
      */
-    public function get($entry)
+    public function get(EloquentModel $entry)
     {
         $attributes = $entry->getAttributes();
 
