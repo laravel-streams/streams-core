@@ -28,6 +28,10 @@ class FormRules
 
         foreach ($form->getFields() as $field) {
 
+            if ($field->isDisabled()) {
+                continue;
+            }
+
             $fieldRules = $field->getRules();
 
             if (!$stream instanceof StreamInterface) {
