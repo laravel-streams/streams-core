@@ -141,4 +141,9 @@ interface StreamInterface
      * @return string
      */
     public function getForeignKey();
+
+    /**
+     * @return array
+     */
+    public function toArray();
 }

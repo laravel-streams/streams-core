@@ -36,6 +36,6 @@ class StreamManager
      */
     public function delete($namespace, $slug)
     {
-        $this->dispatch(new DeleteStream($namespace, $slug));
+        return $this->dispatch(new DeleteStream($namespace, $slug));
     }
 }
