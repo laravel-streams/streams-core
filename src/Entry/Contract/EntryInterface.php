@@ -34,13 +34,6 @@ interface EntryInterface
     public function getTitle();
 
     /**
-     * Get validation rules.
-     *
-     * @return mixed
-     */
-    public function getRules();
-
-    /**
      * Get the stream.
      *
      * @return StreamInterface
@@ -90,20 +83,28 @@ interface EntryInterface
     public function setFieldValue($fieldSlug, $value);
 
     /**
-     * Get an assignment by field slug.
-     *
-     * @param  $fieldSlug
-     * @return AssignmentInterface
-     */
-    public function getAssignment($fieldSlug);
-
-    /**
      * Get a field's type by the field's slug.
      *
      * @param  $fieldSlug
      * @return FieldType|RelationFieldTypeInterface|DateFieldTypeInterface
      */
     public function getFieldType($fieldSlug);
+
+    /**
+     * Get the rules for a field.
+     *
+     * @param  $fieldSlug
+     * @return array
+     */
+    public function getFieldRules($fieldSlug);
+
+    /**
+     * Get an assignment by field slug.
+     *
+     * @param  $fieldSlug
+     * @return AssignmentInterface
+     */
+    public function getAssignment($fieldSlug);
 
     /**
      * Get a specified relationship.

@@ -76,17 +76,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Get validation rules.
-     *
-     * @return mixed
-     */
-    public function getRules()
-    {
-        return $this->rules;
-    }
-
-
-    /**
      * Get a field value.
      *
      * @param      $fieldSlug
@@ -152,6 +141,68 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Get an entry field.
+     *
+     * @param  $slug
+     * @return FieldInterface|null
+     */
+    public function getField($slug)
+    {
+        $assignment = $this->getAssignment($slug);
+
+        if (!$assignment instanceof AssignmentInterface) {
+            return null;
+        }
+
+        return $assignment->getField();
+    }
+
+    /**
+     * Return whether the entry has a field.
+     *
+     * @param  $slug
+     * @return bool
+     */
+    public function hasField($slug)
+    {
+        return ($this->getField($slug) instanceof FieldInterface);
+    }
+
+    /**
+     * Get the field type from a field slug.
+     *
+     * @param  $fieldSlug
+     * @return null|FieldType
+     */
+    public function getFieldType($fieldSlug)
+    {
+        $assignment = $this->getAssignment($fieldSlug);
+
+        if (!$assignment instanceof AssignmentInterface) {
+            return null;
+        }
+
+        $type = $assignment->getFieldType($this);
+
+        $type->setValue($this->getFieldValue($fieldSlug));
+
+        return $type;
+    }
+
+    /**
+     * Get the rules for a field.
+     *
+     * @param  $fieldSlug
+     * @return array
+     */
+    public function getFieldRules($fieldSlug)
+    {
+        $field = $this->getField($fieldSlug);
+
+        return $field->getRules();
+    }
+
+    /**
      * Set a given attribute on the model.
      * Override the behavior here to give
      * the field types a chance to modify things.
@@ -202,34 +253,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Get an entry field.
-     *
-     * @param  $slug
-     * @return FieldInterface|null
-     */
-    public function getField($slug)
-    {
-        $assignment = $this->getAssignment($slug);
-
-        if (!$assignment instanceof AssignmentInterface) {
-            return null;
-        }
-
-        return $assignment->getField();
-    }
-
-    /**
-     * Return whether the entry has a field.
-     *
-     * @param  $slug
-     * @return bool
-     */
-    public function hasField($slug)
-    {
-        return ($this->getField($slug) instanceof FieldInterface);
-    }
-
-    /**
      * Get an assignment by field slug.
      *
      * @param  $fieldSlug
@@ -242,27 +265,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $assignments = $stream->getAssignments();
 
         return $assignments->findByFieldSlug($fieldSlug);
-    }
-
-    /**
-     * Get the field type from a field slug.
-     *
-     * @param  $fieldSlug
-     * @return null|FieldType
-     */
-    public function getFieldType($fieldSlug)
-    {
-        $assignment = $this->getAssignment($fieldSlug);
-
-        if (!$assignment instanceof AssignmentInterface) {
-            return null;
-        }
-
-        $type = $assignment->getFieldType($this);
-
-        $type->setValue($this->getFieldValue($fieldSlug));
-
-        return $type;
     }
 
     /**

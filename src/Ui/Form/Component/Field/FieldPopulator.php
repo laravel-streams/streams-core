@@ -34,8 +34,17 @@ class FieldPopulator
              * If the field is not already set
              * then get the value off the entry.
              */
-            if (!isset($field['value'])) {
+            if (!isset($field['value']) && $entry->getId()) {
                 $field['value'] = $entry->getFieldValue($field['field'], array_get($field, 'locale'));
+            }
+
+            /**
+             * If the field has a default value
+             * and the entry does not exist yet
+             * then use the default value.
+             */
+            if (isset($field['config']['default_value']) && $entry->getId()) {
+                $field['value'] = $field['config']['default_value'];
             }
         }
 

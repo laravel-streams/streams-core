@@ -32,7 +32,7 @@ class FormRules
                 continue;
             }
 
-            $fieldRules = $field->getRules();
+            $fieldRules = $field->getRules() + $entry->getFieldRules($field->getField());
 
             if (!$stream instanceof StreamInterface) {
 
@@ -46,7 +46,6 @@ class FormRules
                 if ($assignment->isRequired()) {
                     $fieldRules[] = 'required';
                 }
-
                 /*if ($assignment->isUnique()) {
 
                     $unique = 'unique:' . $stream->getEntryTableName() . ',' . $field->getColumnName();
