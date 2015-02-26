@@ -8,42 +8,51 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 /**
  * Class CreateAddonMigrationFolderHandler
  *
- * @package Anomaly\Streams\Platform\Addon\Command\Handler
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration\Command\Handler
  */
 class CreateAddonMigrationFolderHandler
 {
+
     use DispatchesCommands;
 
     /**
+     * The file system.
+     *
      * @var Filesystem
      */
     protected $files;
 
     /**
+     * The addon collection.
+     *
      * @var AddonCollection
      */
-    protected $addonCollection;
+    protected $addons;
 
     /**
      * @param Filesystem      $files
-     * @param AddonCollection $addonCollection
+     * @param AddonCollection $addons
      */
-    public function __construct(Filesystem $files, AddonCollection $addonCollection)
+    public function __construct(Filesystem $files, AddonCollection $addons)
     {
-        $this->files = $files;
-        $this->addonCollection = $addonCollection;
+        $this->files  = $files;
+        $this->addons = $addons;
     }
 
     /**
-     * @param CreateAddonMigrationFolder $command
+     * Handle the command.
      *
+     * @param CreateAddonMigrationFolder $command
      * @return string|null
      */
     public function handle(CreateAddonMigrationFolder $command)
     {
         $path = null;
 
-        if ($addon = $this->addonCollection->merged()->get($command->getNamespace())) {
+        if ($addon = $this->addons->merged()->get($command->getNamespace())) {
 
             $path = $addon->getPath('migrations');
 
@@ -54,5 +63,4 @@ class CreateAddonMigrationFolderHandler
 
         return $path;
     }
-
 }

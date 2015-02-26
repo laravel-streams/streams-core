@@ -5,50 +5,62 @@ use Illuminate\Console\Command;
 /**
  * Class Seed
  *
- * @package Anomaly\Streams\Platform\Database\Seeder\consoleCommand
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Seeder\Command
  */
 class Seed
 {
 
     /**
-     * @var string
-     */
-    protected $addonNamespace;
-
-    /**
+     * The seeder class to run.
+     *
      * @var null
      */
     protected $class;
 
     /**
-     * @var Command
+     * The addon namespace.
+     *
+     * @var string
      */
-    protected $consoleCommand;
+    protected $addon;
 
     /**
-     * @param         $addonNamespace
+     * The console command.
+     *
+     * @var Command
+     */
+    protected $command;
+
+    /**
+     * Create a new Seed instance.
+     *
+     * @param         $addon
      * @param null    $class
      * @param Command $consoleCommand
      */
-    public function __construct(
-        $addonNamespace,
-        $class = null,
-        Command $consoleCommand = null
-    ) {
-        $this->addonNamespace = $addonNamespace;
-        $this->class = $class;
-        $this->consoleCommand = $consoleCommand;
+    public function __construct($addon, $class = null, Command $command = null)
+    {
+        $this->addon   = $addon;
+        $this->class   = $class;
+        $this->command = $command;
     }
 
     /**
+     * Get the addon namespace.
+     *
      * @return string
      */
-    public function getAddonNamespace()
+    public function getAddon()
     {
-        return $this->addonNamespace;
+        return $this->addon;
     }
 
     /**
+     * Get the seeder class.
+     *
      * @return string
      */
     public function getClass()
@@ -57,11 +69,12 @@ class Seed
     }
 
     /**
+     * Get the console command.
+     *
      * @return Command
      */
-    public function getConsoleCommand()
+    public function getCommand()
     {
-        return $this->consoleCommand;
+        return $this->command;
     }
-
 }

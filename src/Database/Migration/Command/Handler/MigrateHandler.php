@@ -5,13 +5,16 @@ use Anomaly\Streams\Platform\Database\Migration\Command\Migrate;
 /**
  * Class MigrateHandler
  *
- * @package Anomaly\Streams\Platform\Database\Migration\Command\Handler
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration\Command\Handler
  */
 class MigrateHandler
 {
 
     /**
-     * Migrates fields, streams and assignments migration properties
+     * Handle the command.
      *
      * @param Migrate $command
      */
@@ -21,5 +24,4 @@ class MigrateHandler
         $command->getMigration()->createStream();
         $command->getMigration()->assignFields();
     }
-
 }

@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Database\Seeder\Command\Handler;
 
-
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Database\Seeder\Command\Seed;
@@ -10,78 +9,102 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class SeedHandler
  *
- * @package Anomaly\Streams\Platform\Database\Seeder\Command\Handler
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Seeder\Command\Handler
  */
 class SeedHandler
 {
 
     /**
-     * @var Seeder
-     */
-    protected $seeder;
-
-    /**
+     * The addon collection.
+     *
      * @var AddonCollection
      */
     protected $addons;
 
     /**
-     * @param Seeder          $seeder
-     * @param AddonCollection $addons
+     * The seeder utility.
+     *
+     * @var Seeder
      */
-    public function __construct(Seeder $seeder, AddonCollection $addons)
+    protected $seeder;
+
+    /**
+     * Create a new SeedHandler instance.
+     *
+     * @param AddonCollection $addons
+     * @param Seeder          $seeder
+     */
+    public function __construct(AddonCollection $addons, Seeder $seeder)
     {
-        $this->seeder = $seeder;
         $this->addons = $addons;
+        $this->seeder = $seeder;
     }
 
     /**
+     * Handle the command.
+     *
      * @param Seed $command
      */
     public function handle(Seed $command)
     {
-        $this->seeder->setCommand($command->getConsoleCommand());
+        $this->seeder->setCommand($command->getCommand());
 
         Model::unguard();
 
+        // Get ALL addons of every kind.
         $addons = $this->addons->merged();
 
-        if ($addon = $addons->get($command->getAddonNamespace())) {
-
+        /**
+         * If the addon was passed then
+         * get it and seed it.
+         */
+        if ($addon = $addons->get($command->getAddon())) {
             $this->call($this->getSeederClass($addon));
+        }
 
-        } elseif ($class = $command->getClass()) {
-
+        /**
+         * If a seeder class was passed then
+         * call it from the seeder utility.
+         */
+        if ($class = $command->getClass()) {
             $this->call($class);
+        }
 
-        } else {
-
+        /**
+         * If no addon or class was passed then
+         * loop through all addons and run
+         * their seeders.
+         */
+        if (!$addon && !$class) {
             foreach ($addons as $addon) {
-
                 $this->call($this->getSeederClass($addon));
             }
         }
     }
 
     /**
+     * Call a seeder if it exists.
+     *
      * @param $class
      */
     protected function call($class)
     {
         if (class_exists($class)) {
-
             $this->seeder->call($class);
         }
     }
 
     /**
-     * @param Addon $addon
+     * Get the seeder class for an addon.
      *
+     * @param Addon $addon
      * @return string
      */
     protected function getSeederClass(Addon $addon)
     {
         return get_class($addon) . 'Seeder';
     }
-
 }

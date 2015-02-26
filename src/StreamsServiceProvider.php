@@ -44,6 +44,9 @@ class StreamsServiceProvider extends ServiceProvider
         // Register the base application.
         $this->app->register('Anomaly\Streams\Platform\Application\ApplicationServiceProvider');
 
+        // Register our custom console service.
+        $this->app->register('Anomaly\Streams\Platform\Console\ConsoleSupportServiceProvider');
+
         // Register the asset and image services.
         $this->app->register('Anomaly\Streams\Platform\Asset\AssetServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Image\ImageServiceProvider');

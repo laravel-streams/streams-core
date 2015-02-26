@@ -2,12 +2,20 @@
 
 use Anomaly\Streams\Platform\Database\Migration\Command\CreateAddonMigrationFolder;
 use Anomaly\Streams\Platform\Database\Migration\Command\GetMigrationName;
-use Illuminate\Database\Console\Migrations\MigrateMakeCommand as BaseMigrateMakeCommand;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Symfony\Component\Console\Input\InputOption;
 
-class MigrateMakeCommand extends BaseMigrateMakeCommand
+/**
+ * Class MigrateMakeCommand
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration\Console
+ */
+class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\MigrateMakeCommand
 {
+
     use DispatchesCommands;
 
     /**
@@ -22,11 +30,9 @@ class MigrateMakeCommand extends BaseMigrateMakeCommand
         // to be freshly created so we can create the appropriate migrations.
         $name = $this->input->getArgument('name');
 
-        $table = $this->input->getOption('table');
-
         $create = $this->input->getOption('create');
-
-        $addon = $this->input->getOption('addon');
+        $table  = $this->input->getOption('table');
+        $addon  = $this->input->getOption('addon');
 
         if (!$table && is_string($create)) {
             $table = $create;
@@ -40,12 +46,10 @@ class MigrateMakeCommand extends BaseMigrateMakeCommand
     /**
      * Write the migration file to disk.
      *
-     * @param  string $name
-     * @param  string $table
-     * @param  bool   $create
-     *
-     * @param null    $namespace
-     *
+     * @param string $name
+     * @param string $table
+     * @param bool   $create
+     * @param null   $namespace
      * @return string
      */
     protected function writeMigration($name, $table, $create, $namespace = null)
@@ -53,7 +57,6 @@ class MigrateMakeCommand extends BaseMigrateMakeCommand
         $name = $this->dispatch(new GetMigrationName($name, $namespace));
 
         if (!$path = $this->dispatch(new CreateAddonMigrationFolder($namespace))) {
-
             $path = $this->getMigrationPath();
         }
 
@@ -69,9 +72,11 @@ class MigrateMakeCommand extends BaseMigrateMakeCommand
      */
     protected function getOptions()
     {
-        return array_merge(parent::getOptions(), [
-            ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon where the migration will be generated.']
-        ]);
+        return array_merge(
+            parent::getOptions(),
+            [
+                ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon where the migration will be generated.']
+            ]
+        );
     }
-
 }

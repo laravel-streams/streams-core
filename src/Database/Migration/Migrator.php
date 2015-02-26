@@ -4,19 +4,24 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Database\Migration\Command\Migrate;
 use Anomaly\Streams\Platform\Database\Migration\Command\Rollback;
 use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameToClass;
-use Illuminate\Database\Migrations\Migrator as BaseMigrator;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class Migrator
  *
- * @package Anomaly\Streams\Platform\Database\Migration
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration
  */
-class Migrator extends BaseMigrator
+class Migrator extends \Illuminate\Database\Migrations\Migrator
 {
+
     use DispatchesCommands;
 
     /**
+     * The migration namespace.
+     *
      * @var string|null
      */
     protected $namespace;
@@ -75,9 +80,11 @@ class Migrator extends BaseMigrator
     protected function runUp($file, $batch, $pretend)
     {
         $instance = $this->resolve($file);
+
         if ($instance instanceof Migration) {
             $this->dispatch(new Migrate($instance));
         }
+
         parent::runUp($file, $batch, $pretend);
     }
 
@@ -92,32 +99,32 @@ class Migrator extends BaseMigrator
     protected function runDown($migration, $pretend)
     {
         $instance = $this->resolve($migration->migration);
+
         if ($instance instanceof Migration) {
             $this->dispatch(new Rollback($instance));
         }
+
         parent::runDown($migration, $pretend);
     }
 
     /**
+     * Require a given migration file.
+     *
      * @param $file
      */
     protected function requireOnce($file)
     {
         $namespace = $this->getNamespaceFromMigrationFile($file);
 
-        $addonCollection = (new AddonCollection())->merged();
+        $addons = (new AddonCollection())->merged();
 
-        if ($addon = $addonCollection->get($namespace)) {
-
+        if ($addon = $addons->get($namespace)) {
             $path = $addon->getPath('migrations/') . $file . '.php';
-
         } else {
-
             $path = base_path('database/migrations/') . $file . '.php';
         }
 
         if (is_file($path)) {
-
             $this->files->requireOnce($path);
         }
     }
@@ -137,8 +144,10 @@ class Migrator extends BaseMigrator
     }
 
     /**
-     * @param $file
+     * Remove the date prefix from
+     * a given migration file.
      *
+     * @param $file
      * @return string
      */
     public function removeDatePrefix($file)
@@ -147,15 +156,15 @@ class Migrator extends BaseMigrator
     }
 
     /**
-     * @param $file
+     * Get the namespace from a
+     * given migration file.
      *
+     * @param $file
      * @return string
      */
     public function getNamespaceFromMigrationFile($file)
     {
-        $file = $this->removeDatePrefix($file);
-
-        $segments = explode('__', $file);
+        $segments = explode('__', $this->removeDatePrefix($file));
 
         return $segments[0];
     }
@@ -165,7 +174,6 @@ class Migrator extends BaseMigrator
      *
      * @param       $namespace
      * @param  bool $pretend
-     *
      * @return int
      */
     public function rollbackNamespace($namespace, $pretend = false)
@@ -178,6 +186,7 @@ class Migrator extends BaseMigrator
         $migrations = $this->repository->findManyByNamespace($namespace);
 
         if (count($migrations) == 0) {
+
             $this->note("<info>Nothing to rollback: {$namespace}</info>");
 
             return count($migrations);
@@ -187,10 +196,9 @@ class Migrator extends BaseMigrator
         // to what they run on "up". It lets us backtrack through the migrations
         // and properly reverse the entire database schema operation that ran.
         foreach ($migrations as $migration) {
-            $this->runDown((object) $migration, $pretend);
+            $this->runDown((object)$migration, $pretend);
         }
 
         return count($migrations);
     }
-
 }

@@ -7,28 +7,37 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 /**
  * Class GetMigrationNameHandler
  *
- * @package Anomaly\Streams\Platform\Database\Migration\Command\Handler
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration\Command\Handler
  */
 class GetMigrationNameHandler
 {
+
     use DispatchesCommands;
 
     /**
+     * The addon collection.
+     *
      * @var AddonCollection
      */
-    protected $addonCollection;
+    protected $addons;
 
     /**
-     * @param AddonCollection $addonCollection
+     * Create a new GetMigrationNameHandler instance.
+     *
+     * @param AddonCollection $addons
      */
-    public function __construct(AddonCollection $addonCollection)
+    public function __construct(AddonCollection $addons)
     {
-        $this->addonCollection = $addonCollection;
+        $this->addons = $addons;
     }
 
     /**
-     * @param GetMigrationName $command
+     * Handle the command.
      *
+     * @param GetMigrationName $command
      * @return string
      */
     public function handle(GetMigrationName $command)
@@ -37,11 +46,11 @@ class GetMigrationNameHandler
 
         $name = $originalName = $command->getName();
 
-        if ($addon = $this->addonCollection->merged()->get($namespace)) {
+        if ($addon = $this->addons->merged()->get($namespace)) {
 
             $name = "{$namespace}__{$originalName}";
 
-            // Append the package version if there is one
+            // Append the package version if there is one.
             if ($json = $addon->getComposerJson()) {
                 if (property_exists($json, 'version')) {
                     $name = "{$namespace}__{$json->version}__{$originalName}";
@@ -51,5 +60,4 @@ class GetMigrationNameHandler
 
         return $name;
     }
-
 }

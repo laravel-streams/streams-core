@@ -23,7 +23,7 @@ class AddonCollection extends Collection
         $core = [];
 
         foreach ($this->items as $item) {
-            if ($item->isCore()) {
+            if ($item instanceof Addon && $item->isCore()) {
                 $core[] = $item;
             }
         }
@@ -93,7 +93,7 @@ class AddonCollection extends Collection
      *
      * @param $pattern
      *
-     * @return static
+     * @return AddonCollection
      */
     public function withConfig($pattern = '*')
     {
@@ -109,7 +109,9 @@ class AddonCollection extends Collection
     }
 
     /**
-     * @return static
+     * Return all addon types merged as one.
+     *
+     * @return AddonCollection
      */
     public function merged()
     {
@@ -119,7 +121,6 @@ class AddonCollection extends Collection
             $addons = array_merge($addons, app("{$type}.collection")->toArray());
         }
 
-        return new AddonCollection($addons);
+        return self::make($addons);
     }
-
 }

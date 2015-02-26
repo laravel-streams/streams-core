@@ -6,40 +6,53 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 /**
  * Class MigrateAssignments
  *
- * @package Anomaly\Streams\Platform\Database\Migration\Command
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration\Command
  */
 class MigrateAssignments
 {
 
     /**
+     * The migration.
+     *
      * @var Migration
      */
     protected $migration;
 
     /**
+     * The fields to migrate
+     * assignments for.
+     *
      * @var array
      */
     protected $fields;
 
     /**
+     * The stream interface.
+     *
      * @var StreamInterface
      */
     protected $stream;
 
     /**
+     * Create a new MigrateAssignments instance.
+     *
      * @param Migration       $migration
      * @param array           $fields
-     *
      * @param StreamInterface $stream
      */
     public function __construct(Migration $migration, array $fields, StreamInterface $stream = null)
     {
-        $this->fields = $fields;
+        $this->fields    = $fields;
+        $this->stream    = $stream;
         $this->migration = $migration;
-        $this->stream = $stream;
     }
 
     /**
+     * Get the migration.
+     *
      * @return Migration
      */
     public function getMigration()
@@ -48,6 +61,8 @@ class MigrateAssignments
     }
 
     /**
+     * Get the fields.
+     *
      * @return array
      */
     public function getFields()
@@ -56,11 +71,12 @@ class MigrateAssignments
     }
 
     /**
+     * Get the stream.
+     *
      * @return StreamInterface
      */
     public function getStream()
     {
         return $this->stream;
     }
-
 }

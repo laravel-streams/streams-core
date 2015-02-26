@@ -6,17 +6,24 @@ use Anomaly\Streams\Platform\Field\FieldManager;
 /**
  * Class RollbackFieldsHandler
  *
- * @package Anomaly\Streams\Platform\Database\Migration\Command\Handler
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration\Command\Handler
  */
 class RollbackFieldsHandler
 {
 
     /**
+     * The field manager.
+     *
      * @var FieldManager
      */
     protected $manager;
 
     /**
+     * Create a new RollbackFieldsHandler instance.
+     *
      * @param FieldManager $manager
      */
     public function __construct(FieldManager $manager)
@@ -25,14 +32,14 @@ class RollbackFieldsHandler
     }
 
     /**
-     * @param RollbackFields $command
+     * Handle the command.
      *
+     * @param RollbackFields $command
      * @return bool
      */
     public function handle(RollbackFields $command)
     {
         $migration = $command->getMigration();
-
         $namespace = $command->getNamespace() ?: $migration->getNamespace();
 
         foreach ($command->getFields() as $slug => $field) {
@@ -44,5 +51,4 @@ class RollbackFieldsHandler
 
         return true;
     }
-
 }

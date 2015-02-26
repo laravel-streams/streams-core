@@ -1,16 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameToClass;
-use Illuminate\Database\Migrations\MigrationCreator as BaseMigrationCreator;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class MigrationCreator
  *
- * @package Anomaly\Streams\Platform\Database\Migration
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration
  */
-class MigrationCreator extends BaseMigrationCreator
+class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
 {
+
     use DispatchesCommands;
 
     /**
@@ -34,5 +37,4 @@ class MigrationCreator extends BaseMigrationCreator
     {
         return $this->dispatch(new TransformMigrationNameToClass($name));
     }
-
 }

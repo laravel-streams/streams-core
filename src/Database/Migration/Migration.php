@@ -9,43 +9,54 @@ use Anomaly\Streams\Platform\Database\Migration\Command\RollbackAssignments;
 use Anomaly\Streams\Platform\Database\Migration\Command\RollbackFields;
 use Anomaly\Streams\Platform\Database\Migration\Command\RollbackStream;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Stream\StreamModel;
-use Illuminate\Database\Migrations\Migration as BaseMigration;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class Migration
  *
- * @package Anomaly\Streams\Platform\Database\Migration
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration
  */
-abstract class Migration extends BaseMigration
+abstract class Migration extends \Illuminate\Database\Migrations\Migration
 {
+
     use DispatchesCommands;
 
     /**
+     * The stream namespace.
+     *
      * @var string
      */
     protected $namespace;
 
     /**
+     * The migration fields.
+     *
      * @var array
      */
     protected $fields = [];
 
     /**
+     * The migration stream.
+     *
      * @var array
      */
     protected $stream = [];
 
     /**
+     * The migration assignments.
+     *
      * @var array
      */
     protected $assignments = [];
 
     /**
+     * Create fields.
+     *
      * @param array       $fields
      * @param string|null $namespace
-     *
      * @return array
      */
     public function createFields(array $fields = [], $namespace = null)
@@ -54,9 +65,10 @@ abstract class Migration extends BaseMigration
     }
 
     /**
-     * @param array $fields
-     * @param null|string  $namespace
+     * Delete fields.
      *
+     * @param array       $fields
+     * @param null|string $namespace
      * @return mixed
      */
     public function deleteFields(array $fields = [], $namespace = null)
@@ -65,8 +77,9 @@ abstract class Migration extends BaseMigration
     }
 
     /**
-     * @param StreamInterface $stream
+     * Create a stream.
      *
+     * @param StreamInterface $stream
      * @return StreamInterface
      */
     public function createStream(StreamInterface $stream = null)
@@ -75,9 +88,10 @@ abstract class Migration extends BaseMigration
     }
 
     /**
+     * Delete a stream.
+     *
      * @param string $namespace
      * @param string $stream
-     *
      * @return mixed
      */
     public function deleteStream($namespace = null, $stream = null)
@@ -86,9 +100,10 @@ abstract class Migration extends BaseMigration
     }
 
     /**
+     * Assign fields to a stream.
+     *
      * @param array           $fields
      * @param StreamInterface $stream
-     *
      * @return mixed
      */
     public function assignFields(array $fields = [], StreamInterface $stream = null)
@@ -97,6 +112,8 @@ abstract class Migration extends BaseMigration
     }
 
     /**
+     * Unassign fields from a stream.
+     *
      * @param array           $fields
      * @param StreamInterface $stream
      */
@@ -106,6 +123,8 @@ abstract class Migration extends BaseMigration
     }
 
     /**
+     * Get the addon slug.
+     *
      * @return null|string
      */
     public function getAddonSlug()
@@ -114,7 +133,7 @@ abstract class Migration extends BaseMigration
     }
 
     /**
-     * Get addon from the migration name
+     * Get addon from the migration name.
      *
      * @return Addon|null
      */
@@ -124,6 +143,8 @@ abstract class Migration extends BaseMigration
     }
 
     /**
+     * Get the namespace.
+     *
      * @return string
      */
     public function getNamespace()
@@ -132,6 +153,8 @@ abstract class Migration extends BaseMigration
     }
 
     /**
+     * Get the fields.
+     *
      * @return array
      */
     public function getFields()
@@ -140,6 +163,8 @@ abstract class Migration extends BaseMigration
     }
 
     /**
+     * Get the stream.
+     *
      * @return array
      */
     public function getStream()
@@ -148,6 +173,8 @@ abstract class Migration extends BaseMigration
     }
 
     /**
+     * Get the assignments.
+     *
      * @return array
      */
     public function getAssignments()
@@ -168,5 +195,4 @@ abstract class Migration extends BaseMigration
     public function down()
     {
     }
-
 }

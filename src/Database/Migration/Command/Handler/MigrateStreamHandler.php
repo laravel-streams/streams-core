@@ -7,16 +7,24 @@ use Anomaly\Streams\Platform\Stream\StreamManager;
 /**
  * Class MigrateStreamHandler
  *
- * @package Anomaly\Streams\Platform\Stream\Command\Handler
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration\Command\Handler
  */
 class MigrateStreamHandler
 {
+
     /**
+     * The stream manager.
+     *
      * @var StreamManager
      */
     protected $manager;
 
     /**
+     * Create a new MigrateStreamHandler instance.
+     *
      * @param StreamManager $manager
      */
     public function __construct(StreamManager $manager)
@@ -25,36 +33,35 @@ class MigrateStreamHandler
     }
 
     /**
-     * @param MigrateStream $command
+     * Handle the command.
      *
+     * @param MigrateStream $command
      * @return mixed
      */
     public function handle(MigrateStream $command)
     {
         $migration = $command->getMigration();
-
-        $stream = $command->getStream() ?: $migration->getStream();
+        $stream    = $command->getStream() ?: $migration->getStream();
 
         if ($stream instanceof StreamInterface) {
             $stream = $stream->toArray();
         }
 
-        $addon = $migration->getAddon();
-
+        $addon     = $migration->getAddon();
         $addonSlug = $migration->getAddonSlug();
 
-        $slug = array_get($stream, 'slug', $addonSlug);
-        $namespace = array_get($stream, 'namespace', $addonSlug);
-        $name = array_get($stream, 'name', $addon ? $addon->getNamespace("stream.{$slug}.name") : null);
+        $slug        = array_get($stream, 'slug', $addonSlug);
+        $namespace   = array_get($stream, 'namespace', $addonSlug);
+        $name        = array_get($stream, 'name', $addon ? $addon->getNamespace("stream.{$slug}.name") : null);
         $description = array_get($stream, 'name', $addon ? $addon->getNamespace("stream.{$slug}.description") : null);
 
-        $orderBy = array_get($stream, 'order_by', 'id');
+        $orderBy     = array_get($stream, 'order_by', 'id');
         $titleColumn = array_get($stream, 'title_column', 'id');
 
-        $locked = (array_get($stream, 'locked', false));
+        $locked       = (array_get($stream, 'locked', false));
         $translatable = (array_get($stream, 'translatable', false));
 
-        $prefix = array_get($stream, 'prefix', $namespace . '_');
+        $prefix      = array_get($stream, 'prefix', $namespace . '_');
         $viewOptions = array_get($stream, 'view_options', ['id', 'created_at']);
 
         $stream = compact(
@@ -73,5 +80,4 @@ class MigrateStreamHandler
         // Create the stream.
         return $this->manager->create($stream);
     }
-
 }

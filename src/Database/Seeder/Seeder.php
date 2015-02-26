@@ -2,11 +2,22 @@
 
 use Illuminate\Database\Seeder as BaseSeeder;
 
+/**
+ * Class Seeder
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Seeder
+ */
 class Seeder extends BaseSeeder
 {
 
     /**
-     * @var
+     * The environment this seeder
+     * applies too if any.
+     *
+     * @var string
      */
     protected $env;
 
@@ -35,11 +46,13 @@ class Seeder extends BaseSeeder
     }
 
     /**
+     * Return whether the seeder applies to
+     * the current environment or not.
+     *
      * @return bool|null
      */
     public function hasEnvironment()
     {
         return $this->env ? ($this->env === env('APP_ENV')) : null;
     }
-
 }

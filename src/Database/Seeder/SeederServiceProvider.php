@@ -20,10 +20,12 @@ class SeederServiceProvider extends SeedServiceProvider
     {
         $this->registerSeedCommand();
 
-        $this->app->singleton('seeder', function()
-        {
-            return new Seeder();
-        });
+        $this->app->singleton(
+            'seeder',
+            function () {
+                return new Seeder();
+            }
+        );
 
         $this->commands('command.seed');
     }
@@ -35,10 +37,11 @@ class SeederServiceProvider extends SeedServiceProvider
      */
     protected function registerSeedCommand()
     {
-        $this->app->singleton('command.seed', function($app)
-        {
-            return new SeedCommand($app['db']);
-        });
+        $this->app->singleton(
+            'command.seed',
+            function ($app) {
+                return new SeedCommand($app['db']);
+            }
+        );
     }
-
 }

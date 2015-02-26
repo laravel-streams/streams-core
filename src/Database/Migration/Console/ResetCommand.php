@@ -4,10 +4,20 @@ use Anomaly\Streams\Platform\Database\Migration\Migrator;
 use Illuminate\Database\Console\Migrations\ResetCommand as BaseResetCommand;
 use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * Class ResetCommand
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration\Console
+ */
 class ResetCommand extends BaseResetCommand
 {
 
     /**
+     * The migrator utility.
+     *
      * @var Migrator
      */
     protected $migrator;
@@ -19,12 +29,12 @@ class ResetCommand extends BaseResetCommand
      */
     public function fire()
     {
-        // Reset a specific addon
-        if ($namespaces = $this->input->getOption('addon')) {
+        // Reset a specific addon(s).
+        if ($addon = $this->input->getOption('addon')) {
 
             $pretend = $this->input->getOption('pretend');
 
-            $namespaces = explode(',', $namespaces);
+            $namespaces = explode(',', $addon);
 
             foreach ($namespaces as $namespace) {
 
@@ -44,23 +54,26 @@ class ResetCommand extends BaseResetCommand
                     }
                 }
             }
-
         } else {
 
-            // Reset everything
+            // Reset everything.
             parent::fire();
         }
     }
 
     /**
+     * Get the command options.
+     *
      * @return array
      */
     public function getOptions()
     {
-        return array_merge(parent::getOptions(), [
-            ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to reset migrations.'],
-            ['no-addons', null, InputOption::VALUE_NONE, 'Don\'t run addon migrations, only laravel migrations.'],
-        ]);
+        return array_merge(
+            parent::getOptions(),
+            [
+                ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to reset migrations.'],
+                ['no-addons', null, InputOption::VALUE_NONE, 'Don\'t run addon migrations, only laravel migrations.'],
+            ]
+        );
     }
-
 }

@@ -1,18 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
 use Anomaly\Streams\Platform\Database\Migration\Command\Rollback;
-use Anomaly\Streams\Platform\Database\Migration\Migration;
 
 /**
  * Class RollbackHandler
  *
- * @package Anomaly\Streams\Platform\Database\Migration\Command\Handler
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration\Command\Handler
  */
 class RollbackHandler
 {
 
     /**
-     * Rollback fields, streams and assignments migration properties
+     * Handle the command.
      *
      * @param Rollback $command
      */
@@ -22,5 +24,4 @@ class RollbackHandler
         $command->getMigration()->deleteStream();
         $command->getMigration()->deleteFields();
     }
-
 }

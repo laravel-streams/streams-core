@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
+use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\Command\GetAddonByNamespace;
 use Anomaly\Streams\Platform\Database\Migration\Command\GetAddonFromMigration;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -7,16 +8,21 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 /**
  * Class GetAddonFromMigrationHandler
  *
- * @package Anomaly\Streams\Platform\Database\Migration\Command\Handler
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration\Command\Handler
  */
 class GetAddonFromMigrationHandler
 {
+
     use DispatchesCommands;
 
     /**
-     * @param GetAddonFromMigration $command
+     * Handle the command.
      *
-     * @return mixed
+     * @param GetAddonFromMigration $command
+     * @return Addon|null
      */
     public function handle(GetAddonFromMigration $command)
     {
@@ -28,9 +34,10 @@ class GetAddonFromMigrationHandler
 
         preg_match("/^({$matcher}\\.{$matcher}\\.{$matcher})\\_\\_/", $fileName, $matches);
 
-        return $this->dispatch(new GetAddonByNamespace(
-            $namespace = isset($matches[1]) ? $matches[1] : null
-        ));
+        return $this->dispatch(
+            new GetAddonByNamespace(
+                $namespace = isset($matches[1]) ? $matches[1] : null
+            )
+        );
     }
-
 }

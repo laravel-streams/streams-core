@@ -7,16 +7,24 @@ use Anomaly\Streams\Platform\Stream\StreamModel;
 /**
  * Class RollbackStreamHandler
  *
- * @package Anomaly\Streams\Platform\Database\Migration\Command\Handler
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration\Command\Handler
  */
 class RollbackStreamHandler
 {
+
     /**
+     * The stream manager.
+     *
      * @var StreamManager
      */
     protected $manager;
 
     /**
+     * Create a new RollbackStreamHandler instance.
+     *
      * @param StreamManager $manager
      */
     public function __construct(StreamManager $manager)
@@ -25,8 +33,9 @@ class RollbackStreamHandler
     }
 
     /**
-     * @param RollbackStream $command
+     * Handle the command.
      *
+     * @param RollbackStream $command
      * @return mixed
      */
     public function handle(RollbackStream $command)
@@ -42,5 +51,4 @@ class RollbackStreamHandler
 
         return $this->manager->delete($namespace, $slug);
     }
-
 }

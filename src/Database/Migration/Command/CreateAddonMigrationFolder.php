@@ -3,18 +3,25 @@
 /**
  * Class CreateAddonMigrationFolder
  *
- * @package Anomaly\Streams\Platform\Addon\Command
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration\Command
  */
 class CreateAddonMigrationFolder
 {
 
     /**
-     * @var null
+     * Get the migration folder.
+     *
+     * @var null|string
      */
     protected $namespace;
 
     /**
-     * @param null $namespace
+     * Create a new CreateAddonMigrationFolder instance.
+     *
+     * @param null|string $namespace
      */
     public function __construct($namespace = null)
     {
@@ -22,11 +29,12 @@ class CreateAddonMigrationFolder
     }
 
     /**
-     * @return null
+     * Get the namespace.
+     *
+     * @return null|string
      */
     public function getNamespace()
     {
         return $this->namespace;
     }
-
 }
