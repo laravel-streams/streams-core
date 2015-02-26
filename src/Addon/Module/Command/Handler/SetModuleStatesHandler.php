@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command\Handler;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 
 /**
  * Class SetModuleStatesHandler
@@ -14,9 +15,16 @@ class SetModuleStatesHandler
 {
 
     /**
+     * The module model.
+     *
+     * @var ModuleModel
+     */
+    protected $model;
+
+    /**
      * The loaded modules.
      *
-     * @var \Anomaly\Streams\Platform\Addon\Module\ModuleCollection
+     * @var ModuleCollection
      */
     protected $modules;
 
@@ -24,9 +32,11 @@ class SetModuleStatesHandler
      * Create a new SetModuleStatesHandler instance.
      *
      * @param ModuleCollection $modules
+     * @param ModuleModel      $model
      */
-    public function __construct(ModuleCollection $modules)
+    public function __construct(ModuleCollection $modules, ModuleModel $model)
     {
+        $this->model   = $model;
         $this->modules = $modules;
     }
 
@@ -36,11 +46,8 @@ class SetModuleStatesHandler
      */
     public function handle()
     {
-        $states = app('db')
-            ->table('addons_modules')
-            ->where('installed', true)
-            ->get();
+        $states = $this->model->where('installed', true)->get();
 
-        $this->modules->setStates($states);
+        $this->modules->setStates($states->all());
     }
 }

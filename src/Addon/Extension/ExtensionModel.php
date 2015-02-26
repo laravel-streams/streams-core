@@ -22,6 +22,13 @@ class ExtensionModel extends EloquentModel implements ExtensionInterface
     protected $table = 'addons_extensions';
 
     /**
+     * Cache minutes.
+     *
+     * @var int
+     */
+    protected $cacheMinutes = 99999;
+
+    /**
      * Disable timestamps for extensions.
      *
      * @var bool

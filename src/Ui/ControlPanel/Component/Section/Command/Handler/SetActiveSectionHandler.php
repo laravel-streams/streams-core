@@ -93,6 +93,8 @@ class SetActiveSectionHandler
          */
         if ($active && $active instanceof SectionInterface) {
             $active->setActive(true);
+        } elseif ($active = $sections->first()) {
+            $active->setActive(true);
         }
     }
 }

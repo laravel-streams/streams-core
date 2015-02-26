@@ -2,6 +2,14 @@
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
+/**
+ * Class EntryTranslationsModel
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Entry
+ */
 class EntryTranslationsModel extends EloquentModel
 {
 
@@ -11,6 +19,13 @@ class EntryTranslationsModel extends EloquentModel
      * @var null
      */
     protected $stream = null;
+
+    /**
+     * Cache minutes.
+     *
+     * @var int
+     */
+    protected $cacheMinutes = 99999;
 
     /**
      * Create a new EntryTranslationsModel instance.

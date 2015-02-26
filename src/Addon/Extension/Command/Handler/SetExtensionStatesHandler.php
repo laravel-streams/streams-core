@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension\Command\Handler;
 
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
+use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
 
 /**
  * Class SetExtensionStatesHandler
@@ -14,9 +15,16 @@ class SetExtensionStatesHandler
 {
 
     /**
+     * The extension model.
+     *
+     * @var ExtensionModel
+     */
+    protected $model;
+
+    /**
      * The loaded extensions.
      *
-     * @var \Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection
+     * @var ExtensionCollection
      */
     protected $extensions;
 
@@ -24,9 +32,11 @@ class SetExtensionStatesHandler
      * Create a new SetExtensionStatesHandler instance.
      *
      * @param ExtensionCollection $extensions
+     * @param ExtensionModel      $model
      */
-    public function __construct(ExtensionCollection $extensions)
+    public function __construct(ExtensionCollection $extensions, ExtensionModel $model)
     {
+        $this->model      = $model;
         $this->extensions = $extensions;
     }
 
@@ -36,11 +46,8 @@ class SetExtensionStatesHandler
      */
     public function handle()
     {
-        $states = app('db')
-            ->table('addons_extensions')
-            ->where('installed', true)
-            ->get();
+        $states = $this->model->where('installed', true)->get();
 
-        $this->extensions->setStates($states);
+        $this->extensions->setStates($states->all());
     }
 }
