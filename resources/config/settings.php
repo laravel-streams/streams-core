@@ -42,7 +42,8 @@ return [
     'default_locale' => [
         'type'   => 'anomaly.field_type.relationship',
         'config' => [
-            'related' => 'Anomaly\LocalizationModule\Language\LanguageModel'
+            'related' => 'Anomaly\LocalizationModule\Language\LanguageModel',
+            'key'     => 'iso'
         ],
     ],
     'site_enabled'   => [
