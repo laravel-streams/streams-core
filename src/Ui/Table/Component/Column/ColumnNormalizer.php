@@ -22,7 +22,19 @@ class ColumnNormalizer
     {
         $columns = $builder->getColumns();
 
-        foreach ($columns as &$column) {
+        foreach ($columns as $key => &$column) {
+
+            /**
+             * If the key is non-numerical then
+             * use it as the header and use the
+             * column as the value.
+             */
+            if (!is_numeric($key) && !is_array($column)) {
+                $column = [
+                    'heading' => $key,
+                    'value'   => $column,
+                ];
+            }
 
             /**
              * If the column is not already an
