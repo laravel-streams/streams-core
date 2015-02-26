@@ -40,19 +40,9 @@ return [
         ]
     ],
     'default_locale' => [
-        'type'   => 'anomaly.field_type.select',
+        'type'   => 'anomaly.field_type.relationship',
         'config' => [
-            'default_value' => config('app.locale'),
-            'options'       => function () {
-
-                $options = [];
-
-                foreach (config('streams.available_locales') as $locale) {
-                    $options[$locale] = trans('streams::language.' . $locale);
-                }
-
-                return $options;
-            }
+            'related' => 'Anomaly\LocalizationModule\Language\LanguageModel'
         ],
     ],
     'site_enabled'   => [

@@ -119,7 +119,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function getRules()
     {
-        return $this->rules;
+        return (array)$this->rules;
     }
 
     /**
