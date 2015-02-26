@@ -49,14 +49,14 @@ class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\Migrate
      * @param string $name
      * @param string $table
      * @param bool   $create
-     * @param null   $namespace
+     * @param null   $addon
      * @return string
      */
-    protected function writeMigration($name, $table, $create, $namespace = null)
+    protected function writeMigration($name, $table, $create, $addon = null)
     {
-        $name = $this->dispatch(new GetMigrationName($name, $namespace));
+        $name = $this->dispatch(new GetMigrationName($name, $addon));
 
-        if (!$path = $this->dispatch(new CreateAddonMigrationFolder($namespace))) {
+        if (!$path = $this->dispatch(new CreateAddonMigrationFolder($addon))) {
             $path = $this->getMigrationPath();
         }
 

@@ -12,29 +12,29 @@ class CreateAddonMigrationFolder
 {
 
     /**
-     * Get the migration folder.
+     * Get the addon namespace.
      *
      * @var null|string
      */
-    protected $namespace;
+    protected $addon;
 
     /**
      * Create a new CreateAddonMigrationFolder instance.
      *
      * @param null|string $namespace
      */
-    public function __construct($namespace = null)
+    public function __construct($addon = null)
     {
-        $this->namespace = $namespace;
+        $this->addon = $addon;
     }
 
     /**
-     * Get the namespace.
+     * Get the addon namespace.
      *
      * @return null|string
      */
-    public function getNamespace()
+    public function getAddon()
     {
-        return $this->namespace;
+        return $this->addon;
     }
 }
