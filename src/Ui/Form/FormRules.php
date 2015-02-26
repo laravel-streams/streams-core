@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
@@ -32,7 +33,11 @@ class FormRules
                 continue;
             }
 
-            $fieldRules = $field->getRules() + $entry->getFieldRules($field->getField());
+            $fieldRules = $field->getRules();
+
+            if ($entry instanceof EntryInterface) {
+                $fieldRules = $fieldRules + $entry->getFieldRules($field->getField());
+            }
 
             if (!$stream instanceof StreamInterface) {
 
