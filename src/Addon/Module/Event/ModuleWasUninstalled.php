@@ -16,7 +16,7 @@ class ModuleWasUninstalled
     /**
      * The module object.
      *
-     * @var \Anomaly\Streams\Platform\Addon\Module\Module
+     * @var Module
      */
     protected $module;
 

@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Module\Command\InstallModule;
-use Anomaly\Streams\Platform\Addon\Module\Command\SyncModules;
 use Anomaly\Streams\Platform\Addon\Module\Command\UninstallModule;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
@@ -21,30 +20,21 @@ class ModuleManager
     /**
      * Install a module.
      *
-     * @param  $module
-     * @return mixed
+     * @param Module $module
+     * @param bool   $seed
      */
-    public function install($module)
+    public function install(Module $module, $seed = false)
     {
-        $this->dispatch(new InstallModule($module));
+        $this->dispatch(new InstallModule($module, $seed));
     }
 
     /**
      * Uninstall a module.
      *
-     * @param  $module
-     * @return mixed
+     * @param Module $module
      */
-    public function uninstall($module)
+    public function uninstall(Module $module)
     {
         $this->dispatch(new UninstallModule($module));
-    }
-
-    /**
-     * Sync modules to the database.
-     */
-    public function sync()
-    {
-        $this->dispatch(new SyncModules());
     }
 }

@@ -2,10 +2,8 @@
 
 use Anomaly\Streams\Platform\Addon\Module\Command\InstallModule;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
-use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
-use Anomaly\Streams\Platform\Contract\Installable;
+use Illuminate\Console\Command;
 use Illuminate\Events\Dispatcher;
 
 /**
@@ -22,14 +20,21 @@ class InstallModuleHandler
     /**
      * The loaded modules.
      *
-     * @var \Anomaly\Streams\Platform\Addon\Module\ModuleCollection
+     * @var ModuleCollection
      */
     protected $modules;
 
     /**
+     * The service container.
+     *
+     * @var Command
+     */
+    protected $command;
+
+    /**
      * The event dispatcher.
      *
-     * @var \Illuminate\Events\Dispatcher
+     * @var Dispatcher
      */
     protected $dispatcher;
 
@@ -37,71 +42,37 @@ class InstallModuleHandler
      * Create a new InstallModuleHandler instance.
      *
      * @param ModuleCollection $modules
+     * @param Command          $command
      * @param Dispatcher       $dispatcher
      */
-    public function __construct(ModuleCollection $modules, Dispatcher $dispatcher)
+    public function __construct(ModuleCollection $modules, Command $command, Dispatcher $dispatcher)
     {
         $this->modules    = $modules;
+        $this->command    = $command;
         $this->dispatcher = $dispatcher;
     }
 
     /**
-     * Install a module.
+     * Handle the command.
      *
      * @param  InstallModule $command
      * @return bool
      */
     public function handle(InstallModule $command)
     {
-        $module = $this->modules->findBySlug($command->getModule());
+        $module = $command->getModule();
 
-        if (!$module) {
-            throw new \Exception("Module [$command->getModule()] not be found.");
+        $options = [
+            '--addon' => $module->getNamespace()
+        ];
+
+        if ($command->getSeed()) {
+            $options[] = '--seed';
         }
 
-        if ($installer = $module->newInstaller()) {
-            $this->runInstallers($module, $installer);
-        }
-
+        $this->command->call('migrate', $options);
         $this->dispatcher->fire(new ModuleWasInstalled($module));
 
         return true;
-    }
-
-    /**
-     * Run the module's installers.
-     *
-     * @param Module          $module
-     * @param ModuleInstaller $installer
-     */
-    protected function runInstallers(Module $module, ModuleInstaller $installer)
-    {
-        foreach ($installer->getInstallers() as $installer) {
-            $installer = $this->resolveInstaller($module, $installer);
-
-            $this->runInstaller($installer);
-        }
-    }
-
-    /**
-     * Run an installer.
-     *
-     * @param Installable $installer
-     */
-    protected function runInstaller(Installable $installer)
-    {
-        $installer->install();
-    }
-
-    /**
-     * Resolve the installer.
-     *
-     * @param  Module $module
-     * @param         $installer
-     * @return mixed
-     */
-    protected function resolveInstaller(Module $module, $installer)
-    {
-        return app()->make($installer, ['addon' => $module]);
     }
 }

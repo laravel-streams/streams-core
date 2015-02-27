@@ -2,10 +2,8 @@
 
 use Anomaly\Streams\Platform\Addon\Module\Command\UninstallModule;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalled;
-use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Addon\Module\ModuleInstaller;
-use Anomaly\Streams\Platform\Contract\Installable;
+use Illuminate\Console\Command;
 use Illuminate\Events\Dispatcher;
 
 /**
@@ -20,11 +18,18 @@ class UninstallModuleHandler
 {
 
     /**
-     * The loaded module.
+     * The loaded modules.
      *
      * @var ModuleCollection
      */
     protected $modules;
+
+    /**
+     * The service container.
+     *
+     * @var Command
+     */
+    protected $command;
 
     /**
      * The event dispatcher.
@@ -37,11 +42,13 @@ class UninstallModuleHandler
      * Create a new UninstallModuleHandler instance.
      *
      * @param ModuleCollection $modules
+     * @param Command          $command
      * @param Dispatcher       $dispatcher
      */
-    function __construct(ModuleCollection $modules, Dispatcher $dispatcher)
+    public function __construct(ModuleCollection $modules, Command $command, Dispatcher $dispatcher)
     {
         $this->modules    = $modules;
+        $this->command    = $command;
         $this->dispatcher = $dispatcher;
     }
 
@@ -53,55 +60,15 @@ class UninstallModuleHandler
      */
     public function handle(UninstallModule $command)
     {
-        $module = $this->modules->findBySlug($command->getModule());
+        $module = $command->getModule();
 
-        if (!$module instanceof Module) {
-            throw new \Exception("Module [$command->getModule()] not be found.");
-        }
+        $options = [
+            '--addon' => $module->getNamespace()
+        ];
 
-        if ($installer = $module->newInstaller()) {
-            $this->runInstallers($module, $installer);
-        }
-
+        $this->command->call('migrate:reset', $options);
         $this->dispatcher->fire(new ModuleWasUninstalled($module));
 
         return true;
-    }
-
-    /**
-     * Run the installers.
-     *
-     * @param Module          $module
-     * @param ModuleInstaller $installer
-     */
-    protected function runInstallers(Module $module, ModuleInstaller $installer)
-    {
-        foreach ($installer->getInstallers() as $installer) {
-            $installer = $this->resolveInstaller($module, $installer);
-
-            $this->runUninstall($installer);
-        }
-    }
-
-    /**
-     * Run the installer's uninstall method.
-     *
-     * @param Installable $installer
-     */
-    protected function runUninstall(Installable $installer)
-    {
-        $installer->uninstall();
-    }
-
-    /**
-     * Resolve the installer.
-     *
-     * @param  Module $module
-     * @param         $installer
-     * @return mixed
-     */
-    protected function resolveInstaller(Module $module, $installer)
-    {
-        return app()->make($installer, ['addon' => $module]);
     }
 }
