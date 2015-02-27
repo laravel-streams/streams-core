@@ -52,8 +52,11 @@ class GetMigrationNameHandler
 
             // Append the package version if there is one.
             if ($json = $addon->getComposerJson()) {
-                if (property_exists($json, 'version')) {
-                    $name = "{$namespace}__{$json->version}__{$originalName}";
+                if (
+                    property_exists($json, 'version')
+                    && $version = str_slug(str_replace('.', '_', $json->version), '_')
+                ) {
+                    $name = "{$namespace}__{$version}__{$originalName}";
                 }
             }
         }
