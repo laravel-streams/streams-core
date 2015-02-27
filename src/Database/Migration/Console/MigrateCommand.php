@@ -35,6 +35,8 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
     {
         if (!$this->input->getOption('no-addons')) {
 
+            $this->prepareDatabase();
+
             $addons = (new AddonCollection())->merged();
 
             if ($namespaces = $this->input->getOption('addon')) {
@@ -82,7 +84,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
         } else {
 
             $this->migrator->setNamespace('laravel');
-            
+
             parent::fire();
         }
     }
