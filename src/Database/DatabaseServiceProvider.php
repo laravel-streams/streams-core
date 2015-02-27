@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Database;
 
+use Anomaly\Streams\Platform\Database\Command\SetCoreConnection;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -12,6 +14,16 @@ use Illuminate\Support\ServiceProvider;
  */
 class DatabaseServiceProvider extends ServiceProvider
 {
+
+    use DispatchesCommands;
+
+    /**
+     * Handle the service provider.
+     */
+    public function boot()
+    {
+        $this->dispatch(new SetCoreConnection());
+    }
 
     /**
      * Register the service provider.
