@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command\Handler;
 
-use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\Module\Command\InstallAllModules;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Module\ModuleManager;
 
@@ -32,7 +32,8 @@ class InstallAllModulesHandler
     /**
      * Create a new InstallAllModulesHandler instance.
      *
-     * @param ModuleManager $service
+     * @param ModuleCollection $modules
+     * @param ModuleManager    $service
      */
     public function __construct(ModuleCollection $modules, ModuleManager $service)
     {
@@ -42,21 +43,13 @@ class InstallAllModulesHandler
 
     /**
      * Handle the command.
+     *
+     * @param InstallAllModules $command
      */
-    public function handle()
+    public function handle(InstallAllModules $command)
     {
         foreach ($this->modules->all() as $module) {
-            $this->installModule($module);
+            $this->manager->install($module, $command->getSeed());
         }
-    }
-
-    /**
-     * Install a module.
-     *
-     * @param Module $module
-     */
-    protected function installModule(Module $module)
-    {
-        $this->manager->install($module->getSlug());
     }
 }

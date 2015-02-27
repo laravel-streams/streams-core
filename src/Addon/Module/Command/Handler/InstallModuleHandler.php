@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Module\Command\InstallModule;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Illuminate\Console\Command;
+use App\Console\Kernel;
 use Illuminate\Events\Dispatcher;
 
 /**
@@ -18,18 +18,18 @@ class InstallModuleHandler
 {
 
     /**
+     * The service container.
+     *
+     * @var Kernel
+     */
+    protected $command;
+
+    /**
      * The loaded modules.
      *
      * @var ModuleCollection
      */
     protected $modules;
-
-    /**
-     * The service container.
-     *
-     * @var Command
-     */
-    protected $command;
 
     /**
      * The event dispatcher.
@@ -42,32 +42,33 @@ class InstallModuleHandler
      * Create a new InstallModuleHandler instance.
      *
      * @param ModuleCollection $modules
-     * @param Command          $command
+     * @param Kernel           $kernel
      * @param Dispatcher       $dispatcher
      */
-    public function __construct(ModuleCollection $modules, Command $command, Dispatcher $dispatcher)
+    public function __construct(ModuleCollection $modules, Kernel $kernel, Dispatcher $dispatcher)
     {
+        $this->command    = $kernel;
         $this->modules    = $modules;
-        $this->command    = $command;
         $this->dispatcher = $dispatcher;
     }
 
     /**
      * Handle the command.
      *
-     * @param  InstallModule $command
+     * @param  InstallModule $kernel
      * @return bool
      */
-    public function handle(InstallModule $command)
+    public function handle(InstallModule $kernel)
     {
-        $module = $command->getModule();
+        $module = $kernel->getModule();
 
         $options = [
-            '--addon' => $module->getNamespace()
+            '--addon' => $module->getNamespace(),
+            '--force' => true
         ];
 
-        if ($command->getSeed()) {
-            $options[] = '--seed';
+        if ($kernel->getSeed()) {
+            $options['--seed'] = true;
         }
 
         $this->command->call('migrate', $options);
