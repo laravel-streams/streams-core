@@ -39,8 +39,6 @@ class MarkExtensionUninstalled
      */
     public function handle(ExtensionWasUninstalled $event)
     {
-        $extension = $event->getExtension();
-
-        $this->extensions->uninstall($extension->getSlug());
+        $this->extensions->uninstall($event->getExtension());
     }
 }

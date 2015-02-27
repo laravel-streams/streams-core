@@ -39,8 +39,6 @@ class MarkModuleUninstalled
      */
     public function handle(ModuleWasUninstalled $event)
     {
-        $module = $event->getModule();
-
-        $this->modules->uninstall($module->getSlug());
+        $this->modules->uninstall($event->getModule());
     }
 }

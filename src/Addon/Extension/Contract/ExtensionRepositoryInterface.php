@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension\Contract;
 
+use Anomaly\Streams\Platform\Addon\Extension\Extension;
+
 /**
  * Interface ExtensionRepositoryInterface
  *
@@ -21,32 +23,28 @@ interface ExtensionRepositoryInterface
     /**
      * Create a extension record.
      *
-     * @param  $namespace
-     * @return mixed
+     * @param Extension $extension
      */
-    public function create($namespace);
+    public function create(Extension $extension);
 
     /**
      * Delete a extension record.
      *
-     * @param  $namespace
-     * @return mixed
+     * @param Extension $extension
      */
-    public function delete($namespace);
+    public function delete(Extension $extension);
 
     /**
      * Mark a extension as installed.
      *
-     * @param  $namespace
-     * @return mixed
+     * @param Extension $extension
      */
-    public function install($namespace);
+    public function install(Extension $extension);
 
     /**
      * Mark a extension as uninstalled.
      *
-     * @param  $namespace
-     * @return mixed
+     * @param Extension $extension
      */
-    public function uninstall($namespace);
+    public function uninstall(Extension $extension);
 }

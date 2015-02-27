@@ -43,31 +43,27 @@ class ExtensionRepository implements ExtensionRepositoryInterface
     /**
      * Create a extension record.
      *
-     * @param  $namespace
-     * @return mixed
+     * @param Extension $extension
      */
-    public function create($namespace)
+    public function create(Extension $extension)
     {
-        $extension = $this->model->newInstance();
+        $instance = $this->model->newInstance();
 
-        $extension->namespace = $namespace;
-        $extension->installed = false;
-        $extension->enabled   = false;
+        $instance->namespace = $extension->getNamespace();
+        $instance->installed = false;
+        $instance->enabled   = false;
 
-        $extension->save();
-
-        return $extension;
+        $instance->save();
     }
 
     /**
      * Delete a extension record.
      *
-     * @param  $namespace
-     * @return mixed
+     * @param Extension $extension
      */
-    public function delete($namespace)
+    public function delete(Extension $extension)
     {
-        $extension = $this->model->findByNamespace($namespace);
+        $extension = $this->model->findByNamespace($extension->getNamespace());
 
         if ($extension) {
             $extension->delete();
@@ -79,12 +75,11 @@ class ExtensionRepository implements ExtensionRepositoryInterface
     /**
      * Mark a extension as installed.
      *
-     * @param  $namespace
-     * @return mixed
+     * @param Extension $extension
      */
-    public function install($namespace)
+    public function install(Extension $extension)
     {
-        $extension = $this->model->findByNamespaceOrNew($namespace);
+        $extension = $this->model->findByNamespaceOrNew($extension->getNamespace());
 
         $extension->installed = true;
         $extension->enabled   = true;
@@ -95,12 +90,11 @@ class ExtensionRepository implements ExtensionRepositoryInterface
     /**
      * Mark a extension as uninstalled.
      *
-     * @param  $namespace
-     * @return mixed
+     * @param Extension $extension
      */
-    public function uninstall($namespace)
+    public function uninstall(Extension $extension)
     {
-        $extension = $this->model->findByNamespace($namespace);
+        $extension = $this->model->findByNamespace($extension->getNamespace());
 
         $extension->installed = false;
         $extension->enabled   = false;

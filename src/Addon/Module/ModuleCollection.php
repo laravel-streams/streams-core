@@ -91,7 +91,7 @@ class ModuleCollection extends AddonCollection
     public function setStates(array $states)
     {
         foreach ($states as $state) {
-            if ($module = $this->findBySlug($state->slug)) {
+            if ($module = $this->get($state->namespace)) {
                 $this->setFlags($module, $state);
             }
         }

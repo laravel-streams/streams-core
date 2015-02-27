@@ -39,8 +39,6 @@ class MarkExtensionInstalled
      */
     public function handle(ExtensionWasInstalled $event)
     {
-        $extension = $event->getExtension();
-
-        $this->extensions->install($extension->getSlug());
+        $this->extensions->install($event->getExtension());
     }
 }

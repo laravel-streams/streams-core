@@ -43,31 +43,28 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Create a module record.
      *
-     * @param  $namespace
-     * @return mixed
+     * @param Module $module
      */
-    public function create($namespace)
+    public function create(Module $module)
     {
-        $module = $this->model->newInstance();
+        $instance = $this->model->newInstance();
 
-        $module->namespace = $namespace;
-        $module->installed = false;
-        $module->enabled   = false;
+        $instance->namespace = $module->getNamespace();
+        $instance->installed = false;
+        $instance->enabled   = false;
 
-        $module->save();
-
-        return $module;
+        $instance->save();
     }
 
     /**
      * Delete a module record.
      *
-     * @param  $namespace
+     * @param  Module $module
      * @return mixed
      */
-    public function delete($namespace)
+    public function delete(Module $module)
     {
-        $module = $this->model->findByNamespace($namespace);
+        $module = $this->model->findByNamespace($module->getNamespace());
 
         if ($module) {
             $module->delete();
@@ -79,12 +76,11 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Mark a module as installed.
      *
-     * @param  $namespace
-     * @return mixed
+     * @param  Module $module
      */
-    public function install($namespace)
+    public function install(Module $module)
     {
-        $module = $this->model->findByNamespaceOrNew($namespace);
+        $module = $this->model->findByNamespaceOrNew($module->getNamespace());
 
         $module->installed = true;
         $module->enabled   = true;
@@ -95,12 +91,11 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Mark a module as uninstalled.
      *
-     * @param  $namespace
-     * @return mixed
+     * @param  Module $module
      */
-    public function uninstall($namespace)
+    public function uninstall(Module $module)
     {
-        $module = $this->model->findByNamespace($namespace);
+        $module = $this->model->findByNamespace($module->getNamespace());
 
         $module->installed = false;
         $module->enabled   = false;

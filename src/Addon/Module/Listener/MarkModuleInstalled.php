@@ -39,8 +39,6 @@ class MarkModuleInstalled
      */
     public function handle(ModuleWasInstalled $event)
     {
-        $module = $event->getModule();
-
-        $this->modules->install($module->getSlug());
+        $this->modules->install($event->getModule());
     }
 }

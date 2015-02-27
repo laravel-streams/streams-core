@@ -151,7 +151,7 @@ class ExtensionCollection extends AddonCollection
     public function setStates(array $states)
     {
         foreach ($states as $state) {
-            if ($extension = $this->findBySlug($state->slug)) {
+            if ($extension = $this->get($state->namespace)) {
                 $this->setFlags($extension, $state);
             }
         }
