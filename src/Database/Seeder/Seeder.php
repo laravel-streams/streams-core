@@ -19,7 +19,7 @@ class Seeder extends BaseSeeder
      *
      * @var string
      */
-    protected $env;
+    protected $env = null;
 
     /**
      * Seed the given connection from the given path.
@@ -32,11 +32,9 @@ class Seeder extends BaseSeeder
     {
         /** @var Seeder $seeder */
         $seeder = $this->resolve($class);
-
-        $env = $seeder->hasEnvironment();
+        $env    = $seeder->hasEnvironment();
 
         if ($env !== false) {
-
             $seeder->run();
         }
 

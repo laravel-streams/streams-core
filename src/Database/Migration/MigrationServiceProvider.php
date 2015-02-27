@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Database\Migration\Console\MigrateAddonsCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\MigrateCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\MigrateMakeCommand;
+use Anomaly\Streams\Platform\Database\Migration\Console\RefreshCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\ResetCommand;
 use Illuminate\Database\MigrationServiceProvider as BaseMigrationServiceProvider;
 
@@ -106,6 +107,21 @@ class MigrationServiceProvider extends BaseMigrationServiceProvider
             'command.migrate.reset',
             function ($app) {
                 return new ResetCommand($app['migrator']);
+            }
+        );
+    }
+
+    /**
+     * Register the "refresh" migration command.
+     *
+     * @return void
+     */
+    protected function registerRefreshCommand()
+    {
+        $this->app->singleton(
+            'command.migrate.refresh',
+            function () {
+                return new RefreshCommand;
             }
         );
     }
