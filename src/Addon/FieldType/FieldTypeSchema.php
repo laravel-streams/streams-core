@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder;
 
 /**
  * Class FieldTypeSchema
@@ -13,6 +14,13 @@ use Illuminate\Database\Schema\Blueprint;
  */
 class FieldTypeSchema
 {
+
+    /**
+     * The schema builder object.
+     *
+     * @var Builder
+     */
+    protected $schema;
 
     /**
      * The field type object.
@@ -29,6 +37,8 @@ class FieldTypeSchema
     public function __construct(FieldType $fieldType)
     {
         $this->fieldType = $fieldType;
+
+        $this->schema = app('db')->connection()->getSchemaBuilder();
     }
 
     /**
@@ -59,6 +69,10 @@ class FieldTypeSchema
     public function dropColumn(Blueprint $table)
     {
         if (!$this->fieldType->getColumnType()) {
+            return;
+        }
+
+        if (!$this->schema->hasColumn($table->getTable(), $this->fieldType->getColumnName())) {
             return;
         }
 
