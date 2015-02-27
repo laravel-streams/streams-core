@@ -366,14 +366,11 @@ class EloquentModel extends Model
 
     protected function isKeyALocale($key)
     {
-        $locales = $this->getLocales();
+        if ($key == 'id') {
+            return false;
+        }
 
-        return in_array($key, $locales);
-    }
-
-    protected function getLocales()
-    {
-        return config('streams.available_locales');
+        return strlen($key) == 2;
     }
 
     protected function saveTranslations()

@@ -213,7 +213,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function setAttribute($key, $value)
     {
-        if (!$this->hasSetMutator($key) && $this->getFieldType($key, $value)) {
+        if (!$this->isKeyALocale($key) && !$this->hasSetMutator($key) && $this->getFieldType($key, $value)) {
             $this->setFieldValue($key, $value);
         } else {
             parent::setAttribute($key, $value);
@@ -262,6 +262,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         $stream = $this->getStream();
 
+        if (!is_object($stream)) {
+            return false;
+        }
+
         $assignments = $stream->getAssignments();
 
         return $assignments->findByFieldSlug($fieldSlug);
@@ -286,6 +290,11 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function assignmentIsTranslatable($fieldSlug)
     {
+        // ID is not. Duh!
+        if ($fieldSlug == 'id') {
+            return false;
+        }
+
         $assignment = $this->getAssignment($fieldSlug);
 
         return $assignment->isTranslatable();
