@@ -21,32 +21,32 @@ interface ExtensionRepositoryInterface
     /**
      * Create a extension record.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return mixed
      */
-    public function create($slug);
+    public function create($namespace);
 
     /**
      * Delete a extension record.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return mixed
      */
-    public function delete($slug);
+    public function delete($namespace);
 
     /**
      * Mark a extension as installed.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return mixed
      */
-    public function install($slug);
+    public function install($namespace);
 
     /**
      * Mark a extension as uninstalled.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return mixed
      */
-    public function uninstall($slug);
+    public function uninstall($namespace);
 }

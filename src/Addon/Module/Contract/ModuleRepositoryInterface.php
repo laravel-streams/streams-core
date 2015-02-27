@@ -21,32 +21,32 @@ interface ModuleRepositoryInterface
     /**
      * Create a module record.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return mixed
      */
-    public function create($slug);
+    public function create($namespace);
 
     /**
      * Delete a module record.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return mixed
      */
-    public function delete($slug);
+    public function delete($namespace);
 
     /**
      * Mark a module as installed.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return mixed
      */
-    public function install($slug);
+    public function install($namespace);
 
     /**
      * Mark a module as uninstalled.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return mixed
      */
-    public function uninstall($slug);
+    public function uninstall($namespace);
 }
