@@ -26,7 +26,7 @@ class ExtensionServiceProvider extends ServiceProvider
     {
         $this->dispatch(new RegisterExtensions());
 
-        if (app('Anomaly\Streams\Platform\Application\Application')->isInstalled()) {
+        if (env('INSTALLED')) {
             $this->dispatch(new SetExtensionStates());
         }
     }

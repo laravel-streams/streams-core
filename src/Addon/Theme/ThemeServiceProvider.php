@@ -27,7 +27,7 @@ class ThemeServiceProvider extends ServiceProvider
     {
         $this->dispatch(new RegisterThemes());
 
-        if (app('Anomaly\Streams\Platform\Application\Application')->isInstalled()) {
+        if (env('INSTALLED')) {
             $this->dispatch(new DetectActiveTheme());
         } else {
             $this->dispatch(new DetectDefaultTheme());
