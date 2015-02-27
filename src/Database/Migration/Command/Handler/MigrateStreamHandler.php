@@ -36,7 +36,7 @@ class MigrateStreamHandler
      * Handle the command.
      *
      * @param MigrateStream $command
-     * @return mixed
+     * @return null|StreamInterface
      */
     public function handle(MigrateStream $command)
     {
@@ -45,6 +45,10 @@ class MigrateStreamHandler
 
         if ($stream instanceof StreamInterface) {
             $stream = $stream->toArray();
+        }
+
+        if (!$stream) {
+            return null;
         }
 
         $addon     = $migration->getAddon();
