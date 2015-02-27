@@ -33,10 +33,6 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
      */
     public function fire()
     {
-        $this->migrator->setNamespace('laravel');
-
-        parent::fire();
-
         if (!$this->input->getOption('no-addons')) {
 
             $addons = (new AddonCollection())->merged();
@@ -83,6 +79,11 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
                     $this->output->writeln($note);
                 }
             }
+        } else {
+
+            $this->migrator->setNamespace('laravel');
+            
+            parent::fire();
         }
     }
 
