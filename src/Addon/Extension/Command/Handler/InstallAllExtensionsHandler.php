@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension\Command\Handler;
 
-use Anomaly\Streams\Platform\Addon\Extension\Extension;
+use Anomaly\Streams\Platform\Addon\Extension\Command\InstallAllExtensions;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionManager;
 
@@ -32,31 +32,24 @@ class InstallAllExtensionsHandler
     /**
      * Create a new InstallAllExtensionsHandler instance.
      *
-     * @param ExtensionManager $service
+     * @param ExtensionCollection $extensions
+     * @param ExtensionManager    $service
      */
     public function __construct(ExtensionCollection $extensions, ExtensionManager $service)
     {
-        $this->manager    = $service;
+        $this->manager = $service;
         $this->extensions = $extensions;
     }
 
     /**
      * Handle the command.
+     *
+     * @param InstallAllExtensions $command
      */
-    public function handle()
+    public function handle(InstallAllExtensions $command)
     {
         foreach ($this->extensions->all() as $extension) {
-            $this->installExtension($extension);
+            $this->manager->install($extension, $command->getSeed());
         }
-    }
-
-    /**
-     * Install a extension.
-     *
-     * @param Extension $extension
-     */
-    protected function installExtension(Extension $extension)
-    {
-        $this->manager->install($extension->getSlug());
     }
 }

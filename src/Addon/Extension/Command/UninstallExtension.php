@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension\Command;
 
+use Anomaly\Streams\Platform\Addon\Extension\Extension;
+
 /**
  * Class UninstallExtension
  *
@@ -12,26 +14,26 @@ class UninstallExtension
 {
 
     /**
-     * The extension object.
+     * The extension to uninstall.
      *
-     * @var
+     * @var Extension
      */
     protected $extension;
 
     /**
-     * Create a new UninstallExtension command.
+     * Create a new UninstallExtension instance.
      *
-     * @param $extension
+     * @param Extension $extension
      */
-    public function __construct($extension)
+    public function __construct(Extension $extension)
     {
         $this->extension = $extension;
     }
 
     /**
-     * Get the extension object.
+     * Get the extension.
      *
-     * @return mixed
+     * @return Extension
      */
     public function getExtension()
     {

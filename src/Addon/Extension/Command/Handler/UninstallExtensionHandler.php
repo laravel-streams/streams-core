@@ -2,10 +2,8 @@
 
 use Anomaly\Streams\Platform\Addon\Extension\Command\UninstallExtension;
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasUninstalled;
-use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
-use Anomaly\Streams\Platform\Addon\Extension\ExtensionInstaller;
-use Anomaly\Streams\Platform\Contract\Installable;
+use App\Console\Kernel;
 use Illuminate\Events\Dispatcher;
 
 /**
@@ -20,7 +18,14 @@ class UninstallExtensionHandler
 {
 
     /**
-     * The loaded extension.
+     * The service container.
+     *
+     * @var Kernel
+     */
+    protected $command;
+
+    /**
+     * The loaded extensions.
      *
      * @var ExtensionCollection
      */
@@ -37,11 +42,13 @@ class UninstallExtensionHandler
      * Create a new UninstallExtensionHandler instance.
      *
      * @param ExtensionCollection $extensions
-     * @param Dispatcher          $dispatcher
+     * @param Kernel           $kernel
+     * @param Dispatcher       $dispatcher
      */
-    function __construct(ExtensionCollection $extensions, Dispatcher $dispatcher)
+    public function __construct(ExtensionCollection $extensions, Kernel $kernel, Dispatcher $dispatcher)
     {
-        $this->extensions = $extensions;
+        $this->command    = $kernel;
+        $this->extensions    = $extensions;
         $this->dispatcher = $dispatcher;
     }
 
@@ -53,55 +60,15 @@ class UninstallExtensionHandler
      */
     public function handle(UninstallExtension $command)
     {
-        $extension = $this->extensions->findBySlug($command->getExtension());
+        $extension = $command->getExtension();
 
-        if (!$extension instanceof Extension) {
-            throw new \Exception("Extension [$command->getExtension()] not be found.");
-        }
+        $options = [
+            '--addon' => $extension->getNamespace()
+        ];
 
-        if ($installer = $extension->newInstaller()) {
-            $this->runInstallers($extension, $installer);
-        }
-
+        $this->command->call('migrate:reset', $options);
         $this->dispatcher->fire(new ExtensionWasUninstalled($extension));
 
         return true;
-    }
-
-    /**
-     * Run the installers.
-     *
-     * @param Extension          $extension
-     * @param ExtensionInstaller $installer
-     */
-    protected function runInstallers(Extension $extension, ExtensionInstaller $installer)
-    {
-        foreach ($installer->getInstallers() as $installer) {
-            $installer = $this->resolveInstaller($extension, $installer);
-
-            $this->runUninstall($installer);
-        }
-    }
-
-    /**
-     * Run the installer's uninstall method.
-     *
-     * @param Installable $installer
-     */
-    protected function runUninstall(Installable $installer)
-    {
-        $installer->uninstall();
-    }
-
-    /**
-     * Resolve the installer.
-     *
-     * @param  Extension $extension
-     * @param            $installer
-     * @return mixed
-     */
-    protected function resolveInstaller(Extension $extension, $installer)
-    {
-        return app()->make($installer, ['addon' => $extension]);
     }
 }
