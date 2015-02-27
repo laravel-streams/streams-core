@@ -36,15 +36,15 @@ class ExtensionModel extends EloquentModel implements ExtensionInterface
     public $timestamps = false;
 
     /**
-     * Find a extension by it's slug or return a new
-     * extension with the given slug.
+     * Find a extension by it's namespace or return a new
+     * extension with the given namespace.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return ExtensionModel
      */
-    public function findBySlugOrNew($slug)
+    public function findByNamespaceOrNew($namespace)
     {
-        $extension = $this->findBySlug($slug);
+        $extension = $this->findByNamespace($namespace);
 
         if ($extension instanceof ExtensionModel) {
             return $extension;
@@ -52,7 +52,7 @@ class ExtensionModel extends EloquentModel implements ExtensionInterface
 
         $extension = $this->newInstance();
 
-        $extension->slug = $slug;
+        $extension->namespace = $namespace;
 
         $extension->save();
 
@@ -60,13 +60,13 @@ class ExtensionModel extends EloquentModel implements ExtensionInterface
     }
 
     /**
-     * Find a extension by it's slug.
+     * Find a extension by it's namespace.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return mixed
      */
-    public function findBySlug($slug)
+    public function findByNamespace($namespace)
     {
-        return $this->where('slug', $slug)->first();
+        return $this->where('namespace', $namespace)->first();
     }
 }

@@ -43,16 +43,16 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Create a module record.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return mixed
      */
-    public function create($slug)
+    public function create($namespace)
     {
         $module = $this->model->newInstance();
 
-        $module->slug      = $slug;
-        $module->enabled   = false;
+        $module->namespace = $namespace;
         $module->installed = false;
+        $module->enabled   = false;
 
         $module->save();
 
@@ -62,15 +62,14 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Delete a module record.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return mixed
      */
-    public function delete($slug)
+    public function delete($namespace)
     {
-        $module = $this->model->findBySlug($slug);
+        $module = $this->model->findByNamespace($namespace);
 
         if ($module) {
-
             $module->delete();
         }
 
@@ -80,12 +79,12 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Mark a module as installed.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return mixed
      */
-    public function install($slug)
+    public function install($namespace)
     {
-        $module = $this->model->findBySlugOrNew($slug);
+        $module = $this->model->findByNamespaceOrNew($namespace);
 
         $module->installed = true;
         $module->enabled   = true;
@@ -96,12 +95,12 @@ class ModuleRepository implements ModuleRepositoryInterface
     /**
      * Mark a module as uninstalled.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return mixed
      */
-    public function uninstall($slug)
+    public function uninstall($namespace)
     {
-        $module = $this->model->findBySlug($slug);
+        $module = $this->model->findByNamespace($namespace);
 
         $module->installed = false;
         $module->enabled   = false;

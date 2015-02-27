@@ -36,15 +36,15 @@ class ModuleModel extends EloquentModel implements ModuleInterface
     public $timestamps = false;
 
     /**
-     * Find a module by it's slug or return a new
-     * module with the given slug.
+     * Find a module by it's namespace or return a new
+     * module with the given namespace.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return ModuleModel
      */
-    public function findBySlugOrNew($slug)
+    public function findByNamespaceOrNew($namespace)
     {
-        $module = $this->findBySlug($slug);
+        $module = $this->findByNamespace($namespace);
 
         if ($module instanceof ModuleModel) {
             return $module;
@@ -52,7 +52,7 @@ class ModuleModel extends EloquentModel implements ModuleInterface
 
         $module = $this->newInstance();
 
-        $module->slug = $slug;
+        $module->namespace = $namespace;
 
         $module->save();
 
@@ -60,13 +60,13 @@ class ModuleModel extends EloquentModel implements ModuleInterface
     }
 
     /**
-     * Find a module by it's slug.
+     * Find a module by it's namespace.
      *
-     * @param  $slug
+     * @param  $namespace
      * @return mixed
      */
-    public function findBySlug($slug)
+    public function findByNamespace($namespace)
     {
-        return $this->where('slug', $slug)->first();
+        return $this->where('namespace', $namespace)->first();
     }
 }
