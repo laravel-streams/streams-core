@@ -49,13 +49,21 @@ class FieldTypeSchema
      */
     public function addColumn(Blueprint $table, AssignmentInterface $assignment)
     {
+        // Skip if no column type.
         if (!$this->fieldType->getColumnType()) {
             return;
         }
 
+        // Skip if the column already exists.
+        if ($this->schema->hasColumn($table->getTable(), $this->fieldType->getColumnName())) {
+            return;
+        }
+
+        // Add the column.
         $table->{$this->fieldType->getColumnType()}($this->fieldType->getColumnName())
             ->nullable(!$assignment->isRequired());
 
+        // Mark the column unique if desired and not translatable.
         if ($assignment->isUnique() && !$assignment->isTranslatable()) {
             $table->unique($this->fieldType->getColumnName());
         }
@@ -68,14 +76,17 @@ class FieldTypeSchema
      */
     public function dropColumn(Blueprint $table)
     {
+        // Skip if no column type.
         if (!$this->fieldType->getColumnType()) {
             return;
         }
 
+        // Skip if the column doesn't exist.
         if (!$this->schema->hasColumn($table->getTable(), $this->fieldType->getColumnName())) {
             return;
         }
 
+        // Drop dat 'ole column.
         $table->dropColumn($this->fieldType->getColumnName());
     }
 }
