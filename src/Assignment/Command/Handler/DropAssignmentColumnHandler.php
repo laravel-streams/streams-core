@@ -15,12 +15,28 @@ class DropAssignmentColumnHandler
 {
 
     /**
+     * The schema builder.
+     *
+     * @var \Anomaly\Streams\Platform\Assignment\AssignmentSchema
+     */
+    protected $schema;
+
+    /**
+     * Create a new AddAssignmentColumnHandler instance.
+     *
+     * @param AssignmentSchema $schema
+     */
+    public function __construct(AssignmentSchema $schema)
+    {
+        $this->schema = $schema;
+    }
+
+    /**
      * Handle the command.
      *
      * @param DropAssignmentColumn $command
-     * @param AssignmentSchema     $schema
      */
-    public function handle(DropAssignmentColumn $command, AssignmentSchema $schema)
+    public function handle(DropAssignmentColumn $command)
     {
         $assignment = $command->getAssignment();
 
@@ -37,6 +53,6 @@ class DropAssignmentColumnHandler
             $table = $stream->getEntryTranslationsTableName();
         }
 
-        $schema->dropColumn($table, $type);
+        $this->schema->dropColumn($table, $type);
     }
 }
