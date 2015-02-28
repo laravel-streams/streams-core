@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
 use Anomaly\Streams\Platform\Database\Migration\Command\RollbackFields;
+use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Field\FieldManager;
 
 /**
@@ -15,6 +16,13 @@ class RollbackFieldsHandler
 {
 
     /**
+     * The field repository.
+     *
+     * @var FieldRepositoryInterface
+     */
+    protected $fields;
+
+    /**
      * The field manager.
      *
      * @var FieldManager
@@ -24,10 +32,12 @@ class RollbackFieldsHandler
     /**
      * Create a new RollbackFieldsHandler instance.
      *
-     * @param FieldManager $manager
+     * @param FieldRepositoryInterface $fields
+     * @param FieldManager             $manager
      */
-    public function __construct(FieldManager $manager)
+    public function __construct(FieldRepositoryInterface $fields, FieldManager $manager)
     {
+        $this->fields  = $fields;
         $this->manager = $manager;
     }
 
@@ -35,20 +45,19 @@ class RollbackFieldsHandler
      * Handle the command.
      *
      * @param RollbackFields $command
-     * @return bool
      */
     public function handle(RollbackFields $command)
     {
         $migration = $command->getMigration();
         $namespace = $command->getNamespace() ?: $migration->getNamespace();
 
-        foreach ($command->getFields() as $slug => $field) {
+        foreach ($migration->getFields() as $slug => $field) {
 
             $namespace = array_get($field, 'namespace', $namespace ?: $migration->getAddonSlug());
 
-            $this->manager->delete($namespace, $slug);
+            if ($field = $this->fields->findBySlugAndNamespace($slug, $namespace)) {
+                $this->manager->delete($field);
+            }
         }
-
-        return true;
     }
 }

@@ -14,47 +14,29 @@ interface FieldRepositoryInterface
     /**
      * Create a new field.
      *
-     * @param        $namespace
-     * @param        $slug
-     * @param        $name
-     * @param        $type
-     * @param  array $rules
-     * @param  array $config
-     * @param  bool  $isLocked
-     * @return mixed
+     * @param array $attributes
+     * @return FieldInterface
      */
-    public function create($namespace, $slug, $name, $type, array $rules = [], array $config = [], $isLocked = true);
+    public function create(array $attributes);
 
     /**
      * Delete a field.
      *
-     * @param  $namespace
+     * @param FieldInterface $field
+     */
+    public function delete(FieldInterface $field);
+
+    /**
+     * Find a field by it's slug and namespace.
+     *
      * @param  $slug
-     * @return FieldInterface
-     */
-    public function delete($namespace, $slug);
-
-    /**
-     * Find a field by it's namespace and slug.
-     *
      * @param  $namespace
-     * @param  $slug
-     * @return mixed
+     * @return null|FieldInterface
      */
-    public function findByNamespaceAndSlug($namespace, $slug);
+    public function findBySlugAndNamespace($slug, $namespace);
 
     /**
-     * Get all fields with the given namespace.
-     *
-     * @param  $namespace
-     * @return mixed
-     */
-    public function getAllWithNamespace($namespace);
-
-    /**
-     * Delete garbage.
-     *
-     * @return mixed
+     * Delete garbage fields.
      */
     public function deleteGarbage();
 }

@@ -17,7 +17,7 @@ class DeleteFieldHandler
     /**
      * The field repository.
      *
-     * @var \Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface
+     * @var FieldRepositoryInterface
      */
     protected $fields;
 
@@ -35,13 +35,9 @@ class DeleteFieldHandler
      * Handle the command.
      *
      * @param  DeleteField $command
-     * @return \Anomaly\Streams\Platform\Field\Contract\FieldInterface
      */
     public function handle(DeleteField $command)
     {
-        return $this->fields->delete(
-            $command->getNamespace(),
-            $command->getSlug()
-        );
+        $this->fields->delete($command->getField());
     }
 }

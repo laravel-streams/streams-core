@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class AssignmentRepository
@@ -33,71 +36,47 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     /**
      * Create a new assignment.
      *
-     * @param  $streamId
-     * @param  $fieldId
-     * @param  $label
-     * @param  $instructions
-     * @param  $unique
-     * @param  $required
-     * @param  $translatable
-     * @return mixed
+     * @param StreamInterface $stream
+     * @param FieldInterface  $field
+     * @param array           $attributes
+     * @return AssignmentInterface
      */
-    public function create(
-        $streamId,
-        $fieldId,
-        $label,
-        $instructions,
-        $unique,
-        $required,
-        $translatable
-    ) {
-        $assignment = $this->model->newInstance();
-
-        $assignment->label        = $label;
-        $assignment->field_id     = $fieldId;
-        $assignment->stream_id    = $streamId;
-        $assignment->unique       = $unique;
-        $assignment->required     = $required;
-        $assignment->instructions = $instructions;
-        $assignment->translatable = $translatable;
-        $assignment->sort_order   = $this->model->count('id') + 1;
-
-        $assignment->save();
-    }
-
-    /**
-     * Delete an assignment.
-     *
-     * @param  $streamId
-     * @param  $fieldId
-     * @return mixed
-     */
-    public function delete($streamId, $fieldId)
+    public function create(StreamInterface $stream, FieldInterface $field, array $attributes)
     {
-        $assignment = $this->model
-            ->where('stream_id', $streamId)
-            ->where('field_id', $fieldId)
-            ->first();
+        $attributes['field_id']  = $field->getId();
+        $attributes['stream_id'] = $stream->getId();
 
-        if ($assignment) {
-            $assignment->delete();
-
-            return $assignment;
-        }
-
-        return null;
+        return $this->model->create($attributes);
     }
 
+    /**
+     * Create a new assignment.
+     *
+     * @param AssignmentInterface $assignment
+     */
+    public function delete(AssignmentInterface $assignment)
+    {
+        $assignment->delete();
+    }
 
     /**
-     * Delete garbage records.
+     * Find an assignment by stream and field.
      *
-     * @return mixed
+     * @param StreamInterface $stream
+     * @param FieldInterface  $field
+     * @return null|AssignmentInterface
+     */
+    public function findByStreamAndField(StreamInterface $stream, FieldInterface $field)
+    {
+        return $this->model->where('stream_id', $stream->getId())->where('field_id', $field->getId())->first();
+    }
+
+    /**
+     * Delete garbage assignments.
      */
     public function deleteGarbage()
     {
-        return $this->model
-            ->table('streams_assignments')
+        $this->model
             ->leftJoin('streams_streams', 'streams_assignments.stream_id', '=', 'streams_streams.id')
             ->leftJoin('streams_fields', 'streams_assignments.field_id', '=', 'streams_fields.id')
             ->whereNull('streams_streams.id')

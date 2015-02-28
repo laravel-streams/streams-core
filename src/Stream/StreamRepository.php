@@ -34,85 +34,44 @@ class StreamRepository implements StreamRepositoryInterface
     /**
      * Create a new Stream.
      *
-     * @param         $namespace
-     * @param         $slug
-     * @param         $name
-     * @param  null   $prefix
-     * @param  null   $description
-     * @param  array  $viewOptions
-     * @param  string $titleColumn
-     * @param  string $orderBy
-     * @param  bool   $locked
-     * @param  bool   $translatable
+     * @param array $attributes
      * @return StreamInterface
      */
-    public function create(
-        $namespace,
-        $slug,
-        $name,
-        $prefix = null,
-        $description = null,
-        array $viewOptions = [],
-        $titleColumn = 'id',
-        $orderBy = 'id',
-        $locked = false,
-        $translatable = false
-    ) {
-        $stream = $this->model->newInstance();
+    public function create(array $attributes)
+    {
+        $attributes['order_by']     = array_get($attributes, 'order_by', 'id');
+        $attributes['title_column'] = array_get($attributes, 'title_column', 'id');
 
-        $stream->slug         = $slug;
-        $stream->name         = $name;
-        $stream->prefix       = $prefix;
-        $stream->order_by     = $orderBy;
-        $stream->locked       = $locked;
-        $stream->namespace    = $namespace;
-        $stream->description  = $description;
-        $stream->view_options = $viewOptions;
-        $stream->title_column = $titleColumn;
-        $stream->translatable = $translatable;
+        $attributes['locked']       = (array_get($attributes, 'locked', false));
+        $attributes['translatable'] = (array_get($attributes, 'translatable', false));
 
-        $stream->save();
+        $attributes['prefix']       = array_get($attributes, 'prefix', array_get($attributes, 'namespace') . '_');
+        $attributes['view_options'] = array_get($attributes, 'view_options', ['id', 'created_at']);
 
-        return $stream;
+        return $this->model->create($attributes);
     }
 
     /**
      * Delete a Stream.
      *
-     * @param  $namespace
-     * @param  $slug
-     * @return StreamInterface
+     * @param StreamInterface $stream
      */
-    public function delete($namespace, $slug)
+    public function delete(StreamInterface $stream)
     {
-        /** @var StreamModel $stream */
-        if ($stream = $this->findByNamespaceAndSlug($namespace, $slug)) {
-            $stream->delete();
-        }
+        $stream->delete();
 
-        return $stream;
+        $this->model->where('slug', $stream->getSlug())->where('namespace', $stream->getNamespace())->delete();
     }
 
     /**
      * Find a stream by it's namespace and slug.
      *
-     * @param  $namespace
      * @param  $slug
-     * @return mixed
-     */
-    public function findByNamespaceAndSlug($namespace, $slug)
-    {
-        return $this->model->where('namespace', $namespace)->where('slug', $slug)->first();
-    }
-
-    /**
-     * Get all streams with a given namespace.
-     *
      * @param  $namespace
-     * @return mixed
+     * @return null|StreamInterface
      */
-    public function getAllWithNamespace($namespace)
+    public function findBySlugAndNamespace($slug, $namespace)
     {
-        return $this->model->where('namespace', $namespace)->get();
+        return $this->model->where('slug', $slug)->where('namespace', $namespace)->first();
     }
 }

@@ -1,188 +1,68 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command;
 
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+
 /**
  * Class AssignField
  *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Field\Command
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Field\Command
  */
 class AssignField
 {
 
     /**
-     * The sort order.
+     * The field we're assigning.
      *
-     * @var
-     */
-    protected $sortOrder;
-
-    /**
-     * The field namespace.
-     *
-     * @var
-     */
-    protected $namespace;
-
-    /**
-     * The stream slug.
-     *
-     * @var
-     */
-    protected $stream;
-
-    /**
-     * The field slug.
-     *
-     * @var
+     * @var FieldInterface
      */
     protected $field;
 
     /**
-     * The label.
+     * The stream to assign to.
      *
-     * @var
+     * @var StreamInterface
      */
-    protected $label;
+    protected $stream;
 
     /**
-     * The instructions.
+     * The assignment attributes.
      *
-     * @var
+     * @var array
      */
-    protected $instructions;
-
-    /**
-     * The unique flag.
-     *
-     * @var
-     */
-    protected $unique;
-
-    /**
-     * The required flag.
-     *
-     * @var
-     */
-    protected $required;
-
-    /**
-     * The translatable flag.
-     *
-     * @var
-     */
-    protected $translatable;
+    protected $attributes;
 
     /**
      * Create a new AssignField instance.
      *
-     * @param      $namespace
-     * @param      $stream
-     * @param      $field
-     * @param null $label
-     * @param int  $sortOrder
-     * @param bool $unique
-     * @param bool $required
-     * @param null $instructions
-     * @param bool $translatable
+     * @param FieldInterface  $field
+     * @param StreamInterface $stream
+     * @param array           $attributes
      */
-    public function __construct(
-        $namespace,
-        $stream,
-        $field,
-        $label = null,
-        $sortOrder = 0,
-        $unique = false,
-        $required = false,
-        $instructions = null,
-        $translatable = false
-    ) {
-        $this->label        = $label;
-        $this->field        = $field;
-        $this->stream       = $stream;
-        $this->unique       = $unique;
-        $this->sortOrder    = $sortOrder;
-        $this->namespace    = $namespace;
-        $this->required     = $required;
-        $this->instructions = $instructions;
-        $this->translatable = $translatable;
-    }
-
-    /**
-     * Get the required flag.
-     *
-     * @return mixed
-     */
-    public function isRequired()
+    function __construct(FieldInterface $field, StreamInterface $stream, array $attributes)
     {
-        return $this->required;
+        $this->field      = $field;
+        $this->stream     = $stream;
+        $this->attributes = $attributes;
     }
 
     /**
-     * Get the unique flag.
+     * The assignment attributes.
      *
-     * @return mixed
+     * @return array
      */
-    public function isUnique()
+    public function getAttributes()
     {
-        return $this->unique;
+        return $this->attributes;
     }
 
     /**
-     * Get the instructions.
+     * Get the stream.
      *
-     * @return mixed
-     */
-    public function getInstructions()
-    {
-        return $this->instructions;
-    }
-
-    /**
-     * Get the translatable flag.
-     *
-     * @return mixed
-     */
-    public function isTranslatable()
-    {
-        return $this->translatable;
-    }
-
-    /**
-     * Get the label.
-     *
-     * @return mixed
-     */
-    public function getLabel()
-    {
-        return $this->label;
-    }
-
-    /**
-     * Get the field namespace.
-     *
-     * @return mixed
-     */
-    public function getNamespace()
-    {
-        return $this->namespace;
-    }
-
-    /**
-     * Get the sort order.
-     *
-     * @return mixed
-     */
-    public function getSortOrder()
-    {
-        return $this->sortOrder;
-    }
-
-    /**
-     * Get the stream slug.
-     *
-     * @return mixed
+     * @return StreamInterface
      */
     public function getStream()
     {
@@ -190,9 +70,9 @@ class AssignField
     }
 
     /**
-     * Get the field slug.
+     * Get the field.
      *
-     * @return mixed
+     * @return FieldInterface
      */
     public function getField()
     {

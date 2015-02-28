@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command;
 
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+
 /**
  * Class UnassignField
  *
@@ -12,44 +15,36 @@ class UnassignField
 {
 
     /**
-     * The field namespace.
+     * The field to unassign.
      *
-     * @var
-     */
-    protected $namespace;
-
-    /**
-     * The stream slug.
-     *
-     * @var
-     */
-    protected $stream;
-
-    /**
-     * The field slug.
-     *
-     * @var
+     * @var FieldInterface
      */
     protected $field;
 
     /**
+     * The stream to unassign
+     * the field from.
+     *
+     * @var StreamInterface
+     */
+    protected $stream;
+
+    /**
      * Create a new UnassignField instance.
      *
-     * @param $namespace
-     * @param $stream
-     * @param $field
+     * @param FieldInterface  $field
+     * @param StreamInterface $stream
      */
-    public function __construct($namespace, $stream, $field)
+    function __construct(FieldInterface $field, StreamInterface $stream)
     {
-        $this->field     = $field;
-        $this->stream    = $stream;
-        $this->namespace = $namespace;
+        $this->field  = $field;
+        $this->stream = $stream;
     }
 
     /**
-     * Get the field slug.
+     * Get the field.
      *
-     * @return mixed
+     * @return FieldInterface
      */
     public function getField()
     {
@@ -57,19 +52,9 @@ class UnassignField
     }
 
     /**
-     * Get the stream namespace.
+     * Get the stream.
      *
-     * @return mixed
-     */
-    public function getNamespace()
-    {
-        return $this->namespace;
-    }
-
-    /**
-     * Get the stream slug.
-     *
-     * @return mixed
+     * @return StreamInterface
      */
     public function getStream()
     {

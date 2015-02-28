@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Command;
 
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+
 /**
  * Class DeleteStream
  *
@@ -12,48 +14,29 @@ class DeleteStream
 {
 
     /**
-     * The stream namespace.
+     * The stream object.
      *
-     * @var
+     * @var StreamInterface
      */
-    protected $namespace;
-
-    /**
-     * The stream slug.
-     *
-     * @var
-     */
-    protected $slug;
+    protected $stream;
 
     /**
      * Create a new DeleteStream instance.
      *
-     * @param $namespace
-     * @param $slug
+     * @param StreamInterface $stream
      */
-    public function __construct($namespace, $slug)
+    public function __construct(StreamInterface $stream)
     {
-        $this->slug      = $slug;
-        $this->namespace = $namespace;
+        $this->stream = $stream;
     }
 
     /**
-     * Get the stream namespace.
+     * Get the stream.
      *
-     * @return mixed
+     * @return StreamInterface
      */
-    public function getNamespace()
+    public function getStream()
     {
-        return $this->namespace;
-    }
-
-    /**
-     * Get the stream slug.
-     *
-     * @return mixed
-     */
-    public function getSlug()
-    {
-        return $this->slug;
+        return $this->stream;
     }
 }

@@ -1,27 +1,27 @@
-<?php namespace Anomaly\Streams\Platform\Field\Command;
+<?php namespace Anomaly\Streams\Platform\Field\Event;
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 
 /**
- * Class DeleteField
+ * Class FieldWasCreated
  *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Field\Command
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Field\Event
  */
-class DeleteField
+class FieldWasCreated
 {
 
     /**
-     * The field interface.
+     * The field object.
      *
      * @var FieldInterface
      */
     protected $field;
 
     /**
-     * Create a new DeleteField instance.
+     * Create a new FieldWasCreated instance.
      *
      * @param FieldInterface $field
      */
@@ -31,7 +31,7 @@ class DeleteField
     }
 
     /**
-     * Get the field.
+     * Get the field object.
      *
      * @return FieldInterface
      */

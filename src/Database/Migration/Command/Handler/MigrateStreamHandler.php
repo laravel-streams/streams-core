@@ -47,6 +47,12 @@ class MigrateStreamHandler
             $stream = $stream->toArray();
         }
 
+        if (is_string($stream)) {
+            $stream = [
+                'slug' => $stream
+            ];
+        }
+
         if (!$stream) {
             return null;
         }
@@ -54,31 +60,19 @@ class MigrateStreamHandler
         $addon     = $migration->getAddon();
         $addonSlug = $migration->getAddonSlug();
 
-        $slug        = array_get($stream, 'slug', $addonSlug);
-        $namespace   = array_get($stream, 'namespace', $addonSlug);
-        $name        = array_get($stream, 'name', $addon ? $addon->getNamespace("stream.{$slug}.name") : null);
-        $description = array_get($stream, 'name', $addon ? $addon->getNamespace("stream.{$slug}.description") : null);
+        $stream['slug']      = array_get($stream, 'slug', $addonSlug);
+        $stream['namespace'] = array_get($stream, 'namespace', $addonSlug);
 
-        $orderBy     = array_get($stream, 'order_by', 'id');
-        $titleColumn = array_get($stream, 'title_column', 'id');
-
-        $locked       = (array_get($stream, 'locked', false));
-        $translatable = (array_get($stream, 'translatable', false));
-
-        $prefix      = array_get($stream, 'prefix', $namespace . '_');
-        $viewOptions = array_get($stream, 'view_options', ['id', 'created_at']);
-
-        $stream = compact(
-            'slug',
+        $stream['name'] = array_get(
+            $stream,
             'name',
-            'locked',
-            'prefix',
-            'orderBy',
-            'namespace',
-            'titleColumn',
-            'viewOptions',
-            'description',
-            'translatable'
+            $addon ? $addon->getNamespace("stream.{$stream['slug']}.name") : null
+        );
+
+        $stream['description'] = array_get(
+            $stream,
+            'name',
+            $addon ? $addon->getNamespace("stream.{$stream['slug']}.description") : null
         );
 
         // Create the stream.

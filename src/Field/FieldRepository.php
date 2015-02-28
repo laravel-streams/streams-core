@@ -34,87 +34,51 @@ class FieldRepository implements FieldRepositoryInterface
     /**
      * Create a new field.
      *
-     * @param        $namespace
-     * @param        $slug
-     * @param        $name
-     * @param        $type
-     * @param  array $rules
-     * @param  array $config
-     * @param  bool  $locked
-     * @return mixed|static
+     * @param array $attributes
+     * @return FieldInterface
      */
-    public function create($namespace, $slug, $name, $type, array $rules = [], array $config = [], $locked = true)
+    public function create(array $attributes)
     {
-        $field = $this->model->newInstance();
+        $attributes['rules']  = array_get($attributes, 'rules', []);
+        $attributes['config'] = array_get($attributes, 'config', []);
+        $attributes['locked'] = (array_get($attributes, 'locked', true));
 
-        $field->slug      = $slug;
-        $field->name      = $name;
-        $field->type      = $type;
-        $field->rules     = $rules;
-        $field->config    = $config;
-        $field->locked    = $locked;
-        $field->namespace = $namespace;
-
-        $field->save();
-
-        return $field;
+        return $this->model->create($attributes);
     }
 
     /**
      * Delete a field.
      *
-     * @param  $namespace
-     * @param  $slug
-     * @return FieldInterface|null
+     * @param FieldInterface $field
      */
-    public function delete($namespace, $slug)
+    public function delete(FieldInterface $field)
     {
-        $field = $this->findByNamespaceAndSlug($namespace, $slug);
-
-        if ($field) {
-
-            $field->delete();
-
-            return $field;
-        }
-
-        return null;
+        $field->delete();
     }
 
     /**
-     * Find a field by it's namespace and slug.
+     * Find a field by it's slug and namespace.
      *
-     * @param  $namespace
      * @param  $slug
-     * @return FieldInterface|null
+     * @param  $namespace
+     * @return null|FieldInterface
      */
-    public function findByNamespaceAndSlug($namespace, $slug)
+    public function findBySlugAndNamespace($slug, $namespace)
     {
         return $this->model->where('namespace', $namespace)->where('slug', $slug)->first();
     }
 
     /**
-     * Get all fields with the given namespace.
-     *
-     * @param  $namespace
-     * @return mixed
-     */
-    public function getAllWithNamespace($namespace)
-    {
-        return $this->model->where('namespace', $namespace)->get();
-    }
-
-    /**
-     * Delete garbage.
-     *
-     * @return mixed
+     * Delete garbage fields.
      */
     public function deleteGarbage()
     {
-        return $this->model
-            ->table('streams_fields')
+        $this->model
             ->leftJoin('streams_streams', 'streams_fields.namespace', '=', 'streams_streams.namespace')
             ->whereNull('streams_streams.id')
             ->delete();
+
+        $this->model->where('slug', '')->delete();
+        $this->model->where('namespace', '')->delete();
     }
 }

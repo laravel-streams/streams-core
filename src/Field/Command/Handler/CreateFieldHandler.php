@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field\Command\Handler;
 
 use Anomaly\Streams\Platform\Field\Command\CreateField;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 
 /**
@@ -15,9 +16,9 @@ class CreateFieldHandler
 {
 
     /**
-     * The fields repository.
+     * The field repository.
      *
-     * @var \Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface
+     * @var FieldRepositoryInterface
      */
     protected $fields;
 
@@ -35,18 +36,10 @@ class CreateFieldHandler
      * Handle the command.
      *
      * @param  CreateField $command
-     * @return \Anomaly\Streams\Platform\Field\Contract\FieldInterface
+     * @return FieldInterface
      */
     public function handle(CreateField $command)
     {
-        return $this->fields->create(
-            $command->getNamespace(),
-            $command->getSlug(),
-            $command->getName(),
-            $command->getType(),
-            $command->getRules(),
-            $command->getConfig(),
-            $command->isLocked()
-        );
+        return $this->fields->create($command->getAttributes());
     }
 }

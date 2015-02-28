@@ -1,8 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
-use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Database\Migration\Command\MigrateAssignments;
+use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Field\FieldManager;
+use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 
 /**
  * Class MigrateAssignmentsHandler
@@ -16,6 +17,20 @@ class MigrateAssignmentsHandler
 {
 
     /**
+     * The field repository.
+     *
+     * @var FieldRepositoryInterface
+     */
+    protected $fields;
+
+    /**
+     * The stream repository.
+     *
+     * @var StreamRepositoryInterface
+     */
+    protected $streams;
+
+    /**
      * The field manager.
      *
      * @var FieldManager
@@ -25,10 +40,17 @@ class MigrateAssignmentsHandler
     /**
      * Create a new MigrateAssignmentsHandler instance.
      *
-     * @param FieldManager $manager
+     * @param FieldManager              $manager
+     * @param FieldRepositoryInterface  $fields
+     * @param StreamRepositoryInterface $streams
      */
-    public function __construct(FieldManager $manager)
-    {
+    function __construct(
+        FieldManager $manager,
+        FieldRepositoryInterface $fields,
+        StreamRepositoryInterface $streams
+    ) {
+        $this->fields  = $fields;
+        $this->streams = $streams;
         $this->manager = $manager;
     }
 
@@ -43,47 +65,32 @@ class MigrateAssignmentsHandler
         $stream    = $command->getStream() ?: $migration->getStream();
         $fields    = $command->getFields() ?: $migration->getAssignments();
 
+        $addon = $migration->getAddon();
+
+        $stream = $this->streams->findBySlugAndNamespace(
+            array_get($stream, 'slug'),
+            array_get($stream, 'namespace', $addon->getSlug())
+        );
+
         foreach ($fields as $field => $assignment) {
-            $this->assignField($field, $assignment, $stream, $migration->getAddon());
+
+            if (is_numeric($field)) {
+                $field      = $assignment;
+                $assignment = [];
+            }
+
+            $assignment['label']        = array_get($assignment, 'label', $addon->getNamespace("field.{$field}.label"));
+            $assignment['instructions'] = array_get(
+                $assignment,
+                'instructions',
+                $addon->getNamespace("field.{$field}.instructions")
+            );
+
+            $field = $this->fields->findBySlugAndNamespace($field, $stream->getNamespace());
+
+            if ($field) {
+                $this->manager->assign($field, $stream, $assignment);
+            }
         }
-    }
-
-    /**
-     * Assign a field.
-     *
-     * @param       $field
-     * @param       $assignment
-     * @param array $stream
-     * @param Addon $addon
-     */
-    protected function assignField($field, $assignment, array $stream, Addon $addon)
-    {
-        if (is_string($assignment)) {
-            $field      = $assignment;
-            $assignment = [];
-        }
-
-        $unique       = (array_get($assignment, 'unique', false));
-        $required     = (array_get($assignment, 'required', false));
-        $translatable = (array_get($assignment, 'translatable', false));
-
-        $label        = array_get($assignment, 'label', $addon->getNamespace("field.{$field}.label"));
-        $instructions = array_get(
-            $assignment,
-            'instructions',
-            $addon->getNamespace("field.{$field}.instructions")
-        );
-
-        $assignment = compact('label', 'instructions', 'unique', 'required', 'translatable');
-
-        $stream    = array_get($stream, 'slug');
-        $namespace = array_get($stream, 'namespace', $addon->getSlug());
-
-        $this->manager->assign(
-            $namespace,
-            $stream,
-            $field,
-            $assignment
-        );
     }
 }

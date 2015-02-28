@@ -17,7 +17,7 @@ class DeleteStreamHandler
     /**
      * The streams repository.
      *
-     * @var \Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface
+     * @var StreamRepositoryInterface
      */
     protected $streams;
 
@@ -40,6 +40,6 @@ class DeleteStreamHandler
      */
     public function handle(DeleteStream $command)
     {
-        return $this->streams->delete($command->getNamespace(), $command->getSlug());
+        $this->streams->delete($command->getStream());
     }
 }

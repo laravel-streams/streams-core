@@ -14,54 +14,24 @@ interface StreamRepositoryInterface
     /**
      * Create a new Stream.
      *
-     * @param         $namespace
-     * @param         $slug
-     * @param         $name
-     * @param  null   $prefix
-     * @param  null   $description
-     * @param  array  $viewOptions
-     * @param  string $titleColumn
-     * @param  string $orderBy
-     * @param  bool   $locked
-     * @param  bool   $translatable
+     * @param array $attributes
      * @return StreamInterface
      */
-    public function create(
-        $namespace,
-        $slug,
-        $name,
-        $prefix = null,
-        $description = null,
-        array $viewOptions = [],
-        $titleColumn = 'id',
-        $orderBy = 'id',
-        $locked = false,
-        $translatable = false
-    );
+    public function create(array $attributes);
 
     /**
      * Delete a Stream.
      *
-     * @param  $namespace
-     * @param  $slug
-     * @return mixed
+     * @param StreamInterface $stream
      */
-    public function delete($namespace, $slug);
+    public function delete(StreamInterface $stream);
 
     /**
      * Find a stream by it's namespace and slug.
      *
-     * @param  $namespace
      * @param  $slug
-     * @return mixed
-     */
-    public function findByNamespaceAndSlug($namespace, $slug);
-
-    /**
-     * Get all streams with a given namespace.
-     *
      * @param  $namespace
-     * @return mixed
+     * @return null|StreamInterface
      */
-    public function getAllWithNamespace($namespace);
+    public function findBySlugAndNamespace($slug, $namespace);
 }

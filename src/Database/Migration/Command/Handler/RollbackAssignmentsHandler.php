@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
 use Anomaly\Streams\Platform\Database\Migration\Command\RollbackAssignments;
+use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Field\FieldManager;
+use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 
 /**
  * Class RollbackAssignmentsHandler
@@ -15,6 +17,20 @@ class RollbackAssignmentsHandler
 {
 
     /**
+     * The field repository.
+     *
+     * @var FieldRepositoryInterface
+     */
+    protected $fields;
+
+    /**
+     * The stream repository.
+     *
+     * @var StreamRepositoryInterface
+     */
+    protected $streams;
+
+    /**
      * The field manager.
      *
      * @var FieldManager
@@ -24,10 +40,17 @@ class RollbackAssignmentsHandler
     /**
      * Create a new RollbackAssignmentsHandler instance.
      *
-     * @param FieldManager $manager
+     * @param FieldManager              $manager
+     * @param FieldRepositoryInterface  $fields
+     * @param StreamRepositoryInterface $streams
      */
-    public function __construct(FieldManager $manager)
-    {
+    public function __construct(
+        FieldManager $manager,
+        FieldRepositoryInterface $fields,
+        StreamRepositoryInterface $streams
+    ) {
+        $this->fields  = $fields;
+        $this->streams = $streams;
         $this->manager = $manager;
     }
 
@@ -40,14 +63,22 @@ class RollbackAssignmentsHandler
     {
         $migration = $command->getMigration();
         $fields    = $command->getFields() ?: $migration->getAssignments();
-        $stream    = $command->getStream();
+        $stream    = $command->getStream() ?: $migration->getStream();
 
-        $namespace = ($stream && $stream->getNamespace()) ? $stream->getNamespace() : $migration->getNamespace();
+        $namespace = array_get($stream, 'namespace', $migration->getNamespace());
+        $slug      = array_get($stream, 'slug', $migration->getAddonSlug());
 
-        $slug = $stream ? $stream->getSlug() : $migration->getAddonSlug();
+        $stream = $this->streams->findBySlugAndNamespace($slug, $namespace);
 
         foreach ($fields as $field => $assignment) {
-            $this->manager->unassign($namespace, $slug, $field, $assignment);
+
+            if (is_numeric($field)) {
+                $field = $assignment;
+            }
+
+            if ($stream && $field = $this->fields->findBySlugAndNamespace($field, $namespace)) {
+                $this->manager->unassign($field, $stream);
+            }
         }
     }
 }

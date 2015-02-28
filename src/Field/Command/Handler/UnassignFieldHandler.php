@@ -2,8 +2,7 @@
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Command\UnassignField;
-use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class UnassignFieldHandler
@@ -17,40 +16,28 @@ class UnassignFieldHandler
 {
 
     /**
-     * The fields repository.
+     * The event dispatcher.
      *
-     * @var \Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface
+     * @var Dispatcher
      */
-    protected $fields;
+    protected $events;
 
     /**
-     * The streams repository.
+     * The assignment repository.
      *
-     * @var \Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface
-     */
-    protected $streams;
-
-    /**
-     * The assignments repository.
-     *
-     * @var \Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface
+     * @var AssignmentRepositoryInterface
      */
     protected $assignments;
 
     /**
      * Create a new UnassignFieldHandler instance.
      *
-     * @param FieldRepositoryInterface      $fields
-     * @param StreamRepositoryInterface     $streams
      * @param AssignmentRepositoryInterface $assignments
+     * @param Dispatcher                    $events
      */
-    public function __construct(
-        FieldRepositoryInterface $fields,
-        StreamRepositoryInterface $streams,
-        AssignmentRepositoryInterface $assignments
-    ) {
-        $this->fields      = $fields;
-        $this->streams     = $streams;
+    public function __construct(AssignmentRepositoryInterface $assignments, Dispatcher $events)
+    {
+        $this->events      = $events;
         $this->assignments = $assignments;
     }
 
@@ -58,15 +45,11 @@ class UnassignFieldHandler
      * Handle the command.
      *
      * @param  UnassignField $command
-     * @return mixed
      */
     public function handle(UnassignField $command)
     {
-        $stream = $this->streams->findByNamespaceAndSlug($command->getNamespace(), $command->getStream());
-        $field  = $this->fields->findByNamespaceAndSlug($command->getNamespace(), $command->getField());
-
-        if ($stream && $field) {
-            $this->assignments->delete($stream->getKey(), $field->getKey());
+        if ($assignment = $this->assignments->findByStreamAndField($command->getStream(), $command->getField())) {
+            $this->assignments->delete($assignment);
         }
     }
 }

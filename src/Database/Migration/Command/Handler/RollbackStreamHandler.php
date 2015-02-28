@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
 use Anomaly\Streams\Platform\Database\Migration\Command\RollbackStream;
+use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\StreamManager;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 
@@ -16,6 +17,13 @@ class RollbackStreamHandler
 {
 
     /**
+     * The stream repository.
+     *
+     * @var StreamRepositoryInterface
+     */
+    protected $streams;
+
+    /**
      * The stream manager.
      *
      * @var StreamManager
@@ -25,10 +33,12 @@ class RollbackStreamHandler
     /**
      * Create a new RollbackStreamHandler instance.
      *
-     * @param StreamManager $manager
+     * @param StreamManager             $manager
+     * @param StreamRepositoryInterface $streams
      */
-    public function __construct(StreamManager $manager)
+    public function __construct(StreamManager $manager, StreamRepositoryInterface $streams)
     {
+        $this->streams = $streams;
         $this->manager = $manager;
     }
 
@@ -36,19 +46,19 @@ class RollbackStreamHandler
      * Handle the command.
      *
      * @param RollbackStream $command
-     * @return mixed
      */
     public function handle(RollbackStream $command)
     {
         $migration = $command->getMigration();
 
-        $stream = $command->getStream() ?: new StreamModel($migration->getStream());
-
+        $stream    = $command->getStream() ?: new StreamModel($migration->getStream());
         $namespace = ($stream && $stream->getNamespace()) ? $stream->getNamespace() : $migration->getNamespace();
 
         $slug = ($stream && $stream->getSlug()) ? $stream->getSlug() :
             array_get($stream->toArray(), 'slug', $migration->getAddonSlug());
 
-        return $this->manager->delete($namespace, $slug);
+        if ($stream = $this->streams->findBySlugAndNamespace($slug, $namespace)) {
+            $this->manager->delete($stream);
+        }
     }
 }

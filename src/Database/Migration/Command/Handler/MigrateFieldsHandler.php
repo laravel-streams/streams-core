@@ -53,15 +53,12 @@ class MigrateFieldsHandler
                 $field = ['type' => $field];
             }
 
-            $type   = array_get($field, 'type');
-            $rules  = array_get($field, 'rules', []);
-            $config = array_get($field, 'config', []);
-            $locked = (array_get($field, 'locked', true));
+            $field['slug']      = $slug;
+            $field['type']      = array_get($field, 'type');
+            $field['namespace'] = array_get($field, 'namespace', $namespace ?: $addonSlug);
+            $field['name']      = array_get($field, 'name', $addon ? $addon->getNamespace("field.{$slug}.name") : null);
 
-            $namespace = array_get($field, 'namespace', $namespace ?: $addonSlug);
-            $name      = array_get($field, 'name', $addon ? $addon->getNamespace("field.{$slug}.name") : null);
-
-            $this->manager->create(compact('slug', 'type', 'namespace', 'name', 'rules', 'config', 'locked'));
+            $this->manager->create($field);
         }
 
         return true;

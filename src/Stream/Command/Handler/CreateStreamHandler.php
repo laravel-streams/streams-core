@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Command\Handler;
 
 use Anomaly\Streams\Platform\Stream\Command\CreateStream;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 
 /**
@@ -17,7 +18,7 @@ class CreateStreamHandler
     /**
      * The schema object.
      *
-     * @var \Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface
+     * @var StreamRepositoryInterface
      */
     protected $streams;
 
@@ -35,21 +36,10 @@ class CreateStreamHandler
      * Handle the command.
      *
      * @param  CreateStream $command
-     * @return \Anomaly\Streams\Platform\Stream\Contract\StreamInterface
+     * @return StreamInterface
      */
     public function handle(CreateStream $command)
     {
-        return $this->streams->create(
-            $command->getNamespace(),
-            $command->getSlug(),
-            $command->getName(),
-            $command->getPrefix(),
-            $command->getDescription(),
-            $command->getViewOptions(),
-            $command->getTitleColumn(),
-            $command->getOrderBy(),
-            $command->isLocked(),
-            $command->isTranslatable()
-        );
+        return $this->streams->create($command->getAttributes());
     }
 }

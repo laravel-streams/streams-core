@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Contract;
 
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+
 /**
  * Interface AssignmentRepositoryInterface
  *
@@ -14,38 +17,31 @@ interface AssignmentRepositoryInterface
     /**
      * Create a new assignment.
      *
-     * @param  $streamId
-     * @param  $fieldId
-     * @param  $label
-     * @param  $instructions
-     * @param  $unique
-     * @param  $required
-     * @param  $translatable
-     * @return mixed
+     * @param StreamInterface $stream
+     * @param FieldInterface  $field
+     * @param array           $attributes
+     * @return AssignmentInterface
      */
-    public function create(
-        $streamId,
-        $fieldId,
-        $label,
-        $instructions,
-        $unique,
-        $required,
-        $translatable
-    );
+    public function create(StreamInterface $stream, FieldInterface $field, array $attributes);
 
     /**
      * Delete an assignment.
      *
-     * @param  $streamId
-     * @param  $fieldId
-     * @return mixed
+     * @param AssignmentInterface $assignment
      */
-    public function delete($streamId, $fieldId);
+    public function delete(AssignmentInterface $assignment);
 
     /**
-     * Delete garbage records.
+     * Find an assignment by stream and field.
      *
-     * @return mixed
+     * @param StreamInterface $stream
+     * @param FieldInterface  $field
+     * @return null|AssignmentInterface
+     */
+    public function findByStreamAndField(StreamInterface $stream, FieldInterface $field);
+
+    /**
+     * Delete garbage assignments.
      */
     public function deleteGarbage();
 }

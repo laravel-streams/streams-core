@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Stream\Command\CreateStream;
 use Anomaly\Streams\Platform\Stream\Command\DeleteStream;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
@@ -19,23 +21,21 @@ class StreamManager
     /**
      * Create a stream.
      *
-     * @param  array $stream
-     * @return mixed
+     * @param  array $attributes
+     * @return StreamInterface
      */
-    public function create(array $stream)
+    public function create(array $attributes)
     {
-        return $this->dispatchFromArray('Anomaly\Streams\Platform\Stream\Command\CreateStream', $stream);
+        return $this->dispatch(new CreateStream($attributes));
     }
 
     /**
      * Delete a stream.
      *
-     * @param  $namespace
-     * @param  $slug
-     * @return mixed
+     * @param StreamInterface $stream
      */
-    public function delete($namespace, $slug)
+    public function delete(StreamInterface $stream)
     {
-        return $this->dispatch(new DeleteStream($namespace, $slug));
+        $this->dispatch(new DeleteStream($stream));
     }
 }

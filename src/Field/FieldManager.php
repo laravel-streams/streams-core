@@ -1,7 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Field\Command\AssignField;
+use Anomaly\Streams\Platform\Field\Command\CreateField;
 use Anomaly\Streams\Platform\Field\Command\DeleteField;
 use Anomaly\Streams\Platform\Field\Command\UnassignField;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
@@ -20,53 +25,43 @@ class FieldManager
     /**
      * Create a field.
      *
-     * @param  array $field
-     * @return mixed
+     * @param  array $attributes
+     * @return FieldInterface
      */
-    public function create(array $field)
+    public function create(array $attributes)
     {
-        return $this->dispatchFromArray('Anomaly\Streams\Platform\Field\Command\CreateField', $field);
+        return $this->dispatch(new CreateField($attributes));
     }
 
     /**
-     * Delete a field.
-     *
-     * @param  $namespace
-     * @param  $slug
-     * @return mixed
+     * @param FieldInterface $field
      */
-    public function delete($namespace, $slug)
+    public function delete(FieldInterface $field)
     {
-        return $this->dispatch(new DeleteField($namespace, $slug));
+        $this->dispatch(new DeleteField($field));
     }
 
     /**
-     * Assign a field.
+     * Assign a field to a stream.
      *
-     * @param        $namespace
-     * @param        $stream
-     * @param        $field
-     * @param  array $assignment
-     * @return mixed
+     * @param FieldInterface  $field
+     * @param StreamInterface $stream
+     * @param array           $attributes
+     * @return AssignmentInterface
      */
-    public function assign($namespace, $stream, $field, array $assignment)
+    public function assign(FieldInterface $field, StreamInterface $stream, array $attributes)
     {
-        return $this->dispatchFromArray(
-            'Anomaly\Streams\Platform\Field\Command\AssignField',
-            array_merge($assignment, compact('namespace', 'stream', 'field'))
-        );
+        return $this->dispatch(new AssignField($field, $stream, $attributes));
     }
 
     /**
-     * Unassign a field.
+     * Unassign a field from a stream.
      *
-     * @param  $namespace
-     * @param  $stream
-     * @param  $field
-     * @return mixed
+     * @param FieldInterface  $field
+     * @param StreamInterface $stream
      */
-    public function unassign($namespace, $stream, $field)
+    public function unassign(FieldInterface $field, StreamInterface $stream)
     {
-        return $this->dispatch(new UnassignField($namespace, $stream, $field));
+        $this->dispatch(new UnassignField($field, $stream));
     }
 }
