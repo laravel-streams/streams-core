@@ -14,6 +14,13 @@ class ApplicationModel extends Model
 {
 
     /**
+     * The model table.
+     *
+     * @var string
+     */
+    protected $table = 'applications';
+
+    /**
      * Find an application record by domain.
      *
      * @param  $domain
@@ -23,7 +30,7 @@ class ApplicationModel extends Model
     {
         $domain = trim(str_replace(array('http://', 'https://'), '', $domain), '/');
 
-        return app('db')->table('applications')
+        return app('db')
             ->leftJoin('applications_domains', 'applications.id', '=', 'applications_domains.application_id')
             ->where('applications.domain', $domain)
             ->orWhere('applications_domains.domain', $domain)
