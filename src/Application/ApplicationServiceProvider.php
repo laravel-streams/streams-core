@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Application\Command\ConfigureCommandBus;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
+use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,6 +29,7 @@ class ApplicationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->dispatch(new SetCoreConnection());
         $this->dispatch(new ConfigureCommandBus());
         $this->dispatch(new LoadStreamsConfiguration());
         $this->dispatch(new AddTwigBridgeExtensions());

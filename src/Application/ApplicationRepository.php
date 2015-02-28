@@ -42,4 +42,14 @@ class ApplicationRepository
             ->orWhere('applications_domains.domain', $domain)
             ->first();
     }
+
+    /**
+     * Create a new Application.
+     *
+     * @param array $attributes
+     */
+    public function create(array $attributes)
+    {
+        return $this->model->create($attributes);
+    }
 }

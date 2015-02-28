@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Entry\Parser\EntryTitleParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationForeignKeyParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Support\Parser;
 
 /**
  * Class GenerateEntryModelHandler
@@ -26,7 +27,14 @@ class GenerateEntryModelHandler
 {
 
     /**
-     * The streams application.
+     * The parser utility.
+     *
+     * @var Parser
+     */
+    protected $parser;
+
+    /**
+     * The application instance.
      *
      * @var Application
      */
@@ -35,10 +43,12 @@ class GenerateEntryModelHandler
     /**
      * Create a new GenerateEntryModelHandler instance.
      *
+     * @param Parser      $parser
      * @param Application $application
      */
-    public function __construct(Application $application)
+    function __construct(Parser $parser, Application $application)
     {
+        $this->parser      = $parser;
         $this->application = $application;
     }
 
@@ -53,14 +63,14 @@ class GenerateEntryModelHandler
 
         $data = $this->getTemplateData($stream);
 
-        $template = file_get_contents(app('streams.path') . '/resources/assets/generator/model.twig');
+        $template = file_get_contents(__DIR__ . '/../../../../resources/assets/generator/model.twig');
 
         $file = $this->getFilePath($stream);
 
         @mkdir(dirname($file), 777, true);
         @unlink($file);
 
-        file_put_contents($file, app('twig.string')->render($template, $data));
+        file_put_contents($file, $this->parser->parse($template, $data));
     }
 
     /**

@@ -21,6 +21,13 @@ class ApplicationModel extends Model
     public $timestamps = false;
 
     /**
+     * The connection to use.
+     *
+     * @var string
+     */
+    protected $connection = 'core';
+
+    /**
      * The model table.
      *
      * @var string
