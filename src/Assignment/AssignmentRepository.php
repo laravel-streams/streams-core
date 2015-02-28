@@ -50,7 +50,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     }
 
     /**
-     * Create a new assignment.
+     * Delete an assignment.
      *
      * @param AssignmentInterface $assignment
      */
