@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
+use Illuminate\Foundation\Bus\DispatchesCommands;
+
 /**
  * Class Application
  *
@@ -10,6 +12,8 @@
  */
 class Application
 {
+
+    use DispatchesCommands;
 
     /**
      * Keep installed status around.
@@ -56,8 +60,8 @@ class Application
      */
     public function setTablePrefix()
     {
-        app('db')->getSchemaBuilder()->getConnection()->setTablePrefix($this->tablePrefix());
-        app('db')->getSchemaBuilder()->getConnection()->getSchemaGrammar()->setTablePrefix($this->tablePrefix());
+        app('db')->getSchemaBuilder()->getConnection()->setTablePrefix($this->getReference() . '_');
+        app('db')->getSchemaBuilder()->getConnection()->getSchemaGrammar()->setTablePrefix($this->getReference() . '_');
     }
 
     /**

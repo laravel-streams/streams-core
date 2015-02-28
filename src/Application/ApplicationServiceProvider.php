@@ -6,7 +6,7 @@ use Anomaly\Streams\Platform\Application\Command\CheckDirectoryPermissions;
 use Anomaly\Streams\Platform\Application\Command\ConfigureCommandBus;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
-use Anomaly\Streams\Platform\Application\Command\LocateApplication;
+use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,7 +35,7 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->dispatch(new ConfigureTranslator());
 
         // Ready!
-        $this->dispatch(new LocateApplication());
+        $this->dispatch(new InitializeApplication());
         $this->dispatch(new CheckDirectoryPermissions());
     }
 
