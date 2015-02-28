@@ -65,6 +65,10 @@ class MigrateAssignmentsHandler
         $stream    = $command->getStream() ?: $migration->getStream();
         $fields    = $command->getFields() ?: $migration->getAssignments();
 
+        if (!$fields) {
+            return;
+        }
+
         $addon = $migration->getAddon();
 
         $stream = $this->streams->findBySlugAndNamespace(

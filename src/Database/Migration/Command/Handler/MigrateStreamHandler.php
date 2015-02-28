@@ -54,7 +54,7 @@ class MigrateStreamHandler
         }
 
         if (!$stream) {
-            return null;
+            return;
         }
 
         $addon     = $migration->getAddon();
