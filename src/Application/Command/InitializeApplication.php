@@ -42,6 +42,5 @@ class InitializeApplication implements SelfHandling
          * assume default for now.
          */
         $application->setReference('default');
-        $application->setup();
     }
 }
