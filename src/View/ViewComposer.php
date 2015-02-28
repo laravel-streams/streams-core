@@ -6,14 +6,14 @@ use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
 
 /**
- * Class Composer
+ * Class ViewComposer
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Support
  */
-class Composer
+class ViewComposer
 {
 
     /**
@@ -38,7 +38,7 @@ class Composer
     protected $modules;
 
     /**
-     * Create a new Composer instance.
+     * Create a new ViewComposer instance.
      *
      * @param Agent            $agent
      * @param ThemeCollection  $themes

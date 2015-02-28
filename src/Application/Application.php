@@ -26,20 +26,20 @@ class Application
     protected $reference = 'default';
 
     /**
-     * The application model.
+     * The application repository.
      *
-     * @var ApplicationModel
+     * @var ApplicationRepository
      */
-    protected $model;
+    protected $applications;
 
     /**
      * Create a new Application instance.
      *
-     * @param ApplicationModel $model
+     * @param ApplicationRepository $model
      */
-    public function __construct(ApplicationModel $model)
+    public function __construct(ApplicationRepository $applications)
     {
-        $this->model = $model;
+        $this->applications = $applications;
     }
 
     /**
@@ -66,18 +66,16 @@ class Application
      *
      * @return bool
      */
-    public function locate($domain = null)
+    public function locate()
     {
         if (app('db')->getSchemaBuilder()->hasTable('applications')) {
 
-            if (is_null($domain)) {
-                $domain = app('request')->root();
-            }
-
-            if ($app = $this->model->findByDomain($domain)) {
+            if ($app = $this->applications->findByDomain(
+                trim(str_replace(array('http://', 'https://'), '', app('request')->root()), '/')
+            )
+            ) {
 
                 $this->installed = true;
-
                 $this->reference = $app->reference;
 
                 return true;

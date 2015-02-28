@@ -20,53 +20,40 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerPackages();
-        $this->registerCore();
-    }
-
-    /**
-     * Register packages.
-     */
-    protected function registerPackages()
-    {
+        /**
+         * Register all third party packages first.
+         */
         $this->app->register('TwigBridge\ServiceProvider');
         $this->app->register('Barryvdh\Debugbar\ServiceProvider');
         $this->app->register('Illuminate\Html\HtmlServiceProvider');
         $this->app->register('Jenssegers\Agent\AgentServiceProvider');
         $this->app->register('Intervention\Image\ImageServiceProvider');
-    }
 
-    /**
-     * Register core.
-     */
-    protected function registerCore()
-    {
-        // Register the base application.
+        /**
+         * Register all Streams Platform services.
+         */
         $this->app->register('Anomaly\Streams\Platform\Application\ApplicationServiceProvider');
-
-        // Register our custom console service.
         $this->app->register('Anomaly\Streams\Platform\Console\ConsoleSupportServiceProvider');
-
-        // Register the asset and image services.
+        $this->app->register('Anomaly\Streams\Platform\Exception\ExceptionServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Message\MessageServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Model\EloquentServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Asset\AssetServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Image\ImageServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\View\ViewServiceProvider');
+        $this->app->register('Anomaly\Streams\Platform\Ui\UiServiceProvider');
 
-        // Register the message service.
-        $this->app->register('Anomaly\Streams\Platform\Message\MessageServiceProvider');
-
-        // Register our base model service.
-        $this->app->register('Anomaly\Streams\Platform\Model\EloquentServiceProvider');
-
-        // Register the streams services.
+        /**
+         * Register all the Streams API services.
+         */
         $this->app->register('Anomaly\Streams\Platform\Entry\EntryServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Field\FieldServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Stream\StreamServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Assignment\AssignmentServiceProvider');
 
-        // Register UI services.
-        $this->app->register('Anomaly\Streams\Platform\Ui\UiServiceProvider');
-
-        // Register addon services.
+        /**
+         * Register all addons LAST so they have
+         * access to the full gamut of services.
+         */
         $this->app->register('Anomaly\Streams\Platform\Addon\AddonServiceProvider');
     }
 }
