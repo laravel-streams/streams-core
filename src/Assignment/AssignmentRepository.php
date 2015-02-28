@@ -46,6 +46,8 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $attributes['field_id']  = $field->getId();
         $attributes['stream_id'] = $stream->getId();
 
+        $attributes['sort_order'] = array_get($attributes, 'sort_order', $this->model->count('id') + 1);
+
         return $this->model->create($attributes);
     }
 
