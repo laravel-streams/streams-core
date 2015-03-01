@@ -42,22 +42,23 @@ class FieldCollection extends Collection
     }
 
     /**
-     * Return an array of field slugs.
+     * Get a field.
      *
-     * @return array
+     * @param mixed $key
+     * @param null  $default
+     * @return FieldType
      */
-    /*public function fieldSlugs()
+    public function get($key, $default = null)
     {
-        $slugs = [];
-
+        /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if ($item instanceof FieldType && $slug = $item->getField()) {
-                $slugs[] = $slug;
+            if ($item->getField() == $key) {
+                return $item;
             }
         }
 
-        return $slugs;
-    }*/
+        return $this->get($default);
+    }
 
     /**
      * Return fields to be processed immediately.

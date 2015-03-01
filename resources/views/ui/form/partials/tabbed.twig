@@ -16,7 +16,7 @@
                 <div class="tab-pane {{ loop.first ? 'active' }}" id="{{ slug }}">
                     {% for field in tab.fields %}
                         <div class="form-group">
-                            {{ form.fields[field].render|raw }}
+                            {{ form.fields.get(field).render|raw }}
                         </div>
                     {% endfor %}
                 </div>
