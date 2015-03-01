@@ -23,5 +23,6 @@ class EloquentServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->register('Anomaly\Streams\Platform\Model\EloquentEventProvider');
     }
 }

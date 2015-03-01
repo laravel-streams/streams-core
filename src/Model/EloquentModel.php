@@ -109,16 +109,6 @@ class EloquentModel extends Model
     }
 
     /**
-     * Flush the cache collection.
-     *
-     * @return $this
-     */
-    public function flushCacheCollection()
-    {
-        (new CacheCollection())->setKey($this->getCacheCollectionKey())->flush();
-    }
-
-    /**
      * Set the cache minutes.
      *
      * @param  $cacheMinutes
