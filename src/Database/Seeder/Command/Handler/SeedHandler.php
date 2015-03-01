@@ -50,6 +50,7 @@ class SeedHandler
      */
     public function handle(Seed $command)
     {
+        $this->seeder->setContainer(app());
         $this->seeder->setCommand($command->getCommand());
 
         Model::unguard();
