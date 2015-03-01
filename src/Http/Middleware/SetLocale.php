@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
+use Anomaly\PreferencesModule\Preference\Contract\PreferenceRepositoryInterface;
 use Anomaly\SettingsModule\Setting\Contract\SettingRepositoryInterface;
 use Closure;
 use Illuminate\Config\Repository;
@@ -32,6 +33,13 @@ class SetLocale
     protected $settings;
 
     /**
+     * The preference repository.
+     *
+     * @var PreferenceRepositoryInterface
+     */
+    protected $preferences;
+
+    /**
      * The Laravel application.
      *
      * @var Application
@@ -41,14 +49,20 @@ class SetLocale
     /**
      * Create a new SetLocale instance.
      *
-     * @param Repository                 $config
-     * @param SettingRepositoryInterface $settings
-     * @param Application                $application
+     * @param Repository                    $config
+     * @param SettingRepositoryInterface    $settings
+     * @param PreferenceRepositoryInterface $preferences
+     * @param Application                   $application
      */
-    public function __construct(Repository $config, SettingRepositoryInterface $settings, Application $application)
-    {
+    public function __construct(
+        Repository $config,
+        SettingRepositoryInterface $settings,
+        PreferenceRepositoryInterface $preferences,
+        Application $application
+    ) {
         $this->config      = $config;
         $this->settings    = $settings;
+        $this->preferences = $preferences;
         $this->application = $application;
     }
 
@@ -63,7 +77,13 @@ class SetLocale
     public function handle(Request $request, Closure $next)
     {
         $this->application->setLocale(
-            $this->settings->get('streams::default_locale', $this->config->get('app.locale'))
+            $this->settings->get(
+                'streams::default_locale',
+                $this->preferences->get(
+                    'streams::locale',
+                    $this->config->get('app.locale')
+                )
+            )
         );
 
         return $next($request);
