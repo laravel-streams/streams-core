@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
+use Anomaly\LocalizationModule\Language\Contract\LanguageRepositoryInterface;
 use Anomaly\SettingsModule\Setting\Contract\SettingRepositoryInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -23,13 +24,22 @@ class FieldTranslator
     protected $settings;
 
     /**
+     * The language repository.
+     *
+     * @var LanguageRepositoryInterface
+     */
+    protected $languages;
+
+    /**
      * Create a new FieldTranslator instance.
      *
-     * @param SettingRepositoryInterface $settings
+     * @param SettingRepositoryInterface  $settings
+     * @param LanguageRepositoryInterface $languages
      */
-    public function __construct(SettingRepositoryInterface $settings)
+    public function __construct(SettingRepositoryInterface $settings, LanguageRepositoryInterface $languages)
     {
-        $this->settings = $settings;
+        $this->settings  = $settings;
+        $this->languages = $languages;
     }
 
 
@@ -43,7 +53,8 @@ class FieldTranslator
         $fields = $builder->getFields();
         $entry  = $builder->getFormEntry();
 
-        $defaultLocale = $this->settings->get('streams::default_locale', config('app.locale'));
+        $locale    = $this->settings->get('streams::default_locale', config('app.locale'));
+        $languages = $this->languages->enabled();
 
         /**
          * If the entry is not of the interface
@@ -71,14 +82,14 @@ class FieldTranslator
                 continue;
             }
 
-            foreach (config('streams.available_locales') as $locale) {
+            foreach ($languages as $language) {
 
                 $translation = $field;
 
-                array_set($translation, 'locale', $locale);
-                array_set($translation, 'hidden', $locale !== $defaultLocale);
+                array_set($translation, 'locale', $language->iso);
+                array_set($translation, 'hidden', $language->iso !== $locale);
 
-                if ($locale !== $defaultLocale) {
+                if ($locale !== $language->iso) {
                     array_set($translation, 'required', false);
                 }
 

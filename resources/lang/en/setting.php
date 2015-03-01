@@ -28,12 +28,8 @@ return [
     ],
     'default_locale'    => [
         'label'        => 'Default Language',
-        'instructions' => 'What is the default language for your website or application?',
+        'instructions' => 'What is the default language for your website or application?<br>Languages can be managed in the <a href="/admin/localization" target="_blank">Localization</a> module.',
         'placeholder'  => config('app.locale')
-    ],
-    'available_locales' => [
-        'label'        => 'Available Languages',
-        'instructions' => 'What are the supported langauges for your website or application?<br>Languages can be managed in the <a href="/admin/localization" target="_blank">Localization</a> module.'
     ],
     'site_enabled'      => [
         'label'        => 'Site Status',
