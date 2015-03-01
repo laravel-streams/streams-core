@@ -31,6 +31,13 @@ class FieldModel extends EloquentModel implements FieldInterface
     protected $translationForeignKey = 'field_id';
 
     /**
+     * The translation model.
+     *
+     * @var string
+     */
+    protected $translationModel = 'Anomaly\Streams\Platform\Field\FieldModelTranslation';
+
+    /**
      * The database table name.
      *
      * @var string
@@ -119,7 +126,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function getRules()
     {
-        return (array)$this->rules;
+        return $this->rules;
     }
 
     /**
