@@ -18,18 +18,10 @@ class ConfigureTranslator implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param Container  $container
      * @param Translator $translator
      */
-    public function handle(Container $container, Translator $translator)
+    public function handle(Translator $translator)
     {
-        $translator->addNamespace('streams', __DIR__ . '/../../../resources/lang');
-
-        $container->bind(
-            'path.lang',
-            function () {
-                return __DIR__ . '/../../../resources/lang';
-            }
-        );
+        $translator->addNamespace('streams', realpath(__DIR__ . '/../../../resources/lang'));
     }
 }

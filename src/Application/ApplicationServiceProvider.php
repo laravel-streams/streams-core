@@ -5,8 +5,8 @@ use Anomaly\Streams\Platform\Application\Command\AddTwigBridgeExtensions;
 use Anomaly\Streams\Platform\Application\Command\CheckDirectoryPermissions;
 use Anomaly\Streams\Platform\Application\Command\ConfigureCommandBus;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
-use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
+use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
 use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
@@ -51,6 +51,13 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->app->singleton(
             'Anomaly\Streams\Platform\Application\Application',
             'Anomaly\Streams\Platform\Application\Application'
+        );
+
+        $this->app->bind(
+            'path.lang',
+            function () {
+                return realpath(__DIR__ . '/../../resources/lang');
+            }
         );
     }
 }
