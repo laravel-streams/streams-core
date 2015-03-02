@@ -203,7 +203,7 @@ class EloquentModel extends Model
      */
     public function translateOrDefault($locale)
     {
-        return $this->getTranslation($locale, false) ?: $this;
+        return $this->getTranslation($locale, true) ?: $this;
     }
 
     /*
@@ -221,25 +221,23 @@ class EloquentModel extends Model
      */
     public function getTranslation($locale = null, $withFallback = false)
     {
-        $locale = $locale ?: config('app.locale');
+        $locale = $locale ?: config('app.fallback_locale');
 
-        if ($this->getTranslationByLocaleKey($locale)) {
-            $translation = $this->getTranslationByLocaleKey($locale);
+        if ($translation = $this->getTranslationByLocaleKey($locale)) {
+            return $translation;
         } elseif ($withFallback
-            && config('translatable::fallback_locale')
-            && $this->getTranslationByLocaleKey(config('translatable::fallback_locale'))
+            && config('app.fallback_locale')
+            && $this->getTranslationByLocaleKey(config('app.fallback_locale'))
         ) {
-            $translation = $this->getTranslationByLocaleKey(config('translatable::fallback_locale'));
-        } else {
-            $translation = null;
+            return $this->getTranslationByLocaleKey(config('app.fallback_locale'));
         }
 
-        return $translation;
+        return null;
     }
 
     public function hasTranslation($locale = null)
     {
-        $locale = $locale ?: config('app.locale');
+        $locale = $locale ?: config('app.fallback_locale');
 
         foreach ($this->translations as $translation) {
             if ($translation->getAttribute($this->getLocaleKey()) == $locale) {
@@ -352,7 +350,8 @@ class EloquentModel extends Model
 
     private function getTranslationByLocaleKey($key)
     {
-        foreach ($this->translations as $translation) {
+
+        foreach ($this->translations()->get() as $translation) {
             if ($translation->getAttribute($this->getLocaleKey()) == $key) {
                 return $translation;
             }
