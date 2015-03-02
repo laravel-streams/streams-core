@@ -4,7 +4,7 @@
         {% if form.options.translatable %}
 
             <ul class="list-inline">
-                {% for language in languages %}
+                {% for language in available_locales() %}
                     <li>
                         <a href="#" data-toggle="locale" class="btn btn-xs btn-{{ language.iso == config_get('app.locale') ? 'primary' : 'default' }}"
                            data-locale="{{ language.iso }}">{{ language.name }}</a>

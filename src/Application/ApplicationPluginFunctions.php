@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
+use Anomaly\LocalizationModule\Language\Contract\LanguageInterface;
+use Anomaly\Streams\Platform\Entry\EntryCollection;
+
 /**
  * Class ApplicationPluginFunctions
  *
@@ -21,5 +24,33 @@ class ApplicationPluginFunctions
     public function env($key, $default = null)
     {
         return env($key, $default);
+    }
+
+    /**
+     * Return available languages.
+     *
+     * @return null|EntryCollection
+     */
+    public function availableLocales()
+    {
+        if (env('INSTALLED')) {
+            return app('Anomaly\LocalizationModule\Language\Contract\LanguageRepositoryInterface')->enabled();
+        }
+
+        return null;
+    }
+
+    /**
+     * Return available languages.
+     *
+     * @return null|LanguageInterface
+     */
+    public function locale($iso)
+    {
+        if (env('INSTALLED')) {
+            return app('Anomaly\LocalizationModule\Language\Contract\LanguageRepositoryInterface')->findByIso($iso);
+        }
+
+        return null;
     }
 }

@@ -38,7 +38,9 @@ class ApplicationPlugin extends Plugin
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('env', [$this->functions, 'env'])
+            new \Twig_SimpleFunction('env', [$this->functions, 'env']),
+            new \Twig_SimpleFunction('locale', [$this->functions, 'locale']),
+            new \Twig_SimpleFunction('available_locales', [$this->functions, 'availableLocales'])
         ];
     }
 }
