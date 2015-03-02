@@ -41,6 +41,7 @@ class LoadFormValues
     {
         $form = $event->getForm();
 
+        // Get values from post.
         $form->setValues(new Collection($this->request->except('_token', $form->getOption('prefix') . 'action')));
     }
 }

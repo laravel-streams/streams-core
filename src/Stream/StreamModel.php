@@ -1,9 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Assignment\AssignmentModelTranslation;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Field\FieldModel;
+use Anomaly\Streams\Platform\Field\FieldModelTranslation;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -69,11 +74,18 @@ class StreamModel extends EloquentModel implements StreamInterface
     {
         $assignments = array();
 
-        $streamModel = app('Anomaly\Streams\Platform\Stream\StreamModel');
+        $streamModel       = new StreamModel();
+        $streamTranslation = new StreamModelTranslation();
 
         $data['view_options'] = serialize(array_get($data, 'view_options', []));
 
+        if (isset($data['translations'])) {
+            $streamTranslation->setRawAttributes(array_pull($data, 'translations'));
+        }
+
         $streamModel->setRawAttributes($data);
+
+        $streamModel->setRelation('translations', $streamTranslation);
 
         if (array_key_exists('assignments', $data)) {
 
@@ -84,20 +96,36 @@ class StreamModel extends EloquentModel implements StreamInterface
                     $assignment['field']['rules']  = unserialize($assignment['field']['rules']);
                     $assignment['field']['config'] = unserialize($assignment['field']['config']);
 
-                    $fieldModel = app()->make('Anomaly\Streams\Platform\Field\FieldModel');
+                    $fieldModel        = new FieldModel();
+                    $fieldTranslations = new EloquentCollection();
+
+                    if (isset($assignment['field']['translations'])) {
+                        foreach (array_pull($assignment['field'], 'translations') as $translation) {
+                            $fieldTranslations->push(new FieldModelTranslation($translation));
+                        }
+                    }
 
                     $fieldModel->fill($assignment['field']);
 
+                    $fieldModel->setRelation('translations', $fieldTranslations);
+
                     unset($assignment['field']);
 
-                    $assignmentModel = app()->make('Anomaly\Streams\Platform\Assignment\AssignmentModel');
+                    $assignmentModel        = new AssignmentModel();
+                    $assignmentTranslations = new EloquentCollection();
+
+                    if (isset($assignment['translations'])) {
+                        foreach (array_pull($assignment, 'translations') as $translation) {
+                            $assignmentTranslations->push(new AssignmentModelTranslation($translation));
+                        }
+                    }
 
                     $assignmentModel->fill($assignment);
-
                     $assignmentModel->setRawAttributes($assignment);
 
                     $assignmentModel->setRelation('field', $fieldModel);
                     $assignmentModel->setRelation('stream', $streamModel);
+                    $assignmentModel->setRelation('translations', $assignmentTranslations);
 
                     $assignments[] = $assignmentModel;
                 }

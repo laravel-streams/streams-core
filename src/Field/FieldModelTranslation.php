@@ -21,13 +21,6 @@ class FieldModelTranslation extends EloquentModel
     public $timestamps = false;
 
     /**
-     * Cache minutes.
-     *
-     * @var int
-     */
-    protected $cacheMinutes = 99999;
-
-    /**
      * The database table name.
      *
      * @var string

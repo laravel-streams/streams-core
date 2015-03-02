@@ -215,6 +215,16 @@ class EloquentModel extends Model
     }
 
     /**
+     * Get related translations.
+     *
+     * @return EloquentCollection
+     */
+    public function getTranslations()
+    {
+        return $this->translations;
+    }
+
+    /**
      * @param null      $locale
      * @param bool|null $withFallback
      * @return Model|null
@@ -350,8 +360,7 @@ class EloquentModel extends Model
 
     private function getTranslationByLocaleKey($key)
     {
-
-        foreach ($this->translations()->get() as $translation) {
+        foreach ($this->translations as $translation) {
             if ($translation->getAttribute($this->getLocaleKey()) == $key) {
                 return $translation;
             }
