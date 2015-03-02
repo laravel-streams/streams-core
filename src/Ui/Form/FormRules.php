@@ -27,8 +27,6 @@ class FormRules
         $entry  = $form->getEntry();
         $stream = $form->getStream();
 
-        $locale = config('streams::default_locale', 'app.fallback_locale');
-
         foreach ($form->getFields() as $field) {
 
             if ($field->isDisabled()) {
@@ -50,7 +48,7 @@ class FormRules
 
             if ($assignment = $stream->getAssignment($field->getField())) {
 
-                if ($assignment->isRequired() && $field->getLocale() == $locale) {
+                if ($assignment->isRequired()) {
                     $fieldRules[] = 'required';
                 }
                 /*if ($assignment->isUnique()) {
