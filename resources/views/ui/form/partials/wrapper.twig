@@ -4,7 +4,7 @@
         {{ trans(field_type.label)|raw }}
         {% if field_type.translatable %}
             <small class="text-muted">
-                <i class="fa fa-language"></i> {{ locale(field_type.locale).name }}
+                <i class="fa fa-language"></i> {{ language_get(field_type.locale).name }}
             </small>
         {% endif %}
     </label>

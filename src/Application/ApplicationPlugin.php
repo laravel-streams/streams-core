@@ -39,8 +39,16 @@ class ApplicationPlugin extends Plugin
     {
         return [
             new \Twig_SimpleFunction('env', [$this->functions, 'env']),
-            new \Twig_SimpleFunction('locale', [$this->functions, 'locale']),
-            new \Twig_SimpleFunction('available_locales', [$this->functions, 'availableLocales'])
+            new \Twig_SimpleFunction(
+                'language_get', function () {
+                return null;
+            }
+            ),
+            new \Twig_SimpleFunction(
+                'language_enabled', function () {
+                return null;
+            }
+            )
         ];
     }
 }
