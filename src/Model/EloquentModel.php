@@ -44,7 +44,7 @@ class EloquentModel extends Model
      *
      * @var array
      */
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
     /**
      * The title key.

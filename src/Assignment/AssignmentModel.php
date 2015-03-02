@@ -87,7 +87,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      *
      * @return FieldType
      */
-    public function getFieldType()
+    public function getFieldType($locale = null)
     {
         // Get the type object from our related field.
         $field = $this->getField();
@@ -98,27 +98,30 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
         $type->setRequired($this->isRequired());
         $type->setTranslatable($this->isTranslatable());
 
-        $locale = 'en';
-
-        /**
-         * This is already set as the field name.
-         * If the label is available (translated)
-         * set it as type's label.
-         */
         if ($label = $this->getLabel($locale)) {
             $type->setLabel($label);
         }
 
-        /**
-         * This defaults to null but it's translation
-         * string is automated. If the translation is
-         * available set the  instructions on the type.
-         */
         if ($instructions = $this->getInstructions($locale)) {
             $type->setInstructions($instructions);
         }
 
+        if ($placeholder = $this->getPlaceholder($locale)) {
+            $type->setPlaceholder($placeholder);
+        }
+
         return $type;
+    }
+
+    /**
+     * Get the field name.
+     *
+     * @param null $locale
+     * @return string
+     */
+    public function getFieldName($locale = null)
+    {
+        return $this->getField()->getName($locale);
     }
 
     /**
@@ -130,21 +133,13 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getLabel($locale = null)
     {
-        $locale = $locale ?: config('app.locale');
+        $label = $this->translateOrDefault($locale)->label;
 
-        if ($locale !== config('app.locale')) {
-            $assignment = $this->translate($locale) ?: $this;
-        } else {
-            $assignment = $this;
+        if (str_is($label, '*.*.*::*.*.*') && trans()->has($label)) {
+            return $this->translateOrDefault($locale)->label;
         }
 
-        $label = $assignment->label;
-
-        if ($label && trans($label) !== $label) {
-            return (string)trans($label, [], null, $locale);
-        }
-
-        return null;
+        return $this->getFieldName($locale);
     }
 
     /**
@@ -156,21 +151,18 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getInstructions($locale = null)
     {
-        $locale = $locale ?: config('app.locale');
+        return $this->translateOrDefault($locale)->instructions;
+    }
 
-        if ($locale != config('app.locale')) {
-            $assignment = $this->translate($locale) ?: $this;
-        } else {
-            $assignment = $this;
-        }
-
-        $instructions = $assignment->instructions;
-
-        if ($instructions && trans($instructions) !== $instructions) {
-            return trans($instructions, [], null, $locale);
-        }
-
-        return null;
+    /**
+     * Get the placeholder.
+     *
+     * @param  null $locale
+     * @return null|string
+     */
+    public function getPlaceholder($locale = null)
+    {
+        return $this->translateOrDefault($locale)->placeholder;
     }
 
     /**

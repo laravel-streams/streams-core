@@ -67,11 +67,12 @@ class FieldModel extends EloquentModel implements FieldInterface
     /**
      * Get the name.
      *
-     * @return mixed
+     * @param null|string $locale
+     * @return string
      */
-    public function getName()
+    public function getName($locale = null)
     {
-        return $this->name;
+        return $this->translateOrDefault($locale)->name;
     }
 
     /**

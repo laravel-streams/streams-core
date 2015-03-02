@@ -32,16 +32,26 @@ interface AssignmentInterface
     /**
      * Get the label.
      *
-     * @return mixed
+     * @param null $locale
+     * @return string
      */
-    public function getLabel();
+    public function getLabel($locale = null);
 
     /**
      * Get the instructions.
      *
-     * @return mixed
+     * @param null $locale
+     * @return string
      */
-    public function getInstructions();
+    public function getInstructions($locale = null);
+
+    /**
+     * Get the placeholder.
+     *
+     * @param null $locale
+     * @return string
+     */
+    public function getPlaceholder($locale = null);
 
     /**
      * Get the unique flag.
@@ -77,6 +87,14 @@ interface AssignmentInterface
      * @return FieldType
      */
     public function getFieldType();
+
+    /**
+     * Get the assignment's field's name.
+     *
+     * @param null $locale
+     * @return string
+     */
+    public function getFieldName($locale = null);
 
     /**
      * Get the column name.

@@ -24,9 +24,10 @@ interface FieldInterface
     /**
      * Get the name.
      *
+     * @param null|string $locale
      * @return string
      */
-    public function getName();
+    public function getName($locale = null);
 
     /**
      * Get the namespace.

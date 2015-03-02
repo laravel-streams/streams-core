@@ -88,6 +88,13 @@ class FieldType extends Addon
     protected $instructions = null;
 
     /**
+     * The field placeholder.
+     *
+     * @var null
+     */
+    protected $placeholder = null;
+
+    /**
      * Is the field translatable?
      *
      * @var bool
@@ -362,6 +369,29 @@ class FieldType extends Addon
     public function getInstructions()
     {
         return $this->instructions;
+    }
+
+    /**
+     * Get the placeholder.
+     *
+     * @return null|string
+     */
+    public function getPlaceholder()
+    {
+        return $this->placeholder;
+    }
+
+    /**
+     * Set the placeholder.
+     *
+     * @param $placeholder
+     * @return $this
+     */
+    public function setPlaceholder($placeholder)
+    {
+        $this->placeholder = $placeholder;
+
+        return $this;
     }
 
     /**
