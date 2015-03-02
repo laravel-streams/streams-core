@@ -59,10 +59,10 @@ class HeaderHeading
             $field = array_shift($field);
 
             if ($field = $stream->getField($field)) {
-                return trans($field->getName());
+                $heading = $field->getName();
             }
         }
 
-        return trans($heading);
+        return $heading ? trans($heading) : null;
     }
 }

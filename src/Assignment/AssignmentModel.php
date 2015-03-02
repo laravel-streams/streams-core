@@ -31,6 +31,13 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     protected $translationForeignKey = 'assignment_id';
 
     /**
+     * The translation model.
+     *
+     * @var string
+     */
+    protected $translationModel = 'Anomaly\Streams\Platform\Assignment\AssignmentModelTranslation';
+
+    /**
      * The database table name.
      *
      * @var string
@@ -45,6 +52,24 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
         self::observe(app('Anomaly\Streams\Platform\Assignment\AssignmentObserver'));
 
         parent::boot();
+    }
+
+    /**
+     * Because the assignment record holds translatable data
+     * we have a conflict. The assignment table has translations
+     * but not all assignment are translatable. This helps avoid
+     * the translatable conflict during specific procedures.
+     *
+     * @param  array $attributes
+     * @return static
+     */
+    public static function create(array $attributes)
+    {
+        $model = parent::create($attributes);
+
+        $model->saveTranslations();
+
+        return;
     }
 
     /**
@@ -115,8 +140,8 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
 
         $label = $assignment->label;
 
-        if (trans($label) !== $label) {
-            return trans($label, [], null, $locale);
+        if ($label && trans($label) !== $label) {
+            return (string)trans($label, [], null, $locale);
         }
 
         return null;
@@ -141,7 +166,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
 
         $instructions = $assignment->instructions;
 
-        if (trans($instructions) !== $instructions) {
+        if ($instructions && trans($instructions) !== $instructions) {
             return trans($instructions, [], null, $locale);
         }
 
@@ -181,21 +206,21 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     /**
      * Get the required flag.
      *
-     * @return mixed
+     * @return bool
      */
     public function isRequired()
     {
-        return ($this->required);
+        return $this->required;
     }
 
     /**
-     * Get  the translatable flag.
+     * Get the translatable flag.
      *
-     * @return bool|mixed
+     * @return bool
      */
     public function isTranslatable()
     {
-        return ($this->translatable && $this->stream->isTranslatable());
+        return $this->translatable;
     }
 
     /**

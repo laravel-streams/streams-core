@@ -20,8 +20,10 @@ class MigrateHandler
      */
     public function handle(Migrate $command)
     {
-        $command->getMigration()->createFields();
-        $command->getMigration()->createStream();
-        $command->getMigration()->assignFields();
+        $migration = $command->getMigration();
+
+        $migration->createFields();
+        $migration->createStream();
+        $migration->assignFields();
     }
 }

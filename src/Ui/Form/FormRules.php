@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\SettingsModule\Setting\Contract\SettingRepositoryInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -16,23 +15,6 @@ class FormRules
 {
 
     /**
-     * The setting repository.
-     *
-     * @var SettingRepositoryInterface
-     */
-    protected $settings;
-
-    /**
-     * Create a new FormRules instance.
-     *
-     * @param SettingRepositoryInterface $settings
-     */
-    public function __construct(SettingRepositoryInterface $settings)
-    {
-        $this->settings = $settings;
-    }
-
-    /**
      * Compile rules from form fields.
      *
      * @param Form $form
@@ -45,7 +27,7 @@ class FormRules
         $entry  = $form->getEntry();
         $stream = $form->getStream();
 
-        $defaultLocale = $this->settings->get('streams::default_locale', config('app.locale'));
+        $locale = config('streams::default_locale', 'app.fallback_locale');
 
         foreach ($form->getFields() as $field) {
 
@@ -68,7 +50,7 @@ class FormRules
 
             if ($assignment = $stream->getAssignment($field->getField())) {
 
-                if ($assignment->isRequired() && $field->getLocale() == $defaultLocale) {
+                if ($assignment->isRequired() && $field->getLocale() == $locale) {
                     $fieldRules[] = 'required';
                 }
                 /*if ($assignment->isUnique()) {

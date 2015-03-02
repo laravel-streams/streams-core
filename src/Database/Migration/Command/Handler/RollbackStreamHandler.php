@@ -51,11 +51,12 @@ class RollbackStreamHandler
     {
         $migration = $command->getMigration();
 
+        $addon     = $migration->getAddon();
         $stream    = $command->getStream() ?: new StreamModel();
         $namespace = ($stream && $stream->getNamespace()) ? $stream->getNamespace() : $migration->getNamespace();
 
         $slug = ($stream && $stream->getSlug()) ? $stream->getSlug() :
-            array_get($stream->toArray(), 'slug', $migration->getAddonSlug());
+            array_get($stream->toArray(), 'slug', $addon ? $addon->getSlug() : null);
 
         if ($stream = $this->streams->findBySlugAndNamespace($slug, $namespace)) {
             $this->manager->delete($stream);

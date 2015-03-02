@@ -26,6 +26,13 @@ class StreamModel extends EloquentModel implements StreamInterface
     protected $translationForeignKey = 'stream_id';
 
     /**
+     * The translation model.
+     *
+     * @var string
+     */
+    protected $translationModel = 'Anomaly\Streams\Platform\Stream\StreamModelTranslation';
+
+    /**
      * The model's database table name.
      *
      * @var string
@@ -107,6 +114,24 @@ class StreamModel extends EloquentModel implements StreamInterface
     }
 
     /**
+     * Because the stream record holds translatable data
+     * we have a conflict. The streams table has translations
+     * but not all streams are translatable. This helps avoid
+     * the translatable conflict during specific procedures.
+     *
+     * @param  array $attributes
+     * @return static
+     */
+    public static function create(array $attributes)
+    {
+        $model = parent::create($attributes);
+
+        $model->saveTranslations();
+
+        return;
+    }
+
+    /**
      * Get the ID.
      *
      * @return mixed
@@ -169,11 +194,11 @@ class StreamModel extends EloquentModel implements StreamInterface
     /**
      * Get the translatable flag.
      *
-     * @return mixed
+     * @return bool
      */
     public function isTranslatable()
     {
-        return ($this->translatable);
+        return $this->translatable;
     }
 
     /**

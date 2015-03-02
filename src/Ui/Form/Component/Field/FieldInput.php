@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class FieldInput
@@ -49,11 +50,11 @@ class FieldInput
     protected $normalizer;
 
     /**
-     * The field translator.
+     * The services container.
      *
-     * @var FieldTranslator
+     * @var Container
      */
-    protected $translator;
+    protected $container;
 
     /**
      * Create a new FieldInput instance.
@@ -70,15 +71,15 @@ class FieldInput
         FieldResolver $resolver,
         FieldEvaluator $evaluator,
         FieldPopulator $populator,
-        FieldNormalizer $normalizer/*,
-        FieldTranslator $translator*/
+        FieldNormalizer $normalizer,
+        Container $container
     ) {
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
         $this->evaluator  = $evaluator;
         $this->populator  = $populator;
         $this->normalizer = $normalizer;
-        //$this->translator = $translator;
+        $this->container  = $container;
     }
 
     /**
@@ -97,7 +98,9 @@ class FieldInput
         $this->normalizer->normalize($builder); //Yes, again.
 
         if (env('INSTALLED')) {
-            $this->translator->translate($builder);
+            $this->container->make('Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldTranslator')->translate(
+                $builder
+            );
         }
 
         $this->populator->populate($builder);

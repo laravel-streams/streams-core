@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Database\Migration\Command\MigrateStream;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\StreamManager;
 
 /**
@@ -23,12 +24,21 @@ class MigrateStreamHandler
     protected $manager;
 
     /**
+     * The stream repository.
+     *
+     * @var StreamRepositoryInterface
+     */
+    protected $streams;
+
+    /**
      * Create a new MigrateStreamHandler instance.
      *
-     * @param StreamManager $manager
+     * @param StreamManager             $manager
+     * @param StreamRepositoryInterface $streams
      */
-    public function __construct(StreamManager $manager)
+    public function __construct(StreamManager $manager, StreamRepositoryInterface $streams)
     {
+        $this->streams = $streams;
         $this->manager = $manager;
     }
 
@@ -58,6 +68,10 @@ class MigrateStreamHandler
 
         $stream['slug']      = array_get($stream, 'slug', $addon ? $addon->getSlug() : null);
         $stream['namespace'] = array_get($stream, 'namespace', $addon ? $addon->getSlug() : null);
+
+        if ($this->streams->findBySlugAndNamespace($stream['slug'], $stream['namespace'])) {
+            return;
+        }
 
         /**
          * If the name exists in the base array
@@ -97,7 +111,7 @@ class MigrateStreamHandler
             $stream = array_add(
                 $stream,
                 config('app.fallback_locale') . '.description',
-                $addon ? $addon->getNamespace("stream.{$stream['slug']}.description") : null
+                $addon ? $addon->getNamespace("stream.{$stream['slug']}.description") : 'foo'
             );
         }
 

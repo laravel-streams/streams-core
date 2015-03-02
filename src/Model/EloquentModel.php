@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -106,6 +105,19 @@ class EloquentModel extends Model
     public function isTranslatable()
     {
         return isset($this->translationModel);
+    }
+
+    /**
+     * Set the translatable flag.
+     *
+     * @param $translatable
+     * @return $this
+     */
+    public function setTranslatable($translatable)
+    {
+        $this->translatable = $translatable;
+
+        return $this;
     }
 
     /**
