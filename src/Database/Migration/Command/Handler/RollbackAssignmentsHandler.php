@@ -62,8 +62,9 @@ class RollbackAssignmentsHandler
     public function handle(RollbackAssignments $command)
     {
         $migration = $command->getMigration();
-        $fields    = $command->getFields() ?: $migration->getAssignments();
-        $stream    = $command->getStream() ?: $migration->getStream();
+
+        $fields = $migration->getAssignments();
+        $stream = $migration->getStream();
 
         $namespace = array_get($stream, 'namespace', $migration->getNamespace());
         $slug      = array_get($stream, 'slug', $migration->getAddonSlug());

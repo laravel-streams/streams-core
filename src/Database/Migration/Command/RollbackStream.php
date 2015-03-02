@@ -22,13 +22,6 @@ class RollbackStream
     protected $migration;
 
     /**
-     * The stream.
-     *
-     * @var StreamInterface
-     */
-    protected $stream;
-
-    /**
      * Create a new RollbackStream instance.
      *
      * @param Migration       $migration

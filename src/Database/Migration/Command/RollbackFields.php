@@ -21,31 +21,13 @@ class RollbackFields
     protected $migration;
 
     /**
-     * The fields to rollback.
+     * Create a new RollbackFields instance.
      *
-     * @var array
+     * @param Migration $migration
      */
-    protected $fields;
-
-    /**
-     * The namespace.
-     *
-     * @var string|null
-     */
-    protected $namespace;
-
-    /**
-     * Create a new RollbackFields instnace.
-     *
-     * @param Migration   $migration
-     * @param array       $fields
-     * @param string|null $namespace
-     */
-    public function __construct(Migration $migration, array $fields, $namespace = null)
+    public function __construct(Migration $migration)
     {
-        $this->fields    = $fields;
         $this->migration = $migration;
-        $this->namespace = $namespace;
     }
 
     /**
@@ -56,25 +38,5 @@ class RollbackFields
     public function getMigration()
     {
         return $this->migration;
-    }
-
-    /**
-     * Get the fields.
-     *
-     * @return array
-     */
-    public function getFields()
-    {
-        return $this->fields;
-    }
-
-    /**
-     * Get the namespace.
-     *
-     * @return string|null
-     */
-    public function getNamespace()
-    {
-        return $this->namespace;
     }
 }

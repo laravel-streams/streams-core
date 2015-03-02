@@ -36,25 +36,22 @@ class MigrateStreamHandler
      * Handle the command.
      *
      * @param MigrateStream $command
-     * @return null|StreamInterface
+     * @return StreamInterface
      */
     public function handle(MigrateStream $command)
     {
         $migration = $command->getMigration();
-        $stream    = $command->getStream() ?: $migration->getStream();
 
-        if ($stream instanceof StreamInterface) {
-            $stream = $stream->toArray();
+        $stream = $migration->getStream();
+
+        if (!$stream) {
+            return;
         }
 
         if (is_string($stream)) {
             $stream = [
                 'slug' => $stream
             ];
-        }
-
-        if (!$stream) {
-            return;
         }
 
         $addon     = $migration->getAddon();

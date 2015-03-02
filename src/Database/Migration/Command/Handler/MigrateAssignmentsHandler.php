@@ -62,8 +62,9 @@ class MigrateAssignmentsHandler
     public function handle(MigrateAssignments $command)
     {
         $migration = $command->getMigration();
-        $stream    = $command->getStream() ?: $migration->getStream();
-        $fields    = $command->getFields() ?: $migration->getAssignments();
+
+        $stream = $migration->getStream();
+        $fields = $migration->getAssignments();
 
         if (!$fields) {
             return;

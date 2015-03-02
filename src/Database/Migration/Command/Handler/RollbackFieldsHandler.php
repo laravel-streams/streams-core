@@ -49,7 +49,8 @@ class RollbackFieldsHandler
     public function handle(RollbackFields $command)
     {
         $migration = $command->getMigration();
-        $namespace = $command->getNamespace() ?: $migration->getNamespace();
+
+        $namespace = $migration->getNamespace();
 
         foreach ($migration->getFields() as $slug => $field) {
 

@@ -51,7 +51,7 @@ class RollbackStreamHandler
     {
         $migration = $command->getMigration();
 
-        $stream    = $command->getStream() ?: new StreamModel($migration->getStream());
+        $stream    = $command->getStream() ?: new StreamModel();
         $namespace = ($stream && $stream->getNamespace()) ? $stream->getNamespace() : $migration->getNamespace();
 
         $slug = ($stream && $stream->getSlug()) ? $stream->getSlug() :

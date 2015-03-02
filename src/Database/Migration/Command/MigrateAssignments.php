@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Command;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class MigrateAssignments
@@ -22,31 +21,12 @@ class MigrateAssignments
     protected $migration;
 
     /**
-     * The fields to migrate
-     * assignments for.
-     *
-     * @var array
-     */
-    protected $fields;
-
-    /**
-     * The stream interface.
-     *
-     * @var StreamInterface
-     */
-    protected $stream;
-
-    /**
      * Create a new MigrateAssignments instance.
      *
-     * @param Migration       $migration
-     * @param array           $fields
-     * @param StreamInterface $stream
+     * @param Migration $migration
      */
-    public function __construct(Migration $migration, array $fields, StreamInterface $stream = null)
+    public function __construct(Migration $migration)
     {
-        $this->fields    = $fields;
-        $this->stream    = $stream;
         $this->migration = $migration;
     }
 
@@ -58,25 +38,5 @@ class MigrateAssignments
     public function getMigration()
     {
         return $this->migration;
-    }
-
-    /**
-     * Get the fields.
-     *
-     * @return array
-     */
-    public function getFields()
-    {
-        return $this->fields;
-    }
-
-    /**
-     * Get the stream.
-     *
-     * @return StreamInterface
-     */
-    public function getStream()
-    {
-        return $this->stream;
     }
 }

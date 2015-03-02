@@ -40,6 +40,6 @@ class CreateFieldHandler
      */
     public function handle(CreateField $command)
     {
-        return $this->fields->create($command->getAttributes());
+        return $this->fields->create();
     }
 }
