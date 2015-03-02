@@ -28,7 +28,8 @@ class StreamEventProvider extends EventServiceProvider
             'Anomaly\Streams\Platform\Stream\Listener\FlushCache'
         ],
         'Anomaly\Streams\Platform\Stream\Event\StreamWasSaved'   => [
-            'Anomaly\Streams\Platform\Stream\Listener\Recompile'
+            'Anomaly\Streams\Platform\Stream\Listener\Recompile',
+            'Anomaly\Streams\Platform\Stream\Listener\FlushCache'
         ]
     ];
 

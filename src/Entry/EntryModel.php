@@ -43,7 +43,13 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         parent::__construct($attributes);
 
-        $this->stream = app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
+        $this->stream = app('cache')->remember(
+            "{$this->stream['namespace']}.{$this->stream['namespace']}",
+            9999,
+            function () {
+                return app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
+            }
+        );
 
         $this->stream->parent = $this;
     }
