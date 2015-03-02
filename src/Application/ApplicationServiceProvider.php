@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
 use Anomaly\Streams\Platform\Application\Command\AddMarkdownExtension;
-use Anomaly\Streams\Platform\Application\Command\AddTwigBridgeExtensions;
+use Anomaly\Streams\Platform\Application\Command\AddTwigExtensions;
 use Anomaly\Streams\Platform\Application\Command\CheckDirectoryPermissions;
 use Anomaly\Streams\Platform\Application\Command\ConfigureCommandBus;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
@@ -32,9 +32,8 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->dispatch(new SetCoreConnection());
         $this->dispatch(new ConfigureCommandBus());
         $this->dispatch(new LoadStreamsConfiguration());
-        $this->dispatch(new AddTwigBridgeExtensions());
-        $this->dispatch(new AddMarkdownExtension());
         $this->dispatch(new ConfigureTranslator());
+        $this->dispatch(new AddTwigExtensions());
 
         // Ready!
         $this->dispatch(new InitializeApplication());

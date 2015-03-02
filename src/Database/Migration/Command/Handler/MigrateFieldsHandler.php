@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Database\Migration\Command\MigrateFields;
 use Anomaly\Streams\Platform\Field\FieldManager;
-use Anomaly\Streams\Platform\Field\FieldNormalizer;
 
 /**
  * Class MigrateFieldsHandler
@@ -24,20 +23,13 @@ class MigrateFieldsHandler
     protected $manager;
 
     /**
-     * @var FieldNormalizer
-     */
-    protected $normalizer;
-
-    /**
      * Create a new MigrateFieldsHandler instance.
      *
-     * @param FieldManager    $manager
-     * @param FieldNormalizer $normalizer
+     * @param FieldManager $manager
      */
-    public function __construct(FieldManager $manager, FieldNormalizer $normalizer)
+    public function __construct(FieldManager $manager)
     {
-        $this->manager    = $manager;
-        $this->normalizer = $normalizer;
+        $this->manager = $manager;
     }
 
     /**
@@ -65,10 +57,19 @@ class MigrateFieldsHandler
             $field['type']      = array_get($field, 'type');
             $field['namespace'] = array_get($field, 'namespace', $namespace ?: $addon ? $addon->getSlug() : null);
 
+            /**
+             * If the name exists in the base array
+             * then move it to the translated array
+             * for the default locale.
+             */
             if ($name = array_pull($field, 'name')) {
                 $field = array_add($field, config('app.fallback_locale') . '.name', $name);
             }
 
+            /**
+             * If the name is not set then make one
+             * based on a standardized pattern.
+             */
             if (!array_get($field, config('app.fallback_locale') . '.name')) {
                 $field = array_add(
                     $field,
@@ -77,7 +78,6 @@ class MigrateFieldsHandler
                 );
             }
 
-            $this->normalizer->normalize($field, $addon);
             $this->manager->create($field);
         }
 

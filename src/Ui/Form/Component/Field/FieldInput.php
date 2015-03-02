@@ -70,15 +70,15 @@ class FieldInput
         FieldResolver $resolver,
         FieldEvaluator $evaluator,
         FieldPopulator $populator,
-        FieldNormalizer $normalizer,
-        FieldTranslator $translator
+        FieldNormalizer $normalizer/*,
+        FieldTranslator $translator*/
     ) {
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
         $this->evaluator  = $evaluator;
         $this->populator  = $populator;
         $this->normalizer = $normalizer;
-        $this->translator = $translator;
+        //$this->translator = $translator;
     }
 
     /**
@@ -96,7 +96,10 @@ class FieldInput
         $this->guesser->guess($builder);
         $this->normalizer->normalize($builder); //Yes, again.
 
-        $this->translator->translate($builder);
+        if (env('INSTALLED')) {
+            $this->translator->translate($builder);
+        }
+
         $this->populator->populate($builder);
     }
 }

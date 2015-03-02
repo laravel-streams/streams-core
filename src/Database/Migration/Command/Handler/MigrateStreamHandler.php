@@ -54,23 +54,52 @@ class MigrateStreamHandler
             ];
         }
 
-        $addon     = $migration->getAddon();
-        $addonSlug = $migration->getAddonSlug();
+        $addon = $migration->getAddon();
 
-        $stream['slug']      = array_get($stream, 'slug', $addonSlug);
-        $stream['namespace'] = array_get($stream, 'namespace', $addonSlug);
+        $stream['slug']      = array_get($stream, 'slug', $addon ? $addon->getSlug() : null);
+        $stream['namespace'] = array_get($stream, 'namespace', $addon ? $addon->getSlug() : null);
 
-        $stream['name'] = array_get(
-            $stream,
-            'name',
-            $addon ? $addon->getNamespace("stream.{$stream['slug']}.name") : null
-        );
+        /**
+         * If the name exists in the base array
+         * then move it to the translated array
+         * for the default locale.
+         */
+        if ($name = array_pull($stream, 'name')) {
+            $stream = array_add($stream, config('app.fallback_locale') . '.name', $name);
+        }
 
-        $stream['description'] = array_get(
-            $stream,
-            'name',
-            $addon ? $addon->getNamespace("stream.{$stream['slug']}.description") : null
-        );
+        /**
+         * If the name is not set then make one
+         * based on a standardized pattern.
+         */
+        if (!array_get($stream, config('app.fallback_locale') . '.name')) {
+            $stream = array_add(
+                $stream,
+                config('app.fallback_locale') . '.name',
+                $addon ? $addon->getNamespace("stream.{$stream['slug']}.name") : null
+            );
+        }
+
+        /**
+         * If the description exists in the base array
+         * then move it to the translated array
+         * for the default locale.
+         */
+        if ($description = array_pull($stream, 'description')) {
+            $stream = array_add($stream, config('app.fallback_locale') . '.description', $description);
+        }
+
+        /**
+         * If the name is not set then make one
+         * based on a standardized pattern.
+         */
+        if (!array_get($stream, config('app.fallback_locale') . '.description')) {
+            $stream = array_add(
+                $stream,
+                config('app.fallback_locale') . '.description',
+                $addon ? $addon->getNamespace("stream.{$stream['slug']}.description") : null
+            );
+        }
 
         // Create the stream.
         return $this->manager->create($stream);

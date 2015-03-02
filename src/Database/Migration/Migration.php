@@ -27,9 +27,9 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     /**
      * The stream namespace.
      *
-     * @var string
+     * @var null|string
      */
-    protected $namespace;
+    protected $namespace = null;
 
     /**
      * The migration fields.
@@ -123,16 +123,6 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     }
 
     /**
-     * Get the addon slug.
-     *
-     * @return null|string
-     */
-    public function getAddonSlug()
-    {
-        return $this->getAddon() ? $this->getAddon()->getSlug() : null;
-    }
-
-    /**
      * Get addon from the migration name.
      *
      * @return Addon|null
@@ -145,11 +135,11 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     /**
      * Get the namespace.
      *
-     * @return string
+     * @return null|string
      */
     public function getNamespace()
     {
-        return $this->namespace ?: $this->getAddonSlug();
+        return $this->namespace;
     }
 
     /**

@@ -84,12 +84,68 @@ class MigrateAssignmentsHandler
                 $assignment = [];
             }
 
-            $assignment['label']        = array_get($assignment, 'label', $addon->getNamespace("field.{$field}.label"));
-            $assignment['instructions'] = array_get(
-                $assignment,
-                'instructions',
-                $addon->getNamespace("field.{$field}.instructions")
-            );
+            /**
+             * If the label exists in the base array
+             * then move it to the translated array
+             * for the default locale.
+             */
+            if ($label = array_pull($assignment, 'label')) {
+                $assignment = array_add($assignment, config('app.fallback_locale') . '.label', $label);
+            }
+
+            /**
+             * If the label is not set then make one
+             * based on a standardized pattern.
+             */
+            if (!array_get($assignment, config('app.fallback_locale') . '.label')) {
+                $assignment = array_add(
+                    $assignment,
+                    config('app.fallback_locale') . '.label',
+                    $addon ? $addon->getNamespace("field.{$field}.label") : null
+                );
+            }
+
+            /**
+             * If the instructions exists in the base array
+             * then move it to the translated array
+             * for the default locale.
+             */
+            if ($instructions = array_pull($assignment, 'instructions')) {
+                $assignment = array_add($assignment, config('app.fallback_locale') . '.instructions', $instructions);
+            }
+
+            /**
+             * If the instructions is not set then make one
+             * based on a standardized pattern.
+             */
+            if (!array_get($assignment, config('app.fallback_locale') . '.instructions')) {
+                $assignment = array_add(
+                    $assignment,
+                    config('app.fallback_locale') . '.instructions',
+                    $addon ? $addon->getNamespace("field.{$field}.instructions") : null
+                );
+            }
+
+            /**
+             * If the placeholder exists in the base array
+             * then move it to the translated array
+             * for the default locale.
+             */
+            if ($placeholder = array_pull($assignment, 'placeholder')) {
+                $assignment = array_add($assignment, config('app.fallback_locale') . '.placeholder', $placeholder);
+            }
+
+            /**
+             * If the placeholder is not set then make one
+             * based on a standardized pattern.
+             */
+            if (!array_get($assignment, config('app.fallback_locale') . '.placeholder')) {
+                $assignment = array_add(
+                    $assignment,
+                    config('app.fallback_locale') . '.placeholder',
+                    $addon ? $addon->getNamespace("field.{$field}.placeholder") : null
+                );
+            }
 
             $field = $this->fields->findBySlugAndNamespace($field, $stream->getNamespace());
 
