@@ -312,6 +312,16 @@ class Image extends ImageManager
     }
 
     /**
+     * Convert to grayscale.
+     *
+     * @return $this
+     */
+    public function grayscale()
+    {
+        return $this->greyscale();
+    }
+
+    /**
      * Adjust the height.
      *
      * @param  $height
