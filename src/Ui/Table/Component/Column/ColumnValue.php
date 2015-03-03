@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
+use Illuminate\Contracts\Support\Arrayable;
 use Robbo\Presenter\PresentableInterface;
 use StringTemplate\Engine;
 
@@ -86,6 +87,16 @@ class ColumnValue
          */
         $value = $this->evaluator->evaluate($value, compact('table', 'entry'));
 
-        return $this->parser->render($column->getWrap(), compact('value'));
+        /**
+         * Lastly, prepare the entry to be
+         * parsed into the string.
+         */
+        if ($entry instanceof Arrayable) {
+            $entry = $entry->toArray();
+        } else {
+            $entry = null;
+        }
+
+        return $this->parser->render($column->getWrap(), compact('value', 'entry'));
     }
 }

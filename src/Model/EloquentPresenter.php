@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Robbo\Presenter\Presenter;
 
 /**
@@ -11,7 +12,7 @@ use Robbo\Presenter\Presenter;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Model
  */
-class EloquentPresenter extends Presenter
+class EloquentPresenter extends Presenter implements Arrayable
 {
 
     /**
@@ -34,5 +35,15 @@ class EloquentPresenter extends Presenter
     public function id()
     {
         return $this->object->getKey();
+    }
+
+    /**
+     * Return the object as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->object->toArray();
     }
 }
