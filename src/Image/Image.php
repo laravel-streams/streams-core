@@ -208,6 +208,20 @@ class Image extends ImageManager
     }
 
     /**
+     * Set an attribute value.
+     *
+     * @param $attribute
+     * @param $value
+     * @return $this
+     */
+    public function attr($attribute, $value)
+    {
+        array_set($this->attributes, $attribute, $value);
+
+        return $this;
+    }
+
+    /**
      * Apply a blur effect.
      *
      * @param  $pixels
