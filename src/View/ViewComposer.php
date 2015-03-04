@@ -70,7 +70,7 @@ class ViewComposer
         if ($isMobile) {
 
             $mobileView     = str_replace('::', '::mobile/', $view->getName());
-            $mobileOverload = "theme::overload/{$mobileView}";
+            $mobileOverload = "theme::override/{$mobileView}";
 
             if ($environment->exists($mobileView)) {
                 $result = $mobileView;
@@ -81,10 +81,10 @@ class ViewComposer
             }
         }
 
-        $overload = "theme::overload/{$path}";
+        $override = "theme::override/{$path}";
 
-        if (!$result && $environment->exists($overload)) {
-            $result = $overload;
+        if (!$result && $environment->exists($override)) {
+            $result = $override;
         }
 
         if ($result) {
@@ -95,7 +95,7 @@ class ViewComposer
     }
 
     /**
-     * Get the overload view path.
+     * Get the override view path.
      *
      * @param  $view
      * @return null|string
@@ -116,7 +116,7 @@ class ViewComposer
         /**
          * If the view is a streams view then
          * it's real easy to guess what the
-         * overload path should be.
+         * override path should be.
          */
         if (starts_with($view->getName(), 'streams::')) {
             return str_replace('::', '/', $view->getName());
@@ -138,7 +138,7 @@ class ViewComposer
 
         /**
          * If the view uses a dot syntax namespace then
-         * transform it all into the overload view path.
+         * transform it all into the override view path.
          */
         if (str_contains($view->getName(), '::')) {
             return str_replace(['.', '::'], '/', $view->getName());
