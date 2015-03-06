@@ -16,8 +16,8 @@ class PublicController extends BaseController
      */
     public function __construct()
     {
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\CheckSiteStatus');
-
         parent::__construct();
+
+        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\CheckSiteStatus');
     }
 }

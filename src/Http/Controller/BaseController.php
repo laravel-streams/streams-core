@@ -21,6 +21,7 @@ class BaseController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ApplicationReady');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ForceHttps');
     }
 }
