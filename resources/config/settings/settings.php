@@ -24,10 +24,11 @@ return [
         ]
     ],
     'default_locale' => [
-        'type'   => 'anomaly.field_type.relationship',
+        'type'   => 'anomaly.field_type.select',
         'config' => [
-            'related' => 'Anomaly\LocalizationModule\Language\LanguageModel',
-            'key'     => 'iso'
+            'options' => function () {
+                return config('streams.available_locales');
+            }
         ],
     ],
     'site_enabled'   => [

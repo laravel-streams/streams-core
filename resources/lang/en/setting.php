@@ -18,8 +18,7 @@ return [
     ],
     'default_locale' => [
         'label'        => 'Default Language',
-        'instructions' => 'What is the default language for your application?<br>Languages can be managed in the <a href="/admin/localization" target="_blank">Localization</a> module.',
-        'placeholder'  => config('app.locale')
+        'instructions' => 'What is the default language for your application?<br>Languages can be managed in the <a href="/admin/localization" target="_blank">Localization</a> module.'
     ],
     'site_enabled'   => [
         'label'        => 'Site Status',
