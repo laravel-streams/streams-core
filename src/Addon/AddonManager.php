@@ -69,8 +69,6 @@ class AddonManager
 
             $this->loader->load($path);
             $this->binder->register($path);
-
-            $this->dispatcher->fire(new AddonTypeWasRegistered($type));
         }
     }
 }
