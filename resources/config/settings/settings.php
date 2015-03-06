@@ -53,10 +53,10 @@ return [
         'config' => [
             'default_value' => 'none',
             'options'       => [
-                'all'           => 'streams::setting.force_https.option.all',
-                'none'          => 'streams::setting.force_https.option.none',
-                'control_panel' => 'streams::setting.force_https.option.control_panel',
-                'public'        => 'streams::setting.force_https.option.public'
+                'all'    => 'streams::setting.force_https.option.all',
+                'none'   => 'streams::setting.force_https.option.none',
+                'admin'  => 'streams::setting.force_https.option.admin',
+                'public' => 'streams::setting.force_https.option.public'
             ]
         ],
     ],

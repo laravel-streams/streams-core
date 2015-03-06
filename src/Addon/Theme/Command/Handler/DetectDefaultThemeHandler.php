@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme\Command\Handler;
 
-use Anomaly\SettingsModule\Setting\Contract\SettingRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection;
 use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Anomaly\Streams\Platform\Application\Application;

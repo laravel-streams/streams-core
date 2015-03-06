@@ -39,10 +39,10 @@ return [
         'label'        => 'Force HTTPS',
         'instructions' => 'Allow only the HTTPS protocol when accessing the application?',
         'option'       => [
-            'all'           => 'Force HTTPS on all connections.',
-            'none'          => 'Do NOT force HTTPS connections.',
-            'control_panel' => 'Only force HTTPS for control panel access.',
-            'public'        => 'Only force HTTPS for public-facing content.'
+            'all'    => 'Force HTTPS on all connections.',
+            'none'   => 'Do NOT force HTTPS connections.',
+            'admin'  => 'Only force HTTPS for admin control panel access.',
+            'public' => 'Only force HTTPS for public-facing content.'
         ]
     ],
     'contact_email'  => [

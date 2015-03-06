@@ -1,10 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme\Command\Handler;
 
-use Anomaly\SettingsModule\Setting\Contract\SettingRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection;
 use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
+use Illuminate\Config\Repository;
 
 /**
  * Class DetectActiveThemeHandler
@@ -32,11 +32,11 @@ class DetectActiveThemeHandler
     protected $image;
 
     /**
-     * The settings repository.
+     * The config repository.
      *
-     * @var SettingRepositoryInterface
+     * @var Repository
      */
-    protected $settings;
+    protected $config;
 
     /**
      * The loaded distributions.
@@ -48,20 +48,20 @@ class DetectActiveThemeHandler
     /**
      * Create a new DetectActiveThemeHandler instance.
      *
-     * @param Asset                      $asset
-     * @param Image                      $image
-     * @param SettingRepositoryInterface $settings
-     * @param DistributionCollection     $distributions
+     * @param Asset                  $asset
+     * @param Image                  $image
+     * @param Repository             $config
+     * @param DistributionCollection $distributions
      */
     public function __construct(
         Asset $asset,
         Image $image,
-        SettingRepositoryInterface $settings,
+        Repository $config,
         DistributionCollection $distributions
     ) {
         $this->asset         = $asset;
         $this->image         = $image;
-        $this->settings      = $settings;
+        $this->config        = $config;
         $this->distributions = $distributions;
     }
 
@@ -74,9 +74,9 @@ class DetectActiveThemeHandler
         if ($distribution = $this->distributions->active()) {
 
             if (app('request')->segment(1) == 'admin' || app('request')->segment(1) == 'installer') {
-                $theme = $this->settings->get('streams::admin_theme', env('ADMIN_THEME'));
+                $theme = $this->config->get('distribution.admin_theme', env('ADMIN_THEME'));
             } else {
-                $theme = $this->settings->get('streams::standard_theme', env('STANDARD_THEME'));
+                $theme = $this->config->get('distribution.standard_theme', env('STANDARD_THEME'));
             }
 
             $theme = app($theme);

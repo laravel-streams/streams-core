@@ -1,8 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
-use Anomaly\SettingsModule\Setting\Contract\SettingRepositoryInterface;
 use Closure;
+use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 /**
  * Class ForceHttps
@@ -16,20 +17,29 @@ class ForceHttps
 {
 
     /**
-     * The setting repository.
+     * The config repository.
      *
-     * @var SettingRepositoryInterface
+     * @var Repository
      */
-    protected $settings;
+    protected $config;
+
+    /**
+     * The redirector.
+     *
+     * @var Redirector
+     */
+    protected $redirector;
 
     /**
      * Create a new ForceHttps instance.
      *
-     * @param SettingRepositoryInterface $settings
+     * @param Repository $config
+     * @param Redirector $redirector
      */
-    public function __construct(SettingRepositoryInterface $settings)
+    public function __construct(Repository $config, Redirector $redirector)
     {
-        $this->settings = $settings;
+        $this->config     = $config;
+        $this->redirector = $redirector;
     }
 
     /**
@@ -42,7 +52,7 @@ class ForceHttps
      */
     public function handle(Request $request, Closure $next)
     {
-        $forceHttps = $this->settings->get('streams::force_https', 'none');
+        $forceHttps = $this->config->get('streams.force_https', 'none');
 
         /**
          * Don't force HTTPS at all.
@@ -55,21 +65,21 @@ class ForceHttps
          * Force all connections through HTTPS.
          */
         if ($forceHttps == 'all' && !$request->isSecure()) {
-            return redirect()->secure($request->path());
+            return $this->redirector->secure($request->path());
         }
 
         /**
          * Only force public access through HTTPS.
          */
         if ($forceHttps == 'public' && !$request->isSecure() && $request->segment(1) !== 'admin') {
-            return redirect()->secure($request->path());
+            return $this->redirector->secure($request->path());
         }
 
         /**
-         * Only force control panel access through HTTPS.
+         * Only force admin access through HTTPS.
          */
-        if ($forceHttps == 'control_panel' && !$request->isSecure() && $request->segment(1) == 'admin') {
-            return redirect()->secure($request->path());
+        if ($forceHttps == 'admin' && !$request->isSecure() && $request->segment(1) == 'admin') {
+            return $this->redirector->secure($request->path());
         }
 
         // Default to whatever.

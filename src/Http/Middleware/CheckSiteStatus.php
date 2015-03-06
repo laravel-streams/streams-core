@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
-use Anomaly\SettingsModule\Setting\Contract\SettingRepositoryInterface;
 use Closure;
+use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
 
 /**
@@ -16,20 +16,20 @@ class CheckSiteStatus
 {
 
     /**
-     * The setting repository.
+     * The config repository.
      *
-     * @var SettingRepositoryInterface
+     * @var Repository
      */
-    protected $settings;
+    protected $config;
 
     /**
      * Create a new CheckSiteStatus instance.
      *
-     * @param SettingRepositoryInterface $settings
+     * @param Repository $config
      */
-    public function __construct(SettingRepositoryInterface $settings)
+    public function __construct(Repository $config)
     {
-        $this->settings = $settings;
+        $this->config = $config;
     }
 
     /**
@@ -42,7 +42,7 @@ class CheckSiteStatus
      */
     public function handle(Request $request, Closure $next)
     {
-        $enabled = $this->settings->get('streams::site_enabled', true);
+        $enabled = $this->config->get('streams.site_enabled', true);
 
         /**
          * Continue on if we're enabled.
@@ -61,7 +61,7 @@ class CheckSiteStatus
         /**
          * If we're disabled then we need to abort.
          */
-        if (!in_array($request->getClientIp(), $this->settings->get('streams::ip_whitelist', []))) {
+        if (!in_array($request->getClientIp(), $this->config->get('streams.ip_whitelist', []))) {
             return response()->view('streams::errors/503', [], 503);
         }
 
