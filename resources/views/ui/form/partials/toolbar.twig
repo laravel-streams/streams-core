@@ -4,10 +4,11 @@
         {% if form.options.translatable %}
 
             <ul class="list-inline">
-                {% for language in language_enabled() %}
+                {% for iso, name in config_get('streams.enabled_locales') %}
                     <li>
-                        <a href="#" data-toggle="locale" class="btn btn-xs btn-{{ language.iso == config_get('app.locale') ? 'primary' : 'default' }}"
-                           data-locale="{{ language.iso }}">{{ language.name }}</a>
+                        <a href="#" data-toggle="locale"
+                           class="btn btn-xs btn-{{ iso == config_get('app.locale') ? 'primary' : 'default' }}"
+                           data-locale="{{ iso }}">{{ name }}</a>
                     </li>
                 {% endfor %}
             </ul>
