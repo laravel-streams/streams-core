@@ -14,20 +14,20 @@ class ImagePlugin extends Plugin
 {
 
     /**
-     * The image utility.
+     * The plugin functions.
      *
-     * @var Image
+     * @var ImagePluginFunctions
      */
-    protected $image;
+    protected $functions;
 
     /**
      * Create a new ImagePlugin instance.
      *
-     * @param Image $image
+     * @param ImagePluginFunctions $functions
      */
-    public function __construct(Image $image)
+    public function __construct(ImagePluginFunctions $functions)
     {
-        $this->image = $image;
+        $this->functions = $functions;
     }
 
     /**
@@ -38,9 +38,10 @@ class ImagePlugin extends Plugin
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('image_path', [$this->image, 'path']),
-            new \Twig_SimpleFunction('image_url', [$this->image, 'url']),
-            new \Twig_SimpleFunction('image', [$this->image, 'image'])
+            new \Twig_SimpleFunction('image_path', [$this->functions, 'path'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('image_url', [$this->functions, 'url'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('image_tag', [$this->functions, 'tag'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('image', [$this->functions, 'image'], ['is_safe' => ['html']])
         ];
     }
 }

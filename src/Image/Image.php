@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Image;
 
 use Anomaly\Streams\Platform\Application\Application;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Html\HtmlBuilder;
 use Intervention\Image\ImageManager;
 
@@ -44,6 +45,20 @@ class Image extends ImageManager
     protected $image = null;
 
     /**
+     * The default output method.
+     *
+     * @var string
+     */
+    protected $output = 'url';
+
+    /**
+     * The image attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [];
+
+    /**
      * Applied filters.
      *
      * @var array
@@ -80,9 +95,16 @@ class Image extends ImageManager
     /**
      * The HTML builder.
      *
-     * @var \Illuminate\Html\HtmlBuilder
+     * @var HtmlBuilder
      */
     protected $html;
+
+    /**
+     * The file system.
+     *
+     * @var Filesystem
+     */
+    protected $files;
 
     /**
      * The stream application.
@@ -97,10 +119,24 @@ class Image extends ImageManager
      * @param HtmlBuilder $html
      * @param Application $application
      */
-    public function __construct(HtmlBuilder $html, Application $application)
+    public function __construct(HtmlBuilder $html, Filesystem $files, Application $application)
     {
         $this->html        = $html;
+        $this->files       = $files;
         $this->application = $application;
+    }
+
+    /**
+     * Make a new image instance.
+     *
+     * @param mixed $image
+     * @return Image
+     */
+    public function make($image)
+    {
+        $clone = clone($this);
+
+        return $clone->setImage($image);
     }
 
     /**
@@ -118,7 +154,7 @@ class Image extends ImageManager
             }
         }
 
-        app('files')->makeDirectory((new \SplFileInfo($path))->getPath(), 777, true, true);
+        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 777, true, true);
 
         $image->save($this->directory . $path);
     }
@@ -149,13 +185,11 @@ class Image extends ImageManager
      */
     protected function getPath()
     {
-        $file = app('files');
-
         $filename = md5(var_export([$this->image, $this->applied], true)) . '.' . $this->getExtension($this->image);
 
         $path = 'assets/' . $this->application->getReference() . '/' . $filename;
 
-        if (isset($_GET['_publish']) || !$file->exists($path)) {
+        if (isset($_GET['_publish']) || !$this->files->exists($path)) {
             $this->publish($path);
         }
 
@@ -171,6 +205,20 @@ class Image extends ImageManager
     protected function getExtension($path)
     {
         return pathinfo($path, PATHINFO_EXTENSION);
+    }
+
+    /**
+     * Set an attribute value.
+     *
+     * @param $attribute
+     * @param $value
+     * @return $this
+     */
+    public function attr($attribute, $value)
+    {
+        array_set($this->attributes, $attribute, $value);
+
+        return $this;
     }
 
     /**
@@ -278,6 +326,16 @@ class Image extends ImageManager
     }
 
     /**
+     * Convert to grayscale.
+     *
+     * @return $this
+     */
+    public function grayscale()
+    {
+        return $this->greyscale();
+    }
+
+    /**
      * Adjust the height.
      *
      * @param  $height
@@ -381,15 +439,10 @@ class Image extends ImageManager
     /**
      * Return the path to an image.
      *
-     * @param  null $image
      * @return string
      */
-    public function path($image = null)
+    public function path()
     {
-        if ($image) {
-            $this->setImage($image);
-        }
-
         $path = $this->getPath();
 
         $this->image   = null;
@@ -401,25 +454,41 @@ class Image extends ImageManager
     /**
      * Return the URL to an image.
      *
-     * @param null $image
+     * @param array $parameters
+     * @param null  $secure
      * @return string
      */
-    public function url($image = null)
+    public function url(array $parameters = [], $secure = null)
     {
-        return url($this->path($image));
+        return url($this->path(), $parameters, $secure);
     }
 
     /**
-     * Return the image tag for an image.
+     * Return the image tag to an image.
      *
-     * @param null  $image
      * @param null  $alt
      * @param array $attributes
      * @return string
      */
-    public function image($image = null, $alt = null, $attributes = [])
+    public function image($alt = null, $attributes = [])
     {
-        return $this->html->image($this->url($image), $alt, $attributes);
+        if (!$alt) {
+            $alt = array_get($this->attributes, 'alt');
+        }
+
+        $attributes = array_merge($this->attributes, $attributes);
+
+        return $this->html->image($this->getPath(), $alt, $attributes);
+    }
+
+    /**
+     * Return the output.
+     *
+     * @return string
+     */
+    public function output()
+    {
+        return $this->{$this->output}();
     }
 
     /**
@@ -477,6 +546,19 @@ class Image extends ImageManager
     }
 
     /**
+     * Set the output method.
+     *
+     * @param $output
+     * @return $this
+     */
+    public function setOutput($output)
+    {
+        $this->output = $output;
+
+        return $this;
+    }
+
+    /**
      * Set the image by it's path.
      *
      * @param  $path
@@ -499,5 +581,35 @@ class Image extends ImageManager
     public function getSupportedFilters()
     {
         return $this->filters;
+    }
+
+    /**
+     * Return the output.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->output();
+    }
+
+    /**
+     * If the method does not exist then
+     * add an attribute and return.
+     *
+     * @param $name
+     * @param $arguments
+     * @return $this|mixed
+     */
+    function __call($name, $arguments)
+    {
+        if (!method_exists($this, $name)) {
+
+            array_set($this->attributes, $name, array_shift($arguments));
+
+            return $this;
+        }
+
+        return call_user_func_array([$this, $name], $arguments);
     }
 }

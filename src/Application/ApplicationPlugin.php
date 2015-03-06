@@ -39,6 +39,7 @@ class ApplicationPlugin extends Plugin
     {
         return [
             new \Twig_SimpleFunction('env', [$this->functions, 'env']),
+            new \Twig_SimpleFunction('str_truncate', [$this->functions, 'truncate']),
             new \Twig_SimpleFunction(
                 'language_get', function () {
                 return null;

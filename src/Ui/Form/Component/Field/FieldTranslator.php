@@ -57,10 +57,16 @@ class FieldTranslator
         $languages = $this->languages->enabled();
 
         /**
-         * If the entry is not of the interface
-         * or not translatable then skip it.
+         * If the entry is not of the interface then skip it.
          */
-        if (!$entry instanceof EntryInterface || !$entry->isTranslatable()) {
+        if (!$entry instanceof EntryInterface) {
+            return;
+        }
+
+        /**
+         * If the entry is not translatable then skip it.
+         */
+        if (!$entry->isTranslatable()) {
             return;
         }
 
@@ -75,7 +81,7 @@ class FieldTranslator
 
             $assignment = $entry->getAssignment($field['field']);
 
-            if (!$assignment->isTranslatable()) {
+            if (!$assignment || !$assignment->isTranslatable()) {
 
                 $translations[] = $field;
 
