@@ -75,37 +75,5 @@ return [
                 'public'        => 'streams::setting.force_https.option.public'
             ]
         ],
-    ],
-    'admin_theme'    => [
-        'type'   => 'anomaly.field_type.select',
-        'config' => [
-            'default_value' => env('ADMIN_THEME'),
-            'options'       => function (\Anomaly\Streams\Platform\Addon\Theme\ThemeCollection $themes) {
-
-                $options = [];
-
-                foreach ($themes->admin() as $theme) {
-                    $options[$theme->getNamespace()] = $theme->getName();
-                }
-
-                return $options;
-            }
-        ],
-    ],
-    'standard_theme' => [
-        'type'   => 'anomaly.field_type.select',
-        'config' => [
-            'default_value' => env('STANDARD_THEME'),
-            'options'       => function (\Anomaly\Streams\Platform\Addon\Theme\ThemeCollection $themes) {
-
-                $options = [];
-
-                foreach ($themes->standard() as $theme) {
-                    $options[$theme->getNamespace()] = $theme->getName();
-                }
-
-                return $options;
-            }
-        ],
     ]
 ];
