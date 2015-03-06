@@ -74,9 +74,10 @@ class AddonBinder
     /**
      * Register an addon.
      *
-     * @param $path
+     * @param       $path
+     * @param array $include
      */
-    public function register($path)
+    public function register($path, $include = null)
     {
         $vendor = basename(dirname($path));
         $slug   = substr(basename($path), 0, strpos(basename($path), '-'));
@@ -106,7 +107,10 @@ class AddonBinder
          */
         $this->configuration->load($addon);
 
-        $this->provider->register($addon);
+        if (empty($include) || in_array($addon->getNamespace(), $include)) {
+            $this->provider->register($addon);
+        }
+
         $this->integrator->register($addon);
         $this->dispatcher->addonWasRegistered($addon);
     }

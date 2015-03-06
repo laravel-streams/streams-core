@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleInterface;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
@@ -63,10 +64,20 @@ class ModuleModel extends EloquentModel implements ModuleInterface
      * Find a module by it's namespace.
      *
      * @param  $namespace
-     * @return mixed
+     * @return null|ModuleModel
      */
     public function findByNamespace($namespace)
     {
         return $this->where('namespace', $namespace)->first();
+    }
+
+    /**
+     * Get all enabled modules.
+     *
+     * @return EloquentCollection
+     */
+    public function getEnabled()
+    {
+        return $this->where('installed', true)->where('enabled', true)->get();
     }
 }
