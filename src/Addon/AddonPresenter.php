@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Robbo\Presenter\Presenter;
+use Anomaly\Streams\Platform\Support\Presenter;
 
 /**
  * Class AddonPresenter
