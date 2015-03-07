@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
@@ -53,7 +54,7 @@ class EntryFormRepository implements FormRepositoryInterface
      * Save the form.
      *
      * @param Form $form
-     * @return bool|mixed
+     * @return EntryInterface
      */
     public function save(Form $form)
     {
@@ -110,5 +111,7 @@ class EntryFormRepository implements FormRepositoryInterface
                 $translation->save();
             }
         }
+
+        return $entry;
     }
 }
