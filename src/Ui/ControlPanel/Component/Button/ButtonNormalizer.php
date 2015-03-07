@@ -22,15 +22,28 @@ class ButtonNormalizer
     {
         $buttons = $builder->getButtons();
 
-        foreach ($buttons as &$button) {
+        foreach ($buttons as $key => &$button) {
 
             /**
-             * If the button is a string then use
-             * it as the button parameter.
+             * If the button is a string but the key
+             * is numeric then use the button as the
+             * button type.
              */
-            if (is_string($button)) {
+            if (is_numeric($key) && is_string($button)) {
                 $button = [
-                    'button' => $button,
+                    'button' => $button
+                ];
+            }
+
+            /**
+             * If the button AND key are strings then
+             * use the key as the button and the
+             * button as the text parameters.
+             */
+            if (!is_numeric($key) && is_string($button)) {
+                $button = [
+                    'text'   => $button,
+                    'button' => $key,
                 ];
             }
 

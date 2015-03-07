@@ -47,6 +47,10 @@ class ButtonRegistry
             'text' => 'streams::button.create',
             'type' => 'success'
         ],
+        'new'         => [
+            'type' => 'success',
+            'icon' => 'plus'
+        ],
         /**
          * Info type buttons.
          */
