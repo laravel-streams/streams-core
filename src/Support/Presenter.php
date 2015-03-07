@@ -33,4 +33,18 @@ abstract class Presenter extends \Robbo\Presenter\Presenter
 
         return $this->__getDecorator()->decorate(is_array($this->object) ? $this->object[$var] : $this->object->$var);
     }
+
+    /**
+     * Return the objects string method.
+     *
+     * @return string
+     */
+    function __toString()
+    {
+        if (method_exists($this->object, '__toString')) {
+            return $this->object->__toString();
+        }
+
+        parent::__toString();
+    }
 }
