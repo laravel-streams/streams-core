@@ -44,7 +44,7 @@ class ModuleServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Module\ModuleModel'
         );
 
-        $this->app->bind(
+        $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface',
             'Anomaly\Streams\Platform\Addon\Module\ModuleRepository'
         );
@@ -54,9 +54,9 @@ class ModuleServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'
         );
 
-        $this->app->bind(
-            'module.collection',
-            'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection',
+            'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection'
         );
 
         $this->app->register('Anomaly\Streams\Platform\Addon\Module\ModuleEventProvider');

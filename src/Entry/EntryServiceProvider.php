@@ -37,7 +37,8 @@ class EntryServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Entry\EntryModel',
             'Anomaly\Streams\Platform\Entry\EntryModel'
         );
-        $this->app->bind(
+
+        $this->app->singleton(
             'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface',
             'Anomaly\Streams\Platform\Entry\EntryRepository'
         );

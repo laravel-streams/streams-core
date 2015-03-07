@@ -25,7 +25,7 @@ class AssignmentServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Assignment\AssignmentModel'
         );
 
-        $this->app->bind(
+        $this->app->singleton(
             'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface',
             'Anomaly\Streams\Platform\Assignment\AssignmentRepository'
         );

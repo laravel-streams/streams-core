@@ -27,7 +27,8 @@ class FieldServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Field\FieldModel',
             'Anomaly\Streams\Platform\Field\FieldModel'
         );
-        $this->app->bind(
+
+        $this->app->singleton(
             'Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface',
             'Anomaly\Streams\Platform\Field\FieldRepository'
         );

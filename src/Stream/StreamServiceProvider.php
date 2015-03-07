@@ -24,7 +24,8 @@ class StreamServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Stream\StreamModel',
             'Anomaly\Streams\Platform\Stream\StreamModel'
         );
-        $this->app->bind(
+
+        $this->app->singleton(
             'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface',
             'Anomaly\Streams\Platform\Stream\StreamRepository'
         );
