@@ -53,9 +53,9 @@ class ExtensionServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection'
         );
 
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\Extension\Listener\PutExtensionInCollection',
-            'Anomaly\Streams\Platform\Addon\Extension\Listener\PutExtensionInCollection'
+        $this->app->bind(
+            'extension.collection',
+            'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection'
         );
 
         $this->app->register('Anomaly\Streams\Platform\Addon\Extension\ExtensionEventProvider');

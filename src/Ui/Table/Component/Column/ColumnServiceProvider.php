@@ -20,11 +20,6 @@ class ColumnServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnValue',
-            'Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnValue'
-        );
-
         $this->app->register('Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnEventProvider');
     }
 }
