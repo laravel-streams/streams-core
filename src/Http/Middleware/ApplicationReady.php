@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
+use Anomaly\Streams\Platform\Application\Event\ApplicationHasLoaded;
 use Closure;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
@@ -40,7 +41,7 @@ class ApplicationReady
      */
     public function handle(Request $request, Closure $next)
     {
-        $this->events->fire(new \Anomaly\Streams\Platform\Application\Event\ApplicationHasBooted());
+        $this->events->fire(new ApplicationHasLoaded());
 
         return $next($request);
     }
