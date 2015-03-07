@@ -23,6 +23,11 @@ class ViewServiceProvider extends ServiceProvider
         $this->app->make('view')->addNamespace('streams', __DIR__ . '/../../resources/views');
         $this->app->make('view')->composer('*', 'Anomaly\Streams\Platform\View\ViewComposer');
 
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\View\ViewTemplate ',
+            'Anomaly\Streams\Platform\View\ViewTemplate'
+        );
+
         $this->app->register('Anomaly\Streams\Platform\View\ViewEventProvider');
     }
 }

@@ -20,7 +20,8 @@ class ViewEventProvider extends EventServiceProvider
      */
     protected $listen = [
         'Anomaly\Streams\Platform\View\Event\ViewComposed' => [
-            'Anomaly\Streams\Platform\View\Listener\DecorateData'
+            'Anomaly\Streams\Platform\View\Listener\DecorateData',
+            'Anomaly\Streams\Platform\View\Listener\LoadTemplateData'
         ]
     ];
 
