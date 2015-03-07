@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension\Command\Handler;
 
 use Anomaly\Streams\Platform\Addon\AddonManager;
-use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
  * Class RegisterExtensionsHandler
@@ -16,13 +14,6 @@ class RegisterExtensionsHandler
 {
 
     /**
-     * The extension model.
-     *
-     * @var ExtensionModel
-     */
-    protected $model;
-
-    /**
      * The addon manager.
      *
      * @var AddonManager
@@ -32,12 +23,10 @@ class RegisterExtensionsHandler
     /**
      * Create a new RegisterExtensionsHandler instance.
      *
-     * @param AddonManager   $manager
-     * @param ExtensionModel $model
+     * @param AddonManager $manager
      */
-    public function __construct(AddonManager $manager, ExtensionModel $model)
+    public function __construct(AddonManager $manager)
     {
-        $this->model   = $model;
         $this->manager = $manager;
     }
 
@@ -46,14 +35,6 @@ class RegisterExtensionsHandler
      */
     public function handle()
     {
-        if (env('INSTALLED')) {
-
-            /* @var EloquentCollection $enabled */
-            $enabled = $this->model->getEnabled()->lists('namespace');
-        } else {
-            $enabled = ['none'];
-        }
-
-        $this->manager->register('extension', $enabled);
+        $this->manager->register('extension');
     }
 }

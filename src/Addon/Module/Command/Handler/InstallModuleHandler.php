@@ -67,9 +67,9 @@ class InstallModuleHandler
             '--force' => true
         ];
 
-        if ($kernel->getSeed()) {
+        /*if ($kernel->getSeed()) {
             $options['--seed'] = true;
-        }
+        }*/
 
         $this->command->call('migrate', $options);
         $this->dispatcher->fire(new ModuleWasInstalled($module));

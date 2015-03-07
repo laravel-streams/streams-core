@@ -62,13 +62,12 @@ class AddonManager
      * Register all addons of a given type.
      *
      * @param       $type
-     * @param array $include
      */
-    public function register($type, $include = [])
+    public function register($type)
     {
         foreach ($this->paths->all($type) as $path) {
             $this->loader->load($path);
-            $this->binder->register($path, $include);
+            $this->binder->register($path);
         }
     }
 }
