@@ -55,6 +55,7 @@ class HrefGuesser
         // Determine the HREF based on the button type.
         switch (array_get($button, 'button')) {
 
+            case 'new':
             case 'create':
                 $button['attributes']['href'] = $this->guessCreateHref();
                 break;
