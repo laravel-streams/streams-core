@@ -35,7 +35,7 @@ class SetDefaultOptionsHandler
             $options = str_replace('TableBuilder', 'TableOptions', get_class($builder));
 
             if (class_exists($options)) {
-                $table->setOption('options', $options . '@handle');
+                app()->call($options . '@handle', compact('builder', 'table'));
             }
         }
 

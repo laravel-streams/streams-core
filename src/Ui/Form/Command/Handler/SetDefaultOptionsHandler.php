@@ -67,7 +67,7 @@ class SetDefaultOptionsHandler
             $options = str_replace('FormBuilder', 'FormOptions', get_class($builder));
 
             if (class_exists($options)) {
-                $form->setOption('options', $options . '@handle');
+                app()->call($options . '@handle', compact('builder', 'table'));
             }
         }
 

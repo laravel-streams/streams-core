@@ -13,9 +13,7 @@
             <div class="col-lg-24">
 
                 {% for field in section.fields %}
-                    {% for translation in form.fields.translations(field) %}
-                        {{ translation.render()|raw }}
-                    {% endfor %}
+                    {{ form.fields.get(field).render|raw }}
                 {% endfor %}
 
             </div>
