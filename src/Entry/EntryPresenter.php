@@ -37,6 +37,6 @@ class EntryPresenter extends EloquentPresenter
             return $type->getPresenter();
         }
 
-        return $this->resource->getFieldPresenter($key);
+        return $this->object->getFieldPresenter($key);
     }
 }

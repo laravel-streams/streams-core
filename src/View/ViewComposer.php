@@ -2,6 +2,8 @@
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
+use Anomaly\Streams\Platform\View\Event\ViewComposed;
+use Illuminate\Events\Dispatcher;
 use Illuminate\View\View;
 use Jenssegers\Agent\Agent;
 
@@ -24,6 +26,13 @@ class ViewComposer
     protected $agent;
 
     /**
+     * The event dispatcher.
+     *
+     * @var Dispatcher
+     */
+    protected $events;
+
+    /**
      * The theme collection.
      *
      * @var ThemeCollection
@@ -41,12 +50,14 @@ class ViewComposer
      * Create a new ViewComposer instance.
      *
      * @param Agent            $agent
+     * @param Dispatcher       $events
      * @param ThemeCollection  $themes
      * @param ModuleCollection $modules
      */
-    function __construct(Agent $agent, ThemeCollection $themes, ModuleCollection $modules)
+    function __construct(Agent $agent, Dispatcher $events, ThemeCollection $themes, ModuleCollection $modules)
     {
         $this->agent   = $agent;
+        $this->events  = $events;
         $this->themes  = $themes;
         $this->modules = $modules;
     }
@@ -90,6 +101,8 @@ class ViewComposer
         if ($result) {
             $view->setPath($environment->getFinder()->find($result));
         }
+
+        $this->events->fire(new ViewComposed($view));
 
         return $view;
     }

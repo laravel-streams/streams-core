@@ -52,6 +52,11 @@ class ApplicationServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Application\Application'
         );
 
+        $this->app->singleton(
+            'Michelf\Markdown',
+            'Michelf\Markdown'
+        );
+
         $this->app->bind(
             'path.lang',
             function () {
