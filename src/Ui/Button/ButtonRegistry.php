@@ -51,6 +51,14 @@ class ButtonRegistry
             'type' => 'success',
             'icon' => 'plus'
         ],
+        'new_modal'   => [
+            'type'       => 'success',
+            'icon'       => 'plus',
+            'attributes' => [
+                'data-toggle' => 'modal',
+                'data-target' => '#modal'
+            ]
+        ],
         /**
          * Info type buttons.
          */

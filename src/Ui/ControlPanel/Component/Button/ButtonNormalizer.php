@@ -48,6 +48,15 @@ class ButtonNormalizer
             }
 
             /**
+             * If the key is not numeric and the button
+             * is an array without the button key then
+             * use the key as the button's type.
+             */
+            if (!is_numeric($key) && is_array($button) && !isset($button['button'])) {
+                $button['button'] = $key;
+            }
+
+            /**
              * Make sure some default parameters exist.
              */
             $button['attributes'] = array_get($button, 'attributes', []);
