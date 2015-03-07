@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Listener;
 
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 /**
@@ -42,6 +41,8 @@ class LoadFormValues
         $form = $event->getForm();
 
         // Get values from post.
-        $form->setValues(new Collection($this->request->except('_token', $form->getOption('prefix') . 'action')));
+        foreach ($this->request->except('_token', $form->getOption('prefix') . 'action') as $key => $value) {
+            $form->setValue($key, $value);
+        }
     }
 }
