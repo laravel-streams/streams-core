@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetTableModel
@@ -10,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Table\Command
  */
-class SetTableModel
+class SetTableModel implements SelfHandling
 {
 
     /**
@@ -31,12 +32,23 @@ class SetTableModel
     }
 
     /**
-     * Get the table builder.
-     *
-     * @return TableBuilder
+     * Handle the command.
      */
-    public function getBuilder()
+    public function handle()
     {
-        return $this->builder;
+        $table = $this->builder->getTable();
+        $model = $this->builder->getModel();
+
+        /**
+         * If the model is not set then skip it.
+         */
+        if (!class_exists($model)) {
+            return;
+        }
+
+        /**
+         * Set the model on the table!
+         */
+        $table->setModel(app($model));
     }
 }
