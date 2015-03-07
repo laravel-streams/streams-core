@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\Streams\Platform\Support\Presenter;
 use Illuminate\Contracts\Support\Arrayable;
-use Robbo\Presenter\Presenter;
 
 /**
  * Class EloquentPresenter

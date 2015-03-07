@@ -10,6 +10,7 @@ use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
 use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
+use Robbo\Presenter\Decorator;
 
 /**
  * Class ApplicationServiceProvider
@@ -55,6 +56,11 @@ class ApplicationServiceProvider extends ServiceProvider
         $this->app->singleton(
             'Michelf\Markdown',
             'Michelf\Markdown'
+        );
+
+        $this->app->singleton(
+            'Robbo\Presenter\Decorator',
+            'Robbo\Presenter\Decorator'
         );
 
         $this->app->bind(

@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Robbo\Presenter\Presenter;
+use Anomaly\Streams\Platform\Support\Presenter;
 
 /**
  * Class FieldTypePresenter
