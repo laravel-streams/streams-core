@@ -46,9 +46,14 @@ class RegisterModulesHandler
      */
     public function handle()
     {
-        /* @var EloquentCollection $enabled */
-        $enabled = $this->model->getEnabled();
+        if (env('installed')) {
 
-        $this->manager->register('module', $enabled->lists('namespace'));
+            /* @var EloquentCollection $enabled */
+            $enabled = $this->model->getEnabled()->lists('namespace');
+        } else {
+            $enabled = ['none'];
+        }
+
+        $this->manager->register('module', $enabled);
     }
 }

@@ -46,9 +46,14 @@ class RegisterExtensionsHandler
      */
     public function handle()
     {
-        /* @var EloquentCollection $enabled */
-        $enabled = $this->model->getEnabled();
+        if (env('INSTALLED')) {
 
-        $this->manager->register('extension', $enabled->lists('namespace'));
+            /* @var EloquentCollection $enabled */
+            $enabled = $this->model->getEnabled()->lists('namespace');
+        } else {
+            $enabled = ['none'];
+        }
+
+        $this->manager->register('extension', $enabled);
     }
 }
