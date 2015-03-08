@@ -8,10 +8,10 @@ $(document).ready(function () {
         var form = $(this).closest('form');
         var locale = $(this).data('locale');
 
-        selected.closest('ul').find('.btn').removeClass('btn-primary').addClass('btn-default');
-        selected.removeClass('btn-default').addClass('btn-primary');
+        selected.closest('.menu').find('a').removeClass('active');
+        selected.removeClass('active').addClass('active');
 
-        form.find('.form-group[data-locale]').addClass('hidden');
-        form.find('.form-group[data-locale="' + locale + '"]').removeClass('hidden');
+        form.find('.field[data-locale]').addClass('hidden');
+        form.find('.field[data-locale="' + locale + '"]').removeClass('hidden');
     });
 });

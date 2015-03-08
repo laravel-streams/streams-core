@@ -1,17 +1,17 @@
-<div class="form-group {{ field_type.hidden ? 'hidden' }}" {{ field_type.translatable ? 'data-locale=' ~ field_type.locale }}>
+<div class="field {{ field_type.hidden ? 'hidden' }}" {{ field_type.translatable ? 'data-locale=' ~ field_type.locale }}>
 
-    <label class="control-label {{ field_type.required ? 'required' }}">
+    <label class="{{ field_type.required ? 'required' }}">
         {{ trans(field_type.label)|raw }}
         {% if field_type.translatable %}
-            <small class="text-muted">
+            <small>
                 <i class="fa fa-language"></i> {{ config_get('streams.available_locales.' ~ field_type.locale) }}
             </small>
         {% endif %}
-    </label>
 
-    {% if field_type.instructions %}
-        <p class="help-block">{{ trans(field_type.instructions)|raw }}</p>
-    {% endif %}
+        {% if field_type.instructions %}
+            <div class="instructions">{{ trans(field_type.instructions)|raw }}</div>
+        {% endif %}
+    </label>
 
     {{ field_type.renderInput()|raw }}
 

@@ -1,12 +1,11 @@
 {% for button in buttons %}
-    <div class="btn-group">
 
         {# Render normal buttons. #}
         {% if button.dropdown is empty %}
 
             {# Render normal buttons as an anchor #}
             {% if not button.attributes.name %}
-                <a class="btn btn-{{ button.size }} btn-{{ button.type }}" {{ html_attributes(button.attributes) }}>
+                <a class="ui button {{ button.size }} {{ button.type }}" {{ html_attributes(button.attributes) }}>
                     {{ button.icon ? icon(button.icon)|raw }}
                     {{ trans(button.text) }}
                 </a>
@@ -14,7 +13,7 @@
 
             {# Render normal buttons as a button #}
             {% if button.attributes.name %}
-                <button class="btn btn-{{ button.size }} btn-{{ button.type }}" {{ html_attributes(button.attributes) }}>
+                <button class="ui button {{ button.size }} {{ button.type }}" {{ html_attributes(button.attributes) }}>
                     {{ button.icon ? icon(button.icon)|raw }}
                     {{ trans(button.text) }}
                 </button>
@@ -27,7 +26,7 @@
         {% if button.dropdown %}
 
             {# Render dropdown toggles as an anchor #}
-            <a class="btn btn-{{ button.size }} btn-{{ button.type }} dropdown-toggle"
+            <a class="ui button {{ button.size }} {{ button.type }} dropdown-toggle"
                data-toggle="dropdown" {{ html_attributes(button.attributes) }}>
                 {{ button.icon ? icon(button.icon)|raw }}
                 {{ trans(button.text) }}
@@ -59,5 +58,4 @@
             {% endfor %}
         {% endif %}
 
-    </div>
 {% endfor %}

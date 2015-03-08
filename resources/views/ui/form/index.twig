@@ -2,12 +2,14 @@
 
 {% block content %}
 
-    {{ form_open() }}
+    <div class="ui segment basic" style="margin-top: 0;">
+        {{ form_open({'class': 'ui form'}) }}
 
-    {{ form_toolbar(form)|raw }}
-    {{ form_layout(form)|raw }}
-    {{ form_controls(form)|raw }}
+        {{ form_toolbar(form)|raw }}
+        {{ form_layout(form)|raw }}
+        {{ form_controls(form)|raw }}
 
-    {{ form_close() }}
+        {{ form_close() }}
+    </div>
 
 {% endblock %}

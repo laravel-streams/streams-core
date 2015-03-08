@@ -8,29 +8,26 @@
     {{ asset_add("scripts.js", "streams::js/table/sortable.js") }}
 {% endif %}
 
-<section class="panel panel-default">
 
+<div class="ui horizontal segment basic">
     {{ table_views(table)|raw }}
+    {{ table_filters(table)|raw }}
+</div>
 
-    <div class="panel-body" style="padding: 0;">
+<div class="ui horizontal segment basic">
+    {% if not table.rows.empty() %}
+        {{ form_open() }}
+        <table class="{{ table.options.class ?: 'ui table tablet stackable' }} {{ table.options.sortable ? 'sortable' }}" {{ html_attributes(table.options.attributes) }}>
 
-        {{ table_filters(table)|raw }}
+            {{ table_header(table)|raw }}
+            {{ table_body(table)|raw }}
+            {{ table_footer(table)|raw }}
 
-        {% if not table.rows.empty() %}
-            {{ form_open() }}
-            <table class="{{ table.options.class ?: 'table table-hover' }} {{ table.options.sortable ? 'sortable' }}" {{ html_attributes(table.options.attributes) }}>
-
-                {{ table_header(table)|raw }}
-                {{ table_body(table)|raw }}
-                {{ table_footer(table)|raw }}
-
-            </table>
-            {{ form_close() }}
-        {% else %}
-            <div class="no-results">
-                <h3>{{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}</h3>
-            </div>
-        {% endif %}
-
-    </div>
-</section>
+        </table>
+        {{ form_close() }}
+    {% else %}
+        <div class="no-results">
+            <h3>{{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}</h3>
+        </div>
+    {% endif %}
+</div>

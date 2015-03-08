@@ -2,7 +2,7 @@
         value="{{ field_type.value }}"
         name="{{ field_type.getInputName() }}"
         type="{{ field_type.config.type ?: 'text' }}"
-        placeholder="{{ trans(field_type.config.placeholder) }}"
+        placeholder="{{ trans(field_type.placeholder) }}"
         class="form-control"
         {{ field_type.disabled ? 'disabled' }}
         >

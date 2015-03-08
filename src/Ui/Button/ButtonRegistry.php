@@ -18,41 +18,35 @@ class ButtonRegistry
      */
     protected $buttons = [
         /**
-         * Default type buttons.
+         * Basic Buttons
          */
         'default'     => [
-            'type' => 'default'
+            'type' => 'basic'
         ],
         'cancel'      => [
             'text' => 'streams::button.cancel',
-            'type' => 'default'
+            'type' => 'basic'
         ],
         /**
-         * Primary type buttons.
-         */
-        'primary'     => [
-            'type' => 'primary'
-        ],
-        /**
-         * Success type buttons.
+         * Green Buttons
          */
         'success'     => [
-            'type' => 'success'
+            'type' => 'green'
         ],
         'save'        => [
             'text' => 'streams::button.save',
-            'type' => 'success'
+            'type' => 'green'
         ],
         'create'      => [
             'text' => 'streams::button.create',
-            'type' => 'success'
+            'type' => 'green'
         ],
         'new'         => [
-            'type' => 'success',
+            'type' => 'green',
             'icon' => 'plus'
         ],
         'new_modal'   => [
-            'type'       => 'success',
+            'type'       => 'green',
             'icon'       => 'plus',
             'attributes' => [
                 'data-toggle' => 'modal',
@@ -60,52 +54,45 @@ class ButtonRegistry
             ]
         ],
         /**
-         * Info type buttons.
+         * Blue Buttons
          */
         'info'        => [
-            'type' => 'info'
+            'type' => 'blue'
         ],
         'view'        => [
             'text' => 'streams::button.view',
-            'type' => 'info'
+            'type' => 'blue'
         ],
         /**
-         * Warning type buttons.
+         * Orange type buttons.
          */
         'warning'     => [
-            'type' => 'warning'
+            'type' => 'orange'
         ],
         'edit'        => [
             'text' => 'streams::button.edit',
-            'type' => 'warning'
+            'type' => 'orange'
         ],
         /**
-         * Danger type buttons.
+         * Red Buttons
          */
         'danger'      => [
-            'type' => 'danger',
+            'type' => 'red',
         ],
         'delete'      => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete@handle',
             'text'    => 'streams::button.delete',
-            'type'    => 'danger'
+            'type'    => 'red'
         ],
         'reorder'     => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder@handle',
             'text'    => 'streams::button.reorder',
-            'type'    => 'danger'
+            'type'    => 'red'
         ],
-        // Danger type icon buttons.
         'delete-icon' => [
             'icon' => 'trash',
-            'type' => 'danger'
-        ],
-        /**
-         * Link type buttons.
-         */
-        'link'        => [
-            'type' => 'link'
-        ],
+            'type' => 'red'
+        ]
     ];
 
     /**

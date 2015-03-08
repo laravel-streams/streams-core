@@ -1,19 +1,14 @@
 {% if form.options.translatable %}
-    <div class="toolbar">
+    {% if form.options.translatable %}
 
-        {% if form.options.translatable %}
+        <div class="ui secondary menu" style="margin-top: 0;">
+            {% for iso, name in config_get('streams.enabled_locales') %}
+                <a class="{{ iso == config_get('app.locale') ? 'active' }} item" data-toggle="locale"
+                   data-locale="{{ iso }}">
+                    {{ name }}
+                </a>
+            {% endfor %}
+        </div>
 
-            <ul class="list-inline">
-                {% for iso, name in config_get('streams.enabled_locales') %}
-                    <li>
-                        <a href="#" data-toggle="locale"
-                           class="btn btn-xs btn-{{ iso == config_get('app.locale') ? 'primary' : 'default' }}"
-                           data-locale="{{ iso }}">{{ name }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-
-        {% endif %}
-
-    </div>
+    {% endif %}
 {% endif %}
