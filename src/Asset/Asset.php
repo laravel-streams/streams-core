@@ -100,6 +100,22 @@ class Asset
     }
 
     /**
+     * Return the URL to a compiled asset collection.
+     *
+     * @param        $collection
+     * @param  array $filters
+     * @return string
+     */
+    public function url($collection, array $filters = [])
+    {
+        if (!isset($this->collections[$collection])) {
+            $this->add($collection, $collection, $filters);
+        }
+
+        return url($this->getPath($collection, $filters));
+    }
+
+    /**
      * Return the path to a compiled asset collection.
      *
      * @param        $collection
