@@ -1,6 +1,5 @@
 {% if not table.filters.empty() %}
-
-    <div class="table-filters {{ not table.filters.active().isEmpty() ? 'active' }}">
+    <div class="ui horizontal segment filters">
         <form class="ui form" method="get">
             <input type="hidden" name="{{ table.options.prefix }}view" value="{{ table.views.active().getSlug() }}">
 
@@ -11,10 +10,11 @@
                     </div>
                 {% endfor %}
 
-                <button type="submit" class="ui button green">{{ trans('streams::button.filter') }}</button>
-                <a href="{{ url_current() }}" class="ui button">{{ trans('streams::button.clear') }}</a>
+                <div class="field four column">
+                    <button type="submit" class="ui button green">{{ trans('streams::button.filter') }}</button>
+                    <a href="{{ url_current() }}" class="ui button">{{ trans('streams::button.clear') }}</a>
+                </div>
             </div>
         </form>
     </div>
-
 {% endif %}
