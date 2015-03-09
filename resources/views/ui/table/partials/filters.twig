@@ -1,5 +1,5 @@
 {% if not table.filters.empty() %}
-    <div class="ui horizontal segment filters">
+    <div class="ui basic segment filters">
         <form class="ui form" method="get">
             <input type="hidden" name="{{ table.options.prefix }}view" value="{{ table.views.active().getSlug() }}">
 
