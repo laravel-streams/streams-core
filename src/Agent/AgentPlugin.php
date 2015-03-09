@@ -39,13 +39,12 @@ class AgentPlugin extends Plugin
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('agent_device', [$this, 'device']),
-            new \Twig_SimpleFunction('agent_browser', [$this, 'browser']),
-            new \Twig_SimpleFunction('agent_version', [$this, 'version']),
-            new \Twig_SimpleFunction('agent_platform', [$this, 'platform']),
-            new \Twig_SimpleFunction('agent_is_robot', [$this, 'isRobot']),
-            new \Twig_SimpleFunction('agent_is_mobile', [$this, 'isMobile']),
-            new \Twig_SimpleFunction('agent_is_desktop', [$this, 'isDesktop']),
+            new \Twig_SimpleFunction('agent_device', [$this->agent, 'device']),
+            new \Twig_SimpleFunction('agent_browser', [$this->agent, 'browser']),
+            new \Twig_SimpleFunction('agent_platform', [$this->agent, 'platform']),
+            new \Twig_SimpleFunction('agent_is_robot', [$this->agent, 'isRobot']),
+            new \Twig_SimpleFunction('agent_is_mobile', [$this->agent, 'isMobile']),
+            new \Twig_SimpleFunction('agent_is_desktop', [$this->agent, 'isDesktop']),
         ];
     }
 }
