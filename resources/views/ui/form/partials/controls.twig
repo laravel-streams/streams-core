@@ -1,15 +1,13 @@
-<section class="panel panel-default">
-    <div class="panel-body">
-        <div class="row">
+<div class="ui segment">
+    <div class="ui two column grid">
 
-            <div class="col-lg-12">
-                {{ buttons(form.actions)|raw }}
-            </div>
-
-            <div class="col-lg-12 text-right">
-                {{ buttons(form.buttons)|raw }}
-            </div>
-
+        <div class="column">
+            {{ buttons(form.actions)|raw }}
         </div>
+
+        <div class="column floated right aligned">
+            {{ buttons(form.buttons)|raw }}
+        </div>
+
     </div>
-</section>
+</div>

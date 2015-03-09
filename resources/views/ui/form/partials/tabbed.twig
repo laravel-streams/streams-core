@@ -1,46 +1,14 @@
 <div>
     <div class="ui top attached tabular menu">
-        <a class="active item" data-tab="first">First</a>
-        <a class="item" data-tab="second">Second</a>
-        <a class="item" data-tab="third">Third</a>
+        {% for slug, tab in section.tabs %}
+            <a class="{{ loop.first ? 'active' }} item" data-tab="{{ slug }}">{{ trans(tab.title) }}</a>
+        {% endfor %}
     </div>
-    <div class="ui bottom attached active tab segment" data-tab="first">
-        First
-    </div>
-    <div class="ui bottom attached tab segment" data-tab="second">
-        Second
-    </div>
-    <div class="ui bottom attached tab segment" data-tab="third">
-        Third
-    </div>
-</div>
-
-
-<section class="panel panel-default">
-
-    <div class="panel-heading">
-        <ul class="nav nav-tabs">
-            {% for slug, tab in section.tabs %}
-                <li class="{{ loop.first ? 'active' }}">
-                    <a href="#{{ slug }}" data-toggle="tab">{{ trans(tab.title) }}</a></li>
+    {% for slug, tab in section.tabs %}
+        <div class="ui bottom attached {{ loop.first ? 'active' }} tab segment" data-tab="{{ slug }}">
+            {% for field in tab.fields %}
+                {{ form.fields.get(field).render|raw }}
             {% endfor %}
-        </ul>
-    </div>
-
-    <div class="panel-body">
-        <div class="tab-content">
-
-            {% for slug, tab in section.tabs %}
-                <div class="tab-pane {{ loop.first ? 'active' }}" id="{{ slug }}">
-                    {% for field in tab.fields %}
-                        <div class="form-group">
-                            {{ form.fields.get(field).render|raw }}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-
         </div>
-    </div>
-
-</section>
+    {% endfor %}
+</div>

@@ -1,7 +1,9 @@
 <section class="ui segment">
 
     {% if section.title %}
-        <h2 class="ui dividing header">{{ trans(section.title) }}</h2>
+        <h2 class="ui dividing header">
+            {{ trans(section.title) }}
+        </h2>
     {% endif %}
 
     {% for field in section.fields %}

@@ -1,23 +1,13 @@
-<section class="panel panel-default">
+<section class="ui segment">
 
     {% if form.options.title %}
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                {{ trans(form.options.title) }}
-            </h3>
-        </div>
+        <h2 class="ui dividing header">
+            {{ trans(form.options.title) }}
+        </h2>
     {% endif %}
 
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-lg-24">
-
-                {% for field in form.fields %}
-                    {{ field.render()|raw }}
-                {% endfor %}
-
-            </div>
-        </div>
-    </div>
+    {% for field in form.fields %}
+        {{ field.render()|raw }}
+    {% endfor %}
 
 </section>
