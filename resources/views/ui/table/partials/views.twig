@@ -1,26 +1,13 @@
 {% if not table.views.empty() %}
+    <div class="ui horizontal segment views">
 
-    <div class="panel-heading">
-        <h3 class="panel-title">
-
-            {% if table.views %}
-                <ul class="table-views">
-                    {% for view in table.views %}
-                        <li class="{{ view.class }} {{ view.isActive() ? 'active' }}">
-                            <a href="{{ view.getUrl() }}">{{ trans(view.getText()) }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-
-            {% if not table.filters.empty() %}
-                <a href="#" class="pull-right table-filter-toggle {{ not table.filters.active().isEmpty() ? 'active' }}"
-                   data-toggle="filters">
-                    {{ icon('filter')|raw }} {{ trans('streams::table.filter') }}
+        <div class="ui secondary menu" style="margin-top: 0;">
+            {% for view in table.views %}
+                <a href="{{ view.getUrl() }}" class="item {{ view.class }} {{ view.isActive() ? 'active' }}">
+                    {{ trans(view.getText()) }}
                 </a>
-            {% endif %}
+            {% endfor %}
+        </div>
 
-        </h3>
     </div>
-
 {% endif %}

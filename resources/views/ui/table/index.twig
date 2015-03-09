@@ -8,8 +8,8 @@
     {{ asset_add("scripts.js", "streams::js/table/sortable.js") }}
 {% endif %}
 
-{{ table_views(table)|raw }}
 {{ table_filters(table)|raw }}
+{{ table_views(table)|raw }}
 
 <div class="ui horizontal segment basic">
     {% if not table.rows.empty() %}
