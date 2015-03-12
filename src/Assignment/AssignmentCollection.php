@@ -101,10 +101,9 @@ class AssignmentCollection extends EloquentCollection
     {
         $slugs = [];
 
+        /* @var AssignmentInterface $item */
         foreach ($this->items as $item) {
-            if ($item instanceof AssignmentInterface && $slug = $item->getFieldSlug()) {
-                $slugs[] = $slug;
-            }
+            $slugs[] = $item->getFieldSlug();
         }
 
         return $slugs;
