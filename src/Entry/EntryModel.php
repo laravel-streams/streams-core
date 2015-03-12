@@ -252,7 +252,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getStream()
     {
-        return $this->stream()->first();
+        return $this->stream();
     }
 
     /**
@@ -333,8 +333,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
     public function stream()
     {
-        return app('Anomaly\Streams\Platform\Stream\StreamModel')
-            ->where('namespace', $this->stream['namespace'])
-            ->where('slug', $this->stream['slug']);
+        if (!$this->stream instanceof StreamInterface) {
+            return $this->stream = app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
+        }
+
+        return $this->stream;
     }
 }
