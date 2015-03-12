@@ -73,7 +73,7 @@ class EntryStreamParser
      */
     protected function parseAssignment(AssignmentInterface $assignment, &$string)
     {
-        $string .= "\n[";
+        $string .= "\n'".$assignment->getFieldSlug()."' => [";
 
         foreach ($assignment->getAttributes() as $key => $value) {
             $value = $assignment->getAttribute($key);
