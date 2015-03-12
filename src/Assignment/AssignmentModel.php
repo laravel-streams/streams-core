@@ -24,6 +24,13 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     public $timestamps = false;
 
     /**
+     * The cache minutes.
+     *
+     * @var int
+     */
+    //protected $cacheMinutes = 99999;
+
+    /**
      * The foreign key for translations.
      *
      * @var string
@@ -79,7 +86,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getFieldSlug()
     {
-        return $this->field->slug;
+        return $this->getField()->getSlug();
     }
 
     /**
@@ -192,7 +199,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function isUnique()
     {
-        return ($this->unique);
+        return $this->unique;
     }
 
     /**
@@ -266,7 +273,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function stream()
     {
-        return $this->belongsTo('Anomaly\Streams\Platform\Stream\StreamModel', 'stream_id');
+        return $this->belongsTo('Anomaly\Streams\Platform\Stream\StreamModel');
     }
 
     /**
@@ -276,6 +283,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function field()
     {
-        return $this->belongsTo('Anomaly\Streams\Platform\Field\FieldModel');
+        return $this->belongsTo('Anomaly\Streams\Platform\Field\FieldModel', 'field_id');
     }
 }

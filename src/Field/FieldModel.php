@@ -17,6 +17,13 @@ class FieldModel extends EloquentModel implements FieldInterface
 {
 
     /**
+     * The cache minutes.
+     *
+     * @var int
+     */
+    //protected $cacheMinutes = 99999;
+
+    /**
      * Do not use timestamps.
      *
      * @var bool

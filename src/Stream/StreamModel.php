@@ -1,14 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
-use Anomaly\Streams\Platform\Assignment\AssignmentModel;
-use Anomaly\Streams\Platform\Assignment\AssignmentModelTranslation;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Field\FieldModel;
-use Anomaly\Streams\Platform\Field\FieldModelTranslation;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -22,6 +17,13 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class StreamModel extends EloquentModel implements StreamInterface
 {
+
+    /**
+     * The cache minutes.
+     *
+     * @var int
+     */
+    //protected $cacheMinutes = 99999;
 
     /**
      * The foreign key for translations.
@@ -62,83 +64,6 @@ class StreamModel extends EloquentModel implements StreamInterface
     public function compile()
     {
         $this->save(); // Saving triggers the observer compile event.
-    }
-
-    /**
-     * Make a Stream instance from the provided compile data.
-     *
-     * @param  array $data
-     * @return StreamInterface
-     */
-    public function make(array $data)
-    {
-        $assignments = array();
-
-        $streamModel       = new StreamModel();
-        $streamTranslation = new StreamModelTranslation();
-
-        $data['view_options'] = serialize(array_get($data, 'view_options', []));
-
-        if (isset($data['translations'])) {
-            $streamTranslation->setRawAttributes(array_pull($data, 'translations'));
-        }
-
-        $streamModel->setRawAttributes($data);
-
-        $streamModel->setRelation('translations', $streamTranslation);
-
-        if (array_key_exists('assignments', $data)) {
-
-            foreach ($data['assignments'] as $assignment) {
-
-                if (isset($assignment['field'])) {
-
-                    $assignment['field']['rules']  = unserialize($assignment['field']['rules']);
-                    $assignment['field']['config'] = unserialize($assignment['field']['config']);
-
-                    $fieldModel        = new FieldModel();
-                    $fieldTranslations = new EloquentCollection();
-
-                    if (isset($assignment['field']['translations'])) {
-                        foreach (array_pull($assignment['field'], 'translations') as $translation) {
-                            $fieldTranslations->push(new FieldModelTranslation($translation));
-                        }
-                    }
-
-                    $fieldModel->fill($assignment['field']);
-
-                    $fieldModel->setRelation('translations', $fieldTranslations);
-
-                    unset($assignment['field']);
-
-                    $assignmentModel        = new AssignmentModel();
-                    $assignmentTranslations = new EloquentCollection();
-
-                    if (isset($assignment['translations'])) {
-                        foreach (array_pull($assignment, 'translations') as $translation) {
-                            $assignmentTranslations->push(new AssignmentModelTranslation($translation));
-                        }
-                    }
-
-                    $assignmentModel->fill($assignment);
-                    $assignmentModel->setRawAttributes($assignment);
-
-                    $assignmentModel->setRelation('field', $fieldModel);
-                    $assignmentModel->setRelation('stream', $streamModel);
-                    $assignmentModel->setRelation('translations', $assignmentTranslations);
-
-                    $assignments[] = $assignmentModel;
-                }
-            }
-        }
-
-        $assignmentsCollection = new AssignmentCollection($assignments);
-
-        $streamModel->setRelation('assignments', $assignmentsCollection);
-
-        $streamModel->assignments = $assignmentsCollection;
-
-        return $streamModel;
     }
 
     /**
@@ -257,9 +182,7 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     public function getAssignment($fieldSlug)
     {
-        $assignments = $this->getAssignments();
-
-        return $assignments->findByFieldSlug($fieldSlug);
+        return $this->getAssignments()->findByFieldSlug($fieldSlug);
     }
 
     /**
@@ -367,7 +290,9 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     public function assignments()
     {
-        return $this->hasMany('Anomaly\Streams\Platform\Assignment\AssignmentModel', 'stream_id')
-            ->orderBy('sort_order');
+        return $this->hasMany(
+            'Anomaly\Streams\Platform\Assignment\AssignmentModel',
+            'stream_id'
+        )->orderBy('sort_order');
     }
 }
