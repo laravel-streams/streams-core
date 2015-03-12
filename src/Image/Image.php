@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Html\HtmlBuilder;
+use Collective\Html\HtmlBuilder;
 use Intervention\Image\ImageManager;
 
 /**
