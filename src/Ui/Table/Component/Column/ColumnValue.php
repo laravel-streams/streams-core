@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Robbo\Presenter\PresentableInterface;
 use StringTemplate\Engine;
 
@@ -70,6 +71,19 @@ class ColumnValue
          */
         if ($view = $column->getView()) {
             return view($view, compact('table', 'entry', 'value'));
+        }
+
+        /**
+         * If the value matches a field with a relation
+         * then parse the string using the eager loaded entry.
+         */
+        if (preg_match("/^entry.([a-zA-Z\\_]+)./", $value, $match)) {
+
+            $fieldSlug = camel_case($match[1]);
+
+            if (method_exists($entry, $fieldSlug) && ($relation = $entry->{$fieldSlug}()) instanceof Relation) {
+                return data_get(compact('entry'), $value);
+            }
         }
 
         /**
