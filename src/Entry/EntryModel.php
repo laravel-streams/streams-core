@@ -42,10 +42,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function __construct($attributes = [])
     {
         parent::__construct($attributes);
+        /*$this->stream = app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
 
-        $this->stream = app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
-
-        $this->stream->parent = $this;
+        $this->stream->parent = $this;*/
     }
 
     protected static function boot()
@@ -253,7 +252,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getStream()
     {
-        return $this->stream;
+        return $this->stream()->first();
     }
 
     /**
@@ -265,10 +264,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function getAssignment($fieldSlug)
     {
         $stream = $this->getStream();
-
-        if (!is_object($stream)) {
-            return false;
-        }
 
         $assignments = $stream->getAssignments();
 
@@ -282,7 +277,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function isTranslatable()
     {
-        return ($this->stream->isTranslatable());
+        return $this->getStream()->isTranslatable();
     }
 
     /**
@@ -334,5 +329,12 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         }
 
         return $attributes;
+    }
+
+    public function stream()
+    {
+        return app('Anomaly\Streams\Platform\Stream\StreamModel')
+            ->where('namespace', $this->stream['namespace'])
+            ->where('slug', $this->stream['slug']);
     }
 }
