@@ -102,7 +102,10 @@ class StreamModel extends EloquentModel implements StreamInterface
                         }
                     }
 
-                    $fieldModel->fill($assignment['field']);
+                    $assignment['field']['rules']  = serialize($assignment['field']['rules']);
+                    $assignment['field']['config'] = serialize($assignment['field']['config']);
+
+                    $fieldModel->setRawAttributes($assignment['field']);
 
                     $fieldModel->setRelation('translations', $fieldTranslations);
 
@@ -117,7 +120,7 @@ class StreamModel extends EloquentModel implements StreamInterface
                         }
                     }
 
-                    $assignmentModel->fill($assignment);
+                    $assignmentModel->setRawAttributes($assignment);
                     $assignmentModel->setRawAttributes($assignment);
 
                     $assignmentModel->setRelation('field', $fieldModel);

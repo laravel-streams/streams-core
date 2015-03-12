@@ -334,7 +334,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function stream()
     {
         if (!$this->stream instanceof StreamInterface) {
-            return $this->stream = app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
+            $this->stream = app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
         }
 
         return $this->stream;
