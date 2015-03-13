@@ -37,6 +37,54 @@ class EntryPresenter extends EloquentPresenter
             return $type->getPresenter();
         }
 
-        return $this->object->getFieldPresenter($key);
+        return parent::__get($key);
+    }
+
+    /**
+     * Get the entry's edit link.
+     *
+     * @return string
+     */
+    public function presentEditLink()
+    {
+        return app('html')->link(
+            implode(
+                '/',
+                array_filter(
+                    [
+                        'admin',
+                        $this->object->getStreamNamespace(),
+                        $this->object->getStreamSlug(),
+                        'edit',
+                        $this->object->getId()
+                    ]
+                )
+            ),
+            $this->object->getTitle()
+        );
+    }
+
+    /**
+     * Get the entry's view link.
+     *
+     * @return string
+     */
+    public function presentViewLink()
+    {
+        return app('html')->link(
+            implode(
+                '/',
+                array_filter(
+                    [
+                        'admin',
+                        $this->object->getStreamNamespace(),
+                        $this->object->getStreamSlug(),
+                        'show',
+                        $this->object->getId()
+                    ]
+                )
+            ),
+            $this->object->getTitle()
+        );
     }
 }

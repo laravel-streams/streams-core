@@ -96,7 +96,7 @@ class ColumnValue
 
                 return data_get(
                     compact('entry'),
-                    str_replace(".{$match[1]}.", '.' . camel_case($match[1]) . '.', $value)
+                    str_replace("entry.{$match[1]}.", 'entry.' . camel_case($match[1]) . '.', $value)
                 );
             }
         }
