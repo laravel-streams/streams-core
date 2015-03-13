@@ -54,7 +54,7 @@ class GetMigrationNameHandler
             if ($json = $addon->getComposerJson()) {
                 if (property_exists($json, 'version')) {
 
-                    $version = str_slug($json->version, '_');
+                    $version = str_slug(str_replace(['.', '-'], '_', $json->version), '_');
 
                     $name = "{$namespace}__{$version}__{$originalName}";
                 }
