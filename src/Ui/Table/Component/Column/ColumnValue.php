@@ -6,7 +6,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Robbo\Presenter\PresentableInterface;
+use Robbo\Presenter\Decorator;
 use StringTemplate\Engine;
 
 /**
@@ -30,20 +30,29 @@ class ColumnValue
     /**
      * The evaluator utility.
      *
-     * @var \Anomaly\Streams\Platform\Support\Evaluator
+     * @var Evaluator
      */
     protected $evaluator;
+
+    /**
+     * The decorator utility.
+     *
+     * @var Decorator
+     */
+    protected $decorator;
 
     /**
      * Create a new ColumnValue instance.
      *
      * @param Engine    $parser
      * @param Evaluator $evaluator
+     * @param Decorator $decorator
      */
-    public function __construct(Engine $parser, Evaluator $evaluator)
+    public function __construct(Engine $parser, Evaluator $evaluator, Decorator $decorator)
     {
         $this->parser    = $parser;
         $this->evaluator = $evaluator;
+        $this->decorator = $decorator;
     }
 
     /**
@@ -82,6 +91,9 @@ class ColumnValue
             $fieldSlug = camel_case($match[1]);
 
             if (method_exists($entry, $fieldSlug) && ($relation = $entry->{$fieldSlug}()) instanceof Relation) {
+
+                $entry = $this->decorator->decorate($entry);
+
                 return data_get(
                     compact('entry'),
                     str_replace(".{$match[1]}.", '.' . camel_case($match[1]) . '.', $value)
@@ -94,9 +106,7 @@ class ColumnValue
          * sending to decorate so that data_get()
          * can get into the presenter methods.
          */
-        if ($entry instanceof PresentableInterface) {
-            $entry = $entry->getPresenter();
-        }
+        $entry = $this->decorator->decorate($entry);
 
         /**
          * By default we can just pass the value through
