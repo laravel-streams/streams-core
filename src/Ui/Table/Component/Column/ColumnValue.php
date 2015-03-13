@@ -82,7 +82,10 @@ class ColumnValue
             $fieldSlug = camel_case($match[1]);
 
             if (method_exists($entry, $fieldSlug) && ($relation = $entry->{$fieldSlug}()) instanceof Relation) {
-                return data_get(compact('entry'), $value);
+                return data_get(
+                    compact('entry'),
+                    str_replace(".{$match[1]}.", '.' . camel_case($match[1]) . '.', $value)
+                );
             }
         }
 
