@@ -45,14 +45,6 @@ class ButtonRegistry
             'type' => 'green',
             'icon' => 'plus'
         ],
-        'new_modal'   => [
-            'type'       => 'green',
-            'icon'       => 'plus',
-            'attributes' => [
-                'data-toggle' => 'modal',
-                'data-target' => '#modal'
-            ]
-        ],
         /**
          * Blue Buttons
          */
