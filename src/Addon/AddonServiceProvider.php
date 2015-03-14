@@ -85,6 +85,10 @@ class AddonServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        if (!env('INSTALLED') && $this->addon->getType() !== 'distribution') {
+            return;
+        }
+
         $this->bindClasses();
         $this->bindSingletons();
 

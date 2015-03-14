@@ -46,6 +46,10 @@ class SetModuleStates
      */
     public function handle()
     {
+        if (!env('INSTALLED')) {
+            return;
+        }
+
         $states = $this->model->where('installed', true)->get();
 
         $this->modules->setStates($states->all());

@@ -46,6 +46,10 @@ class SetExtensionStates
      */
     public function handle()
     {
+        if (!env('INSTALLED')) {
+            return;
+        }
+
         $states = $this->model->where('installed', true)->get();
 
         $this->extensions->setStates($states->all());
