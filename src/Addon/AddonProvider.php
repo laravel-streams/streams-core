@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Illuminate\Container\Container;
-use Illuminate\Support\ServiceProvider;
 
 /**
  * Class AddonProvider
@@ -41,7 +40,7 @@ class AddonProvider
         $provider = get_class($addon) . 'ServiceProvider';
 
         if (class_exists($provider)) {
-            $this->container->register(new $provider($this->container));
+            $this->container->register(new $provider($this->container, $addon));
         }
     }
 }

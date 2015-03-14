@@ -3,6 +3,7 @@
 use Illuminate\Events\Dispatcher;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
+use TwigBridge\Bridge;
 
 /**
  * Class AddonServiceProvider
@@ -14,6 +15,13 @@ use Illuminate\Support\ServiceProvider;
  */
 class AddonServiceProvider extends ServiceProvider
 {
+
+    /**
+     * The addon plugins.
+     *
+     * @var array
+     */
+    protected $plugins = [];
 
     /**
      * Addon routes.
@@ -66,6 +74,8 @@ class AddonServiceProvider extends ServiceProvider
     public function __construct($app, Addon $addon)
     {
         $this->addon = $addon;
+
+        parent::__construct($app);
     }
 
     /**
@@ -81,6 +91,7 @@ class AddonServiceProvider extends ServiceProvider
         $this->registerProviders();
         $this->registerEvents();
         $this->registerRoutes();
+        $this->registerPlugins();
     }
 
     /**
@@ -154,6 +165,23 @@ class AddonServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the addon plugins.
+     */
+    protected function registerPlugins()
+    {
+        if (!$plugins = $this->getPlugins()) {
+            return;
+        }
+
+        /* @var Bridge $twig */
+        $twig = $this->app->make('twig');
+
+        foreach ($plugins as $plugin) {
+            $twig->addExtension($this->app->make($plugin));
+        }
+    }
+
+    /**
      * Get class bindings.
      *
      * @return array
@@ -201,5 +229,15 @@ class AddonServiceProvider extends ServiceProvider
     public function getRoutes()
     {
         return $this->routes;
+    }
+
+    /**
+     * Get the addon plugins.
+     *
+     * @return array
+     */
+    public function getPlugins()
+    {
+        return $this->plugins;
     }
 }
