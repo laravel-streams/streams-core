@@ -29,7 +29,8 @@
         "filp/whoops": "1.2.*",
         "symfony/yaml": "2.7.*",
         "jenssegers/agent": "2.1.*",
-        "nicmart/string-template": "0.1.*"
+        "nicmart/string-template": "0.1.*",
+        "baum/baum": "1.1.1"
     },
     "require-dev": {
         "anomaly/streams": "1.0.*@dev",

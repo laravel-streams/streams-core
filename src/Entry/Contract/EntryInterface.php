@@ -41,6 +41,20 @@ interface EntryInterface
     public function getStream();
 
     /**
+     * Get the stream namespace.
+     *
+     * @return string
+     */
+    public function getStreamNamespace();
+
+    /**
+     * Get the stream slug.
+     *
+     * @return string
+     */
+    public function getStreamSlug();
+
+    /**
      * Get a field by it's slug.
      *
      * @param  $slug

@@ -256,6 +256,26 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Get the stream namespace.
+     *
+     * @return string
+     */
+    public function getStreamNamespace()
+    {
+        return $this->getStream()->getNamespace();
+    }
+
+    /**
+     * Get the stream slug.
+     *
+     * @return string
+     */
+    public function getStreamSlug()
+    {
+        return $this->getStream()->getSlug();
+    }
+
+    /**
      * Get an assignment by field slug.
      *
      * @param  $fieldSlug
@@ -318,6 +338,11 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         return new EntryPresenter($this);
     }
 
+    /**
+     * Return the entry as an array.
+     *
+     * @return array
+     */
     public function toArray()
     {
         $attributes = parent::toArray();
@@ -331,6 +356,11 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         return $attributes;
     }
 
+    /**
+     * Return the related stream.
+     *
+     * @return StreamInterface|array
+     */
     public function stream()
     {
         if (!$this->stream instanceof StreamInterface) {
