@@ -56,7 +56,6 @@ class AddonConfiguration
      * Load the addon configuration files.
      *
      * @param Addon $addon
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     protected function loadConfig(Addon $addon)
     {

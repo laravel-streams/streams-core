@@ -1,17 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension\Command\Handler;
+<?php namespace Anomaly\Streams\Platform\Addon\Extension\Listener;
 
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
 
 /**
- * Class SetExtensionStatesHandler
+ * Class SetExtensionStates
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Extension\Command
+ * @package Anomaly\Streams\Platform\Addon\Listener
  */
-class SetExtensionStatesHandler
+class SetExtensionStates
 {
 
     /**
@@ -29,7 +29,7 @@ class SetExtensionStatesHandler
     protected $extensions;
 
     /**
-     * Create a new SetExtensionStatesHandler instance.
+     * Create a new SetExtensionStates instance.
      *
      * @param ExtensionCollection $extensions
      * @param ExtensionModel      $model

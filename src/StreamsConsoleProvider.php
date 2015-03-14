@@ -1,16 +1,16 @@
-<?php namespace Anomaly\Streams\Platform\Console;
+<?php namespace Anomaly\Streams\Platform;
 
-use Illuminate\Foundation\Providers\ConsoleSupportServiceProvider as BaseConsoleSupportServiceProvider;
+use Illuminate\Foundation\Providers\ConsoleSupportServiceProvider;
 
 /**
- * Class ConsoleSupportServiceProvider
+ * Class StreamsConsoleProvider
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Console
+ * @package       Anomaly\Streams\Platform
  */
-class ConsoleSupportServiceProvider extends BaseConsoleSupportServiceProvider
+class StreamsConsoleProvider extends ConsoleSupportServiceProvider
 {
 
     /**

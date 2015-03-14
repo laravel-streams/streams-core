@@ -106,6 +106,7 @@ class AddonBinder
          */
         $this->configuration->load($addon);
 
+        // Continue loading things.
         $this->provider->register($addon);
         $this->integrator->register($addon);
         $this->dispatcher->addonWasRegistered($addon);

@@ -41,20 +41,7 @@ class AddonProvider
         $provider = get_class($addon) . 'ServiceProvider';
 
         if (class_exists($provider)) {
-
-            $provider = app()->make($provider, ['app' => $this->container, 'addon' => $addon]);
-
-            $this->registerProvider($provider);
+            $this->container->register(new $provider($this->container));
         }
-    }
-
-    /**
-     * Register the actual provider object.
-     *
-     * @param ServiceProvider $provider
-     */
-    protected function registerProvider(ServiceProvider $provider)
-    {
-        $this->container->register($provider);
     }
 }

@@ -25,17 +25,19 @@ class AddTwigExtensions implements SelfHandling
      */
     public function handle(Bridge $twig, Container $container)
     {
-        /**
-         * These are included in the
-         * package but disabled by default.
-         */
+        $twig->addExtension(new MarkdownExtension(new MichelfMarkdownEngine()));
         $twig->addExtension($container->make('TwigBridge\Extension\Laravel\Form'));
         $twig->addExtension($container->make('TwigBridge\Extension\Laravel\Html'));
-
-        // Markdown support
-        $twig->addExtension(new MarkdownExtension(new MichelfMarkdownEngine()));
-
-        // Application plugin
+        $twig->addExtension($container->make('Anomaly\Streams\Platform\Ui\UiPlugin'));
+        $twig->addExtension($container->make('Anomaly\Streams\Platform\Agent\AgentPlugin'));
+        $twig->addExtension($container->make('Anomaly\Streams\Platform\Asset\AssetPlugin'));
+        $twig->addExtension($container->make('Anomaly\Streams\Platform\Image\ImagePlugin'));
+        $twig->addExtension($container->make('Anomaly\Streams\Platform\Ui\Form\FormPlugin'));
+        $twig->addExtension($container->make('Anomaly\Streams\Platform\Ui\Table\TablePlugin'));
+        $twig->addExtension($container->make('Anomaly\Streams\Platform\Message\MessagePlugin'));
+        $twig->addExtension($container->make('Anomaly\Streams\Platform\Ui\Button\ButtonPlugin'));
         $twig->addExtension($container->make('Anomaly\Streams\Platform\Application\ApplicationPlugin'));
+        $twig->addExtension($container->make('Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelPlugin'));
+        $twig->addExtension($container->make('Anomaly\Streams\Platform\Addon\Distribution\DistributionPlugin'));
     }
 }
