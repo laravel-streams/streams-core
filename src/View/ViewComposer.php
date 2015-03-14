@@ -70,38 +70,6 @@ class ViewComposer
      */
     public function compose(View $view)
     {
-        $isMobile = $this->agent->isMobile();
-
-        $environment = $view->getFactory();
-
-        $path = $this->getOverloadPath($view);
-
-        $result = null;
-
-        if ($isMobile) {
-
-            $mobileView     = str_replace('::', '::mobile/', $view->getName());
-            $mobileOverload = "theme::override/{$mobileView}";
-
-            if ($environment->exists($mobileView)) {
-                $result = $mobileView;
-            }
-
-            if ($environment->exists($mobileOverload)) {
-                $result = $mobileOverload;
-            }
-        }
-
-        $override = "theme::override/{$path}";
-
-        if (!$result && $environment->exists($override)) {
-            $result = $override;
-        }
-
-        if ($result) {
-            $view->setPath($environment->getFinder()->find($result));
-        }
-
         $this->events->fire(new ViewComposed($view));
 
         return $view;
