@@ -77,7 +77,7 @@ class AddonServiceProvider extends ServiceProvider
     {
         $this->bindClasses();
         $this->bindSingletons();
-        
+
         $this->registerProviders();
         $this->registerEvents();
         $this->registerRoutes();
@@ -108,7 +108,11 @@ class AddonServiceProvider extends ServiceProvider
      */
     protected function registerProviders()
     {
-        foreach ($this->getProviders() as $provider) {
+        if (!$providers = $this->getProviders()) {
+            return;
+        }
+
+        foreach ($providers as $provider) {
             $this->app->register($provider);
         }
     }
@@ -118,10 +122,14 @@ class AddonServiceProvider extends ServiceProvider
      */
     protected function registerEvents()
     {
+        if (!$listen = $this->getListeners()) {
+            return;
+        }
+
         /* @var Dispatcher $events */
         $events = $this->app->make('events');
 
-        foreach ($this->getListeners() as $event => $listeners) {
+        foreach ($listen as $event => $listeners) {
             foreach ($listeners as $listener) {
                 $events->listen($event, $listener);
             }
@@ -133,10 +141,14 @@ class AddonServiceProvider extends ServiceProvider
      */
     protected function registerRoutes()
     {
+        if (!$routes = $this->getRoutes()) {
+            return;
+        }
+
         /* @var Router $router */
         $router = $this->app->make('router');
 
-        foreach ($this->getRoutes() as $uri => $action) {
+        foreach ($routes as $uri => $action) {
             $router->any($uri, $action);
         }
     }
