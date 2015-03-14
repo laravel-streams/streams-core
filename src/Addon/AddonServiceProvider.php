@@ -169,6 +169,10 @@ class AddonServiceProvider extends ServiceProvider
      */
     protected function registerPlugins()
     {
+        if (!env('INSTALLED')) {
+            return;
+        }
+        
         if (!$plugins = $this->getPlugins()) {
             return;
         }
