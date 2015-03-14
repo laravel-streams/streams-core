@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Event\AddonTypeWasRegistered;
+use Anomaly\Streams\Platform\Addon\Event\AddonsRegistered;
 use Illuminate\Events\Dispatcher;
 
 /**
@@ -59,15 +59,15 @@ class AddonManager
     }
 
     /**
-     * Register all addons of a given type.
-     *
-     * @param       $type
+     * Register all addons.
      */
-    public function register($type)
+    public function register()
     {
-        foreach ($this->paths->all($type) as $path) {
+        foreach ($this->paths->all() as $path) {
             $this->loader->load($path);
             $this->binder->register($path);
         }
+
+        $this->dispatcher->fire(new AddonsRegistered());
     }
 }

@@ -21,6 +21,9 @@ class ThemeEventProvider extends EventServiceProvider
     protected $listen = [
         'Anomaly\Streams\Platform\Addon\Theme\Event\ThemeWasRegistered' => [
             'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection'
+        ],
+        'Anomaly\Streams\Platform\Addon\Event\AddonsRegistered'         => [
+            'Anomaly\Streams\Platform\Addon\Theme\Listener\DetectActiveTheme'
         ]
     ];
 

@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Theme\Command\Handler;
+<?php namespace Anomaly\Streams\Platform\Addon\Theme\Listener;
 
 use Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection;
 use Anomaly\Streams\Platform\Addon\Theme\Theme;
@@ -7,14 +7,14 @@ use Anomaly\Streams\Platform\Image\Image;
 use Illuminate\Config\Repository;
 
 /**
- * Class DetectActiveThemeHandler
+ * Class DetectActiveTheme
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Theme\Command
+ * @package Anomaly\Streams\Platform\Addon\Listener
  */
-class DetectActiveThemeHandler
+class DetectActiveTheme
 {
 
     /**
@@ -46,7 +46,7 @@ class DetectActiveThemeHandler
     protected $distributions;
 
     /**
-     * Create a new DetectActiveThemeHandler instance.
+     * Create a new DetectActiveTheme instance.
      *
      * @param Asset                  $asset
      * @param Image                  $image
@@ -74,9 +74,9 @@ class DetectActiveThemeHandler
         if ($distribution = $this->distributions->active()) {
 
             if (app('request')->segment(1) == 'admin' || app('request')->segment(1) == 'installer') {
-                $theme = $this->config->get('distribution.admin_theme', env('ADMIN_THEME'));
+                $theme = env('ADMIN_THEME', $distribution->getAdminTheme());
             } else {
-                $theme = $this->config->get('distribution.standard_theme', env('STANDARD_THEME'));
+                $theme = env('STANDARD_THEME', $distribution->getStandardTheme());
             }
 
             $theme = app($theme);

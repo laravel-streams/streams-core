@@ -20,7 +20,8 @@ class PluginEventProvider extends EventServiceProvider
      */
     protected $listen = [
         'Anomaly\Streams\Platform\Addon\Plugin\Event\PluginWasRegistered' => [
-            'Anomaly\Streams\Platform\Addon\Plugin\Listener\PutPluginInCollection'
+            'Anomaly\Streams\Platform\Addon\Plugin\Listener\PutPluginInCollection',
+            'Anomaly\Streams\Platform\Addon\Plugin\Listener\AddPluginToTwig'
         ]
     ];
 

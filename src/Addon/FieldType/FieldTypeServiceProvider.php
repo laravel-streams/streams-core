@@ -19,14 +19,6 @@ class FieldTypeServiceProvider extends ServiceProvider
     use DispatchesCommands;
 
     /**
-     * Boot the service provider.
-     */
-    public function boot()
-    {
-        $this->dispatch(new RegisterFieldTypes());
-    }
-
-    /**
      * Register the service provider.
      *
      * @return void

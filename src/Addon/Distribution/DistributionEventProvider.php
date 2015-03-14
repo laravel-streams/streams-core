@@ -21,6 +21,9 @@ class DistributionEventProvider extends EventServiceProvider
     protected $listen = [
         'Anomaly\Streams\Platform\Addon\Distribution\Event\DistributionWasRegistered' => [
             'Anomaly\Streams\Platform\Addon\Distribution\Listener\PutDistributionInCollection'
+        ],
+        'Anomaly\Streams\Platform\Addon\Event\AddonsRegistered'                       => [
+            'Anomaly\Streams\Platform\Addon\Distribution\Listener\DetectActiveDistribution'
         ]
     ];
 

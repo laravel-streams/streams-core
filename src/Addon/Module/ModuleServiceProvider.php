@@ -20,19 +20,6 @@ class ModuleServiceProvider extends ServiceProvider
     use DispatchesCommands;
 
     /**
-     * Boot the service.
-     */
-    public function boot()
-    {
-        $this->dispatch(new RegisterModules());
-
-        if (env('INSTALLED')) {
-            $this->dispatch(new SetModuleStates());
-            $this->dispatch(new DetectActiveModule());
-        }
-    }
-
-    /**
      * Register the service provider.
      *
      * @return void

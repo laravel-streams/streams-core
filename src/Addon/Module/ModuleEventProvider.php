@@ -22,6 +22,10 @@ class ModuleEventProvider extends EventServiceProvider
         'Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasRegistered'  => [
             'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection'
         ],
+        'Anomaly\Streams\Platform\Addon\Event\AddonsRegistered'            => [
+            'Anomaly\Streams\Platform\Addon\Module\Listener\DetectActiveModule',
+            'Anomaly\Streams\Platform\Addon\Module\Listener\SetModuleStates'
+        ],
         'Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled'   => [
             'Anomaly\Streams\Platform\Addon\Module\Listener\MarkModuleInstalled'
         ],

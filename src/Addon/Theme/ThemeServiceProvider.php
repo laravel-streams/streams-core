@@ -21,20 +21,6 @@ class ThemeServiceProvider extends ServiceProvider
     use DispatchesCommands;
 
     /**
-     * Boot the service provider.
-     */
-    public function boot()
-    {
-        $this->dispatch(new RegisterThemes());
-
-        if (env('INSTALLED')) {
-            $this->dispatch(new DetectActiveTheme());
-        } else {
-            $this->dispatch(new DetectDefaultTheme());
-        }
-    }
-
-    /**
      * Register the service provider.
      *
      * @return void

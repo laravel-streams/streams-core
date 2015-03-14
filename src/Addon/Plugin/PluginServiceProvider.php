@@ -20,15 +20,6 @@ class PluginServiceProvider extends ServiceProvider
     use DispatchesCommands;
 
     /**
-     * Boot the service provider.
-     */
-    public function boot()
-    {
-        $this->dispatch(new RegisterPlugins());
-        $this->dispatch(new AddPluginsToTwig());
-    }
-
-    /**
      * Register the service provider.
      *
      * @return void

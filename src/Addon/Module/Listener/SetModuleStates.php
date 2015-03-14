@@ -1,17 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module\Command\Handler;
+<?php namespace Anomaly\Streams\Platform\Addon\Module\Listener;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 
 /**
- * Class SetModuleStatesHandler
+ * Class SetModuleStates
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Module\Command
+ * @package Anomaly\Streams\Platform\Addon\Listener
  */
-class SetModuleStatesHandler
+class SetModuleStates
 {
 
     /**
@@ -29,7 +29,7 @@ class SetModuleStatesHandler
     protected $modules;
 
     /**
-     * Create a new SetModuleStatesHandler instance.
+     * Create a new SetModuleStates instance.
      *
      * @param ModuleCollection $modules
      * @param ModuleModel      $model

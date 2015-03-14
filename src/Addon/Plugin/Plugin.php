@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Twig_Environment;
+use Twig_ExtensionInterface;
 use Twig_NodeVisitorInterface;
 
 /**
@@ -12,7 +13,7 @@ use Twig_NodeVisitorInterface;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Plugin
  */
-class Plugin extends Addon implements \Twig_ExtensionInterface
+class Plugin extends Addon implements Twig_ExtensionInterface
 {
 
     /**

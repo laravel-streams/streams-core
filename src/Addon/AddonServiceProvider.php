@@ -1,5 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Addon\Command\RegisterAddons;
+use Anomaly\Streams\Platform\Addon\Distribution\Command\DetectActiveDistribution;
+use Anomaly\Streams\Platform\Addon\Module\Command\DetectActiveModule;
+use Anomaly\Streams\Platform\Addon\Theme\Command\DetectActiveTheme;
+use Illuminate\Foundation\Bus\DispatchesCommands;
+
 /**
  * Class AddonServiceProvider
  *
@@ -11,37 +17,21 @@
 class AddonServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 
+    use DispatchesCommands;
+
+    /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        $this->dispatch(new RegisterAddons());
+    }
+
     /**
      * Register the provider.
      */
     public function register()
     {
-        // Register utilities.
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\AddonPaths',
-            'Anomaly\Streams\Platform\Addon\AddonPaths'
-        );
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\AddonBinder',
-            'Anomaly\Streams\Platform\Addon\AddonBinder'
-        );
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\AddonLoader',
-            'Anomaly\Streams\Platform\Addon\AddonLoader'
-        );
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\AddonProvider',
-            'Anomaly\Streams\Platform\Addon\AddonProvider'
-        );
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\AddonIntegrator',
-            'Anomaly\Streams\Platform\Addon\AddonIntegrator'
-        );
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\AddonManager',
-            'Anomaly\Streams\Platform\Addon\AddonManager'
-        );
-
         // Register component service providers.
         $this->app->register('Anomaly\Streams\Platform\Addon\Distribution\DistributionServiceProvider');
         $this->app->register('Anomaly\Streams\Platform\Addon\Module\ModuleServiceProvider');
