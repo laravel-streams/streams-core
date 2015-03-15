@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
+use Illuminate\Contracts\Bus\SelfHandling;
+
 
 /**
  * Class GenerateEnvironmentFile
@@ -9,7 +11,7 @@
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Application\Command
  */
-class GenerateEnvironmentFile
+class GenerateEnvironmentFile implements SelfHandling
 {
 
     /**
@@ -30,12 +32,16 @@ class GenerateEnvironmentFile
     }
 
     /**
-     * Get the variables.
-     *
-     * @return array
+     * Handle the command.
      */
-    public function getVariables()
+    public function handle()
     {
-        return $this->variables;
+        $contents = '';
+
+        foreach ($this->variables as $key => $value) {
+            $contents .= strtoupper($key) . '=' . $value . PHP_EOL;
+        }
+
+        file_put_contents(base_path('.env'), $contents);
     }
 }

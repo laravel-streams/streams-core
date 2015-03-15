@@ -85,7 +85,7 @@ class AddonServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (!env('INSTALLED') && $this->addon->getType() !== 'distribution') {
+        if (!env('INSTALLED') && $this->addon->getSlug() !== 'installer') {
             return;
         }
 
