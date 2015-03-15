@@ -71,9 +71,7 @@ class StreamsEventProvider extends EventServiceProvider
         'Anomaly\Streams\Platform\Addon\Event\AddonsRegistered'                       => [
             'Anomaly\Streams\Platform\Addon\Distribution\Listener\DetectActiveDistribution',
             'Anomaly\Streams\Platform\Addon\Module\Listener\DetectActiveModule',
-            'Anomaly\Streams\Platform\Addon\Module\Listener\SetModuleStates',
-            'Anomaly\Streams\Platform\Addon\Theme\Listener\DetectActiveTheme',
-            'Anomaly\Streams\Platform\Addon\Extension\Listener\SetExtensionStates'
+            'Anomaly\Streams\Platform\Addon\Theme\Listener\DetectActiveTheme'
         ],
         'Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasRegistered'             => [
             'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection'
