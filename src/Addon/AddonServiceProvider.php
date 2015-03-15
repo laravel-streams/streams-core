@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Addon\Extension\Extension;
+use Anomaly\Streams\Platform\Addon\Module\Module;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
@@ -86,6 +88,14 @@ class AddonServiceProvider extends ServiceProvider
     public function register()
     {
         if (!env('INSTALLED') && $this->addon->getSlug() !== 'installer') {
+            return;
+        }
+
+        if ($this->addon instanceof Module && !$this->addon->isEnabled() && $this->addon->getSlug() !== 'installer') {
+            return;
+        }
+
+        if ($this->addon instanceof Extension && !$this->addon->isEnabled()) {
             return;
         }
 
@@ -176,7 +186,7 @@ class AddonServiceProvider extends ServiceProvider
         if (!env('INSTALLED')) {
             return;
         }
-        
+
         if (!$plugins = $this->getPlugins()) {
             return;
         }
