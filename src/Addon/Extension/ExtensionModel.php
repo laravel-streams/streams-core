@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension;
 
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionInterface;
-use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
@@ -72,12 +71,22 @@ class ExtensionModel extends EloquentModel implements ExtensionInterface
     }
 
     /**
-     * Get all enabled extensions.
+     * Get all enabled extension namespaces.
      *
-     * @return EloquentCollection
+     * @return array
      */
-    public function getEnabled()
+    public function getEnabledNamespaces()
     {
-        return $this->where('installed', true)->where('enabled', true)->get();
+        return $this->where('enabled', true)->get()->lists('namespaces');
+    }
+
+    /**
+     * Get all installed extension namespaces.
+     *
+     * @return array
+     */
+    public function getInstalledNamespaces()
+    {
+        return $this->where('installed', true)->get()->lists('namespaces');
     }
 }

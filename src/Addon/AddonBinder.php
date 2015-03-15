@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Addon\Extension\Extension;
+use Anomaly\Streams\Platform\Addon\Module\Module;
 use Illuminate\Container\Container;
 
 /**
@@ -74,9 +76,11 @@ class AddonBinder
     /**
      * Register an addon.
      *
-     * @param       $path
+     * @param $path
+     * @param $enabled
+     * @param $installed
      */
-    public function register($path)
+    public function register($path, array $enabled, array $installed)
     {
         $vendor = basename(dirname($path));
         $slug   = substr(basename($path), 0, strpos(basename($path), '-'));
@@ -92,8 +96,10 @@ class AddonBinder
             ->setSlug($slug)
             ->setVendor($vendor);
 
-        if (!$addon instanceof Addon) {
-            return;
+        if ($addon instanceof Module || $addon instanceof Extension) {
+            $addon
+                ->setInstalled(in_array($addon->getNamespace(), $installed))
+                ->setEnabled(in_array($addon->getNamespace(), $enabled));
         }
 
         $this->container->instance(get_class($addon), $addon);
