@@ -505,6 +505,19 @@ class Image extends ImageManager
     }
 
     /**
+     * Set the output mode.
+     *
+     * @param $output
+     * @return $this
+     */
+    public function setOutput($output)
+    {
+        $this->output = $output;
+
+        return $this;
+    }
+
+    /**
      * Get supported filters.
      *
      * @return array
