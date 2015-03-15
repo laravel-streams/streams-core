@@ -221,16 +221,6 @@ class StreamsServiceProvider extends ServiceProvider
          * needed. This lets us access loaded addons and
          * any state they're in at any time without reloading.
          */
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection',
-            'Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection'
-        );
-
-        $this->app->bind(
-            'distribution.collection',
-            'Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection'
-        );
-
         $this->app->bind(
             'Anomaly\Streams\Platform\Addon\Module\ModuleModel',
             'Anomaly\Streams\Platform\Addon\Module\ModuleModel'

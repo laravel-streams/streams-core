@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
 use Illuminate\Config\Repository;
+use Illuminate\Http\Request;
 
 /**
  * Class DetectActiveTheme
@@ -39,30 +40,30 @@ class DetectActiveTheme
     protected $config;
 
     /**
-     * The loaded distributions.
+     * The request object.
      *
-     * @var \Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection
+     * @var Request
      */
-    protected $distributions;
+    protected $request;
 
     /**
      * Create a new DetectActiveTheme instance.
      *
-     * @param Asset                  $asset
-     * @param Image                  $image
-     * @param Repository             $config
-     * @param DistributionCollection $distributions
+     * @param Asset      $asset
+     * @param Image      $image
+     * @param Request    $request
+     * @param Repository $config
      */
     public function __construct(
         Asset $asset,
         Image $image,
-        Repository $config,
-        DistributionCollection $distributions
+        Request $request,
+        Repository $config
     ) {
-        $this->asset         = $asset;
-        $this->image         = $image;
-        $this->config        = $config;
-        $this->distributions = $distributions;
+        $this->asset   = $asset;
+        $this->image   = $image;
+        $this->config  = $config;
+        $this->request = $request;
     }
 
     /**
@@ -71,26 +72,23 @@ class DetectActiveTheme
      */
     public function handle()
     {
-        if ($distribution = $this->distributions->active()) {
+        if (in_array($this->request->segment(1), ['installer', 'admin'])) {
+            $theme = $this->config->get('streams.admin_theme');
+        } else {
+            $theme = $this->config->get('streams.standard_theme');
+        }
 
-            if (app('request')->segment(1) == 'admin' || app('request')->segment(1) == 'installer') {
-                $theme = env('ADMIN_THEME', $distribution->getAdminTheme());
-            } else {
-                $theme = env('STANDARD_THEME', $distribution->getStandardTheme());
-            }
+        $theme = app($theme);
 
-            $theme = app($theme);
+        if ($theme instanceof Theme) {
 
-            if ($theme instanceof Theme) {
+            $theme->setActive(true);
 
-                $theme->setActive(true);
+            app('view')->addNamespace('theme', $theme->getPath('resources/views'));
+            app('translator')->addNamespace('theme', $theme->getPath('resources/lang'));
 
-                app('view')->addNamespace('theme', $theme->getPath('resources/views'));
-                app('translator')->addNamespace('theme', $theme->getPath('resources/lang'));
-
-                $this->asset->addNamespace('theme', $theme->getPath('resources'));
-                $this->image->addNamespace('theme', $theme->getPath('resources'));
-            }
+            $this->asset->addNamespace('theme', $theme->getPath('resources'));
+            $this->image->addNamespace('theme', $theme->getPath('resources'));
         }
     }
 }
