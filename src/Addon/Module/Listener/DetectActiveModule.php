@@ -84,8 +84,8 @@ class DetectActiveModule
             $this->container->make('view')->addNamespace('module', $module->getPath('resources/views'));
             $this->container->make('translator')->addNamespace('module', $module->getPath('resources/lang'));
 
-            $this->asset->addNamespace('module', $module->getPath('resources'));
-            $this->image->addNamespace('module', $module->getPath('resources'));
+            $this->asset->addPath('module', $module->getPath('resources'));
+            $this->image->addPath('module', $module->getPath('resources'));
         }
     }
 }

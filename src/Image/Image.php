@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Image;
 
 use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Filesystem\Filesystem;
 use Collective\Html\HtmlBuilder;
+use Illuminate\Filesystem\Filesystem;
 use Intervention\Image\ImageManager;
 
 /**
@@ -29,13 +29,6 @@ class Image extends ImageManager
      * @var null
      */
     protected $directory = null;
-
-    /**
-     * Path hints by namespace.
-     *
-     * @var array
-     */
-    protected $namespaces = [];
 
     /**
      * The image object.
@@ -100,6 +93,13 @@ class Image extends ImageManager
     protected $html;
 
     /**
+     * Image path hints by namespace.
+     *
+     * @var ImagePaths
+     */
+    protected $paths;
+
+    /**
      * The file system.
      *
      * @var Filesystem
@@ -117,12 +117,15 @@ class Image extends ImageManager
      * Create a new Image instance.
      *
      * @param HtmlBuilder $html
+     * @param Filesystem  $files
      * @param Application $application
+     * @param ImagePaths  $paths
      */
-    public function __construct(HtmlBuilder $html, Filesystem $files, Application $application)
+    public function __construct(HtmlBuilder $html, Filesystem $files, Application $application, ImagePaths $paths)
     {
         $this->html        = $html;
         $this->files       = $files;
+        $this->paths       = $paths;
         $this->application = $application;
     }
 
@@ -160,25 +163,6 @@ class Image extends ImageManager
     }
 
     /**
-     * Replace the namespace hint with it's path.
-     *
-     * @param  $path
-     * @return string
-     */
-    protected function replaceNamespace($path)
-    {
-        if (str_contains($path, '::')) {
-            list($namespace, $path) = explode('::', $path);
-
-            if (isset($this->namespaces[$namespace]) && $location = $this->namespaces[$namespace]) {
-                $path = $location . '/' . $path;
-            }
-        }
-
-        return $path;
-    }
-
-    /**
      * Get the path of the image.
      *
      * @return string
@@ -189,7 +173,7 @@ class Image extends ImageManager
 
         $path = 'assets/' . $this->application->getReference() . '/' . $filename;
 
-        if (isset($_GET['_publish']) || !$this->files->exists($path)) {
+        if (!starts_with($path, 'http') && (isset($_GET['_publish']) || !$this->files->exists($path))) {
             $this->publish($path);
         }
 
@@ -506,59 +490,6 @@ class Image extends ImageManager
     }
 
     /**
-     * Add a namespace path hint.
-     *
-     * @param  $binding
-     * @param  $path
-     * @return $this
-     */
-    public function addNamespace($binding, $path)
-    {
-        $this->namespaces[$binding] = $path;
-
-        return $this;
-    }
-
-    /**
-     * Set whether to force publishing.
-     *
-     * @param  $publish
-     * @return $this
-     */
-    public function setPublish($publish)
-    {
-        $this->publish = $publish;
-
-        return $this;
-    }
-
-    /**
-     * Set the base publishable directory.
-     *
-     * @param  $directory
-     * @return $this
-     */
-    public function setDirectory($directory)
-    {
-        $this->directory = $directory;
-
-        return $this;
-    }
-
-    /**
-     * Set the output method.
-     *
-     * @param $output
-     * @return $this
-     */
-    public function setOutput($output)
-    {
-        $this->output = $output;
-
-        return $this;
-    }
-
-    /**
      * Set the image by it's path.
      *
      * @param  $path
@@ -566,7 +497,7 @@ class Image extends ImageManager
      */
     public function setImage($path)
     {
-        $path = $this->replaceNamespace($path);
+        $path = $this->paths->realPath($path);
 
         $this->image = $path;
 
@@ -581,6 +512,19 @@ class Image extends ImageManager
     public function getSupportedFilters()
     {
         return $this->filters;
+    }
+
+    /**
+     * Add an image path hint.
+     *
+     * @param $namespace
+     * @param $path
+     */
+    public function addPath($namespace, $path)
+    {
+        $this->paths->addPath($namespace, $path);
+
+        return $this;
     }
 
     /**

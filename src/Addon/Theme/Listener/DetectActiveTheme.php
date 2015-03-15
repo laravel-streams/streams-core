@@ -87,8 +87,8 @@ class DetectActiveTheme
             app('view')->addNamespace('theme', $theme->getPath('resources/views'));
             app('translator')->addNamespace('theme', $theme->getPath('resources/lang'));
 
-            $this->asset->addNamespace('theme', $theme->getPath('resources'));
-            $this->image->addNamespace('theme', $theme->getPath('resources'));
+            $this->asset->addPath('theme', $theme->getPath('resources'));
+            $this->image->addPath('theme', $theme->getPath('resources'));
         }
     }
 }

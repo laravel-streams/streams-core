@@ -40,21 +40,21 @@ class Asset
     protected $publish = false;
 
     /**
-     * Namespace path hints.
-     *
-     * 'module.users' => 'the/resources/path'
-     *
-     * @var array
-     */
-    protected $namespaces = [];
-
-    /**
      * Groups of assets. Groups can
      * be single files as well.
      *
      * @var array
      */
     protected $collections = [];
+
+    /**
+     * Asset path hints by namespace.
+     *
+     * 'module.users' => 'the/resources/path'
+     *
+     * @var AssetPaths
+     */
+    protected $paths;
 
     /**
      * The stream application.
@@ -67,9 +67,11 @@ class Asset
      * Create a new Application instance.
      *
      * @param Application $application
+     * @param AssetPaths  $paths
      */
-    public function __construct(Application $application)
+    public function __construct(Application $application, AssetPaths $paths)
     {
+        $this->paths       = $paths;
         $this->application = $application;
     }
 
@@ -92,7 +94,7 @@ class Asset
 
         $filters = $this->addConvenientFilters($file, $filters);
 
-        $file = $this->replaceNamespace($file);
+        $file = $this->paths->realPath($file);
 
         if (file_exists($file) || is_dir(trim($file, '*'))) {
             $this->collections[$collection][$file] = $filters;
@@ -349,26 +351,6 @@ class Asset
     }
 
     /**
-     * Replace the namespace string in a path
-     * with the actual path prefix.
-     *
-     * @param  $path
-     * @return string
-     */
-    protected function replaceNamespace($path)
-    {
-        if (str_contains($path, '::')) {
-            list($namespace, $path) = explode('::', $path);
-
-            if (isset($this->namespaces[$namespace]) && $location = $this->namespaces[$namespace]) {
-                $path = $location . '/' . $path;
-            }
-        }
-
-        return $path;
-    }
-
-    /**
      * Decide whether we need to publish the file
      * to the path or not.
      *
@@ -433,13 +415,13 @@ class Asset
     /**
      * Add a namespace path hint.
      *
-     * @param  $binding
+     * @param  $namespace
      * @param  $path
      * @return $this
      */
-    public function addNamespace($binding, $path)
+    public function addPath($namespace, $path)
     {
-        $this->namespaces[$binding] = $path;
+        $this->paths->addPath($namespace, $path);
 
         return $this;
     }

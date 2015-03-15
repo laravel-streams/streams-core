@@ -74,7 +74,7 @@ class AddonIntegrator
 
         app('translator')->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
 
-        $this->asset->addNamespace($addon->getNamespace(), $addon->getPath('resources'));
-        $this->image->addNamespace($addon->getNamespace(), $addon->getPath('resources'));
+        $this->asset->addPath($addon->getNamespace(), $addon->getPath('resources'));
+        $this->image->addPath($addon->getNamespace(), $addon->getPath('resources'));
     }
 }

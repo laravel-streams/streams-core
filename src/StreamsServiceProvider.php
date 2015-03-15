@@ -123,12 +123,22 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Asset\Asset'
         );
 
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Asset\AssetPaths',
+            'Anomaly\Streams\Platform\Asset\AssetPaths'
+        );
+
         /**
          * Register the image utility.
          */
         $this->app->singleton(
             'Anomaly\Streams\Platform\Image\Image',
             'Anomaly\Streams\Platform\Image\Image'
+        );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Image\ImagePaths',
+            'Anomaly\Streams\Platform\Image\ImagePaths'
         );
 
         /**

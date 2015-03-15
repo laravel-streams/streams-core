@@ -77,7 +77,7 @@ class ModuleModel extends EloquentModel implements ModuleInterface
      */
     public function getEnabledNamespaces()
     {
-        return $this->where('installed', true)->where('enabled', true)->get()->lists('namespaces');
+        return $this->where('installed', true)->where('enabled', true)->get()->lists('namespace');
     }
 
     /**
@@ -87,6 +87,6 @@ class ModuleModel extends EloquentModel implements ModuleInterface
      */
     public function getInstalledNamespaces()
     {
-        return $this->where('installed', true)->get()->lists('namespaces');
+        return $this->where('installed', true)->get()->lists('namespace');
     }
 }

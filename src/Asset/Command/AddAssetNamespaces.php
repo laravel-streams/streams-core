@@ -1,5 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Asset\Command;
 
+use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Asset\Asset;
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Bus\SelfHandling;
+
 /**
  * Class AddAssetNamespaces
  *
@@ -8,7 +13,20 @@
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Asset\Command
  */
-class AddAssetNamespaces
+class AddAssetNamespaces implements SelfHandling
 {
 
+    /**
+     * Handle the command.
+     */
+    public function handle(Asset $asset, Container $container, Application $application)
+    {
+        $container->instance(
+            'streams.asset.path',
+            $container->make('path.public') . '/assets/' . $application->getReference()
+        );
+
+        $asset->addPath('asset', $container->make('streams.asset.path'));
+        $asset->addPath('streams', $container->make('streams.path') . '/resources');
+    }
 }
