@@ -37,7 +37,7 @@ class ImagePaths
      */
     public function addPath($namespace, $path)
     {
-        array_set($this->paths, $namespace, $path);
+        $this->paths[$namespace] = $path;
 
         return $this;
     }
@@ -54,7 +54,9 @@ class ImagePaths
 
             list($namespace, $path) = explode('::', $path);
 
-            return $this->paths[$namespace] . '/' . $path;
+            if (isset($this->paths[$namespace])) {
+                return $this->paths[$namespace] . '/' . $path;
+            }
         }
 
         return $path;
