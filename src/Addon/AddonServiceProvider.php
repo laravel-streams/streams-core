@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
@@ -60,6 +61,20 @@ class AddonServiceProvider extends ServiceProvider
     protected $bindings = [];
 
     /**
+     * The addon commands.
+     *
+     * @var array
+     */
+    protected $commands = [];
+
+    /**
+     * The addon command schedules.
+     *
+     * @var array
+     */
+    protected $schedules = [];
+
+    /**
      * The addon instance.
      *
      * @var Addon
@@ -93,10 +108,32 @@ class AddonServiceProvider extends ServiceProvider
         $this->bindClasses();
         $this->bindSingletons();
 
-        $this->registerProviders();
-        $this->registerEvents();
         $this->registerRoutes();
+        $this->registerEvents();
         $this->registerPlugins();
+        $this->registerCommands();
+        $this->registerProviders();
+        $this->registerSchedules();
+    }
+
+    /**
+     * Register the addon providers.
+     */
+    protected function registerProviders()
+    {
+        foreach ($this->getProviders() as $provider) {
+            $this->app->register($provider);
+        }
+    }
+
+    /**
+     * Register the addon commands.
+     */
+    protected function registerCommands()
+    {
+        foreach ($this->getCommands() as $command) {
+            $this->commands($command);
+        }
     }
 
     /**
@@ -116,20 +153,6 @@ class AddonServiceProvider extends ServiceProvider
     {
         foreach ($this->getSingletons() as $abstract => $concrete) {
             $this->app->singleton($abstract, $concrete);
-        }
-    }
-
-    /**
-     * Register the addon providers.
-     */
-    protected function registerProviders()
-    {
-        if (!$providers = $this->getProviders()) {
-            return;
-        }
-
-        foreach ($providers as $provider) {
-            $this->app->register($provider);
         }
     }
 
@@ -174,10 +197,6 @@ class AddonServiceProvider extends ServiceProvider
      */
     protected function registerPlugins()
     {
-        if (!env('INSTALLED')) {
-            return;
-        }
-
         if (!$plugins = $this->getPlugins()) {
             return;
         }
@@ -187,6 +206,23 @@ class AddonServiceProvider extends ServiceProvider
 
         foreach ($plugins as $plugin) {
             $twig->addExtension($this->app->make($plugin));
+        }
+    }
+
+    /**
+     * Register the addon schedules.
+     */
+    protected function registerSchedules()
+    {
+        if (!$schedules = $this->getSchedules()) {
+            return;
+        }
+
+        /* @var Schedule $scheduler */
+        $scheduler = $this->app->make('Illuminate\Console\Scheduling\Schedule');
+
+        foreach ($schedules as $schedule) {
+            $scheduler->command($schedule);
         }
     }
 
@@ -218,6 +254,26 @@ class AddonServiceProvider extends ServiceProvider
     public function getProviders()
     {
         return $this->providers;
+    }
+
+    /**
+     * Get the addon commands.
+     *
+     * @return array
+     */
+    public function getCommands()
+    {
+        return $this->commands;
+    }
+
+    /**
+     * Get the addon command schedules.
+     *
+     * @return array
+     */
+    public function getSchedules()
+    {
+        return $this->schedules;
     }
 
     /**
