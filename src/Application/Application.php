@@ -88,8 +88,6 @@ class Application
             return false;
         }
 
-        $this->reference = 'default';
-
         return true;
     }
 

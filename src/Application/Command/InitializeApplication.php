@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Container\Container;
 
 /**
  * Class InitializeApplication
@@ -22,6 +21,14 @@ class InitializeApplication implements SelfHandling
      */
     public function handle(Application $application)
     {
+
+        /**
+         * Set the reference to our default first.
+         * When in a dev environment and working
+         * with Artisan this the same as locating.
+         */
+        $application->setReference(env('DEFAULT_REFERENCE', 'default'));
+
         /**
          * If the application is installed
          * then locate the application and
