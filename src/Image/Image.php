@@ -169,11 +169,15 @@ class Image extends ImageManager
      */
     protected function getPath()
     {
+        if (starts_with($this->image, 'http')) {
+            return $this->image;
+        }
+
         $filename = md5(var_export([$this->image, $this->applied], true)) . '.' . $this->getExtension($this->image);
 
         $path = 'assets/' . $this->application->getReference() . '/' . $filename;
 
-        if (!starts_with($path, 'http') && (isset($_GET['_publish']) || !$this->files->exists($path))) {
+        if (isset($_GET['_publish']) || !$this->files->exists($path)) {
             $this->publish($path);
         }
 
