@@ -10,6 +10,7 @@ use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
 use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
 use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
 use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
+use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
@@ -43,6 +44,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new InitializeApplication());
         $this->dispatch(new AutoloadEntryModels());
         $this->dispatch(new AddAssetNamespaces());
+        $this->dispatch(new AddImageNamespaces());
         $this->dispatch(new AddTwigExtensions());
         $this->dispatch(new RegisterAddons());
     }
