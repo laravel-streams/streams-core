@@ -28,5 +28,6 @@ class AddAssetNamespaces implements SelfHandling
 
         $asset->addPath('asset', $container->make('streams.asset.path'));
         $asset->addPath('streams', $container->make('streams.path') . '/resources');
+        $asset->addPath('bower', $container->make('path.base') . '/bin/bower_components');
     }
 }
