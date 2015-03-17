@@ -10,6 +10,7 @@ use Assetic\Filter\JSMinFilter;
 use Assetic\Filter\LessphpFilter;
 use Assetic\Filter\PhpCssEmbedFilter;
 use Assetic\Filter\ScssphpFilter;
+use Collective\Html\HtmlBuilder;
 
 /**
  * Class Asset
@@ -48,6 +49,13 @@ class Asset
     protected $collections = [];
 
     /**
+     * The HTML utility.
+     *
+     * @var HtmlBuilder
+     */
+    protected $html;
+
+    /**
      * Asset path hints by namespace.
      *
      * 'module.users' => 'the/resources/path'
@@ -68,9 +76,11 @@ class Asset
      *
      * @param Application $application
      * @param AssetPaths  $paths
+     * @param HtmlBuilder $html
      */
-    public function __construct(Application $application, AssetPaths $paths)
+    public function __construct(Application $application, AssetPaths $paths, HtmlBuilder $html)
     {
+        $this->html        = $html;
         $this->paths       = $paths;
         $this->application = $application;
     }
@@ -131,6 +141,64 @@ class Asset
         }
 
         return $this->getPath($collection, $filters);
+    }
+
+    /**
+     * Return the script tag for a collection.
+     *
+     * @param       $collection
+     * @param array $filters
+     * @return string
+     */
+    public function script($collection, array $filters = [])
+    {
+        return $this->html->script($this->path($collection, $filters));
+    }
+
+    /**
+     * Return the style tag for a collection.
+     *
+     * @param       $collection
+     * @param array $filters
+     * @return string
+     */
+    public function style($collection, array $filters = [])
+    {
+        return $this->html->style($this->path($collection, $filters));
+    }
+
+    /**
+     * Return an array of script tags.
+     *
+     * @param       $collection
+     * @param array $filters
+     * @return array
+     */
+    public function scripts($collection, array $filters = [])
+    {
+        return array_map(
+            function ($path) {
+                return $this->html->script($path);
+            },
+            $this->paths($collection, $filters)
+        );
+    }
+
+    /**
+     * Return an array of style tags.
+     *
+     * @param       $collection
+     * @param array $filters
+     * @return array
+     */
+    public function styles($collection, array $filters = [])
+    {
+        return array_map(
+            function ($path) {
+                return $this->html->style($path);
+            },
+            $this->paths($collection, $filters)
+        );
     }
 
     /**

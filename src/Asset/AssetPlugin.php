@@ -43,6 +43,10 @@ class AssetPlugin extends Plugin
             new \Twig_SimpleFunction('asset_urls', [$this->asset, 'urls']),
             new \Twig_SimpleFunction('asset_path', [$this->asset, 'path']),
             new \Twig_SimpleFunction('asset_paths', [$this->asset, 'paths']),
+            new \Twig_SimpleFunction('asset_style', [$this->asset, 'style']),
+            new \Twig_SimpleFunction('asset_styles', [$this->asset, 'styles']),
+            new \Twig_SimpleFunction('asset_script', [$this->asset, 'script']),
+            new \Twig_SimpleFunction('asset_scripts', [$this->asset, 'scripts']),
         ];
     }
 }
