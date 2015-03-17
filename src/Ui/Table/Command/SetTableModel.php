@@ -40,6 +40,21 @@ class SetTableModel implements SelfHandling
         $model = $this->builder->getModel();
 
         /**
+         * If no model is set, try guessing the
+         * model based on best practices.
+         */
+        if (!$model) {
+
+            $parts = explode('\\', str_replace('TableBuilder', 'Model', get_class($this->builder)));
+
+            unset($parts[count($parts) - 2]);
+
+            $model = implode('\\', $parts);
+
+            $this->builder->setModel($model);
+        }
+
+        /**
          * If the model is not set then skip it.
          */
         if (!class_exists($model)) {

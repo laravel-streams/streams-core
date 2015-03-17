@@ -25,6 +25,21 @@ class SetFormModelHandler
         $model   = $builder->getModel();
 
         /**
+         * If no model is set, try guessing the
+         * model based on best practices.
+         */
+        if (!$model) {
+
+            $parts = explode('\\', str_replace('FormBuilder', 'Model', get_class($builder)));
+
+            unset($parts[count($parts) - 2]);
+
+            $model = implode('\\', $parts);
+
+            $builder->setModel($model);
+        }
+
+        /**
          * If the model is not set then skip it.
          */
         if (!class_exists($model)) {
