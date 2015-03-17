@@ -59,11 +59,11 @@ class Image extends ImageManager
     protected $applied = [];
 
     /**
-     * Available filters.
+     * Allowed methods.
      *
      * @var array
      */
-    protected $filters = [
+    protected $methods = [
         'blur',
         'brightness',
         'colorize',
@@ -152,7 +152,7 @@ class Image extends ImageManager
         $image = parent::make($this->image);
 
         foreach ($this->applied as $method => $arguments) {
-            if (in_array($method, $this->filters)) {
+            if (in_array($method, $this->methods)) {
                 $image = call_user_func_array([$image, $method], $arguments);
             }
         }
@@ -217,7 +217,7 @@ class Image extends ImageManager
      */
     public function blur($pixels)
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -228,7 +228,7 @@ class Image extends ImageManager
      */
     public function brightness($level)
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -241,7 +241,7 @@ class Image extends ImageManager
      */
     public function colorize($red, $green, $blue)
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -252,7 +252,7 @@ class Image extends ImageManager
      */
     public function contrast($level)
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -266,7 +266,7 @@ class Image extends ImageManager
      */
     public function crop($width, $height, $x = null, $y = null)
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -278,7 +278,7 @@ class Image extends ImageManager
      */
     public function fit($width, $height = null)
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -289,7 +289,7 @@ class Image extends ImageManager
      */
     public function flip($direction)
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -300,7 +300,7 @@ class Image extends ImageManager
      */
     public function gamma($level)
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -310,7 +310,7 @@ class Image extends ImageManager
      */
     public function greyscale()
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -331,7 +331,7 @@ class Image extends ImageManager
      */
     public function heighten($height)
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -341,7 +341,7 @@ class Image extends ImageManager
      */
     public function invert()
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -353,7 +353,7 @@ class Image extends ImageManager
      */
     public function limitColors($count, $matte = null)
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -364,7 +364,7 @@ class Image extends ImageManager
      */
     public function pixelate($size)
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -375,7 +375,7 @@ class Image extends ImageManager
      */
     public function opacity($opacity)
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -386,7 +386,7 @@ class Image extends ImageManager
      */
     public function quality($quality)
     {
-        return $this->applyFilter('encode', [$this->getExtension($this->image), $quality]);
+        return $this->applyModification('encode', [$this->getExtension($this->image), $quality]);
     }
 
     /**
@@ -398,7 +398,7 @@ class Image extends ImageManager
      */
     public function resize($width, $height)
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -410,7 +410,7 @@ class Image extends ImageManager
      */
     public function rotate($angle, $background = null)
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -421,7 +421,7 @@ class Image extends ImageManager
      */
     public function widen($width)
     {
-        return $this->applyFilter(__FUNCTION__, func_get_args());
+        return $this->applyModification(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -480,13 +480,13 @@ class Image extends ImageManager
     }
 
     /**
-     * Add a filter to apply to the image.
+     * Add a modification to apply to the image.
      *
      * @param  $method
      * @param  $arguments
      * @return $this
      */
-    protected function applyFilter($method, $arguments)
+    protected function applyModification($method, $arguments)
     {
         $this->applied[$method] = $arguments;
 
@@ -519,16 +519,6 @@ class Image extends ImageManager
         $this->output = $output;
 
         return $this;
-    }
-
-    /**
-     * Get supported filters.
-     *
-     * @return array
-     */
-    public function getSupportedFilters()
-    {
-        return $this->filters;
     }
 
     /**

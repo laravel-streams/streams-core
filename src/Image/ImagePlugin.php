@@ -40,7 +40,6 @@ class ImagePlugin extends Plugin
         return [
             new \Twig_SimpleFunction('image_path', [$this->functions, 'path'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('image_url', [$this->functions, 'url'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('image_tag', [$this->functions, 'tag'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('image', [$this->functions, 'image'], ['is_safe' => ['html']])
         ];
     }

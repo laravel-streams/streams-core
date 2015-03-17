@@ -51,17 +51,6 @@ class ImagePluginFunctions
     }
 
     /**
-     * Return the image instance with img output.
-     *
-     * @param $image
-     * @return $this
-     */
-    public function tag($image)
-    {
-        return $this->image->make($image)->setOutput('img');
-    }
-
-    /**
      * Return the image instance.
      *
      * @param $image
