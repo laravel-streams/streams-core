@@ -33,6 +33,8 @@ class SetDefaultParametersHandler
 
             if (class_exists($fields)) {
                 $builder->setFields($fields . '@handle');
+            } else {
+                $builder->setFields(['*']);
             }
         }
 
