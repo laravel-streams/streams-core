@@ -17,6 +17,8 @@ class ApplicationReady
 {
 
     /**
+     * The event dispatcher.
+     *
      * @var Dispatcher
      */
     protected $events;

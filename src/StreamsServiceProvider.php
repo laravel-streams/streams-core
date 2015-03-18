@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
 use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
 use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
 use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -332,6 +333,20 @@ class StreamsServiceProvider extends ServiceProvider
             'streams.path',
             $this->app->make('path.base') . '/vendor/anomaly/streams-platform'
         );
+
+        /**
+         * If we don't have an .env file we need to head
+         * to the installer (unless that's where we're at).
+         */
+        if (env('INSTALLED', null) === null && $this->app->make('request')->path() !== 'installer') {
+
+            $this->app->make('router')->any(
+                '{url?}',
+                function (Redirector $redirector) {
+                    return $redirector->to('installer');
+                }
+            )->where(['url' => '[-a-z0-9/]+']);
+        }
 
         // Views
         $this->app->make('view')->addNamespace('streams', __DIR__ . '/../resources/views');
