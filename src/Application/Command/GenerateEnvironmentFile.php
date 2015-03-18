@@ -28,7 +28,7 @@ class GenerateEnvironmentFile implements SelfHandling
      */
     public function __construct(array $data)
     {
-        $this->variables = $data;
+        $this->data = $data;
     }
 
     /**
