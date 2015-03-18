@@ -19,16 +19,16 @@ class GenerateEnvironmentFile implements SelfHandling
      *
      * @var array
      */
-    protected $variables;
+    protected $data;
 
     /**
      * Create a new GenerateEnvironmentFile instance.
      *
-     * @param array $variables
+     * @param array $data
      */
-    public function __construct(array $variables)
+    public function __construct(array $data)
     {
-        $this->variables = $variables;
+        $this->variables = $data;
     }
 
     /**
@@ -38,7 +38,7 @@ class GenerateEnvironmentFile implements SelfHandling
     {
         $contents = '';
 
-        foreach ($this->variables as $key => $value) {
+        foreach ($this->data as $key => $value) {
             $contents .= strtoupper($key) . '=' . $value . PHP_EOL;
         }
 
