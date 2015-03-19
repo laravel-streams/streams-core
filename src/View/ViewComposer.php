@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\View;
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
 use Illuminate\Events\Dispatcher;
@@ -40,36 +39,59 @@ class ViewComposer
     protected $themes;
 
     /**
-     * The module collection.
+     * The view overrides collection.
      *
-     * @var ModuleCollection
+     * @var ViewOverrides
      */
-    protected $modules;
+    protected $overrides;
 
     /**
-     * Create a new ViewComposer instance.
+     * The view mobile overrides.
      *
-     * @param Agent            $agent
-     * @param Dispatcher       $events
-     * @param ThemeCollection  $themes
-     * @param ModuleCollection $modules
+     * @var ViewMobileOverrides
      */
-    function __construct(Agent $agent, Dispatcher $events, ThemeCollection $themes, ModuleCollection $modules)
-    {
-        $this->agent   = $agent;
-        $this->events  = $events;
-        $this->themes  = $themes;
-        $this->modules = $modules;
+    protected $mobiles;
+
+    /**
+     * @param Agent               $agent
+     * @param Dispatcher          $events
+     * @param ThemeCollection     $themes
+     * @param ViewOverrides       $overrides
+     * @param ViewMobileOverrides $mobiles
+     */
+    function __construct(
+        Agent $agent,
+        Dispatcher $events,
+        ThemeCollection $themes,
+        ViewOverrides $overrides,
+        ViewMobileOverrides $mobiles
+    ) {
+        $this->agent     = $agent;
+        $this->events    = $events;
+        $this->themes    = $themes;
+        $this->mobiles   = $mobiles;
+        $this->overrides = $overrides;
     }
 
     /**
      * Compose the view before rendering.
      *
      * @param  View $view
-     * @return View|mixed
+     * @return View
      */
     public function compose(View $view)
     {
+        $theme = $this->themes->active();
+
+        $mobile    = $this->mobiles->get($theme->getNamespace(), []);
+        $overrides = $this->overrides->get($theme->getNamespace(), []);
+
+        if ($this->agent->isMobile() && $path = array_get($mobile, $view->getName(), null)) {
+            $view->setPath($path);
+        } elseif ($path = array_get($overrides, $view->getName(), null)) {
+            $view->setPath($path);
+        }
+
         $this->events->fire(new ViewComposed($view));
 
         return $view;

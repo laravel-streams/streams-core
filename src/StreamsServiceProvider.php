@@ -315,6 +315,25 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         /**
+         * These view namespace classes are used
+         * pretty often. Let's make them singletons.
+         */
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\View\ViewComposer',
+            'Anomaly\Streams\Platform\View\ViewComposer'
+        );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\View\ViewOverrides',
+            'Anomaly\Streams\Platform\View\ViewOverrides'
+        );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\View\ViewMobileOverrides',
+            'Anomaly\Streams\Platform\View\ViewMobileOverrides'
+        );
+
+        /**
          * Change the default language path to our own.
          * This will make it easier to manage translations.
          */

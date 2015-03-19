@@ -2,6 +2,8 @@
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\View\ViewMobileOverrides;
+use Anomaly\Streams\Platform\View\ViewOverrides;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Routing\Router;
@@ -76,6 +78,21 @@ class AddonServiceProvider extends ServiceProvider
     protected $schedules = [];
 
     /**
+     * The addon view overrides.
+     *
+     * @var array
+     */
+    protected $overrides = [];
+
+    /**
+     * The addon view overrides
+     * for mobile agents only.
+     *
+     * @var array
+     */
+    protected $mobile = [];
+
+    /**
      * The addon instance.
      *
      * @var Addon
@@ -119,6 +136,7 @@ class AddonServiceProvider extends ServiceProvider
         $this->registerCommands();
         $this->registerProviders();
         $this->registerSchedules();
+        $this->registerOverrides();
     }
 
     /**
@@ -232,6 +250,27 @@ class AddonServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register view overrides.
+     */
+    protected function registerOverrides()
+    {
+        $overrides = $this->getOverrides();
+        $mobiles   = $this->getMobile();
+
+        if (!$overrides && !$mobiles) {
+            return;
+        }
+
+        /* @var ViewOverrides $viewOverrides */
+        /* @var ViewMobileOverrides $mobileOverrides */
+        $viewOverrides   = $this->app->make('Anomaly\Streams\Platform\View\ViewOverrides');
+        $mobileOverrides = $this->app->make('Anomaly\Streams\Platform\View\ViewMobileOverrides');
+
+        $viewOverrides->put($this->addon->getNamespace(), $overrides);
+        $mobileOverrides->put($this->addon->getNamespace(), $mobiles);
+    }
+
+    /**
      * Get class bindings.
      *
      * @return array
@@ -279,6 +318,26 @@ class AddonServiceProvider extends ServiceProvider
     public function getSchedules()
     {
         return $this->schedules;
+    }
+
+    /**
+     * Get the addon view overrides.
+     *
+     * @return array
+     */
+    public function getOverrides()
+    {
+        return $this->overrides;
+    }
+
+    /**
+     * Get the mobile view overrides.
+     *
+     * @return array
+     */
+    public function getMobile()
+    {
+        return $this->mobile;
     }
 
     /**
