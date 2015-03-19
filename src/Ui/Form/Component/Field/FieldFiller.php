@@ -1,25 +1,25 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class FieldsGuesser
+ * Class FieldFiller
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser
+ * @package       Anomaly\Streams\Platform\Ui\Form\Component\Field
  */
-class FieldsGuesser
+class FieldFiller
 {
 
     /**
-     * Guess the fill fields.
+     * Fill in fields.
      *
      * @param FormBuilder $builder
      * @return mixed
      */
-    public function guess(FormBuilder $builder)
+    public function fill(FormBuilder $builder)
     {
         $fields = $builder->getFields();
         $stream = $builder->getFormStream();

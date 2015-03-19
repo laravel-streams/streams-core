@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
-use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\FieldsGuesser;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\InstructionsGuesser;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\LabelsGuesser;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\PlaceholdersGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -15,20 +17,41 @@ class FieldGuesser
 {
 
     /**
-     * The fields guesser.
+     * The labels guesser.
      *
-     * @var FieldsGuesser
+     * @var LabelsGuesser
      */
-    protected $fields;
+    protected $labels;
+
+    /**
+     * The instructions guesser.
+     *
+     * @var InstructionsGuesser
+     */
+    protected $instructions;
+
+    /**
+     * The placeholders guesser.
+     *
+     * @var PlaceholdersGuesser
+     */
+    protected $placeholders;
 
     /**
      * Create a new HeadingGuesser instance.
      *
-     * @param FieldsGuesser $fields
+     * @param LabelsGuesser       $labels
+     * @param InstructionsGuesser $instructions
+     * @param PlaceholdersGuesser $placeholders
      */
-    public function __construct(FieldsGuesser $fields)
-    {
-        $this->fields = $fields;
+    public function __construct(
+        LabelsGuesser $labels,
+        InstructionsGuesser $instructions,
+        PlaceholdersGuesser $placeholders
+    ) {
+        $this->labels       = $labels;
+        $this->instructions = $instructions;
+        $this->placeholders = $placeholders;
     }
 
     /**
@@ -38,6 +61,8 @@ class FieldGuesser
      */
     public function guess(FormBuilder $builder)
     {
-        $this->fields->guess($builder);
+        $this->labels->guess($builder);
+        $this->instructions->guess($builder);
+        $this->placeholders->guess($builder);
     }
 }

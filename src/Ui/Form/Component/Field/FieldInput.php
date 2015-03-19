@@ -14,6 +14,13 @@ class FieldInput
 {
 
     /**
+     * The field filler.
+     *
+     * @var FieldFiller
+     */
+    protected $filler;
+
+    /**
      * The field guesser.
      *
      * @var FieldGuesser
@@ -58,6 +65,7 @@ class FieldInput
     /**
      * Create a new FieldInput instance.
      *
+     * @param FieldFiller     $filler
      * @param FieldGuesser    $guesser
      * @param FieldResolver   $resolver
      * @param FieldEvaluator  $evaluator
@@ -66,6 +74,7 @@ class FieldInput
      * @param FieldTranslator $translator
      */
     function __construct(
+        FieldFiller $filler,
         FieldGuesser $guesser,
         FieldResolver $resolver,
         FieldEvaluator $evaluator,
@@ -73,6 +82,7 @@ class FieldInput
         FieldNormalizer $normalizer,
         FieldTranslator $translator
     ) {
+        $this->filler     = $filler;
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
         $this->evaluator  = $evaluator;
@@ -92,9 +102,11 @@ class FieldInput
 
         $this->normalizer->normalize($builder);
         $this->evaluator->evaluate($builder);
-        $this->guesser->guess($builder);
+        $this->filler->fill($builder);
+        
         $this->normalizer->normalize($builder); //Yes, again.
         $this->translator->translate($builder);
         $this->populator->populate($builder);
+        $this->guesser->guess($builder);
     }
 }

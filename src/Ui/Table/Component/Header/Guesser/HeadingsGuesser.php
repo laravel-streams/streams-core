@@ -29,8 +29,8 @@ class HeadingsGuesser
         foreach ($builder->getColumns() as $column) {
 
             /**
-             * If the header is false then the intent was
-             * to not have header text at all.
+             * If the heading is false then the intent was
+             * to not have heading text at all.
              */
             if ($column['heading'] === false) {
 
