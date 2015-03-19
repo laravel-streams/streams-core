@@ -65,9 +65,10 @@ class FieldFactory
         } else {
             $field->setValue(array_pull($parameters, 'value'));
         }
-
+$parameters['config'] = ['buttons' => ['formatting', 'bold', 'italic']];
         // Merge in rules and validators.
         $field->mergeRules(array_pull($parameters, 'rules', []));
+        $field->mergeConfig(array_pull($parameters, 'config', []));
         $field->mergeValidators(array_pull($parameters, 'validators', []));
 
         // Hydrate the field with parameters.

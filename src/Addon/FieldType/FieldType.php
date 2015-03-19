@@ -259,17 +259,6 @@ class FieldType extends Addon
     }
 
     /**
-     * @param $config
-     * @return $this
-     */
-    public function setConfig(array $config)
-    {
-        $this->config = $config;
-
-        return $this;
-    }
-
-    /**
      * Get the config options.
      *
      * @return array
@@ -277,6 +266,16 @@ class FieldType extends Addon
     public function getConfig()
     {
         return $this->config;
+    }
+
+    /**
+     * Merge configuration.
+     *
+     * @param array $config
+     */
+    public function mergeConfig(array $config)
+    {
+        $this->config = array_merge($this->config, $config);
     }
 
     /**
@@ -573,6 +572,16 @@ class FieldType extends Addon
     }
 
     /**
+     * Render the input and wrapper.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function render()
+    {
+        return view($this->getWrapperView(), ['field_type' => $this]);
+    }
+
+    /**
      * Set the filter view.
      *
      * @param  $view
@@ -739,16 +748,6 @@ class FieldType extends Addon
     public function unmutate($value)
     {
         return $value;
-    }
-
-    /**
-     * Render the input and wrapper.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function render()
-    {
-        return view($this->getWrapperView(), ['field_type' => $this]);
     }
 
     /**
