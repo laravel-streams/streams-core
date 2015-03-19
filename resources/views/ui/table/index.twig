@@ -8,17 +8,17 @@
     {{ asset_add("scripts.js", "streams::js/table/sortable.js") }}
 {% endif %}
 
-{{ table_filters(table)|raw }}
-{{ table_views(table)|raw }}
+{% include "streams::ui/table/partials/filters" %}
+{% include "streams::ui/table/partials/views" %}
 
 <div class="ui horizontal segment basic">
     {% if not table.rows.empty() %}
         {{ form_open() }}
         <table class="{{ table.options.class ?: 'ui table tablet stackable' }} {{ table.options.sortable ? 'sortable' }}" {{ html_attributes(table.options.attributes) }}>
 
-            {{ table_header(table)|raw }}
-            {{ table_body(table)|raw }}
-            {{ table_footer(table)|raw }}
+            {% include "streams::ui/table/partials/header" %}
+            {% include "streams::ui/table/partials/body" %}
+            {% include "streams::ui/table/partials/footer" %}
 
         </table>
         {{ form_close() }}

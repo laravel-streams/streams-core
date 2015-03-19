@@ -19,7 +19,7 @@
 
         {% for column in row.columns %}
             <td class="{{ column.class }}" {{ column.attributes }}>
-                {{ table_column(table, column, row.entry)|raw }}
+                {{ column.value|raw }}
             </td>
         {% endfor %}
 

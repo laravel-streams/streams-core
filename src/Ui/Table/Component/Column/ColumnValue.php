@@ -2,10 +2,10 @@
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Support\Evaluator;
-use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\View\View;
 use Robbo\Presenter\Decorator;
 use StringTemplate\Engine;
 
@@ -58,14 +58,14 @@ class ColumnValue
     /**
      * Return the column value.
      *
-     * @param Table           $table
-     * @param ColumnInterface $column
-     * @param                 $entry
-     * @return \Illuminate\View\View|mixed|null
+     * @param Table $table
+     * @param array $column
+     * @param       $entry
+     * @return View|mixed|null
      */
-    public function make(Table $table, ColumnInterface $column, $entry)
+    public function make(Table $table, array $column, $entry)
     {
-        $value = $column->getValue();
+        $value = array_get($column, 'value');
 
         /**
          * If the entry is an instance of EntryInterface
@@ -78,7 +78,7 @@ class ColumnValue
         /**
          * If the value is a view path then return a view.
          */
-        if ($view = $column->getView()) {
+        if ($view = array_get($column, 'view')) {
             return view($view, compact('table', 'entry', 'value'));
         }
 
@@ -124,6 +124,6 @@ class ColumnValue
             $entry = null;
         }
 
-        return $this->parser->render($column->getWrap(), compact('value', 'entry'));
+        return $this->parser->render($column['wrap'], compact('value', 'entry'));
     }
 }

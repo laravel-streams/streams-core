@@ -22,6 +22,13 @@ class ColumnBuilder
     protected $input;
 
     /**
+     * The column value.
+     *
+     * @var ColumnValue
+     */
+    protected $value;
+
+    /**
      * The column factory.
      *
      * @var ColumnFactory
@@ -39,12 +46,14 @@ class ColumnBuilder
      * Create a new ColumnBuilder instance.
      *
      * @param ColumnInput   $input
+     * @param ColumnValue   $value
      * @param ColumnFactory $factory
      * @param Evaluator     $evaluator
      */
-    public function __construct(ColumnInput $input, ColumnFactory $factory, Evaluator $evaluator)
+    public function __construct(ColumnInput $input, ColumnValue $value, ColumnFactory $factory, Evaluator $evaluator)
     {
         $this->input     = $input;
+        $this->value     = $value;
         $this->factory   = $factory;
         $this->evaluator = $evaluator;
     }
@@ -67,6 +76,8 @@ class ColumnBuilder
         foreach ($builder->getColumns() as $column) {
 
             $column = $this->evaluator->evaluate($column, compact('entry', 'table'));
+
+            $this->value->make($table, $column, $entry);
 
             $columns->push($this->factory->make($column));
         }
