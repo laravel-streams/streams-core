@@ -1,7 +1,13 @@
 {% if form.options.sections %}
 
     {% for section in form.options.sections %}
-        {{ form_section(form, section)|raw }}
+        {% if section.view %}
+            {% include section.view %}
+        {% elseif section.fields %}
+            {% include "streams::ui/form/partials/default" %}
+        {% elseif section.tabs %}
+            {% include "streams::streams::ui/form/partials/tabbed" %}
+        {% endif %}
     {% endfor %}
 
 {% else %}

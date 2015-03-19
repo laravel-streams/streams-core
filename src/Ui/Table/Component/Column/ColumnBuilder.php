@@ -77,7 +77,7 @@ class ColumnBuilder
 
             $column = $this->evaluator->evaluate($column, compact('entry', 'table'));
 
-            $this->value->make($table, $column, $entry);
+            $column['value'] = $this->value->make($table, $column, $entry);
 
             $columns->push($this->factory->make($column));
         }
