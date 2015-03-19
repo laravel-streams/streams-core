@@ -88,10 +88,23 @@ interface AssignmentInterface
     /**
      * Get the assignment's field's name.
      *
-     * @param null $locale
      * @return string
      */
     public function getFieldName();
+
+    /**
+     * Get the assignment's field's config.
+     *
+     * @return string
+     */
+    public function getFieldConfig();
+
+    /**
+     * Get the assignment's field's rules.
+     *
+     * @return array
+     */
+    public function getFieldRules();
 
     /**
      * Get the column name.

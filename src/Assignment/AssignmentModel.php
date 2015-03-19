@@ -120,6 +120,30 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     }
 
     /**
+     * Get the assignment's field's config.
+     *
+     * @return string
+     */
+    public function getFieldConfig()
+    {
+        $field = $this->getField();
+
+        return $field->getConfig();
+    }
+
+    /**
+     * Get the assignment's field's rules.
+     *
+     * @return array
+     */
+    public function getFieldRules()
+    {
+        $field = $this->getField();
+
+        return $field->getRules();
+    }
+
+    /**
      * Get the label.
      *
      * @return string
