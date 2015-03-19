@@ -55,7 +55,7 @@ class RollbackFieldsHandler
 
         foreach ($migration->getFields() as $slug => $field) {
 
-            $namespace = array_get($field, 'namespace', $namespace ?: $addon ? $addon->getSlug() : null);
+            $namespace = array_get($field, 'namespace', $namespace ?: ($addon ? $addon->getSlug() : null));
 
             if ($field = $this->fields->findBySlugAndNamespace($slug, $namespace)) {
                 $this->manager->delete($field);

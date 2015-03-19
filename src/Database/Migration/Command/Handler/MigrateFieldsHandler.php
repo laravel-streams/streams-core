@@ -55,7 +55,7 @@ class MigrateFieldsHandler
 
             $field['slug']      = $slug;
             $field['type']      = array_get($field, 'type');
-            $field['namespace'] = array_get($field, 'namespace', $namespace ?: $addon ? $addon->getSlug() : null);
+            $field['namespace'] = array_get($field, 'namespace', $namespace ?: ($addon ? $addon->getSlug()) : null);
 
             /**
              * If the name exists in the base array
