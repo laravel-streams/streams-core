@@ -43,7 +43,6 @@ class TablePlugin extends Plugin
             new \Twig_SimpleFunction('table_header', [$this->functions, 'header']),
             new \Twig_SimpleFunction('table_body', [$this->functions, 'body']),
             new \Twig_SimpleFunction('table_footer', [$this->functions, 'footer']),
-            new \Twig_SimpleFunction('table_heading', [$this->functions, 'heading']),
             new \Twig_SimpleFunction('table_column', [$this->functions, 'column']),
         ];
     }

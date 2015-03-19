@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\FieldsGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class FieldGuesser
+ * Class HeadingGuesser
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -22,7 +22,7 @@ class FieldGuesser
     protected $fields;
 
     /**
-     * Create a new FieldGuesser instance.
+     * Create a new HeadingGuesser instance.
      *
      * @param FieldsGuesser $fields
      */

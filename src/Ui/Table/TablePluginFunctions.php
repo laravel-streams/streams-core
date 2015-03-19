@@ -85,18 +85,6 @@ class TablePluginFunctions
     }
 
     /**
-     * Return a column heading value.
-     *
-     * @param Table           $table
-     * @param HeaderInterface $header
-     * @return string
-     */
-    public function heading(Table $table, HeaderInterface $header)
-    {
-        return $this->dispatch(new GetHeading($table, $header));
-    }
-
-    /**
      * Return a column data value.
      *
      * @param Table           $table

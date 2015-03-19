@@ -63,14 +63,6 @@ interface EntryInterface
     public function getField($slug);
 
     /**
-     * Return whether the entry has a field.
-     *
-     * @param  $slug
-     * @return bool
-     */
-    public function hasField($slug);
-
-    /**
      * Get a field value.
      *
      * @param      $fieldSlug
@@ -78,14 +70,6 @@ interface EntryInterface
      * @return mixed
      */
     public function getFieldValue($fieldSlug, $locale = null);
-
-    /**
-     * Get a field type presenter.
-     *
-     * @param $fieldSlug
-     * @return FieldTypePresenter
-     */
-    public function getFieldPresenter($fieldSlug);
 
     /**
      * Set a field value.

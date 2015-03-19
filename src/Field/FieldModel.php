@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class FieldModel
@@ -36,6 +37,15 @@ class FieldModel extends EloquentModel implements FieldInterface
      * @var string
      */
     protected $translationForeignKey = 'field_id';
+
+    /**
+     * Translatable attributes.
+     *
+     * @var array
+     */
+    protected $translatedAttributes = [
+        'name'
+    ];
 
     /**
      * The translation model.
@@ -77,9 +87,9 @@ class FieldModel extends EloquentModel implements FieldInterface
      * @param null|string $locale
      * @return string
      */
-    public function getName($locale = null)
+    public function getName()
     {
-        return $this->translateOrDefault($locale)->name;
+        return $this->name;
     }
 
     /**
@@ -90,6 +100,16 @@ class FieldModel extends EloquentModel implements FieldInterface
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Get the stream.
+     *
+     * @return string
+     */
+    public function getStream()
+    {
+        return $this->stream;
     }
 
     /**
@@ -202,7 +222,7 @@ class FieldModel extends EloquentModel implements FieldInterface
     /**
      * Return the assignments relation.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function assignments()
     {

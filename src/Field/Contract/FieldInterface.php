@@ -27,7 +27,14 @@ interface FieldInterface
      * @param null|string $locale
      * @return string
      */
-    public function getName($locale = null);
+    public function getName();
+
+    /**
+     * Get the stream.
+     *
+     * @return string
+     */
+    public function getStream();
 
     /**
      * Get the namespace.

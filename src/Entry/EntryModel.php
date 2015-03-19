@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
@@ -37,16 +36,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     protected $stream = [];
 
     /**
-     * Create a new EntryModel instance.
+     * Boot the model.
      */
-    public function __construct($attributes = [])
-    {
-        parent::__construct($attributes);
-        /*$this->stream = app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
-
-        $this->stream->parent = $this;*/
-    }
-
     protected static function boot()
     {
         self::observe(new EntryObserver(new Dispatcher(app()), new \Illuminate\Bus\Dispatcher(app())));
@@ -104,28 +95,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Get a field type presenter.
-     *
-     * @param $fieldSlug
-     * @return FieldTypePresenter
-     */
-    public function getFieldPresenter($fieldSlug)
-    {
-        $assignment = $this->getAssignment($fieldSlug);
-
-        if (!$assignment) {
-            return $this->{$fieldSlug};
-        }
-
-        $type = $assignment->getFieldType($this);
-
-        $handler  = $type->getHandler();
-        $modifier = $type->getModifier();
-
-        return $type->setValue($modifier->restore($handler->get($this, $fieldSlug)));
-    }
-
-    /**
      * Set a field value.
      *
      * @param $fieldSlug
@@ -158,17 +127,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         }
 
         return $assignment->getField();
-    }
-
-    /**
-     * Return whether the entry has a field.
-     *
-     * @param  $slug
-     * @return bool
-     */
-    public function hasField($slug)
-    {
-        return ($this->getField($slug) instanceof FieldInterface);
     }
 
     /**
@@ -262,7 +220,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getStreamNamespace()
     {
-        return $this->getStream()->getNamespace();
+        $stream = $this->getStream();
+
+        return $stream->getNamespace();
     }
 
     /**
@@ -272,7 +232,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getStreamSlug()
     {
-        return $this->getStream()->getSlug();
+        $stream = $this->getStream();
+
+        return $stream->getSlug();
     }
 
     /**
@@ -283,8 +245,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAssignment($fieldSlug)
     {
-        $stream = $this->getStream();
-
+        $stream      = $this->getStream();
         $assignments = $stream->getAssignments();
 
         return $assignments->findByFieldSlug($fieldSlug);
@@ -320,10 +281,24 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Return the related stream.
+     *
+     * @return StreamInterface|array
+     */
+    public function stream()
+    {
+        if (!$this->stream instanceof StreamInterface) {
+            $this->stream = app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
+        }
+
+        return $this->stream;
+    }
+
+    /**
      * @param array $items
      * @return EntryCollection
      */
-    public function newCollection(array $items = array())
+    public function newCollection(array $items = [])
     {
         return new EntryCollection($items);
     }
@@ -354,19 +329,5 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         }
 
         return $attributes;
-    }
-
-    /**
-     * Return the related stream.
-     *
-     * @return StreamInterface|array
-     */
-    public function stream()
-    {
-        if (!$this->stream instanceof StreamInterface) {
-            $this->stream = app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
-        }
-
-        return $this->stream;
     }
 }

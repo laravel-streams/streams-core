@@ -19,7 +19,7 @@
 
         {% for header in table.headers %}
             <th>
-                {{ table_heading(table, header)|raw }}
+                {{ trans(header.heading) }}
             </th>
         {% endfor %}
 

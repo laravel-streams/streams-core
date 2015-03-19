@@ -24,18 +24,22 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     public $timestamps = false;
 
     /**
-     * The cache minutes.
-     *
-     * @var int
-     */
-    //protected $cacheMinutes = 99999;
-
-    /**
      * The foreign key for translations.
      *
      * @var string
      */
     protected $translationForeignKey = 'assignment_id';
+
+    /**
+     * Translatable attributes.
+     *
+     * @var array
+     */
+    protected $translatedAttributes = [
+        'label',
+        'placeholder',
+        'instructions'
+    ];
 
     /**
      * The translation model.
@@ -82,11 +86,13 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     /**
      * Get the field slug.
      *
-     * @return mixed
+     * @return string
      */
     public function getFieldSlug()
     {
-        return $this->getField()->getSlug();
+        $field = $this->getField();
+
+        return $field->getSlug();
     }
 
     /**
@@ -94,82 +100,53 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      *
      * @return FieldType
      */
-    public function getFieldType($locale = null)
+    public function getFieldType()
     {
-        // Get the type object from our related field.
         $field = $this->getField();
 
-        $type = $field->getType();
-
-        // These are always on or off so set em.
-        $type->setRequired($this->isRequired());
-        $type->setTranslatable($this->isTranslatable());
-
-        if ($label = $this->getLabel($locale)) {
-            $type->setLabel($label);
-        }
-
-        if ($instructions = $this->getInstructions($locale)) {
-            $type->setInstructions($instructions);
-        }
-
-        if ($placeholder = $this->getPlaceholder($locale)) {
-            $type->setPlaceholder($placeholder);
-        }
-
-        return $type;
+        return $field->getType();
     }
 
     /**
      * Get the field name.
      *
-     * @param null $locale
      * @return string
      */
-    public function getFieldName($locale = null)
+    public function getFieldName()
     {
-        return $this->getField()->getName($locale);
+        $field = $this->getField();
+
+        return $field->getName();
     }
 
     /**
-     * Get the label. If it is not translated then
-     * then just return null instead.
+     * Get the label.
      *
-     * @param  null $locale
-     * @return string|null
+     * @return string
      */
-    public function getLabel($locale = null)
+    public function getLabel()
     {
-        $label = $this->translateOrDefault($locale)->label;
-
-        if (str_is($label, '*.*.*::*.*.*') && trans()->has($label)) {
-            return $this->translateOrDefault($locale)->label;
-        }
-
-        return $this->getFieldName($locale);
+        return $this->label;
     }
 
     /**
-     * Get the instructions. If it is not translated
-     * then just return null instead.
+     * Get the instructions.
      *
-     * @param  null $locale
-     * @return null|string
+     * @return null
      */
-    public function getInstructions($locale = null)
+    public function getInstructions()
     {
-        return $this->translateOrDefault($locale)->instructions;
+        return $this->instructions;
     }
 
     /**
      * Get the placeholder.
      *
-     * @param  null $locale
-     * @return null|string
+     * @return null
      */
-    public function getPlaceholder($locale = null)
+    public function getPlaceholder()
     {
-        return $this->translateOrDefault($locale)->placeholder;
+        return $this->placeholder;
     }
 
     /**
