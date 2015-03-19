@@ -74,15 +74,6 @@ class FieldNormalizer
             if (!is_numeric($slug) && !isset($field['slug'])) {
                 $field['slug'] = $slug;
             }
-
-            /**
-             * Make sure the key is a slug.
-             */
-            if (is_numeric($slug)) {
-                $fields[$field['field']] = $field;
-
-                unset($fields[$slug]);
-            }
         }
 
         $builder->setFields(array_values($fields));
