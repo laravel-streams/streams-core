@@ -23,8 +23,7 @@ class CheckDirectoryPermissions implements SelfHandling
      */
     public function handle(Filesystem $files, Application $application)
     {
-        // Skip it if we're not in debug mode or not installed.
-        if (!$application->isInstalled() || !env('APP_DEBUG')) {
+        if (env('INSTALLED') && !env('APP_DEBUG')) {
             return;
         }
 
@@ -35,7 +34,7 @@ class CheckDirectoryPermissions implements SelfHandling
 
         foreach ($paths as $path) {
             if ($files->exists(base_path($path)) && !$files->isWritable(base_path($path))) {
-                abort(500, "[{$path}] must be writable: \n\nchmod -R 775 " . base_path($path));
+                die("chmod -R 777 " . base_path($path));
             }
         }
     }

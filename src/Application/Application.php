@@ -44,6 +44,8 @@ class Application
     public function __construct(ApplicationRepository $applications)
     {
         $this->applications = $applications;
+
+        $this->reference = env('DEFAULT_REFERENCE', $this->reference);
     }
 
     /**
