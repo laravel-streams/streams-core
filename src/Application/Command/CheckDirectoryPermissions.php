@@ -34,7 +34,7 @@ class CheckDirectoryPermissions implements SelfHandling
 
         foreach ($paths as $path) {
             if ($files->exists(base_path($path)) && !$files->isWritable(base_path($path))) {
-                die("chmod -R 777 " . base_path($path));
+                abort(500, "chmod -R 777 " . base_path($path));
             }
         }
     }
