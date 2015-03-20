@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Http\Controller;
 
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Routing\Controller;
 
 /**
@@ -12,6 +13,7 @@ use Illuminate\Routing\Controller;
  */
 class BaseController extends Controller
 {
+    use DispatchesCommands;
 
     /**
      * Create a new BaseController instance.
