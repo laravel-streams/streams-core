@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
-use Anomaly\Streams\Platform\Database\Migration\Console\MigrateAddonsCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\MigrateCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\MigrateMakeCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\RefreshCommand;

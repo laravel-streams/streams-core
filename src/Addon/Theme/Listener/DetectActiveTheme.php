@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme\Listener;
 
-use Anomaly\Streams\Platform\Addon\Distribution\DistributionCollection;
 use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;

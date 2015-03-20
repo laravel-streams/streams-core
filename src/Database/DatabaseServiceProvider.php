@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Database;
 
-use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\ServiceProvider;
 
 /**

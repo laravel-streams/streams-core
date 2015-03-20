@@ -18,7 +18,6 @@ class FlushCache
      * Handle the event.
      *
      * @param ModelWasCreated $event
-     * @param                 $event
      */
     public function handle($event)
     {

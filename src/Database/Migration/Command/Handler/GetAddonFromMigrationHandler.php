@@ -35,9 +35,7 @@ class GetAddonFromMigrationHandler
         preg_match("/^({$matcher}\\.{$matcher}\\.{$matcher})\\_\\_/", $fileName, $matches);
 
         return $this->dispatch(
-            new GetAddonByNamespace(
-                $namespace = isset($matches[1]) ? $matches[1] : null
-            )
+            new GetAddonByNamespace(isset($matches[1]) ? $matches[1] : null)
         );
     }
 }

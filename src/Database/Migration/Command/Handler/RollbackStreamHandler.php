@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Database\Migration\Command\RollbackStream;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\StreamManager;
-use Anomaly\Streams\Platform\Stream\StreamModel;
 
 /**
  * Class RollbackStreamHandler

@@ -90,7 +90,7 @@ class ColumnValue
 
             $fieldSlug = camel_case($match[1]);
 
-            if (method_exists($entry, $fieldSlug) && ($relation = $entry->{$fieldSlug}()) instanceof Relation) {
+            if (method_exists($entry, $fieldSlug) && $entry->{$fieldSlug}() instanceof Relation) {
 
                 $entry = $this->decorator->decorate($entry);
 

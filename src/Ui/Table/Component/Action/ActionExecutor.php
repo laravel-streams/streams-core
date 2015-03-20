@@ -83,8 +83,7 @@ class ActionExecutor
          */
         if ($user instanceof User && !$user->hasPermission($action->getPermission())) {
 
-            // TODO: Translate and allow actions to have error message parameters.
-            $this->messages->error('You do not have permission to do that.');
+            abort(403);
 
             return false;
         }
