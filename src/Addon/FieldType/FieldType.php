@@ -127,7 +127,7 @@ class FieldType extends Addon
      *
      * @var string
      */
-    protected $inputView = 'streams::ui/form/partials/input';
+    protected $inputView = 'streams::form/partials/input';
 
     /**
      * The field's filter input view.
@@ -141,7 +141,7 @@ class FieldType extends Addon
      *
      * @var string
      */
-    protected $wrapperView = 'streams::ui/form/partials/wrapper';
+    protected $wrapperView = 'streams::form/partials/wrapper';
 
     /**
      * The field type presenter.

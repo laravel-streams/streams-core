@@ -112,7 +112,7 @@ class FormBuilder
             $options = $this->form->getOptions();
             $data    = $this->form->getData();
 
-            $content = view($options->get('form_view', 'streams::ui/form/form'), $data->all());
+            $content = view($options->get('form_view', 'streams::form/form'), $data->all());
 
             $this->form->setContent($content);
             $this->form->addData('content', $content);

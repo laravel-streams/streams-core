@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Exception;
 
 use App\Exceptions\Handler;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Symfony\Component\Debug\ExceptionHandler as SymfonyDisplayer;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -14,6 +17,22 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class ExceptionHandler extends Handler
 {
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  Request   $request
+     * @param  Exception $e
+     * @return Response
+     */
+    public function render($request, Exception $e)
+    {
+        if ($this->isHttpException($e)) {
+            return $this->renderHttpException($e);
+        } else {
+            return response()->view("streams::errors.500", ['message' => $e->getMessage()]);
+        }
+    }
 
     /**
      * Render the given HttpException.

@@ -4,12 +4,12 @@
         {% if section.view %}
             {% include section.view %}
         {% elseif section.fields %}
-            {% include "streams::ui/form/partials/default" %}
+            {% include "streams::form/partials/section" %}
         {% elseif section.tabs %}
-            {% include "streams::streams::ui/form/partials/tabbed" %}
+            {% include "streams::streams::form/partials/tabbed" %}
         {% endif %}
     {% endfor %}
 
 {% else %}
-    {% include "streams::ui/form/partials/section" %}
+    {% include "streams::form/partials/default" %}
 {% endif %}

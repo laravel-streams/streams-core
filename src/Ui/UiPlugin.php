@@ -39,6 +39,7 @@ class UiPlugin extends Plugin
     {
         return [
             new \Twig_SimpleFunction('icon', [$this->functions, 'icon']),
+            new \Twig_SimpleFunction('buttons', [$this->functions, 'buttons']),
         ];
     }
 }

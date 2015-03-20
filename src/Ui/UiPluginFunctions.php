@@ -19,6 +19,17 @@ class UiPluginFunctions
      */
     public function icon($type)
     {
-        return '<i class="fa fa-' . $type . '"></i>';
+        return '<i class="' . $type . ' icon"></i>';
+    }
+
+    /**
+     * Render buttons.
+     *
+     * @param $buttons
+     * @return \Illuminate\View\View
+     */
+    public function buttons($buttons)
+    {
+        return view('streams::buttons/buttons', compact('buttons'));
     }
 }

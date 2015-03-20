@@ -1,0 +1,16 @@
+{{ asset_add("scripts.js", "streams::js/form/form.js") }}
+{{ asset_add("scripts.js", "streams::js/form/locale.js") }}
+
+{% block content %}
+
+    <div class="ui segment basic" style="margin-top: 0;">
+        {{ form_open({'class': 'ui form'}) }}
+
+        {% include "streams::form/partials/toolbar" %}
+        {% include "streams::form/partials/layout" %}
+        {% include "streams::form/partials/controls" %}
+
+        {{ form_close() }}
+    </div>
+
+{% endblock %}
