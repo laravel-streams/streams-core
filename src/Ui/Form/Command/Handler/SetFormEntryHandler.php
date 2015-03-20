@@ -27,12 +27,12 @@ class SetFormEntryHandler
         $repository = $form->getRepository();
 
         /**
-         * If the entry is null or scalar and the
+         * If the entry is null or an ID and the
          * model is an instance of FormModelInterface
          * then use the model to fetch the entry
          * or create a new one.
          */
-        if (is_scalar($entry) || $entry === null) {
+        if (is_numeric($entry) || $entry === null) {
             if ($repository instanceof FormRepositoryInterface) {
                 $form->setEntry($repository->findOrNew($entry));
             }
