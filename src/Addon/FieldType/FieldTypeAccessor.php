@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
- * Class FieldTypeHandler
+ * Class FieldTypeAccessor
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon\FieldType
  */
-class FieldTypeHandler
+class FieldTypeAccessor
 {
 
     /**
@@ -21,7 +21,7 @@ class FieldTypeHandler
     protected $fieldType;
 
     /**
-     * Create a new FieldTypeHandler instance.
+     * Create a new FieldTypeAccessor instance.
      *
      * @param FieldType $fieldType
      */
@@ -34,7 +34,7 @@ class FieldTypeHandler
      * Set the value.
      *
      * @param EloquentModel $entry
-     * @param            $value
+     * @param               $value
      * @return array
      */
     public function set(EloquentModel $entry, $value)

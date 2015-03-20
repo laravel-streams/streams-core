@@ -82,7 +82,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $type = $assignment->getFieldType($this);
 
-        $handler  = $type->getHandler();
+        $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
 
         if ($assignment->isTranslatable()) {
@@ -91,7 +91,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             $entry = $this;
         }
 
-        return $modifier->restore($handler->get($entry, $fieldSlug));
+        return $modifier->restore($accessor->get($entry, $fieldSlug));
     }
 
     /**
@@ -106,10 +106,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $type = $assignment->getFieldType($this);
 
-        $handler  = $type->getHandler();
+        $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
 
-        $handler->set($this, $modifier->modify($value));
+        $accessor->set($this, $modifier->modify($value));
     }
 
     /**

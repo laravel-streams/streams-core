@@ -151,35 +151,35 @@ class FieldType extends Addon
     protected $wrapperView = 'streams::form/partials/wrapper';
 
     /**
-     * The field type presenter.
+     * The presenter class.
      *
      * @var null|string
      */
     protected $presenter = null;
 
     /**
-     * The field type modification handler.
+     * The modifier class.
      *
      * @var null|string
      */
     protected $modifier = null;
 
     /**
-     * The field type handler.
+     * The accessor class.
      *
      * @var null|string
      */
-    protected $handler = null;
+    protected $accessor = null;
 
     /**
-     * The field type schema handler.
+     * The schema class.
      *
      * @var null|string
      */
     protected $schema = null;
 
     /**
-     * The field type query handler.
+     * The query class.
      *
      * @var null|string
      */
@@ -646,6 +646,19 @@ class FieldType extends Addon
     }
 
     /**
+     * Set the presenter class.
+     *
+     * @param $presenter
+     * @return $this
+     */
+    public function setPresenter($presenter)
+    {
+        $this->presenter = $presenter;
+
+        return $this;
+    }
+
+    /**
      * Get the modifier.
      *
      * @return FieldTypeModifier
@@ -664,25 +677,38 @@ class FieldType extends Addon
     }
 
     /**
-     * Get the handler.
+     * Get the accessor.
      *
-     * @return FieldTypeHandler
+     * @return FieldTypeAccessor
      */
-    public function getHandler()
+    public function getAccessor()
     {
-        if (!$this->handler) {
-            $this->handler = get_class($this) . 'Handler';
+        if (!$this->accessor) {
+            $this->accessor = get_class($this) . 'Accessor';
         }
 
-        if (!class_exists($this->handler)) {
-            $this->handler = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeHandler';
+        if (!class_exists($this->accessor)) {
+            $this->accessor = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor';
         }
 
-        return app()->make($this->handler, [$this]);
+        return app()->make($this->accessor, [$this]);
     }
 
     /**
-     * Get the field type schema handler.
+     * Set the accessor.
+     *
+     * @param $accessor
+     * @return $this
+     */
+    public function setAccessor($accessor)
+    {
+        $this->accessor = $accessor;
+
+        return $this;
+    }
+
+    /**
+     * Get the schema.
      *
      * @return FieldTypeSchema
      */
@@ -700,7 +726,20 @@ class FieldType extends Addon
     }
 
     /**
-     * Get the field type query handler.
+     * Set the schema.
+     *
+     * @param $schema
+     * @return $this
+     */
+    public function setSchema($schema)
+    {
+        $this->schema = $schema;
+
+        return $this;
+    }
+
+    /**
+     * Get the query utility.
      *
      * @return FieldTypeQuery
      */
@@ -715,6 +754,19 @@ class FieldType extends Addon
         }
 
         return app()->make($this->query, [$this]);
+    }
+
+    /**
+     * Set the query class.
+     *
+     * @param $query
+     * @return $this
+     */
+    public function setQuery($query)
+    {
+        $this->query = $query;
+
+        return $this;
     }
 
     /**

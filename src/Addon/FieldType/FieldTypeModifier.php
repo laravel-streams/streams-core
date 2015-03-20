@@ -19,7 +19,7 @@ class FieldTypeModifier
     protected $fieldType;
 
     /**
-     * Create a new FieldTypeHandler instance.
+     * Create a new FieldTypeAccessor instance.
      *
      * @param FieldType $fieldType
      */
