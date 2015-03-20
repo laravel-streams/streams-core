@@ -99,7 +99,6 @@ class FieldInput
     public function read(FormBuilder $builder)
     {
         $this->resolver->resolve($builder);
-
         $this->normalizer->normalize($builder);
         $this->evaluator->evaluate($builder);
         $this->filler->fill($builder);
