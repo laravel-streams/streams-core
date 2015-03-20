@@ -51,7 +51,8 @@ class FormRules
                 if ($assignment->isRequired()) {
                     $fieldRules[] = 'required';
                 }
-                /*if ($assignment->isUnique()) {
+
+                if ($assignment->isUnique() && !$assignment->isTranslatable()) {
 
                     $unique = 'unique:' . $stream->getEntryTableName() . ',' . $field->getColumnName();
 
@@ -60,7 +61,7 @@ class FormRules
                     }
 
                     $fieldRules[] = $unique;
-                }*/
+                }
             }
 
             $rules[$field->getInputName()] = implode('|', $fieldRules);
