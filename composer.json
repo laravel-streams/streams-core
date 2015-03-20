@@ -26,7 +26,6 @@
         "ptachoire/cssembed": "1.0.*",
         "phpseclib/phpseclib": "0.3.*",
         "robclancy/presenter": "1.3.*",
-        "filp/whoops": "1.2.*",
         "symfony/yaml": "2.7.*",
         "jenssegers/agent": "2.1.*",
         "nicmart/string-template": "0.1.*",
