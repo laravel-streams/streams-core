@@ -34,7 +34,10 @@ class SetFormEntryHandler
          */
         if (is_numeric($entry) || $entry === null) {
             if ($repository instanceof FormRepositoryInterface) {
+
                 $form->setEntry($repository->findOrNew($entry));
+
+                return;
             }
         }
 
@@ -43,7 +46,15 @@ class SetFormEntryHandler
          * object  then just use it as is.
          */
         if (is_object($entry)) {
+
             $form->setEntry($entry);
+
+            return;
         }
+
+        /**
+         * Whatever it is - just use it.
+         */
+        $form->setEntry($entry);
     }
 }
