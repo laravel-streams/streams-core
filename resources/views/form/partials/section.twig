@@ -1,4 +1,4 @@
-<section class="ui segment">
+<section class="{{ section.class ?: 'ui segment' }}" {{ html_attributes(section.attributes) }}>
 
     {% if section.title %}
         <h2 class="ui dividing header">

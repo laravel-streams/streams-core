@@ -16,9 +16,16 @@ class Section implements SectionInterface
     /**
      * The section text.
      *
-     * @var string
+     * @var null|string
      */
-    protected $text = '';
+    protected $text = null;
+
+    /**
+     * The section class.
+     *
+     * @var null|string
+     */
+    protected $class = null;
 
     /**
      * The section's active flag.
@@ -60,6 +67,29 @@ class Section implements SectionInterface
     public function setText($text)
     {
         $this->text = $text;
+    }
+
+    /**
+     * Get the class.
+     *
+     * @return string
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * Set the class.
+     *
+     * @param $class
+     * @return $this
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+
+        return $this;
     }
 
     /**

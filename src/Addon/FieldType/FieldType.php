@@ -116,6 +116,13 @@ class FieldType extends Addon
     protected $prefix = null;
 
     /**
+     * The field type class.
+     *
+     * @var null|string
+     */
+    protected $class = null;
+
+    /**
      * The database column type.
      *
      * @var string
@@ -443,6 +450,29 @@ class FieldType extends Addon
     }
 
     /**
+     * Get the class.
+     *
+     * @return null|string
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * Set the class.
+     *
+     * @param $class
+     * @return $this
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    /**
      * Set the hidden flag.
      *
      * @param  $hidden
@@ -685,39 +715,6 @@ class FieldType extends Addon
         }
 
         return app()->make($this->query, [$this]);
-    }
-
-    /**
-     * Set the attribute on the model's attributes array.
-     *
-     * @param  $attributes
-     * @param  $value
-     * @return mixed
-     */
-    public function setAttribute(&$attributes, $value)
-    {
-    }
-
-    /**
-     * Mutate a value before setting on the model.
-     *
-     * @param  $value
-     * @return mixed
-     */
-    public function mutate($value)
-    {
-        return $value;
-    }
-
-    /**
-     * Unmutate a value from the model.
-     *
-     * @param  $value
-     * @return mixed
-     */
-    public function unmutate($value)
-    {
-        return $value;
     }
 
     /**

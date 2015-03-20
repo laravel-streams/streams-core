@@ -1,7 +1,11 @@
-<input
-        value="{{ field_type.value }}"
-        name="{{ field_type.getInputName() }}"
-        type="{{ field_type.config.type ?: 'text' }}"
-        placeholder="{{ trans(field_type.placeholder) }}"
-        {{ field_type.disabled ? 'disabled' }}
-        >
+<div class="ui input {{ field_type.class }}">
+
+    <input
+            value="{{ field_type.value }}"
+            name="{{ field_type.getInputName() }}"
+            type="{{ field_type.config.type ?: 'text' }}"
+            placeholder="{{ trans(field_type.placeholder) }}"
+            {{ field_type.disabled ? 'disabled' }}
+            >
+
+</div>

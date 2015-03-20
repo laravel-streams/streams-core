@@ -1,4 +1,4 @@
-<div>
+<div class="{{ section.class }}" {{ html_attributes(section.attributes) }}>
     <div class="ui top attached tabular menu">
         {% for slug, tab in section.tabs %}
             <a class="{{ loop.first ? 'active' }} item" data-tab="{{ slug }}">{{ trans(tab.title) }}</a>
