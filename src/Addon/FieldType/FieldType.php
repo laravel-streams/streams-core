@@ -95,13 +95,6 @@ class FieldType extends Addon
     protected $placeholder = null;
 
     /**
-     * Is the field translatable?
-     *
-     * @var bool
-     */
-    protected $translatable = false;
-
-    /**
      * Is the field required?
      *
      * @var bool
@@ -424,29 +417,6 @@ class FieldType extends Addon
     public function getSuffix()
     {
         return $this->locale ? '_' . $this->locale : null;
-    }
-
-    /**
-     * Set the translatable flag.
-     *
-     * @param  $translatable
-     * @return $this
-     */
-    public function setTranslatable($translatable)
-    {
-        $this->translatable = $translatable;
-
-        return $this;
-    }
-
-    /**
-     * Get the translatable flag.
-     *
-     * @return bool
-     */
-    public function isTranslatable()
-    {
-        return ($this->translatable);
     }
 
     /**

@@ -1,12 +1,18 @@
-<div class="field {{ field_type.required ? 'required' }} {{ field_type.hidden ? 'hidden' }}"
-     data-locale="{{ field_type.locale }}">
+<div
+        class="field {{ field_type.required ? 'required' }} {{ field_type.hidden ? 'hidden' }}"
+        {% if field_type.locale %}
+            data-locale="{{ field_type.locale }}"
+        {% endif %}
+        >
 
     <label>
-        {% if field_type.translatable %}
-            <i class="icon translate"></i>
-        {% endif %}
-
         {{ trans(field_type.label)|raw }}
+
+        {% if field_type.locale %}
+            <div class="ui pointing left language mini label">
+                {{ config_get('streams.enabled_locales.' ~ field_type.locale) }}
+            </div>
+        {% endif %}
     </label>
 
     {% if field_type.instructions %}

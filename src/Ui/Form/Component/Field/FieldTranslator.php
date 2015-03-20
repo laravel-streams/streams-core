@@ -64,6 +64,7 @@ class FieldTranslator
                 array_set($translation, 'hidden', $locale !== $locale);
 
                 if (config('app.fallback_locale') !== $locale) {
+                    array_set($translation, 'hidden', true);
                     array_set($translation, 'required', false);
                 }
 
