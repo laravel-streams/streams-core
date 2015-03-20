@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType\Contract;
 
-use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
  * Interface RelationFieldTypeInterface
@@ -16,8 +16,8 @@ interface RelationFieldTypeInterface
     /**
      * Get the relation.
      *
-     * @param  EntryModel $model
+     * @param  EntryInterface $model
      * @return mixed
      */
-    public function getRelation(EntryModel $model);
+    public function getRelation(EntryInterface $model);
 }
