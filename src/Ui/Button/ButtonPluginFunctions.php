@@ -19,6 +19,6 @@ class ButtonPluginFunctions
      */
     public function buttons($buttons)
     {
-        return view('streams::ui/button/index', compact('buttons'));
+        return view('streams::ui/buttons/buttons', compact('buttons'));
     }
 }
