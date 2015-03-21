@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\View;
 
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
 use Illuminate\Events\Dispatcher;
@@ -39,6 +40,13 @@ class ViewComposer
     protected $themes;
 
     /**
+     * The module collection.
+     *
+     * @var ModuleCollection
+     */
+    protected $modules;
+
+    /**
      * The view overrides collection.
      *
      * @var ViewOverrides
@@ -56,6 +64,7 @@ class ViewComposer
      * @param Agent               $agent
      * @param Dispatcher          $events
      * @param ThemeCollection     $themes
+     * @param ModuleCollection    $modules
      * @param ViewOverrides       $overrides
      * @param ViewMobileOverrides $mobiles
      */
@@ -63,12 +72,14 @@ class ViewComposer
         Agent $agent,
         Dispatcher $events,
         ThemeCollection $themes,
+        ModuleCollection $modules,
         ViewOverrides $overrides,
         ViewMobileOverrides $mobiles
     ) {
         $this->agent     = $agent;
         $this->events    = $events;
         $this->themes    = $themes;
+        $this->modules   = $modules;
         $this->mobiles   = $mobiles;
         $this->overrides = $overrides;
     }

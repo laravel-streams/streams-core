@@ -20,6 +20,15 @@ class AddonLoader extends ClassLoader
      */
     public function load($path)
     {
+        $autoload = $path . '/vendor/autoload.php';
+
+        if (file_exists($autoload)) {
+
+            require_once $autoload;
+
+            return;
+        }
+
         $composer = json_decode(file_get_contents($path . '/composer.json'), true);
 
         if (!array_key_exists('autoload', $composer)) {
