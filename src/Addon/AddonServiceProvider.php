@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Extension\Extension;
-use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\View\ViewMobileOverrides;
 use Anomaly\Streams\Platform\View\ViewOverrides;
 use Illuminate\Console\Scheduling\Schedule;
@@ -119,14 +117,6 @@ class AddonServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if ($this->addon instanceof Module && !$this->addon->isEnabled() && $this->addon->getSlug() !== 'installer') {
-            return;
-        }
-
-        if ($this->addon instanceof Extension && !$this->addon->isEnabled()) {
-            return;
-        }
-
         $this->bindClasses();
         $this->bindSingletons();
 
