@@ -20,7 +20,7 @@ class FieldFactory
     /**
      * The field type builder utility.
      *
-     * @var \Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder
+     * @var FieldTypeBuilder
      */
     protected $builder;
 
@@ -49,7 +49,7 @@ class FieldFactory
      * @param array           $parameters
      * @param StreamInterface $stream
      * @param null            $entry
-     * @return \Anomaly\Streams\Platform\Addon\FieldType\FieldType|mixed
+     * @return FieldType
      */
     public function make(array $parameters, StreamInterface $stream = null, $entry = null)
     {
