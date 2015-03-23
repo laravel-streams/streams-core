@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Application\Event\ApplicationHasLoaded;
 use Closure;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ApplicationReady
@@ -43,7 +44,11 @@ class ApplicationReady
      */
     public function handle(Request $request, Closure $next)
     {
-        $this->events->fire(new ApplicationHasLoaded());
+        $response = $this->events->fire(new ApplicationHasLoaded(), [], true);
+
+        if ($response instanceof Response) {
+            return $response;
+        }
 
         return $next($request);
     }
