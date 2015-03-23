@@ -45,6 +45,10 @@ class EagerLoadRelations implements SelfHandling
 
         $eager = [];
 
+        if ($stream->isTranslatable()) {
+            $eager[] = 'translations';
+        }
+
         $assignments = $stream->getRelationshipAssignments();
 
         foreach ($this->builder->getColumns() as $column) {
