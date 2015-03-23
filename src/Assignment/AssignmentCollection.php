@@ -88,8 +88,9 @@ class AssignmentCollection extends EloquentCollection
     {
         $translatable = [];
 
+        /* @var AssignmentInterface $item */
         foreach ($this->items as $item) {
-            if ($item instanceof AssignmentInterface && $item->isTranslatable()) {
+            if ($item->isTranslatable()) {
                 $translatable[] = $item;
             }
         }

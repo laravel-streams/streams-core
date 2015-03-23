@@ -17,10 +17,14 @@ class EntryTranslationModelParser
      * Return the entry translation model attribute.
      *
      * @param  StreamInterface $stream
-     * @return string
+     * @return null|string
      */
     public function parse(StreamInterface $stream)
     {
+        if (!$stream->isTranslatable()) {
+            return null;
+        }
+
         $namespace = studly_case($stream->getNamespace());
         $class     = studly_case("{$stream->getNamespace()}_{$stream->getSlug()}") . 'EntryTranslationsModel';
 

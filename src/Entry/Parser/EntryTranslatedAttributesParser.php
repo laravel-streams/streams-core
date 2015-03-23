@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class EntryTranslationForeignKeyParser
+ * Class EntryTranslatedAttributesParser
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Entry\Parser
  */
-class EntryTranslationForeignKeyParser
+class EntryTranslatedAttributesParser
 {
 
     /**
@@ -25,6 +25,8 @@ class EntryTranslationForeignKeyParser
             return null;
         }
 
-        return 'protected $translationForeignKey = \'' . str_singular($stream->getSlug()) . '_id' . '\';';
+        $assignments = $stream->getTranslatableAssignments();
+
+        return 'protected $translatedAttributes = [\'' . implode('\', \'', $assignments->fieldSlugs()) . '\'];';
     }
 }

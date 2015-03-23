@@ -270,14 +270,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function assignmentIsTranslatable($fieldSlug)
     {
-        // ID is not. Duh!
-        if ($fieldSlug == 'id') {
-            return false;
-        }
-
-        $assignment = $this->getAssignment($fieldSlug);
-
-        return $assignment->isTranslatable();
+        return $this->isTranslatedAttribute($fieldSlug);
     }
 
     /**

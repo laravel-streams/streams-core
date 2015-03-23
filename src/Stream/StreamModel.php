@@ -260,6 +260,18 @@ class StreamModel extends EloquentModel implements StreamInterface
     }
 
     /**
+     * Get the related translatable assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getTranslatableAssignments()
+    {
+        $assignments = $this->getAssignments();
+
+        return $assignments->translatable();
+    }
+
+    /**
      * Get an assignment by it's field's slug.
      *
      * @param  $fieldSlug

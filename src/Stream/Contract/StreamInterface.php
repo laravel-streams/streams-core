@@ -89,6 +89,13 @@ interface StreamInterface
     public function getAssignments();
 
     /**
+     * Get the related translatable assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getTranslatableAssignments();
+
+    /**
      * Get an assignment by it's field's slug.
      *
      * @param  $fieldSlug

@@ -10,6 +10,7 @@ use Anomaly\Streams\Platform\Entry\Parser\EntryRulesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryStreamParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTableParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTitleParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryTranslatedAttributesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationForeignKeyParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -108,6 +109,7 @@ class GenerateEntryModelHandler
             'relations'               => (new EntryRelationsParser())->parse($stream),
             'namespace'               => (new EntryNamespaceParser())->parse($stream),
             'translation_model'       => (new EntryTranslationModelParser())->parse($stream),
+            'translated_attributes'   => (new EntryTranslatedAttributesParser())->parse($stream),
             'translation_foreign_key' => (new EntryTranslationForeignKeyParser())->parse($stream)
         ];
     }
