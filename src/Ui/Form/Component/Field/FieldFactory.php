@@ -54,13 +54,7 @@ class FieldFactory
     public function make(array $parameters, StreamInterface $stream = null, $entry = null)
     {
         if ($stream && $assignment = $stream->getAssignment(array_get($parameters, 'field'))) {
-
             $field = $assignment->getFieldType();
-
-            $field->mergeRules($assignment->getFieldRules());
-            $field->mergeConfig($assignment->getFieldConfig());
-
-            $field->setRequired($assignment->isRequired());
         } else {
             $field = $this->builder->build($parameters);
         }
