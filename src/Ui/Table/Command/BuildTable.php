@@ -78,6 +78,7 @@ class BuildTable implements SelfHandling
          * Build table headers.
          */
         $this->dispatch(new BuildHeaders($this->builder));
+        $this->dispatch(new EagerLoadRelations($this->builder));
 
         /**
          * Get table entries.
