@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
-use Anomaly\Streams\Platform\Addon\FieldType\Contract\DateFieldTypeInterface;
-use Anomaly\Streams\Platform\Addon\FieldType\Contract\RelationFieldTypeInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
@@ -43,11 +42,14 @@ class AssignmentCollection extends EloquentCollection
     {
         $relations = [];
 
+        /* @var AssignmentInterface $item */
+        /* @var FieldType $type */
         foreach ($this->items as $item) {
-            if ($item instanceof AssignmentInterface && $type = $item->getFieldType()) {
-                if ($type instanceof RelationFieldTypeInterface) {
-                    $relations[] = $item;
-                }
+
+            $type = $item->getFieldType();
+
+            if (method_exists($type, 'getRelation')) {
+                $relations[] = $item;
             }
         }
 
@@ -63,11 +65,14 @@ class AssignmentCollection extends EloquentCollection
     {
         $dates = [];
 
+        /* @var AssignmentInterface $item */
+        /* @var FieldType $type */
         foreach ($this->items as $item) {
-            if ($item instanceof AssignmentInterface && $type = $item->getFieldType()) {
-                if ($type instanceof DateFieldTypeInterface) {
-                    $dates[] = $item;
-                }
+
+            $type = $item->getFieldType();
+
+            if (in_array($type->getColumnType(), ['date', 'datetime'])) {
+                $dates[] = $item;
             }
         }
 
