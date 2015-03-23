@@ -28,7 +28,7 @@ class StreamModel extends EloquentModel implements StreamInterface
      *
      * @var int
      */
-    //protected $cacheMinutes = 99999;
+    protected $cacheMinutes = 99999;
 
     /**
      * The foreign key for translations.

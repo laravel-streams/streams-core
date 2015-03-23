@@ -24,6 +24,13 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     public $timestamps = false;
 
     /**
+     * The cache minutes.
+     *
+     * @var int
+     */
+    protected $cacheMinutes = 99999;
+
+    /**
      * The foreign key for translations.
      *
      * @var string

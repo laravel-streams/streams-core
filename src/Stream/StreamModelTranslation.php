@@ -21,6 +21,13 @@ class StreamModelTranslation extends EloquentModel
     public $timestamps = false;
 
     /**
+     * The cache minutes.
+     *
+     * @var int
+     */
+    protected $cacheMinutes = 99999;
+
+    /**
      * The database table name.
      *
      * @var string
