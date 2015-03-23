@@ -272,6 +272,18 @@ class StreamModel extends EloquentModel implements StreamInterface
     }
 
     /**
+     * Get the related relationship assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getRelationshipAssignments()
+    {
+        $assignments = $this->getAssignments();
+
+        return $assignments->relations();
+    }
+
+    /**
      * Get an assignment by it's field's slug.
      *
      * @param  $fieldSlug
