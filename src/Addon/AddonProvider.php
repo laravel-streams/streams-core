@@ -50,10 +50,7 @@ class AddonProvider
         $provider = get_class($addon) . 'ServiceProvider';
 
         if (class_exists($provider)) {
-
-            $app = $this->container;
-
-            $this->container->register($this->container->make($provider, compact('app', 'addon')));
+            $this->container->register(new $provider($this->container, $addon));
         }
     }
 }
