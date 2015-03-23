@@ -222,7 +222,7 @@ class EloquentModel extends Model implements Arrayable
      */
     public function getTranslations()
     {
-        return $this->translations;
+        return $this->translations()->get();
     }
 
     /**
