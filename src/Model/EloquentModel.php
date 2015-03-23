@@ -286,7 +286,7 @@ class EloquentModel extends Model implements Arrayable
 
     public function getAttribute($key)
     {
-        if ($this->isKeyReturningTranslationText($key)) {
+        if ($this->isTranslatedAttribute($key)) {
             if ($this->getTranslation() === null) {
                 return null;
             }
@@ -370,7 +370,12 @@ class EloquentModel extends Model implements Arrayable
         return null;
     }
 
-    protected function isKeyReturningTranslationText($key)
+    public function isTranslatedAttribute($key)
+    {
+        return in_array($key, $this->translatedAttributes);
+    }
+
+    protected function isTranslationAttribute($key)
     {
         return in_array($key, $this->translatedAttributes);
     }
