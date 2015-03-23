@@ -27,7 +27,7 @@ class EntryTranslatedAttributesParser
 
         $assignments = $stream->getTranslatableAssignments();
 
-        if (!$assignments) {
+        if ($assignments->isEmpty()) {
             return null;
         }
 

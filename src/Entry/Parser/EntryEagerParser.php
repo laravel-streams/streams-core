@@ -23,7 +23,7 @@ class EntryEagerParser
     {
         $assignments = $stream->getRelationshipAssignments();
 
-        if (!$assignments) {
+        if ($assignments->isEmpty()) {
             return '[]';
         }
 
