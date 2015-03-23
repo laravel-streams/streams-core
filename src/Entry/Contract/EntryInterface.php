@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -100,6 +101,20 @@ interface EntryInterface
      * @return AssignmentInterface
      */
     public function getAssignment($fieldSlug);
+
+    /**
+     * Return translated assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getTranslatableAssignments();
+
+    /**
+     * Return relation assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getRelationshipAssignments();
 
     /**
      * Get a specified relationship.

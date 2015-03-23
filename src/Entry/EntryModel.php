@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
@@ -252,13 +253,41 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Return translated assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getTranslatableAssignments()
+    {
+        $stream      = $this->getStream();
+        $assignments = $stream->getAssignments();
+
+        return $assignments->translatable();
+    }
+
+    /**
+     * Return relation assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getRelationshipAssignments()
+    {
+        $stream      = $this->getStream();
+        $assignments = $stream->getAssignments();
+
+        return $assignments->relations();
+    }
+
+    /**
      * Get the translatable flag.
      *
      * @return bool
      */
     public function isTranslatable()
     {
-        return $this->getStream()->isTranslatable();
+        $stream = $this->getStream();
+
+        return $stream->isTranslatable();
     }
 
     /**
@@ -315,10 +344,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         $attributes = parent::toArray();
 
-        foreach ($this->getStream()->getAssignments()->translatable()->fieldSlugs() AS $field) {
-            if ($translations = $this->getTranslation()) {
-                $attributes[$field] = $translations->$field;
-            }
+        $translations = $this->getTranslation();
+
+        foreach ($this->getTranslatableAssignments()->fieldSlugs() as $field) {
+            $attributes[$field] = $translations->$field;
         }
 
         return $attributes;
