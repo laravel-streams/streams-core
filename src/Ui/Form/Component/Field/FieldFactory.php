@@ -59,6 +59,8 @@ class FieldFactory
 
             $field->mergeRules($assignment->getFieldRules());
             $field->mergeConfig($assignment->getFieldConfig());
+
+            $field->setRequired($assignment->isRequired());
         } else {
             $field = $this->builder->build($parameters);
         }
