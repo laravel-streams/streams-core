@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser;
 
+use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 
@@ -43,23 +44,30 @@ class HrefGuesser
     /**
      * Guess the HREF for a button.
      *
-     * @param array $button
+     * @param ControlPanelBuilder $builder
      */
-    public function guess(array &$button)
+    public function guess(ControlPanelBuilder $builder)
     {
-        // If we already have an HREF then skip it.
-        if (isset($button['attributes']['href'])) {
-            return;
+        $buttons = $builder->getButtons();
+
+        foreach ($buttons as &$button) {
+
+            // If we already have an HREF then skip it.
+            if (isset($button['attributes']['href'])) {
+                continue;
+            }
+
+            // Determine the HREF based on the button type.
+            switch (array_get($button, 'button')) {
+
+                case 'new':
+                case 'create':
+                    $button['attributes']['href'] = $this->guessCreateHref();
+                    break;
+            }
         }
 
-        // Determine the HREF based on the button type.
-        switch (array_get($button, 'button')) {
-
-            case 'new':
-            case 'create':
-                $button['attributes']['href'] = $this->guessCreateHref();
-                break;
-        }
+        $builder->setButtons($buttons);
     }
 
     /**

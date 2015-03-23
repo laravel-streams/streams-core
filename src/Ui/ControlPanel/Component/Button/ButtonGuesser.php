@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser\HrefGuesser;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser\TypeGuesser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
@@ -22,13 +23,20 @@ class ButtonGuesser
     protected $href;
 
     /**
+     * @var TypeGuesser
+     */
+    protected $type;
+
+    /**
      * Create a new ButtonGuesser instance.
      *
      * @param HrefGuesser $href
+     * @param TypeGuesser $type
      */
-    public function __construct(HrefGuesser $href)
+    public function __construct(HrefGuesser $href, TypeGuesser $type)
     {
         $this->href = $href;
+        $this->type = $type;
     }
 
     /**
@@ -38,12 +46,7 @@ class ButtonGuesser
      */
     public function guess(ControlPanelBuilder $builder)
     {
-        $buttons = $builder->getButtons();
-
-        foreach ($buttons as &$button) {
-            $this->href->guess($button);
-        }
-
-        $builder->setButtons($buttons);
+        $this->type->guess($builder);
+        $this->href->guess($builder);
     }
 }
