@@ -20,21 +20,13 @@ class FieldCollection extends Collection
      * @param $field
      * @return mixed
      */
-    public function translations($field)
+    public function fields($field)
     {
         $fields = [];
 
         foreach ($this->items as $item) {
-            if ($item instanceof FieldType && !$item->getLocale() && $item->getField() == $field) {
+            if ($item instanceof FieldType && $item->getField() == $field) {
                 $fields[] = $item;
-            }
-        }
-
-        foreach (config('streams.available_locales') as $locale) {
-            foreach ($this->items as $item) {
-                if ($item instanceof FieldType && $item->getLocale() == $locale && $item->getField() == $field) {
-                    $fields[] = $item;
-                }
             }
         }
 

@@ -7,7 +7,9 @@
     {% endif %}
 
     {% for field in section.fields %}
-        {{ form.fields.get(field).render|raw }}
+        {% for field in form.fields.fields(field) %}
+            {{ field.render|raw }}
+        {% endfor %}
     {% endfor %}
 
 </section>

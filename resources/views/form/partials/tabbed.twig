@@ -7,7 +7,9 @@
     {% for slug, tab in section.tabs %}
         <div class="ui bottom attached {{ loop.first ? 'active' }} tab segment" data-tab="{{ slug }}">
             {% for field in tab.fields %}
-                {{ form.fields.get(field).render|raw }}
+                {% for field in form.fields.fields(field) %}
+                    {{ field.render|raw }}
+                {% endfor %}
             {% endfor %}
         </div>
     {% endfor %}
