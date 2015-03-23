@@ -6,13 +6,13 @@
         >
 
     <label>
-        {{ trans(field_type.label)|raw }}
-
         {% if field_type.locale %}
-            <div class="ui pointing left mini label">
+            <div class="ui pointing right mini label">
                 {{ config_get('streams.enabled_locales.' ~ field_type.locale) }}
             </div>
         {% endif %}
+
+        {{ trans(field_type.label)|raw }}
     </label>
 
     {% if field_type.instructions %}
