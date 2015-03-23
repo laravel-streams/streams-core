@@ -27,6 +27,10 @@ class EntryTranslatedAttributesParser
 
         $assignments = $stream->getTranslatableAssignments();
 
+        if (!$assignments) {
+            return null;
+        }
+
         return 'protected $translatedAttributes = [\'' . implode('\', \'', $assignments->fieldSlugs()) . '\'];';
     }
 }

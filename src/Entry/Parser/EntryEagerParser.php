@@ -23,6 +23,10 @@ class EntryEagerParser
     {
         $assignments = $stream->getRelationshipAssignments();
 
+        if (!$assignments) {
+            return '[]';
+        }
+
         return '[\'' . implode('\', \'', $assignments->fieldSlugs()) . '\']';
     }
 }
