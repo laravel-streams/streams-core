@@ -74,11 +74,6 @@ class StreamsServiceProvider extends ServiceProvider
             'Robbo\Presenter\Decorator'
         );
 
-        $this->app->singleton(
-            'TwigBridge\Bridge',
-            'TwigBridge\Bridge'
-        );
-
         /**
          * Register the application instance. This is
          * used to determine the application state / reference.
