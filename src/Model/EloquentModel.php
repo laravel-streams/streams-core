@@ -222,7 +222,7 @@ class EloquentModel extends Model implements Arrayable
      */
     public function getTranslations()
     {
-        return $this->translations()->get();
+        return $this->isTranslatable() ? $this->translations : [];
     }
 
     /**
@@ -361,7 +361,7 @@ class EloquentModel extends Model implements Arrayable
 
     private function getTranslationByLocaleKey($key)
     {
-        foreach ($this->translations as $translation) {
+        foreach ($this->getTranslations() as $translation) {
             if ($translation->getAttribute($this->getLocaleKey()) == $key) {
                 return $translation;
             }
