@@ -67,12 +67,33 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Intervention\Image\ImageServiceProvider');
 
         /**
+         * Singleton some third party stuff.
+         */
+        $this->app->singleton(
+            'Robbo\Presenter\Decorator',
+            'Robbo\Presenter\Decorator'
+        );
+
+        $this->app->singleton(
+            'TwigBridge\Bridge',
+            'TwigBridge\Bridge'
+        );
+
+        /**
          * Register the application instance. This is
          * used to determine the application state / reference.
          */
         $this->app->singleton(
             'Anomaly\Streams\Platform\Application\Application',
             'Anomaly\Streams\Platform\Application\Application'
+        );
+
+        /**
+         * This is used often, make it a singleton.
+         */
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Model\EloquentObserver',
+            'Anomaly\Streams\Platform\Model\EloquentObserver'
         );
 
         /**
@@ -249,6 +270,11 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'
         );
 
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection',
+            'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection'
+        );
+
         $this->app->bind(
             'module.collection',
             'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'
@@ -269,6 +295,11 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection'
         );
 
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\Extension\Listener\PutExtensionInCollection',
+            'Anomaly\Streams\Platform\Addon\Extension\Listener\PutExtensionInCollection'
+        );
+
         $this->app->bind(
             'extension.collection',
             'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection'
@@ -279,6 +310,11 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection'
         );
 
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\FieldType\Listener\PutFieldTypeInCollection',
+            'Anomaly\Streams\Platform\Addon\FieldType\Listener\PutFieldTypeInCollection'
+        );
+
         $this->app->bind(
             'field_type.collection',
             'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection'
@@ -287,6 +323,16 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
             'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection'
+        );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\Plugin\Listener\AddPluginToTwig',
+            'Anomaly\Streams\Platform\Addon\Plugin\Listener\AddPluginToTwig'
+        );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\Plugin\Listener\PutPluginInCollection',
+            'Anomaly\Streams\Platform\Addon\Plugin\Listener\PutPluginInCollection'
         );
 
         $this->app->bind(
@@ -309,6 +355,11 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'
         );
 
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection',
+            'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection'
+        );
+
         $this->app->bind(
             'theme.collection',
             'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'
@@ -324,6 +375,11 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
+            'Anomaly\Streams\Platform\View\ViewTemplate',
+            'Anomaly\Streams\Platform\View\ViewTemplate'
+        );
+
+        $this->app->singleton(
             'Anomaly\Streams\Platform\View\ViewOverrides',
             'Anomaly\Streams\Platform\View\ViewOverrides'
         );
@@ -331,6 +387,16 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->singleton(
             'Anomaly\Streams\Platform\View\ViewMobileOverrides',
             'Anomaly\Streams\Platform\View\ViewMobileOverrides'
+        );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\View\Listener\LoadTemplateData',
+            'Anomaly\Streams\Platform\View\Listener\LoadTemplateData'
+        );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\View\Listener\DecorateData',
+            'Anomaly\Streams\Platform\View\Listener\DecorateData'
         );
 
         /**
