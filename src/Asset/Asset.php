@@ -106,7 +106,7 @@ class Asset
 
         $file = $this->paths->realPath($file);
 
-        if (file_exists($file) || is_dir(trim($file, '*'))) {
+        if (starts_with($file, 'http') || file_exists($file) || is_dir(trim($file, '*'))) {
             $this->collections[$collection][$file] = $filters;
         }
     }
@@ -239,6 +239,13 @@ class Asset
      */
     protected function getPath($collection, $filters)
     {
+        /**
+         * If the asset is remote just return it.
+         */
+        if (starts_with($collection, 'http')) {
+            return $collection;
+        }
+
         $path = $this->getPublicPath($collection, $filters);
 
         if ($this->shouldPublish($path, $collection, $filters)) {
@@ -429,6 +436,10 @@ class Asset
      */
     protected function shouldPublish($path, $collection, array $filters = [])
     {
+        if (starts_with($path, 'http')) {
+            return false;
+        }
+
         if (isset($_GET['_publish'])) {
             return true;
         }
