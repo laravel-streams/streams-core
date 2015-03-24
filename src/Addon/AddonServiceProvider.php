@@ -201,7 +201,11 @@ class AddonServiceProvider extends ServiceProvider
         $router = $this->app->make('router');
 
         foreach ($routes as $uri => $action) {
-            $router->any($uri, $action);
+            if (is_string($action)) {
+                $router->any($uri, $action);
+            } else {
+                $router->any($uri, array_keys($action)[0])->where(array_values($action)[0]);
+            }
         }
     }
 

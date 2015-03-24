@@ -346,8 +346,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $translations = $this->getTranslation();
 
-        foreach ($this->getTranslatableAssignments()->fieldSlugs() as $field) {
-            $attributes[$field] = $translations->$field;
+        if ($translations) {
+            foreach ($this->getTranslatableAssignments()->fieldSlugs() as $field) {
+                $attributes[$field] = $translations->$field;
+            }
         }
 
         return $attributes;
