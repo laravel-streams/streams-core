@@ -82,6 +82,8 @@ class ViewComposer
         $this->modules   = $modules;
         $this->mobiles   = $mobiles;
         $this->overrides = $overrides;
+
+        $this->mobile = $agent->isMobile();
     }
 
     /**
@@ -97,7 +99,7 @@ class ViewComposer
         $mobile    = $this->mobiles->get($theme->getNamespace(), []);
         $overrides = $this->overrides->get($theme->getNamespace(), []);
 
-        if ($this->agent->isMobile() && $path = array_get($mobile, $view->getName(), null)) {
+        if ($this->mobile && $path = array_get($mobile, $view->getName(), null)) {
             $view->setPath($path);
         } elseif ($path = array_get($overrides, $view->getName(), null)) {
             $view->setPath($path);

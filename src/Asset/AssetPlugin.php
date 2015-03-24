@@ -38,15 +38,15 @@ class AssetPlugin extends Plugin
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('asset_add', [$this->asset, 'add']),
-            new \Twig_SimpleFunction('asset_url', [$this->asset, 'url']),
-            new \Twig_SimpleFunction('asset_urls', [$this->asset, 'urls']),
-            new \Twig_SimpleFunction('asset_path', [$this->asset, 'path']),
-            new \Twig_SimpleFunction('asset_paths', [$this->asset, 'paths']),
-            new \Twig_SimpleFunction('asset_style', [$this->asset, 'style']),
-            new \Twig_SimpleFunction('asset_styles', [$this->asset, 'styles']),
-            new \Twig_SimpleFunction('asset_script', [$this->asset, 'script']),
-            new \Twig_SimpleFunction('asset_scripts', [$this->asset, 'scripts']),
+            new \Twig_SimpleFunction('asset_add', [$this->asset, 'add'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('asset_url', [$this->asset, 'url'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('asset_urls', [$this->asset, 'urls'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('asset_path', [$this->asset, 'path'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('asset_paths', [$this->asset, 'paths'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('asset_style', [$this->asset, 'style'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('asset_styles', [$this->asset, 'styles'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('asset_script', [$this->asset, 'script'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('asset_scripts', [$this->asset, 'scripts'], ['is_safe' => ['html']]),
         ];
     }
 }
