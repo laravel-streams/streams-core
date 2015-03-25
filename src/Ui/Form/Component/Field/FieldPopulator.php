@@ -43,7 +43,7 @@ class FieldPopulator
              * and the entry does not exist yet
              * then use the default value.
              */
-            if (isset($field['config']['default_value']) && $entry->getId()) {
+            if (isset($field['config']['default_value']) && !$entry->getId()) {
                 $field['value'] = $field['config']['default_value'];
             }
         }
