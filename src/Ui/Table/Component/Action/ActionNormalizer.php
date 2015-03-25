@@ -85,7 +85,8 @@ class ActionNormalizer
             /**
              * Set defaults as expected for actions.
              */
-            $action['size'] = 'sm';
+            $action['size']     = 'sm';
+            $action['disabled'] = true;
 
             $action['attributes']['name']  = $prefix . 'action';
             $action['attributes']['value'] = $action['slug'];

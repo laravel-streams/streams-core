@@ -49,6 +49,13 @@ class Button implements ButtonInterface
     protected $size = 'md';
 
     /**
+     * The disabled flag.
+     *
+     * @var bool
+     */
+    protected $disabled = false;
+
+    /**
      * The enabled flag.
      *
      * @var bool
@@ -192,6 +199,29 @@ class Button implements ButtonInterface
     public function getSize()
     {
         return $this->size;
+    }
+
+    /**
+     * Get the disabled flag.
+     *
+     * @return bool
+     */
+    public function isDisabled()
+    {
+        return $this->disabled;
+    }
+
+    /**
+     * Set the disabled flag.
+     *
+     * @param $disabled
+     * @return $this
+     */
+    public function setDisabled($disabled)
+    {
+        $this->disabled = $disabled;
+
+        return $this;
     }
 
     /**
