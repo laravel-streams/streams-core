@@ -334,24 +334,4 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         return new EntryPresenter($this);
     }
-
-    /**
-     * Return the entry as an array.
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $attributes = parent::toArray();
-
-        $translations = $this->getTranslation();
-
-        if ($translations) {
-            foreach ($this->getTranslatableAssignments()->fieldSlugs() as $field) {
-                $attributes[$field] = $translations->$field;
-            }
-        }
-
-        return $attributes;
-    }
 }
