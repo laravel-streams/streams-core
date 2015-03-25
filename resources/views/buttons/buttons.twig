@@ -1,61 +1,60 @@
 {% for button in buttons %}
 
-        {# Render normal buttons. #}
-        {% if button.dropdown is empty %}
+    {# Render normal buttons. #}
+    {% if button.dropdown is empty %}
 
-            {# Render normal buttons as an anchor #}
-            {% if not button.attributes.name %}
-                <a class="ui button {{ button.size }} {{ button.type }}" {{ html_attributes(button.attributes) }}>
-                    {{ button.icon ? icon(button.icon)|raw }}
-                    {{ trans(button.text) }}
-                </a>
-            {% endif %}
-
-            {# Render normal buttons as a button #}
-            {% if button.attributes.name %}
-                <button class="ui button {{ button.size }} {{ button.type }}" {{ html_attributes(button.attributes) }}>
-                    {{ button.icon ? icon(button.icon)|raw }}
-                    {{ trans(button.text) }}
-                </button>
-            {% endif %}
-
-        {% endif %}
-
-
-        {# Render dropdown type buttons. #}
-        {% if button.dropdown %}
-
-            {# Render dropdown toggles as an anchor #}
-            <a class="ui button {{ button.size }} {{ button.type }} dropdown-toggle"
-               data-toggle="dropdown" {{ html_attributes(button.attributes) }}>
+        {# Render normal buttons as an anchor #}
+        {% if not button.attributes.name %}
+            <a class="ui button {{ button.size }} {{ button.type }}" {{ html_attributes(button.attributes) }}>
                 {{ button.icon ? icon(button.icon)|raw }}
                 {{ trans(button.text) }}
             </a>
+        {% endif %}
+
+        {# Render normal buttons as a button #}
+        {% if button.attributes.name %}
+            <button class="ui button {{ button.size }} {{ button.type }}" {{ html_attributes(button.attributes) }}>
+                {{ button.icon ? icon(button.icon)|raw }}
+                {{ trans(button.text) }}
+            </button>
+        {% endif %}
+
+    {% endif %}
+
+
+    {# Render dropdown type buttons. #}
+    {% if button.dropdown %}
+        <div class="ui floating dropdown">
+
+            {# Render dropdown toggles as an anchor #}
+            <div class="ui button {{ button.size }} {{ button.type }}" {{ html_attributes(button.attributes) }}>
+                {{ button.icon ? icon(button.icon)|raw }}
+                {{ trans(button.text) }}
+            </div>
 
             {# Render the actual dropdown links #}
             {% for link in button.dropdown %}
-                <ul class="dropdown-menu">
-                    <li>
+                <div class="menu transition hidden">
 
-                        {# Render normal buttons as an anchor #}
-                        {% if not link.attributes.name %}
-                            <a {{ html_attributes(link.attributes) }}>
-                                {{ link.icon ? icon(link.icon)|raw }}
-                                {{ trans(link.text) }}
-                            </a>
-                        {% endif %}
+                    {# Render normal buttons as an anchor #}
+                    {% if not link.attributes.name %}
+                        <a class="item" {{ html_attributes(link.attributes) }}>
+                            {{ link.icon ? icon(link.icon)|raw }}
+                            {{ trans(link.text) }}
+                        </a>
+                    {% endif %}
 
-                        {# Render normal buttons as a button #}
-                        {% if link.attributes.name %}
-                            <button {{ html_attributes(link.attributes) }}>
-                                {{ link.icon ? icon(link.icon)|raw }}
-                                {{ trans(link.text) }}
-                            </button>
-                        {% endif %}
+                    {# Render normal buttons as a button #}
+                    {% if link.attributes.name %}
+                        <button class="item" {{ html_attributes(link.attributes) }}>
+                            {{ link.icon ? icon(link.icon)|raw }}
+                            {{ trans(link.text) }}
+                        </button>
+                    {% endif %}
 
-                    </li>
-                </ul>
+                </div>
             {% endfor %}
-        {% endif %}
+        </div>
+    {% endif %}
 
 {% endfor %}
