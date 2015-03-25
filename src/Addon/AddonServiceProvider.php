@@ -127,6 +127,7 @@ class AddonServiceProvider extends ServiceProvider
         $this->registerProviders();
         $this->registerSchedules();
         $this->registerOverrides();
+        $this->registerAdditionalRoutes();
     }
 
     /**
@@ -258,6 +259,16 @@ class AddonServiceProvider extends ServiceProvider
 
         $viewOverrides->put($this->addon->getNamespace(), $overrides);
         $mobileOverrides->put($this->addon->getNamespace(), $mobiles);
+    }
+
+    /**
+     * Register additional routes.
+     */
+    protected function registerAdditionalRoutes()
+    {
+        if (method_exists($this, 'map')) {
+            $this->app->call([$this, 'map']);
+        }
     }
 
     /**
