@@ -18,6 +18,8 @@ class FormHandler
      */
     public function handle(Form $form)
     {
+        $form->fire('saving', compact('form'));
         $form->save();
+        $form->fire('saved', compact('form'));
     }
 }

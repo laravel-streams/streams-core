@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
@@ -23,6 +24,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Form
 {
+
+    use FiresCallbacks;
 
     /**
      * The form model.
