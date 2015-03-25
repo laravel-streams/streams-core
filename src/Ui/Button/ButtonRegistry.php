@@ -30,6 +30,9 @@ class ButtonRegistry
         /**
          * Green Buttons
          */
+        'green'       => [
+            'type' => 'green'
+        ],
         'success'     => [
             'type' => 'green'
         ],
@@ -48,6 +51,9 @@ class ButtonRegistry
         /**
          * Blue Buttons
          */
+        'blue'        => [
+            'type' => 'blue'
+        ],
         'info'        => [
             'type' => 'blue'
         ],
@@ -58,6 +64,9 @@ class ButtonRegistry
         /**
          * Orange type buttons.
          */
+        'orange'      => [
+            'type' => 'orange'
+        ],
         'warning'     => [
             'type' => 'orange'
         ],
