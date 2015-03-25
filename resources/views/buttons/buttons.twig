@@ -33,8 +33,8 @@
             </div>
 
             {# Render the actual dropdown links #}
-            {% for link in button.dropdown %}
-                <div class="menu transition hidden">
+            <div class="menu transition hidden">
+                {% for link in button.dropdown %}
 
                     {# Render normal buttons as an anchor #}
                     {% if not link.attributes.name %}
@@ -52,8 +52,8 @@
                         </button>
                     {% endif %}
 
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     {% endif %}
 
