@@ -85,6 +85,39 @@ class ButtonNormalizer
             ) {
                 $button['attributes']['href'] = url($button['attributes']['href']);
             }
+
+            /**
+             * If we have a dropdown then
+             * process those real quick.
+             */
+            if (isset($button['dropdown'])) {
+                foreach ($button['dropdown'] as $index => &$dropdown) {
+
+                    if (is_string($dropdown)) {
+                        $dropdown = [
+                            'text' => $index,
+                            'href' => $dropdown
+                        ];
+                    }
+
+                    // Make sure we have attributes.
+                    $dropdown['attributes'] = array_get($dropdown, 'attributes', []);
+
+                    // Move the HREF if any to the attributes.
+                    if (isset($dropdown['href'])) {
+                        array_set($dropdown['attributes'], 'href', array_pull($dropdown, 'href'));
+                    }
+
+                    // Make sure the HREF is absolute.
+                    if (
+                        isset($dropdown['attributes']['href']) &&
+                        is_string($dropdown['attributes']['href']) &&
+                        !starts_with($dropdown['attributes']['href'], 'http')
+                    ) {
+                        $dropdown['attributes']['href'] = url($dropdown['attributes']['href']);
+                    }
+                }
+            }
         }
 
         $builder->setButtons($buttons);
