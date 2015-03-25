@@ -38,6 +38,6 @@ class SectionResolver
      */
     public function resolve(ControlPanelBuilder $builder)
     {
-        $builder->setSections($this->resolver->resolve($builder->getSections()));
+        $this->resolver->resolve($builder->getSections(), compact('builder'));
     }
 }
