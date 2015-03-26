@@ -20,79 +20,83 @@ class ButtonRegistry
         /**
          * Basic Buttons
          */
-        'default'     => [
+        'default' => [
             'type' => 'basic'
         ],
-        'cancel'      => [
+        'cancel'  => [
             'text' => 'streams::button.cancel',
             'type' => 'basic'
         ],
         /**
          * Green Buttons
          */
-        'green'       => [
+        'green'   => [
             'type' => 'green'
         ],
-        'success'     => [
+        'success' => [
+            'icon' => 'icon checkmark',
             'type' => 'green'
         ],
-        'save'        => [
+        'save'    => [
             'text' => 'streams::button.save',
+            'icon' => 'icon save',
             'type' => 'green'
         ],
-        'create'      => [
+        'create'  => [
             'text' => 'streams::button.create',
+            'icon' => 'icon asterisk',
             'type' => 'green'
         ],
-        'new'         => [
-            'type' => 'green',
-            'icon' => 'plus'
+        'new'     => [
+            'icon' => 'icon plus',
+            'type' => 'green'
         ],
         /**
          * Blue Buttons
          */
-        'blue'        => [
+        'blue'    => [
             'type' => 'blue'
         ],
-        'info'        => [
+        'info'    => [
+            'icon' => 'icon info',
             'type' => 'blue'
         ],
-        'view'        => [
+        'view'    => [
             'text' => 'streams::button.view',
+            'icon' => 'icon unhide',
             'type' => 'blue'
         ],
         /**
          * Orange type buttons.
          */
-        'orange'      => [
+        'orange'  => [
             'type' => 'orange'
         ],
-        'warning'     => [
+        'warning' => [
+            'icon' => 'warning sign icon',
             'type' => 'orange'
         ],
-        'edit'        => [
+        'edit'    => [
             'text' => 'streams::button.edit',
+            'icon' => 'icon write',
             'type' => 'orange'
         ],
         /**
          * Red Buttons
          */
-        'danger'      => [
+        'danger'  => [
             'type' => 'red',
         ],
-        'delete'      => [
+        'delete'  => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete@handle',
             'text'    => 'streams::button.delete',
+            'icon'    => 'icon trash',
             'type'    => 'red'
         ],
-        'reorder'     => [
+        'reorder' => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder@handle',
             'text'    => 'streams::button.reorder',
             'type'    => 'red'
-        ],
-        'delete-icon' => [
-            'icon' => 'trash',
-            'type' => 'red'
         ]
     ];
 

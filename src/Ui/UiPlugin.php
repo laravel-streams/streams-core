@@ -38,8 +38,8 @@ class UiPlugin extends Plugin
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('icon', [$this->functions, 'icon']),
-            new \Twig_SimpleFunction('buttons', [$this->functions, 'buttons']),
+            new \Twig_SimpleFunction('icon', [$this->functions, 'icon'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('buttons', [$this->functions, 'buttons'], ['is_safe' => ['html']]),
         ];
     }
 }
