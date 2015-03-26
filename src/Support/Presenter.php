@@ -31,7 +31,13 @@ abstract class Presenter extends \Robbo\Presenter\Presenter
             return call_user_func_array([$this->object, camel_case('is_' . $var)], []);
         }
 
-        return $this->__getDecorator()->decorate(is_array($this->object) ? $this->object[$var] : $this->object->$var);
+        try {
+            return $this->__getDecorator()->decorate(
+                is_array($this->object) ? $this->object[$var] : $this->object->$var
+            );
+        } catch (\Exception $e) {
+            // Don't do anything.
+        }
     }
 
     /**
