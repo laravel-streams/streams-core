@@ -84,8 +84,12 @@ class ButtonRegistry
         /**
          * Red Buttons
          */
+        'red'     => [
+            'type' => 'red'
+        ],
         'danger'  => [
-            'type' => 'red',
+            'icon' => 'warning circle icon',
+            'type' => 'red'
         ],
         'delete'  => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete@handle',
