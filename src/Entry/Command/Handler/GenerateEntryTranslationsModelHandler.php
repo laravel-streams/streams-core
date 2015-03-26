@@ -73,7 +73,7 @@ class GenerateEntryTranslationsModelHandler
      */
     protected function getFilePath(StreamInterface $stream)
     {
-        $path = storage_path('models/streams/' . $this->application->getReference() . '/');
+        $path = storage_path('streams/models/' . $this->application->getReference() . '/');
 
         $path .= studly_case($stream->getNamespace()) . '/';
 

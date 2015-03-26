@@ -57,7 +57,7 @@ class AutoloadEntryModelsHandler
     {
         $this->loader->addPsr4(
             'Anomaly\Streams\Platform\Model\\',
-            $this->container->make('path.base') . '/storage/models/streams/' . $this->application->getReference()
+            $this->container->make('path.base') . '/storage/streams/models/' . $this->application->getReference()
         );
 
         $this->loader->register();

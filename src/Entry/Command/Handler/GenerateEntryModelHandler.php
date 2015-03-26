@@ -92,11 +92,11 @@ class GenerateEntryModelHandler
      */
     protected function getFilePath(StreamInterface $stream)
     {
-        $path = storage_path('models/streams/');
+        $path = storage_path('streams/models');
 
         $this->files->makeDirectory($path, 0777, true, true);
-        $this->files->makeDirectory($path .= $this->application->getReference() . '/', 0777, true, true);
-        $this->files->makeDirectory($path .= studly_case($stream->getNamespace()) . '/', 0777, true, true);
+        $this->files->makeDirectory($path .= '/' . $this->application->getReference() . '/', 0777, true, true);
+        $this->files->makeDirectory($path .= '/' . studly_case($stream->getNamespace()) . '/', 0777, true, true);
 
         return $path . studly_case($stream->getNamespace()) . studly_case($stream->getSlug()) . 'EntryModel.php';
     }
