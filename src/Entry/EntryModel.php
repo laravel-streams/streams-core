@@ -322,6 +322,12 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function newCollection(array $items = [])
     {
+        $collection = substr(get_class($this), 0, -5) . 'Collection';
+
+        if (class_exists($collection)) {
+            return new $collection($items);
+        }
+
         return new EntryCollection($items);
     }
 
