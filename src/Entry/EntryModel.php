@@ -332,6 +332,12 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getPresenter()
     {
+        $presenter = substr(get_class($this), 0, -5) . 'Presenter';
+
+        if (class_exists($presenter)) {
+            return new $presenter($this);
+        }
+
         return new EntryPresenter($this);
     }
 }
