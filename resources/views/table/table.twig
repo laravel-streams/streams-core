@@ -14,7 +14,10 @@
 <div class="ui horizontal segment basic">
     {% if not table.rows.empty() %}
         {{ form_open() }}
-        <table class="{{ table.options.class ?: 'ui table tablet stackable' }} {{ table.options.sortable ? 'sortable' }}" {{ html_attributes(table.options.attributes) }}>
+        <table
+                class="{{ table.options.class ?: 'ui table tablet stackable' }}"
+                {{ table.options.sortable ? 'data-sortable' }}
+                {{ html_attributes(table.options.attributes) }}>
 
             {% include "streams::table/partials/header" %}
             {% include "streams::table/partials/body" %}

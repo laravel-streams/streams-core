@@ -4,7 +4,7 @@
 
         {% if table.options.sortable %}
             <td>
-                <i class="fa fa-reorder handle" style="cursor: move;"></i>
+                <i class="icon move" style="cursor: move;"></i>
                 <input type="hidden" name="{{ table.options.prefix }}order[]" value="{{ row.entry.id }}"/>
             </td>
         {% endif %}
