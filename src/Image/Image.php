@@ -157,7 +157,7 @@ class Image extends ImageManager
             }
         }
 
-        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 777, true, true);
+        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
         $image->save($this->directory . $path);
     }

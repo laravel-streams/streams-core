@@ -11,6 +11,7 @@ use Assetic\Asset\FileAsset;
 use Assetic\Asset\GlobAsset;
 use Assetic\Filter\CoffeeScriptFilter;
 use Collective\Html\HtmlBuilder;
+use Illuminate\Filesystem\Filesystem;
 
 /**
  * Class Asset
@@ -309,9 +310,10 @@ class Asset
 
         $path = $this->directory . $path;
 
+        /* @var Filesystem $files */
         $files = app('files');
 
-        $files->makeDirectory((new \SplFileInfo($path))->getPath(), 777, true, true);
+        $files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
         $files->put($path, $assets->dump());
 

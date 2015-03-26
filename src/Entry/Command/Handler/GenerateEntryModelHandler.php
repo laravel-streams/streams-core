@@ -15,6 +15,7 @@ use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationForeignKeyParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Parser;
+use Illuminate\Filesystem\Filesystem;
 
 /**
  * Class GenerateEntryModelHandler
@@ -26,6 +27,13 @@ use Anomaly\Streams\Platform\Support\Parser;
  */
 class GenerateEntryModelHandler
 {
+
+    /**
+     * The file system utility.
+     *
+     * @var Filesystem
+     */
+    protected $files;
 
     /**
      * The parser utility.
@@ -44,11 +52,13 @@ class GenerateEntryModelHandler
     /**
      * Create a new GenerateEntryModelHandler instance.
      *
+     * @param Filesystem  $files
      * @param Parser      $parser
      * @param Application $application
      */
-    function __construct(Parser $parser, Application $application)
+    function __construct(Filesystem $files, Parser $parser, Application $application)
     {
+        $this->files       = $files;
         $this->parser      = $parser;
         $this->application = $application;
     }
@@ -68,10 +78,10 @@ class GenerateEntryModelHandler
 
         $file = $this->getFilePath($stream);
 
-        @mkdir(dirname($file), 777, true);
-        @unlink($file);
+        $this->files->makeDirectory(dirname($file), 0777, true, true);
+        $this->files->delete($file);
 
-        file_put_contents($file, $this->parser->parse($template, $data));
+        $this->files->put($file, $this->parser->parse($template, $data));
     }
 
     /**
@@ -84,9 +94,9 @@ class GenerateEntryModelHandler
     {
         $path = storage_path('models/streams/');
 
-        @mkdir($path, 0755);
-        @mkdir($path .= $this->application->getReference() . '/', 0755);
-        @mkdir($path .= studly_case($stream->getNamespace()) . '/', 0755);
+        $this->files->makeDirectory($path, 0777);
+        $this->files->makeDirectory($path .= $this->application->getReference() . '/', 0777);
+        $this->files->makeDirectory($path .= studly_case($stream->getNamespace()) . '/', 0777);
 
         return $path . studly_case($stream->getNamespace()) . studly_case($stream->getSlug()) . 'EntryModel.php';
     }
