@@ -50,6 +50,7 @@ class FieldFilter extends Filter implements FieldFilterInterface
         $type->setLocale(null);
         $type->setValue($this->getValue());
         $type->setPrefix($this->getPrefix() . 'filter_');
+        $type->setPlaceholder($field->getName());
 
         return $type->renderFilter();
     }
