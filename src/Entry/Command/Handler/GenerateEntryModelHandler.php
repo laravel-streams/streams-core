@@ -94,9 +94,9 @@ class GenerateEntryModelHandler
     {
         $path = storage_path('models/streams/');
 
-        $this->files->makeDirectory($path, 0777);
-        $this->files->makeDirectory($path .= $this->application->getReference() . '/', 0777);
-        $this->files->makeDirectory($path .= studly_case($stream->getNamespace()) . '/', 0777);
+        $this->files->makeDirectory($path, 0777, true, true);
+        $this->files->makeDirectory($path .= $this->application->getReference() . '/', 0777, true, true);
+        $this->files->makeDirectory($path .= studly_case($stream->getNamespace()) . '/', 0777, true, true);
 
         return $path . studly_case($stream->getNamespace()) . studly_case($stream->getSlug()) . 'EntryModel.php';
     }

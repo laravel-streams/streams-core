@@ -34,4 +34,16 @@ class ApplicationModel extends Model
      */
     protected $table = 'applications';
 
+    /**
+     * Fillable attributes.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'domain',
+        'enabled',
+        'reference'
+    ];
+
 }
