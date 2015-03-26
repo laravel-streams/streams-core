@@ -27,7 +27,7 @@ class InitializeApplication implements SelfHandling
          * When in a dev environment and working
          * with Artisan this the same as locating.
          */
-        $application->setReference(env('DEFAULT_REFERENCE', 'default'));
+        $application->setReference(env('APPLICATION_REFERENCE', 'default'));
 
         /**
          * If the application is installed
