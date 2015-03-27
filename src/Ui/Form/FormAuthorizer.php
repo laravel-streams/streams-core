@@ -1,9 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\UsersModule\User\Contract\UserInterface;
-use Illuminate\Auth\Guard;
-use Illuminate\Config\Repository;
+use Anomaly\Streams\Platform\Support\Authorizer;
 
 /**
  * Class FormAuthorizer
@@ -17,20 +15,6 @@ class FormAuthorizer
 {
 
     /**
-     * The auth utility.
-     *
-     * @var Guard
-     */
-    protected $guard;
-
-    /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * The module collection.
      *
      * @var ModuleCollection
@@ -38,17 +22,22 @@ class FormAuthorizer
     protected $modules;
 
     /**
+     * The authorizer utility.
+     *
+     * @var Authorizer
+     */
+    protected $authorizer;
+
+    /**
      * Create a new FormAuthorizer instance.
      *
-     * @param Guard            $guard
-     * @param Repository       $config
      * @param ModuleCollection $modules
+     * @param Authorizer       $authorizer
      */
-    public function __construct(Guard $guard, Repository $config, ModuleCollection $modules)
+    public function __construct(ModuleCollection $modules, Authorizer $authorizer)
     {
-        $this->guard   = $guard;
-        $this->config  = $config;
-        $this->modules = $modules;
+        $this->modules    = $modules;
+        $this->authorizer = $authorizer;
     }
 
     /**
@@ -72,45 +61,6 @@ class FormAuthorizer
             $permission = $module->getNamespace($stream->getSlug() . '.' . ($entry->getId() ? 'edit' : 'create'));
         }
 
-        /**
-         * No permission, let it proceed.
-         */
-        if (!$permission) {
-            return;
-        }
-
-        /**
-         * If we have a erroneous permission
-         * then we still can't do much.
-         */
-        if (str_is('*::*.*', $permission)) {
-
-            $parts = explode('.', $permission);
-
-            $end = array_pop($parts);
-
-            if (!in_array($end, (array)$this->config->get(implode('.', $parts)))) {
-                return;
-            }
-        } else {
-
-            $parts = explode('::', $permission);
-
-            $end = array_pop($parts);
-
-            if (!in_array($end, (array)$this->config->get($parts[0]))) {
-                return;
-            }
-        }
-
-        /* @var UserInterface $user */
-        $user = $this->guard->user();
-
-        /**
-         * Finally test things out.
-         */
-        if ($user && !$user->hasPermission($permission)) {
-            abort(403);
-        }
+        $this->authorizer->authorize($permission);
     }
 }
