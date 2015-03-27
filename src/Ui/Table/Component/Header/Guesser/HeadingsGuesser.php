@@ -29,10 +29,11 @@ class HeadingsGuesser
         foreach ($builder->getColumns() as $column) {
 
             /**
-             * If the heading is false then the intent was
-             * to not have heading text at all.
+             * If the heading is false or does not exist
+             * then the intent was to not have
+             * heading text at all.
              */
-            if ($column['heading'] === false) {
+            if (!isset($column['heading']) || $column['heading'] === false) {
 
                 $columns[] = $column;
 
