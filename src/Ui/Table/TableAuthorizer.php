@@ -95,7 +95,6 @@ class TableAuthorizer
         /**
          * Finally test things out.
          */
-        dd($permission);
         if ($user && !$user->hasPermission($permission)) {
             abort(403);
         }
