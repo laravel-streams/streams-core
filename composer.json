@@ -30,7 +30,6 @@
         "symfony/yaml": "2.7.*",
         "jenssegers/agent": "2.1.*",
         "nicmart/string-template": "0.1.*",
-        "baum/baum": "1.1.1",
         "beelab/bowerphp": "0.2.*"
     },
     "require-dev": {
