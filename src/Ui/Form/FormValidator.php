@@ -85,7 +85,7 @@ class FormValidator
     {
         $factory = app('validator');
 
-        $form->fire('validating');
+        $form->fire('validating', compact('form'));
         $this->events->fire(new FormIsValidating($form));
 
         $this->extender->extend($factory, $form);
@@ -98,7 +98,7 @@ class FormValidator
 
         $this->setResponse($validator, $form);
 
-        $form->fire('validated');
+        $form->fire('validated', compact('form'));
         $this->events->fire(new FormWasValidated($form));
     }
 
