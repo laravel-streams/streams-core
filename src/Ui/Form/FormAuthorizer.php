@@ -85,13 +85,24 @@ class FormAuthorizer
          * If we have a erroneous permission
          * then we still can't do much.
          */
+        if (str_is('*::*.*', $permission)) {
 
-        $parts = explode('.', $permission);
+            $parts = explode('.', $permission);
 
-        $end = array_pop($parts);
+            $end = array_pop($parts);
 
-        if (!in_array($end, (array)$this->config->get(implode('.', $parts)))) {
-            return;
+            if (!in_array($end, (array)$this->config->get(implode('.', $parts)))) {
+                return;
+            }
+        } else {
+
+            $parts = explode('::', $permission);
+
+            $end = array_pop($parts);
+
+            if (!in_array($end, (array)$this->config->get($parts[0]))) {
+                return;
+            }
         }
 
         /* @var UserInterface $user */
