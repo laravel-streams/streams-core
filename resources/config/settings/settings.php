@@ -34,10 +34,7 @@ return [
     'site_enabled'   => [
         'type'   => 'anomaly.field_type.boolean',
         'config' => [
-            'default_value' => true,
-            'on_text'       => 'anomaly.field_type.boolean::choice.enabled',
-            'off_text'      => 'anomaly.field_type.boolean::choice.disabled',
-            'off_style'     => 'danger'
+            'default_value' => true
         ]
     ],
     '503_message'    => [

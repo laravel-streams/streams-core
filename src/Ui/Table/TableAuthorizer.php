@@ -66,7 +66,7 @@ class TableAuthorizer
          * try and automate the permission.
          */
         if (!$permission && ($module = $this->modules->active()) && ($stream = $builder->getTableStream())) {
-            $permission = $module->getNamespace('permissions.' . $stream->getSlug() . '.read');
+            $permission = $module->getNamespace($stream->getSlug() . '.read');
         }
 
         /**
@@ -95,6 +95,7 @@ class TableAuthorizer
         /**
          * Finally test things out.
          */
+        dd($permission);
         if ($user && !$user->hasPermission($permission)) {
             abort(403);
         }

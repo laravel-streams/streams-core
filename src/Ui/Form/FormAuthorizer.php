@@ -69,9 +69,7 @@ class FormAuthorizer
 
             $entry = $builder->getFormEntry();
 
-            $permission = $module->getNamespace(
-                'permissions.' . $stream->getSlug() . '.' . ($entry->getId() ? 'edit' : 'create')
-            );
+            $permission = $module->getNamespace($stream->getSlug() . '.' . ($entry->getId() ? 'edit' : 'create'));
         }
 
         /**
