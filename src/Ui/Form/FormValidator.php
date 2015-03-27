@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Ui\Form\Event\FormIsValidating;
+use Anomaly\Streams\Platform\Ui\Form\Event\FormWasValidated;
 use Anomaly\Streams\Platform\Ui\Form\Event\ValidationFailed;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Http\Request;
@@ -24,18 +26,18 @@ class FormValidator
     protected $rules;
 
     /**
+     * The event dispatcher.
+     *
+     * @var Dispatcher
+     */
+    protected $events;
+
+    /**
      * The extender utility.
      *
      * @var FormExtender
      */
     protected $extender;
-
-    /**
-     * The event dispatcher.
-     *
-     * @var Dispatcher
-     */
-    protected $dispatcher;
 
     /**
      * The messages utility.
@@ -55,22 +57,23 @@ class FormValidator
      * Create a new FormValidator instance.
      *
      * @param Request      $request
-     * @param Dispatcher   $dispatcher
+     * @param FormRules    $rules
+     * @param Dispatcher   $events
      * @param FormExtender $extender
      * @param FormMessages $messages
      */
     public function __construct(
         Request $request,
         FormRules $rules,
-        Dispatcher $dispatcher,
+        Dispatcher $events,
         FormExtender $extender,
         FormMessages $messages
     ) {
-        $this->rules      = $rules;
-        $this->request    = $request;
-        $this->extender   = $extender;
-        $this->messages   = $messages;
-        $this->dispatcher = $dispatcher;
+        $this->rules    = $rules;
+        $this->events   = $events;
+        $this->request  = $request;
+        $this->extender = $extender;
+        $this->messages = $messages;
     }
 
     /**
@@ -82,6 +85,9 @@ class FormValidator
     {
         $factory = app('validator');
 
+        $form->fire('validating');
+        $this->events->fire(new FormIsValidating($form));
+
         $this->extender->extend($factory, $form);
 
         $input    = $this->request->all();
@@ -91,6 +97,9 @@ class FormValidator
         $validator = $factory->make($input, $rules, $messages);
 
         $this->setResponse($validator, $form);
+
+        $form->fire('validated');
+        $this->events->fire(new FormWasValidated($form));
     }
 
     /**
@@ -105,7 +114,7 @@ class FormValidator
 
             $form->setErrors($validator->getMessageBag());
 
-            $this->dispatcher->fire(new ValidationFailed($form));
+            $this->events->fire(new ValidationFailed($form));
         }
     }
 }
