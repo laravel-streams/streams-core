@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Listener;
 
-use Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted;
+use Anomaly\Streams\Platform\Ui\Form\Event\FormIsPosting;
 use Illuminate\Http\Request;
 
 /**
@@ -34,9 +34,9 @@ class LoadFormValues
     /**
      * Handle the event.
      *
-     * @param FormWasPosted $event
+     * @param FormIsPosting $event
      */
-    public function handle(FormWasPosted $event)
+    public function handle(FormIsPosting $event)
     {
         $form = $event->getForm();
 

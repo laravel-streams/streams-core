@@ -473,6 +473,17 @@ class Form
     }
 
     /**
+     * Get a form field.
+     *
+     * @param $key
+     * @return FieldType|mixed
+     */
+    public function getField($key)
+    {
+        return $this->fields->get($key);
+    }
+
+    /**
      * Add data to the view data collection.
      *
      * @param $key

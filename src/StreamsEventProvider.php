@@ -104,8 +104,11 @@ class StreamsEventProvider extends EventServiceProvider
             'Anomaly\Streams\Platform\Ui\Form\Listener\RepopulateFields',
             'Anomaly\Streams\Platform\Ui\Form\Listener\AddErrorMessages'
         ],
+        'Anomaly\Streams\Platform\Ui\Form\Event\FormIsPosting'                   => [
+            'Anomaly\Streams\Platform\Ui\Form\Listener\RemoveDisabledFields',
+            'Anomaly\Streams\Platform\Ui\Form\Listener\LoadFormValues'
+        ],
         'Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted'                   => [
-            'Anomaly\Streams\Platform\Ui\Form\Listener\LoadFormValues',
             'Anomaly\Streams\Platform\Ui\Form\Listener\ValidateForm',
             'Anomaly\Streams\Platform\Ui\Form\Listener\HandleForm',
             'Anomaly\Streams\Platform\Ui\Form\Listener\SetFormResponse'

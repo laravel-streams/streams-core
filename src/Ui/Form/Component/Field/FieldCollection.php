@@ -18,7 +18,7 @@ class FieldCollection extends Collection
      * Return fields matching the given field.
      *
      * @param $field
-     * @return mixed
+     * @return FieldCollection
      */
     public function fields($field)
     {
@@ -44,7 +44,7 @@ class FieldCollection extends Collection
     {
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if ($item->getField() == $key) {
+            if ($item->getInputName() == $key) {
                 return $item;
             }
         }
@@ -55,7 +55,7 @@ class FieldCollection extends Collection
     /**
      * Return fields to be processed immediately.
      *
-     * @return static
+     * @return FieldCollection
      */
     public function immediate()
     {
@@ -74,7 +74,7 @@ class FieldCollection extends Collection
     /**
      * Return fields to be processed later.
      *
-     * @return static
+     * @return FieldCollection
      */
     public function deferred()
     {
@@ -88,6 +88,25 @@ class FieldCollection extends Collection
         }
 
         return new static($immediate);
+    }
+
+    /**
+     * Return enabled fields.
+     *
+     * @return FieldCollection
+     */
+    public function enabled()
+    {
+        $enabled = [];
+
+        /* @var FieldType $item */
+        foreach ($this->items as $item) {
+            if (!$item->isDisabled()) {
+                $enabled[] = $item;
+            }
+        }
+
+        return new static($enabled);
     }
 
     /**

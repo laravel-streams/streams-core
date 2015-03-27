@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
+use Anomaly\Streams\Platform\Ui\Form\Event\FormIsPosting;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
@@ -92,6 +93,11 @@ class FormBuilder
         $this->dispatch(new BuildForm($this));
 
         if (app('request')->isMethod('post')) {
+
+            $this->form->fire('posting', ['form' => $this->form]);
+            app('events')->fire(new FormIsPosting($this->form));
+
+            $this->form->fire('posted', ['form' => $this->form]);
             app('events')->fire(new FormWasPosted($this->form));
         }
     }
