@@ -61,8 +61,9 @@ class FieldCollection extends Collection
     {
         $immediate = [];
 
+        /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if ($item instanceof FieldType && !$item->isDeferred()) {
+            if (!$item->isDeferred()) {
                 $immediate[] = $item;
             }
         }
@@ -79,12 +80,31 @@ class FieldCollection extends Collection
     {
         $immediate = [];
 
+        /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if ($item instanceof FieldType && $item->isDeferred()) {
+            if ($item->isDeferred()) {
                 $immediate[] = $item;
             }
         }
 
         return new static($immediate);
+    }
+
+    /**
+     * Forget a key.
+     *
+     * @param mixed $key
+     */
+    public function forget($key)
+    {
+        /* @var FieldType $item */
+        foreach ($this->items as $index => $item) {
+            if ($item->getField() == $key) {
+
+                unset($this->items[$index]);
+
+                break;
+            }
+        }
     }
 }
