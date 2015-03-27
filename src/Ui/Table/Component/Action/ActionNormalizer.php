@@ -86,10 +86,15 @@ class ActionNormalizer
              * Set defaults as expected for actions.
              */
             $action['size']     = 'sm';
-            $action['disabled'] = array_get($action, 'disabled', true);
+            $action['disabled'] = array_get($action, 'disabled', array_get($action, 'toggle', true));
 
             $action['attributes']['name']  = $prefix . 'action';
             $action['attributes']['value'] = $action['slug'];
+
+            // If not toggle add the ignore attribute.
+            if (array_get($action, 'toggle', true) === false) {
+                $action['attributes']['data-ignore'] = '';
+            }
         }
 
         $builder->setActions($actions);

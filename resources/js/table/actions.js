@@ -10,9 +10,9 @@ $(document).ready(function () {
     $('table').find('.ui.checkbox').on('change', function () {
 
         if ($(this).closest('table').find(':checkbox:checked').length) {
-            $(this).closest('table').find('tfoot').find('button').removeClass('disabled');
+            $(this).closest('table').find('tfoot').find('button:not([data-ignore])').removeClass('disabled');
         } else {
-            $(this).closest('table').find('tfoot').find('button').addClass('disabled');
+            $(this).closest('table').find('tfoot').find('button:not([data-ignore])').addClass('disabled');
         }
     });
 });
