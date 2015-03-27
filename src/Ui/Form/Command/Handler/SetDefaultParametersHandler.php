@@ -65,5 +65,12 @@ class SetDefaultParametersHandler
                 $builder->setButtons($buttons . '@handle');
             }
         }
+
+        /**
+         * Set the form mode according to the builder's entry.
+         */
+        if (!$builder->getFormMode()) {
+            $builder->setFormMode($builder->getEntry() ? 'edit' : 'create');
+        }
     }
 }

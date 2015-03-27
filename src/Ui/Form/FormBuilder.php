@@ -339,4 +339,27 @@ class FormBuilder
     {
         return $this->form->getEntry();
     }
+
+    /**
+     * Get the form mode.
+     *
+     * @return null|string
+     */
+    public function getFormMode()
+    {
+        return $this->form->getMode();
+    }
+
+    /**
+     * Set the form mode.
+     *
+     * @param $mode
+     * @return $this
+     */
+    public function setFormMode($mode)
+    {
+        $this->form->setMode($mode);
+
+        return $this;
+    }
 }

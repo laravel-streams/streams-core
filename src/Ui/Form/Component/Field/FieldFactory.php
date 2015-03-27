@@ -54,15 +54,15 @@ class FieldFactory
     public function make(array $parameters, StreamInterface $stream = null, $entry = null)
     {
         if ($stream && $assignment = $stream->getAssignment(array_get($parameters, 'field'))) {
-            $field = $assignment->getFieldType();
-        } else {
-            $field = $this->builder->build($parameters);
-        }
 
-        // Set the value if the entry is compatible and the value is not forced.
-        if (!isset($parameters['value']) && $entry instanceof EntryInterface) {
-            $field->setValue($entry->getFieldValue($field->getField()));
+            $field = $assignment->getFieldType();
+
+            /* @var EntryInterface $entry */
+            $field->setValue(array_pull($parameters, 'value', $entry->getFieldValue($field->getField())));
         } else {
+
+            $field = $this->builder->build($parameters);
+
             $field->setValue(array_pull($parameters, 'value'));
         }
 

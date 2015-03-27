@@ -77,6 +77,14 @@ class Form
     protected $errors = null;
 
     /**
+     * The form model. This is set
+     * to create / edit automatically.
+     *
+     * @var null|string
+     */
+    protected $mode = null;
+
+    /**
      * The form data.
      *
      * @var Collection
@@ -564,5 +572,28 @@ class Form
     public function getValues()
     {
         return $this->values;
+    }
+
+    /**
+     * Get the mode.
+     *
+     * @return null|string
+     */
+    public function getMode()
+    {
+        return $this->mode;
+    }
+
+    /**
+     * Set the mode.
+     *
+     * @param $mode
+     * @return $this
+     */
+    public function setMode($mode)
+    {
+        $this->mode = $mode;
+
+        return $this;
     }
 }
