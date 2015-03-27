@@ -85,7 +85,7 @@ class TableAuthorizer
 
         $end = array_pop($parts);
 
-        if (!in_array($end, $this->config->get(implode('.', $parts)))) {
+        if (!in_array($end, (array)$this->config->get(implode('.', $parts)))) {
             return;
         }
 
