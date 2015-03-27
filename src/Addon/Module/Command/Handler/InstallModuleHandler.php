@@ -67,7 +67,7 @@ class InstallModuleHandler
             '--force' => true
         ];
 
-        $this->command->call('migrate', $options);
+        $this->command->call('migrate:refresh', $options);
         $this->dispatcher->fire(new ModuleWasInstalled($module));
 
         return true;
