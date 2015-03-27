@@ -35,7 +35,7 @@ class BuildTable implements SelfHandling
     /**
      * Create a new BuildTableColumnsCommand instance.
      *
-     * @param TableBuilder $this ->builder
+     * @param TableBuilder $builder
      */
     public function __construct(TableBuilder $builder)
     {
@@ -55,6 +55,11 @@ class BuildTable implements SelfHandling
         $this->dispatch(new SetDefaultOptions($this->builder));
         $this->dispatch(new SetTableRepository($this->builder));
         $this->dispatch(new SetDefaultParameters($this->builder));
+
+        /**
+         * Before we go any further, authorize the request.
+         */
+        $this->dispatch(new AuthorizeTable($this->builder));
 
         /*
          * Build table views and mark active.

@@ -20,8 +20,9 @@ class ModuleCollection extends AddonCollection
      */
     public function active()
     {
+        /* @var Module $item */
         foreach ($this->items as $item) {
-            if ($item instanceof Module && $item->isActive()) {
+            if ($item->isActive()) {
                 return $item;
             }
         }

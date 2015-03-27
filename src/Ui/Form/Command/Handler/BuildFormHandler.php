@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command\Handler;
 
+use Anomaly\Streams\Platform\Ui\Form\Command\AuthorizeForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetDefaultOptions;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetDefaultParameters;
@@ -45,6 +46,11 @@ class BuildFormHandler
         $this->dispatch(new SetFormRepository($builder));
         $this->dispatch(new SetDefaultParameters($builder));
         $this->dispatch(new SetFormEntry($builder)); // Do this last.
+
+        /**
+         * Before we go any further, authorize the request.
+         */
+        $this->dispatch(new AuthorizeForm($builder));
 
         /*
          * Build form fields.
