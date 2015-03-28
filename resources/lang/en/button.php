@@ -25,7 +25,6 @@ return [
     'save_continue' => 'Save &amp; Continue',
     'clear'         => 'Clear',
     'filter'        => 'Filter',
-    'remove'        => 'Remove',
     'reorder'       => 'Reorder',
     'configure'     => 'Configure'
 ];

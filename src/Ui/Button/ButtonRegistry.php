@@ -91,11 +91,6 @@ class ButtonRegistry
             'icon' => 'warning circle icon',
             'type' => 'red'
         ],
-        'remove'  => [
-            'icon' => 'remove circle icon',
-            'text'    => 'streams::button.remove',
-            'type' => 'red'
-        ],
         'delete'  => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete@handle',
             'text'    => 'streams::button.delete',
