@@ -11,8 +11,8 @@
 {% include "streams::table/partials/filters" %}
 {% include "streams::table/partials/views" %}
 
-<div class="ui horizontal segment basic">
-    {% if not table.rows.empty() %}
+{% if not table.rows.empty() %}
+    <div class="ui horizontal segment basic">
         {{ form_open({ 'url': url_full() }) }}
         <table
                 class="{{ table.options.class ?: 'ui table tablet stackable' }}"
@@ -25,9 +25,11 @@
 
         </table>
         {{ form_close() }}
-    {% else %}
-        <div class="no-results">
-            <h3>{{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}</h3>
+    </div>
+{% else %}
+    <div class="ui basic segment">
+        <div class="ui blue inverted segment">
+            <p>{{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}</p>
         </div>
-    {% endif %}
-</div>
+    </div>
+{% endif %}
