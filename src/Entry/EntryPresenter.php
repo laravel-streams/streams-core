@@ -41,6 +41,46 @@ class EntryPresenter extends EloquentPresenter
     }
 
     /**
+     * Return the date string for created at.
+     *
+     * @return string
+     */
+    public function presentCreatedAtDate()
+    {
+        return $this->object->created_at->format(config('streams.date_format'));
+    }
+
+    /**
+     * Return the datetime string for created at.
+     *
+     * @return string
+     */
+    public function presentCreatedAtDatetime()
+    {
+        return $this->object->created_at->format(config('streams.date_format') . ' ' . config('streams.time_format'));
+    }
+
+    /**
+     * Return the date string for updated at.
+     *
+     * @return string
+     */
+    public function presentUpdatedAtDate()
+    {
+        return $this->object->updated_at->format(config('streams.date_format'));
+    }
+
+    /**
+     * Return the datetime string for updated at.
+     *
+     * @return string
+     */
+    public function presentUpdatedAtDatetime()
+    {
+        return $this->object->updated_at->format(config('streams.date_format') . ' ' . config('streams.time_format'));
+    }
+
+    /**
      * Get the entry's edit link.
      *
      * @return string

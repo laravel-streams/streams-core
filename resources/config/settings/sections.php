@@ -10,6 +10,7 @@ return [
                     'name',
                     'description',
                     'date_format',
+                    'time_format',
                     'default_locale',
                     'site_enabled',
                     '503_message',

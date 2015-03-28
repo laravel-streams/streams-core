@@ -23,6 +23,12 @@ return [
             'default_value' => 'n/j/Y',
         ]
     ],
+    'time_format'    => [
+        'type'   => 'anomaly.field_type.text',
+        'config' => [
+            'default_value' => 'g:i A',
+        ]
+    ],
     'default_locale' => [
         'type'   => 'anomaly.field_type.select',
         'config' => [

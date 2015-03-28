@@ -16,6 +16,11 @@ return [
         'instructions' => 'How should dates be displayed across the website and control panel? Using the <a href="http://php.net/manual/en/function.date.php" target="_blank">date format</a> from PHP.',
         'placeholder'  => 'm/d/Y'
     ],
+    'time_format'    => [
+        'label'        => 'Time Format',
+        'instructions' => 'How should time be displayed across the website and control panel? Using the <a href="http://php.net/manual/en/function.date.php" target="_blank">date format</a> from PHP.',
+        'placeholder'  => 'g:i A'
+    ],
     'default_locale' => [
         'label'        => 'Default Language',
         'instructions' => 'What is the default language for your application?<br>Languages can be managed in the <a href="/admin/localization" target="_blank">Localization</a> module.'

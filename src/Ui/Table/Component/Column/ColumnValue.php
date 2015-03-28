@@ -109,6 +109,15 @@ class ColumnValue
         $entry = $this->decorator->decorate($entry);
 
         /**
+         * If the value matches a method in the present.
+         */
+        if (preg_match("/^entry.([a-zA-Z\\_]+)/", $value, $match)) {
+            if (isset($entry->{$match[1]})) {
+                return $entry->{$match[1]};
+            }
+        }
+
+        /**
          * By default we can just pass the value through
          * the evaluator utility and be done with it.
          */

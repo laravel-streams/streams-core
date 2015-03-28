@@ -59,6 +59,18 @@ class HeadingsGuesser
                 $column['heading'] = $match[1];
             }
 
+            /**
+             * Detect some built in columns.
+             */
+            if (in_array($column['heading'], ['created_at', 'created_by', 'updated_at', 'updated_by'])) {
+
+                $column['heading'] = trans('streams::entry.' . $column['heading']);
+
+                $columns[] = $column;
+
+                continue;
+            }
+
             $field = $stream->getField($column['heading']);
 
             /**
