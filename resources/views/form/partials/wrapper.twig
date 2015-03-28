@@ -13,11 +13,11 @@
             </div>
         {% endif %}
 
-        {{ trans(field_type.label)|raw }}
+        {{ field_type.label|raw }}
     </label>
 
     {% if field_type.instructions %}
-        <div class="instructions">{{ trans(field_type.instructions)|raw }}</div>
+        <div class="instructions">{{ field_type.instructions|raw }}</div>
     {% endif %}
 
     {{ field_type.renderInput()|raw }}
