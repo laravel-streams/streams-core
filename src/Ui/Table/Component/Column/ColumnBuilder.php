@@ -75,10 +75,6 @@ class ColumnBuilder
 
         foreach ($builder->getColumns() as $column) {
 
-            if (!array_get($column, 'enabled', true)) {
-                continue;
-            }
-
             $column = $this->evaluator->evaluate($column, compact('entry', 'table'));
 
             $column['value'] = $this->value->make($table, $column, $entry);
