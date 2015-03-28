@@ -72,8 +72,8 @@ class Authorizer
             $end   = array_pop($parts);
             $group = array_pop($parts);
             $parts = explode('::', $permission);
-            
-            if (!in_array($end, (array)$this->config->get($parts[0] . '::permissions.' . $group . '.' . $end))) {
+
+            if (!in_array($end, (array)$this->config->get($parts[0] . '::permissions.' . $group))) {
                 return true;
             }
         } else {
