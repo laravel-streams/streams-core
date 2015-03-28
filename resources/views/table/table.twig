@@ -13,7 +13,7 @@
 
 <div class="ui horizontal segment basic">
     {% if not table.rows.empty() %}
-        {{ form_open() }}
+        {{ form_open({ 'url': url_full() }) }}
         <table
                 class="{{ table.options.class ?: 'ui table tablet stackable' }}"
                 {{ table.options.sortable ? 'data-sortable' }}

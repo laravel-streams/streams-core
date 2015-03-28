@@ -2,24 +2,34 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionExecutor;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableWasPosted;
+use Illuminate\Http\Request;
 
 class ExecuteAction
 {
 
     /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * The action executor.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionExecutor
+     * @var ActionExecutor
      */
     protected $executor;
 
     /**
      * Create a new ExecuteActionHandler instance.
      *
+     * @param Request        $request
      * @param ActionExecutor $executor
      */
-    public function __construct(ActionExecutor $executor)
+    public function __construct(Request $request, ActionExecutor $executor)
     {
+        $this->request  = $request;
         $this->executor = $executor;
     }
 
@@ -38,5 +48,7 @@ class ExecuteAction
         if ($action = $actions->active()) {
             $this->executor->execute($table, $action);
         }
+
+        $table->setResponse(response()->redirectTo($this->request->fullUrl()));
     }
 }
