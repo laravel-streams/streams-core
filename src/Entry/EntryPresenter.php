@@ -47,7 +47,9 @@ class EntryPresenter extends EloquentPresenter
      */
     public function presentCreatedAtDate()
     {
-        return $this->object->created_at->format(config('streams.date_format'));
+        return $this->object->created_at
+            ->setTimezone(config('streams.timezone'))
+            ->format(config('streams.date_format'));
     }
 
     /**
@@ -57,7 +59,9 @@ class EntryPresenter extends EloquentPresenter
      */
     public function presentCreatedAtDatetime()
     {
-        return $this->object->created_at->format(config('streams.date_format') . ' ' . config('streams.time_format'));
+        return $this->object->created_at
+            ->setTimezone(config('streams.timezone'))
+            ->format(config('streams.date_format') . ' ' . config('streams.time_format'));
     }
 
     /**
@@ -67,7 +71,9 @@ class EntryPresenter extends EloquentPresenter
      */
     public function presentUpdatedAtDate()
     {
-        return $this->object->updated_at->format(config('streams.date_format'));
+        return $this->object->updated_at
+            ->setTimezone(config('streams.timezone'))
+            ->format(config('streams.date_format'));
     }
 
     /**
@@ -77,7 +83,9 @@ class EntryPresenter extends EloquentPresenter
      */
     public function presentUpdatedAtDatetime()
     {
-        return $this->object->updated_at->format(config('streams.date_format') . ' ' . config('streams.time_format'));
+        return $this->object->updated_at
+            ->setTimezone(config('streams.timezone'))
+            ->format(config('streams.date_format') . ' ' . config('streams.time_format'));
     }
 
     /**
