@@ -1,11 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Message\MessageBag;
+use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
-use Anomaly\UsersModule\User\Contract\User;
-use Anomaly\UsersModule\User\Contract\UserInterface;
 use Illuminate\Auth\Guard;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -22,13 +22,6 @@ class ActionExecutor
 {
 
     /**
-     * The authentication guard.
-     *
-     * @var Guard
-     */
-    protected $guard;
-
-    /**
      * The request object.
      *
      * @var Request
@@ -36,11 +29,25 @@ class ActionExecutor
     protected $request;
 
     /**
+     * The module collection.
+     *
+     * @var ModuleCollection
+     */
+    protected $modules;
+
+    /**
      * The message bag.
      *
      * @var MessageBag
      */
     protected $messages;
+
+    /**
+     * The authorizer utility.
+     *
+     * @var Authorizer
+     */
+    protected $authorizer;
 
     /**
      * The application.
@@ -52,16 +59,25 @@ class ActionExecutor
     /**
      * Create a new ActionExecutor instance.
      *
-     * @param Guard       $guard
-     * @param Request     $request
-     * @param MessageBag  $messages
-     * @param Application $application
+     * @param Guard            $guard
+     * @param Request          $request
+     * @param MessageBag       $messages
+     * @param Authorizer       $authorizer
+     * @param Application      $application
+     * @param ModuleCollection $modules
      */
-    public function __construct(Guard $guard, Request $request, Application $application, MessageBag $messages)
-    {
-        $this->guard       = $guard;
+    public function __construct(
+        Guard $guard,
+        Request $request,
+        MessageBag $messages,
+        Authorizer $authorizer,
+        Application $application,
+        ModuleCollection $modules
+    ) {
         $this->request     = $request;
+        $this->modules     = $modules;
         $this->messages    = $messages;
+        $this->authorizer  = $authorizer;
         $this->application = $application;
     }
 
@@ -77,17 +93,19 @@ class ActionExecutor
         $options = $table->getOptions();
         $handler = $action->getHandler();
 
-        $user = $this->guard->getUser();
+        /**
+         * If the option is not set then
+         * try and automate the permission.
+         */
+        if (!$action->getPermission() && ($module = $this->modules->active()) && ($stream = $table->getStream())
+        ) {
+            $action->setPermission($module->getNamespace($stream->getSlug() . '.' . $action->getSlug()));
+        }
 
         /**
-         * Make sure the permission is met if present.
+         * Authorize the action.
          */
-        if ($user instanceof UserInterface && !$user->hasPermission($action->getPermission())) {
-
-            abort(403);
-
-            return false;
-        }
+        $this->authorizer->authorize($action->getPermission());
 
         /**
          * Get the IDs of the selected rows.
