@@ -105,7 +105,12 @@ class ActionExecutor
         /**
          * Authorize the action.
          */
-        $this->authorizer->authorize($action->getPermission());
+        if (!$this->authorizer->authorize($action->getPermission(), true)) {
+
+            $this->messages->error('streams::message.403');
+
+            return;
+        }
 
         /**
          * Get the IDs of the selected rows.
