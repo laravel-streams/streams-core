@@ -19,7 +19,7 @@ return [
     'time_format'    => [
         'label'        => 'Time Format',
         'instructions' => 'How should time be displayed across the website and control panel? Using the <a href="http://php.net/manual/en/function.date.php" target="_blank">date format</a> from PHP.',
-        'placeholder'  => 'g:i A'
+        'placeholder'  => 'g:i A T'
     ],
     'default_locale' => [
         'label'        => 'Default Language',
