@@ -1,14 +1,17 @@
 <tfoot>
 <tr>
-    <th colspan="100%" style="padding: 10px;">
+    <th colspan="50%" style="padding: 10px;">
 
         {{ buttons(table.actions)|raw }}
 
         {% if table.data.pagination.links %}
-            <div class="btn-group pull-right">
+            <div class="pull-right">
                 {{ table.data.pagination.links|raw }}
             </div>
         {% endif %}
+
+        <div style="clear: both;"></div>
+
     </th>
 </tr>
 </tfoot>
