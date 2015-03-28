@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInt
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\UsersModule\User\Contract\User;
+use Anomaly\UsersModule\User\Contract\UserInterface;
 use Illuminate\Auth\Guard;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -81,7 +82,7 @@ class ActionExecutor
         /**
          * Make sure the permission is met if present.
          */
-        if ($user instanceof User && !$user->hasPermission($action->getPermission())) {
+        if ($user instanceof UserInterface && !$user->hasPermission($action->getPermission())) {
 
             abort(403);
 
