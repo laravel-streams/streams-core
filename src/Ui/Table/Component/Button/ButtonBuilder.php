@@ -77,6 +77,10 @@ class ButtonBuilder
 
         foreach ($builder->getButtons() as $button) {
 
+            if (!array_get($button, 'enabled', true)) {
+                continue;
+            }
+
             $button = $this->evaluator->evaluate($button, compact('entry', 'table'));
             $button = $this->parser->parser($button, $entry);
 

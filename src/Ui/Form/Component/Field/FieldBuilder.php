@@ -74,7 +74,7 @@ class FieldBuilder
          * and put to the forms field collection.
          */
         foreach ($builder->getFields() as $slug => $field) {
-            if (!in_array($field['slug'], $skips)) {
+            if (!in_array($field['slug'], $skips) && array_get($field, 'enabled', true)) {
                 $form->addField($this->factory->make($field, $stream, $entry));
             }
         }

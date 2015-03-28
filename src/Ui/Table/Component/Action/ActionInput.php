@@ -21,6 +21,13 @@ class ActionInput
     protected $resolver;
 
     /**
+     * The evaluator utility.
+     *
+     * @var ActionEvaluator
+     */
+    protected $evaluator;
+
+    /**
      * The action normalizer.
      *
      * @var ActionNormalizer
@@ -31,11 +38,13 @@ class ActionInput
      * Create a new ActionInput instance.
      *
      * @param ActionResolver   $resolver
+     * @param ActionEvaluator  $evaluator
      * @param ActionNormalizer $normalizer
      */
-    public function __construct(ActionResolver $resolver, ActionNormalizer $normalizer)
+    public function __construct(ActionResolver $resolver, ActionEvaluator $evaluator, ActionNormalizer $normalizer)
     {
         $this->resolver   = $resolver;
+        $this->evaluator  = $evaluator;
         $this->normalizer = $normalizer;
     }
 
@@ -48,6 +57,7 @@ class ActionInput
     public function read(TableBuilder $builder)
     {
         $this->resolver->resolve($builder);
+        $this->evaluator->evaluate($builder);
         $this->normalizer->normalize($builder);
     }
 }

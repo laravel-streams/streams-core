@@ -51,7 +51,9 @@ class ViewBuilder
         $this->input->read($builder);
 
         foreach ($builder->getViews() as $view) {
-            $table->addView($this->factory->make($view));
+            if (array_get($view, 'enabled', true)) {
+                $table->addView($this->factory->make($view));
+            }
         }
     }
 }
