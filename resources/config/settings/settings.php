@@ -26,7 +26,7 @@ return [
     'time_format'    => [
         'type'   => 'anomaly.field_type.text',
         'config' => [
-            'default_value' => 'g:i A T',
+            'default_value' => 'g:i A',
         ]
     ],
     'default_locale' => [
