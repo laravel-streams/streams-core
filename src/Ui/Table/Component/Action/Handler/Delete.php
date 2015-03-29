@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Action;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
@@ -12,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler
  */
-class Delete extends Action
+class Delete extends ActionHandler
 {
 
     /**
@@ -23,15 +23,21 @@ class Delete extends Action
      */
     public function handle(Table $table, array $selected)
     {
+        $count = 0;
+
         $model = $table->getModel();
 
         /* @var EloquentModel $entry */
         foreach ($selected as $id) {
             if ($entry = $model->find($id)) {
                 if ($entry->isDeletable() && $entry->delete()) {
-                    // $count++
+                    $count++;
                 }
             }
         }
+
+        $type = $count ? 'success' : 'error';
+
+        $this->messages->{$type}(trans('streams::message.delete_success', compact('count')));
     }
 }

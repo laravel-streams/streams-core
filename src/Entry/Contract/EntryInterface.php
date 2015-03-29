@@ -127,9 +127,16 @@ interface EntryInterface
     /**
      * Get the translatable flag.
      *
-     * @return mixed
+     * @return bool
      */
     public function isTranslatable();
+
+    /**
+     * Return whether an entry is deletable or not.
+     *
+     * @return bool
+     */
+    public function isDeletable();
 
     /**
      * Return whether or not the assignment for
