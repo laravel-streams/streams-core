@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
-use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Action;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
@@ -12,25 +12,8 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler
  */
-class Delete
+class Delete extends Action
 {
-
-    /**
-     * The message bag.
-     *
-     * @var MessageBag
-     */
-    protected $messages;
-
-    /**
-     * Create a new Delete instance.
-     *
-     * @param MessageBag $messages
-     */
-    public function __construct(MessageBag $messages)
-    {
-        $this->messages = $messages;
-    }
 
     /**
      * Save the order of the entries.
@@ -42,22 +25,12 @@ class Delete
     {
         $model = $table->getModel();
 
-        $this->deleteEntries($model, $selected);
-
-        $table->setResponse(redirect(app('request')->fullUrl()));
-    }
-
-    /**
-     * Delete the entries.
-     *
-     * @param EloquentModel $model
-     * @param array         $selected
-     */
-    protected function deleteEntries(EloquentModel $model, array $selected)
-    {
+        /* @var EloquentModel $entry */
         foreach ($selected as $id) {
             if ($entry = $model->find($id)) {
-                $entry->delete();
+                if ($entry->isDeletable() && $entry->delete()) {
+                    // $count++
+                }
             }
         }
     }

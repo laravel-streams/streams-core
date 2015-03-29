@@ -179,7 +179,7 @@ class EloquentModel extends Model implements Arrayable
      *
      * @return bool
      */
-    public function canDelete()
+    public function isDeletable()
     {
         return true;
     }
