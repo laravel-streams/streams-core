@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Parser;
 
-use Anomaly\Streams\Platform\Addon\FieldType\Contract\DateFieldTypeInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -23,32 +22,20 @@ class EntryDatesParser
      */
     public function parse(StreamInterface $stream)
     {
-        $string = "[";
+        $dates = [];
 
-        $string .= "\n'created_at',";
-        $string .= "\n'updated_at',";
+        $dates[] = "'created_at'";
+        $dates[] = "'updated_at'";
 
-        foreach ($stream->getAssignments() as $assignment) {
-            $this->parseAssignment($assignment, $string);
+        /* @var AssignmentInterface $assignment */
+        foreach ($stream->getDateAssignments() as $assignment) {
+            $dates[] = "'{$assignment->getFieldSlug()}'";
         }
 
-        $string .= "\n]";
-
-        return $string;
-    }
-
-    /**
-     * Parse an assignment.
-     *
-     * @param AssignmentInterface $assignment
-     * @param                     $string
-     */
-    protected function parseAssignment(AssignmentInterface $assignment, &$string)
-    {
-        $type = $assignment->getFieldType();
-
-        if ($type instanceof DateFieldTypeInterface) {
-            $string .= "\n'{$assignment->getFieldSlug()}',";
+        if ($stream->isTrashable()) {
+            $dates[] = "'deleted_at'";
         }
+
+        return "[" . implode(', ', $dates) . "]";
     }
 }

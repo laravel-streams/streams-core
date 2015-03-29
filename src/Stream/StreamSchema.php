@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
@@ -32,15 +33,17 @@ class StreamSchema
     /**
      * Create a table.
      *
-     * @param $table
+     * @param StreamInterface
      */
-    public function createTable($table)
+    public function createTable(StreamInterface $stream)
     {
+        $table = $stream->getEntryTableName();
+
         $this->schema->dropIfExists($table);
 
         $this->schema->create(
             $table,
-            function (Blueprint $table) {
+            function (Blueprint $table) use ($stream) {
 
                 $table->increments('id');
                 $table->integer('sort_order')->nullable();
@@ -48,6 +51,10 @@ class StreamSchema
                 $table->integer('created_by')->nullable();
                 $table->datetime('updated_at')->nullable();
                 $table->integer('updated_by')->nullable();
+
+                if ($stream->isTrashable()) {
+                    $table->datetime('deleted_at');
+                }
             }
         );
     }

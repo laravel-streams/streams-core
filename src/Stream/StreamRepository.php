@@ -43,6 +43,7 @@ class StreamRepository implements StreamRepositoryInterface
         $attributes['title_column'] = array_get($attributes, 'title_column', 'id');
 
         $attributes['locked']       = (array_get($attributes, 'locked', false));
+        $attributes['trashable']    = (array_get($attributes, 'trashable', false));
         $attributes['translatable'] = (array_get($attributes, 'translatable', false));
 
         $attributes['prefix']       = array_get($attributes, 'prefix', array_get($attributes, 'namespace') . '_');

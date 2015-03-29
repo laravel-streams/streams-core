@@ -75,6 +75,13 @@ interface StreamInterface
     public function isTranslatable();
 
     /**
+     * Get the trashable flag.
+     *
+     * @return bool
+     */
+    public function isTrashable();
+
+    /**
      * Get the title column.
      *
      * @return mixed
@@ -87,6 +94,13 @@ interface StreamInterface
      * @return AssignmentCollection
      */
     public function getAssignments();
+
+    /**
+     * Get the related date assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getDateAssignments();
 
     /**
      * Get the related translatable assignments.

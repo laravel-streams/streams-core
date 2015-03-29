@@ -175,6 +175,16 @@ class EloquentModel extends Model implements Arrayable
     }
 
     /**
+     * Return if a row is deletable or not.
+     *
+     * @return bool
+     */
+    public function canDelete()
+    {
+        return true;
+    }
+
+    /**
      * Get a new query builder for the model's table.
      *
      * @return \Illuminate\Database\Eloquent\Builder

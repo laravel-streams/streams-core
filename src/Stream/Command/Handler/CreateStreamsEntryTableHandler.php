@@ -40,11 +40,10 @@ class CreateStreamsEntryTableHandler
     {
         $stream = $command->getStream();
 
-        $table = $stream->getEntryTableName();
-
-        $this->schema->createTable($table);
+        $this->schema->createTable($stream);
 
         if ($stream->isTranslatable()) {
+
             $table = $stream->getEntryTranslationsTableName();
 
             $foreignKey = $stream->getForeignKey();

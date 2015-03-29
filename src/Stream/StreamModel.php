@@ -240,6 +240,16 @@ class StreamModel extends EloquentModel implements StreamInterface
     }
 
     /**
+     * Get the trashable flag.
+     *
+     * @return bool
+     */
+    public function isTrashable()
+    {
+        return $this->trashable;
+    }
+
+    /**
      * Get the title column.
      *
      * @return mixed
@@ -257,6 +267,18 @@ class StreamModel extends EloquentModel implements StreamInterface
     public function getAssignments()
     {
         return $this->assignments;
+    }
+
+    /**
+     * Get the related date assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getDateAssignments()
+    {
+        $assignments = $this->getAssignments();
+
+        return $assignments->dates();
     }
 
     /**

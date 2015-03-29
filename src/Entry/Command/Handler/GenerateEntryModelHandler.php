@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Entry\Parser\EntryTitleParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslatedAttributesParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationForeignKeyParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryTranslationModelParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryTrashableParser;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Parser;
 use Illuminate\Filesystem\Filesystem;
@@ -116,6 +117,7 @@ class GenerateEntryModelHandler
             'rules'                   => (new EntryRulesParser())->parse($stream),
             'dates'                   => (new EntryDatesParser())->parse($stream),
             'stream'                  => (new EntryStreamParser())->parse($stream),
+            'trashable'               => (new EntryTrashableParser())->parse($stream),
             'relations'               => (new EntryRelationsParser())->parse($stream),
             'namespace'               => (new EntryNamespaceParser())->parse($stream),
             'translation_model'       => (new EntryTranslationModelParser())->parse($stream),
