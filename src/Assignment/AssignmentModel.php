@@ -257,7 +257,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function setRulesAttribute($rules)
     {
-        $this->attributes['rules'] = serialize($rules);
+        $this->attributes['rules'] = (array)serialize($rules);
     }
 
     /**
@@ -269,7 +269,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getRulesAttribute($rules)
     {
-        return unserialize($rules);
+        return (array)unserialize($rules);
     }
 
     /**

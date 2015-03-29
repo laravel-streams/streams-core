@@ -184,7 +184,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function setConfigAttribute($config)
     {
-        $this->attributes['config'] = serialize($config);
+        $this->attributes['config'] = (array)serialize($config);
     }
 
     /**
@@ -195,7 +195,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function getConfigAttribute($config)
     {
-        return unserialize($config);
+        return (array)unserialize($config);
     }
 
     /**
@@ -205,7 +205,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function setRulesAttribute($rules)
     {
-        $this->attributes['rules'] = serialize($rules);
+        $this->attributes['rules'] = serialize((array)$rules);
     }
 
     /**
@@ -216,7 +216,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function getRulesAttribute($rules)
     {
-        return unserialize($rules);
+        return (array)unserialize($rules);
     }
 
     /**
