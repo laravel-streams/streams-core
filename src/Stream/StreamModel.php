@@ -81,18 +81,22 @@ class StreamModel extends EloquentModel implements StreamInterface
     {
         $assignments = array();
 
-        $streamModel       = new StreamModel();
-        $streamTranslation = new StreamModelTranslation();
+        $streamModel        = new StreamModel();
+        $streamTranslations = new EloquentCollection();
 
         $data['view_options'] = serialize(array_get($data, 'view_options', []));
 
-        if (isset($data['translations'])) {
-            $streamTranslation->setRawAttributes(array_pull($data, 'translations'));
+        if ($translations = array_pull($data, 'translations')) {
+            foreach ($translations as $translation) {
+                $streamTranslations->push(new StreamModelTranslation($translation));
+            }
         }
 
         $streamModel->setRawAttributes($data);
 
-        $streamModel->setRelation('translations', $streamTranslation);
+        $streamModel->setRelation('translations', $streamTranslations);
+
+        unset($this->translations);
 
         if (array_key_exists('assignments', $data)) {
 
