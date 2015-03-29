@@ -45,6 +45,16 @@ class StreamModel extends EloquentModel implements StreamInterface
     protected $translationModel = 'Anomaly\Streams\Platform\Stream\StreamModelTranslation';
 
     /**
+     * Translatable attributes.
+     *
+     * @var array
+     */
+    protected $translatedAttributes = [
+        'name',
+        'description'
+    ];
+
+    /**
      * The model's database table name.
      *
      * @var string
