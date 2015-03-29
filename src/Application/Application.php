@@ -117,6 +117,28 @@ class Application
     }
 
     /**
+     * Get the storage path for the application.
+     *
+     * @param string $path
+     * @return string
+     */
+    public function getStoragePath($path = '')
+    {
+        return storage_path('streams/' . $this->getReference()) . ($path ? '/' . $path : $path);
+    }
+
+    /**
+     * Get the public assets path for the application.
+     *
+     * @param string $path
+     * @return string
+     */
+    public function getAssetsPath($path = '')
+    {
+        return public_path('assets/' . $this->getReference()) . ($path ? '/' . $path : $path);
+    }
+
+    /**
      * Return the app reference.
      *
      * @return string
