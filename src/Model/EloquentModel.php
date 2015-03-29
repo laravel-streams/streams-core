@@ -455,7 +455,7 @@ class EloquentModel extends Model implements Arrayable
 
     public function toArray()
     {
-        $attributes = parent::toArray();
+        $attributes = $this->attributesToArray();
 
         foreach ($this->translatedAttributes as $field) {
             if ($translations = $this->getTranslation()) {
