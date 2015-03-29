@@ -66,6 +66,9 @@ class FieldFactory
             $field->setValue(array_pull($parameters, 'value'));
         }
 
+        // Set the entry.
+        $field->setEntry($entry);
+
         // Merge in rules and validators.
         $field->mergeRules(array_pull($parameters, 'rules', []));
         $field->mergeConfig(array_pull($parameters, 'config', []));

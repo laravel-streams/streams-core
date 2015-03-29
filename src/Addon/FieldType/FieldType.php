@@ -53,6 +53,13 @@ class FieldType extends Addon
     protected $config = [];
 
     /**
+     * The entry in context.
+     *
+     * @var null
+     */
+    protected $entry = null;
+
+    /**
      * The field slug.
      *
      * @var null
@@ -287,6 +294,55 @@ class FieldType extends Addon
     public function setField($field)
     {
         $this->field = $field;
+
+        return $this;
+    }
+
+    /**
+     * Get a config value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function configGet($key, $default = null)
+    {
+        return array_get($this->config, $key, $default);
+    }
+
+    /**
+     * Set a config value.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function configSet($key, $value)
+    {
+        array_set($this->config, $key, $value);
+
+        return $this;
+    }
+
+    /**
+     * Get the entry.
+     *
+     * @return mixed
+     */
+    public function getEntry()
+    {
+        return $this->entry;
+    }
+
+    /**
+     * Set the entry.
+     *
+     * @param $entry
+     * @return $this
+     */
+    public function setEntry($entry)
+    {
+        $this->entry = $entry;
 
         return $this;
     }
