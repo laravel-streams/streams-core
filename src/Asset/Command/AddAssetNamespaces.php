@@ -21,12 +21,8 @@ class AddAssetNamespaces implements SelfHandling
      */
     public function handle(Asset $asset, Container $container, Application $application)
     {
-        $container->instance(
-            'streams.asset.path',
-            $container->make('path.public') . '/assets/' . $application->getReference()
-        );
-
-        $asset->addPath('asset', $container->make('streams.asset.path'));
+        $asset->addPath('asset', $application->getAssetsPath());
+        $asset->addPath('storage', $application->getStoragePath());
         $asset->addPath('streams', $container->make('streams.path') . '/resources');
         $asset->addPath('bower', $container->make('path.base') . '/bin/bower_components');
     }
