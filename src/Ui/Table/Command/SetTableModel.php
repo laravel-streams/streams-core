@@ -40,6 +40,17 @@ class SetTableModel implements SelfHandling
         $model = $this->builder->getModel();
 
         /**
+         * If the model is already instantiated
+         * then use it as is.
+         */
+        if (is_object($model)) {
+
+            $table->setModel($model);
+
+            return;
+        }
+
+        /**
          * If no model is set, try guessing the
          * model based on best practices.
          */

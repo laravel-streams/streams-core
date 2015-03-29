@@ -25,6 +25,17 @@ class SetFormModelHandler
         $model   = $builder->getModel();
 
         /**
+         * If the model is already instantiated
+         * then use it as is.
+         */
+        if (is_object($model)) {
+
+            $form->setModel($model);
+
+            return;
+        }
+
+        /**
          * If no model is set, try guessing the
          * model based on best practices.
          */
