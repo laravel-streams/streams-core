@@ -34,6 +34,26 @@ class AssignmentCollection extends EloquentCollection
     }
 
     /**
+     * Return assignments not included the provided fields.
+     *
+     * @param array $fields
+     * @return AssignmentCollection
+     */
+    public function withoutFields(array $fields)
+    {
+        return new static(
+            array_filter(
+                array_map(
+                    function (AssignmentInterface $assignment) use ($fields) {
+                        return !in_array($assignment->getFieldSlug(), $fields) ? $assignment : null;
+                    },
+                    $this->items
+                )
+            )
+        );
+    }
+
+    /**
      * Return only assignments that have relation fields.
      *
      * @return AssignmentCollection
