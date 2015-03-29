@@ -67,6 +67,7 @@ class EloquentTableRepository implements TableRepositoryInterface
          * other things (including filters / views)
          * to modify the query before proceeding.
          */
+        $table->fire('querying', compact('table', 'query'));
         app('events')->fire(new QueryHasStarted($table, $query));
 
         /**
