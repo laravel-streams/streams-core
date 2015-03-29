@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class AssignmentModel
@@ -189,7 +190,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     /**
      * Get the related stream.
      *
-     * @return mixed
+     * @return StreamInterface
      */
     public function getStream()
     {
