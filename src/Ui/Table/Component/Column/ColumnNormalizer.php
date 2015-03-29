@@ -50,7 +50,7 @@ class ColumnNormalizer
              * If no value wrap is set
              * then use a default.
              */
-            array_set($column, 'wrap', array_get($column, 'wrap', '{value}'));
+            array_set($column, 'wrapper', array_get($column, 'wrapper', '{value}'));
         }
 
         $builder->setColumns($columns);

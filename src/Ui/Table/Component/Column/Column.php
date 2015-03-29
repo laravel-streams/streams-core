@@ -14,11 +14,11 @@ class Column implements ColumnInterface
 {
 
     /**
-     * The wrap string.
+     * The column wrapper.
      *
      * @var null|string
      */
-    protected $wrap = null;
+    protected $wrapper = null;
 
     /**
      * The column view.
@@ -49,24 +49,24 @@ class Column implements ColumnInterface
     protected $header = null;
 
     /**
-     * Get the wrap.
+     * Get the wrapper.
      *
      * @return null|string
      */
-    public function getWrap()
+    public function getWrapper()
     {
-        return $this->wrap;
+        return $this->wrapper;
     }
 
     /**
      * Set the wrap.
      *
-     * @param $wrap
+     * @param $wrapper
      * @return $this
      */
-    public function setWrap($wrap)
+    public function setWrapper($wrapper)
     {
-        $this->wrap = $wrap;
+        $this->wrapper = $wrapper;
 
         return $this;
     }

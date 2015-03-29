@@ -12,19 +12,19 @@ interface ColumnInterface
 {
 
     /**
-     * Get the wrap.
+     * Get the wrapper.
      *
      * @return null|string
      */
-    public function getWrap();
+    public function getWrapper();
 
     /**
-     * Set the wrap.
+     * Set the wrapper.
      *
-     * @param $wrap
+     * @param $wrapper
      * @return $this
      */
-    public function setWrap($wrap);
+    public function setWrapper($wrapper);
 
     /**
      * Get the view.

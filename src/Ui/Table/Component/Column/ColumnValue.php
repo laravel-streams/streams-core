@@ -133,6 +133,6 @@ class ColumnValue
             $entry = null;
         }
 
-        return $this->parser->render($column['wrap'], compact('value', 'entry'));
+        return $this->parser->render($column['wrapper'], compact('value', 'entry'));
     }
 }
