@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
@@ -55,6 +56,46 @@ class EloquentFormRepository implements FormRepositoryInterface
      */
     public function save(Form $form)
     {
-        throw new \Exception('Not implemented.');
+        $entry = $form->getEntry();
+
+        /**
+         * Save default translation input.
+         *
+         * @var FieldType $field
+         */
+        foreach ($form->getFields() as $field) {
+            if (!$field->getLocale()) {
+                $entry->{$field->getColumnName()} = $form->getValue($field->getInputName());
+            }
+        }
+
+        $entry->save();
+
+        /**
+         * Loop through available translations
+         * and save translated input.
+         */
+        /*if ($entry->isTranslatable()) {
+
+            foreach (config('streams.available_locales') as $locale => $language) {
+
+                $translation = $entry->translateOrNew($locale);
+
+                foreach ($fields as $field) {
+
+                    if (!$entry->assignmentIsTranslatable($field->getField())) {
+                        continue;
+                    }
+
+                    if ($field instanceof FieldType && $field->getLocale() == $locale) {
+                        $translation->{$field->getColumnName()} = $form->getValue($field->getInputName());
+                    }
+                }
+
+                $translation->save();
+            }
+        }*/
+
+        return $entry;
     }
 }
