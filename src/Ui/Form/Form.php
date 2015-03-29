@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -293,7 +294,7 @@ class Form
     /**
      * Get the entry.
      *
-     * @return mixed
+     * @return EloquentModel|EntryInterface
      */
     public function getEntry()
     {

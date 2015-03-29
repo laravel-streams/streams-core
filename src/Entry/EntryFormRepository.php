@@ -61,15 +61,13 @@ class EntryFormRepository implements FormRepositoryInterface
         $entry  = $form->getEntry();
         $fields = $form->getFields();
 
-        if (!$entry instanceof EntryModel) {
-            return false;
-        }
-
         /**
          * Save default translation input.
+         *
+         * @var FieldType $field
          */
         foreach ($fields->immediate() as $field) {
-            if ($field instanceof FieldType && !$field->getLocale()) {
+            if (!$field->getLocale()) {
                 $entry->{$field->getColumnName()} = $form->getValue($field->getInputName());
             }
         }
@@ -80,7 +78,7 @@ class EntryFormRepository implements FormRepositoryInterface
          * Save default translation input (deferred).
          */
         foreach ($fields->deferred() as $field) {
-            if ($field instanceof FieldType && !$field->getLocale()) {
+            if (!$field->getLocale()) {
                 $entry->{$field->getColumnName()} = $form->getValue($field->getInputName());
             }
         }
