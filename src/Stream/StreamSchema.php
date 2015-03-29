@@ -53,7 +53,7 @@ class StreamSchema
                 $table->integer('updated_by')->nullable();
 
                 if ($stream->isTrashable()) {
-                    $table->datetime('deleted_at');
+                    $table->datetime('deleted_at')->nullable();
                 }
             }
         );
