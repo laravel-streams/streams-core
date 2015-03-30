@@ -405,11 +405,7 @@ class EloquentModel extends Model implements Arrayable
 
     protected function isKeyALocale($key)
     {
-        if ($key == 'id') {
-            return false;
-        }
-
-        return strlen($key) == 2;
+        return in_array($key, array_keys(config('streams.available_locales')));
     }
 
     protected function saveTranslations()
