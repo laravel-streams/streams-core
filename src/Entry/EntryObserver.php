@@ -2,6 +2,8 @@
 
 use Anomaly\Streams\Platform\Entry\Command\SetMetaInformation;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Model\Event\ModelsWereDeleted;
+use Anomaly\Streams\Platform\Model\Event\ModelsWereUpdated;
 use Anomaly\Streams\Platform\Support\Observer;
 
 /**
@@ -49,6 +51,18 @@ class EntryObserver extends Observer
     }
 
     /**
+     * Run after multiple entries have been updated.
+     *
+     * @param EntryInterface $model
+     */
+    public function updatedMultiple(EntryInterface $model)
+    {
+        $model->flushCache();
+
+        $this->events->fire(new ModelsWereUpdated($model));
+    }
+
+    /**
      * Run after a record has been deleted.
      *
      * @param EntryInterface $model
@@ -56,5 +70,17 @@ class EntryObserver extends Observer
     public function deleted(EntryInterface $model)
     {
         $model->flushCache();
+    }
+
+    /**
+     * Run after entries records have been deleted.
+     *
+     * @param EntryInterface $model
+     */
+    public function deletedMultiple(EntryInterface $model)
+    {
+        $model->flushCache();
+
+        $this->events->fire(new ModelsWereDeleted($model));
     }
 }
