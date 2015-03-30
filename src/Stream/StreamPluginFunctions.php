@@ -15,6 +15,16 @@ class StreamPluginFunctions
 {
 
     /**
+     * Protected query builder methods.
+     *
+     * @var array
+     */
+    protected $protectedMethods = [
+        'update',
+        'delete'
+    ];
+
+    /**
      * The service container.
      *
      * @var Container
@@ -51,6 +61,10 @@ class StreamPluginFunctions
         foreach ($parameters as $parameter => $arguments) {
 
             $method = camel_case($parameter);
+
+            if (in_array($method, $this->protectedMethods)) {
+                continue;
+            }
 
             $model = call_user_func_array([$model, $method], (array)$arguments);
         }
