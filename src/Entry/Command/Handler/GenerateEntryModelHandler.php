@@ -97,7 +97,7 @@ class GenerateEntryModelHandler
 
         $this->files->makeDirectory($path, 0777, true, true);
 
-        return $path . studly_case($stream->getNamespace()) . studly_case($stream->getSlug()) . 'EntryModel.php';
+        return $path . '/' . studly_case($stream->getNamespace()) . studly_case($stream->getSlug()) . 'EntryModel.php';
     }
 
     /**
