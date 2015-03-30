@@ -184,7 +184,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function setConfigAttribute($config)
     {
-        $this->attributes['config'] = (array)serialize($config);
+        $this->attributes['config'] = serialize((array)$config);
     }
 
     /**
