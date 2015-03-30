@@ -4,12 +4,14 @@ use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModelTranslation;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Field\FieldModelTranslation;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\Command\CompileStream;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
@@ -162,7 +164,21 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     public function compile()
     {
-        $this->save(); // Saving triggers the observer compile event.
+        $this->dispatch(new CompileStream($this));
+    }
+
+    /**
+     * Flush the entry stream's cache.
+     *
+     * @return StreamInterface
+     */
+    public function flushCache()
+    {
+        (new CacheCollection())->setKey($this->getCacheCollectionKey())->flush();
+        (new CacheCollection())->setKey((new FieldModel())->getCacheCollectionKey())->flush();
+        (new CacheCollection())->setKey((new AssignmentModel())->getCacheCollectionKey())->flush();
+
+        return $this;
     }
 
     /**

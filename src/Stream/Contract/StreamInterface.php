@@ -171,6 +171,13 @@ interface StreamInterface
     public function getForeignKey();
 
     /**
+     * Flush the entry stream's cache.
+     *
+     * @return StreamInterface
+     */
+    public function flushCache();
+
+    /**
      * @return array
      */
     public function toArray();

@@ -282,6 +282,18 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     }
 
     /**
+     * Compile the assignment's stream.
+     *
+     * @return AssignmentInterface
+     */
+    public function compileStream()
+    {
+        $this->stream->compile();
+
+        return $this;
+    }
+
+    /**
      * Return the stream relation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Command\SetMetaInformation;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Support\Observer;
 
 /**
  * Class EntryObserver
@@ -13,20 +13,48 @@ use Anomaly\Streams\Platform\Model\EloquentObserver;
  *
  * @package Anomaly\Streams\Platform\Entry
  */
-class EntryObserver extends EloquentObserver
+class EntryObserver extends Observer
 {
 
     /**
      * Before saving an entry touch the
      * meta information.
      *
-     * @param  EloquentModel $model
+     * @param  EntryInterface $model
      * @return bool
      */
-    public function saving(EloquentModel $model)
+    public function saving(EntryInterface $model)
     {
         $this->commands->dispatch(new SetMetaInformation($model));
+    }
 
-        return parent::saving($model);
+    /**
+     * Run after a record is created.
+     *
+     * @param EntryInterface $model
+     */
+    public function created(EntryInterface $model)
+    {
+        $model->flushCache();
+    }
+
+    /**
+     * Run after saving a record.
+     *
+     * @param EntryInterface $model
+     */
+    public function saved(EntryInterface $model)
+    {
+        $model->flushCache();
+    }
+
+    /**
+     * Run after a record has been deleted.
+     *
+     * @param EntryInterface $model
+     */
+    public function deleted(EntryInterface $model)
+    {
+        $model->flushCache();
     }
 }

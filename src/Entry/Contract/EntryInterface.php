@@ -170,4 +170,11 @@ interface EntryInterface
      * @return array
      */
     public function getAttributes();
+
+    /**
+     * Flush the entry model's cache.
+     *
+     * @return EntryInterface
+     */
+    public function flushCache();
 }

@@ -127,4 +127,18 @@ interface AssignmentInterface
      * @return mixed
      */
     public function getAttribute($key);
+
+    /**
+     * Flush the entry model's cache.
+     *
+     * @return AssignmentInterface
+     */
+    public function flushCache();
+
+    /**
+     * Compile the assignment's stream.
+     *
+     * @return AssignmentInterface
+     */
+    public function compileStream();
 }

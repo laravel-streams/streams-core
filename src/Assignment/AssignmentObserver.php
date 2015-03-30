@@ -1,10 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasSaved;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\Support\Observer;
 
 /**
  * Class AssignmentObserver
@@ -14,42 +14,45 @@ use Anomaly\Streams\Platform\Model\EloquentObserver;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Assignment
  */
-class AssignmentObserver extends EloquentObserver
+class AssignmentObserver extends Observer
 {
 
     /**
-     * Run after an assignment is saved.
+     * Run after a record is created.
      *
-     * @param EloquentModel $model
+     * @param AssignmentInterface $model
      */
-    public function saved(EloquentModel $model)
+    public function created(AssignmentInterface $model)
     {
-        $this->events->fire(new AssignmentWasSaved($model));
+        $model->flushCache();
+        $model->compileStream();
 
-        parent::saved($model);
-    }
-
-    /**
-     * Run after an assignment is created.
-     *
-     * @param EloquentModel $model
-     */
-    public function created(EloquentModel $model)
-    {
         $this->events->fire(new AssignmentWasCreated($model));
-
-        parent::created($model);
     }
 
     /**
-     * Run after an assignment is deleted.
+     * Run after saving a record.
      *
-     * @param EloquentModel $model
+     * @param AssignmentInterface $model
      */
-    public function deleted(EloquentModel $model)
+    public function saved(AssignmentInterface $model)
     {
-        $this->events->fire(new AssignmentWasDeleted($model));
+        $model->flushCache();
+        $model->compileStream();
 
-        parent::deleted($model);
+        $this->events->fire(new AssignmentWasSaved($model));
+    }
+
+    /**
+     * Run after a record has been deleted.
+     *
+     * @param AssignmentInterface $model
+     */
+    public function deleted(AssignmentInterface $model)
+    {
+        $model->flushCache();
+        $model->compileStream();
+
+        $this->events->fire(new AssignmentWasDeleted($model));
     }
 }

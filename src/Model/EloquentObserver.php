@@ -7,8 +7,7 @@ use Anomaly\Streams\Platform\Model\Event\ModelWasDeleted;
 use Anomaly\Streams\Platform\Model\Event\ModelWasRestored;
 use Anomaly\Streams\Platform\Model\Event\ModelWasSaved;
 use Anomaly\Streams\Platform\Model\Event\ModelWasUpdated;
-use Illuminate\Bus\Dispatcher as CommandDispatcher;
-use Illuminate\Events\Dispatcher as EventDispatcher;
+use Anomaly\Streams\Platform\Support\Observer;
 
 /**
  * Class EloquentObserver
@@ -18,43 +17,8 @@ use Illuminate\Events\Dispatcher as EventDispatcher;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Model
  */
-class EloquentObserver
+class EloquentObserver extends Observer
 {
-
-    /**
-     * The event dispatcher.
-     *
-     * @var \Illuminate\Events\Dispatcher
-     */
-    protected $events;
-
-    /**
-     * The command dispatcher.
-     *
-     * @var \Illuminate\Bus\Dispatcher
-     */
-    protected $commands;
-
-    /**
-     * Create a new EloquentObserver instance.
-     *
-     * @param EventDispatcher   $events
-     * @param CommandDispatcher $commands
-     */
-    public function __construct(EventDispatcher $events, CommandDispatcher $commands)
-    {
-        $this->events   = $events;
-        $this->commands = $commands;
-    }
-
-    /**
-     * Run before creating a record.
-     *
-     * @param EloquentModel $model
-     */
-    public function creating(EloquentModel $model)
-    {
-    }
 
     /**
      * Run after a record is created.
@@ -63,19 +27,9 @@ class EloquentObserver
      */
     public function created(EloquentModel $model)
     {
+        $model->flushCache();
+        
         $this->events->fire(new ModelWasCreated($model));
-    }
-
-    /**
-     * Run before attempting to save a record.
-     * Return false to cancel the operation.
-     *
-     * @param  EloquentModel $model
-     * @return bool
-     */
-    public function saving(EloquentModel $model)
-    {
-        return true;
     }
 
     /**
@@ -85,25 +39,9 @@ class EloquentObserver
      */
     public function saved(EloquentModel $model)
     {
+        $model->flushCache();
+
         $this->events->fire(new ModelWasSaved($model));
-    }
-
-    /**
-     * Run before a record is updated.
-     *
-     * @param EloquentModel $model
-     */
-    public function updating(EloquentModel $model)
-    {
-    }
-
-    /**
-     * Run before updating multiple records.
-     *
-     * @param EloquentModel $model
-     */
-    public function updatingMultiple(EloquentModel $model)
-    {
     }
 
     /**
@@ -113,6 +51,8 @@ class EloquentObserver
      */
     public function updated(EloquentModel $model)
     {
+        $model->flushCache();
+
         $this->events->fire(new ModelWasUpdated($model));
     }
 
@@ -123,25 +63,9 @@ class EloquentObserver
      */
     public function updatedMultiple(EloquentModel $model)
     {
+        $model->flushCache();
+
         $this->events->fire(new ModelsWereUpdated($model));
-    }
-
-    /**
-     * Run before deleting a record.
-     *
-     * @param EloquentModel $model
-     */
-    public function deleting(EloquentModel $model)
-    {
-    }
-
-    /**
-     * Run before multiple records are deleted.
-     *
-     * @param EloquentModel $model
-     */
-    public function deletingMultiple(EloquentModel $model)
-    {
     }
 
     /**
@@ -151,6 +75,8 @@ class EloquentObserver
      */
     public function deleted(EloquentModel $model)
     {
+        $model->flushCache();
+
         $this->events->fire(new ModelWasDeleted($model));
     }
 
@@ -161,16 +87,9 @@ class EloquentObserver
      */
     public function deletedMultiple(EloquentModel $model)
     {
-        $this->events->fire(new ModelsWereDeleted($model));
-    }
+        $model->flushCache();
 
-    /**
-     * Run before restoring a record.
-     *
-     * @param EloquentModel $model
-     */
-    public function restoring(EloquentModel $model)
-    {
+        $this->events->fire(new ModelsWereDeleted($model));
     }
 
     /**
@@ -180,6 +99,8 @@ class EloquentObserver
      */
     public function restored(EloquentModel $model)
     {
+        $model->flushCache();
+
         $this->events->fire(new ModelWasRestored($model));
     }
 }

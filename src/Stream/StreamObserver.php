@@ -1,10 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasCreated;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasSaved;
+use Anomaly\Streams\Platform\Support\Observer;
 
 /**
  * Class StreamObserver
@@ -14,42 +14,45 @@ use Anomaly\Streams\Platform\Stream\Event\StreamWasSaved;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Stream
  */
-class StreamObserver extends EloquentObserver
+class StreamObserver extends Observer
 {
 
     /**
      * Run after stream a record.
      *
-     * @param EloquentModel $model
+     * @param StreamInterface $model
      */
-    public function saved(EloquentModel $model)
+    public function saved(StreamInterface $model)
     {
-        $this->events->fire(new StreamWasSaved($model));
+        $model->compile();
+        $model->flushCache();
 
-        parent::saved($model);
+        $this->events->fire(new StreamWasSaved($model));
     }
 
     /**
      * Run after a stream is created.
      *
-     * @param EloquentModel $model
+     * @param StreamInterface $model
      */
-    public function created(EloquentModel $model)
+    public function created(StreamInterface $model)
     {
-        $this->events->fire(new StreamWasCreated($model));
+        $model->compile();
+        $model->flushCache();
 
-        parent::created($model);
+        $this->events->fire(new StreamWasCreated($model));
     }
 
     /**
      * Run after a stream has been deleted.
      *
-     * @param EloquentModel $model
+     * @param StreamInterface $model
      */
-    public function deleted(EloquentModel $model)
+    public function deleted(StreamInterface $model)
     {
-        $this->events->fire(new StreamWasDeleted($model));
+        $model->compile();
+        $model->flushCache();
 
-        parent::deleted($model);
+        $this->events->fire(new StreamWasDeleted($model));
     }
 }

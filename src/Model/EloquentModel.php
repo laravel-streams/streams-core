@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -182,6 +183,18 @@ class EloquentModel extends Model implements Arrayable
     public function isDeletable()
     {
         return true;
+    }
+
+    /**
+     * Flush the model's cache.
+     *
+     * @return $this
+     */
+    public function flushCache()
+    {
+        (new CacheCollection())->setKey($this->getCacheCollectionKey())->flush();
+
+        return $this;
     }
 
     /**

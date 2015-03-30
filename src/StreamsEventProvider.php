@@ -19,51 +19,24 @@ class StreamsEventProvider extends EventServiceProvider
      * @var array
      */
     protected $listen = [
-        'Anomaly\Streams\Platform\Model\Event\ModelWasCreated'                   => [
-            'Anomaly\Streams\Platform\Model\Listener\FlushCache'
-        ],
-        'Anomaly\Streams\Platform\Model\Event\ModelWasSaved'                     => [
-            'Anomaly\Streams\Platform\Model\Listener\FlushCache'
-        ],
-        'Anomaly\Streams\Platform\Model\Event\ModelWasUpdated'                   => [
-            'Anomaly\Streams\Platform\Model\Listener\FlushCache'
-        ],
-        'Anomaly\Streams\Platform\Model\Event\ModelsWereUpdated'                 => [
-            'Anomaly\Streams\Platform\Model\Listener\FlushCache'
-        ],
-        'Anomaly\Streams\Platform\Model\Event\ModelsWereDeleted'                 => [
-            'Anomaly\Streams\Platform\Model\Listener\FlushCache'
-        ],
         'Anomaly\Streams\Platform\Model\Event\ModelWasDeleted'                   => [
             'Anomaly\Streams\Platform\Model\Listener\DeleteTranslations'
-        ],
-        'Anomaly\Streams\Platform\Model\Event\ModelWasRestored'                  => [
-            'Anomaly\Streams\Platform\Model\Listener\FlushCache'
         ],
         'Anomaly\Streams\Platform\View\Event\ViewComposed'                       => [
             'Anomaly\Streams\Platform\View\Listener\DecorateData',
             'Anomaly\Streams\Platform\View\Listener\LoadTemplateData'
         ],
         'Anomaly\Streams\Platform\Stream\Event\StreamWasCreated'                 => [
-            'Anomaly\Streams\Platform\Stream\Listener\CreateTable',
-            'Anomaly\Streams\Platform\Stream\Listener\Compile'
+            'Anomaly\Streams\Platform\Stream\Listener\CreateTable'
         ],
         'Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted'                 => [
-            'Anomaly\Streams\Platform\Stream\Listener\DropTable',
-            'Anomaly\Streams\Platform\Stream\Listener\FlushCache'
-        ],
-        'Anomaly\Streams\Platform\Stream\Event\StreamWasSaved'                   => [
-            'Anomaly\Streams\Platform\Stream\Listener\Recompile',
-            'Anomaly\Streams\Platform\Stream\Listener\FlushCache'
+            'Anomaly\Streams\Platform\Stream\Listener\DropTable'
         ],
         'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated'         => [
             'Anomaly\Streams\Platform\Assignment\Listener\AddTableColumn'
         ],
         'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted'         => [
             'Anomaly\Streams\Platform\Assignment\Listener\DropTableColumn'
-        ],
-        'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasSaved'           => [
-            'Anomaly\Streams\Platform\Assignment\Listener\SaveStream'
         ],
         'Anomaly\Streams\Platform\Addon\Event\AddonsRegistered'                  => [
             'Anomaly\Streams\Platform\Addon\Module\Listener\DetectActiveModule',

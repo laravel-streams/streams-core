@@ -84,4 +84,11 @@ interface FieldInterface
      * @return bool
      */
     public function isLocked();
+
+    /**
+     * Flush the entry model's cache.
+     *
+     * @return FieldInterface
+     */
+    public function flushCache();
 }
