@@ -19,68 +19,68 @@ class EntryObserver extends Observer
 {
 
     /**
-     * Before saving an entry touch the
-     * meta information.
+     * Run after a record is created.
      *
-     * @param  EntryInterface $model
-     * @return bool
+     * @param EntryInterface $entry
      */
-    public function saving(EntryInterface $model)
+    public function created(EntryInterface $entry)
     {
-        $this->commands->dispatch(new SetMetaInformation($model));
+        $entry->flushCache();
     }
 
     /**
-     * Run after a record is created.
+     * Before saving an entry touch the
+     * meta information.
      *
-     * @param EntryInterface $model
+     * @param  EntryInterface $entry
+     * @return bool
      */
-    public function created(EntryInterface $model)
+    public function saving(EntryInterface $entry)
     {
-        $model->flushCache();
+        $this->commands->dispatch(new SetMetaInformation($entry));
     }
 
     /**
      * Run after saving a record.
      *
-     * @param EntryInterface $model
+     * @param EntryInterface $entry
      */
-    public function saved(EntryInterface $model)
+    public function saved(EntryInterface $entry)
     {
-        $model->flushCache();
+        $entry->flushCache();
     }
 
     /**
      * Run after multiple entries have been updated.
      *
-     * @param EntryInterface $model
+     * @param EntryInterface $entry
      */
-    public function updatedMultiple(EntryInterface $model)
+    public function updatedMultiple(EntryInterface $entry)
     {
-        $model->flushCache();
+        $entry->flushCache();
 
-        $this->events->fire(new ModelsWereUpdated($model));
+        $this->events->fire(new ModelsWereUpdated($entry));
     }
 
     /**
      * Run after a record has been deleted.
      *
-     * @param EntryInterface $model
+     * @param EntryInterface $entry
      */
-    public function deleted(EntryInterface $model)
+    public function deleted(EntryInterface $entry)
     {
-        $model->flushCache();
+        $entry->flushCache();
     }
 
     /**
      * Run after entries records have been deleted.
      *
-     * @param EntryInterface $model
+     * @param EntryInterface $entry
      */
-    public function deletedMultiple(EntryInterface $model)
+    public function deletedMultiple(EntryInterface $entry)
     {
-        $model->flushCache();
+        $entry->flushCache();
 
-        $this->events->fire(new ModelsWereDeleted($model));
+        $this->events->fire(new ModelsWereDeleted($entry));
     }
 }
