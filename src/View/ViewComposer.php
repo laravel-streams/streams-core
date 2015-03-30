@@ -94,7 +94,8 @@ class ViewComposer
      */
     public function compose(View $view)
     {
-        $theme = $this->themes->active();
+        $theme  = $this->themes->active();
+        $module = $this->modules->active();
 
         $mobile    = $this->mobiles->get($theme->getNamespace(), []);
         $overrides = $this->overrides->get($theme->getNamespace(), []);
@@ -103,6 +104,18 @@ class ViewComposer
             $view->setPath($path);
         } elseif ($path = array_get($overrides, $view->getName(), null)) {
             $view->setPath($path);
+        }
+
+        if ($module) {
+
+            $mobile    = $this->mobiles->get($module->getNamespace(), []);
+            $overrides = $this->overrides->get($module->getNamespace(), []);
+
+            if ($this->mobile && $path = array_get($mobile, $view->getName(), null)) {
+                $view->setPath($path);
+            } elseif ($path = array_get($overrides, $view->getName(), null)) {
+                $view->setPath($path);
+            }
         }
 
         $this->events->fire(new ViewComposed($view));
