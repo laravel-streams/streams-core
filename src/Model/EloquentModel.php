@@ -369,7 +369,7 @@ class EloquentModel extends Model implements Arrayable
     public function fill(array $attributes)
     {
         foreach ($attributes as $key => $values) {
-            if ($this->isKeyALocale($key)) {
+            if (is_array($values) && $this->isKeyALocale($key)) {
                 foreach ($values as $translationAttribute => $translationValue) {
                     if ($this->alwaysFillable() || $this->isFillable($translationAttribute)) {
                         $this->getTranslationOrNew($key)->$translationAttribute = $translationValue;
@@ -405,7 +405,7 @@ class EloquentModel extends Model implements Arrayable
 
     protected function isKeyALocale($key)
     {
-        return in_array($key, array_keys(config('streams::languages'))) && is_array($this->{$key});
+        return in_array($key, array_keys(config('streams::languages')));
     }
 
     protected function saveTranslations()
