@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Illuminate\Container\Container;
 
@@ -70,5 +71,36 @@ class StreamPluginFunctions
         }
 
         return $model->get();
+    }
+
+    /**
+     * Return a single stream entry.
+     *
+     * @param       $namespace
+     * @param       $stream
+     * @param array $parameters
+     * @return EntryInterface
+     */
+    public function entry($namespace, $stream, array $parameters = [])
+    {
+        $stream    = ucfirst(camel_case($stream));
+        $namespace = ucfirst(camel_case($namespace));
+
+        $model = $this->container->make(
+            'Anomaly\Streams\Platform\Model\\' . $namespace . '\\' . $namespace . $stream . 'EntryModel'
+        );
+
+        foreach ($parameters as $parameter => $arguments) {
+
+            $method = camel_case($parameter);
+
+            if (in_array($method, $this->protectedMethods)) {
+                continue;
+            }
+
+            $model = call_user_func_array([$model, $method], (array)$arguments);
+        }
+
+        return $model->first();
     }
 }
