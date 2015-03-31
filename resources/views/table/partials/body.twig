@@ -1,6 +1,6 @@
 <tbody>
 {% for row in table.rows %}
-    <tr>
+    <tr id="{{ loop.index }}">
 
         {% if table.options.sortable %}
             <td>
