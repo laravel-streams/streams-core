@@ -239,6 +239,18 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Get all assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getAssignments()
+    {
+        $stream = $this->getStream();
+
+        return $stream->getAssignments();
+    }
+
+    /**
      * Get an assignment by field slug.
      *
      * @param  $fieldSlug
@@ -246,8 +258,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAssignment($fieldSlug)
     {
-        $stream      = $this->getStream();
-        $assignments = $stream->getAssignments();
+        $assignments = $this->getAssignments();
 
         return $assignments->findByFieldSlug($fieldSlug);
     }

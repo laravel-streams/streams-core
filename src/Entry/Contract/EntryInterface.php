@@ -95,6 +95,13 @@ interface EntryInterface
     public function getFieldRules($fieldSlug);
 
     /**
+     * Get all assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getAssignments();
+
+    /**
      * Get an assignment by field slug.
      *
      * @param  $fieldSlug
