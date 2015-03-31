@@ -68,18 +68,18 @@ class ColumnValue
         $value = array_get($column, 'value');
 
         /**
-         * If the entry is an instance of EntryInterface
-         * then try getting the field value from the entry.
-         */
-        if ($entry instanceof EntryInterface && $entry->getField($value)) {
-            return $entry->getFieldValue($value);
-        }
-
-        /**
          * If the value is a view path then return a view.
          */
         if ($view = array_get($column, 'view')) {
             return view($view, compact('table', 'entry', 'value'));
+        }
+        
+        /**
+         * If the entry is an instance of EntryInterface
+         * then try getting the field value from the entry.
+         */
+        if ($entry instanceof EntryInterface && $entry->getField($value)) {
+            $value = $entry->getFieldValue($value);
         }
 
         /**
