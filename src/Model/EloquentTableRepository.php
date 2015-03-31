@@ -105,7 +105,7 @@ class EloquentTableRepository implements TableRepositoryInterface
         /**
          * Order the query results.
          */
-        foreach ($options->get('order_by', ['id' => 'asc']) as $column => $direction) {
+        foreach ($options->get('order_by', ['sort_order' => 'asc']) as $column => $direction) {
             $query = $query->orderBy($column, $direction);
         }
 
