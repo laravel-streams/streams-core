@@ -21,6 +21,9 @@ class ActionRegistry
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete@handle',
         ],
         'reorder' => [
+            'button'  => 'orange',
+            'icon'    => 'icon move',
+            'text'    => 'streams::button.reorder',
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder@handle',
         ],
     ];

@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 
@@ -11,7 +13,7 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler
  */
-class Reorder
+class Reorder extends ActionHandler
 {
 
     /**
@@ -19,14 +21,23 @@ class Reorder
      *
      * @param Table $table
      */
-    public function handle(Table $table)
+    public function handle(Table $table, array $selected)
     {
+        $count = 0;
+
         $model = $table->getModel();
 
-        if ($model instanceof TableModelInterface) {
-            $model->sortTableEntries($table);
+        /* @var EloquentModel $entry */
+        foreach ($selected as $k => $id) {
+            if ($entry = $model->find($id)) {
+                if ($entry->sort_order = $k && $entry->save()) {
+                    $count++;
+                }
+            }
         }
 
-        $table->setResponse(redirect(app('request')->fullUrl()));
+        $type = $count ? 'success' : 'error';
+
+        $this->messages->{$type}(trans('streams::message.reorder_success', compact('count')));
     }
 }

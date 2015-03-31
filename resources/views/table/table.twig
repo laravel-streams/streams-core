@@ -15,6 +15,7 @@
     <div class="ui horizontal segment basic">
         {{ form_open({ 'url': url_full() }) }}
         <table
+                id="sortable"
                 class="{{ table.options.class ?: 'ui table tablet stackable' }}"
                 {{ table.options.sortable ? 'data-sortable' }}
                 {{ html_attributes(table.options.attributes) }}>
