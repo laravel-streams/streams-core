@@ -190,6 +190,11 @@ class StreamsServiceProvider extends ServiceProvider
          * Register button UI services.
          */
         $this->app->singleton(
+            'Anomaly\Streams\Platform\Ui\Icon\IconRegistry',
+            'Anomaly\Streams\Platform\Ui\Icon\IconRegistry'
+        );
+
+        $this->app->singleton(
             'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry',
             'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry'
         );

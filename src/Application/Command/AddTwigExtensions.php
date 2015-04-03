@@ -29,6 +29,7 @@ class AddTwigExtensions implements SelfHandling
         $twig->addExtension($container->make('TwigBridge\Extension\Laravel\Form'));
         $twig->addExtension($container->make('TwigBridge\Extension\Laravel\Html'));
         $twig->addExtension($container->make('Anomaly\Streams\Platform\Ui\UiPlugin'));
+        $twig->addExtension($container->make('Anomaly\Streams\Platform\Addon\AddonPlugin'));
         $twig->addExtension($container->make('Anomaly\Streams\Platform\Agent\AgentPlugin'));
         $twig->addExtension($container->make('Anomaly\Streams\Platform\Asset\AssetPlugin'));
         $twig->addExtension($container->make('Anomaly\Streams\Platform\Image\ImagePlugin'));

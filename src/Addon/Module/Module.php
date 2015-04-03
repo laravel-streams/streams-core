@@ -21,11 +21,11 @@ class Module extends Addon
     protected $sections = [];
 
     /**
-     * The module's navigation group.
+     * The module's icon.
      *
-     * @var null|string
+     * @var string
      */
-    protected $navigation = null;
+    protected $icon = 'fa fa-puzzle-piece';
 
     /**
      * The installed flag.
@@ -66,13 +66,13 @@ class Module extends Addon
     }
 
     /**
-     * Get the module's navigation group.
+     * Get the module's icon.
      *
      * @return string|null|false
      */
-    public function getNavigation()
+    public function getIcon()
     {
-        return $this->navigation;
+        return $this->icon;
     }
 
     /**
