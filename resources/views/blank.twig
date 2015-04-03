@@ -1,4 +1,4 @@
-{% extends "theme::layouts/default" %}
+{% extends template.layout ?: "theme::layouts/default" %}
 
 {% block content %}
     {{ content|raw }}

@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
+use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Container\Container;
 
 /**
@@ -15,6 +16,13 @@ class LoadFormHandler
 {
 
     /**
+     * The view template.
+     *
+     * @var ViewTemplate
+     */
+    protected $template;
+
+    /**
      * The IoC container.
      *
      * @var Container
@@ -22,12 +30,14 @@ class LoadFormHandler
     protected $container;
 
     /**
-     * Create a new LoadTableHandler instance.
+     * Create a new LoadFormHandler instance.
      *
-     * @param Container $container
+     * @param Container    $container
+     * @param ViewTemplate $template
      */
-    public function __construct(Container $container)
+    public function __construct(Container $container, ViewTemplate $template)
     {
+        $this->template  = $template;
         $this->container = $container;
     }
 
@@ -46,6 +56,10 @@ class LoadFormHandler
 
         if ($handler = $form->getOption('data')) {
             $this->container->call($handler, compact('form'));
+        }
+
+        if ($layout = $form->getOption('layout_view')) {
+            $this->template->put('layout', $layout);
         }
 
         $form->addData('form', $form);
