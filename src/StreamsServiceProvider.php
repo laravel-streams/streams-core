@@ -436,6 +436,8 @@ class StreamsServiceProvider extends ServiceProvider
                     return $redirector->to('installer');
                 }
             )->where(['url' => '[-a-z0-9/]+']);
+
+            return;
         }
 
         // Views
