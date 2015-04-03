@@ -5,9 +5,7 @@ $(document).ready(function () {
         itemPath: '> tbody',
         containerSelector: 'table',
         placeholder: '<tr class="placeholder"/>',
-        afterMove: function ($placeholder, container, $closestItemOrContainer) {
-            //$placeholder.text(Math.random());
-
+        afterMove: function ($placeholder) {
             $placeholder.closest('table').find('.dragged').detach().insertBefore($placeholder);
         }
     });

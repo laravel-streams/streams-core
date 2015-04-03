@@ -4,7 +4,7 @@
 
         {% if table.options.sortable %}
             <td>
-                {{ icon('fa fa-arrows') }}
+                {{ icon('fa fa-arrows handle') }}
                 <input type="hidden" name="{{ table.options.prefix }}order[]" value="{{ row.entry.id }}"/>
             </td>
         {% endif %}
