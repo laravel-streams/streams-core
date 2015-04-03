@@ -23,9 +23,12 @@ class ButtonRegistry
         'default' => [
             'type' => 'default'
         ],
+        /**
+         * Link Buttons
+         */
         'cancel'  => [
             'text' => 'streams::button.cancel',
-            'type' => 'default'
+            'type' => 'link'
         ],
         /**
          * Success Buttons
@@ -34,12 +37,12 @@ class ButtonRegistry
             'type' => 'success'
         ],
         'success' => [
-            'icon' => 'fa fa-check',
+            'icon' => 'check',
             'type' => 'success'
         ],
         'save'    => [
             'text' => 'streams::button.save',
-            'icon' => 'fa fa-save',
+            'icon' => 'save',
             'type' => 'success'
         ],
         'create'  => [
@@ -73,12 +76,12 @@ class ButtonRegistry
             'type' => 'warning'
         ],
         'warning' => [
-            'icon' => 'fa fa-warning',
+            'icon' => 'warning',
             'type' => 'warning'
         ],
         'edit'    => [
             'text' => 'streams::button.edit',
-            'icon' => 'icon write',
+            'icon' => 'pencil',
             'type' => 'warning'
         ],
         /**
@@ -88,13 +91,13 @@ class ButtonRegistry
             'type' => 'danger'
         ],
         'danger'  => [
-            'icon' => 'warning circle icon',
+            'icon' => 'fa fa-exclamation-circle',
             'type' => 'danger'
         ],
         'delete'  => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete@handle',
             'text'    => 'streams::button.delete',
-            'icon'    => 'icon trash',
+            'icon'    => 'trash',
             'type'    => 'danger'
         ],
         'reorder' => [
