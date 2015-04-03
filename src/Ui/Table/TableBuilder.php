@@ -64,6 +64,13 @@ class TableBuilder
     protected $actions = [];
 
     /**
+     * The table options.
+     *
+     * @var array
+     */
+    protected $options = [];
+
+    /**
      * The table object.
      *
      * @var Table
@@ -279,6 +286,55 @@ class TableBuilder
     public function getActions()
     {
         return $this->actions;
+    }
+
+    /**
+     * The the options.
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set the options.
+     *
+     * @param array $options
+     * @return $this
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Get an option value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getOption($key, $default = null)
+    {
+        return array_get($this->options, $key, $default);
+    }
+
+    /**
+     * Set an option value.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function setOption($key, $value)
+    {
+        array_set($this->options, $key, $value);
+
+        return $this;
     }
 
     /**
