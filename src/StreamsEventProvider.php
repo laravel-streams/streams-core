@@ -19,6 +19,9 @@ class StreamsEventProvider extends EventServiceProvider
      * @var array
      */
     protected $listen = [
+        'Anomaly\Streams\Platform\Application\Event\ApplicationHasLoaded'        => [
+            'Anomaly\Streams\Platform\Application\Listener\CheckIfInstallerExists'
+        ],
         'Anomaly\Streams\Platform\Model\Event\ModelWasDeleted'                   => [
             'Anomaly\Streams\Platform\Model\Listener\DeleteTranslations'
         ],

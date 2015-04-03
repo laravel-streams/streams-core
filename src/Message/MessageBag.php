@@ -88,6 +88,8 @@ class MessageBag
             array_push($messages, $message);
         }
 
+        $messages = array_unique($messages);
+
         $this->session->set($type, $messages);
     }
 }
