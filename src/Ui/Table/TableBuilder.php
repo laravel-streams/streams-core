@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Table\Command\BuildTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\LoadTable;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
@@ -20,6 +21,7 @@ class TableBuilder
 {
 
     use DispatchesCommands;
+    use FiresCallbacks;
 
     /**
      * The table model.
@@ -92,7 +94,9 @@ class TableBuilder
      */
     public function build()
     {
+        $this->fire('building');
         $this->dispatch(new BuildTable($this));
+        $this->fire('built');
 
         if (app('request')->isMethod('post')) {
             app('events')->fire(new TableWasPosted($this->table));

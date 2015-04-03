@@ -46,6 +46,12 @@ trait FiresCallbacks
      */
     public function fire($trigger, array $parameters = [])
     {
+        $method = camel_case('on_' . $trigger);
+
+        if (method_exists($this, $method)) {
+            call_user_func_array([$this, $method], $parameters);
+        }
+        
         if (!isset($this->callbacks[$trigger])) {
             return;
         }
@@ -59,12 +65,6 @@ trait FiresCallbacks
             if ($callback instanceof SelfHandling) {
                 call_user_func_array([$callback, 'handle'], $parameters);
             }
-        }
-
-        $method = camel_case('on_' . $trigger);
-
-        if (method_exists($this, $method)) {
-            call_user_func_array([$this, $method], $parameters);
         }
     }
 }

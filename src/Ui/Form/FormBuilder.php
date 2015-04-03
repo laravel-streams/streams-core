@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormIsBuilding;
@@ -21,6 +22,7 @@ class FormBuilder
 {
 
     use DispatchesCommands;
+    use FiresCallbacks;
 
     /**
      * The form model.
@@ -99,7 +101,7 @@ class FormBuilder
             $this->entry = $entry;
         }
 
-        $this->form->fire('building', ['form' => $this->form]);
+        $this->fire('building');
         app('events')->fire(new FormIsBuilding($this->form));
 
         $this->dispatch(new BuildForm($this));
