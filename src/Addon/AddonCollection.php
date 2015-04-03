@@ -123,4 +123,22 @@ class AddonCollection extends Collection
 
         return self::make($addons);
     }
+
+    /**
+     * Return a collection of addons if valid.
+     *
+     * @param $method
+     * @param $arguments
+     * @return AddonCollection
+     */
+    function __call($method, $arguments)
+    {
+        $type = str_singular($method);
+
+        if (in_array($type, config('streams.addon_types'))) {
+            return app("{$type}.collection");
+        }
+
+        return call_user_func_array([$this, $method], $arguments);
+    }
 }
