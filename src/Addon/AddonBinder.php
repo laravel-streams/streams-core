@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
-use Illuminate\Auth\Guard;
 use Illuminate\Container\Container;
 
 /**
@@ -15,13 +14,6 @@ use Illuminate\Container\Container;
  */
 class AddonBinder
 {
-
-    /**
-     * The auth guard.
-     *
-     * @var Guard
-     */
-    protected $auth;
 
     /**
      * The addon provider.
@@ -61,7 +53,6 @@ class AddonBinder
     /**
      * Create a new AddonBinder instance.
      *
-     * @param Guard              $auth
      * @param Container          $container
      * @param AddonProvider      $provider
      * @param AddonIntegrator    $integrator
@@ -69,14 +60,12 @@ class AddonBinder
      * @param AddonConfiguration $configuration
      */
     public function __construct(
-        Guard $auth,
         Container $container,
         AddonProvider $provider,
         AddonIntegrator $integrator,
         AddonDispatcher $dispatcher,
         AddonConfiguration $configuration
     ) {
-        $this->auth          = $auth;
         $this->provider      = $provider;
         $this->container     = $container;
         $this->dispatcher    = $dispatcher;
@@ -112,24 +101,6 @@ class AddonBinder
             $addon
                 ->setInstalled(in_array($addon->getNamespace(), $installed))
                 ->setEnabled(in_array($addon->getNamespace(), $enabled));
-        }
-
-        /**
-         * Don't process disabled modules unless we're
-         * not installed and it's the installer module.
-         */
-        if (
-            ($addon instanceof Module && !$addon->isEnabled()) &&
-            (env('INSTALLED') == ($addon->getSlug() == 'installer'))
-        ) {
-            return;
-        }
-
-        /**
-         * Don't process disabled extensions.
-         */
-        if ($addon instanceof Extension && !$addon->isEnabled()) {
-            return;
         }
 
         $this->container->instance(get_class($addon), $addon);
