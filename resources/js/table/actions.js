@@ -7,7 +7,7 @@ $(document).ready(function () {
     });
 
     // Only allow actions if rows are selected.
-    $('table').find('.ui.checkbox').on('change', function () {
+    $('table').find(':checkbox').on('change', function () {
 
         if ($(this).closest('table').find(':checkbox:checked').length) {
             $(this).closest('table').find('tfoot').find('button:not([data-ignore])').removeClass('disabled');
