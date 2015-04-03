@@ -1,13 +1,13 @@
 {% if not table.views.empty() %}
-    <div class="ui horizontal segment views">
-
-        <div class="ui secondary menu" style="margin-top: 0;">
+    <nav id="views" class="navbar navbar-default">
+        <ul class="nav navbar-nav">
             {% for view in table.views %}
-                <a href="{{ view.getUrl() }}" class="item {{ view.class }} {{ view.isActive() ? 'active' }}">
-                    {{ trans(view.getText()) }}
-                </a>
+                <li class="{{ view.isActive() ? 'active' }}">
+                    <a href="{{ view.getUrl() }}" class="{{ view.class }}">
+                        {{ trans(view.getText()) }}
+                    </a>
+                </li>
             {% endfor %}
-        </div>
-
-    </div>
+        </ul>
+    </nav>
 {% endif %}

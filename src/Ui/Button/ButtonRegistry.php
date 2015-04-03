@@ -18,89 +18,89 @@ class ButtonRegistry
      */
     protected $buttons = [
         /**
-         * Basic Buttons
+         * Default Buttons
          */
         'default' => [
-            'type' => 'basic'
+            'type' => 'default'
         ],
         'cancel'  => [
             'text' => 'streams::button.cancel',
-            'type' => 'basic'
+            'type' => 'default'
         ],
         /**
-         * Green Buttons
+         * Success Buttons
          */
         'green'   => [
-            'type' => 'green'
+            'type' => 'success'
         ],
         'success' => [
-            'icon' => 'icon checkmark',
-            'type' => 'green'
+            'icon' => 'fa fa-check',
+            'type' => 'success'
         ],
         'save'    => [
             'text' => 'streams::button.save',
-            'icon' => 'icon save',
-            'type' => 'green'
+            'icon' => 'fa fa-save',
+            'type' => 'success'
         ],
         'create'  => [
             'text' => 'streams::button.create',
-            'icon' => 'icon asterisk',
-            'type' => 'green'
+            'icon' => 'fa fa-asterisk',
+            'type' => 'success'
         ],
         'new'     => [
-            'icon' => 'icon plus',
-            'type' => 'green'
+            'icon' => 'fa fa-plus',
+            'type' => 'success'
         ],
         /**
-         * Blue Buttons
+         * Info Buttons
          */
         'blue'    => [
-            'type' => 'blue'
+            'type' => 'info'
         ],
         'info'    => [
-            'icon' => 'icon info',
-            'type' => 'blue'
+            'icon' => 'fa fa-info',
+            'type' => 'info'
         ],
         'view'    => [
             'text' => 'streams::button.view',
-            'icon' => 'icon unhide',
-            'type' => 'blue'
+            'icon' => 'fa fa-eye',
+            'type' => 'info'
         ],
         /**
-         * Orange type buttons.
+         * Warning Buttons
          */
         'orange'  => [
-            'type' => 'orange'
+            'type' => 'warning'
         ],
         'warning' => [
-            'icon' => 'warning sign icon',
-            'type' => 'orange'
+            'icon' => 'fa fa-warning',
+            'type' => 'warning'
         ],
         'edit'    => [
             'text' => 'streams::button.edit',
             'icon' => 'icon write',
-            'type' => 'orange'
+            'type' => 'warning'
         ],
         /**
-         * Red Buttons
+         * Danger Buttons
          */
         'red'     => [
-            'type' => 'red'
+            'type' => 'danger'
         ],
         'danger'  => [
             'icon' => 'warning circle icon',
-            'type' => 'red'
+            'type' => 'danger'
         ],
         'delete'  => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete@handle',
             'text'    => 'streams::button.delete',
             'icon'    => 'icon trash',
-            'type'    => 'red'
+            'type'    => 'danger'
         ],
         'reorder' => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder@handle',
             'text'    => 'streams::button.reorder',
-            'type'    => 'red'
+            'type'    => 'danger'
         ]
     ];
 

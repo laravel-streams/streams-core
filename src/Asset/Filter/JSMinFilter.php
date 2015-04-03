@@ -20,6 +20,6 @@ class JSMinFilter extends \Assetic\Filter\JSMinFilter
      */
     public function filterDump(AssetInterface $asset)
     {
-        $asset->setContent(app('Anomaly\Streams\Platform\Support\String')->render($asset->getContent()));
+        $asset->setContent(/*app('Anomaly\Streams\Platform\Support\String')->render($asset->getContent())*/$asset->getContent());
     }
 }

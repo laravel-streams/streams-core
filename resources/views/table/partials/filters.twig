@@ -1,23 +1,19 @@
 {% if not table.filters.empty() %}
-    <div class="ui basic segment filters">
-        <form class="ui form" method="get">
-            <input type="hidden" name="{{ table.options.prefix }}view" value="{{ table.views.active().getSlug() }}">
 
-            <div class="fields">
-                {% for filter in table.filters %}
-                    <div class="field four column">
-                        {{ filter.input|raw }}
-                    </div>
-                {% endfor %}
+    <form method="get" id="filters" class="form-inline">
+        <input type="hidden" name="{{ table.options.prefix }}view" value="{{ table.views.active().getSlug() }}">
 
-                <div class="field four column">
-                    <button type="submit" class="ui button green">
-                        {{ icon('filter icon') }}
-                        {{ trans('streams::button.filter') }}
-                    </button>
-                    <a href="{{ url_current() }}" class="ui basic button">{{ trans('streams::button.clear') }}</a>
-                </div>
+        {% for filter in table.filters %}
+            <div class="form-group">
+                {{ filter.input|raw }}
             </div>
-        </form>
-    </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-success">
+            {{ icon('fa fa-filter') }}
+            {{ trans('streams::button.filter') }}
+        </button>
+        <a href="{{ url_current() }}" class="btn btn-default">{{ trans('streams::button.clear') }}</a>
+    </form>
+
 {% endif %}

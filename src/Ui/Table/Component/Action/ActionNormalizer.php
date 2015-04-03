@@ -85,7 +85,7 @@ class ActionNormalizer
             /**
              * Set defaults as expected for actions.
              */
-            $action['size']     = 'sm';
+            $action['size']     = array_get($action, 'small', 'sm');
             $action['disabled'] = array_get($action, 'disabled', array_get($action, 'toggle', true));
 
             $action['attributes']['name']  = $prefix . 'action';

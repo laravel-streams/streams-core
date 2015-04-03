@@ -86,8 +86,6 @@ class ButtonBuilder
 
             $button = $this->factory->make($button);
 
-            $button->setSize('small');
-
             $buttons->push($button);
         }
 

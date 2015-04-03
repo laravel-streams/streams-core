@@ -63,6 +63,11 @@ class ButtonNormalizer
             ) {
                 $button['attributes']['href'] = url($button['attributes']['href']);
             }
+
+            /**
+             * Use small buttons for tables.
+             */
+            $button['size'] = array_get($button, 'size', 'sm');
         }
 
         $builder->setButtons($buttons);

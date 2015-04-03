@@ -6,28 +6,32 @@
     {{ asset_add("scripts.js", "streams::js/table/sortable.js") }}
 {% endif %}
 
-{% include "streams::table/partials/filters" %}
-{% include "streams::table/partials/views" %}
+<div class="container-fluid">
 
-{% if not table.rows.empty() %}
-    <div class="ui horizontal segment basic">
-        {{ form_open({ 'url': url_full() }) }}
-        <table
-                class="{{ table.options.class ?: 'ui table tablet stackable' }}"
-                {{ table.options.sortable ? 'data-sortable' }}
-                {{ html_attributes(table.options.attributes) }}>
+    {% include "streams::table/partials/views" %}
+    {% include "streams::table/partials/filters" %}
 
-            {% include "streams::table/partials/header" %}
-            {% include "streams::table/partials/body" %}
-            {% include "streams::table/partials/footer" %}
+    {% if not table.rows.empty() %}
+        <div class="panel">
 
-        </table>
-        {{ form_close() }}
-    </div>
-{% else %}
-    <div class="ui basic segment">
+            {{ form_open({ 'url': url_full() }) }}
+            <table
+                    class="{{ table.options.class ?: 'table striped' }}"
+                    {{ table.options.sortable ? 'data-sortable' }}
+                    {{ html_attributes(table.options.attributes) }}>
+
+                {% include "streams::table/partials/header" %}
+                {% include "streams::table/partials/body" %}
+                {% include "streams::table/partials/footer" %}
+
+            </table>
+            {{ form_close() }}
+
+        </div>
+    {% else %}
         <div class="ui blue inverted segment">
             <p>{{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}</p>
         </div>
-    </div>
-{% endif %}
+    {% endif %}
+
+</div>

@@ -3,7 +3,8 @@
 
 {% block content %}
 
-    <div class="ui horizontal segment">
+    <div class="container-fluid">
+
         {{ form_open({'class': 'ui form'}) }}
 
         {% include "streams::form/partials/toolbar" %}
@@ -11,6 +12,7 @@
         {% include "streams::form/partials/controls" %}
 
         {{ form_close() }}
+
     </div>
 
 {% endblock %}

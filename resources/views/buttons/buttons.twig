@@ -5,7 +5,7 @@
 
         {# Render normal buttons as an anchor #}
         {% if not button.attributes.name %}
-            <a class="ui button {{ button.size }} {{ button.type }} {{ button.disabled ? 'disabled' }}" {{ html_attributes(button.attributes) }}>
+            <a class="btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }}" {{ html_attributes(button.attributes) }}>
                 {{ button.icon ? icon(button.icon)|raw }}
                 {{ trans(button.text) }}
             </a>
@@ -13,7 +13,7 @@
 
         {# Render normal buttons as a button #}
         {% if button.attributes.name %}
-            <button class="ui button {{ button.size }} {{ button.type }} {{ button.disabled ? 'disabled' }}" {{ html_attributes(button.attributes) }}>
+            <button class="btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }}" {{ html_attributes(button.attributes) }}>
                 {{ button.icon ? icon(button.icon)|raw }}
                 {{ trans(button.text) }}
             </button>
@@ -27,7 +27,7 @@
         <div class="ui floating dropdown">
 
             {# Render dropdown toggles as an anchor #}
-            <div class="ui button {{ button.size }} {{ button.type }} {{ button.disabled ? 'disabled' }}" {{ html_attributes(button.attributes) }}>
+            <div class="btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }}" {{ html_attributes(button.attributes) }}>
                 {{ button.icon ? icon(button.icon)|raw }}
                 {{ trans(button.text) }}
             </div>

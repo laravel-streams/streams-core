@@ -4,16 +4,14 @@
 
         {% if table.options.sortable %}
             <td>
-                <i class="icon move handle" style="cursor: move;"></i>
+                {{ icon('fa fa-arrows') }}
                 <input type="hidden" name="{{ table.options.prefix }}order[]" value="{{ row.entry.id }}"/>
             </td>
         {% endif %}
 
         {% if not table.actions.empty() %}
             <td>
-                <div class="ui checkbox">
-                    <input type="checkbox" name="{{ options.prefix }}id[]" value="{{ row.entry.id }}"/>
-                </div>
+                <input type="checkbox" data-toggle="checkbox" name="{{ options.prefix }}id[]" value="{{ row.entry.id }}"/>
             </td>
         {% endif %}
 
@@ -23,7 +21,7 @@
             </td>
         {% endfor %}
 
-        <td class="right aligned">
+        <td class="text-right">
             {{ buttons(row.buttons)|raw }}
         </td>
 

@@ -1,16 +1,23 @@
 <div class="{{ section.class }}" {{ html_attributes(section.attributes) }}>
-    <div class="ui top attached tabular menu">
+
+    <ul class="nav nav-tabs">
         {% for slug, tab in section.tabs %}
-            <a class="{{ loop.first ? 'active' }} item" data-tab="{{ slug }}">{{ trans(tab.title) }}</a>
+            <li class="{{ loop.first ? 'active' }}">
+                <a href="#tab-{{ slug }}" data-toggle="tab">{{ trans(tab.title) }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="tab-content">
+        {% for slug, tab in section.tabs %}
+            <div class="tab-pane {{ loop.first ? 'active' }}" id="tab-{{ slug }}">
+                {% for field in tab.fields %}
+                    {% for field in form.fields.fields(field) %}
+                        {{ field.render|raw }}
+                    {% endfor %}
+                {% endfor %}
+            </div>
         {% endfor %}
     </div>
-    {% for slug, tab in section.tabs %}
-        <div class="ui bottom attached {{ loop.first ? 'active' }} tab segment" data-tab="{{ slug }}">
-            {% for field in tab.fields %}
-                {% for field in form.fields.fields(field) %}
-                    {{ field.render|raw }}
-                {% endfor %}
-            {% endfor %}
-        </div>
-    {% endfor %}
+
 </div>

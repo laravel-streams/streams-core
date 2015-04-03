@@ -1,15 +1,19 @@
-<section class="{{ section.class ?: 'ui segment' }}" {{ html_attributes(section.attributes) }}>
+<div class="{{ section.class ?: 'panel' }}" {{ html_attributes(section.attributes) }}>
 
     {% if section.title %}
-        <h2 class="ui dividing header">
-            {{ trans(section.title) }}
-        </h2>
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                {{ trans(section.title) }}
+            </h2>
+        </div>
     {% endif %}
 
-    {% for field in section.fields %}
-        {% for field in form.fields.fields(field) %}
-            {{ field.render|raw }}
+    <div class="panel-body">
+        {% for field in section.fields %}
+            {% for field in form.fields.fields(field) %}
+                {{ field.render|raw }}
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
+    </div>
 
-</section>
+</div>

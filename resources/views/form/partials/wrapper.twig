@@ -1,5 +1,5 @@
 <div
-        class="field {{ field_type.required ? 'required' }} {{ field_type.hidden ? 'hidden' }}"
+        class="form-group {{ field_type.required ? 'required' }} {{ field_type.hidden ? 'hidden' }}"
         {% if field_type.locale %}
             data-locale="{{ field_type.locale }}"
         {% endif %}
@@ -7,17 +7,17 @@
         >
 
     <label>
-        {% if field_type.locale %}
-            <div class="ui pointing right mini label">
-                {{ config_get('streams.enabled_locales.' ~ field_type.locale) }}
-            </div>
-        {% endif %}
-
         {{ trans(field_type.label)|raw }}
+
+        {% if field_type.locale %}
+            <span class="label label-mini label-default">
+                {{ config_get('streams.enabled_locales.' ~ field_type.locale) }}
+            </span>
+        {% endif %}
     </label>
 
     {% if field_type.instructions %}
-        <div class="instructions">{{ trans(field_type.instructions)|raw }}</div>
+        <p class="help-block">{{ trans(field_type.instructions)|raw }}</p>
     {% endif %}
 
     {{ field_type.renderInput()|raw }}
