@@ -428,7 +428,7 @@ class StreamsServiceProvider extends ServiceProvider
          * If we don't have an .env file we need to head
          * to the installer (unless that's where we're at).
          */
-        if (env('INSTALLED', null) === null && $this->app->make('request')->path() !== 'installer') {
+        if (!env('INSTALLED') && $this->app->make('request')->path() !== 'installer') {
 
             $this->app->make('router')->any(
                 '{url?}',

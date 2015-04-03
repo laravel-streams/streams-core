@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Extension\Extension;
-use Anomaly\Streams\Platform\Addon\Module\Module;
 use Illuminate\Container\Container;
 
 /**
@@ -39,14 +37,6 @@ class AddonProvider
      */
     public function register(Addon $addon)
     {
-        if ($addon instanceof Module && !$addon->isEnabled() && $addon->getSlug() !== 'installer') {
-            return;
-        }
-
-        if ($addon instanceof Extension && !$addon->isEnabled()) {
-            return;
-        }
-
         $provider = get_class($addon) . 'ServiceProvider';
 
         if (class_exists($provider)) {

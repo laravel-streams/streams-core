@@ -119,20 +119,4 @@ class Extension extends Addon
     {
         return $this->active;
     }
-
-    /**
-     * Return a new installer instance.
-     *
-     * @return ExtensionInstaller
-     */
-    public function newInstaller()
-    {
-        $installer = get_class($this) . 'Installer';
-
-        if (!class_exists($installer)) {
-            $installer = 'Anomaly\Streams\Platform\Addon\Extension\ExtensionInstaller';
-        }
-
-        return app()->make($installer, [$this]);
-    }
 }
