@@ -115,7 +115,7 @@ class ActionExecutor
         /**
          * Get the IDs of the selected rows.
          */
-        $selected = $this->request->get($options->get('prefix') . 'id');
+        $selected = $this->request->get($options->get('prefix') . 'id', []);
 
         /**
          * If the handler is a callable string or Closure
