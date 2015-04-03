@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Illuminate\Container\Container;
-use Illuminate\Http\Request;
 
 /**
  * Class AddonProvider
@@ -17,13 +16,6 @@ class AddonProvider
 {
 
     /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
      * The application container.
      *
      * @var Container
@@ -33,12 +25,10 @@ class AddonProvider
     /**
      * Create a new AddonProvider instance.
      *
-     * @param Request   $request
      * @param Container $container
      */
-    public function __construct(Request $request, Container $container)
+    public function __construct(Container $container)
     {
-        $this->request   = $request;
         $this->container = $container;
     }
 
@@ -49,15 +39,8 @@ class AddonProvider
      */
     public function register(Addon $addon)
     {
-        if ($addon instanceof Module) {
-
-            /**
-             * If we're not installed then let ONLY
-             * the installer module through.
-             */
-            if (!env('INSTALLED') && $addon->getSlug() !== 'installer') {
-                return;
-            }
+        if ($addon instanceof Module && !$addon->isEnabled() && $addon->getSlug() !== 'installer') {
+            return;
         }
 
         if ($addon instanceof Extension && !$addon->isEnabled()) {
