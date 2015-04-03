@@ -49,23 +49,17 @@ class AddonProvider
      */
     public function register(Addon $addon)
     {
-        /**
-         * Don't process disabled modules unless we're
-         * not installed and it's the installer module.
-         */
-        if (
-            ($addon instanceof Module && !$addon->isEnabled()) &&
-            (
-                (($this->request->segment(1) == 'installer') == ($addon->getSlug() !== 'installer')) ||
-                (env('INSTALLED') == ($addon->getSlug() == 'installer'))
-            )
-        ) {
-            return;
+        if ($addon instanceof Module) {
+
+            /**
+             * If we're not installed then let ONLY
+             * the installer module through.
+             */
+            if (!env('INSTALLED') && $addon->getSlug() !== 'installer') {
+                return;
+            }
         }
 
-        /**
-         * Don't process disabled extensions.
-         */
         if ($addon instanceof Extension && !$addon->isEnabled()) {
             return;
         }
