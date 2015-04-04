@@ -22,8 +22,9 @@ class AddonCollection extends Collection
     {
         $core = [];
 
+        /* @var Addon $item */
         foreach ($this->items as $item) {
-            if ($item instanceof Addon && $item->isCore()) {
+            if ($item->isCore()) {
                 $core[] = $item;
             }
         }
@@ -38,9 +39,8 @@ class AddonCollection extends Collection
      */
     public function push($addon)
     {
-        if ($addon instanceof Addon) {
-            $this->items[$addon->getSlug()] = $addon;
-        }
+        /* @var Addon $addon */
+        $this->items[$addon->getNamespace()] = $addon;
     }
 
     /**
@@ -52,8 +52,9 @@ class AddonCollection extends Collection
      */
     public function findBySlug($slug)
     {
+        /* @var Addon $item */
         foreach ($this->items as $item) {
-            if ($item instanceof Addon && $item->getSlug() == $slug) {
+            if ($item->getSlug() == $slug) {
                 return $item;
             }
         }
@@ -72,10 +73,9 @@ class AddonCollection extends Collection
     {
         $ordered = [];
 
+        /* @var Addon $item */
         foreach ($this->items as $item) {
-            if ($item instanceof Addon) {
-                $ordered[$item->getSlug()] = $item;
-            }
+            $ordered[$item->getNamespace()] = $item;
         }
 
         if ($direction == 'asc') {
@@ -85,27 +85,6 @@ class AddonCollection extends Collection
         }
 
         return self::make($ordered);
-    }
-
-    /**
-     * Return only extensions with config
-     * matching the given pattern.
-     *
-     * @param $pattern
-     *
-     * @return AddonCollection
-     */
-    public function withConfig($pattern = '*')
-    {
-        $addons = [];
-
-        foreach ($this->items as $item) {
-            if ($item instanceof Addon && config($item->getNamespace($pattern))) {
-                $addons[$item->getNamespace()] = $item;
-            }
-        }
-
-        return self::make($addons);
     }
 
     /**
