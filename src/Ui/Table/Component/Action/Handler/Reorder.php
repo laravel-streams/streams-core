@@ -30,7 +30,7 @@ class Reorder extends ActionHandler
         $model = $table->getModel();
 
         /* @var EloquentModel $entry */
-        foreach ($request->get($table->getOption('prefix') . 'id', []) as $k => $id) {
+        foreach ($request->get($table->getOption('prefix') . 'order', []) as $k => $id) {
             if ($entry = $model->find($id)) {
                 if (($entry->sort_order = $k + 1) && $entry->save()) {
                     $count++;
