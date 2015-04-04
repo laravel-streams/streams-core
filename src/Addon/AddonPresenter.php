@@ -14,6 +14,14 @@ class AddonPresenter extends Presenter
 {
 
     /**
+     * The resource object.
+     * This is for IDE hinting.
+     *
+     * @var Addon
+     */
+    protected $object;
+
+    /**
      * Return the translated addon name.
      *
      * @return string
@@ -31,5 +39,28 @@ class AddonPresenter extends Presenter
     public function description()
     {
         return trans($this->object->getDescription());
+    }
+
+    /**
+     * Get the entry's view link.
+     *
+     * @return string
+     */
+    public function presentViewLink()
+    {
+        return app('html')->link(
+            implode(
+                '/',
+                array_filter(
+                    [
+                        'admin',
+                        'addons',
+                        $this->object->getType(),
+                        $this->object->getNamespace()
+                    ]
+                )
+            ),
+            trans($this->object->getName())
+        );
     }
 }

@@ -51,7 +51,7 @@ trait FiresCallbacks
         if (method_exists($this, $method)) {
             call_user_func_array([$this, $method], $parameters);
         }
-        
+
         if (!isset($this->callbacks[$trigger])) {
             return;
         }
