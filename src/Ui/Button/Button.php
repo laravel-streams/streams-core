@@ -35,6 +35,13 @@ class Button implements ButtonInterface
     protected $icon = null;
 
     /**
+     * The button class.
+     *
+     * @var null|string
+     */
+    protected $class = null;
+
+    /**
      * The button type.
      *
      * @var null|string
@@ -176,6 +183,29 @@ class Button implements ButtonInterface
     public function getIcon()
     {
         return $this->icon;
+    }
+
+    /**
+     * Get the class.
+     *
+     * @return null|string
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * Set the class.
+     *
+     * @param $class
+     * @return $this
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+
+        return $this;
     }
 
     /**

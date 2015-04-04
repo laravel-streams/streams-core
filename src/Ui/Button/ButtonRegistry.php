@@ -99,11 +99,6 @@ class ButtonRegistry
             'text'    => 'streams::button.delete',
             'icon'    => 'trash',
             'type'    => 'danger'
-        ],
-        'reorder' => [
-            'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder@handle',
-            'text'    => 'streams::button.reorder',
-            'type'    => 'danger'
         ]
     ];
 
