@@ -104,6 +104,18 @@ class Addon implements PresentableInterface
     }
 
     /**
+     * Return whether an addon has
+     * config matching the key.
+     *
+     * @param string $key
+     * @return boolean
+     */
+    public function hasConfig($key = '*')
+    {
+        return (config($this->getNamespace($key)));
+    }
+
+    /**
      * Get the composer json contents.
      *
      * @return mixed|null
