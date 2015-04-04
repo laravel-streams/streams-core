@@ -115,7 +115,7 @@ class AddonManager
             $extensions = [];
         }
 
-        return $modules + $extensions;
+        return array_merge($modules, $extensions);
     }
 
     /**
@@ -133,6 +133,6 @@ class AddonManager
             $extensions = [];
         }
 
-        return $modules + $extensions;
+        return array_merge($modules, $extensions);
     }
 }

@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Support\Authorizer;
 
 /**
@@ -58,7 +59,9 @@ class FormAuthorizer
 
             $entry = $builder->getFormEntry();
 
-            $permission = $module->getNamespace($stream->getSlug() . '.' . ($entry->getId() ? 'edit' : 'create'));
+            if ($entry instanceof EntryInterface) {
+                $permission = $module->getNamespace($stream->getSlug() . '.' . ($entry->getId() ? 'edit' : 'create'));
+            }
         }
 
         $this->authorizer->authorize($permission);
