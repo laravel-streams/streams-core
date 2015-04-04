@@ -11,7 +11,9 @@
 
         {% if not table.actions.empty() %}
             <td>
-                <input type="checkbox" data-toggle="checkbox" name="{{ options.prefix }}id[]" value="{{ row.entry.id }}"/>
+                <label class="checkbox">
+                    <input type="checkbox" name="{{ options.prefix }}id[]" value="{{ row.entry.id }}"/>
+                </label>
             </td>
         {% endif %}
 
