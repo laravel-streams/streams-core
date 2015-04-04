@@ -27,7 +27,7 @@
         <div class="ui floating dropdown">
 
             {# Render dropdown toggles as an anchor #}
-            <div class="btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }}" {{ html_attributes(button.attributes) }}>
+            <div class="btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }} {{ button.class }}" {{ html_attributes(button.attributes) }}>
                 {{ button.icon ? icon(button.icon)|raw }}
                 {{ trans(button.text) }}
             </div>
