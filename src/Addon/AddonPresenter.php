@@ -55,7 +55,7 @@ class AddonPresenter extends Presenter
                     [
                         'admin',
                         'addons',
-                        $this->object->getType(),
+                        str_plural($this->object->getType()),
                         $this->object->getNamespace()
                     ]
                 )

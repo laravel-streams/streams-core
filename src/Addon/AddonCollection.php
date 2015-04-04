@@ -125,7 +125,7 @@ class AddonCollection extends Collection
     }
 
     /**
-     * Return a collection of addons if valid.
+     * Call a method.
      *
      * @param $method
      * @param $arguments
@@ -140,5 +140,22 @@ class AddonCollection extends Collection
         }
 
         return call_user_func_array([$this, $method], $arguments);
+    }
+
+    /**
+     * Get a property.
+     *
+     * @param $name
+     * @return AddonCollection
+     */
+    function __get($name)
+    {
+        $type = str_singular($name);
+
+        if (in_array($type, config('streams.addon_types'))) {
+            return app("{$type}.collection");
+        }
+
+        return $this->{$name};
     }
 }
