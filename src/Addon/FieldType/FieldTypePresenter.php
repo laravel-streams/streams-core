@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Support\Presenter;
+use Anomaly\Streams\Platform\Addon\AddonPresenter;
 
 /**
  * Class FieldTypePresenter
@@ -10,7 +10,7 @@ use Anomaly\Streams\Platform\Support\Presenter;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\FieldType
  */
-class FieldTypePresenter extends Presenter
+class FieldTypePresenter extends AddonPresenter
 {
 
     /**
