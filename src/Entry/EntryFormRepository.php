@@ -60,7 +60,7 @@ class EntryFormRepository implements FormRepositoryInterface
     {
         $entry  = $form->getEntry();
         $fields = $form->getFields();
-
+dd($form->getValues());
         /**
          * Save default translation input.
          *
