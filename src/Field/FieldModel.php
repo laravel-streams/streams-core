@@ -134,7 +134,7 @@ class FieldModel extends EloquentModel implements FieldInterface
         $label  = $this->name;
         $config = $this->config;
 
-        return $this->dispatch(new BuildFieldType(compact('type', 'field', 'label', 'config', 'locale')));
+        return $this->dispatch(new BuildFieldType(compact('type', 'field', 'label', 'config')));
     }
 
     /**

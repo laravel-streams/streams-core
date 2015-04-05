@@ -487,6 +487,11 @@ class Asset
         $key = [];
 
         foreach ($this->collections[$collection] as $file => $filters) {
+
+            if ($debug = array_search('debug', $filters)) {
+                unset($filters[$debug]);
+            }
+
             $key[str_replace(base_path(), '', $file)] = $filters;
         }
 
