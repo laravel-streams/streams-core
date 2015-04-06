@@ -46,10 +46,10 @@ class SetTableOptions implements SelfHandling
 
         $table = $this->builder->getTable();
 
-        $table->setOptions(
-            new Collection(
-                $evaluator->evaluate($resolver->resolve($this->builder->getOptions(), $arguments), $arguments)
-            )
-        );
+        $options = $evaluator->evaluate($resolver->resolve($this->builder->getOptions(), $arguments), $arguments);
+
+        foreach ($options as $key => $value) {
+            $table->setOption($key, $value);
+        }
     }
 }

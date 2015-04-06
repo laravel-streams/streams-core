@@ -143,13 +143,23 @@ class Addon implements PresentableInterface
     }
 
     /**
-     * Get the path appended by the provided path.
+     * Get the addon path.
      *
      * @return string
      */
     public function getPath($path = null)
     {
         return $this->path . ($path ? '/' . $path : $path);
+    }
+
+    /**
+     * Return the app path.
+     *
+     * @param null $path
+     */
+    public function getAppPath($path = null)
+    {
+        return str_replace(base_path(), '', $this->getPath($path));
     }
 
     /**

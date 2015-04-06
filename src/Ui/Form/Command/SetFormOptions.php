@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Support\Collection;
 
 class SetFormOptions implements SelfHandling
 {
@@ -38,10 +37,10 @@ class SetFormOptions implements SelfHandling
 
         $form = $this->builder->getForm();
 
-        $form->setOptions(
-            new Collection(
-                $evaluator->evaluate($resolver->resolve($this->builder->getOptions(), $arguments), $arguments)
-            )
-        );
+        $options = $evaluator->evaluate($resolver->resolve($this->builder->getOptions(), $arguments), $arguments);
+
+        foreach ($options as $key => $value) {
+            $form->setOption($key, $value);
+        }
     }
 }
