@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TablePagination;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class LoadTablePagination
@@ -10,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Command
  */
-class LoadTablePagination
+class LoadTablePagination implements SelfHandling
 {
 
     /**
@@ -31,12 +33,16 @@ class LoadTablePagination
     }
 
     /**
-     * Get the table object.
+     * Handle the command.
      *
-     * @return Table
+     * @param TablePagination $pagination
      */
-    public function getTable()
+    public function handle(TablePagination $pagination)
     {
-        return $this->table;
+        $data = $this->table->getData();
+
+        $pagination = $pagination->make($this->table);
+
+        $data->put('pagination', $pagination);
     }
 }

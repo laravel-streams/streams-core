@@ -28,7 +28,7 @@ class ExecuteAction implements SelfHandling
 
     /**
      * Handle the command.
-     * 
+     *
      * @param Request         $request
      * @param ActionExecutor  $executor
      * @param ResponseFactory $response
