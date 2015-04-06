@@ -93,9 +93,6 @@ class StreamsEventProvider extends EventServiceProvider
             'Anomaly\Streams\Platform\Ui\Table\Component\View\Listener\ApplyView',
             'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\FilterResults',
             'Anomaly\Streams\Platform\Ui\Table\Component\Column\Listener\OrderResults'
-        ],
-        'Anomaly\Streams\Platform\Ui\Table\Event\TableWasPosted'                 => [
-            'Anomaly\Streams\Platform\Ui\Table\Component\Action\Listener\ExecuteAction'
         ]
     ];
 

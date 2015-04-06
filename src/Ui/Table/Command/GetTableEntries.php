@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class GetTableEntries
@@ -10,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Command
  */
-class GetTableEntries
+class GetTableEntries implements SelfHandling
 {
 
     /**
@@ -31,12 +33,45 @@ class GetTableEntries
     }
 
     /**
-     * Get the table builder.
-     *
-     * @return TableBuilder
+     * Handle the command.
      */
-    public function getBuilder()
+    public function handle()
     {
-        return $this->builder;
+        $table   = $this->builder->getTable();
+        $model   = $this->builder->getModel();
+        $entries = $table->getEntries();
+
+        /**
+         * If the builder has an entries handler
+         * then call it through the container and
+         * let it load the entries itself.
+         */
+        if ($handler = $table->getOption('entries')) {
+            app()->call($handler, compact('table'));
+        }
+
+        /**
+         * If the entries have already been set on the
+         * table then return. Nothing to do here.
+         *
+         * If the model is not set then they need
+         * to load the table entries themselves.
+         */
+        if (!$entries->isEmpty() || !$model) {
+            return;
+        }
+
+        /**
+         * Resolve the model out of the container.
+         */
+        $repository = $table->getRepository();
+
+        /**
+         * If the repository is an instance of
+         * TableRepositoryInterface use it.
+         */
+        if ($repository instanceof TableRepositoryInterface) {
+            $table->setEntries($repository->get($this->builder));
+        }
     }
 }

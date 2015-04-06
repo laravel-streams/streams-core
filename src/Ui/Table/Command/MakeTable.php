@@ -1,22 +1,18 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\ExecuteAction;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
- * Class PostTable
+ * Class MakeTable
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Command
  */
-class PostTable implements SelfHandling
+class MakeTable implements SelfHandling
 {
-
-    use DispatchesCommands;
 
     /**
      * The table builder.
@@ -26,7 +22,7 @@ class PostTable implements SelfHandling
     protected $builder;
 
     /**
-     * Create a new PostTable instance.
+     * Create a new MakeTable instance.
      *
      * @param TableBuilder $builder
      */
@@ -40,6 +36,14 @@ class PostTable implements SelfHandling
      */
     public function handle()
     {
-        $this->dispatch(new ExecuteAction($this->builder));
+        $table = $this->builder->getTable();
+
+        $options = $table->getOptions();
+        $data    = $table->getData();
+
+        $content = view($options->get('table_view', 'streams::table/table'), $data);
+
+        $table->setContent($content);
+        $table->addData('content', $content);
     }
 }

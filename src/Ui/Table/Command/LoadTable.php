@@ -1,12 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Event\TableIsLoading;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableWasLoaded;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
@@ -45,11 +42,8 @@ class LoadTable implements SelfHandling
      * @param Container    $container
      * @param ViewTemplate $template
      */
-    public function handle(Container $container, ViewTemplate $template, Dispatcher $events)
+    public function handle(Container $container, ViewTemplate $template)
     {
-        $this->builder->fire('loading');
-        $events->fire(new TableIsLoading($this->builder));
-
         $table = $this->builder->getTable();
 
         $table->addData('table', $table);
@@ -63,8 +57,5 @@ class LoadTable implements SelfHandling
         }
 
         $this->dispatch(new LoadTablePagination($table));
-
-        $this->builder->fire('loaded');
-        $events->fire(new TableWasLoaded($this->builder));
     }
 }

@@ -3,9 +3,10 @@
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Table\Command\BuildTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\LoadTable;
+use Anomaly\Streams\Platform\Ui\Table\Command\MakeTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\PostTable;
+use Anomaly\Streams\Platform\Ui\Table\Command\SetTableResponse;
 use Illuminate\Foundation\Bus\DispatchesCommands;
-use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -108,34 +109,22 @@ class TableBuilder
         $this->build();
 
         if ($this->table->getResponse() === null) {
-
             $this->dispatch(new LoadTable($this));
-
-            $options = $this->table->getOptions();
-            $data    = $this->table->getData();
-
-            $content = view($options->get('table_view', 'streams::table/table'), $data);
-
-            $this->table->setContent($content);
-            $this->table->addData('content', $content);
+            $this->dispatch(new MakeTable($this));
         }
     }
 
     /**
      * Render the table.
      *
-     * @return View|Response
+     * @return Response
      */
     public function render()
     {
         $this->make();
 
         if ($this->table->getResponse() === null) {
-
-            $options = $this->table->getOptions();
-            $data    = $this->table->getData();
-
-            return view($options->get('wrapper_view', 'streams::blank'), $data);
+            $this->dispatch(new SetTableResponse($this));
         }
 
         return $this->table->getResponse();
