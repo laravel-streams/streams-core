@@ -53,7 +53,7 @@ trait FiresCallbacks
             call_user_func_array([$this, $method], $parameters);
         }
 
-        foreach ($this->callbacks[$trigger] as $callback) {
+        foreach (array_get($this->callbacks, $trigger, []) as $callback) {
 
             if (is_string($callback) || $callback instanceof \Closure) {
                 app()->call($callback, $parameters);
