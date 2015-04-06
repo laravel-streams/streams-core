@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Contract;
 
-use Anomaly\Streams\Platform\Ui\Form\Form;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
  * Interface FormRepositoryInterface
@@ -24,8 +24,8 @@ interface FormRepositoryInterface
     /**
      * Save the form.
      *
-     * @param Form $form
+     * @param FormBuilder $builder
      * @return bool|mixed
      */
-    public function save(Form $form);
+    public function save(FormBuilder $builder);
 }

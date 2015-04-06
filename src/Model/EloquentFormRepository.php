@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
-use Anomaly\Streams\Platform\Ui\Form\Form;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
  * Class EloquentFormRepositoryInterface
@@ -52,10 +52,13 @@ class EloquentFormRepository implements FormRepositoryInterface
     /**
      * Save the form.
      *
-     * @param Form $form
+     * @param FormBuilder $builder
+     * @return EloquentModel
      */
-    public function save(Form $form)
+    public function save(FormBuilder $builder)
     {
+        $form = $builder->getForm();
+
         $entry = $form->getEntry();
 
         /**
@@ -75,6 +78,7 @@ class EloquentFormRepository implements FormRepositoryInterface
          * Loop through available translations
          * and save translated input.
          */
+
         /*if ($entry->isTranslatable()) {
 
             foreach (config('streams.available_locales') as $locale => $language) {

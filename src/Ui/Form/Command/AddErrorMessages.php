@@ -1,19 +1,18 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\View\ViewTemplate;
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class LoadForm
+ * Class AddErrorMessages
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class LoadForm implements SelfHandling
+class AddErrorMessages implements SelfHandling
 {
 
     /**
@@ -24,7 +23,7 @@ class LoadForm implements SelfHandling
     protected $builder;
 
     /**
-     * Create a new HandleForm instance.
+     * Create a new AddErrorMessages instance.
      *
      * @param FormBuilder $builder
      */
@@ -36,25 +35,16 @@ class LoadForm implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param Container    $container
-     * @param ViewTemplate $template
+     * @param MessageBag $messages
      */
-    public function handle(Container $container, ViewTemplate $template)
+    public function handle(MessageBag $messages)
     {
         $form = $this->builder->getForm();
 
-        if ($form->getStream()) {
-            $form->setOption('translatable', $form->getStream()->isTranslatable());
-        }
+        $errors = $form->getErrors();
 
-        if ($handler = $form->getOption('data')) {
-            $container->call($handler, compact('form'));
+        if ($errors instanceof \Illuminate\Support\MessageBag) {
+            $messages->error($errors->all());
         }
-
-        if ($layout = $form->getOption('layout_view')) {
-            $template->put('layout', $layout);
-        }
-
-        $form->addData('form', $form);
     }
 }

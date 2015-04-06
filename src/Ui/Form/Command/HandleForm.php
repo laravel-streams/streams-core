@@ -1,19 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\View\ViewTemplate;
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class LoadForm
+ * Class HandleForm
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class LoadForm implements SelfHandling
+class HandleForm implements SelfHandling
 {
 
     /**
@@ -34,27 +32,25 @@ class LoadForm implements SelfHandling
     }
 
     /**
-     * Handle the command.
-     *
-     * @param Container    $container
-     * @param ViewTemplate $template
+     * Handle the event.
      */
-    public function handle(Container $container, ViewTemplate $template)
+    public function handle()
     {
         $form = $this->builder->getForm();
 
-        if ($form->getStream()) {
-            $form->setOption('translatable', $form->getStream()->isTranslatable());
+        // If validation failed then skip it.
+        if ($form->getErrors()) {
+            return;
         }
 
-        if ($handler = $form->getOption('data')) {
-            $container->call($handler, compact('form'));
-        }
+        $handler = $form->getOption('handler');
 
-        if ($layout = $form->getOption('layout_view')) {
-            $template->put('layout', $layout);
+        /**
+         * If the handler is a callable string or Closure then
+         * we and can resolve it through the IoC container.
+         */
+        if (is_string($handler) || $handler instanceof \Closure) {
+            app()->call($handler, ['builder' => $this->builder]);
         }
-
-        $form->addData('form', $form);
     }
 }

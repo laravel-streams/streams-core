@@ -43,6 +43,7 @@ trait FiresCallbacks
      *
      * @param       $trigger
      * @param array $parameters
+     * @return $this
      */
     public function fire($trigger, array $parameters = [])
     {
@@ -50,10 +51,6 @@ trait FiresCallbacks
 
         if (method_exists($this, $method)) {
             call_user_func_array([$this, $method], $parameters);
-        }
-
-        if (!isset($this->callbacks[$trigger])) {
-            return;
         }
 
         foreach ($this->callbacks[$trigger] as $callback) {
@@ -66,5 +63,7 @@ trait FiresCallbacks
                 call_user_func_array([$callback, 'handle'], $parameters);
             }
         }
+
+        return $this;
     }
 }

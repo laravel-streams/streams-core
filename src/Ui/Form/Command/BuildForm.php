@@ -1,6 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActions;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveAction;
+use Anomaly\Streams\Platform\Ui\Form\Component\Button\Command\BuildButtons;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\BuildFields;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class BuildForm
@@ -10,13 +16,15 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class BuildForm
+class BuildForm implements SelfHandling
 {
+
+    use DispatchesCommands;
 
     /**
      * The form builder.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Form\FormBuilder
+     * @var FormBuilder
      */
     protected $builder;
 
@@ -31,12 +39,41 @@ class BuildForm
     }
 
     /**
-     * Get the form builder.
-     *
-     * @return FormBuilder
+     * Handle the command.
      */
-    public function getBuilder()
+    public function handle()
     {
-        return $this->builder;
+        /**
+         * Setup some objects and options using
+         * provided input or sensible defaults.
+         */
+        $this->dispatch(new SetFormModel($this->builder));
+        $this->dispatch(new SetFormStream($this->builder));
+        $this->dispatch(new SetFormOptions($this->builder));
+        $this->dispatch(new SetDefaultOptions($this->builder));
+        $this->dispatch(new SetFormRepository($this->builder));
+        $this->dispatch(new SetDefaultParameters($this->builder));
+        $this->dispatch(new SetFormEntry($this->builder)); // Do this last.
+
+        /**
+         * Before we go any further, authorize the request.
+         */
+        $this->dispatch(new AuthorizeForm($this->builder));
+
+        /*
+         * Build form fields.
+         */
+        $this->dispatch(new BuildFields($this->builder));
+
+        /**
+         * Build form actions and flag active.
+         */
+        $this->dispatch(new BuildActions($this->builder));
+        $this->dispatch(new SetActiveAction($this->builder));
+
+        /**
+         * Build form buttons.
+         */
+        $this->dispatch(new BuildButtons($this->builder));
     }
 }

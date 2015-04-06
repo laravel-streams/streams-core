@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
-use Anomaly\Streams\Platform\Ui\Form\Form;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
  * Class EntryFormRepositoryInterface
@@ -53,11 +53,13 @@ class EntryFormRepository implements FormRepositoryInterface
     /**
      * Save the form.
      *
-     * @param Form $form
+     * @param FormBuilder $builder
      * @return EntryInterface
      */
-    public function save(Form $form)
+    public function save(FormBuilder $builder)
     {
+        $form = $builder->getForm();
+
         $entry  = $form->getEntry();
         $fields = $form->getFields();
 

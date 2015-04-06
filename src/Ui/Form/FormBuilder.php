@@ -4,11 +4,13 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormIsBuilding;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormIsPosting;
-use Anomaly\Streams\Platform\Ui\Form\Event\FormWasBuilt;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted;
 use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Http\Response;
 
 /**
  * Class FormBuilder
@@ -101,21 +103,10 @@ class FormBuilder
             $this->entry = $entry;
         }
 
-        $this->fire('building');
-        app('events')->fire(new FormIsBuilding($this->form));
-
         $this->dispatch(new BuildForm($this));
 
-        $this->form->fire('built', ['form' => $this->form]);
-        app('events')->fire(new FormWasBuilt($this->form));
-
         if (app('request')->isMethod('post')) {
-
-            $this->form->fire('posting', ['form' => $this->form]);
-            app('events')->fire(new FormIsPosting($this->form));
-
-            $this->form->fire('posted', ['form' => $this->form]);
-            app('events')->fire(new FormWasPosted($this->form));
+            $this->dispatch(new PostForm($this));
         }
     }
 
@@ -129,16 +120,8 @@ class FormBuilder
         $this->build($entry);
 
         if ($this->form->getResponse() === null) {
-
-            $this->dispatch(new LoadForm($this->form));
-
-            $options = $this->form->getOptions();
-            $data    = $this->form->getData();
-
-            $content = view($options->get('form_view', 'streams::form/form'), $data->all());
-
-            $this->form->setContent($content);
-            $this->form->addData('content', $content);
+            $this->dispatch(new LoadForm($this));
+            $this->dispatch(new MakeForm($this));
         }
     }
 
@@ -146,13 +129,13 @@ class FormBuilder
      * Render the form.
      *
      * @param  null $entry
-     * @return \Illuminate\View\View|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function render($entry = null)
     {
         $this->make($entry);
 
-        if ($this->form->getResponse() === null || $this->form->getResponse() === false) {
+        if (!$this->form->getResponse()) {
 
             $options = $this->form->getOptions();
             $data    = $this->form->getData();
@@ -161,6 +144,16 @@ class FormBuilder
         }
 
         return $this->form->getResponse();
+    }
+
+    /**
+     * Save the form.
+     */
+    public function saveForm()
+    {
+        $repository = $this->form->getRepository();
+
+        $repository->save($this);
     }
 
     /**

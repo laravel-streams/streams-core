@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
@@ -25,8 +24,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Form
 {
-
-    use FiresCallbacks;
 
     /**
      * The form model.
@@ -109,14 +106,14 @@ class Form
     /**
      * The form options.
      *
-     * @var \Illuminate\Support\Collection
+     * @var Collection
      */
     protected $options;
 
     /**
      * The form actions.
      *
-     * @var Component\Action\ActionCollection
+     * @var ActionCollection
      */
     protected $actions;
 
@@ -151,16 +148,6 @@ class Form
         $this->actions = $actions;
         $this->buttons = $buttons;
         $this->options = $options;
-    }
-
-    /**
-     * Save the form.
-     *
-     * @return bool|mixed
-     */
-    public function save()
-    {
-        return $this->repository->save($this);
     }
 
     /**

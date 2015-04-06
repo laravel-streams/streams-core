@@ -1,8 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Listener;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Ui\Form\Event\FormIsPosting;
-use Illuminate\Http\Request;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class LoadFormValues
@@ -10,36 +10,34 @@ use Illuminate\Http\Request;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Listener
+ * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class LoadFormValues
+class LoadFormValues implements SelfHandling
 {
 
     /**
-     * The request object.
+     * The form builder.
      *
-     * @var Request
+     * @var FormBuilder
      */
-    protected $request;
+    protected $builder;
 
     /**
      * Create a new LoadFormValues instance.
      *
-     * @param Request $request
+     * @param FormBuilder $builder
      */
-    public function __construct(Request $request)
+    public function __construct(FormBuilder $builder)
     {
-        $this->request = $request;
+        $this->builder = $builder;
     }
 
     /**
      * Handle the event.
-     *
-     * @param FormIsPosting $event
      */
-    public function handle(FormIsPosting $event)
+    public function handle()
     {
-        $form = $event->getForm();
+        $form = $this->builder->getForm();
 
         /* @var FieldType $field */
         foreach ($form->getFields() as $field) {

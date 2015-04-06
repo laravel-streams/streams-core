@@ -1,19 +1,17 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\View\ViewTemplate;
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class LoadForm
+ * Class MakeForm
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class LoadForm implements SelfHandling
+class MakeForm implements SelfHandling
 {
 
     /**
@@ -24,7 +22,7 @@ class LoadForm implements SelfHandling
     protected $builder;
 
     /**
-     * Create a new HandleForm instance.
+     * Create a new MakeForm instance.
      *
      * @param FormBuilder $builder
      */
@@ -35,26 +33,17 @@ class LoadForm implements SelfHandling
 
     /**
      * Handle the command.
-     *
-     * @param Container    $container
-     * @param ViewTemplate $template
      */
-    public function handle(Container $container, ViewTemplate $template)
+    public function handle()
     {
         $form = $this->builder->getForm();
 
-        if ($form->getStream()) {
-            $form->setOption('translatable', $form->getStream()->isTranslatable());
-        }
+        $options = $form->getOptions();
+        $data    = $form->getData();
 
-        if ($handler = $form->getOption('data')) {
-            $container->call($handler, compact('form'));
-        }
+        $content = view($options->get('form_view', 'streams::form/form'), $data->all());
 
-        if ($layout = $form->getOption('layout_view')) {
-            $template->put('layout', $layout);
-        }
-
-        $form->addData('form', $form);
+        $form->setContent($content);
+        $form->addData('content', $content);
     }
 }

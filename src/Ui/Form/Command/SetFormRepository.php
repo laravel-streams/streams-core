@@ -16,7 +16,7 @@ class SetFormRepository
     /**
      * The form builder.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Form\FormBuilder
+     * @var FormBuilder
      */
     protected $builder;
 

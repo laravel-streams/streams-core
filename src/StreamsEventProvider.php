@@ -76,19 +76,6 @@ class StreamsEventProvider extends EventServiceProvider
         'Anomaly\Streams\Platform\Addon\Theme\Event\ThemeWasRegistered'          => [
             'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection'
         ],
-        'Anomaly\Streams\Platform\Ui\Form\Event\ValidationFailed'                => [
-            'Anomaly\Streams\Platform\Ui\Form\Listener\RepopulateFields',
-            'Anomaly\Streams\Platform\Ui\Form\Listener\AddErrorMessages'
-        ],
-        'Anomaly\Streams\Platform\Ui\Form\Event\FormIsPosting'                   => [
-            'Anomaly\Streams\Platform\Ui\Form\Listener\RemoveDisabledFields',
-            'Anomaly\Streams\Platform\Ui\Form\Listener\LoadFormValues'
-        ],
-        'Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted'                   => [
-            'Anomaly\Streams\Platform\Ui\Form\Listener\ValidateForm',
-            'Anomaly\Streams\Platform\Ui\Form\Listener\HandleForm',
-            'Anomaly\Streams\Platform\Ui\Form\Listener\SetFormResponse'
-        ],
         'Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying'                => [
             'Anomaly\Streams\Platform\Ui\Table\Component\View\Listener\ApplyView',
             'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\FilterResults',
