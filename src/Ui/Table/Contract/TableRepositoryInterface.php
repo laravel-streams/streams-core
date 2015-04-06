@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Contract;
 
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Support\Collection;
 
 /**
@@ -17,8 +17,8 @@ interface TableRepositoryInterface
     /**
      * Get the table entries.
      *
-     * @param Table $table
+     * @param TableBuilder $builder
      * @return Collection
      */
-    public function get(Table $table);
+    public function get(TableBuilder $builder);
 }

@@ -89,8 +89,7 @@ class StreamsEventProvider extends EventServiceProvider
             'Anomaly\Streams\Platform\Ui\Form\Listener\HandleForm',
             'Anomaly\Streams\Platform\Ui\Form\Listener\SetFormResponse'
         ],
-        'Anomaly\Streams\Platform\Ui\Table\Event\QueryHasStarted'                => [
-            'Anomaly\Streams\Platform\Ui\Table\Listener\ApplyScope',
+        'Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying'                => [
             'Anomaly\Streams\Platform\Ui\Table\Component\View\Listener\ApplyView',
             'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\FilterResults',
             'Anomaly\Streams\Platform\Ui\Table\Component\Column\Listener\OrderResults'

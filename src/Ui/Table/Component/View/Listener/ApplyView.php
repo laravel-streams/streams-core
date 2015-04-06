@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Listener;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewQuery;
-use Anomaly\Streams\Platform\Ui\Table\Event\QueryHasStarted;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
 
 /**
  * Class ApplyView
@@ -34,12 +34,13 @@ class ApplyView
     /**
      * Handle the event.
      *
-     * @param QueryHasStarted $event
+     * @param TableIsQuerying $event
      */
-    public function handle(QueryHasStarted $event)
+    public function handle(TableIsQuerying $event)
     {
-        $table = $event->getTable();
-        $query = $event->getQuery();
+        $query   = $event->getQuery();
+        $builder = $event->getBuilder();
+        $table   = $builder->getTable();
 
         $views = $table->getViews();
 

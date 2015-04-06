@@ -3,8 +3,7 @@
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Table\Command\BuildTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\LoadTable;
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableModelInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableWasPosted;
+use Anomaly\Streams\Platform\Ui\Table\Command\PostTable;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
@@ -94,12 +93,10 @@ class TableBuilder
      */
     public function build()
     {
-        $this->fire('building');
         $this->dispatch(new BuildTable($this));
-        $this->fire('built');
 
         if (app('request')->isMethod('post')) {
-            app('events')->fire(new TableWasPosted($this->table));
+            $this->dispatch(new PostTable($this));
         }
     }
 
@@ -112,7 +109,7 @@ class TableBuilder
 
         if ($this->table->getResponse() === null) {
 
-            $this->dispatch(new LoadTable($this->table));
+            $this->dispatch(new LoadTable($this));
 
             $options = $this->table->getOptions();
             $data    = $this->table->getData();

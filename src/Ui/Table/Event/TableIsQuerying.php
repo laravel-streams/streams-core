@@ -1,25 +1,25 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Event;
 
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class QueryHasStarted
+ * Class TableIsQuerying
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Event
  */
-class QueryHasStarted
+class TableIsQuerying
 {
 
     /**
-     * The table object.
+     * The table builder.
      *
-     * @var Table
+     * @var TableBuilder
      */
-    protected $table;
+    protected $builder;
 
     /**
      * The table query.
@@ -29,15 +29,15 @@ class QueryHasStarted
     protected $query;
 
     /**
-     * Create a new QueryHasStarted instance.
+     * Create a new TableIsQuerying instance.
      *
-     * @param Table   $table
-     * @param Builder $query
+     * @param TableBuilder $builder
+     * @param Builder      $query
      */
-    public function __construct(Table $table, Builder $query)
+    public function __construct(TableBuilder $builder, Builder $query)
     {
-        $this->table = $table;
-        $this->query = $query;
+        $this->builder = $builder;
+        $this->query   = $query;
     }
 
     /**
@@ -53,10 +53,10 @@ class QueryHasStarted
     /**
      * Get the table.
      *
-     * @return Table
+     * @return TableBuilder
      */
-    public function getTable()
+    public function getBuilder()
     {
-        return $this->table;
+        return $this->builder;
     }
 }

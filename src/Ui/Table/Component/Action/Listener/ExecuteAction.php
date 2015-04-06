@@ -41,7 +41,8 @@ class ExecuteAction
      */
     public function handle(TableWasPosted $event)
     {
-        $table = $event->getTable();
+        $builder = $event->getBuilder();
+        $table   = $builder->getTable();
 
         $actions = $table->getActions();
 

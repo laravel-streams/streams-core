@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Listener;
 
-use Anomaly\Streams\Platform\Ui\Table\Event\QueryHasStarted;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
 
 /**
  * Class OrderResults
@@ -16,9 +16,9 @@ class OrderResults
     /**
      * Handle the event.
      *
-     * @param QueryHasStarted $event
+     * @param TableIsQuerying $event
      */
-    public function handle(QueryHasStarted $event)
+    public function handle(TableIsQuerying $event)
     {
     }
 }

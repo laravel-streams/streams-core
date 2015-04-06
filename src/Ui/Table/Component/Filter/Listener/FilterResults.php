@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQuery;
-use Anomaly\Streams\Platform\Ui\Table\Event\QueryHasStarted;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
 
 /**
  * Class FilterResults
@@ -35,13 +35,14 @@ class FilterResults
     /**
      * Handle the event.
      *
-     * @param QueryHasStarted $event
+     * @param TableIsQuerying $event
      * @throws \Exception
      */
-    public function handle(QueryHasStarted $event)
+    public function handle(TableIsQuerying $event)
     {
-        $table = $event->getTable();
-        $query = $event->getQuery();
+        $query   = $event->getQuery();
+        $builder = $event->getBuilder();
+        $table   = $builder->getTable();
 
         $filters = $table->getFilters();
 

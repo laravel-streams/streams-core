@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\QueryHasStarted;
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\Collection;
 
@@ -39,11 +39,13 @@ class EloquentTableRepository implements TableRepositoryInterface
     /**
      * Get the table entries.
      *
-     * @param Table $table
+     * @param TableBuilder $builder
      * @return Collection
      */
-    public function get(Table $table)
+    public function get(TableBuilder $builder)
     {
+        $table = $builder->getTable();
+
         // Get the options off the table.
         $options = $table->getOptions();
 
@@ -67,8 +69,8 @@ class EloquentTableRepository implements TableRepositoryInterface
          * other things (including filters / views)
          * to modify the query before proceeding.
          */
-        $table->fire('querying', compact('table', 'query'));
-        app('events')->fire(new QueryHasStarted($table, $query));
+        $builder->fire('querying', compact('table', 'query'));
+        app('events')->fire(new TableIsQuerying($builder, $query));
 
         /**
          * Before we actually adjust the baseline query

@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class TableWasPosted
+ * Class TableWasLoaded
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Event
  */
-class TableWasPosted
+class TableWasLoaded
 {
 
     /**
@@ -21,7 +21,7 @@ class TableWasPosted
     protected $builder;
 
     /**
-     * Create a new TableWasPosted instance.
+     * Create a new TableWasLoaded instance.
      *
      * @param TableBuilder $builder
      */
@@ -31,7 +31,7 @@ class TableWasPosted
     }
 
     /**
-     * Get the table object.
+     * Get the table builder.
      *
      * @return TableBuilder
      */

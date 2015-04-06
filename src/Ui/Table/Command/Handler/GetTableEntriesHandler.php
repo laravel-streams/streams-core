@@ -65,6 +65,6 @@ class GetTableEntriesHandler
         /**
          * Get table entries and set them on the table.
          */
-        $table->setEntries($repository->get($table));
+        $table->setEntries($repository->get($builder));
     }
 }

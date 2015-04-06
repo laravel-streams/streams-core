@@ -3,18 +3,18 @@
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class TableWasPosted
+ * Class TableIsPosting
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Event
  */
-class TableWasPosted
+class TableIsPosting
 {
 
     /**
-     * The table builder.
+     * The table object.
      *
      * @var TableBuilder
      */
@@ -31,7 +31,7 @@ class TableWasPosted
     }
 
     /**
-     * Get the table object.
+     * Get the table builder.
      *
      * @return TableBuilder
      */
