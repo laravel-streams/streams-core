@@ -110,6 +110,16 @@ class FieldCollection extends Collection
     }
 
     /**
+     * Skip a field.
+     *
+     * @param $fieldSlug
+     */
+    public function skip($fieldSlug)
+    {
+        $this->forget($fieldSlug);
+    }
+
+    /**
      * Forget a key.
      *
      * @param mixed $key

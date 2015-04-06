@@ -39,8 +39,12 @@ class PostForm implements SelfHandling
      */
     public function handle()
     {
+        $this->builder->fire('posting');
+
         $this->dispatch(new LoadFormValues($this->builder));
         $this->dispatch(new HandleForm($this->builder));
         $this->dispatch(new SetFormResponse($this->builder));
+
+        $this->builder->fire('posted');
     }
 }

@@ -471,12 +471,22 @@ class Form
     /**
      * Get a form field.
      *
-     * @param $key
+     * @param $fieldSlug
      * @return FieldType|mixed
      */
-    public function getField($key)
+    public function getField($fieldSlug)
     {
-        return $this->fields->get($key);
+        return $this->fields->get($fieldSlug);
+    }
+
+    /**
+     * Skip a field.
+     *
+     * @param $fieldSlug
+     */
+    public function skipField($fieldSlug)
+    {
+        $this->fields->skip($fieldSlug);
     }
 
     /**
