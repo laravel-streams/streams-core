@@ -68,7 +68,7 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     protected static function boot()
     {
-        self::observe(app('Anomaly\Streams\Platform\Stream\StreamObserver'));
+        self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
 
         parent::boot();
     }

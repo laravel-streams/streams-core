@@ -7,7 +7,6 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Illuminate\Events\Dispatcher;
 use Robbo\Presenter\PresentableInterface;
 
 /**
@@ -41,7 +40,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     protected static function boot()
     {
-        self::observe(app('Anomaly\Streams\Platform\Entry\EntryObserver'));
+        self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
 
         parent::boot();
     }

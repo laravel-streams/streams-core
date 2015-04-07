@@ -66,7 +66,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     protected static function boot()
     {
-        self::observe(app('Anomaly\Streams\Platform\Field\FieldObserver'));
+        self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
 
         parent::boot();
     }

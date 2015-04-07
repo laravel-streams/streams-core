@@ -68,7 +68,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     protected static function boot()
     {
-        self::observe(app('Anomaly\Streams\Platform\Assignment\AssignmentObserver'));
+        self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
 
         parent::boot();
     }

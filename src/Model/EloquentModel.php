@@ -72,7 +72,7 @@ class EloquentModel extends Model implements Arrayable
      */
     protected static function boot()
     {
-        self::observe(app('Anomaly\Streams\Platform\Model\EloquentObserver'));
+        self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
 
         parent::boot();
     }
