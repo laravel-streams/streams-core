@@ -73,6 +73,7 @@ class FieldFactory
         $field->mergeRules(array_pull($parameters, 'rules', []));
         $field->mergeConfig(array_pull($parameters, 'config', []));
         $field->mergeValidators(array_pull($parameters, 'validators', []));
+        $field->setRequired(in_array('required', $field->getRules()));
 
         // Hydrate the field with parameters.
         $this->hydrate($field, $parameters);

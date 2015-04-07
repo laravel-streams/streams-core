@@ -242,7 +242,7 @@ class FieldType extends Addon
      */
     public function mergeRules(array $rules)
     {
-        $this->rules = array_unique($this->rules + $rules);
+        $this->rules = array_merge($this->rules, $rules);
     }
 
     /**
@@ -262,7 +262,7 @@ class FieldType extends Addon
      */
     public function mergeValidators(array $validators)
     {
-        $this->validators = array_unique($this->validators + $validators);
+        $this->validators = array_merge($this->validators, $validators);
     }
 
     /**
