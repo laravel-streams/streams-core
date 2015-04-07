@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Ui\Table\Command\MakeTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\PostTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\SetTableResponse;
 use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -361,6 +362,19 @@ class TableBuilder
     public function setTableOption($key, $value)
     {
         $this->table->setOption($key, $value);
+
+        return $this;
+    }
+
+    /**
+     * Set the table entries.
+     *
+     * @param Collection $entries
+     * @return $this
+     */
+    public function setTableEntries(Collection $entries)
+    {
+        $this->table->setEntries($entries);
 
         return $this;
     }
