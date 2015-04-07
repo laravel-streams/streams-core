@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field\Contract;
 
+use Anomaly\Streams\Platform\Field\FieldCollection;
+
 /**
  * Interface FieldRepositoryInterface
  *
@@ -34,6 +36,14 @@ interface FieldRepositoryInterface
      * @return null|FieldInterface
      */
     public function findBySlugAndNamespace($slug, $namespace);
+
+    /**
+     * Return all fields in a namespace.
+     *
+     * @param  $namespace
+     * @return FieldCollection
+     */
+    public function findByNamespace($namespace);
 
     /**
      * Delete garbage fields.

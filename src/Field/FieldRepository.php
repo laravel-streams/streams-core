@@ -69,6 +69,17 @@ class FieldRepository implements FieldRepositoryInterface
     }
 
     /**
+     * Return all fields in a namespace.
+     *
+     * @param  $namespace
+     * @return FieldCollection
+     */
+    public function findByNamespace($namespace)
+    {
+        return $this->model->where('namespace', $namespace)->get();
+    }
+
+    /**
      * Delete garbage fields.
      */
     public function deleteGarbage()

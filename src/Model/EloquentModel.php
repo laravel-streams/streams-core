@@ -96,6 +96,12 @@ class EloquentModel extends Model implements Arrayable
      */
     public function newCollection(array $items = array())
     {
+        $collection = substr(get_class($this), 0, -5) . 'Collection';
+
+        if (class_exists($collection)) {
+            return new $collection($items);
+        }
+
         return new EloquentCollection($items);
     }
 

@@ -73,7 +73,7 @@ class ColumnValue
         if ($view = array_get($column, 'view')) {
             return view($view, compact('table', 'entry', 'value'));
         }
-        
+
         /**
          * If the entry is an instance of EntryInterface
          * then try getting the field value from the entry.
@@ -133,6 +133,19 @@ class ColumnValue
             $entry = null;
         }
 
-        return $this->parser->render($column['wrapper'], compact('value', 'entry'));
+        /**
+         * If the value looks like a language
+         * key then try translating it.
+         */
+        if (str_is('*.*.*::*', $value)) {
+            $value = trans($value);
+        }
+
+        /**
+         * Parse the value with the entry.
+         */
+        $value = $this->parser->render($column['wrapper'], compact('value', 'entry'));
+
+        return $value;
     }
 }
