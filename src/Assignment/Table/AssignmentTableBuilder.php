@@ -50,6 +50,16 @@ class AssignmentTableBuilder extends TableBuilder
     ];
 
     /**
+     * The table actions.
+     *
+     * @var array
+     */
+    protected $actions = [
+        'reorder',
+        'delete'
+    ];
+
+    /**
      * The table options.
      *
      * @var array

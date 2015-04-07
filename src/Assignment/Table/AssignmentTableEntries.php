@@ -28,6 +28,10 @@ class AssignmentTableEntries
 
         $assignments = $stream->getAssignments();
 
-        $builder->setTableEntries($assignments->withoutFields(config('anomaly.module.users::config.protected_fields')));
+        if ($skip = $builder->getTableOption('skip')) {
+            $assignments = $assignments->withoutFields($skip);
+        }
+
+        $builder->setTableEntries($assignments);
     }
 }
