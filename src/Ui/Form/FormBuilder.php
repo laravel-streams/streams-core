@@ -67,7 +67,7 @@ class FormBuilder
      *
      * @var array|string
      */
-    protected $buttons = [];
+    protected $buttons = ['cancel'];
 
     /**
      * The form options.
