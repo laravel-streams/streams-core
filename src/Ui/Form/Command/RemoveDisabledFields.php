@@ -1,21 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
- * Class PostForm
+ * Class RemoveDisabledFields
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class PostForm implements SelfHandling
+class RemoveDisabledFields implements SelfHandling
 {
-
-    use DispatchesCommands;
 
     /**
      * The form builder.
@@ -25,7 +23,7 @@ class PostForm implements SelfHandling
     protected $builder;
 
     /**
-     * Create a new PostForm instance.
+     * Create a new RemoveDisabledFields instance.
      *
      * @param FormBuilder $builder
      */
@@ -39,14 +37,13 @@ class PostForm implements SelfHandling
      */
     public function handle()
     {
-        $this->builder->fire('posting');
+        $form = $this->builder->getForm();
 
-        $this->dispatch(new RemoveSkippedFields($this->builder));
-        $this->dispatch(new RemoveDisabledFields($this->builder));
-        $this->dispatch(new LoadFormValues($this->builder));
-        $this->dispatch(new HandleForm($this->builder));
-        $this->dispatch(new SetFormResponse($this->builder));
-
-        $this->builder->fire('posted');
+        /* @var FieldType $field */
+        foreach ($form->getFields() as $field) {
+            if ($field->isDisabled()) {
+                $form->skipField($field->getField());
+            }
+        }
     }
 }
