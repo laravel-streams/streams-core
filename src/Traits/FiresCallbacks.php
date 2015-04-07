@@ -55,7 +55,7 @@ trait FiresCallbacks
 
         $handler = get_class($this) . ucfirst(camel_case($trigger));
 
-        if (class_exists($handler)) {
+        if (class_exists($handler) && class_implements($handler, 'Illuminate\Contracts\Bus\SelfHandling')) {
             app()->call($handler . '@handle', $parameters);
         }
 
