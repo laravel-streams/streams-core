@@ -2,7 +2,8 @@
 
 return [
     'name' => [
-        'name' => 'Name'
+        'name'         => 'Name',
+        'instructions' => 'What is the field name?'
     ],
     'slug' => [
         'name' => 'Slug'

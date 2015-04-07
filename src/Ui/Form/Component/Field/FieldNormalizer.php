@@ -74,6 +74,14 @@ class FieldNormalizer
             if (!is_numeric($slug) && !isset($field['slug'])) {
                 $field['slug'] = $slug;
             }
+
+            /**
+             * If the field is required then it must have
+             * the rule as well.
+             */
+            if (array_get($field, 'required') === true) {
+                $field['rules'] = array_unique(array_merge(array_get($field, 'rules', []), ['required']));
+            }
         }
 
         $builder->setFields(array_values($fields));
