@@ -156,7 +156,7 @@ class Form
      * @param null|false|Response $response
      * @return $this
      */
-    public function setResponse($response)
+    public function setResponse(Response $response)
     {
         $this->response = $response;
 

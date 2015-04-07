@@ -7,11 +7,8 @@ use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
-use Anomaly\Streams\Platform\Ui\Form\Event\FormIsBuilding;
-use Anomaly\Streams\Platform\Ui\Form\Event\FormIsPosting;
-use Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted;
 use Illuminate\Foundation\Bus\DispatchesCommands;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class FormBuilder
@@ -437,6 +434,19 @@ class FormBuilder
     public function setFormMode($mode)
     {
         $this->form->setMode($mode);
+
+        return $this;
+    }
+
+    /**
+     * Set the form response.
+     *
+     * @param null|false|Response $response
+     * @return $this
+     */
+    public function setFormResponse(Response $response)
+    {
+        $this->form->setResponse($response);
 
         return $this;
     }

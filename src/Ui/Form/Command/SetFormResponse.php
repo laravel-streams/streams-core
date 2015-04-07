@@ -42,6 +42,10 @@ class SetFormResponse implements SelfHandling
         $form    = $this->builder->getForm();
         $actions = $form->getActions();
 
+        if ($form->getResponse()) {
+            return;
+        }
+
         if ($form->getErrors()) {
             return;
         }
