@@ -1,13 +1,15 @@
 {% if form.options.translatable %}
-    <nav class="navbar navbar-default">
+    <nav id="translations" class="navbar navbar-default">
         <ul class="nav navbar-nav">
+
             {% for iso, name in config_get('streams.enabled_locales') %}
                 <li class="{{ iso == config_get('app.locale') ? 'active' }}">
-                    <a data-toggle="locale" data-locale="{{ iso }}">
+                    <a href="#" lang="{{ iso }}">
                         {{ name }}
                     </a>
                 </li>
             {% endfor %}
+            
         </ul>
     </nav>
 {% endif %}

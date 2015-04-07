@@ -1,10 +1,7 @@
 <div
+        {{ field_type.locale ? 'lang=' ~ field_type.locale }}
         class="form-group {{ field_type.hidden ? 'hidden' }}"
-        {% if field_type.locale %}
-            data-locale="{{ field_type.locale }}"
-        {% endif %}
-        data-field="{{ field_type.field }}"
-        >
+        data-field="{{ field_type.field }}">
 
     <label>
         {{ trans(field_type.label)|raw }}
