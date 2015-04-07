@@ -9,6 +9,7 @@ return [
         'name' => 'Slug'
     ],
     'type' => [
-        'name' => 'Field Type'
+        'name'         => 'Field Type',
+        'instructions' => 'What field type do you want to use for this field?'
     ],
 ];

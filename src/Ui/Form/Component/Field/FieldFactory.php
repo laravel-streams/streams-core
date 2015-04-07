@@ -59,6 +59,11 @@ class FieldFactory
 
             /* @var EntryInterface $entry */
             $field->setValue(array_pull($parameters, 'value', $entry->getFieldValue($field->getField())));
+        } elseif ($entry) {
+
+            $field = $this->builder->build($parameters);
+
+            $field->setValue(array_pull($parameters, 'value', $entry->{$field->getField()}));
         } else {
 
             $field = $this->builder->build($parameters);
