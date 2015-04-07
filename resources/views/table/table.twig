@@ -14,6 +14,18 @@
     {% if not table.rows.empty() %}
         <div class="panel">
 
+            {% if table.options.title %}
+                <div class="panel-heading">
+                    <h4 class="title">{{ trans(table.options.title) }}</h4>
+                </div>
+
+                {% if table.options.description %}
+                    <div class="panel-body">
+                        {{ trans(table.options.description) }}
+                    </div>
+                {% endif %}
+            {% endif %}
+
             {{ form_open({ 'url': url_full() }) }}
             <table
                     class="{{ table.options.class ?: 'table striped' }}"
