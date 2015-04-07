@@ -74,6 +74,17 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     }
 
     /**
+     * Find all assignments by stream.
+     *
+     * @param StreamInterface $stream
+     * @return AssignmentCollection
+     */
+    public function findByStream(StreamInterface $stream)
+    {
+        return $this->model->where('stream_id', $stream->getId())->get();
+    }
+
+    /**
      * Delete garbage assignments.
      */
     public function deleteGarbage()

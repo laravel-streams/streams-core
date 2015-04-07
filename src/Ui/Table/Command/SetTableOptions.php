@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Support\Collection;
 
 /**
  * Class SetTableOptions
@@ -46,7 +45,10 @@ class SetTableOptions implements SelfHandling
 
         $table = $this->builder->getTable();
 
-        $options = $evaluator->evaluate($resolver->resolve($this->builder->getOptions(), $arguments), $arguments);
+        $options = $this->builder->getOptions();
+
+        $options = $resolver->resolve($options, $arguments);
+        $options = $evaluator->evaluate($options, $arguments);
 
         foreach ($options as $key => $value) {
             $table->setOption($key, $value);

@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Contract;
 
+use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -39,6 +40,14 @@ interface AssignmentRepositoryInterface
      * @return null|AssignmentInterface
      */
     public function findByStreamAndField(StreamInterface $stream, FieldInterface $field);
+
+    /**
+     * Find all assignments by stream.
+     *
+     * @param StreamInterface $stream
+     * @return AssignmentCollection
+     */
+    public function findByStream(StreamInterface $stream);
 
     /**
      * Delete garbage assignments.

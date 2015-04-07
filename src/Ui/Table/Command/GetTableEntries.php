@@ -39,7 +39,6 @@ class GetTableEntries implements SelfHandling
     {
         $table   = $this->builder->getTable();
         $model   = $this->builder->getModel();
-        $entries = $table->getEntries();
 
         /**
          * If the builder has an entries handler
@@ -47,8 +46,10 @@ class GetTableEntries implements SelfHandling
          * let it load the entries itself.
          */
         if ($handler = $table->getOption('entries')) {
-            app()->call($handler, compact('table'));
+            app()->call($handler, ['builder' => $this->builder]);
         }
+
+        $entries = $table->getEntries();
 
         /**
          * If the entries have already been set on the
