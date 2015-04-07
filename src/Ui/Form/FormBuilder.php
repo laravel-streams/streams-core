@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormIsBuilding;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormIsPosting;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted;
@@ -103,7 +104,7 @@ class FormBuilder
             $this->entry = $entry;
         }
 
-        $this->fire('ready');
+        $this->fire('ready', ['builder' => $this]);
 
         $this->dispatch(new BuildForm($this));
 
@@ -153,9 +154,7 @@ class FormBuilder
      */
     public function saveForm()
     {
-        $repository = $this->form->getRepository();
-
-        $repository->save($this);
+        $this->dispatch(new SaveForm($this));
     }
 
     /**
@@ -281,6 +280,24 @@ class FormBuilder
     public function getActions()
     {
         return $this->actions;
+    }
+
+    /**
+     * Add an action.
+     *
+     * @param       $slug
+     * @param array $definition
+     * @return $this
+     */
+    public function addAction($slug, array $definition = [])
+    {
+        if ($definition) {
+            $this->actions[$slug] = $definition;
+        } else {
+            $this->actions[] = $slug;
+        }
+
+        return $this;
     }
 
     /**

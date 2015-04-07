@@ -94,7 +94,7 @@ class TableBuilder
      */
     public function build()
     {
-        $this->fire('ready');
+        $this->fire('ready', ['builder' => $this]);
 
         $this->dispatch(new BuildTable($this));
 
