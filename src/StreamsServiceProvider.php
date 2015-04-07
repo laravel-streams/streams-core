@@ -181,11 +181,6 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry'
         );
 
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Ui\Table\Pagination\Contract\PaginationInterface',
-            'Anomaly\Streams\Platform\Ui\Table\Pagination\SemanticUiPagination'
-        );
-
         /**
          * Register button UI services.
          */

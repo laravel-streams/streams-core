@@ -35,9 +35,7 @@ class TablePagination
         );
 
         $pagination          = $paginator->toArray();
-        $pagination['links'] = $paginator->appends(app('request')->all())->render(
-            app()->make('Anomaly\Streams\Platform\Ui\Table\Pagination\Contract\PaginationInterface', [$paginator])
-        );
+        $pagination['links'] = $paginator->appends(app('request')->all())->render();
 
         return $pagination;
     }
