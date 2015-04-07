@@ -1,5 +1,5 @@
 <div
-        class="form-group {{ field_type.required ? 'required' }} {{ field_type.hidden ? 'hidden' }}"
+        class="form-group {{ field_type.hidden ? 'hidden' }}"
         {% if field_type.locale %}
             data-locale="{{ field_type.locale }}"
         {% endif %}
@@ -8,6 +8,10 @@
 
     <label>
         {{ trans(field_type.label)|raw }}
+
+        {% if field_type.required %}
+            <span class="required">*</span>
+        {% endif %}
 
         {% if field_type.locale %}
             <span class="label label-mini label-default">
