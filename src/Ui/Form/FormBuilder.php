@@ -257,6 +257,19 @@ class FormBuilder
     }
 
     /**
+     * Add a skipped field.
+     *
+     * @param $fieldSlug
+     * @return $this
+     */
+    public function addSkip($fieldSlug)
+    {
+        $this->skips[] = $fieldSlug;
+
+        return $this;
+    }
+
+    /**
      * Set the actions config.
      *
      * @param  $actions
