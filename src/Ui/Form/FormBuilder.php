@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
@@ -203,7 +204,7 @@ class FormBuilder
     /**
      * Get the entry object.
      *
-     * @return null|EntryInterface|mixed
+     * @return null|EntryInterface|FieldInterface|mixed
      */
     public function getEntry()
     {

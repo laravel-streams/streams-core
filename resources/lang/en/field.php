@@ -6,7 +6,8 @@ return [
         'instructions' => 'What is the field name?'
     ],
     'slug' => [
-        'name' => 'Slug'
+        'name'         => 'Slug',
+        'instructions' => 'The slug, among other things, is used for the database column name.'
     ],
     'type' => [
         'name'         => 'Field Type',
