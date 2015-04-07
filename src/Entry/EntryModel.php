@@ -41,7 +41,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     protected static function boot()
     {
-        self::observe(new EntryObserver(new Dispatcher(app()), new \Illuminate\Bus\Dispatcher(app())));
+        dd(__CLASS__);
+        self::observe(app('Anomaly\Streams\Platform\Entry\EntryObserver'));
 
         parent::boot();
     }
