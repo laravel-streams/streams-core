@@ -53,6 +53,12 @@ trait FiresCallbacks
             call_user_func_array([$this, $method], $parameters);
         }
 
+        $handler = get_class($this) . ucfirst(camel_case($trigger));
+
+        if (class_exists($handler)) {
+            app()->call($handler . '@handle', $parameters);
+        }
+
         foreach (array_get($this->callbacks, $trigger, []) as $callback) {
 
             if (is_string($callback) || $callback instanceof \Closure) {
