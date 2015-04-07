@@ -56,6 +56,10 @@ class LoadTable implements SelfHandling
             $template->put('layout', $layout);
         }
 
+        if ($title = $table->getOption('title')) {
+            $template->put('title', $title);
+        }
+
         $this->dispatch(new LoadTablePagination($table));
     }
 }

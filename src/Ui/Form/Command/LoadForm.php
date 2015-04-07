@@ -55,6 +55,10 @@ class LoadForm implements SelfHandling
             $template->put('layout', $layout);
         }
 
+        if ($title = $form->getOption('title')) {
+            $template->put('title', $title);
+        }
+
         $form->addData('form', $form);
     }
 }
