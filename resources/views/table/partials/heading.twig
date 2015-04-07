@@ -1,0 +1,13 @@
+{% if table.options.title %}
+    <div class="panel">
+        <div class="panel-heading">
+            <h4 class="title">{{ trans(table.options.title) }}</h4>
+        </div>
+
+        <div class="panel-body">
+            {% if table.options.description %}
+                <p>{{ trans(table.options.description) }}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
