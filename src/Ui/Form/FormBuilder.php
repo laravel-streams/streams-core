@@ -103,6 +103,8 @@ class FormBuilder
             $this->entry = $entry;
         }
 
+        $this->fire('ready');
+
         $this->dispatch(new BuildForm($this));
 
         if (app('request')->isMethod('post')) {

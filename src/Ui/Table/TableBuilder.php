@@ -94,6 +94,8 @@ class TableBuilder
      */
     public function build()
     {
+        $this->fire('ready');
+
         $this->dispatch(new BuildTable($this));
 
         if (app('request')->isMethod('post')) {
