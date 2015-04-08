@@ -35,6 +35,13 @@ class Filter implements FilterInterface
     protected $active = false;
 
     /**
+     * The filter placeholder.
+     *
+     * @var null|string
+     */
+    protected $placeholder = null;
+
+    /**
      * The filter handler.
      *
      * @var mixed
@@ -62,6 +69,29 @@ class Filter implements FilterInterface
     public function getHandler()
     {
         return $this->handler;
+    }
+
+    /**
+     * Get the placeholder.
+     *
+     * @return null|string
+     */
+    public function getPlaceholder()
+    {
+        return $this->placeholder;
+    }
+
+    /**
+     * Set the placeholder.
+     *
+     * @param $placeholder
+     * @return $this
+     */
+    public function setPlaceholder($placeholder)
+    {
+        $this->placeholder = $placeholder;
+
+        return $this;
     }
 
     /**
