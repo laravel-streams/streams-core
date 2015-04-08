@@ -32,7 +32,7 @@ class Seeder extends BaseSeeder
     {
         /** @var Seeder $seeder */
         $seeder = $this->resolve($class);
-        $env    = $seeder->hasEnvironment();
+        $env    = method_exists($seeder, 'isEnvironment') ? $seeder->isEnvironment() : null;
 
         if ($env !== false) {
             $seeder->run();
@@ -49,7 +49,7 @@ class Seeder extends BaseSeeder
      *
      * @return bool|null
      */
-    public function hasEnvironment()
+    public function isEnvironment()
     {
         return $this->env ? ($this->env === env('APP_ENV')) : null;
     }
