@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
+use Anomaly\Streams\Platform\Field\Form\Command\GetConfigFields;
+use Illuminate\Foundation\Bus\DispatchesCommands;
+
 /**
  * Class FieldFormFields
  *
@@ -11,6 +14,8 @@
 class FieldFormFields
 {
 
+    use DispatchesCommands;
+
     /**
      * Handle the form fields.
      *
@@ -18,6 +23,10 @@ class FieldFormFields
      */
     public function handle(FieldFormBuilder $builder)
     {
+        $entry = $builder->getFormEntry();
+
+        $type = $entry->getType() ?: app($builder->getOption('field_type'));
+
         $fields = [
             'type'         => [
                 'label'        => 'streams::field.type.name',
@@ -59,6 +68,8 @@ class FieldFormFields
             ],
         ];
 
-        $builder->setFields($fields);
+        $config = $this->dispatch(new GetConfigFields($type));
+
+        $builder->setFields(array_merge($fields, array_values($config)));
     }
 }

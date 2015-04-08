@@ -125,7 +125,7 @@ class FieldModel extends EloquentModel implements FieldInterface
     /**
      * Get the field type.
      *
-     * @return FieldType
+     * @return null|FieldType
      */
     public function getType()
     {
@@ -133,6 +133,10 @@ class FieldModel extends EloquentModel implements FieldInterface
         $field  = $this->slug;
         $label  = $this->name;
         $config = $this->config;
+
+        if (!$type) {
+            return null;
+        }
 
         return $this->dispatch(new BuildFieldType(compact('type', 'field', 'label', 'config')));
     }
