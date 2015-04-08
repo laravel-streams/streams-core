@@ -128,6 +128,9 @@ class BuildFieldTypeHandler
             }
         }
 
+        $fieldType->mergeRules(array_get($parameters, 'rules', []));
+        $fieldType->mergeConfig(array_get($parameters, 'config', []));
+
         return $fieldType;
     }
 }
