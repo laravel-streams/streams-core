@@ -53,6 +53,13 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     protected $assignments = [];
 
     /**
+     * Should the migration delete its stream when rolling back?
+     *
+     * @var bool
+     */
+    protected $delete = true;
+
+    /**
      * Create fields.
      *
      * @param array       $fields
@@ -96,7 +103,7 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
      */
     public function deleteStream($namespace = null, $stream = null)
     {
-        return $this->dispatch(new RollbackStream($this, $namespace, $stream));
+        return $this->delete ? $this->dispatch(new RollbackStream($this, $namespace, $stream)) : false;
     }
 
     /**
