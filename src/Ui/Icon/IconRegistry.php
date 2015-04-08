@@ -17,16 +17,18 @@ class IconRegistry
      * @var array
      */
     protected $icons = [
-        'glyphicons' => 'glyphicons glyphicons-eyedropper',
-        'dashboard'  => 'fa fa-dashboard',
-        'options'    => 'fa fa-options',
-        'warning'    => 'fa fa-warning',
-        'pencil'     => 'fa fa-pencil',
-        'users'      => 'fa fa-users',
-        'trash'      => 'fa fa-trash',
-        'check'      => 'fa fa-check',
-        'save'       => 'fa fa-save',
-        'cog'        => 'fa fa-cog'
+        'folder-open'  => 'glyphicons glyphicons-folder-open',
+        'glyphicons'   => 'glyphicons glyphicons-eyedropper',
+        'cloud-upload' => 'fa fa-cloud-upload',
+        'dashboard'    => 'fa fa-dashboard',
+        'options'      => 'fa fa-options',
+        'warning'      => 'fa fa-warning',
+        'pencil'       => 'fa fa-pencil',
+        'users'        => 'fa fa-users',
+        'trash'        => 'fa fa-trash',
+        'check'        => 'fa fa-check',
+        'save'         => 'fa fa-save',
+        'cog'          => 'fa fa-cog'
     ];
 
     /**
