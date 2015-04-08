@@ -67,10 +67,6 @@ class InstallExtensionHandler
             '--force' => true
         ];
 
-        if ($kernel->getSeed()) {
-            $options['--seed'] = true;
-        }
-
         $this->command->call('migrate:refresh', $options);
         $this->dispatcher->fire(new ExtensionWasInstalled($extension));
 
