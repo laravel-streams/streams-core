@@ -47,8 +47,8 @@ class InstallModuleHandler
      */
     public function __construct(ModuleCollection $modules, Kernel $kernel, Dispatcher $dispatcher)
     {
-        $this->command    = $kernel;
-        $this->modules    = $modules;
+        $this->command = $kernel;
+        $this->modules = $modules;
         $this->dispatcher = $dispatcher;
     }
 
@@ -68,6 +68,9 @@ class InstallModuleHandler
         ];
 
         $this->command->call('migrate:refresh', $options);
+        if ($kernel->getSeed()) {
+            $this->command->call('db:seed', $options);
+        }
         $this->dispatcher->fire(new ModuleWasInstalled($module));
 
         return true;
