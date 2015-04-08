@@ -3,21 +3,28 @@
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class FieldFormBuilder
+ * Class FieldAssignmentFormBuilder
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Field\Form
  */
-class FieldFormBuilder extends FormBuilder
+class FieldAssignmentFormBuilder extends FormBuilder
 {
+
+    /**
+     * The form model.
+     *
+     * @var string
+     */
+    protected $model = 'Anomaly\Streams\Platform\Field\FieldModel';
 
     /**
      * The form fields.
      *
      * @var string
      */
-    protected $fields = 'Anomaly\Streams\Platform\Field\Form\FieldFormFields@handle';
+    protected $fields = 'Anomaly\Streams\Platform\Field\Form\FieldAssignmentFormFields@handle';
 
 }

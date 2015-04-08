@@ -1,16 +1,16 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Table;
+<?php namespace Anomaly\Streams\Platform\Field\Table;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class AssignmentTableBuilder
+ * Class FieldAssignmentTableBuilder
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Assignment\Table
+ * @package       Anomaly\Streams\Platform\Field\Table
  */
-class AssignmentTableBuilder extends TableBuilder
+class FieldAssignmentTableBuilder extends TableBuilder
 {
 
     /**
@@ -18,7 +18,7 @@ class AssignmentTableBuilder extends TableBuilder
      *
      * @var string
      */
-    protected $entries = 'Anomaly\Streams\Platform\Assignment\Table\AssignmentTableBuilder@handle';
+    protected $entries = 'Anomaly\Streams\Platform\Assignment\Table\FieldAssignmentTableBuilder@handle';
 
     /**
      * The table columns.

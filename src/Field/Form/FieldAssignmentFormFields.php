@@ -1,17 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
 use Anomaly\Streams\Platform\Field\Form\Command\GetConfigFields;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
- * Class FieldFormFields
+ * Class FieldAssignmentFormFields
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Field\Form
  */
-class FieldFormFields
+class FieldAssignmentFormFields
 {
 
     use DispatchesCommands;
@@ -19,21 +21,31 @@ class FieldFormFields
     /**
      * Handle the form fields.
      *
-     * @param FieldFormBuilder $builder
+     * @param FieldAssignmentFormBuilder $builder
      */
-    public function handle(FieldFormBuilder $builder)
+    public function handle(FieldAssignmentFormBuilder $builder)
     {
         $entry = $builder->getFormEntry();
 
+        /* @var FieldType $type */
         $type = $entry->getType() ?: app($builder->getOption('field_type'));
 
         $fields = [
             'type'         => [
                 'label'        => 'streams::field.type.name',
                 'instructions' => 'streams::field.type.instructions',
-                'type'         => 'anomaly.field_type.text',
+                'type'         => 'anomaly.field_type.select',
+                'value'        => $type->getNamespace(),
                 'required'     => true,
-                'disabled'     => true
+                'disabled'     => $builder->getFormMode() == 'edit',
+                'config'       => [
+                    'options' => function (FieldTypeCollection $fieldTypes) {
+                        return $fieldTypes->lists('name', 'namespace');
+                    }
+                ],
+                'attributes'   => [
+                    'onclick' => 'alert($(this).val());'
+                ]
             ],
             'name'         => [
                 'label'        => 'streams::field.name.name',
@@ -46,7 +58,7 @@ class FieldFormFields
                 'instructions' => 'streams::field.slug.instructions',
                 'type'         => 'anomaly.field_type.slug',
                 'required'     => true,
-                'disabled'     => true,
+                'disabled'     => $builder->getFormMode() == 'edit',
                 'config'       => [
                     'slugify' => 'name'
                 ]
@@ -60,6 +72,11 @@ class FieldFormFields
                 'label'        => 'streams::assignment.unique.label',
                 'instructions' => 'streams::assignment.unique.instructions',
                 'type'         => 'anomaly.field_type.boolean'
+            ],
+            'label'        => [
+                'label'        => 'streams::assignment.label.name',
+                'instructions' => 'streams::assignment.label.instructions',
+                'type'         => 'anomaly.field_type.text'
             ],
             'instructions' => [
                 'label'        => 'streams::assignment.instructions.name',

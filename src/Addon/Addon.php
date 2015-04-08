@@ -230,4 +230,50 @@ class Addon implements PresentableInterface
     {
         return $this->vendor;
     }
+
+    /**
+     * Get a property value from the object.
+     *
+     * @param $name
+     * @return mixed
+     */
+    function __get($name)
+    {
+        $method = camel_case('get_' . $name);
+
+        if (method_exists($this, $method)) {
+            return $this->{$method}();
+        }
+
+        $method = camel_case('is_' . $name);
+
+        if (method_exists($this, $method)) {
+            return $this->{$method}();
+        }
+
+        return $this->{$name};
+    }
+
+    /**
+     * Return whether a property is set or not.
+     *
+     * @param $name
+     * @return bool
+     */
+    function __isset($name)
+    {
+        $method = camel_case('get_' . $name);
+
+        if (method_exists($this, $method)) {
+            return true;
+        }
+
+        $method = camel_case('is_' . $name);
+
+        if (method_exists($this, $method)) {
+            return true;
+        }
+
+        return isset($this->{$name});
+    }
 }

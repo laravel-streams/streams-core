@@ -2,7 +2,8 @@
 
 return [
     'label'        => [
-        'name' => 'Label'
+        'name'         => 'Label',
+        'instructions' => 'Label\'s will be used for forms only. If left blank, the field name will be used.'
     ],
     'required'     => [
         'name'         => 'Required',
