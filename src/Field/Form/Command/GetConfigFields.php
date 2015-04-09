@@ -43,7 +43,7 @@ class GetConfigFields implements SelfHandling
     {
         $fields = [];
 
-        $config = $evaluator->evaluate($config->get($this->fieldType->getNamespace('config')));
+        $config = $evaluator->evaluate($config->get($this->fieldType->getNamespace('config'), []));
 
         foreach ($config as $slug => $field) {
 
