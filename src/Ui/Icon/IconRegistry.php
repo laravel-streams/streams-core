@@ -25,6 +25,7 @@ class IconRegistry
         'arrows-h'     => 'fa fa-arrows-h',
         'arrows-v'     => 'fa fa-arrows-v',
         'options'      => 'fa fa-options',
+        'refresh'      => 'fa fa-refresh',
         'warning'      => 'fa fa-warning',
         'upload'       => 'fa fa-upload',
         'search'       => 'fa fa-search',
