@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Auth\Guard;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -84,20 +84,23 @@ class ActionExecutor
     /**
      * Execute an action.
      *
-     * @param Table           $table
+     * @param TableBuilder    $builder
      * @param ActionInterface $action
-     * @return mixed
+     * @throws \Exception
      */
-    public function execute(Table $table, ActionInterface $action)
+    public function execute(TableBuilder $builder, ActionInterface $action)
     {
-        $options = $table->getOptions();
+        $options = $builder->getTableOptions();
         $handler = $action->getHandler();
 
         /**
          * If the option is not set then
          * try and automate the permission.
          */
-        if (!$action->getPermission() && ($module = $this->modules->active()) && ($stream = $table->getStream())
+        if (
+            !$action->getPermission()
+            && ($module = $this->modules->active())
+            && ($stream = $builder->getTableStream())
         ) {
             $action->setPermission($module->getNamespace($stream->getSlug() . '.' . $action->getSlug()));
         }
@@ -122,7 +125,10 @@ class ActionExecutor
          * then call it using the IoC container.
          */
         if (is_string($handler) || $handler instanceof \Closure) {
-            return app()->call($handler, compact('table', 'selected'));
+
+            app()->call($handler, compact('builder', 'selected'));
+
+            return;
         }
 
         /**
@@ -130,7 +136,10 @@ class ActionExecutor
          * simply call the handle method on it.
          */
         if ($handler instanceof ActionHandlerInterface) {
-            return $handler->handle($table, $selected);
+
+            $handler->handle($builder, $selected);
+
+            return;
         }
 
         throw new \Exception('Action $handler must be a callable string, Closure or ActionHandlerInterface.');

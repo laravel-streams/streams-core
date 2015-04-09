@@ -50,7 +50,10 @@ trait FiresCallbacks
         $method = camel_case('on_' . $trigger);
 
         if (method_exists($this, $method)) {
-            call_user_func_array([$this, $method], $parameters);
+
+            $handler = get_class($this) . '@' . $method;
+
+            app()->call([$this, $method], $parameters);
         }
 
         $handler = get_class($this) . ucfirst(camel_case($trigger));

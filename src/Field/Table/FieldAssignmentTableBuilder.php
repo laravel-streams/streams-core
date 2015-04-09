@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field\Table;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -12,6 +14,13 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class FieldAssignmentTableBuilder extends TableBuilder
 {
+
+    /**
+     * The table model.
+     *
+     * @var string
+     */
+    protected $model = 'Anomaly\Streams\Platform\Assignment\AssignmentModel';
 
     /**
      * The table entries.
@@ -68,4 +77,14 @@ class FieldAssignmentTableBuilder extends TableBuilder
         'sortable' => true
     ];
 
+    /**
+     * Fired after a row is deleted.
+     *
+     * @param AssignmentInterface      $entry
+     * @param FieldRepositoryInterface $fields
+     */
+    public function onRowDeleted(AssignmentInterface $entry, FieldRepositoryInterface $fields)
+    {
+        $fields->delete($entry->getField());
+    }
 }

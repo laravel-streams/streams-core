@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
  * Class DeleteActionHandler
@@ -18,26 +18,29 @@ class Delete extends ActionHandler
     /**
      * Save the order of the entries.
      *
-     * @param Table $table
-     * @param array $selected
+     * @param TableBuilder $builder
+     * @param array        $selected
      */
-    public function handle(Table $table, array $selected)
+    public function handle(TableBuilder $builder, array $selected)
     {
         $count = 0;
 
-        $model = $table->getModel();
+        $model = $builder->getTableModel();
 
         /* @var EloquentModel $entry */
         foreach ($selected as $id) {
             if ($entry = $model->find($id)) {
                 if ($entry->isDeletable() && $entry->delete()) {
+
+                    $builder->fire('row_deleted', compact('builder', 'model', 'entry'));
+
                     $count++;
                 }
             }
         }
 
-        $type = $count ? 'success' : 'error';
+        $builder->fire('rows_deleted', compact('count', 'builder', 'model'));
 
-        $this->messages->{$type}(trans('streams::message.delete_success', compact('count')));
+        $this->messages->success(trans('streams::message.delete_success', compact('count')));
     }
 }

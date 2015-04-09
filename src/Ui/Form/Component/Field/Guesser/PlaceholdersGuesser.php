@@ -79,6 +79,8 @@ class PlaceholdersGuesser
              */
             if (trans()->has($placeholder = $assignment->getPlaceholder(), array_get($field, 'locale'))) {
                 $field['placeholder'] = trans($placeholder, [], null, array_get($field, 'locale'));
+            } elseif ($placeholder && !str_is('*.*.*::*', $placeholder)) {
+                $field['placeholder'] = $placeholder;
             }
 
             $fields[] = $field;

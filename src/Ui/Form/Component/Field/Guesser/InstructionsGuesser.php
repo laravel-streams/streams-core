@@ -78,6 +78,8 @@ class InstructionsGuesser
              */
             if (trans()->has($instructions = $assignment->getInstructions(), array_get($field, 'locale'))) {
                 $field['instructions'] = trans($instructions, [], null, array_get($field, 'locale'));
+            } elseif ($instructions && !str_is('*.*.*::*', $instructions)) {
+                $field['instructions'] = $instructions;
             }
 
             $fields[] = $field;

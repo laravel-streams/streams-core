@@ -34,6 +34,17 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     }
 
     /**
+     * Find an assignment.
+     *
+     * @param $id
+     * @return null|AssignmentInterface
+     */
+    public function find($id)
+    {
+        return $this->model->find($id);
+    }
+
+    /**
      * Create a new assignment.
      *
      * @param StreamInterface $stream
@@ -47,6 +58,10 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $attributes['stream_id'] = $stream->getId();
 
         $attributes['sort_order'] = array_get($attributes, 'sort_order', $this->model->count('id') + 1);
+
+        $attributes['translatable'] = array_get($attributes, 'translatable', false);
+        $attributes['required']     = array_get($attributes, 'required', false);
+        $attributes['unique']       = array_get($attributes, 'unique', false);
 
         return $this->model->create($attributes);
     }

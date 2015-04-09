@@ -79,6 +79,8 @@ class LabelsGuesser
              */
             if (trans()->has($label = $assignment->getLabel(), array_get($field, 'locale'))) {
                 $field['label'] = trans($label, [], null, array_get($field, 'locale'));
+            } elseif ($label && !str_is('*.*.*::*', $label)) {
+                $field['label'] = $label;
             } elseif (trans()->has($name = $assignment->getFieldName(), array_get($field, 'locale'))) {
                 $field['label'] = trans($name, [], null, array_get($field, 'locale'));
             }

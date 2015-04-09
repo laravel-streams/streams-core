@@ -45,7 +45,7 @@ class GetConfigFields implements SelfHandling
 
         $config = $evaluator->evaluate($config->get($this->fieldType->getNamespace('config'), []));
 
-        foreach ($config as $slug => $field) {
+        foreach ($config as $slug => &$field) {
 
             /**
              * Determine the field label.
@@ -77,7 +77,7 @@ class GetConfigFields implements SelfHandling
             }
 
             // Prefix the slugs.
-            $field['slug'] = 'config_' . $slug;
+            $field['field'] = $field['slug'] = 'config_' . $slug;
 
             $fields['config_' . $slug] = $field;
         }

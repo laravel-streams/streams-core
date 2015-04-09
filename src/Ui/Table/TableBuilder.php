@@ -341,6 +341,16 @@ class TableBuilder
     }
 
     /**
+     * Get the table model.
+     *
+     * @return \Anomaly\Streams\Platform\Model\EloquentModel|null
+     */
+    public function getTableModel()
+    {
+        return $this->table->getModel();
+    }
+
+    /**
      * Get a table option value.
      *
      * @param      $key
@@ -367,6 +377,16 @@ class TableBuilder
     }
 
     /**
+     * Get the table options.
+     *
+     * @return Collection
+     */
+    public function getTableOptions()
+    {
+        return $this->table->getOptions();
+    }
+
+    /**
      * Set the table entries.
      *
      * @param Collection $entries
@@ -377,5 +397,35 @@ class TableBuilder
         $this->table->setEntries($entries);
 
         return $this;
+    }
+
+    /**
+     * Get the table actions.
+     *
+     * @return Component\Action\ActionCollection
+     */
+    public function getTableActions()
+    {
+        return $this->table->getActions();
+    }
+
+    /**
+     * Set the table response.
+     *
+     * @param Response $response
+     */
+    public function setTableResponse(Response $response)
+    {
+        $this->table->setResponse($response);
+    }
+
+    /**
+     * Get the table response.
+     *
+     * @return null|Response
+     */
+    public function getTableResponse()
+    {
+        return $this->table->getResponse();
     }
 }

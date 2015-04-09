@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract;
 
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
  * Interface ActionHandlerInterface
@@ -16,9 +16,9 @@ interface ActionHandlerInterface
     /**
      * Handle the action.
      *
-     * @param Table $table
-     * @param array $selected
+     * @param TableBuilder $builder
+     * @param array        $selected
      * @return mixed
      */
-    public function handle(Table $table, array $selected);
+    public function handle(TableBuilder $builder, array $selected);
 }

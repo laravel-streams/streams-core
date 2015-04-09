@@ -2,6 +2,8 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Form\Command\GetConfigFields;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
@@ -25,10 +27,14 @@ class FieldAssignmentFormFields
      */
     public function handle(FieldAssignmentFormBuilder $builder)
     {
-        $entry = $builder->getFormEntry();
+        /* @var FieldInterface $field */
+        $field = $builder->getFormEntry();
+
+        /* @var AssignmentInterface $assignment */
+        $assignment = $field->getAssignments()->first();
 
         /* @var FieldType $type */
-        $type = $entry->getType() ?: app($builder->getOption('field_type'));
+        $type = $field->getType() ?: app($builder->getOption('field_type'));
 
         $fields = [
             'type'         => [
@@ -66,22 +72,26 @@ class FieldAssignmentFormFields
             'required'     => [
                 'label'        => 'streams::assignment.required.label',
                 'instructions' => 'streams::assignment.required.instructions',
-                'type'         => 'anomaly.field_type.boolean'
+                'type'         => 'anomaly.field_type.boolean',
+                'value'        => $assignment ? $assignment->isRequired() : false
             ],
             'unique'       => [
                 'label'        => 'streams::assignment.unique.label',
                 'instructions' => 'streams::assignment.unique.instructions',
-                'type'         => 'anomaly.field_type.boolean'
+                'type'         => 'anomaly.field_type.boolean',
+                'value'        => $assignment ? $assignment->isUnique() : false
             ],
             'label'        => [
                 'label'        => 'streams::assignment.label.name',
                 'instructions' => 'streams::assignment.label.instructions',
-                'type'         => 'anomaly.field_type.text'
+                'type'         => 'anomaly.field_type.text',
+                'value'        => $assignment ? $assignment->getLabel() : null
             ],
             'instructions' => [
                 'label'        => 'streams::assignment.instructions.name',
                 'instructions' => 'streams::assignment.instructions.instructions',
-                'type'         => 'anomaly.field_type.textarea'
+                'type'         => 'anomaly.field_type.textarea',
+                'value'        => $assignment ? $assignment->getInstructions() : null
             ],
         ];
 

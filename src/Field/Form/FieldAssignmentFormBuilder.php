@@ -30,13 +30,6 @@ class FieldAssignmentFormBuilder extends FormBuilder
     protected $fields = 'Anomaly\Streams\Platform\Field\Form\FieldAssignmentFormFields@handle';
 
     /**
-     * The form handler.
-     *
-     * @var string
-     */
-    protected $handler = 'Anomaly\Streams\Platform\Field\Form\FieldAssignmentFormHandler@handle';
-
-    /**
      * Create a new FieldAssignmentFormBuilder instance.
      *
      * @param Form  $form

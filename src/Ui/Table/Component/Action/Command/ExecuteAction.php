@@ -36,14 +36,12 @@ class ExecuteAction implements SelfHandling
      */
     public function handle(Request $request, ActionExecutor $executor, ResponseFactory $response)
     {
-        $table = $this->builder->getTable();
-
-        $actions = $table->getActions();
+        $actions = $this->builder->getTableActions();
 
         if ($action = $actions->active()) {
-            $executor->execute($table, $action);
+            $executor->execute($this->builder, $action);
         }
 
-        $table->setResponse($response->redirectTo($request->fullUrl()));
+        $this->builder->setTableResponse($response->redirectTo($request->fullUrl()));
     }
 }

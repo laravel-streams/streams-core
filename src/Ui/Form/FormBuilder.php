@@ -453,6 +453,28 @@ class FormBuilder
     }
 
     /**
+     * Get a form value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getFormValue($key, $default = null)
+    {
+        return $this->form->getValue($key, $default);
+    }
+
+    /**
+     * Get the form values.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getFormValues()
+    {
+        return $this->form->getValues();
+    }
+
+    /**
      * Set the form response.
      *
      * @param null|false|Response $response

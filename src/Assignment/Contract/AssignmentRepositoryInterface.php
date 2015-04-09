@@ -16,6 +16,14 @@ interface AssignmentRepositoryInterface
 {
 
     /**
+     * Find an assignment.
+     *
+     * @param $id
+     * @return null|AssignmentInterface
+     */
+    public function find($id);
+
+    /**
      * Create a new assignment.
      *
      * @param StreamInterface $stream
