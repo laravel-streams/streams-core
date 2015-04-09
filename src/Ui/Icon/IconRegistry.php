@@ -21,6 +21,8 @@ class IconRegistry
         'glyphicons'   => 'glyphicons glyphicons-eyedropper',
         'cloud-upload' => 'fa fa-cloud-upload',
         'dashboard'    => 'fa fa-dashboard',
+        'arrows-h'     => 'fa fa-arrows-h',
+        'arrows-v'     => 'fa fa-arrows-v',
         'options'      => 'fa fa-options',
         'warning'      => 'fa fa-warning',
         'upload'       => 'fa fa-upload',

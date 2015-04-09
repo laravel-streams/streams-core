@@ -31,6 +31,13 @@ class FieldType extends Addon
     protected $disabled = false;
 
     /**
+     * The readonly flag.
+     *
+     * @var bool
+     */
+    protected $readonly = false;
+
+    /**
      * Validation rules.
      *
      * @var array
@@ -221,6 +228,29 @@ class FieldType extends Addon
     public function setDisabled($disabled)
     {
         $this->disabled = $disabled;
+
+        return $this;
+    }
+
+    /**
+     * Get the readonly flag.
+     *
+     * @return bool
+     */
+    public function isReadonly()
+    {
+        return $this->readonly;
+    }
+
+    /**
+     * Set the readonly flag.
+     *
+     * @param $readonly
+     * @return $this
+     */
+    public function setReadonly($readonly)
+    {
+        $this->readonly = $readonly;
 
         return $this;
     }
