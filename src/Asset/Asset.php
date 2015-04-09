@@ -98,7 +98,6 @@ class Asset
      * @param  array $filters
      * @return $this
      * @throws \Exception
-     * @internal param $asset
      */
     public function add($collection, $file, array $filters = [])
     {
