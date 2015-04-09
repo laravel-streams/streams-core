@@ -47,6 +47,7 @@ class AssetPaths
      *
      * @param $path
      * @return string
+     * @throws \Exception
      */
     public function realPath($path)
     {

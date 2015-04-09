@@ -94,8 +94,11 @@ class Asset
      * so asset.links / asset.scripts will work.
      *
      * @param        $collection
-     * @param        $asset
+     * @param        $file
      * @param  array $filters
+     * @return $this
+     * @throws \Exception
+     * @internal param $asset
      */
     public function add($collection, $file, array $filters = [])
     {
@@ -108,8 +111,13 @@ class Asset
         $file = $this->paths->realPath($file);
 
         if (starts_with($file, 'http') || file_exists($file) || is_dir(trim($file, '*'))) {
+
             $this->collections[$collection][$file] = $filters;
+
+            return $this;
         }
+
+        throw new \Exception("Asset [{$file}] does not exist!");
     }
 
     /**
@@ -536,5 +544,15 @@ class Asset
         $this->publish = $publish;
 
         return $this;
+    }
+
+    /**
+     * Return nothing.
+     *
+     * @return string
+     */
+    function __toString()
+    {
+        return '';
     }
 }
