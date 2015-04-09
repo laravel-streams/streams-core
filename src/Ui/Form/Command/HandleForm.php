@@ -36,14 +36,12 @@ class HandleForm implements SelfHandling
      */
     public function handle()
     {
-        $form = $this->builder->getForm();
-
-        // If validation failed then skip it.
-        if ($form->getErrors()) {
+        // If we can't save, skip it.
+        if (!$this->builder->canSave()) {
             return;
         }
 
-        $handler = $form->getOption('handler');
+        $handler = $this->builder->getFormOption('handler');
 
         /**
          * If the handler is a callable string or Closure then

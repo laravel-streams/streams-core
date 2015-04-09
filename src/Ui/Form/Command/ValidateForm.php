@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class ValidateForm
@@ -10,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class ValidateForm
+class ValidateForm implements SelfHandling
 {
 
     /**

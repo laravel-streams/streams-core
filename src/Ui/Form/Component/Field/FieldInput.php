@@ -102,10 +102,11 @@ class FieldInput
         $this->normalizer->normalize($builder);
         $this->evaluator->evaluate($builder);
         $this->filler->fill($builder);
-        
+
         $this->normalizer->normalize($builder); //Yes, again.
+        $this->guesser->guess($builder);
+
         $this->translator->translate($builder);
         $this->populator->populate($builder);
-        $this->guesser->guess($builder);
     }
 }

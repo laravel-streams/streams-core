@@ -1,19 +1,21 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Support;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Multiple;
 
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormCollection;
+use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\BuildForms;
+use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\MergeFields;
 use Illuminate\Support\Collection;
 
 /**
- * Class MultiFormBuilder
+ * Class MultipleFormBuilder
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Support
  */
-class MultiFormBuilder extends FormBuilder
+class MultipleFormBuilder extends FormBuilder
 {
 
     /**
@@ -24,7 +26,7 @@ class MultiFormBuilder extends FormBuilder
     protected $forms;
 
     /**
-     * Create a new MultiFormBuilder instance.
+     * Create a new MultipleFormBuilder instance.
      *
      * @param Form           $form
      * @param FormCollection $forms
@@ -45,6 +47,9 @@ class MultiFormBuilder extends FormBuilder
      */
     public function build($entry = null)
     {
+        $this->dispatch(new BuildForms($this));
+        $this->dispatch(new MergeFields($this));
+
         parent::build($entry);
     }
 
@@ -94,9 +99,17 @@ class MultiFormBuilder extends FormBuilder
      *
      * @param             $key
      * @param FormBuilder $builder
+     * @return $this
      */
     public function addForm($key, FormBuilder $builder)
     {
-        $this->forms->put($key, $builder);
+        $this->forms->put(
+            $key,
+            $builder
+                ->setSave(false)
+                ->setOption('prefix', $key . '_')
+        );
+
+        return $this;
     }
 }

@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Ui\Form\Command\SetErrorMessages;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
@@ -74,29 +75,32 @@ class FormValidator
     {
         $factory = app('validator');
 
-        $form = $builder->getForm();
-
-        $this->extender->extend($factory, $form);
+        $this->extender->extend($factory, $builder);
 
         $input    = $this->request->all();
-        $messages = $this->messages->get($form);
-        $rules    = $this->rules->compile($form);
+        $messages = $this->messages->get($builder);
+        $rules    = $this->rules->compile($builder);
 
         $validator = $factory->make($input, $rules, $messages);
 
-        $this->setResponse($validator, $form);
+        $this->setResponse($validator, $builder);
     }
 
     /**
      * Set the response based on validation.
      *
-     * @param Validator $validator
-     * @param Form      $form
+     * @param Validator   $validator
+     * @param FormBuilder $builder
      */
-    protected function setResponse(Validator $validator, Form $form)
+    protected function setResponse(Validator $validator, FormBuilder $builder)
     {
         if (!$validator->passes()) {
-            $form->setErrors($validator->getMessageBag());
+
+            $builder
+                ->setSave(false)
+                ->setFormErrors($validator->getMessageBag());
+
+            $this->dispatch(new SetErrorMessages($builder));
         }
     }
 }

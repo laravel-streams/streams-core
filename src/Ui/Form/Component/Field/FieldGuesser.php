@@ -3,6 +3,8 @@
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\InstructionsGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\LabelsGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\PlaceholdersGuesser;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\PrefixesGuesser;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\TranslatableGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -24,6 +26,20 @@ class FieldGuesser
     protected $labels;
 
     /**
+     * The prefixes guesser.
+     *
+     * @var PrefixesGuesser
+     */
+    protected $prefixes;
+
+    /**
+     * The translatable guesser.
+     *
+     * @var TranslatableGuesser
+     */
+    protected $translatable;
+
+    /**
      * The instructions guesser.
      *
      * @var InstructionsGuesser
@@ -41,15 +57,21 @@ class FieldGuesser
      * Create a new HeadingGuesser instance.
      *
      * @param LabelsGuesser       $labels
+     * @param PrefixesGuesser     $prefixes
+     * @param TranslatableGuesser $translatable
      * @param InstructionsGuesser $instructions
      * @param PlaceholdersGuesser $placeholders
      */
     public function __construct(
         LabelsGuesser $labels,
+        PrefixesGuesser $prefixes,
+        TranslatableGuesser $translatable,
         InstructionsGuesser $instructions,
         PlaceholdersGuesser $placeholders
     ) {
         $this->labels       = $labels;
+        $this->prefixes     = $prefixes;
+        $this->translatable = $translatable;
         $this->instructions = $instructions;
         $this->placeholders = $placeholders;
     }
@@ -62,6 +84,8 @@ class FieldGuesser
     public function guess(FormBuilder $builder)
     {
         $this->labels->guess($builder);
+        $this->prefixes->guess($builder);
+        $this->translatable->guess($builder);
         $this->instructions->guess($builder);
         $this->placeholders->guess($builder);
     }

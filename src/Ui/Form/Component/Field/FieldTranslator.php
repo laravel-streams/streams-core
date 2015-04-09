@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -21,23 +20,6 @@ class FieldTranslator
      */
     public function translate(FormBuilder $builder)
     {
-        $fields = $builder->getFields();
-        $entry  = $builder->getFormEntry();
-
-        /**
-         * If the entry is not of the interface then skip it.
-         */
-        if (!$entry instanceof EntryInterface) {
-            return;
-        }
-
-        /**
-         * If the entry is not translatable then skip it.
-         */
-        if (!$entry->isTranslatable()) {
-            return;
-        }
-
         $translations = [];
 
         /**
@@ -45,11 +27,9 @@ class FieldTranslator
          * then duplicate it and set a couple simple
          * parameters to assist in rendering.
          */
-        foreach ($fields as $field) {
+        foreach ($builder->getFields() as $field) {
 
-            $assignment = $entry->getAssignment($field['field']);
-
-            if (!$assignment || !$assignment->isTranslatable()) {
+            if (!array_get($field, 'translatable', false)) {
 
                 $translations[] = $field;
 

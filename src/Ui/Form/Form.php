@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Illuminate\Support\Collection;
+use Illuminate\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -99,7 +100,7 @@ class Form
     /**
      * The form fields.
      *
-     * @var Collection
+     * @var FieldCollection
      */
     protected $fields;
 
@@ -176,7 +177,7 @@ class Form
     /**
      * Get the errors.
      *
-     * @return array|null
+     * @return null|MessageBag
      */
     public function getErrors()
     {
@@ -186,10 +187,10 @@ class Form
     /**
      * Set the errors.
      *
-     * @param $errors
+     * @param MessageBag $errors
      * @return $this
      */
-    public function setErrors($errors)
+    public function setErrors(MessageBag $errors)
     {
         $this->errors = $errors;
 
@@ -593,5 +594,17 @@ class Form
         $this->mode = $mode;
 
         return $this;
+    }
+
+    /**
+     * Return whether the form is translatable or not.
+     *
+     * @return bool
+     */
+    public function isTranslatable()
+    {
+        $fields = $this->fields->translatable();
+
+        return (!$fields->isEmpty());
     }
 }

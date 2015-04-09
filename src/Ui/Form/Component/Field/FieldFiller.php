@@ -17,7 +17,6 @@ class FieldFiller
      * Fill in fields.
      *
      * @param FormBuilder $builder
-     * @return mixed
      */
     public function fill(FormBuilder $builder)
     {
@@ -28,7 +27,15 @@ class FieldFiller
          * If no Stream, skip it.
          */
         if (!$stream) {
-            return $fields;
+
+            if (array_search('*', $fields) !== false) {
+
+                unset($fields[array_search('*', $fields)]);
+
+                $builder->setFields($fields);
+            }
+
+            return;
         }
 
         /**

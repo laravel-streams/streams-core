@@ -22,19 +22,15 @@ class PlaceholdersGuesser
      */
     public function guess(FormBuilder $builder)
     {
-        $fields = [];
-
+        $fields = $builder->getFields();
         $stream = $builder->getFormStream();
 
-        foreach ($builder->getFields() as $field) {
+        foreach ($fields as $field) {
 
             /**
              * If the placeholder is already set then use it.
              */
             if (isset($field['placeholder'])) {
-
-                $fields[] = $field;
-
                 continue;
             }
 
@@ -43,9 +39,6 @@ class PlaceholdersGuesser
              * can not really guess anything here.
              */
             if (!isset($field['field'])) {
-
-                $fields[] = $field;
-
                 continue;
             }
 
@@ -54,9 +47,6 @@ class PlaceholdersGuesser
              * really do much here.
              */
             if (!$stream instanceof StreamInterface) {
-
-                $fields[] = $field;
-
                 continue;
             }
 
@@ -67,9 +57,6 @@ class PlaceholdersGuesser
              * not have anything to do here.
              */
             if (!$assignment instanceof AssignmentInterface) {
-
-                $fields[] = $field;
-
                 continue;
             }
 
@@ -82,8 +69,6 @@ class PlaceholdersGuesser
             } elseif ($placeholder && !str_is('*.*.*::*', $placeholder)) {
                 $field['placeholder'] = $placeholder;
             }
-
-            $fields[] = $field;
         }
 
         $builder->setFields($fields);

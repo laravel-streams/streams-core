@@ -17,17 +17,17 @@ class FormRules
     /**
      * Compile rules from form fields.
      *
-     * @param Form $form
+     * @param FormBuilder $builder
      * @return array
      */
-    public function compile(Form $form)
+    public function compile(FormBuilder $builder)
     {
         $rules = [];
 
-        $entry  = $form->getEntry();
-        $stream = $form->getStream();
+        $entry  = $builder->getFormEntry();
+        $stream = $builder->getFormStream();
 
-        foreach ($form->getFields() as $field) {
+        foreach ($builder->getFormFields() as $field) {
 
             if ($field->isDisabled()) {
                 continue;

@@ -43,10 +43,6 @@ class LoadForm implements SelfHandling
     {
         $form = $this->builder->getForm();
 
-        if ($form->getStream()) {
-            $form->setOption('translatable', $form->getStream()->isTranslatable());
-        }
-
         if ($handler = $form->getOption('data')) {
             $container->call($handler, compact('form'));
         }

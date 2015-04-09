@@ -1,15 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Asset;
 
 use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Asset\Filter\CssMinFilter;
-use Anomaly\Streams\Platform\Asset\Filter\JSMinFilter;
-use Anomaly\Streams\Platform\Asset\Filter\LessphpFilter;
-use Anomaly\Streams\Platform\Asset\Filter\PhpCssEmbedFilter;
-use Anomaly\Streams\Platform\Asset\Filter\ScssphpFilter;
+use Anomaly\Streams\Platform\Asset\Filter\ParseFilter;
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\GlobAsset;
 use Assetic\Filter\CoffeeScriptFilter;
+use Assetic\Filter\CssMinFilter;
+use Assetic\Filter\JSMinFilter;
+use Assetic\Filter\LessphpFilter;
+use Assetic\Filter\PhpCssEmbedFilter;
+use Assetic\Filter\ScssphpFilter;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
 
@@ -341,6 +342,10 @@ class Asset
     {
         foreach ($filters as $k => &$filter) {
             switch ($filter) {
+                case 'parse':
+                    $filter = new ParseFilter();
+                    break;
+
                 case 'less':
                     $filter = new LessphpFilter();
                     break;

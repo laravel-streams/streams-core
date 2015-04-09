@@ -15,7 +15,7 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Field\Form
  */
-class FieldAssignmentFormRepository extends EloquentFormRepository
+class BAKFieldAssignmentFormRepository extends EloquentFormRepository
 {
 
     protected $model;

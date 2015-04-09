@@ -1,21 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
- * Class PostForm
+ * Class SetErrorMessages
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class PostForm implements SelfHandling
+class SetErrorMessages implements SelfHandling
 {
-
-    use DispatchesCommands;
 
     /**
      * The form builder.
@@ -25,7 +23,7 @@ class PostForm implements SelfHandling
     protected $builder;
 
     /**
-     * Create a new PostForm instance.
+     * Create a new SetErrorMessages instance.
      *
      * @param FormBuilder $builder
      */
@@ -36,18 +34,13 @@ class PostForm implements SelfHandling
 
     /**
      * Handle the command.
+     *
+     * @param MessageBag $messages
      */
-    public function handle()
+    public function handle(MessageBag $messages)
     {
-        $this->builder->fire('posting');
+        $errors = $this->builder->getFormErrors();
 
-        $this->dispatch(new LoadFormValues($this->builder));
-        $this->dispatch(new RemoveSkippedFields($this->builder));
-        $this->dispatch(new RemoveDisabledFields($this->builder));
-        $this->dispatch(new ValidateForm($this->builder));
-        $this->dispatch(new HandleForm($this->builder));
-        $this->dispatch(new SetActionResponse($this->builder));
-
-        $this->builder->fire('posted');
+        $messages->error($errors->all());
     }
 }

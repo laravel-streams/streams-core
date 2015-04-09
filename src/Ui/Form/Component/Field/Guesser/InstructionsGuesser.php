@@ -22,19 +22,15 @@ class InstructionsGuesser
      */
     public function guess(FormBuilder $builder)
     {
-        $fields = [];
-
+        $fields = $builder->getFields();
         $stream = $builder->getFormStream();
 
-        foreach ($builder->getFields() as $field) {
+        foreach ($fields as &$field) {
 
             /**
              * If the instructions are already set then use it.
              */
             if (isset($field['instructions'])) {
-
-                $fields[] = $field;
-
                 continue;
             }
 
@@ -43,9 +39,6 @@ class InstructionsGuesser
              * can not really guess anything here.
              */
             if (!isset($field['field'])) {
-
-                $fields[] = $field;
-
                 continue;
             }
 
@@ -54,9 +47,6 @@ class InstructionsGuesser
              * really do much here.
              */
             if (!$stream instanceof StreamInterface) {
-
-                $fields[] = $field;
-
                 continue;
             }
 
@@ -67,9 +57,6 @@ class InstructionsGuesser
              * not have anything to do here.
              */
             if (!$assignment instanceof AssignmentInterface) {
-
-                $fields[] = $field;
-
                 continue;
             }
 
@@ -81,8 +68,6 @@ class InstructionsGuesser
             } elseif ($instructions && !str_is('*.*.*::*', $instructions)) {
                 $field['instructions'] = $instructions;
             }
-
-            $fields[] = $field;
         }
 
         $builder->setFields($fields);

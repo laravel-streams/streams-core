@@ -22,19 +22,15 @@ class LabelsGuesser
      */
     public function guess(FormBuilder $builder)
     {
-        $fields = [];
-
+        $fields = $builder->getFields();
         $stream = $builder->getFormStream();
 
-        foreach ($builder->getFields() as $field) {
+        foreach ($fields as &$field) {
 
             /**
              * If the label is already set then use it.
              */
             if (isset($field['label'])) {
-
-                $fields[] = $field;
-
                 continue;
             }
 
@@ -43,9 +39,6 @@ class LabelsGuesser
              * can not really guess anything here.
              */
             if (!isset($field['field'])) {
-
-                $fields[] = $field;
-
                 continue;
             }
 
@@ -54,9 +47,6 @@ class LabelsGuesser
              * really do much here.
              */
             if (!$stream instanceof StreamInterface) {
-
-                $fields[] = $field;
-
                 continue;
             }
 
@@ -67,9 +57,6 @@ class LabelsGuesser
              * not have anything to do here.
              */
             if (!$assignment instanceof AssignmentInterface) {
-
-                $fields[] = $field;
-
                 continue;
             }
 
@@ -84,8 +71,6 @@ class LabelsGuesser
             } elseif (trans()->has($name = $assignment->getFieldName(), array_get($field, 'locale'))) {
                 $field['label'] = trans($name, [], null, array_get($field, 'locale'));
             }
-
-            $fields[] = $field;
         }
 
         $builder->setFields($fields);

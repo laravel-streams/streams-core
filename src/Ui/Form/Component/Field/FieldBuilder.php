@@ -62,10 +62,9 @@ class FieldBuilder
      */
     public function build(FormBuilder $builder)
     {
-        $form   = $builder->getForm();
         $skips  = $builder->getSkips();
-        $stream = $form->getStream();
-        $entry  = $form->getEntry();
+        $stream = $builder->getFormStream();
+        $entry  = $builder->getFormEntry();
 
         $this->input->read($builder);
 
@@ -75,7 +74,7 @@ class FieldBuilder
          */
         foreach ($builder->getFields() as $slug => $field) {
             if (!in_array($field['slug'], $skips) && array_get($field, 'enabled', true)) {
-                $form->addField($this->factory->make($field, $stream, $entry));
+                $builder->addFormField($this->factory->make($field, $stream, $entry));
             }
         }
     }

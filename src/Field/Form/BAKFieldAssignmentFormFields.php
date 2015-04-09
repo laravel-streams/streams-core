@@ -15,7 +15,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Field\Form
  */
-class FieldAssignmentFormFields
+class BAKFieldAssignmentFormFields
 {
 
     use DispatchesCommands;
@@ -68,31 +68,7 @@ class FieldAssignmentFormFields
                 'config'       => [
                     'slugify' => 'name'
                 ]
-            ],
-            'required'     => [
-                'label'        => 'streams::assignment.required.label',
-                'instructions' => 'streams::assignment.required.instructions',
-                'type'         => 'anomaly.field_type.boolean',
-                'value'        => $assignment ? $assignment->isRequired() : false
-            ],
-            'unique'       => [
-                'label'        => 'streams::assignment.unique.label',
-                'instructions' => 'streams::assignment.unique.instructions',
-                'type'         => 'anomaly.field_type.boolean',
-                'value'        => $assignment ? $assignment->isUnique() : false
-            ],
-            'label'        => [
-                'label'        => 'streams::assignment.label.name',
-                'instructions' => 'streams::assignment.label.instructions',
-                'type'         => 'anomaly.field_type.text',
-                'value'        => $assignment ? $assignment->getLabel() : null
-            ],
-            'instructions' => [
-                'label'        => 'streams::assignment.instructions.name',
-                'instructions' => 'streams::assignment.instructions.instructions',
-                'type'         => 'anomaly.field_type.textarea',
-                'value'        => $assignment ? $assignment->getInstructions() : null
-            ],
+            ]
         ];
 
         $config = $this->dispatch(new GetConfigFields($type));

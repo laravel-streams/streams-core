@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
@@ -10,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
 use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -74,6 +77,13 @@ class FormBuilder
      * @var array
      */
     protected $options = [];
+
+    /**
+     * The save flag.
+     *
+     * @var bool
+     */
+    protected $save = true;
 
     /**
      * The form object.
@@ -281,16 +291,6 @@ class FormBuilder
     }
 
     /**
-     * Get the actions config.
-     *
-     * @return array
-     */
-    public function getActions()
-    {
-        return $this->actions;
-    }
-
-    /**
      * Add an action.
      *
      * @param       $slug
@@ -306,6 +306,16 @@ class FormBuilder
         }
 
         return $this;
+    }
+
+    /**
+     * Get the actions config.
+     *
+     * @return array
+     */
+    public function getActions()
+    {
+        return $this->actions;
     }
 
     /**
@@ -429,7 +439,7 @@ class FormBuilder
     /**
      * Get the form entry.
      *
-     * @return mixed
+     * @return EloquentModel|EntryInterface
      */
     public function getFormEntry()
     {
@@ -482,6 +492,18 @@ class FormBuilder
     }
 
     /**
+     * Get the form input.
+     *
+     * @return array
+     */
+    public function getFormInput()
+    {
+        $values = $this->getFormValues();
+
+        return $values->all();
+    }
+
+    /**
      * Get the form data.
      *
      * @return \Illuminate\Support\Collection
@@ -502,5 +524,74 @@ class FormBuilder
         $this->form->setResponse($response);
 
         return $this;
+    }
+
+    /**
+     * Get the form fields.
+     *
+     * @return Component\Field\FieldCollection
+     */
+    public function getFormFields()
+    {
+        return $this->form->getFields();
+    }
+
+    /**
+     * Add a form field.
+     *
+     * @param FieldType $field
+     * @return $this
+     */
+    public function addFormField(FieldType $field)
+    {
+        $this->form->addField($field);
+
+        return $this;
+    }
+
+    /**
+     * Set the form errors.
+     *
+     * @param MessageBag $errors
+     * @return $this
+     */
+    public function setFormErrors(MessageBag $errors)
+    {
+        $this->form->setErrors($errors);
+
+        return $this;
+    }
+
+    /**
+     * Get the form errors.
+     *
+     * @return null|MessageBag
+     */
+    public function getFormErrors()
+    {
+        return $this->form->getErrors();
+    }
+
+    /**
+     * Set the save flag.
+     *
+     * @param bool $save
+     * @return $this
+     */
+    public function setSave($save)
+    {
+        $this->save = $save;
+
+        return $this;
+    }
+
+    /**
+     * Return the save flag.
+     *
+     * @return bool
+     */
+    public function canSave()
+    {
+        return $this->save;
     }
 }

@@ -17,12 +17,12 @@ class FormExtender
     /**
      * Extend the validation factory.
      *
-     * @param Factory $factory
-     * @param Form    $form
+     * @param Factory     $factory
+     * @param FormBuilder $builder
      */
-    public function extend(Factory $factory, Form $form)
+    public function extend(Factory $factory, FormBuilder $builder)
     {
-        foreach ($form->getFields() as $field) {
+        foreach ($builder->getFormFields() as $field) {
             $this->registerValidators($factory, $field);
         }
     }

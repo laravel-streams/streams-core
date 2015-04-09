@@ -53,6 +53,25 @@ class FieldCollection extends Collection
     }
 
     /**
+     * Return only translatable fields.
+     *
+     * @return FieldCollection
+     */
+    public function translatable()
+    {
+        $translatable = [];
+
+        /* @var FieldType $item */
+        foreach ($this->items as $item) {
+            if (!$item->getLocale()) {
+                $translatable[] = $item;
+            }
+        }
+
+        return new static($translatable);
+    }
+
+    /**
      * Return fields to be processed immediately.
      *
      * @return FieldCollection

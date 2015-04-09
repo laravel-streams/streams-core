@@ -1,8 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
-use Anomaly\Streams\Platform\Asset\Asset;
-use Anomaly\Streams\Platform\Ui\Form\Form;
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Assignment\Form\AssignmentFormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 
 /**
  * Class FieldAssignmentFormBuilder
@@ -12,33 +11,18 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Field\Form
  */
-class FieldAssignmentFormBuilder extends FormBuilder
+class FieldAssignmentFormBuilder extends MultipleFormBuilder
 {
 
     /**
-     * The form model.
+     * Initialize the form builder.
      *
-     * @var string
+     * @param FieldFormBuilder $field
      */
-    protected $model = 'Anomaly\Streams\Platform\Field\FieldModel';
-
-    /**
-     * The form fields.
-     *
-     * @var string
-     */
-    protected $fields = 'Anomaly\Streams\Platform\Field\Form\FieldAssignmentFormFields@handle';
-
-    /**
-     * Create a new FieldAssignmentFormBuilder instance.
-     *
-     * @param Form  $form
-     * @param Asset $asset
-     */
-    public function __construct(Form $form, Asset $asset)
+    public function onInit(FieldFormBuilder $field, AssignmentFormBuilder $assignment)
     {
-        $asset->add('scripts.js', 'streams::js/form/field_assignment.js');
-
-        parent::__construct($form);
+        $this
+            ->addForm('field', $field)
+            ->addForm('assignment', $assignment);
     }
 }

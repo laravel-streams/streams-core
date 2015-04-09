@@ -24,6 +24,7 @@ class IconRegistry
         'dashboard'    => 'fa fa-dashboard',
         'arrows-h'     => 'fa fa-arrows-h',
         'arrows-v'     => 'fa fa-arrows-v',
+        'sitemap'      => 'fa fa-sitemap',
         'options'      => 'fa fa-options',
         'refresh'      => 'fa fa-refresh',
         'warning'      => 'fa fa-warning',

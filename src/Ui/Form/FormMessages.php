@@ -16,14 +16,14 @@ class FormMessages
     /**
      * Extend the validation factory.
      *
-     * @param Form $form
+     * @param FormBuilder $builder
      * @return array
      */
-    public function get(Form $form)
+    public function get(FormBuilder $builder)
     {
         $messages = [];
 
-        foreach ($form->getFields() as $field) {
+        foreach ($builder->getFormFields() as $field) {
             $this->registerValidationMessages($field, $messages);
         }
 
