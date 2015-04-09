@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -137,11 +138,7 @@ class FormBuilder
         $this->make($entry);
 
         if (!$this->form->getResponse()) {
-
-            $options = $this->form->getOptions();
-            $data    = $this->form->getData();
-
-            return view($options->get('wrapper_view', 'streams::blank'), $data);
+            $this->dispatch(new SetFormResponse($this));
         }
 
         return $this->form->getResponse();
@@ -420,6 +417,16 @@ class FormBuilder
     }
 
     /**
+     * Get the form options.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getFormOptions()
+    {
+        return $this->form->getOptions();
+    }
+
+    /**
      * Get the form entry.
      *
      * @return mixed
@@ -472,6 +479,16 @@ class FormBuilder
     public function getFormValues()
     {
         return $this->form->getValues();
+    }
+
+    /**
+     * Get the form data.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getFormData()
+    {
+        return $this->form->getData();
     }
 
     /**

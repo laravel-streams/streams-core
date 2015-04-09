@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionResponder;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Routing\ResponseFactory;
 
 /**
  * Class SetFormResponse
@@ -35,23 +35,13 @@ class SetFormResponse implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param ActionResponder $responder
+     * @param ResponseFactory $response
      */
-    public function handle(ActionResponder $responder)
+    public function handle(ResponseFactory $response)
     {
-        $form    = $this->builder->getForm();
-        $actions = $form->getActions();
+        $options = $this->builder->getFormOptions();
+        $data    = $this->builder->getFormData();
 
-        if ($form->getResponse()) {
-            return;
-        }
-
-        if ($form->getErrors()) {
-            return;
-        }
-
-        if ($action = $actions->active()) {
-            $responder->setFormResponse($form, $action);
-        }
+        $this->builder->setFormResponse($response->view($options->get('wrapper_view', 'streams::blank'), $data));
     }
 }
