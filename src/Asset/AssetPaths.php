@@ -54,9 +54,11 @@ class AssetPaths
 
             list($namespace, $path) = explode('::', $path);
 
-            if (isset($this->paths[$namespace])) {
-                return $this->paths[$namespace] . '/' . $path;
+            if (!isset($this->paths[$namespace])) {
+                throw new \Exception("Path hint [{$namespace}::{$path}] does not exist!");
             }
+
+            return $this->paths[$namespace] . '/' . $path;
         }
 
         return $path;
