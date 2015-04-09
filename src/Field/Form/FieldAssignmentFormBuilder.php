@@ -37,7 +37,7 @@ class FieldAssignmentFormBuilder extends FormBuilder
      */
     public function __construct(Form $form, Asset $asset)
     {
-        $asset->add('scripts.js', 'streams::js/form/field_assignment.js', ['debug']);
+        $asset->add('scripts.js', 'streams::js/form/field_assignment.js');
 
         parent::__construct($form);
     }
