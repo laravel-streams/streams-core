@@ -89,7 +89,6 @@ class AssignmentTableBuilder extends TableBuilder
 
         $assignments = $stream->getAssignments()->withoutFields($this->getOption('skip', []))->lists('id');
 
-        $query
-            ->where('stream_id', $stream->getId())->whereIn('id', $assignments);
+        $query->where('stream_id', $stream->getId())->whereIn('id', $assignments);
     }
 }
