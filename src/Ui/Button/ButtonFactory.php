@@ -55,7 +55,7 @@ class ButtonFactory
      */
     public function make(array $parameters)
     {
-        $button = array_get($parameters, 'button');
+        $button = array_pull($parameters, 'button');
 
         if ($button && $button = $this->buttons->get($button)) {
             $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
