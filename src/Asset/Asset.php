@@ -332,7 +332,7 @@ class Asset
 
     /**
      * Transform an array of filters to
-     * an array of assetic filters.
+     * an array of Assetic filters.
      *
      * @param  $filters
      * @param  $hint
