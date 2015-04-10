@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Button;
 
+use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
 /**
@@ -28,13 +29,22 @@ class ButtonFactory
     protected $buttons;
 
     /**
+     * The hydrator utility.
+     *
+     * @var Hydrator
+     */
+    protected $hydrator;
+
+    /**
      * Create a new ButtonFactory instance.
      *
      * @param ButtonRegistry $buttons
+     * @param Hydrator       $hydrator
      */
-    public function __construct(ButtonRegistry $buttons)
+    public function __construct(ButtonRegistry $buttons, Hydrator $hydrator)
     {
-        $this->buttons = $buttons;
+        $this->buttons  = $buttons;
+        $this->hydrator = $hydrator;
     }
 
     /**
@@ -53,26 +63,8 @@ class ButtonFactory
 
         $button = app()->make(array_get($parameters, 'button', $this->button), $parameters);
 
-        $this->hydrate($button, $parameters);
+        $this->hydrator->hydrate($button, $parameters);
 
         return $button;
-    }
-
-    /**
-     * Hydrate the button with it's remaining parameters.
-     *
-     * @param ButtonInterface $button
-     * @param array           $parameters
-     */
-    protected function hydrate(ButtonInterface $button, array $parameters)
-    {
-        foreach ($parameters as $parameter => $value) {
-
-            $method = camel_case('set_' . $parameter);
-
-            if (method_exists($button, $method)) {
-                $button->{$method}($value);
-            }
-        }
     }
 }

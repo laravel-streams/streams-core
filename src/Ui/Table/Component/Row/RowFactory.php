@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
+use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
 
 /**
@@ -14,6 +15,23 @@ class RowFactory
 {
 
     /**
+     * The hydrator utility.
+     *
+     * @var Hydrator
+     */
+    protected $hydrator;
+
+    /**
+     * Create a new RowFactory instance.
+     *
+     * @param Hydrator $hydrator
+     */
+    public function __construct(Hydrator $hydrator)
+    {
+        $this->hydrator = $hydrator;
+    }
+
+    /**
      * Make a row.
      *
      * @param  array $parameters
@@ -23,26 +41,8 @@ class RowFactory
     {
         $row = app()->make('Anomaly\Streams\Platform\Ui\Table\Component\Row\Row', $parameters);
 
-        $this->hydrate($row, $parameters);
+        $this->hydrator->hydrate($row, $parameters);
 
         return $row;
-    }
-
-    /**
-     * Hydrate the row with it's remaining parameters.
-     *
-     * @param RowInterface $row
-     * @param array        $parameters
-     */
-    protected function hydrate(RowInterface $row, array $parameters)
-    {
-        foreach ($parameters as $parameter => $value) {
-
-            $method = camel_case('set_' . $parameter);
-
-            if (method_exists($row, $method)) {
-                $row->{$method}($value);
-            }
-        }
     }
 }

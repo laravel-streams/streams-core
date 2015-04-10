@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 
+use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
 
 /**
@@ -21,6 +22,23 @@ class ColumnFactory
     protected $column = 'Anomaly\Streams\Platform\Ui\Table\Component\Column\Column';
 
     /**
+     * The hydrator utility.
+     *
+     * @var Hydrator
+     */
+    protected $hydrator;
+
+    /**
+     * Create a new ColumnFactory instance.
+     *
+     * @param Hydrator $hydrator
+     */
+    public function __construct(Hydrator $hydrator)
+    {
+        $this->hydrator = $hydrator;
+    }
+
+    /**
      * Make a column.
      *
      * @param  array $parameters
@@ -30,26 +48,8 @@ class ColumnFactory
     {
         $column = app()->make(array_get($parameters, 'column', $this->column), $parameters);
 
-        $this->hydrate($column, $parameters);
+        $this->hydrator->hydrate($column, $parameters);
 
         return $column;
-    }
-
-    /**
-     * Hydrate the column with it's remaining parameters.
-     *
-     * @param ColumnInterface $column
-     * @param array           $parameters
-     */
-    protected function hydrate(ColumnInterface $column, array $parameters)
-    {
-        foreach ($parameters as $parameter => $value) {
-
-            $method = camel_case('set_' . $parameter);
-
-            if (method_exists($column, $method)) {
-                $column->{$method}($value);
-            }
-        }
     }
 }

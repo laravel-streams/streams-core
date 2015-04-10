@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
+use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
 
 /**
@@ -14,6 +15,23 @@ class HeaderFactory
 {
 
     /**
+     * The hydrator utility.
+     *
+     * @var Hydrator
+     */
+    protected $hydrator;
+
+    /**
+     * Create a new HeaderFactory instance.
+     *
+     * @param Hydrator $hydrator
+     */
+    public function __construct(Hydrator $hydrator)
+    {
+        $this->hydrator = $hydrator;
+    }
+
+    /**
      * Make a header.
      *
      * @param  array $parameters
@@ -23,26 +41,8 @@ class HeaderFactory
     {
         $header = app()->make('Anomaly\Streams\Platform\Ui\Table\Component\Header\Header', $parameters);
 
-        $this->hydrate($header, $parameters);
+        $this->hydrator->hydrate($header, $parameters);
 
         return $header;
-    }
-
-    /**
-     * Hydrate the header with it's remaining parameters.
-     *
-     * @param HeaderInterface $header
-     * @param array           $parameters
-     */
-    protected function hydrate(HeaderInterface $header, array $parameters)
-    {
-        foreach ($parameters as $parameter => $value) {
-
-            $method = camel_case('set_' . $parameter);
-
-            if (method_exists($header, $method)) {
-                $header->{$method}($value);
-            }
-        }
     }
 }

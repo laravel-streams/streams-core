@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
+use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 
@@ -36,15 +37,24 @@ class ActionFactory
     protected $buttons;
 
     /**
+     * The hydrator utility.
+     *
+     * @var Hydrator
+     */
+    protected $hydrator;
+
+    /**
      * Create a new ActionFactory instance.
      *
      * @param ActionRegistry $actions
      * @param ButtonRegistry $buttons
+     * @param Hydrator       $hydrator
      */
-    function __construct(ActionRegistry $actions, ButtonRegistry $buttons)
+    function __construct(ActionRegistry $actions, ButtonRegistry $buttons, Hydrator $hydrator)
     {
-        $this->actions = $actions;
-        $this->buttons = $buttons;
+        $this->actions  = $actions;
+        $this->buttons  = $buttons;
+        $this->hydrator = $hydrator;
     }
 
     /**
@@ -67,34 +77,10 @@ class ActionFactory
             $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
         }
 
-        $action = array_get($parameters, 'action', $this->action);
+        $action = app()->make(array_get($parameters, 'action', $this->actions), $parameters);
 
-        if ($action && class_exists($action)) {
-            $action = app()->make($action, $parameters);
-        } else {
-            $action = app()->make($this->action, $parameters);
-        }
-
-        $this->hydrate($action, $parameters);
+        $this->hydrator->hydrate($action, $parameters);
 
         return $action;
-    }
-
-    /**
-     * Hydrate the button with it's remaining parameters.
-     *
-     * @param ActionInterface $action
-     * @param array           $parameters
-     */
-    protected function hydrate(ActionInterface $action, array $parameters)
-    {
-        foreach ($parameters as $parameter => $value) {
-
-            $method = camel_case('set_' . $parameter);
-
-            if (method_exists($action, $method)) {
-                $action->{$method}($value);
-            }
-        }
     }
 }
