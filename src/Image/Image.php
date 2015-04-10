@@ -504,7 +504,7 @@ class Image extends ImageManager
         $path = $this->paths->realPath($path);
 
         if (
-            $this->config->get('app.debug')
+            config('app.debug')
             && !starts_with($path, ['http', '//'])
             && !is_file($path)
         ) {
