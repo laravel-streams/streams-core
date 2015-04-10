@@ -1,18 +1,18 @@
-<?php namespace Anomaly\Streams\Platform\Field\Table;
+<?php namespace Anomaly\Streams\Platform\Assignment\Table;
 
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class FieldAssignmentTableBuilder
+ * Class AssignmentTableBuilder
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Field\Table
+ * @package       Anomaly\Streams\Platform\Assignment\Table
  */
-class FieldAssignmentTableBuilder extends TableBuilder
+class AssignmentTableBuilder extends TableBuilder
 {
 
     /**
@@ -21,13 +21,6 @@ class FieldAssignmentTableBuilder extends TableBuilder
      * @var string
      */
     protected $model = 'Anomaly\Streams\Platform\Assignment\AssignmentModel';
-
-    /**
-     * The table entries.
-     *
-     * @var string
-     */
-    protected $entries = 'Anomaly\Streams\Platform\Assignment\Table\FieldAssignmentTableBuilder@handle';
 
     /**
      * The table columns.
@@ -74,17 +67,29 @@ class FieldAssignmentTableBuilder extends TableBuilder
      * @var array
      */
     protected $options = [
-        'sortable' => true
+        'sortable' => true,
+        'limit'    => 500,
+        'eager'    => [
+            'field'
+        ]
     ];
 
     /**
-     * Fired after a row is deleted.
+     * Fired when the table starts querying.
      *
-     * @param AssignmentInterface      $entry
-     * @param FieldRepositoryInterface $fields
+     * @param StreamRepositoryInterface $streams
+     * @param Builder                   $query
      */
-    public function onRowDeleted(AssignmentInterface $entry, FieldRepositoryInterface $fields)
+    public function onQuerying(StreamRepositoryInterface $streams, Builder $query)
     {
-        $fields->delete($entry->getField());
+        $stream = $streams->findBySlugAndNamespace(
+            $this->getOption('stream'),
+            $this->getOption('namespace')
+        );
+
+        $assignments = $stream->getAssignments()->withoutFields($this->getOption('skip', []))->lists('id');
+
+        $query
+            ->where('stream_id', $stream->getId())->whereIn('id', $assignments);
     }
 }
