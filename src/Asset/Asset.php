@@ -2,13 +2,13 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Asset\Filter\CoffeePhpFilter;
-use Anomaly\Streams\Platform\Asset\Filter\LessphpFilter;
 use Anomaly\Streams\Platform\Asset\Filter\ParseFilter;
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\GlobAsset;
 use Assetic\Filter\CssMinFilter;
 use Assetic\Filter\JSMinFilter;
+use Assetic\Filter\LessphpFilter;
 use Assetic\Filter\PhpCssEmbedFilter;
 use Assetic\Filter\ScssphpFilter;
 use Collective\Html\HtmlBuilder;
