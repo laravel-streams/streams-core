@@ -450,7 +450,7 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Support\String',
             function () {
 
-                $twig = clone(app('twig'));
+                $twig = clone(app('TwigBridge\Bridge'));
 
                 $twig->setLoader(new \Twig_Loader_String());
 
