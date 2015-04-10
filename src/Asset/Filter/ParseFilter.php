@@ -31,8 +31,13 @@ class ParseFilter implements FilterInterface
      */
     public function filterDump(AssetInterface $asset)
     {
-        $asset->setContent(
-            $asset->getContent(app('Anomaly\Streams\Platform\Support\String')->render($asset->getContent()))
-        );
+        $content = $asset->getContent();
+
+        @app('files')->makeDirectory(storage_path('framework/views/asset'));
+        app('files')->put(storage_path('framework/views/asset/' . (($filename = md5($content)) . '.twig')), $content);
+
+        $content = view('storage::framework/views/asset/' . $filename)->render();
+
+        $asset->setContent($content);
     }
 }

@@ -437,6 +437,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Views
         $this->app->make('view')->addNamespace('streams', __DIR__ . '/../resources/views');
+        $this->app->make('view')->addNamespace('storage', storage_path());
         $this->app->make('view')->composer('*', 'Anomaly\Streams\Platform\View\ViewComposer');
 
         // Register streams console provider.

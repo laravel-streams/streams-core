@@ -503,10 +503,6 @@ class Image extends ImageManager
     {
         $path = $this->paths->realPath($path);
 
-        if (!file_exists($path)) {
-            throw new \Exception("Image [{$path}] does not exist!");
-        }
-
         $this->image = $path;
 
         return $this;

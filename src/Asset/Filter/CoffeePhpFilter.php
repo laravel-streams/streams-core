@@ -32,10 +32,6 @@ class CoffeePhpFilter implements FilterInterface
      */
     public function filterDump(AssetInterface $asset)
     {
-        $content = $asset->getContent(app('Anomaly\Streams\Platform\Support\String')->render($asset->getContent()));
-
-        $content = trim(Compiler::compile($content, array('filename' => $asset->getSourcePath())));
-
-        $asset->setContent($content);
+        $asset->setContent(trim(Compiler::compile($asset->getContent(), array('filename' => $asset->getSourcePath()))));
     }
 }
