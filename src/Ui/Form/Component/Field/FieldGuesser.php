@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\DisabledGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\InstructionsGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\LabelsGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\PlaceholdersGuesser;
@@ -41,6 +42,13 @@ class FieldGuesser
     protected $required;
 
     /**
+     * The disabled guesser.
+     *
+     * @var DisabledGuesser
+     */
+    protected $disabled;
+
+    /**
      * The translatable guesser.
      *
      * @var TranslatableGuesser
@@ -67,6 +75,7 @@ class FieldGuesser
      * @param LabelsGuesser       $labels
      * @param PrefixesGuesser     $prefixes
      * @param RequiredGuesser     $required
+     * @param DisabledGuesser     $disabled
      * @param TranslatableGuesser $translatable
      * @param InstructionsGuesser $instructions
      * @param PlaceholdersGuesser $placeholders
@@ -75,6 +84,7 @@ class FieldGuesser
         LabelsGuesser $labels,
         PrefixesGuesser $prefixes,
         RequiredGuesser $required,
+        DisabledGuesser $disabled,
         TranslatableGuesser $translatable,
         InstructionsGuesser $instructions,
         PlaceholdersGuesser $placeholders
@@ -82,6 +92,7 @@ class FieldGuesser
         $this->labels       = $labels;
         $this->prefixes     = $prefixes;
         $this->required     = $required;
+        $this->disabled     = $disabled;
         $this->translatable = $translatable;
         $this->instructions = $instructions;
         $this->placeholders = $placeholders;
@@ -92,13 +103,12 @@ class FieldGuesser
      *
      * @param FormBuilder $builder
      */
-    public
-    function guess(
-        FormBuilder $builder
-    ) {
+    public function guess(FormBuilder $builder)
+    {
         $this->labels->guess($builder);
         $this->prefixes->guess($builder);
         $this->required->guess($builder);
+        $this->disabled->guess($builder);
         $this->translatable->guess($builder);
         $this->instructions->guess($builder);
         $this->placeholders->guess($builder);
