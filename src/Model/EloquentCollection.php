@@ -43,7 +43,7 @@ class EloquentCollection extends Collection
     {
         $items = [];
 
-        $decorator = app('streams.decorator');
+        $decorator = app('Robbo\Presenter\Decorator');
 
         foreach ($this->items as $item) {
             $items[] = $decorator->decorate($item);
