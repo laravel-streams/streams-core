@@ -46,9 +46,6 @@ class EloquentTableRepository implements TableRepositoryInterface
     {
         $table = $builder->getTable();
 
-        // Get the options off the table.
-        $options = $table->getOptions();
-
         // Start a new query.
         $query = $this->model->newQuery();
 
@@ -62,7 +59,7 @@ class EloquentTableRepository implements TableRepositoryInterface
          * Eager load any relations to
          * save resources and queries.
          */
-        $query = $query->with($options->get('eager', []));
+        $query = $query->with($builder->getTableOption('eager', []));
 
         /**
          * Raise and fire an event here to allow
@@ -79,14 +76,14 @@ class EloquentTableRepository implements TableRepositoryInterface
          */
         $total = $query->count();
 
-        $options->put('total_results', $total);
+        $builder->setTableOption('total_results', $total);
 
         /**
          * Assure that our page exists. If the page does
          * not exist then start walking backwards until
          * we find a page that is has something to show us.
          */
-        $limit  = $options->get('limit', 15);
+        $limit  = $builder->getTableOption('limit', 15);
         $page   = app('request')->get('page', 1);
         $offset = $limit * ($page - 1);
 
@@ -107,7 +104,7 @@ class EloquentTableRepository implements TableRepositoryInterface
         /**
          * Order the query results.
          */
-        foreach ($options->get('order_by', ['sort_order' => 'asc']) as $column => $direction) {
+        foreach ($builder->getTableOption('order_by', ['sort_order' => 'asc']) as $column => $direction) {
             $query = $query->orderBy($column, $direction);
         }
 
