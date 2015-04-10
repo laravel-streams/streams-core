@@ -65,7 +65,7 @@ class ActionFactory
      */
     public function make(array $parameters)
     {
-        $action = $original = array_get($parameters, 'action');
+        $action = $original = array_pull($parameters, 'action');
 
         if ($action && $action = $this->actions->get($action)) {
             $parameters = array_replace_recursive($action, array_except($parameters, 'action'));
