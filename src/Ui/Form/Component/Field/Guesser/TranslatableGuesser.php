@@ -23,6 +23,10 @@ class TranslatableGuesser
         $fields = $builder->getFields();
         $entry  = $builder->getFormEntry();
 
+        if (!is_object($entry)) {
+            return;
+        }
+
         foreach ($fields as &$field) {
             $field['translatable'] = $entry->isTranslatedAttribute($field['field']);
         }
