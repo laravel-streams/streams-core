@@ -17,7 +17,7 @@ class Hydrator
      * @param       $object
      * @param array $parameters
      */
-    protected function hydrate($object, array $parameters)
+    public function hydrate($object, array $parameters)
     {
         if (!is_object($object)) {
             return;

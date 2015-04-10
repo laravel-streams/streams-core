@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Support\Hydrator;
 use Illuminate\Http\Request;
 
 /**
@@ -32,15 +33,24 @@ class FieldFactory
     protected $request;
 
     /**
+     * The hydrator utility.
+     *
+     * @var Hydrator
+     */
+    protected $hydrator;
+
+    /**
      * Create a new FieldFactory instance.
      *
      * @param FieldTypeBuilder $builder
      * @param Request          $request
+     * @param Hydrator         $hydrator
      */
-    public function __construct(FieldTypeBuilder $builder, Request $request)
+    public function __construct(FieldTypeBuilder $builder, Request $request, Hydrator $hydrator)
     {
-        $this->builder = $builder;
-        $this->request = $request;
+        $this->builder  = $builder;
+        $this->request  = $request;
+        $this->hydrator = $hydrator;
     }
 
     /**
@@ -80,26 +90,8 @@ class FieldFactory
         $field->mergeValidators(array_pull($parameters, 'validators', []));
 
         // Hydrate the field with parameters.
-        $this->hydrate($field, $parameters);
+        $this->hydrator->hydrate($field, $parameters);
 
         return $field;
-    }
-
-    /**
-     * Hydrate the field type object with the parameters.
-     *
-     * @param FieldType $fieldType
-     * @param array     $parameters
-     */
-    protected function hydrate(FieldType $fieldType, array $parameters)
-    {
-        foreach ($parameters as $parameter => $value) {
-
-            $method = camel_case('set_' . $parameter);
-
-            if (method_exists($fieldType, $method)) {
-                $fieldType->{$method}($value);
-            }
-        }
     }
 }

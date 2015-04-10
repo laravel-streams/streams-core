@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Http\Request;
 
 /**
  * Class RepopulateFields
@@ -35,18 +34,12 @@ class RepopulateFields implements SelfHandling
 
     /**
      * Handle the event.
-     *
-     * @param Request $request
      */
-    public function handle(Request $request)
+    public function handle()
     {
-        $form = $this->builder->getForm();
-
         /* @var FieldType $field */
-        foreach ($form->getFields() as $field) {
-            if ($request->has($field->getInputName())) {
-                $field->setValue($request->get($field->getInputName()));
-            }
+        foreach ($this->builder->getFormFields() as $field) {
+            $field->setValue($field->getPostValue());
         }
     }
 }
