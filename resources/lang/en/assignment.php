@@ -15,6 +15,10 @@ return [
         'label'        => 'Is this field unique?',
         'instructions' => 'If unique, this field MUST have a unique value.'
     ],
+    'translatable' => [
+        'name'  => 'Translatable',
+        'label' => 'Is this field translatable?'
+    ],
     'instructions' => [
         'name'         => 'Instructions',
         'instructions' => 'Field instructions will be displayed in forms to assist users.'

@@ -29,6 +29,11 @@ class AssignmentFormBuilder extends FormBuilder
             'instructions' => 'streams::assignment.unique.instructions',
             'type'         => 'anomaly.field_type.boolean'
         ],
+        'translatable' => [
+            'label'        => 'streams::assignment.translatable.label',
+            'instructions' => 'streams::assignment.translatable.instructions',
+            'type'         => 'anomaly.field_type.boolean'
+        ],
         'label'        => [
             'label'        => 'streams::assignment.label.name',
             'instructions' => 'streams::assignment.label.instructions',
