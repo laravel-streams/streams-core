@@ -75,17 +75,28 @@ class AssignmentTableBuilder extends TableBuilder
     ];
 
     /**
-     * Fired when the table starts querying.
+     * Set the stream when ready.
      *
      * @param StreamRepositoryInterface $streams
-     * @param Builder                   $query
      */
-    public function onQuerying(StreamRepositoryInterface $streams, Builder $query)
+    public function onReady(StreamRepositoryInterface $streams)
     {
-        $stream = $streams->findBySlugAndNamespace(
-            $this->getOption('stream'),
-            $this->getOption('namespace')
+        $this->table->setStream(
+            $streams->findBySlugAndNamespace(
+                $this->getOption('stream'),
+                $this->getOption('namespace')
+            )
         );
+    }
+
+    /**
+     * Fired when the table starts querying.
+     *
+     * @param Builder $query
+     */
+    public function onQuerying(Builder $query)
+    {
+        $stream = $this->table->getStream();
 
         $assignments = $stream->getAssignments()->withoutFields($this->getOption('skip', []))->lists('id');
 
