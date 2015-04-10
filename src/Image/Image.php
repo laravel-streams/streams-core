@@ -169,7 +169,7 @@ class Image extends ImageManager
      */
     protected function getPath()
     {
-        if (starts_with($this->image, 'http')) {
+        if (starts_with($this->image, ['http', '//'])) {
             return $this->image;
         }
 
@@ -502,6 +502,14 @@ class Image extends ImageManager
     public function setImage($path)
     {
         $path = $this->paths->realPath($path);
+
+        if (
+            $this->config->get('app.debug')
+            && !starts_with($path, ['http', '//'])
+            && !is_file($path)
+        ) {
+            throw new \Exception("Image [{$path}] does not exist!");
+        }
 
         $this->image = $path;
 

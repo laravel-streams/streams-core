@@ -12,6 +12,7 @@ use Assetic\Filter\LessphpFilter;
 use Assetic\Filter\PhpCssEmbedFilter;
 use Assetic\Filter\ScssphpFilter;
 use Collective\Html\HtmlBuilder;
+use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -67,6 +68,13 @@ class Asset
     protected $paths;
 
     /**
+     * The config repository.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
      * The stream application.
      *
      * @var Application
@@ -77,13 +85,15 @@ class Asset
      * Create a new Application instance.
      *
      * @param Application $application
+     * @param Repository  $config
      * @param AssetPaths  $paths
      * @param HtmlBuilder $html
      */
-    public function __construct(Application $application, AssetPaths $paths, HtmlBuilder $html)
+    public function __construct(Application $application, Repository $config, AssetPaths $paths, HtmlBuilder $html)
     {
         $this->html        = $html;
         $this->paths       = $paths;
+        $this->config      = $config;
         $this->application = $application;
     }
 
@@ -109,8 +119,17 @@ class Asset
 
         $file = $this->paths->realPath($file);
 
-        if (starts_with($file, 'http') || file_exists($file) || is_dir(trim($file, '*'))) {
+        if (starts_with($file, ['http', '//']) || file_exists($file) || is_dir(trim($file, '*'))) {
             $this->collections[$collection][$file] = $filters;
+        }
+
+        if (
+            $this->config->get('app.debug')
+            && !starts_with($file, ['http', '//'])
+            && !ends_with($file, '*')
+            && !is_file($file)
+        ) {
+            throw new \Exception("Asset [{$file}] does not exist!");
         }
 
         return $this;
