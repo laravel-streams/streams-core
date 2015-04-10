@@ -2,16 +2,17 @@
 
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\FilterInterface;
+use CoffeeScript\Compiler;
 
 /**
- * Class ParseFilter
+ * Class CoffeePhpFilter
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Asset\Filter
  */
-class ParseFilter implements FilterInterface
+class CoffeePhpFilter implements FilterInterface
 {
 
     /**
@@ -31,8 +32,10 @@ class ParseFilter implements FilterInterface
      */
     public function filterDump(AssetInterface $asset)
     {
-        $asset->setContent(
-            $asset->getContent(app('Anomaly\Streams\Platform\Support\String')->render($asset->getContent()))
-        );
+        $content = $asset->getContent(app('Anomaly\Streams\Platform\Support\String')->render($asset->getContent()));
+
+        $content = trim(Compiler::compile($content, array('filename' => $asset->getSourcePath())));
+
+        $asset->setContent($content);
     }
 }
