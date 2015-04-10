@@ -77,7 +77,7 @@ class ActionFactory
             $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
         }
 
-        $action = app()->make(array_get($parameters, 'action', $this->actions), $parameters);
+        $action = app()->make(array_get($parameters, 'action', $this->action), $parameters);
 
         $this->hydrator->hydrate($action, $parameters);
 
