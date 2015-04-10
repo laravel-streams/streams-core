@@ -46,7 +46,10 @@ class GetTableEntries implements SelfHandling
          * let it load the entries itself.
          */
         if ($handler = $table->getOption('entries')) {
+
             app()->call($handler, ['builder' => $this->builder]);
+
+            return;
         }
 
         $entries = $table->getEntries();
