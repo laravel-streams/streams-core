@@ -63,7 +63,7 @@ class FieldCollection extends Collection
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if (!$item->getLocale()) {
+            if ($item->getLocale()) {
                 $translatable[] = $item;
             }
         }

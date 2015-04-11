@@ -604,7 +604,7 @@ class Form
     public function isTranslatable()
     {
         $fields = $this->fields->translatable();
-
+dd($this->fields->translatable());
         return (!$fields->isEmpty());
     }
 }
