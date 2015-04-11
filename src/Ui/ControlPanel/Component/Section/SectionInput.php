@@ -72,6 +72,11 @@ class SectionInput
     {
         $module = $this->modules->active();
 
+        // No module, nothing to do!
+        if (!$module) {
+            return;
+        }
+
         $builder->setSections($module->getSections());
 
         $this->resolver->resolve($builder);
