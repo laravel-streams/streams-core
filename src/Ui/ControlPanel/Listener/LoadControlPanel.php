@@ -58,7 +58,7 @@ class LoadControlPanel
      */
     public function handle()
     {
-        if (!$this->request->segment(1)) {
+        if ($this->request->segment(1) !== 'admin') {
             return;
         }
 
