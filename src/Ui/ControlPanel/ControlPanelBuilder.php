@@ -105,4 +105,14 @@ class ControlPanelBuilder
     {
         $this->sections = $sections;
     }
+
+    /**
+     * Get the control panel sections.
+     *
+     * @return Component\Section\SectionCollection
+     */
+    public function getControlPanelSections()
+    {
+        return $this->controlPanel->getSections();
+    }
 }

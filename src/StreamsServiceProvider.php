@@ -194,6 +194,11 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry'
         );
 
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection',
+            'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection'
+        );
+
         /**
          * Register the entry model and repository.
          * This will help others swap it out as needed.

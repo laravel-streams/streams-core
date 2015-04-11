@@ -66,4 +66,11 @@ interface SectionInterface
      * @param array $attributes
      */
     public function setAttributes(array $attributes);
+
+    /**
+     * Get the HREF attribute.
+     *
+     * @return string
+     */
+    public function getHref();
 }

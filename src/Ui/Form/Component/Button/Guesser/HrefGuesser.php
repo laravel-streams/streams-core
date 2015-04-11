@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser;
 
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 
@@ -29,93 +31,56 @@ class HrefGuesser
     protected $request;
 
     /**
+     * The sections collection.
+     *
+     * @var SectionCollection
+     */
+    protected $sections;
+
+    /**
      * Create a new HrefGuesser instance.
      *
-     * @param UrlGenerator $url
-     * @param Request      $request
+     * @param UrlGenerator      $url
+     * @param Request           $request
+     * @param SectionCollection $sections
      */
-    public function __construct(UrlGenerator $url, Request $request)
+    public function __construct(UrlGenerator $url, Request $request, SectionCollection $sections)
     {
-        $this->url     = $url;
-        $this->request = $request;
+        $this->url      = $url;
+        $this->request  = $request;
+        $this->sections = $sections;
     }
 
     /**
      * Guess the HREF for a button.
      *
-     * @param array $button
+     * @param FormBuilder $builder
      */
-    public function guess(array &$button)
+    public function guess(FormBuilder $builder)
     {
-        // If we already have an HREF then skip it.
-        if (isset($button['attributes']['href'])) {
-            return;
+        $buttons = $builder->getButtons();
+        $entry   = $builder->getFormEntry();
+
+        $active = $this->sections->active();
+
+        foreach ($buttons as &$button) {
+
+            if (isset($button['attributes']['href'])) {
+                continue;
+            }
+
+            switch (array_get($button, 'button')) {
+
+                case 'cancel':
+                    $button['attributes']['href'] = $active->getHref();
+                    break;
+
+                case 'delete':
+                    $button['attributes']['href'] = $active->getHref('delete/' . $entry->getId());
+                    break;
+            }
         }
 
-        // Determine the HREF based on the button type.
-        switch (array_get($button, 'button')) {
-
-            case 'cancel':
-                $button['attributes']['href'] = $this->guessCancelHref();
-                break;
-
-            case 'delete':
-                $button['attributes']['href'] = $this->guessDeleteHref();
-                break;
-        }
-    }
-
-    /**
-     * Guess the cancel URL.
-     *
-     * Since this is for a form we can assume the last
-     * segment is either edit / create or similar and it
-     * might end with an integer ID so we can simply lop off
-     * the last segment and ID leaving us with index.
-     *
-     * @return string
-     */
-    protected function guessCancelHref()
-    {
-        $segments = $this->request->segments();
-
-        /**
-         * If the last segment is an ID then remove it.
-         */
-        if (is_numeric(end($segments))) {
-            array_pop($segments);
-        }
-
-        /**
-         * If the last segment is an addon namespace
-         * then remove it as well.. This is kinda cheating.
-         */
-        if (str_is('*.*.*', end($segments))) {
-            array_pop($segments);
-        }
-
-        /**
-         * Now remove the actionable
-         * segment (create / edit).
-         */
-        array_pop($segments);
-
-        return $this->url->to(implode('/', $segments));
-    }
-
-    /**
-     * Guess the delete URL.
-     *
-     * Since this is for tables we can assume the
-     * last segment is index so we can simply append
-     * the action and the ID.
-     *
-     * @return string
-     */
-    protected function guessDeleteHref()
-    {
-        $segments = $this->request->segments();
-
-        return $this->guessCancelHref() . '/delete/' . end($segments);
+        $builder->setButtons($buttons);
     }
 }

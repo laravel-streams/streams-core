@@ -35,6 +35,5 @@ class AddTwigExtensions implements SelfHandling
         $twig->addExtension($container->make('Anomaly\Streams\Platform\Stream\StreamPlugin'));
         $twig->addExtension($container->make('Anomaly\Streams\Platform\Message\MessagePlugin'));
         $twig->addExtension($container->make('Anomaly\Streams\Platform\Application\ApplicationPlugin'));
-        $twig->addExtension($container->make('Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelPlugin'));
     }
 }

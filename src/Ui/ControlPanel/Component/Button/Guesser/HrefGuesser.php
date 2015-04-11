@@ -48,7 +48,10 @@ class HrefGuesser
      */
     public function guess(ControlPanelBuilder $builder)
     {
-        $buttons = $builder->getButtons();
+        $buttons  = $builder->getButtons();
+        $sections = $builder->getControlPanelSections();
+
+        $active = $sections->active();
 
         foreach ($buttons as &$button) {
 
@@ -62,25 +65,11 @@ class HrefGuesser
 
                 case 'new':
                 case 'create':
-                    $button['attributes']['href'] = $this->guessCreateHref();
+                    $button['attributes']['href'] = $active->getHref('create');
                     break;
             }
         }
 
         $builder->setButtons($buttons);
-    }
-
-    /**
-     * Guess the HREF for a create button.
-     *
-     * @return string
-     */
-    protected function guessCreateHref()
-    {
-        $segments = explode('/', $this->request->path());
-
-        $segments[] = 'create';
-
-        return $this->url->to(implode('/', array_unique($segments)));
     }
 }

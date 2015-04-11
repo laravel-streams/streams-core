@@ -21,8 +21,9 @@ class SectionCollection extends Collection
      */
     public function active()
     {
+        /* @var SectionInterface $item */
         foreach ($this->items as $item) {
-            if ($item instanceof SectionInterface && $item->isActive()) {
+            if ($item->isActive()) {
                 return $item;
             }
         }

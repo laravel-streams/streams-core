@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser;
 
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Http\Request;
 
 /**
@@ -33,49 +34,27 @@ class EnabledGuesser
     /**
      * Guess the HREF for a button.
      *
-     * @param array $button
+     * @param FormBuilder $builder
      */
-    public function guess(array &$button)
+    public function guess(FormBuilder $builder)
     {
-        /**
-         * If we already have an enabled
-         * status then skip it.
-         */
-        if (isset($button['enabled'])) {
-            return;
+        $buttons = $builder->getButtons();
+        $mode    = $builder->getFormMode();
+
+        foreach ($buttons as &$button) {
+
+            if (isset($button['enabled'])) {
+                return;
+            }
+
+            switch (array_get($button, 'button')) {
+
+                case 'delete':
+                    $button['enabled'] = ($mode === 'edit');
+                    break;
+            }
         }
 
-        /**
-         * Determine the enabled status based on the type / URI.
-         */
-        switch (array_get($button, 'button')) {
-
-            case 'delete':
-                $button['enabled'] = $this->guessDeleteStatus();
-                break;
-        }
-    }
-
-    /**
-     * Guess if the delete button is disabled.
-     *
-     * If the last URI segment is numerical then
-     * we can assume we have an entry to delete.
-     * Otherwise it's new and we can't delete it.
-     *
-     * @return bool
-     */
-    protected function guessDeleteStatus()
-    {
-        $segments = $this->request->segments();
-
-        /**
-         * If the last segment is an ID then remove it.
-         */
-        if (!is_numeric(end($segments))) {
-            return false;
-        }
-
-        return true;
+        $builder->setButtons($buttons);
     }
 }

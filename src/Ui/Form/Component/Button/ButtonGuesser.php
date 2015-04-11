@@ -48,13 +48,7 @@ class ButtonGuesser
      */
     public function guess(FormBuilder $builder)
     {
-        $buttons = $builder->getButtons();
-
-        foreach ($buttons as &$button) {
-            $this->href->guess($button);
-            $this->enabled->guess($button);
-        }
-
-        $builder->setButtons($buttons);
+        $this->href->guess($builder);
+        $this->enabled->guess($builder);
     }
 }

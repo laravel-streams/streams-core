@@ -1,6 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Command;
 
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Command\BuildButtons;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command\BuildSections;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command\SetActiveSection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class BuildControlPanel
@@ -10,8 +15,10 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Command
  */
-class BuildControlPanel
+class BuildControlPanel implements SelfHandling
 {
+
+    use DispatchesCommands;
 
     /**
      * The builder object.
@@ -31,12 +38,13 @@ class BuildControlPanel
     }
 
     /**
-     * Get the builder.
-     *
-     * @return ControlPanelBuilder
+     * Handle the command.
      */
-    public function getBuilder()
+    public function handle()
     {
-        return $this->builder;
+        $this->dispatch(new BuildSections($this->builder));
+        $this->dispatch(new SetActiveSection($this->builder));
+
+        $this->dispatch(new BuildButtons($this->builder));
     }
 }

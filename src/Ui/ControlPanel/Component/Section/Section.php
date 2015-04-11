@@ -151,4 +151,14 @@ class Section implements SectionInterface
     {
         $this->attributes = $attributes;
     }
+
+    /**
+     * Get the HREF attribute.
+     *
+     * @return string
+     */
+    public function getHref($path = null)
+    {
+        return array_get($this->attributes, 'href') . ($path ? '/' . $path : $path);
+    }
 }
