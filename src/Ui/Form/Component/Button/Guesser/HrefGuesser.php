@@ -63,6 +63,10 @@ class HrefGuesser
 
         $active = $this->sections->active();
 
+        if (!$active) {
+            return;
+        }
+
         foreach ($buttons as &$button) {
 
             if (isset($button['attributes']['href'])) {
