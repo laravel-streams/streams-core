@@ -32,6 +32,12 @@ class FieldTypePresenter extends AddonPresenter
      */
     public function __toString()
     {
+        $value = $this->object->getValue();
+
+        if (is_array($value) || is_object($value)) {
+            return '';
+        }
+
         return (string)$this->object->getValue();
     }
 
