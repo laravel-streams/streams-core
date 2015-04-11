@@ -34,7 +34,7 @@ class FieldTypePresenter extends AddonPresenter
     {
         $value = $this->object->getValue();
 
-        if (!is_object($value)) {
+        if (!is_string($value)) {
             return '';
         }
 
