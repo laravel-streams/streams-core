@@ -41,7 +41,7 @@ class MakeTable implements SelfHandling
         $options = $table->getOptions();
         $data    = $table->getData();
 
-        $content = view($options->get('table_view', 'streams::table/table'), $data);
+        $content = view($options->get('table_view', 'streams::table/table'), $data)->render();
 
         $table->setContent($content);
         $table->addData('content', $content);
