@@ -40,6 +40,11 @@ class RequiredGuesser
             if (in_array(($required = array_get($field, 'required')), ['create', 'edit'])) {
                 $field['required'] = $required === $mode;
             }
+
+            // Guess based on the rules.
+            if (in_array('required', array_get($field, 'rules', []))) {
+                $field['required'] = true;
+            }
         }
 
         $builder->setFields($fields);
