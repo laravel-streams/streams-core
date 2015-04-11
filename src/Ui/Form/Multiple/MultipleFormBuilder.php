@@ -112,4 +112,15 @@ class MultipleFormBuilder extends FormBuilder
 
         return $this;
     }
+
+    /**
+     * Get a form by it's key.
+     *
+     * @param $key
+     * @return FormBuilder
+     */
+    public function getForm($key)
+    {
+        return $this->forms->get($key);
+    }
 }

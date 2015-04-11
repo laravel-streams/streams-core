@@ -22,17 +22,20 @@ class AssignmentFormBuilder extends FormBuilder
         'required'     => [
             'label'        => 'streams::assignment.required.label',
             'instructions' => 'streams::assignment.required.instructions',
-            'type'         => 'anomaly.field_type.boolean'
+            'type'         => 'anomaly.field_type.boolean',
+            'disabled'     => 'edit'
         ],
         'unique'       => [
             'label'        => 'streams::assignment.unique.label',
             'instructions' => 'streams::assignment.unique.instructions',
-            'type'         => 'anomaly.field_type.boolean'
+            'type'         => 'anomaly.field_type.boolean',
+            'disabled'     => 'edit'
         ],
         'translatable' => [
             'label'        => 'streams::assignment.translatable.label',
             'instructions' => 'streams::assignment.translatable.instructions',
-            'type'         => 'anomaly.field_type.boolean'
+            'type'         => 'anomaly.field_type.boolean',
+            'disabled'     => 'edit'
         ],
         'label'        => [
             'label'        => 'streams::assignment.label.name',

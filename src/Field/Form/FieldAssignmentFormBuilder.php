@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Assignment\Form\AssignmentFormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 
@@ -19,8 +20,15 @@ class FieldAssignmentFormBuilder extends MultipleFormBuilder
      *
      * @param FieldFormBuilder $field
      */
-    public function onInit(FieldFormBuilder $field, AssignmentFormBuilder $assignment)
-    {
+    public function onInit(
+        FieldFormBuilder $field,
+        AssignmentFormBuilder $assignment,
+        AssignmentRepositoryInterface $assignments
+    ) {
+
+        $assignment->setEntry(21);
+        $field->setEntry($assignments->find(21)->getField()->getId());
+
         $this
             ->addForm('field', $field)
             ->addForm('assignment', $assignment);
