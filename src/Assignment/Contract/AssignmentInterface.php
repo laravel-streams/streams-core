@@ -16,6 +16,13 @@ interface AssignmentInterface
 {
 
     /**
+     * Get the ID.
+     *
+     * @return null|integer
+     */
+    public function getId();
+
+    /**
      * Get the related stream.
      *
      * @return StreamInterface

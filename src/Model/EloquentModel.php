@@ -78,6 +78,16 @@ class EloquentModel extends Model implements Arrayable
     }
 
     /**
+     * Get the ID.
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Fire a model event.
      *
      * @param $event
