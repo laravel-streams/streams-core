@@ -34,6 +34,11 @@ class EntryPresenter extends EloquentPresenter
     public function __get($key)
     {
         if ($type = $this->object->getFieldType($key)) {
+
+            if (method_exists($type, 'getRelation')) {
+                return $this->__getDecorator()->decorate($this->object->{$key});
+            }
+
             return $type->getPresenter();
         }
 

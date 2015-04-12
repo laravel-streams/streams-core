@@ -23,6 +23,10 @@ abstract class Presenter extends \Robbo\Presenter\Presenter
             return $this->$method();
         }
 
+        if (method_exists($this->object, camel_case($var))) {
+            return call_user_func_array([$this->object, camel_case($var)], []);
+        }
+
         if (method_exists($this->object, camel_case('get_' . $var))) {
             return call_user_func_array([$this->object, camel_case('get_' . $var)], []);
         }
