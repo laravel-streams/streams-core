@@ -18,7 +18,10 @@ class IconRegistry
      */
     protected $icons = [
         'folder-open'  => 'glyphicons glyphicons-folder-open',
-        'glyphicons'   => 'glyphicons glyphicons-eyedropper',
+        'eyedropper'   => 'glyphicons glyphicons-eyedropper',
+        'airplane'     => 'glyphicons glyphicons-airplane',
+        'global'       => 'glyphicons glyphicons-global',
+        'globe'        => 'glyphicons glyphicons-globe',
         'cloud-upload' => 'fa fa-cloud-upload',
         'map-marker'   => 'fa fa-map-marker',
         'dashboard'    => 'fa fa-dashboard',
