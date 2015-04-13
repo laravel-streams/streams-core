@@ -34,6 +34,7 @@ class IconRegistry
         'options'       => 'fa fa-options',
         'refresh'       => 'fa fa-refresh',
         'warning'       => 'fa fa-warning',
+        'laptop'        => 'fa fa-laptop',
         'upload'        => 'fa fa-upload',
         'search'        => 'fa fa-search',
         'pencil'        => 'fa fa-pencil',
