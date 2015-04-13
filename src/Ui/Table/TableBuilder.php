@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Ui\Table\Command\AddAssets;
 use Anomaly\Streams\Platform\Ui\Table\Command\BuildTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\LoadTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\MakeTable;
@@ -74,6 +75,13 @@ class TableBuilder
     protected $options = [];
 
     /**
+     * The table assets.
+     *
+     * @var array
+     */
+    protected $assets = [];
+
+    /**
      * The table object.
      *
      * @var Table
@@ -113,6 +121,7 @@ class TableBuilder
 
         if ($this->table->getResponse() === null) {
             $this->dispatch(new LoadTable($this));
+            $this->dispatch(new AddAssets($this));
             $this->dispatch(new MakeTable($this));
         }
     }
@@ -326,6 +335,47 @@ class TableBuilder
     public function setOption($key, $value)
     {
         array_set($this->options, $key, $value);
+
+        return $this;
+    }
+
+    /**
+     * Get the assets.
+     *
+     * @return array
+     */
+    public function getAssets()
+    {
+        return $this->assets;
+    }
+
+    /**
+     * Set the assets.
+     *
+     * @param $assets
+     * @return $this
+     */
+    public function setAssets($assets)
+    {
+        $this->assets = $assets;
+
+        return $this;
+    }
+
+    /**
+     * Add an asset.
+     *
+     * @param $collection
+     * @param $asset
+     * @return $this
+     */
+    public function addAsset($collection, $asset)
+    {
+        if (!isset($this->assets[$collection])) {
+            $this->assets[$collection] = [];
+        }
+
+        $this->assets[$collection][] = $asset;
 
         return $this;
     }

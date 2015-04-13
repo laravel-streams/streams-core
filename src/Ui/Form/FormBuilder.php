@@ -427,6 +427,7 @@ class FormBuilder
      *
      * @param $collection
      * @param $asset
+     * @return $this
      */
     public function addAsset($collection, $asset)
     {
@@ -435,6 +436,8 @@ class FormBuilder
         }
 
         $this->assets[$collection][] = $asset;
+
+        return $this;
     }
 
     /**
