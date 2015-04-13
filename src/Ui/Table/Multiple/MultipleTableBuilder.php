@@ -1,5 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Table\Multiple;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple;
 
+use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\BuildTables;
+use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\MergeRows;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableCollection;
@@ -33,6 +35,17 @@ class MultipleTableBuilder extends TableBuilder
         $this->tables = $tables;
 
         parent::__construct($table);
+    }
+
+    /**
+     * Build the table.
+     */
+    public function build()
+    {
+        $this->dispatch(new BuildTables($this));
+        $this->dispatch(new MergeRows($this));
+
+        parent::build();
     }
 
     /**

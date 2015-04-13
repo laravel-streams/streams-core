@@ -66,7 +66,7 @@ class ColumnValue
     public function make(Table $table, array $column, $entry)
     {
         $value = array_get($column, 'value');
-
+        
         /**
          * If the value is a view path then return a view.
          */

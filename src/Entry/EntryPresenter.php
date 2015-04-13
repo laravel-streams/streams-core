@@ -50,7 +50,7 @@ class EntryPresenter extends EloquentPresenter
      *
      * @return string
      */
-    public function presentCreatedAtDate()
+    public function createdAtDate()
     {
         return $this->object->created_at
             ->setTimezone(config('streams.timezone'))
@@ -62,7 +62,7 @@ class EntryPresenter extends EloquentPresenter
      *
      * @return string
      */
-    public function presentCreatedAtDatetime()
+    public function createdAtDatetime()
     {
         return $this->object->created_at
             ->setTimezone(config('streams.timezone'))
@@ -74,7 +74,7 @@ class EntryPresenter extends EloquentPresenter
      *
      * @return string
      */
-    public function presentUpdatedAtDate()
+    public function updatedAtDate()
     {
         return $this->object->updated_at
             ->setTimezone(config('streams.timezone'))
@@ -86,7 +86,7 @@ class EntryPresenter extends EloquentPresenter
      *
      * @return string
      */
-    public function presentUpdatedAtDatetime()
+    public function updatedAtDatetime()
     {
         return $this->object->updated_at
             ->setTimezone(config('streams.timezone'))
@@ -94,11 +94,11 @@ class EntryPresenter extends EloquentPresenter
     }
 
     /**
-     * Get the entry's edit link.
+     * Return the edit link.
      *
      * @return string
      */
-    public function presentEditLink()
+    public function editLink()
     {
         return app('html')->link(
             implode(
@@ -118,11 +118,11 @@ class EntryPresenter extends EloquentPresenter
     }
 
     /**
-     * Get the entry's view link.
+     * Return the view link.
      *
      * @return string
      */
-    public function presentViewLink()
+    public function viewLink()
     {
         return app('html')->link(
             implode(
