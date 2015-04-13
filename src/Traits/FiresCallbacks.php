@@ -50,9 +50,6 @@ trait FiresCallbacks
         $method = camel_case('on_' . $trigger);
 
         if (method_exists($this, $method)) {
-
-            $handler = get_class($this) . '@' . $method;
-
             app()->call([$this, $method], $parameters);
         }
 

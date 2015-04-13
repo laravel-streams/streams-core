@@ -42,10 +42,10 @@ class MultipleTableBuilder extends TableBuilder
      */
     public function build()
     {
+        parent::build();
+
         $this->dispatch(new BuildTables($this));
         $this->dispatch(new MergeRows($this));
-
-        parent::build();
     }
 
     /**
