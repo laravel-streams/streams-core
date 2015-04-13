@@ -40,27 +40,4 @@ class AddonPresenter extends Presenter
     {
         return trans($this->object->getDescription());
     }
-
-    /**
-     * Return the entry's view link.
-     *
-     * @return string
-     */
-    public function viewLink()
-    {
-        return app('html')->link(
-            implode(
-                '/',
-                array_filter(
-                    [
-                        'admin',
-                        'addons',
-                        str_plural($this->object->getType()),
-                        $this->object->getNamespace()
-                    ]
-                )
-            ),
-            trans($this->object->getName())
-        );
-    }
 }
