@@ -60,8 +60,15 @@ class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshComm
             )
         );
 
-        if ($this->needsSeeding()) {
-            $this->runSeeder($database);
+        if ($this->input->getOption('seed')) {
+            $this->call(
+                'db:seed',
+                array(
+                    '--database' => $database,
+                    '--force'    => $force,
+                    '--addon'    => $addon
+                )
+            );
         }
     }
 
