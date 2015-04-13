@@ -43,6 +43,10 @@ class SetActiveView implements SelfHandling
         $options = $table->getOptions();
         $views   = $table->getViews();
 
+        if ($views->active()) {
+            return;
+        }
+
         if ($view = $views->findBySlug($request->get($options->get('prefix') . 'view'))) {
             $view->setActive(true);
         }

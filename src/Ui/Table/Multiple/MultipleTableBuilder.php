@@ -1,0 +1,78 @@
+<?php namespace Anomaly\Streams\Platform\Assignment\Table\Multiple;
+
+use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\TableCollection;
+
+/**
+ * Class MultipleTableBuilder
+ *
+ * @link          http://anomaly.is/streams-plattable
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Assignment\Table\Multiple
+ */
+class MultipleTableBuilder extends TableBuilder
+{
+
+    /**
+     * The table collection.
+     *
+     * @var TableCollection
+     */
+    protected $tables;
+
+    /**
+     * Create a new MultipleTableBuilder instance.
+     *
+     * @param Table           $table
+     * @param TableCollection $tables
+     */
+    public function __construct(Table $table, TableCollection $tables)
+    {
+        $this->tables = $tables;
+
+        parent::__construct($table);
+    }
+
+    /**
+     * Get the tables.
+     *
+     * @return TableCollection
+     */
+    public function getTables()
+    {
+        return $this->tables;
+    }
+
+    /**
+     * Set the tables.
+     *
+     * @param $tables
+     * @return $this
+     */
+    public function setTables(TableCollection $tables)
+    {
+        $this->tables = $tables;
+
+        return $this;
+    }
+
+    /**
+     * Add a table.
+     *
+     * @param              $key
+     * @param TableBuilder $builder
+     * @return $this
+     */
+    public function addTable($key, TableBuilder $builder)
+    {
+        $this->tables->put(
+            $key,
+            $builder
+                ->setOption('prefix', $key . '_')
+        );
+
+        return $this;
+    }
+}
