@@ -58,6 +58,36 @@ class ViewNormalizer
             if (is_array($view) && !isset($view['slug']) && !is_numeric($slug)) {
                 $view['slug'] = $slug;
             }
+
+            /**
+             * Make sure some default parameters exist.
+             */
+            $view['attributes'] = array_get($view, 'attributes', []);
+
+            /**
+             * Move the HREF if any to the attributes.
+             */
+            if (isset($view['href'])) {
+                array_set($view['attributes'], 'href', array_pull($view, 'href'));
+            }
+
+            /**
+             * Move the target if any to the attributes.
+             */
+            if (isset($view['target'])) {
+                array_set($view['attributes'], 'target', array_pull($view, 'target'));
+            }
+
+            /**
+             * Make sure the HREF is absolute.
+             */
+            if (
+                isset($view['attributes']['href']) &&
+                is_string($view['attributes']['href']) &&
+                !starts_with($view['attributes']['href'], 'http')
+            ) {
+                $view['attributes']['href'] = url($view['attributes']['href']);
+            }
         }
 
         $builder->setViews($views);

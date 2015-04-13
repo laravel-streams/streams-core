@@ -12,6 +12,21 @@ interface ViewInterface
 {
 
     /**
+     * Get the attributes.
+     *
+     * @return array
+     */
+    public function getAttributes();
+
+    /**
+     * Set the attributes.
+     *
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes);
+
+    /**
      * Set the view handler.
      *
      * @param $handler
@@ -25,13 +40,6 @@ interface ViewInterface
      * @return mixed
      */
     public function getHandler();
-
-    /**
-     * Get the view URL.
-     *
-     * @return string
-     */
-    public function getUrl();
 
     /**
      * Set the active flag.

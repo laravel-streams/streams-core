@@ -14,6 +14,13 @@ class ViewInput
 {
 
     /**
+     * The view guesser.
+     *
+     * @var ViewGuesser
+     */
+    protected $guesser;
+
+    /**
      * The view resolver.
      *
      * @var ViewResolver
@@ -30,11 +37,13 @@ class ViewInput
     /**
      * Create a new ViewInput instance.
      *
+     * @param ViewGuesser    $guesser
      * @param ViewResolver   $resolver
      * @param ViewNormalizer $normalizer
      */
-    public function __construct(ViewResolver $resolver, ViewNormalizer $normalizer)
+    public function __construct(ViewGuesser $guesser, ViewResolver $resolver, ViewNormalizer $normalizer)
     {
+        $this->guesser    = $guesser;
         $this->resolver   = $resolver;
         $this->normalizer = $normalizer;
     }
@@ -49,5 +58,6 @@ class ViewInput
     {
         $this->resolver->resolve($builder);
         $this->normalizer->normalize($builder);
+        $this->guesser->guess($builder);
     }
 }

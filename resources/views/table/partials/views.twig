@@ -3,7 +3,7 @@
         <ul class="nav navbar-nav">
             {% for view in table.views %}
                 <li class="{{ view.isActive() ? 'active' }}">
-                    <a href="{{ view.getUrl() }}" class="{{ view.class }}">
+                    <a class="{{ view.class }}" {{ html_attributes(view.attributes) }}>
                         {{ trans(view.getText()) }}
                     </a>
                 </li>

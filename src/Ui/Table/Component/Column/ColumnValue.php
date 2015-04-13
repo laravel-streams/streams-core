@@ -134,17 +134,17 @@ class ColumnValue
         }
 
         /**
+         * Parse the value with the entry.
+         */
+        $value = $this->parser->render($column['wrapper'], compact('value', 'entry'));
+
+        /**
          * If the value looks like a language
          * key then try translating it.
          */
         if (str_is('*.*.*::*', $value)) {
             $value = trans($value);
         }
-
-        /**
-         * Parse the value with the entry.
-         */
-        $value = $this->parser->render($column['wrapper'], compact('value', 'entry'));
 
         return $value;
     }

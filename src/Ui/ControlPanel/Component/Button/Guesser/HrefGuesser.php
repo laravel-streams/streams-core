@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Illuminate\Http\Request;
-use Illuminate\Routing\UrlGenerator;
 
 /**
  * Class HrefGuesser
@@ -16,13 +15,6 @@ class HrefGuesser
 {
 
     /**
-     * The URL generator.
-     *
-     * @var UrlGenerator
-     */
-    protected $url;
-
-    /**
      * The request object.
      *
      * @var Request
@@ -32,12 +24,10 @@ class HrefGuesser
     /**
      * Create a new HrefGuesser instance.
      *
-     * @param UrlGenerator $url
-     * @param Request      $request
+     * @param Request $request
      */
-    public function __construct(UrlGenerator $url, Request $request)
+    public function __construct(Request $request)
     {
-        $this->url     = $url;
         $this->request = $request;
     }
 

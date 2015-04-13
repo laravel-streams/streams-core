@@ -16,30 +16,37 @@ class View implements ViewInterface
     /**
      * The view slug.
      *
-     * @var string
+     * @var null|string
      */
-    protected $slug;
+    protected $slug = null;
 
     /**
      * The view text.
      *
-     * @var string
+     * @var null|string
      */
-    protected $text;
+    protected $text = null;
 
     /**
      * The active flag.
      *
      * @var bool
      */
-    protected $active;
+    protected $active = false;
 
     /**
      * The view prefix.
      *
      * @var string
      */
-    protected $prefix;
+    protected $prefix = null;
+
+    /**
+     * The attributes array.
+     *
+     * @var array
+     */
+    protected $attributes = [];
 
     /**
      * The view handler.
@@ -47,6 +54,29 @@ class View implements ViewInterface
      * @var mixed
      */
     protected $handler = 'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewHandler@handle';
+
+    /**
+     * Get the attributes.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Set the attributes.
+     *
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
 
     /**
      * Set the view handler.
@@ -69,16 +99,6 @@ class View implements ViewInterface
     public function getHandler()
     {
         return $this->handler;
-    }
-
-    /**
-     * Get the view URL.
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return url(app('request')->path()) . '?' . $this->getPrefix() . 'view=' . $this->getSlug();
     }
 
     /**
