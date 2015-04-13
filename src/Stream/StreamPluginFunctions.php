@@ -67,7 +67,7 @@ class StreamPluginFunctions
                 continue;
             }
 
-            $model = call_user_func_array([$model, $method], (array)$arguments);
+            $model = call_user_func([$model, $method], $arguments);
         }
 
         return $model->get();
@@ -98,7 +98,7 @@ class StreamPluginFunctions
                 continue;
             }
 
-            $model = call_user_func_array([$model, $method], (array)$arguments);
+            $model = call_user_func([$model, $method], $arguments);
         }
 
         return $model->first();
