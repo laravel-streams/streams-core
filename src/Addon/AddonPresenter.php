@@ -42,11 +42,11 @@ class AddonPresenter extends Presenter
     }
 
     /**
-     * Get the entry's view link.
+     * Return the entry's view link.
      *
      * @return string
      */
-    public function presentViewLink()
+    public function viewLink()
     {
         return app('html')->link(
             implode(
