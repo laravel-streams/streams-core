@@ -5,14 +5,14 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class MakeForm
+ * Class AddAssets
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class MakeForm implements SelfHandling
+class AddAssets implements SelfHandling
 {
 
     /**
@@ -23,7 +23,7 @@ class MakeForm implements SelfHandling
     protected $builder;
 
     /**
-     * Create a new MakeForm instance.
+     * Create a new AddAssets instance.
      *
      * @param FormBuilder $builder
      */
@@ -34,17 +34,26 @@ class MakeForm implements SelfHandling
 
     /**
      * Handle the command.
+     *
+     * @param Asset $asset
+     * @throws \Exception
      */
-    public function handle()
+    public function handle(Asset $asset)
     {
-        $form = $this->builder->getForm();
+        foreach ($this->builder->getAssets() as $collection => $assets) {
 
-        $options = $form->getOptions();
-        $data    = $form->getData();
+            if (!is_array($assets)) {
+                $assets = [$assets];
+            }
 
-        $content = view($options->get('form_view', 'streams::form/form'), $data->all());
+            foreach ($assets as $file) {
 
-        $form->setContent($content);
-        $form->addData('content', $content);
+                $filters = explode('|', $file);
+
+                $file = array_shift($filters);
+
+                $asset->add($collection, $file, $filters);
+            }
+        }
     }
 }

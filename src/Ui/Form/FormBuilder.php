@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Ui\Form\Command\AddAssets;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
@@ -79,6 +80,13 @@ class FormBuilder
     protected $options = [];
 
     /**
+     * The form assets.
+     *
+     * @var array
+     */
+    protected $assets = [];
+
+    /**
      * The save flag.
      *
      * @var bool
@@ -133,6 +141,7 @@ class FormBuilder
 
         if ($this->form->getResponse() === null) {
             $this->dispatch(new LoadForm($this));
+            $this->dispatch(new AddAssets($this));
             $this->dispatch(new MakeForm($this));
         }
     }
@@ -388,6 +397,44 @@ class FormBuilder
         array_set($this->options, $key, $value);
 
         return $this;
+    }
+
+    /**
+     * Get the assets.
+     *
+     * @return array
+     */
+    public function getAssets()
+    {
+        return $this->assets;
+    }
+
+    /**
+     * Set the assets.
+     *
+     * @param $assets
+     * @return $this
+     */
+    public function setAssets($assets)
+    {
+        $this->assets = $assets;
+
+        return $this;
+    }
+
+    /**
+     * Add an asset.
+     *
+     * @param $collection
+     * @param $asset
+     */
+    public function addAsset($collection, $asset)
+    {
+        if (!isset($this->assets[$collection])) {
+            $this->assets[$collection] = [];
+        }
+
+        $this->assets[$collection][] = $asset;
     }
 
     /**
