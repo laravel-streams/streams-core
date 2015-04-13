@@ -24,6 +24,7 @@ class IconRegistry
         'globe'         => 'glyphicons glyphicons-globe',
         'external-link' => 'fa fa-external-link',
         'cloud-upload'  => 'fa fa-cloud-upload',
+        'rss-square'    => 'fa fa-rss-square',
         'map-marker'    => 'fa fa-map-marker',
         'power-off'     => 'fa fa-power-off',
         'dashboard'     => 'fa fa-dashboard',
@@ -40,7 +41,8 @@ class IconRegistry
         'trash'         => 'fa fa-trash',
         'check'         => 'fa fa-check',
         'save'          => 'fa fa-save',
-        'cog'           => 'fa fa-cog'
+        'cog'           => 'fa fa-cog',
+        'rss'           => 'fa fa-rss'
     ];
 
     /**
