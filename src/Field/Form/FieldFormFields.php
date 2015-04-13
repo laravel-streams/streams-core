@@ -1,14 +1,28 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
+use Anomaly\Streams\Platform\Field\Form\Command\GetConfigFields;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
+/**
+ * Class FieldFormFields
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Field\Form
+ */
 class FieldFormFields
 {
 
     use DispatchesCommands;
 
-    public function handle(FieldFormBuilder $builder)
+    /**
+     * Handle the command.
+     *
+     * @param FieldFormBuilder $builder
+     */
+    public function handle(FieldFormBuilder $builder, FieldTypeCollection $types)
     {
         $fields = [
             'type' => [
@@ -40,12 +54,17 @@ class FieldFormFields
                 'required'     => true,
                 'disabled'     => 'edit',
                 'config'       => [
-                    'slugify' => 'name'
+                    'slugify' => 'name',
+                    'type'    => '_'
                 ]
             ]
         ];
 
-        $config = [];//$this->dispatch(new GetConfigFields());
+        $config = [];
+
+        if ($type = $types->get($builder->getOption('field_type'))) {
+            $config = $this->dispatch(new GetConfigFields($type));
+        }
 
         $builder->setFields(array_merge($fields, array_values($config)));
     }

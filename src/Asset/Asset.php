@@ -512,6 +512,10 @@ class Asset
             $key[str_replace(base_path(), '', $file)] = $filters;
         }
 
+        if ($debug = array_search('debug', $filters)) {
+            unset($filters[$debug]);
+        }
+
         return md5(var_export([$key, $filters], true));
     }
 

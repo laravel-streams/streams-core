@@ -24,8 +24,9 @@ class FieldCollection extends Collection
     {
         $fields = [];
 
+        /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if ($item instanceof FieldType && $item->getField() == $field) {
+            if ($item->getField() == $field) {
                 $fields[] = $item;
             }
         }

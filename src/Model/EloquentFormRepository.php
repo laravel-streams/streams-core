@@ -67,6 +67,9 @@ class EloquentFormRepository implements FormRepositoryInterface
          * @var FieldType $field
          */
         foreach ($form->getFields() as $field) {
+            if (starts_with($field->getField(), 'config')) {
+                continue;
+            }
             if (!$field->getLocale()) {
                 $entry->{$field->getColumnName()} = $form->getValue($field->getInputName());
             }
@@ -79,26 +82,26 @@ class EloquentFormRepository implements FormRepositoryInterface
          * and save translated input.
          */
 
-        /*if ($entry->isTranslatable()) {
+        if ($entry->isTranslatable()) {
 
             foreach (config('streams.available_locales') as $locale => $language) {
 
                 $translation = $entry->translateOrNew($locale);
 
-                foreach ($fields as $field) {
+                foreach ($form->getFields() as $field) {
 
-                    if (!$entry->assignmentIsTranslatable($field->getField())) {
+                    if (!$entry->isTranslatedAttribute($field->getField())) {
                         continue;
                     }
 
-                    if ($field instanceof FieldType && $field->getLocale() == $locale) {
+                    if ($field->getLocale() == $locale) {
                         $translation->{$field->getColumnName()} = $form->getValue($field->getInputName());
                     }
                 }
 
                 $translation->save();
             }
-        }*/
+        }
 
         return $entry;
     }

@@ -36,8 +36,6 @@ class MultipleFormBuilder extends FormBuilder
         $this->forms = $forms;
 
         parent::__construct($form);
-
-        $this->fire('init', ['builder' => $this]);
     }
 
     /**
@@ -54,21 +52,19 @@ class MultipleFormBuilder extends FormBuilder
     }
 
     /**
-     * Make the form.
-     *
-     * @param null $entry
-     */
-    public function make($entry = null)
-    {
-        parent::make($entry);
-    }
-
-    /**
-     * Save the form.
+     * Save the forms.
      */
     public function saveForm()
     {
-        die('Saving!');
+        /* @var FormBuilder $builder */
+        foreach ($forms = $this->getForms() as $slug => $builder) {
+
+            $this->fire('saving_' . $slug, compact('builder', 'forms'));
+
+            $builder->saveForm();
+
+            $this->fire('saved_' . $slug, compact('builder', 'forms'));
+        }
     }
 
     /**
