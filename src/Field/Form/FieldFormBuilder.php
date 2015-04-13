@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
+use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -13,4 +14,14 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 class FieldFormBuilder extends FormBuilder
 {
 
+    /**
+     * Fire when ready.
+     *
+     * @param Asset $asset
+     * @throws \Exception
+     */
+    public function onReady(Asset $asset)
+    {
+        $asset->add('scripts.js', 'streams::js/form/field_type.js');
+    }
 }

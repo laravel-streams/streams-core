@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Table;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
@@ -81,12 +82,16 @@ class AssignmentTableBuilder extends TableBuilder
      */
     public function onReady(StreamRepositoryInterface $streams)
     {
-        $this->table->setStream(
-            $streams->findBySlugAndNamespace(
-                $this->getOption('stream'),
-                $this->getOption('namespace')
-            )
-        );
+        $stream    = $this->getOption('stream');
+        $namespace = $this->getOption('namespace');
+
+        if ($stream instanceof EntryInterface) {
+            $this->table->setStream($stream->getStream());
+        }
+
+        if ($stream && $namespace) {
+            $this->table->setStream($streams->findBySlugAndNamespace($stream, $namespace));
+        }
     }
 
     /**

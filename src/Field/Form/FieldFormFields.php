@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
-use Anomaly\Streams\Platform\Field\Form\Command\GetConfigFields;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 class FieldFormFields
@@ -16,6 +15,7 @@ class FieldFormFields
                 'label'        => 'streams::field.type.name',
                 'instructions' => 'streams::field.type.instructions',
                 'type'         => 'anomaly.field_type.select',
+                'value'        => $builder->getOption('field_type'),
                 'required'     => true,
                 'disabled'     => 'edit',
                 'config'       => [

@@ -1,14 +1,18 @@
 $(function () {
 
     // Redirect the page when field type changes.
-    $('select[name="type"]').on('change', function () {
+    $('[data-field="type"] > select').on('change', function () {
 
         $(this).attr('disabled', 'disabled');
 
         var path = window.location.pathname.split('/');
 
-        path.splice(-1, 1);
+        if (path.pop() == 'create') {
+            path.push('create');
+        }
 
-        window.location.pathname = path.join('/') + '/' + $(this).val();
+        path.push($(this).val());
+
+        window.location.pathname = path.join('/');
     });
 });
