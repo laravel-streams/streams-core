@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Illuminate\Database\Eloquent\Builder;
@@ -145,9 +146,10 @@ class EloquentQueryBuilder extends Builder
      */
     protected function orderByDefault()
     {
+        $model = $this->getModel();
         $query = $this->getQuery();
 
-        if ($query->orders === null && $this->getModel() instanceof EntryInterface) {
+        if ($query->orders === null && ($model instanceof EntryInterface || $model instanceof AssignmentModel)) {
             $query->orderBy('sort_order', 'ASC');
         }
     }
