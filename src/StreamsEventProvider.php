@@ -21,7 +21,8 @@ class StreamsEventProvider extends EventServiceProvider
     protected $listen = [
         'Anomaly\Streams\Platform\Application\Event\ApplicationHasLoaded'        => [
             'Anomaly\Streams\Platform\Application\Listener\CheckIfInstallerExists',
-            'Anomaly\Streams\Platform\Ui\ControlPanel\Listener\LoadControlPanel'
+            'Anomaly\Streams\Platform\Ui\ControlPanel\Listener\LoadControlPanel',
+            'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\LoadBreadcrumbs'
         ],
         'Anomaly\Streams\Platform\Model\Event\ModelWasDeleted'                   => [
             'Anomaly\Streams\Platform\Model\Listener\DeleteTranslations'

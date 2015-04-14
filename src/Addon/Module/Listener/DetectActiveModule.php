@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Illuminate\Container\Container;
 
 /**
@@ -46,19 +47,33 @@ class DetectActiveModule
     protected $container;
 
     /**
+     * The breadcrumb collection.
+     *
+     * @var BreadcrumbCollection
+     */
+    protected $breadcrumbs;
+
+    /**
      * Create a new DetectActiveModule instance.
      *
      * @param Asset            $asset
      * @param Image            $image
      * @param ModuleCollection $modules
      * @param Container        $container
+     * @param BreadcrumbCollection      $breadcrumbs
      */
-    public function __construct(Asset $asset, Image $image, ModuleCollection $modules, Container $container)
-    {
-        $this->asset     = $asset;
-        $this->image     = $image;
-        $this->modules   = $modules;
-        $this->container = $container;
+    public function __construct(
+        Asset $asset,
+        Image $image,
+        ModuleCollection $modules,
+        Container $container,
+        BreadcrumbCollection $breadcrumbs
+    ) {
+        $this->asset       = $asset;
+        $this->image       = $image;
+        $this->modules     = $modules;
+        $this->container   = $container;
+        $this->breadcrumbs = $breadcrumbs;
     }
 
     /**
@@ -86,6 +101,8 @@ class DetectActiveModule
 
             $this->asset->addPath('module', $module->getPath('resources'));
             $this->image->addPath('module', $module->getPath('resources'));
+
+            $this->breadcrumbs->put($module->getName(), url('admin/' . $module->getSlug()));
         }
     }
 }

@@ -181,6 +181,11 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry'
         );
 
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection',
+            'Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection'
+        );
+
         /**
          * Register button UI services.
          */

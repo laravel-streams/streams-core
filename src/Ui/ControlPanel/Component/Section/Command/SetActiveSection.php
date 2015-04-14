@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command;
 
+use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -36,9 +37,10 @@ class SetActiveSection implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param Request $request
+     * @param Request              $request
+     * @param BreadcrumbCollection $breadcrumbs
      */
-    public function handle(Request $request)
+    public function handle(Request $request, BreadcrumbCollection $breadcrumbs)
     {
         $controlPanel = $this->builder->getControlPanel();
         $sections     = $controlPanel->getSections();
@@ -96,5 +98,7 @@ class SetActiveSection implements SelfHandling
         } elseif ($active = $sections->first()) {
             $active->setActive(true);
         }
+
+        $breadcrumbs->put($active->getText(), $active->getHref());
     }
 }
