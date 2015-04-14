@@ -18,6 +18,7 @@ class IconRegistry
      */
     protected $icons = [
         'folder-open'   => 'glyphicons glyphicons-folder-open',
+        'credit-card'   => 'glyphicons glyphicons-credit-card',
         'eyedropper'    => 'glyphicons glyphicons-eyedropper',
         'airplane'      => 'glyphicons glyphicons-airplane',
         'global'        => 'glyphicons glyphicons-global',
