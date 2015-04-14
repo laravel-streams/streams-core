@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Container\Container;
@@ -39,10 +40,11 @@ class LoadTable implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param Container    $container
-     * @param ViewTemplate $template
+     * @param Container            $container
+     * @param ViewTemplate         $template
+     * @param BreadcrumbCollection $breadcrumbs
      */
-    public function handle(Container $container, ViewTemplate $template)
+    public function handle(Container $container, ViewTemplate $template, BreadcrumbCollection $breadcrumbs)
     {
         $table = $this->builder->getTable();
 
@@ -61,5 +63,9 @@ class LoadTable implements SelfHandling
         }
 
         $this->dispatch(new LoadTablePagination($table));
+
+        if ($breadcrumb = $table->getOption('breadcrumb')) {
+            $breadcrumbs->put($breadcrumb, '#');
+        }
     }
 }
