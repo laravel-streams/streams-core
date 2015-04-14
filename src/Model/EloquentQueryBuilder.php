@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Collection\CacheCollection;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -29,6 +30,7 @@ class EloquentQueryBuilder extends Builder
      */
     public function get($columns = ['*'])
     {
+        $this->orderByDefault();
         $this->rememberIndex();
 
         if ($this->model->getCacheMinutes()) {
@@ -136,5 +138,17 @@ class EloquentQueryBuilder extends Builder
         $this->model->fireEvent('deletedMultiple');
 
         return $return;
+    }
+
+    /**
+     * Order by sort_order if null.
+     */
+    protected function orderByDefault()
+    {
+        $query = $this->getQuery();
+
+        if ($query->orders === null && $this->getModel() instanceof EntryInterface) {
+            $query->orderBy('sort_order', 'ASC');
+        }
     }
 }
