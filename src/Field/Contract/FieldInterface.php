@@ -79,6 +79,14 @@ interface FieldInterface
     public function getAssignments();
 
     /**
+     * Return whether the field is
+     * a relationship or not.
+     *
+     * @return bool
+     */
+    public function isRelationship();
+
+    /**
      * Get the locked flag.
      *
      * @return bool

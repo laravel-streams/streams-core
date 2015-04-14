@@ -172,6 +172,17 @@ class FieldModel extends EloquentModel implements FieldInterface
     }
 
     /**
+     * Return whether the field is
+     * a relationship or not.
+     *
+     * @return bool
+     */
+    public function isRelationship()
+    {
+        return method_exists($this->getType(), 'getRelation');
+    }
+
+    /**
      * Get the locked flag.
      *
      * @return mixed
