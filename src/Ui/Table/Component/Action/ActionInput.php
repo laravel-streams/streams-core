@@ -21,6 +21,13 @@ class ActionInput
     protected $resolver;
 
     /**
+     * The action predictor.
+     *
+     * @var ActionPredictor
+     */
+    protected $predictor;
+
+    /**
      * The evaluator utility.
      *
      * @var ActionEvaluator
@@ -38,12 +45,18 @@ class ActionInput
      * Create a new ActionInput instance.
      *
      * @param ActionResolver   $resolver
+     * @param ActionPredictor  $predictor
      * @param ActionEvaluator  $evaluator
      * @param ActionNormalizer $normalizer
      */
-    public function __construct(ActionResolver $resolver, ActionEvaluator $evaluator, ActionNormalizer $normalizer)
-    {
+    public function __construct(
+        ActionResolver $resolver,
+        ActionPredictor $predictor,
+        ActionEvaluator $evaluator,
+        ActionNormalizer $normalizer
+    ) {
         $this->resolver   = $resolver;
+        $this->predictor  = $predictor;
         $this->evaluator  = $evaluator;
         $this->normalizer = $normalizer;
     }
@@ -58,6 +71,7 @@ class ActionInput
     {
         $this->resolver->resolve($builder);
         $this->evaluator->evaluate($builder);
+        $this->predictor->predict($builder);
         $this->normalizer->normalize($builder);
     }
 }
