@@ -42,6 +42,11 @@ class SetDefaultProperties implements SelfHandling
     {
         $module = $modules->active();
 
+        // No module, skip it.
+        if (!$module) {
+            return;
+        }
+
         /**
          * Set the default sections handler based
          * on the active module. Defaulting to
