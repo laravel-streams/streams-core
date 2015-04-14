@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Command\BuildControlPanel;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Command\LoadControlPanel;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**

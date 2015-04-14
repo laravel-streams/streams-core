@@ -42,6 +42,8 @@ class BuildControlPanel implements SelfHandling
      */
     public function handle()
     {
+        $this->dispatch(new SetDefaultProperties($this->builder));
+
         $this->dispatch(new BuildSections($this->builder));
         $this->dispatch(new SetActiveSection($this->builder));
 

@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command;
 
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class BuildSections
@@ -10,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command
  */
-class BuildSections
+class BuildSections implements SelfHandling
 {
 
     /**
@@ -31,12 +33,12 @@ class BuildSections
     }
 
     /**
-     * Get the control_panel builder.
+     * Handle the command.
      *
-     * @return ControlPanelBuilder
+     * @param SectionBuilder $builder
      */
-    public function getBuilder()
+    public function handle(SectionBuilder $builder)
     {
-        return $this->builder;
+        $builder->build($this->builder);
     }
 }
