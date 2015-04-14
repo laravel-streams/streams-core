@@ -66,7 +66,7 @@ class ColumnValue
     public function make(Table $table, array $column, $entry)
     {
         $value = array_get($column, 'value');
-        
+
         /**
          * If the value is a view path then return a view.
          */
@@ -79,7 +79,12 @@ class ColumnValue
          * then try getting the field value from the entry.
          */
         if ($entry instanceof EntryInterface && $entry->getField($value)) {
-            $value = $entry->getFieldValue($value);
+
+            if ($entry->assignmentIsRelationship($value)) {
+                return $entry->{camel_case($value)}->getTitle();
+            }
+
+            return $entry->getFieldValue($value);
         }
 
         /**

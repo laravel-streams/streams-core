@@ -313,6 +313,20 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Return whether or not the assignment for
+     * the given field slug is a relationship.
+     *
+     * @param $fieldSlug
+     * @return bool
+     */
+    public function assignmentIsRelationship($fieldSlug)
+    {
+        $relationships = $this->getRelationshipAssignments();
+
+        return in_array($fieldSlug, $relationships->fieldSlugs());
+    }
+
+    /**
      * Return the related stream.
      *
      * @return StreamInterface|array

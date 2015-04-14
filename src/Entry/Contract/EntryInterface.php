@@ -155,6 +155,15 @@ interface EntryInterface
     public function assignmentIsTranslatable($fieldSlug);
 
     /**
+     * Return whether or not the assignment for
+     * the given field slug is a relationship.
+     *
+     * @param $fieldSlug
+     * @return bool
+     */
+    public function assignmentIsRelationship($fieldSlug);
+
+    /**
      * Set an attribute value.
      *
      * @param  $key
