@@ -99,6 +99,11 @@ class SetActiveSection implements SelfHandling
             $active->setActive(true);
         }
 
+        // No active section!
+        if (!$active) {
+            return;
+        }
+
         $breadcrumbs->put($active->getText(), $active->getHref());
     }
 }
