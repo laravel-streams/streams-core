@@ -85,12 +85,7 @@ class EloquentQueryBuilder extends Builder
     {
         $name = $this->model->getConnectionName();
 
-        return md5(
-            $name .
-            $this->toSql() .
-            serialize($this->getBindings()) .
-            serialize(array_keys($this->getEagerLoads()))
-        );
+        return md5($name . $this->toSql() . serialize($this->getBindings()));
     }
 
     /**
