@@ -117,8 +117,8 @@ class ColumnValue
          * If the value matches a method in the presenter.
          */
         if (preg_match("/^entry.([a-zA-Z\\_]+)/", $value, $match)) {
-            if (method_exists($entry, $match[1])) {
-                $value = $entry->{$match[1]}();
+            if (method_exists($entry, camel_case($match[1]))) {
+                $value = $entry->{camel_case($match[1])}();
             }
         }
 
