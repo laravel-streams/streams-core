@@ -97,7 +97,11 @@ class AddonCollection extends Collection
         $addons = [];
 
         foreach (config('streams.addon_types') as $type) {
-            $addons = array_merge($addons, app("{$type}.collection")->toArray());
+
+            /* @var Addon $addon */
+            foreach (app("{$type}.collection") as $addon) {
+                $addons[$addon->getNamespace()] = $addon;
+            }
         }
 
         return self::make($addons);
