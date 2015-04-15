@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Robbo\Presenter\PresentableInterface;
 use Robbo\Presenter\Presenter;
 
@@ -11,7 +12,7 @@ use Robbo\Presenter\Presenter;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon
  */
-class Addon implements PresentableInterface
+class Addon implements PresentableInterface, Arrayable
 {
 
     /**
@@ -275,5 +276,20 @@ class Addon implements PresentableInterface
         }
 
         return isset($this->{$name});
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'id'        => $this->getNamespace(),
+            'name'      => $this->getName(),
+            'namespace' => $this->getNamespace(),
+            'type'      => $this->getType()
+        ];
     }
 }

@@ -26,5 +26,6 @@ return [
     'clear'         => 'Clear',
     'filter'        => 'Filter',
     'reorder'       => 'Reorder',
-    'configure'     => 'Configure'
+    'configure'     => 'Configure',
+    'settings'      => 'Settings'
 ];
