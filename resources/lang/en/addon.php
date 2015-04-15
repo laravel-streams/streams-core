@@ -15,6 +15,7 @@ return [
     'extensions'  => 'Extensions',
     'field_type'  => 'Field Type',
     'field_types' => 'Field Types',
+    'type'        => 'Type',
     'name'        => 'Name',
     'description' => 'Description'
 ];
