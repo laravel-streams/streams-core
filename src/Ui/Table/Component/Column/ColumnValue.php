@@ -81,7 +81,7 @@ class ColumnValue
         if ($entry instanceof EntryInterface && $entry->getField($value)) {
 
             if ($entry->assignmentIsRelationship($value)) {
-                $vale = $entry->{camel_case($value)}->getTitle();
+                $value = $entry->{camel_case($value)}->getTitle();
             } else {
                 $value = $entry->getFieldValue($value);
             }
@@ -91,7 +91,7 @@ class ColumnValue
          * If the value matches a field with a relation
          * then parse the string using the eager loaded entry.
          */
-        if (preg_match("/^entry.([a-zA-Z\\_]+)./", $value, $match)) {
+        if (preg_match("/^entry.([a-zA-Z\\_]+)/", $value, $match)) {
 
             $fieldSlug = camel_case($match[1]);
 
@@ -117,8 +117,8 @@ class ColumnValue
          * If the value matches a method in the presenter.
          */
         if (preg_match("/^entry.([a-zA-Z\\_]+)/", $value, $match)) {
-            if (isset($entry->{$match[1]})) {
-                return $entry->{$match[1]};
+            if (method_exists($entry, $match[1])) {
+                $value = $entry->{$match[1]}();
             }
         }
 

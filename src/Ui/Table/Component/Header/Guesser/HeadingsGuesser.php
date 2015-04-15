@@ -55,7 +55,7 @@ class HeadingsGuesser
              * If the heading matches a field
              * with dot format then reduce it.
              */
-            if (preg_match("/^entry.([a-zA-Z\\_]+)./", $column['heading'], $match)) {
+            if (preg_match("/^entry.([a-zA-Z\\_]+)/", $column['heading'], $match)) {
                 $column['heading'] = $match[1];
             }
 
