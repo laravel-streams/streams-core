@@ -39,7 +39,7 @@ class BuildTables implements SelfHandling
     {
         /* @var TableBuilder $builder */
         foreach ($this->builder->getTables() as $builder) {
-            $builder->build();
+            $builder->setColumns($this->builder->getColumns())->build();
         }
     }
 }
