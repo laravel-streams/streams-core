@@ -81,10 +81,10 @@ class ColumnValue
         if ($entry instanceof EntryInterface && $entry->getField($value)) {
 
             if ($entry->assignmentIsRelationship($value)) {
-                return $entry->{camel_case($value)}->getTitle();
+                $vale = $entry->{camel_case($value)}->getTitle();
+            } else {
+                $value = $entry->getFieldValue($value);
             }
-
-            return $entry->getFieldValue($value);
         }
 
         /**
@@ -99,7 +99,7 @@ class ColumnValue
 
                 $entry = $this->decorator->decorate($entry);
 
-                return data_get(
+                $value = data_get(
                     compact('entry'),
                     str_replace("entry.{$match[1]}.", 'entry.' . camel_case($match[1]) . '.', $value)
                 );
@@ -114,7 +114,7 @@ class ColumnValue
         $entry = $this->decorator->decorate($entry);
 
         /**
-         * If the value matches a method in the present.
+         * If the value matches a method in the presenter.
          */
         if (preg_match("/^entry.([a-zA-Z\\_]+)/", $value, $match)) {
             if (isset($entry->{$match[1]})) {
