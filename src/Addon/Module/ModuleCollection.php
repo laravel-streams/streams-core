@@ -14,6 +14,25 @@ class ModuleCollection extends AddonCollection
 {
 
     /**
+     * Return navigate-able modules.
+     *
+     * @return ModuleCollection
+     */
+    public function navigation()
+    {
+        $navigation = [];
+
+        /* @var Module $item */
+        foreach ($this->items as $item) {
+            if ($item->isEnabled() && $item->getNavigation()) {
+                $navigation[] = $item;
+            }
+        }
+
+        return new static($navigation);
+    }
+
+    /**
      * Return the active module.
      *
      * @return Module

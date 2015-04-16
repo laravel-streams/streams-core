@@ -28,6 +28,13 @@ class Module extends Addon
     protected $icon = 'fa fa-puzzle-piece';
 
     /**
+     * The navigation flag.
+     *
+     * @var bool
+     */
+    protected $navigation = true;
+
+    /**
      * The installed flag.
      *
      * @var bool
@@ -73,6 +80,29 @@ class Module extends Addon
     public function getIcon()
     {
         return $this->icon;
+    }
+
+    /**
+     * Get the navigation flag.
+     *
+     * @return bool
+     */
+    public function getNavigation()
+    {
+        return $this->navigation;
+    }
+
+    /**
+     * Set the navigation flag.
+     *
+     * @param $navigation
+     * @return $this
+     */
+    public function setNavigation($navigation)
+    {
+        $this->navigation = $navigation;
+
+        return $this;
     }
 
     /**
