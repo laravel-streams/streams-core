@@ -83,6 +83,7 @@ class MultipleTableBuilder extends TableBuilder
         $this->tables->put(
             $key,
             $builder
+                ->setOption('limit', $this->getOption('limit', 15))
                 ->setOption('prefix', $key . '_')
         );
 

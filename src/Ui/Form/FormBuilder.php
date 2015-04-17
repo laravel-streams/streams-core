@@ -145,6 +145,8 @@ class FormBuilder
             $this->dispatch(new AddAssets($this));
             $this->dispatch(new MakeForm($this));
         }
+
+        return $this;
     }
 
     /**
@@ -575,6 +577,16 @@ class FormBuilder
         $this->form->setResponse($response);
 
         return $this;
+    }
+
+    /**
+     * Get the form content.
+     *
+     * @return null|string
+     */
+    public function getFormContent()
+    {
+        return $this->form->getContent();
     }
 
     /**
