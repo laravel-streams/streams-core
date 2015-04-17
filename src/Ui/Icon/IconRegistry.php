@@ -17,6 +17,7 @@ class IconRegistry
      * @var array
      */
     protected $icons = [
+        'folder-closed' => 'glyphicons glyphicons-folder-closed',
         'folder-open'   => 'glyphicons glyphicons-folder-open',
         'credit-card'   => 'glyphicons glyphicons-credit-card',
         'eyedropper'    => 'glyphicons glyphicons-eyedropper',
