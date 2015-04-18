@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\Command\RegisterAddons;
 use Anomaly\Streams\Platform\Application\Command\AddTwigExtensions;
-use Anomaly\Streams\Platform\Application\Command\CheckDirectoryPermissions;
 use Anomaly\Streams\Platform\Application\Command\ConfigureCommandBus;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
@@ -41,7 +40,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new ConfigureTranslator());
         $this->dispatch(new LoadStreamsConfiguration());
 
-        $this->dispatch(new CheckDirectoryPermissions());
         $this->dispatch(new InitializeApplication());
         $this->dispatch(new AutoloadEntryModels());
         $this->dispatch(new AddAssetNamespaces());
