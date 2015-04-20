@@ -2,6 +2,10 @@
 
 use Anomaly\Streams\Platform\Entry\Command\SetMetaInformation;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Entry\Event\EntryWasCreated;
+use Anomaly\Streams\Platform\Entry\Event\EntryWasDeleted;
+use Anomaly\Streams\Platform\Entry\Event\EntryWasSaved;
+use Anomaly\Streams\Platform\Entry\Event\EntryWasUpdated;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereDeleted;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereUpdated;
 use Anomaly\Streams\Platform\Support\Observer;
@@ -25,7 +29,20 @@ class EntryObserver extends Observer
      */
     public function created(EntryInterface $entry)
     {
+        $this->events->fire(new EntryWasCreated($entry));
+
         $entry->flushCache();
+    }
+
+    /**
+     * Run after a record is updated.
+     *
+     * @param EntryInterface $entry
+     */
+    public function updated(EntryInterface $entry)
+    {
+        die('UPDATED BITCH');
+        $this->events->fire(new EntryWasUpdated($entry));
     }
 
     /**
@@ -47,6 +64,8 @@ class EntryObserver extends Observer
      */
     public function saved(EntryInterface $entry)
     {
+        $this->events->fire(new EntryWasSaved($entry));
+
         $entry->flushCache();
     }
 
@@ -69,6 +88,8 @@ class EntryObserver extends Observer
      */
     public function deleted(EntryInterface $entry)
     {
+        $this->events->fire(new EntryWasDeleted($entry));
+
         $entry->flushCache();
     }
 

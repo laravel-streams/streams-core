@@ -69,7 +69,7 @@ class HrefGuesser
 
             // If we already have an HREF then skip it.
             if (isset($button['attributes']['href'])) {
-                return;
+                continue;
             }
 
             // Determine the HREF based on the button type.
