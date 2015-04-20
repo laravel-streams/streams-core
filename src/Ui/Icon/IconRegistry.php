@@ -47,7 +47,8 @@ class IconRegistry
         'check'         => 'fa fa-check',
         'save'          => 'fa fa-save',
         'cog'           => 'fa fa-cog',
-        'rss'           => 'fa fa-rss'
+        'rss'           => 'fa fa-rss',
+        'tag'           => 'fa fa-tag'
     ];
 
     /**

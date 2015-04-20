@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\View\ViewMobileOverrides;
 use Anomaly\Streams\Platform\View\ViewOverrides;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Events\Dispatcher;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use TwigBridge\Bridge;
@@ -18,6 +19,8 @@ use TwigBridge\Bridge;
  */
 class AddonServiceProvider extends ServiceProvider
 {
+
+    use DispatchesCommands;
 
     /**
      * The addon plugins.
