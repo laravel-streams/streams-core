@@ -41,7 +41,6 @@ class EntryObserver extends Observer
      */
     public function updated(EntryInterface $entry)
     {
-        die('UPDATED BITCH');
         $this->events->fire(new EntryWasUpdated($entry));
     }
 
