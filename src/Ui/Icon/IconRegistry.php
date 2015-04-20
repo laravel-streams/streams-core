@@ -45,6 +45,7 @@ class IconRegistry
         'users'         => 'fa fa-users',
         'trash'         => 'fa fa-trash',
         'check'         => 'fa fa-check',
+        'star'          => 'fa fa-star',
         'save'          => 'fa fa-save',
         'cog'           => 'fa fa-cog',
         'rss'           => 'fa fa-rss',
