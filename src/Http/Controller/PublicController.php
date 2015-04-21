@@ -19,5 +19,6 @@ class PublicController extends BaseController
         parent::__construct();
 
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\CheckSiteStatus');
+        $this->middleware('Barryvdh\HttpCache\Middleware\CacheRequests');
     }
 }
