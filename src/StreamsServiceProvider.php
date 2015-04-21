@@ -453,21 +453,6 @@ class StreamsServiceProvider extends ServiceProvider
             return;
         }
 
-        /**
-         * Set up our HTTP cache options.
-         */
-        $this->app->instance(
-            'Anomaly\Streams\Platform\Http\Middleware\CacheRequests',
-            $this->app->make('Barryvdh\StackMiddleware\StackMiddleware')->wrap(
-                'Anomaly\Streams\Platform\Http\Middleware\CacheRequests',
-                [
-                    $this->app['http_cache.store'],
-                    $this->app['http_cache.esi'],
-                    $this->app['http_cache.options']
-                ]
-            )
-        );
-
         // Views
         $this->app->make('view')->addNamespace('streams', __DIR__ . '/../resources/views');
         $this->app->make('view')->addNamespace('storage', storage_path());
