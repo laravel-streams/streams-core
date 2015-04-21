@@ -65,6 +65,15 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Intervention\Image\ImageServiceProvider');
 
         /**
+         * Bind composer because for some reason
+         * it is not already bound sometimes..
+         */
+        $this->app->bind(
+            'composer',
+            'Illuminate\Foundation\Composer'
+        );
+
+        /**
          * Singleton some third party stuff.
          */
         $this->app->singleton(
