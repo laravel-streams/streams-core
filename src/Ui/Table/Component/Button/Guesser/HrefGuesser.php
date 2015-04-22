@@ -73,26 +73,14 @@ class HrefGuesser
             }
 
             // Determine the HREF based on the button type.
-            switch (array_get($button, 'button')) {
+            switch ($type = array_get($button, 'button')) {
 
                 case 'edit':
-                    $button['attributes']['href'] = $section->getHref('edit/{entry.id}');
-                    break;
-
                 case 'delete':
-                    $button['attributes']['href'] = $section->getHref('delete/{entry.id}');
-                    break;
-
                 case 'view':
-                    $button['attributes']['href'] = $section->getHref('view/{entry.id}');
-                    break;
-
                 case 'settings':
-                    $button['attributes']['href'] = $section->getHref('settings/{entry.id}');
-                    break;
-
                 case 'fields':
-                    $button['attributes']['href'] = $section->getHref('fields/{entry.id}');
+                    $button['attributes']['href'] = $section->getHref($type . '/{entry.id}');
                     break;
             }
         }
