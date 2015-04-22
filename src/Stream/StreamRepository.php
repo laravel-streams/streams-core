@@ -39,6 +39,7 @@ class StreamRepository implements StreamRepositoryInterface
      */
     public function create(array $attributes)
     {
+        // Set some reasonable defaults.
         $attributes['order_by']     = array_get($attributes, 'order_by', 'id');
         $attributes['title_column'] = array_get($attributes, 'title_column', 'id');
 
@@ -48,6 +49,9 @@ class StreamRepository implements StreamRepositoryInterface
 
         $attributes['prefix']       = array_get($attributes, 'prefix', array_get($attributes, 'namespace') . '_');
         $attributes['view_options'] = array_get($attributes, 'view_options', ['id', 'created_at']);
+
+        // Format just in case.
+        $attributes['slug'] = str_slug(array_get($attributes, 'slug'), '_');
 
         return $this->model->create($attributes);
     }
