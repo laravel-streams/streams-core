@@ -94,6 +94,11 @@ class ButtonRegistry
             'icon' => 'pencil',
             'type' => 'warning'
         ],
+        'fields'    => [
+            'text' => 'streams::button.fields',
+            'icon' => 'list-alt',
+            'type' => 'warning'
+        ],
         /**
          * Danger Buttons
          */

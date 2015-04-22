@@ -32,6 +32,7 @@ class IconRegistry
         'power-off'     => 'fa fa-power-off',
         'dashboard'     => 'fa fa-dashboard',
         'compress'      => 'fa fa-compress',
+        'list-alt'      => 'fa fa-list-alt',
         'arrows-h'      => 'fa fa-arrows-h',
         'arrows-v'      => 'fa fa-arrows-v',
         'envelope'      => 'fa fa-envelope',

@@ -90,6 +90,10 @@ class HrefGuesser
                 case 'settings':
                     $button['attributes']['href'] = $section->getHref('settings/{entry.id}');
                     break;
+
+                case 'fields':
+                    $button['attributes']['href'] = $section->getHref('fields/{entry.id}');
+                    break;
             }
         }
 

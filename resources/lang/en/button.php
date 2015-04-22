@@ -27,5 +27,6 @@ return [
     'filter'        => 'Filter',
     'reorder'       => 'Reorder',
     'configure'     => 'Configure',
-    'settings'      => 'Settings'
+    'settings'      => 'Settings',
+    'fields'        => 'Fields'
 ];
