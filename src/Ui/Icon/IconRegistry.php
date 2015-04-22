@@ -21,6 +21,7 @@ class IconRegistry
         'folder-open'   => 'glyphicons glyphicons-folder-open',
         'credit-card'   => 'glyphicons glyphicons-credit-card',
         'eyedropper'    => 'glyphicons glyphicons-eyedropper',
+        'fullscreen'    => 'glyphicons glyphicons-fullscreen',
         'airplane'      => 'glyphicons glyphicons-airplane',
         'global'        => 'glyphicons glyphicons-global',
         'globe'         => 'glyphicons glyphicons-globe',

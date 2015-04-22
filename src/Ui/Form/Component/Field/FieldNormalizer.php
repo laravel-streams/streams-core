@@ -34,12 +34,10 @@ class FieldNormalizer
 
             /**
              * If the slug is numeric and the field
-             * is a string then use the field as the
-             * slug and the field.
+             * is a string then use the field as is.
              */
             if (is_numeric($slug) && is_string($field)) {
                 $field = [
-                    'slug'  => $field,
                     'field' => $field
                 ];
             }
@@ -47,11 +45,10 @@ class FieldNormalizer
             /**
              * If the slug is a string and the field
              * is a string too then use the field as the
-             * type and the slug as the field as well.
+             * type and the field as well.
              */
             if (!is_numeric($slug) && is_string($slug) && is_string($field)) {
                 $field = [
-                    'slug'  => $slug,
                     'field' => $slug,
                     'type'  => $field
                 ];
@@ -64,15 +61,6 @@ class FieldNormalizer
              */
             if (is_array($field) && !isset($field['field'])) {
                 $field['field'] = $slug;
-            }
-
-            /**
-             * If the field is an array and does not
-             * have a slug and the slug is valid then
-             * move the slug into the field array.
-             */
-            if (!is_numeric($slug) && !isset($field['slug'])) {
-                $field['slug'] = $slug;
             }
 
             /**

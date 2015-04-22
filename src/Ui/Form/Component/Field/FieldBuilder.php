@@ -72,8 +72,8 @@ class FieldBuilder
          * Convert each field to a field object
          * and put to the forms field collection.
          */
-        foreach ($builder->getFields() as $slug => $field) {
-            if (!in_array($field['slug'], $skips) && array_get($field, 'enabled', true)) {
+        foreach ($builder->getFields() as $field) {
+            if (!in_array($field['field'], $skips) && array_get($field, 'enabled', true)) {
                 $builder->addFormField($this->factory->make($field, $stream, $entry));
             }
         }
