@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
+use Anomaly\Streams\Platform\Field\Form\Command\SetDefaultProperties;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormCollection;
@@ -22,6 +23,16 @@ class FieldAssignmentFormBuilder extends MultipleFormBuilder
      * @var null|StreamInterface
      */
     protected $stream = null;
+
+    /**
+     * Build the table.
+     */
+    public function build()
+    {
+        $this->dispatch(new SetDefaultProperties($this));
+
+        parent::build();
+    }
 
     /**
      * @param FieldFormBuilder $builder
