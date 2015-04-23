@@ -26,6 +26,7 @@ class IconRegistry
         'retweet'       => 'glyphicons glyphicons-retweet',
         'global'        => 'glyphicons glyphicons-global',
         'globe'         => 'glyphicons glyphicons-globe',
+        'brush'         => 'glyphicons glyphicons-brush',
         'redo'          => 'glyphicons glyphicons-redo',
         'external-link' => 'fa fa-external-link',
         'cloud-upload'  => 'fa fa-cloud-upload',
