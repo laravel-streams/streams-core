@@ -82,9 +82,9 @@ class AddonBinder
      */
     public function register($path, array $enabled, array $installed)
     {
-        $vendor = basename(dirname($path));
-        $slug   = substr(basename($path), 0, strpos(basename($path), '-'));
-        $type   = substr(basename($path), strpos(basename($path), '-') + 1);
+        $vendor = strtolower(basename(dirname($path)));
+        $slug   = strtolower(substr(basename($path), 0, strpos(basename($path), '-')));
+        $type   = strtolower(substr(basename($path), strpos(basename($path), '-') + 1));
 
         $addon = studly_case($vendor) . '\\' . studly_case($slug) . studly_case($type) . '\\' . studly_case(
                 $slug
