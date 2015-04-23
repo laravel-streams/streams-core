@@ -464,6 +464,11 @@ class StreamsServiceProvider extends ServiceProvider
         // Register streams event provider.
         $this->app->register('Anomaly\Streams\Platform\StreamsEventProvider');
 
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Support\String',
+            'Anomaly\Streams\Platform\Support\String'
+        );
+
         // Bind a string loader version of twig.
         $this->app->singleton(
             'Anomaly\Streams\Platform\Support\String',

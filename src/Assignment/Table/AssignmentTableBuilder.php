@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Table;
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -17,11 +16,11 @@ class AssignmentTableBuilder extends TableBuilder
 {
 
     /**
-     * The table model.
+     * The table stream.
      *
-     * @var string
+     * @var null|StreamInterface
      */
-    protected $model = 'Anomaly\Streams\Platform\Assignment\AssignmentModel';
+    protected $stream = null;
 
     /**
      * The table columns.
@@ -68,31 +67,13 @@ class AssignmentTableBuilder extends TableBuilder
      * @var array
      */
     protected $options = [
-        'sortable' => true,
-        'limit'    => 500,
-        'eager'    => [
+        'breadcrumb' => 'streams::breadcrumb.assignments',
+        'sortable'   => true,
+        'limit'      => 500,
+        'eager'      => [
             'field'
         ]
     ];
-
-    /**
-     * Set the stream when ready.
-     *
-     * @param StreamRepositoryInterface $streams
-     */
-    public function onReady(StreamRepositoryInterface $streams)
-    {
-        $stream    = $this->getOption('stream');
-        $namespace = $this->getOption('namespace');
-
-        if ($stream instanceof EntryInterface) {
-            $this->table->setStream($stream->getStream());
-        }
-
-        if ($stream && $namespace) {
-            $this->table->setStream($streams->findBySlugAndNamespace($stream, $namespace));
-        }
-    }
 
     /**
      * Fired when the table starts querying.
@@ -101,10 +82,31 @@ class AssignmentTableBuilder extends TableBuilder
      */
     public function onQuerying(Builder $query)
     {
-        $stream = $this->table->getStream();
+        $assignments = $this->stream->getAssignments()->withoutFields($this->getOption('skip', []))->lists('id');
 
-        $assignments = $stream->getAssignments()->withoutFields($this->getOption('skip', []))->lists('id');
+        $query->where('stream_id', $this->stream->getId())->whereIn('id', $assignments);
+    }
 
-        $query->where('stream_id', $stream->getId())->whereIn('id', $assignments);
+    /**
+     * Get the stream.
+     *
+     * @return StreamInterface|null
+     */
+    public function getStream()
+    {
+        return $this->stream;
+    }
+
+    /**
+     * Set the stream.
+     *
+     * @param StreamInterface $stream
+     * @return $this
+     */
+    public function setStream(StreamInterface $stream)
+    {
+        $this->stream = $stream;
+
+        return $this;
     }
 }

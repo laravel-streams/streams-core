@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Illuminate\Bus\Dispatcher as CommandDispatcher;
 use Illuminate\Events\Dispatcher as EventDispatcher;
 
@@ -13,6 +14,8 @@ use Illuminate\Events\Dispatcher as EventDispatcher;
  */
 class Observer
 {
+
+    use FiresCallbacks;
 
     /**
      * The event dispatcher.
