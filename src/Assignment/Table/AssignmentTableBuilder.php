@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Table;
 
+use Anomaly\Streams\Platform\Assignment\Table\Command\SetDefaultProperties;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
@@ -74,6 +75,14 @@ class AssignmentTableBuilder extends TableBuilder
             'field'
         ]
     ];
+
+    /**
+     * Fired when the table is ready.
+     */
+    public function onReady()
+    {
+        $this->dispatch(new SetDefaultProperties($this));
+    }
 
     /**
      * Fired when the table starts querying.
