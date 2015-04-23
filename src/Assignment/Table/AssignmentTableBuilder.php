@@ -68,10 +68,9 @@ class AssignmentTableBuilder extends TableBuilder
      * @var array
      */
     protected $options = [
-        'breadcrumb' => 'streams::breadcrumb.assignments',
-        'sortable'   => true,
-        'limit'      => 500,
-        'eager'      => [
+        'sortable' => true,
+        'limit'    => 500,
+        'eager'    => [
             'field'
         ]
     ];
