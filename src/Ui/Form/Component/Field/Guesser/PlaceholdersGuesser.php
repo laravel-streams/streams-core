@@ -25,7 +25,7 @@ class PlaceholdersGuesser
         $fields = $builder->getFields();
         $stream = $builder->getFormStream();
 
-        foreach ($fields as $field) {
+        foreach ($fields as &$field) {
 
             /**
              * If the placeholder is already set then use it.
