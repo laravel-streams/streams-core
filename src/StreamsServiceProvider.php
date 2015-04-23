@@ -10,6 +10,7 @@ use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
 use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
 use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
 use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
+use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\ServiceProvider;
@@ -44,6 +45,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new AutoloadEntryModels());
         $this->dispatch(new AddAssetNamespaces());
         $this->dispatch(new AddImageNamespaces());
+        $this->dispatch(new AddViewNamespaces());
         $this->dispatch(new AddTwigExtensions());
         $this->dispatch(new RegisterAddons());
     }
@@ -452,11 +454,6 @@ class StreamsServiceProvider extends ServiceProvider
 
             return;
         }
-
-        // Views
-        $this->app->make('view')->addNamespace('streams', __DIR__ . '/../resources/views');
-        $this->app->make('view')->addNamespace('storage', storage_path());
-        $this->app->make('view')->composer('*', 'Anomaly\Streams\Platform\View\ViewComposer');
 
         // Register streams console provider.
         $this->app->register('Anomaly\Streams\Platform\StreamsConsoleProvider');

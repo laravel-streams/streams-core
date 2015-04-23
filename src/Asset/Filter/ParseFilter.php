@@ -36,7 +36,7 @@ class ParseFilter implements FilterInterface
         @app('files')->makeDirectory(storage_path('framework/views/asset'));
         app('files')->put(storage_path('framework/views/asset/' . (($filename = md5($content)) . '.twig')), $content);
 
-        $content = view('storage::framework/views/asset/' . $filename)->render();
+        $content = view('base_path::storage/framework/views/asset/' . $filename)->render();
 
         $asset->setContent($content);
     }

@@ -39,7 +39,7 @@ class EntryPresenter extends EloquentPresenter
                 return $this->__getDecorator()->decorate($this->object->{$key});
             }
 
-            return $type->getPresenter();
+            return $type->setEntry($this->object)->getPresenter();
         }
 
         return parent::__get($key);
