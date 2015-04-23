@@ -76,12 +76,15 @@ class AssignmentTableBuilder extends TableBuilder
     ];
 
     /**
-     * Fired when the table is ready.
+     * Build the table.
      */
-    public function onReady()
+    public function build()
     {
         $this->dispatch(new SetDefaultProperties($this));
+
+        parent::build();
     }
+
 
     /**
      * Fired when the table starts querying.
