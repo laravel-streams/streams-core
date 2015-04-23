@@ -30,8 +30,10 @@
 
         </div>
     {% else %}
-        <div class="ui blue inverted segment">
-            <p>{{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}</p>
+        <div class="panel">
+            <div class="panel-body">
+                {{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}
+            </div>
         </div>
     {% endif %}
 

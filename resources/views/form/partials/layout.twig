@@ -1,15 +1,23 @@
-{% if form.options.sections %}
-
-    {% for section in form.options.sections %}
-        {% if section.view %}
-            {% include section.view %}
-        {% elseif section.fields %}
-            {% include "streams::form/partials/section" %}
-        {% elseif section.tabs %}
-            {% include "streams::form/partials/tabbed" %}
-        {% endif %}
-    {% endfor %}
-
+{% if form.fields.empty %}
+    <div class="panel">
+        <div class="panel-body">
+            {{ trans("streams::message.no_fields_available") }}
+        </div>
+    </div>
 {% else %}
-    {% include "streams::form/partials/default" %}
+    {% if form.options.sections %}
+
+        {% for section in form.options.sections %}
+            {% if section.view %}
+                {% include section.view %}
+            {% elseif section.fields %}
+                {% include "streams::form/partials/section" %}
+            {% elseif section.tabs %}
+                {% include "streams::form/partials/tabbed" %}
+            {% endif %}
+        {% endfor %}
+
+    {% else %}
+        {% include "streams::form/partials/default" %}
+    {% endif %}
 {% endif %}
