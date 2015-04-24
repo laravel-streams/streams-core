@@ -117,9 +117,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
             return null;
         }
 
-        $type->mergeRules($this->getFieldRules());
-        $type->mergeConfig($this->getFieldConfig());
-
+        $type->mergeConfig($this->getConfig());
         $type->setRequired($this->isRequired());
 
         return $type;
@@ -159,6 +157,16 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
         $field = $this->getField();
 
         return $field->getRules();
+    }
+
+    /**
+     * Get the config.
+     *
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     /**
