@@ -360,11 +360,11 @@ class Asset
                     break;
 
                 case 'less':
-                    $filter = new LessFilter($this->parser);
+                    $filter = new LessFilter();
                     break;
 
                 case 'scss':
-                    $filter = new ScssFilter($this->parser);
+                    $filter = new ScssFilter();
                     break;
 
                 case 'coffee':
@@ -377,9 +377,9 @@ class Asset
 
                 case 'min':
                     if ($hint == 'js') {
-                        $filter = new JsMinFilter($this->parser);
+                        $filter = new JsMinFilter();
                     } elseif ($hint == 'css') {
-                        $filter = new CssMinFilter($this->parser);
+                        $filter = new CssMinFilter();
                     }
                     break;
 

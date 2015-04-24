@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Asset\Filter;
 
-use Anomaly\Streams\Platform\Asset\AssetParser;
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\LessphpFilter;
 
@@ -14,23 +13,6 @@ use Assetic\Filter\LessphpFilter;
  */
 class LessFilter extends LessphpFilter
 {
-
-    /**
-     * The asset parser utility.
-     *
-     * @var AssetParser
-     */
-    protected $parser;
-
-    /**
-     * Create a new LessFilter instance.
-     *
-     * @param AssetParser $parser
-     */
-    public function __construct(AssetParser $parser)
-    {
-        $this->parser = $parser;
-    }
 
     /**
      * Filters an asset after it has been loaded.
