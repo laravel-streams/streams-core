@@ -88,6 +88,6 @@ class SectionNormalizer
             }
         }
 
-        $builder->setSections($sections);
+        $builder->setSections(array_values($sections));
     }
 }

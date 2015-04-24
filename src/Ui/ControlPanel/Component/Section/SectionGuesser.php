@@ -48,13 +48,7 @@ class SectionGuesser
      */
     public function guess(ControlPanelBuilder $builder)
     {
-        $sections = $builder->getSections();
-
-        foreach ($sections as &$section) {
-            $this->text->guess($section);
-            $this->href->guess($section);
-        }
-
-        $builder->setSections($sections);
+        $this->text->guess($builder);
+        $this->href->guess($builder);
     }
 }

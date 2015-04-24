@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Illuminate\Routing\UrlGenerator;
 
 /**
@@ -43,23 +44,30 @@ class HrefGuesser
     /**
      * Guess the sections HREF attribute.
      *
-     * @param array $section
+     * @param ControlPanelBuilder $builder
      */
-    public function guess(array &$section)
+    public function guess(ControlPanelBuilder $builder)
     {
-        // If HREF is set then skip it.
-        if (isset($section['attributes']['href'])) {
-            return;
+        $sections = $builder->getSections();
+
+        foreach ($sections as $index => &$section) {
+
+            // If HREF is set then skip it.
+            if (isset($section['attributes']['href'])) {
+                return;
+            }
+
+            $module = $this->modules->active();
+
+            $href = $this->url->to('admin/' . $module->getSlug());
+
+            if ($index !== 0 && $module->getSlug() !== $section['slug']) {
+                $href .= '/' . $section['slug'];
+            }
+
+            $section['attributes']['href'] = $href;
         }
 
-        $module = $this->modules->active();
-
-        $href = $this->url->to('admin/' . $module->getSlug());
-
-        if ($module->getSlug() !== $section['slug']) {
-            $href .= '/' . $section['slug'];
-        }
-
-        $section['attributes']['href'] = $href;
+        $builder->setSections($sections);
     }
 }

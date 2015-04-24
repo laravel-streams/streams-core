@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
  * Class TextGuesser
@@ -33,17 +34,24 @@ class TextGuesser
     /**
      * Guess the sections text.
      *
-     * @param array $section
+     * @param ControlPanelBuilder $builder
      */
-    public function guess(array &$section)
+    public function guess(ControlPanelBuilder $builder)
     {
-        // If text is set then skip it.
-        if (isset($section['text'])) {
-            return;
+        $sections = $builder->getSections();
+
+        foreach ($sections as &$section) {
+
+            // If text is set then skip it.
+            if (isset($section['text'])) {
+                return;
+            }
+
+            $module = $this->modules->active();
+
+            $section['text'] = $module->getNamespace('addon.section.' . $section['slug']);
         }
 
-        $module = $this->modules->active();
-
-        $section['text'] = $module->getNamespace('addon.section.' . $section['slug']);
+        $builder->setSections($sections);
     }
 }
