@@ -360,11 +360,11 @@ class Asset
                     break;
 
                 case 'less':
-                    $filter = new LessFilter();
+                    $filter = new LessFilter($this->parser);
                     break;
 
                 case 'scss':
-                    $filter = new ScssFilter();
+                    $filter = new ScssFilter($this->parser);
                     break;
 
                 case 'coffee':

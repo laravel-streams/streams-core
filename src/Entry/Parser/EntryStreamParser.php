@@ -78,6 +78,10 @@ class EntryStreamParser
         foreach ($assignment->getAttributes() as $key => $value) {
             $value = $assignment->getAttribute($key);
 
+            if (is_array($value)) {
+                $value = serialize($value);
+            }
+
             $string .= "\n'{$key}' => '{$value}',";
         }
 

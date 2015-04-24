@@ -62,6 +62,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
         $attributes['translatable'] = array_get($attributes, 'translatable', false);
         $attributes['required']     = array_get($attributes, 'required', false);
         $attributes['unique']       = array_get($attributes, 'unique', false);
+        $attributes['config']       = array_get($attributes, 'config', []);
 
         return $this->model->create($attributes);
     }
