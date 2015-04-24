@@ -17,7 +17,7 @@ class IconRegistry
      * @var array
      */
     protected $icons = [
-        'circle-question-mark' => 'glyphicons-circle-question-mark',
+        'circle-question-mark' => 'glyphicons glyphicons-circle-question-mark',
         'folder-closed'        => 'glyphicons glyphicons-folder-closed',
         'folder-open'          => 'glyphicons glyphicons-folder-open',
         'credit-card'          => 'glyphicons glyphicons-credit-card',
