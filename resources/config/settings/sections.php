@@ -11,7 +11,12 @@ return [
                     'description',
                     'date_format',
                     'time_format',
-                    'default_locale',
+                    'default_locale'
+                ]
+            ],
+            'access'  => [
+                'title'  => 'streams::tab.access',
+                'fields' => [
                     'site_enabled',
                     '503_message',
                     'ip_whitelist',

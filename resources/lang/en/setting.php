@@ -26,7 +26,7 @@ return [
         'instructions' => 'What is the default language for your application?<br>Languages can be managed in the <a href="/admin/localization" target="_blank">Localization</a> module.'
     ],
     'site_enabled'   => [
-        'label'        => 'Site Status',
+        'label'        => 'Site Enabled',
         'instructions' => 'Use this option to the enable or disable the public-facing part of the application.<br>This is useful when you want to take the application down for maintenance or development.'
     ],
     'ip_whitelist'   => [
