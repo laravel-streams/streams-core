@@ -28,6 +28,7 @@ class IconRegistry
         'globe'         => 'glyphicons glyphicons-globe',
         'brush'         => 'glyphicons glyphicons-brush',
         'redo'          => 'glyphicons glyphicons-redo',
+        'order'         => 'glyphicons glyphicons-sort',
         'external-link' => 'fa fa-external-link',
         'cloud-upload'  => 'fa fa-cloud-upload',
         'newspaper'     => 'fa fa-newspaper-o',
