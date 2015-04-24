@@ -39,8 +39,18 @@ class LessFilter extends LessphpFilter
      */
     public function filterLoad(AssetInterface $asset)
     {
-        $asset->setContent($this->parser->parse($asset->getContent()));
+        $compiler = new \lessc();
 
-        parent::filterLoad($asset);
+        $compiler->setVariables(config('theme'));
+
+        if ($dir = $asset->getSourceDirectory()) {
+            $compiler->importDir = $dir;
+        }
+
+        foreach ($this->loadPaths as $loadPath) {
+            $compiler->addImportDir($loadPath);
+        }
+
+        $asset->setContent($compiler->parse($asset->getContent()));
     }
 }
