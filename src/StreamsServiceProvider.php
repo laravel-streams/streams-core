@@ -85,6 +85,15 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         /**
+         * Override the default CSRF check so
+         * we can handle it a little better.
+         */
+        $this->app->bind(
+            'App\Http\Middleware\VerifyCsrfToken',
+            'Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken'
+        );
+
+        /**
          * Register the application instance. This is
          * used to determine the application state / reference.
          */
