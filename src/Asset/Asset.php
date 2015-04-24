@@ -1,16 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Asset;
 
 use Anomaly\Streams\Platform\Application\Application;
-use Anomaly\Streams\Platform\Asset\Filter\CoffeePhpFilter;
+use Anomaly\Streams\Platform\Asset\Filter\CoffeeFilter;
+use Anomaly\Streams\Platform\Asset\Filter\CssMinFilter;
+use Anomaly\Streams\Platform\Asset\Filter\JsMinFilter;
+use Anomaly\Streams\Platform\Asset\Filter\LessFilter;
 use Anomaly\Streams\Platform\Asset\Filter\ParseFilter;
+use Anomaly\Streams\Platform\Asset\Filter\ScssFilter;
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\GlobAsset;
-use Assetic\Filter\CssMinFilter;
-use Assetic\Filter\JSMinFilter;
-use Assetic\Filter\LessphpFilter;
 use Assetic\Filter\PhpCssEmbedFilter;
-use Assetic\Filter\ScssphpFilter;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
 
@@ -67,6 +67,13 @@ class Asset
     protected $paths;
 
     /**
+     * The asset parser utility.
+     *
+     * @var AssetParser
+     */
+    protected $parser;
+
+    /**
      * The stream application.
      *
      * @var Application
@@ -80,10 +87,11 @@ class Asset
      * @param AssetPaths  $paths
      * @param HtmlBuilder $html
      */
-    public function __construct(Application $application, AssetPaths $paths, HtmlBuilder $html)
+    public function __construct(Application $application, AssetPaths $paths, AssetParser $parser, HtmlBuilder $html)
     {
         $this->html        = $html;
         $this->paths       = $paths;
+        $this->parser      = $parser;
         $this->application = $application;
     }
 
@@ -348,19 +356,19 @@ class Asset
         foreach ($filters as $k => &$filter) {
             switch ($filter) {
                 case 'parse':
-                    $filter = new ParseFilter();
+                    $filter = new ParseFilter($this->parser);
                     break;
 
                 case 'less':
-                    $filter = new LessphpFilter();
+                    $filter = new LessFilter($this->parser);
                     break;
 
                 case 'scss':
-                    $filter = new ScssphpFilter();
+                    $filter = new ScssFilter($this->parser);
                     break;
 
                 case 'coffee':
-                    $filter = new CoffeePhpFilter();
+                    $filter = new CoffeeFilter($this->parser);
                     break;
 
                 case 'embed':
@@ -369,9 +377,9 @@ class Asset
 
                 case 'min':
                     if ($hint == 'js') {
-                        $filter = new JSMinFilter();
+                        $filter = new JsMinFilter($this->parser);
                     } elseif ($hint == 'css') {
-                        $filter = new CssMinFilter();
+                        $filter = new CssMinFilter($this->parser);
                     }
                     break;
 

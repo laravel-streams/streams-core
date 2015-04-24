@@ -1,0 +1,56 @@
+<?php namespace Anomaly\Streams\Platform\Asset;
+
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\View\Factory;
+
+/**
+ * Class AssetParser
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Asset
+ */
+class AssetParser
+{
+
+    /**
+     * The filesystem.
+     *
+     * @var Filesystem
+     */
+    protected $files;
+
+    /**
+     * The view factory.
+     *
+     * @var Factory
+     */
+    protected $views;
+
+    /**
+     * Create a new AssetParser instance.
+     *
+     * @param Filesystem $files
+     * @param Factory    $views
+     */
+    public function __construct(Filesystem $files, Factory $views)
+    {
+        $this->files = $files;
+        $this->views = $views;
+    }
+
+    /**
+     * Parse some content.
+     *
+     * @param $content
+     * @return string
+     */
+    public function parse($content)
+    {
+        @$this->files->makeDirectory(storage_path('framework/views/asset'));
+        $this->files->put(storage_path('framework/views/asset/' . (($filename = md5($content)) . '.twig')), $content);
+
+        return $this->views->make('base_path::storage/framework/views/asset/' . $filename)->render();
+    }
+}

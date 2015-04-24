@@ -2,17 +2,16 @@
 
 use Anomaly\Streams\Platform\Asset\AssetParser;
 use Assetic\Asset\AssetInterface;
-use Assetic\Filter\FilterInterface;
 
 /**
- * Class ParseFilter
+ * Class JsMinFilter
  *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Asset\Filter
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Asset\Filter
  */
-class ParseFilter implements FilterInterface
+class JsMinFilter extends \Assetic\Filter\JSMinFilter
 {
 
     /**
@@ -39,16 +38,8 @@ class ParseFilter implements FilterInterface
      */
     public function filterLoad(AssetInterface $asset)
     {
-        //
-    }
-
-    /**
-     * Filters an asset just before it's dumped.
-     *
-     * @param AssetInterface $asset
-     */
-    public function filterDump(AssetInterface $asset)
-    {
         $asset->setContent($this->parser->parse($asset->getContent()));
+
+        parent::filterLoad($asset);
     }
 }

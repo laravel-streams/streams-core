@@ -1,19 +1,37 @@
 <?php namespace Anomaly\Streams\Platform\Asset\Filter;
 
+use Anomaly\Streams\Platform\Asset\AssetParser;
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\FilterInterface;
 use CoffeeScript\Compiler;
 
 /**
- * Class CoffeePhpFilter
+ * Class CoffeeFilter
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Asset\Filter
  */
-class CoffeePhpFilter implements FilterInterface
+class CoffeeFilter implements FilterInterface
 {
+
+    /**
+     * The asset parser utility.
+     *
+     * @var AssetParser
+     */
+    protected $parser;
+
+    /**
+     * Create a new ParseFilter instance.
+     *
+     * @param AssetParser $parser
+     */
+    public function __construct(AssetParser $parser)
+    {
+        $this->parser = $parser;
+    }
 
     /**
      * Filters an asset after it has been loaded.
@@ -32,6 +50,13 @@ class CoffeePhpFilter implements FilterInterface
      */
     public function filterDump(AssetInterface $asset)
     {
-        $asset->setContent(trim(Compiler::compile($asset->getContent(), array('filename' => $asset->getSourcePath()))));
+        $asset->setContent(
+            trim(
+                Compiler::compile(
+                    $this->parser->parse($asset->getContent()),
+                    ['filename' => $asset->getSourcePath()]
+                )
+            )
+        );
     }
 }
