@@ -93,4 +93,15 @@ return [
         'label'        => 'Debug Mode',
         'instructions' => 'When this option is enabled, email will not be sent but will instead be written to your application\'s logs files so you may inspect the message.'
     ],
+    'cache_driver'   => [
+        'label'        => 'Cache Driver',
+        'instructions' => 'How does your store cached data?',
+        'option'       => [
+            'apc'       => 'APC',
+            'array'     => 'Array',
+            'file'      => 'File',
+            'memcached' => 'Memcached',
+            'redis'     => 'Redis'
+        ]
+    ]
 ];

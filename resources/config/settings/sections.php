@@ -35,6 +35,12 @@ return [
                     'smtp_password',
                     'mail_debug'
                 ]
+            ],
+            'cache'   => [
+                'title'  => 'streams::tab.cache',
+                'fields' => [
+                    'cache_driver'
+                ]
             ]
         ]
     ]

@@ -3,5 +3,6 @@
 return [
     'general' => 'General',
     'access'  => 'Access',
-    'email'   => 'Email'
+    'email'   => 'Email',
+    'cache'   => 'Cache'
 ];
