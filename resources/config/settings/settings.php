@@ -18,16 +18,28 @@ return [
         ]
     ],
     'date_format'    => [
-        'type'   => 'anomaly.field_type.text',
+        'type'   => 'anomaly.field_type.select',
         'config' => [
-            'default_value' => 'n/j/Y',
-        ]
+            'default_value' => config('streams.date_format'),
+            'options'       => [
+                'Y/n/j'     => date('Y/n/j'),
+                'n/j/Y'     => date('n/j/Y'),
+                'M j, Y'    => date('M j, Y'),
+                'D M j, Y'  => date('D M j, Y'),
+                'F jS, Y'   => date('F jS, Y'),
+                'l F jS, Y' => date('l F jS, Y'),
+            ]
+        ],
     ],
     'time_format'    => [
-        'type'   => 'anomaly.field_type.text',
+        'type'   => 'anomaly.field_type.select',
         'config' => [
-            'default_value' => 'g:i A',
-        ]
+            'default_value' => config('streams.time_format'),
+            'options'       => [
+                'g:i A' => date('g:i A'),
+                'G:i A' => date('G:i A') . ' (24 hr)'
+            ]
+        ],
     ],
     'default_locale' => [
         'type'   => 'anomaly.field_type.select',
