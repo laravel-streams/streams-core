@@ -5,7 +5,7 @@ return [
         'type'   => 'anomaly.field_type.text',
         'config' => [
             'default_value' => function () {
-                return trans('distribution::addon.name');
+                return config('streams.app.name');
             },
         ]
     ],
@@ -13,7 +13,7 @@ return [
         'type'   => 'anomaly.field_type.text',
         'config' => [
             'default_value' => function () {
-                return trans('distribution::addon.description');
+                return config('streams.app.description');
             },
         ]
     ],
