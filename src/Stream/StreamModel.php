@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Field\FieldModelTranslation;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
@@ -287,6 +288,16 @@ class StreamModel extends EloquentModel implements StreamInterface
     public function getTitleColumn()
     {
         return $this->title_column;
+    }
+
+    /**
+     * Get the title field.
+     *
+     * @return null|FieldInterface
+     */
+    public function getTitleField()
+    {
+        return $this->getField($this->getTitleColumn());
     }
 
     /**

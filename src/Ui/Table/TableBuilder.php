@@ -51,21 +51,27 @@ class TableBuilder
      *
      * @var array|string
      */
-    protected $columns = [];
+    protected $columns = [
+        'entry.title'
+    ];
 
     /**
      * The buttons configuration.
      *
      * @var array|string
      */
-    protected $buttons = [];
+    protected $buttons = [
+        'edit'
+    ];
 
     /**
      * The actions configuration.
      *
      * @var array|string
      */
-    protected $actions = [];
+    protected $actions = [
+        'delete'
+    ];
 
     /**
      * The table options.

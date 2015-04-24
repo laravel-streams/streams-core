@@ -84,9 +84,16 @@ interface StreamInterface
     /**
      * Get the title column.
      *
-     * @return mixed
+     * @return string
      */
     public function getTitleColumn();
+
+    /**
+     * Get the title field.
+     *
+     * @return null|FieldInterface
+     */
+    public function getTitleField();
 
     /**
      * Get the related assignments.

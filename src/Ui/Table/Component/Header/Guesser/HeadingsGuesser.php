@@ -22,11 +22,11 @@ class HeadingsGuesser
      */
     public function guess(TableBuilder $builder)
     {
-        $columns = [];
+        $columns = $builder->getColumns();
 
         $stream = $builder->getTableStream();
 
-        foreach ($builder->getColumns() as $column) {
+        foreach ($columns as &$column) {
 
             /**
              * If the heading is false or does not exist
@@ -34,9 +34,6 @@ class HeadingsGuesser
              * heading text at all.
              */
             if (!isset($column['heading']) || $column['heading'] === false) {
-
-                $columns[] = $column;
-
                 continue;
             }
 
@@ -45,9 +42,6 @@ class HeadingsGuesser
              * really do much here.
              */
             if (!$stream instanceof StreamInterface) {
-
-                $columns[] = $column;
-
                 continue;
             }
 
@@ -66,21 +60,26 @@ class HeadingsGuesser
 
                 $column['heading'] = trans('streams::entry.' . $column['heading']);
 
-                $columns[] = $column;
-
                 continue;
             }
 
             $field = $stream->getField($column['heading']);
 
             /**
+             * Detect the title column.
+             */
+            if (!$field && $column['heading'] == 'title' && $title = $stream->getTitleField()) {
+
+                $column['heading'] = trans($title->getName());
+
+                continue;
+            }
+
+            /**
              * No field means we still do not have
              * anything to do here.
              */
             if (!$field instanceof FieldInterface) {
-
-                $columns[] = $column;
-
                 continue;
             }
 
@@ -90,8 +89,6 @@ class HeadingsGuesser
             if ($name = $field->getName()) {
                 $column['heading'] = $name;
             }
-
-            $columns[] = $column;
         }
 
         $builder->setColumns($columns);
