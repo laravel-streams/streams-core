@@ -41,7 +41,7 @@ class LessFilter extends LessphpFilter
     {
         $compiler = new \lessc();
 
-        $compiler->setVariables(config('theme'));
+        $compiler->setVariables(config('theme::theme', config('theme')));
 
         if ($dir = $asset->getSourceDirectory()) {
             $compiler->importDir = $dir;
