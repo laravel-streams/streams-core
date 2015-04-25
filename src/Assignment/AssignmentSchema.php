@@ -60,6 +60,10 @@ class AssignmentSchema
     {
         $schema = $type->getSchema();
 
+        if (!$this->schema->hasTable($table)) {
+            return;
+        }
+
         $this->schema->table(
             $table,
             function (Blueprint $table) use ($schema) {
