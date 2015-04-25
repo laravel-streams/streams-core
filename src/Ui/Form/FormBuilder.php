@@ -64,14 +64,14 @@ class FormBuilder
      *
      * @var array|string
      */
-    protected $actions = ['save'];
+    protected $actions = [];
 
     /**
      * The buttons config.
      *
      * @var array|string
      */
-    protected $buttons = ['cancel'];
+    protected $buttons = [];
 
     /**
      * The form options.
