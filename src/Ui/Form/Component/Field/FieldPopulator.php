@@ -46,6 +46,14 @@ class FieldPopulator
             if (isset($field['config']['default_value']) && !$entry->getId()) {
                 $field['value'] = $field['config']['default_value'];
             }
+
+            /**
+             * If the field is an assignment then
+             * use it's config for the default value.
+             */
+            if (!isset($field['value']) && $type = $entry->getFieldType($field['field'])) {
+                $field['value'] = array_get($type->getConfig(), 'default_value');
+            }
         }
 
         $builder->setFields($fields);
