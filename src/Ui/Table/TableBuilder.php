@@ -58,18 +58,14 @@ class TableBuilder
      *
      * @var array|string
      */
-    protected $buttons = [
-        'edit'
-    ];
+    protected $buttons = [];
 
     /**
      * The actions configuration.
      *
      * @var array|string
      */
-    protected $actions = [
-        'delete'
-    ];
+    protected $actions = [];
 
     /**
      * The table options.
