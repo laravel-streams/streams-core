@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command;
 
 use Anomaly\Streams\Platform\Entry\EntryModel;
+use Illuminate\Auth\Guard;
+use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Database\Query\Builder;
 
 /**
  * Class SetMetaInformation
@@ -10,7 +13,7 @@ use Anomaly\Streams\Platform\Entry\EntryModel;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry\Command
  */
-class SetMetaInformation
+class SetMetaInformation implements SelfHandling
 {
 
     /**
@@ -31,12 +34,25 @@ class SetMetaInformation
     }
 
     /**
-     * Get the entry object.
+     * Handle the command.
      *
-     * @return EntryModel
+     * @param Guard $auth
      */
-    public function getEntry()
+    public function handle(Guard $auth)
     {
-        return $this->entry;
+        /* @var Builder $query */
+        $query = $this->entry->newQuery();
+
+        if (!$this->entry->getKey()) {
+
+            $this->entry->updated_at = null;
+            $this->entry->created_at = time();
+            $this->entry->created_by = $auth->id();
+            $this->entry->sort_order = $query->count('id') + 1;
+        } else {
+
+            $this->entry->updated_at = time();
+            $this->entry->updated_by = $auth->id();
+        }
     }
 }
