@@ -26,6 +26,13 @@ class HeaderInput
     protected $resolver;
 
     /**
+     * The header defaults;
+     *
+     * @var HeaderDefaults
+     */
+    protected $defaults;
+
+    /**
      * The header normalizer.
      *
      * @var HeaderNormalizer
@@ -35,14 +42,20 @@ class HeaderInput
     /**
      * Create a new HeaderInput instance.
      *
-     * @param HeaderResolver   $resolver
-     * @param HeaderNormalizer $normalizer
      * @param HeaderGuesser    $guesser
+     * @param HeaderResolver   $resolver
+     * @param HeaderDefaults   $defaults
+     * @param HeaderNormalizer $normalizer
      */
-    public function __construct(HeaderResolver $resolver, HeaderNormalizer $normalizer, HeaderGuesser $guesser)
-    {
+    public function __construct(
+        HeaderGuesser $guesser,
+        HeaderResolver $resolver,
+        HeaderDefaults $defaults,
+        HeaderNormalizer $normalizer
+    ) {
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
+        $this->defaults   = $defaults;
         $this->normalizer = $normalizer;
     }
 
@@ -52,9 +65,12 @@ class HeaderInput
      * @param TableBuilder $builder
      * @return array
      */
-    public function read(TableBuilder $builder)
-    {
+    public
+    function read(
+        TableBuilder $builder
+    ) {
         $this->resolver->resolve($builder);
+        $this->defaults->defaults($builder);
         $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);
     }
