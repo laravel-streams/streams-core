@@ -51,9 +51,7 @@ class TableBuilder
      *
      * @var array|string
      */
-    protected $columns = [
-        'entry.title'
-    ];
+    protected $columns = [];
 
     /**
      * The buttons configuration.
