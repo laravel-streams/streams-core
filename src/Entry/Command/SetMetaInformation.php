@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command;
 
+use Anomaly\Streams\Platform\Entry\EntryTranslationsModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Auth\Guard;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -48,7 +49,10 @@ class SetMetaInformation implements SelfHandling
             $this->entry->updated_at = null;
             $this->entry->created_at = time();
             $this->entry->created_by = $auth->id();
-            $this->entry->sort_order = $query->count('id') + 1;
+
+            if (!$this->entry instanceof EntryTranslationsModel) {
+                $this->entry->sort_order = $query->count('id') + 1;
+            }
         } else {
 
             $this->entry->updated_at = time();

@@ -63,6 +63,8 @@ class EntryFormRepository implements FormRepositoryInterface
         $entry  = $form->getEntry();
         $fields = $form->getFields();
 
+        $data = [];
+
         /**
          * Save default translation input.
          *
@@ -70,22 +72,9 @@ class EntryFormRepository implements FormRepositoryInterface
          */
         foreach ($fields->immediate() as $field) {
             if (!$field->getLocale()) {
-                $entry->{$field->getColumnName()} = $form->getValue($field->getInputName());
+                array_set($data, $field->getColumnName(), $form->getValue($field->getInputName()));
             }
         }
-
-        $entry->save();
-
-        /**
-         * Save default translation input (deferred).
-         */
-        foreach ($fields->deferred() as $field) {
-            if (!$field->getLocale()) {
-                $entry->{$field->getColumnName()} = $form->getValue($field->getInputName());
-            }
-        }
-
-        $entry->save();
 
         /**
          * Loop through available translations
@@ -95,8 +84,6 @@ class EntryFormRepository implements FormRepositoryInterface
 
             foreach (config('streams.available_locales') as $locale => $language) {
 
-                $translation = $entry->translateOrNew($locale);
-
                 foreach ($fields as $field) {
 
                     if (!$entry->assignmentIsTranslatable($field->getField())) {
@@ -104,12 +91,20 @@ class EntryFormRepository implements FormRepositoryInterface
                     }
 
                     if ($field instanceof FieldType && $field->getLocale() == $locale) {
-                        $translation->{$field->getColumnName()} = $form->getValue($field->getInputName());
+                        array_set(
+                            $data,
+                            $locale . '.' . $field->getColumnName(),
+                            $form->getValue($field->getInputName())
+                        );
                     }
                 }
-
-                $translation->save();
             }
+        }
+
+        if ($entry->getId()) {
+            $entry->update($data);
+        } else {
+            $entry->create($data);
         }
 
         return $entry;

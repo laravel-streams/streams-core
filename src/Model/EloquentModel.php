@@ -345,32 +345,115 @@ class EloquentModel extends Model implements Arrayable
         }
     }
 
+    /**
+     * Save the model.
+     *
+     * We have some customization here to
+     * accommodate translations. First sa
+     * then save translations is translatable.
+     *
+     * @param array $options
+     * @return bool
+     */
     public function save(array $options = array())
     {
         if (!$this->isTranslatable()) {
-            return parent::save($options);
+            return $this->saveModel($options);
         }
 
         if ($this->exists) {
+
             if (count($this->getDirty()) > 0) {
-                // If $this->exists and dirty, parent::save() has to return true. If not,
+
+                // If $this->exists and dirty, $this->saveModel() has to return true. If not,
                 // an error has occurred. Therefore we shouldn't save the translations.
-                if (parent::save($options)) {
+                if ($this->saveModel($options)) {
                     return $this->saveTranslations();
                 }
 
                 return false;
             } else {
-                // If $this->exists and not dirty, parent::save() skips saving and returns
+
+                // If $this->exists and not dirty, $this->saveModel() skips saving and returns
                 // false. So we have to save the translations
                 return $this->saveTranslations();
             }
-        } elseif (parent::save($options)) {
+        } elseif ($this->saveModel($options)) {
+
             // We save the translations only if the instance is saved in the database.
             return $this->saveTranslations();
         }
 
         return false;
+    }
+
+    /**
+     * Save the model to the database.
+     *
+     * This is a direct port from Eloquent
+     * with the only exception being that if
+     * the model is translatable it will NOT
+     * fire the saved event. The saveTranslations
+     * method will do that instead.
+     *
+     * @param  array $options
+     * @return bool
+     */
+    public function saveModel(array $options = array())
+    {
+        $query = $this->newQueryWithoutScopes();
+
+        // If the "saving" event returns false we'll bail out of the save and return
+        // false, indicating that the save failed. This provides a chance for any
+        // listeners to cancel save operations if validations fail or whatever.
+        if ($this->fireModelEvent('saving') === false) {
+            return false;
+        }
+
+        // If the model already exists in the database we can just update our record
+        // that is already in this database using the current IDs in this "where"
+        // clause to only update this model. Otherwise, we'll just insert them.
+        if ($this->exists) {
+            $saved = $this->performUpdate($query, $options);
+        }
+
+        // If the model is brand new, we'll insert it into our database and set the
+        // ID attribute on the model to the value of the newly inserted row's ID
+        // which is typically an auto-increment value managed by the database.
+        else {
+            $saved = $this->performInsert($query, $options);
+        }
+
+        if ($saved && !$this->isTranslatable()) {
+            $this->finishSave($options);
+        }
+
+        return $saved;
+    }
+
+    /**
+     * Save translations to the database.
+     *
+     * @return bool
+     */
+    protected function saveTranslations()
+    {
+        $saved = true;
+
+        foreach ($this->translations as $translation) {
+
+            /* @var EloquentModel $translation */
+            if ($saved && $this->isTranslationDirty($translation)) {
+
+                $translation->setAttribute($this->getRelationKey(), $this->getKey());
+
+                $saved = $translation->save();
+            }
+        }
+
+        $this->finishSave([]);
+
+        return $saved;
     }
 
     protected function getTranslationOrNew($locale)
@@ -424,21 +507,6 @@ class EloquentModel extends Model implements Arrayable
         return in_array($key, array_keys(config('streams::languages')));
     }
 
-    protected function saveTranslations()
-    {
-        $saved = true;
-        foreach ($this->translations as $translation) {
-            if ($saved && $this->isTranslationDirty($translation)) {
-                $translation->setAttribute($this->getRelationKey(), $this->getKey());
-                $saved = $translation->save();
-            }
-        }
-
-        $this->fireModelEvent('saved');
-
-        return $saved;
-    }
-
     protected function isTranslationDirty(Model $translation)
     {
         $dirtyAttributes = $translation->getDirty();
@@ -449,18 +517,17 @@ class EloquentModel extends Model implements Arrayable
 
     public function getNewTranslation($locale)
     {
-        $modelName   = $this->getTranslationModelName();
+        $modelName = $this->getTranslationModelName();
+
+        /* @var EloquentModel $translation */
         $translation = new $modelName;
+
         $translation->setAttribute($this->getLocaleKey(), $locale);
         $translation->setAttribute($this->getRelationKey(), $this->getKey());
+
         $this->translations->add($translation);
 
         return $translation;
-    }
-
-    public function __isset($key)
-    {
-        return (in_array($key, $this->translatedAttributes) || parent::__isset($key));
     }
 
     public function scopeTranslatedIn(Builder $query, $locale)
@@ -483,8 +550,8 @@ class EloquentModel extends Model implements Arrayable
         $attributes = $this->attributesToArray();
 
         foreach ($this->translatedAttributes as $field) {
-            if ($translations = $this->getTranslation()) {
-                $attributes[$field] = $translations->$field;
+            if ($translation = $this->getTranslation()) {
+                $attributes[$field] = $translation->$field;
             }
         }
 
@@ -494,5 +561,26 @@ class EloquentModel extends Model implements Arrayable
     private function alwaysFillable()
     {
         return false;
+    }
+
+    /**
+     * Check if an attribute exists.
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function __isset($key)
+    {
+        return (in_array($key, $this->translatedAttributes) || parent::__isset($key));
+    }
+
+    /**
+     * Return the string form of the model.
+     *
+     * @return string
+     */
+    function __toString()
+    {
+        return json_encode($this->toArray());
     }
 }
