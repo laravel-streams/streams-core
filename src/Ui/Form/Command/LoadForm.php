@@ -59,7 +59,7 @@ class LoadForm implements SelfHandling
 
         $form->addData('form', $form);
 
-        if ($breadcrumb = $form->getOption('breadcrumb')) {
+        if ($breadcrumb = $form->getOption('breadcrumb', 'streams::form.mode.' . $form->getMode())) {
             $breadcrumbs->put($breadcrumb, '#');
         }
     }
