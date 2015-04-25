@@ -73,41 +73,22 @@ class FieldCollection extends Collection
     }
 
     /**
-     * Return fields to be processed immediately.
+     * Return only NON translatable fields.
      *
      * @return FieldCollection
      */
-    public function immediate()
+    public function notTranslatable()
     {
-        $immediate = [];
+        $fields = [];
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if (!$item->isDeferred()) {
-                $immediate[] = $item;
+            if (!$item->getLocale()) {
+                $fields[] = $item;
             }
         }
 
-        return new static($immediate);
-    }
-
-    /**
-     * Return fields to be processed later.
-     *
-     * @return FieldCollection
-     */
-    public function deferred()
-    {
-        $immediate = [];
-
-        /* @var FieldType $item */
-        foreach ($this->items as $item) {
-            if ($item->isDeferred()) {
-                $immediate[] = $item;
-            }
-        }
-
-        return new static($immediate);
+        return new static($fields);
     }
 
     /**

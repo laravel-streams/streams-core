@@ -181,6 +181,14 @@ interface EntryInterface
     public function getAttribute($key);
 
     /**
+     * Get a raw unmodified attribute.
+     *
+     * @param $key
+     * @return mixed|null
+     */
+    public function getRawAttribute($key);
+
+    /**
      * Get the entry attributes.
      *
      * @return array
@@ -193,4 +201,9 @@ interface EntryInterface
      * @return EntryInterface
      */
     public function flushCache();
+
+    /**
+     * Fire field type events.
+     */
+    public function fireFieldTypeEvents($trigger);
 }

@@ -70,7 +70,7 @@ class EntryFormRepository implements FormRepositoryInterface
          *
          * @var FieldType $field
          */
-        foreach ($fields->immediate() as $field) {
+        foreach ($fields->notTranslatable() as $field) {
             if (!$field->getLocale()) {
                 array_set($data, $field->getColumnName(), $form->getValue($field->getInputName()));
             }
@@ -79,18 +79,16 @@ class EntryFormRepository implements FormRepositoryInterface
         /**
          * Loop through available translations
          * and save translated input.
+         *
+         * @var FieldType $field
          */
         if ($entry->isTranslatable()) {
 
             foreach (config('streams.available_locales') as $locale => $language) {
 
-                foreach ($fields as $field) {
+                foreach ($fields->translatable() as $field) {
 
-                    if (!$entry->assignmentIsTranslatable($field->getField())) {
-                        continue;
-                    }
-
-                    if ($field instanceof FieldType && $field->getLocale() == $locale) {
+                    if ($field->getLocale() == $locale) {
                         array_set(
                             $data,
                             $locale . '.' . $field->getColumnName(),

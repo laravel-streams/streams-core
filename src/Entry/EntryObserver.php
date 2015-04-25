@@ -30,8 +30,6 @@ class EntryObserver extends Observer
     public function created(EntryInterface $entry)
     {
         $this->events->fire(new EntryWasCreated($entry));
-
-        $entry->flushCache();
     }
 
     /**
@@ -63,9 +61,10 @@ class EntryObserver extends Observer
      */
     public function saved(EntryInterface $entry)
     {
-        $this->events->fire(new EntryWasSaved($entry));
-
         $entry->flushCache();
+        $entry->fireFieldTypeEvents('entry_saved');
+
+        $this->events->fire(new EntryWasSaved($entry));
     }
 
     /**
@@ -90,6 +89,7 @@ class EntryObserver extends Observer
         $this->events->fire(new EntryWasDeleted($entry));
 
         $entry->flushCache();
+        $entry->fireFieldTypeEvents('entry_deleted');
     }
 
     /**

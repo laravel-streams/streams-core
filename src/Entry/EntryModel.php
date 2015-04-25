@@ -82,6 +82,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $type = $assignment->getFieldType($this);
 
+        $type->setEntry($this);
+
         $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
 
@@ -201,6 +203,17 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         } else {
             return parent::getAttribute($key);
         }
+    }
+
+    /**
+     * Get a raw unmodified attribute.
+     *
+     * @param $key
+     * @return mixed|null
+     */
+    public function getRawAttribute($key)
+    {
+        return parent::getAttribute($key);
     }
 
     /**
@@ -324,6 +337,26 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $relationships = $this->getRelationshipAssignments();
 
         return in_array($fieldSlug, $relationships->fieldSlugs());
+    }
+
+    /**
+     * Fire field type events.
+     *
+     * @param $trigger
+     */
+    public function fireFieldTypeEvents($trigger)
+    {
+        /* @var AssignmentInterface $assignment */
+        foreach ($this->getAssignments() as $assignment) {
+
+            $fieldType = $assignment->getFieldType();
+
+            $fieldType->setValue($this->getFieldValue($assignment->getFieldSlug()));
+
+            $fieldType->setEntry($this);
+
+            $fieldType->fire($trigger, compact('fieldType', 'entry'));
+        }
     }
 
     /**
