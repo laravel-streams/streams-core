@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command;
 
-use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Auth\Guard;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Database\Query\Builder;
@@ -19,16 +19,16 @@ class SetMetaInformation implements SelfHandling
     /**
      * The entry object.
      *
-     * @var EntryModel
+     * @var EloquentModel
      */
     protected $entry;
 
     /**
      * Create a new SetMetaInformation instance.
      *
-     * @param EntryModel $entry
+     * @param EloquentModel $entry
      */
-    public function __construct(EntryModel $entry)
+    public function __construct(EloquentModel $entry)
     {
         $this->entry = $entry;
     }

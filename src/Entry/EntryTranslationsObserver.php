@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\Streams\Platform\Entry\Command\SetMetaInformation;
 use Anomaly\Streams\Platform\Support\Observer;
 
 /**
@@ -13,4 +14,15 @@ use Anomaly\Streams\Platform\Support\Observer;
 class EntryTranslationsObserver extends Observer
 {
 
+    /**
+     * Before saving an entry touch the
+     * meta information.
+     *
+     * @param  EntryTranslationsModel $entry
+     * @return bool
+     */
+    public function saving(EntryTranslationsModel $entry)
+    {
+        $this->commands->dispatch(new SetMetaInformation($entry));
+    }
 }
