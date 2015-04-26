@@ -28,6 +28,13 @@ class ActionInput
     protected $resolver;
 
     /**
+     * The action defaults utility.
+     *
+     * @var ActionDefaults
+     */
+    protected $defaults;
+
+    /**
      * The action normalizer.
      *
      * @var ActionNormalizer
@@ -37,14 +44,20 @@ class ActionInput
     /**
      * Create an ActionInput instance.
      *
-     * @param ActionResolver   $resolver
      * @param ActionGuesser    $guesser
+     * @param ActionResolver   $resolver
+     * @param ActionDefaults   $defaults
      * @param ActionNormalizer $normalizer
      */
-    function __construct(ActionResolver $resolver, ActionGuesser $guesser, ActionNormalizer $normalizer)
-    {
+    function __construct(
+        ActionGuesser $guesser,
+        ActionResolver $resolver,
+        ActionDefaults $defaults,
+        ActionNormalizer $normalizer
+    ) {
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
+        $this->defaults   = $defaults;
         $this->normalizer = $normalizer;
     }
 
@@ -57,6 +70,7 @@ class ActionInput
     public function read(FormBuilder $builder)
     {
         $this->resolver->resolve($builder);
+        $this->defaults->defaults($builder);
         $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);
     }

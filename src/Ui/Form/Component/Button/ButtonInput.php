@@ -35,6 +35,13 @@ class ButtonInput
     protected $resolver;
 
     /**
+     * The button defaults.s
+     *
+     * @var ButtonDefaults
+     */
+    protected $defaults;
+
+    /**
      * The button evaluator.
      *
      * @var ButtonEvaluator
@@ -54,6 +61,7 @@ class ButtonInput
      * @param ButtonParser     $parser
      * @param ButtonGuesser    $guesser
      * @param ButtonResolver   $resolver
+     * @param ButtonDefaults   $defaults
      * @param ButtonEvaluator  $evaluator
      * @param ButtonNormalizer $normalizer
      */
@@ -61,12 +69,14 @@ class ButtonInput
         ButtonParser $parser,
         ButtonGuesser $guesser,
         ButtonResolver $resolver,
+        ButtonDefaults $defaults,
         ButtonEvaluator $evaluator,
         ButtonNormalizer $normalizer
     ) {
         $this->parser     = $parser;
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
+        $this->defaults   = $defaults;
         $this->evaluator  = $evaluator;
         $this->normalizer = $normalizer;
     }
@@ -80,6 +90,7 @@ class ButtonInput
     {
         $this->resolver->resolve($builder);
         $this->evaluator->evaluate($builder);
+        $this->defaults->defaults($builder);
         $this->parser->parse($builder);
         $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);
