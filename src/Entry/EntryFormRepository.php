@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
@@ -54,7 +53,6 @@ class EntryFormRepository implements FormRepositoryInterface
      * Save the form.
      *
      * @param FormBuilder $builder
-     * @return EntryInterface
      */
     public function save(FormBuilder $builder)
     {
@@ -100,11 +98,11 @@ class EntryFormRepository implements FormRepositoryInterface
         }
 
         if ($entry->getId()) {
-            $entry->update($data);
+            $entry = $entry->update($data);
         } else {
-            $entry->create($data);
+            $entry = $entry->create($data);
         }
 
-        return $entry;
+        $form->setEntry($entry);
     }
 }

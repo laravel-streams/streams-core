@@ -17,9 +17,13 @@ class ActionRegistry
      * @var array
      */
     protected $actions = [
+        'save_and_edit'      => [
+            'button' => 'save',
+            'text'   => 'streams::button.save_and_edit'
+        ],
         'save_and_edit_next' => [
             'button' => 'save',
-            'text'   => 'Save & Edit Next'
+            'text'   => 'streams::button.save_and_edit_next'
         ]
     ];
 

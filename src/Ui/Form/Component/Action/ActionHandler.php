@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
+use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Illuminate\Http\Request;
 
@@ -15,9 +16,16 @@ class ActionHandler
 {
 
     /**
+     * The parser utility.
+     *
+     * @var Parser
+     */
+    protected $parser;
+
+    /**
      * The request object.
      *
-     * @var \Illuminate\Http\Request
+     * @var Request
      */
     protected $request;
 
@@ -26,8 +34,9 @@ class ActionHandler
      *
      * @param Request $request
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request, Parser $parser)
     {
+        $this->parser  = $parser;
         $this->request = $request;
     }
 
@@ -46,9 +55,12 @@ class ActionHandler
             return;
         }
 
-        $action = $form->getActions()->active();
+        $entry   = $form->getEntry();
+        $actions = $form->getActions();
 
-        $url = $action->getRedirect();
+        $action = $actions->active();
+
+        $url = $this->parser->parse($action->getRedirect(), ['entry' => $entry->toArray()]);
 
         /**
          * If the URL is null then use the current one.

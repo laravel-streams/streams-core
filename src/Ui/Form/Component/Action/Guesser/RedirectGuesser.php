@@ -69,6 +69,10 @@ class RedirectGuesser
                     $action['redirect'] = $section->getHref();
                     break;
 
+                case 'save_and_edit':
+                    $action['redirect'] = $section->getHref('edit/{entry.id}');
+                    break;
+
                 case 'save_and_edit_next':
                     $ids = array_filter(explode(',', $builder->getRequestValue('edit_next')));
 
