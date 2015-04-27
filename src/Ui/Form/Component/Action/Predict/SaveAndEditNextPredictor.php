@@ -21,7 +21,7 @@ class SaveAndEditNextPredictor
      */
     public function predict(FormBuilder $builder)
     {
-        if (explode(',', $builder->getRequestValue('edit_next'))) {
+        if (array_filter(explode(',', $builder->getRequestValue('edit_next')))) {
             $builder->setActions(array_merge(['save_and_edit_next'], $builder->getActions()));
         }
     }
