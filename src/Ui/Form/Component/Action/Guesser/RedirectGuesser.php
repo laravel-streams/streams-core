@@ -66,18 +66,18 @@ class RedirectGuesser
             switch (array_get($action, 'action')) {
 
                 case 'save':
-                    $action['redirect'] = $active->getHref();
+                    $action['redirect'] = $section->getHref();
                     break;
 
                 case 'save_and_edit_next':
                     $ids = array_filter(explode(',', $builder->getRequestValue('edit_next')));
 
                     if (!$ids) {
-                        $action['redirect'] = $active->getHref();
+                        $action['redirect'] = $section->getHref();
                     } elseif (count($ids) == 1) {
-                        $action['redirect'] = $active->getHref('edit/' . array_shift($ids));
+                        $action['redirect'] = $section->getHref('edit/' . array_shift($ids));
                     } else {
-                        $action['redirect'] = $active->getHref(
+                        $action['redirect'] = $section->getHref(
                             'edit/' . array_shift($ids) . '?' . $builder->getOption('prefix') . 'edit_next=' . implode(
                                 ',',
                                 $ids
