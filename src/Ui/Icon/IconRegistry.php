@@ -25,6 +25,7 @@ class IconRegistry
         'fullscreen'           => 'glyphicons glyphicons-fullscreen',
         'translate'            => 'glyphicons glyphicons-translate',
         'airplane'             => 'glyphicons glyphicons-airplane',
+        'comments'             => 'glyphicons glyphicons-comments',
         'retweet'              => 'glyphicons glyphicons-retweet',
         'global'               => 'glyphicons glyphicons-global',
         'globe'                => 'glyphicons glyphicons-globe',
