@@ -36,6 +36,12 @@ class Action extends Button implements ActionInterface
     protected $slug = 'default';
 
     /**
+     *
+     * @var bool
+     */
+    protected $save = true;
+
+    /**
      * The responding redirect URL.
      *
      * @var null|string

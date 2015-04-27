@@ -77,8 +77,7 @@ class GetConfigFields implements SelfHandling
             }
 
             // Prefix the slugs.
-            $field['slug']  = 'config_' . $slug;
-            $field['field'] = 'config[' . $slug . ']';
+            $field['field'] = 'config.' . $slug;
 
             $fields['config_' . $slug] = $field;
         }

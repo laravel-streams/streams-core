@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
-use Anomaly\Streams\Platform\Asset\Asset;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -15,13 +15,61 @@ class FieldFormBuilder extends FormBuilder
 {
 
     /**
-     * Fire when ready.
+     * The related stream.
      *
-     * @param Asset $asset
-     * @throws \Exception
+     * @var null|StreamInterface
      */
-    public function onReady(Asset $asset)
+    protected $stream = null;
+
+    protected $actions = [
+        'save',
+        [
+            'button' => 'default',
+            'icon' => 'reload'
+        ]
+    ];
+
+    /**
+     * Appended form assets.
+     *
+     * @var array
+     */
+    protected $assets = [
+        'scripts.js' => [
+            'streams::js/form/field_type.js|debug'
+        ]
+    ];
+
+    /**
+     * Get the stream.
+     *
+     * @return StreamInterface|null
+     */
+    public function getStream()
     {
-        $asset->add('scripts.js', 'streams::js/form/field_type.js');
+        return $this->stream;
+    }
+
+    /**
+     * Set the stream.
+     *
+     * @param StreamInterface $stream
+     * @return $this
+     */
+    public function setStream(StreamInterface $stream)
+    {
+        $this->stream = $stream;
+
+        return $this;
+    }
+
+    /**
+     * Get the stream namespace.
+     *
+     * @return string
+     */
+    public function getStreamNamespace()
+    {
+        return $this->stream->getNamespace();
     }
 }

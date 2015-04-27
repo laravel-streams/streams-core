@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
+use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response;
@@ -633,6 +634,16 @@ class FormBuilder
     public function getFormErrors()
     {
         return $this->form->getErrors();
+    }
+
+    /**
+     * Get the form actions.
+     *
+     * @return ActionCollection
+     */
+    public function getFormActions()
+    {
+        return $this->form->getActions();
     }
 
     /**

@@ -1,16 +1,16 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php namespace Anomaly\Streams\Platform\Field\Form;
 
 use Anomaly\Streams\Platform\Model\EloquentFormRepository;
 
 /**
- * Class EntryFormRepositoryInterface
+ * Class FieldFormRepository
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry
+ * @package       Anomaly\Streams\Platform\Field\Form
  */
-class EntryFormRepository extends EloquentFormRepository
+class FieldFormRepository extends EloquentFormRepository
 {
 
 }

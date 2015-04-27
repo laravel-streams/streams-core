@@ -25,11 +25,16 @@ class FieldFormFields
     public function handle(FieldFormBuilder $builder, FieldTypeCollection $types)
     {
         $fields = [
-            'type' => [
+            'namespace' => [
+                'readonly' => true,
+                'disabled' => 'edit',
+                'type'     => 'anomaly.field_type.text',
+                'value'    => $builder->getStreamNamespace()
+            ],
+            'type'      => [
                 'label'        => 'streams::field.type.name',
                 'instructions' => 'streams::field.type.instructions',
                 'type'         => 'anomaly.field_type.select',
-                'value'        => $builder->getOption('field_type'),
                 'required'     => true,
                 'disabled'     => 'edit',
                 'config'       => [
@@ -41,13 +46,13 @@ class FieldFormFields
                     'onclick' => 'alert($(this).val());'
                 ]
             ],
-            'name' => [
+            'name'      => [
                 'label'        => 'streams::field.name.name',
                 'instructions' => 'streams::field.name.instructions',
                 'type'         => 'anomaly.field_type.text',
                 'required'     => true
             ],
-            'slug' => [
+            'slug'      => [
                 'label'        => 'streams::field.slug.name',
                 'instructions' => 'streams::field.slug.instructions',
                 'type'         => 'anomaly.field_type.slug',

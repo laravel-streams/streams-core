@@ -40,20 +40,13 @@ class EloquentFormRepository implements FormRepositoryInterface
      */
     public function findOrNew($id)
     {
-        $entry = $this->model->find($id);
-
-        if (!$entry) {
-            $entry = $this->model->newInstance();
-        }
-
-        return $entry;
+        return $this->model->findOrNew($id);
     }
 
     /**
      * Save the form.
      *
      * @param FormBuilder $builder
-     * @return EloquentModel
      */
     public function save(FormBuilder $builder)
     {
@@ -61,48 +54,66 @@ class EloquentFormRepository implements FormRepositoryInterface
 
         $entry = $form->getEntry();
 
+        $data = $this->prepareValueData($builder);
+
+        if ($entry->getId()) {
+            $entry = $entry->update($data);
+        } else {
+            $entry = $entry->create($data);
+        }
+
+        $form->setEntry($entry);
+    }
+
+    /**
+     * Prepare the value data for update / create.
+     *
+     * @param FormBuilder $builder
+     * @return array
+     */
+    protected function prepareValueData(FormBuilder $builder)
+    {
+        $form = $builder->getForm();
+
+        $entry  = $form->getEntry();
+        $fields = $form->getFields();
+
+        $data = [];
+
         /**
          * Save default translation input.
          *
          * @var FieldType $field
          */
-        foreach ($form->getFields() as $field) {
-            if (starts_with($field->getField(), 'config')) {
-                continue;
-            }
+        foreach ($fields->notTranslatable() as $field) {
             if (!$field->getLocale()) {
-                $entry->{$field->getColumnName()} = $form->getValue($field->getInputName());
+                array_set($data, $field->getField(), $form->getValue($field->getInputName()));
             }
         }
-
-        $entry->save();
 
         /**
          * Loop through available translations
          * and save translated input.
+         *
+         * @var FieldType $field
          */
-
         if ($entry->isTranslatable()) {
 
             foreach (config('streams.available_locales') as $locale => $language) {
 
-                $translation = $entry->translateOrNew($locale);
-
-                foreach ($form->getFields() as $field) {
-
-                    if (!$entry->isTranslatedAttribute($field->getField())) {
-                        continue;
-                    }
+                foreach ($fields->translatable() as $field) {
 
                     if ($field->getLocale() == $locale) {
-                        $translation->{$field->getColumnName()} = $form->getValue($field->getInputName());
+                        array_set(
+                            $data,
+                            $locale . '.' . $field->getField(),
+                            $form->getValue($field->getInputName())
+                        );
                     }
                 }
-
-                $translation->save();
             }
         }
 
-        return $entry;
+        return $data;
     }
 }

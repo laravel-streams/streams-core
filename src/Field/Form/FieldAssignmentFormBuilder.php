@@ -25,13 +25,15 @@ class FieldAssignmentFormBuilder extends MultipleFormBuilder
     protected $stream = null;
 
     /**
-     * Build the table.
+     * Build the form.
+     *
+     * @param null|int $entry
      */
-    public function build()
+    public function build($entry = null)
     {
         $this->dispatch(new SetDefaultProperties($this));
 
-        parent::build();
+        parent::build($entry);
     }
 
     /**
