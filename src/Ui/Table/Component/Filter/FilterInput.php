@@ -14,6 +14,13 @@ class FilterInput
 {
 
     /**
+     * The filter guesser.
+     *
+     * @var FilterGuesser
+     */
+    protected $guesser;
+
+    /**
      * The resolver utility.
      *
      * @var FilterResolver
@@ -30,11 +37,13 @@ class FilterInput
     /**
      * Create a new FilterInput instance.
      *
+     * @param FilterGuesser    $guesser
      * @param FilterResolver   $resolver
      * @param FilterNormalizer $normalizer
      */
-    public function __construct(FilterResolver $resolver, FilterNormalizer $normalizer)
+    public function __construct(FilterGuesser $guesser, FilterResolver $resolver, FilterNormalizer $normalizer)
     {
+        $this->guesser    = $guesser;
         $this->resolver   = $resolver;
         $this->normalizer = $normalizer;
     }
@@ -49,5 +58,6 @@ class FilterInput
     {
         $this->resolver->resolve($builder);
         $this->normalizer->normalize($builder);
+        $this->guesser->guess($builder);
     }
 }

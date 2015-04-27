@@ -32,7 +32,7 @@ class FieldFilter extends Filter implements FieldFilterInterface
     /**
      * The stream object.
      *
-     * @var \Anomaly\Streams\Platform\Stream\Contract\StreamInterface
+     * @var StreamInterface
      */
     protected $stream;
 
@@ -50,7 +50,7 @@ class FieldFilter extends Filter implements FieldFilterInterface
         $type->setLocale(null);
         $type->setValue($this->getValue());
         $type->setPrefix($this->getPrefix() . 'filter_');
-        $type->setPlaceholder(trans($field->getName()));
+        $type->setPlaceholder(trans($this->getPlaceholder()));
 
         return $type->renderFilter();
     }

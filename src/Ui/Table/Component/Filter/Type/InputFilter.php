@@ -56,7 +56,7 @@ class InputFilter extends Filter
             $this->getValue(),
             [
                 'class'       => 'form-control',
-                'placeholder' => $this->getPlaceholder() ?: $this->getSlug()
+                'placeholder' => trans($this->getPlaceholder() ?: $this->getSlug())
             ]
         );
     }
