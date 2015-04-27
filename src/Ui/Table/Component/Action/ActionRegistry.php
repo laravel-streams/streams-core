@@ -20,6 +20,9 @@ class ActionRegistry
         'delete'  => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete@handle'
         ],
+        'edit'  => [
+            'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Edit@handle'
+        ],
         'reorder' => [
             'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder@handle',
             'text'    => 'streams::button.reorder',

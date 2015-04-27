@@ -16,7 +16,12 @@ class ActionRegistry
      *
      * @var array
      */
-    protected $actions = [];
+    protected $actions = [
+        'save_and_edit_next' => [
+            'button' => 'save',
+            'text'   => 'Save & Edit Next'
+        ]
+    ];
 
     /**
      * Get a action.

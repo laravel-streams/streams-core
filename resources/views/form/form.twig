@@ -5,7 +5,7 @@
 
     <div class="container-fluid">
 
-        {{ form_open({'class': 'ui form'}) }}
+        {{ form_open({'class': 'form', 'url': url_full()}) }}
 
         {% include "streams::form/partials/translations" %}
         {% include "streams::form/partials/heading" %}

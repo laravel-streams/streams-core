@@ -35,6 +35,13 @@ class ActionInput
     protected $defaults;
 
     /**
+     * The action predictor.
+     *
+     * @var ActionPredictor
+     */
+    protected $predictor;
+
+    /**
      * The action normalizer.
      *
      * @var ActionNormalizer
@@ -47,17 +54,20 @@ class ActionInput
      * @param ActionGuesser    $guesser
      * @param ActionResolver   $resolver
      * @param ActionDefaults   $defaults
+     * @param ActionPredictor  $predictor
      * @param ActionNormalizer $normalizer
      */
     function __construct(
         ActionGuesser $guesser,
         ActionResolver $resolver,
         ActionDefaults $defaults,
+        ActionPredictor $predictor,
         ActionNormalizer $normalizer
     ) {
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
         $this->defaults   = $defaults;
+        $this->predictor  = $predictor;
         $this->normalizer = $normalizer;
     }
 
@@ -65,12 +75,12 @@ class ActionInput
      * Read builder action input.
      *
      * @param FormBuilder $builder
-     * @return array
      */
     public function read(FormBuilder $builder)
     {
         $this->resolver->resolve($builder);
         $this->defaults->defaults($builder);
+        $this->predictor->predict($builder);
         $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);
     }

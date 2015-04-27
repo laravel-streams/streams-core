@@ -38,12 +38,6 @@ class ActionGuesser
      */
     public function guess(FormBuilder $builder)
     {
-        $actions = $builder->getActions();
-
-        foreach ($actions as &$action) {
-            $this->redirect->guess($action);
-        }
-
-        $builder->setActions($actions);
+        $this->redirect->guess($builder);
     }
 }

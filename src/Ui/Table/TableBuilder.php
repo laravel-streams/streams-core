@@ -478,4 +478,16 @@ class TableBuilder
     {
         return $this->table->getResponse();
     }
+
+    /**
+     * Get a request value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getRequestValue($key, $default = null)
+    {
+        return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
+    }
 }

@@ -42,6 +42,8 @@ class ExecuteAction implements SelfHandling
             $executor->execute($this->builder, $action);
         }
 
-        $this->builder->setTableResponse($response->redirectTo($request->fullUrl()));
+        if (!$this->builder->getTableResponse()) {
+            $this->builder->setTableResponse($response->redirectTo($request->fullUrl()));
+        }
     }
 }

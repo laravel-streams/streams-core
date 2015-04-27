@@ -636,6 +636,18 @@ class FormBuilder
     }
 
     /**
+     * Get a request value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getRequestValue($key, $default = null)
+    {
+        return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
+    }
+
+    /**
      * Set the save flag.
      *
      * @param bool $save
