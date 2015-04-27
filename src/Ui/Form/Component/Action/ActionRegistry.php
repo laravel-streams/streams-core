@@ -21,6 +21,10 @@ class ActionRegistry
             'button' => 'save',
             'text'   => 'streams::button.save_and_edit'
         ],
+        'save_and_continue'  => [
+            'button' => 'save',
+            'text'   => 'streams::button.save_and_continue'
+        ],
         'save_and_edit_next' => [
             'button' => 'save',
             'text'   => 'streams::button.save_and_edit_next'

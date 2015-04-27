@@ -70,6 +70,7 @@ class RedirectGuesser
                     break;
 
                 case 'save_and_edit':
+                case 'save_and_continue':
                     $action['redirect'] = $section->getHref('edit/{entry.id}');
                     break;
 

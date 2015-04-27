@@ -57,7 +57,7 @@ class EloquentFormRepository implements FormRepositoryInterface
         $data = $this->prepareValueData($builder);
 
         if ($entry->getId()) {
-            $entry = $entry->update($data);
+            $entry->update($data);
         } else {
             $entry = $entry->create($data);
         }

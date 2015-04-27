@@ -67,8 +67,26 @@ class FieldFormFields
 
         $config = [];
 
-        if ($type = $types->get($builder->getOption('field_type'))) {
+        if ($type = $builder->getFormEntry()->getType()) {
             $config = $this->dispatch(new GetConfigFields($type));
+
+            $builder->setFormOption(
+                'sections',
+                [
+                    [
+                        'tabs' => [
+                            'field'         => [
+                                'title'  => 'streams::tab.field',
+                                'fields' => array_keys($fields)
+                            ],
+                            'configuration' => [
+                                'title'  => 'streams::tab.configuration',
+                                'fields' => array_keys($config)
+                            ]
+                        ]
+                    ]
+                ]
+            );
         }
 
         $builder->setFields(array_merge($fields, array_values($config)));

@@ -43,7 +43,7 @@ class EnabledGuesser
 
         foreach ($buttons as &$button) {
 
-            if (isset($button['enabled'])) {
+            if (isset($button['enabled']) && is_bool($button['enabled'])) {
                 return;
             }
 

@@ -1,8 +1,10 @@
 <?php
 
 return [
-    'general' => 'General',
-    'access'  => 'Access',
-    'email'   => 'Email',
-    'cache'   => 'Cache'
+    'configuration' => 'Configuration',
+    'general'       => 'General',
+    'access'        => 'Access',
+    'email'         => 'Email',
+    'cache'         => 'Cache',
+    'field'         => 'Field',
 ];

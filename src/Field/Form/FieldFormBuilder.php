@@ -21,22 +21,17 @@ class FieldFormBuilder extends FormBuilder
      */
     protected $stream = null;
 
-    protected $actions = [
-        'save',
-        [
-            'button' => 'default',
-            'icon' => 'reload'
-        ]
-    ];
-
     /**
-     * Appended form assets.
+     * The form buttons.
      *
      * @var array
      */
-    protected $assets = [
-        'scripts.js' => [
-            'streams::js/form/field_type.js|debug'
+    protected $actions = [
+        'save'              => [
+            'enabled' => 'edit'
+        ],
+        'save_and_continue' => [
+            'enabled' => 'create'
         ]
     ];
 

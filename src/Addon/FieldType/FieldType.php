@@ -406,7 +406,7 @@ class FieldType extends Addon
      */
     public function getPostValue($default = null)
     {
-        return array_get($_POST, $this->getInputName(), $default);
+        return array_get($_POST, str_replace('.', '_', $this->getInputName()), $default);
     }
 
     /**
