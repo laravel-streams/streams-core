@@ -75,11 +75,11 @@ class HrefGuesser
             switch (array_get($button, 'button')) {
 
                 case 'cancel':
-                    $button['attributes']['href'] = $active->getHref();
+                    $button['attributes']['href'] = $section->getHref();
                     break;
 
                 case 'delete':
-                    $button['attributes']['href'] = $active->getHref('delete/' . $entry->getId());
+                    $button['attributes']['href'] = $section->getHref('delete/' . $entry->getId());
                     break;
             }
         }
