@@ -61,9 +61,8 @@ class HrefGuesser
         $buttons = $builder->getButtons();
         $entry   = $builder->getFormEntry();
 
-        $active = $this->sections->active();
-
-        if (!$active) {
+        // Nothing to do if empty.
+        if (!$section = $this->sections->active()) {
             return;
         }
 

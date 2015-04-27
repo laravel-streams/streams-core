@@ -50,7 +50,10 @@ class RedirectGuesser
     {
         $actions = $builder->getActions();
 
-        $active = $this->sections->active();
+        // Nothing to do if empty.
+        if (!$section = $this->sections->active()) {
+            return;
+        }
 
         foreach ($actions as &$action) {
 
