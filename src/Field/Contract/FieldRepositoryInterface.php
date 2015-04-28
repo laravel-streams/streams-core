@@ -13,8 +13,6 @@ use Anomaly\Streams\Platform\Field\FieldCollection;
 interface FieldRepositoryInterface
 {
 
-    public function find($id);
-
     /**
      * Create a new field.
      *
@@ -29,6 +27,14 @@ interface FieldRepositoryInterface
      * @param FieldInterface $field
      */
     public function delete(FieldInterface $field);
+
+    /**
+     * Find a field by ID.
+     *
+     * @param $id
+     * @return null|FieldInterface
+     */
+    public function find($id);
 
     /**
      * Find a field by it's slug and namespace.

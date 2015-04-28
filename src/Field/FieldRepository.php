@@ -57,6 +57,17 @@ class FieldRepository implements FieldRepositoryInterface
     }
 
     /**
+     * Find a field by ID.
+     *
+     * @param $id
+     * @return null|FieldInterface
+     */
+    public function find($id)
+    {
+        return $this->model->find($id);
+    }
+
+    /**
      * Find a field by it's slug and namespace.
      *
      * @param  $slug
