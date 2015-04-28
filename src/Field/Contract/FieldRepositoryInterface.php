@@ -13,6 +13,8 @@ use Anomaly\Streams\Platform\Field\FieldCollection;
 interface FieldRepositoryInterface
 {
 
+    public function find($id);
+
     /**
      * Create a new field.
      *
