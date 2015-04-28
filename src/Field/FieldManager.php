@@ -49,7 +49,7 @@ class FieldManager
      * @param array           $attributes
      * @return AssignmentInterface
      */
-    public function assign(FieldInterface $field, StreamInterface $stream, array $attributes)
+    public function assign(FieldInterface $field, StreamInterface $stream, array $attributes = [])
     {
         return $this->dispatch(new AssignField($field, $stream, $attributes));
     }

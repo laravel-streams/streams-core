@@ -15,6 +15,25 @@ class FieldCollection extends EloquentCollection
 {
 
     /**
+     * Return only unassigned fields.
+     *
+     * @return static|FieldCollection
+     */
+    public function unassigned()
+    {
+        $unassigned = [];
+
+        /* @var FieldInterface $item */
+        foreach ($this->items as $item) {
+            if (!$item->hasAssignments()) {
+                $unassigned[$item->getSlug()] = $item;
+            }
+        }
+
+        return new static($unassigned);
+    }
+
+    /**
      * Get a dictionary keyed by slugs.
      *
      * @param  \ArrayAccess|array $items

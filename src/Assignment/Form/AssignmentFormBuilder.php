@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Form;
 
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -14,39 +15,32 @@ class AssignmentFormBuilder extends FormBuilder
 {
 
     /**
-     * The form fields.
+     * The related stream.
      *
-     * @var array
+     * @var null|StreamInterface
      */
-    protected $fields = [
-        'required'     => [
-            'label'        => 'streams::assignment.required.label',
-            'instructions' => 'streams::assignment.required.instructions',
-            'type'         => 'anomaly.field_type.boolean',
-            'disabled'     => 'edit'
-        ],
-        'unique'       => [
-            'label'        => 'streams::assignment.unique.label',
-            'instructions' => 'streams::assignment.unique.instructions',
-            'type'         => 'anomaly.field_type.boolean',
-            'disabled'     => 'edit'
-        ],
-        'translatable' => [
-            'label'        => 'streams::assignment.translatable.label',
-            'instructions' => 'streams::assignment.translatable.instructions',
-            'type'         => 'anomaly.field_type.boolean',
-            'disabled'     => 'edit'
-        ],
-        'label'        => [
-            'label'        => 'streams::assignment.label.name',
-            'instructions' => 'streams::assignment.label.instructions',
-            'type'         => 'anomaly.field_type.text'
-        ],
-        'instructions' => [
-            'label'        => 'streams::assignment.instructions.name',
-            'instructions' => 'streams::assignment.instructions.instructions',
-            'type'         => 'anomaly.field_type.textarea'
-        ]
-    ];
+    protected $stream = null;
 
+    /**
+     * Get the stream.
+     *
+     * @return StreamInterface|null
+     */
+    public function getStream()
+    {
+        return $this->stream;
+    }
+
+    /**
+     * Set the stream.
+     *
+     * @param StreamInterface $stream
+     * @return $this
+     */
+    public function setStream(StreamInterface $stream)
+    {
+        $this->stream = $stream;
+
+        return $this;
+    }
 }

@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'field'        => [
+        'name'         => 'Field',
+        'label'        => 'Field',
+        'instructions' => 'Choose the field to assign.'
+    ],
     'label'        => [
         'name'         => 'Label',
         'instructions' => 'Label\'s will be used for forms only. If left blank, the field name will be used.'

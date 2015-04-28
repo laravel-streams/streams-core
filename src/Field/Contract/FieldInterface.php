@@ -79,6 +79,14 @@ interface FieldInterface
     public function getAssignments();
 
     /**
+     * Return whether the field
+     * has assignments or not.
+     *
+     * @return bool
+     */
+    public function hasAssignments();
+
+    /**
      * Return whether the field is
      * a relationship or not.
      *

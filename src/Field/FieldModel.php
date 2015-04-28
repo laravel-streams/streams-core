@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -164,11 +165,24 @@ class FieldModel extends EloquentModel implements FieldInterface
     /**
      * Get the related assignments.
      *
-     * @return mixed
+     * @return AssignmentCollection
      */
     public function getAssignments()
     {
         return $this->assignments;
+    }
+
+    /**
+     * Return whether the field
+     * has assignments or not.
+     *
+     * @return bool
+     */
+    public function hasAssignments()
+    {
+        $assignments = $this->getAssignments();
+
+        return !$assignments->isEmpty();
     }
 
     /**
