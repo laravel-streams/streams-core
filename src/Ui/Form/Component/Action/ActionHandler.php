@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Ui\Form\Form;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 
 /**
@@ -60,7 +61,11 @@ class ActionHandler
 
         $action = $actions->active();
 
-        $url = $this->parser->parse($action->getRedirect(), ['entry' => $entry->toArray()]);
+        if ($entry && $entry instanceof Arrayable) {
+            $entry = $entry->toArray();
+        }
+
+        $url = $this->parser->parse($action->getRedirect(), compact('entry'));
 
         /**
          * If the URL is null then use the current one.
