@@ -43,4 +43,14 @@ class AssignmentFormBuilder extends FormBuilder
 
         return $this;
     }
+
+    /**
+     * Return the stream ID.
+     *
+     * @return int
+     */
+    public function getStreamId()
+    {
+        return $this->stream->getId();
+    }
 }

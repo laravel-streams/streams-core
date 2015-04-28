@@ -25,6 +25,16 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     public $timestamps = false;
 
     /**
+     * Default attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'rules'  => 'a:0:{}',
+        'config' => 'a:0:{}'
+    ];
+
+    /**
      * The cache minutes.
      *
      * @var int

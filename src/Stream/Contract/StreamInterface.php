@@ -28,7 +28,7 @@ interface StreamInterface
     /**
      * Get the ID.
      *
-     * @return mixed
+     * @return null|int
      */
     public function getId();
 

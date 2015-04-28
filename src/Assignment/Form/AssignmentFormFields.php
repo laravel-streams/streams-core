@@ -9,7 +9,13 @@ class AssignmentFormFields
     {
         $builder->setFields(
             [
-                'field'        => [
+                'stream_id'    => [
+                    'type'     => 'anomaly.field_type.text',
+                    'readonly' => true,
+                    'required' => true,
+                    'value'    => $builder->getStreamId()
+                ],
+                'field_id'     => [
                     'label'        => 'streams::assignment.field.label',
                     'instructions' => 'streams::assignment.field.instructions',
                     'type'         => 'anomaly.field_type.select',
