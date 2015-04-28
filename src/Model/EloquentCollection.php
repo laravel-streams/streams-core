@@ -15,26 +15,6 @@ class EloquentCollection extends Collection
 {
 
     /**
-     * Find by slug.
-     *
-     * This is not always applicable but
-     * many streams utilize a slug.
-     *
-     * @param  $slug
-     * @return mixed|null
-     */
-    public function findBySlug($slug)
-    {
-        foreach ($this->items as $item) {
-            if ($item->slug == $slug) {
-                return $item;
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Return a collection of decorated items.
      *
      * @return static
@@ -50,5 +30,26 @@ class EloquentCollection extends Collection
         }
 
         return self::make($items);
+    }
+
+    /**
+     * Return shuffled items.
+     *
+     * @param int $amount
+     * @return static
+     */
+    public function shuffle()
+    {
+        $shuffled = [];
+
+        $keys = array_keys($this->items);
+
+        shuffle($keys);
+
+        foreach ($keys as $key) {
+            $shuffled[$key] = $this->items[$key];
+        }
+
+        return new static($shuffled);
     }
 }
