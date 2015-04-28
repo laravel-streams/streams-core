@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Routing\Redirector;
@@ -18,18 +19,21 @@ class Edit extends ActionHandler
     /**
      * Save the order of the entries.
      *
-     * @param TableBuilder $builder
-     * @param array        $selected
+     * @param SectionCollection $sections
+     * @param TableBuilder      $builder
+     * @param array             $selected
      */
-    public function handle(Redirector $redirector, TableBuilder $builder, array $selected)
+    public function handle(SectionCollection $sections, Redirector $redirector, TableBuilder $builder, array $selected)
     {
         $prefix = $builder->getTableOption('prefix');
 
         $edit = array_shift($selected);
         $ids  = implode(',', $selected);
 
-        $builder->setTableResponse(
-            $redirector->to('admin/customers/edit/' . $edit . '?' . $prefix . 'edit_next=' . $ids)
-        );
+        if ($section = $sections->active()) {
+            $builder->setTableResponse(
+                $redirector->to($section->getHref('edit/' . $edit . '?' . $prefix . 'edit_next=' . $ids))
+            );
+        }
     }
 }
