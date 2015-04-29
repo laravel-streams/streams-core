@@ -23,6 +23,13 @@ class FieldFormBuilder extends FormBuilder
     protected $stream = null;
 
     /**
+     * The form model.
+     *
+     * @var string
+     */
+    protected $model = 'Anomaly\Streams\Platform\Field\FieldModel';
+
+    /**
      * The form fields.
      *
      * @var string
