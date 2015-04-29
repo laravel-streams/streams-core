@@ -15,6 +15,13 @@ class SectionInput
 {
 
     /**
+     * The section parser.
+     *
+     * @var SectionParser
+     */
+    protected $parser;
+
+    /**
      * The module collection.
      *
      * @var ModuleCollection
@@ -52,6 +59,7 @@ class SectionInput
     /**
      * Create a new SectionInput instance.
      *
+     * @param SectionParser     $parser
      * @param SectionGuesser    $guesser
      * @param ModuleCollection  $modules
      * @param SectionResolver   $resolver
@@ -59,12 +67,14 @@ class SectionInput
      * @param SectionNormalizer $normalizer
      */
     function __construct(
+        SectionParser $parser,
         SectionGuesser $guesser,
         ModuleCollection $modules,
         SectionResolver $resolver,
         SectionEvaluator $evaluator,
         SectionNormalizer $normalizer
     ) {
+        $this->parser     = $parser;
         $this->guesser    = $guesser;
         $this->modules    = $modules;
         $this->resolver   = $resolver;
@@ -84,5 +94,6 @@ class SectionInput
         $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);
         $this->evaluator->evaluate($builder);
+        $this->parser->parse($builder);
     }
 }
