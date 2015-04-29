@@ -23,6 +23,13 @@ class FieldTableBuilder extends TableBuilder
     protected $stream = null;
 
     /**
+     * The table model.
+     *
+     * @var string
+     */
+    protected $model = 'Anomaly\Streams\Platform\Field\FieldModel';
+
+    /**
      * The table columns.
      *
      * @var array
