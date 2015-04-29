@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
+use Anomaly\Streams\Platform\Field\Form\Command\AssignField;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
@@ -66,5 +67,13 @@ class FieldFormBuilder extends FormBuilder
     public function getStreamNamespace()
     {
         return $this->stream->getNamespace();
+    }
+
+    /**
+     * Fire after the field is saved.
+     */
+    public function onSaved()
+    {
+        $this->dispatch(new AssignField($this));
     }
 }

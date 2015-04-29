@@ -36,8 +36,8 @@ class FieldObserver extends Observer
      */
     public function saved(FieldInterface $model)
     {
-        $model->flushCache();
         $model->compileStreams();
+        $model->flushCache();
 
         $this->events->fire(new FieldWasSaved($model));
     }
@@ -49,6 +49,7 @@ class FieldObserver extends Observer
      */
     public function deleted(FieldInterface $model)
     {
+        $model->deleteAssignments();
         $model->flushCache();
 
         $this->events->fire(new FieldWasDeleted($model));

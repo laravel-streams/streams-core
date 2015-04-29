@@ -275,6 +275,21 @@ class FieldModel extends EloquentModel implements FieldInterface
     }
 
     /**
+     * Delete related assignments.
+     *
+     * @return FieldInterface
+     */
+    public function deleteAssignments()
+    {
+        /* @var AssignmentInterface|EloquentModel $assignment */
+        foreach ($this->getAssignments() as $assignment) {
+            $assignment->delete();
+        }
+
+        return $this;
+    }
+
+    /**
      * Return the assignments relation.
      *
      * @return HasMany

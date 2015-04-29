@@ -114,4 +114,11 @@ interface FieldInterface
      * @return FieldInterface
      */
     public function compileStreams();
+
+    /**
+     * Delete related assignments.
+     *
+     * @return FieldInterface
+     */
+    public function deleteAssignments();
 }
