@@ -121,7 +121,12 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     public function getFieldType()
     {
         $field = $this->getField();
-        $type  = $field->getType();
+
+        if (!$field) {
+            return null;
+        }
+
+        $type = $field->getType();
 
         if (!$type) {
             return null;

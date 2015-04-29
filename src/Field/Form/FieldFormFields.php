@@ -22,7 +22,7 @@ class FieldFormFields
      *
      * @param FieldFormBuilder $builder
      */
-    public function handle(FieldFormBuilder $builder, FieldTypeCollection $types)
+    public function handle(FieldFormBuilder $builder)
     {
         $fields = [
             'namespace' => [

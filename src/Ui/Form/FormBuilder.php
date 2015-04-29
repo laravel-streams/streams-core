@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -493,7 +494,7 @@ class FormBuilder
     /**
      * Get the form entry.
      *
-     * @return EloquentModel|EntryInterface
+     * @return EloquentModel|EntryInterface|FieldInterface|AssignmentInterface
      */
     public function getFormEntry()
     {
