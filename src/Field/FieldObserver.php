@@ -18,7 +18,7 @@ class FieldObserver extends Observer
 {
 
     /**
-     * Run after a record is created.
+     * Fired after creating a field.
      *
      * @param FieldInterface $model
      */
@@ -30,26 +30,35 @@ class FieldObserver extends Observer
     }
 
     /**
-     * Run after saving a record.
+     * Fired after saving a field.
      *
      * @param FieldInterface $model
      */
     public function saved(FieldInterface $model)
     {
-        $model->compileStreams();
         $model->flushCache();
+        $model->compileStreams();
 
         $this->events->fire(new FieldWasSaved($model));
     }
 
     /**
-     * Run after a record has been deleted.
+     * Fired just before deleting a field.
+     *
+     * @param FieldInterface $model
+     */
+    public function deleting(FieldInterface $model)
+    {
+        $model->deleteAssignments();
+    }
+
+    /**
+     * Fired after a field has been deleted.
      *
      * @param FieldInterface $model
      */
     public function deleted(FieldInterface $model)
     {
-        $model->deleteAssignments();
         $model->flushCache();
 
         $this->events->fire(new FieldWasDeleted($model));

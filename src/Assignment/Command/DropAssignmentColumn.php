@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Command;
 
+use Anomaly\Streams\Platform\Assignment\AssignmentSchema;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class DropAssignmentColumn
@@ -10,13 +12,13 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Assignment\Command
  */
-class DropAssignmentColumn
+class DropAssignmentColumn implements SelfHandling
 {
 
     /**
      * The assignment interface.
      *
-     * @var \Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface
+     * @var AssignmentInterface
      */
     protected $assignment;
 
@@ -31,12 +33,25 @@ class DropAssignmentColumn
     }
 
     /**
-     * Get the assignment interface.
+     * Handle the command.
      *
-     * @return AssignmentInterface
+     * @param AssignmentSchema $schema
      */
-    public function getAssignment()
+    public function handle(AssignmentSchema $schema)
     {
-        return $this->assignment;
+        $stream = $this->assignment->getStream();
+        $type   = $this->assignment->getFieldType();
+
+        if (!$type->getColumnType()) {
+            return;
+        }
+
+        if (!$this->assignment->isTranslatable()) {
+            $table = $stream->getEntryTableName();
+        } else {
+            $table = $stream->getEntryTranslationsTableName();
+        }
+
+        $schema->dropColumn($table, $type);
     }
 }
