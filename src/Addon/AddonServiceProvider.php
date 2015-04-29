@@ -37,6 +37,13 @@ class AddonServiceProvider extends ServiceProvider
     protected $routes = [];
 
     /**
+     * Addon route constraints.
+     *
+     * @var array
+     */
+    protected $constraints = [];
+
+    /**
      * Addon event listeners.
      *
      * @var array
@@ -201,11 +208,18 @@ class AddonServiceProvider extends ServiceProvider
             return;
         }
 
+        $constraints = $this->getConstraints();
+
         /* @var Router $router */
         $router = $this->app->make('router');
 
         foreach ($routes as $uri => $action) {
-            $router->any($uri, $action);
+
+            $route = $router->any($uri, $action);
+
+            if ($patterns = array_get($constraints, $uri)) {
+                $route->where($patterns);
+            }
         }
     }
 
@@ -362,6 +376,16 @@ class AddonServiceProvider extends ServiceProvider
     public function getRoutes()
     {
         return $this->routes;
+    }
+
+    /**
+     * Get the addon route constraints.
+     *
+     * @return array
+     */
+    public function getConstraints()
+    {
+        return $this->constraints;
     }
 
     /**
