@@ -23,6 +23,13 @@ class FieldFormBuilder extends FormBuilder
     protected $stream = null;
 
     /**
+     * The form fields.
+     *
+     * @var string
+     */
+    protected $fields = 'Anomaly\Streams\Platform\Field\Form\FieldFormFields@handle';
+
+    /**
      * The form buttons.
      *
      * @var array
