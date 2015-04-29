@@ -107,4 +107,11 @@ interface FieldInterface
      * @return FieldInterface
      */
     public function flushCache();
+
+    /**
+     * Compile the fields's streams.
+     *
+     * @return FieldInterface
+     */
+    public function compileStreams();
 }

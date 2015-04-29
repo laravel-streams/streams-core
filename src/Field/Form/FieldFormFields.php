@@ -26,6 +26,7 @@ class FieldFormFields
     {
         $fields = [
             'namespace' => [
+                'hidden'   => true,
                 'readonly' => true,
                 'disabled' => 'edit',
                 'type'     => 'anomaly.field_type.text',

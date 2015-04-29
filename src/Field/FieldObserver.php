@@ -37,6 +37,7 @@ class FieldObserver extends Observer
     public function saved(FieldInterface $model)
     {
         $model->flushCache();
+        $model->compileStreams();
 
         $this->events->fire(new FieldWasSaved($model));
     }

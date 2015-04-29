@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -256,6 +257,21 @@ class FieldModel extends EloquentModel implements FieldInterface
     public function getRulesAttribute($rules)
     {
         return (array)unserialize($rules);
+    }
+
+    /**
+     * Compile the fields's stream.
+     *
+     * @return FieldInterface
+     */
+    public function compileStreams()
+    {
+        /* @var AssignmentInterface $assignment */
+        foreach ($this->getAssignments() as $assignment) {
+            $assignment->compileStream();
+        }
+
+        return $this;
     }
 
     /**
