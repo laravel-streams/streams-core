@@ -39,7 +39,7 @@ class AssignField implements SelfHandling
      */
     public function handle(FieldManager $manager)
     {
-        if ($this->builder->getFormOption('assign_field', true) === true && $this->builder->getFormMode() === 'create') {
+        if ($this->builder->getFormOption('assign_field') === true && $this->builder->getFormMode() === 'create') {
             $manager->assign($this->builder->getFormEntry(), $this->builder->getStream());
         }
     }
