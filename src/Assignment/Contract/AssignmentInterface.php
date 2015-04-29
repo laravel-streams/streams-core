@@ -37,6 +37,13 @@ interface AssignmentInterface
     public function getField();
 
     /**
+     * Get the related field ID.
+     *
+     * @return null|int
+     */
+    public function getFieldId();
+
+    /**
      * Get the label.
      *
      * @return string

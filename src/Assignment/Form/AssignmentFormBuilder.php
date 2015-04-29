@@ -22,6 +22,13 @@ class AssignmentFormBuilder extends FormBuilder
     protected $stream = null;
 
     /**
+     * The form fields.
+     *
+     * @var string
+     */
+    protected $fields = 'Anomaly\Streams\Platform\Assignment\Form\AssignmentFormFields@handle';
+
+    /**
      * Get the stream.
      *
      * @return StreamInterface|null
@@ -52,5 +59,22 @@ class AssignmentFormBuilder extends FormBuilder
     public function getStreamId()
     {
         return $this->stream->getId();
+    }
+
+
+    /**
+     * Get the related field ID.
+     *
+     * @return int|null
+     */
+    public function getFieldId()
+    {
+        $assignment = $this->getFormEntry();
+
+        if (!$assignment) {
+            return null;
+        }
+
+        return $assignment->getFieldId();
     }
 }

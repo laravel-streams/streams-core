@@ -97,7 +97,7 @@ class EloquentFormRepository implements FormRepositoryInterface
          *
          * @var FieldType $field
          */
-        if ($entry->isTranslatable()) {
+        if ($entry->getTranslationModel()) {
 
             foreach (config('streams.available_locales') as $locale => $language) {
 

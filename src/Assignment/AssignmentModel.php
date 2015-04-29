@@ -246,6 +246,22 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     }
 
     /**
+     * Get the related field ID.
+     *
+     * @return null|int
+     */
+    public function getFieldId()
+    {
+        $field = $this->getField();
+
+        if (!$field) {
+            return null;
+        }
+
+        return $field->getId();
+    }
+
+    /**
      * Get the unique flag.
      *
      * @return mixed

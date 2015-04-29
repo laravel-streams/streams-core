@@ -502,6 +502,18 @@ class FormBuilder
     }
 
     /**
+     * Return the form entry's ID.
+     *
+     * @return int|mixed|null
+     */
+    public function getFormEntryId()
+    {
+        $entry = $this->getFormEntry();
+
+        return $entry->getId();
+    }
+
+    /**
      * Get the form mode.
      *
      * @return null|string

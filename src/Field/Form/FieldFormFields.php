@@ -74,17 +74,13 @@ class FieldFormFields
             $builder->setFormOption(
                 'sections',
                 [
-                    [
-                        'tabs' => [
-                            'field'         => [
-                                'title'  => 'streams::tab.field',
-                                'fields' => array_keys($fields)
-                            ],
-                            'configuration' => [
-                                'title'  => 'streams::tab.configuration',
-                                'fields' => array_keys($config)
-                            ]
-                        ]
+                    'field'         => [
+                        'title'  => 'streams::tab.field',
+                        'fields' => array_keys($fields)
+                    ],
+                    'configuration' => [
+                        'title'  => 'streams::tab.configuration',
+                        'fields' => array_keys($config)
                     ]
                 ]
             );

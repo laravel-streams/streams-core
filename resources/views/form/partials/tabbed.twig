@@ -11,11 +11,17 @@
     <div class="tab-content">
         {% for slug, tab in section.tabs %}
             <div class="tab-pane {{ loop.first ? 'active' }}" id="tab-{{ slug }}">
-                {% for field in tab.fields %}
-                    {% for field in form.fields.fields(field) %}
-                        {{ field.render|raw }}
+                {% if tab.fields is empty %}
+                    <div class="form-group">
+                        {{ trans("streams::message.no_fields_available") }}
+                    </div>
+                {% else %}
+                    {% for field in tab.fields %}
+                        {% for field in form.fields.fields(field) %}
+                            {{ field.render|raw }}
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
+                {% endif %}
             </div>
         {% endfor %}
     </div>

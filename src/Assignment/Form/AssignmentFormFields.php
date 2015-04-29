@@ -34,15 +34,19 @@ class AssignmentFormFields
                     'label'        => 'streams::assignment.field.label',
                     'instructions' => 'streams::assignment.field.instructions',
                     'type'         => 'anomaly.field_type.select',
-                    'enabled'      => 'create',
+                    'disabled'     => 'edit',
                     'required'     => true,
-                    'value'        => $builder->getFormEntry()->getFieldType(),
+                    'value'        => $builder->getFieldId(),
                     'config'       => [
                         'options' => function (FieldRepositoryInterface $fields) use ($builder) {
-                            return $fields
-                                ->findByNamespace($builder->getStream()->getNamespace())
-                                ->unassigned()
-                                ->lists('name', 'id');
+
+                            $fields = $fields->findByNamespace($builder->getStream()->getNamespace());
+
+                            if ($builder->getFormMode() === 'create') {
+                                $fields = $fields->unassigned();
+                            }
+
+                            return $fields->lists('name', 'id');
                         }
                     ]
                 ],
