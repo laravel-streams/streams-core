@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class AssignField
+ * Class AutoAssignField
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -36,7 +36,7 @@ class AssignField
     protected $attributes;
 
     /**
-     * Create a new AssignField instance.
+     * Create a new AutoAssignField instance.
      *
      * @param FieldInterface  $field
      * @param StreamInterface $stream

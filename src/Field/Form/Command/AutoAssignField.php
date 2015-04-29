@@ -5,14 +5,14 @@ use Anomaly\Streams\Platform\Field\Form\FieldFormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class AssignField
+ * Class AutoAssignField
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Field\Form\Command
  */
-class AssignField implements SelfHandling
+class AutoAssignField implements SelfHandling
 {
 
     /**
@@ -23,7 +23,7 @@ class AssignField implements SelfHandling
     protected $builder;
 
     /**
-     * Create a new AssignField instance.
+     * Create a new AutoAssignField instance.
      *
      * @param FieldFormBuilder $builder
      */
