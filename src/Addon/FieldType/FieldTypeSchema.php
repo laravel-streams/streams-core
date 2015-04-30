@@ -70,6 +70,20 @@ class FieldTypeSchema
     }
 
     /**
+     * Change the field type column.
+     *
+     * @param Blueprint           $table
+     * @param AssignmentInterface $assignment
+     */
+    public function changeColumn(Blueprint $table, AssignmentInterface $assignment)
+    {
+        // Skip if no column type.
+        if (!$this->fieldType->getColumnType()) {
+            return;
+        }
+    }
+
+    /**
      * Drop the field type column from the table.
      *
      * @param Blueprint $table

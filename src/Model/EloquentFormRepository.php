@@ -113,7 +113,7 @@ class EloquentFormRepository implements FormRepositoryInterface
                 }
             }
         }
-        
+
         return $data;
     }
 }
