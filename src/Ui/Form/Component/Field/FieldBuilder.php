@@ -73,9 +73,18 @@ class FieldBuilder
          * and put to the forms field collection.
          */
         foreach ($builder->getFields() as $field) {
-            if (!in_array($field['field'], $skips) && array_get($field, 'enabled', true)) {
-                $builder->addFormField($this->factory->make($field, $stream, $entry));
+
+            // Continue if skipping.
+            if (in_array($field['field'], $skips)) {
+                continue;
             }
+
+            // Continue if not enabled.
+            if (!array_get($field, 'enabled', true)) {
+                continue;
+            }
+
+            $builder->addFormField($this->factory->make($field, $stream, $entry));
         }
     }
 }
