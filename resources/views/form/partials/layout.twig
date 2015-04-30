@@ -5,9 +5,9 @@
         </div>
     </div>
 {% else %}
-    {% if form.options.sections %}
+    {% if form.sections %}
 
-        {% for section in form.options.sections %}
+        {% for section in form.sections %}
             {% if section.view %}
                 {% include section.view %}
             {% elseif section.fields %}
