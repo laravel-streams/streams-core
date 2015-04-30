@@ -3,7 +3,7 @@
         class="form-group {{ field_type.slug }}-field-type {{ field_type.hidden ? 'hidden' }}"
         data-field="{{ field_type.field }}">
 
-    <label>
+    <label class="control-label">
         {{ trans(field_type.label)|raw }}
 
         {% if field_type.required %}
