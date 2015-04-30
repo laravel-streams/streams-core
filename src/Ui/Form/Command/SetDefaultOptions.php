@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetDefaultOptions
@@ -10,7 +13,7 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Form\Command
  */
-class SetDefaultOptions
+class SetDefaultOptions implements SelfHandling
 {
 
     /**
@@ -31,12 +34,90 @@ class SetDefaultOptions
     }
 
     /**
-     * Get the form builder.
-     *
-     * @return FormBuilder
+     * Handle the command.
      */
-    public function getBuilder()
+    public function handle()
     {
-        return $this->builder;
+        $form = $this->builder->getForm();
+
+        /**
+         * Set the default form handler based
+         * on the builder class. Defaulting to
+         * the base handler.
+         */
+        if (!$form->getOption('handler')) {
+
+            $handler = str_replace('FormBuilder', 'FormHandler', get_class($this->builder));
+
+            if (!class_exists($handler)) {
+                $handler = 'Anomaly\Streams\Platform\Ui\Form\FormHandler';
+            }
+
+            $form->setOption('handler', $handler . '@handle');
+        }
+
+        /**
+         * Set the default form validator based
+         * on the builder class. Defaulting to
+         * the base validator.
+         */
+        if (!$form->getOption('validator')) {
+
+            $validator = str_replace('FormBuilder', 'FormValidator', get_class($this->builder));
+
+            if (!class_exists($validator)) {
+                $validator = 'Anomaly\Streams\Platform\Ui\Form\FormValidator';
+            }
+
+            $form->setOption('validator', $validator . '@validate');
+        }
+
+        /**
+         * Set the default options handler based
+         * on the builder class. Defaulting to
+         * no handler.
+         */
+        if (!$form->getOption('options')) {
+
+            $options = str_replace('FormBuilder', 'FormOptions', get_class($this->builder));
+
+            if (class_exists($options)) {
+                app()->call($options . '@handle', compact('builder', 'table'));
+            }
+        }
+
+        /**
+         * Set the default data handler based
+         * on the builder class. Defaulting to
+         * no handler.
+         */
+        if (!$form->getOption('data')) {
+
+            $options = str_replace('FormBuilder', 'FormData', get_class($this->builder));
+
+            if (class_exists($options)) {
+                $form->setOption('data', $options . '@handle');
+            }
+        }
+
+        /**
+         * Set the default options handler based
+         * on the builder class. Defaulting to
+         * no handler.
+         */
+        if (!$form->getOption('repository')) {
+
+            $model = $form->getModel();
+
+            $repository = str_replace('FormBuilder', 'FormRepository', get_class($this->builder));
+
+            if (!$form->getOption('repository') && class_exists($repository)) {
+                $form->setOption('repository', $repository);
+            } elseif (!$form->getOption('repository') && $model instanceof EntryModel) {
+                $form->setOption('repository', 'Anomaly\Streams\Platform\Entry\EntryFormRepository');
+            } elseif (!$form->getOption('repository') && $model instanceof EloquentModel) {
+                $form->setOption('repository', 'Anomaly\Streams\Platform\Model\EloquentFormRepository');
+            }
+        }
     }
 }
