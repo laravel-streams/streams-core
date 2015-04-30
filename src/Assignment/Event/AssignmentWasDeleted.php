@@ -16,7 +16,7 @@ class AssignmentWasDeleted
     /**
      * The assignment interface.
      *
-     * @var \Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface
+     * @var AssignmentInterface
      */
     protected $assignment;
 

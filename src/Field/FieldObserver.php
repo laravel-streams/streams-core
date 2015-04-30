@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Event\FieldWasCreated;
 use Anomaly\Streams\Platform\Field\Event\FieldWasDeleted;
 use Anomaly\Streams\Platform\Field\Event\FieldWasSaved;
+use Anomaly\Streams\Platform\Field\Event\FieldWasUpdated;
 use Anomaly\Streams\Platform\Support\Observer;
 
 /**
@@ -27,6 +28,18 @@ class FieldObserver extends Observer
         $model->flushCache();
 
         $this->events->fire(new FieldWasCreated($model));
+    }
+
+    /**
+     * Fired after a field is updated.
+     *
+     * @param FieldInterface $model
+     */
+    public function updated(FieldInterface $model)
+    {
+        $model->flushCache();
+
+        $this->events->fire(new FieldWasUpdated($model));
     }
 
     /**

@@ -37,8 +37,14 @@ class StreamsEventProvider extends EventServiceProvider
         'Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted'                 => [
             'Anomaly\Streams\Platform\Stream\Listener\DropTable'
         ],
+        'Anomaly\Streams\Platform\Assignment\Event\FieldWasUpdated'              => [
+            'Anomaly\Streams\Platform\Field\Listener\RenameTableColumns'
+        ],
         'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated'         => [
             'Anomaly\Streams\Platform\Assignment\Listener\AddTableColumn'
+        ],
+        'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasUpdated'         => [
+            'Anomaly\Streams\Platform\Assignment\Listener\ChangeTableColumn'
         ],
         'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted'         => [
             'Anomaly\Streams\Platform\Assignment\Listener\DropTableColumn'

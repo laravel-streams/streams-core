@@ -153,7 +153,7 @@ class FieldType extends Addon
      *
      * @var string
      */
-    protected $filterView = null;
+    protected $filterView = 'streams::form/partials/filter';
 
     /**
      * The field wrapper view.
@@ -686,7 +686,7 @@ class FieldType extends Addon
      */
     public function getFilterView()
     {
-        return $this->filterView ?: $this->inputView;
+        return $this->filterView;
     }
 
     /**

@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 
 /**
- * Class AssignmentWasCreated
+ * Class AssignmentWasUpdated
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Assignment\Event
  */
-class AssignmentWasCreated
+class AssignmentWasUpdated
 {
 
     /**
@@ -21,7 +21,7 @@ class AssignmentWasCreated
     protected $assignment;
 
     /**
-     * Create a new AssignmentWasCreated instance.
+     * Create a new AssignmentWasUpdated instance.
      *
      * @param AssignmentInterface $assignment
      */
