@@ -82,7 +82,7 @@ class SetDefaultOptions implements SelfHandling
             $options = str_replace('FormBuilder', 'FormOptions', get_class($this->builder));
 
             if (class_exists($options)) {
-                app()->call($options . '@handle', compact('builder', 'table'));
+                app()->call($options . '@handle', ['builder' => $this->builder]);
             }
         }
 
