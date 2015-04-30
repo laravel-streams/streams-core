@@ -83,6 +83,13 @@ class FormBuilder
     protected $options = [];
 
     /**
+     * The form sections.
+     *
+     * @var array
+     */
+    protected $sections = [];
+
+    /**
      * The form assets.
      *
      * @var array
@@ -374,6 +381,57 @@ class FormBuilder
     public function setOptions(array $options)
     {
         $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Get the sections.
+     *
+     * @return array
+     */
+    public function getSections()
+    {
+        return $this->sections;
+    }
+
+    /**
+     * Set the sections.
+     *
+     * @param array $sections
+     * @return $this
+     */
+    public function setSections($sections)
+    {
+        $this->sections = $sections;
+
+        return $this;
+    }
+
+    /**
+     * Add a section.
+     *
+     * @param       $slug
+     * @param array $section
+     * @return $this
+     */
+    public function addSection($slug, array $section)
+    {
+        $this->sections[$slug] = $section;
+
+        return $this;
+    }
+
+    /**
+     * Add a section tab.
+     *
+     * @param       $section
+     * @param       $slug
+     * @param array $tab
+     */
+    public function addSectionTab($section, $slug, array $tab)
+    {
+        array_set($this->sections, "{$section}.tabs.{$slug}", $tab);
 
         return $this;
     }
