@@ -111,6 +111,25 @@ class FieldCollection extends Collection
     }
 
     /**
+     * Return disabled fields.
+     *
+     * @return FieldCollection
+     */
+    public function disabled()
+    {
+        $disabled = [];
+
+        /* @var FieldType $item */
+        foreach ($this->items as $item) {
+            if ($item->isDisabled()) {
+                $disabled[] = $item;
+            }
+        }
+
+        return new static($disabled);
+    }
+
+    /**
      * Skip a field.
      *
      * @param $fieldSlug
