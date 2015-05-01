@@ -38,7 +38,9 @@ class Compile extends Command
     {
         /* @var StreamInterface $stream */
         foreach ($streams->all() as $stream) {
-            $streams->save($stream);
+            if ($streams->save($stream)) {
+                $this->info($stream->getEntryModelName() . ' compiled successfully.');
+            }
         }
     }
 }

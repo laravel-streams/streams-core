@@ -437,12 +437,20 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     public function getEntryModel()
     {
-        $slug      = camel_case($this->getSlug());
-        $namespace = camel_case($this->getNamespace());
+        return app($this->getEntryModelName());
+    }
 
-        $model = "Anomaly\\Streams\\Platform\\Model\\{$namespace}\\{$namespace}{$slug}EntryModel";
+    /**
+     * Get the entry name.
+     *
+     * @return EntryModel
+     */
+    public function getEntryModelName()
+    {
+        $slug      = ucfirst(camel_case($this->getSlug()));
+        $namespace = ucfirst(camel_case($this->getNamespace()));
 
-        return new $model;
+        return "Anomaly\\Streams\\Platform\\Model\\{$namespace}\\{$namespace}{$slug}EntryModel";
     }
 
     /**

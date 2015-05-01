@@ -140,6 +140,20 @@ interface StreamInterface
     public function getField($slug);
 
     /**
+     * Get the entry model.
+     *
+     * @return EntryModel
+     */
+    public function getEntryModel();
+
+    /**
+     * Get the entry model name.
+     *
+     * @return string
+     */
+    public function getEntryModelName();
+
+    /**
      * Get a field's type by the field's slug.
      *
      * @param                $fieldSlug
@@ -148,13 +162,6 @@ interface StreamInterface
      * @return FieldType
      */
     public function getFieldType($fieldSlug, EntryInterface $entry = null, $locale = null);
-
-    /**
-     * Get the entry model.
-     *
-     * @return EntryModel
-     */
-    public function getEntryModel();
 
     /**
      * Get the entry table name.
