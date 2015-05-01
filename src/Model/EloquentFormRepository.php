@@ -78,8 +78,8 @@ class EloquentFormRepository implements FormRepositoryInterface
         $entry  = $form->getEntry();
         $fields = $form->getFields();
 
-        $data = array_filter($entry->getAttributes());
-
+        $data = $entry->getUnguardedAttributes();
+        dd($data);
         /**
          * Save default translation input.
          *

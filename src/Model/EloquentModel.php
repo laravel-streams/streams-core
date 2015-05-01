@@ -545,6 +545,16 @@ class EloquentModel extends Model implements Arrayable
         return $query->has('translations');
     }
 
+    /**
+     * Return unguarded attributes.
+     *
+     * @return array
+     */
+    public function getUnguardedAttributes()
+    {
+        return array_filter(array_diff_key($this->getAttributes(), array_flip($this->getGuarded())));
+    }
+
     public function toArray()
     {
         $attributes = $this->attributesToArray();
