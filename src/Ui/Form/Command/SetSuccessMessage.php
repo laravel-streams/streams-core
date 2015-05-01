@@ -60,6 +60,8 @@ class SetSuccessMessage implements SelfHandling
         // If the name doesn't exist we need to be clever.
         if (str_contains($parameters['name'], '::') && !trans()->has($parameters['name']) && $stream) {
             $parameters['name'] = ucfirst(str_singular(str_replace('_', ' ', $stream->getSlug())));
+        } else {
+            $parameters['name'] = str_singular(trans($parameters['name']));
         }
 
         /**
