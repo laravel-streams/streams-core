@@ -82,8 +82,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $type = $assignment->getFieldType($this);
 
-        $type->setEntry($this);
-
         $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
 
@@ -93,7 +91,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             $entry = $this;
         }
 
-        return $modifier->restore($accessor->get($entry, $fieldSlug));
+        $type->setEntry($entry);
+
+        return $modifier->restore($accessor->get($fieldSlug));
     }
 
     /**
@@ -108,10 +108,12 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $type = $assignment->getFieldType($this);
 
+        $type->setEntry($this);
+
         $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
 
-        $accessor->set($this, $modifier->modify($value));
+        $accessor->set($modifier->modify($value));
     }
 
     /**

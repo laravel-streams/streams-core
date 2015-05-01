@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
-
 /**
  * Class FieldTypeAccessor
  *
@@ -33,12 +31,13 @@ class FieldTypeAccessor
     /**
      * Set the value.
      *
-     * @param EloquentModel $entry
-     * @param               $value
+     * @param $value
      * @return array
      */
-    public function set(EloquentModel $entry, $value)
+    public function set($value)
     {
+        $entry = $this->fieldType->getEntry();
+
         $attributes = $entry->getAttributes();
 
         $attributes[$this->fieldType->getColumnName()] = $value;
@@ -49,11 +48,12 @@ class FieldTypeAccessor
     /**
      * Get the value.
      *
-     * @param EloquentModel $entry
      * @return mixed
      */
-    public function get(EloquentModel $entry)
+    public function get()
     {
+        $entry = $this->fieldType->getEntry();
+
         $attributes = $entry->getAttributes();
 
         return array_get($attributes, $this->fieldType->getColumnName());

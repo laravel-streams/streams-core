@@ -79,10 +79,12 @@ class EntryTranslationsModel extends EloquentModel
 
         $type = $assignment->getFieldType($this);
 
+        $type->setEntry($this);
+
         $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
 
-        return $modifier->restore($accessor->get($this, $key));
+        return $modifier->restore($accessor->get($key));
     }
 
     /**
@@ -104,9 +106,11 @@ class EntryTranslationsModel extends EloquentModel
 
         $type = $assignment->getFieldType($this);
 
+        $type->setEntry($this);
+
         $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
 
-        $accessor->set($this, $modifier->modify($value));
+        $accessor->set($modifier->modify($value));
     }
 }
