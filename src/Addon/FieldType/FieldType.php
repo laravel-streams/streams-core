@@ -345,7 +345,7 @@ class FieldType extends Addon
     /**
      * Get the entry.
      *
-     * @return mixed
+     * @return EntryInterface|EloquentModel
      */
     public function getEntry()
     {

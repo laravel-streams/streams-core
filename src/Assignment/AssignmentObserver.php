@@ -50,8 +50,8 @@ class AssignmentObserver extends Observer
      */
     public function deleted(AssignmentInterface $model)
     {
-        $model->flushCache();
         $model->compileStream();
+        $model->flushCache();
 
         $this->events->fire(new AssignmentWasDeleted($model));
     }

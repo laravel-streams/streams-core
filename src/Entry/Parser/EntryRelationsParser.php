@@ -51,7 +51,7 @@ class EntryRelationsParser
 
         $relationString .= "\n{";
 
-        $relationString .= "\n\nreturn \$this->getFieldType('{$fieldSlug}')->getRelation(\$this);";
+        $relationString .= "\n\nreturn \$this->getFieldType('{$fieldSlug}')->getRelation();";
 
         $relationString .= "\n}";
 
