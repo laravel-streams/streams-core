@@ -53,8 +53,8 @@ class SetSuccessMessage implements SelfHandling
         $stream = $this->builder->getFormStream();
 
         $parameters = [
-            'title' => $entry ? $entry->getTitle() : null,
-            'name'  => $stream ? $stream->getName() : null
+            'title' => is_object($entry) ? $entry->getTitle() : null,
+            'name'  => is_object($stream) ? $stream->getName() : null
         ];
 
         // If the name doesn't exist we need to be clever.
