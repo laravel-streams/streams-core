@@ -78,8 +78,11 @@ class EloquentFormRepository implements FormRepositoryInterface
         $entry  = $form->getEntry();
         $fields = $form->getFields();
 
-        $data = array_intersect_key($entry->getUnguardedAttributes(), array_flip($fields->lists('field')));
-        
+        $data = array_intersect_key(
+            $entry->getUnguardedAttributes(), // I'm not sure this is preferred. Might be too aggressive.
+            array_flip($fields->lists('field')) // Only include attributes from form fields.
+        );
+
         /**
          * Save default translation input.
          *
