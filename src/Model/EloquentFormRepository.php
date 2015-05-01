@@ -63,6 +63,8 @@ class EloquentFormRepository implements FormRepositoryInterface
         }
 
         $form->setEntry($entry);
+
+        $this->processSelfHandlingFields($builder);
     }
 
     /**
@@ -77,6 +79,8 @@ class EloquentFormRepository implements FormRepositoryInterface
 
         $entry  = $form->getEntry();
         $fields = $form->getFields();
+
+        $fields = $fields->allowed();
 
         $data = array_intersect_key(
             $entry->getUnguardedAttributes(), // I'm not sure this is preferred. Might be too aggressive.
@@ -118,5 +122,25 @@ class EloquentFormRepository implements FormRepositoryInterface
         }
 
         return $data;
+    }
+
+    /**
+     * Process fields that handle themselves.
+     *
+     * @param FormBuilder $builder
+     */
+    protected function processSelfHandlingFields(FormBuilder $builder)
+    {
+        $form = $builder->getForm();
+
+        $entry  = $form->getEntry();
+        $fields = $form->getFields();
+
+        $fields = $fields->selfHandling();
+
+        /* @var FieldType $field */
+        foreach ($fields as $field) {
+            app()->call([$field->setEntry($entry), 'handle'], compact('builder'));
+        }
     }
 }

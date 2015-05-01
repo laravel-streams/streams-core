@@ -204,6 +204,9 @@ interface EntryInterface
 
     /**
      * Fire field type events.
+     *
+     * @param       $trigger
+     * @param array $payload
      */
-    public function fireFieldTypeEvents($trigger);
+    public function fireFieldTypeEvents($trigger, $payload = []);
 }

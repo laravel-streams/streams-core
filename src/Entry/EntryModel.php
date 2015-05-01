@@ -342,9 +342,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Fire field type events.
      *
-     * @param $trigger
+     * @param       $trigger
+     * @param array $payload
      */
-    public function fireFieldTypeEvents($trigger)
+    public function fireFieldTypeEvents($trigger, $payload = [])
     {
         /* @var AssignmentInterface $assignment */
         foreach ($this->getAssignments() as $assignment) {
@@ -355,7 +356,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
             $fieldType->setEntry($this);
 
-            $fieldType->fire($trigger, compact('fieldType', 'entry'));
+            $fieldType->fire($trigger, array_merge(compact('fieldType', 'entry'), $payload));
         }
     }
 

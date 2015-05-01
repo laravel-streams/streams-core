@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Support\Collection;
 
 /**
@@ -137,6 +138,44 @@ class FieldCollection extends Collection
     public function skip($fieldSlug)
     {
         $this->forget($fieldSlug);
+    }
+
+    /**
+     * Return non-SelfHandling fields.
+     *
+     * @return FieldCollection
+     */
+    public function allowed()
+    {
+        $allowed = [];
+
+        /* @var FieldType $item */
+        foreach ($this->items as $item) {
+            if (!$item instanceof SelfHandling) {
+                $allowed[] = $item;
+            }
+        }
+
+        return new static($allowed);
+    }
+
+    /**
+     * Return SelfHandling fields.
+     *
+     * @return FieldCollection
+     */
+    public function selfHandling()
+    {
+        $selfHandling = [];
+
+        /* @var FieldType $item */
+        foreach ($this->items as $item) {
+            if ($item instanceof SelfHandling) {
+                $selfHandling[] = $item;
+            }
+        }
+
+        return new static($selfHandling);
     }
 
     /**
