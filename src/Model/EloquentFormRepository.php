@@ -79,7 +79,7 @@ class EloquentFormRepository implements FormRepositoryInterface
         $fields = $form->getFields();
 
         $data = $entry->getUnguardedAttributes();
-        dd($data);
+
         /**
          * Save default translation input.
          *
