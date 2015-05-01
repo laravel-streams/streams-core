@@ -434,6 +434,15 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         /**
+         * Register commands.
+         */
+        $this->commands(
+            [
+                'Anomaly\Streams\Platform\Stream\Console\Compile'
+            ]
+        );
+
+        /**
          * Change the default language path to our own.
          * This will make it easier to manage translations.
          */

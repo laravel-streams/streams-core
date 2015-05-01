@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Contract;
 
+use Anomaly\Streams\Platform\Model\EloquentCollection;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+
 /**
  * Interface StreamRepositoryInterface
  *
@@ -20,11 +23,27 @@ interface StreamRepositoryInterface
     public function create(array $attributes);
 
     /**
+     * Save a Stream.
+     *
+     * @param StreamInterface|EloquentModel $stream
+     * @return bool
+     */
+    public function save(StreamInterface $stream);
+
+    /**
      * Delete a Stream.
      *
-     * @param StreamInterface $stream
+     * @param StreamInterface|EloquentModel $stream
+     * @return bool
      */
     public function delete(StreamInterface $stream);
+
+    /**
+     * Get all streams.
+     *
+     * @return EloquentCollection
+     */
+    public function all();
 
     /**
      * Find a stream by it's namespace and slug.
