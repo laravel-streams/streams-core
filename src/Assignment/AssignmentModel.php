@@ -236,6 +236,16 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     }
 
     /**
+     * Get the related stream's slug.
+     *
+     * @return string
+     */
+    public function getStreamSlug()
+    {
+        return $this->stream->getSlug();
+    }
+
+    /**
      * Get the related field.
      *
      * @return FieldInterface

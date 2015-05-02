@@ -30,6 +30,13 @@ interface AssignmentInterface
     public function getStream();
 
     /**
+     * Get the related stream's slug.
+     *
+     * @return string
+     */
+    public function getStreamSlug();
+
+    /**
      * Get the related field.
      *
      * @return FieldInterface
