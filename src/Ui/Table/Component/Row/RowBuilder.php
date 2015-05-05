@@ -71,9 +71,7 @@ class RowBuilder
      */
     public function build(TableBuilder $builder)
     {
-        $table = $builder->getTable();
-
-        foreach ($table->getEntries() as $entry) {
+        foreach ($builder->getTableEntries() as $entry) {
 
             $columns = $this->columns->build($builder, $entry);
             $buttons = $this->buttons->build($builder, $entry);
@@ -82,9 +80,9 @@ class RowBuilder
 
             $row = compact('columns', 'buttons', 'entry');
 
-            $row = $this->evaluator->evaluate($row, compact('table', 'entry'));
+            $row = $this->evaluator->evaluate($row, compact('builder', 'entry'));
 
-            $table->addRow($this->factory->make($row));
+            $builder->addTableRow($this->factory->make($row));
         }
     }
 }

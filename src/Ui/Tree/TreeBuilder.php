@@ -8,8 +8,10 @@ use Anomaly\Streams\Platform\Ui\Tree\Command\BuildTree;
 use Anomaly\Streams\Platform\Ui\Tree\Command\LoadTree;
 use Anomaly\Streams\Platform\Ui\Tree\Command\MakeTree;
 use Anomaly\Streams\Platform\Ui\Tree\Command\SetTreeResponse;
+use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 
 /**
  * Class TreeBuilder
@@ -320,13 +322,26 @@ class TreeBuilder
     }
 
     /**
-     * Get the tree actions.
+     * Get the tree entries.
      *
-     * @return Component\Action\ActionCollection
+     * @return Collection
      */
-    public function getTreeActions()
+    public function getTreeEntries()
     {
-        return $this->tree->getActions();
+        return $this->tree->getEntries();
+    }
+
+    /**
+     * Add a tree item to the collection.
+     *
+     * @param ItemInterface $item
+     * @return $this
+     */
+    public function addTreeItem(ItemInterface $item)
+    {
+        $this->tree->addItem($item);
+
+        return $this;
     }
 
     /**

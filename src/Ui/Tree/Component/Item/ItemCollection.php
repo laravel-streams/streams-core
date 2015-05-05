@@ -26,10 +26,29 @@ class ItemCollection extends Collection
         /* @var ItemInterface $item */
         foreach ($this->items as $item) {
             if ($item->isRoot()) {
-                $root[] = $root;
+                $root[] = $item;
             }
         }
 
         return new static($root);
+    }
+
+    /**
+     * Return only children of the provided item.
+     *
+     * @return ItemCollection
+     */
+    public function children(ItemInterface $item)
+    {
+        $children = [];
+
+        /* @var ItemInterface $item */
+        foreach ($this->items as $item) {
+            if ($item->getParentId() === $item->getEntryId()) {
+                $children[] = $item;
+            }
+        }
+
+        return new static($children);
     }
 }

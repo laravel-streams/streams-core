@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Ui\Table\Command\LoadTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\MakeTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\PostTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\SetTableResponse;
+use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
@@ -450,6 +451,16 @@ class TableBuilder
     }
 
     /**
+     * Get the table entries.
+     *
+     * @return Collection
+     */
+    public function getTableEntries()
+    {
+        return $this->table->getEntries();
+    }
+
+    /**
      * Get the table actions.
      *
      * @return Component\Action\ActionCollection
@@ -457,6 +468,19 @@ class TableBuilder
     public function getTableActions()
     {
         return $this->table->getActions();
+    }
+
+    /**
+     * Add a row to the table.
+     *
+     * @param RowInterface $row
+     * @return $this
+     */
+    public function addTableRow(RowInterface $row)
+    {
+        $this->table->addRow($row);
+
+        return $this;
     }
 
     /**

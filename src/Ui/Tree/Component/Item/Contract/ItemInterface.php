@@ -17,4 +17,18 @@ interface ItemInterface
      * @return bool
      */
     public function isRoot();
+
+    /**
+     * Get the parent ID.
+     *
+     * @return int
+     */
+    public function getParentId();
+
+    /**
+     * Get the entry ID.
+     *
+     * @return int
+     */
+    public function getEntryId();
 }

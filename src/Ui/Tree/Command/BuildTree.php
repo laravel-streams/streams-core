@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
 
+use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Command\BuildItems;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -62,6 +63,6 @@ class BuildTree implements SelfHandling
         /**
          * Lastly tree items.
          */
-        //$this->dispatch(new BuildRows($this->builder));
+        $this->dispatch(new BuildItems($this->builder));
     }
 }
