@@ -1,0 +1,18 @@
+{% macro tree(items) %}
+    {% for item in items %}
+        <li>
+            <div class="panel">
+                {{ icon('bars', 'handle btn btn-xs') }}
+
+                {{ html_link('#', item.title) }}
+
+                <div class="buttons">
+                    <a href="#" class="btn btn-xs btn-info">View</a>
+                    <a href="#" class="btn btn-xs btn-danger">Delete</a>
+                </div>
+            </div>
+            {{ macro.tree(item.children) }}
+            <ul></ul>
+        </li>
+    {% endfor %}
+{% endmacro %}

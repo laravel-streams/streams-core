@@ -11,4 +11,10 @@
 interface ItemInterface
 {
 
+    /**
+     * Return the root flag.
+     *
+     * @return bool
+     */
+    public function isRoot();
 }
