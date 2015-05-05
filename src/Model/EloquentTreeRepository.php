@@ -1,20 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
-use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Tree\Contract\TreeRepositoryInterface;
+use Anomaly\Streams\Platform\Ui\Tree\Event\TreeIsQuerying;
+use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Support\Collection;
 
 /**
- * Class EloquentTableRepositoryInterface
+ * Class EloquentTreeRepositoryInterface
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Model
  */
-class EloquentTableRepository implements TableRepositoryInterface
+class EloquentTreeRepository implements TreeRepositoryInterface
 {
 
     use DispatchesCommands;
@@ -37,19 +37,19 @@ class EloquentTableRepository implements TableRepositoryInterface
     }
 
     /**
-     * Get the table entries.
+     * Get the tree entries.
      *
-     * @param TableBuilder $builder
+     * @param TreeBuilder $builder
      * @return Collection
      */
-    public function get(TableBuilder $builder)
+    public function get(TreeBuilder $builder)
     {
         // Start a new query.
         $query = $this->model->newQuery();
 
         /**
          * Prevent joins from overriding intended columns
-         * by prefixing with the model's table name.
+         * by prefixing with the model's tree name.
          */
         $query = $query->select($this->model->getTable() . '.*');
 
@@ -57,7 +57,7 @@ class EloquentTableRepository implements TableRepositoryInterface
          * Eager load any relations to
          * save resources and queries.
          */
-        $query = $query->with($builder->getTableOption('eager', []));
+        $query = $query->with($builder->getTreeOption('eager', []));
 
         /**
          * Raise and fire an event here to allow
@@ -65,44 +65,21 @@ class EloquentTableRepository implements TableRepositoryInterface
          * to modify the query before proceeding.
          */
         $builder->fire('querying', compact('builder', 'query'));
-        app('events')->fire(new TableIsQuerying($builder, $query));
+        app('events')->fire(new TreeIsQuerying($builder, $query));
 
         /**
          * Before we actually adjust the baseline query
          * set the total amount of entries possible back
-         * on the table so it can be used later.
+         * on the tree so it can be used later.
          */
         $total = $query->count();
 
-        $builder->setTableOption('total_results', $total);
-
-        /**
-         * Assure that our page exists. If the page does
-         * not exist then start walking backwards until
-         * we find a page that is has something to show us.
-         */
-        $limit  = $builder->getTableOption('limit', 15);
-        $page   = app('request')->get('page', 1);
-        $offset = $limit * ($page - 1);
-
-        if ($total < $offset && $page > 1) {
-            $url = str_replace('page=' . $page, 'page=' . ($page - 1), app('request')->fullUrl());
-
-            header('Location: ' . $url);
-        }
-
-        /**
-         * Limit the results to the limit and offset
-         * based on the page if any.
-         */
-        $offset = $limit * (app('request')->get('page', 1) - 1);
-
-        $query = $query->take($limit)->offset($offset);
+        $builder->setTreeOption('total_results', $total);
 
         /**
          * Order the query results.
          */
-        foreach ($builder->getTableOption('order_by', ['sort_order' => 'asc']) as $column => $direction) {
+        foreach ($builder->getTreeOption('order_by', ['sort_order' => 'asc']) as $column => $direction) {
             $query = $query->orderBy($column, $direction);
         }
 

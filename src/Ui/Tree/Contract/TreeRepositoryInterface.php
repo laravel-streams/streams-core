@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Tree\Contract;
 
+use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
+use Illuminate\Support\Collection;
+
 /**
  * Interface TreeRepositoryInterface
  *
@@ -11,4 +14,11 @@
 interface TreeRepositoryInterface
 {
 
+    /**
+     * Get the tree entries.
+     *
+     * @param TreeBuilder $builder
+     * @return Collection
+     */
+    public function get(TreeBuilder $builder);
 }

@@ -33,12 +33,13 @@ class UiPluginFunctions
     /**
      * Return icon HTML.
      *
-     * @param $type
+     * @param      $type
+     * @param null $class
      * @return string
      */
-    public function icon($type)
+    public function icon($type, $class = null)
     {
-        return '<i class="' . $this->icons->get($type) . ' icon"></i>';
+        return '<i class="' . $this->icons->get($type) . ' ' . $class . '"></i>';
     }
 
     /**

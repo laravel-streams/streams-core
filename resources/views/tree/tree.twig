@@ -1,0 +1,15 @@
+{{ asset_add("scripts.js", "streams::js/tree/tree.js") }}
+
+{% block content %}
+
+    <div class="container-fluid">
+
+        <ul class="tree sortable">
+            {% for entry in tree.entries %}
+                <li>{{ icon('bars', 'handle') }}{{ entry.title }}</li>
+            {% endfor %}
+        </ul>
+
+    </div>
+
+{% endblock %}

@@ -62,6 +62,7 @@ class IconRegistry
         'star'                 => 'fa fa-star',
         'code'                 => 'fa fa-code',
         'save'                 => 'fa fa-save',
+        'bars'                 => 'fa fa-bars',
         'cog'                  => 'fa fa-cog',
         'rss'                  => 'fa fa-rss',
         'tag'                  => 'fa fa-tag'

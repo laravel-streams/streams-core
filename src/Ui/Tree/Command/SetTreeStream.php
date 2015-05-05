@@ -1,33 +1,33 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class SetTableStream
+ * Class SetTreeStream
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Command
+ * @package Anomaly\Streams\Platform\Ui\Tree\Command
  */
-class SetTableStream implements SelfHandling
+class SetTreeStream implements SelfHandling
 {
 
     /**
-     * The table builder.
+     * The tree builder.
      *
-     * @var TableBuilder
+     * @var TreeBuilder
      */
     protected $builder;
 
     /**
-     * Create a new SetTableStream instance.
+     * Create a new BuildTreeColumnsCommand instance.
      *
-     * @param TableBuilder $builder
+     * @param TreeBuilder $builder
      */
-    public function __construct(TableBuilder $builder)
+    public function __construct(TreeBuilder $builder)
     {
         $this->builder = $builder;
     }
@@ -37,12 +37,12 @@ class SetTableStream implements SelfHandling
      */
     public function handle()
     {
-        $table = $this->builder->getTable();
+        $tree  = $this->builder->getTree();
         $model = $this->builder->getModel();
 
         /**
          * If the model is not set then they need
-         * to load the table entries themselves.
+         * to load the tree entries themselves.
          */
         if (!class_exists($model)) {
             return;
@@ -56,10 +56,10 @@ class SetTableStream implements SelfHandling
 
         /**
          * If the model happens to be an instance of
-         * EntryInterface then set the stream on the table.
+         * EntryInterface then set the stream on the tree.
          */
         if ($model instanceof EntryInterface) {
-            $table->setStream($model->getStream());
+            $tree->setStream($model->getStream());
         }
     }
 }

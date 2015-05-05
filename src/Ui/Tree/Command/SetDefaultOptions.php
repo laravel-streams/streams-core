@@ -1,8 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
 
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
@@ -11,24 +11,24 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Table\Command
+ * @package Anomaly\Streams\Platform\Ui\Tree\Command
  */
 class SetDefaultOptions implements SelfHandling
 {
 
     /**
-     * The table builder.
+     * The tree builder.
      *
-     * @var TableBuilder
+     * @var TreeBuilder
      */
     protected $builder;
 
     /**
      * Create a new SetDefaultOptions instance.
      *
-     * @param TableBuilder $builder
+     * @param TreeBuilder $builder
      */
-    public function __construct(TableBuilder $builder)
+    public function __construct(TreeBuilder $builder)
     {
         $this->builder = $builder;
     }
@@ -38,19 +38,19 @@ class SetDefaultOptions implements SelfHandling
      */
     public function handle()
     {
-        $table = $this->builder->getTable();
+        $tree = $this->builder->getTree();
 
         /**
          * Set the default options handler based
          * on the builder class. Defaulting to
          * no handler.
          */
-        if (!$table->getOption('options')) {
+        if (!$tree->getOption('options')) {
 
-            $options = str_replace('TableBuilder', 'TableOptions', get_class($this->builder));
+            $options = str_replace('TreeBuilder', 'TreeOptions', get_class($this->builder));
 
             if (class_exists($options)) {
-                app()->call($options . '@handle', compact('builder', 'table'));
+                app()->call($options . '@handle', compact('builder', 'tree'));
             }
         }
 
@@ -59,12 +59,12 @@ class SetDefaultOptions implements SelfHandling
          * on the builder class. Defaulting to
          * no handler.
          */
-        if (!$table->getOption('data')) {
+        if (!$tree->getOption('data')) {
 
-            $options = str_replace('TableBuilder', 'TableData', get_class($this->builder));
+            $options = str_replace('TreeBuilder', 'TreeData', get_class($this->builder));
 
             if (class_exists($options)) {
-                $table->setOption('data', $options . '@handle');
+                $tree->setOption('data', $options . '@handle');
             }
         }
 
@@ -74,12 +74,12 @@ class SetDefaultOptions implements SelfHandling
          * no handler in which case we will use
          * the model and included repositories.
          */
-        if (!$table->getOption('entries')) {
+        if (!$tree->getOption('entries')) {
 
-            $entries = str_replace('TableBuilder', 'TableEntries', get_class($this->builder));
+            $entries = str_replace('TreeBuilder', 'TreeEntries', get_class($this->builder));
 
             if (class_exists($entries)) {
-                $table->setOption('entries', $entries . '@handle');
+                $tree->setOption('entries', $entries . '@handle');
             }
         }
 
@@ -88,16 +88,16 @@ class SetDefaultOptions implements SelfHandling
          * on the builder class. Defaulting to
          * no handler.
          */
-        if (!$table->getOption('repository')) {
+        if (!$tree->getOption('repository')) {
 
-            $model = $table->getModel();
+            $model = $tree->getModel();
 
-            if (!$table->getOption('repository') && $model instanceof EntryModel) {
-                $table->setOption('repository', 'Anomaly\Streams\Platform\Entry\EntryTableRepository');
+            if (!$tree->getOption('repository') && $model instanceof EntryModel) {
+                $tree->setOption('repository', 'Anomaly\Streams\Platform\Entry\EntryTreeRepository');
             }
 
-            if (!$table->getOption('repository') && $model instanceof EloquentModel) {
-                $table->setOption('repository', 'Anomaly\Streams\Platform\Model\EloquentTableRepository');
+            if (!$tree->getOption('repository') && $model instanceof EloquentModel) {
+                $tree->setOption('repository', 'Anomaly\Streams\Platform\Model\EloquentTreeRepository');
             }
         }
     }

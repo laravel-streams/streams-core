@@ -1,6 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Tree;
 
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Ui\Tree\Command\AddAssets;
+use Anomaly\Streams\Platform\Ui\Tree\Command\BuildTree;
+use Anomaly\Streams\Platform\Ui\Tree\Command\LoadTree;
+use Anomaly\Streams\Platform\Ui\Tree\Command\MakeTree;
+use Anomaly\Streams\Platform\Ui\Tree\Command\SetTreeResponse;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Http\Response;
 
@@ -67,7 +74,8 @@ class TreeBuilder
     public function build()
     {
         $this->fire('ready', ['builder' => $this]);
-        //$this->dispatch(new BuildTable($this));
+
+        $this->dispatch(new BuildTree($this));
     }
 
     /**
@@ -76,9 +84,10 @@ class TreeBuilder
     public function make()
     {
         $this->build();
-        /*$this->dispatch(new LoadTable($this));
+
+        $this->dispatch(new LoadTree($this));
         $this->dispatch(new AddAssets($this));
-        $this->dispatch(new MakeTable($this));*/
+        $this->dispatch(new MakeTree($this));
     }
 
     /**
@@ -90,7 +99,7 @@ class TreeBuilder
     {
         $this->make();
 
-        //$this->dispatch(new SetTableResponse($this));
+        $this->dispatch(new SetTreeResponse($this));
 
         return $this->tree->getResponse();
     }
@@ -244,9 +253,9 @@ class TreeBuilder
     /**
      * Get the tree's stream.
      *
-     * @return \Anomaly\Streams\Platform\Stream\Contract\StreamInterface|null
+     * @return StreamInterface|null
      */
-    public function getTableStream()
+    public function getTreeStream()
     {
         return $this->tree->getStream();
     }
@@ -254,9 +263,9 @@ class TreeBuilder
     /**
      * Get the tree model.
      *
-     * @return \Anomaly\Streams\Platform\Model\EloquentModel|null
+     * @return EloquentModel|null
      */
-    public function getTableModel()
+    public function getTreeModel()
     {
         return $this->tree->getModel();
     }
@@ -268,7 +277,7 @@ class TreeBuilder
      * @param null $default
      * @return mixed
      */
-    public function getTableOption($key, $default = null)
+    public function getTreeOption($key, $default = null)
     {
         return $this->tree->getOption($key, $default);
     }
@@ -280,7 +289,7 @@ class TreeBuilder
      * @param $value
      * @return $this
      */
-    public function setTableOption($key, $value)
+    public function setTreeOption($key, $value)
     {
         $this->tree->setOption($key, $value);
 
@@ -292,7 +301,7 @@ class TreeBuilder
      *
      * @return Collection
      */
-    public function getTableOptions()
+    public function getTreeOptions()
     {
         return $this->tree->getOptions();
     }
@@ -303,7 +312,7 @@ class TreeBuilder
      * @param Collection $entries
      * @return $this
      */
-    public function setTableEntries(Collection $entries)
+    public function setTreeEntries(Collection $entries)
     {
         $this->tree->setEntries($entries);
 
@@ -315,7 +324,7 @@ class TreeBuilder
      *
      * @return Component\Action\ActionCollection
      */
-    public function getTableActions()
+    public function getTreeActions()
     {
         return $this->tree->getActions();
     }
@@ -325,7 +334,7 @@ class TreeBuilder
      *
      * @param Response $response
      */
-    public function setTableResponse(Response $response)
+    public function setTreeResponse(Response $response)
     {
         $this->tree->setResponse($response);
     }
@@ -335,7 +344,7 @@ class TreeBuilder
      *
      * @return null|Response
      */
-    public function getTableResponse()
+    public function getTreeResponse()
     {
         return $this->tree->getResponse();
     }

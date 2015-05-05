@@ -2,10 +2,11 @@
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\ItemCollection;
 use Anomaly\Streams\Platform\Ui\Tree\Contract\TreeRepositoryInterface;
+use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 
 /**
  * Class Tree
@@ -45,6 +46,13 @@ class Tree
      * @var null|string
      */
     protected $content = null;
+
+    /**
+     * The tree response.
+     *
+     * @var null|Response
+     */
+    protected $response = null;
 
     /**
      * The tree data.
@@ -95,6 +103,29 @@ class Tree
         $this->entries = $entries;
         $this->headers = $headers;
         $this->options = $options;
+    }
+
+    /**
+     * Set the tree response.
+     *
+     * @param null|Response $response
+     * @return $this
+     */
+    public function setResponse(Response $response = null)
+    {
+        $this->response = $response;
+
+        return $this;
+    }
+
+    /**
+     * Get the tree response.
+     *
+     * @return null|Response
+     */
+    public function getResponse()
+    {
+        return $this->response;
     }
 
     /**
