@@ -100,15 +100,14 @@ class EloquentTreeRepository implements TreeRepositoryInterface
         $items = $items ?: $builder->getRequestValue('items');
 
         foreach ($items as $index => $item) {
-            $model
-                ->newQuery()
-                ->where('id', $item['id'])
-                ->update(
-                    [
-                        $builder->getTreeOption('sort_column', 'sort_order')  => $index,
-                        $builder->getTreeOption('parent_column', 'parent_id') => $parent
-                    ]
-                );
+
+            /* @var EloquentModel $entry */
+            $entry = $model->find($item['id']);
+
+            $entry->{$builder->getTreeOption('sort_column', 'sort_order')}  = $index;
+            $entry->{$builder->getTreeOption('parent_column', 'parent_id')} = $parent;
+
+            $entry->save();
 
             if (isset($item['children'])) {
                 $this->save($builder, $item['children'], $item['id']);
