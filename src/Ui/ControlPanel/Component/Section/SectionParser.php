@@ -52,33 +52,36 @@ class SectionParser
             $this->parser->parse(
                 $builder->getSections(),
                 [
-                    'request_path'     => $this->getRequestPath(),
-                    'route_parameters' => $this->getRouteParameters()
+                    'route'   => $this->getRoute(),
+                    'request' => $this->getRequest()
                 ]
             )
         );
     }
 
-
     /**
-     * Get the request's path.
+     * Get the route array.
      *
-     * @return string
+     * @return array
      */
-    protected function getRequestPath()
-    {
-        return $this->request->path();
-    }
-
-    /**
-     * Get the request's route parameters.
-     *
-     * @return string
-     */
-    protected function getRouteParameters()
+    protected function getRoute()
     {
         $route = $this->request->route();
 
-        return implode('/', $route->parameters());
+        return [
+            'parameters' => $route->parameters()
+        ];
+    }
+
+    /**
+     * Get the request array.
+     *
+     * @return string
+     */
+    protected function getRequest()
+    {
+        return [
+            'path' => $this->request->path()
+        ];
     }
 }

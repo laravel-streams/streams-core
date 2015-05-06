@@ -50,12 +50,41 @@ class ButtonParser
      */
     public function parser(array $button, $entry)
     {
+        $data = [
+            'route'   => $this->getRoute(),
+            'request' => $this->getRequest()
+        ];
+
         if (is_object($entry) && $entry instanceof Arrayable) {
-            $entry = $entry->toArray();
+            $data['entry'] = $entry->toArray();
         }
 
-        $parameters = $this->request->route()->parameters();
+        return $this->parser->parse($button, $data);
+    }
 
-        return $this->parser->parse($button, compact('entry', 'parameters'));
+    /**
+     * Get the route array.
+     *
+     * @return array
+     */
+    protected function getRoute()
+    {
+        $route = $this->request->route();
+
+        return [
+            'parameters' => $route->parameters()
+        ];
+    }
+
+    /**
+     * Get the request array.
+     *
+     * @return string
+     */
+    protected function getRequest()
+    {
+        return [
+            'path' => $this->request->path()
+        ];
     }
 }
