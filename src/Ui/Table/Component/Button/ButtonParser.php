@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 
 /**
  * Class ButtonParser
@@ -22,13 +23,22 @@ class ButtonParser
     protected $parser;
 
     /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * Create a new ButtonParser instance.
      *
-     * @param Parser $parser
+     * @param Parser  $parser
+     * @param Request $request
      */
-    public function __construct(Parser $parser)
+    public function __construct(Parser $parser, Request $request)
     {
-        $this->parser = $parser;
+        $this->parser  = $parser;
+        $this->request = $request;
     }
 
     /**
@@ -44,6 +54,8 @@ class ButtonParser
             $entry = $entry->toArray();
         }
 
-        return $this->parser->parse($button, compact('entry'));
+        $parameters = $this->request->route()->parameters();
+
+        return $this->parser->parse($button, compact('entry', 'parameters'));
     }
 }
