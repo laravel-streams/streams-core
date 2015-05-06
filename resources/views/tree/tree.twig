@@ -6,9 +6,17 @@
 
     <div class="container-fluid">
 
-        <ul class="tree sortable">
-            {{ macro.tree(tree.items.root(), tree) }}
-        </ul>
+        {% if not tree.items.empty() %}
+            <ul class="tree sortable">
+                {{ macro.tree(tree.items.root(), tree) }}
+            </ul>
+        {% else %}
+            <div class="panel">
+                <div class="panel-body">
+                    {{ trans(tree.options.get('no_results_message', 'streams::message.no_results')) }}
+                </div>
+            </div>
+        {% endif %}
 
     </div>
 
