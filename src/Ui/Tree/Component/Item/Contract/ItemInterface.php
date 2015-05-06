@@ -12,23 +12,16 @@ interface ItemInterface
 {
 
     /**
-     * Return the root flag.
+     * Get the ID.
      *
-     * @return bool
+     * @return int
      */
-    public function isRoot();
+    public function getId();
 
     /**
      * Get the parent ID.
      *
      * @return int
      */
-    public function getParentId();
-
-    /**
-     * Get the entry ID.
-     *
-     * @return int
-     */
-    public function getEntryId();
+    public function getParent();
 }

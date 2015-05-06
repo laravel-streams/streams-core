@@ -71,9 +71,12 @@ class ItemBuilder
 
             $buttons = $buttons->enabled();
 
-            $item = compact('buttons', 'entry');
+            $value = $this->value->make($builder, $entry);
 
-            $item['value'] = $this->value->make($builder, $item, $entry);
+            $id     = $entry->getId();
+            $parent = $entry->{$builder->getTreeOption('parent_column', 'parent_id')};
+
+            $item = compact('builder', 'buttons', 'entry', 'value', 'parent', 'id');
 
             $item = $this->evaluator->evaluate($item, compact('builder', 'entry'));
 

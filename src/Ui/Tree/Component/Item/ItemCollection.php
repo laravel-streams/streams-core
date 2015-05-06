@@ -25,7 +25,7 @@ class ItemCollection extends Collection
 
         /* @var ItemInterface $item */
         foreach ($this->items as $item) {
-            if ($item->isRoot()) {
+            if (!$item->getParent()) {
                 $root[] = $item;
             }
         }
@@ -45,7 +45,7 @@ class ItemCollection extends Collection
 
         /* @var ItemInterface $item */
         foreach ($this->items as $item) {
-            if ($item->getParentId() === $parent->getEntryId()) {
+            if ($item->getParent() === $parent->getId()) {
                 $children[] = $item;
             }
         }

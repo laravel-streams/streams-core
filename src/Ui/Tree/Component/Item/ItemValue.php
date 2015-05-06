@@ -59,20 +59,12 @@ class ItemValue
      * Return the item value.
      *
      * @param TreeBuilder $builder
-     * @param array       $item
      * @param             $entry
      * @return View|mixed|null
      */
-    public function make(TreeBuilder $builder, array $item, $entry)
+    public function make(TreeBuilder $builder, $entry)
     {
         $value = $builder->getTreeOption('item_value', 'entry.title');
-
-        /**
-         * If the value is a view path then return a view.
-         */
-        if ($view = array_get($item, 'view')) {
-            return view($view, compact('builder', 'entry', 'value'));
-        }
 
         /**
          * If the entry is an instance of EntryInterface

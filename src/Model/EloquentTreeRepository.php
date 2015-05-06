@@ -105,8 +105,8 @@ class EloquentTreeRepository implements TreeRepositoryInterface
                 ->where('id', $item['id'])
                 ->update(
                     [
-                        'sort_order' => $index,
-                        'parent_id'  => $parent
+                        $builder->getTreeOption('sort_column', 'sort_order')  => $index,
+                        $builder->getTreeOption('parent_column', 'parent_id') => $parent
                     ]
                 );
 

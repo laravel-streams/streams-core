@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
 
-use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
 
@@ -16,11 +15,11 @@ class Item implements ItemInterface
 {
 
     /**
-     * The item entry.
+     * The item ID.
      *
-     * @var EloquentModel
+     * @var int
      */
-    protected $entry;
+    protected $id;
 
     /**
      * The item value.
@@ -30,6 +29,13 @@ class Item implements ItemInterface
     protected $value;
 
     /**
+     * The parent ID.
+     *
+     * @var int
+     */
+    protected $parent;
+
+    /**
      * The item buttons.
      *
      * @var ButtonCollection
@@ -37,24 +43,24 @@ class Item implements ItemInterface
     protected $buttons;
 
     /**
-     * Get the entry.
+     * Get the ID.
      *
-     * @return EloquentModel
+     * @return int
      */
-    public function getEntry()
+    public function getId()
     {
-        return $this->entry;
+        return $this->id;
     }
 
     /**
-     * Set the entry.
+     * Set the ID.
      *
-     * @param EloquentModel $entry
+     * @param $id
      * @return $this
      */
-    public function setEntry(EloquentModel $entry)
+    public function setId($id)
     {
-        $this->entry = $entry;
+        $this->id = $id;
 
         return $this;
     }
@@ -83,33 +89,26 @@ class Item implements ItemInterface
     }
 
     /**
-     * Return the root flag.
-     *
-     * @return bool
-     */
-    public function isRoot()
-    {
-        return $this->getParentId() == null;
-    }
-
-    /**
      * Get the parent ID.
      *
      * @return int
      */
-    public function getParentId()
+    public function getParent()
     {
-        return $this->entry->parent_id;
+        return $this->parent;
     }
 
     /**
-     * Get the entry ID.
+     * Set the parent ID.
      *
-     * @return int
+     * @param $parent
+     * @return $this
      */
-    public function getEntryId()
+    public function setParent($parent)
     {
-        return $this->entry->getId();
+        $this->parent = $parent;
+
+        return $this;
     }
 
     /**
