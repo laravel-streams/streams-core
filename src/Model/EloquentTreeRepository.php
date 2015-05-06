@@ -114,7 +114,5 @@ class EloquentTreeRepository implements TreeRepositoryInterface
                 $this->save($builder, $item['children'], $item['id']);
             }
         }
-
-        dd($items);
     }
 }

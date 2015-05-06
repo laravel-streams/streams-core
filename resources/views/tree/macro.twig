@@ -1,6 +1,6 @@
-{% macro tree(items) %}
+{% macro tree(items, tree) %}
     {% for item in items %}
-        <li data-id="{{ loop.index }}">
+        <li data-id="{{ item.entry.id }}">
             <div class="panel">
 
                 {{ icon('bars', 'handle btn btn-xs') }}
@@ -14,7 +14,7 @@
             </div>
 
             <ul>
-                {{ macro.tree(items.children(item)) }}
+                {{ _self.tree(tree.items.children(item), tree) }}
             </ul>
         </li>
     {% endfor %}

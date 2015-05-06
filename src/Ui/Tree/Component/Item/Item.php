@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
 
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
 
@@ -15,6 +16,13 @@ class Item implements ItemInterface
 {
 
     /**
+     * The item entry.
+     *
+     * @var EloquentModel
+     */
+    protected $entry;
+
+    /**
      * The item value.
      *
      * @var string
@@ -27,6 +35,29 @@ class Item implements ItemInterface
      * @var ButtonCollection
      */
     protected $buttons;
+
+    /**
+     * Get the entry.
+     *
+     * @return EloquentModel
+     */
+    public function getEntry()
+    {
+        return $this->entry;
+    }
+
+    /**
+     * Set the entry.
+     *
+     * @param EloquentModel $entry
+     * @return $this
+     */
+    public function setEntry(EloquentModel $entry)
+    {
+        $this->entry = $entry;
+
+        return $this;
+    }
 
     /**
      * Get the value.
@@ -58,7 +89,7 @@ class Item implements ItemInterface
      */
     public function isRoot()
     {
-        return !($this->getParentId());
+        return $this->getParentId() == null;
     }
 
     /**
@@ -68,7 +99,7 @@ class Item implements ItemInterface
      */
     public function getParentId()
     {
-        return 0;
+        return $this->entry->parent_id;
     }
 
     /**
@@ -78,7 +109,7 @@ class Item implements ItemInterface
      */
     public function getEntryId()
     {
-        return 1;
+        return $this->entry->getId();
     }
 
     /**

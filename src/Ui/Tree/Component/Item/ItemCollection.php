@@ -36,15 +36,16 @@ class ItemCollection extends Collection
     /**
      * Return only children of the provided item.
      *
+     * @param ItemInterface $parent
      * @return ItemCollection
      */
-    public function children(ItemInterface $item)
+    public function children(ItemInterface $parent)
     {
         $children = [];
 
         /* @var ItemInterface $item */
         foreach ($this->items as $item) {
-            if ($item->getParentId() === $item->getEntryId()) {
+            if ($item->getParentId() === $parent->getEntryId()) {
                 $children[] = $item;
             }
         }
