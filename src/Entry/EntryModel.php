@@ -254,6 +254,18 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Get the stream prefix.
+     *
+     * @return string
+     */
+    public function getStreamPrefix()
+    {
+        $stream = $this->getStream();
+
+        return $stream->getPrefix();
+    }
+
+    /**
      * Get all assignments.
      *
      * @return AssignmentCollection

@@ -53,6 +53,13 @@ interface EntryInterface
     public function getStreamSlug();
 
     /**
+     * Get the stream prefix.
+     *
+     * @return string
+     */
+    public function getStreamPrefix();
+
+    /**
      * Get a field by it's slug.
      *
      * @param  $slug
