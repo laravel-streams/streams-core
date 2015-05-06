@@ -7,8 +7,10 @@ use Anomaly\Streams\Platform\Ui\Tree\Command\AddAssets;
 use Anomaly\Streams\Platform\Ui\Tree\Command\BuildTree;
 use Anomaly\Streams\Platform\Ui\Tree\Command\LoadTree;
 use Anomaly\Streams\Platform\Ui\Tree\Command\MakeTree;
+use Anomaly\Streams\Platform\Ui\Tree\Command\PostTree;
 use Anomaly\Streams\Platform\Ui\Tree\Command\SetTreeResponse;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
+use Anomaly\Streams\Platform\Ui\Tree\Contract\TreeRepositoryInterface;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
@@ -78,6 +80,10 @@ class TreeBuilder
         $this->fire('ready', ['builder' => $this]);
 
         $this->dispatch(new BuildTree($this));
+
+        if (app('request')->isMethod('post')) {
+            $this->dispatch(new PostTree($this));
+        }
     }
 
     /**
@@ -87,9 +93,11 @@ class TreeBuilder
     {
         $this->build();
 
-        $this->dispatch(new LoadTree($this));
-        $this->dispatch(new AddAssets($this));
-        $this->dispatch(new MakeTree($this));
+        if (!app('request')->isMethod('post')) {
+            $this->dispatch(new LoadTree($this));
+            $this->dispatch(new AddAssets($this));
+            $this->dispatch(new MakeTree($this));
+        }
     }
 
     /**
@@ -362,6 +370,16 @@ class TreeBuilder
     public function getTreeResponse()
     {
         return $this->tree->getResponse();
+    }
+
+    /**
+     * Get the tree repository.
+     *
+     * @return TreeRepositoryInterface
+     */
+    public function getTreeRepository()
+    {
+        return $this->tree->getRepository();
     }
 
     /**

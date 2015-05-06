@@ -85,4 +85,36 @@ class EloquentTreeRepository implements TreeRepositoryInterface
 
         return $query->get();
     }
+
+    /**
+     * Save the tree.
+     *
+     * @param TreeBuilder $builder
+     * @param array       $items
+     * @param null        $parent
+     */
+    public function save(TreeBuilder $builder, array $items = [], $parent = null)
+    {
+        $model = $builder->getTreeModel();
+
+        $items = $items ?: $builder->getRequestValue('items');
+
+        foreach ($items as $index => $item) {
+            $model
+                ->newQuery()
+                ->where('id', $item['id'])
+                ->update(
+                    [
+                        'sort_order' => $index,
+                        'parent_id'  => $parent
+                    ]
+                );
+
+            if (isset($item['children'])) {
+                $this->save($builder, $item['children'], $item['id']);
+            }
+        }
+
+        dd($items);
+    }
 }

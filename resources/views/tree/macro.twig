@@ -1,6 +1,6 @@
 {% macro tree(items) %}
     {% for item in items %}
-        <li>
+        <li data-id="{{ loop.index }}">
             <div class="panel">
 
                 {{ icon('bars', 'handle btn btn-xs') }}

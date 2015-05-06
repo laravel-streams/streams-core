@@ -39,7 +39,7 @@ class PostForm implements SelfHandling
      */
     public function handle()
     {
-        $this->builder->fire('posting');
+        $this->builder->fire('posting', ['builder' => $this->builder]);
 
         $this->dispatch(new LoadFormValues($this->builder));
         $this->dispatch(new RemoveSkippedFields($this->builder));
@@ -49,6 +49,6 @@ class PostForm implements SelfHandling
         $this->dispatch(new SetSuccessMessage($this->builder));
         $this->dispatch(new SetActionResponse($this->builder));
 
-        $this->builder->fire('posted');
+        $this->builder->fire('posted', ['builder' => $this->builder]);
     }
 }

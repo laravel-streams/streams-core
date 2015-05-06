@@ -141,8 +141,7 @@ class ItemValue
         /**
          * Parse the value with the entry.
          */
-        $item['wrapper'] = '{value}';
-        $value           = $this->parser->render($item['wrapper'], compact('value', 'entry'));
+        $value = $this->parser->render($builder->getTreeOption('item_wrapper', '{value}'), compact('value', 'entry'));
 
         /**
          * If the value looks like a language

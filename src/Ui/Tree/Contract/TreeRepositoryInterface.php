@@ -21,4 +21,13 @@ interface TreeRepositoryInterface
      * @return Collection
      */
     public function get(TreeBuilder $builder);
+
+    /**
+     * Save the tree.
+     *
+     * @param TreeBuilder $builder
+     * @param array       $items
+     * @param null        $parent
+     */
+    public function save(TreeBuilder $builder, array $items = [], $parent = null);
 }
