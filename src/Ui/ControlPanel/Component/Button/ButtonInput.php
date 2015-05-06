@@ -15,6 +15,13 @@ class ButtonInput
 {
 
     /**
+     * The button parser.
+     *
+     * @var ButtonParser
+     */
+    protected $parser;
+
+    /**
      * The button guesser.
      *
      * @var ButtonGuesser
@@ -38,12 +45,18 @@ class ButtonInput
     /**
      * Create a new ButtonInput instance.
      *
-     * @param ButtonResolver   $resolver
+     * @param ButtonParser     $parser
      * @param ButtonGuesser    $guesser
+     * @param ButtonResolver   $resolver
      * @param ButtonNormalizer $normalizer
      */
-    public function __construct(ButtonResolver $resolver, ButtonGuesser $guesser, ButtonNormalizer $normalizer)
-    {
+    public function __construct(
+        ButtonParser $parser,
+        ButtonGuesser $guesser,
+        ButtonResolver $resolver,
+        ButtonNormalizer $normalizer
+    ) {
+        $this->parser     = $parser;
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
         $this->normalizer = $normalizer;
@@ -72,5 +85,6 @@ class ButtonInput
         $this->resolver->resolve($builder);
         $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);
+        $this->parser->parse($builder);
     }
 }

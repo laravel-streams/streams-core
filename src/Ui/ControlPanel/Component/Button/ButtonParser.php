@@ -49,5 +49,7 @@ class ButtonParser
     public function parse(ControlPanelBuilder $builder)
     {
         $parameters = $this->request->route()->parameters();
+
+        $builder->setButtons($this->parser->parse($builder->getButtons(), compact('parameters')));
     }
 }
