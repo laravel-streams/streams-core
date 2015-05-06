@@ -37,6 +37,13 @@ interface AssignmentInterface
     public function getStreamSlug();
 
     /**
+     * Get the related stream's prefix.
+     *
+     * @return string
+     */
+    public function getStreamPrefix();
+
+    /**
      * Get the related field.
      *
      * @return FieldInterface

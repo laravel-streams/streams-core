@@ -246,6 +246,16 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     }
 
     /**
+     * Get the related stream's prefix.
+     *
+     * @return string
+     */
+    public function getStreamPrefix()
+    {
+        return $this->stream->getPrefix();
+    }
+
+    /**
      * Get the related field.
      *
      * @return FieldInterface

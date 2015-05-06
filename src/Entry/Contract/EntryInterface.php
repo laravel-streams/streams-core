@@ -46,14 +46,14 @@ interface EntryInterface
     public function getStreamNamespace();
 
     /**
-     * Get the stream slug.
+     * Get the entry's stream slug.
      *
      * @return string
      */
     public function getStreamSlug();
 
     /**
-     * Get the stream prefix.
+     * Get the entry's stream prefix.
      *
      * @return string
      */
