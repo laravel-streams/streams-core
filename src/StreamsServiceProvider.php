@@ -438,7 +438,11 @@ class StreamsServiceProvider extends ServiceProvider
          */
         $this->commands(
             [
-                'Anomaly\Streams\Platform\Stream\Console\Compile'
+                'Anomaly\Streams\Platform\Stream\Console\Compile',
+                'Anomaly\Streams\Platform\Addon\Module\Console\Install',
+                'Anomaly\Streams\Platform\Addon\Module\Console\Uninstall',
+                'Anomaly\Streams\Platform\Addon\Extension\Console\Install',
+                'Anomaly\Streams\Platform\Addon\Extension\Console\Uninstall'
             ]
         );
 
