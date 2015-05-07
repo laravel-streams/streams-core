@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Command\AddAssets;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
@@ -715,6 +716,33 @@ class FormBuilder
     public function getFormActions()
     {
         return $this->form->getActions();
+    }
+
+    /**
+     * Add a form button.
+     *
+     * @param ButtonInterface $button
+     * @return $this
+     */
+    public function addFormButton(ButtonInterface $button)
+    {
+        $this->form->addButton($button);
+
+        return $this;
+    }
+
+    /**
+     * Add a form section.
+     *
+     * @param       $slug
+     * @param array $section
+     * @return $this
+     */
+    public function addFormSection($slug, array $section)
+    {
+        $this->form->addSection($slug, $section);
+
+        return $this;
     }
 
     /**

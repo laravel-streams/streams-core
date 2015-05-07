@@ -47,8 +47,6 @@ class ButtonBuilder
      */
     public function build(FormBuilder $builder)
     {
-        $form = $builder->getForm();
-
         $this->input->read($builder);
 
         foreach ($builder->getButtons() as $button) {
@@ -59,7 +57,7 @@ class ButtonBuilder
 
                 $button->setSize('sm');
 
-                $form->addButton($button);
+                $builder->addFormButton($button);
             }
         }
     }

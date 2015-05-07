@@ -40,24 +40,14 @@ class SetTreeStream implements SelfHandling
         $tree  = $this->builder->getTree();
         $model = $this->builder->getModel();
 
-        /**
-         * If the model is not set then they need
-         * to load the tree entries themselves.
-         */
-        if (!class_exists($model)) {
+        if (is_string($model) && !class_exists($model)) {
             return;
         }
 
-        /*
-         * Resolve the model
-         * from the container.
-         */
-        $model = app($model);
-
-        /**
-         * If the model happens to be an instance of
-         * EntryInterface then set the stream on the tree.
-         */
+        if (is_string($model)) {
+            $model = app($model);
+        }
+        
         if ($model instanceof EntryInterface) {
             $tree->setStream($model->getStream());
         }

@@ -10,6 +10,7 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
+use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\MessageBag;
@@ -126,14 +127,22 @@ class Form
     protected $buttons;
 
     /**
+     * The form sections.
+     *
+     * @var SectionCollection
+     */
+    protected $sections;
+
+    /**
      * Create a new Form instance.
      *
-     * @param Collection       $data
-     * @param Collection       $values
-     * @param Collection       $options
-     * @param FieldCollection  $fields
-     * @param ActionCollection $actions
-     * @param ButtonCollection $buttons
+     * @param Collection        $data
+     * @param Collection        $values
+     * @param Collection        $options
+     * @param FieldCollection   $fields
+     * @param ActionCollection  $actions
+     * @param ButtonCollection  $buttons
+     * @param SectionCollection $sections
      */
     public function __construct(
         Collection $data,
@@ -141,14 +150,16 @@ class Form
         Collection $options,
         FieldCollection $fields,
         ActionCollection $actions,
-        ButtonCollection $buttons
+        ButtonCollection $buttons,
+        SectionCollection $sections
     ) {
-        $this->data    = $data;
-        $this->values  = $values;
-        $this->fields  = $fields;
-        $this->actions = $actions;
-        $this->buttons = $buttons;
-        $this->options = $options;
+        $this->data     = $data;
+        $this->values   = $values;
+        $this->fields   = $fields;
+        $this->actions  = $actions;
+        $this->buttons  = $buttons;
+        $this->options  = $options;
+        $this->sections = $sections;
     }
 
     /**
@@ -431,6 +442,43 @@ class Form
     public function getOption($key, $default = null)
     {
         return $this->options->get($key, $default);
+    }
+
+    /**
+     * Get the sections.
+     *
+     * @return SectionCollection
+     */
+    public function getSections()
+    {
+        return $this->sections;
+    }
+
+    /**
+     * Set the sections.
+     *
+     * @param SectionCollection $sections
+     * @return $this
+     */
+    public function setSections(SectionCollection $sections)
+    {
+        $this->sections = $sections;
+
+        return $this;
+    }
+
+    /**
+     * Add a section.
+     *
+     * @param $slug
+     * @param $section
+     * @return $this
+     */
+    public function addSection($slug, $section)
+    {
+        $this->sections->put($slug, $section);
+
+        return $this;
     }
 
     /**

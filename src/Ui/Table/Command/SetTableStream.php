@@ -40,24 +40,14 @@ class SetTableStream implements SelfHandling
         $table = $this->builder->getTable();
         $model = $this->builder->getModel();
 
-        /**
-         * If the model is not set then they need
-         * to load the table entries themselves.
-         */
-        if (!class_exists($model)) {
+        if (is_string($model) && !class_exists($model)) {
             return;
         }
 
-        /*
-         * Resolve the model
-         * from the container.
-         */
-        $model = app($model);
+        if (is_string($model)) {
+            $model = app($model);
+        }
 
-        /**
-         * If the model happens to be an instance of
-         * EntryInterface then set the stream on the table.
-         */
         if ($model instanceof EntryInterface) {
             $table->setStream($model->getStream());
         }

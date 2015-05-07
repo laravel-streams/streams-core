@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActions;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveAction;
 use Anomaly\Streams\Platform\Ui\Form\Component\Button\Command\BuildButtons;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\BuildFields;
+use Anomaly\Streams\Platform\Ui\Form\Component\Section\Command\BuildSections;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -64,6 +65,11 @@ class BuildForm implements SelfHandling
          * Build form fields.
          */
         $this->dispatch(new BuildFields($this->builder));
+
+        /**
+         * Build form sections.
+         */
+        $this->dispatch(new BuildSections($this->builder));
 
         /**
          * Build form actions and flag active.

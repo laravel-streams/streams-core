@@ -1,29 +1,29 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Section\Command;
 
-use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class BuildFields
+ * Class BuildSections
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Field\Command
+ * @package       Anomaly\Streams\Platform\Ui\Form\Component\Section\Command
  */
-class BuildFields implements SelfHandling
+class BuildSections implements SelfHandling
 {
 
     /**
-     * The table builder.
+     * The form builder.
      *
      * @var FormBuilder
      */
     protected $builder;
 
     /**
-     * Create a new BuildFields instance.
+     * Create a new BuildSections instance.
      *
      * @param FormBuilder $builder
      */
@@ -35,9 +35,9 @@ class BuildFields implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param FieldBuilder $builder
+     * @param SectionBuilder $builder
      */
-    public function handle(FieldBuilder $builder)
+    public function handle(SectionBuilder $builder)
     {
         $builder->build($this->builder);
     }
