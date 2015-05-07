@@ -15,6 +15,13 @@ interface StreamRepositoryInterface
 {
 
     /**
+     * Get all streams.
+     *
+     * @return EloquentCollection
+     */
+    public function all();
+
+    /**
      * Create a new Stream.
      *
      * @param array $attributes
@@ -39,11 +46,9 @@ interface StreamRepositoryInterface
     public function delete(StreamInterface $stream);
 
     /**
-     * Get all streams.
-     *
-     * @return EloquentCollection
+     * Delete garbage streams.
      */
-    public function all();
+    public function deleteGarbage();
 
     /**
      * Find a stream by it's namespace and slug.

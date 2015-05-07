@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
+use Illuminate\Database\Schema\Builder;
 
 /**
  * Class StreamRepository
@@ -24,13 +25,32 @@ class StreamRepository implements StreamRepositoryInterface
     protected $model;
 
     /**
+     * The schema builder.
+     *
+     * @var Builder
+     */
+    protected $schema;
+
+    /**
      * Create a new StreamRepository instance.
      *
      * @param StreamModel $model
      */
     public function __construct(StreamModel $model)
     {
-        $this->model = $model;
+        $this->model  = $model;
+
+        $this->schema = app('db')->connection()->getSchemaBuilder();
+    }
+
+    /**
+     * Get all streams.
+     *
+     * @return EloquentCollection
+     */
+    public function all()
+    {
+        return $this->model->all();
     }
 
     /**
@@ -85,13 +105,16 @@ class StreamRepository implements StreamRepositoryInterface
     }
 
     /**
-     * Get all streams.
-     *
-     * @return EloquentCollection
+     * Delete garbage streams.
      */
-    public function all()
+    public function deleteGarbage()
     {
-        return $this->model->all();
+        /* @var StreamInterface $stream */
+        foreach ($this->model->all() as $stream) {
+            if (!$this->schema->hasTable($stream->getEntryTableName())) {
+                $this->delete($stream);
+            }
+        }
     }
 
     /**

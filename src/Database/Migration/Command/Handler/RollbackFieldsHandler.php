@@ -61,5 +61,7 @@ class RollbackFieldsHandler
                 $this->manager->delete($field);
             }
         }
+
+        $this->fields->deleteGarbage();
     }
 }
