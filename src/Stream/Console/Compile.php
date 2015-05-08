@@ -32,7 +32,7 @@ class Compile extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @param StreamRepositoryInterface $streams
      */
     public function fire(StreamRepositoryInterface $streams)
     {
