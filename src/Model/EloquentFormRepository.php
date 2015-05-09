@@ -82,9 +82,13 @@ class EloquentFormRepository implements FormRepositoryInterface
 
         $fields = $fields->allowed();
 
-        $data = array_intersect_key(
-            $entry->getUnguardedAttributes(), // I'm not sure this is preferred. Might be too aggressive.
-            array_flip($fields->lists('field')) // Only include attributes from form fields.
+        /**
+         * Set initial data from the
+         * entry, minus undesired data.
+         */
+        $data = array_diff_key(
+            $entry->getUnguardedAttributes(),
+            ['id', 'created_at', 'created_by', 'updated_at', 'updated_by']
         );
 
         /**
