@@ -100,5 +100,21 @@ class SetDefaultOptions implements SelfHandling
                 $table->setOption('repository', 'Anomaly\Streams\Platform\Model\EloquentTableRepository');
             }
         }
+
+        /**
+         * Set the default ordering options.
+         */
+        if (!$table->getOption('order_by')) {
+
+            $model = $table->getModel();
+
+            if ($model instanceof EntryModel) {
+                $table->setOption('order_by', ['sort_order' => 'asc']);
+            }
+
+            if ($model instanceof EloquentModel) {
+                $table->setOption('order_by', ['id' => 'asc']);
+            }
+        }
     }
 }
