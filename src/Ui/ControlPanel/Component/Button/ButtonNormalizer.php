@@ -76,6 +76,16 @@ class ButtonNormalizer
             }
 
             /**
+             * Move all data-* keys
+             * to attributes.
+             */
+            foreach ($button as $attribute => $value) {
+                if (str_is('data-*', $attribute)) {
+                    array_set($button, 'attributes.' . $attribute, array_pull($button, $attribute));
+                }
+            }
+
+            /**
              * Make sure the HREF is absolute.
              */
             if (
