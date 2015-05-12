@@ -18,6 +18,7 @@ class IconRegistry
      */
     protected $icons = [
         'circle-question-mark' => 'glyphicons glyphicons-circle-question-mark',
+        'shopping-cart'        => 'glyphicons glyphicons-shopping-cart',
         'folder-closed'        => 'glyphicons glyphicons-folder-closed',
         'folder-open'          => 'glyphicons glyphicons-folder-open',
         'credit-card'          => 'glyphicons glyphicons-credit-card',
