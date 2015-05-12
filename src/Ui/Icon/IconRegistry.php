@@ -18,6 +18,7 @@ class IconRegistry
      */
     protected $icons = [
         'circle-question-mark' => 'glyphicons glyphicons-circle-question-mark',
+        'facetime-video'       => 'glyphicons glyphicons-facetime-video',
         'shopping-cart'        => 'glyphicons glyphicons-shopping-cart',
         'folder-closed'        => 'glyphicons glyphicons-folder-closed',
         'folder-open'          => 'glyphicons glyphicons-folder-open',
@@ -33,7 +34,9 @@ class IconRegistry
         'brush'                => 'glyphicons glyphicons-brush',
         'redo'                 => 'glyphicons glyphicons-redo',
         'order'                => 'glyphicons glyphicons-sort',
+        'car'                  => 'glyphicons glyphicons-car',
         'external-link'        => 'fa fa-external-link',
+        'video-camera'         => 'fa fa-video-camera',
         'cloud-upload'         => 'fa fa-cloud-upload',
         'newspaper'            => 'fa fa-newspaper-o',
         'rss-square'           => 'fa fa-rss-square',
@@ -60,6 +63,7 @@ class IconRegistry
         'users'                => 'fa fa-users',
         'trash'                => 'fa fa-trash',
         'check'                => 'fa fa-check',
+        'film'                 => 'fa fa-film',
         'star'                 => 'fa fa-star',
         'code'                 => 'fa fa-code',
         'save'                 => 'fa fa-save',

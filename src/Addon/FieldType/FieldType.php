@@ -659,11 +659,11 @@ class FieldType extends Addon
     /**
      * Render the input and wrapper.
      *
-     * @return \Illuminate\View\View
+     * @return string
      */
     public function render()
     {
-        return view($this->getWrapperView(), ['field_type' => $this]);
+        return view($this->getWrapperView(), ['field_type' => $this])->render();
     }
 
     /**
@@ -857,21 +857,21 @@ class FieldType extends Addon
     /**
      * Render the input.
      *
-     * @return \Illuminate\View\View
+     * @return string
      */
     public function renderInput()
     {
-        return view($this->getInputView(), ['field_type' => $this]);
+        return view($this->getInputView(), ['field_type' => $this])->render();
     }
 
     /**
      * Render the filter.
      *
-     * @return \Illuminate\View\View
+     * @return string
      */
     public function renderFilter()
     {
-        return view($this->getFilterView(), ['field_type' => $this]);
+        return view($this->getFilterView(), ['field_type' => $this])->render();
     }
 
     /**
