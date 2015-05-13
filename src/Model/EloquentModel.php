@@ -552,7 +552,11 @@ class EloquentModel extends Model implements Arrayable
      */
     public function getUnguardedAttributes()
     {
-        return array_filter(array_diff_key($this->getAttributes(), array_flip($this->getGuarded())));
+        foreach ($attributes = $this->getAttributes() as $attribute => $value) {
+            $attributes[$attribute] = $this->{$attribute};
+        }
+
+        return array_filter(array_diff_key($attributes, array_flip($this->getGuarded())));
     }
 
     public function toArray()

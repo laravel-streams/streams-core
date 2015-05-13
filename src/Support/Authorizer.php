@@ -76,6 +76,15 @@ class Authorizer
             if (!in_array($end, (array)$this->config->get($parts[0] . '::permissions.' . $group))) {
                 return true;
             }
+        } elseif (ends_with($permission, '*')) {
+
+            $parts = explode('::', $permission);
+
+            array_pop($parts); // drop the "*"
+
+            if (!$this->config->get($parts[0] . '::permissions')) {
+                return true;
+            }
         } else {
 
             $parts = explode('::', $permission);
