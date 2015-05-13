@@ -66,7 +66,7 @@ class Authorizer
          * If we have a erroneous permission
          * then we still can't do much.
          */
-        if (str_is('*::*.*', $permission)) {
+        if (str_is('*::*.*', $permission) && !ends_with($permission, '*')) {
 
             $parts = explode('.', str_replace('::', '.', $permission));
             $end   = array_pop($parts);
@@ -80,10 +80,23 @@ class Authorizer
 
             $parts = explode('::', $permission);
 
-            array_pop($parts); // drop the "*"
+            $addon = array_shift($parts);
 
-            if (!$this->config->get($parts[0] . '::permissions')) {
-                return true;
+            /**
+             * Check vendor.module.slug::group.*
+             * then check vendor.module.slug::*
+             */
+            if (str_is('*.*.*::*.*', $permission)) {
+
+                $end = trim(substr($permission, strpos($permission, '::') + 2), '.*');
+
+                if (!$this->config->get($addon . '::permissions.' . $end)) {
+                    return true;
+                }
+            } else {
+                if (!$this->config->get(substr($permission, strpos($permission, '::')) . '::permissions')) {
+                    return true;
+                }
             }
         } else {
 
