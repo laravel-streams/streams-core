@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Support\Authorizer;
 
 /**
  * Class ModuleCollection
@@ -20,16 +21,9 @@ class ModuleCollection extends AddonCollection
      */
     public function navigation()
     {
-        $navigation = [];
-
-        /* @var Module $item */
-        foreach ($this->items as $item) {
-            if ($item->isEnabled() && $item->getNavigation()) {
-                $navigation[] = $item;
-            }
-        }
-
-        return new static($navigation);
+        return $this
+            ->enabled()
+            ->accessible();
     }
 
     /**
@@ -52,14 +46,15 @@ class ModuleCollection extends AddonCollection
     /**
      * Return installed modules.
      *
-     * @return static
+     * @return ModuleCollection
      */
     public function installed()
     {
         $installed = [];
 
+        /* @var Module $item */
         foreach ($this->items as $item) {
-            if ($item instanceof Module && $item->isInstalled()) {
+            if ($item->isInstalled()) {
                 $installed[] = $item;
             }
         }
@@ -70,14 +65,15 @@ class ModuleCollection extends AddonCollection
     /**
      * Return uninstalled modules.
      *
-     * @return static
+     * @return ModuleCollection
      */
     public function uninstalled()
     {
         $installed = [];
 
+        /* @var Module $item */
         foreach ($this->items as $item) {
-            if ($item instanceof Module && !$item->isInstalled()) {
+            if (!$item->isInstalled()) {
                 $installed[] = $item;
             }
         }
@@ -88,19 +84,42 @@ class ModuleCollection extends AddonCollection
     /**
      * Return enabled modules.
      *
-     * @return static
+     * @return ModuleCollection
      */
     public function enabled()
     {
         $enabled = [];
 
+        /* @var Module $item */
         foreach ($this->items as $item) {
-            if ($item instanceof Module && $item->isEnabled()) {
+            if ($item->isEnabled()) {
                 $enabled[] = $item;
             }
         }
 
         return self::make($enabled);
+    }
+
+    /**
+     * Return accessible modules.
+     *
+     * @return ModuleCollection
+     */
+    public function accessible()
+    {
+        $accessible = [];
+
+        /* @var Authorizer $authorizer */
+        $authorizer = app('Anomaly\Streams\Platform\Support\Authorizer');
+
+        /* @var Module $item */
+        foreach ($this->items as $item) {
+            if ($authorizer->authorize($item->getNamespace('*'), true)) {
+                $accessible[] = $item;
+            }
+        }
+
+        return self::make($accessible);
     }
 
     /**
