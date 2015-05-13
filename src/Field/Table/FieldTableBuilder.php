@@ -126,8 +126,9 @@ class FieldTableBuilder extends TableBuilder
      */
     public function onQuerying(Builder $query)
     {
-        $query->where('namespace', $this->getNamespace());
-        $query->where('locked', 'false');
+        $query
+            ->where('namespace', $this->getNamespace())
+            ->where('locked', 'false');
     }
 
     /**
