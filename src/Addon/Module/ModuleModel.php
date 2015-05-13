@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleInterface;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
@@ -88,5 +89,16 @@ class ModuleModel extends EloquentModel implements ModuleInterface
     public function getInstalledNamespaces()
     {
         return $this->where('installed', true)->get()->lists('namespace');
+    }
+
+    /**
+     * Return a new collection.
+     *
+     * @param array $items
+     * @return EloquentCollection
+     */
+    public function newCollection(array $items = [])
+    {
+        return new EloquentCollection($items);
     }
 }
