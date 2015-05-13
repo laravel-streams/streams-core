@@ -25,35 +25,13 @@ class FieldFormFields
     public function handle(FieldFormBuilder $builder)
     {
         $fields = [
-            'namespace' => [
-                'hidden'   => true,
-                'readonly' => true,
-                'disabled' => 'edit',
-                'type'     => 'anomaly.field_type.text',
-                'value'    => $builder->getStreamNamespace()
-            ],
-            'type'      => [
-                'label'        => 'streams::field.type.name',
-                'instructions' => 'streams::field.type.instructions',
-                'type'         => 'anomaly.field_type.select',
-                'required'     => true,
-                'disabled'     => 'edit',
-                'config'       => [
-                    'options' => function (FieldTypeCollection $fieldTypes) {
-                        return $fieldTypes->lists('name', 'namespace');
-                    }
-                ],
-                'attributes'   => [
-                    'onclick' => 'alert($(this).val());'
-                ]
-            ],
-            'name'      => [
+            'name' => [
                 'label'        => 'streams::field.name.name',
                 'instructions' => 'streams::field.name.instructions',
                 'type'         => 'anomaly.field_type.text',
                 'required'     => true
             ],
-            'slug'      => [
+            'slug' => [
                 'label'        => 'streams::field.slug.name',
                 'instructions' => 'streams::field.slug.instructions',
                 'type'         => 'anomaly.field_type.slug',
@@ -68,7 +46,8 @@ class FieldFormFields
 
         $config = [];
 
-        if ($type = $builder->getFormEntry()->getType()) {
+        if (($type = $builder->getFormEntry()->getType()) || ($type = app('field_type.collection')->get($builder->getFieldType()))) {
+
             $config = $this->dispatch(new GetConfigFields($type));
 
             $builder->setFormOption(

@@ -64,6 +64,10 @@ class ButtonRegistry
             'icon' => 'fa fa-plus',
             'type' => 'success'
         ],
+        'add'       => [
+            'icon' => 'fa fa-plus',
+            'type' => 'success'
+        ],
         /**
          * Info Buttons
          */

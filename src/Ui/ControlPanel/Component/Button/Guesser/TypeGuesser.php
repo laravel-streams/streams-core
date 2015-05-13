@@ -65,6 +65,19 @@ class TypeGuesser
 
                 array_set($button, 'button', substr($button['button'], 0, 3));
             }
+
+            /**
+             * If the button starts with "add_" just use
+             * "add" and move the rest to the text.
+             */
+            if (isset($button['button']) && starts_with($button['button'], 'add_')) {
+
+                if (!isset($button['text'])) {
+                    $button['text'] = $module->getNamespace('button.' . $button['button']);
+                }
+
+                array_set($button, 'button', substr($button['button'], 0, 3));
+            }
         }
 
         $builder->setButtons($buttons);

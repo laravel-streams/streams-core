@@ -418,7 +418,7 @@ class FormBuilder
      */
     public function addSection($slug, array $section)
     {
-        $this->sections[$slug] = $section;
+        array_set($this->sections, $slug, $section);
 
         return $this;
     }

@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
 use Anomaly\Streams\Platform\Field\Form\Command\AutoAssignField;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -16,11 +15,18 @@ class FieldFormBuilder extends FormBuilder
 {
 
     /**
-     * The related stream.
+     * The related stream namespace.
      *
-     * @var null|StreamInterface
+     * @var null|string
      */
-    protected $stream = null;
+    protected $namespace = null;
+
+    /**
+     * The field type to use.
+     *
+     * @var null|string
+     */
+    protected $fieldType = null;
 
     /**
      * The form model.
@@ -51,36 +57,19 @@ class FieldFormBuilder extends FormBuilder
     ];
 
     /**
-     * Get the stream.
-     *
-     * @return StreamInterface|null
+     * Fire just before saving the entry.
      */
-    public function getStream()
+    public function onSaving()
     {
-        return $this->stream;
-    }
+        $entry = $this->getFormEntry();
 
-    /**
-     * Set the stream.
-     *
-     * @param StreamInterface $stream
-     * @return $this
-     */
-    public function setStream(StreamInterface $stream)
-    {
-        $this->stream = $stream;
+        if (!$entry->namespace) {
+            $entry->namespace = $this->getNamespace();
+        }
 
-        return $this;
-    }
-
-    /**
-     * Get the stream namespace.
-     *
-     * @return string
-     */
-    public function getStreamNamespace()
-    {
-        return $this->stream->getNamespace();
+        if (!$entry->type) {
+            $entry->type = $this->getFieldType();
+        }
     }
 
     /**
@@ -89,5 +78,51 @@ class FieldFormBuilder extends FormBuilder
     public function onSaved()
     {
         $this->dispatch(new AutoAssignField($this));
+    }
+
+    /**
+     * Get the namespace.
+     *
+     * @return string|null
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+    /**
+     * Set the namespace.
+     *
+     * @param $namespace
+     * @return $this
+     */
+    public function setNamespace($namespace)
+    {
+        $this->namespace = $namespace;
+
+        return $this;
+    }
+
+    /**
+     * Get the field type.
+     *
+     * @return null|string
+     */
+    public function getFieldType()
+    {
+        return $this->fieldType;
+    }
+
+    /**
+     * Set the field type.
+     *
+     * @param $fieldType
+     * @return $this
+     */
+    public function setFieldType($fieldType)
+    {
+        $this->fieldType = $fieldType;
+
+        return $this;
     }
 }
