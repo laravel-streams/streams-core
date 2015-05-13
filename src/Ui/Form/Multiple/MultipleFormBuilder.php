@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormCollection;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\BuildForms;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\MergeFields;
-use Illuminate\Support\Collection;
 
 /**
  * Class MultipleFormBuilder
