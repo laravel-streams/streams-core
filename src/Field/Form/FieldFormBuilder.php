@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Form\Command\AutoAssignField;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -15,16 +17,16 @@ class FieldFormBuilder extends FormBuilder
 {
 
     /**
-     * The related stream namespace.
+     * The related stream.
      *
-     * @var null|string
+     * @var null|StreamInterface
      */
-    protected $namespace = null;
+    protected $stream = null;
 
     /**
-     * The field type to use.
+     * The field type.
      *
-     * @var null|string
+     * @var null|FieldType
      */
     protected $fieldType = null;
 
@@ -43,32 +45,37 @@ class FieldFormBuilder extends FormBuilder
     protected $fields = 'Anomaly\Streams\Platform\Field\Form\FieldFormFields@handle';
 
     /**
-     * The form buttons.
+     * Fired when the builder
+     * is ready to build.
      *
-     * @var array
+     * @throws \Exception
      */
-    protected $actions = [
-        'save'              => [
-            'enabled' => 'edit'
-        ],
-        'save_and_continue' => [
-            'enabled' => 'create'
-        ]
-    ];
+    public function onReady()
+    {
+        if (!$this->getFieldType() && !$this->getEntry()) {
+            throw new \Exception('The $fieldType parameter is required when creating a field.');
+        }
+
+        if (!$this->getStream() && !$this->getEntry()) {
+            throw new \Exception('The $stream parameter is required when creating a field.');
+        }
+    }
 
     /**
      * Fire just before saving the entry.
      */
     public function onSaving()
     {
-        $entry = $this->getFormEntry();
+        $fieldType = $this->getFieldType();
+        $entry     = $this->getFormEntry();
+        $stream    = $this->getStream();
 
         if (!$entry->namespace) {
-            $entry->namespace = $this->getNamespace();
+            $entry->namespace = $stream->getNamespace();
         }
 
         if (!$entry->type) {
-            $entry->type = $this->getFieldType();
+            $entry->type = $fieldType->getNamespace();
         }
     }
 
@@ -81,24 +88,24 @@ class FieldFormBuilder extends FormBuilder
     }
 
     /**
-     * Get the namespace.
+     * Get the stream.
      *
-     * @return string|null
+     * @return StreamInterface|null
      */
-    public function getNamespace()
+    public function getStream()
     {
-        return $this->namespace;
+        return $this->stream;
     }
 
     /**
-     * Set the namespace.
+     * Set the stream.
      *
-     * @param $namespace
+     * @param StreamInterface $stream
      * @return $this
      */
-    public function setNamespace($namespace)
+    public function setStream(StreamInterface $stream)
     {
-        $this->namespace = $namespace;
+        $this->stream = $stream;
 
         return $this;
     }
@@ -106,7 +113,7 @@ class FieldFormBuilder extends FormBuilder
     /**
      * Get the field type.
      *
-     * @return null|string
+     * @return FieldType|null
      */
     public function getFieldType()
     {
@@ -116,10 +123,10 @@ class FieldFormBuilder extends FormBuilder
     /**
      * Set the field type.
      *
-     * @param $fieldType
+     * @param FieldType $fieldType
      * @return $this
      */
-    public function setFieldType($fieldType)
+    public function setFieldType(FieldType $fieldType)
     {
         $this->fieldType = $fieldType;
 

@@ -13,4 +13,17 @@ use Illuminate\Support\Collection;
 class FormCollection extends Collection
 {
 
+    /**
+     * Put a form into the form collection.
+     *
+     * @param             $slug
+     * @param FormBuilder $form
+     * @return $this
+     */
+    public function add($slug, FormBuilder $form)
+    {
+        $this->put($slug, $form);
+
+        return $this;
+    }
 }

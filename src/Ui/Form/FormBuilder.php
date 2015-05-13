@@ -241,7 +241,7 @@ class FormBuilder
     }
 
     /**
-     * Set the fields config.
+     * Set the fields.
      *
      * @param  $fields
      * @return $this
@@ -254,13 +254,23 @@ class FormBuilder
     }
 
     /**
-     * Get the fields config.
+     * Get the fields.
      *
      * @return array
      */
     public function getFields()
     {
         return $this->fields;
+    }
+
+    /**
+     * Add a field.
+     *
+     * @param $field
+     */
+    public function addField($field)
+    {
+        $this->fields[] = $field;
     }
 
     /**

@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Form;
 
-use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
-
 /**
  * Class AssignmentFormFields
  *
@@ -22,34 +20,6 @@ class AssignmentFormFields
     {
         $builder->setFields(
             [
-                'stream_id'    => [
-                    'hidden'   => true,
-                    'readonly' => true,
-                    'required' => true,
-                    'disabled' => 'edit',
-                    'value'    => $builder->getStreamId(),
-                    'type'     => 'anomaly.field_type.text'
-                ],
-                'field_id'     => [
-                    'label'        => 'streams::assignment.field.label',
-                    'instructions' => 'streams::assignment.field.instructions',
-                    'type'         => 'anomaly.field_type.select',
-                    'disabled'     => 'edit',
-                    'required'     => true,
-                    'value'        => $builder->getFieldId(),
-                    'config'       => [
-                        'options' => function (FieldRepositoryInterface $fields) use ($builder) {
-
-                            $fields = $fields->findByNamespace($builder->getStream()->getNamespace());
-
-                            if ($builder->getFormMode() === 'create') {
-                                $fields = $fields->unassigned();
-                            }
-
-                            return $fields->lists('name', 'id');
-                        }
-                    ]
-                ],
                 'required'     => [
                     'label'        => 'streams::assignment.required.label',
                     'instructions' => 'streams::assignment.required.instructions',
