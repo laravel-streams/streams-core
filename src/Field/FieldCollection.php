@@ -15,6 +15,19 @@ class FieldCollection extends EloquentCollection
 {
 
     /**
+     * Create a new FieldCollection instance.
+     *
+     * @param array $items
+     */
+    public function __construct($items = [])
+    {
+        /* @var FieldInterface $item */
+        foreach ($items as $item) {
+            $this->items[$item->getSlug()] = $item;
+        }
+    }
+
+    /**
      * Return only unassigned fields.
      *
      * @return static|FieldCollection
@@ -26,7 +39,7 @@ class FieldCollection extends EloquentCollection
         /* @var FieldInterface $item */
         foreach ($this->items as $item) {
             if (!$item->hasAssignments()) {
-                $unassigned[$item->getSlug()] = $item;
+                $unassigned[] = $item;
             }
         }
 
@@ -34,22 +47,21 @@ class FieldCollection extends EloquentCollection
     }
 
     /**
-     * Get a dictionary keyed by slugs.
+     * Return only unlocked fields.
      *
-     * @param  \ArrayAccess|array $items
-     * @return array
+     * @return static|FieldCollection
      */
-    public function getDictionary($items = null)
+    public function unlocked()
     {
-        $items = is_null($items) ? $this->items : $items;
-
-        $dictionary = array();
+        $unlocked = [];
 
         /* @var FieldInterface $item */
-        foreach ($items as $item) {
-            $dictionary[$item->getSlug()] = $item;
+        foreach ($this->items as $item) {
+            if (!$item->isLocked()) {
+                $unlocked[] = $item;
+            }
         }
 
-        return $dictionary;
+        return new static($unlocked);
     }
 }
