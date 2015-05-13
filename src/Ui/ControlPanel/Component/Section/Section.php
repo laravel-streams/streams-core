@@ -50,6 +50,13 @@ class Section implements SectionInterface
     protected $attributes = [];
 
     /**
+     * The section permission.
+     *
+     * @var null|string
+     */
+    protected $permission = null;
+
+    /**
      * Get the text.
      *
      * @return string
@@ -150,6 +157,29 @@ class Section implements SectionInterface
     public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
+    }
+
+    /**
+     * Get the permission.
+     *
+     * @return null|string
+     */
+    public function getPermission()
+    {
+        return $this->permission;
+    }
+
+    /**
+     * Set the permission.
+     *
+     * @param $permission
+     * @return $this
+     */
+    public function setPermission($permission)
+    {
+        $this->permission = $permission;
+
+        return $this;
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command;
 
+use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
@@ -38,9 +39,10 @@ class SetActiveSection implements SelfHandling
      * Handle the command.
      *
      * @param Request              $request
+     * @param Authorizer           $authorizer
      * @param BreadcrumbCollection $breadcrumbs
      */
-    public function handle(Request $request, BreadcrumbCollection $breadcrumbs)
+    public function handle(Request $request, Authorizer $authorizer, BreadcrumbCollection $breadcrumbs)
     {
         $controlPanel = $this->builder->getControlPanel();
         $sections     = $controlPanel->getSections();
@@ -104,6 +106,10 @@ class SetActiveSection implements SelfHandling
             return;
         }
 
+        // Authorize the active section.
+        $authorizer->authorize($active->getPermission());
+
+        // Add the bread crumb.
         $breadcrumbs->put($active->getText(), $active->getHref());
     }
 }
