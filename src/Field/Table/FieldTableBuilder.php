@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Field\Table;
 
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class FieldTableBuilder
@@ -16,11 +16,11 @@ class FieldTableBuilder extends TableBuilder
 {
 
     /**
-     * The related stream.
+     * The related stream namespace.
      *
-     * @var null|StreamInterface
+     * @var null|string
      */
-    protected $stream = null;
+    protected $namespace = null;
 
     /**
      * The table model.
@@ -78,45 +78,78 @@ class FieldTableBuilder extends TableBuilder
     ];
 
     /**
+     * Build the table.
+     *
+     * @param null $namespace
+     */
+    public function build($namespace = null)
+    {
+        if ($namespace) {
+            $this->setNamespace($namespace);
+        }
+
+        parent::build();
+    }
+
+    /**
+     * Make the table.
+     *
+     * @param null $namespace
+     */
+    public function make($namespace = null)
+    {
+        if ($namespace) {
+            $this->setNamespace($namespace);
+        }
+
+        parent::make();
+    }
+
+    /**
+     * Render the table.
+     *
+     * @return Response
+     */
+    public function render($namespace = null)
+    {
+        if ($namespace) {
+            $this->setNamespace($namespace);
+        }
+
+        return parent::render();
+    }
+
+    /**
      * Limit to the stream's namespace.
      *
      * @param Builder $query
      */
     public function onQuerying(Builder $query)
     {
-        $query->where('namespace', $this->getStreamNamespace());
+        $query->where('namespace', $this->getNamespace());
+        $query->where('locked', 'false');
     }
 
     /**
-     * Get the stream.
+     * Get the namespace.
      *
-     * @return StreamInterface|null
+     * @return string|null
      */
-    public function getStream()
+    public function getNamespace()
     {
-        return $this->stream;
+        return $this->namespace;
     }
 
     /**
-     * Set the stream.
+     * Set the namespace.
      *
-     * @param StreamInterface $stream
+     * @param $namespace
      * @return $this
      */
-    public function setStream(StreamInterface $stream)
+    public function setNamespace($namespace)
     {
-        $this->stream = $stream;
+        $this->namespace = $namespace;
 
         return $this;
-    }
-
-    /**
-     * Get the stream namespace.
-     *
-     * @return string
-     */
-    public function getStreamNamespace()
-    {
-        return $this->stream->getNamespace();
     }
 }
