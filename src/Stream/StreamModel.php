@@ -311,6 +311,18 @@ class StreamModel extends EloquentModel implements StreamInterface
     }
 
     /**
+     * Get the field slugs for assigned fields.
+     *
+     * @return array
+     */
+    public function getAssignmentFieldSlugs()
+    {
+        $assignments = $this->getAssignments();
+
+        return $assignments->fieldSlugs();
+    }
+
+    /**
      * Get the related date assignments.
      *
      * @return AssignmentCollection

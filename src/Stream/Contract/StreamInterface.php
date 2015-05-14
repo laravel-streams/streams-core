@@ -103,6 +103,13 @@ interface StreamInterface
     public function getAssignments();
 
     /**
+     * Get the field slugs for assigned fields.
+     *
+     * @return array
+     */
+    public function getAssignmentFieldSlugs();
+
+    /**
      * Get the related date assignments.
      *
      * @return AssignmentCollection

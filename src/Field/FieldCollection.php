@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class FieldCollection
@@ -44,6 +45,48 @@ class FieldCollection extends EloquentCollection
         }
 
         return new static($unassigned);
+    }
+
+    /**
+     * Return fields only assigned
+     * to the provided stream.
+     *
+     * @param StreamInterface $stream
+     * @return static
+     */
+    public function assignedTo(StreamInterface $stream)
+    {
+        $fieldSlugs = $stream->getAssignmentFieldSlugs();
+
+        return new static(
+            array_filter(
+                $this->items,
+                function (FieldInterface $field) use ($fieldSlugs) {
+                    return in_array($field->getSlug(), $fieldSlugs);
+                }
+            )
+        );
+    }
+
+    /**
+     * Return fields only NOT assigned
+     * to the provided stream.
+     *
+     * @param StreamInterface $stream
+     * @return static
+     */
+    public function notAssignedTo(StreamInterface $stream)
+    {
+        $fieldSlugs = $stream->getAssignmentFieldSlugs();
+
+        return new static(
+            array_filter(
+                $this->items,
+                function (FieldInterface $field) use ($fieldSlugs) {
+                    return !in_array($field->getSlug(), $fieldSlugs);
+                }
+            )
+        );
     }
 
     /**
