@@ -33,7 +33,7 @@ class FormRules
                 continue;
             }
 
-            $fieldRules = $field->getRules();
+            $fieldRules = array_filter(array_unique($field->getRules()));
 
             if ($entry instanceof EntryInterface) {
                 $fieldRules = $fieldRules + $entry->getFieldRules($field->getField());
@@ -64,7 +64,7 @@ class FormRules
                 }
             }
 
-            $rules[$field->getInputName()] = implode('|', $fieldRules);
+            $rules[$field->getInputName()] = implode('|', array_unique($fieldRules));
         }
 
         return array_filter($rules);

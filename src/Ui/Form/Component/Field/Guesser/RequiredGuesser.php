@@ -15,7 +15,7 @@ class RequiredGuesser
 {
 
     /**
-     * Guess the field instructions.
+     * Guess the field required flag.
      *
      * @param FormBuilder $builder
      */
@@ -27,7 +27,7 @@ class RequiredGuesser
 
         foreach ($fields as &$field) {
 
-            // Guess based on the assignment if applicable.
+            // Guess based on the assignment if possible.
             if (
                 !isset($field['required'])
                 && $entry instanceof EntryInterface

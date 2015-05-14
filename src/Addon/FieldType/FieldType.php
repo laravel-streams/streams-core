@@ -260,7 +260,7 @@ class FieldType extends Addon
      */
     public function mergeRules(array $rules)
     {
-        $this->rules = array_merge($this->rules, $rules);
+        $this->rules = array_unique(array_merge($this->rules, $rules));
     }
 
     /**

@@ -35,6 +35,7 @@ class FieldFormFields
                     'label'        => 'streams::field.slug.name',
                     'instructions' => 'streams::field.slug.instructions',
                     'type'         => 'anomaly.field_type.slug',
+                    'unique'       => true,
                     'required'     => true,
                     'disabled'     => 'edit',
                     'config'       => [
