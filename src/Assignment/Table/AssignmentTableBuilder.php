@@ -73,6 +73,9 @@ class AssignmentTableBuilder extends TableBuilder
         'limit'    => 500,
         'eager'    => [
             'field'
+        ],
+        'order_by' => [
+            'sort_order' => 'ASC'
         ]
     ];
 
