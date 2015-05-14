@@ -1,25 +1,25 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Breadcrumb\Listener;
 
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
-use Anomaly\Streams\Platform\View\ViewTemplate;
+use Illuminate\Http\Request;
 
 /**
- * Class LoadBreadcrumbs
+ * Class GuessBreadcrumbs
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Breadcrumb\Listener
  */
-class LoadBreadcrumbs
+class GuessBreadcrumbs
 {
 
     /**
-     * The view template.
+     * The request object.
      *
-     * @var ViewTemplate
+     * @var Request
      */
-    protected $template;
+    protected $request;
 
     /**
      * The breadcrumb collection.
@@ -29,14 +29,14 @@ class LoadBreadcrumbs
     protected $breadcrumbs;
 
     /**
-     * Create a new LoadBreadcrumbs instance.
+     * Create a new GuessBreadcrumbs instance.
      *
-     * @param ViewTemplate         $template
+     * @param Request              $request
      * @param BreadcrumbCollection $breadcrumbs
      */
-    public function __construct(ViewTemplate $template, BreadcrumbCollection $breadcrumbs)
+    public function __construct(Request $request, BreadcrumbCollection $breadcrumbs)
     {
-        $this->template    = $template;
+        $this->request     = $request;
         $this->breadcrumbs = $breadcrumbs;
     }
 
@@ -45,6 +45,12 @@ class LoadBreadcrumbs
      */
     public function handle()
     {
-        $this->template->set('breadcrumbs', $this->breadcrumbs);
+        if ($this->request->path() == 'admin/login') {
+            $this->breadcrumbs->add('streams::breadcrumb.login', '#');
+        }
+
+        if (starts_with($this->request->path(), 'admin/install')) {
+            $this->breadcrumbs->add('streams::breadcrumb.install', '#');
+        }
     }
 }

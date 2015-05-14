@@ -40,6 +40,10 @@ class LoadTemplateData
     {
         $view = $event->getView();
 
+        if (array_get($view->getData(), 'template')) {
+            return;
+        }
+
         if (array_merge($view->getFactory()->getShared(), $view->getData())) {
             $view['template'] = $this->template;
         }
