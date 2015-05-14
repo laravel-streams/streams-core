@@ -39,7 +39,7 @@ class UniqueGuesser
                     $unique .= ',' . $id;
                 }
 
-                $field['rules'][] = $unique;
+                $field['rules'][] = $unique . array_get($field, 'unique_extra');
             }
         }
 
