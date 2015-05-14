@@ -74,7 +74,9 @@ class FieldTableBuilder extends TableBuilder
      * @var array
      */
     protected $options = [
-        'order_by' => ['slug' => 'ASC']
+        'order_by' => [
+            'slug' => 'ASC'
+        ]
     ];
 
     /**
