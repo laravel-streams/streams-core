@@ -92,8 +92,19 @@ class AddonManager
         $enabled   = $this->getEnabledAddonNamespaces();
         $installed = $this->getInstalledAddonNamespaces();
 
+        /**
+         * First load all the addons
+         * so they're available.
+         */
         foreach ($this->paths->all() as $path) {
             $this->loader->load($path);
+        }
+
+        /**
+         * Then register all of the addons now
+         * that they're all PSR autoloaded.
+         */
+        foreach ($this->paths->all() as $path) {
             $this->binder->register($path, $enabled, $installed);
         }
 
