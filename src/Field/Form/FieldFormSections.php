@@ -21,7 +21,6 @@ class FieldFormSections
         $builder->setSections(
             [
                 'field'         => [
-                    'title'  => 'streams::tab.field',
                     'fields' => function (FieldFormBuilder $builder) {
                         return array_map(
                             function ($field) {
@@ -37,7 +36,6 @@ class FieldFormSections
                     }
                 ],
                 'configuration' => [
-                    'title'  => 'streams::tab.configuration',
                     'fields' => function (FieldFormBuilder $builder) {
                         return array_map(
                             function ($field) {

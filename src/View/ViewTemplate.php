@@ -13,4 +13,17 @@ use Illuminate\Support\Collection;
 class ViewTemplate extends Collection
 {
 
+    /**
+     * Set a value.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function set($key, $value)
+    {
+        $this->put($key, $value);
+
+        return $this;
+    }
 }
