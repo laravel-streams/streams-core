@@ -76,6 +76,11 @@ class GetConfigFields implements SelfHandling
                 $field['placeholder'] = $placeholder;
             }
 
+            /**
+             * Set the configuration value.
+             */
+            $field['value'] = array_get($this->fieldType->getConfig(), $slug);
+
             // Prefix the slugs.
             $field['field'] = 'config.' . $slug;
 
