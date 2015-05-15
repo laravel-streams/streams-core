@@ -383,7 +383,9 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function compileStream()
     {
-        $this->stream->compile();
+        if ($stream = $this->getStream()) {
+            $stream->compile();
+        }
 
         return $this;
     }
