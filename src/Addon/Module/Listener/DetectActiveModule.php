@@ -56,11 +56,11 @@ class DetectActiveModule
     /**
      * Create a new DetectActiveModule instance.
      *
-     * @param Asset            $asset
-     * @param Image            $image
-     * @param ModuleCollection $modules
-     * @param Container        $container
-     * @param BreadcrumbCollection      $breadcrumbs
+     * @param Asset                $asset
+     * @param Image                $image
+     * @param ModuleCollection     $modules
+     * @param Container            $container
+     * @param BreadcrumbCollection $breadcrumbs
      */
     public function __construct(
         Asset $asset,
@@ -102,7 +102,10 @@ class DetectActiveModule
             $this->asset->addPath('module', $module->getPath('resources'));
             $this->image->addPath('module', $module->getPath('resources'));
 
-            $this->breadcrumbs->put($module->getName(), url('admin/' . $module->getSlug()));
+            $this->breadcrumbs->put(
+                trans('streams::breadcrumb.module', ['name' => trans($module->getName())]),
+                url('admin/' . $module->getSlug())
+            );
         }
     }
 }

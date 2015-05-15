@@ -4,5 +4,6 @@ return [
     'login'       => 'Login',
     'fields'      => 'Fields',
     'install'     => 'Install',
-    'assignments' => 'Assignments'
+    'assignments' => 'Assignments',
+    'module'      => ':name Module'
 ];
