@@ -51,11 +51,19 @@ class FormAuthorizer
         // Try the option first.
         $permission = $builder->getFormOption('permission');
 
+        // Use this to help out.
+        $module = $this->modules->active();
+
+        // Auto prefix if no module prefix is set.
+        if ($permission && strpos($permission, '::') === false && $module) {
+            $permission = $module->getNamespace($permission);
+        }
+
         /**
          * If the option is not set then
          * try and automate the permission.
          */
-        if (!$permission && ($module = $this->modules->active()) && ($stream = $builder->getFormStream())) {
+        if (!$permission && $module && ($stream = $builder->getFormStream())) {
 
             $entry = $builder->getFormEntry();
 
