@@ -103,5 +103,13 @@ return [
             'memcached' => 'Memcached',
             'redis'     => 'Redis'
         ]
+    ],
+    'standard_theme' => [
+        'label'        => 'Public Theme',
+        'instructions' => 'What theme would you like to use for the public site?'
+    ],
+    'admin_theme'    => [
+        'label'        => 'Admin Theme',
+        'instructions' => 'What theme would you like to use for the control panel?'
     ]
 ];

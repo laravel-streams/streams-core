@@ -120,4 +120,22 @@ return [
             ]
         ],
     ],
+    'standard_theme' => [
+        'type'   => 'anomaly.field_type.select',
+        'config' => [
+            'default_value' => config('streams.standard_theme'),
+            'options'       => function (\Anomaly\Streams\Platform\Addon\Theme\ThemeCollection $themes) {
+                return $themes->standard()->lists('name', 'namespace');
+            }
+        ],
+    ],
+    'admin_theme'    => [
+        'type'   => 'anomaly.field_type.select',
+        'config' => [
+            'default_value' => config('streams.standard_theme'),
+            'options'       => function (\Anomaly\Streams\Platform\Addon\Theme\ThemeCollection $themes) {
+                return $themes->admin()->lists('name', 'namespace');
+            }
+        ],
+    ]
 ];
