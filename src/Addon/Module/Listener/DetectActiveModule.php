@@ -103,7 +103,7 @@ class DetectActiveModule
             $this->image->addPath('module', $module->getPath('resources'));
 
             $this->breadcrumbs->put(
-                trans('streams::breadcrumb.module', ['name' => trans($module->getName())]),
+                trans('streams::breadcrumb.module_name', ['name' => trans($module->getName())]),
                 url('admin/' . $module->getSlug())
             );
         }

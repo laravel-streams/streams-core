@@ -5,5 +5,5 @@ return [
     'fields'      => 'Fields',
     'install'     => 'Install',
     'assignments' => 'Assignments',
-    'module'      => ':name Module'
+    'module_name' => ':name Module'
 ];
