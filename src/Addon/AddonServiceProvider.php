@@ -193,8 +193,16 @@ class AddonServiceProvider extends ServiceProvider
         $events = $this->app->make('events');
 
         foreach ($listen as $event => $listeners) {
-            foreach ($listeners as $listener) {
-                $events->listen($event, $listener);
+            foreach ($listeners as $key => $listener) {
+
+                if (is_integer($listener)) {
+                    $listener = $key;
+                    $priority = $listener;
+                } else {
+                    $priority = 0;
+                }
+
+                $events->listen($event, $listener, $priority);
             }
         }
     }

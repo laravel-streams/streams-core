@@ -20,8 +20,6 @@ class StreamsEventProvider extends EventServiceProvider
      */
     protected $listen = [
         'Anomaly\Streams\Platform\Application\Event\ApplicationHasLoaded'        => [
-            'Anomaly\Streams\Platform\Addon\Module\Listener\DetectActiveModule',
-            'Anomaly\Streams\Platform\Addon\Theme\Listener\DetectActiveTheme',
             'Anomaly\Streams\Platform\Application\Listener\CheckIfInstallerExists',
             'Anomaly\Streams\Platform\Ui\ControlPanel\Listener\LoadControlPanel',
             'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\GuessBreadcrumbs',
@@ -51,6 +49,10 @@ class StreamsEventProvider extends EventServiceProvider
         ],
         'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted'         => [
             'Anomaly\Streams\Platform\Assignment\Listener\DropTableColumn'
+        ],
+        'Anomaly\Streams\Platform\Addon\Event\AddonsRegistered'                  => [
+            'Anomaly\Streams\Platform\Addon\Module\Listener\DetectActiveModule',
+            'Anomaly\Streams\Platform\Addon\Theme\Listener\DetectActiveTheme'
         ],
         'Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasRegistered'        => [
             'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection'
