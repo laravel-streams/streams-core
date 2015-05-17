@@ -38,12 +38,14 @@ class FieldFormFields
                     'label'        => 'streams::field.slug.name',
                     'instructions' => 'streams::field.slug.instructions',
                     'type'         => 'anomaly.field_type.slug',
-                    'unique'       => 'unique:streams_fields,slug,' . $id . ',namespace,namespace,' . $namespace,
                     'required'     => true,
                     'disabled'     => 'edit',
                     'config'       => [
                         'slugify' => 'name',
                         'type'    => '_'
+                    ],
+                    'rules'        => [
+                        'unique' => 'streams_fields,slug,' . $id . ',namespace,namespace,' . $namespace
                     ]
                 ]
             ]

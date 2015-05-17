@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -21,30 +22,17 @@ class UniqueGuesser
     public function guess(FormBuilder $builder)
     {
         $fields = $builder->getFields();
-        $mode   = $builder->getFormMode();
         $entry  = $builder->getFormEntry();
 
         foreach ($fields as &$field) {
 
-            // Guess based on the form mode if applicable.
-            if (in_array(($unique = (string)array_get($field, 'unique')), ['create', 'edit'])) {
-                $field['unique'] = $unique === $mode;
-            }
-
-            $unique = array_get($field, 'unique');
+            $unique = array_pull($field, 'rules.unique');
 
             /**
-             * If unique is true then automate the rule.
+             * No unique? Continue...
              */
-            if ($unique && $unique === true) {
-
-                $unique = 'unique:' . $entry->getTable() . ',' . $field['field'];
-
-                if ($entry && $id = $entry->getId()) {
-                    $unique .= ',' . $id;
-                }
-
-                $field['rules'][] = $unique;
+            if (!$unique || $unique === false) {
+                continue;
             }
 
             /**
@@ -52,7 +40,51 @@ class UniqueGuesser
              * it's set explicitly.
              */
             if ($unique && is_string($unique)) {
-                $field['rules'][] = $unique;
+
+                $field['rules']['unique'] = 'unique:' . $unique;
+
+                continue;
+            }
+
+            /**
+             * If unique is true then
+             * automate the rule.
+             */
+            if ($unique && $unique === true) {
+
+                $unique = 'unique:' . $entry->getTable() . ',' . $field['field'];
+
+                if ($entry instanceof EntryInterface) {
+                    $unique .= ',' . $entry->getId();
+                }
+
+                $field['rules']['unique'] = $unique;
+
+                continue;
+            }
+
+            /**
+             * If unique is an array then use
+             * the default automation and add to it.
+             */
+            if ($unique && is_array($unique)) {
+
+                $unique = 'unique:' . $entry->getTable() . ',' . $field['field'];
+
+                if ($entry instanceof EntryInterface) {
+                    $unique .= ',' . $entry->getId();
+                }
+
+                $keys   = array_keys($unique);
+                $values = array_values($unique);
+
+                foreach ($keys as $column) {
+                    $unique .= ',' . $column . ',' . $column . ',' . array_shift($values);
+                }
+
+                $field['rules']['unique'] = $unique;
+
+                continue;
             }
         }
 
