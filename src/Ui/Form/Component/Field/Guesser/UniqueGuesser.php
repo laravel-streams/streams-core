@@ -52,9 +52,6 @@ class UniqueGuesser
              * it's set explicitly.
              */
             if ($unique && is_string($unique)) {
-
-                $unique = 'unique:' . $unique;
-
                 $field['rules'][] = $unique;
             }
         }
