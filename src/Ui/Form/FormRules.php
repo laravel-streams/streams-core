@@ -52,7 +52,7 @@ class FormRules
                     $fieldRules[] = 'required';
                 }
 
-                if ($assignment->isUnique() && !$assignment->isTranslatable()) {
+                if (!isset($fieldRules['unique']) && $assignment->isUnique() && !$assignment->isTranslatable()) {
 
                     $unique = 'unique:' . $stream->getEntryTableName() . ',' . $field->getColumnName();
 
