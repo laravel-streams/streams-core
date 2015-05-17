@@ -23,6 +23,9 @@ class FieldFormFields
      */
     public function handle(FieldFormBuilder $builder)
     {
+        $id        = $builder->getFormEntryId();
+        $namespace = $builder->getFieldNamespace();
+
         $builder->setFields(
             [
                 'name' => [
@@ -35,7 +38,7 @@ class FieldFormFields
                     'label'        => 'streams::field.slug.name',
                     'instructions' => 'streams::field.slug.instructions',
                     'type'         => 'anomaly.field_type.slug',
-                    'unique'       => true,
+                    'unique'       => 'streams_fields,slug,' . $id . ',namespace,namespace,' . $namespace,
                     'required'     => true,
                     'disabled'     => 'edit',
                     'config'       => [

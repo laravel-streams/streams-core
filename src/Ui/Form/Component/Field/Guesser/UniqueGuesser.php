@@ -31,7 +31,12 @@ class UniqueGuesser
                 $field['unique'] = $unique === $mode;
             }
 
-            if (array_get($field, 'unique')) {
+            $unique = array_get($field, 'unique');
+
+            /**
+             * If unique is true then automate the rule.
+             */
+            if ($unique && $unique === true) {
 
                 $unique = 'unique:' . $entry->getTable() . ',' . $field['field'];
 
@@ -39,7 +44,18 @@ class UniqueGuesser
                     $unique .= ',' . $id;
                 }
 
-                $field['rules'][] = $unique . array_get($field, 'unique_extra');
+                $field['rules'][] = $unique;
+            }
+
+            /**
+             * If unique is a string then
+             * it's set explicitly.
+             */
+            if ($unique && is_string($unique)) {
+
+                $unique = 'unique:' . $unique;
+
+                $field['rules'][] = $unique;
             }
         }
 
