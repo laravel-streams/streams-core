@@ -14,6 +14,13 @@ class Section implements SectionInterface
 {
 
     /**
+     * The section icon.
+     *
+     * @var null|string
+     */
+    protected $icon = null;
+
+    /**
      * The section text.
      *
      * @var null|string
@@ -55,6 +62,29 @@ class Section implements SectionInterface
      * @var null|string
      */
     protected $permission = null;
+
+    /**
+     * Get the icon.
+     *
+     * @return null|string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * Set the icon.
+     *
+     * @param $icon
+     * @return $this
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
 
     /**
      * Get the text.
