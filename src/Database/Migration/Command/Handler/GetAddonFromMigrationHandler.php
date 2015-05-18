@@ -26,7 +26,7 @@ class GetAddonFromMigrationHandler
      */
     public function handle(GetAddonFromMigration $command)
     {
-        $matcher = '[a-zA-Z\\_\\-]+';
+        $matcher = '[a-zA-Z0-9\\_\\-]+';
 
         $reflection = new \ReflectionClass($command->getMigration());
 
