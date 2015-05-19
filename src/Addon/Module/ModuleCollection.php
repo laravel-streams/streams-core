@@ -21,7 +21,16 @@ class ModuleCollection extends AddonCollection
      */
     public function navigation()
     {
-        return $this
+        $navigation = [];
+
+        /* @var Module $item */
+        foreach ($this->items as $item) {
+            if ($item->getNavigation()) {
+                $navigation[] = $item;
+            }
+        }
+
+        return self::make($navigation)
             ->enabled()
             ->accessible();
     }
