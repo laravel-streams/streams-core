@@ -1,6 +1,16 @@
 $(function () {
     var tree = $('ul.tree.sortable').sortable({
         handle: '.handle',
+        onDragStart: function ($item, container, _super, event) {
+            $item.css({
+                height: $item.height() + 100,
+                width: $item.width()
+            });
+
+            $item.addClass('dragged');
+
+            $('body').addClass('dragging');
+        },
         afterMove: function ($placeholder) {
             $placeholder.closest('ul.tree').find('.dragged').detach().insertBefore($placeholder);
         },

@@ -1,0 +1,29 @@
+{{ asset_add("scripts.js", "streams::js/grid/grid.js") }}
+
+{% block content %}
+
+    <div class="container-fluid">
+
+        {% if not grid.items.empty() %}
+            <ul class="grid sortable row">
+                {% for item in grid.items %}
+                    <li data-id="{{ item.id }}">
+                        <div class="col-lg-{{ grid.options.columns ?: 4 }}">
+                            <div class="panel">
+                                {{ item.value }}
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="panel">
+                <div class="panel-body">
+                    {{ trans(grid.options.get('no_results_message', 'streams::message.no_results')) }}
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+
+{% endblock %}
