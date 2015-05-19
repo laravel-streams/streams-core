@@ -26,13 +26,13 @@ class GetAddonFromMigrationHandler
      */
     public function handle(GetAddonFromMigration $command)
     {
-        $matcher = '[a-zA-Z0-9\\_\\-]+';
+        $matcher = "/(^[a-zA-Z0-9._]+?)(?=__)/";
 
         $reflection = new \ReflectionClass($command->getMigration());
 
         $fileName = implode('_', array_slice(explode('_', basename($reflection->getFileName())), 4));
 
-        preg_match("/^({$matcher}\\.{$matcher}\\.{$matcher})\\_\\_/", $fileName, $matches);
+        preg_match($matcher, $fileName, $matches);
 
         return $this->dispatch(
             new GetAddonByNamespace(isset($matches[1]) ? $matches[1] : null)
