@@ -26,6 +26,7 @@ class IconRegistry
         'eyedropper'           => 'glyphicons glyphicons-eyedropper',
         'fullscreen'           => 'glyphicons glyphicons-fullscreen',
         'translate'            => 'glyphicons glyphicons-translate',
+        'duplicate'            => 'glyphicons glyphicons-duplicate',
         'airplane'             => 'glyphicons glyphicons-airplane',
         'comments'             => 'glyphicons glyphicons-comments',
         'retweet'              => 'glyphicons glyphicons-retweet',
