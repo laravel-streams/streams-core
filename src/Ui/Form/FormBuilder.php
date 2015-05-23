@@ -35,6 +35,13 @@ class FormBuilder
     use FiresCallbacks;
 
     /**
+     * The ajax flag.
+     *
+     * @var bool
+     */
+    protected $ajax = false;
+
+    /**
      * The form model.
      *
      * @var null
@@ -192,6 +199,29 @@ class FormBuilder
     public function getForm()
     {
         return $this->form;
+    }
+
+    /**
+     * Get the ajax flag.
+     *
+     * @return bool
+     */
+    public function isAjax()
+    {
+        return $this->ajax;
+    }
+
+    /**
+     * Set the ajax flag.
+     *
+     * @param $ajax
+     * @return $this
+     */
+    public function setAjax($ajax)
+    {
+        $this->ajax = $ajax;
+
+        return $this;
     }
 
     /**
