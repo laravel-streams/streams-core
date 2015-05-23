@@ -9,8 +9,11 @@
                 {% for item in grid.items %}
                     <li data-id="{{ item.id }}">
                         <div class="col-lg-{{ grid.options.columns ?: 4 }}">
-                            <div class="panel">
-                                {{ item.value }}
+                            <div class="{{ item.class }}">
+                                <a href="{{ item.href }}">
+                                    {{ item.icon ? icon(item.icon, 'icon') }}
+                                    {{ item.value }}
+                                </a>
                             </div>
                         </div>
                     </li>
