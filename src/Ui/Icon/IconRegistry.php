@@ -29,6 +29,7 @@ class IconRegistry
         'duplicate'            => 'glyphicons glyphicons-duplicate',
         'airplane'             => 'glyphicons glyphicons-airplane',
         'comments'             => 'glyphicons glyphicons-comments',
+        'picture'              => 'glyphicons glyphicons-picture',
         'retweet'              => 'glyphicons glyphicons-retweet',
         'global'               => 'glyphicons glyphicons-global',
         'globe'                => 'glyphicons glyphicons-globe',
