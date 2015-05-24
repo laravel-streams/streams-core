@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormCollection;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\BuildForms;
+use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\HandleErrors;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\MergeFields;
 
 /**
@@ -46,6 +47,7 @@ class MultipleFormBuilder extends FormBuilder
     {
         $this->dispatch(new BuildForms($this));
         $this->dispatch(new MergeFields($this));
+        $this->dispatch(new HandleErrors($this));
 
         parent::build($entry);
     }

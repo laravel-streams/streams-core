@@ -1,9 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Support\Parser;
-use Anomaly\Streams\Platform\Ui\Form\Form;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 /**
  * Class ActionHandler
@@ -31,33 +32,43 @@ class ActionHandler
     protected $request;
 
     /**
+     * The redirector utility.
+     *
+     * @var Redirector
+     */
+    protected $redirector;
+
+    /**
      * Create a new ActionHandler instance.
      *
-     * @param Request $request
+     * @param Parser     $parser
+     * @param Request    $request
+     * @param Redirector $redirector
      */
-    public function __construct(Request $request, Parser $parser)
+    public function __construct(Parser $parser, Request $request, Redirector $redirector)
     {
-        $this->parser  = $parser;
-        $this->request = $request;
+        $this->parser     = $parser;
+        $this->request    = $request;
+        $this->redirector = $redirector;
     }
 
     /**
      * Handle the form response.
      *
-     * @param Form $form
+     * @param FormBuilder $builder
      */
-    public function handle(Form $form)
+    public function handle(FormBuilder $builder)
     {
         /**
          * If the form already has a response
          * then we're being overridden. Abort!
          */
-        if ($form->getResponse()) {
+        if ($builder->getFormResponse()) {
             return;
         }
 
-        $entry   = $form->getEntry();
-        $actions = $form->getActions();
+        $entry   = $builder->getFormEntry();
+        $actions = $builder->getFormActions();
 
         $action = $actions->active();
 
@@ -78,9 +89,9 @@ class ActionHandler
          * If the URL is a closure then call it.
          */
         if ($url instanceof \Closure) {
-            $url = app()->call($url, compact('form'));
+            $url = app()->call($url, compact('builder'));
         }
 
-        $form->setResponse(redirect($url));
+        $builder->setFormResponse($this->redirector->to($url));
     }
 }

@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
-use Anomaly\Streams\Platform\Ui\Form\Form;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
  * Class ActionResponder
@@ -19,11 +19,11 @@ class ActionResponder
      * Set the form response using the active action
      * form response handler.
      *
-     * @param Form $form
-     * @param      $action
+     * @param FormBuilder $builder
+     * @param             $action
      * @throws \Exception
      */
-    public function setFormResponse(Form $form, ActionInterface $action)
+    public function setFormResponse(FormBuilder $builder, ActionInterface $action)
     {
         $handler = $action->getHandler();
 
@@ -32,7 +32,7 @@ class ActionResponder
          * it using the application container.
          */
         if ($handler instanceof \Closure) {
-            return app()->call($handler, compact('form'));
+            return app()->call($handler, compact('builder'));
         }
 
         /**
@@ -40,7 +40,7 @@ class ActionResponder
          * call it using the application container.
          */
         if (is_string($handler) && str_contains($handler, '@')) {
-            return app()->call($handler, compact('form'));
+            return app()->call($handler, compact('builder'));
         }
 
         /**
@@ -48,7 +48,7 @@ class ActionResponder
          * simply call the handle method on it.
          */
         if ($handler instanceof ActionHandlerInterface) {
-            return $handler->handle($form);
+            return $handler->handle($builder);
         }
 
         throw new \Exception('Action $handler must be a callable string, Closure or ActionHandlerInterface.');
