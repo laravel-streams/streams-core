@@ -46,6 +46,11 @@ class HeaderNormalizer
                     'value'   => $column,
                 ];
             }
+
+            /**
+             * If there is no value then use NULL
+             */
+            array_set($column, 'value', array_get($column, 'value', null));
         }
 
         $builder->setColumns($columns);

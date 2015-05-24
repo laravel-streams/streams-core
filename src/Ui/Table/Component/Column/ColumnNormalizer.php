@@ -51,6 +51,11 @@ class ColumnNormalizer
              * then use a default.
              */
             array_set($column, 'wrapper', array_get($column, 'wrapper', '{value}'));
+
+            /**
+             * If there is no value then use NULL
+             */
+            array_set($column, 'value', array_get($column, 'value', null));
         }
 
         $builder->setColumns($columns);
