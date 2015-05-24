@@ -91,7 +91,7 @@ class ActionHandler
         if ($url instanceof \Closure) {
             $url = app()->call($url, compact('builder'));
         }
-dd('Test');
+
         $builder->setFormResponse($this->redirector->to($url));
     }
 }
