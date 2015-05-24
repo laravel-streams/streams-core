@@ -83,6 +83,21 @@ interface SectionInterface
     public function setPermission($permission);
 
     /**
+     * Get the breadcrumb.
+     *
+     * @return null|string
+     */
+    public function getBreadcrumb();
+
+    /**
+     * Set the breadcrumb.
+     *
+     * @param $breadcrumb
+     * @return $this
+     */
+    public function setBreadcrumb($breadcrumb);
+
+    /**
      * Get the HREF attribute.
      *
      * @return string
