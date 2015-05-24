@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Support\MessageBag;
 
 /**
  * Class HandleErrors
@@ -44,7 +45,11 @@ class HandleErrors implements SelfHandling
                 // We can't save now!
                 $this->builder->setSave(false);
 
-                $this->mergeErrors($builder);
+                /**
+                 * Merge errors from child forms into the
+                 * multiple form builder's form instance.
+                 */
+                $this->mergeErrors($builder->getFormErrors());
             }
         }
     }
@@ -52,11 +57,11 @@ class HandleErrors implements SelfHandling
     /**
      * Merge the errors into the multiple form builder.
      *
-     * @param FormBuilder $builder
+     * @param MessageBag $errors
      */
-    protected function mergeErrors(FormBuilder $builder)
+    protected function mergeErrors(MessageBag $errors)
     {
-        foreach ($builder->getFormErrors() as $field => $message) {
+        foreach ($errors->all() as $field => $message) {
             $this->builder->addFormError($field, $message);
         }
     }
