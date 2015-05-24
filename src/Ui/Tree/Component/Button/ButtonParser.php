@@ -40,9 +40,8 @@ class ButtonParser
      */
     public function parser(array $button, $entry)
     {
-        if (is_object($entry) && $entry instanceof Arrayable) {
-            $entry = $entry->toArray();
-        }
+        /* @var Arrayable $entry */
+        $entry = $entry->toArray();
 
         return $this->parser->parse($button, compact('entry'));
     }
