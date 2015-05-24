@@ -80,14 +80,20 @@ class Parser
      */
     protected function mergeDefaultData(array $data)
     {
-        $request = [
-            'path' => $this->request->path()
-        ];
+        if (!$route = $this->request->route()) {
+            return $data;
+        }
 
-        $route = [
-            'parameters' => $this->request->route()->parameters()
-        ];
-
-        return array_merge(compact('request', 'route'), $data);
+        return array_merge(
+            [
+                'request' => [
+                    'path' => $this->request->path()
+                ],
+                'route'   => [
+                    'parameters' => $route->parameters()
+                ]
+            ],
+            $data
+        );
     }
 }
