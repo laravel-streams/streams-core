@@ -38,7 +38,7 @@ class StreamRepository implements StreamRepositoryInterface
      */
     public function __construct(StreamModel $model)
     {
-        $this->model  = $model;
+        $this->model = $model;
 
         $this->schema = app('db')->connection()->getSchemaBuilder();
     }
@@ -74,6 +74,23 @@ class StreamRepository implements StreamRepositoryInterface
 
         // Format just in case.
         $attributes['slug'] = str_slug(array_get($attributes, 'slug'), '_');
+
+        // Move to lang just in case.
+        if (isset($attributes['name'])) {
+            array_set(
+                $attributes,
+                config('app.fallback_locale') . '.name',
+                array_pull($attributes, 'name')
+            );
+        }
+
+        if (isset($attributes['description'])) {
+            array_set(
+                $attributes,
+                config('app.fallback_locale') . '.description',
+                array_pull($attributes, 'description')
+            );
+        }
 
         return $this->model->create($attributes);
     }
