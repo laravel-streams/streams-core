@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Ui\Form\Command\RepopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetErrorMessages;
 use Illuminate\Foundation\Bus\DispatchesCommands;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
 
 /**
@@ -27,6 +26,13 @@ class FormValidator
     protected $rules;
 
     /**
+     * The form input utility.
+     *
+     * @var FormInput
+     */
+    protected $input;
+
+    /**
      * The extender utility.
      *
      * @var FormExtender
@@ -41,28 +47,21 @@ class FormValidator
     protected $messages;
 
     /**
-     * The HTTP request.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
      * Create a new FormValidator instance.
      *
-     * @param Request      $request
      * @param FormRules    $rules
+     * @param FormInput    $input
      * @param FormExtender $extender
      * @param FormMessages $messages
      */
     public function __construct(
-        Request $request,
         FormRules $rules,
+        FormInput $input,
         FormExtender $extender,
         FormMessages $messages
     ) {
         $this->rules    = $rules;
-        $this->request  = $request;
+        $this->input    = $input;
         $this->extender = $extender;
         $this->messages = $messages;
     }
@@ -78,7 +77,7 @@ class FormValidator
 
         $this->extender->extend($factory, $builder);
 
-        $input    = $this->request->all();
+        $input    = $this->input->all($builder);
         $messages = $this->messages->get($builder);
         $rules    = $this->rules->compile($builder);
 
