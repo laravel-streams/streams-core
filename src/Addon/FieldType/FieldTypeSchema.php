@@ -61,7 +61,8 @@ class FieldTypeSchema
 
         // Add the column.
         $table->{$this->fieldType->getColumnType()}($this->fieldType->getColumnName())
-            ->nullable(!$assignment->isRequired());
+            ->nullable(!$assignment->isRequired())
+            ->default(array_get($this->fieldType->getConfig(), 'default_value'));
 
         // Mark the column unique if desired and not translatable.
         if ($assignment->isUnique() && !$assignment->isTranslatable()) {
