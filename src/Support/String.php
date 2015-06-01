@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use TwigBridge\Bridge;
-
 /**
  * Class String
  *
@@ -10,7 +8,37 @@ use TwigBridge\Bridge;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Support
  */
-class String extends Bridge
+class String
 {
 
+    /**
+     * The twig instance.[
+     *
+     * @var \Illuminate\Foundation\Application|mixed
+     */
+    protected $twig;
+
+    /**
+     * Create a new String instance.
+     */
+    public function __construct()
+    {
+        $twig = clone(app('TwigBridge\Bridge'));
+
+        $twig->setLoader(new \Twig_Loader_String());
+
+        $this->twig = $twig;
+    }
+
+    /**
+     * Call everything on twig.
+     *
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     */
+    function __call($name, $arguments)
+    {
+        return call_user_func_array([$this->twig, $name], $arguments);
+    }
 }
