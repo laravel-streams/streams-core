@@ -89,6 +89,17 @@ class AssignmentTableBuilder extends TableBuilder
         parent::build();
     }
 
+    /**
+     * Fired when the builder is ready to build.
+     *
+     * @throws \Exception
+     */
+    public function onReady()
+    {
+        if (!$this->getStream()) {
+            throw new \Exception('The $stream parameter is required.');
+        }
+    }
 
     /**
      * Fired when the table starts querying.

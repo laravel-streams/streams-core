@@ -65,10 +65,8 @@ class HeaderInput
      * @param TableBuilder $builder
      * @return array
      */
-    public
-    function read(
-        TableBuilder $builder
-    ) {
+    public function read(TableBuilder $builder)
+    {
         $this->resolver->resolve($builder);
         $this->defaults->defaults($builder);
         $this->normalizer->normalize($builder);

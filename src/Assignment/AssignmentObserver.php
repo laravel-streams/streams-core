@@ -18,6 +18,16 @@ class AssignmentObserver extends Observer
 {
 
     /**
+     * Fired before creating an assignment.
+     *
+     * @param AssignmentInterface|AssignmentModel $model
+     */
+    public function creating(AssignmentInterface $model)
+    {
+        $model->sort_order = $model->newQuery()->count('id') + 1;
+    }
+
+    /**
      * Run after a record is created.
      *
      * @param AssignmentInterface $model

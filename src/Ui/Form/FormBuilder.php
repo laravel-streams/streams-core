@@ -35,6 +35,13 @@ class FormBuilder
     use FiresCallbacks;
 
     /**
+     * The ajax flag.
+     *
+     * @var bool
+     */
+    protected $ajax = false;
+
+    /**
      * The form model.
      *
      * @var null
@@ -192,6 +199,29 @@ class FormBuilder
     public function getForm()
     {
         return $this->form;
+    }
+
+    /**
+     * Get the ajax flag.
+     *
+     * @return bool
+     */
+    public function isAjax()
+    {
+        return $this->ajax;
+    }
+
+    /**
+     * Set the ajax flag.
+     *
+     * @param $ajax
+     * @return $this
+     */
+    public function setAjax($ajax)
+    {
+        $this->ajax = $ajax;
+
+        return $this;
     }
 
     /**
@@ -650,6 +680,16 @@ class FormBuilder
     }
 
     /**
+     * Ge tthe form response.
+     *
+     * @return null|Response
+     */
+    public function getFormResponse()
+    {
+        return $this->form->getResponse();
+    }
+
+    /**
      * Set the form response.
      *
      * @param null|false|Response $response
@@ -716,6 +756,34 @@ class FormBuilder
     public function getFormErrors()
     {
         return $this->form->getErrors();
+    }
+
+    /**
+     * Add an error to the form.
+     *
+     * @param $field
+     * @param $message
+     * @return $this
+     */
+    public function addFormError($field, $message)
+    {
+        $errors = $this->getFormErrors();
+
+        $errors->add($field, $message);
+
+        return $this;
+    }
+
+    /**
+     * Return whether the form has errors or not.
+     *
+     * @return bool
+     */
+    public function hasFormErrors()
+    {
+        $errors = $this->form->getErrors();
+
+        return !$errors->isEmpty();
     }
 
     /**

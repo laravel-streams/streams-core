@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Illuminate\Http\Request;
 use StringTemplate\Engine;
 
 /**
@@ -21,13 +22,22 @@ class Parser
     protected $parser;
 
     /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * Create a new Parser instance.
      *
-     * @param Engine $parser
+     * @param Engine  $parser
+     * @param Request $request
      */
-    public function __construct(Engine $parser)
+    public function __construct(Engine $parser, Request $request)
     {
-        $this->parser = $parser;
+        $this->parser  = $parser;
+        $this->request = $request;
     }
 
     /**
@@ -39,6 +49,8 @@ class Parser
      */
     public function parse($target, array $data = [])
     {
+        $data = $this->mergeDefaultData($data);
+
         /**
          * If the target is an array
          * then parse it recursively.
@@ -58,5 +70,30 @@ class Parser
         }
 
         return $target;
+    }
+
+    /**
+     * Merge default data.
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function mergeDefaultData(array $data)
+    {
+        if (!$route = $this->request->route()) {
+            return $data;
+        }
+
+        return array_merge(
+            [
+                'request' => [
+                    'path' => $this->request->path()
+                ],
+                'route'   => [
+                    'parameters' => $route->parameters()
+                ]
+            ],
+            $data
+        );
     }
 }

@@ -39,19 +39,18 @@ class SetActionResponse implements SelfHandling
      */
     public function handle(ActionResponder $responder)
     {
-        $form    = $this->builder->getForm();
         $actions = $this->builder->getFormActions();
 
-        if ($form->getResponse()) {
+        if ($this->builder->getFormResponse()) {
             return;
         }
 
-        if ($form->getErrors()) {
+        if ($this->builder->hasFormErrors()) {
             return;
         }
 
         if ($action = $actions->active()) {
-            $responder->setFormResponse($form, $action);
+            $responder->setFormResponse($this->builder, $action);
         }
     }
 }

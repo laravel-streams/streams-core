@@ -64,6 +64,13 @@ class Section implements SectionInterface
     protected $permission = null;
 
     /**
+     * The section breadcrumb.
+     *
+     * @var null|string
+     */
+    protected $breadcrumb = null;
+
+    /**
      * Get the icon.
      *
      * @return null|string
@@ -208,6 +215,29 @@ class Section implements SectionInterface
     public function setPermission($permission)
     {
         $this->permission = $permission;
+
+        return $this;
+    }
+
+    /**
+     * Get the breadcrumb.
+     *
+     * @return null|string
+     */
+    public function getBreadcrumb()
+    {
+        return $this->breadcrumb;
+    }
+
+    /**
+     * Set the breadcrumb.
+     *
+     * @param $breadcrumb
+     * @return $this
+     */
+    public function setBreadcrumb($breadcrumb)
+    {
+        $this->breadcrumb = $breadcrumb;
 
         return $this;
     }

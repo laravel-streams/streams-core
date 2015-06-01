@@ -70,13 +70,6 @@ class Form
     protected $response = null;
 
     /**
-     * The form errors.
-     *
-     * @var null|array
-     */
-    protected $errors = null;
-
-    /**
      * The form model. This is set
      * to create / edit automatically.
      *
@@ -90,6 +83,13 @@ class Form
      * @var Collection
      */
     protected $data;
+
+    /**
+     * The form errors.
+     *
+     * @var MessageBag
+     */
+    protected $errors;
 
     /**
      * The form values.
@@ -139,6 +139,7 @@ class Form
      * @param Collection        $data
      * @param Collection        $values
      * @param Collection        $options
+     * @param MessageBag        $errors
      * @param FieldCollection   $fields
      * @param ActionCollection  $actions
      * @param ButtonCollection  $buttons
@@ -148,6 +149,7 @@ class Form
         Collection $data,
         Collection $values,
         Collection $options,
+        MessageBag $errors,
         FieldCollection $fields,
         ActionCollection $actions,
         ButtonCollection $buttons,
@@ -156,6 +158,7 @@ class Form
         $this->data     = $data;
         $this->values   = $values;
         $this->fields   = $fields;
+        $this->errors   = $errors;
         $this->actions  = $actions;
         $this->buttons  = $buttons;
         $this->options  = $options;
@@ -188,7 +191,7 @@ class Form
     /**
      * Get the errors.
      *
-     * @return null|MessageBag
+     * @return MessageBag
      */
     public function getErrors()
     {
@@ -206,6 +209,16 @@ class Form
         $this->errors = $errors;
 
         return $this;
+    }
+
+    /**
+     * Return whether the form has errors or not.
+     *
+     * @return bool
+     */
+    public function hasErrors()
+    {
+        return !$this->errors->isEmpty();
     }
 
     /**

@@ -91,7 +91,7 @@ class ColumnValue
          * If the value matches a field with a relation
          * then parse the string using the eager loaded entry.
          */
-        if (preg_match("/^entry.([a-zA-Z\\_]+)/", $value, $match)) {
+        if (is_string($value) && preg_match("/^entry.([a-zA-Z\\_]+)/", $value, $match)) {
 
             $fieldSlug = camel_case($match[1]);
 
@@ -116,7 +116,7 @@ class ColumnValue
         /**
          * If the value matches a method in the presenter.
          */
-        if (preg_match("/^entry.([a-zA-Z\\_]+)/", $value, $match)) {
+        if (is_string($value) && preg_match("/^entry.([a-zA-Z\\_]+)/", $value, $match)) {
             if (method_exists($entry, camel_case($match[1]))) {
                 $value = $entry->{camel_case($match[1])}();
             }

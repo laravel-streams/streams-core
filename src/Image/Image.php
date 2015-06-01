@@ -175,7 +175,7 @@ class Image extends ImageManager
 
         $filename = md5(var_export([$this->image, $this->applied], true)) . '.' . $this->getExtension($this->image);
 
-        $path = 'assets/' . $this->application->getReference() . '/' . $filename;
+        $path = 'assets/' . $this->application->getReference() . '/cache/' . $filename;
 
         if (isset($_GET['_publish']) || !$this->files->exists($path)) {
             $this->publish($path);

@@ -38,7 +38,7 @@ class SetSuccessMessage implements SelfHandling
     public function handle(MessageBag $messages)
     {
         // If we can't save or there are errors then skip it.
-        if ($this->builder->getFormErrors() || !$this->builder->canSave()) {
+        if ($this->builder->hasFormErrors() || !$this->builder->canSave()) {
             return;
         }
 

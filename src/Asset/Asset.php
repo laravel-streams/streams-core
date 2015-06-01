@@ -294,7 +294,7 @@ class Asset
 
         $hint = $this->getHint($collection);
 
-        return 'assets/' . $this->application->getReference() . '/' . $hash . '.' . $hint;
+        return 'assets/' . $this->application->getReference() . '/cache/' . $hash . '.' . $hint;
     }
 
     /**

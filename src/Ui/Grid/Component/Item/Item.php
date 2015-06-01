@@ -19,21 +19,26 @@ class Item implements ItemInterface
      *
      * @var int
      */
-    protected $id;
+    protected $id = null;
+
+    /**
+     * @var null|string
+     */
+    protected $class = 'panel';
 
     /**
      * The item value.
      *
      * @var string
      */
-    protected $value;
+    protected $value = null;
 
     /**
      * The item buttons.
      *
-     * @var ButtonCollection
+     * @var null|ButtonCollection
      */
-    protected $buttons;
+    protected $buttons = null;
 
     /**
      * Get the ID.
@@ -54,6 +59,29 @@ class Item implements ItemInterface
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the class.
+     *
+     * @return null|string
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * Set the class.
+     *
+     * @param $class
+     * @return $this
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
 
         return $this;
     }
