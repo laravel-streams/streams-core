@@ -120,6 +120,13 @@ class Asset
         if (starts_with($file, ['http', '//']) || file_exists($file) || is_dir(trim($file, '*'))) {
             $this->collections[$collection][$file] = $filters;
         }
+        // if none of the previous conditions were met then lets check and see if globbing the file
+        // will return any results
+        else if (count(glob($file)) > 0) {
+            foreach(glob($file) as $curFile) {
+                $this->collections[$collection][$curFile] = $filters;
+            }
+        }
 
         if (
             config('app.debug')
