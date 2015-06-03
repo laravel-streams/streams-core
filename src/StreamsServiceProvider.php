@@ -94,16 +94,6 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         /**
-         * Bind the scheduler.. Not sure why we
-         * have to do this but it loses events after
-         * registering addons.
-         */
-        $this->app->singleton(
-            'Illuminate\Console\Scheduling\Schedule',
-            'Illuminate\Console\Scheduling\Schedule'
-        );
-
-        /**
          * Register the application instance. This is
          * used to determine the application state / reference.
          */
