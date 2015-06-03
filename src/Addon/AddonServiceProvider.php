@@ -260,8 +260,8 @@ class AddonServiceProvider extends ServiceProvider
         /* @var Schedule $scheduler */
         $scheduler = $this->app->make('Illuminate\Console\Scheduling\Schedule');
 
-        foreach ($schedules as $schedule) {
-            $scheduler->command($schedule);
+        foreach ($schedules as $command => $cron) {
+            $scheduler->command($command)->cron($cron);
         }
     }
 
