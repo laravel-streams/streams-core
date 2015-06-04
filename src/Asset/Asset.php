@@ -123,7 +123,8 @@ class Asset
 		
         // if this is a valid glob file then add it to the collection with a glob filter
         if (count(glob($file)) > 0) {
-            $this->collections[$collection][$curFile] = array_push($filters, 'glob');
+			$filters[] = 'glob';
+            $this->collections[$collection][$curFile] = $filters;
         }
 
         if (
