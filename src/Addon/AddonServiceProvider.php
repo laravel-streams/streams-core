@@ -121,9 +121,15 @@ class AddonServiceProvider extends ServiceProvider
     }
 
     /**
+     * Boot the service provider.
+     */
+    public function boot()
+    {
+        $this->registerSchedules();
+    }
+
+    /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -135,7 +141,6 @@ class AddonServiceProvider extends ServiceProvider
         $this->registerPlugins();
         $this->registerCommands();
         $this->registerProviders();
-        $this->registerSchedules();
         $this->registerOverrides();
         $this->registerAdditionalRoutes();
     }
