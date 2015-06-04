@@ -65,20 +65,27 @@ class FieldFactory
     {
         if ($stream && $assignment = $stream->getAssignment(array_get($parameters, 'field'))) {
 
-            $field = $assignment->getFieldType();
+            $field    = $assignment->getFieldType();
+            $modifier = $field->getModifier();
+
+            $value = array_pull($parameters, 'value');
 
             /* @var EntryInterface $entry */
-            $field->setValue(array_pull($parameters, 'value', $entry->getFieldValue($field->getField())));
+            $field->setValue($value ? $modifier->modify($value) : $entry->getFieldValue($field->getField()));
         } elseif (is_object($entry)) {
 
-            $field = $this->builder->build($parameters);
+            $field    = $this->builder->build($parameters);
+            $modifier = $field->getModifier();
 
-            $field->setValue(array_pull($parameters, 'value', $entry->{$field->getField()}));
+            $value = array_pull($parameters, 'value');
+
+            $field->setValue($value ? $modifier->modify($value) : $entry->{$field->getField()});
         } else {
 
-            $field = $this->builder->build($parameters);
+            $field    = $this->builder->build($parameters);
+            $modifier = $field->getModifier();
 
-            $field->setValue(array_pull($parameters, 'value'));
+            $field->setValue($modifier->modify(array_pull($parameters, 'value')));
         }
 
         // Set the entry.
