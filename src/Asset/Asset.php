@@ -182,11 +182,12 @@ class Asset
      *
      * @param       $collection
      * @param array $filters
+	 * @param array $attributes
      * @return string
      */
-    public function script($collection, array $filters = [])
+    public function script($collection, array $filters = [], array $attributes = [])
     {
-        return $this->html->script($this->path($collection, $filters));
+        return $this->html->script($this->path($collection, $filters), $attributes);
     }
 
     /**
@@ -194,11 +195,12 @@ class Asset
      *
      * @param       $collection
      * @param array $filters
+	 * @param array $attributes
      * @return string
      */
-    public function style($collection, array $filters = [])
+    public function style($collection, array $filters = [], array $attributes = [])
     {
-        return $this->html->style($this->path($collection, $filters));
+        return $this->html->style($this->path($collection, $filters), $attributes);
     }
 
     /**
