@@ -135,7 +135,7 @@ class Asset
          */
         if (count(glob($file)) > 0) {
 
-            $this->collections[$collection][$file] = $filters + ['glob'];
+            $this->collections[$collection][$file] = array_merge($filters, ['glob']);
 
             return $this;
         }
