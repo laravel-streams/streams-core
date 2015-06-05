@@ -44,6 +44,7 @@ class ModuleRepository implements ModuleRepositoryInterface
      * Create a module record.
      *
      * @param Module $module
+     * @return bool
      */
     public function create(Module $module)
     {
@@ -53,14 +54,14 @@ class ModuleRepository implements ModuleRepositoryInterface
         $instance->installed = false;
         $instance->enabled   = false;
 
-        $instance->save();
+        return $instance->save();
     }
 
     /**
      * Delete a module record.
      *
      * @param  Module $module
-     * @return mixed
+     * @return ModuleModel
      */
     public function delete(Module $module)
     {
@@ -77,6 +78,7 @@ class ModuleRepository implements ModuleRepositoryInterface
      * Mark a module as installed.
      *
      * @param  Module $module
+     * @return bool
      */
     public function install(Module $module)
     {
@@ -85,13 +87,14 @@ class ModuleRepository implements ModuleRepositoryInterface
         $module->installed = true;
         $module->enabled   = true;
 
-        $module->save();
+        return $module->save();
     }
 
     /**
      * Mark a module as uninstalled.
      *
      * @param  Module $module
+     * @return bool
      */
     public function uninstall(Module $module)
     {
@@ -100,6 +103,36 @@ class ModuleRepository implements ModuleRepositoryInterface
         $module->installed = false;
         $module->enabled   = false;
 
-        $module->save();
+        return $module->save();
+    }
+
+    /**
+     * Mark a module as disabled.
+     *
+     * @param Module $module
+     * @return bool
+     */
+    public function disable(Module $module)
+    {
+        $module = $this->model->findByNamespace($module->getNamespace());
+
+        $module->enabled = false;
+
+        return $module->save();
+    }
+
+    /**
+     * Mark a module as enabled.
+     *
+     * @param Module $module
+     * @return bool
+     */
+    public function enabled(Module $module)
+    {
+        $module = $this->model->findByNamespace($module->getNamespace());
+
+        $module->enabled = true;
+
+        return $module->save();
     }
 }
