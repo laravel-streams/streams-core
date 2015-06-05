@@ -102,10 +102,11 @@ class Asset
      * and the asset (for single files) internally
      * so asset.links / asset.scripts will work.
      *
-     * @param        $collection
-     * @param        $file
-     * @param  array $filters
+     * @param       $collection
+     * @param       $file
+     * @param array $filters
      * @return $this
+     * @throws \Exception
      */
     public function add($collection, $file, array $filters = [])
     {
@@ -122,27 +123,26 @@ class Asset
          * file then add it normally.
          */
         if (starts_with($file, ['http', '//']) || file_exists($file)) {
+
             $this->collections[$collection][$file] = $filters;
+
+            return $this;
         }
 
         /**
          * If this is a valid glob pattern then add
          * it to the collection and add the glob filter.
          */
-        if (count(glob($file)) > 0 && array_push($filters, 'glob')) {
-            $this->collections[$collection][$file] = $filters;
+        if (count(glob($file)) > 0) {
+
+            $this->collections[$collection][$file] = $filters + ['glob'];
+
+            return $this;
         }
 
-        if (
-            config('app.debug')
-            && !starts_with($file, ['http', '//'])
-            && count(glob($file)) === 0
-            && !is_file($file)
-        ) {
+        if (config('app.debug')) {
             throw new \Exception("Asset [{$file}] does not exist!");
         }
-
-        return $this;
     }
 
     /**
@@ -333,7 +333,7 @@ class Asset
             $filters = $this->transformFilters($filters, $hint);
 
             if (in_array('glob', $filters)) {
-                $file = new GlobAsset($file, $filters);
+                $file = new GlobAsset($file, array_diff($filters, ['glob']));
             } else {
                 $file = new FileAsset($file, $filters);
             }
@@ -393,6 +393,10 @@ class Asset
                     } elseif ($hint == 'css') {
                         $filter = new CssMinFilter();
                     }
+                    break;
+
+                // Allow these through.
+                case 'glob':
                     break;
 
                 default:
