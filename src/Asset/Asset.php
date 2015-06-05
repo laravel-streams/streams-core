@@ -117,20 +117,26 @@ class Asset
 
         $file = $this->paths->realPath($file);
 
-        if (starts_with($file, ['http', '//']) || file_exists($file) || is_dir(trim($file, '*'))) {
+        /**
+         * If this is a remote or single existing
+         * file then add it normally.
+         */
+        if (starts_with($file, ['http', '//']) || file_exists($file)) {
             $this->collections[$collection][$file] = $filters;
         }
-		
-        // if this is a valid glob file then add it to the collection with a glob filter
-        if (count(glob($file)) > 0) {
-			$filters[] = 'glob';
-            $this->collections[$collection][$curFile] = $filters;
+
+        /**
+         * If this is a valid glob pattern then add
+         * it to the collection and add the glob filter.
+         */
+        if (count(glob($file)) > 0 && array_push($filters, 'glob')) {
+            $this->collections[$collection][$file] = $filters;
         }
 
         if (
             config('app.debug')
             && !starts_with($file, ['http', '//'])
-            && !ends_with($file, '*')
+            && count(glob($file)) === 0
             && !is_file($file)
         ) {
             throw new \Exception("Asset [{$file}] does not exist!");
@@ -326,7 +332,7 @@ class Asset
 
             $filters = $this->transformFilters($filters, $hint);
 
-            if (ends_with($file, '*') || in_array('glob', $filters)) {
+            if (in_array('glob', $filters)) {
                 $file = new GlobAsset($file, $filters);
             } else {
                 $file = new FileAsset($file, $filters);
