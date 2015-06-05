@@ -120,6 +120,12 @@ class Asset
         if (starts_with($file, ['http', '//']) || file_exists($file) || is_dir(trim($file, '*'))) {
             $this->collections[$collection][$file] = $filters;
         }
+		
+        // if this is a valid glob file then add it to the collection with a glob filter
+        if (count(glob($file)) > 0) {
+			$filters[] = 'glob';
+            $this->collections[$collection][$curFile] = $filters;
+        }
 
         if (
             config('app.debug')
@@ -320,7 +326,7 @@ class Asset
 
             $filters = $this->transformFilters($filters, $hint);
 
-            if (ends_with($file, '*')) {
+            if (ends_with($file, '*') || in_array('glob', $filters)) {
                 $file = new GlobAsset($file, $filters);
             } else {
                 $file = new FileAsset($file, $filters);
