@@ -45,7 +45,7 @@ class ItemCollection extends Collection
 
         /* @var ItemInterface $item */
         foreach ($this->items as $item) {
-            if ($item->getParent() == $parent->getId()) {
+            if ($item->getParent() === $parent->getId()) {
                 $children[] = $item;
             }
         }
