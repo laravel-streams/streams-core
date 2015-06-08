@@ -95,7 +95,7 @@ class Item implements ItemInterface
      */
     public function getParent()
     {
-        return intval($this->parent);
+        return $this->parent;
     }
 
     /**
