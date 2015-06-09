@@ -63,9 +63,10 @@ class FieldFactory
      */
     public function make(array $parameters, StreamInterface $stream = null, $entry = null)
     {
-        if ($stream && $assignment = $stream->getAssignment(array_get($parameters, 'field'))) {
+        /* @var EntryInterface $entry */
+        if ($stream && $entry instanceof EntryInterface && $entry->hasField(array_get($parameters, 'field'))) {
 
-            $field    = $assignment->getFieldType();
+            $field    = $entry->getFieldType(array_get($parameters, 'field'));
             $modifier = $field->getModifier();
 
             $value = array_pull($parameters, 'value');

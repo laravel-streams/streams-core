@@ -134,6 +134,18 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Return whether an entry has
+     * a field with a given slug.
+     *
+     * @param  $slug
+     * @return bool
+     */
+    public function hasField($slug)
+    {
+        return ($this->getField($slug) !== null);
+    }
+
+    /**
      * Get the field type from a field slug.
      *
      * @param  $fieldSlug
