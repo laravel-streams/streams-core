@@ -32,6 +32,7 @@ class IconRegistry
         'picture'              => 'glyphicons glyphicons-picture',
         'retweet'              => 'glyphicons glyphicons-retweet',
         'global'               => 'glyphicons glyphicons-global',
+        'server'               => 'glyphicons glyphicons-server',
         'globe'                => 'glyphicons glyphicons-globe',
         'brush'                => 'glyphicons glyphicons-brush',
         'redo'                 => 'glyphicons glyphicons-redo',
