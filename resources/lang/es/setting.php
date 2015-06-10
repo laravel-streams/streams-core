@@ -7,61 +7,61 @@ return [
         'placeholder'  => trans('distribution::addon.name')
     ],
     'description'    => [
-        'label'        => 'Site Description',
-        'instructions' => 'What is the description or slogan of your application?',
+        'label'        => 'Descripción del sitio',
+        'instructions' => 'cual es el slogan o la descripción de la aplicación?',
         'placeholder'  => trans('distribution::addon.description')
     ],
     'date_format'    => [
-        'label'        => 'Date Format',
-        'instructions' => 'How should dates be displayed across the website and control panel? Using the <a href="http://php.net/manual/en/function.date.php" target="_blank">date format</a> from PHP.',
+        'label'        => 'Formato de fecha',
+        'instructions' => 'Como se deben mostrar las fechas en el panel de control? Utilice los <a href="http://php.net/manual/en/function.date.php" target="_blank">formatos de fecha</a> de PHP.',
         'placeholder'  => 'm/d/Y'
     ],
     'time_format'    => [
-        'label'        => 'Time Format',
-        'instructions' => 'How should time be displayed across the website and control panel? Using the <a href="http://php.net/manual/en/function.date.php" target="_blank">date format</a> from PHP.',
+        'label'        => 'Formato de hora',
+        'instructions' => 'Como se deben mostrar las horas en el panel de control? Utilice los <a href="http://php.net/manual/en/function.date.php" target="_blank">formatos de hora</a> de PHP.',
         'placeholder'  => 'g:i A'
     ],
     'default_locale' => [
-        'label'        => 'Default Language',
-        'instructions' => 'What is the default language for your application?<br>Languages can be managed in the <a href="/admin/localization" target="_blank">Localization</a> module.'
+        'label'        => 'Idioma por defecto',
+        'instructions' => 'Cual debe ser el idioma por defecto de la aplicación?<br>Los idiomas se pueden administrar en el módulo <a href="/admin/localization" target="_blank">Localización</a>.'
     ],
     'site_enabled'   => [
-        'label'        => 'Site Enabled',
-        'instructions' => 'Use this option to the enable or disable the public-facing part of the application.<br>This is useful when you want to take the application down for maintenance or development.'
+        'label'        => 'Sitio activado',
+        'instructions' => 'Use esta opcion para desactivar o activar el sitio<br>Esto es útil cuando se desea hacer mantenimiento o desarrollo.'
     ],
     'ip_whitelist'   => [
-        'label'        => 'IP Whitelist',
-        'instructions' => 'When the status is set to "disabled" these IP addresses will be allowed to access the application.',
-        'placeholder'  => 'Separate each IP address with a comma.'
+        'label'        => 'IP Lista Blanca',
+        'instructions' => 'Cuando el sitio este desactivado, estas IP podrán acceder a el.',
+        'placeholder'  => 'Separe las IP con una coma (,).'
     ],
     '503_message'    => [
-        'label'        => 'Unavailable Message',
-        'instructions' => 'When the site is disabled or there is a major problem, this message will display to users.',
-        'placeholder'  => 'Be right back.'
+        'label'        => 'Mensaje para sitio desactivado',
+        'instructions' => 'Cuando el sitio esta desactivado o hay un problema mayor, este mensaje se mostrará a los usuarios.',
+        'placeholder'  => 'Ya regresamos!.'
     ],
     'force_https'    => [
-        'label'        => 'Force HTTPS',
-        'instructions' => 'Allow only the HTTPS protocol when accessing the application?',
+        'label'        => 'Forzar HTTPS',
+        'instructions' => 'Autorizar solo acceso a la aplicación solo con HTTPS?',
         'option'       => [
-            'all'    => 'Force HTTPS on all connections',
-            'none'   => 'Do NOT force HTTPS connections',
-            'admin'  => 'Only force HTTPS for admin control panel access',
-            'public' => 'Only force HTTPS for public-facing content'
+            'all'    => 'Obligar HTTPS a todas las conexiones',
+            'none'   => 'No obligar conexiones HTTPS',
+            'admin'  => 'Solo obligar conexiones HTTPS para acceder al panel de control',
+            'public' => 'Solo obligar conexiones HTTPS para contenido público'
         ]
     ],
     'contact_email'  => [
-        'label'        => 'Contact Email',
-        'instructions' => 'All e-mails from users, guests and the application will go to this e-mail address by default.',
+        'label'        => 'Correo electrónico de contacto',
+        'instructions' => 'Todos los correos electrónicos de los usuarios, llegarán a esta dirección por defecto.',
         'placeholder'  => 'example@domain.com'
     ],
     'server_email'   => [
-        'label'        => 'Server Email',
-        'instructions' => 'All emails sent from your server will come from this email address.',
+        'label'        => 'Correo Electrónico del servidor',
+        'instructions' => 'Todos los correos electrónicos del sistema saldrán de esta dirección.',
         'placeholder'  => 'noreply@domain.com'
     ],
     'mail_driver'    => [
         'label'        => 'Email Driver',
-        'instructions' => 'How does your application send email?',
+        'instructions' => 'Como envia correos la aplicación?',
         'option'       => [
             'smtp'     => 'SMTP',
             'mail'     => 'PHP Mail',
@@ -72,30 +72,30 @@ return [
         ]
     ],
     'smtp_host'      => [
-        'label'        => 'SMTP Host',
-        'instructions' => 'This is the address of the SMTP server used by your application to deliver emails.',
+        'label'        => 'Host SMTP',
+        'instructions' => 'Esta es la dirección del servidor SMTP de la aplicación.',
         'placeholder'  => 'smtp.mailgun.org'
     ],
     'smtp_port'      => [
-        'label'        => 'SMTP Port',
-        'instructions' => 'This is the SMTP port used by your application to deliver emails.',
+        'label'        => 'Puerto SMTP',
+        'instructions' => 'Este es el puerto del servidor SMTP.',
         'placeholder'  => '587'
     ],
     'smtp_username'  => [
-        'label'        => 'SMTP Username',
-        'instructions' => 'This is the SMTP username used by your application to deliver emails.'
+        'label'        => 'Nombre de usuario SMTP',
+        'instructions' => 'Este es el nombre de usuario del servidor SMTP.'
     ],
     'smtp_password'  => [
-        'label'        => 'SMTP Password',
-        'instructions' => 'This is the SMTP username used by your application to deliver emails.'
+        'label'        => 'Contraseña SMTP',
+        'instructions' => 'Esta es la contraseña del servidor SMTP.'
     ],
     'mail_debug'     => [
-        'label'        => 'Debug Mode',
-        'instructions' => 'When this option is enabled, email will not be sent but will instead be written to your application\'s logs files so you may inspect the message.'
+        'label'        => 'Modo Depuración',
+        'instructions' => 'Cuando esta opcion está activada, los correos electrónicos no se enviarán, se escribiran en el LOG de la aplicación.'
     ],
     'cache_driver'   => [
-        'label'        => 'Cache Driver',
-        'instructions' => 'How does your store cached data?',
+        'label'        => 'Driver de Cache',
+        'instructions' => 'Como se guarda la información de cache?',
         'option'       => [
             'apc'       => 'APC',
             'array'     => 'Array',
@@ -105,11 +105,11 @@ return [
         ]
     ],
     'standard_theme' => [
-        'label'        => 'Public Theme',
-        'instructions' => 'What theme would you like to use for the public site?'
+        'label'        => 'Plantilla pública',
+        'instructions' => 'Que plantilla desea utilizar para el sitio?'
     ],
     'admin_theme'    => [
-        'label'        => 'Admin Theme',
-        'instructions' => 'What theme would you like to use for the control panel?'
+        'label'        => 'Plantilla de administración',
+        'instructions' => 'Que plantilla desea usar para la administración del sitio?'
     ]
 ];

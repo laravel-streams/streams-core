@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'configuration' => 'Configuration',
+    'configuration' => 'Configuración',
     'general'       => 'General',
-    'themes'        => 'Themes',
-    'access'        => 'Access',
+    'themes'        => 'Plantillas',
+    'access'        => 'Accesos',
     'email'         => 'Email',
     'cache'         => 'Cache',
-    'field'         => 'Field',
+    'field'         => 'Campo',
 ];

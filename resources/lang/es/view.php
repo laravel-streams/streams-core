@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'all'               => 'All',
-    'newest'            => 'Newest',
-    'latest'            => 'Latest',
-    'recently_created'  => 'Recently Created',
-    'recently_modified' => 'Recently Modified',
+    'all'               => 'Todo',
+    'newest'            => 'Lo mas nuevo',
+    'latest'            => 'Lo Último',
+    'recently_created'  => 'Creados recientemente',
+    'recently_modified' => 'Modificados recientemente',
 ];
