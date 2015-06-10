@@ -102,10 +102,11 @@ class Asset
      * and the asset (for single files) internally
      * so asset.links / asset.scripts will work.
      *
-     * @param        $collection
-     * @param        $file
-     * @param  array $filters
+     * @param       $collection
+     * @param       $file
+     * @param array $filters
      * @return $this
+     * @throws \Exception
      */
     public function add($collection, $file, array $filters = [])
     {
@@ -117,20 +118,31 @@ class Asset
 
         $file = $this->paths->realPath($file);
 
-        if (starts_with($file, ['http', '//']) || file_exists($file) || is_dir(trim($file, '*'))) {
+        /**
+         * If this is a remote or single existing
+         * file then add it normally.
+         */
+        if (starts_with($file, ['http', '//']) || file_exists($file)) {
+
             $this->collections[$collection][$file] = $filters;
+
+            return $this;
         }
 
-        if (
-            config('app.debug')
-            && !starts_with($file, ['http', '//'])
-            && !ends_with($file, '*')
-            && !is_file($file)
-        ) {
+        /**
+         * If this is a valid glob pattern then add
+         * it to the collection and add the glob filter.
+         */
+        if (count(glob($file)) > 0) {
+
+            $this->collections[$collection][$file] = array_merge($filters, ['glob']);
+
+            return $this;
+        }
+
+        if (config('app.debug')) {
             throw new \Exception("Asset [{$file}] does not exist!");
         }
-
-        return $this;
     }
 
     /**
@@ -170,11 +182,12 @@ class Asset
      *
      * @param       $collection
      * @param array $filters
+	 * @param array $attributes
      * @return string
      */
-    public function script($collection, array $filters = [])
+    public function script($collection, array $filters = [], array $attributes = [])
     {
-        return $this->html->script($this->path($collection, $filters));
+        return $this->html->script($this->path($collection, $filters), $attributes);
     }
 
     /**
@@ -182,11 +195,12 @@ class Asset
      *
      * @param       $collection
      * @param array $filters
+	 * @param array $attributes
      * @return string
      */
-    public function style($collection, array $filters = [])
+    public function style($collection, array $filters = [], array $attributes = [])
     {
-        return $this->html->style($this->path($collection, $filters));
+        return $this->html->style($this->path($collection, $filters), $attributes);
     }
 
     /**
@@ -320,8 +334,8 @@ class Asset
 
             $filters = $this->transformFilters($filters, $hint);
 
-            if (ends_with($file, '*')) {
-                $file = new GlobAsset($file, $filters);
+            if (in_array('glob', $filters)) {
+                $file = new GlobAsset($file, array_diff($filters, ['glob']));
             } else {
                 $file = new FileAsset($file, $filters);
             }
@@ -381,6 +395,10 @@ class Asset
                     } elseif ($hint == 'css') {
                         $filter = new CssMinFilter();
                     }
+                    break;
+
+                // Allow these through.
+                case 'glob':
                     break;
 
                 default:

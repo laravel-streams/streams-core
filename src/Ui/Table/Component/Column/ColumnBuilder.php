@@ -75,6 +75,8 @@ class ColumnBuilder
 
         foreach ($builder->getColumns() as $column) {
 
+            array_set($column, 'entry', $entry);
+
             $column = $this->evaluator->evaluate($column, compact('entry', 'table'));
 
             $column['value'] = $this->value->make($table, $column, $entry);

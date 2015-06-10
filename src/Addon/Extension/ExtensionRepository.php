@@ -44,6 +44,7 @@ class ExtensionRepository implements ExtensionRepositoryInterface
      * Create a extension record.
      *
      * @param Extension $extension
+     * @return bool
      */
     public function create(Extension $extension)
     {
@@ -53,13 +54,14 @@ class ExtensionRepository implements ExtensionRepositoryInterface
         $instance->installed = false;
         $instance->enabled   = false;
 
-        $instance->save();
+        return $instance->save();
     }
 
     /**
      * Delete a extension record.
      *
-     * @param Extension $extension
+     * @param  Extension $extension
+     * @return ExtensionModel
      */
     public function delete(Extension $extension)
     {
@@ -75,7 +77,8 @@ class ExtensionRepository implements ExtensionRepositoryInterface
     /**
      * Mark a extension as installed.
      *
-     * @param Extension $extension
+     * @param  Extension $extension
+     * @return bool
      */
     public function install(Extension $extension)
     {
@@ -84,13 +87,14 @@ class ExtensionRepository implements ExtensionRepositoryInterface
         $extension->installed = true;
         $extension->enabled   = true;
 
-        $extension->save();
+        return $extension->save();
     }
 
     /**
      * Mark a extension as uninstalled.
      *
-     * @param Extension $extension
+     * @param  Extension $extension
+     * @return bool
      */
     public function uninstall(Extension $extension)
     {
@@ -99,6 +103,36 @@ class ExtensionRepository implements ExtensionRepositoryInterface
         $extension->installed = false;
         $extension->enabled   = false;
 
-        $extension->save();
+        return $extension->save();
+    }
+
+    /**
+     * Mark a extension as disabled.
+     *
+     * @param Extension $extension
+     * @return bool
+     */
+    public function disable(Extension $extension)
+    {
+        $extension = $this->model->findByNamespace($extension->getNamespace());
+
+        $extension->enabled = false;
+
+        return $extension->save();
+    }
+
+    /**
+     * Mark a extension as enabled.
+     *
+     * @param Extension $extension
+     * @return bool
+     */
+    public function enabled(Extension $extension)
+    {
+        $extension = $this->model->findByNamespace($extension->getNamespace());
+
+        $extension->enabled = true;
+
+        return $extension->save();
     }
 }

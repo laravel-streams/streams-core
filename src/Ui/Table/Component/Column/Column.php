@@ -49,6 +49,13 @@ class Column implements ColumnInterface
     protected $header = null;
 
     /**
+     * The column entry.
+     *
+     * @var null|mixed
+     */
+    protected $entry = null;
+
+    /**
      * Get the wrapper.
      *
      * @return null|string
@@ -161,5 +168,28 @@ class Column implements ColumnInterface
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Get the entry.
+     *
+     * @return mixed|null
+     */
+    public function getEntry()
+    {
+        return $this->entry;
+    }
+
+    /**
+     * Set the entry.
+     *
+     * @param $entry
+     * @return $this
+     */
+    public function setEntry($entry)
+    {
+        $this->entry = $entry;
+
+        return $this;
     }
 }

@@ -85,4 +85,19 @@ interface ColumnInterface
      * @return mixed|null
      */
     public function getValue();
+
+    /**
+     * Get the entry.
+     *
+     * @return mixed|null
+     */
+    public function getEntry();
+
+    /**
+     * Set the entry.
+     *
+     * @param $entry
+     * @return $this
+     */
+    public function setEntry($entry);
 }

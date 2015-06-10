@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Contract;
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
  * Interface ModuleRepositoryInterface
@@ -16,7 +18,7 @@ interface ModuleRepositoryInterface
     /**
      * Return all modules in the database.
      *
-     * @return mixed
+     * @return EloquentCollection
      */
     public function all();
 
@@ -24,6 +26,7 @@ interface ModuleRepositoryInterface
      * Create a module record.
      *
      * @param Module $module
+     * @return bool
      */
     public function create(Module $module);
 
@@ -31,6 +34,7 @@ interface ModuleRepositoryInterface
      * Delete a module record.
      *
      * @param Module $module
+     * @return ModuleModel
      */
     public function delete(Module $module);
 
@@ -38,6 +42,7 @@ interface ModuleRepositoryInterface
      * Mark a module as installed.
      *
      * @param Module $module
+     * @return bool
      */
     public function install(Module $module);
 
@@ -45,6 +50,23 @@ interface ModuleRepositoryInterface
      * Mark a module as uninstalled.
      *
      * @param Module $module
+     * @return bool
      */
     public function uninstall(Module $module);
+
+    /**
+     * Mark a module as disabled.
+     *
+     * @param Module $module
+     * @return bool
+     */
+    public function disable(Module $module);
+
+    /**
+     * Mark a module as enabled.
+     *
+     * @param Module $module
+     * @return bool
+     */
+    public function enabled(Module $module);
 }
