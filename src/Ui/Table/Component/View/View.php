@@ -28,6 +28,13 @@ class View implements ViewInterface
     protected $text = null;
 
     /**
+     * The view icon.
+     *
+     * @var null|string
+     */
+    protected $icon = null;
+
+    /**
      * The active flag.
      *
      * @var bool
@@ -47,6 +54,27 @@ class View implements ViewInterface
      * @var array
      */
     protected $attributes = [];
+
+    /**
+     * The view columns.
+     *
+     * @var null
+     */
+    protected $columns = null;
+
+    /**
+     * The view buttons.
+     *
+     * @var null
+     */
+    protected $buttons = null;
+
+    /**
+     * The view actions.
+     *
+     * @var null
+     */
+    protected $actions = null;
 
     /**
      * The view handler.
@@ -191,5 +219,97 @@ class View implements ViewInterface
     public function getText()
     {
         return $this->text;
+    }
+
+    /**
+     * Get the icon.
+     *
+     * @return null|string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * Set the icon.
+     *
+     * @param $icon
+     * @return $this
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * Get the columns.
+     *
+     * @return null|array
+     */
+    public function getColumns()
+    {
+        return $this->columns;
+    }
+
+    /**
+     * Set the columns.
+     *
+     * @param $columns
+     * @return $this
+     */
+    public function setColumns($columns)
+    {
+        $this->columns = $columns;
+
+        return $this;
+    }
+
+    /**
+     * Get the buttons.
+     *
+     * @return null|array
+     */
+    public function getButtons()
+    {
+        return $this->buttons;
+    }
+
+    /**
+     * Set the buttons.
+     *
+     * @param $buttons
+     * @return $this
+     */
+    public function setButtons($buttons)
+    {
+        $this->buttons = $buttons;
+
+        return $this;
+    }
+
+    /**
+     * Get the actions.
+     *
+     * @return null|array
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
+     * Set the actions.
+     *
+     * @param $actions
+     * @return $this
+     */
+    public function setActions($actions)
+    {
+        $this->actions = $actions;
+
+        return $this;
     }
 }

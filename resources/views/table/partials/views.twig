@@ -4,6 +4,7 @@
             {% for view in table.views %}
                 <li class="{{ view.isActive() ? 'active' }}">
                     <a class="{{ view.class }}" {{ html_attributes(view.attributes) }}>
+                        {{ view.icon ? icon(view.icon)|raw }}
                         {{ trans(view.getText()) }}
                     </a>
                 </li>

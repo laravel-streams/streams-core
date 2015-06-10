@@ -100,4 +100,49 @@ interface ViewInterface
      * @return string
      */
     public function getText();
+
+    /**
+     * Get the icon.
+     *
+     * @return null|string
+     */
+    public function getIcon();
+
+    /**
+     * Set the icon.
+     *
+     * @param $icon
+     * @return $this
+     */
+    public function setIcon($icon);
+
+    /**
+     * Get the buttons.
+     *
+     * @return null|array
+     */
+    public function getButtons();
+
+    /**
+     * Set the buttons.
+     *
+     * @param $buttons
+     * @return $this
+     */
+    public function setButtons($buttons);
+
+    /**
+     * Get the actions.
+     *
+     * @return null|array
+     */
+    public function getActions();
+
+    /**
+     * Set the actions.
+     *
+     * @param $actions
+     * @return $this
+     */
+    public function setActions($actions);
 }

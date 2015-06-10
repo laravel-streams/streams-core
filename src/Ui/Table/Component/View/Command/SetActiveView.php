@@ -54,5 +54,20 @@ class SetActiveView implements SelfHandling
         if (!$view && $view = $views->first()) {
             $view->setActive(true);
         }
+
+        // Set columns from active view.
+        if ($view && ($columns = $view->getColumns()) !== null) {
+            $this->builder->setColumns($columns);
+        }
+
+        // Set buttons from active view.
+        if ($view && ($buttons = $view->getButtons()) !== null) {
+            $this->builder->setButtons($buttons);
+        }
+
+        // Set actions from active view.
+        if ($view && ($actions = $view->getActions()) !== null) {
+            $this->builder->setActions($actions);
+        }
     }
 }
