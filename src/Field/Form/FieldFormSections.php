@@ -29,7 +29,18 @@ class FieldFormSections
                             array_filter(
                                 $builder->getFields(),
                                 function ($field) {
-                                    return starts_with($field['field'], 'config.') ? false : true;
+
+                                    // No config fields.
+                                    if (starts_with($field['field'], 'config.')) {
+                                        return false;
+                                    }
+
+                                    // Only default locale fields.
+                                    if (isset($field['locale']) && $field['locale'] !== config('app.fallback_locale')) {
+                                        return false;
+                                    }
+
+                                    return true;
                                 }
                             )
                         );
@@ -44,7 +55,18 @@ class FieldFormSections
                             array_filter(
                                 $builder->getFields(),
                                 function ($field) {
-                                    return !starts_with($field['field'], 'config.') ? false : true;
+
+                                    // Only config fields.
+                                    if (!starts_with($field['field'], 'config.')) {
+                                        return false;
+                                    }
+
+                                    // Only default locale fields.
+                                    if (isset($field['locale']) && $field['locale'] !== config('app.fallback_locale')) {
+                                        return false;
+                                    }
+
+                                    return true;
                                 }
                             )
                         );

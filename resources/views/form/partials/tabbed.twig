@@ -17,7 +17,7 @@
                     </div>
                 {% else %}
                     {% for field in tab.fields %}
-                        {% for field in form.fields.fields(field) %}
+                        {% for field in form.fields.translations(field) %}
                             {{ field.render|raw }}
                         {% endfor %}
                     {% endfor %}

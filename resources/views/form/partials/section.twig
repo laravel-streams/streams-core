@@ -10,7 +10,7 @@
 
     <div class="panel-body">
         {% for field in section.fields %}
-            {% for field in form.fields.fields(field) %}
+            {% for field in form.fields.translations(field) %}
                 {{ field.render|raw }}
             {% endfor %}
         {% endfor %}

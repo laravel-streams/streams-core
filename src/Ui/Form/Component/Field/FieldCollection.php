@@ -16,12 +16,32 @@ class FieldCollection extends Collection
 {
 
     /**
-     * Return fields matching the given field.
+     * Return base fields only.
+     * No translations.
+     *
+     * @return FieldCollection
+     */
+    public function base()
+    {
+        $fields = [];
+
+        /* @var FieldType $item */
+        foreach ($this->items as $item) {
+            if ($item->getLocale() == config('app.fallback_locale')) {
+                $fields[] = $item;
+            }
+        }
+
+        return new static($fields);
+    }
+
+    /**
+     * Return all translations for a field.
      *
      * @param $field
      * @return FieldCollection
      */
-    public function fields($field)
+    public function translations($field)
     {
         $fields = [];
 
