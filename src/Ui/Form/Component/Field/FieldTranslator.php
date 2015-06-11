@@ -36,7 +36,7 @@ class FieldTranslator
                 continue;
             }
 
-            foreach (config('streams.enabled_locales') as $locale => $language) {
+            foreach (config('streams::locales.enabled') as $locale) {
 
                 $translation = $field;
 

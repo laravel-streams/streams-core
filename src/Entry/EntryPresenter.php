@@ -53,7 +53,7 @@ class EntryPresenter extends EloquentPresenter
     public function createdAtDate()
     {
         return $this->object->created_at
-            ->setTimezone(config('streams.timezone'))
+            ->setTimezone(config('app.timezone'))
             ->format(config('streams.date_format'));
     }
 
@@ -65,7 +65,7 @@ class EntryPresenter extends EloquentPresenter
     public function createdAtDatetime()
     {
         return $this->object->created_at
-            ->setTimezone(config('streams.timezone'))
+            ->setTimezone(config('app.timezone'))
             ->format(config('streams.date_format') . ' ' . config('streams.time_format'));
     }
 
@@ -77,7 +77,7 @@ class EntryPresenter extends EloquentPresenter
     public function updatedAtDate()
     {
         return $this->object->updated_at
-            ->setTimezone(config('streams.timezone'))
+            ->setTimezone(config('app.timezone'))
             ->format(config('streams.date_format'));
     }
 
@@ -89,7 +89,7 @@ class EntryPresenter extends EloquentPresenter
     public function updatedAtDatetime()
     {
         return $this->object->updated_at
-            ->setTimezone(config('streams.timezone'))
+            ->setTimezone(config('app.timezone'))
             ->format(config('streams.date_format') . ' ' . config('streams.time_format'));
     }
 

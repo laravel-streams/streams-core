@@ -2,10 +2,10 @@
     <nav id="translations" class="navbar navbar-default">
         <ul class="nav navbar-nav">
 
-            {% for iso, name in config_get('streams.enabled_locales') %}
-                <li class="{{ iso == config_get('app.locale') ? 'active' }}">
+            {% for iso in config_get('streams::locales.enabled') %}
+                <li class="{{ iso == config_get('app.fallback_locale') ? 'active' }}">
                     <a href="#" lang="{{ iso }}">
-                        {{ name }}
+                        {{ config_get('streams::locales.supported.' ~ iso ~ '.name') }}
                     </a>
                 </li>
             {% endfor %}

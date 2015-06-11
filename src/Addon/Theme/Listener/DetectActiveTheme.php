@@ -72,9 +72,9 @@ class DetectActiveTheme
     public function handle()
     {
         if (in_array($this->request->segment(1), ['installer', 'admin'])) {
-            $theme = $this->config->get('streams.admin_theme');
+            $theme = $this->config->get('streams::themes.active.admin');
         } else {
-            $theme = $this->config->get('streams.standard_theme');
+            $theme = $this->config->get('streams::themes.active.standard');
         }
 
         $theme = app($theme);

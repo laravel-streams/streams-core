@@ -45,7 +45,14 @@ return [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'options' => function () {
-                return config('streams.available_locales');
+
+                $options = [];
+
+                foreach (config('streams::locales.supported') as $iso => $locale) {
+                    $options[$iso] = $locale['name'];
+                }
+
+                return $options;
             }
         ],
     ],
@@ -123,7 +130,7 @@ return [
     'standard_theme' => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
-            'default_value' => config('streams.standard_theme'),
+            'default_value' => config('streams::themes.active.standard'),
             'options'       => function (\Anomaly\Streams\Platform\Addon\Theme\ThemeCollection $themes) {
                 return $themes->standard()->lists('name', 'namespace');
             }
@@ -132,7 +139,7 @@ return [
     'admin_theme'    => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
-            'default_value' => config('streams.standard_theme'),
+            'default_value' => config('streams::themes.active.standard'),
             'options'       => function (\Anomaly\Streams\Platform\Addon\Theme\ThemeCollection $themes) {
                 return $themes->admin()->lists('name', 'namespace');
             }

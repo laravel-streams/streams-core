@@ -109,7 +109,7 @@ class AddonCollection extends Collection
     {
         $addons = [];
 
-        foreach (config('streams.addon_types') as $type) {
+        foreach (config('streams::addons.types') as $type) {
 
             /* @var Addon $addon */
             foreach (app("{$type}.collection") as $addon) {
@@ -131,7 +131,7 @@ class AddonCollection extends Collection
     {
         $type = str_singular($method);
 
-        if (in_array($type, config('streams.addon_types'))) {
+        if (in_array($type, config('streams::addons.types'))) {
             return app("{$type}.collection");
         }
 
@@ -148,7 +148,7 @@ class AddonCollection extends Collection
     {
         $type = str_singular($name);
 
-        if (in_array($type, config('streams.addon_types'))) {
+        if (in_array($type, config('streams::addons.types'))) {
             return app("{$type}.collection");
         }
 

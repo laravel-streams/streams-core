@@ -504,7 +504,7 @@ class EloquentModel extends Model implements Arrayable
 
     protected function isKeyALocale($key)
     {
-        return in_array($key, array_keys(config('streams::languages')));
+        return config('streams::locales.supported' . $key) !== null;
     }
 
     protected function isTranslationDirty(Model $translation)

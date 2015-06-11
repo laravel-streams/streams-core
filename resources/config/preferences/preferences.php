@@ -5,7 +5,14 @@ return [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'options' => function () {
-                return config('streams.available_locales');
+
+                $options = [];
+
+                foreach (config('streams::locales.supported') as $iso => $locale) {
+                    $options[$iso] = $locale['name'];
+                }
+
+                return $options;
             }
         ],
     ],
