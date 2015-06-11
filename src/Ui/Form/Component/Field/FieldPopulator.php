@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -24,18 +25,14 @@ class FieldPopulator
         $fields = $builder->getFields();
         $entry  = $builder->getFormEntry();
 
-        if (!$entry instanceof EntryInterface) {
-            return;
-        }
-
         foreach ($fields as &$field) {
 
             /**
              * If the field is not already set
              * then get the value off the entry.
              */
-            if (!isset($field['value']) && $entry->getId()) {
-                $field['value'] = $entry->getFieldValue($field['field'], array_get($field, 'locale'));
+            if (!isset($field['value']) && $entry instanceof EloquentModel && $entry->getId()) {
+                $field['value'] = $entry->translateOrDefault(array_get($field, 'locale'))->$field['field'];
             }
 
             /**
@@ -43,7 +40,7 @@ class FieldPopulator
              * and the entry does not exist yet
              * then use the default value.
              */
-            if (isset($field['config']['default_value']) && !$entry->getId()) {
+            if (isset($field['config']['default_value']) && $entry instanceof EloquentModel && !$entry->getId()) {
                 $field['value'] = $field['config']['default_value'];
             }
 
@@ -51,7 +48,10 @@ class FieldPopulator
              * If the field is an assignment then
              * use it's config for the default value.
              */
-            if (!isset($field['value']) && $type = $entry->getFieldType($field['field'])) {
+            if (!isset($field['value']) && $entry instanceof EntryInterface && $type = $entry->getFieldType(
+                    $field['field']
+                )
+            ) {
                 $field['value'] = array_get($type->getConfig(), 'default_value');
             }
         }
