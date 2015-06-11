@@ -60,9 +60,25 @@ class FieldTypeSchema
         }
 
         // Add the column.
-        $table->{$this->fieldType->getColumnType()}($this->fieldType->getColumnName())
-            ->nullable(!$assignment->isRequired())
-            ->default(array_get($this->fieldType->getConfig(), 'default_value'));
+        if (!$assignment->isTranslatable()) {
+
+            /**
+             * If the assignment is NOT translatable then it
+             * can be required and also have a default value.
+             */
+            $table->{$this->fieldType->getColumnType()}($this->fieldType->getColumnName())
+                ->nullable(!$assignment->isRequired())
+                ->default(array_get($this->fieldType->getConfig(), 'default_value'));
+        } else {
+
+            /**
+             * If the assignment is translatable then it
+             * must be nullable cause translations are not
+             * required input.
+             */
+            $table->{$this->fieldType->getColumnType()}($this->fieldType->getColumnName())
+                ->nullable(true);
+        }
 
         // Mark the column unique if desired and not translatable.
         if ($assignment->isUnique() && !$assignment->isTranslatable()) {
