@@ -21,9 +21,9 @@ class Csv
     /**
      * The CSV escape.
      *
-     * @var null|string
+     * @var string
      */
-    protected $escape = null;
+    protected $escape = '\\';
 
     /**
      * The CSV delimiter.
@@ -35,9 +35,9 @@ class Csv
     /**
      * The CSV enclosure.
      *
-     * @var null|string
+     * @var string
      */
-    protected $enclosure = null;
+    protected $enclosure = '"';
 
     /**
      * Read data from a CSV.
@@ -100,7 +100,7 @@ class Csv
     /**
      * Get the escape character.
      *
-     * @return null|string
+     * @return string
      */
     public function getEscape()
     {
@@ -146,7 +146,7 @@ class Csv
     /**
      * Get the enclosure.
      *
-     * @return null|string
+     * @return string
      */
     public function getEnclosure()
     {
