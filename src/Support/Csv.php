@@ -100,7 +100,7 @@ class Csv
     /**
      * Get the escape character.
      *
-     * @return string
+     * @return null|string
      */
     public function getEscape()
     {
@@ -146,7 +146,7 @@ class Csv
     /**
      * Get the enclosure.
      *
-     * @return string
+     * @return null|string
      */
     public function getEnclosure()
     {
