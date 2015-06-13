@@ -42,13 +42,12 @@ class FilterResults
     {
         $query   = $event->getQuery();
         $builder = $event->getBuilder();
-        $table   = $builder->getTable();
 
-        $filters = $table->getFilters();
+        $filters = $builder->getTableFilters();
 
         foreach ($filters->active() as $filter) {
             if ($filter instanceof FilterInterface) {
-                $this->query->filter($table, $query, $filter);
+                $this->query->filter($builder, $query, $filter);
             }
         }
     }

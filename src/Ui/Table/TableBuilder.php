@@ -471,6 +471,16 @@ class TableBuilder
     }
 
     /**
+     * Get the table filters.
+     *
+     * @return Component\Filter\FilterCollection
+     */
+    public function getTableFilters()
+    {
+        return $this->table->getFilters();
+    }
+
+    /**
      * Add a row to the table.
      *
      * @param RowInterface $row
