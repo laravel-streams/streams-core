@@ -16,7 +16,7 @@ class Csv
      *
      * @var int
      */
-    protected $length = 1000;
+    protected $length = 99999;
 
     /**
      * The header flag.
@@ -69,7 +69,7 @@ class Csv
 
             if ($this->hasHeader() && !$header) {
                 $header = $row;
-            } elseif ($this->hasHeader() && (count($header) === count($row))) {
+            } elseif ($this->hasHeader()) {
                 $data[] = array_combine($header, $row);
             } else {
                 $data[] = $row;
