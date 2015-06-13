@@ -103,14 +103,16 @@ class EntryPresenter extends EloquentPresenter
         return app('html')->link(
             implode(
                 '/',
-                array_filter(
-                    [
-                        'admin',
-                        $this->object->getStreamNamespace(),
-                        $this->object->getStreamSlug(),
-                        'edit',
-                        $this->object->getId()
-                    ]
+                array_unique(
+                    array_filter(
+                        [
+                            'admin',
+                            $this->object->getStreamNamespace(),
+                            $this->object->getStreamSlug(),
+                            'edit',
+                            $this->object->getId()
+                        ]
+                    )
                 )
             ),
             $this->object->getTitle()
@@ -127,14 +129,16 @@ class EntryPresenter extends EloquentPresenter
         return app('html')->link(
             implode(
                 '/',
-                array_filter(
-                    [
-                        'admin',
-                        $this->object->getStreamNamespace(),
-                        $this->object->getStreamSlug(),
-                        'show',
-                        $this->object->getId()
-                    ]
+                array_unique(
+                    array_filter(
+                        [
+                            'admin',
+                            $this->object->getStreamNamespace(),
+                            $this->object->getStreamSlug(),
+                            'show',
+                            $this->object->getId()
+                        ]
+                    )
                 )
             ),
             $this->object->getTitle()
