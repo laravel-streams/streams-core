@@ -69,7 +69,7 @@ class Csv
 
             if ($this->hasHeader() && !$header) {
                 $header = $row;
-            } elseif ($this->hasHeader()) {
+            } elseif ($this->hasHeader() && (count($header) === count($row))) {
                 $data[] = array_combine($header, $row);
             } else {
                 $data[] = $row;
