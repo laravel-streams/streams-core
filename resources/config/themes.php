@@ -2,7 +2,7 @@
 
 return [
     'active' => [
-        'admin'    => 'anomaly.theme.anomaly',
-        'standard' => 'anomaly.theme.anomaly'
+        'admin'    => env('ADMIN_THEME', 'anomaly.theme.anomaly'),
+        'standard' => env('STANDARD_THEME', 'anomaly.theme.anomaly')
     ]
 ];
