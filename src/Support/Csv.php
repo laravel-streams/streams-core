@@ -12,6 +12,13 @@ class Csv
 {
 
     /**
+     * The length to retrieve.
+     *
+     * @var int
+     */
+    protected $length = 1000;
+
+    /**
      * The header flag.
      *
      * @var bool
@@ -54,7 +61,7 @@ class Csv
 
         while (($row = fgetcsv(
                 $handle,
-                99999,
+                $this->getLength(),
                 $this->getDelimiter(),
                 $this->getEnclosure(),
                 $this->getEscape()
@@ -72,6 +79,29 @@ class Csv
         fclose($handle);
 
         return $data;
+    }
+
+    /**
+     * Get the limit.
+     *
+     * @return int
+     */
+    public function getLength()
+    {
+        return $this->length;
+    }
+
+    /**
+     * Set the limit.
+     *
+     * @param $length
+     * @return $this
+     */
+    public function setLength($length)
+    {
+        $this->length = $length;
+
+        return $this;
     }
 
     /**
