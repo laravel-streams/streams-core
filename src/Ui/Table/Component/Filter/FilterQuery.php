@@ -31,7 +31,10 @@ class FilterQuery
          * it filter the query itself.
          */
         if ($filter instanceof SelfHandling) {
+
             app()->call([$filter, 'handle'], compact('builder', 'query', 'filter'));
+
+            return;
         }
 
         $handler = $filter->getHandler();
@@ -41,7 +44,10 @@ class FilterQuery
          * then call it using the IoC container.
          */
         if (is_string($handler) || $handler instanceof \Closure) {
+
             app()->call($handler, compact('builder', 'query', 'filter'));
+
+            return;
         }
     }
 }
