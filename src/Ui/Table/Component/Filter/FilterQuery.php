@@ -26,18 +26,22 @@ class FilterQuery
      */
     public function filter(TableBuilder $builder, Builder $query, FilterInterface $filter)
     {
+        /**
+         * If the filter is self handling then let
+         * it filter the query itself.
+         */
         if ($filter instanceof SelfHandling) {
-            $handler = get_class($filter) . '@handle';
-        } else {
-            $handler = $filter->getHandler();
+            app()->call([$filter, 'handle'], compact('builder', 'query', 'filter'));
         }
+
+        $handler = $filter->getHandler();
 
         /**
          * If the handler is a callable string or Closure
          * then call it using the IoC container.
          */
         if (is_string($handler) || $handler instanceof \Closure) {
-            return app()->call($handler, compact('builder', 'query', 'filter'));
+            app()->call($handler, compact('builder', 'query', 'filter'));
         }
     }
 }

@@ -29,11 +29,22 @@ class FilterNormalizer
              * If the filter is a string then use
              * it for everything.
              */
-            if (is_string($filter)) {
+            if (is_string($filter) && !str_contains($filter, '/')) {
                 $filter = [
                     'slug'   => $filter,
                     'field'  => $filter,
-                    'filter' => 'field',
+                    'filter' => 'field'
+                ];
+            }
+
+            /**
+             * If the filter is a class string then use
+             * it for the filter.
+             */
+            if (is_string($filter) && str_contains($filter, '/')) {
+                $filter = [
+                    'slug'   => $filter,
+                    'filter' => $filter
                 ];
             }
 
