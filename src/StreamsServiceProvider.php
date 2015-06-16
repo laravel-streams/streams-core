@@ -47,7 +47,12 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new AddImageNamespaces());
         $this->dispatch(new AddViewNamespaces());
         $this->dispatch(new AddTwigExtensions());
-        $this->dispatch(new RegisterAddons());
+
+        $this->app->booted(
+            function () {
+                $this->dispatch(new RegisterAddons());
+            }
+        );
     }
 
     /**
@@ -91,16 +96,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind(
             'App\Http\Middleware\VerifyCsrfToken',
             'Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken'
-        );
-
-        /**
-         * Bind the scheduler.. Not sure why we
-         * have to do this but it loses events after
-         * registering addons.
-         */
-        $this->app->singleton(
-            'Illuminate\Console\Scheduling\Schedule',
-            'Illuminate\Console\Scheduling\Schedule'
         );
 
         /**
