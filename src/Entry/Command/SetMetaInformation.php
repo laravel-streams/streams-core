@@ -55,6 +55,12 @@ class SetMetaInformation implements SelfHandling
             }
         } else {
 
+            // In case it's being imported with an ID.
+            if (!$this->entry->created_at) {
+                $this->entry->created_at = time();
+                $this->entry->created_by = $auth->id();
+            }
+
             $this->entry->updated_at = time();
             $this->entry->updated_by = $auth->id();
         }
