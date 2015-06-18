@@ -74,6 +74,6 @@ class EloquentCollection extends Collection
             $this->items = array_merge($this->items, $this->items);
         }
 
-        return new static($this->slice(0, $size));
+        return new static($this->items);
     }
 }
