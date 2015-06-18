@@ -34,8 +34,8 @@
             </a>
 
             {# Render the actual dropdown links #}
-            {% for link in button.dropdown %}
-                <ul class="dropdown-menu pull-right">
+            <ul class="dropdown-menu pull-right">
+                {% for link in button.dropdown %}
                     <li>
 
                         {# Render normal buttons as an anchor #}
@@ -55,8 +55,8 @@
                         {% endif %}
 
                     </li>
-                </ul>
-            {% endfor %}
+                {% endfor %}
+            </ul>
         </div>
     {% endif %}
 

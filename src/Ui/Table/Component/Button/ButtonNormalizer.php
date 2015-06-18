@@ -136,7 +136,7 @@ class ButtonNormalizer
                     }
                 }
 
-                $button['dropdown'] = $dropdown;
+                $button['dropdown'] = array_values($dropdown);
             }
 
             /**
