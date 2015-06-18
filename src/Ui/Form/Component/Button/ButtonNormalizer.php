@@ -86,51 +86,54 @@ class ButtonNormalizer
             /**
              * Normalize dropdown input.
              */
-            foreach (array_get($button, 'dropdown', []) as $dropdownKey => &$dropdown) {
+            if($dropdown = array_get($button, 'dropdown', [])) {
 
-                /**
-                 * If the dropdown is a string then
-                 * use them for the HREF and text.
-                 */
-                if (is_string($dropdown)) {
-                    $dropdown = [
-                        'text' => $dropdown,
-                        'href' => $dropdownKey
-                    ];
-                }
+                foreach ($dropdown as $linkKey => &$link) {
 
-                /**
-                 * Move the HREF if any to the attributes.
-                 */
-                if (isset($dropdown['href'])) {
-                    array_set($dropdown['attributes'], 'href', array_pull($dropdown, 'href'));
-                }
-
-                /**
-                 * Move the target if any to the attributes.
-                 */
-                if (isset($dropdown['target'])) {
-                    array_set($dropdown['attributes'], 'target', array_pull($dropdown, 'target'));
-                }
-
-                /**
-                 * Move all data-* keys to attributes.
-                 */
-                foreach (array_get($dropdown, 'attributes', []) as $attribute => $value) {
-                    if (str_is('data-*', $attribute)) {
-                        array_set($dropdown, 'attributes.' . $attribute, array_pull($dropdown, $attribute));
+                    /**
+                     * If the dropdown is a string then
+                     * use them for the HREF and text.
+                     */
+                    if (is_string($link)) {
+                        $link = [
+                            'text' => $link,
+                            'href' => $linkKey
+                        ];
                     }
-                }
 
-                /**
-                 * Make sure the HREF is absolute.
-                 */
-                if (
-                    isset($dropdown['attributes']['href']) &&
-                    is_string($dropdown['attributes']['href']) &&
-                    !starts_with($dropdown['attributes']['href'], 'http')
-                ) {
-                    $dropdown['attributes']['href'] = url($dropdown['attributes']['href']);
+                    /**
+                     * Move the HREF if any to the attributes.
+                     */
+                    if (isset($link['href'])) {
+                        array_set($link['attributes'], 'href', array_pull($link, 'href'));
+                    }
+
+                    /**
+                     * Move the target if any to the attributes.
+                     */
+                    if (isset($link['target'])) {
+                        array_set($link['attributes'], 'target', array_pull($link, 'target'));
+                    }
+
+                    /**
+                     * Move all data-* keys to attributes.
+                     */
+                    foreach (array_get($link, 'attributes', []) as $attribute => $value) {
+                        if (str_is('data-*', $attribute)) {
+                            array_set($link, 'attributes.' . $attribute, array_pull($link, $attribute));
+                        }
+                    }
+
+                    /**
+                     * Make sure the HREF is absolute.
+                     */
+                    if (
+                        isset($link['attributes']['href']) &&
+                        is_string($link['attributes']['href']) &&
+                        !starts_with($link['attributes']['href'], 'http')
+                    ) {
+                        $link['attributes']['href'] = url($link['attributes']['href']);
+                    }
                 }
 
                 $button['dropdown'] = $dropdown;
