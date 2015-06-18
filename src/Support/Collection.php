@@ -31,4 +31,28 @@ class Collection extends \Illuminate\Support\Collection
 
         return new static($shuffled);
     }
+
+    /**
+     * Pad to the specified size with a value.
+     *
+     * @param       $size
+     * @param null  $value
+     * @return $this
+     */
+    public function pad($size, $value = null)
+    {
+        if ($this->isEmpty()) {
+            return $this;
+        }
+
+        if ($value) {
+            return new static(array_pad($this->items, $size, $value));
+        }
+
+        while ($this->count() < $size) {
+            $this->items = array_merge($this->items, $this->items);
+        }
+
+        return new static($this->slice(0, $size));
+    }
 }
