@@ -82,6 +82,59 @@ class ButtonNormalizer
             ) {
                 $button['attributes']['href'] = url($button['attributes']['href']);
             }
+
+            /**
+             * Normalize dropdown input.
+             */
+            foreach (array_get($button, 'dropdown', []) as $dropdownKey => &$dropdown) {
+
+                /**
+                 * If the dropdown is a string then
+                 * use them for the HREF and text.
+                 */
+                if (is_string($dropdown)) {
+                    $dropdown = [
+                        'text' => $dropdown,
+                        'href' => $dropdownKey
+                    ];
+                }
+
+                /**
+                 * Move the HREF if any to the attributes.
+                 */
+                if (isset($dropdown['href'])) {
+                    array_set($dropdown['attributes'], 'href', array_pull($dropdown, 'href'));
+                }
+
+                /**
+                 * Move the target if any to the attributes.
+                 */
+                if (isset($dropdown['target'])) {
+                    array_set($dropdown['attributes'], 'target', array_pull($dropdown, 'target'));
+                }
+
+                /**
+                 * Move all data-* keys to attributes.
+                 */
+                foreach (array_get($dropdown, 'attributes', []) as $attribute => $value) {
+                    if (str_is('data-*', $attribute)) {
+                        array_set($dropdown, 'attributes.' . $attribute, array_pull($dropdown, $attribute));
+                    }
+                }
+
+                /**
+                 * Make sure the HREF is absolute.
+                 */
+                if (
+                    isset($dropdown['attributes']['href']) &&
+                    is_string($dropdown['attributes']['href']) &&
+                    !starts_with($dropdown['attributes']['href'], 'http')
+                ) {
+                    $dropdown['attributes']['href'] = url($dropdown['attributes']['href']);
+                }
+
+                $button['dropdown'] = $dropdown;
+            }
         }
 
         $builder->setButtons($buttons);
