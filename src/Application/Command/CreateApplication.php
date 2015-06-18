@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
+use Anomaly\Streams\Platform\Application\ApplicationRepository;
+use Illuminate\Contracts\Bus\SelfHandling;
+
 /**
  * Class CreateApplication
  *
@@ -8,7 +11,7 @@
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Application\Command
  */
-class CreateApplication
+class CreateApplication implements SelfHandling
 {
 
     /**
@@ -29,12 +32,12 @@ class CreateApplication
     }
 
     /**
-     * Get the attributes.
+     * Handle the command.
      *
-     * @return array
+     * @param ApplicationRepository $applications
      */
-    public function getAttributes()
+    public function handle(ApplicationRepository $applications)
     {
-        return $this->attributes;
+        return $applications->create($this->attributes);
     }
 }
