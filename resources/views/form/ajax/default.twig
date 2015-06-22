@@ -1,0 +1,9 @@
+{% if form.options.title %}
+    <h2>
+        {{ trans(form.options.title) }}
+    </h2>
+{% endif %}
+
+{% for field in form.fields %}
+    {{ field.render()|raw }}
+{% endfor %}

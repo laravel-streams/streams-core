@@ -1,0 +1,22 @@
+{% if form.fields.empty %}
+    <div class="panel">
+        <div class="panel-body">
+            {{ trans("streams::message.no_fields_available") }}
+        </div>
+    </div>
+{% else %}
+    {% if not form.sections.empty() %}
+        {% for section in form.sections %}
+            {% if section.view %}
+                {% include section.view %}
+            {% elseif section.fields %}
+                {% include "streams::form/ajax/section" %}
+            {% elseif section.tabs %}
+                {% include "streams::form/ajax/tabbed" %}
+            {% endif %}
+        {% endfor %}
+
+    {% else %}
+        {% include "streams::form/ajax/default" %}
+    {% endif %}
+{% endif %}

@@ -42,6 +42,11 @@ class SetFormResponse implements SelfHandling
         $options = $this->builder->getFormOptions();
         $data    = $this->builder->getFormData();
 
-        $this->builder->setFormResponse($response->view($options->get('wrapper_view', 'streams::blank'), $data));
+        $this->builder->setFormResponse(
+            $response->view(
+                $options->get('wrapper_view', $this->builder->isAjax() ? 'streams::ajax' : 'streams::blank'),
+                $data
+            )
+        );
     }
 }

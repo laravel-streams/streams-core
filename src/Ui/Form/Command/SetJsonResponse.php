@@ -2,16 +2,17 @@
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Routing\ResponseFactory;
 
 /**
- * Class MakeForm
+ * Class SetJsonResponse
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Command
  */
-class MakeForm implements SelfHandling
+class SetJsonResponse implements SelfHandling
 {
 
     /**
@@ -22,7 +23,7 @@ class MakeForm implements SelfHandling
     protected $builder;
 
     /**
-     * Create a new MakeForm instance.
+     * Create a new SetJsonResponse instance.
      *
      * @param FormBuilder $builder
      */
@@ -33,20 +34,18 @@ class MakeForm implements SelfHandling
 
     /**
      * Handle the command.
+     *
+     * @param ResponseFactory $response
      */
-    public function handle()
+    public function handle(ResponseFactory $response)
     {
-        $form = $this->builder->getForm();
-
-        $options = $form->getOptions();
-        $data    = $form->getData();
-
-        $content = view(
-            $options->get('form_view', $this->builder->isAjax() ? 'streams::form/ajax' : 'streams::form/form'),
-            $data->all()
+        $this->builder->setFormResponse(
+            $response->json(
+                [
+                    'errors'   => $this->builder->getFormErrors()->all(),
+                    'redirect' => $this->builder->getFormActions()->active()->getRedirect()
+                ]
+            )
         );
-
-        $form->setContent($content);
-        $form->addData('content', $content);
     }
 }
