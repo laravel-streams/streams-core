@@ -49,4 +49,28 @@ class FieldTypeModifier
     {
         return $value;
     }
+
+    /**
+     * Return whether the value
+     * needs to be modified.
+     *
+     * @param $value
+     * @return bool
+     */
+    protected function needsModifying($value)
+    {
+        return $value !== null;
+    }
+
+    /**
+     * Return whether the value
+     * needs to be restored.
+     *
+     * @param $value
+     * @return bool
+     */
+    protected function needsRestoring($value)
+    {
+        return $value !== null;
+    }
 }
