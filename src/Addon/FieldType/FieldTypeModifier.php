@@ -36,6 +36,10 @@ class FieldTypeModifier
      */
     public function modify($value)
     {
+        if (!$this->needsModifying($value)) {
+            return $value;
+        }
+
         return $value;
     }
 
@@ -47,6 +51,10 @@ class FieldTypeModifier
      */
     public function restore($value)
     {
+        if (!$this->needsRestoring($value)) {
+            return $value;
+        }
+
         return $value;
     }
 
