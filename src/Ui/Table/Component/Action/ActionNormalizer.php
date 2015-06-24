@@ -75,6 +75,16 @@ class ActionNormalizer
             $action['attributes'] = array_get($action, 'attributes', []);
 
             /**
+             * Move all data-* keys
+             * to attributes.
+             */
+            foreach ($action as $attribute => $value) {
+                if (str_is('data-*', $attribute)) {
+                    array_set($action, 'attributes.' . $attribute, array_pull($action, $attribute));
+                }
+            }
+            
+            /**
              * If the HREF is present outside of the attributes
              * then pull it and put it in the attributes array.
              */
