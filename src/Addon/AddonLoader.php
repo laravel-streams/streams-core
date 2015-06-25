@@ -43,6 +43,10 @@ class AddonLoader extends ClassLoader
             parent::add($namespace, $path . '/' . $autoload, false);
         }
 
+        foreach (array_get($composer['autoload'], 'files', []) as $file) {
+            include ($path . '/' . $file);
+        }
+
         parent::register();
     }
 }
