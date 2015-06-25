@@ -97,6 +97,10 @@ class ViewComposer
         $theme  = $this->themes->active();
         $module = $this->modules->active();
 
+        if (!$theme) {
+            return $view;
+        }
+
         $mobile    = $this->mobiles->get($theme->getNamespace(), []);
         $overrides = $this->overrides->get($theme->getNamespace(), []);
 

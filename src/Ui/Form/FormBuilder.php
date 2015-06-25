@@ -680,7 +680,7 @@ class FormBuilder
     }
 
     /**
-     * Ge tthe form response.
+     * Ge the form response.
      *
      * @return null|Response
      */

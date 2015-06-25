@@ -39,6 +39,10 @@ class SetErrorMessages implements SelfHandling
      */
     public function handle(MessageBag $messages)
     {
+        if ($this->builder->isAjax()) {
+            return;
+        }
+
         $errors = $this->builder->getFormErrors();
 
         $messages->error($errors->all());
