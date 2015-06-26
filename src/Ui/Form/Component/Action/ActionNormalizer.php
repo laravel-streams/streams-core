@@ -100,7 +100,7 @@ class ActionNormalizer
             if (
                 isset($action['redirect']) &&
                 is_string($action['redirect']) &&
-                !starts_with($action['redirect'], ['http', '{url.previous}'])
+                !starts_with($action['redirect'], ['http', '{url.'])
             ) {
                 $action['redirect'] = url($action['redirect']);
             }
