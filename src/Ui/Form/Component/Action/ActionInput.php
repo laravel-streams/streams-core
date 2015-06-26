@@ -14,6 +14,13 @@ class ActionInput
 {
 
     /**
+     * The action parser.
+     *
+     * @var ActionParser
+     */
+    protected $parser;
+
+    /**
      * The action guesser.
      *
      * @var ActionGuesser
@@ -51,6 +58,7 @@ class ActionInput
     /**
      * Create an ActionInput instance.
      *
+     * @param ActionParser     $parser
      * @param ActionGuesser    $guesser
      * @param ActionResolver   $resolver
      * @param ActionDefaults   $defaults
@@ -58,12 +66,14 @@ class ActionInput
      * @param ActionNormalizer $normalizer
      */
     function __construct(
+        ActionParser $parser,
         ActionGuesser $guesser,
         ActionResolver $resolver,
         ActionDefaults $defaults,
         ActionPredictor $predictor,
         ActionNormalizer $normalizer
     ) {
+        $this->parser     = $parser;
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
         $this->defaults   = $defaults;
@@ -83,5 +93,6 @@ class ActionInput
         $this->predictor->predict($builder);
         $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);
+        $this->parser->parse($builder);
     }
 }
