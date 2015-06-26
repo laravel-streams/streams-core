@@ -42,6 +42,13 @@ class FormBuilder
     protected $ajax = false;
 
     /**
+     * The form handler.
+     *
+     * @var null|string
+     */
+    protected $handler = null;
+
+    /**
      * The form model.
      *
      * @var null
@@ -81,7 +88,9 @@ class FormBuilder
      *
      * @var array|string
      */
-    protected $buttons = [];
+    protected $buttons = [
+        'cancel'
+    ];
 
     /**
      * The form options.
@@ -220,6 +229,29 @@ class FormBuilder
     public function setAjax($ajax)
     {
         $this->ajax = $ajax;
+
+        return $this;
+    }
+
+    /**
+     * Get the handler.
+     *
+     * @return null|string
+     */
+    public function getHandler()
+    {
+        return $this->handler;
+    }
+
+    /**
+     * Set the handler.
+     *
+     * @param $handler
+     * @return $this
+     */
+    public function setHandler($handler)
+    {
+        $this->handler = $handler;
 
         return $this;
     }

@@ -39,9 +39,25 @@ class SetDefaultParameters implements SelfHandling
     public function handle()
     {
         /**
+         * Set the default form handler based
+         * on the builder class. Defaulting to
+         * the base handler.
+         */
+        if (!$this->builder->getHandler()) {
+
+            $handler = str_replace('FormBuilder', 'FormHandler', get_class($this->builder));
+
+            if (class_exists($handler)) {
+                $this->builder->setHandler($handler . '@handle');
+            } else {
+                $this->builder->setHandler('Anomaly\Streams\Platform\Ui\Form\FormHandler@handle');
+            }
+        }
+
+        /**
          * Set the default fields handler based
          * on the builder class. Defaulting to
-         * no handler.
+         * all fields.
          */
         if (!$this->builder->getFields()) {
 

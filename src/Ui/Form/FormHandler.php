@@ -18,8 +18,10 @@ class FormHandler
      */
     public function handle(FormBuilder $builder)
     {
-        if ($builder->canSave()) {
-            $builder->saveForm();
+        if (!$builder->canSave()) {
+            return;
         }
+
+        $builder->saveForm();
     }
 }

@@ -36,19 +36,6 @@ class HandleForm implements SelfHandling
      */
     public function handle()
     {
-        // If we can't save, skip it.
-        if (!$this->builder->canSave()) {
-            return;
-        }
-
-        $handler = $this->builder->getFormOption('handler');
-
-        /**
-         * If the handler is a callable string or Closure then
-         * we and can resolve it through the IoC container.
-         */
-        if (is_string($handler) || $handler instanceof \Closure) {
-            app()->call($handler, ['builder' => $this->builder]);
-        }
+        app()->call($this->builder->getHandler(), ['builder' => $this->builder]);
     }
 }

@@ -7,7 +7,7 @@ $(function () {
 
         $.post($(this).attr('action'), $(this).serializeArray(), function (data) {
 
-            if (data.errors) {
+            if (data.errors.length) {
                 alert(data.errors.join('\n'));
             } else {
                 window.location = data.redirect;

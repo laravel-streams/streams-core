@@ -95,6 +95,17 @@ class ActionNormalizer
             }
 
             /**
+             * Make sure the HREF is absolute.
+             */
+            if (
+                isset($action['redirect']) &&
+                is_string($action['redirect']) &&
+                !starts_with($action['redirect'], 'http')
+            ) {
+                $action['redirect'] = url($action['redirect']);
+            }
+
+            /**
              * Set defaults as expected for actions.
              */
             $action['size'] = 'sm';
