@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple;
 
 use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\BuildTables;
+use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\LoadTables;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\MergeRows;
+use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\SetActiveActions;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableCollection;
@@ -46,6 +48,20 @@ class MultipleTableBuilder extends TableBuilder
 
         $this->dispatch(new BuildTables($this));
         $this->dispatch(new MergeRows($this));
+
+        if (app('request')->isMethod('post')) {
+            $this->dispatch(new SetActiveActions($this));
+        }
+    }
+
+    /**
+     * Make the table response.
+     */
+    public function make()
+    {
+        $this->dispatch(new LoadTables($this));
+
+        parent::make();
     }
 
     /**

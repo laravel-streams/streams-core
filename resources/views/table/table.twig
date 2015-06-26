@@ -22,7 +22,11 @@
                     {{ html_attributes(table.options.attributes) }}>
 
                 {% include "streams::table/partials/header" %}
-                {% include "streams::table/partials/body" %}
+
+                {% block body %}
+                    {% include "streams::table/partials/body" %}
+                {% endblock %}
+
                 {% include "streams::table/partials/footer" %}
 
             </table>

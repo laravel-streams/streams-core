@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
@@ -115,6 +116,14 @@ class SetDefaultOptions implements SelfHandling
             if ($model instanceof EloquentModel) {
                 $table->setOption('order_by', ['id' => 'asc']);
             }
+        }
+
+        /**
+         * If we're using a multiple table builder we need
+         * to set a different table_view if none is set.
+         */
+        if ($this->builder instanceof MultipleTableBuilder && !$table->getOption('table_view')) {
+            //$table->setOption('table_view', 'streams::table/multiple');
         }
     }
 }

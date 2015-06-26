@@ -494,6 +494,20 @@ class TableBuilder
     }
 
     /**
+     * Add data to the table.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function addTableData($key, $value)
+    {
+        $this->table->addData($key, $value);
+
+        return $this;
+    }
+
+    /**
      * Set the table response.
      *
      * @param Response $response
