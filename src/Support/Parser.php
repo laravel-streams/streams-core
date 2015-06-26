@@ -90,7 +90,8 @@ class Parser
                     'path' => $this->request->path()
                 ],
                 'route'   => [
-                    'parameters' => $route->parameters()
+                    'parameters'        => $route->parameters(),
+                    'parameters_string' => implode('/', $route->parameters())
                 ]
             ],
             $data
