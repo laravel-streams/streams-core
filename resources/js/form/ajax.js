@@ -5,7 +5,7 @@ $(function () {
 
         e.preventDefault();
 
-        $.post($(this).attr('action'), $(this).serializeArray(), function (data) {
+        $.post(encodeURI($(this).attr('action')), $(this).serializeArray(), function (data) {
 
             if (data.errors.length) {
                 alert(data.errors.join('\n'));

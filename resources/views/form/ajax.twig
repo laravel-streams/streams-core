@@ -10,7 +10,7 @@
         </button>
 
         <h4 class="modal-title">
-            {{ trans(form.options.modal_title)|raw }}
+            {{ trans(form.options.title)|raw }}
         </h4>
     </div>
 
@@ -19,7 +19,6 @@
     <div class="modal-body">
 
         {% include "streams::form/partials/translations" %}
-        {% include "streams::form/partials/heading" %}
         {% include "streams::form/ajax/layout" %}
 
     </div>

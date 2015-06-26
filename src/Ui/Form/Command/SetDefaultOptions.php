@@ -125,8 +125,8 @@ class SetDefaultOptions implements SelfHandling
          * just use a blank space so that the modal
          * header does not collapse.
          */
-        if ($this->builder->isAjax() && !$form->getOption('modal_title')) {
-            $form->setOption('modal_title', '&nbsp;');
+        if ($this->builder->isAjax() && !$form->getOption('title')) {
+            $form->setOption('title', '&nbsp;');
         }
     }
 }
