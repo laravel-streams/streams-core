@@ -119,5 +119,14 @@ class SetDefaultOptions implements SelfHandling
                 $form->setOption('repository', 'Anomaly\Streams\Platform\Model\EloquentFormRepository');
             }
         }
+
+        /**
+         * If the form is ajax and there is no title
+         * just use a blank space so that the modal
+         * header does not collapse.
+         */
+        if ($this->builder->isAjax() && !$form->getOption('modal_title')) {
+            $form->setOption('modal_title', '&nbsp;');
+        }
     }
 }
