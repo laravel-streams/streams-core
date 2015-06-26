@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\ExecuteAction;
+use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesCommands;
@@ -40,6 +41,10 @@ class PostTable implements SelfHandling
      */
     public function handle()
     {
+        if ($this->builder instanceof MultipleTableBuilder) {
+            return;
+        }
+
         $this->dispatch(new ExecuteAction($this->builder));
     }
 }
