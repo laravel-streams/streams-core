@@ -80,6 +80,8 @@ class RowBuilder
 
             $row = compact('columns', 'buttons', 'entry');
 
+            $row['table'] = $builder->getTable();
+
             $row = $this->evaluator->evaluate($row, compact('builder', 'entry'));
 
             $builder->addTableRow($this->factory->make($row));

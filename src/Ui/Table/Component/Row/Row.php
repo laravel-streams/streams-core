@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
+use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Support\Collection;
 
 /**
@@ -20,7 +21,14 @@ class Row implements RowInterface
      *
      * @var mixed
      */
-    protected $entry;
+    protected $entry = null;
+
+    /**
+     * The row table.
+     *
+     * @var null|Table
+     */
+    protected $table = null;
 
     /**
      * The row columns.
@@ -62,10 +70,10 @@ class Row implements RowInterface
     /**
      * Set the row columns.
      *
-     * @param $columns
+     * @param Collection $columns
      * @return $this
      */
-    public function setColumns($columns)
+    public function setColumns(Collection $columns)
     {
         $this->columns = $columns;
 
@@ -80,6 +88,29 @@ class Row implements RowInterface
     public function getColumns()
     {
         return $this->columns;
+    }
+
+    /**
+     * Get the table.
+     *
+     * @return Table|null
+     */
+    public function getTable()
+    {
+        return $this->table;
+    }
+
+    /**
+     * Set the table.
+     *
+     * @param Table $table
+     * @return $this
+     */
+    public function setTable(Table $table)
+    {
+        $this->table = $table;
+
+        return $this;
     }
 
     /**

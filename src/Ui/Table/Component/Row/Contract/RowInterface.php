@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract;
 
+use Illuminate\Support\Collection;
+
 /**
  * Interface RowInterface
  *
@@ -32,7 +34,7 @@ interface RowInterface
      * @param $columns
      * @return $this
      */
-    public function setColumns($columns);
+    public function setColumns(Collection $columns);
 
     /**
      * Get the row columns.
