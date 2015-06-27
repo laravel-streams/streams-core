@@ -132,7 +132,9 @@ class ButtonRegistry
         'prompt'    => [
             'type'       => 'danger',
             'attributes' => [
-                'data-toggle' => 'prompt'
+                'data-match'   => 'yes',
+                'data-toggle'  => 'prompt',
+                'data-message' => 'streams::message.prompt_delete'
             ]
         ]
     ];
