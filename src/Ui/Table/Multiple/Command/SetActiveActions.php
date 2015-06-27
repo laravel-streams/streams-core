@@ -61,6 +61,7 @@ class SetActiveActions implements SelfHandling
         foreach ($builder->getTableActions() as $action) {
             if ($action->getSlug() === $slug) {
 
+                $action->setPrefix($builder->getTableOption('prefix'));
                 $action->setActive(true);
 
                 break;

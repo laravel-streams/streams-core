@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\BuildTables;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\LoadTables;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\MergeRows;
+use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\PostTables;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\SetActiveActions;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -51,6 +52,7 @@ class MultipleTableBuilder extends TableBuilder
 
         if (app('request')->isMethod('post')) {
             $this->dispatch(new SetActiveActions($this));
+            $this->dispatch(new PostTables($this));
         }
     }
 

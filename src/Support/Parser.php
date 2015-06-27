@@ -110,4 +110,34 @@ class Parser
             $data
         );
     }
+
+    /**
+     * Return the target cleaned of remaining tags.
+     *
+     * @param $target
+     * @return mixed
+     */
+    protected function clean($target)
+    {
+
+        /**
+         * If the target is an array
+         * then clean it recursively.
+         */
+        if (is_array($target)) {
+            foreach ($target as &$value) {
+                $value = $this->clean($value);
+            }
+        }
+
+        /**
+         * if the target is a string then
+         * clean it as is.
+         */
+        if (is_string($target) && str_contains($target, ['{', '}'])) {
+            $target = preg_replace("/\{[a-z._]+?\}/", '', $target);
+        }
+
+        return $target;
+    }
 }

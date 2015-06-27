@@ -151,10 +151,6 @@ class FormBuilder
         $this->fire('ready', ['builder' => $this]);
 
         $this->dispatch(new BuildForm($this));
-
-        if (app('request')->isMethod('post')) {
-            $this->dispatch(new PostForm($this));
-        }
     }
 
     /**
@@ -165,6 +161,7 @@ class FormBuilder
     public function make($entry = null)
     {
         $this->build($entry);
+        $this->post();
 
         if ($this->form->getResponse() === null) {
             $this->dispatch(new LoadForm($this));
@@ -173,6 +170,17 @@ class FormBuilder
         }
 
         return $this;
+    }
+
+    /**
+     * Trigger post operations
+     * for the form.
+     */
+    public function post()
+    {
+        if (app('request')->isMethod('post')) {
+            $this->dispatch(new PostForm($this));
+        }
     }
 
     /**

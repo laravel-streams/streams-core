@@ -107,10 +107,6 @@ class TableBuilder
         $this->fire('ready', ['builder' => $this]);
 
         $this->dispatch(new BuildTable($this));
-
-        if (app('request')->isMethod('post')) {
-            $this->dispatch(new PostTable($this));
-        }
     }
 
     /**
@@ -119,11 +115,23 @@ class TableBuilder
     public function make()
     {
         $this->build();
+        $this->post();
 
         if ($this->table->getResponse() === null) {
             $this->dispatch(new LoadTable($this));
             $this->dispatch(new AddAssets($this));
             $this->dispatch(new MakeTable($this));
+        }
+    }
+
+    /**
+     * Trigger post operations
+     * for the table.
+     */
+    public function post()
+    {
+        if (app('request')->isMethod('post')) {
+            $this->dispatch(new PostTable($this));
         }
     }
 

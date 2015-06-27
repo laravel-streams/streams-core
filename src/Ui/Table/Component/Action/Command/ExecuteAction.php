@@ -3,8 +3,6 @@
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionExecutor;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Request;
 
 class ExecuteAction implements SelfHandling
 {
@@ -29,21 +27,15 @@ class ExecuteAction implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param Request         $request
-     * @param ActionExecutor  $executor
-     * @param ResponseFactory $response
+     * @param ActionExecutor $executor
      * @throws \Exception
      */
-    public function handle(Request $request, ActionExecutor $executor, ResponseFactory $response)
+    public function handle(ActionExecutor $executor)
     {
         $actions = $this->builder->getTableActions();
 
         if ($action = $actions->active()) {
             $executor->execute($this->builder, $action);
-        }
-
-        if (!$this->builder->getTableResponse()) {
-            $this->builder->setTableResponse($response->redirectTo($request->fullUrl()));
         }
     }
 }

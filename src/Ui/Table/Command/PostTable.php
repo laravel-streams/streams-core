@@ -5,6 +5,8 @@ use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Http\Request;
+use Illuminate\Routing\ResponseFactory;
 
 /**
  * Class PostTable
@@ -38,13 +40,21 @@ class PostTable implements SelfHandling
 
     /**
      * Handle the command.
+     *
+     * @param Request         $request
+     * @param ResponseFactory $response
+     * @throws \Exception
      */
-    public function handle()
+    public function handle(Request $request, ResponseFactory $response)
     {
         if ($this->builder instanceof MultipleTableBuilder) {
             return;
         }
 
         $this->dispatch(new ExecuteAction($this->builder));
+
+        if (!$this->builder->getTableResponse()) {
+            $this->builder->setTableResponse($response->redirectTo($request->fullUrl()));
+        }
     }
 }
