@@ -91,6 +91,15 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         /**
+         * Bind the mount manager as a
+         * singleton for simple integration.
+         */
+        $this->app->singleton(
+            'League\Flysystem\MountManager',
+            'League\Flysystem\MountManager'
+        );
+
+        /**
          * Override the default CSRF check so
          * we can handle it a little better.
          */
