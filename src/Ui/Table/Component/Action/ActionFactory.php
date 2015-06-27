@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Translator;
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 
@@ -37,6 +38,13 @@ class ActionFactory
     protected $buttons;
 
     /**
+     * The translator utility.
+     *
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
      * The hydrator utility.
      *
      * @var Hydrator
@@ -49,12 +57,18 @@ class ActionFactory
      * @param ActionRegistry $actions
      * @param ButtonRegistry $buttons
      * @param Hydrator       $hydrator
+     * @param Translator     $translator
      */
-    function __construct(ActionRegistry $actions, ButtonRegistry $buttons, Hydrator $hydrator)
-    {
-        $this->actions  = $actions;
-        $this->buttons  = $buttons;
-        $this->hydrator = $hydrator;
+    function __construct(
+        ActionRegistry $actions,
+        ButtonRegistry $buttons,
+        Hydrator $hydrator,
+        Translator $translator
+    ) {
+        $this->actions    = $actions;
+        $this->buttons    = $buttons;
+        $this->hydrator   = $hydrator;
+        $this->translator = $translator;
     }
 
     /**
@@ -76,6 +90,8 @@ class ActionFactory
         if ($button && $button = $this->buttons->get($button)) {
             $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
         }
+
+        $parameters = $this->translator->translate($parameters);
 
         $action = app()->make(array_get($parameters, 'action', $this->action), $parameters);
 

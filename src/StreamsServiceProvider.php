@@ -163,8 +163,18 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
+            'Anomaly\Streams\Platform\Support\Hydrator',
+            'Anomaly\Streams\Platform\Support\Hydrator'
+        );
+
+        $this->app->singleton(
             'Anomaly\Streams\Platform\Support\Resolver',
             'Anomaly\Streams\Platform\Support\Resolver'
+        );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Support\Translator',
+            'Anomaly\Streams\Platform\Support\Translator'
         );
 
         /**
