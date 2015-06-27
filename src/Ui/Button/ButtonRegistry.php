@@ -126,7 +126,8 @@ class ButtonRegistry
         'confirm'   => [
             'type'       => 'danger',
             'attributes' => [
-                'data-toggle' => 'confirm'
+                'data-toggle'  => 'confirm',
+                'data-message' => 'streams::message.confirm_delete'
             ]
         ],
         'prompt'    => [
