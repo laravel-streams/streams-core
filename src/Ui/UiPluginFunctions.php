@@ -52,4 +52,14 @@ class UiPluginFunctions
     {
         return view('streams::buttons/buttons', compact('buttons'));
     }
+
+    /**
+     * Render JavaScript constants.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function constants()
+    {
+        return view('streams::partials/constants');
+    }
 }
