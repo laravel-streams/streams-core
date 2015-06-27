@@ -128,6 +128,12 @@ class ButtonRegistry
             'attributes' => [
                 'data-toggle' => 'confirm'
             ]
+        ],
+        'prompt'    => [
+            'type'       => 'danger',
+            'attributes' => [
+                'data-toggle' => 'prompt'
+            ]
         ]
     ];
 
