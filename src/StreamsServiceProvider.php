@@ -71,6 +71,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Collective\Html\HtmlServiceProvider');
         $this->app->register('Jenssegers\Agent\AgentServiceProvider');
         $this->app->register('Intervention\Image\ImageServiceProvider');
+        $this->app->register('GrahamCampbell\Flysystem\FlysystemServiceProvider');
 
         /**
          * Bind composer because for some reason
