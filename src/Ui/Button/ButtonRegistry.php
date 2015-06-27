@@ -114,19 +114,16 @@ class ButtonRegistry
             'type' => 'danger'
         ],
         'delete'    => [
-            'handler'    => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete@handle',
-            'text'       => 'streams::button.delete',
-            'icon'       => 'trash',
-            'type'       => 'danger',
-            'attributes' => [
-                'data-toggle' => 'confirm'
-            ]
+            'handler'      => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete@handle',
+            'text'         => 'streams::button.delete',
+            'icon'         => 'trash',
+            'type'         => 'danger',
+            'data-toggle'  => 'confirm',
+            'data-message' => 'streams::message.confirm_delete'
         ],
         'confirm'   => [
-            'type'       => 'danger',
-            'attributes' => [
-                'data-toggle' => 'confirm'
-            ]
+            'type'        => 'danger',
+            'data-toggle' => 'confirm'
         ]
     ];
 

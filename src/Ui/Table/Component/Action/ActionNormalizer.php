@@ -79,6 +79,7 @@ class ActionNormalizer
              * to attributes.
              */
             foreach ($action as $attribute => $value) {
+                dd($action);
                 if (str_is('data-*', $attribute)) {
                     array_set($action, 'attributes.' . $attribute, array_pull($action, $attribute));
                 }
