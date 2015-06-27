@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Application\Application;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
 use Intervention\Image\ImageManager;
+use League\Flysystem\MountManager;
 
 /**
  * Class Image
@@ -107,6 +108,13 @@ class Image extends ImageManager
     protected $files;
 
     /**
+     * The mount manager.
+     *
+     * @var MountManager
+     */
+    protected $manager;
+
+    /**
      * The stream application.
      *
      * @var Application
@@ -116,16 +124,23 @@ class Image extends ImageManager
     /**
      * Create a new Image instance.
      *
-     * @param HtmlBuilder $html
-     * @param Filesystem  $files
-     * @param Application $application
-     * @param ImagePaths  $paths
+     * @param HtmlBuilder  $html
+     * @param Filesystem   $files
+     * @param MountManager $manager
+     * @param Application  $application
+     * @param ImagePaths   $paths
      */
-    public function __construct(HtmlBuilder $html, Filesystem $files, Application $application, ImagePaths $paths)
-    {
+    public function __construct(
+        HtmlBuilder $html,
+        Filesystem $files,
+        MountManager $manager,
+        Application $application,
+        ImagePaths $paths
+    ) {
         $this->html        = $html;
         $this->files       = $files;
         $this->paths       = $paths;
+        $this->manager     = $manager;
         $this->application = $application;
     }
 

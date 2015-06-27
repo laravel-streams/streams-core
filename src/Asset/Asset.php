@@ -13,6 +13,7 @@ use Assetic\Asset\GlobAsset;
 use Assetic\Filter\PhpCssEmbedFilter;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
+use League\Flysystem\MountManager;
 
 /**
  * Class Asset
@@ -74,6 +75,13 @@ class Asset
     protected $parser;
 
     /**
+     * The mount manager.
+     *
+     * @var MountManager
+     */
+    protected $manager;
+
+    /**
      * The stream application.
      *
      * @var Application
@@ -83,15 +91,22 @@ class Asset
     /**
      * Create a new Application instance.
      *
-     * @param Application $application
-     * @param AssetPaths  $paths
-     * @param HtmlBuilder $html
+     * @param Application  $application
+     * @param MountManager $manager
+     * @param AssetPaths   $paths
+     * @param HtmlBuilder  $html
      */
-    public function __construct(Application $application, AssetPaths $paths, AssetParser $parser, HtmlBuilder $html)
-    {
+    public function __construct(
+        Application $application,
+        MountManager $manager,
+        AssetPaths $paths,
+        AssetParser $parser,
+        HtmlBuilder $html
+    ) {
         $this->html        = $html;
         $this->paths       = $paths;
         $this->parser      = $parser;
+        $this->manager     = $manager;
         $this->application = $application;
     }
 
@@ -182,7 +197,7 @@ class Asset
      *
      * @param       $collection
      * @param array $filters
-	 * @param array $attributes
+     * @param array $attributes
      * @return string
      */
     public function script($collection, array $filters = [], array $attributes = [])
@@ -195,7 +210,7 @@ class Asset
      *
      * @param       $collection
      * @param array $filters
-	 * @param array $attributes
+     * @param array $attributes
      * @return string
      */
     public function style($collection, array $filters = [], array $attributes = [])
