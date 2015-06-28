@@ -19,6 +19,8 @@
         "michelf/php-markdown": "1.4.1",
         "aptoma/twig-markdown": "1.1.*",
         "guzzlehttp/guzzle": "~4.0",
+        "guzzlehttp/psr7": "1.1.*",
+        "guzzlehttp/promises": "1.0.*",
         "kriswallsmith/assetic": "1.2.*",
         "leafo/scssphp": "0.1.0 ",
         "lmammino/jsmin4assetic": "1.0.*",
