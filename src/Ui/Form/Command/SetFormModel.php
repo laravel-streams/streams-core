@@ -66,7 +66,8 @@ class SetFormModel implements SelfHandling
         }
 
         /**
-         * If the model is not set then skip it.
+         * If the model does not exist or
+         * is disabled then skip it.
          */
         if (!$model || !class_exists($model)) {
             return;
