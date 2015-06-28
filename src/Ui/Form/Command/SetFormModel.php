@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetFormModel
@@ -10,13 +11,13 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Form\Command
  */
-class SetFormModel
+class SetFormModel implements SelfHandling
 {
 
     /**
      * The form builder.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Form\FormBuilder
+     * @var FormBuilder
      */
     protected $builder;
 
@@ -31,12 +32,49 @@ class SetFormModel
     }
 
     /**
-     * Get the form builder.
-     *
-     * @return FormBuilder
+     * Handle the form.
      */
-    public function getBuilder()
+    public function handle()
     {
-        return $this->builder;
+        $form  = $this->builder->getForm();
+        $model = $this->builder->getModel();
+
+        /**
+         * If the model is already instantiated
+         * then use it as is.
+         */
+        if (is_object($model)) {
+
+            $form->setModel($model);
+
+            return;
+        }
+
+        /**
+         * If no model is set, try guessing the
+         * model based on best practices.
+         */
+        if ($model !== false) {
+
+            $parts = explode('\\', str_replace('FormBuilder', 'Model', get_class($this->builder)));
+
+            unset($parts[count($parts) - 2]);
+
+            $model = implode('\\', $parts);
+
+            $this->builder->setModel($model);
+        }
+
+        /**
+         * If the model is not set then skip it.
+         */
+        if (!$model || !class_exists($model)) {
+            return;
+        }
+
+        /**
+         * Set the model on the form!
+         */
+        $form->setModel(app($model));
     }
 }
