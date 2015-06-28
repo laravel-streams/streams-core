@@ -39,7 +39,9 @@ class Delete extends ActionHandler
             }
         }
 
-        $builder->fire('rows_deleted', compact('count', 'builder', 'model'));
+        if ($selected) {
+            $builder->fire('rows_deleted', compact('count', 'builder', 'model'));
+        }
 
         $this->messages->success(trans('streams::message.delete_success', compact('count')));
     }
