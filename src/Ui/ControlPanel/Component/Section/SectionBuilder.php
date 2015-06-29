@@ -63,7 +63,7 @@ class SectionBuilder
 
         foreach ($builder->getSections() as $slug => $section) {
 
-            if (!$this->authorizer->authorize($section['permission'], true)) {
+            if (!$this->authorizer->authorize($section['permission'])) {
                 continue;
             }
 

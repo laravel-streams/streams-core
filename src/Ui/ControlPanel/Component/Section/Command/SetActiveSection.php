@@ -107,7 +107,9 @@ class SetActiveSection implements SelfHandling
         }
 
         // Authorize the active section.
-        $authorizer->authorize($active->getPermission());
+        if (!$authorizer->authorize($active->getPermission())) {
+            abort(403);
+        }
 
         // Add the bread crumb.
         if (($breadcrumb = $active->getBreadcrumb()) !== false) {

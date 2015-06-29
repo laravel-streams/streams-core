@@ -58,6 +58,8 @@ class GridAuthorizer
             $permission = $module->getNamespace($stream->getSlug() . '.read');
         }
 
-        $this->authorizer->authorize($permission);
+        if (!$this->authorizer->authorize($permission)) {
+            abort(403);
+        }
     }
 }

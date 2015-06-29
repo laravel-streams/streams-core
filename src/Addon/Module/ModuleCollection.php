@@ -123,7 +123,7 @@ class ModuleCollection extends AddonCollection
 
         /* @var Module $item */
         foreach ($this->items as $item) {
-            if ($authorizer->authorize($item->getNamespace('*'), true)) {
+            if ($authorizer->authorize($item->getNamespace('*'))) {
                 $accessible[] = $item;
             }
         }

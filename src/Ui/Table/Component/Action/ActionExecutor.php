@@ -108,7 +108,7 @@ class ActionExecutor
         /**
          * Authorize the action.
          */
-        if (!$this->authorizer->authorize($action->getPermission(), true)) {
+        if (!$this->authorizer->authorize($action->getPermission())) {
 
             $this->messages->error('streams::message.403');
 
