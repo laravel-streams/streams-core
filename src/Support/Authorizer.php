@@ -110,7 +110,7 @@ class Authorizer
         }
 
         // Check if the user actually has permission.
-        if ($user && !$user->hasPermission($permission)) {
+        if (!$user || !$user->hasPermission($permission)) {
             return false;
         }
 
