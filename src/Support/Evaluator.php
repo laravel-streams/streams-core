@@ -61,7 +61,7 @@ class Evaluator
          * if the target is a string and is in a traversable
          * format then traverse the target using the arguments.
          */
-        if (is_string($target) && $this->isTraversable($target)) {
+        if (is_string($target) && !isset($arguments[$target]) && $this->isTraversable($target)) {
             $target = data_get($arguments, $target, $target);
         }
 
