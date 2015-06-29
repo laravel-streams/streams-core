@@ -72,6 +72,8 @@ class FormAuthorizer
             }
         }
 
-        $this->authorizer->authorize($permission);
+        if (!$this->authorizer->authorize($permission)) {
+            abort(403);
+        }
     }
 }

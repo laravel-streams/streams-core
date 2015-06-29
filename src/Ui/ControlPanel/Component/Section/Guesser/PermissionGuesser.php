@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 class PermissionGuesser
@@ -15,22 +14,13 @@ class PermissionGuesser
     protected $modules;
 
     /**
-     * The authorizer utility.
-     *
-     * @var Authorizer
-     */
-    protected $authorizer;
-
-    /**
      * Create a new TextGuesser instance.
      *
      * @param ModuleCollection $modules
-     * @param Authorizer       $authorizer
      */
-    public function __construct(ModuleCollection $modules, Authorizer $authorizer)
+    public function __construct(ModuleCollection $modules)
     {
-        $this->modules    = $modules;
-        $this->authorizer = $authorizer;
+        $this->modules = $modules;
     }
 
     /**

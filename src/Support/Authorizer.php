@@ -45,11 +45,10 @@ class Authorizer
      * Authorize the active user against a permission.
      *
      * @param               $permission
-     * @param bool          $return
      * @param UserInterface $user
      * @return bool
      */
-    public function authorize($permission, $return = false, UserInterface $user = null)
+    public function authorize($permission, UserInterface $user = null)
     {
         if ($user === null) {
             $user = $this->guard->user();
@@ -63,8 +62,8 @@ class Authorizer
         }
 
         /**
-         * If we have a erroneous permission
-         * then we still can't do much.
+         * If the permission does not actually exist
+         * then we cant really do anything with it.
          */
         if (str_is('*::*.*', $permission) && !ends_with($permission, '*')) {
 
@@ -73,6 +72,7 @@ class Authorizer
             $group = array_pop($parts);
             $parts = explode('::', $permission);
 
+            // If it does not exist, we are authorized.
             if (!in_array($end, (array)$this->config->get($parts[0] . '::permissions.' . $group))) {
                 return true;
             }
@@ -109,15 +109,9 @@ class Authorizer
             }
         }
 
-        /**
-         * Finally test things out.
-         */
-        if ($user && !$user->hasPermission($permission)) {
-            if ($return) {
-                return false;
-            }
-
-            abort(403);
+        // Check if the user actually has permission.
+        if (!$user || !$user->hasPermission($permission)) {
+            return false;
         }
 
         return true;
