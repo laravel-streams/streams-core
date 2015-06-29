@@ -101,7 +101,9 @@ class Parser
                 ],
                 'route'   => [
                     'parameters'        => $route->parameters(),
-                    'parameters_string' => implode('/', $route->parameters())
+					'parameters_string' => implode('/', array_map(function($element) {
+						return str_replace(' ', '%20', $element);
+					}, $route->parameters()))
                 ],
                 'url'     => [
                     'previous' => $this->url->previous()
