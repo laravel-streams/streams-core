@@ -66,7 +66,7 @@ class Parser
          * then parse it recursively.
          */
         if (is_array($target)) {
-            foreach ($target as &$value) {
+            foreach ($target as $key => &$value) {
                 $value = $this->parse($value, $data);
             }
         }
@@ -100,8 +100,23 @@ class Parser
                     'path' => $this->request->path()
                 ],
                 'route'   => [
-                    'parameters'        => $route->parameters(),
-                    'parameters_string' => implode('/', $route->parameters())
+                    'parameters'            => array_map(
+                        function ($value) {
+                            return urlencode($value);
+                        },
+                        $route->parameters()
+                    ),
+                    'parameters_string'     => implode(
+                        '/',
+                        array_map(
+                            function ($value) {
+                                return urlencode($value);
+                            },
+                            $route->parameters()
+                        )
+                    ),
+                    'raw_parameters'        => $route->parameters(),
+                    'raw_parameters_string' => implode('/', $route->parameters())
                 ],
                 'url'     => [
                     'previous' => $this->url->previous()
