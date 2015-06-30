@@ -54,7 +54,7 @@ class SetTableModel implements SelfHandling
          * If no model is set, try guessing the
          * model based on best practices.
          */
-        if (!$model) {
+        if ($model === null) {
 
             $parts = explode('\\', str_replace('TableBuilder', 'Model', get_class($this->builder)));
 
@@ -66,9 +66,10 @@ class SetTableModel implements SelfHandling
         }
 
         /**
-         * If the model is not set then skip it.
+         * If the model does not exist or
+         * is disabled then skip it.
          */
-        if (!class_exists($model)) {
+        if (!$model || !class_exists($model)) {
             return;
         }
 

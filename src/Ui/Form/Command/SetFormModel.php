@@ -54,7 +54,7 @@ class SetFormModel implements SelfHandling
          * If no model is set, try guessing the
          * model based on best practices.
          */
-        if ($model !== false) {
+        if ($model === null) {
 
             $parts = explode('\\', str_replace('FormBuilder', 'Model', get_class($this->builder)));
 
