@@ -102,7 +102,7 @@ class Parser
                 'route'   => [
                     'parameters'            => array_map(
                         function ($value) {
-                            return rawurlencode($value);
+                            return str_replace('%2F', '/', rawurlencode($value));
                         },
                         $route->parameters()
                     ),
@@ -110,7 +110,7 @@ class Parser
                         '/',
                         array_map(
                             function ($value) {
-                                return rawurlencode($value);
+                                return str_replace('%2F', '/', rawurlencode($value));
                             },
                             $route->parameters()
                         )
