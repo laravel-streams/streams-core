@@ -472,13 +472,13 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         /**
-         * Change the default language path to our own.
-         * This will make it easier to manage translations.
+         * Change the default language path so
+         * that there MUST be a prefix hint.
          */
         $this->app->bind(
             'path.lang',
             function () {
-                return realpath(__DIR__ . '/../resources/lang');
+                return realpath(__DIR__ . '/../resources/lang/NOPE');
             }
         );
 
