@@ -27,7 +27,14 @@ class FieldCollection extends Collection
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
+
+            // If it's the base local then add it.
             if ($item->getLocale() == config('app.fallback_locale')) {
+                $fields[] = $item;
+            }
+
+            // If there is no locale then add it.
+            if ($item->getLocale() === null) {
                 $fields[] = $item;
             }
         }
