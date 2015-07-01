@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Routing\UrlGenerator;
 use StringTemplate\Engine;
 
 /**
@@ -17,7 +16,7 @@ class Parser
     /**
      * The URL generator.
      *
-     * @var UrlGenerator
+     * @var Url
      */
     protected $url;
 
@@ -45,12 +44,12 @@ class Parser
     /**
      * Create a new Parser instance.
      *
-     * @param UrlGenerator $url
-     * @param Route        $route
-     * @param Engine       $parser
-     * @param Request      $request
+     * @param Url     $url
+     * @param Route   $route
+     * @param Engine  $parser
+     * @param Request $request
      */
-    public function __construct(UrlGenerator $url, Route $route, Engine $parser, Request $request)
+    public function __construct(Url $url, Route $route, Engine $parser, Request $request)
     {
         $this->url     = $url;
         $this->route   = $route;
@@ -98,10 +97,11 @@ class Parser
      */
     protected function mergeDefaultData(array $data)
     {
+        $url     = $this->url->toArray();
         $route   = $this->route->toArray();
         $request = $this->request->toArray();
 
-        return array_merge($data, compact('route', 'request'));
+        return array_merge($data, compact('url', 'route', 'request'));
     }
 
     /**
