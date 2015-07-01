@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Asset;
 
+use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Asset\Filter\CoffeeFilter;
 use Anomaly\Streams\Platform\Asset\Filter\CssMinFilter;
@@ -75,6 +76,13 @@ class Asset
     protected $parser;
 
     /**
+     * The theme collection.
+     *
+     * @var ThemeCollection
+     */
+    protected $themes;
+
+    /**
      * The mount manager.
      *
      * @var MountManager
@@ -91,13 +99,16 @@ class Asset
     /**
      * Create a new Application instance.
      *
-     * @param Application  $application
-     * @param MountManager $manager
-     * @param AssetPaths   $paths
-     * @param HtmlBuilder  $html
+     * @param Application     $application
+     * @param ThemeCollection $themes
+     * @param MountManager    $manager
+     * @param AssetPaths      $paths
+     * @param AssetParser     $parser
+     * @param HtmlBuilder     $html
      */
     public function __construct(
         Application $application,
+        ThemeCollection $themes,
         MountManager $manager,
         AssetPaths $paths,
         AssetParser $parser,
@@ -105,6 +116,7 @@ class Asset
     ) {
         $this->html        = $html;
         $this->paths       = $paths;
+        $this->themes      = $themes;
         $this->parser      = $parser;
         $this->manager     = $manager;
         $this->application = $application;
@@ -557,7 +569,9 @@ class Asset
             unset($filters[$debug]);
         }
 
-        return md5(var_export([$key, $filters], true));
+        $theme = $this->themes->active();
+
+        return md5(var_export([$key, $filters, $theme], true));
     }
 
     /**
