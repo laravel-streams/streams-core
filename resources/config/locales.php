@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'enabled'   => env('ENABLED_LOCALES', ['en']),
+    'enabled'   => env('ENABLED_LOCALES', ['en', 'es']),
     'supported' => [
         'en' => [
             'name'      => 'English',
@@ -28,7 +28,7 @@ return [
             'direction' => 'ltr'
         ],
         'es' => [
-            'name'      => 'Espa&ntilde;ol',
+            'name'      => 'Español',
             'direction' => 'ltr'
         ],
         'fr' => [
