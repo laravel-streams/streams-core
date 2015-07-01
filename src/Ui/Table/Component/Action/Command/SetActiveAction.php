@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetActiveAction
@@ -10,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Command
  */
-class SetActiveAction
+class SetActiveAction implements SelfHandling
 {
 
     /**
@@ -31,12 +32,17 @@ class SetActiveAction
     }
 
     /**
-     * Get the table builder.
+     * Set the active action.
      *
-     * @return TableBuilder
+     * @param SetActiveAction $command
      */
-    public function getBuilder()
+    public function handle()
     {
-        return $this->builder;
+        $prefix  = $this->builder->getTableOption('prefix');
+        $actions = $this->builder->getTableActions();
+
+        if ($action = $actions->findBySlug(app('request')->get($prefix . 'action'))) {
+            $action->setActive(true);
+        }
     }
 }

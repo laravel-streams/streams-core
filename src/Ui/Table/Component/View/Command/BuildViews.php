@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Command;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class BuildViews
@@ -10,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\View\Command
  */
-class BuildViews
+class BuildViews implements SelfHandling
 {
 
     /**
@@ -31,12 +33,12 @@ class BuildViews
     }
 
     /**
-     * Get the table builder.
+     * Handle the command.
      *
-     * @return TableBuilder
+     * @param ViewBuilder $builder
      */
-    public function getBuilder()
+    public function handle(ViewBuilder $builder)
     {
-        return $this->builder;
+        $builder->build($this->builder);
     }
 }
