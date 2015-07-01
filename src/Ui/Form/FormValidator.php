@@ -81,7 +81,10 @@ class FormValidator
         $messages = $this->messages->get($builder);
         $rules    = $this->rules->compile($builder);
 
-        $validator = $factory->make($input, $rules, $messages);
+        /* @var Validator $validator */
+        $validator = $factory->make($input, $rules);
+
+        $validator->setCustomMessages($messages);
 
         $this->setResponse($validator, $builder);
     }
