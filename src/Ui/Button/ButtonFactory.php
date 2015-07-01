@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Support\Translator;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
 /**
@@ -36,15 +37,23 @@ class ButtonFactory
     protected $hydrator;
 
     /**
+     * The translator utility.
+     *
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
      * Create a new ButtonFactory instance.
      *
      * @param ButtonRegistry $buttons
      * @param Hydrator       $hydrator
      */
-    public function __construct(ButtonRegistry $buttons, Hydrator $hydrator)
+    public function __construct(ButtonRegistry $buttons, Translator $translator, Hydrator $hydrator)
     {
-        $this->buttons  = $buttons;
-        $this->hydrator = $hydrator;
+        $this->buttons    = $buttons;
+        $this->hydrator   = $hydrator;
+        $this->translator = $translator;
     }
 
     /**
@@ -60,6 +69,8 @@ class ButtonFactory
         if ($button && $button = $this->buttons->get($button)) {
             $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
         }
+
+        $parameters = $this->translator->translate($parameters);
 
         $button = app()->make(array_get($parameters, 'button', $this->button), $parameters);
 
