@@ -21,13 +21,6 @@ class Parser
     protected $url;
 
     /**
-     * The route utility.
-     *
-     * @var Route
-     */
-    protected $route;
-
-    /**
      * The string parser.
      *
      * @var Engine
@@ -45,14 +38,12 @@ class Parser
      * Create a new Parser instance.
      *
      * @param Url     $url
-     * @param Route   $route
      * @param Engine  $parser
      * @param Request $request
      */
-    public function __construct(Url $url, Route $route, Engine $parser, Request $request)
+    public function __construct(Url $url, Engine $parser, Request $request)
     {
         $this->url     = $url;
-        $this->route   = $route;
         $this->parser  = $parser;
         $this->request = $request;
     }
@@ -98,10 +89,9 @@ class Parser
     protected function mergeDefaultData(array $data)
     {
         $url     = $this->url->toArray();
-        $route   = $this->route->toArray();
         $request = $this->request->toArray();
 
-        return array_merge($data, compact('url', 'route', 'request'));
+        return array_merge($data, compact('url', 'request'));
     }
 
     /**

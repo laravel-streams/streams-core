@@ -35,10 +35,34 @@ class Request
      */
     public function toArray()
     {
-        return [
+        $request = [
             'path' => $this->request->path(),
             'uri'  => $this->request->getRequestUri(),
         ];
+
+        if ($route = $this->request->route()) {
+            $request['route'] = [
+                'uri'                      => $route->getUri(),
+                'parameters'               => $route->parameters(),
+                'parameters.to_urlencoded' => array_map(
+                    function ($parameter) {
+                        return urlencode($parameter);
+                    },
+                    $route->parameters()
+                ),
+                'parameter_names'          => $route->parameterNames(),
+                'compiled'                 => [
+                    'static_prefix'     => $route->getCompiled()->getStaticPrefix(),
+                    'parameters_suffix' => str_replace(
+                        $route->getCompiled()->getStaticPrefix(),
+                        '',
+                        $this->request->getRequestUri()
+                    )
+                ]
+            ];
+        }
+
+        return $request;
     }
 
     /**
