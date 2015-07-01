@@ -29,7 +29,7 @@ class FieldTypeModifier
     }
 
     /**
-     * Modify the value.
+     * Modify the value for database storage.
      *
      * @param  $value
      * @return mixed
@@ -44,7 +44,7 @@ class FieldTypeModifier
     }
 
     /**
-     * Restore the value.
+     * Restore the value from storage format.
      *
      * @param  $value
      * @return mixed
