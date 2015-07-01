@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 use StringTemplate\Engine;
 
@@ -23,6 +22,13 @@ class Parser
     protected $url;
 
     /**
+     * The route utility.
+     *
+     * @var Route
+     */
+    protected $route;
+
+    /**
      * The string parser.
      *
      * @var Engine
@@ -40,12 +46,14 @@ class Parser
      * Create a new Parser instance.
      *
      * @param UrlGenerator $url
+     * @param Route        $route
      * @param Engine       $parser
      * @param Request      $request
      */
-    public function __construct(UrlGenerator $url, Engine $parser, Request $request)
+    public function __construct(UrlGenerator $url, Route $route, Engine $parser, Request $request)
     {
         $this->url     = $url;
+        $this->route   = $route;
         $this->parser  = $parser;
         $this->request = $request;
     }
@@ -90,40 +98,10 @@ class Parser
      */
     protected function mergeDefaultData(array $data)
     {
-        if (!$route = $this->request->route()) {
-            return $data;
-        }
+        $route   = $this->route->toArray();
+        $request = $this->request->toArray();
 
-        return array_merge(
-            [
-                'request' => [
-                    'path' => $this->request->path()
-                ],
-                'route'   => [
-                    'parameters'            => array_map(
-                        function ($value) {
-                            return rawurlencode($value);
-                        },
-                        $route->parameters()
-                    ),
-                    'parameters_string'     => implode(
-                        '/',
-                        array_map(
-                            function ($value) {
-                                return rawurlencode($value);
-                            },
-                            $route->parameters()
-                        )
-                    ),
-                    'raw_parameters'        => $route->parameters(),
-                    'raw_parameters_string' => implode('/', $route->parameters())
-                ],
-                'url'     => [
-                    'previous' => $this->url->previous()
-                ]
-            ],
-            $data
-        );
+        return array_merge($data, compact('route', 'request'));
     }
 
     /**
