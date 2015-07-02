@@ -38,7 +38,7 @@ class EntryTranslationsModel extends EloquentModel
      */
     public function getParent()
     {
-        return $this->getRelation('parent');
+        return isset($this->relations['parent']) ? $this->relations['parent'] : null;
     }
 
     /**
@@ -49,8 +49,12 @@ class EntryTranslationsModel extends EloquentModel
      */
     public function getAttribute($key)
     {
+        if (!$parent = $this->getParent()) {
+            return null;
+        }
+
         /* @var AssignmentInterface $assignment */
-        $assignment = $this->getParent()->getAssignment($key);
+        $assignment = $parent->getAssignment($key);
 
         if (!$assignment) {
             return parent::getAttribute($key);
@@ -75,8 +79,12 @@ class EntryTranslationsModel extends EloquentModel
      */
     public function setAttribute($key, $value)
     {
+        if (!$parent = $this->getParent()) {
+            return null;
+        }
+
         /* @var AssignmentInterface $assignment */
-        $assignment = $this->getParent()->getAssignment($key);
+        $assignment = $parent->getAssignment($key);
 
         if (!$assignment) {
 
@@ -104,12 +112,16 @@ class EntryTranslationsModel extends EloquentModel
      */
     public function fireFieldTypeEvents($trigger, $payload = [])
     {
+        if (!$parent = $this->getParent()) {
+            return null;
+        }
+
         /* @var AssignmentInterface $assignment */
-        foreach ($this->getParent()->getAssignments() as $assignment) {
+        foreach ($parent->getAssignments() as $assignment) {
 
             $fieldType = $assignment->getFieldType();
 
-            $fieldType->setValue($this->getParent()->getFieldValue($assignment->getFieldSlug()));
+            $fieldType->setValue($parent->getFieldValue($assignment->getFieldSlug()));
 
             $fieldType->setEntry($this);
 
@@ -130,7 +142,7 @@ class EntryTranslationsModel extends EloquentModel
             return call_user_func_array([$this, $name], $arguments);
         }
 
-        if (method_exists($this->getParent(), $name)) {
+        if ($this->getParent() && method_exists($this->getParent(), $name)) {
             return call_user_func_array([$this->getParent(), $name], $arguments);
         }
 
