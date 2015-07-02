@@ -65,9 +65,9 @@ class FieldTypeSchema
          *
          * @var Blueprint|Fluent $column
          */
-        $column = $table->{$this->fieldType->getColumnType()}($this->fieldType->getColumnName());
-
-        $column = $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true);
+        $column = $table
+            ->{$this->fieldType->getColumnType()}($this->fieldType->getColumnName())
+            ->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true);
 
         if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
             $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
