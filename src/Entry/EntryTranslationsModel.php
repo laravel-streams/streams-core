@@ -1,9 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
  * Class EntryTranslationsModel
@@ -17,42 +15,11 @@ class EntryTranslationsModel extends EloquentModel
 {
 
     /**
-     * The stream model.
-     *
-     * @var null|StreamInterface
-     */
-    protected $stream = null;
-
-    /**
-     * The parent model.
-     *
-     * @var null|EntryInterface
-     */
-    protected $parent = null;
-
-    /**
      * Cache minutes.
      *
      * @var int
      */
     protected $cacheMinutes = 99999;
-
-    /**
-     * Create a new EntryTranslationsModel instance.
-     *
-     * @param array $attributes
-     */
-    public function __construct(array $attributes = array())
-    {
-        /* @var EntryInterface $model */
-        $model = str_replace('TranslationsModel', 'Model', get_class($this));
-
-        $this->parent = new $model;
-
-        $this->stream = $this->parent->getStream();
-
-        parent::__construct($attributes);
-    }
 
     /**
      * Boot the model.
@@ -65,53 +32,13 @@ class EntryTranslationsModel extends EloquentModel
     }
 
     /**
-     * Get the entries title.
+     * Get the parent.
      *
-     * @return mixed
+     * @return EntryModel
      */
-    public function getTitle()
+    public function getParent()
     {
-        return $this->parent->getTitle();
-    }
-
-    /**
-     * Get the stream.
-     *
-     * @return StreamInterface
-     */
-    public function getStream()
-    {
-        return $this->parent->getStream();
-    }
-
-    /**
-     * Get the stream namespace.
-     *
-     * @return string
-     */
-    public function getStreamNamespace()
-    {
-        return $this->parent->getStreamNamespace();
-    }
-
-    /**
-     * Get the stream slug.
-     *
-     * @return string
-     */
-    public function getStreamSlug()
-    {
-        return $this->parent->getStreamSlug();
-    }
-
-    /**
-     * Get the stream prefix.
-     *
-     * @return string
-     */
-    public function getStreamPrefix()
-    {
-        return $this->parent->getStreamPrefix();
+        return $this->getRelation('parent');
     }
 
     /**
@@ -122,7 +49,8 @@ class EntryTranslationsModel extends EloquentModel
      */
     public function getAttribute($key)
     {
-        $assignment = $this->parent->getAssignment($key);
+        /* @var AssignmentInterface $assignment */
+        $assignment = $this->getParent()->getAssignment($key);
 
         if (!$assignment) {
             return parent::getAttribute($key);
@@ -147,7 +75,8 @@ class EntryTranslationsModel extends EloquentModel
      */
     public function setAttribute($key, $value)
     {
-        $assignment = $this->parent->getAssignment($key);
+        /* @var AssignmentInterface $assignment */
+        $assignment = $this->getParent()->getAssignment($key);
 
         if (!$assignment) {
 
@@ -176,15 +105,36 @@ class EntryTranslationsModel extends EloquentModel
     public function fireFieldTypeEvents($trigger, $payload = [])
     {
         /* @var AssignmentInterface $assignment */
-        foreach ($this->parent->getAssignments() as $assignment) {
+        foreach ($this->getParent()->getAssignments() as $assignment) {
 
             $fieldType = $assignment->getFieldType();
 
-            $fieldType->setValue($this->parent->getFieldValue($assignment->getFieldSlug()));
+            $fieldType->setValue($this->getParent()->getFieldValue($assignment->getFieldSlug()));
 
             $fieldType->setEntry($this);
 
             $fieldType->fire($trigger, array_merge(compact('fieldType', 'entry'), $payload));
         }
+    }
+
+    /**
+     * Let the parent handle calls if they don't exist here.
+     *
+     * @param string $name
+     * @param array  $arguments
+     * @return mixed
+     */
+    function __call($name, $arguments)
+    {
+        if (method_exists($this, $name)) {
+            return call_user_func_array([$this, $name], $arguments);
+        }
+
+        if (method_exists($this->getParent(), $name)) {
+            return call_user_func_array([$this->getParent(), $name], $arguments);
+        }
+
+        // Let it throw the exception.
+        return call_user_func_array([$this, $name], $arguments);
     }
 }

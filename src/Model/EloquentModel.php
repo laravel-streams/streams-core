@@ -15,8 +15,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Model
  */
-class
-EloquentModel extends Model implements Arrayable
+class EloquentModel extends Model implements Arrayable
 {
 
     use DispatchesCommands;
@@ -262,7 +261,12 @@ EloquentModel extends Model implements Arrayable
      */
     public function getTranslations()
     {
-        return $this->translations()->get();
+        foreach ($translations = $this->translations()->get() as $translation)
+        {
+            $translation->setRelation('parent', $this);
+        }
+
+        return $translations;
     }
 
     /**
@@ -291,6 +295,9 @@ EloquentModel extends Model implements Arrayable
         $locale = $locale ?: config('app.fallback_locale');
 
         foreach ($this->translations as $translation) {
+
+            $translation->setRelation('parent', $this);
+
             if ($translation->getAttribute($this->getLocaleKey()) == $locale) {
                 return true;
             }
@@ -443,6 +450,8 @@ EloquentModel extends Model implements Arrayable
 
         foreach ($this->translations as $translation) {
 
+            $translation->setRelation('parent', $this);
+
             /* @var EloquentModel $translation */
             if ($saved && $this->isTranslationDirty($translation)) {
 
@@ -485,6 +494,9 @@ EloquentModel extends Model implements Arrayable
     private function getTranslationByLocaleKey($key)
     {
         foreach ($this->translations as $translation) {
+
+            $translation->setRelation('parent', $this);
+
             if ($translation->getAttribute($this->getLocaleKey()) == $key) {
                 return $translation;
             }
@@ -522,6 +534,8 @@ EloquentModel extends Model implements Arrayable
 
         /* @var EloquentModel $translation */
         $translation = new $modelName;
+
+        $translation->setRelation('parent', $this);
 
         $translation->setAttribute($this->getLocaleKey(), $locale);
         $translation->setAttribute($this->getRelationKey(), $this->getKey());
