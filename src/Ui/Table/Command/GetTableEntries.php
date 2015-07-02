@@ -37,8 +37,8 @@ class GetTableEntries implements SelfHandling
      */
     public function handle()
     {
-        $table   = $this->builder->getTable();
-        $model   = $this->builder->getModel();
+        $table = $this->builder->getTable();
+        $model = $this->builder->getModel();
 
         /**
          * If the builder has an entries handler

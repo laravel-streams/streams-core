@@ -31,11 +31,11 @@ class InstallExtension
      * Create a new InstallExtension instance.
      *
      * @param Extension $extension
-     * @param bool   $seed
+     * @param bool      $seed
      */
     function __construct(Extension $extension, $seed = false)
     {
-        $this->seed   = $seed;
+        $this->seed      = $seed;
         $this->extension = $extension;
     }
 

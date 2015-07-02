@@ -105,52 +105,6 @@ class Csv
     }
 
     /**
-     * Return the header flag.
-     *
-     * @return bool
-     */
-    public function hasHeader()
-    {
-        return $this->header;
-    }
-
-    /**
-     * Set the header flag.
-     *
-     * @param $header
-     * @return $this
-     */
-    public function setHeader($header)
-    {
-        $this->header = $header;
-
-        return $this;
-    }
-
-    /**
-     * Get the escape character.
-     *
-     * @return null|string
-     */
-    public function getEscape()
-    {
-        return $this->escape;
-    }
-
-    /**
-     * Set the escape character.
-     *
-     * @param $escape
-     * @return $this
-     */
-    public function setEscape($escape)
-    {
-        $this->escape = $escape;
-
-        return $this;
-    }
-
-    /**
      * Get the delimiter.
      *
      * @return string
@@ -192,6 +146,52 @@ class Csv
     public function setEnclosure($enclosure)
     {
         $this->enclosure = $enclosure;
+
+        return $this;
+    }
+
+    /**
+     * Get the escape character.
+     *
+     * @return null|string
+     */
+    public function getEscape()
+    {
+        return $this->escape;
+    }
+
+    /**
+     * Set the escape character.
+     *
+     * @param $escape
+     * @return $this
+     */
+    public function setEscape($escape)
+    {
+        $this->escape = $escape;
+
+        return $this;
+    }
+
+    /**
+     * Return the header flag.
+     *
+     * @return bool
+     */
+    public function hasHeader()
+    {
+        return $this->header;
+    }
+
+    /**
+     * Set the header flag.
+     *
+     * @param $header
+     * @return $this
+     */
+    public function setHeader($header)
+    {
+        $this->header = $header;
 
         return $this;
     }

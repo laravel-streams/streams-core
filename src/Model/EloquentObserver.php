@@ -28,7 +28,7 @@ class EloquentObserver extends Observer
     public function created(EloquentModel $model)
     {
         $model->flushCache();
-        
+
         $this->events->fire(new ModelWasCreated($model));
     }
 

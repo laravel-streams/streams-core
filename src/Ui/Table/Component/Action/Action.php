@@ -57,6 +57,16 @@ class Action extends Button implements ActionInterface
     protected $handler = null;
 
     /**
+     * Get the action handler.
+     *
+     * @return mixed
+     */
+    public function getHandler()
+    {
+        return $this->handler;
+    }
+
+    /**
      * Set the action handler.
      *
      * @param $handler
@@ -67,16 +77,6 @@ class Action extends Button implements ActionInterface
         $this->handler = $handler;
 
         return $this;
-    }
-
-    /**
-     * Get the action handler.
-     *
-     * @return mixed
-     */
-    public function getHandler()
-    {
-        return $this->handler;
     }
 
     /**
@@ -126,6 +126,16 @@ class Action extends Button implements ActionInterface
     }
 
     /**
+     * Get the action prefix.
+     *
+     * @return null|string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
      * Set the action prefix.
      *
      * @param string $prefix
@@ -139,13 +149,13 @@ class Action extends Button implements ActionInterface
     }
 
     /**
-     * Get the action prefix.
+     * Get the action slug.
      *
-     * @return null|string
+     * @return string
      */
-    public function getPrefix()
+    public function getSlug()
     {
-        return $this->prefix;
+        return $this->slug;
     }
 
     /**
@@ -159,15 +169,5 @@ class Action extends Button implements ActionInterface
         $this->slug = $slug;
 
         return $this;
-    }
-
-    /**
-     * Get the action slug.
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
     }
 }

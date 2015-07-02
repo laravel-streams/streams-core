@@ -47,7 +47,7 @@ class SetTreeStream implements SelfHandling
         if (is_string($model)) {
             $model = app($model);
         }
-        
+
         if ($model instanceof EntryInterface) {
             $tree->setStream($model->getStream());
         }

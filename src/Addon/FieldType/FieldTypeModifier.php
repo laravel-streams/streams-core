@@ -44,6 +44,18 @@ class FieldTypeModifier
     }
 
     /**
+     * Return whether the value
+     * needs to be modified.
+     *
+     * @param $value
+     * @return bool
+     */
+    protected function needsModifying($value)
+    {
+        return $value !== null;
+    }
+
+    /**
      * Restore the value from storage format.
      *
      * @param  $value
@@ -56,18 +68,6 @@ class FieldTypeModifier
         }
 
         return $value;
-    }
-
-    /**
-     * Return whether the value
-     * needs to be modified.
-     *
-     * @param $value
-     * @return bool
-     */
-    protected function needsModifying($value)
-    {
-        return $value !== null;
     }
 
     /**

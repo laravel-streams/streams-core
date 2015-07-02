@@ -32,16 +32,6 @@ class EntryTranslationsModel extends EloquentModel
     }
 
     /**
-     * Get the parent.
-     *
-     * @return EntryModel
-     */
-    public function getParent()
-    {
-        return isset($this->relations['parent']) ? $this->relations['parent'] : null;
-    }
-
-    /**
      * Get an attribute.
      *
      * @param string $key
@@ -69,6 +59,16 @@ class EntryTranslationsModel extends EloquentModel
         $modifier = $type->getModifier();
 
         return $modifier->restore($accessor->get($key));
+    }
+
+    /**
+     * Get the parent.
+     *
+     * @return EntryModel
+     */
+    public function getParent()
+    {
+        return isset($this->relations['parent']) ? $this->relations['parent'] : null;
     }
 
     /**

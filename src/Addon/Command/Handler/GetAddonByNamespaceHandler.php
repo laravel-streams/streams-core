@@ -30,5 +30,4 @@ class GetAddonByNamespaceHandler
     {
         return $this->addons->merged()->get($command->getNamespace());
     }
-
 }

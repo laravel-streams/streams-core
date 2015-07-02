@@ -47,7 +47,7 @@ class SetGridStream implements SelfHandling
         if (is_string($model)) {
             $model = app($model);
         }
-        
+
         if ($model instanceof EntryInterface) {
             $grid->setStream($model->getStream());
         }

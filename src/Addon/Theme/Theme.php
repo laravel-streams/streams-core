@@ -77,6 +77,16 @@ class Theme extends Addon
     }
 
     /**
+     * Get the meta data.
+     *
+     * @return array
+     */
+    public function getMeta()
+    {
+        return $this->meta;
+    }
+
+    /**
      * Set the meta data.
      *
      * @param  $meta
@@ -87,16 +97,6 @@ class Theme extends Addon
         $this->meta = $meta;
 
         return $this;
-    }
-
-    /**
-     * Get the meta data.
-     *
-     * @return array
-     */
-    public function getMeta()
-    {
-        return $this->meta;
     }
 
     /**
@@ -126,6 +126,16 @@ class Theme extends Addon
     }
 
     /**
+     * Get the theme's tag class.
+     *
+     * @return string
+     */
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
+    /**
      * Set the theme's tag class.
      *
      * @param  $tag
@@ -136,15 +146,5 @@ class Theme extends Addon
         $this->tag = $tag;
 
         return $this;
-    }
-
-    /**
-     * Get the theme's tag class.
-     *
-     * @return string
-     */
-    public function getTag()
-    {
-        return $this->tag;
     }
 }

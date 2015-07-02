@@ -107,6 +107,16 @@ class View implements ViewInterface
     }
 
     /**
+     * Get the view handler.
+     *
+     * @return mixed
+     */
+    public function getHandler()
+    {
+        return $this->handler;
+    }
+
+    /**
      * Set the view handler.
      *
      * @param $handler
@@ -117,16 +127,6 @@ class View implements ViewInterface
         $this->handler = $handler;
 
         return $this;
-    }
-
-    /**
-     * Get the view handler.
-     *
-     * @return mixed
-     */
-    public function getHandler()
-    {
-        return $this->handler;
     }
 
     /**
@@ -153,6 +153,16 @@ class View implements ViewInterface
     }
 
     /**
+     * Get the view prefix.
+     *
+     * @return string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
      * Set the view prefix.
      *
      * @param $prefix
@@ -166,13 +176,13 @@ class View implements ViewInterface
     }
 
     /**
-     * Get the view prefix.
+     * Get the view slug.
      *
      * @return string
      */
-    public function getPrefix()
+    public function getSlug()
     {
-        return $this->prefix;
+        return $this->slug;
     }
 
     /**
@@ -189,13 +199,13 @@ class View implements ViewInterface
     }
 
     /**
-     * Get the view slug.
+     * Get the view text.
      *
      * @return string
      */
-    public function getSlug()
+    public function getText()
     {
-        return $this->slug;
+        return $this->text;
     }
 
     /**
@@ -209,16 +219,6 @@ class View implements ViewInterface
         $this->text = $text;
 
         return $this;
-    }
-
-    /**
-     * Get the view text.
-     *
-     * @return string
-     */
-    public function getText()
-    {
-        return $this->text;
     }
 
     /**

@@ -33,18 +33,25 @@ class CacheCollection extends Collection
     }
 
     /**
-     * Add cached keys.
+     * Flush the cache collection.
      *
-     * @param array $keys
      * @return $this
      */
-    public function addKeys(array $keys = [])
+    public function flush()
     {
-        foreach ($keys as $key) {
-            $this->push($key);
+        $this->index();
+
+        foreach ($this->items as $key) {
+            app('cache')->forget($key);
         }
 
-        $this->unique();
+        foreach ($this->items as $key) {
+            app('cache')->forget($key);
+        }
+
+        app('cache')->forget($this->key);
+
+        $this->items = [];
 
         return $this;
     }
@@ -77,25 +84,18 @@ class CacheCollection extends Collection
     }
 
     /**
-     * Flush the cache collection.
+     * Add cached keys.
      *
+     * @param array $keys
      * @return $this
      */
-    public function flush()
+    public function addKeys(array $keys = [])
     {
-        $this->index();
-
-        foreach ($this->items as $key) {
-            app('cache')->forget($key);
+        foreach ($keys as $key) {
+            $this->push($key);
         }
 
-        foreach ($this->items as $key) {
-            app('cache')->forget($key);
-        }
-
-        app('cache')->forget($this->key);
-
-        $this->items = [];
+        $this->unique();
 
         return $this;
     }
@@ -115,6 +115,16 @@ class CacheCollection extends Collection
     }
 
     /**
+     * Get the collection key.
+     *
+     * @return null
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
      * Set the collection key.
      *
      * @param null $key
@@ -125,15 +135,5 @@ class CacheCollection extends Collection
         $this->key = $key;
 
         return $this;
-    }
-
-    /**
-     * Get the collection key.
-     *
-     * @return null
-     */
-    public function getKey()
-    {
-        return $this->key;
     }
 }

@@ -21,29 +21,6 @@ class InputFilter extends Filter
     protected $type;
 
     /**
-     * Set the input type.
-     *
-     * @param  $type
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get the input type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * Get the input HTML.
      *
      * @return string
@@ -59,5 +36,28 @@ class InputFilter extends Filter
                 'placeholder' => trans($this->getPlaceholder() ?: $this->getSlug())
             ]
         );
+    }
+
+    /**
+     * Get the input type.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set the input type.
+     *
+     * @param  $type
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
     }
 }

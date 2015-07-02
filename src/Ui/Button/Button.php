@@ -84,16 +84,13 @@ class Button implements ButtonInterface
     protected $dropdown = [];
 
     /**
-     * Set the dropdown.
+     * Return whether the button is a dropdown or not.
      *
-     * @param array $dropdown
-     * @return $this
+     * @return bool
      */
-    public function setDropdown(array $dropdown)
+    public function isDropdown()
     {
-        $this->dropdown = $dropdown;
-
-        return $this;
+        return (bool)$this->getDropdown();
     }
 
     /**
@@ -107,13 +104,26 @@ class Button implements ButtonInterface
     }
 
     /**
-     * Return whether the button is a dropdown or not.
+     * Set the dropdown.
      *
-     * @return bool
+     * @param array $dropdown
+     * @return $this
      */
-    public function isDropdown()
+    public function setDropdown(array $dropdown)
     {
-        return (bool)$this->getDropdown();
+        $this->dropdown = $dropdown;
+
+        return $this;
+    }
+
+    /**
+     * Get the attributes.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 
     /**
@@ -127,16 +137,6 @@ class Button implements ButtonInterface
         $this->attributes = $attributes;
 
         return $this;
-    }
-
-    /**
-     * Get the attributes.
-     *
-     * @return array
-     */
-    public function getAttributes()
-    {
-        return $this->attributes;
     }
 
     /**
@@ -163,6 +163,16 @@ class Button implements ButtonInterface
     }
 
     /**
+     * Get the icon.
+     *
+     * @return string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
      * Set the icon.
      *
      * @param string $icon
@@ -173,16 +183,6 @@ class Button implements ButtonInterface
         $this->icon = $icon;
 
         return $this;
-    }
-
-    /**
-     * Get the icon.
-     *
-     * @return string
-     */
-    public function getIcon()
-    {
-        return $this->icon;
     }
 
     /**
@@ -209,6 +209,16 @@ class Button implements ButtonInterface
     }
 
     /**
+     * Get the button size.
+     *
+     * @return string
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+    /**
      * Set the button size.
      *
      * @param $size
@@ -219,16 +229,6 @@ class Button implements ButtonInterface
         $this->size = $size;
 
         return $this;
-    }
-
-    /**
-     * Get the button size.
-     *
-     * @return string
-     */
-    public function getSize()
-    {
-        return $this->size;
     }
 
     /**
@@ -255,6 +255,16 @@ class Button implements ButtonInterface
     }
 
     /**
+     * Get the button type.
+     *
+     * @return null|string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * Set the button type.
      *
      * @param string $type
@@ -268,13 +278,13 @@ class Button implements ButtonInterface
     }
 
     /**
-     * Get the button type.
+     * Get the button text.
      *
-     * @return null|string
+     * @return string
      */
-    public function getType()
+    public function getText()
     {
-        return $this->type;
+        return $this->text;
     }
 
     /**
@@ -291,13 +301,13 @@ class Button implements ButtonInterface
     }
 
     /**
-     * Get the button text.
+     * Get the button URL.
      *
-     * @return string
+     * @return null|string
      */
-    public function getText()
+    public function getUrl()
     {
-        return $this->text;
+        return $this->url;
     }
 
     /**
@@ -311,15 +321,5 @@ class Button implements ButtonInterface
         $this->url = $url;
 
         return $this;
-    }
-
-    /**
-     * Get the button URL.
-     *
-     * @return null|string
-     */
-    public function getUrl()
-    {
-        return $this->url;
     }
 }

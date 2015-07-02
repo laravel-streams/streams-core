@@ -42,13 +42,13 @@ class UninstallExtensionHandler
      * Create a new UninstallExtensionHandler instance.
      *
      * @param ExtensionCollection $extensions
-     * @param Kernel           $kernel
-     * @param Dispatcher       $dispatcher
+     * @param Kernel              $kernel
+     * @param Dispatcher          $dispatcher
      */
     public function __construct(ExtensionCollection $extensions, Kernel $kernel, Dispatcher $dispatcher)
     {
         $this->command    = $kernel;
-        $this->extensions    = $extensions;
+        $this->extensions = $extensions;
         $this->dispatcher = $dispatcher;
     }
 

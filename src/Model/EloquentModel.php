@@ -261,8 +261,7 @@ class EloquentModel extends Model implements Arrayable
      */
     public function getTranslations()
     {
-        foreach ($translations = $this->translations()->get() as $translation)
-        {
+        foreach ($translations = $this->translations()->get() as $translation) {
             $translation->setRelation('parent', $this);
         }
 

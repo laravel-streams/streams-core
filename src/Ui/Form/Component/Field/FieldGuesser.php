@@ -124,5 +124,5 @@ class FieldGuesser
         $this->translatable->guess($builder);
         $this->instructions->guess($builder);
         $this->placeholders->guess($builder);
-}
+    }
 }

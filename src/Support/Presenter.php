@@ -12,21 +12,6 @@ abstract class Presenter extends \Robbo\Presenter\Presenter
 {
 
     /**
-     * Fetch the presenter method name for the given variable.
-     *
-     * @param  string $variable
-     * @return string|null
-     */
-    protected function getPresenterMethodFromVariable($variable)
-    {
-        $method = camel_case($variable);
-
-        if (method_exists($this, $method)) {
-            return $method;
-        }
-    }
-
-    /**
      * Pass any unknown variable calls to present{$variable} or fall through to the injected object.
      *
      * @param  string $var
@@ -56,6 +41,21 @@ abstract class Presenter extends \Robbo\Presenter\Presenter
             );
         } catch (\Exception $e) {
             // Don't do anything.
+        }
+    }
+
+    /**
+     * Fetch the presenter method name for the given variable.
+     *
+     * @param  string $variable
+     * @return string|null
+     */
+    protected function getPresenterMethodFromVariable($variable)
+    {
+        $method = camel_case($variable);
+
+        if (method_exists($this, $method)) {
+            return $method;
         }
     }
 

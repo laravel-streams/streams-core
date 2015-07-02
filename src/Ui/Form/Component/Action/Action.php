@@ -56,6 +56,16 @@ class Action extends Button implements ActionInterface
     protected $handler = 'Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionHandler@handle';
 
     /**
+     * Get the action handler.
+     *
+     * @return mixed
+     */
+    public function getHandler()
+    {
+        return $this->handler;
+    }
+
+    /**
      * Set the action handler.
      *
      * @param $handler
@@ -69,13 +79,13 @@ class Action extends Button implements ActionInterface
     }
 
     /**
-     * Get the action handler.
+     * Get the redirect URL.
      *
-     * @return mixed
+     * @return null|string
      */
-    public function getHandler()
+    public function getRedirect()
     {
-        return $this->handler;
+        return $this->redirect;
     }
 
     /**
@@ -89,16 +99,6 @@ class Action extends Button implements ActionInterface
         $this->redirect = $redirect;
 
         return $this;
-    }
-
-    /**
-     * Get the redirect URL.
-     *
-     * @return null|string
-     */
-    public function getRedirect()
-    {
-        return $this->redirect;
     }
 
     /**
@@ -125,6 +125,16 @@ class Action extends Button implements ActionInterface
     }
 
     /**
+     * Get the action prefix.
+     *
+     * @return null|string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
      * Set the action prefix.
      *
      * @param string $prefix
@@ -138,13 +148,13 @@ class Action extends Button implements ActionInterface
     }
 
     /**
-     * Get the action prefix.
+     * Get the action slug.
      *
-     * @return null|string
+     * @return string
      */
-    public function getPrefix()
+    public function getSlug()
     {
-        return $this->prefix;
+        return $this->slug;
     }
 
     /**
@@ -158,15 +168,5 @@ class Action extends Button implements ActionInterface
         $this->slug = $slug;
 
         return $this;
-    }
-
-    /**
-     * Get the action slug.
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
     }
 }
