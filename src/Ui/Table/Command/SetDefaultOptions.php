@@ -110,7 +110,11 @@ class SetDefaultOptions implements SelfHandling
             $model = $table->getModel();
 
             if ($model instanceof EntryModel) {
-                $table->setOption('order_by', ['sort_order' => 'asc']);
+                if ($table->getOption('sortable')) {
+                    $table->setOption('order_by', ['sort_order' => 'asc']);
+                } else {
+                    $table->setOption('order_by', [$model->getTitleName() => 'asc']);
+                }
             }
 
             if ($model instanceof EloquentModel) {

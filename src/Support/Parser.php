@@ -91,7 +91,7 @@ class Parser
         $url     = $this->url->toArray();
         $request = $this->request->toArray();
 
-        return array_merge($data, compact('url', 'request'));
+        return array_merge(compact('url', 'request'), $data);
     }
 
     /**
