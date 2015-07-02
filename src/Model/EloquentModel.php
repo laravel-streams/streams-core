@@ -15,7 +15,8 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Model
  */
-class EloquentModel extends Model implements Arrayable
+class
+EloquentModel extends Model implements Arrayable
 {
 
     use DispatchesCommands;
