@@ -15,14 +15,42 @@ class EntryTranslationsObserver extends Observer
 {
 
     /**
-     * Before saving an entry touch the
-     * meta information.
+     * Fired just after a record is created.
      *
      * @param  EntryTranslationsModel $entry
-     * @return bool
+     */
+    public function created(EntryTranslationsModel $entry)
+    {
+        $entry->fireFieldTypeEvents('entry_translation_created');
+    }
+
+    /**
+     * Fired just before a record saves.
+     *
+     * @param  EntryTranslationsModel $entry
      */
     public function saving(EntryTranslationsModel $entry)
     {
         $this->commands->dispatch(new SetMetaInformation($entry));
+    }
+
+    /**
+     * Fired just after a record is saved.
+     *
+     * @param  EntryTranslationsModel $entry
+     */
+    public function saved(EntryTranslationsModel $entry)
+    {
+        $entry->fireFieldTypeEvents('entry_translation_saved');
+    }
+
+    /**
+     * Fired just after a record is updated.
+     *
+     * @param  EntryTranslationsModel $entry
+     */
+    public function updated(EntryTranslationsModel $entry)
+    {
+        $entry->fireFieldTypeEvents('entry_translation_updated');
     }
 }

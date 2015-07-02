@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -114,5 +115,26 @@ class EntryTranslationsModel extends EloquentModel
         $modifier = $type->getModifier();
 
         $accessor->set($modifier->modify($value));
+    }
+
+    /**
+     * Fire field type events.
+     *
+     * @param       $trigger
+     * @param array $payload
+     */
+    public function fireFieldTypeEvents($trigger, $payload = [])
+    {
+        /* @var AssignmentInterface $assignment */
+        foreach ($this->parent->getAssignments() as $assignment) {
+
+            $fieldType = $assignment->getFieldType();
+
+            $fieldType->setValue($this->parent->getFieldValue($assignment->getFieldSlug()));
+
+            $fieldType->setEntry($this);
+
+            $fieldType->fire($trigger, array_merge(compact('fieldType', 'entry'), $payload));
+        }
     }
 }
