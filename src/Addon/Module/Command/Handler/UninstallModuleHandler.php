@@ -67,6 +67,7 @@ class UninstallModuleHandler
         ];
 
         $this->command->call('migrate:reset', $options);
+        $this->command->call('streams:cleanup', $options);
         $this->dispatcher->fire(new ModuleWasUninstalled($module));
 
         return true;
