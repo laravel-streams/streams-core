@@ -95,9 +95,7 @@ class SetDefaultOptions implements SelfHandling
 
             if (!$table->getOption('repository') && $model instanceof EntryModel) {
                 $table->setOption('repository', 'Anomaly\Streams\Platform\Entry\EntryTableRepository');
-            }
-
-            if (!$table->getOption('repository') && $model instanceof EloquentModel) {
+            } else if (!$table->getOption('repository') && $model instanceof EloquentModel) {
                 $table->setOption('repository', 'Anomaly\Streams\Platform\Model\EloquentTableRepository');
             }
         }
