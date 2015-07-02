@@ -80,6 +80,7 @@ class EntryTranslationsModel extends EloquentModel
         $type = $assignment->getFieldType($this);
 
         $type->setEntry($this);
+        $type->setLocale($this->locale);
 
         $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
@@ -107,6 +108,7 @@ class EntryTranslationsModel extends EloquentModel
         $type = $assignment->getFieldType($this);
 
         $type->setEntry($this);
+        $type->setLocale($this->locale);
 
         $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
