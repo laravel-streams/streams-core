@@ -95,7 +95,7 @@ class SetDefaultOptions implements SelfHandling
 
             if (!$table->getOption('repository') && $model instanceof EntryModel) {
                 $table->setOption('repository', 'Anomaly\Streams\Platform\Entry\EntryTableRepository');
-            } else if (!$table->getOption('repository') && $model instanceof EloquentModel) {
+            } elseif (!$table->getOption('repository') && $model instanceof EloquentModel) {
                 $table->setOption('repository', 'Anomaly\Streams\Platform\Model\EloquentTableRepository');
             }
         }
@@ -113,10 +113,8 @@ class SetDefaultOptions implements SelfHandling
                 } else {
                     $table->setOption('order_by', [$model->getTitleName() => 'asc']);
                 }
-            } else {
-                if ($model instanceof EloquentModel) {
-                    $table->setOption('order_by', ['id' => 'asc']);
-                }
+            } elseif ($model instanceof EloquentModel) {
+                $table->setOption('order_by', ['id' => 'asc']);
             }
         }
 
