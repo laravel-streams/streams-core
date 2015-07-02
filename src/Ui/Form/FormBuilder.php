@@ -201,6 +201,20 @@ class FormBuilder
     }
 
     /**
+     * Fire field events.
+     *
+     * @param       $trigger
+     * @param array $payload
+     */
+    public function fireFieldEvents($trigger, array $payload = [])
+    {
+        /* @var FieldType $field */
+        foreach ($this->getFormFields() as $field) {
+            $field->fire($trigger, array_merge(['builder' => $this], $payload));
+        }
+    }
+
+    /**
      * Save the form.
      */
     public function saveForm()

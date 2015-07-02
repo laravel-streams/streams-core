@@ -37,6 +37,7 @@ class SaveForm implements SelfHandling
     public function handle()
     {
         $this->builder->fire('saving', ['builder' => $this->builder]);
+        $this->builder->fireFieldEvents('form_saving');
 
         $form = $this->builder->getForm();
 
@@ -45,5 +46,6 @@ class SaveForm implements SelfHandling
         $repository->save($this->builder);
 
         $this->builder->fire('saved', ['builder' => $this->builder]);
+        $this->builder->fireFieldEvents('form_saved');
     }
 }
