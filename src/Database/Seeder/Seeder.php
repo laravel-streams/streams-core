@@ -34,13 +34,13 @@ class Seeder extends BaseSeeder
         $seeder = $this->resolve($class);
         $env    = method_exists($seeder, 'isEnvironment') ? $seeder->isEnvironment() : null;
 
+        $seeder->setCommand($this->command);
+
         if ($env !== false) {
             $seeder->run();
         }
 
-        if (isset($this->command)) {
-            $this->command->getOutput()->writeln("<info>Seeded:</info> $class");
-        }
+        $this->command->getOutput()->writeln("<info>Seeded:</info> $class");
     }
 
     /**
