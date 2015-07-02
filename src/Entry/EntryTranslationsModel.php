@@ -65,6 +65,56 @@ class EntryTranslationsModel extends EloquentModel
     }
 
     /**
+     * Get the entries title.
+     *
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->parent->getTitle();
+    }
+
+    /**
+     * Get the stream.
+     *
+     * @return StreamInterface
+     */
+    public function getStream()
+    {
+        return $this->parent->getStream();
+    }
+
+    /**
+     * Get the stream namespace.
+     *
+     * @return string
+     */
+    public function getStreamNamespace()
+    {
+        return $this->parent->getStreamNamespace();
+    }
+
+    /**
+     * Get the stream slug.
+     *
+     * @return string
+     */
+    public function getStreamSlug()
+    {
+        return $this->parent->getStreamSlug();
+    }
+
+    /**
+     * Get the stream prefix.
+     *
+     * @return string
+     */
+    public function getStreamPrefix()
+    {
+        return $this->parent->getStreamPrefix();
+    }
+
+    /**
      * Get an attribute.
      *
      * @param string $key

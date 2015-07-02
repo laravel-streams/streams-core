@@ -24,6 +24,7 @@ class IconRegistry
         'scissors'             => 'glyphicons glyphicons-scissors-alt',
         'folder-open'          => 'glyphicons glyphicons-folder-open',
         'credit-card'          => 'glyphicons glyphicons-credit-card',
+        'adjust'               => 'glyphicons glyphicons-adjust-alt',
         'eyedropper'           => 'glyphicons glyphicons-eyedropper',
         'fullscreen'           => 'glyphicons glyphicons-fullscreen',
         'paperclip'            => 'glyphicons glyphicons-paperclip',
