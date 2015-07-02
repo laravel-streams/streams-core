@@ -62,10 +62,10 @@ class FormRules
 
                     $fieldRules[] = $unique;
                 }
-            }
 
-            if ($assignment->isTranslatable() && $field->getLocale() !== config('app.fallback_locale')) {
-                $fieldRules = array_diff($fieldRules, ['required']);
+                if ($assignment->isTranslatable() && $field->getLocale() !== config('app.fallback_locale')) {
+                    $fieldRules = array_diff($fieldRules, ['required']);
+                }
             }
 
             $rules[$field->getInputName()] = implode('|', array_unique($fieldRules));
