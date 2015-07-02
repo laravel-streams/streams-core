@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
+use Illuminate\Support\Fluent;
 
 /**
  * Class FieldTypeSchema
@@ -59,30 +60,17 @@ class FieldTypeSchema
             return;
         }
 
-        // Add the column.
-        if (!$assignment->isTranslatable()) {
+        /**
+         * Add the column to the table.
+         *
+         * @var Blueprint|Fluent $column
+         */
+        $column = $table->{$this->fieldType->getColumnType()}($this->fieldType->getColumnName());
 
-            /**
-             * If the assignment is NOT translatable then it
-             * can be required and also have a default value.
-             */
-            $column = $table->{$this->fieldType->getColumnType()}($this->fieldType->getColumnName())
-                ->nullable(!$assignment->isRequired());
+        $column = $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true);
 
-            try {
-                $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
-            } catch (\Exception $e) {
-                // Doesn't support default values.
-            }
-        } else {
-
-            /**
-             * If the assignment is translatable then it
-             * must be nullable cause translations are not
-             * required input.
-             */
-            $table->{$this->fieldType->getColumnType()}($this->fieldType->getColumnName())
-                ->nullable(true);
+        if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
+            $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
         }
 
         // Mark the column unique if desired and not translatable.
