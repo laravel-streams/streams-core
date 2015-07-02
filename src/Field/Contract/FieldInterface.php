@@ -24,7 +24,6 @@ interface FieldInterface
     /**
      * Get the name.
      *
-     * @param null|string $locale
      * @return string
      */
     public function getName();
