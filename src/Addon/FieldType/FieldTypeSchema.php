@@ -66,9 +66,14 @@ class FieldTypeSchema
              * If the assignment is NOT translatable then it
              * can be required and also have a default value.
              */
-            $table->{$this->fieldType->getColumnType()}($this->fieldType->getColumnName())
-                ->nullable(!$assignment->isRequired())
-                ->default(array_get($this->fieldType->getConfig(), 'default_value'));
+            $column = $table->{$this->fieldType->getColumnType()}($this->fieldType->getColumnName())
+                ->nullable(!$assignment->isRequired());
+
+            try {
+                $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
+            } catch (\Exception $e) {
+                // Doesn't support default values.
+            }
         } else {
 
             /**
