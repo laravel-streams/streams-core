@@ -478,7 +478,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind(
             'path.lang',
             function () {
-                return realpath(__DIR__ . '/../resources/lang/NOPE');
+                return realpath(__DIR__ . '/../resources/lang');
             }
         );
 
