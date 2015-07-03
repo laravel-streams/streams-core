@@ -9,7 +9,7 @@ return [
                 $options = [];
 
                 foreach (config('streams::locales.supported') as $iso => $locale) {
-                    $options[$iso] = $locale['name'];
+                    $options[$iso] = trans('streams::locale.' . $iso . '.name');
                 }
 
                 return $options;
