@@ -46,9 +46,9 @@ interface StreamRepositoryInterface
     public function delete(StreamInterface $stream);
 
     /**
-     * Delete garbage streams.
+     * Clean up abandoned streams.
      */
-    public function deleteGarbage();
+    public function cleanup();
 
     /**
      * Find a stream by it's namespace and slug.

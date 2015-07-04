@@ -16,29 +16,20 @@ interface AssignmentRepositoryInterface
 {
 
     /**
+     * Create a new assignment.
+     *
+     * @param array $attributes
+     * @return AssignmentInterface
+     */
+    public function create(array $attributes);
+
+    /**
      * Find an assignment.
      *
      * @param $id
      * @return null|AssignmentInterface
      */
     public function find($id);
-
-    /**
-     * Create a new assignment.
-     *
-     * @param StreamInterface $stream
-     * @param FieldInterface  $field
-     * @param array           $attributes
-     * @return AssignmentInterface
-     */
-    public function create(StreamInterface $stream, FieldInterface $field, array $attributes);
-
-    /**
-     * Delete an assignment.
-     *
-     * @param AssignmentInterface $assignment
-     */
-    public function delete(AssignmentInterface $assignment);
 
     /**
      * Find an assignment by stream and field.
@@ -58,7 +49,14 @@ interface AssignmentRepositoryInterface
     public function findByStream(StreamInterface $stream);
 
     /**
-     * Delete garbage assignments.
+     * Delete an assignment.
+     *
+     * @param AssignmentInterface $assignment
      */
-    public function deleteGarbage();
+    public function delete(AssignmentInterface $assignment);
+
+    /**
+     * Clean up abandoned assignments.
+     */
+    public function cleanup();
 }

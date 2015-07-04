@@ -102,6 +102,26 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     }
 
     /**
+     * Set the field attribute.
+     *
+     * @param FieldInterface $field
+     */
+    public function setFieldAttribute(FieldInterface $field)
+    {
+        $this->attributes['field_id'] = $field->getId();
+    }
+
+    /**
+     * Set the stream attribute.
+     *
+     * @param StreamInterface $stream
+     */
+    public function setStreamAttribute(StreamInterface $stream)
+    {
+        $this->attributes['stream_id'] = $stream->getId();
+    }
+
+    /**
      * Get the field slug.
      *
      * @return string

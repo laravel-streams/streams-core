@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form\Command;
 
-use Anomaly\Streams\Platform\Field\FieldManager;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Form\FieldFormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
@@ -35,12 +35,12 @@ class AutoAssignField implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param FieldManager $manager
+     * @param AssignmentRepositoryInterface $assignments
      */
-    public function handle(FieldManager $manager)
+    public function handle(AssignmentRepositoryInterface $assignments)
     {
         if ($this->builder->getFormOption('auto_assign') === true && $this->builder->getFormMode() === 'create') {
-            $manager->assign($this->builder->getFormEntry(), $this->builder->getStream());
+            $assignments->create($this->builder->getFormEntry(), $this->builder->getStream());
         }
     }
 }

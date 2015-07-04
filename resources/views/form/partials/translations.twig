@@ -5,7 +5,7 @@
             {% for iso in config_get('streams::locales.enabled') %}
                 <li class="{{ iso == config_get('app.fallback_locale') ? 'active' }}">
                     <a href="#" lang="{{ iso }}">
-                        {{ config_get('streams::locales.supported.' ~ iso ~ '.name') }}
+                        {{ trans('streams::locale.' ~ iso ~ '.name') }}
                     </a>
                 </li>
             {% endfor %}

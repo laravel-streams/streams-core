@@ -91,9 +91,9 @@ class FieldRepository implements FieldRepositoryInterface
     }
 
     /**
-     * Delete garbage fields.
+     * Clean up abandoned fields.
      */
-    public function deleteGarbage()
+    public function cleanup()
     {
         $this->model
             ->leftJoin('streams_streams', 'streams_fields.namespace', '=', 'streams_streams.namespace')

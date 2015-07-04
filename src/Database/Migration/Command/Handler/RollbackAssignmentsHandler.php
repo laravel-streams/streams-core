@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Database\Migration\Command\RollbackAssignments;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
-use Anomaly\Streams\Platform\Field\FieldManager;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 
 /**
@@ -32,14 +31,7 @@ class RollbackAssignmentsHandler
     protected $streams;
 
     /**
-     * The field manager.
-     *
-     * @var FieldManager
-     */
-    protected $manager;
-
-    /**
-     * The assignment manager.
+     * The assignment repository.
      *
      * @var AssignmentRepositoryInterface
      */
@@ -48,19 +40,17 @@ class RollbackAssignmentsHandler
     /**
      * Create a new RollbackAssignmentsHandler instance.
      *
-     * @param FieldManager              $manager
-     * @param FieldRepositoryInterface  $fields
-     * @param StreamRepositoryInterface $streams
+     * @param FieldRepositoryInterface      $fields
+     * @param StreamRepositoryInterface     $streams
+     * @param AssignmentRepositoryInterface $assignments
      */
     public function __construct(
-        FieldManager $manager,
         FieldRepositoryInterface $fields,
         StreamRepositoryInterface $streams,
         AssignmentRepositoryInterface $assignments
     ) {
         $this->fields      = $fields;
         $this->streams     = $streams;
-        $this->manager     = $manager;
         $this->assignments = $assignments;
     }
 
@@ -89,10 +79,10 @@ class RollbackAssignmentsHandler
             }
 
             if ($stream && $field = $this->fields->findBySlugAndNamespace($field, $namespace)) {
-                $this->manager->unassign($field, $stream);
+                $this->assignments->unassign($field, $stream);
             }
         }
 
-        $this->assignments->deleteGarbage();
+        $this->assignments->cleanup();
     }
 }

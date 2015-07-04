@@ -54,7 +54,7 @@ interface FieldRepositoryInterface
     public function findByNamespace($namespace);
 
     /**
-     * Delete garbage fields.
+     * Clean up abandoned fields.
      */
-    public function deleteGarbage();
+    public function cleanup();
 }

@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Database\Migration\Command\RollbackFields;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
-use Anomaly\Streams\Platform\Field\FieldManager;
 
 /**
  * Class RollbackFieldsHandler
@@ -23,22 +23,22 @@ class RollbackFieldsHandler
     protected $fields;
 
     /**
-     * The field manager.
+     * The assignment instance.
      *
-     * @var FieldManager
+     * @var AssignmentRepositoryInterface
      */
-    protected $manager;
+    protected $assignments;
 
     /**
      * Create a new RollbackFieldsHandler instance.
      *
-     * @param FieldRepositoryInterface $fields
-     * @param FieldManager             $manager
+     * @param FieldRepositoryInterface      $fields
+     * @param AssignmentRepositoryInterface $assignments
      */
-    public function __construct(FieldRepositoryInterface $fields, FieldManager $manager)
+    public function __construct(FieldRepositoryInterface $fields, AssignmentRepositoryInterface $assignments)
     {
-        $this->fields  = $fields;
-        $this->manager = $manager;
+        $this->fields      = $fields;
+        $this->assignments = $assignments;
     }
 
     /**
@@ -58,10 +58,10 @@ class RollbackFieldsHandler
             $namespace = array_get($field, 'namespace', $namespace ?: ($addon ? $addon->getSlug() : null));
 
             if ($field = $this->fields->findBySlugAndNamespace($slug, $namespace)) {
-                $this->manager->delete($field);
+                $this->fields->delete($field);
             }
         }
 
-        $this->fields->deleteGarbage();
+        $this->fields->cleanup();
     }
 }
