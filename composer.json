@@ -8,8 +8,8 @@
         }
     ],
     "require": {
-        "laravel/framework": "~5.0",
-        "laravelcollective/html": "~5.0",
+        "laravel/framework": "~5.1",
+        "laravelcollective/html": "~5.1",
         "doctrine/dbal": "2.6.*",
         "intervention/image": "2.1.*",
         "twig/twig": "1.18.*",
