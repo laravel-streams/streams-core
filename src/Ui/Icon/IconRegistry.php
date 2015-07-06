@@ -41,6 +41,7 @@ class IconRegistry
         'redo'                 => 'glyphicons glyphicons-redo',
         'order'                => 'glyphicons glyphicons-sort',
         'link'                 => 'glyphicons glyphicons-link',
+        'fire'                 => 'glyphicons glyphicons-fire',
         'car'                  => 'glyphicons glyphicons-car',
         'external-link'        => 'fa fa-external-link',
         'video-camera'         => 'fa fa-video-camera',
