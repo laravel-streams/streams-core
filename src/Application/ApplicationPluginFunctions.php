@@ -24,6 +24,33 @@ class ApplicationPluginFunctions
     }
 
     /**
+     * Return a humanized string.
+     *
+     * @param        $value
+     * @param string $separator
+     * @return string
+     */
+    public function humanize($value, $separator = '_')
+    {
+        return ucwords(preg_replace('/[' . $separator . ']+/', ' ', strtolower(trim($value))));
+    }
+
+    /**
+     * Return an anchor tag.
+     *
+     * @param string $value
+     * @param string $text
+     * @param array  $attributes
+     * @return string
+     */
+    public function anchor($value, $text, $attributes = [])
+    {
+        $attributes = array_merge($attributes, ['name' => $value]);
+
+        return app('html')->link('#' . $value, $text, $attributes);
+    }
+
+    /**
      * Limit the number of characters in a string
      * while preserving words.
      *

@@ -42,13 +42,13 @@ class Cleanup extends Command
         StreamRepositoryInterface $streams,
         AssignmentRepositoryInterface $assignments
     ) {
-        $streams->deleteGarbage();
+        $streams->cleanup();
         $this->info('Abandoned streams deleted successfully.');
 
-        $fields->deleteGarbage();
+        $fields->cleanup();
         $this->info('Abandoned fields deleted successfully.');
 
-        $assignments->deleteGarbage();
+        $assignments->cleanup();
         $this->info('Abandoned assignments deleted successfully.');
     }
 }

@@ -102,6 +102,16 @@ class Column implements ColumnInterface
     }
 
     /**
+     * Get the column class.
+     *
+     * @return null|string
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
      * Set the column class.
      *
      * @param $class
@@ -115,13 +125,13 @@ class Column implements ColumnInterface
     }
 
     /**
-     * Get the column class.
+     * Get the column header.
      *
      * @return null|string
      */
-    public function getClass()
+    public function getHeader()
     {
-        return $this->class;
+        return $this->header;
     }
 
     /**
@@ -138,13 +148,13 @@ class Column implements ColumnInterface
     }
 
     /**
-     * Get the column header.
+     * Get the column value.
      *
-     * @return null|string
+     * @return mixed|null
      */
-    public function getHeader()
+    public function getValue()
     {
-        return $this->header;
+        return $this->value;
     }
 
     /**
@@ -158,16 +168,6 @@ class Column implements ColumnInterface
         $this->value = $value;
 
         return $this;
-    }
-
-    /**
-     * Get the column value.
-     *
-     * @return mixed|null
-     */
-    public function getValue()
-    {
-        return $this->value;
     }
 
     /**

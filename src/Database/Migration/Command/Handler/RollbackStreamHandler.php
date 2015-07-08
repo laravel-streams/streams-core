@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Database\Migration\Command\RollbackStream;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
-use Anomaly\Streams\Platform\Stream\StreamManager;
 
 /**
  * Class RollbackStreamHandler
@@ -23,22 +22,13 @@ class RollbackStreamHandler
     protected $streams;
 
     /**
-     * The stream manager.
-     *
-     * @var StreamManager
-     */
-    protected $manager;
-
-    /**
      * Create a new RollbackStreamHandler instance.
      *
-     * @param StreamManager             $manager
      * @param StreamRepositoryInterface $streams
      */
-    public function __construct(StreamManager $manager, StreamRepositoryInterface $streams)
+    public function __construct(StreamRepositoryInterface $streams)
     {
         $this->streams = $streams;
-        $this->manager = $manager;
     }
 
     /**
@@ -68,9 +58,9 @@ class RollbackStreamHandler
         $stream['namespace'] = array_get($stream, 'namespace', $addon ? $addon->getSlug() : null);
 
         if ($stream = $this->streams->findBySlugAndNamespace($stream['slug'], $stream['namespace'])) {
-            $this->manager->delete($stream);
+            $this->streams->delete($stream);
         }
 
-        $this->streams->deleteGarbage();
+        $this->streams->cleanup();
     }
 }

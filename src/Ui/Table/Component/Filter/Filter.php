@@ -49,6 +49,16 @@ class Filter implements FilterInterface
     protected $handler = 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Handler\GenericFilterHandler@handle';
 
     /**
+     * Get the filter handler.
+     *
+     * @return mixed
+     */
+    public function getHandler()
+    {
+        return $this->handler;
+    }
+
+    /**
      * Set the filter handler.
      *
      * @param $handler
@@ -59,16 +69,6 @@ class Filter implements FilterInterface
         $this->handler = $handler;
 
         return $this;
-    }
-
-    /**
-     * Get the filter handler.
-     *
-     * @return mixed
-     */
-    public function getHandler()
-    {
-        return $this->handler;
     }
 
     /**
@@ -105,6 +105,16 @@ class Filter implements FilterInterface
     }
 
     /**
+     * Get the filter value.
+     *
+     * @return null|string
+     */
+    public function getValue()
+    {
+        return app('request')->get($this->getInputName());
+    }
+
+    /**
      * Get the filter name.
      *
      * @return string
@@ -115,13 +125,49 @@ class Filter implements FilterInterface
     }
 
     /**
-     * Get the filter value.
+     * Get the filter prefix.
      *
      * @return null|string
      */
-    public function getValue()
+    public function getPrefix()
     {
-        return app('request')->get($this->getInputName());
+        return $this->prefix;
+    }
+
+    /**
+     * Set the filter prefix.
+     *
+     * @param string $prefix
+     * @return $this
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    /**
+     * Get the filter slug.
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set the filter slug.
+     *
+     * @param $slug
+     * @return $this
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 
     /**
@@ -145,51 +191,5 @@ class Filter implements FilterInterface
     public function isActive()
     {
         return $this->active;
-    }
-
-    /**
-     * Set the filter prefix.
-     *
-     * @param string $prefix
-     * @return $this
-     */
-    public function setPrefix($prefix)
-    {
-        $this->prefix = $prefix;
-
-        return $this;
-    }
-
-    /**
-     * Get the filter prefix.
-     *
-     * @return null|string
-     */
-    public function getPrefix()
-    {
-        return $this->prefix;
-    }
-
-    /**
-     * Set the filter slug.
-     *
-     * @param $slug
-     * @return $this
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get the filter slug.
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
     }
 }

@@ -86,7 +86,7 @@ class ButtonNormalizer
             /**
              * Normalize dropdown input.
              */
-            if($dropdown = array_get($button, 'dropdown', [])) {
+            if ($dropdown = array_get($button, 'dropdown', [])) {
 
                 foreach ($dropdown as $linkKey => &$link) {
 

@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Database\Migration\Command\MigrateStream;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
-use Anomaly\Streams\Platform\Stream\StreamManager;
 
 /**
  * Class MigrateStreamHandler
@@ -17,13 +16,6 @@ class MigrateStreamHandler
 {
 
     /**
-     * The stream manager.
-     *
-     * @var StreamManager
-     */
-    protected $manager;
-
-    /**
      * The stream repository.
      *
      * @var StreamRepositoryInterface
@@ -33,13 +25,11 @@ class MigrateStreamHandler
     /**
      * Create a new MigrateStreamHandler instance.
      *
-     * @param StreamManager             $manager
      * @param StreamRepositoryInterface $streams
      */
-    public function __construct(StreamManager $manager, StreamRepositoryInterface $streams)
+    public function __construct(StreamRepositoryInterface $streams)
     {
         $this->streams = $streams;
-        $this->manager = $manager;
     }
 
     /**
@@ -55,7 +45,7 @@ class MigrateStreamHandler
         $stream = $migration->getStream();
 
         if (!$stream) {
-            return;
+            return null;
         }
 
         if (is_string($stream)) {
@@ -70,7 +60,7 @@ class MigrateStreamHandler
         $stream['namespace'] = array_get($stream, 'namespace', $addon ? $addon->getSlug() : null);
 
         if ($this->streams->findBySlugAndNamespace($stream['slug'], $stream['namespace'])) {
-            return;
+            return null;
         }
 
         /**
@@ -116,6 +106,6 @@ class MigrateStreamHandler
         }
 
         // Create the stream.
-        return $this->manager->create($stream);
+        return $this->streams->create($stream);
     }
 }

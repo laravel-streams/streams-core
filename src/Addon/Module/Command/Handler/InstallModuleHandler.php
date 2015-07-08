@@ -47,8 +47,8 @@ class InstallModuleHandler
      */
     public function __construct(ModuleCollection $modules, Kernel $kernel, Dispatcher $dispatcher)
     {
-        $this->command = $kernel;
-        $this->modules = $modules;
+        $this->command    = $kernel;
+        $this->modules    = $modules;
         $this->dispatcher = $dispatcher;
     }
 

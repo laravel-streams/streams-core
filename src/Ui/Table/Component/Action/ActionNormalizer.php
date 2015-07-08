@@ -83,7 +83,7 @@ class ActionNormalizer
                     array_set($action, 'attributes.' . $attribute, array_pull($action, $attribute));
                 }
             }
-            
+
             /**
              * If the HREF is present outside of the attributes
              * then pull it and put it in the attributes array.

@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Database\Migration\Command\MigrateFields;
-use Anomaly\Streams\Platform\Field\FieldManager;
+use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 
 /**
  * Class MigrateFieldsHandler
@@ -16,20 +16,20 @@ class MigrateFieldsHandler
 {
 
     /**
-     * The field manager.
+     * The field repository.
      *
-     * @var FieldManager
+     * @var FieldRepositoryInterface
      */
-    protected $manager;
+    protected $fields;
 
     /**
      * Create a new MigrateFieldsHandler instance.
      *
-     * @param FieldManager $manager
+     * @maram FieldRepositoryInterface $fields
      */
-    public function __construct(FieldManager $manager)
+    public function __construct(FieldRepositoryInterface $fields)
     {
-        $this->manager = $manager;
+        $this->fields = $fields;
     }
 
     /**
@@ -78,7 +78,7 @@ class MigrateFieldsHandler
                 );
             }
 
-            $this->manager->create($field);
+            $this->fields->create($field);
         }
 
         return true;

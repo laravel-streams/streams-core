@@ -37,7 +37,7 @@ class InstallAllExtensionsHandler
      */
     public function __construct(ExtensionCollection $extensions, ExtensionManager $service)
     {
-        $this->manager = $service;
+        $this->manager    = $service;
         $this->extensions = $extensions;
     }
 

@@ -41,6 +41,29 @@ class MessageBag
     }
 
     /**
+     * Merge a message onto the session.
+     *
+     * @param $type
+     * @param $message
+     */
+    protected function merge($type, $message)
+    {
+        $messages = $this->session->get($type, []);
+
+        if (is_array($message)) {
+            $messages = array_merge($messages, $message);
+        }
+
+        if (is_string($message)) {
+            array_push($messages, $message);
+        }
+
+        $messages = array_unique($messages);
+
+        $this->session->set($type, $messages);
+    }
+
+    /**
      * Add an info message.
      *
      * @param $message
@@ -68,28 +91,5 @@ class MessageBag
     public function warning($message)
     {
         $this->merge(__FUNCTION__, $message);
-    }
-
-    /**
-     * Merge a message onto the session.
-     *
-     * @param $type
-     * @param $message
-     */
-    protected function merge($type, $message)
-    {
-        $messages = $this->session->get($type, []);
-
-        if (is_array($message)) {
-            $messages = array_merge($messages, $message);
-        }
-
-        if (is_string($message)) {
-            array_push($messages, $message);
-        }
-
-        $messages = array_unique($messages);
-
-        $this->session->set($type, $messages);
     }
 }

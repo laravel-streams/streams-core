@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Database\Migration\Command\MigrateAssignments;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
-use Anomaly\Streams\Platform\Field\FieldManager;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 
 /**
@@ -31,27 +31,27 @@ class MigrateAssignmentsHandler
     protected $streams;
 
     /**
-     * The field manager.
+     * The assignment repository.
      *
-     * @var FieldManager
+     * @var AssignmentRepositoryInterface
      */
-    protected $manager;
+    protected $assignments;
 
     /**
      * Create a new MigrateAssignmentsHandler instance.
      *
-     * @param FieldManager              $manager
-     * @param FieldRepositoryInterface  $fields
-     * @param StreamRepositoryInterface $streams
+     * @param FieldRepositoryInterface      $fields
+     * @param StreamRepositoryInterface     $streams
+     * @param AssignmentRepositoryInterface $assignments
      */
     function __construct(
-        FieldManager $manager,
         FieldRepositoryInterface $fields,
-        StreamRepositoryInterface $streams
+        StreamRepositoryInterface $streams,
+        AssignmentRepositoryInterface $assignments
     ) {
-        $this->fields  = $fields;
-        $this->streams = $streams;
-        $this->manager = $manager;
+        $this->fields      = $fields;
+        $this->streams     = $streams;
+        $this->assignments = $assignments;
     }
 
     /**
@@ -150,7 +150,7 @@ class MigrateAssignmentsHandler
             $field = $this->fields->findBySlugAndNamespace($field, $stream->getNamespace());
 
             if ($field) {
-                $this->manager->assign($field, $stream, $assignment);
+                $this->assignments->create(array_merge($assignment, compact('field', 'stream')));
             }
         }
     }

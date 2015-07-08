@@ -12,7 +12,7 @@
 
         {% if field_type.locale %}
             <span class="label label-mini label-default">
-                {{ config_get('streams::locales.supported.' ~ field_type.locale ~ '.name') }}
+                {{ trans('streams::locale.' ~ field_type.locale ~ '.name') }}
             </span>
         {% endif %}
     </label>

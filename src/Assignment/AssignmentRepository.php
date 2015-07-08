@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
@@ -47,23 +48,12 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     /**
      * Create a new assignment.
      *
-     * @param StreamInterface $stream
-     * @param FieldInterface  $field
-     * @param array           $attributes
+     * @param array $attributes
      * @return AssignmentInterface
      */
-    public function create(StreamInterface $stream, FieldInterface $field, array $attributes)
+    public function create(array $attributes)
     {
-        $attributes['field_id']  = $field->getId();
-        $attributes['stream_id'] = $stream->getId();
-
         $attributes['sort_order'] = array_get($attributes, 'sort_order', $this->model->count('id') + 1);
-
-        $attributes['translatable'] = array_get($attributes, 'translatable', false);
-        $attributes['required']     = array_get($attributes, 'required', false);
-        $attributes['unique']       = array_get($attributes, 'unique', false);
-        $attributes['config']       = array_get($attributes, 'config', []);
-        $attributes['rules']        = array_get($attributes, 'rules', []);
 
         return $this->model->create($attributes);
     }
@@ -71,7 +61,7 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     /**
      * Delete an assignment.
      *
-     * @param AssignmentInterface $assignment
+     * @param AssignmentInterface|EloquentModel $assignment
      */
     public function delete(AssignmentInterface $assignment)
     {
@@ -102,9 +92,9 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     }
 
     /**
-     * Delete garbage assignments.
+     * Clean up abandoned assignments.
      */
-    public function deleteGarbage()
+    public function cleanup()
     {
         $this->model
             ->leftJoin('streams_streams', 'streams_assignments.stream_id', '=', 'streams_streams.id')

@@ -67,30 +67,13 @@ class Application
     }
 
     /**
-     * Locate the app by request or passed
-     * variable and set the application reference.
+     * Get the reference.
      *
-     * @return bool
+     * @return null
      */
-    public function locate()
+    public function getReference()
     {
-        if (app('db')->getSchemaBuilder()->hasTable('applications')) {
-
-            if ($app = $this->applications->findByDomain(
-                trim(str_replace(array('http://', 'https://'), '', app('request')->root()), '/')
-            )
-            ) {
-
-                $this->installed = true;
-                $this->reference = $app->reference;
-
-                return true;
-            }
-
-            return false;
-        }
-
-        return true;
+        return $this->reference;
     }
 
     /**
@@ -104,16 +87,6 @@ class Application
         $this->reference = $reference;
 
         return $this;
-    }
-
-    /**
-     * Get the reference.
-     *
-     * @return null
-     */
-    public function getReference()
-    {
-        return $this->reference;
     }
 
     /**
@@ -150,6 +123,33 @@ class Application
         }
 
         return $this->reference . '_';
+    }
+
+    /**
+     * Locate the app by request or passed
+     * variable and set the application reference.
+     *
+     * @return bool
+     */
+    public function locate()
+    {
+        if (app('db')->getSchemaBuilder()->hasTable('applications')) {
+
+            if ($app = $this->applications->findByDomain(
+                trim(str_replace(array('http://', 'https://'), '', app('request')->root()), '/')
+            )
+            ) {
+
+                $this->installed = true;
+                $this->reference = $app->reference;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
     /**

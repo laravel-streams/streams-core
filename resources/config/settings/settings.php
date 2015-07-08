@@ -41,21 +41,7 @@ return [
             ]
         ],
     ],
-    'default_locale' => [
-        'type'   => 'anomaly.field_type.select',
-        'config' => [
-            'options' => function () {
-
-                $options = [];
-
-                foreach (config('streams::locales.supported') as $iso => $locale) {
-                    $options[$iso] = $locale['name'];
-                }
-
-                return $options;
-            }
-        ],
-    ],
+    'default_locale' => 'anomaly.field_type.language',
     'site_enabled'   => [
         'type'   => 'anomaly.field_type.boolean',
         'config' => [

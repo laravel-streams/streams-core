@@ -107,6 +107,18 @@ class StreamRepository implements StreamRepositoryInterface
     }
 
     /**
+     * Find a stream by it's namespace and slug.
+     *
+     * @param  $slug
+     * @param  $namespace
+     * @return null|StreamInterface
+     */
+    public function findBySlugAndNamespace($slug, $namespace)
+    {
+        return $this->model->where('slug', $slug)->where('namespace', $namespace)->first();
+    }
+
+    /**
      * Delete a Stream.
      *
      * @param StreamInterface|EloquentModel $stream
@@ -122,9 +134,9 @@ class StreamRepository implements StreamRepositoryInterface
     }
 
     /**
-     * Delete garbage streams.
+     * Clean up abandoned streams.
      */
-    public function deleteGarbage()
+    public function cleanup()
     {
         /* @var StreamInterface $stream */
         foreach ($this->model->all() as $stream) {
@@ -132,17 +144,5 @@ class StreamRepository implements StreamRepositoryInterface
                 $this->delete($stream);
             }
         }
-    }
-
-    /**
-     * Find a stream by it's namespace and slug.
-     *
-     * @param  $slug
-     * @param  $namespace
-     * @return null|StreamInterface
-     */
-    public function findBySlugAndNamespace($slug, $namespace)
-    {
-        return $this->model->where('slug', $slug)->where('namespace', $namespace)->first();
     }
 }

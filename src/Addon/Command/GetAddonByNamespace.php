@@ -24,5 +24,4 @@ class GetAddonByNamespace
     {
         return $this->namespace;
     }
-
 }

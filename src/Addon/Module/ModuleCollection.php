@@ -36,6 +36,47 @@ class ModuleCollection extends AddonCollection
     }
 
     /**
+     * Return accessible modules.
+     *
+     * @return ModuleCollection
+     */
+    public function accessible()
+    {
+        $accessible = [];
+
+        /* @var Authorizer $authorizer */
+        $authorizer = app('Anomaly\Streams\Platform\Support\Authorizer');
+
+        /* @var Module $item */
+        foreach ($this->items as $item) {
+            if ($authorizer->authorize($item->getNamespace('*'))) {
+                $accessible[] = $item;
+            }
+        }
+
+        return self::make($accessible);
+    }
+
+    /**
+     * Return enabled modules.
+     *
+     * @return ModuleCollection
+     */
+    public function enabled()
+    {
+        $enabled = [];
+
+        /* @var Module $item */
+        foreach ($this->items as $item) {
+            if ($item->isEnabled()) {
+                $enabled[] = $item;
+            }
+        }
+
+        return self::make($enabled);
+    }
+
+    /**
      * Return the active module.
      *
      * @return Module
@@ -88,47 +129,6 @@ class ModuleCollection extends AddonCollection
         }
 
         return self::make($installed);
-    }
-
-    /**
-     * Return enabled modules.
-     *
-     * @return ModuleCollection
-     */
-    public function enabled()
-    {
-        $enabled = [];
-
-        /* @var Module $item */
-        foreach ($this->items as $item) {
-            if ($item->isEnabled()) {
-                $enabled[] = $item;
-            }
-        }
-
-        return self::make($enabled);
-    }
-
-    /**
-     * Return accessible modules.
-     *
-     * @return ModuleCollection
-     */
-    public function accessible()
-    {
-        $accessible = [];
-
-        /* @var Authorizer $authorizer */
-        $authorizer = app('Anomaly\Streams\Platform\Support\Authorizer');
-
-        /* @var Module $item */
-        foreach ($this->items as $item) {
-            if ($authorizer->authorize($item->getNamespace('*'))) {
-                $accessible[] = $item;
-            }
-        }
-
-        return self::make($accessible);
     }
 
     /**

@@ -22,29 +22,6 @@ class SelectFilter extends Filter implements SelectFilterInterface
     protected $options;
 
     /**
-     * Set the options.
-     *
-     * @param  array $options
-     * @return $this
-     */
-    public function setOptions(array $options)
-    {
-        $this->options = $options;
-
-        return $this;
-    }
-
-    /**
-     * Get the options.
-     *
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
      * Get the input HTML.
      *
      * @return string
@@ -61,5 +38,28 @@ class SelectFilter extends Filter implements SelectFilterInterface
             $this->getValue(),
             $options
         );
+    }
+
+    /**
+     * Get the options.
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set the options.
+     *
+     * @param  array $options
+     * @return $this
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+
+        return $this;
     }
 }
