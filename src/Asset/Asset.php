@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Asset\Filter\JsMinFilter;
 use Anomaly\Streams\Platform\Asset\Filter\LessFilter;
 use Anomaly\Streams\Platform\Asset\Filter\ParseFilter;
 use Anomaly\Streams\Platform\Asset\Filter\ScssFilter;
+use Anomaly\Streams\Platform\Asset\Filter\SeparatorFilter;
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\GlobAsset;
@@ -362,7 +363,8 @@ class Asset
             $filters = $this->transformFilters($filters, $hint);
 
             if (in_array('glob', $filters)) {
-                $file = new GlobAsset($file, array_diff($filters, ['glob']));
+                unset($filters[array_search('glob', $filters)]);
+                $file = new GlobAsset($file, $filters);
             } else {
                 $file = new FileAsset($file, $filters);
             }
@@ -432,6 +434,10 @@ class Asset
                     unset($filters[$k]);
                     break;
             }
+        }
+
+        if ($hint == 'js') {
+            $filters[] = new SeparatorFilter();
         }
 
         return $filters;
