@@ -39,7 +39,8 @@ class StreamPlugin extends Plugin
     {
         return [
             new \Twig_SimpleFunction('stream_entries', [$this->functions, 'entries']),
-            new \Twig_SimpleFunction('stream_entry', [$this->functions, 'entry'])
+            new \Twig_SimpleFunction('stream_entry', [$this->functions, 'entry']),
+            new \Twig_SimpleFunction('stream_form', [$this->functions, 'form'])
         ];
     }
 }

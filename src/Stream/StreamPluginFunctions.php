@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Container\Container;
 
 /**
@@ -45,12 +46,12 @@ class StreamPluginFunctions
     /**
      * Return a collection of stream entries.
      *
-     * @param       $namespace
      * @param       $stream
+     * @param       $namespace
      * @param array $parameters
      * @return EloquentCollection
      */
-    public function entries($namespace, $stream, array $parameters = [])
+    public function entries($stream, $namespace, array $parameters = [])
     {
         $stream    = ucfirst(camel_case($stream));
         $namespace = ucfirst(camel_case($namespace));
@@ -76,12 +77,12 @@ class StreamPluginFunctions
     /**
      * Return a single stream entry.
      *
-     * @param       $namespace
      * @param       $stream
+     * @param       $namespace
      * @param array $parameters
      * @return EntryInterface
      */
-    public function entry($namespace, $stream, array $parameters = [])
+    public function entry($stream, $namespace, array $parameters = [])
     {
         $stream    = ucfirst(camel_case($stream));
         $namespace = ucfirst(camel_case($namespace));
@@ -102,5 +103,30 @@ class StreamPluginFunctions
         }
 
         return $model->first();
+    }
+
+    /**
+     * Return an entry form.
+     *
+     * @param       $stream
+     * @param       $namespace
+     * @param array $parameters
+     * @return $this
+     */
+    public function form($stream, $namespace, array $parameters = [])
+    {
+        $stream    = ucfirst(camel_case($stream));
+        $namespace = ucfirst(camel_case($namespace));
+
+        $model = $this->container->make(
+            'Anomaly\Streams\Platform\Model\\' . $namespace . '\\' . $namespace . $stream . 'EntryModel'
+        );
+
+        /* @var FormBuilder $form */
+        $form = $this->container->make('Anomaly\Streams\Platform\Ui\Form\FormBuilder');
+
+        $form->setModel($model);
+
+        return $form->make(array_get($parameters, 'entry'));
     }
 }
