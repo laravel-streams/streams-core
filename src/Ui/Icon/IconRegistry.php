@@ -73,6 +73,7 @@ class IconRegistry
         'users'                => 'fa fa-users',
         'trash'                => 'fa fa-trash',
         'check'                => 'fa fa-check',
+        'cubes'                => 'fa fa-cubes',
         'film'                 => 'fa fa-film',
         'star'                 => 'fa fa-star',
         'code'                 => 'fa fa-code',
