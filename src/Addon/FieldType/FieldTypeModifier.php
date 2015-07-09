@@ -36,25 +36,9 @@ class FieldTypeModifier
      */
     public function modify($value)
     {
-        if (!$this->needsModifying($value)) {
-            return $value;
-        }
-
         return $value;
     }
-
-    /**
-     * Return whether the value
-     * needs to be modified.
-     *
-     * @param $value
-     * @return bool
-     */
-    protected function needsModifying($value)
-    {
-        return $value !== null;
-    }
-
+    
     /**
      * Restore the value from storage format.
      *
@@ -63,22 +47,6 @@ class FieldTypeModifier
      */
     public function restore($value)
     {
-        if (!$this->needsRestoring($value)) {
-            return $value;
-        }
-
         return $value;
-    }
-
-    /**
-     * Return whether the value
-     * needs to be restored.
-     *
-     * @param $value
-     * @return bool
-     */
-    protected function needsRestoring($value)
-    {
-        return $value !== null;
     }
 }
