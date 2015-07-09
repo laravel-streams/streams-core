@@ -419,6 +419,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Return the entry presenter.
      *
+     * This is against standards but required
+     * by the presentable interface.
+     *
      * @return EntryPresenter
      */
     public function getPresenter()
@@ -430,5 +433,15 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         }
 
         return new EntryPresenter($this);
+    }
+
+    /**
+     * Return a new presenter instance.
+     *
+     * @return EntryPresenter
+     */
+    public function newPresenter()
+    {
+        return $this->getPresenter();
     }
 }
