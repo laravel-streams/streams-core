@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Entry\EntryPresenter;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -160,6 +161,13 @@ interface EntryInterface
      * @return bool
      */
     public function isDeletable();
+
+    /**
+     * Return a new presenter instance.
+     *
+     * @return EntryPresenter
+     */
+    public function newPresenter();
 
     /**
      * Return whether or not the assignment for
