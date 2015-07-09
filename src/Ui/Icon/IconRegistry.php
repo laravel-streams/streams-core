@@ -42,6 +42,7 @@ class IconRegistry
         'order'                => 'glyphicons glyphicons-sort',
         'link'                 => 'glyphicons glyphicons-link',
         'fire'                 => 'glyphicons glyphicons-fire',
+        'keys'                 => 'glyphicons glyphicons-keys',
         'car'                  => 'glyphicons glyphicons-car',
         'external-link'        => 'fa fa-external-link',
         'video-camera'         => 'fa fa-video-camera',
