@@ -1,6 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
+use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
+use App\Console\Kernel;
+use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Events\Dispatcher;
 
 /**
  * Class UninstallModule
@@ -10,7 +14,7 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Module\Command
  */
-class UninstallModule
+class UninstallModule implements SelfHandling
 {
 
     /**
@@ -31,12 +35,20 @@ class UninstallModule
     }
 
     /**
-     * Get the module.
+     * Handle the command.
      *
-     * @return Module
+     * @param Kernel     $console
+     * @param Dispatcher $events
      */
-    public function getModule()
+    public function handle(Kernel $console, Dispatcher $events)
     {
-        return $this->module;
+        $options = [
+            '--addon' => $this->module->getNamespace()
+        ];
+
+        $console->call('migrate:reset', $options);
+        $console->call('streams:cleanup');
+
+        $events->fire(new ModuleWasUninstalled($this->module));
     }
 }
