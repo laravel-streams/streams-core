@@ -1,9 +1,20 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Addon\Plugin\PluginCollection;
+use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Illuminate\Support\Collection;
 
 /**
  * Class AddonCollection
+ *
+ * @method ExtensionCollection extensions()
+ * @method FieldTypeCollection fieldTypes();
+ * @method ModuleCollection modules();
+ * @method PluginCollection plugins();
+ * @method ThemeCollection themes();
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
