@@ -1,5 +1,5 @@
 $(function () {
 
     // Focus on the first input.
-    $('form.form').find('input:not([type="hidden"])').first().focus();
+    $('form.form').find('input:visible').first().focus();
 });
