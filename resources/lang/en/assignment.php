@@ -21,8 +21,9 @@ return [
         'instructions' => 'If unique, this field MUST have a unique value.'
     ],
     'translatable' => [
-        'name'  => 'Translatable',
-        'label' => 'Is this field translatable?'
+        'name'         => 'Translatable',
+        'label'        => 'Is this field translatable?',
+        'instructions' => 'If translatable this field will be available in all enabled locales.'
     ],
     'instructions' => [
         'name'         => 'Instructions',
