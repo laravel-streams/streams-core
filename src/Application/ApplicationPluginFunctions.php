@@ -82,4 +82,16 @@ class ApplicationPluginFunctions
 
         return rtrim(mb_substr($value, 0, $limit, 'UTF-8')) . $end;
     }
+
+    /**
+     * Return whether a translation key exists.
+     *
+     * @param      $key
+     * @param null $locale
+     * @return bool
+     */
+    public function transHas($key, $locale = null)
+    {
+        return trans()->has($key, $locale);
+    }
 }
