@@ -48,7 +48,7 @@ class FormRules
 
             if ($assignment = $stream->getAssignment($field->getField())) {
 
-                if ($assignment->isRequired()) {
+                if ($assignment->isRequired() || $field->isRequired()) {
                     $fieldRules[] = 'required';
                 }
 

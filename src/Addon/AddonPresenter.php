@@ -21,23 +21,4 @@ class AddonPresenter extends Presenter
      */
     protected $object;
 
-    /**
-     * Return the translated addon name.
-     *
-     * @return string
-     */
-    public function name()
-    {
-        return trans($this->object->getName());
-    }
-
-    /**
-     * Return the translated addon description.
-     *
-     * @return string
-     */
-    public function description()
-    {
-        return trans($this->object->getDescription());
-    }
 }
