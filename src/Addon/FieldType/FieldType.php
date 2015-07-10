@@ -733,7 +733,7 @@ class FieldType extends Addon
             $this->presenter = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter';
         }
 
-        return app()->make($this->presenter, [$this]);
+        return app()->make($this->presenter, ['object' => $this]);
     }
 
     /**
