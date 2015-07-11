@@ -3,10 +3,11 @@
     var APPLICATION_URL = "{{ url() }}";
     var APPLICATION_REFERENCE = "{{ env('APPLICATION_REFERENCE') }}";
     var APPLICATION_DOMAIN = "{{ env('APPLICATION_DOMAIN') }}";
+
     var CSRF_TOKEN = "{{ csrf_token() }}";
-    var APP_DEBUG = "{{ env('APP_DEBUG') }}";
-    var APP_URL = "{{ env('APP_URL') }}";
-    var TIMEZONE = "{{ env('TIMEZONE') }}";
-    var LOCALE = "{{ env('LOCALE') }}";
+    var APP_DEBUG = "{{ config_get('app.debug') }}";
+    var APP_URL = "{{ config_get('app.url') }}";
+    var TIMEZONE = "{{ config_get('app.timezone') }}";
+    var LOCALE = "{{ config_get('app.locale') }}";
 
 </script>
