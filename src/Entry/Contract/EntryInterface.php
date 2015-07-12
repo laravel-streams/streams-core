@@ -26,6 +26,20 @@ interface EntryInterface
     public function getId();
 
     /**
+     * Get the entry ID.
+     *
+     * @return mixed
+     */
+    public function getEntryId();
+
+    /**
+     * Get the entry title.
+     *
+     * @return mixed
+     */
+    public function getEntryTitle();
+
+    /**
      * Get the title.
      *
      * @return mixed

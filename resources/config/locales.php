@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'enabled'   => env('ENABLED_LOCALES', ['en']),
+    'enabled'   => env('ENABLED_LOCALES', ['en', 'es']),
     'supported' => [
         'en' => [
             'direction' => 'ltr'

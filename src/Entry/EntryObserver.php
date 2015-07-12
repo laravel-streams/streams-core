@@ -88,10 +88,10 @@ class EntryObserver extends Observer
      */
     public function deleted(EntryInterface $entry)
     {
-        $this->events->fire(new EntryWasDeleted($entry));
-
         $entry->flushCache();
         $entry->fireFieldTypeEvents('entry_deleted');
+
+        $this->events->fire(new EntryWasDeleted($entry));
     }
 
     /**

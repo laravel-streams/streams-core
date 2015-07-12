@@ -56,6 +56,26 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Get the entry ID.
+     *
+     * @return mixed
+     */
+    public function getEntryId()
+    {
+        return $this->getId();
+    }
+
+    /**
+     * Get the entry title.
+     *
+     * @return mixed
+     */
+    public function getEntryTitle()
+    {
+        return $this->getTitle();
+    }
+
+    /**
      * Get the entries title.
      *
      * @return mixed
