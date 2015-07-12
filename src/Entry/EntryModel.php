@@ -429,8 +429,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function fireFieldTypeEvents($trigger, $payload = [])
     {
+        $assignments = $this->getAssignments();
+
         /* @var AssignmentInterface $assignment */
-        foreach ($this->getAssignments() as $assignment) {
+        foreach ($assignments->notTranslatable() as $assignment) {
 
             $fieldType = $assignment->getFieldType();
 

@@ -32,6 +32,16 @@ class EntryTranslationsModel extends EloquentModel
     }
 
     /**
+     * Get the locale.
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->{$this->getLocaleKey()};
+    }
+
+    /**
      * Get an attribute.
      *
      * @param string $key
@@ -39,6 +49,10 @@ class EntryTranslationsModel extends EloquentModel
      */
     public function getAttribute($key)
     {
+        if ($key === 'locale') {
+            return parent::getAttribute('locale');
+        }
+
         if (!$parent = $this->getParent()) {
             return null;
         }
@@ -116,14 +130,17 @@ class EntryTranslationsModel extends EloquentModel
             return null;
         }
 
+        $assignments = $parent->getAssignments();
+
         /* @var AssignmentInterface $assignment */
-        foreach ($parent->getAssignments() as $assignment) {
+        foreach ($assignments->translatable() as $assignment) {
 
             $fieldType = $assignment->getFieldType();
 
             $fieldType->setValue($parent->getFieldValue($assignment->getFieldSlug()));
 
             $fieldType->setEntry($this);
+            $fieldType->setLocale($this->locale);
 
             $fieldType->fire($trigger, array_merge(compact('fieldType', 'entry'), $payload));
         }

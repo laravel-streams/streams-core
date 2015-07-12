@@ -119,6 +119,25 @@ class AssignmentCollection extends EloquentCollection
     }
 
     /**
+     * Return only assignments that are NOT translatable.
+     *
+     * @return AssignmentCollection
+     */
+    public function notTranslatable()
+    {
+        $translatable = [];
+
+        /* @var AssignmentInterface $item */
+        foreach ($this->items as $item) {
+            if (!$item->isTranslatable()) {
+                $translatable[] = $item;
+            }
+        }
+
+        return self::make($translatable);
+    }
+
+    /**
      * Return an array of field slugs.
      *
      * @return array
