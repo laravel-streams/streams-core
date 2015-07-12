@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Illuminate\Contracts\Support\Arrayable;
 use StringTemplate\Engine;
 
 /**
@@ -74,7 +75,7 @@ class Parser
          * format then parse the target with the payload.
          */
         if (is_string($target) && str_contains($target, ['{', '}'])) {
-            $target = $this->parser->render($target, $data);
+            $target = $this->parser->render($target, $this->prepData($data));
         }
 
         return $target;
@@ -122,5 +123,22 @@ class Parser
         }
 
         return $target;
+    }
+
+    /**
+     * Prep data for parsing.
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function prepData(array $data)
+    {
+        foreach ($data as $key => &$value) {
+            if (is_object($value) && $value instanceof Arrayable) {
+                $value = $value->toArray();
+            }
+        }
+
+        return $data;
     }
 }
