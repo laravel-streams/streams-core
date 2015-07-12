@@ -61,6 +61,20 @@ interface EntryInterface
     public function getStreamPrefix();
 
     /**
+     * Get the table name.
+     *
+     * @return string
+     */
+    public function getTableName();
+
+    /**
+     * Get the translations table name.
+     *
+     * @return string
+     */
+    public function getTranslationsTableName();
+
+    /**
      * Get a field by it's slug.
      *
      * @param  $slug

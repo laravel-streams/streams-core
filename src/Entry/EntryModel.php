@@ -278,6 +278,30 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Get the table name.
+     *
+     * @return string
+     */
+    public function getTableName()
+    {
+        $stream = $this->getStream();
+
+        return $stream->getEntryTableName();
+    }
+
+    /**
+     * Get the translations table name.
+     *
+     * @return string
+     */
+    public function getTranslationsTableName()
+    {
+        $stream = $this->getStream();
+
+        return $stream->getEntryTranslationsTableName();
+    }
+
+    /**
      * Get all assignments.
      *
      * @return AssignmentCollection
