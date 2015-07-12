@@ -59,6 +59,18 @@ trait FiresCallbacks
             app()->call($handler . '@handle', $parameters);
         }
 
+        $observer = get_class($this) . 'Callbacks';
+
+        if (class_exists($observer)) {
+            try {
+                app()->call($observer . '@' . $method, $parameters);
+            } catch (\Exception $e) {
+                if (class_implements($observer, 'Anomaly\Streams\Platform\Traits\DebugsCallbacks')) {
+                    throw new \Exception($e->getMessage(), $e->getCode());
+                }
+            }
+        }
+
         foreach (array_get($this->callbacks, $trigger, []) as $callback) {
 
             if (is_string($callback) || $callback instanceof \Closure) {
