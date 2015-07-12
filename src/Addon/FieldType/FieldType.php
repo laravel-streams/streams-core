@@ -416,6 +416,17 @@ class FieldType extends Addon
     }
 
     /**
+     * Get the value to validate.
+     *
+     * @param null $default
+     * @return mixed
+     */
+    public function getValidationValue($default = null)
+    {
+        return $this->getPostValue($default);
+    }
+
+    /**
      * Set the label.
      *
      * @param  $label

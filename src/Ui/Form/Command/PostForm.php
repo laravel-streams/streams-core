@@ -42,10 +42,10 @@ class PostForm implements SelfHandling
         $this->builder->fire('posting', ['builder' => $this->builder]);
         $this->builder->fireFieldEvents('form_posting');
 
-        $this->dispatch(new LoadFormValues($this->builder));
         $this->dispatch(new RemoveSkippedFields($this->builder));
         $this->dispatch(new RemoveDisabledFields($this->builder));
         $this->dispatch(new ValidateForm($this->builder));
+        $this->dispatch(new LoadFormValues($this->builder)); // Only after validation.
         $this->dispatch(new HandleForm($this->builder));
         $this->dispatch(new SetSuccessMessage($this->builder));
         $this->dispatch(new SetActionResponse($this->builder));
