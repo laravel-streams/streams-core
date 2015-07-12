@@ -108,7 +108,7 @@ class SetDefaultOptions implements SelfHandling
             $model = $table->getModel();
 
             if ($model instanceof EntryModel) {
-                if ($table->getOption('sortable')) {
+                if ($table->getOption('sortable') || $model->titleColumnIsTranslatable()) {
                     $table->setOption('order_by', ['sort_order' => 'asc']);
                 } else {
                     $table->setOption('order_by', [$model->getTitleName() => 'asc']);

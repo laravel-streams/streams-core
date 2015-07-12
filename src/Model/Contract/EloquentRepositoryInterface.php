@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model\Contract;
 
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
@@ -12,6 +13,13 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  */
 interface EloquentRepositoryInterface
 {
+
+    /**
+     * Return all records.
+     *
+     * @return EloquentCollection
+     */
+    public function all();
 
     /**
      * Find a record by it's ID.

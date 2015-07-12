@@ -365,6 +365,17 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Return whether the title column is
+     * translatable or not.
+     *
+     * @return bool
+     */
+    public function titleColumnIsTranslatable()
+    {
+        return $this->assignmentIsTranslatable($this->getTitleName());
+    }
+
+    /**
      * Return whether or not the assignment for
      * the given field slug is translatable.
      *

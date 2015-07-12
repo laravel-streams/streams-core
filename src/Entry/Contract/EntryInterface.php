@@ -184,6 +184,14 @@ interface EntryInterface
     public function newPresenter();
 
     /**
+     * Return whether the title column is
+     * translatable or not.
+     *
+     * @return bool
+     */
+    public function titleColumnIsTranslatable();
+
+    /**
      * Return whether or not the assignment for
      * the given field slug is translatable.
      *

@@ -14,6 +14,16 @@ class EloquentRepository implements EloquentRepositoryInterface
 {
 
     /**
+     * Return all records.
+     *
+     * @return EloquentCollection
+     */
+    public function all()
+    {
+        return $this->model->all();
+    }
+
+    /**
      * Find a record by it's ID.
      *
      * @param $id
