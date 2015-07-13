@@ -57,6 +57,8 @@ class FieldTypePresenter extends Presenter
             return call_user_func_array([$this, $key], []);
         }
 
-        return parent::__get($key);
+        $decorator = app()->make('Robbo\Presenter\Decorator');
+
+        return $decorator->decorate(parent::__get($key));
     }
 }
