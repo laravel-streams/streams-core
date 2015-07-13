@@ -21,6 +21,7 @@ class IconRegistry
         'facetime-video'       => 'glyphicons glyphicons-facetime-video',
         'shopping-cart'        => 'glyphicons glyphicons-shopping-cart',
         'folder-closed'        => 'glyphicons glyphicons-folder-closed',
+        'cloud-upload-alt'     => 'glyphicons glyphicons-cloud-upload',
         'scissors'             => 'glyphicons glyphicons-scissors-alt',
         'folder-open'          => 'glyphicons glyphicons-folder-open',
         'credit-card'          => 'glyphicons glyphicons-credit-card',
