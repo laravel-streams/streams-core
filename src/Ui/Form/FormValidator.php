@@ -104,7 +104,8 @@ class FormValidator
                 ->setFormErrors($validator->getMessageBag());
 
             $this->dispatch(new SetErrorMessages($builder));
-            $this->dispatch(new RepopulateFields($builder));
         }
+
+        $this->dispatch(new RepopulateFields($builder));
     }
 }
