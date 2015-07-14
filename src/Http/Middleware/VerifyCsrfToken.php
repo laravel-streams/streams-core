@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Message\MessageBag;
 use Closure;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Routing\Redirector;
+use Illuminate\Routing\Route;
 use Illuminate\Session\TokenMismatchException;
 
 /**
@@ -18,11 +19,11 @@ class VerifyCsrfToken extends \App\Http\Middleware\VerifyCsrfToken
 {
 
     /**
-     * The redirector utility.
+     * The route instance.
      *
-     * @var Redirector
+     * @var Route
      */
-    protected $redirector;
+    protected $route;
 
     /**
      * The message bag.
@@ -32,16 +33,24 @@ class VerifyCsrfToken extends \App\Http\Middleware\VerifyCsrfToken
     protected $messages;
 
     /**
+     * The redirector utility.
+     *
+     * @var Redirector
+     */
+    protected $redirector;
+
+    /**
      * Create a new VerifyCsrfToken instance.
      *
      * @param Encrypter  $encrypter
      * @param Redirector $redirector
      * @param MessageBag $messages
      */
-    public function __construct(Encrypter $encrypter, Redirector $redirector, MessageBag $messages)
+    public function __construct(Encrypter $encrypter, Redirector $redirector, MessageBag $messages, Route $route)
     {
         $this->redirector = $redirector;
         $this->messages   = $messages;
+        $this->route      = $route;
 
         parent::__construct($encrypter);
     }
@@ -55,6 +64,23 @@ class VerifyCsrfToken extends \App\Http\Middleware\VerifyCsrfToken
      */
     public function handle($request, Closure $next)
     {
+        // Get the route action.
+        $action = $this->route->getAction();
+
+        // If the route disabled the CSRF - skip.
+        if (array_get($action, 'csrf') === false) {
+            return $next($request);
+        }
+
+        // If the method is not a post - skip.
+        if (!$request->isMethod('post')) {
+            return $next($request);
+        }
+
+        /**
+         * Try validating the CSRF token with the
+         * base Laravel Middleware.
+         */
         try {
             return parent::handle($request, $next);
         } catch (TokenMismatchException $e) {
