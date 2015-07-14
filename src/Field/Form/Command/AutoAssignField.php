@@ -40,7 +40,16 @@ class AutoAssignField implements SelfHandling
     public function handle(AssignmentRepositoryInterface $assignments)
     {
         if ($this->builder->getFormOption('auto_assign') === true && $this->builder->getFormMode() === 'create') {
-            $assignments->create($this->builder->getFormEntry(), $this->builder->getStream());
+
+            $field  = $this->builder->getFormEntry();
+            $stream = $this->builder->getStream();
+
+            $assignments->create(
+                [
+                    'stream_id' => $stream->getId(),
+                    'field_id'  => $field->getId()
+                ]
+            );
         }
     }
 }
