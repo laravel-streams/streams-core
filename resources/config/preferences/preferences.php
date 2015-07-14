@@ -1,5 +1,10 @@
 <?php
 
 return [
-    'locale' => 'anomaly.field_type.language',
+    'locale' => [
+        'type'   => 'anomaly.field_type.language',
+        'config' => [
+            'available_locales' => true
+        ]
+    ]
 ];
