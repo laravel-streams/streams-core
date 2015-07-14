@@ -876,7 +876,7 @@ class FieldType extends Addon
      *
      * @return string
      */
-    public function renderInput()
+    public function getInput()
     {
         return view($this->getInputView(), ['field_type' => $this])->render();
     }
@@ -886,7 +886,7 @@ class FieldType extends Addon
      *
      * @return string
      */
-    public function renderFilter()
+    public function getFilter()
     {
         return view($this->getFilterView(), ['field_type' => $this])->render();
     }
@@ -901,5 +901,15 @@ class FieldType extends Addon
     public function relation(Builder $relation)
     {
         return $relation;
+    }
+
+    /**
+     * Return the rendering.
+     *
+     * @return string
+     */
+    function __toString()
+    {
+        return $this->render();
     }
 }

@@ -10,7 +10,7 @@
 
     <div class="panel-body">
         {% for field in form.fields %}
-            {{ field.render()|raw }}
+            {{ field.render|raw }}
         {% endfor %}
     </div>
 

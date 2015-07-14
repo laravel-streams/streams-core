@@ -78,6 +78,10 @@ class FieldCollection extends Collection
             }
         }
 
+        if (!$default) {
+            return $default;
+        }
+
         return $this->get($default);
     }
 
@@ -221,5 +225,28 @@ class FieldCollection extends Collection
                 break;
             }
         }
+    }
+
+    /**
+     * Get a field with the __get accessor.
+     *
+     * @param $name
+     * @return FieldType
+     */
+    public function __get($name)
+    {
+        return $this->get($name);
+    }
+
+    /**
+     * Get a field with the __call accessor.
+     *
+     * @param $name
+     * @param $arguments
+     * @return FieldType
+     */
+    function __call($name, $arguments)
+    {
+        return $this->get($name);
     }
 }

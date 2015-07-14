@@ -141,6 +141,7 @@ class FormBuilder
      * Build the form.
      *
      * @param null $entry
+     * @return $this
      */
     public function build($entry = null)
     {
@@ -151,12 +152,15 @@ class FormBuilder
         $this->fire('ready', ['builder' => $this]);
 
         $this->dispatch(new BuildForm($this));
+
+        return $this;
     }
 
     /**
      * Make the form.
      *
      * @param null $entry
+     * @return $this
      */
     public function make($entry = null)
     {
@@ -175,12 +179,16 @@ class FormBuilder
     /**
      * Trigger post operations
      * for the form.
+     *
+     * @return $this
      */
     public function post()
     {
         if (app('request')->isMethod('post')) {
             $this->dispatch(new PostForm($this));
         }
+
+        return $this;
     }
 
     /**
