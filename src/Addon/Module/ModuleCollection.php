@@ -26,7 +26,18 @@ class ModuleCollection extends AddonCollection
         /* @var Module $item */
         foreach ($this->items as $item) {
             if ($item->getNavigation()) {
-                $navigation[] = $item;
+                $navigation[trans($item->getName())] = $item;
+            }
+        }
+
+        ksort($navigation);
+
+        foreach ($navigation as $key => $item) {
+            if ($item->getNamespace() == 'anomaly.module.dashboard') {
+
+                $navigation = [$key => $item] + $navigation;
+
+                break;
             }
         }
 
