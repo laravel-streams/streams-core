@@ -43,8 +43,9 @@ return [
     ],
     'default_locale'  => 'anomaly.field_type.language',
     'enabled_locales' => [
-        'type'   => 'anomaly.field_type.checkboxes',
-        'config' => [
+        'type'     => 'anomaly.field_type.checkboxes',
+        'required' => true,
+        'config'   => [
             'default_value' => [
                 'en'
             ],
