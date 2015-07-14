@@ -84,14 +84,22 @@ class ApplicationPluginFunctions
     }
 
     /**
-     * Return whether a translation key exists.
+     * Return translated key.
      *
      * @param      $key
      * @param null $locale
      * @return bool
      */
-    public function transHas($key, $locale = null)
+    public function trans($key, array $parameters = [], $locale = null)
     {
-        return trans()->has($key, $locale);
+        if (!$key) {
+            return null;
+        }
+
+        if (!str_contains($key, '::')) {
+            return null;
+        }
+
+        return trans($key, $parameters, 'messages', $locale);
     }
 }
