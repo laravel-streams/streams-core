@@ -25,6 +25,11 @@ class AssignmentFormFields
                     'instructions' => 'streams::assignment.label.instructions',
                     'type'         => 'anomaly.field_type.text'
                 ],
+                'placeholder'  => [
+                    'label'        => 'streams::assignment.placeholder.name',
+                    'instructions' => 'streams::assignment.placeholder.instructions',
+                    'type'         => 'anomaly.field_type.text'
+                ],
                 'instructions' => [
                     'label'        => 'streams::assignment.instructions.name',
                     'instructions' => 'streams::assignment.instructions.instructions',
