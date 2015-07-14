@@ -95,6 +95,8 @@ class FieldRepository implements FieldRepositoryInterface
      */
     public function cleanup()
     {
+        $fieldTypes = app('field_type.collection')->lists('namespace');
+
         $this->model
             ->leftJoin('streams_streams', 'streams_fields.namespace', '=', 'streams_streams.namespace')
             ->whereNull('streams_streams.id')
@@ -102,5 +104,6 @@ class FieldRepository implements FieldRepositoryInterface
 
         $this->model->where('slug', '')->delete();
         $this->model->where('namespace', '')->delete();
+        $this->model->whereNotIn('type', $fieldTypes)->delete();
     }
 }
