@@ -29,8 +29,6 @@ class AdminController extends BaseController
          */
         $this->middleware('auth');
 
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\AuthorizeModuleAccess');
-
         parent::__construct($middleware);
     }
 }
