@@ -17,7 +17,11 @@
 
         {% for header in table.headers %}
             <th>
-                {{ trans(header.heading)|raw }}
+                {% if header.sortable %}
+                    {{ html_link(url_current() ~ '?order_by[email]=foo', trans(header.heading)) }}
+                {% else %}
+                    {{ trans(header.heading)|raw }}
+                {% endif %}
             </th>
         {% endfor %}
 

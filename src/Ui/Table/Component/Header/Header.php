@@ -40,7 +40,7 @@ class Header implements HeaderInterface
      *
      * @var bool
      */
-    protected $sortable = true;
+    protected $sortable = false;
 
     /**
      * Get the header heading.

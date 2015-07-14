@@ -18,6 +18,8 @@ class IconRegistry
      */
     protected $icons = [
         'circle-question-mark' => 'glyphicons glyphicons-circle-question-mark',
+        'sort-descending'      => 'glyphicons glyphicons-sort-by-attributes-alt',
+        'sort-ascending'       => 'glyphicons glyphicons-sort-by-attributes',
         'facetime-video'       => 'glyphicons glyphicons-facetime-video',
         'shopping-cart'        => 'glyphicons glyphicons-shopping-cart',
         'folder-closed'        => 'glyphicons glyphicons-folder-closed',

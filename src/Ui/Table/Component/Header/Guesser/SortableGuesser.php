@@ -1,0 +1,101 @@
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header\Guesser;
+
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+
+/**
+ * Class SortableGuesser
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser
+ */
+class SortableGuesser
+{
+
+    /**
+     * Guess the sortable flags for headers.
+     *
+     * @param TableBuilder $builder
+     */
+    public function guess(TableBuilder $builder)
+    {
+        $columns = $builder->getColumns();
+        $stream  = $builder->getTableStream();
+
+        foreach ($columns as &$column) {
+
+            /**
+             * If the heading is false or does not exist
+             * then the intent was to not have
+             * heading text at all.
+             */
+            if (!isset($column['heading']) || $column['heading'] === false) {
+                continue;
+            }
+
+            /**
+             * If sortable is already set the we don't
+             * need to guess anything.
+             */
+            if (isset($column['sortable'])) {
+                continue;
+            }
+
+            /**
+             * No stream means we can't
+             * really do much here.
+             */
+            if (!$stream instanceof StreamInterface) {
+                continue;
+            }
+
+            /**
+             * We're going to be using the value to
+             * try and determine if a streams field is
+             * being used. No value, no guess.
+             */
+            if (!isset($column['value']) || !$column['value'] || !is_string($column['value'])) {
+                continue;
+            }
+
+            /**
+             * Now we're going to try and determine
+             * what streams field this column if
+             * using if any at all.
+             */
+            $field = $column['value'];
+
+            /**
+             * If the value matches a field
+             * with dot format then reduce it.
+             */
+            if (preg_match("/^entry.([a-zA-Z\\_]+)/", $column['value'], $match)) {
+                $field = $match[1];
+            }
+
+            /**
+             * If we can't determine a field type
+             * then we don't have anything to base
+             * our guess off of.
+             */
+            if (!$type = $stream->getFieldType($field)) {
+                continue;
+            }
+
+            /**
+             * If the field type has a database
+             * column type then we can sort on it
+             * by default!
+             */
+            if ($type->getColumnType()) {
+                $column['sortable'] = true;
+            } else {
+                $column['sortable'] = false;
+            }
+        }
+
+        $builder->setColumns($columns);
+    }
+}
