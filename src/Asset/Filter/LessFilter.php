@@ -1,8 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Asset\Filter;
 
 use Anomaly\Streams\Platform\Asset\AssetParser;
+use Anomaly\Streams\Platform\Asset\Command\LoadThemeVariables;
+use Anomaly\Streams\Platform\Support\Collection;
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\LessphpFilter;
+use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class LessFilter
@@ -14,6 +17,8 @@ use Assetic\Filter\LessphpFilter;
  */
 class LessFilter extends LessphpFilter
 {
+
+    use DispatchesCommands;
 
     /**
      * The asset parser utility.
@@ -41,7 +46,9 @@ class LessFilter extends LessphpFilter
     {
         $compiler = new \lessc();
 
-        $compiler->setVariables(config('theme::theme', config('theme')));
+        $this->dispatch(new LoadThemeVariables($variables = new Collection(config('theme::theme', config('theme')))));
+
+        $compiler->setVariables($variables->all());
 
         if ($dir = $asset->getSourceDirectory()) {
             $compiler->importDir = $dir;
