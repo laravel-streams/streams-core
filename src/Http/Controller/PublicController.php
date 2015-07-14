@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Http\Controller;
 
-use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
-
 /**
  * Class PublicController
  *
@@ -15,12 +13,10 @@ class PublicController extends BaseController
 
     /**
      * Create a new BaseController instance.
-     *
-     * @param MiddlewareCollection $middleware
      */
-    public function __construct(MiddlewareCollection $middleware)
+    public function __construct()
     {
-        parent::__construct($middleware);
+        parent::__construct();
 
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\CheckSiteStatus');
     }

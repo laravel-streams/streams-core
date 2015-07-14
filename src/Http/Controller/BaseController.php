@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Http\Controller;
 
-use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Routing\Controller;
 
@@ -20,14 +19,14 @@ class BaseController extends Controller
     /**
      * Create a new BaseController instance.
      */
-    public function __construct(MiddlewareCollection $middleware)
+    public function __construct()
     {
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ApplicationReady');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ForceHttps');
 
-        foreach ($middleware as $class) {
-            $this->middleware($class);
+        foreach (app('Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection') as $middleware) {
+            $this->middleware($middleware);
         }
     }
 }
