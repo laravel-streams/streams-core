@@ -90,7 +90,8 @@ class SortableGuesser
              * by default!
              */
             if ($type->getColumnType()) {
-                $column['sortable'] = true;
+                $column['sortable']    = true;
+                $column['sort_column'] = $type->getColumnName();
             } else {
                 $column['sortable'] = false;
             }

@@ -119,6 +119,15 @@ class SetDefaultOptions implements SelfHandling
         }
 
         /**
+         * If the table ordering is currently being overridden
+         * then set the values from the request on the builder
+         * last so it actually has an effect.
+         */
+        if ($orderBy = $this->builder->getRequestValue('order_by')) {
+            $table->setOption('order_by', [$orderBy => $this->builder->getRequestValue('sort', 'asc')]);
+        }
+
+        /**
          * If we're using a multiple table builder we need
          * to set a different table_view if none is set.
          */

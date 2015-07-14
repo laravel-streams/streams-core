@@ -51,6 +51,9 @@ class HeaderBuilder
         $this->input->read($builder);
 
         foreach ($builder->getColumns() as $column) {
+
+            $column['builder'] = $builder;
+
             $table->addHeader($this->factory->make($column));
         }
     }

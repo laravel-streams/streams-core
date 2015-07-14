@@ -18,7 +18,17 @@
         {% for header in table.headers %}
             <th>
                 {% if header.sortable %}
-                    {{ html_link(url_current() ~ '?order_by[email]=foo', trans(header.heading)) }}
+
+                    {{ html_link(url_current() ~ '?' ~ header.getQueryString(), trans(header.heading)) }}
+
+                    {% if header.direction == 'asc' %}
+                        {{ icon('sort-ascending', 'text-muted') }}
+                    {% elseif header.direction == 'desc' %}
+                        {{ icon('sort-descending', 'text-muted') }}
+                    {% else %}
+                        {{ icon('sortable', 'text-muted') }}
+                    {% endif %}
+
                 {% else %}
                     {{ trans(header.heading)|raw }}
                 {% endif %}

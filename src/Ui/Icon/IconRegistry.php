@@ -38,6 +38,7 @@ class IconRegistry
         'comments'             => 'glyphicons glyphicons-comments',
         'picture'              => 'glyphicons glyphicons-picture',
         'retweet'              => 'glyphicons glyphicons-retweet',
+        'sortable'             => 'glyphicons glyphicons-sorting',
         'global'               => 'glyphicons glyphicons-global',
         'server'               => 'glyphicons glyphicons-server',
         'globe'                => 'glyphicons glyphicons-globe',
