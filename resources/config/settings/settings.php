@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name'           => [
+    'name'            => [
         'type'   => 'anomaly.field_type.text',
         'config' => [
             'default_value' => function () {
@@ -9,7 +9,7 @@ return [
             },
         ]
     ],
-    'description'    => [
+    'description'     => [
         'type'   => 'anomaly.field_type.text',
         'config' => [
             'default_value' => function () {
@@ -17,7 +17,7 @@ return [
             },
         ]
     ],
-    'date_format'    => [
+    'date_format'     => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'default_value' => config('streams.date_format'),
@@ -31,7 +31,7 @@ return [
             ]
         ],
     ],
-    'time_format'    => [
+    'time_format'     => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'default_value' => config('streams.time_format'),
@@ -41,14 +41,39 @@ return [
             ]
         ],
     ],
-    'default_locale' => 'anomaly.field_type.language',
-    'site_enabled'   => [
+    'default_locale'  => 'anomaly.field_type.language',
+    'enabled_locales' => [
+        'type'   => 'anomaly.field_type.checkboxes',
+        'config' => [
+            'default_value' => [
+                'en'
+            ],
+            'options'       => function () {
+
+                $locales = array_keys(config('streams::locales.supported'));
+
+                $names = array_map(
+                    function ($locale) {
+                        return 'streams::locale.' . $locale . '.name';
+                    },
+                    $locales
+                );
+
+                $options = array_combine($locales, $names);
+
+                asort($options);
+
+                return $options;
+            }
+        ]
+    ],
+    'site_enabled'    => [
         'type'   => 'anomaly.field_type.boolean',
         'config' => [
             'default_value' => true
         ]
     ],
-    '503_message'    => [
+    '503_message'     => [
         'type'   => 'anomaly.field_type.textarea',
         'config' => [
             'default_value' => function () {
@@ -56,8 +81,8 @@ return [
             }
         ]
     ],
-    'ip_whitelist'   => 'anomaly.field_type.tags',
-    'force_https'    => [
+    'ip_whitelist'    => 'anomaly.field_type.tags',
+    'force_https'     => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'default_value' => 'none',
@@ -69,7 +94,7 @@ return [
             ]
         ],
     ],
-    'contact_email'  => [
+    'contact_email'   => [
         'type'   => 'anomaly.field_type.email',
         'config' => [
             'default_value' => function () {
@@ -77,7 +102,7 @@ return [
             },
         ]
     ],
-    'server_email'   => [
+    'server_email'    => [
         'type'   => 'anomaly.field_type.email',
         'config' => [
             'default_value' => function () {
@@ -85,7 +110,7 @@ return [
             },
         ]
     ],
-    'mail_driver'    => [
+    'mail_driver'     => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'default_value' => 'mail',
@@ -99,12 +124,12 @@ return [
             ]
         ],
     ],
-    'smtp_host'      => 'anomaly.field_type.text',
-    'smtp_port'      => 'anomaly.field_type.integer',
-    'smtp_username'  => 'anomaly.field_type.text',
-    'smtp_password'  => 'anomaly.field_type.text',
-    'mail_debug'     => 'anomaly.field_type.boolean',
-    'cache_driver'   => [
+    'smtp_host'       => 'anomaly.field_type.text',
+    'smtp_port'       => 'anomaly.field_type.integer',
+    'smtp_username'   => 'anomaly.field_type.text',
+    'smtp_password'   => 'anomaly.field_type.text',
+    'mail_debug'      => 'anomaly.field_type.boolean',
+    'cache_driver'    => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'default_value' => config('cache.default'),
@@ -113,7 +138,7 @@ return [
             ]
         ],
     ],
-    'standard_theme' => [
+    'standard_theme'  => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'default_value' => config('streams::themes.active.standard'),
@@ -122,7 +147,7 @@ return [
             }
         ],
     ],
-    'admin_theme'    => [
+    'admin_theme'     => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'default_value' => config('streams::themes.active.standard'),

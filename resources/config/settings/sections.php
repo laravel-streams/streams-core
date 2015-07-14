@@ -4,17 +4,23 @@ return [
     [
         'section' => 'tabbed',
         'tabs'    => [
-            'general' => [
+            'general'      => [
                 'title'  => 'streams::tab.general',
                 'fields' => [
                     'name',
                     'description',
                     'date_format',
-                    'time_format',
-                    'default_locale'
+                    'time_format'
                 ]
             ],
-            'access'  => [
+            'localization' => [
+                'title'  => 'Localization',
+                'fields' => [
+                    'default_locale',
+                    'enabled_locales'
+                ]
+            ],
+            'access'       => [
                 'title'  => 'streams::tab.access',
                 'fields' => [
                     'site_enabled',
@@ -23,7 +29,7 @@ return [
                     'force_https'
                 ]
             ],
-            'email'   => [
+            'email'        => [
                 'title'  => 'streams::tab.email',
                 'fields' => [
                     'contact_email',
@@ -36,13 +42,13 @@ return [
                     'mail_debug'
                 ]
             ],
-            'cache'   => [
+            'cache'        => [
                 'title'  => 'streams::tab.cache',
                 'fields' => [
                     'cache_driver'
                 ]
             ],
-            'themes'  => [
+            'themes'       => [
                 'title'  => 'streams::tab.themes',
                 'fields' => [
                     'standard_theme',
