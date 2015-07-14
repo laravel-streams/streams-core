@@ -79,9 +79,6 @@ class StreamsEventProvider extends EventServiceProvider
             'Anomaly\Streams\Platform\Addon\Plugin\Listener\PutPluginInCollection',
             'Anomaly\Streams\Platform\Addon\Plugin\Listener\AddPluginToTwig'
         ],
-        'Anomaly\Streams\Platform\Addon\Block\Event\BlockWasRegistered'          => [
-            'Anomaly\Streams\Platform\Addon\Block\Listener\PutBlockInCollection'
-        ],
         'Anomaly\Streams\Platform\Addon\Theme\Event\ThemeWasRegistered'          => [
             'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection'
         ],

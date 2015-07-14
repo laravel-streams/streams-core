@@ -399,16 +399,6 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\Block\BlockCollection',
-            'Anomaly\Streams\Platform\Addon\Block\BlockCollection'
-        );
-
-        $this->app->bind(
-            'block.collection',
-            'Anomaly\Streams\Platform\Addon\Block\BlockCollection'
-        );
-
-        $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
             'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'
         );

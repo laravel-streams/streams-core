@@ -6,7 +6,6 @@ return [
         'extension',
         'module',
         'plugin',
-        'block',
         'theme'
     ]
 ];
