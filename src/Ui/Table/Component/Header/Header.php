@@ -64,7 +64,7 @@ class Header implements HeaderInterface
         $direction = $this->getDirection('asc');
 
         array_set($query, $builder->getTableOption('prefix') . 'order_by', $this->getSortColumn());
-        array_set($query, $builder->getTableOption('prefix') . 'sort', $direction == 'desc' ? 'asc' : 'desc');
+        array_set($query, $builder->getTableOption('prefix') . 'sort', $direction == 'asc' ? 'desc' : 'asc');
 
         return http_build_query($query);
     }
@@ -79,7 +79,7 @@ class Header implements HeaderInterface
     public function getDirection($default = null)
     {
         $query = $_GET;
-        
+
         $builder = $this->getBuilder();
 
         if (array_get($query, $builder->getTableOption('prefix') . 'order_by') !== $this->getSortColumn()) {
