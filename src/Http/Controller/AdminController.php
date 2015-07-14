@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Http\Controller;
 
+use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
+
 /**
  * Class AdminController
  *
@@ -13,8 +15,10 @@ class AdminController extends BaseController
 
     /**
      * Create a new AdminController instance.
+     *
+     * @param MiddlewareCollection $middleware
      */
-    public function __construct()
+    public function __construct(MiddlewareCollection $middleware)
     {
 
         /**
@@ -27,6 +31,6 @@ class AdminController extends BaseController
 
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\AuthorizeModuleAccess');
 
-        parent::__construct();
+        parent::__construct($middleware);
     }
 }

@@ -254,6 +254,16 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         /**
+         * Register our MiddlewareCollection
+         * so we can access / manipulate it
+         * wherever we want.
+         */
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection',
+            'Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection'
+        );
+
+        /**
          * Register the entry model and repository.
          * This will help others swap it out as needed.
          */

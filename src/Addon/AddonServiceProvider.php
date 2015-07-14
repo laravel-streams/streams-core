@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
 use Anomaly\Streams\Platform\View\ViewMobileOverrides;
 use Anomaly\Streams\Platform\View\ViewOverrides;
 use Illuminate\Console\Scheduling\Schedule;
@@ -35,6 +36,13 @@ class AddonServiceProvider extends ServiceProvider
      * @var array
      */
     protected $routes = [];
+
+    /**
+     * Addon middleware.
+     *
+     * @var array
+     */
+    protected $middleware = [];
 
     /**
      * Addon event listeners.
@@ -135,6 +143,7 @@ class AddonServiceProvider extends ServiceProvider
         $this->registerCommands();
         $this->registerProviders();
         $this->registerOverrides();
+        $this->registerMiddleware();
         $this->registerAdditionalRoutes();
     }
 
@@ -293,6 +302,23 @@ class AddonServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register middleware.
+     */
+    protected function registerMiddleware()
+    {
+        if (!$middleware = $this->getMiddleware()) {
+            return;
+        }
+
+        /* @var MiddlewareCollection $collection */
+        $collection = $this->app->make('Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection');
+
+        foreach ($middleware as $class) {
+            $collection->push($class);
+        }
+    }
+
+    /**
      * Register additional routes.
      */
     protected function registerAdditionalRoutes()
@@ -390,6 +416,16 @@ class AddonServiceProvider extends ServiceProvider
     public function getRoutes()
     {
         return $this->routes;
+    }
+
+    /**
+     * Get the middleware.
+     *
+     * @return array
+     */
+    public function getMiddleware()
+    {
+        return $this->middleware;
     }
 
     /**
