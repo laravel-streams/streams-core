@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Message\MessageBag;
 use Closure;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Routing\Redirector;
-use Illuminate\Routing\Router;
 use Illuminate\Session\TokenMismatchException;
 
 /**
@@ -56,11 +55,6 @@ class VerifyCsrfToken extends \App\Http\Middleware\VerifyCsrfToken
      */
     public function handle($request, Closure $next)
     {
-        /* @var Router $router */
-        $router = app('router');
-
-        dd($router->getCurrentRoute());
-
         try {
             return parent::handle($request, $next);
         } catch (TokenMismatchException $e) {

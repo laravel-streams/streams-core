@@ -51,7 +51,7 @@ class AssetParser
         if (!$this->files->isDirectory($path = storage_path('framework/views/asset'))) {
             $this->files->makeDirectory($path);
         }
-        
+
         $this->files->put(storage_path('framework/views/asset/' . (($filename = md5($content)) . '.twig')), $content);
 
         return $this->views->make('base_path::storage/framework/views/asset/' . $filename)->render();
