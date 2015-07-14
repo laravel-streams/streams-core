@@ -41,6 +41,7 @@ class IconRegistry
         'sortable'             => 'glyphicons glyphicons-sorting',
         'global'               => 'glyphicons glyphicons-global',
         'server'               => 'glyphicons glyphicons-server',
+        'magic'                => 'glyphicons glyphicons-magic',
         'globe'                => 'glyphicons glyphicons-globe',
         'brush'                => 'glyphicons glyphicons-brush',
         'redo'                 => 'glyphicons glyphicons-redo',
