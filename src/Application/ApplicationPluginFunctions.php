@@ -93,6 +93,10 @@ class ApplicationPluginFunctions
      */
     public function trans($key = null, $parameters = [], $locale = null)
     {
+        if (!$key) {
+            return $key;
+        }
+        
         if (is_array($string = trans($key, $parameters, $locale))) {
             return $key;
         }
