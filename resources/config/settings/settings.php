@@ -20,7 +20,7 @@ return [
     'date_format'     => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
-            'default_value' => config('streams.date_format'),
+            'default_value' => config('streams::datetime.date_format'),
             'options'       => [
                 'Y/n/j'     => date('Y/n/j'),
                 'n/j/Y'     => date('n/j/Y'),
@@ -34,7 +34,7 @@ return [
     'time_format'     => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
-            'default_value' => config('streams.time_format'),
+            'default_value' => config('streams::datetime.time_format'),
             'options'       => [
                 'g:i A' => date('g:i A'),
                 'G:i A' => date('G:i A') . ' (24 hr)'
@@ -43,7 +43,10 @@ return [
     ],
     'default_locale'  => [
         'type'     => 'anomaly.field_type.language',
-        'required' => true
+        'required' => true,
+        'config'   => [
+            'default_value' => config('app.fallback_locale')
+        ]
     ],
     'enabled_locales' => [
         'type'     => 'anomaly.field_type.checkboxes',
