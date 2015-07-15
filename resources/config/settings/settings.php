@@ -41,7 +41,10 @@ return [
             ]
         ],
     ],
-    'default_locale'  => 'anomaly.field_type.language',
+    'default_locale'  => [
+        'type'     => 'anomaly.field_type.language',
+        'required' => true
+    ],
     'enabled_locales' => [
         'type'     => 'anomaly.field_type.checkboxes',
         'required' => true,
