@@ -41,10 +41,10 @@ return [
                     'contact_email',
                     'server_email',
                     'mail_driver',
-                    'smtp_host',
-                    'smtp_port',
-                    'smtp_username',
-                    'smtp_password',
+                    'mail_host',
+                    'mail_port',
+                    'mail_username',
+                    'mail_password',
                     'mail_debug'
                 ]
             ]
