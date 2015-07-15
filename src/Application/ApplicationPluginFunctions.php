@@ -96,7 +96,7 @@ class ApplicationPluginFunctions
         if (!$key) {
             return $key;
         }
-        
+
         if (is_array($string = trans($key, $parameters, $locale))) {
             return $key;
         }
