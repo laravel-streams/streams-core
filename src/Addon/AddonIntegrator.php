@@ -72,13 +72,30 @@ class AddonIntegrator
             }
         }
 
-        if (app('files')->isFile(base_path('config/addon/' . $addon->getSlug() . '-' . $addon->getType() . '.php'))) {
-            foreach (app('files')->getRequire(
-                base_path('config/addon/' . $addon->getSlug() . '-' . $addon->getType() . '.php')
-            ) as $key => $config) {
+        if (app('files')->isDirectory(base_path('config/addon/' . $addon->getSlug() . '-' . $addon->getType()))) {
+            foreach (app('files')->allFiles(
+                base_path('config/addon/' . $addon->getSlug() . '-' . $addon->getType())
+            ) as $file) {
+
+                if (!$file instanceof \SplFileInfo) {
+                    continue;
+                }
+
+                $key = ltrim(
+                    str_replace(
+                        base_path('config/addon/' . $addon->getSlug() . '-' . $addon->getType()),
+                        '',
+                        $file->getPath()
+                    ) . '/' . $file->getBaseName('.php'),
+                    '/'
+                );
+
                 app('config')->set(
                     $addon->getNamespace($key),
-                    array_replace(app('config')->get($addon->getNamespace($key)), $config)
+                    array_replace(
+                        app('config')->get($addon->getNamespace($key)),
+                        app('files')->getRequire($file->getPathname())
+                    )
                 );
             }
         }
