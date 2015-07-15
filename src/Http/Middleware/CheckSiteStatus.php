@@ -42,7 +42,7 @@ class CheckSiteStatus
      */
     public function handle(Request $request, Closure $next)
     {
-        $enabled = $this->config->get('streams.site_enabled', true);
+        $enabled = $this->config->get('streams::access.site_enabled', true);
 
         /**
          * Continue on if we're enabled.
@@ -61,7 +61,7 @@ class CheckSiteStatus
         /**
          * If we're disabled then we need to abort.
          */
-        if (!in_array($request->getClientIp(), $this->config->get('streams.ip_whitelist', []))) {
+        if (!in_array($request->getClientIp(), $this->config->get('streams::access.ip_whitelist', []))) {
             return response()->view('streams::errors/503', [], 503);
         }
 
