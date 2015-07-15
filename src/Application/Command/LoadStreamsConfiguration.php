@@ -22,5 +22,6 @@ class LoadStreamsConfiguration implements SelfHandling
     public function handle(Configurator $configurator)
     {
         $configurator->addNamespace('streams', realpath(__DIR__ . '/../../../resources/config'));
+        $configurator->mergeNamespace('streams', base_path('config/streams'));
     }
 }

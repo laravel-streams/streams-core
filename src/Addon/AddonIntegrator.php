@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Support\Configurator;
 
 /**
  * Class AddonIntegrator
@@ -29,15 +30,24 @@ class AddonIntegrator
     protected $image;
 
     /**
+     * The configurator utility.
+     *
+     * @var Configurator
+     */
+    protected $configurator;
+
+    /**
      * Create a new AddonIntegrator instance.
      *
-     * @param Asset $asset
-     * @param Image $image
+     * @param Asset        $asset
+     * @param Image        $image
+     * @param Configurator $configurator
      */
-    public function __construct(Asset $asset, Image $image)
+    public function __construct(Asset $asset, Image $image, Configurator $configurator)
     {
-        $this->asset = $asset;
-        $this->image = $image;
+        $this->asset        = $asset;
+        $this->image        = $image;
+        $this->configurator = $configurator;
     }
 
     /**
@@ -47,59 +57,13 @@ class AddonIntegrator
      */
     public function register(Addon $addon)
     {
+        $this->configurator->addNamespace($addon->getNamespace(), $addon->getPath('resources/config'));
+        $this->configurator->mergeNamespace(
+            $addon->getNamespace(),
+            base_path('config/addon/' . $addon->getSlug() . '-' . $addon->getType())
+        );
+
         app('view')->addNamespace($addon->getNamespace(), $addon->getPath('resources/views'));
-
-        if (app('files')->isDirectory($addon->getPath('resources/config'))) {
-            foreach (app('files')->allFiles($addon->getPath('resources/config')) as $file) {
-
-                if (!$file instanceof \SplFileInfo) {
-                    continue;
-                }
-
-                $key = ltrim(
-                    str_replace(
-                        $addon->getPath('resources/config'),
-                        '',
-                        $file->getPath()
-                    ) . '/' . $file->getBaseName('.php'),
-                    '/'
-                );
-
-                app('config')->set(
-                    $addon->getNamespace($key),
-                    app('files')->getRequire($file->getPathname())
-                );
-            }
-        }
-
-        if (app('files')->isDirectory(base_path('config/addon/' . $addon->getSlug() . '-' . $addon->getType()))) {
-            foreach (app('files')->allFiles(
-                base_path('config/addon/' . $addon->getSlug() . '-' . $addon->getType())
-            ) as $file) {
-
-                if (!$file instanceof \SplFileInfo) {
-                    continue;
-                }
-
-                $key = ltrim(
-                    str_replace(
-                        base_path('config/addon/' . $addon->getSlug() . '-' . $addon->getType()),
-                        '',
-                        $file->getPath()
-                    ) . '/' . $file->getBaseName('.php'),
-                    '/'
-                );
-
-                app('config')->set(
-                    $addon->getNamespace($key),
-                    array_replace(
-                        app('config')->get($addon->getNamespace($key)),
-                        app('files')->getRequire($file->getPathname())
-                    )
-                );
-            }
-        }
-
         app('translator')->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
 
         $this->asset->addPath($addon->getNamespace(), $addon->getPath('resources'));

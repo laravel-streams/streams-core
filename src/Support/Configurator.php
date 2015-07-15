@@ -49,6 +49,10 @@ class Configurator
      */
     public function addNamespace($namespace, $directory)
     {
+        if (!$this->files->isDirectory($directory)) {
+            return;
+        }
+
         /* @var SplFileInfo $file */
         foreach ($this->files->allFiles($directory) as $file) {
 
@@ -62,6 +66,40 @@ class Configurator
             );
 
             $this->config->set($namespace . '::' . $key, $this->files->getRequire($file->getPathname()));
+        }
+    }
+
+    /**
+     * Merge a namespace to configuration.
+     *
+     * @param $namespace
+     * @param $directory
+     */
+    public function mergeNamespace($namespace, $directory)
+    {
+        if (!$this->files->isDirectory($directory)) {
+            return;
+        }
+
+        /* @var SplFileInfo $file */
+        foreach ($this->files->allFiles($directory) as $file) {
+
+            $key = ltrim(
+                str_replace(
+                    $directory,
+                    '',
+                    $file->getPath()
+                ) . '/' . $file->getBaseName('.php'),
+                '/'
+            );
+
+            $this->config->set(
+                $namespace . '::' . $key,
+                array_replace(
+                    $this->config->get($namespace . '::' . $key),
+                    $this->files->getRequire($file->getPathname())
+                )
+            );
         }
     }
 }
