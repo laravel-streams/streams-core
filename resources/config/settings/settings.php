@@ -135,14 +135,5 @@ return [
     'smtp_port'       => 'anomaly.field_type.integer',
     'smtp_username'   => 'anomaly.field_type.text',
     'smtp_password'   => 'anomaly.field_type.text',
-    'mail_debug'      => 'anomaly.field_type.boolean',
-    'cache_driver'    => [
-        'type'   => 'anomaly.field_type.select',
-        'config' => [
-            'default_value' => config('cache.default'),
-            'options'       => [
-                'file' => 'streams::setting.cache_driver.option.file'
-            ]
-        ],
-    ]
+    'mail_debug'      => 'anomaly.field_type.boolean'
 ];

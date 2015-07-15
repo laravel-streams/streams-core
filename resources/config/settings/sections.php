@@ -8,13 +8,18 @@ return [
                 'title'  => 'streams::tab.general',
                 'fields' => [
                     'name',
-                    'description',
+                    'description'
+                ]
+            ],
+            'datetime'     => [
+                'title'  => 'streams::tab.datetime',
+                'fields' => [
                     'date_format',
                     'time_format'
                 ]
             ],
             'localization' => [
-                'title'  => 'Localization',
+                'title'  => 'streams::tab.localization',
                 'fields' => [
                     'default_locale',
                     'enabled_locales'
@@ -40,12 +45,6 @@ return [
                     'smtp_username',
                     'smtp_password',
                     'mail_debug'
-                ]
-            ],
-            'cache'        => [
-                'title'  => 'streams::tab.cache',
-                'fields' => [
-                    'cache_driver'
                 ]
             ]
         ]
