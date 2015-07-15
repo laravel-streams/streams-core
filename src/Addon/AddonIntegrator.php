@@ -72,9 +72,9 @@ class AddonIntegrator
             }
         }
 
-        if (app('files')->isFile(base_path('config/streams/' . $addon->getSlug() . '-' . $addon->getType() . '.php'))) {
+        if (app('files')->isFile(base_path('config/addon/' . $addon->getSlug() . '-' . $addon->getType() . '.php'))) {
             foreach (app('files')->getRequire(
-                base_path('config/streams/' . $addon->getSlug() . '-' . $addon->getType() . '.php')
+                base_path('config/addon/' . $addon->getSlug() . '-' . $addon->getType() . '.php')
             ) as $key => $config) {
                 app('config')->set(
                     $addon->getNamespace($key),
