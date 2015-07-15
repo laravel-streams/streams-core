@@ -41,6 +41,7 @@ return [
         'type'     => 'anomaly.field_type.language',
         'required' => true,
         'config'   => [
+            'default_value'     => config('app.locale'),
             'available_locales' => true
         ]
     ],
@@ -48,6 +49,7 @@ return [
         'type'     => 'anomaly.field_type.language',
         'required' => true,
         'config'   => [
+            'default_value'     => config('app.locale'),
             'available_locales' => true
         ]
     ]
