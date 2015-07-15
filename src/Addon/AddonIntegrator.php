@@ -72,6 +72,17 @@ class AddonIntegrator
             }
         }
 
+        if (app('files')->isFile(base_path('config/streams/' . $addon->getSlug() . '-' . $addon->getType() . '.php'))) {
+            foreach (app('files')->getRequire(
+                base_path('config/streams/' . $addon->getSlug() . '-' . $addon->getType() . '.php')
+            ) as $key => $config) {
+                app('config')->set(
+                    $addon->getNamespace($key),
+                    array_replace(app('config')->get($addon->getNamespace($key)), $config)
+                );
+            }
+        }
+
         app('translator')->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
 
         $this->asset->addPath($addon->getNamespace(), $addon->getPath('resources'));
