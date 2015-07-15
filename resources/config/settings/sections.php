@@ -47,14 +47,7 @@ return [
                 'fields' => [
                     'cache_driver'
                 ]
-            ],
-            'themes'       => [
-                'title'  => 'streams::tab.themes',
-                'fields' => [
-                    'standard_theme',
-                    'admin_theme'
-                ]
-            ],
+            ]
         ]
     ]
 ];

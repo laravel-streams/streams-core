@@ -141,23 +141,5 @@ return [
                 'file' => 'streams::setting.cache_driver.option.file'
             ]
         ],
-    ],
-    'standard_theme'  => [
-        'type'   => 'anomaly.field_type.select',
-        'config' => [
-            'default_value' => config('streams::themes.active.standard'),
-            'options'       => function (\Anomaly\Streams\Platform\Addon\Theme\ThemeCollection $themes) {
-                return $themes->standard()->lists('name', 'namespace');
-            }
-        ],
-    ],
-    'admin_theme'     => [
-        'type'   => 'anomaly.field_type.select',
-        'config' => [
-            'default_value' => config('streams::themes.active.standard'),
-            'options'       => function (\Anomaly\Streams\Platform\Addon\Theme\ThemeCollection $themes) {
-                return $themes->admin()->lists('name', 'namespace');
-            }
-        ],
     ]
 ];

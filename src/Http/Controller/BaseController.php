@@ -21,12 +21,14 @@ class BaseController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken');
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ApplicationReady');
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ForceHttps');
-
+        // Let addons manipulate middleware first.
         foreach (app('Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection') as $middleware) {
             $this->middleware($middleware);
         }
+
+        // These may be manipulated by the middleware above.
+        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken');
+        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ApplicationReady');
+        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ForceHttps');
     }
 }

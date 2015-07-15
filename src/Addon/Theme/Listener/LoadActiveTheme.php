@@ -1,20 +1,21 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme\Listener;
 
 use Anomaly\Streams\Platform\Addon\Theme\Theme;
+use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
 use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
 
 /**
- * Class DetectActiveTheme
+ * Class LoadActiveTheme
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Listener
  */
-class DetectActiveTheme
+class LoadActiveTheme
 {
 
     /**
@@ -32,6 +33,13 @@ class DetectActiveTheme
     protected $image;
 
     /**
+     * The theme collection.
+     *
+     * @var ThemeCollection
+     */
+    protected $themes;
+
+    /**
      * The config repository.
      *
      * @var Repository
@@ -46,7 +54,7 @@ class DetectActiveTheme
     protected $request;
 
     /**
-     * Create a new DetectActiveTheme instance.
+     * Create a new LoadActiveTheme instance.
      *
      * @param Asset      $asset
      * @param Image      $image
@@ -57,10 +65,12 @@ class DetectActiveTheme
         Asset $asset,
         Image $image,
         Request $request,
-        Repository $config
+        Repository $config,
+        ThemeCollection $themes
     ) {
         $this->asset   = $asset;
         $this->image   = $image;
+        $this->themes  = $themes;
         $this->config  = $config;
         $this->request = $request;
     }
@@ -72,12 +82,14 @@ class DetectActiveTheme
     public function handle()
     {
         if (in_array($this->request->segment(1), ['installer', 'admin'])) {
-            $theme = $this->config->get('streams::themes.active.admin');
+            $theme = $this->themes->admin()->active();
         } else {
-            $theme = $this->config->get('streams::themes.active.standard');
+            $theme = $this->themes->standard()->active();
         }
 
-        $theme = app($theme);
+        if (!$theme instanceof Theme) {
+            $theme = $this->themes->admin()->first();
+        }
 
         if ($theme instanceof Theme) {
 
