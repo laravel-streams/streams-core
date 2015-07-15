@@ -82,4 +82,21 @@ class ApplicationPluginFunctions
 
         return rtrim(mb_substr($value, 0, $limit, 'UTF-8')) . $end;
     }
+
+    /**
+     * Return the translated key.
+     *
+     * @param null  $key
+     * @param array $parameters
+     * @param null  $locale
+     * @return string
+     */
+    public function trans($key = null, $parameters = [], $locale = null)
+    {
+        if (is_array($string = trans($key, $parameters, $locale))) {
+            return $key;
+        }
+
+        return $string;
+    }
 }

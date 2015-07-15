@@ -39,6 +39,7 @@ class ApplicationPlugin extends Plugin
     {
         return [
             new \Twig_SimpleFunction('env', [$this->functions, 'env']),
+            new \Twig_SimpleFunction('trans', [$this->functions, 'trans']),
             new \Twig_SimpleFunction('str_truncate', [$this->functions, 'truncate']),
             new \Twig_SimpleFunction('str_humanize', [$this->functions, 'humanize']),
             new \Twig_SimpleFunction('html_anchor', [$this->functions, 'anchor'], ['is_safe' => ['html']]),
