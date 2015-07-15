@@ -52,7 +52,7 @@ class FieldFilter extends Filter implements FieldFilterInterface
         $type->setPrefix($this->getPrefix() . 'filter_');
         $type->setPlaceholder(trans($this->getPlaceholder()));
 
-        return $type->renderFilter();
+        return $type->getFilter();
     }
 
     /**
