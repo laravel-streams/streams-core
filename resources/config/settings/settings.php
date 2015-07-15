@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name'            => [
+    'name'             => [
         'type'   => 'anomaly.field_type.text',
         'config' => [
             'default_value' => function () {
@@ -9,7 +9,7 @@ return [
             },
         ]
     ],
-    'description'     => [
+    'description'      => [
         'type'   => 'anomaly.field_type.text',
         'config' => [
             'default_value' => function () {
@@ -17,9 +17,20 @@ return [
             },
         ]
     ],
-    'date_format'     => [
-        'type'   => 'anomaly.field_type.select',
-        'config' => [
+    'default_timezone' => [
+        'type'     => 'anomaly.field_type.select',
+        'required' => true,
+        'config'   => [
+            'default_value' => config('app.timezone'),
+            'options'       => function () {
+                return array_combine(timezone_identifiers_list(), timezone_identifiers_list());
+            }
+        ],
+    ],
+    'date_format'      => [
+        'type'     => 'anomaly.field_type.select',
+        'required' => true,
+        'config'   => [
             'default_value' => config('streams::datetime.date_format'),
             'options'       => [
                 'Y/n/j'     => date('Y/n/j'),
@@ -31,9 +42,10 @@ return [
             ]
         ],
     ],
-    'time_format'     => [
-        'type'   => 'anomaly.field_type.select',
-        'config' => [
+    'time_format'      => [
+        'type'     => 'anomaly.field_type.select',
+        'required' => true,
+        'config'   => [
             'default_value' => config('streams::datetime.time_format'),
             'options'       => [
                 'g:i A' => date('g:i A'),
@@ -41,14 +53,14 @@ return [
             ]
         ],
     ],
-    'default_locale'  => [
+    'default_locale'   => [
         'type'     => 'anomaly.field_type.language',
         'required' => true,
         'config'   => [
             'default_value' => config('app.fallback_locale')
         ]
     ],
-    'enabled_locales' => [
+    'enabled_locales'  => [
         'type'     => 'anomaly.field_type.checkboxes',
         'required' => true,
         'config'   => [
@@ -74,22 +86,23 @@ return [
             }
         ]
     ],
-    'site_enabled'    => [
+    'site_enabled'     => [
         'type'   => 'anomaly.field_type.boolean',
         'config' => [
             'default_value' => true
         ]
     ],
-    '503_message'     => [
-        'type'   => 'anomaly.field_type.textarea',
-        'config' => [
+    '503_message'      => [
+        'type'     => 'anomaly.field_type.textarea',
+        'required' => true,
+        'config'   => [
             'default_value' => function () {
                 return 'streams::message.503';
             }
         ]
     ],
-    'ip_whitelist'    => 'anomaly.field_type.tags',
-    'force_https'     => [
+    'ip_whitelist'     => 'anomaly.field_type.tags',
+    'force_https'      => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'default_value' => 'none',
@@ -101,25 +114,28 @@ return [
             ]
         ],
     ],
-    'contact_email'   => [
-        'type'   => 'anomaly.field_type.email',
-        'config' => [
+    'contact_email'    => [
+        'type'     => 'anomaly.field_type.email',
+        'required' => true,
+        'config'   => [
             'default_value' => function () {
                 return app('auth')->user()->email;
             },
         ]
     ],
-    'server_email'    => [
-        'type'   => 'anomaly.field_type.email',
-        'config' => [
+    'server_email'     => [
+        'type'     => 'anomaly.field_type.email',
+        'required' => true,
+        'config'   => [
             'default_value' => function () {
                 return app('auth')->user()->email;
             },
         ]
     ],
-    'mail_driver'     => [
-        'type'   => 'anomaly.field_type.select',
-        'config' => [
+    'mail_driver'      => [
+        'type'     => 'anomaly.field_type.select',
+        'required' => true,
+        'config'   => [
             'default_value' => 'mail',
             'options'       => [
                 'smtp'     => 'streams::setting.mail_driver.option.smtp',
@@ -131,9 +147,9 @@ return [
             ]
         ],
     ],
-    'smtp_host'       => 'anomaly.field_type.text',
-    'smtp_port'       => 'anomaly.field_type.integer',
-    'smtp_username'   => 'anomaly.field_type.text',
-    'smtp_password'   => 'anomaly.field_type.text',
-    'mail_debug'      => 'anomaly.field_type.boolean'
+    'mail_host'        => 'anomaly.field_type.text',
+    'mail_port'        => 'anomaly.field_type.integer',
+    'mail_username'    => 'anomaly.field_type.text',
+    'mail_password'    => 'anomaly.field_type.text',
+    'mail_debug'       => 'anomaly.field_type.boolean'
 ];

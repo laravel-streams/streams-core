@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
+use Anomaly\Streams\Platform\Support\Authorizer;
 use Closure;
 use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
@@ -23,13 +24,22 @@ class CheckSiteStatus
     protected $config;
 
     /**
+     * The authorizer utility.
+     *
+     * @var Authorizer
+     */
+    protected $authorizer;
+
+    /**
      * Create a new CheckSiteStatus instance.
      *
      * @param Repository $config
+     * @param Authorizer $authorizer
      */
-    public function __construct(Repository $config)
+    public function __construct(Repository $config, Authorizer $authorizer)
     {
-        $this->config = $config;
+        $this->config     = $config;
+        $this->authorizer = $authorizer;
     }
 
     /**
@@ -55,6 +65,13 @@ class CheckSiteStatus
          * Continue on if we're in admin.
          */
         if ($request->segment(1) == 'admin') {
+            return $next($request);
+        }
+
+        /**
+         * If the user has permission then we're good.
+         */
+        if ($this->authorizer->authorize('streams::access_disabled_site')) {
             return $next($request);
         }
 

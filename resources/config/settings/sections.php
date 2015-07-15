@@ -14,6 +14,7 @@ return [
             'datetime'     => [
                 'title'  => 'streams::tab.datetime',
                 'fields' => [
+                    'default_timezone',
                     'date_format',
                     'time_format'
                 ]
