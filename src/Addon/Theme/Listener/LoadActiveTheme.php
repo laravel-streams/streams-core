@@ -88,12 +88,13 @@ class LoadActiveTheme
         }
 
         if (!$theme instanceof Theme) {
-            $theme = $this->themes->admin()->first();
+            $theme = $this->themes->get($this->config->get('streams::themes.active.admin'));
         }
 
         if ($theme instanceof Theme) {
 
             $theme->setActive(true);
+            $theme->setCurrent(true);
 
             app('view')->addNamespace('theme', $theme->getPath('resources/views'));
             app('translator')->addNamespace('theme', $theme->getPath('resources/lang'));

@@ -50,11 +50,9 @@ class LoadThemeVariables implements SelfHandling
          * If there is a current theme, we've been
          * taken care of already.
          */
-        if ($theme = $themes->current()) {
+        if (!$theme = $themes->current()) {
             return;
         }
-
-        $theme = $themes->get($config->get('streams::themes.active.admin'));
 
         foreach ($config->get($theme->getNamespace('variables'), []) as $key => $value) {
             $this->variables->put($key, $value);
