@@ -20,8 +20,9 @@ class ThemeCollection extends AddonCollection
      */
     public function active()
     {
+        /* @var Theme $item */
         foreach ($this->items as $item) {
-            if ($item instanceof Theme && $item->isActive()) {
+            if ($item->isActive()) {
                 return $item;
             }
         }
@@ -38,8 +39,9 @@ class ThemeCollection extends AddonCollection
     {
         $items = [];
 
+        /* @var Theme $item */
         foreach ($this->items as $item) {
-            if ($item instanceof Theme && !$item->isAdmin()) {
+            if (!$item->isAdmin()) {
                 $items[] = $item;
             }
         }
@@ -56,12 +58,30 @@ class ThemeCollection extends AddonCollection
     {
         $items = [];
 
+        /* @var Theme $item */
         foreach ($this->items as $item) {
-            if ($item instanceof Theme && $item->isAdmin()) {
+            if ($item->isAdmin()) {
                 $items[] = $item;
             }
         }
 
         return new static($items);
+    }
+
+    /**
+     * Return the current theme.
+     *
+     * @return null|Theme
+     */
+    public function current()
+    {
+        /* @var Theme $item */
+        foreach ($this->items as $item) {
+            if ($item->isCurrent()) {
+                return $item;
+            }
+        }
+
+        return null;
     }
 }

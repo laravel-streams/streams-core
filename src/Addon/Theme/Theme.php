@@ -30,6 +30,15 @@ class Theme extends Addon
     protected $active = false;
 
     /**
+     * Determines whether this is
+     * the currently rendering theme
+     * or not.
+     *
+     * @var bool
+     */
+    protected $current = false;
+
+    /**
      * Meta information.
      *
      * @var array
@@ -74,6 +83,29 @@ class Theme extends Addon
     public function isActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Return the current flag.
+     *
+     * @return bool
+     */
+    public function isCurrent()
+    {
+        return $this->current;
+    }
+
+    /**
+     * Set the current flag.
+     *
+     * @param $current
+     * @return $this
+     */
+    public function setCurrent($current)
+    {
+        $this->current = $current;
+
+        return $this;
     }
 
     /**
