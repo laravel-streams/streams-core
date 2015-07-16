@@ -21,6 +21,7 @@ class AddImageNamespaces implements SelfHandling
      */
     public function handle(Image $image, Container $container, Application $application)
     {
+        $image->addPath('public', base_path('public'));
         $image->addPath('asset', $application->getAssetsPath());
         $image->addPath('streams', $container->make('streams.path') . '/resources');
         $image->addPath('bower', $container->make('path.base') . '/bin/bower_components');
