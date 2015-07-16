@@ -93,9 +93,11 @@ class FieldFactory
         $field->setEntry($entry);
 
         // Merge in rules and validators.
-        $field->mergeRules(array_pull($parameters, 'rules', []));
-        $field->mergeConfig(array_pull($parameters, 'config', []));
-        $field->mergeValidators(array_pull($parameters, 'validators', []));
+        $field
+            ->mergeRules(array_pull($parameters, 'rules', []))
+            ->mergeConfig(array_pull($parameters, 'config', []))
+            ->mergeMessages(array_pull($parameters, 'validators', []))
+            ->mergeValidators(array_pull($parameters, 'validators', []));
 
         // Hydrate the field with parameters.
         $this->hydrator->hydrate($field, $parameters);

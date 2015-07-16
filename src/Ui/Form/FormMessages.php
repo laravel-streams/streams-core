@@ -31,7 +31,7 @@ class FormMessages
     }
 
     /**
-     * Register field's custom validators.
+     * Register field's custom messages.
      *
      * @param FieldType $field
      * @param array     $messages
@@ -40,6 +40,10 @@ class FormMessages
     {
         foreach ($field->getValidators() as $rule => $validator) {
             $messages[$rule] = array_get($validator, 'message');
+        }
+
+        foreach ($field->getMessages() as $rule => $message) {
+            $messages[$rule] = $message;
         }
     }
 }

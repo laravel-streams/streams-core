@@ -51,6 +51,14 @@ class FieldType extends Addon
     protected $validators = [];
 
     /**
+     * Custom validation messages.
+     * i.e. 'rule' => ['rule', 'message']
+     *
+     * @var array
+     */
+    protected $messages = [];
+
+    /**
      * Configuration options.
      *
      * @var array
@@ -257,10 +265,13 @@ class FieldType extends Addon
      * Merge rules.
      *
      * @param array $rules
+     * @return $this
      */
     public function mergeRules(array $rules)
     {
         $this->rules = array_unique(array_merge($this->rules, $rules));
+
+        return $this;
     }
 
     /**
@@ -277,10 +288,36 @@ class FieldType extends Addon
      * Merge validators.
      *
      * @param array $validators
+     * @return $this
      */
     public function mergeValidators(array $validators)
     {
         $this->validators = array_merge($this->validators, $validators);
+
+        return $this;
+    }
+
+    /**
+     * Get the messages.
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
+    /**
+     * Merge messages.
+     *
+     * @param array $messages
+     * @return $this
+     */
+    public function mergeMessages(array $messages)
+    {
+        $this->messages = array_merge($this->messages, $messages);
+
+        return $this;
     }
 
     /**
@@ -297,10 +334,13 @@ class FieldType extends Addon
      * Merge configuration.
      *
      * @param array $config
+     * @return $this
      */
     public function mergeConfig(array $config)
     {
         $this->config = array_merge($this->config, $config);
+
+        return $this;
     }
 
     /**

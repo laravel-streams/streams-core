@@ -653,6 +653,16 @@ class FormBuilder
     }
 
     /**
+     * Get the form model.
+     *
+     * @return \Anomaly\Streams\Platform\Entry\EntryModel|EloquentModel|null
+     */
+    public function getFormModel()
+    {
+        return $this->form->getModel();
+    }
+
+    /**
      * Get the form entry.
      *
      * @return EloquentModel|EntryInterface|FieldInterface|AssignmentInterface

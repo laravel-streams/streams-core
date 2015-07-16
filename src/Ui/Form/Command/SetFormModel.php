@@ -70,6 +70,9 @@ class SetFormModel implements SelfHandling
          * is disabled then skip it.
          */
         if (!$model || !class_exists($model)) {
+
+            $this->builder->setModel(null);
+
             return;
         }
 
