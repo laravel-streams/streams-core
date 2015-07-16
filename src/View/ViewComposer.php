@@ -94,7 +94,7 @@ class ViewComposer
      */
     public function compose(View $view)
     {
-        $theme  = $this->themes->active();
+        $theme  = $this->themes->current();
         $module = $this->modules->active();
 
         if (!$theme) {
