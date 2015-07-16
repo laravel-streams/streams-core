@@ -96,7 +96,7 @@ class FieldFactory
         $field
             ->mergeRules(array_pull($parameters, 'rules', []))
             ->mergeConfig(array_pull($parameters, 'config', []))
-            ->mergeMessages(array_pull($parameters, 'validators', []))
+            ->mergeMessages(array_pull($parameters, 'messages', []))
             ->mergeValidators(array_pull($parameters, 'validators', []));
 
         // Hydrate the field with parameters.
