@@ -96,7 +96,7 @@ class Configurator
             $this->config->set(
                 $namespace . '::' . $key,
                 array_replace(
-                    $this->config->get($namespace . '::' . $key),
+                    $this->config->get($namespace . '::' . $key, []),
                     $this->files->getRequire($file->getPathname())
                 )
             );
