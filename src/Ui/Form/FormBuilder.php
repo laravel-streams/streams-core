@@ -645,7 +645,7 @@ class FormBuilder
     /**
      * Get the form options.
      *
-     * @return \Illuminate\Support\Collection
+     * @return \Anomaly\Streams\Platform\Support\Collection
      */
     public function getFormOptions()
     {
@@ -722,7 +722,7 @@ class FormBuilder
     /**
      * Get the form values.
      *
-     * @return \Illuminate\Support\Collection
+     * @return \Anomaly\Streams\Platform\Support\Collection
      */
     public function getFormValues()
     {
@@ -744,7 +744,7 @@ class FormBuilder
     /**
      * Get the form data.
      *
-     * @return \Illuminate\Support\Collection
+     * @return \Anomaly\Streams\Platform\Support\Collection
      */
     public function getFormData()
     {

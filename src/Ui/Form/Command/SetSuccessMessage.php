@@ -38,7 +38,12 @@ class SetSuccessMessage implements SelfHandling
     public function handle(MessageBag $messages)
     {
         // If we can't save or there are errors then skip it.
-        if ($this->builder->hasFormErrors() || !$this->builder->canSave() || !$this->builder->getFormEntry()) {
+        if ($this->builder->hasFormErrors() || !$this->builder->canSave()) {
+            return;
+        }
+
+        // If there is no model and there isn't anything specific to say, skip it.
+        if (!$this->builder->getFormEntry() && !$this->builder->getFormOption('success_message')) {
             return;
         }
 

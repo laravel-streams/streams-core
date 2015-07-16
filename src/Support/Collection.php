@@ -55,4 +55,15 @@ class Collection extends \Illuminate\Support\Collection
 
         return new static($this->items);
     }
+
+    /**
+     * Return only the provided keys.
+     *
+     * @param array $keys
+     * @return array
+     */
+    public function only(array $keys)
+    {
+        return array_intersect_key($this->items, $keys);
+    }
 }
