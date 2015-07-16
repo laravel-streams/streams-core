@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Illuminate\Container\Container;
 use Illuminate\Validation\Factory;
 
 /**
@@ -15,6 +16,23 @@ class FormExtender
 {
 
     /**
+     * The service container.
+     *
+     * @var Container
+     */
+    protected $container;
+
+    /**
+     * Create a new FormExtender instance.
+     *
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
      * Extend the validation factory.
      *
      * @param Factory     $factory
@@ -22,21 +40,31 @@ class FormExtender
      */
     public function extend(Factory $factory, FormBuilder $builder)
     {
-        foreach ($builder->getFormFields() as $field) {
-            $this->registerValidators($factory, $field);
+        foreach ($builder->getFormFields() as $fieldType) {
+            $this->registerValidators($factory, $builder, $fieldType);
         }
     }
 
     /**
      * Register field's custom validators.
      *
-     * @param Factory   $factory
-     * @param FieldType $field
+     * @param Factory     $factory
+     * @param FormBuilder $builder
+     * @param FieldType   $fieldType
      */
-    protected function registerValidators(Factory $factory, FieldType $field)
+    protected function registerValidators(Factory $factory, FormBuilder $builder, FieldType $fieldType)
     {
-        foreach ($field->getValidators() as $rule => $validator) {
-            $factory->extend($rule, array_get($validator, 'handler'));
+        foreach ($fieldType->getValidators() as $rule => $validator) {
+            $factory->extend(
+                $rule,
+                function ($attribute, $value, $parameters) use ($validator, $builder, $fieldType) {
+                    return $this->container->call(
+                        array_get($validator, 'handler'),
+                        compact('attribute', 'value', 'parameters', 'builder', 'fieldType')
+                    );
+                },
+                array_get($validator, 'message')
+            );
         }
     }
 }
