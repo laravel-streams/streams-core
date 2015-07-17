@@ -25,19 +25,6 @@ class AddonCollection extends Collection
 {
 
     /**
-     * Create a new AddonCollection instance.
-     *
-     * @param array $items
-     */
-    public function __construct($items = [])
-    {
-        /* @var Addon $item */
-        foreach ($items as $item) {
-            $this->items[$item->getNamespace()] = $item;
-        }
-    }
-
-    /**
      * Return only core addons.
      *
      * @return AddonCollection

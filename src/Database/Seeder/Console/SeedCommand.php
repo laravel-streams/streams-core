@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Database\Seeder\Console
  */
-class SeedCommand extends \Illuminate\Database\Console\SeedCommand
+class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
 {
 
     use DispatchesCommands;

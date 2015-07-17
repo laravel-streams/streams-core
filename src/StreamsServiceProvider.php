@@ -69,7 +69,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->register('Barryvdh\Debugbar\ServiceProvider');
         $this->app->register('Barryvdh\HttpCache\ServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
-        $this->app->register('Jenssegers\Agent\AgentServiceProvider');
         $this->app->register('Intervention\Image\ImageServiceProvider');
 
         /**
