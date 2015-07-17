@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 use Jenssegers\Agent\Agent;
+use Mobile_Detect;
 
 /**
  * Class AgentPlugin
@@ -17,16 +18,16 @@ class AgentPlugin extends Plugin
     /**
      * The agent utility.
      *
-     * @var Agent
+     * @var Mobile_Detect
      */
     protected $agent;
 
     /**
      * Create a new AgentPlugin instance.
      *
-     * @param Agent $agent
+     * @param Mobile_Detect $agent
      */
-    public function __construct(Agent $agent)
+    public function __construct(Mobile_Detect $agent)
     {
         $this->agent = $agent;
     }
