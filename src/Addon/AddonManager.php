@@ -119,8 +119,8 @@ class AddonManager
     protected function getEnabledAddonNamespaces()
     {
         if (env('INSTALLED')) {
-            $modules    = $this->modules->getEnabledNamespaces();
-            $extensions = $this->extensions->getEnabledNamespaces();
+            $modules    = $this->modules->getEnabledNamespaces()->all();
+            $extensions = $this->extensions->getEnabledNamespaces()->all();
         } else {
             $modules    = [];
             $extensions = [];
@@ -137,8 +137,8 @@ class AddonManager
     protected function getInstalledAddonNamespaces()
     {
         if (env('INSTALLED')) {
-            $modules    = $this->modules->getInstalledNamespaces();
-            $extensions = $this->extensions->getInstalledNamespaces();
+            $modules    = $this->modules->getInstalledNamespaces()->all();
+            $extensions = $this->extensions->getInstalledNamespaces()->all();
         } else {
             $modules    = [];
             $extensions = [];

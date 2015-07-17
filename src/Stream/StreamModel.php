@@ -191,7 +191,7 @@ class StreamModel extends EloquentModel implements StreamInterface
      * @param  array $attributes
      * @return static
      */
-    public static function create(array $attributes)
+    public static function create(array $attributes = [])
     {
         $model = parent::create($attributes);
 
