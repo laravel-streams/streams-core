@@ -10,10 +10,11 @@
 
     {% include "streams::table/partials/views" %}
     {% include "streams::table/partials/filters" %}
-    {% include "streams::table/partials/heading" %}
 
     {% if not table.rows.empty() %}
-        <div class="panel">
+        <div class="panel panel-table">
+
+            {% include "streams::table/partials/heading" %}
 
             {{ form_open({ 'url': url_full() }) }}
             <table
