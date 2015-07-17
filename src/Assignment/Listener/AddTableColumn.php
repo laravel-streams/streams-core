@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class AddTableColumn
@@ -15,7 +15,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class AddTableColumn
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * When an assignment is created we need to

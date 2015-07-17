@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModel;
 use Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class EntryUtility
@@ -16,7 +16,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class EntryUtility
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Recompile entry models for a given stream.

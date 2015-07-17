@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Database\Migration\Migrator;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputOption;
 class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateCommand
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The migrator utility.

@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Command\RepopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetErrorMessages;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Validation\Validator;
 
 /**
@@ -16,7 +16,7 @@ use Illuminate\Validation\Validator;
 class FormValidator
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The form rules compiler.

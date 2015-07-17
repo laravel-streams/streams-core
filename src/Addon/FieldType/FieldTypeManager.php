@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class FieldTypeManager
@@ -13,7 +13,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class FieldTypeManager
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * A simple public API for the builder command.

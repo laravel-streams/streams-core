@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Robbo\Presenter\PresentableInterface;
 use Robbo\Presenter\Presenter;
 
@@ -14,6 +16,9 @@ use Robbo\Presenter\Presenter;
  */
 class Addon implements PresentableInterface, Arrayable
 {
+
+    use FiresCallbacks;
+    use DispatchesJobs;
 
     /**
      * The addon path.

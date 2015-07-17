@@ -8,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Table\Command\MakeTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\PostTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\SetTableResponse;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 class TableBuilder
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
     use FiresCallbacks;
 
     /**

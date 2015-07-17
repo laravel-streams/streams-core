@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\View\ViewTemplate;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 
 /**
@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 class LoadControlPanel
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The request object.

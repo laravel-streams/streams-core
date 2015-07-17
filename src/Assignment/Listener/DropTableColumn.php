@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class DropTableColumn
@@ -15,7 +15,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class DropTableColumn
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * When an assignment is deleted we need to drop

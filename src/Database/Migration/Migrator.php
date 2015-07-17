@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Database\Migration\Command\Migrate;
 use Anomaly\Streams\Platform\Database\Migration\Command\Rollback;
 use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameToClass;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class Migrator
@@ -17,7 +17,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class Migrator extends \Illuminate\Database\Migrations\Migrator
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The migration namespace.

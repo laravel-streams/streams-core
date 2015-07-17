@@ -9,7 +9,7 @@ use Anomaly\Streams\Platform\Database\Migration\Command\RollbackAssignments;
 use Anomaly\Streams\Platform\Database\Migration\Command\RollbackFields;
 use Anomaly\Streams\Platform\Database\Migration\Command\RollbackStream;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class Migration
@@ -22,7 +22,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 abstract class Migration extends \Illuminate\Database\Migrations\Migration
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The stream namespace.

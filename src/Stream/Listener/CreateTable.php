@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasCreated;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class CreateTable
@@ -15,7 +15,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class CreateTable
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * When a stream is created we have some

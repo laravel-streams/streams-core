@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 
 /**
@@ -17,7 +17,7 @@ use Illuminate\Support\Collection;
 class EloquentTableRepository implements TableRepositoryInterface
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The repository model.

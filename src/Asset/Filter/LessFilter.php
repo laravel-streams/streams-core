@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Asset\Command\LoadThemeVariables;
 use Anomaly\Streams\Platform\Support\Collection;
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\LessphpFilter;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class LessFilter
@@ -18,7 +18,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class LessFilter extends LessphpFilter
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The asset parser utility.

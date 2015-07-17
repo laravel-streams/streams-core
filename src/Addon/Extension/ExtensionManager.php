@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Extension\Command\InstallExtension;
 use Anomaly\Streams\Platform\Addon\Extension\Command\UninstallExtension;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class ExtensionManager
@@ -15,7 +15,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class ExtensionManager
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Install a module.

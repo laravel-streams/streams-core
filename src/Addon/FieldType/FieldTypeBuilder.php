@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class FieldTypeBuilder
@@ -14,7 +14,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class FieldTypeBuilder
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Build a field type.

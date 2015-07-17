@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Ui\Grid\Contract\GridRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Grid\Event\GridIsQuerying;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 
 /**
@@ -17,7 +17,7 @@ use Illuminate\Support\Collection;
 class EloquentGridRepository implements GridRepositoryInterface
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The repository model.

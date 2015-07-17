@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class LoadTree
@@ -18,7 +18,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class LoadTree implements SelfHandling
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The tree builder.

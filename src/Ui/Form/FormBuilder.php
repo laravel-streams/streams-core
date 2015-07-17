@@ -16,7 +16,7 @@ use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -31,7 +31,7 @@ use Symfony\Component\HttpFoundation\Response;
 class FormBuilder
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
     use FiresCallbacks;
 
     /**

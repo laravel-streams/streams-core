@@ -3,9 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Foundation\Bus\DispatchesCommands;
 
 /**
  * Class FieldType
@@ -17,9 +15,6 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
  */
 class FieldType extends Addon
 {
-
-    use FiresCallbacks;
-    use DispatchesCommands;
 
     /**
      * The disabled flag.

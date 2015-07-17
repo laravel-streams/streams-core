@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
 use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
 use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
 use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,7 +29,7 @@ use Illuminate\Support\ServiceProvider;
 class StreamsServiceProvider extends ServiceProvider
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Boot the service provider.

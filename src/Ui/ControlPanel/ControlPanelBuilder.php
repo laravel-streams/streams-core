@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Command\BuildControlPanel;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class ControlPanelBuilder
@@ -14,7 +14,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class ControlPanelBuilder
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The section buttons.

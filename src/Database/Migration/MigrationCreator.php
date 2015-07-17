@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameToClass;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class MigrationCreator
@@ -14,7 +14,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Get the path to the stubs.

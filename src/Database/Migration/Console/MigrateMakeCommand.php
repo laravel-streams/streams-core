@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Database\Migration\Command\CreateAddonMigrationFolder;
 use Anomaly\Streams\Platform\Database\Migration\Command\GetMigrationName;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputOption;
 class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\MigrateMakeCommand
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Execute the console command.

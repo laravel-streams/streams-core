@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class Application
@@ -13,7 +13,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class Application
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Keep installed status around.

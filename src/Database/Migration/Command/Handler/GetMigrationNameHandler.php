@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Database\Migration\Command\GetMigrationName;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class GetMigrationNameHandler
@@ -15,7 +15,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class GetMigrationNameHandler
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The addon collection.

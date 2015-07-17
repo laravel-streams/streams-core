@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
 use Anomaly\Streams\Platform\Field\Form\Command\GetConfigFields;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class FieldFormFields
@@ -14,7 +14,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class FieldFormFields
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Handle the command.

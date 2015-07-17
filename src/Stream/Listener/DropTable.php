@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class DropTable
@@ -15,7 +15,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class DropTable
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * When a stream is deleted we need to

@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Module\Command\InstallModule;
 use Anomaly\Streams\Platform\Addon\Module\Command\UninstallModule;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class ModuleManager
@@ -15,7 +15,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class ModuleManager
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Install a module.

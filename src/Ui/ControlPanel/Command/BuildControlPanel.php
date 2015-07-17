@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command\BuildSect
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command\SetActiveSection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class BuildControlPanel
@@ -18,7 +18,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class BuildControlPanel implements SelfHandling
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The builder object.

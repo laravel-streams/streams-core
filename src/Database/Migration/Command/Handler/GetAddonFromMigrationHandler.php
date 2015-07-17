@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\Command\GetAddonByNamespace;
 use Anomaly\Streams\Platform\Database\Migration\Command\GetAddonFromMigration;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class GetAddonFromMigrationHandler
@@ -16,7 +16,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class GetAddonFromMigrationHandler
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Handle the command.

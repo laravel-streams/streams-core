@@ -5,7 +5,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class EloquentModel
@@ -18,7 +18,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class EloquentModel extends Model implements Arrayable
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Disable timestamps for this model.

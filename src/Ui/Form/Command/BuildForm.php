@@ -7,7 +7,7 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\BuildFields;
 use Anomaly\Streams\Platform\Ui\Form\Component\Section\Command\BuildSections;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class BuildForm
@@ -20,7 +20,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class BuildForm implements SelfHandling
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The form builder.

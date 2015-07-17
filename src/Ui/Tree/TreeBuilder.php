@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Tree\Command\PostTree;
 use Anomaly\Streams\Platform\Ui\Tree\Command\SetTreeResponse;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
 use Anomaly\Streams\Platform\Ui\Tree\Contract\TreeRepositoryInterface;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
@@ -27,7 +27,7 @@ class TreeBuilder
 {
 
     use FiresCallbacks;
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The tree model.

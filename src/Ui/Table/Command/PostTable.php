@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\ExecuteAction;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
 
@@ -19,7 +19,7 @@ use Illuminate\Routing\ResponseFactory;
 class PostTable implements SelfHandling
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The table builder.
