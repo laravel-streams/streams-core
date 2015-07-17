@@ -174,6 +174,16 @@ class FieldModel extends EloquentModel implements FieldInterface
     }
 
     /**
+     * Get the validators.
+     *
+     * @return mixed
+     */
+    public function getValidators()
+    {
+        return $this->validators;
+    }
+
+    /**
      * Get the related assignments.
      *
      * @return AssignmentCollection
@@ -257,6 +267,29 @@ class FieldModel extends EloquentModel implements FieldInterface
     public function getRulesAttribute($rules)
     {
         return (array)unserialize($rules);
+    }
+
+    /**
+     * Serialize the validators attribute
+     * before setting to the model.
+     *
+     * @param $rules
+     */
+    public function setValidatorsAttribute($validators)
+    {
+        $this->attributes['validators'] = serialize((array)$validators);
+    }
+
+    /**
+     * Unserialize the validators attribute
+     * after getting from the model.
+     *
+     * @param  $validators
+     * @return mixed
+     */
+    public function getValidatorsAttribute($validators)
+    {
+        return (array)unserialize($validators);
     }
 
     /**
