@@ -1,7 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use TwigBridge\Bridge;
+
 /**
  * Class String
+ *
+ * @method render
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +18,7 @@ class String
     /**
      * The twig instance.[
      *
-     * @var \Illuminate\Foundation\Application|mixed
+     * @var Bridge
      */
     protected $twig;
 
