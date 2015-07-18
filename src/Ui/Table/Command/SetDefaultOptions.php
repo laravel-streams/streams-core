@@ -126,13 +126,5 @@ class SetDefaultOptions implements SelfHandling
         if ($orderBy = $this->builder->getRequestValue('order_by')) {
             $table->setOption('order_by', [$orderBy => $this->builder->getRequestValue('sort', 'asc')]);
         }
-
-        /**
-         * If we're using a multiple table builder we need
-         * to set a different table_view if none is set.
-         */
-        if ($this->builder instanceof MultipleTableBuilder && !$table->getOption('table_view')) {
-            //$table->setOption('table_view', 'streams::table/multiple');
-        }
     }
 }
