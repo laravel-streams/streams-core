@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 /**
  * Class AddonCollection
  *
- * @method ExtensionCollection extensions()
+ * @method ExtensionCollection extensions();
  * @method FieldTypeCollection fieldTypes();
  * @method ModuleCollection modules();
  * @method PluginCollection plugins();

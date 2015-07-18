@@ -59,7 +59,6 @@ class ActionExecutor
     /**
      * Create a new ActionExecutor instance.
      *
-     * @param Guard            $guard
      * @param Request          $request
      * @param MessageBag       $messages
      * @param Authorizer       $authorizer
@@ -67,7 +66,6 @@ class ActionExecutor
      * @param ModuleCollection $modules
      */
     public function __construct(
-        Guard $guard,
         Request $request,
         MessageBag $messages,
         Authorizer $authorizer,
