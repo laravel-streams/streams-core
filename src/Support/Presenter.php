@@ -23,8 +23,13 @@ abstract class Presenter extends \Robbo\Presenter\Presenter
             return $this->$method();
         }
 
-        // Check the object for a method.
-        if (method_exists($this->object, camel_case($var))) {
+        // Check the presenter for a getter.
+        if (method_exists($this, camel_case('get_' . $var))) {
+            return call_user_func_array([$this, camel_case('get_' . $var)], []);
+        }
+
+        // Check the presenter for a method.
+        if (method_exists($this, camel_case($var))) {
             return call_user_func_array([$this->object, camel_case($var)], []);
         }
 
@@ -38,23 +43,29 @@ abstract class Presenter extends \Robbo\Presenter\Presenter
             return call_user_func_array([$this->object, camel_case('is_' . $var)], []);
         }
 
-        // Check the presenter for a method.
-        if (method_exists($this, camel_case($var))) {
+        // Check the object for a method.
+        if (method_exists($this->object, camel_case($var))) {
             return call_user_func_array([$this->object, camel_case($var)], []);
         }
 
-        // Check the presenter for a getter.
-        if (method_exists($this, camel_case('get_' . $var))) {
-            return call_user_func_array([$this, camel_case('get_' . $var)], []);
-        }
-
         try {
+            // Lastly try generic property access.
             return $this->__getDecorator()->decorate(
                 is_array($this->object) ? $this->object[$var] : $this->object->$var
             );
         } catch (\Exception $e) {
             // Don't do anything.
         }
+    }
+
+    /**
+     * Get the object.
+     *
+     * @return mixed
+     */
+    public function getObject()
+    {
+        return $this->object;
     }
 
     /**
