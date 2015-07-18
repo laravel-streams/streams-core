@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Agent;
 
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
-use Jenssegers\Agent\Agent;
 use Mobile_Detect;
 
 /**
