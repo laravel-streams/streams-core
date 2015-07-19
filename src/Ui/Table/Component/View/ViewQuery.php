@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewHandlerInterface;
-use Anomaly\Streams\Platform\Ui\Table\Table;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewQueryInterface;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -16,32 +18,51 @@ class ViewQuery
 {
 
     /**
-     * Modify the table's query using the views.
+     * The service container.
      *
-     * @param Table   $table
-     * @param Builder $query
-     * @param         $handler
-     * @throws \Exception
-     * @return mixed
+     * @var Container
      */
-    public function filter(Table $table, Builder $query, $handler)
+    protected $container;
+
+    /**
+     * Create a new ViewQuery instance.
+     *
+     * @param Container $container
+     */
+    public function __construct(Container $container)
     {
+        $this->container = $container;
+    }
+
+    /**
+     * Handle the view query.
+     *
+     * @param TableBuilder  $builder
+     * @param Builder       $query
+     * @param ViewInterface $view
+     * @return mixed
+     * @throws \Exception
+     */
+    public function handle(TableBuilder $builder, Builder $query, ViewInterface $view)
+    {
+        if (!$handler = $view->getQuery()) {
+            return;
+        }
+
         /**
          * If the handler is a callable string or Closure
          * then call it using the IoC container.
          */
         if (is_string($handler) || $handler instanceof \Closure) {
-            return app()->call($handler, compact('table', 'query'));
+            $this->container->call($handler, compact('builder', 'query'));
         }
 
         /**
-         * If the handle is an instance of ViewHandlerInterface
+         * If the handle is an instance of ViewQueryInterface
          * simply call the handle method on it.
          */
-        if ($handler instanceof ViewHandlerInterface) {
-            return $handler->handle($table, $query);
+        if ($handler instanceof ViewQueryInterface) {
+            $handler->handle($builder, $query);
         }
-
-        throw new \Exception('View $handler must be a callable string, Closure or ViewHandlerInterface.');
     }
 }

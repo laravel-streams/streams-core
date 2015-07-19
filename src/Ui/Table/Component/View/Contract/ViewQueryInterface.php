@@ -1,22 +1,24 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Contract;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Interface ViewHandlerInterface
+ * Interface ViewQueryInterface
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\View\Contract
  */
-interface ViewHandlerInterface
+interface ViewQueryInterface
 {
 
     /**
-     * Handle the view's table modification.
+     * Handle the TableQueryEvent.
      *
      * @param TableBuilder $builder
+     * @param Builder      $query
      */
-    public function handle(TableBuilder $builder);
+    public function handle(TableBuilder $builder, Builder $query);
 }

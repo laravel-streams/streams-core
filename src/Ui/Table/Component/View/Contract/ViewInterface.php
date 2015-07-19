@@ -42,6 +42,21 @@ interface ViewInterface
     public function getHandler();
 
     /**
+     * Get the query.
+     *
+     * @return callable|null|string
+     */
+    public function getQuery();
+
+    /**
+     * Set the query.
+     *
+     * @param $query
+     * @return $this
+     */
+    public function setQuery($query);
+
+    /**
      * Set the active flag.
      *
      * @param bool $active

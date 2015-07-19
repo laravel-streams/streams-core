@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Command;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Http\Request;
 
@@ -35,9 +37,10 @@ class SetActiveView implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param Request $request
+     * @param Request   $request
+     * @param Container $container
      */
-    public function handle(Request $request)
+    public function handle(Request $request, ViewHandler $handler)
     {
         $table   = $this->builder->getTable();
         $options = $table->getOptions();
@@ -55,19 +58,26 @@ class SetActiveView implements SelfHandling
             $view->setActive(true);
         }
 
+        // Nothing to do.
+        if (!$view) {
+            return;
+        }
+
         // Set columns from active view.
-        if ($view && ($columns = $view->getColumns()) !== null) {
+        if (($columns = $view->getColumns()) !== null) {
             $this->builder->setColumns($columns);
         }
 
         // Set buttons from active view.
-        if ($view && ($buttons = $view->getButtons()) !== null) {
+        if (($buttons = $view->getButtons()) !== null) {
             $this->builder->setButtons($buttons);
         }
 
         // Set actions from active view.
-        if ($view && ($actions = $view->getActions()) !== null) {
+        if (($actions = $view->getActions()) !== null) {
             $this->builder->setActions($actions);
         }
+
+        $handler->handle($this->builder, $view);
     }
 }

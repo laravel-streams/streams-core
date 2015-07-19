@@ -17,7 +17,7 @@ class ApplyView
     /**
      * The view query.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\Component\View\ViewQuery
+     * @var ViewQuery
      */
     protected $query;
 
@@ -38,14 +38,11 @@ class ApplyView
      */
     public function handle(TableIsQuerying $event)
     {
-        $query   = $event->getQuery();
         $builder = $event->getBuilder();
-        $table   = $builder->getTable();
-
-        $views = $table->getViews();
+        $views   = $builder->getTableViews();
 
         if ($view = $views->active()) {
-            $this->query->filter($table, $query, $view->getHandler());
+            $this->query->handle($event->getBuilder(), $event->getQuery(), $view);
         }
     }
 }

@@ -489,6 +489,16 @@ class TableBuilder
     }
 
     /**
+     * Get the table views.
+     *
+     * @return Component\View\ViewCollection
+     */
+    public function getTableViews()
+    {
+        return $this->table->getViews();
+    }
+
+    /**
      * Add a row to the table.
      *
      * @param RowInterface $row
