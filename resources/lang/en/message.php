@@ -2,6 +2,7 @@
 
 return [
     '403'                 => 'Access denied.',
+    '429'                 => 'Too many requests.',
     '503'                 => 'Be right back.',
     '404'                 => 'Page not found.',
     '500'                 => 'There was an error.',

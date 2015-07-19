@@ -36,6 +36,10 @@ class ValidateForm implements SelfHandling
      */
     public function handle()
     {
+        if (!$this->builder->canSave()) {
+            return;
+        }
+
         $form = $this->builder->getForm();
 
         $validator = $form->getOption('validator');

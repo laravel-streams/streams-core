@@ -42,7 +42,9 @@ class EloquentModel extends Model implements Arrayable
     protected $cacheMinutes = false;
 
     /**
-     * The attributes that are not mass assignable
+     * The attributes that are
+     * not mass assignable. Let upper
+     * models handle this themselves.
      *
      * @var array
      */
