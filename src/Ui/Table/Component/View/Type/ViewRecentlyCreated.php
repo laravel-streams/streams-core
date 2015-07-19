@@ -14,10 +14,10 @@ class ViewRecentlyCreated extends View
 {
 
     /**
-     * The view handler.
+     * The view query.
      *
-     * @var mixed
+     * @var string
      */
-    protected $handler = 'Anomaly\Streams\Platform\Ui\Table\Component\View\Type\ViewRecentlyCreatedHandler@handle';
+    protected $query = 'Anomaly\Streams\Platform\Ui\Table\Component\View\Type\ViewRecentlyCreatedHandler@handle';
 
 }

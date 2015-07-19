@@ -14,10 +14,10 @@ class ViewAll extends View
 {
 
     /**
-     * The view handler.
+     * The view query.
      *
-     * @var mixed
+     * @var string
      */
-    protected $handler = 'Anomaly\Streams\Platform\Ui\Table\Component\View\Type\ViewAllHandler@handle';
+    protected $query = 'Anomaly\Streams\Platform\Ui\Table\Component\View\Type\ViewAllQuery@handle';
 
 }
