@@ -49,6 +49,15 @@ class FieldPopulator
             }
 
             /**
+             * If the field has a default value
+             * and there is no entry then
+             * use the default value.
+             */
+            if (isset($field['config']['default_value']) && !$entry) {
+                $field['value'] = $field['config']['default_value'];
+            }
+
+            /**
              * If the field is an assignment then
              * use it's config for the default value.
              */

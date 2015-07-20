@@ -720,6 +720,20 @@ class FormBuilder
     }
 
     /**
+     * Set a form value.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function setFormValue($key, $value)
+    {
+        $this->form->setValue($key, $value);
+
+        return $this;
+    }
+
+    /**
      * Get the form values.
      *
      * @return \Anomaly\Streams\Platform\Support\Collection
