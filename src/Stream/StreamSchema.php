@@ -65,16 +65,16 @@ class StreamSchema
      * @param $table
      * @param $foreignKey
      */
-    public function createTranslationsTable($table, $foreignKey)
+    public function createTranslationsTable($table)
     {
         $this->schema->dropIfExists($table);
 
         $this->schema->create(
             $table,
-            function (Blueprint $table) use ($foreignKey) {
+            function (Blueprint $table) {
 
                 $table->increments('id');
-                $table->integer($foreignKey);
+                $table->integer('entry_id');
                 $table->datetime('created_at');
                 $table->integer('created_by')->nullable();
                 $table->datetime('updated_at')->nullable();

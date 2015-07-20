@@ -46,9 +46,7 @@ class CreateStreamsEntryTableHandler
 
             $table = $stream->getEntryTranslationsTableName();
 
-            $foreignKey = $stream->getForeignKey();
-
-            $this->schema->createTranslationsTable($table, $foreignKey);
+            $this->schema->createTranslationsTable($table);
         }
     }
 }
