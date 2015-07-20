@@ -89,6 +89,16 @@ class Addon implements PresentableInterface, Arrayable
     }
 
     /**
+     * Get the addon title string.
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return trans()->has($this->getNamespace('addon.title')) ? $this->getNamespace('addon.title') : $this->getName();
+    }
+
+    /**
      * Get the addon description string.
      *
      * @return string
