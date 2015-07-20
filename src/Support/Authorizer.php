@@ -86,7 +86,14 @@ class Authorizer
              * Check vendor.module.slug::group.*
              * then check vendor.module.slug::*
              */
-            if (str_is('*.*.*::*.*', $permission)) {
+            if (str_is('*.*.*::*.*.*', $permission)) {
+
+                $end = trim(substr($permission, strpos($permission, '::') + 2), '.*');
+
+                if (!$this->config->get($addon . '::permissions.' . $end)) {
+                    return true;
+                }
+            } elseif (str_is('*.*.*::*.*', $permission)) {
 
                 $end = trim(substr($permission, strpos($permission, '::') + 2), '.*');
 
@@ -94,7 +101,7 @@ class Authorizer
                     return true;
                 }
             } else {
-                if (!$this->config->get(substr($permission, strpos($permission, '::')) . '::permissions')) {
+                if (!$this->config->get($addon . '::permissions')) {
                     return true;
                 }
             }
