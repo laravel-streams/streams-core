@@ -47,7 +47,7 @@ class FilterResults
 
         foreach ($filters->active() as $filter) {
             if ($filter instanceof FilterInterface) {
-                $this->query->filter($builder, $query, $filter);
+                $this->query->filter($builder, $filter, $query);
             }
         }
     }

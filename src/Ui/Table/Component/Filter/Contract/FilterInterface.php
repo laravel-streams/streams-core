@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract;
 
+use Closure;
+
 /**
  * Interface FilterInterface
  *
@@ -12,19 +14,19 @@ interface FilterInterface
 {
 
     /**
-     * Set the filter handler.
+     * Set the filter query.
      *
      * @param $handler
      * @return $this
      */
-    public function setHandler($handler);
+    public function setQuery($query);
 
     /**
-     * Get the filter handler.
+     * Get the filter query.
      *
-     * @return mixed
+     * @return string|Closure
      */
-    public function getHandler();
+    public function getQuery();
 
     /**
      * Get the filter input.

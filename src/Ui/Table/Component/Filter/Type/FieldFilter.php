@@ -16,11 +16,11 @@ class FieldFilter extends Filter implements FieldFilterInterface
 {
 
     /**
-     * The filter handler.
+     * The filter query.
      *
      * @var string
      */
-    protected $handler = 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Handler\FieldFilterHandler@handle';
+    protected $query = 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\FieldFilterQuery@handle';
 
     /**
      * The filter field.

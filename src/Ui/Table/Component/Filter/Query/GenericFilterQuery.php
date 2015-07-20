@@ -1,18 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Handler;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class FieldFilterHandler
+ * Class GenericFilterQuery
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter\Handler
  */
-class FieldFilterHandler
+class GenericFilterQuery
 {
 
     /**
@@ -21,14 +20,8 @@ class FieldFilterHandler
      * @param Builder         $query
      * @param FilterInterface $filter
      */
-    public function handle(Builder $query, FieldFilterInterface $filter)
+    public function handle(Builder $query, FilterInterface $filter)
     {
-        $stream = $filter->getStream();
-
-        $fieldType = $stream->getFieldType($filter->getField());
-
-        $fieldTypeQuery = $fieldType->getQuery();
-
-        $fieldTypeQuery->filter($query, $filter->getValue());
+        $query->where($filter->getSlug(), 'LIKE', "%{$filter->getValue()}%");
     }
 }

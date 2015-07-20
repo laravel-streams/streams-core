@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
+use Closure;
 
 /**
  * Class Filter
@@ -42,31 +43,31 @@ class Filter implements FilterInterface
     protected $placeholder = null;
 
     /**
-     * The filter handler.
+     * The filter query.
      *
-     * @var mixed
+     * @var string|Closure
      */
-    protected $handler = 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Handler\GenericFilterHandler@handle';
+    protected $query = 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery@handle';
 
     /**
-     * Get the filter handler.
+     * Get the filter query.
      *
-     * @return mixed
+     * @return string|Closure
      */
-    public function getHandler()
+    public function getQuery()
     {
-        return $this->handler;
+        return $this->query;
     }
 
     /**
-     * Set the filter handler.
+     * Set the filter query.
      *
-     * @param $handler
+     * @param $query
      * @return $this
      */
-    public function setHandler($handler)
+    public function setQuery($query)
     {
-        $this->handler = $handler;
+        $this->query = $query;
 
         return $this;
     }

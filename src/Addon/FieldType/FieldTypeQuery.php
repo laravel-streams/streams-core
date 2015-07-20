@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -37,9 +38,9 @@ class FieldTypeQuery
      * @param  Builder $query
      * @param          $value
      */
-    public function filter(Builder $query, $value)
+    public function filter(Builder $query, FilterInterface $filter)
     {
-        $query->where($this->fieldType->getColumnName(), 'LIKE', "%{$value}%");
+        $query->where($this->fieldType->getColumnName(), 'LIKE', "%" . $filter->getValue() . "%");
     }
 
     /**
