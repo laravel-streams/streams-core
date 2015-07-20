@@ -167,7 +167,7 @@ class FormBuilder
         $this->build($entry);
         $this->post();
 
-        if ($this->form->getResponse() === null) {
+        if ($this->getFormResponse() === null) {
             $this->dispatch(new LoadForm($this));
             $this->dispatch(new AddAssets($this));
             $this->dispatch(new MakeForm($this));
