@@ -72,7 +72,11 @@ class ButtonFactory
 
         $parameters = $this->translator->translate($parameters);
 
-        $button = app()->make(array_get($parameters, 'button', $this->button), $parameters);
+        if (!array_get($parameters, 'button') || !class_exists(array_get($parameters, 'button'))) {
+            array_set($parameters, 'button', $this->button);
+        }
+
+        $button = app()->make(array_get($parameters, 'button'), $parameters);
 
         $this->hydrator->hydrate($button, $parameters);
 

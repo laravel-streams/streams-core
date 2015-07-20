@@ -56,8 +56,12 @@ class ViewFactory
      */
     public function make(array $parameters)
     {
+        if (!class_exists(array_get($parameters, 'view'))) {
+            array_set($parameters, 'view', $this->view);
+        }
+
         $this->hydrator->hydrate(
-            $view = $this->container->make(array_get($parameters, 'view', $this->view), $parameters),
+            $view = $this->container->make(array_get($parameters, 'view'), $parameters),
             $parameters
         );
 
