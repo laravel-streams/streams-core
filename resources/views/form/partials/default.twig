@@ -4,6 +4,12 @@
         <div class="panel-heading">
             <h2 class="panel-title">
                 {{ trans(form.options.title) }}
+
+                {% if form.options.description %}
+                    <small class="clearfix">
+                        {{ trans(form.options.description)|raw }}
+                    </small>
+                {% endif %}
             </h2>
         </div>
     {% endif %}

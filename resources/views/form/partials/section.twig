@@ -4,6 +4,12 @@
         <div class="panel-heading">
             <h2 class="panel-title">
                 {{ trans(section.title) }}
+
+                {% if section.description %}
+                    <small class="clearfix">
+                        {{ trans(section.description)|raw }}
+                    </small>
+                {% endif %}
             </h2>
         </div>
     {% endif %}

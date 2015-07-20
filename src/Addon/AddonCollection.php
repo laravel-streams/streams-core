@@ -119,6 +119,26 @@ class AddonCollection extends Collection
     }
 
     /**
+     * Return addons only with the provided configuration.
+     *
+     * @param $key
+     * @return AddonCollection
+     */
+    public function withConfig($key)
+    {
+        $addons = [];
+
+        /* @var Addon $item */
+        foreach ($this->items as $item) {
+            if (config($item->getNamespace($key)) !== null) {
+                $addons[] = $item;
+            }
+        }
+
+        return self::make($addons);
+    }
+
+    /**
      * Call a method.
      *
      * @param $method
