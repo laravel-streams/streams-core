@@ -4,7 +4,7 @@
         data-field="{{ field_type.field }}">
 
     <label class="control-label">
-        {{ trans(field_type.label)|raw }}
+        {{ trans(field_type.object.label)|raw }}
 
         {% if field_type.required %}
             <span class="required">*</span>
