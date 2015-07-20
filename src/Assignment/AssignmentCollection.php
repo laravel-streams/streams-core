@@ -34,6 +34,26 @@ class AssignmentCollection extends EloquentCollection
     }
 
     /**
+     * Return assignments only included the provided fields.
+     *
+     * @param array $fields
+     * @return AssignmentCollection
+     */
+    public function withFields(array $fields)
+    {
+        return new static(
+            array_filter(
+                array_map(
+                    function (AssignmentInterface $assignment) use ($fields) {
+                        return in_array($assignment->getFieldSlug(), $fields) ? $assignment : null;
+                    },
+                    $this->items
+                )
+            )
+        );
+    }
+
+    /**
      * Return assignments not included the provided fields.
      *
      * @param array $fields
