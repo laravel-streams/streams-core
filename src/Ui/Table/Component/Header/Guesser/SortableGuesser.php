@@ -80,16 +80,18 @@ class SortableGuesser
              * then we don't have anything to base
              * our guess off of.
              */
-            if (!$type = $stream->getFieldType($field)) {
+            if (!$assignment = $stream->getAssignment($field)) {
                 continue;
             }
+
+            $type = $assignment->getFieldType();
 
             /**
              * If the field type has a database
              * column type then we can sort on it
              * by default!
              */
-            if ($type->getColumnType()) {
+            if ($type->getColumnType() && !$assignment->isTranslatable()) {
                 $column['sortable']    = true;
                 $column['sort_column'] = $type->getColumnName();
             } else {
