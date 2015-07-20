@@ -60,6 +60,13 @@ class ViewNormalizer
             }
 
             /**
+             * Make sure we have a view property.
+             */
+            if (is_array($view) && !isset($view['view'])) {
+                $view['view'] = $view['slug'];
+            }
+
+            /**
              * Make sure some default parameters exist.
              */
             $view['attributes'] = array_get($view, 'attributes', []);

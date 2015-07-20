@@ -76,6 +76,6 @@ class Evaluator
      */
     protected function isTraversable($target)
     {
-        return (!preg_match('/[^a-z.]/', $target));
+        return (!preg_match('/[^a-z._]/', $target));
     }
 }
