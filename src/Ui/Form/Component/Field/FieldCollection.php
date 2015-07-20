@@ -162,16 +162,6 @@ class FieldCollection extends Collection
     }
 
     /**
-     * Skip a field.
-     *
-     * @param $fieldSlug
-     */
-    public function skip($fieldSlug)
-    {
-        $this->forget($fieldSlug);
-    }
-
-    /**
      * Return non-SelfHandling fields.
      *
      * @return FieldCollection

@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
@@ -27,9 +28,14 @@ class FormRules
         $entry  = $builder->getFormEntry();
         $stream = $builder->getFormStream();
 
+        /* @var FieldType $field */
         foreach ($builder->getFormFields() as $field) {
 
             if ($field->isDisabled()) {
+                continue;
+            }
+
+            if (in_array($field->getField(), $builder->getSkips())) {
                 continue;
             }
 

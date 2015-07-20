@@ -42,7 +42,7 @@ class RemoveDisabledFields implements SelfHandling
         /* @var FieldType $field */
         foreach ($form->getFields() as $field) {
             if ($field->isDisabled()) {
-                $form->skipField($field->getField());
+                $form->removeField($field->getField());
             }
         }
     }

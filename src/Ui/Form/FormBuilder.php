@@ -394,7 +394,7 @@ class FormBuilder
      * @param $fieldSlug
      * @return $this
      */
-    public function addSkip($fieldSlug)
+    public function skipField($fieldSlug)
     {
         $this->skips[] = $fieldSlug;
 

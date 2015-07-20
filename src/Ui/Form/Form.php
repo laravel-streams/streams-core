@@ -508,6 +508,19 @@ class Form
     }
 
     /**
+     * Remove a field.
+     *
+     * @param $field
+     * @return $this
+     */
+    public function removeField($field)
+    {
+        $this->fields->forget($field);
+
+        return $this;
+    }
+
+    /**
      * Set the form views.
      *
      * @param Collection $fields
@@ -539,16 +552,6 @@ class Form
     public function getField($fieldSlug)
     {
         return $this->fields->get($fieldSlug);
-    }
-
-    /**
-     * Skip a field.
-     *
-     * @param $fieldSlug
-     */
-    public function skipField($fieldSlug)
-    {
-        $this->fields->skip($fieldSlug);
     }
 
     /**
