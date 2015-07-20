@@ -14,6 +14,20 @@ class ActionInput
 {
 
     /**
+     * The action lookup.
+     *
+     * @var ActionLookup
+     */
+    protected $lookup;
+
+    /**
+     * The action guesser.
+     *
+     * @var ActionGuesser
+     */
+    protected $guesser;
+
+    /**
      * The resolver utility.
      *
      * @var ActionResolver
@@ -44,17 +58,23 @@ class ActionInput
     /**
      * Create a new ActionInput instance.
      *
+     * @param ActionLookup     $lookup
+     * @param ActionGuesser    $guesser
      * @param ActionResolver   $resolver
      * @param ActionPredictor  $predictor
      * @param ActionEvaluator  $evaluator
      * @param ActionNormalizer $normalizer
      */
     public function __construct(
+        ActionLookup $lookup,
+        ActionGuesser $guesser,
         ActionResolver $resolver,
         ActionPredictor $predictor,
         ActionEvaluator $evaluator,
         ActionNormalizer $normalizer
     ) {
+        $this->lookup     = $lookup;
+        $this->guesser    = $guesser;
         $this->resolver   = $resolver;
         $this->predictor  = $predictor;
         $this->evaluator  = $evaluator;
@@ -73,5 +93,7 @@ class ActionInput
         $this->evaluator->evaluate($builder);
         $this->predictor->predict($builder);
         $this->normalizer->normalize($builder);
+        $this->lookup->merge($builder);
+        $this->guesser->guess($builder);
     }
 }

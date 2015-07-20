@@ -148,6 +148,10 @@ class ButtonRegistry
      */
     public function get($button)
     {
+        if (!$button) {
+            return null;
+        }
+
         return array_get($this->buttons, $button);
     }
 

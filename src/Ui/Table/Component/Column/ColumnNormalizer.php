@@ -27,12 +27,24 @@ class ColumnNormalizer
             /**
              * If the key is non-numerical then
              * use it as the header and use the
-             * column as the value.
+             * column as the column if it's a class.
              */
-            if (!is_numeric($key) && !is_array($column)) {
+            if (!is_numeric($key) && !is_array($column) && class_exists($column)) {
                 $column = [
                     'heading' => $key,
-                    'value'   => $column,
+                    'column'  => $column
+                ];
+            }
+
+            /**
+             * If the key is non-numerical then
+             * use it as the header and use the
+             * column as the value.
+             */
+            if (!is_numeric($key) && !is_array($column) && !class_exists($column)) {
+                $column = [
+                    'heading' => $key,
+                    'value'   => $column
                 ];
             }
 
@@ -42,7 +54,7 @@ class ColumnNormalizer
              */
             if (!is_array($column)) {
                 $column = [
-                    'value' => $column,
+                    'value' => $column
                 ];
             }
 

@@ -23,13 +23,6 @@ class ViewFactory
     protected $view = 'Anomaly\Streams\Platform\Ui\Table\Component\View\View';
 
     /**
-     * The view registry.
-     *
-     * @var ViewRegistry
-     */
-    protected $views;
-
-    /**
      * The hydrator utility.
      *
      * @var Hydrator
@@ -46,13 +39,11 @@ class ViewFactory
     /**
      * Create a new ViewFactory instance.
      *
-     * @param ViewRegistry $views
-     * @param Hydrator     $hydrator
-     * @param Container    $container
+     * @param Hydrator  $hydrator
+     * @param Container $container
      */
-    public function __construct(ViewRegistry $views, Hydrator $hydrator, Container $container)
+    public function __construct(Hydrator $hydrator, Container $container)
     {
-        $this->views     = $views;
         $this->hydrator  = $hydrator;
         $this->container = $container;
     }
@@ -65,17 +56,10 @@ class ViewFactory
      */
     public function make(array $parameters)
     {
-        if ($view = $this->views->get(array_get($parameters, 'view'))) {
-            $parameters = array_replace_recursive($view, array_except($parameters, 'view'));
-        }
-
-        if (!class_exists(array_get($parameters, 'view'))) {
-            $parameters['view'] = $this->view;
-        }
-
-        $view = $this->container->make(array_get($parameters, 'view'), $parameters);
-
-        $this->hydrator->hydrate($view, $parameters);
+        $this->hydrator->hydrate(
+            $view = $this->container->make(array_get($parameters, 'view', $this->view), $parameters),
+            $parameters
+        );
 
         return $view;
     }

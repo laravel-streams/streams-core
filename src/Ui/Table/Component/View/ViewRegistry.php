@@ -33,10 +33,14 @@ class ViewRegistry
      * Get a view.
      *
      * @param  $view
-     * @return mixed
+     * @return null|array
      */
     public function get($view)
     {
+        if (!$view) {
+            return null;
+        }
+
         return array_get($this->views, $view);
     }
 

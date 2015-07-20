@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Guesser;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -9,7 +9,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\View\Guesser
+ * @package       Anomaly\Streams\Platform\Ui\Table\Component\Button\Guesser
  */
 class TextGuesser
 {
@@ -32,26 +32,26 @@ class TextGuesser
     }
 
     /**
-     * Guess the text for the views.
+     * Guess the text for a button.
      *
      * @param TableBuilder $builder
      */
     public function guess(TableBuilder $builder)
     {
+        $buttons = $builder->getButtons();
+
         if (!$module = $this->modules->active()) {
             return;
         }
 
-        $views = $builder->getViews();
+        foreach ($buttons as $key => &$button) {
 
-        foreach ($views as &$view) {
-
-            // Only automate it if not set.
-            if (!isset($view['text'])) {
-                $view['text'] = $module->getNamespace('view.' . $view['slug']);
+            // Skip if set already.
+            if (!isset($button['text']) && !is_numeric($key)) {
+                $button['text'] = $module->getNamespace('button.' . $key);
             }
         }
 
-        $builder->setViews($views);
+        $builder->setButtons($buttons);
     }
 }

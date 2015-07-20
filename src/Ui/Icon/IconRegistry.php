@@ -75,6 +75,7 @@ class IconRegistry
         'options'              => 'fa fa-options',
         'refresh'              => 'fa fa-refresh',
         'warning'              => 'fa fa-warning',
+        'unlock'               => 'fa fa-unlock',
         'repeat'               => 'fa fa-repeat',
         'laptop'               => 'fa fa-laptop',
         'upload'               => 'fa fa-upload',
@@ -88,6 +89,8 @@ class IconRegistry
         'trash'                => 'fa fa-trash',
         'check'                => 'fa fa-check',
         'cubes'                => 'fa fa-cubes',
+        'locked'               => 'fa fa-lock',
+        'lock'                 => 'fa fa-lock',
         'film'                 => 'fa fa-film',
         'star'                 => 'fa fa-star',
         'code'                 => 'fa fa-code',
@@ -97,7 +100,8 @@ class IconRegistry
         'cogs'                 => 'fa fa-cogs',
         'cog'                  => 'fa fa-cog',
         'rss'                  => 'fa fa-rss',
-        'tag'                  => 'fa fa-tag'
+        'tag'                  => 'fa fa-tag',
+        'ban'                  => 'fa fa-ban'
     ];
 
     /**
