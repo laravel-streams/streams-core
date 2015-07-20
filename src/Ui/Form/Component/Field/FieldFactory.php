@@ -72,7 +72,9 @@ class FieldFactory
             $value = array_pull($parameters, 'value');
 
             /* @var EntryInterface $entry */
-            $field->setValue($value ? $modifier->restore($value) : $entry->getFieldValue($field->getField()));
+            $field->setValue(
+                (!is_null($value)) ? $modifier->restore($value) : $entry->getFieldValue($field->getField())
+            );
         } elseif (is_object($entry)) {
 
             $field    = $this->builder->build($parameters);
@@ -80,7 +82,7 @@ class FieldFactory
 
             $value = array_pull($parameters, 'value');
 
-            $field->setValue($value ? $modifier->restore($value) : $entry->{$field->getField()});
+            $field->setValue((!is_null($value)) ? $modifier->restore($value) : $entry->{$field->getField()});
         } else {
 
             $field    = $this->builder->build($parameters);
