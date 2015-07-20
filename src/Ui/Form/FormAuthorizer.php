@@ -68,7 +68,7 @@ class FormAuthorizer
             $entry = $builder->getFormEntry();
 
             if ($entry instanceof EntryInterface) {
-                $permission = $module->getNamespace($stream->getSlug() . '.' . ($entry->getId() ? 'edit' : 'create'));
+                $permission = $module->getNamespace($stream->getSlug() . '.write');
             }
         }
 

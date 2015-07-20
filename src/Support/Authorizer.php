@@ -90,19 +90,41 @@ class Authorizer
 
                 $end = trim(substr($permission, strpos($permission, '::') + 2), '.*');
 
-                if (!$this->config->get($addon . '::permissions.' . $end)) {
+                if (!$permissions = $this->config->get($addon . '::permissions.' . $end)) {
                     return true;
+                } else {
+                    return $user->hasAnyPermission($permissions);
                 }
             } elseif (str_is('*.*.*::*.*', $permission)) {
 
                 $end = trim(substr($permission, strpos($permission, '::') + 2), '.*');
 
-                if (!$this->config->get($addon . '::permissions.' . $end)) {
+                if (!$permissions = $this->config->get($addon . '::permissions.' . $end)) {
                     return true;
+                } else {
+
+                    $check = [];
+
+                    foreach ($permissions as &$permission) {
+                        $check[] = $addon . '::' . $end . '.' . $permission;
+                    }
+
+                    return $user->hasAnyPermission($check);
                 }
             } else {
-                if (!$this->config->get($addon . '::permissions')) {
+                if (!$permissions = $this->config->get($addon . '::permissions')) {
                     return true;
+                } else {
+
+                    $check = [];
+
+                    foreach ($permissions as $group => &$permission) {
+                        foreach ($permission as $access) {
+                            $check[] = $addon . '::' . $group . '.' . $access;
+                        }
+                    }
+
+                    return $user->hasAnyPermission($check);
                 }
             }
         } else {
