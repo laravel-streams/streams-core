@@ -107,6 +107,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         if ($assignment->isTranslatable()) {
             $entry = $this->translateOrDefault($locale);
+            dd($entry);
         } else {
             $entry = $this;
         }

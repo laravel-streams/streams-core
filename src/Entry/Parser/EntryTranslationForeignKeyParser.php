@@ -25,6 +25,6 @@ class EntryTranslationForeignKeyParser
             return null;
         }
 
-        return 'protected $translationForeignKey = \'' . str_singular($stream->getSlug()) . '_id' . '\';';
+        return 'protected $translationForeignKey = \'entry_id\';';
     }
 }

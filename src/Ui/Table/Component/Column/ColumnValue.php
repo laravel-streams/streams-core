@@ -84,6 +84,7 @@ class ColumnValue
                 $value = $entry->{camel_case($value)}->getTitle();
             } else {
                 $value = $entry->getFieldValue($value);
+                dd($value);
             }
         }
 
