@@ -21,6 +21,13 @@ class ActionInput
     protected $parser;
 
     /**
+     * The action lookup.
+     *
+     * @var ActionLookup
+     */
+    protected $lookup;
+
+    /**
      * The action guesser.
      *
      * @var ActionGuesser
@@ -59,6 +66,7 @@ class ActionInput
      * Create an ActionInput instance.
      *
      * @param ActionParser     $parser
+     * @param ActionLookup     $lookup
      * @param ActionGuesser    $guesser
      * @param ActionResolver   $resolver
      * @param ActionDefaults   $defaults
@@ -67,6 +75,7 @@ class ActionInput
      */
     function __construct(
         ActionParser $parser,
+        ActionLookup $lookup,
         ActionGuesser $guesser,
         ActionResolver $resolver,
         ActionDefaults $defaults,
@@ -74,6 +83,7 @@ class ActionInput
         ActionNormalizer $normalizer
     ) {
         $this->parser     = $parser;
+        $this->lookup     = $lookup;
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
         $this->defaults   = $defaults;
@@ -92,6 +102,7 @@ class ActionInput
         $this->defaults->defaults($builder);
         $this->predictor->predict($builder);
         $this->normalizer->normalize($builder);
+        $this->lookup->merge($builder);
         $this->guesser->guess($builder);
         $this->parser->parse($builder);
     }

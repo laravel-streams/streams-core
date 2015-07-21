@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
-use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 
 /**
@@ -23,20 +22,6 @@ class ActionFactory
     protected $action = 'Anomaly\Streams\Platform\Ui\Form\Component\Action\Action';
 
     /**
-     * The action registry.
-     *
-     * @var ActionRegistry
-     */
-    protected $actions;
-
-    /**
-     * The button registry.
-     *
-     * @var ButtonRegistry
-     */
-    protected $buttons;
-
-    /**
      * The hydrator utility.
      *
      * @var Hydrator
@@ -46,14 +31,10 @@ class ActionFactory
     /**
      * Create a new ActionFactory instance.
      *
-     * @param ActionRegistry $actions
-     * @param ButtonRegistry $buttons
-     * @param Hydrator       $hydrator
+     * @param Hydrator $hydrator
      */
-    function __construct(ActionRegistry $actions, ButtonRegistry $buttons, Hydrator $hydrator)
+    function __construct(Hydrator $hydrator)
     {
-        $this->actions  = $actions;
-        $this->buttons  = $buttons;
         $this->hydrator = $hydrator;
     }
 
@@ -65,18 +46,6 @@ class ActionFactory
      */
     public function make(array $parameters)
     {
-        $action = $original = array_pull($parameters, 'action');
-
-        if ($action && $action = $this->actions->get($action)) {
-            $parameters = array_replace_recursive($action, array_except($parameters, 'action'));
-        }
-
-        $button = array_get($parameters, 'button', $original);
-
-        if ($button && $button = $this->buttons->get($button)) {
-            $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
-        }
-
         $action = app()->make(array_get($parameters, 'action', $this->action), $parameters);
 
         $this->hydrator->hydrate($action, $parameters);
