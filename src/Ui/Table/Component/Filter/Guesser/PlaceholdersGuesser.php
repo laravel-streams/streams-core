@@ -39,14 +39,15 @@ class PlaceholdersGuesser
             if ($assignment = $stream->getAssignment($filter['field'])) {
 
                 /**
-                 * If the placeholder exists then use
-                 * it otherwise use the field name.
+                 * Always use the field name
+                 * as the placeholder. Placeholders
+                 * that are assigned otherwise usually
+                 * feel out of context:
+                 *
+                 * "Choose an option..." in the filter
+                 * would just be weird.
                  */
-                if (trans()->has($placeholder = $assignment->getPlaceholder())) {
-                    $filter['placeholder'] = $placeholder;
-                } else {
-                    $filter['placeholder'] = $assignment->getFieldName();
-                }
+                $filter['placeholder'] = $assignment->getFieldName();
             }
         }
 
