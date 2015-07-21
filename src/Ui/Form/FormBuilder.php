@@ -809,6 +809,30 @@ class FormBuilder
     }
 
     /**
+     * Get the form field slugs.
+     *
+     * @return Array
+     */
+    public function getFormFieldSlugs()
+    {
+        $fields = $this->form->getFields();
+
+        return $fields->lists('field')->all();
+    }
+
+    /**
+     * Get the form field names.
+     *
+     * @return Array
+     */
+    public function getFormFieldNames()
+    {
+        $fields = $this->form->getFields();
+
+        return $fields->lists('field_name')->all();
+    }
+
+    /**
      * Add a form field.
      *
      * @param FieldType $field
