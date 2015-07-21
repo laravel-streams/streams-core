@@ -666,6 +666,17 @@ class FieldType extends Addon
     }
 
     /**
+     * Get the field name. This is the field
+     * with the leading form suffix.
+     *
+     * @return string
+     */
+    public function getFieldName()
+    {
+        return "{$this->getPrefix()}{$this->getField()}";
+    }
+
+    /**
      * Get the column name.
      *
      * @return string

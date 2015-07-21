@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Multiple;
 
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormCollection;
@@ -114,5 +115,29 @@ class MultipleFormBuilder extends FormBuilder
         );
 
         return $this;
+    }
+
+    /**
+     * Get a child form.
+     *
+     * @param $key
+     * @return FormBuilder
+     */
+    public function getChildForm($key)
+    {
+        return $this->forms->get($key);
+    }
+
+    /**
+     * Get the stream of a child form.
+     *
+     * @param $key
+     * @return StreamInterface|null
+     */
+    public function getChildFormStream($key)
+    {
+        $builder = $this->getChildForm($key);
+
+        return $builder->getFormStream();
     }
 }
