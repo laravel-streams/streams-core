@@ -36,6 +36,10 @@ class HandleForm implements SelfHandling
      */
     public function handle()
     {
+        if ($this->builder->hasFormErrors()) {
+            return;
+        }
+
         app()->call($this->builder->getHandler(), ['builder' => $this->builder]);
     }
 }
