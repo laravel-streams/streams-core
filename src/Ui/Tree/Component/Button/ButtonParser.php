@@ -36,9 +36,8 @@ class ButtonParser
      *
      * @param array $button
      * @param       $entry
-     * @return mixed
      */
-    public function parser(array $button, $entry)
+    public function parse(array $button, $entry)
     {
         /* @var Arrayable $entry */
         $entry = $entry->toArray();

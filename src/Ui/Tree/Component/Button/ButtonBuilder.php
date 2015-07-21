@@ -82,7 +82,7 @@ class ButtonBuilder
             }
 
             $button = $this->evaluator->evaluate($button, compact('entry', 'tree'));
-            $button = $this->parser->parser($button, $entry);
+            $button = $this->parser->parse($button, $entry);
 
             $button = $this->factory->make($button);
 

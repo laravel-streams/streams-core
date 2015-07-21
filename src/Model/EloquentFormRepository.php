@@ -87,7 +87,7 @@ class EloquentFormRepository implements FormRepositoryInterface
          * entry, minus undesired data.
          */
         $data = array_diff_key(
-            $entry->toArray(),
+            $entry->getUnguardedAttributes(),
             ['id', 'created_at', 'created_by', 'updated_at', 'updated_by']
         );
 

@@ -37,11 +37,11 @@ class ButtonInput
     /**
      * Create a new ButtonInput instance.
      *
-     * @param ButtonResolver   $resolver
      * @param ButtonGuesser    $guesser
+     * @param ButtonResolver   $resolver
      * @param ButtonNormalizer $normalizer
      */
-    public function __construct(ButtonResolver $resolver, ButtonGuesser $guesser, ButtonNormalizer $normalizer)
+    public function __construct(ButtonGuesser $guesser, ButtonResolver $resolver, ButtonNormalizer $normalizer)
     {
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
