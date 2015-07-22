@@ -4,6 +4,7 @@ use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
+use Phive\Twig\Extensions\Deferred\DeferredExtension;
 use TwigBridge\Bridge;
 
 /**
@@ -25,6 +26,7 @@ class AddTwigExtensions implements SelfHandling
      */
     public function handle(Bridge $twig, Container $container)
     {
+        $twig->addExtension(new DeferredExtension());
         $twig->addExtension(new MarkdownExtension(new MichelfMarkdownEngine()));
         $twig->addExtension($container->make('TwigBridge\Extension\Laravel\Form'));
         $twig->addExtension($container->make('TwigBridge\Extension\Laravel\Html'));
