@@ -83,6 +83,11 @@ class ButtonRegistry
             'icon' => 'fa fa-eye',
             'type' => 'info'
         ],
+        'fields'    => [
+            'text' => 'streams::button.fields',
+            'icon' => 'list-alt',
+            'type' => 'info'
+        ],
         /**
          * Warning Buttons
          */
@@ -96,11 +101,6 @@ class ButtonRegistry
         'edit'      => [
             'text' => 'streams::button.edit',
             'icon' => 'pencil',
-            'type' => 'warning'
-        ],
-        'fields'    => [
-            'text' => 'streams::button.fields',
-            'icon' => 'list-alt',
             'type' => 'warning'
         ],
         /**
