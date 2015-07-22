@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentPresenter;
 
 /**
@@ -18,7 +19,7 @@ class EntryPresenter extends EloquentPresenter
      * The resource object.
      * This is for IDE hinting.
      *
-     * @var EntryInterface
+     * @var EntryInterface|EloquentModel
      */
     protected $object;
 
@@ -33,13 +34,28 @@ class EntryPresenter extends EloquentPresenter
      */
     public function __get($key)
     {
-        if ($type = $this->object->getFieldType($key)) {
+        if ($assignment = $this->object->getAssignment($key)) {
 
-            if (method_exists($type, 'getRelation')) {
-                return $this->__getDecorator()->decorate($this->object->{$key});
+            $type = $assignment->getFieldType($this);
+
+            if ($assignment->isTranslatable() && $locale = config('app.locale')) {
+
+                $entry = $this->object->translateOrDefault($locale);
+
+                $type->setLocale($locale);
+            } else {
+                $entry = $this->object;
             }
 
-            return $type->setEntry($this->object)->getPresenter();
+            $type
+                ->setEntry($entry)
+                ->setValue($entry->getFieldValue($key));
+
+            if (method_exists($type, 'getRelation')) {
+                return $this->__getDecorator()->decorate($entry->{$key});
+            }
+
+            return $type->getPresenter();
         }
 
         return parent::__get($key);
