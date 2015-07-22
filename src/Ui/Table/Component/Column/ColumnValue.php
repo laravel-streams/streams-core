@@ -80,8 +80,8 @@ class ColumnValue
          */
         if ($entry instanceof EntryInterface && $entry->getField($value)) {
 
-            if ($entry->assignmentIsRelationship($value)) {
-                $value = $entry->{camel_case($value)}->getTitle();
+            if ($entry->assignmentIsRelationship($value) && $relation = $entry->{camel_case($value)}) {
+                $value = $relation->getTitle();
             } else {
                 $value = $entry->getFieldValue($value);
             }
