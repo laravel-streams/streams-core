@@ -230,19 +230,23 @@ class AddonServiceProvider extends ServiceProvider
 
             /**
              * If the route definition is an
-             * array then let's allow more control.
-             * Otherwise just do a simple any route
-             * with a simple URI / action.
+             * not an array then let's make it one.
+             * Array type routes give us more control
+             * and allow us to pass information in the
+             * request's route action array.
              */
-            if (is_array($route)) {
-
-                $verb        = array_pull($route, 'verb', 'any');
-                $constraints = array_pull($route, 'constraints', []);
-
-                $router->{$verb}($uri, $route)->where($constraints);
-            } else {
-                $router->any($uri, $route);
+            if (!is_array($route)) {
+                $route = [
+                    'uses' => $route
+                ];
             }
+
+            $verb        = array_pull($route, 'verb', 'any');
+            $constraints = array_pull($route, 'constraints', []);
+
+            array_set($route, 'streams::addon', $this->addon->getNamespace());
+
+            $router->{$verb}($uri, $route)->where($constraints);
         }
     }
 

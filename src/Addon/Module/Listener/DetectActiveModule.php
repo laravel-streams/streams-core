@@ -6,6 +6,9 @@ use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Illuminate\Container\Container;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Route;
 
 /**
  * Class DetectActiveModule
@@ -33,6 +36,13 @@ class DetectActiveModule
     protected $image;
 
     /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * The loaded modules.
      *
      * @var ModuleCollection
@@ -58,6 +68,7 @@ class DetectActiveModule
      *
      * @param Asset                $asset
      * @param Image                $image
+     * @param Request              $request
      * @param ModuleCollection     $modules
      * @param Container            $container
      * @param BreadcrumbCollection $breadcrumbs
@@ -65,12 +76,14 @@ class DetectActiveModule
     public function __construct(
         Asset $asset,
         Image $image,
+        Request $request,
         ModuleCollection $modules,
         Container $container,
         BreadcrumbCollection $breadcrumbs
     ) {
         $this->asset       = $asset;
         $this->image       = $image;
+        $this->request     = $request;
         $this->modules     = $modules;
         $this->container   = $container;
         $this->breadcrumbs = $breadcrumbs;
@@ -82,30 +95,31 @@ class DetectActiveModule
      */
     public function handle()
     {
-        $module = null;
-
         /**
-         * If we are in the admin the second segment
-         * MUST be the active module's slug.
+         * In order to detect we MUST have a route
+         * and we MUST have a namespace in the
+         * streams::addon action parameter.
+         *
+         * @var Route $route
          */
-        if (app('request')->segment(1) == 'admin') {
-            $module = $this->modules->findBySlug(app('request')->segment(2));
+        $route = $this->request->route();
+
+        if (!$route || !$module = $this->modules->get(array_get($route->getAction(), 'streams::addon'))) {
+            return;
         }
 
-        if ($module instanceof Module) {
+        /* @var Module $module */
+        $module->setActive(true);
 
-            $module->setActive(true);
+        $this->container->make('view')->addNamespace('module', $module->getPath('resources/views'));
+        $this->container->make('translator')->addNamespace('module', $module->getPath('resources/lang'));
 
-            $this->container->make('view')->addNamespace('module', $module->getPath('resources/views'));
-            $this->container->make('translator')->addNamespace('module', $module->getPath('resources/lang'));
+        $this->asset->addPath('module', $module->getPath('resources'));
+        $this->image->addPath('module', $module->getPath('resources'));
 
-            $this->asset->addPath('module', $module->getPath('resources'));
-            $this->image->addPath('module', $module->getPath('resources'));
-
-            $this->breadcrumbs->add(
-                trans($module->getName()),
-                url('admin/' . $module->getSlug())
-            );
-        }
+        $this->breadcrumbs->add(
+            trans($module->getName()),
+            url('admin/' . $module->getSlug())
+        );
     }
 }
