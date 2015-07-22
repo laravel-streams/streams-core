@@ -102,8 +102,8 @@ class ActionInput
         $this->defaults->defaults($builder);
         $this->predictor->predict($builder);
         $this->normalizer->normalize($builder);
-        $this->lookup->merge($builder);
         $this->guesser->guess($builder);
+        $this->lookup->merge($builder);
         $this->parser->parse($builder);
     }
 }

@@ -1,8 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
-use Anomaly\Streams\Platform\Http\Routing\StreamsResponse;
+use Anomaly\Streams\Platform\Http\Routing\ResponseOverride;
 use Closure;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class CheckResponseOverride
@@ -18,16 +19,16 @@ class CheckResponseOverride
     /**
      * The override instance.
      *
-     * @var StreamsResponse
+     * @var ResponseOverride
      */
     protected $override;
 
     /**
      * Create a new CheckResponseOverride instance.
      *
-     * @param StreamsResponse $override
+     * @param ResponseOverride $override
      */
-    public function __construct(StreamsResponse $override)
+    public function __construct(ResponseOverride $override)
     {
         $this->override = $override;
     }
@@ -37,14 +38,19 @@ class CheckResponseOverride
      *
      * @param  Request  $request
      * @param  \Closure $next
-     * @return mixed
+     * @return Response
      */
     public function handle(Request $request, Closure $next)
     {
+        // This is the original.
         $response = $next($request);
 
+        /**
+         * If an override is present then
+         * send it instead of the original.
+         */
         if ($this->override->exists()) {
-            return $this->override->getResponse();
+            return $this->override->get();
         }
 
         return $response;

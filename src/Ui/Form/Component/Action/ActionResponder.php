@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
+use Anomaly\Streams\Platform\Http\Routing\ResponseOverride;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -16,12 +17,28 @@ class ActionResponder
 {
 
     /**
+     * The response override.
+     *
+     * @var ResponseOverride
+     */
+    protected $response;
+
+    /**
+     * Create a new ActionResponder instance.
+     *
+     * @param ResponseOverride $response
+     */
+    public function __construct(ResponseOverride $response)
+    {
+        $this->response = $response;
+    }
+
+    /**
      * Set the form response using the active action
      * form response handler.
      *
      * @param FormBuilder $builder
      * @param             $action
-     * @throws \Exception
      */
     public function setFormResponse(FormBuilder $builder, ActionInterface $action)
     {
@@ -32,7 +49,7 @@ class ActionResponder
          * it using the application container.
          */
         if ($handler instanceof \Closure) {
-            return app()->call($handler, compact('builder'));
+            app()->call($handler, compact('builder'));
         }
 
         /**
@@ -40,7 +57,7 @@ class ActionResponder
          * call it using the application container.
          */
         if (is_string($handler) && str_contains($handler, '@')) {
-            return app()->call($handler, compact('builder'));
+            app()->call($handler, compact('builder'));
         }
 
         /**
@@ -48,9 +65,13 @@ class ActionResponder
          * simply call the handle method on it.
          */
         if ($handler instanceof ActionHandlerInterface) {
-            return $handler->handle($builder);
+            $handler->handle($builder);
         }
 
-        throw new \Exception('Action $handler must be a callable string, Closure or ActionHandlerInterface.');
+        /**
+         * Set the response override so that
+         * the form plugin can play too.
+         */
+        $this->response->set($builder->getFormResponse());
     }
 }

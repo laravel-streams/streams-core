@@ -3,26 +3,26 @@
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class StreamsResponse
+ * Class ResponseOverride
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Http\Routing
  */
-class StreamsResponse
+class ResponseOverride
 {
 
     /**
-     * The streams response.
+     * The response object.
      *
      * @var null|Response
      */
     protected $response = null;
 
     /**
-     * Return whether the streams
-     * response is set or not.
+     * Return whether the response
+     * override is set or not.
      *
      * @return bool
      */
@@ -32,22 +32,22 @@ class StreamsResponse
     }
 
     /**
-     * Get the response.
+     * Get the override.
      *
      * @return null|Response
      */
-    public function getResponse()
+    public function get()
     {
         return $this->response;
     }
 
     /**
-     * Set the response.
+     * Set the override.
      *
      * @param Response $response
      * @return $this
      */
-    public function setResponse(Response $response)
+    public function set(Response $response)
     {
         $this->response = $response;
 
