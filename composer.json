@@ -32,7 +32,8 @@
         "mobiledetect/mobiledetectlib": "2.8.*",
         "nicmart/string-template": "0.1.*",
         "beelab/bowerphp": "0.2.*",
-        "barryvdh/laravel-httpcache": "0.2.*"
+        "barryvdh/laravel-httpcache": "0.2.*",
+        "phive/twig-extensions-deferred": "0.3.*"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.0",
