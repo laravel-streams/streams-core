@@ -108,6 +108,16 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         /**
+         * Register the singleton Streams response container.
+         * This class is a simple DTO for use when parsing objects
+         * that might try and manipulate the response.
+         */
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Http\Routing\StreamsResponse',
+            'Anomaly\Streams\Platform\Http\Routing\StreamsResponse'
+        );
+
+        /**
          * Register the application instance. This is
          * used to determine the application state / reference.
          */

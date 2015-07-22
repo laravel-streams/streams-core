@@ -30,5 +30,7 @@ class BaseController extends Controller
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ApplicationReady');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ForceHttps');
+
+        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\CheckResponseOverride');
     }
 }
