@@ -58,6 +58,10 @@ class LoadControlPanel
      */
     public function handle()
     {
+        if (in_array($this->request->path(), ['admin/login', 'admin/logout'])) {
+            return;
+        }
+
         if ($this->request->segment(1) !== 'admin') {
             return;
         }

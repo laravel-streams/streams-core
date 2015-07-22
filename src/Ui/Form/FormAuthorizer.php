@@ -51,6 +51,10 @@ class FormAuthorizer
         // Try the option first.
         $permission = $builder->getFormOption('permission');
 
+        if ($permission === false) {
+            return;
+        }
+
         // Use this to help out.
         $module = $this->modules->active();
 

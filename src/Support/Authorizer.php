@@ -50,7 +50,7 @@ class Authorizer
      */
     public function authorize($permission, UserInterface $user = null)
     {
-        if ($user === null) {
+        if (!$user) {
             $user = $this->guard->user();
         }
 
