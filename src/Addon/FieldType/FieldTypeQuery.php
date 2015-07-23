@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -35,12 +35,27 @@ class FieldTypeQuery
      * Filter a query by the value of a
      * field using this field type.
      *
-     * @param  Builder $query
-     * @param          $value
+     * @param Builder              $query
+     * @param FieldFilterInterface $filter
      */
-    public function filter(Builder $query, FilterInterface $filter)
+    public function filter(Builder $query, FieldFilterInterface $filter)
     {
-        $query->where($this->fieldType->getColumnName(), 'LIKE', "%" . $filter->getValue() . "%");
+        $stream     = $filter->getStream();
+        $assignment = $stream->getAssignment($filter->getField());
+
+        $column = $this->fieldType->getColumnName();
+
+        $table        = $stream->getEntryTableName();
+        $translations = $stream->getEntryTranslationsTableName();
+
+        if ($assignment->isTranslatable()) {
+            $query
+                ->join($translations, $translations . '.entry_id', '=', $table . '.id')
+                ->where($translations . '.' . $column, 'LIKE', "%" . $filter->getValue() . "%")
+                ->where('locale', config('app.locale'));
+        } else {
+            $query->where($column, 'LIKE', "%" . $filter->getValue() . "%");
+        }
     }
 
     /**
