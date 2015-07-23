@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Collection\CacheCollection;
-use Anomaly\UsersModule\Role\RoleModel;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -495,6 +494,12 @@ class EloquentModel extends Model implements Arrayable
 
     private function getTranslationByLocaleKey($key)
     {
+        // TODO: This fixes the empty translation relation
+        // issue but I believe it's deeper than this.. This is ugly.
+        /*if ($this->translations->isEmpty()) {
+            $this->setRelation('translations', $this->translations()->get());
+        }*/
+
         foreach ($this->translations as $translation) {
 
             $translation->setRelation('parent', $this);
