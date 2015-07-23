@@ -545,8 +545,19 @@ class Asset
         $lastModifiedTime = 0;
         foreach ($this->collections[$collection] as $file => $filters) {
 
+            // Globbed files need to be treated differently
+            if(in_array('glob', $filters)) {
+
+                unset($filters[array_search('glob', $filters)]);
+
+                $globFile = new GlobAsset($file, $filters);
+
+                if ($globFile->getLastModified() > $lastModifiedTime) {
+                    $lastModifiedTime = $globFile->getLastModified();
+                }
+            }
             // If they exist store the most recently modified timestamp
-            if (file_exists($file)) {
+            else if (file_exists($file)) {
                 $curModifiedTime = filemtime($file);
 
                 if ($curModifiedTime > $lastModifiedTime) {
@@ -557,6 +568,7 @@ class Asset
 
         // If any of the files are more recent than the cache file, publish, otherwise skip
         if ($lastModifiedTime < filemtime($path)) {
+            echo 'dont publish';
             return false;
         }
 
