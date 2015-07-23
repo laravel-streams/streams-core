@@ -192,11 +192,30 @@ class Image extends ImageManager
 
         $path = 'assets/' . $this->application->getReference() . '/cache/' . $filename;
 
-        if (isset($_GET['_publish']) || !$this->files->exists($path)) {
+        if ($this->shouldPublish($path)) {
             $this->publish($path);
         }
 
         return $path;
+    }
+
+    /**
+     * Determine if the image needs to be published
+     *
+     * @param $path
+     * @return bool
+     */
+    private function shouldPublish($path)
+    {
+        if (!$this->files->exists($path)) {
+            return true;
+        }
+
+        if (filemtime($path) < filemtime($this->image)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
