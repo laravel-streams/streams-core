@@ -353,27 +353,7 @@ class Asset
             return;
         }
 
-        $assets = new AssetCollection();
-
-        $hint = $this->getHint($collection);
-
-        foreach ($this->collections[$collection] as $file => $filters) {
-
-            $filters = array_filter(array_unique(array_merge($filters, $additionalFilters)));
-
-            $filters = $this->transformFilters($filters, $hint);
-
-            if (in_array('glob', $filters)) {
-
-                unset($filters[array_search('glob', $filters)]);
-
-                $file = new GlobAsset($file, $filters);
-            } else {
-                $file = new FileAsset($file, $filters);
-            }
-
-            $assets->add($file);
-        }
+        $assets = $this->getAssetCollection($collection, $additionalFilters);
 
         $path = $this->directory . $path;
 
@@ -554,35 +534,10 @@ class Asset
             return true;
         }
 
-        // Collect all the files
-        $lastModifiedTime = 0;
-        foreach ($this->collections[$collection] as $file => $filters) {
-
-            // Globbed files need to be treated differently
-            if (in_array('glob', $filters)) {
-
-                unset($filters[array_search('glob', $filters)]);
-
-                $globFile = new GlobAsset($file, $filters);
-
-                if ($globFile->getLastModified() > $lastModifiedTime) {
-                    $lastModifiedTime = $globFile->getLastModified();
-                }
-            } // If they exist store the most recently modified timestamp
-            else {
-                if (file_exists($file)) {
-
-                    $curModifiedTime = filemtime($file);
-
-                    if ($curModifiedTime > $lastModifiedTime) {
-                        $lastModifiedTime = $curModifiedTime;
-                    }
-                }
-            }
-        }
+        $assets =  $this->getAssetCollection($collection);
 
         // If any of the files are more recent than the cache file, publish, otherwise skip
-        if ($lastModifiedTime < filemtime($path)) {
+        if ($assets->getLastModified() < filemtime($path)) {
             return false;
         }
 
@@ -661,6 +616,40 @@ class Asset
         $this->publish = $publish;
 
         return $this;
+    }
+
+    /**
+     * Create asset collection from collection array
+     *
+     * @param       $collection        Collection of assets
+     * @param array $additionalFilters Additional filters to be applied to collection
+     * @return AssetCollection
+     */
+    private function getAssetCollection($collection, $additionalFilters = array())
+    {
+        $assets = new AssetCollection();
+
+        $hint = $this->getHint($collection);
+
+        foreach ($this->collections[$collection] as $file => $filters) {
+
+            $filters = array_filter(array_unique(array_merge($filters, $additionalFilters)));
+
+            $filters = $this->transformFilters($filters, $hint);
+
+            if (in_array('glob', $filters)) {
+
+                unset($filters[array_search('glob', $filters)]);
+
+                $file = new GlobAsset($file, $filters);
+            } else {
+                $file = new FileAsset($file, $filters);
+            }
+
+            $assets->add($file);
+        }
+
+        return $assets;
     }
 
     /**
