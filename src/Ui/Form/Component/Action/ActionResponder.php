@@ -71,7 +71,12 @@ class ActionResponder
         /**
          * Set the response override so that
          * the form plugin can play too.
+         *
+         * If the form is an ajax request then
+         * DO NOT override. Ajax is looking for JSON.
          */
-        $this->response->set($builder->getFormResponse());
+        if (!$builder->isAjax()) {
+            $this->response->set($builder->getFormResponse());
+        }
     }
 }
