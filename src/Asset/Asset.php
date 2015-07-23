@@ -569,7 +569,6 @@ class Asset
 
         // If any of the files are more recent than the cache file, publish, otherwise skip
         if ($lastModifiedTime < filemtime($path)) {
-            echo 'dont publish';
             return false;
         }
 
