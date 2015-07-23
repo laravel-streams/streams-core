@@ -207,11 +207,11 @@ class Image extends ImageManager
      */
     private function shouldPublish($path)
     {
-        if(!$this->files->exists($path)) {
+        if (!$this->files->exists($path)) {
             return true;
         }
 
-        if(filemtime($path) < filemtime($this->image)) {
+        if (filemtime($path) < filemtime($this->image)) {
             return true;
         }
 
