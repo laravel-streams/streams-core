@@ -1,19 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class SetActiveActions
+ * Class SetActiveFilters
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Multiple\Command
  */
-class SetActiveActions implements SelfHandling
+class SetActiveFilters implements SelfHandling
 {
 
     /**
@@ -38,32 +38,35 @@ class SetActiveActions implements SelfHandling
      */
     public function handle()
     {
-        $actions = $this->builder->getTableActions();
+        $filters = $this->builder->getTableFilters();
 
-        if (!$action = $actions->active()) {
+        if (!$filters = $filters->active()) {
             return;
         }
 
+        /* @var FilterInterface $filter */
         foreach ($this->builder->getTables() as $builder) {
-            $this->setActiveAction($action->getSlug(), $builder);
+            foreach ($filters as $filter) {
+                $this->setActiveFilter($filter->getSlug(), $builder);
+            }
         }
     }
 
     /**
-     * Set the active action.
+     * Set the active filter.
      *
      * @param              $slug
      * @param TableBuilder $builder
      */
-    protected function setActiveAction($slug, TableBuilder $builder)
+    protected function setActiveFilter($slug, TableBuilder $builder)
     {
-        /* @var ActionInterface $action */
-        foreach ($builder->getTableActions() as $action) {
+        /* @var FilterInterface $filter */
+        foreach ($builder->getTableFilters() as $filter) {
 
-            if ($action->getSlug() === $slug) {
+            if ($filter->getSlug() === $slug) {
 
-                $action->setPrefix($builder->getTableOption('prefix'));
-                $action->setActive(true);
+                $filter->setPrefix($builder->getTableOption('prefix'));
+                $filter->setActive(true);
 
                 break;
             }
