@@ -22,6 +22,7 @@ use Assetic\Filter\FilterInterface;
  */
 class SeparatorFilter implements FilterInterface
 {
+
     /**
      * @var string
      */

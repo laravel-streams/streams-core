@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Asset\AssetParser;
 use Assetic\Asset\AssetInterface;
-use Assetic\Filter\StylusFilter as BaseStylusFilter;
 
 /**
  * Class StylusFilter
@@ -12,7 +11,7 @@ use Assetic\Filter\StylusFilter as BaseStylusFilter;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Asset\Filter
  */
-class StylusFilter extends BaseStylusFilter
+class StylusFilter extends \Assetic\Filter\StylusFilter
 {
 
     /**
@@ -29,7 +28,11 @@ class StylusFilter extends BaseStylusFilter
      */
     public function __construct(AssetParser $parser)
     {
-        parent::__construct('/usr/local/bin/node',['/usr/local/lib/node_modules', '/usr/local/lib/node_modules/stylus']);
+        parent::__construct(
+            '/usr/local/bin/node',
+            ['/usr/local/lib/node_modules', '/usr/local/lib/node_modules/stylus']
+        );
+
         $this->parser = $parser;
     }
 
@@ -39,7 +42,7 @@ class StylusFilter extends BaseStylusFilter
      * @param AssetInterface $asset
      */
     public function filterLoad(AssetInterface $asset)
-    { 
+    {
         $asset->setContent($this->parser->parse($asset->getContent()));
 
         parent::filterLoad($asset);
