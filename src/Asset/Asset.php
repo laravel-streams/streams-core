@@ -541,6 +541,25 @@ class Asset
             return true;
         }
 
+        // Collect all the files
+        $lastModifiedTime = 0;
+        foreach ($this->collections[$collection] as $file => $filters) {
+
+            // If they exist store the most recently modified timestamp
+            if (file_exists($file)) {
+                $curModifiedTime = filemtime($file);
+
+                if ($curModifiedTime > $lastModifiedTime) {
+                    $lastModifiedTime = $curModifiedTime;
+                }
+            }
+        }
+
+        // If any of the files are more recent than the cache file, publish, otherwise skip
+        if ($lastModifiedTime < filemtime($path)) {
+            return false;
+        }
+
         // Merge filters from collection files.
         foreach ($this->collections[$collection] as $fileFilters) {
             $filters = array_filter(array_unique(array_merge($filters, $fileFilters)));
