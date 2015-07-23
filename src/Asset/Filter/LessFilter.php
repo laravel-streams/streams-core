@@ -44,6 +44,16 @@ class LessFilter extends LessphpFilter
      */
     public function filterLoad(AssetInterface $asset)
     {
+        //
+    }
+
+    /**
+     * Filters an asset just before it's dumped.
+     *
+     * @param AssetInterface $asset
+     */
+    public function filterDump(AssetInterface $asset)
+    {
         $compiler = new \lessc();
 
         $this->dispatch(new LoadThemeVariables($variables = new Collection(config('theme::theme', config('theme')))));
