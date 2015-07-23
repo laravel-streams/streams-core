@@ -43,6 +43,16 @@ class StylusFilter extends \Assetic\Filter\StylusFilter
      */
     public function filterLoad(AssetInterface $asset)
     {
+        //
+    }
+
+    /**
+     * Filters an asset just before it's dumped.
+     *
+     * @param AssetInterface $asset
+     */
+    public function filterDump(AssetInterface $asset)
+    {
         $asset->setContent($this->parser->parse($asset->getContent()));
 
         parent::filterLoad($asset);
