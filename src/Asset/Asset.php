@@ -9,6 +9,7 @@ use Anomaly\Streams\Platform\Asset\Filter\LessFilter;
 use Anomaly\Streams\Platform\Asset\Filter\ParseFilter;
 use Anomaly\Streams\Platform\Asset\Filter\ScssFilter;
 use Anomaly\Streams\Platform\Asset\Filter\SeparatorFilter;
+use Anomaly\Streams\Platform\Asset\Filter\StylusFilter;
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\GlobAsset;
@@ -408,6 +409,10 @@ class Asset
                     $filter = new LessFilter($this->parser);
                     break;
 
+                case 'styl':
+                    $filter = new StylusFilter($this->parser);
+                    break;
+
                 case 'scss':
                     $filter = new ScssFilter($this->parser);
                     break;
@@ -459,6 +464,10 @@ class Asset
             $filters[] = 'less';
         }
 
+        if (ends_with($file, '.styl')) {
+            $filters[] = 'styl';
+        }
+
         if (ends_with($file, '.scss')) {
             $filters[] = 'scss';
         }
@@ -494,7 +503,7 @@ class Asset
     {
         $hint = $this->getExtension($path);
 
-        if (in_array($hint, ['less', 'scss'])) {
+        if (in_array($hint, ['less', 'scss', 'styl'])) {
             $hint = 'css';
         }
 
