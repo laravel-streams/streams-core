@@ -82,8 +82,7 @@ class StreamsEventProvider extends EventServiceProvider
         ],
         'Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying'                => [
             'Anomaly\Streams\Platform\Ui\Table\Component\View\Listener\ApplyView',
-            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\FilterResults',
-            'Anomaly\Streams\Platform\Ui\Table\Component\Column\Listener\OrderResults'
+            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\FilterResults'
         ]
     ];
 
