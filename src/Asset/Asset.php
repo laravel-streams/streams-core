@@ -509,10 +509,6 @@ class Asset
             return false;
         }
 
-        if (isset($_GET['_publish'])) {
-            return true;
-        }
-
         if ($this->publish === true) {
             return true;
         }
@@ -526,15 +522,7 @@ class Asset
             $filters = array_filter(array_unique(array_merge($filters, $fileFilters)));
         }
 
-        if (in_array('live', $filters)) {
-            return true;
-        }
-
-        if (in_array('debug', $filters) && config('app.debug')) {
-            return true;
-        }
-
-        $assets =  $this->getAssetCollection($collection);
+        $assets = $this->getAssetCollection($collection);
 
         // If any of the files are more recent than the cache file, publish, otherwise skip
         if ($assets->getLastModified() < filemtime($path)) {
@@ -561,16 +549,7 @@ class Asset
         $key = [];
 
         foreach ($this->collections[$collection] as $file => $filters) {
-
-            if ($debug = array_search('debug', $filters)) {
-                unset($filters[$debug]);
-            }
-
             $key[str_replace(base_path(), '', $file)] = $filters;
-        }
-
-        if ($debug = array_search('debug', $filters)) {
-            unset($filters[$debug]);
         }
 
         $theme = $this->themes->active();
