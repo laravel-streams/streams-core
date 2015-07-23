@@ -558,6 +558,7 @@ class Asset
             }
             // If they exist store the most recently modified timestamp
             else if (file_exists($file)) {
+
                 $curModifiedTime = filemtime($file);
 
                 if ($curModifiedTime > $lastModifiedTime) {
