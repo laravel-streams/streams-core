@@ -541,37 +541,6 @@ class Asset
             return true;
         }
 
-        // Collect all the files
-        $lastModifiedTime = 0;
-        foreach ($this->collections[$collection] as $file => $filters) {
-
-            // Globbed files need to be treated differently
-            if(in_array('glob', $filters)) {
-
-                unset($filters[array_search('glob', $filters)]);
-
-                $globFile = new GlobAsset($file, $filters);
-
-                if ($globFile->getLastModified() > $lastModifiedTime) {
-                    $lastModifiedTime = $globFile->getLastModified();
-                }
-            }
-            // If they exist store the most recently modified timestamp
-            else if (file_exists($file)) {
-
-                $curModifiedTime = filemtime($file);
-
-                if ($curModifiedTime > $lastModifiedTime) {
-                    $lastModifiedTime = $curModifiedTime;
-                }
-            }
-        }
-
-        // If any of the files are more recent than the cache file, publish, otherwise skip
-        if ($lastModifiedTime < filemtime($path)) {
-            return false;
-        }
-
         // Merge filters from collection files.
         foreach ($this->collections[$collection] as $fileFilters) {
             $filters = array_filter(array_unique(array_merge($filters, $fileFilters)));
@@ -585,7 +554,39 @@ class Asset
             return true;
         }
 
-        return false;
+        // Collect all the files
+        $lastModifiedTime = 0;
+        foreach ($this->collections[$collection] as $file => $filters) {
+
+            // Globbed files need to be treated differently
+            if (in_array('glob', $filters)) {
+
+                unset($filters[array_search('glob', $filters)]);
+
+                $globFile = new GlobAsset($file, $filters);
+
+                if ($globFile->getLastModified() > $lastModifiedTime) {
+                    $lastModifiedTime = $globFile->getLastModified();
+                }
+            } // If they exist store the most recently modified timestamp
+            else {
+                if (file_exists($file)) {
+
+                    $curModifiedTime = filemtime($file);
+
+                    if ($curModifiedTime > $lastModifiedTime) {
+                        $lastModifiedTime = $curModifiedTime;
+                    }
+                }
+            }
+        }
+
+        // If any of the files are more recent than the cache file, publish, otherwise skip
+        if ($lastModifiedTime < filemtime($path)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
