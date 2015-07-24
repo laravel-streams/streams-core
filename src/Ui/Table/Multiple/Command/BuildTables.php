@@ -41,6 +41,7 @@ class BuildTables implements SelfHandling
         foreach ($this->builder->getTables() as $builder) {
 
             $builder
+                ->setOptions($this->builder->getOptions())
                 ->setFilters($this->builder->getFilters())
                 ->setButtons($this->builder->getButtons())
                 ->setColumns($this->builder->getColumns())
