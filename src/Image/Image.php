@@ -1,10 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Image;
 
+use Anomaly\FilesModule\File\Contract\FileInterface;
 use Anomaly\Streams\Platform\Application\Application;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
 use Intervention\Image\ImageManager;
-use League\Flysystem\MountManager;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Image
@@ -14,7 +15,7 @@ use League\Flysystem\MountManager;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Asset
  */
-class Image extends ImageManager
+class Image
 {
 
     /**
@@ -37,6 +38,13 @@ class Image extends ImageManager
      * @var null|string
      */
     protected $image = null;
+
+    /**
+     * The file extension.
+     *
+     * @var null|string
+     */
+    protected $extension = null;
 
     /**
      * The default output method.
@@ -64,7 +72,7 @@ class Image extends ImageManager
      *
      * @var array
      */
-    protected $methods = [
+    protected $allowedMethods = [
         'blur',
         'brightness',
         'colorize',
@@ -108,9 +116,9 @@ class Image extends ImageManager
     protected $files;
 
     /**
-     * The mount manager.
+     * The image manager.
      *
-     * @var MountManager
+     * @var ImageManager
      */
     protected $manager;
 
@@ -126,14 +134,14 @@ class Image extends ImageManager
      *
      * @param HtmlBuilder  $html
      * @param Filesystem   $files
-     * @param MountManager $manager
+     * @param ImageManager $manager
      * @param Application  $application
      * @param ImagePaths   $paths
      */
     public function __construct(
         HtmlBuilder $html,
         Filesystem $files,
-        MountManager $manager,
+        ImageManager $manager,
         Application $application,
         ImagePaths $paths
     ) {
@@ -148,7 +156,7 @@ class Image extends ImageManager
      * Make a new image instance.
      *
      * @param mixed $image
-     * @return Image
+     * @return $this
      */
     public function make($image)
     {
@@ -158,99 +166,13 @@ class Image extends ImageManager
     }
 
     /**
-     * Publish an image to the publish directory.
-     *
-     * @param $path
-     */
-    protected function publish($path)
-    {
-        $image = parent::make($this->image);
-
-        foreach ($this->applied as $method => $arguments) {
-            if (in_array($method, $this->methods)) {
-                $image = call_user_func_array([$image, $method], $arguments);
-            }
-        }
-
-        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
-
-        $image->save($this->directory . $path);
-    }
-
-    /**
-     * Get the path of the image.
-     *
-     * @return string
-     */
-    protected function getPath()
-    {
-        if (starts_with($this->image, ['http', '//'])) {
-            return $this->image;
-        }
-
-        $filename = md5(var_export([$this->image, $this->applied], true)) . '.' . $this->getExtension($this->image);
-
-        $path = 'assets/' . $this->application->getReference() . '/cache/' . $filename;
-
-        if ($this->shouldPublish($path)) {
-            $this->publish($path);
-        }
-
-        return $path;
-    }
-
-    /**
-     * Determine if the image needs to be published
-     *
-     * @param $path
-     * @return bool
-     */
-    private function shouldPublish($path)
-    {
-        if (!$this->files->exists($path)) {
-            return true;
-        }
-
-        if (filemtime($path) < filemtime($this->image)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Get the extension from a path.
-     *
-     * @param  $path
-     * @return mixed
-     */
-    protected function getExtension($path)
-    {
-        return pathinfo($path, PATHINFO_EXTENSION);
-    }
-
-    /**
-     * Set an attribute value.
-     *
-     * @param $attribute
-     * @param $value
-     * @return $this
-     */
-    public function attr($attribute, $value)
-    {
-        array_set($this->attributes, $attribute, $value);
-
-        return $this;
-    }
-
-    /**
      * Return the path to an image.
      *
      * @return string
      */
     public function path()
     {
-        $path = $this->getPath();
+        $path = $this->getCachePath();
 
         $this->image   = null;
         $this->applied = [];
@@ -285,7 +207,19 @@ class Image extends ImageManager
 
         $attributes = array_merge($this->attributes, $attributes);
 
-        return $this->html->image($this->getPath(), $alt, $attributes);
+        return $this->html->image($this->path(), $alt, $attributes);
+    }
+
+    /**
+     * Return the image response.
+     *
+     * @param null $format
+     * @param int  $quality
+     * @return Response
+     */
+    public function response()
+    {
+        return $this->manager->make($this->getCachePath())->response(null, 100);
     }
 
     /**
@@ -313,26 +247,112 @@ class Image extends ImageManager
     }
 
     /**
-     * Set the image by it's path.
+     * Get the cache path of the image.
      *
-     * @param  $path
-     * @return $this
+     * @return string
      */
-    public function setImage($path)
+    protected function getCachePath()
     {
-        $path = $this->paths->realPath($path);
+        $filename = md5(var_export([md5($this->getImage()), $this->applied], true)) . '.' . $this->getExtension();
 
-        if (
-            config('app.debug')
-            && !starts_with($path, ['http', '//'])
-            && !is_file($path)
-        ) {
-            throw new \Exception("Image [{$path}] does not exist!");
+        $path = 'assets/' . $this->application->getReference() . '/cache/' . $filename;
+
+        if ($this->shouldPublish($path)) {
+            $this->publish($path);
         }
 
-        $this->image = $path;
+        return $path;
+    }
+
+    /**
+     * Determine if the image needs to be published
+     *
+     * @param $path
+     * @return bool
+     */
+    private function shouldPublish($path)
+    {
+        if (!$this->files->exists($path)) {
+            return true;
+        }
+
+        if (is_string($this->image) && filemtime($path) < filemtime($this->image)) {
+            return true;
+        }
+
+        if ($this->image instanceof FileInterface && filemtime($path) < $this->image->created_at->format('U')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Publish an image to the publish directory.
+     *
+     * @param $path
+     */
+    protected function publish($path)
+    {
+        $image = $this->makeImage();
+
+        foreach ($this->applied as $method => $arguments) {
+            if (in_array($method, $this->getAllowedMethods())) {
+                call_user_func_array([$image, $method], $arguments);
+            }
+        }
+
+        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
+
+        $image->save($this->directory . $path);
+    }
+
+    /**
+     * Set an attribute value.
+     *
+     * @param $attribute
+     * @param $value
+     * @return $this
+     */
+    public function attr($attribute, $value)
+    {
+        array_set($this->attributes, $attribute, $value);
 
         return $this;
+    }
+
+    /**
+     * Set the image.
+     *
+     * @param  $image
+     * @return $this
+     */
+    public function setImage($image)
+    {
+        // Replace path prefixes.
+        if (is_string($image) && starts_with($image, ['theme::', 'module::'])) {
+            $image = $this->paths->realPath($image);
+        } elseif (is_string($image) && str_is('*.*.*::*', $image)) {
+            $image = $this->paths->realPath($image);
+        }
+
+        if ($image instanceof FileInterface) {
+            $this->setExtension($image->getExtension());
+        }
+
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get the image instance.
+     *
+     * @return \Intervention\Image\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 
     /**
@@ -349,16 +369,68 @@ class Image extends ImageManager
     }
 
     /**
-     * Add an image path hint.
+     * Get the extension.
+     *
+     * @return null|string
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    /**
+     * Set the extension.
+     *
+     * @param $extension
+     * @return $this
+     */
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+
+        return $this;
+    }
+
+    /**
+     * Get the allowed methods.
+     *
+     * @return array
+     */
+    public function getAllowedMethods()
+    {
+        return $this->allowedMethods;
+    }
+
+    /**
+     * Add a path by it's namespace hint.
      *
      * @param $namespace
      * @param $path
+     * @return $this
      */
     public function addPath($namespace, $path)
     {
         $this->paths->addPath($namespace, $path);
 
         return $this;
+    }
+
+    /**
+     * Make an image instance.
+     *
+     * @return \Intervention\Image\Image
+     */
+    protected function makeImage()
+    {
+        if ($this->image instanceof FileInterface) {
+            return $this->manager
+                ->make(app('League\Flysystem\MountManager')->read($this->image->diskPath()))
+                ->encode($this->getExtension());
+        }
+
+        if (is_string($this->image) && file_exists($this->image)) {
+            return $this->manager->make($this->image);
+        }
     }
 
     /**
@@ -381,7 +453,7 @@ class Image extends ImageManager
      */
     function __call($name, $arguments)
     {
-        if (in_array($name, $this->methods)) {
+        if (in_array($name, $this->getAllowedMethods())) {
             return $this->applyModification($name, $arguments);
         }
 
