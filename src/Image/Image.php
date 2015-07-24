@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Application\Application;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
 use Intervention\Image\ImageManager;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Image
@@ -215,11 +214,11 @@ class Image
      *
      * @param null $format
      * @param int  $quality
-     * @return Response
+     * @return String
      */
-    public function response()
+    public function encode($format = null, $quality = 100)
     {
-        return $this->manager->make($this->getCachePath())->response(null, 100);
+        return $this->manager->make($this->getCachePath())->encode($format, $quality);
     }
 
     /**
@@ -301,9 +300,9 @@ class Image
                 call_user_func_array([$image, $method], $arguments);
             }
         }
-        
-        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
+        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
+        
         $image->save($this->directory . $path);
     }
 
