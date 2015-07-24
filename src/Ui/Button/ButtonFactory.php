@@ -64,10 +64,10 @@ class ButtonFactory
      */
     public function make(array $parameters)
     {
-        $button = array_pull($parameters, 'button');
+        $button = array_get($parameters, 'button');
 
-        if ($button && $button = $this->buttons->get($button)) {
-            $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
+        if ($button && $registered = $this->buttons->get($button)) {
+            $parameters = array_replace_recursive($registered, array_except($parameters, 'button'));
         }
 
         $parameters = $this->translator->translate($parameters);

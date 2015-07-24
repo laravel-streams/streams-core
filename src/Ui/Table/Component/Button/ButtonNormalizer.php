@@ -44,11 +44,6 @@ class ButtonNormalizer
             }
 
             /**
-             * Make sure some default parameters exist.
-             */
-            $button['attributes'] = array_get($button, 'attributes', []);
-
-            /**
              * Move the HREF if any to the attributes.
              */
             if (isset($button['href'])) {

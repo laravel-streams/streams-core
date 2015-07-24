@@ -73,7 +73,7 @@ class HrefGuesser
             }
 
             // Determine the HREF based on the button type.
-            if ($type = array_get($button, 'button')) {
+            if ($type = array_get($button, 'button') && !class_exists(array_get($button, 'button'))) {
                 $button['attributes']['href'] = $section->getHref($type . '/{entry.id}');
             }
         }

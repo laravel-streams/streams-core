@@ -64,6 +64,21 @@ interface ButtonInterface
     public function isEnabled();
 
     /**
+     * Get the entry.
+     *
+     * @return mixed|null
+     */
+    public function getEntry();
+
+    /**
+     * Set the table.
+     *
+     * @param $entry
+     * @return $this
+     */
+    public function setEntry($entry);
+
+    /**
      * Set the icon.
      *
      * @param  $icon
