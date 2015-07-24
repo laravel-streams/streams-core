@@ -301,7 +301,7 @@ class Image
                 call_user_func_array([$image, $method], $arguments);
             }
         }
-
+        
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
         $image->save($this->directory . $path);
@@ -330,10 +330,11 @@ class Image
     public function setImage($image)
     {
         // Replace path prefixes.
-        if (is_string($image) && starts_with($image, ['theme::', 'module::'])) {
+        if (is_string($image) && str_contains($image, '::')) {
+
             $image = $this->paths->realPath($image);
-        } elseif (is_string($image) && str_is('*.*.*::*', $image)) {
-            $image = $this->paths->realPath($image);
+
+            $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
         }
 
         if ($image instanceof FileInterface) {
