@@ -3,7 +3,7 @@
     {% if section.title %}
         <div class="panel-heading">
             <h2 class="panel-title">
-                {{ trans(section.title) }}
+                {{ trans(section.title)|raw }}
 
                 {% if section.description %}
                     <small class="clearfix">
