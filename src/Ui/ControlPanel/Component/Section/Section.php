@@ -14,6 +14,13 @@ class Section implements SectionInterface
 {
 
     /**
+     * The section slug.
+     *
+     * @var null|string
+     */
+    protected $slug = null;
+
+    /**
      * The section icon.
      *
      * @var null|string
@@ -69,6 +76,29 @@ class Section implements SectionInterface
      * @var null|string
      */
     protected $breadcrumb = null;
+
+    /**
+     * Get the slug.
+     *
+     * @return null|string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set the slug.
+     *
+     * @param $slug
+     * @return $this
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
 
     /**
      * Get the icon.

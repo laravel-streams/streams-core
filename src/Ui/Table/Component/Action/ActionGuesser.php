@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser\HandlerGuesser;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser\PermissionGuesser;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser\TextGuesser;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -30,15 +31,24 @@ class ActionGuesser
     protected $handler;
 
     /**
+     * The permission guesser.
+     *
+     * @var PermissionGuesser
+     */
+    protected $permission;
+
+    /**
      * Create a new ActionGuesser instance.
      *
-     * @param TextGuesser    $text
-     * @param HandlerGuesser $handler
+     * @param TextGuesser       $text
+     * @param HandlerGuesser    $handler
+     * @param PermissionGuesser $permission
      */
-    public function __construct(TextGuesser $text, HandlerGuesser $handler)
+    public function __construct(TextGuesser $text, HandlerGuesser $handler, PermissionGuesser $permission)
     {
-        $this->text    = $text;
-        $this->handler = $handler;
+        $this->text       = $text;
+        $this->handler    = $handler;
+        $this->permission = $permission;
     }
 
     /**
@@ -50,5 +60,6 @@ class ActionGuesser
     {
         $this->text->guess($builder);
         $this->handler->guess($builder);
+        $this->permission->guess($builder);
     }
 }

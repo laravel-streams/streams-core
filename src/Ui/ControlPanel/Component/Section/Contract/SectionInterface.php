@@ -12,6 +12,36 @@ interface SectionInterface
 {
 
     /**
+     * Get the slug.
+     *
+     * @return null|string
+     */
+    public function getSlug();
+
+    /**
+     * Set the slug.
+     *
+     * @param $slug
+     * @return $this
+     */
+    public function setSlug($slug);
+
+    /**
+     * Get the icon.
+     *
+     * @return null|string
+     */
+    public function getIcon();
+
+    /**
+     * Set the icon.
+     *
+     * @param $icon
+     * @return $this
+     */
+    public function setIcon($icon);
+
+    /**
      * Get the text.
      *
      * @return string

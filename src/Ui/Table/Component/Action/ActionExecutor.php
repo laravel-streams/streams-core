@@ -91,18 +91,6 @@ class ActionExecutor
         $handler = $action->getHandler();
 
         /**
-         * If the option is not set then
-         * try and automate the permission.
-         */
-        if (
-            !$action->getPermission()
-            && ($module = $this->modules->active())
-            && ($stream = $builder->getTableStream())
-        ) {
-            $action->setPermission($module->getNamespace($stream->getSlug() . '.' . $action->getSlug()));
-        }
-
-        /**
          * Authorize the action.
          */
         if (!$this->authorizer->authorize($action->getPermission())) {
