@@ -499,6 +499,31 @@ class TableBuilder
     }
 
     /**
+     * Return whether the table has an active view.
+     *
+     * @return bool
+     */
+    public function hasActiveView()
+    {
+        return !is_null($this->table->getViews()->active());
+    }
+
+    /**
+     * Return whether the table view is active.
+     *
+     * @param $slug
+     * @return bool
+     */
+    public function isActiveView($slug)
+    {
+        if ($active = $this->table->getViews()->active()) {
+            return $active->getSlug() === $slug;
+        }
+
+        return false;
+    }
+
+    /**
      * Add a row to the table.
      *
      * @param RowInterface $row

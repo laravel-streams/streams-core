@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
+use Anomaly\Streams\Platform\Addon\Module\Command\DisableModule;
+use Anomaly\Streams\Platform\Addon\Module\Command\EnableModule;
 use Anomaly\Streams\Platform\Addon\Module\Command\InstallModule;
 use Anomaly\Streams\Platform\Addon\Module\Command\UninstallModule;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -36,5 +38,26 @@ class ModuleManager
     public function uninstall(Module $module)
     {
         $this->dispatch(new UninstallModule($module));
+    }
+
+    /**
+     * Enable a module.
+     *
+     * @param Module $module
+     * @param bool   $seed
+     */
+    public function enable(Module $module)
+    {
+        $this->dispatch(new EnableModule($module));
+    }
+
+    /**
+     * Disable a module.
+     *
+     * @param Module $module
+     */
+    public function disable(Module $module)
+    {
+        $this->dispatch(new DisableModule($module));
     }
 }

@@ -123,6 +123,10 @@ class ActionExecutor
          */
         if (is_string($handler) || $handler instanceof \Closure) {
 
+            if (is_string($handler) && class_implements($handler, 'Illuminate\Contracts\Bus\SelfHandling')) {
+                $handler .= '@handle';
+            }
+
             app()->call($handler, compact('builder', 'selected'));
 
             return;

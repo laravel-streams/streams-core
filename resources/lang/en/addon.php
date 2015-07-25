@@ -15,5 +15,12 @@ return [
     'field_types' => 'Field Types',
     'type'        => 'Type',
     'name'        => 'Name',
-    'description' => 'Description'
+    'description' => 'Description',
+    'core'        => 'Core',
+    'shared'      => 'Shared',
+    'private'     => 'Private',
+    'installed'   => 'Installed',
+    'uninstalled' => 'Uninstalled',
+    'enabled'     => 'Enabled',
+    'disabled'    => 'Disabled'
 ];

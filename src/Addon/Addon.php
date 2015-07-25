@@ -55,7 +55,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getPresenter()
     {
-        return new AddonPresenter($this);
+        return app()->make('Anomaly\Streams\Platform\Addon\AddonPresenter', ['object' => $this]);
     }
 
     /**
@@ -117,6 +117,16 @@ class Addon implements PresentableInterface, Arrayable
     public function getNamespace($key = null)
     {
         return "{$this->getVendor()}.{$this->getType()}.{$this->getSlug()}" . ($key ? '::' . $key : $key);
+    }
+
+    /**
+     * Return the ID representation (namespace).
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->getNamespace();
     }
 
     /**

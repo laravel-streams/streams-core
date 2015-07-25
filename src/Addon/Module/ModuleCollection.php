@@ -88,6 +88,25 @@ class ModuleCollection extends AddonCollection
     }
 
     /**
+     * Return disabled modules.
+     *
+     * @return ModuleCollection
+     */
+    public function disabled()
+    {
+        $disabled = [];
+
+        /* @var Module $item */
+        foreach ($this->items as $item) {
+            if (!$item->isEnabled()) {
+                $disabled[] = $item;
+            }
+        }
+
+        return self::make($disabled);
+    }
+
+    /**
      * Return the active module.
      *
      * @return Module

@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Addon;
+use Anomaly\Streams\Platform\Support\Presenter;
 
 /**
  * Class Module
@@ -172,5 +173,15 @@ class Module extends Addon
     public function isActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Get the module's presenter.
+     *
+     * @return Presenter
+     */
+    public function getPresenter()
+    {
+        return app()->make('Anomaly\Streams\Platform\Addon\Module\ModulePresenter', ['object' => $this]);
     }
 }
