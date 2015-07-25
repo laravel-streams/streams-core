@@ -55,11 +55,18 @@ class FormExtender
     protected function registerValidators(Factory $factory, FormBuilder $builder, FieldType $fieldType)
     {
         foreach ($fieldType->getValidators() as $rule => $validator) {
+
+            $handler = array_get($validator, 'handler');
+
+            if (class_exists($handler) && class_implements($handler, 'Illuminate\Contracts\Bus\SelfHandling')) {
+                $handler .= '@handle';
+            }
+
             $factory->extend(
                 $rule,
-                function ($attribute, $value, $parameters) use ($validator, $builder, $fieldType) {
+                function ($attribute, $value, $parameters) use ($handler, $validator, $builder, $fieldType) {
                     return $this->container->call(
-                        array_get($validator, 'handler'),
+                        $handler,
                         compact('attribute', 'value', 'parameters', 'builder', 'fieldType')
                     );
                 },
