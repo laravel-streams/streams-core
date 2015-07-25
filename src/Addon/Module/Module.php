@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Support\Presenter;
 
 /**
  * Class Module
@@ -178,7 +177,7 @@ class Module extends Addon
     /**
      * Get the module's presenter.
      *
-     * @return Presenter
+     * @return ModulePresenter
      */
     public function getPresenter()
     {

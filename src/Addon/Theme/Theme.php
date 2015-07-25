@@ -39,20 +39,6 @@ class Theme extends Addon
     protected $current = false;
 
     /**
-     * Meta information.
-     *
-     * @var array
-     */
-    protected $meta = [];
-
-    /**
-     * The theme's tag class.
-     *
-     * @var string
-     */
-    protected $tag = 'Anomaly\Streams\Platform\Addon\Theme\ThemeTag';
-
-    /**
      * Get the admin flag.
      *
      * @return bool
@@ -109,74 +95,12 @@ class Theme extends Addon
     }
 
     /**
-     * Get the meta data.
+     * Get the module's presenter.
      *
-     * @return array
+     * @return ThemePresenter
      */
-    public function getMeta()
+    public function getPresenter()
     {
-        return $this->meta;
-    }
-
-    /**
-     * Set the meta data.
-     *
-     * @param  $meta
-     * @return $this
-     */
-    public function setMeta($meta)
-    {
-        $this->meta = $meta;
-
-        return $this;
-    }
-
-    /**
-     * Put meta data.
-     *
-     * @param  $key
-     * @param  $meta
-     * @return $this
-     */
-    public function putMeta($key, $meta)
-    {
-        $this->meta[$key] = $meta;
-
-        return $this;
-    }
-
-    /**
-     * Pull meta data.
-     *
-     * @param       $key
-     * @param  null $default
-     * @return mixed
-     */
-    public function pullMeta($key, $default = null)
-    {
-        return array_get($this->meta, $key, $default);
-    }
-
-    /**
-     * Get the theme's tag class.
-     *
-     * @return string
-     */
-    public function getTag()
-    {
-        return $this->tag;
-    }
-
-    /**
-     * Set the theme's tag class.
-     *
-     * @param  $tag
-     * @return $this
-     */
-    public function setTag($tag)
-    {
-        $this->tag = $tag;
-
-        return $this;
+        return app()->make('Anomaly\Streams\Platform\Addon\Theme\ThemePresenter', ['object' => $this]);
     }
 }

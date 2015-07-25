@@ -22,5 +22,8 @@ return [
     'installed'   => 'Installed',
     'uninstalled' => 'Uninstalled',
     'enabled'     => 'Enabled',
-    'disabled'    => 'Disabled'
+    'disabled'    => 'Disabled',
+    'active'      => 'Active',
+    'admin'       => 'Admin',
+    'public'      => 'Public'
 ];
