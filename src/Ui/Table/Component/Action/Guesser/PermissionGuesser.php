@@ -70,7 +70,7 @@ class PermissionGuesser
              * Try and guess the permission.
              */
             if ($stream) {
-                $action['permission'] = $action[$module->getNamespace($stream->getSlug() . '.' . $action['slug'])];
+                $action['permission'] = $module->getNamespace($stream->getSlug() . '.' . $action['slug']);
             } elseif ($section) {
                 $action['permission'] = $module->getNamespace($section->getSlug() . '.' . $action['slug']);
             }
