@@ -31,7 +31,7 @@ class FilterNormalizer
              */
             if (is_string($filter) && !str_contains($filter, '/')) {
                 $filter = [
-                    'slug'   => $slug,
+                    'slug'   => $filter,
                     'field'  => $filter,
                     'filter' => 'field'
                 ];

@@ -31,13 +31,5 @@ class BuildFiltersHandler
         $this->builder = $builder;
     }
 
-    /**
-     * Build views and load them to the table.
-     *
-     * @param BuildFilters $command
-     */
-    public function handle(BuildFilters $command)
-    {
-        $this->builder->build($command->getBuilder());
-    }
+    
 }
