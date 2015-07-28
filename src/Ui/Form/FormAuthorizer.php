@@ -55,6 +55,10 @@ class FormAuthorizer
             return;
         }
 
+        if (!env('INSTALLED')) {
+            return;
+        }
+
         // Use this to help out.
         $module = $this->modules->active();
 
