@@ -45,14 +45,6 @@ class EntryRulesParser
     {
         $rules = [];
 
-        $field = $assignment->getField();
-
-        if ($fieldRules = $field->getRules()) {
-            foreach ($fieldRules as $rule) {
-                $rules[] = $rule;
-            }
-        }
-
         if ($assignment->isRequired()) {
             $rules[] = 'required';
         }

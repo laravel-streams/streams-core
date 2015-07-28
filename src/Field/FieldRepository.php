@@ -39,7 +39,6 @@ class FieldRepository implements FieldRepositoryInterface
      */
     public function create(array $attributes)
     {
-        $attributes['rules']  = array_get($attributes, 'rules', []);
         $attributes['config'] = array_get($attributes, 'config', []);
         $attributes['locked'] = (array_get($attributes, 'locked', true));
 
