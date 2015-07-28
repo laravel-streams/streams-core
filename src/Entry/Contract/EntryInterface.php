@@ -132,14 +132,6 @@ interface EntryInterface
     public function getFieldType($fieldSlug);
 
     /**
-     * Get the rules for a field.
-     *
-     * @param  $fieldSlug
-     * @return array
-     */
-    public function getFieldRules($fieldSlug);
-
-    /**
      * Get all assignments.
      *
      * @return AssignmentCollection
