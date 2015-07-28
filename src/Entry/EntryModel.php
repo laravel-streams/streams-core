@@ -188,19 +188,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Get the rules for a field.
-     *
-     * @param  $fieldSlug
-     * @return array
-     */
-    public function getFieldRules($fieldSlug)
-    {
-        $field = $this->getField($fieldSlug);
-
-        return $field->getRules();
-    }
-
-    /**
      * Set a given attribute on the model.
      * Override the behavior here to give
      * the field types a chance to modify things.
