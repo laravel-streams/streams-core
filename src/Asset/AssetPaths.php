@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Asset;
 
+use Illuminate\Config\Repository;
+
 /**
  * Class AssetPaths
  *
@@ -12,9 +14,21 @@ class AssetPaths
 {
 
     /**
+     * Predefined paths.
+     *
      * @var array
      */
     protected $paths = [];
+
+    /**
+     * Create a new AssetPaths instance.
+     *
+     * @param Repository $config
+     */
+    public function __construct(Repository $config)
+    {
+        $this->paths = $config->get('streams::assets.paths', []);
+    }
 
     /**
      * Add an asset path hint.

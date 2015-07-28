@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Image;
 
+use Illuminate\Config\Repository;
+
 /**
  * Class ImagePaths
  *
@@ -15,6 +17,16 @@ class ImagePaths
      * @var array
      */
     protected $paths = [];
+
+    /**
+     * Create a new ImagePaths instance.
+     *
+     * @param Repository $config
+     */
+    public function __construct(Repository $config)
+    {
+        $this->paths = $config->get('streams::images.paths', []);
+    }
 
     /**
      * Add an image path hint.

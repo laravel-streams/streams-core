@@ -22,6 +22,16 @@ class FieldTypePresenter extends AddonPresenter
     protected $object;
 
     /**
+     * Get the object.
+     *
+     * @return FieldType
+     */
+    public function getObject()
+    {
+        return parent::getObject();
+    }
+
+    /**
      * By default return the value.
      * This can be dangerous if used in a loop!
      * There is a PHP bug that caches it's

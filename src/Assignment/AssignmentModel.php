@@ -30,8 +30,9 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      * @var array
      */
     protected $attributes = [
-        'rules'  => 'a:0:{}',
-        'config' => 'a:0:{}'
+        'config'     => 'a:0:{}',
+        'rules'      => 'a:0:{}',
+        'validators' => 'a:0:{}'
     ];
 
     /**

@@ -32,8 +32,9 @@ class FieldModel extends EloquentModel implements FieldInterface
      * @var array
      */
     protected $attributes = [
-        'rules'  => 'a:0:{}',
-        'config' => 'a:0:{}'
+        'config'     => 'a:0:{}',
+        'rules'      => 'a:0:{}',
+        'validators' => 'a:0:{}'
     ];
 
     /**
