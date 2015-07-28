@@ -107,7 +107,6 @@ class StreamModel extends EloquentModel implements StreamInterface
 
                 if (isset($assignment['field'])) {
 
-                    $assignment['field']['rules']  = unserialize($assignment['field']['rules']);
                     $assignment['field']['config'] = unserialize($assignment['field']['config']);
 
                     $fieldModel        = new FieldModel();
@@ -119,7 +118,6 @@ class StreamModel extends EloquentModel implements StreamInterface
                         }
                     }
 
-                    $assignment['field']['rules']  = serialize($assignment['field']['rules']);
                     $assignment['field']['config'] = serialize($assignment['field']['config']);
 
                     $fieldModel->setRawAttributes($assignment['field']);
