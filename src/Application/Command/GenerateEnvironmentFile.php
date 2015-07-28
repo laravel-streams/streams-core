@@ -39,7 +39,11 @@ class GenerateEnvironmentFile implements SelfHandling
         $contents = '';
 
         foreach ($this->data as $key => $value) {
-            $contents .= strtoupper($key) . '=' . $value . PHP_EOL;
+            if ($key) {
+                $contents .= strtoupper($key) . '=' . $value . PHP_EOL;
+            } else {
+                $contents .= $value . PHP_EOL;
+            }
         }
 
         file_put_contents(base_path('.env'), $contents);
