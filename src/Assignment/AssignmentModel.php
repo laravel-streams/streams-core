@@ -30,9 +30,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      * @var array
      */
     protected $attributes = [
-        'config'     => 'a:0:{}',
-        'rules'      => 'a:0:{}',
-        'validators' => 'a:0:{}'
+        'config' => 'a:0:{}'
     ];
 
     /**
@@ -153,10 +151,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
             return null;
         }
 
-        $type->mergeRules($this->getRules());
         $type->mergeConfig($this->getConfig());
-        $type->mergeValidators($this->getValidators());
-
         $type->setRequired($this->isRequired());
 
         return $type;
@@ -196,26 +191,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
         $field = $this->getField();
 
         return $field->getRules();
-    }
-
-    /**
-     * Get the rules.
-     *
-     * @return array
-     */
-    public function getRules()
-    {
-        return $this->rules;
-    }
-
-    /**
-     * Get the validators.
-     *
-     * @return array
-     */
-    public function getValidators()
-    {
-        return $this->validators;
     }
 
     /**
@@ -375,52 +350,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     public function getConfigAttribute($config)
     {
         return (array)unserialize($config);
-    }
-
-    /**
-     * Serialize the rules attribute
-     * before setting to the model.
-     *
-     * @param $rules
-     */
-    public function setRulesAttribute($rules)
-    {
-        $this->attributes['rules'] = serialize((array)$rules);
-    }
-
-    /**
-     * Unserialize the rules attribute
-     * after getting from the model.
-     *
-     * @param  $rules
-     * @return mixed
-     */
-    public function getRulesAttribute($rules)
-    {
-        return (array)unserialize($rules);
-    }
-
-    /**
-     * Serialize the validators attribute
-     * before setting to the model.
-     *
-     * @param $rules
-     */
-    public function setValidatorsAttribute($validators)
-    {
-        $this->attributes['validators'] = serialize((array)$validators);
-    }
-
-    /**
-     * Unserialize the validators attribute
-     * after getting from the model.
-     *
-     * @param  $validators
-     * @return mixed
-     */
-    public function getValidatorsAttribute($validators)
-    {
-        return (array)unserialize($validators);
     }
 
     /**

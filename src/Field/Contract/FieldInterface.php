@@ -64,13 +64,6 @@ interface FieldInterface
     public function getConfig();
 
     /**
-     * Get the validation rules.
-     *
-     * @return mixed
-     */
-    public function getRules();
-
-    /**
      * Get the related assignments.
      *
      * @return AssignmentCollection
