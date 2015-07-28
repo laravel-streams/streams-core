@@ -41,10 +41,6 @@ class FormRules
 
             $fieldRules = array_filter(array_unique($field->getRules()));
 
-            if ($entry instanceof EntryInterface) {
-                $fieldRules = $fieldRules + $entry->getFieldRules($field->getField());
-            }
-
             if (!$stream instanceof StreamInterface) {
 
                 $rules[$field->getInputName()] = implode('|', $fieldRules);
