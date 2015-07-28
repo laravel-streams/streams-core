@@ -477,6 +477,7 @@ class StreamsServiceProvider extends ServiceProvider
                 'Anomaly\Streams\Platform\Asset\Console\Clear',
                 'Anomaly\Streams\Platform\Stream\Console\Compile',
                 'Anomaly\Streams\Platform\Stream\Console\Cleanup',
+                'Anomaly\Streams\Platform\Stream\Console\Destroy',
                 'Anomaly\Streams\Platform\Addon\Module\Console\Install',
                 'Anomaly\Streams\Platform\Addon\Module\Console\Uninstall',
                 'Anomaly\Streams\Platform\Addon\Module\Console\Reinstall',
