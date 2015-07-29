@@ -24,10 +24,10 @@ class FormPresenter extends Presenter
     /**
      * Display the form content.
      *
-     * @return null|string
+     * @return string
      */
     function __toString()
     {
-        return $this->object->getContent();
+        return $this->object->getContent()->render();
     }
 }

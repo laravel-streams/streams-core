@@ -25,7 +25,7 @@ class MigrateFieldsHandler
     /**
      * Create a new MigrateFieldsHandler instance.
      *
-     * @maram FieldRepositoryInterface $fields
+     * @param FieldRepositoryInterface $fields
      */
     public function __construct(FieldRepositoryInterface $fields)
     {
@@ -78,7 +78,12 @@ class MigrateFieldsHandler
                 );
             }
 
-            $this->fields->create($field);
+            // Only create if it does not exist already.
+            if (!$entry = $this->fields->findBySlugAndNamespace($field['slug'], $field['namespace'])) {
+                $this->fields->create($field);
+            } else {
+                $this->fields->save($entry->fill($field));
+            }
         }
 
         return true;

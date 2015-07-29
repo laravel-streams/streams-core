@@ -14,6 +14,7 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Illuminate\Support\MessageBag;
+use Illuminate\View\View;
 use Robbo\Presenter\PresentableInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -330,7 +331,7 @@ class Form implements PresentableInterface
     /**
      * Get the form content.
      *
-     * @return null|string
+     * @return null|View
      */
     public function getContent()
     {
