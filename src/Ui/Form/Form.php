@@ -14,6 +14,7 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Illuminate\Support\MessageBag;
+use Robbo\Presenter\PresentableInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -24,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Form
  */
-class Form
+class Form implements PresentableInterface
 {
 
     /**
@@ -670,5 +671,21 @@ class Form
         $fields = $this->fields->translatable();
 
         return (!$fields->isEmpty());
+    }
+
+    /**
+     * Return a created presenter.
+     *
+     * @return FormPresenter
+     */
+    public function getPresenter()
+    {
+        $presenter = get_class($this) . 'Presenter';
+
+        if (class_exists($presenter)) {
+            return app()->make($presenter, ['object' => $this]);
+        }
+
+        return app()->make('Anomaly\Streams\Platform\Ui\Form\FormPresenter', ['object' => $this]);
     }
 }

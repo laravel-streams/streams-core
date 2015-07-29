@@ -68,6 +68,15 @@ class ButtonRegistry
             'icon' => 'fa fa-plus',
             'type' => 'success'
         ],
+        'send'      => [
+            'text' => 'streams::button.send',
+            'icon' => 'envelope',
+            'type' => 'success'
+        ],
+        'submit'    => [
+            'text' => 'streams::button.submit',
+            'type' => 'success'
+        ],
         /**
          * Info Buttons
          */

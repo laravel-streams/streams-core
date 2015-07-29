@@ -30,5 +30,7 @@ return [
     'reorder'            => 'Reorder',
     'configure'          => 'Configure',
     'settings'           => 'Settings',
-    'fields'             => 'Fields'
+    'fields'             => 'Fields',
+    'send'               => 'Send',
+    'submit'             => 'Submit'
 ];

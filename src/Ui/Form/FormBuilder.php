@@ -241,6 +241,16 @@ class FormBuilder
     }
 
     /**
+     * Get the form presenter.
+     *
+     * @return FormPresenter
+     */
+    public function getFormPresenter()
+    {
+        return $this->form->getPresenter();
+    }
+
+    /**
      * Get the ajax flag.
      *
      * @return bool
