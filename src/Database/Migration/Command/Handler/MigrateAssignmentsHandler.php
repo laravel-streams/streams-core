@@ -148,9 +148,12 @@ class MigrateAssignmentsHandler
             }
 
             $field = $this->fields->findBySlugAndNamespace($field, $stream->getNamespace());
+            $entry = $this->assignments->findByStreamAndField($stream, $field);
 
-            if ($field) {
+            if ($field && !$entry) {
                 $this->assignments->create(array_merge($assignment, compact('field', 'stream')));
+            } elseif ($entry) {
+                $this->assignments->save($entry->fill($assignment));
             }
         }
     }

@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Model\EloquentRepository;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
@@ -14,7 +15,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Assignment
  */
-class AssignmentRepository implements AssignmentRepositoryInterface
+class AssignmentRepository extends EloquentRepository implements AssignmentRepositoryInterface
 {
 
     /**
@@ -35,23 +36,12 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     }
 
     /**
-     * Find an assignment.
-     *
-     * @param $id
-     * @return null|AssignmentInterface
-     */
-    public function find($id)
-    {
-        return $this->model->find($id);
-    }
-
-    /**
      * Create a new assignment.
      *
      * @param array $attributes
      * @return AssignmentInterface
      */
-    public function create(array $attributes)
+    public function create(array $attributes = [])
     {
         $attributes['sort_order'] = array_get($attributes, 'sort_order', $this->model->count('id') + 1);
 
@@ -59,21 +49,11 @@ class AssignmentRepository implements AssignmentRepositoryInterface
     }
 
     /**
-     * Delete an assignment.
-     *
-     * @param AssignmentInterface|EloquentModel $assignment
-     */
-    public function delete(AssignmentInterface $assignment)
-    {
-        $assignment->delete();
-    }
-
-    /**
      * Find an assignment by stream and field.
      *
      * @param StreamInterface $stream
      * @param FieldInterface  $field
-     * @return null|AssignmentInterface
+     * @return null|AssignmentInterface|EloquentModel
      */
     public function findByStreamAndField(StreamInterface $stream, FieldInterface $field)
     {
