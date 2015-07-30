@@ -342,4 +342,17 @@ Don't forget to register the command as well!
 <a name="registering-view-overrides"></a>
 ## View Overrides
 
-Limited specifically 
+Though typically done in themes, you can override any view from any addon. Override views by defining them like `view => override`. For example:
+
+	protected $overrides = [
+		'anomaly.module.users::login' => `anomaly.theme.example::my_login'
+	];
+
+<a name="registering-mobile-view-overrides"></a>
+## Mobile View Overrides
+
+Even with the elegance of responsive design these days sometimes you just need to override a view for a mobile device. Define mobile view overrides exactly like normal view overrides.
+
+	protected $overrides = [
+		'anomaly.module.users::login' => `anomaly.theme.example::my_mobile_login'
+	];
