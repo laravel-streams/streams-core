@@ -364,6 +364,6 @@ Though typically done in themes, you can override any view from any addon. Overr
 
 Even with the elegance of responsive design these days sometimes you just need to override a view for a mobile device. Define mobile view overrides exactly like normal view overrides.
 
-	protected $overrides = [
+	protected $mobile = [
 		'anomaly.module.users::login' => `anomaly.theme.example::my_mobile_login'
 	];
