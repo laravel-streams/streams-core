@@ -312,6 +312,8 @@ You can also register additional service providers from the `AddonServiceProvide
 
 Service providers registered here will be ran by Laravel just like any other service provider.
 
+For more information on service providers please see [Laravel's service providers documentation](http://laravel.com/docs/5.1/providers).
+
 <a name="registering-bindings"></a>
 ### Bindings
 
@@ -324,6 +326,8 @@ Register interface and other class bindings like this:
 
 The first binding registers an interface to an implementation and the second binds a model to a custom model.
 
+For more information on binding please see [Laravel's service container documentation](http://laravel.com/docs/5.1/container).
+
 <a name="registering-singletons"></a>
 ### Singletons
 
@@ -333,6 +337,8 @@ Similar to bindings above, register singleton interfaces and other classs bindin
 		ExampleInterface::class => ExampleImplementation::class
 	];
 
+For more information on binding please see [Laravel's service container documentation](http://laravel.com/docs/5.1/container).
+
 <a name="registering-commands"></a>
 ### Commands
 
@@ -341,6 +347,8 @@ Similar to other classes you can register artisan console commands like this:
 	protected $commands = [
 		ExampleCommand::class
 	];
+
+For more information on artisan commands please see [Laravel's artisan console documentation](http://laravel.com/docs/5.1/artisan).
 
 <a name="registering-schedules"></a>
 ### Schedules
@@ -354,6 +362,8 @@ Don't forget to register the command as well!
 			ExampleCommand::class
 		]
 	];
+
+For more information on command schedules please see [Laravel's scheduling documentation](http://laravel.com/docs/5.1/scheduling).
 
 <a name="registering-view-overrides"></a>
 ### View Overrides
