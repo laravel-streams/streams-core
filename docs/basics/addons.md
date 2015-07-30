@@ -233,44 +233,30 @@ A simple addon service provider might look like this:
 
 	}
 
-From this point, you can start adding array properties to handle register various services.
+From this point, you can start adding properties to handle registering various services.
 
 <a name="registering-routes"></a>
 ### Routes
 
 Every module will need to register routes, this is how you wold register a couple simple routes:
 
-	<?php namespace Anomaly\ExampleModule;
-
-	use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
-
-	class ExampleModuleServiceProvider extends AddonServiceProvider
-	{
-		protected $routes = [
-			'admin/pages/example'     => PagesController::class . '@example',
-			'admin/pages/delete/{id}' => PagesController::class . '@delete'
-		];
-	}
+	protected $routes = [
+		'admin/pages/example'     => PagesController::class . '@example',
+		'admin/pages/delete/{id}' => PagesController::class . '@delete'
+	];
 
 A more complex route might look like this:
 
-	<?php namespace Anomaly\ExampleModule;
-
-	use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
-
-	class ExampleModuleServiceProvider extends AddonServiceProvider
-	{
-		protected $routes = [
-			'pages/example/{slug}' => [
-				'use'         => PagesController::class . '@view',
-				'constraints' => [
-					'slug' => '[a-z0-9_-]'
-				],
-				'parameter'   => 'example',
-				'anomaly.module.users::permission' => 'anomaly.module.pages::pages.do_something'
-			]
-		];
-	}
+	protected $routes = [
+		'pages/example/{slug}' => [
+			'use'         => PagesController::class . '@view',
+			'constraints' => [
+				'slug' => '[a-z0-9_-]'
+			],
+			'parameter'   => 'example',
+			'anomaly.module.users::permission' => 'anomaly.module.pages::pages.do_something'
+		]
+	];
 
 The above route not only defines the route and action, but also adds a constraint to the `slug` parameter and defines a permission that the users module will authorize against current user.
 
@@ -282,17 +268,10 @@ A list of route parameters and how they work will be available in each individua
 
 Oftentimes an addon will include it's own Plugins. Here is how to register plugins from the addon service provider.:
 
-	<?php namespace Anomaly\ExampleModule;
-
-	use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
-
-	class ExampleModuleServiceProvider extends AddonServiceProvider
-	{
-		protected $plugins = [
-			ExampleModulePlugin::class,
-			FooBarPlugin::class
-		];
-	}
+	protected $plugins = [
+		ExampleModulePlugin::class,
+		FooBarPlugin::class
+	];
 
 <a name="registering-middleware"></a>
 ### Middleware
