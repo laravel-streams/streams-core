@@ -260,8 +260,11 @@ A more complex route might look like this:
 
 The above route not only defines the route and action, but also adds a constraint to the `slug` parameter and defines a permission that the users module will authorize against current user.
 
+Route arrays generally route just like this `Route::any(key, value)->where(array_get(value, constraints);`.
+
 A list of route parameters and how they work will be available in each individual module's documentation.
 
+For more information on event listeners please see [Laravel's routing documentation](http://laravel.com/docs/5.1/routing).
 
 <a name="registering-plugins"></a>
 ### Plugins
@@ -295,6 +298,8 @@ Registering event listeners could not be easier. Just define the array of `event
 			DoMore::class
 		]
 	];
+
+For more information on event listeners please see [Laravel's event documentation](http://laravel.com/docs/5.1/events).
 
 <a name="registering-providers"></a>
 ### Service Providers
