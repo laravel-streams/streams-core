@@ -1,5 +1,4 @@
 bin
-docs
 vendor
 build
 composer.lock
