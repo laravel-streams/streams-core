@@ -70,7 +70,7 @@ Themes come in two varieties; **public** and **admin**. Themes are responsible f
 <a name="extensions"></a>
 ### Extensions
 
-Extensions lets developers build applications that are closed for modification and open for **extension**. They are a "wild card" addon. Extensions can do anything that any of the other addon types can do. Extensions do anything from simply [provide an extra API](https://github.com/anomalylabs/aws_sdk-extension) to providing [driver functionality](https://github.com/anomalylabs/local_storage_adapter-extension) to modules to providing a [special service](https://github.com/anomalylabs/throttle_security_check-extension) for a module.
+Extensions lets developers build applications that are closed for modification and open for **extension**. They are a "wild card" addon. Extensions can do anything that any of the other addon types can do. Extensions can do anything! Examples range from simply [providing an API package](https://github.com/anomalylabs/aws_sdk-extension), to providing [driver functionality](https://github.com/anomalylabs/local_storage_adapter-extension) to addons, to providing a [special service](https://github.com/anomalylabs/throttle_security_check-extension) for an addon.
 
 
 <a name="addon-structure"></a>
@@ -107,7 +107,7 @@ Any addons that can only be accessed by a specific application are located here:
 <a name="folder-structure"></a>
 ### Folder Structure
 
-To create an addon, first create the folder it will reside in in one of the above [addon locations](#locations). The folder **must** follow this pattern:
+To create an addon, first create the it's folder in one of the above [addon locations](#locations). The folder **must** follow this pattern:
 
 	{slug}-{type}
 
@@ -186,6 +186,17 @@ The AddonClass is a PSR compliant class that must *at least* extend the base add
 	use Anomaly\Streams\Platform\Addon\Module\Module;
 
 	class PagesModule extends Module
+	{
+
+	}
+
+If we look at the pattern this file must use, it looks like this:
+
+	<?php namespace {vendor}\{slug}{type};
+
+	use Anomaly\Streams\Platform\Addon\Module\Module;
+
+	class {slug}{type} extends {type}
 	{
 
 	}
