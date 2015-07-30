@@ -5,7 +5,6 @@ use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
 use Illuminate\Events\Dispatcher;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
 use Mobile_Detect;
 
 /**
@@ -62,7 +61,7 @@ class ViewComposer
     protected $mobiles;
 
     /**
-     * @param Agent               $agent
+     * @param Mobile_Detect       $agent
      * @param Dispatcher          $events
      * @param ThemeCollection     $themes
      * @param ModuleCollection    $modules
@@ -70,13 +69,14 @@ class ViewComposer
      * @param ViewMobileOverrides $mobiles
      */
     function __construct(
+        Mobile_Detect $agent,
         Dispatcher $events,
         ThemeCollection $themes,
         ModuleCollection $modules,
         ViewOverrides $overrides,
         ViewMobileOverrides $mobiles
     ) {
-        $this->agent     = new Mobile_Detect();
+        $this->agent     = $agent;
         $this->events    = $events;
         $this->themes    = $themes;
         $this->modules   = $modules;

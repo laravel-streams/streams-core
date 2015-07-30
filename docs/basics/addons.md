@@ -10,6 +10,19 @@
 	- [Addon Locations](#locations)
 	- [Folder Structure](#folder-structure)
 	- [Required Components](#required-components)
+- [The Addon Service Provider](#service-provider)
+	- [Routes](#registering-routes)
+	- [Plugins](#registering-plugins)
+	- [Middleware](#registering-middleware)
+	- [Listeners](#registering-listeners)
+	- [Providers](#registering-providers)
+	- [Bindings](#registering-bindings)
+	- [Singletons](#registering-singletons)
+	- [Commands](#registering-commands)
+	- [Schedules](#registering-schedules)
+	- [View Overrides](#registering-view-overrides)
+	- [Mobile View Overrides](#registering-mobile-view-overrides)
+
 
 <a name="introduction"></a>
 ## Introduction
@@ -34,7 +47,7 @@ For example, the Posts module allows you to manage posts and post types in the c
 <a name="field-types"></a>
 ### Field Types
 
-Field types are the basic building blocks of your entire application's UI and data. They are created and assigned to Streams and handle the setting up of custom data structures and rending the input to manage it.
+Field types are the basic building blocks of your entire application's UI and data. They are created and assigned to Streams and handle the setting up of custom data structures and rendering the input to manage it.
 
 Field types represent the types of data you can add to a Stream. They contain all the logic regarding getting data in and out of the database, formatting it correctly, and validating it.
 
@@ -119,7 +132,7 @@ In order to simply load, all addons must contain at least these required files:
 	addon-folder/composer.json
 	addon-folder/src/AddonClass.php
 
-The `composer.json` is only *required* to provide an autoloading definition for it's addon:
+The `composer.json` is only *required* to provide an autoloading definition for it's addon.
 
 	{
 	    "autoload": {
@@ -130,3 +143,203 @@ The `composer.json` is only *required* to provide an autoloading definition for 
 	}
 
 It may, however provide more information that is used both by [Packagist](https://packagist.org/) and the addons module internally.
+
+	{
+	    "name": "anomaly/pages-module",
+	    "type": "streams-addon",
+	    "description": "Public content and page management.",
+	    "keywords": [
+	        "streams module",
+	        "streams addon",
+	        "module"
+	    ],
+	    "homepage": "http://anomaly.is/",
+	    "version": "1.0.0",
+	    "license": "MIT",
+	    "authors": [
+	        {
+	            "name": "AnomalyLabs, Inc.",
+	            "email": "hello@anomaly.is",
+	            "homepage": "http://anomaly.is/",
+	            "role": "Owner"
+	        }
+	    ],
+	    "support": {
+	        "email": "support@anomaly.is"
+	    },
+	    "autoload": {
+	        "psr-4": {
+	            "Anomaly\\PagesModule\\": "src/"
+	        }
+	    },
+	    "extra": {
+	        "branch-alias": {
+	            "dev-1.0/master": "1.0.x-dev"
+	        }
+	    }
+	}
+
+The AddonClass is a PSR compliant class that must *at least* extend the base addon class for it's type.
+
+	<?php namespace Anomaly\PagesModule;
+
+	use Anomaly\Streams\Platform\Addon\Module\Module;
+
+	class PagesModule extends Module
+	{
+
+	}
+
+Different addon types may accept more features but by default nothing is *usually* required. The necessary logic is inherited and setup automatically.
+
+For more information on what more can be done in addon type classes see their respective documentation.
+
+### Congratulations!
+
+Following this simple location, folder and file pattern, your addon will load and display in the Addons module.
+
+Now you can easily develop your addon to do something awesome!
+
+
+<a name="service-provider"></a>
+## The Addon Service Provider
+
+All addons support an optional addon service provider. The service provider acts as a normal Laravel service provider and is responsible for registering your addon's routes, classes, services, singletons, events, commands, plugins, view overrides and more. Don't worry though, the addon service provider is designed to let you do all of this with simple arrays.
+
+To get started, create you service provider. The class name of your addon service provider is *directly* related to your addon class name. Simply add `ServiceProvider` to the end of it.
+
+	ExampleModule transforms to: ExampleModuleServiceProvider
+	ExampleTheme  transforms to: ExampleThemeServiceProvider
+
+A simple addon service provider might look like this: 
+
+	<?php namespace Anomaly\PagesModule;
+
+	use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
+
+	class PagesModuleServiceProvider extends AddonServiceProvider
+	{
+
+	}
+
+From this point, you can start adding array properties to handle register various services.
+
+<a name="registering-routes"></a>
+## Routes
+
+Every module will need to register routes, this is how you wold register a couple simple routes:
+
+	protected $routes = [
+		'admin/pages/example'     => PagesController::class . '@example',
+		'admin/pages/delete/{id}' => PagesController::class . '@delete'
+	];
+
+A more complex route might look like this:
+
+	protected $routes = [
+		'pages/example/{slug}' => [
+			'use'         => PagesController::class . '@view',
+			'constraints' => [
+				'slug' => '[a-z0-9_-]'
+			],
+			'parameter'   => 'example',
+			'anomaly.module.users::permission' => 'anomaly.module.pages::pages.do_something'
+		]
+	];
+
+The above route not only defines the route and action, but also adds a constraint to the `slug` parameter and defines a permission that the users module will authorize against current user.
+
+A list of route parameters and how they work will be available in each individual module's documentation.
+
+
+<a name="registering-plugins"></a>
+## Plugins
+
+Oftentimes an addon will include it's own Plugins. Here is how to register plugins from the addon service provider.:
+
+	protected $plugins = [
+		ExampleModulePlugin::class,
+		FooBarPlugin::class
+	];
+
+<a name="registering-middleware"></a>
+## Middleware
+
+Registered middleware runs in the base controller - any controller that extends `Anomaly\Streams\Platform\Http\Controller\PublicController` or `Anomaly\Streams\Platform\Http\Controller\AdminController` will run registered middleware.
+
+	protected $middleware = [
+		MyCustomMiddleware::class
+	];
+
+Registered middleware must comply with [Laravel's middleware parameters](http://laravel.com/docs/master/middleware#middleware-parameters).
+
+<a name="registering-listeners"></a>
+## Listeners
+
+Registering event listeners could not be easier. Just define the array of `event => [listeners]`.
+
+	protected $listeners = [
+		ExampleEventWasTriggered::class => [
+			DoSomething::class,
+			DoMore::class
+		]
+	];
+
+<a name="registering-providers"></a>
+## Service Providers
+
+You can also register additional service providers from the `AddonServiceProvider`. 
+
+	protected $providers = [
+		ExampleServiceProvider::class
+	];
+
+Service providers registered here will be ran by Laravel just like any other service provider.
+
+<a name="registering-bindings"></a>
+## Bindings
+
+Register interface and other class bindings like this:
+
+	protected $bindings = [
+		ExampleInterface::class => ExampleImplementation::class,
+		ExampleModel::class     => MyCustomExampleModel::class
+	];
+
+The first binding registers an interface to an implementation and the second binds a model to a custom model.
+
+<a name="registering-singletons"></a>
+## Singletons
+
+Similar to bindings above, register singleton interfaces and other classs bindings like this:
+
+	protected $singletons = [
+		ExampleInterface::class => ExampleImplementation::class
+	];
+
+<a name="registering-commands"></a>
+## Commands
+
+Similar to other classes you can register artisan console commands like this:
+
+	protected $commands = [
+		ExampleCommand::class
+	];
+
+<a name="registering-schedules"></a>
+## Schedules
+
+You can register scheduled console commands easily from the addon service provider. Here is an example on how to run the `ExampleCommand` every 5 minutes.
+
+Don't forget to register the command as well!
+
+	protected $schedule = [
+		'*/5 * * * *' => [
+			ExampleCommand::class
+		]
+	];
+
+<a name="registering-view-overrides"></a>
+## View Overrides
+
+Limited specifically 
