@@ -81,10 +81,17 @@ class FormValidator
         $messages = $this->messages->get($builder);
         $rules    = $this->rules->compile($builder);
 
+        dump($input);
+
+        $translatedMessages = [];
+        foreach($messages as $key => $value) {
+            $translatedMessages[$key] = trans($value);
+        }
+
         /* @var Validator $validator */
         $validator = $factory->make($input, $rules);
 
-        $validator->setCustomMessages($messages);
+        $validator->setCustomMessages($translatedMessages);
 
         $this->setResponse($validator, $builder);
     }
