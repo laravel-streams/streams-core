@@ -117,9 +117,11 @@ class DetectActiveModule
         $this->asset->addPath('module', $module->getPath('resources'));
         $this->image->addPath('module', $module->getPath('resources'));
 
-        $this->breadcrumbs->add(
-            trans($module->getName()),
-            url('admin/' . $module->getSlug())
-        );
+        if ($this->request->segment(1) === 'admin') {
+            $this->breadcrumbs->add(
+                trans($module->getName()),
+                url('admin/' . $module->getSlug())
+            );
+        }
     }
 }
