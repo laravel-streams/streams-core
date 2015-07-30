@@ -217,18 +217,18 @@ Now you can easily develop your addon to do something awesome!
 
 All addons support an optional addon service provider. The service provider acts as a normal Laravel service provider and is responsible for registering your addon's routes, classes, services, singletons, events, commands, plugins, view overrides and more. Don't worry though, the addon service provider is designed to let you do all of this with simple arrays.
 
-To get started, create you service provider. The class name of your addon service provider is *directly* related to your addon class name. Simply add `ServiceProvider` to the end of it.
+To get started, create your service provider class. The class name of your addon service provider is *directly* related to your addon class name. Simply add `ServiceProvider` to the end of it.
 
 	ExampleModule transforms to: ExampleModuleServiceProvider
 	ExampleTheme  transforms to: ExampleThemeServiceProvider
 
 A simple addon service provider might look like this: 
 
-	<?php namespace Anomaly\PagesModule;
+	<?php namespace Anomaly\ExampleModule;
 
 	use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 
-	class PagesModuleServiceProvider extends AddonServiceProvider
+	class ExampleModuleServiceProvider extends AddonServiceProvider
 	{
 
 	}
@@ -236,27 +236,41 @@ A simple addon service provider might look like this:
 From this point, you can start adding array properties to handle register various services.
 
 <a name="registering-routes"></a>
-## Routes
+### Routes
 
 Every module will need to register routes, this is how you wold register a couple simple routes:
 
-	protected $routes = [
-		'admin/pages/example'     => PagesController::class . '@example',
-		'admin/pages/delete/{id}' => PagesController::class . '@delete'
-	];
+	<?php namespace Anomaly\ExampleModule;
+
+	use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
+
+	class ExampleModuleServiceProvider extends AddonServiceProvider
+	{
+		protected $routes = [
+			'admin/pages/example'     => PagesController::class . '@example',
+			'admin/pages/delete/{id}' => PagesController::class . '@delete'
+		];
+	}
 
 A more complex route might look like this:
 
-	protected $routes = [
-		'pages/example/{slug}' => [
-			'use'         => PagesController::class . '@view',
-			'constraints' => [
-				'slug' => '[a-z0-9_-]'
-			],
-			'parameter'   => 'example',
-			'anomaly.module.users::permission' => 'anomaly.module.pages::pages.do_something'
-		]
-	];
+	<?php namespace Anomaly\ExampleModule;
+
+	use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
+
+	class ExampleModuleServiceProvider extends AddonServiceProvider
+	{
+		protected $routes = [
+			'pages/example/{slug}' => [
+				'use'         => PagesController::class . '@view',
+				'constraints' => [
+					'slug' => '[a-z0-9_-]'
+				],
+				'parameter'   => 'example',
+				'anomaly.module.users::permission' => 'anomaly.module.pages::pages.do_something'
+			]
+		];
+	}
 
 The above route not only defines the route and action, but also adds a constraint to the `slug` parameter and defines a permission that the users module will authorize against current user.
 
@@ -264,17 +278,24 @@ A list of route parameters and how they work will be available in each individua
 
 
 <a name="registering-plugins"></a>
-## Plugins
+### Plugins
 
 Oftentimes an addon will include it's own Plugins. Here is how to register plugins from the addon service provider.:
 
-	protected $plugins = [
-		ExampleModulePlugin::class,
-		FooBarPlugin::class
-	];
+	<?php namespace Anomaly\ExampleModule;
+
+	use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
+
+	class ExampleModuleServiceProvider extends AddonServiceProvider
+	{
+		protected $plugins = [
+			ExampleModulePlugin::class,
+			FooBarPlugin::class
+		];
+	}
 
 <a name="registering-middleware"></a>
-## Middleware
+### Middleware
 
 Registered middleware runs in the base controller - any controller that extends `Anomaly\Streams\Platform\Http\Controller\PublicController` or `Anomaly\Streams\Platform\Http\Controller\AdminController` will run registered middleware.
 
@@ -282,10 +303,10 @@ Registered middleware runs in the base controller - any controller that extends 
 		MyCustomMiddleware::class
 	];
 
-Registered middleware must comply with [Laravel's middleware parameters](http://laravel.com/docs/master/middleware#middleware-parameters).
+For more information on middleware please see [Laravel's middleware documentation](http://laravel.com/docs/master/middleware).
 
 <a name="registering-listeners"></a>
-## Listeners
+### Listeners
 
 Registering event listeners could not be easier. Just define the array of `event => [listeners]`.
 
@@ -297,7 +318,7 @@ Registering event listeners could not be easier. Just define the array of `event
 	];
 
 <a name="registering-providers"></a>
-## Service Providers
+### Service Providers
 
 You can also register additional service providers from the `AddonServiceProvider`. 
 
@@ -308,7 +329,7 @@ You can also register additional service providers from the `AddonServiceProvide
 Service providers registered here will be ran by Laravel just like any other service provider.
 
 <a name="registering-bindings"></a>
-## Bindings
+### Bindings
 
 Register interface and other class bindings like this:
 
@@ -320,7 +341,7 @@ Register interface and other class bindings like this:
 The first binding registers an interface to an implementation and the second binds a model to a custom model.
 
 <a name="registering-singletons"></a>
-## Singletons
+### Singletons
 
 Similar to bindings above, register singleton interfaces and other classs bindings like this:
 
@@ -329,7 +350,7 @@ Similar to bindings above, register singleton interfaces and other classs bindin
 	];
 
 <a name="registering-commands"></a>
-## Commands
+### Commands
 
 Similar to other classes you can register artisan console commands like this:
 
@@ -338,7 +359,7 @@ Similar to other classes you can register artisan console commands like this:
 	];
 
 <a name="registering-schedules"></a>
-## Schedules
+### Schedules
 
 You can register scheduled console commands easily from the addon service provider. Here is an example on how to run the `ExampleCommand` every 5 minutes.
 
@@ -351,7 +372,7 @@ Don't forget to register the command as well!
 	];
 
 <a name="registering-view-overrides"></a>
-## View Overrides
+### View Overrides
 
 Though typically done in themes, you can override any view from any addon. Override views by defining them like `view => override`. For example:
 
@@ -360,7 +381,7 @@ Though typically done in themes, you can override any view from any addon. Overr
 	];
 
 <a name="registering-mobile-view-overrides"></a>
-## Mobile View Overrides
+### Mobile View Overrides
 
 Even with the elegance of responsive design these days sometimes you just need to override a view for a mobile device. Define mobile view overrides exactly like normal view overrides.
 
