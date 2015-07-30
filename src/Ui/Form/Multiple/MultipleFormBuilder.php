@@ -1,5 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Multiple;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -139,5 +143,31 @@ class MultipleFormBuilder extends FormBuilder
         $builder = $this->getChildForm($key);
 
         return $builder->getFormStream();
+    }
+
+    /**
+     * Get the entry of a child form.
+     *
+     * @param $key
+     * @return EloquentModel|EntryInterface|FieldInterface|AssignmentInterface|null
+     */
+    public function getChildFormEntry($key)
+    {
+        $builder = $this->getChildForm($key);
+
+        return $builder->getFormEntry();
+    }
+
+    /**
+     * Get the entry ID of a child form.
+     *
+     * @param $key
+     * @return int|null
+     */
+    public function getChildFormEntryId($key)
+    {
+        $builder = $this->getChildForm($key);
+
+        return $builder->getFormEntryId();
     }
 }
