@@ -47,23 +47,33 @@ class FormValidator
     protected $messages;
 
     /**
+     * The attributes builder.
+     *
+     * @var FormAttributes
+     */
+    protected $attributes;
+
+    /**
      * Create a new FormValidator instance.
      *
-     * @param FormRules    $rules
-     * @param FormInput    $input
-     * @param FormExtender $extender
-     * @param FormMessages $messages
+     * @param FormRules      $rules
+     * @param FormInput      $input
+     * @param FormExtender   $extender
+     * @param FormMessages   $messages
+     * @param FormAttributes $attributes
      */
     public function __construct(
         FormRules $rules,
         FormInput $input,
         FormExtender $extender,
-        FormMessages $messages
+        FormMessages $messages,
+        FormAttributes $attributes
     ) {
-        $this->rules    = $rules;
-        $this->input    = $input;
-        $this->extender = $extender;
-        $this->messages = $messages;
+        $this->rules      = $rules;
+        $this->input      = $input;
+        $this->extender   = $extender;
+        $this->messages   = $messages;
+        $this->attributes = $attributes;
     }
 
     /**
@@ -77,19 +87,16 @@ class FormValidator
 
         $this->extender->extend($factory, $builder);
 
-        $input    = $this->input->all($builder);
-        $messages = $this->messages->get($builder);
-        $rules    = $this->rules->compile($builder);
-
-        $translatedMessages = [];
-        foreach ($messages as $key => $value) {
-            $translatedMessages[$key] = trans($value);
-        }
+        $input      = $this->input->all($builder);
+        $messages   = $this->messages->make($builder);
+        $attributes = $this->attributes->make($builder);
+        $rules      = $this->rules->compile($builder);
 
         /* @var Validator $validator */
         $validator = $factory->make($input, $rules);
 
-        $validator->setCustomMessages($translatedMessages);
+        $validator->setCustomMessages($messages);
+        $validator->setAttributeNames($attributes);
 
         $this->setResponse($validator, $builder);
     }

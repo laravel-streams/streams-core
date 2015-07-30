@@ -1,14 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+
 /**
- * Class FormMessages
+ * Class FormAttributes
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form
  */
-class FormMessages
+class FormAttributes
 {
 
     /**
@@ -19,19 +21,17 @@ class FormMessages
      */
     public function make(FormBuilder $builder)
     {
-        $messages = [];
+        $attributes = [];
 
+        /* @var FieldType $field */
         foreach ($builder->getFormFields() as $field) {
-
-            foreach ($field->getValidators() as $rule => $validator) {
-                $messages[$rule] = trans(array_get($validator, 'message'));
-            }
-
-            foreach ($field->getMessages() as $rule => $message) {
-                $messages[$rule] = trans($message);
+            if ($locale = $field->getLocale()) {
+                $attributes[$field->getInputName()] = trans($field->getLabel()) . ' (' . $locale . ')';
+            } else {
+                $attributes[$field->getInputName()] = trans($field->getLabel());
             }
         }
 
-        return $messages;
+        return $attributes;
     }
 }
