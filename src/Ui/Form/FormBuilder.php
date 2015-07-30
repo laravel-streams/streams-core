@@ -819,6 +819,17 @@ class FormBuilder
     }
 
     /**
+     * Get the form field.
+     *
+     * @param $fieldSlug
+     * @return FieldType
+     */
+    public function getFormField($fieldSlug)
+    {
+        return $this->form->getField($fieldSlug);
+    }
+
+    /**
      * Get the form field slugs.
      *
      * @return Array
