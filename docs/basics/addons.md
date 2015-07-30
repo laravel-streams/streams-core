@@ -7,8 +7,9 @@
 	- [Themes](#themes)
 	- [Extensions](#extensions)
 - [Addon Structure](#addon-structure)
-	- [The Anatomy Of An Addon](#anatomy)
 	- [Addon Locations](#locations)
+	- [Folder Structure](#folder-structure)
+	- [Required Components](#required-components)
 
 <a name="introduction"></a>
 ## Introduction
@@ -64,8 +65,68 @@ Extensions lets developers build applications that are closed for modification a
 
 Addons all extend their base addon type class which then extends the generic addon class. They are also all loaded in the exact same fashion. This means that the structure, features and *basic* behavior are all the same.
 
-<a name="anatomy"></a>
-### The Anatomy Of An Addon
-
 <a name="locations"></a>
 ### Addon Locations
+
+Addon locations follow a specific pattern based on Composer and PSR autoloading standards. No matter what directory an addon is located in, it will **always** be in it's **vendor directory**. Vendors of addons are very similar and often the same as vendors of Composer packages.
+
+Addons can be located in 3 different directories:
+
+#### Core
+
+Core addons are accessible to all applications in a multi-application environment. Any addons included in your application's `composer.json` file will be located here:
+
+	core/{vendor}/*
+
+#### Shared
+
+Any addons that can be shared across different application in a single installation are located here:
+
+	addons/shared/{vendor}/*
+
+#### Private
+
+Any addons that can only be accessed by a specific application are located here:
+
+	addons/{application}/{vendor}/*
+
+
+<a name="folder-structure"></a>
+### Folder Structure
+
+To create an addon, first create the folder it will reside in in one of the above [addon locations](#locations). The folder **must** follow this pattern:
+
+	{slug}-{type}
+
+A few simple examples are:
+
+	// The pages module
+	pages-module
+	
+	// The text field type
+	text-field_type
+	
+	// The default authenticator extension
+	default_authenticator-extension
+
+You will notice that core addons generally use the same exact pattern for repository names and [Packagist](https://packagist.org/) listing.
+
+<a name="required-components"></a>
+### Required Components
+
+In order to simply load, all addons must contain at least these required files:
+
+	addon-folder/composer.json
+	addon-folder/src/AddonClass.php
+
+The `composer.json` is only *required* to provide an autoloading definition for it's addon:
+
+	{
+	    "autoload": {
+	        "psr-4": {
+	            "ExampleVendor\\ExampleModule\\": "src/"
+	        }
+	    }
+	}
+
+It may, however provide more information that is used both by [Packagist](https://packagist.org/) and the addons module internally.
