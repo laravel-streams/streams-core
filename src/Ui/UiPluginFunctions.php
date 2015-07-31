@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui;
 
+use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
+use Illuminate\Container\Container;
 
 /**
  * Class UiPluginFunctions
@@ -21,13 +24,31 @@ class UiPluginFunctions
     protected $icons;
 
     /**
+     * The hydrator utility.
+     *
+     * @var Hydrator
+     */
+    protected $hydrator;
+
+    /**
+     * The service container.
+     *
+     * @var Container
+     */
+    protected $container;
+
+    /**
      * Create a new UiPluginFunctions instance.
      *
      * @param IconRegistry $icons
+     * @param Hydrator     $hydrator
+     * @param Container    $container
      */
-    public function __construct(IconRegistry $icons)
+    public function __construct(IconRegistry $icons, Hydrator $hydrator, Container $container)
     {
-        $this->icons = $icons;
+        $this->icons     = $icons;
+        $this->hydrator  = $hydrator;
+        $this->container = $container;
     }
 
     /**
@@ -61,5 +82,27 @@ class UiPluginFunctions
     public function constants()
     {
         return view('streams::partials/constants');
+    }
+
+    /**
+     * Handle form control.
+     *
+     * @param array $parameters
+     * @return Form\FormPresenter
+     */
+    public function form(array $parameters = [])
+    {
+        if (!$builder = array_pull($parameters, 'builder')) {
+            $builder = FormBuilder::class;
+        }
+
+        /* @var FormBuilder $builder */
+        $builder = $this->container->make($builder);
+
+        $this->hydrator->hydrate($builder, $parameters);
+
+        $builder->make();
+
+        return $builder->getFormPresenter();
     }
 }
