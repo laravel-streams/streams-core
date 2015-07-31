@@ -98,13 +98,17 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         /**
-         * Override the default CSRF check so
-         * we can handle it a little better later
-         * in the HTTP stack.
+         * Override a couple default Middlewares
+         * so we can handle them ourselves later.
          */
         $this->app->bind(
             'App\Http\Middleware\VerifyCsrfToken',
             'Anomaly\Streams\Platform\Http\Middleware\BypassCsrfToken'
+        );
+
+        $this->app->bind(
+            'Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode',
+            'Anomaly\Streams\Platform\Http\Middleware\BypassMaintenanceCheck'
         );
 
         /**
