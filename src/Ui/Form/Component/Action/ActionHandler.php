@@ -76,7 +76,14 @@ class ActionHandler
             $entry = $entry->toArray();
         }
 
-        if (($url = $action->getRedirect()) === false) {
+        // Get the redirect from the form first.
+        $url = $builder->getFormOption('redirect');
+
+        if ($url === null) {
+            $url = $action->getRedirect();
+        }
+
+        if ($url === false) {
             return;
         }
 
