@@ -17,23 +17,6 @@ class ActionResponder
 {
 
     /**
-     * The response override.
-     *
-     * @var ResponseOverride
-     */
-    protected $response;
-
-    /**
-     * Create a new ActionResponder instance.
-     *
-     * @param ResponseOverride $response
-     */
-    public function __construct(ResponseOverride $response)
-    {
-        $this->response = $response;
-    }
-
-    /**
      * Set the form response using the active action
      * form response handler.
      *
@@ -66,17 +49,6 @@ class ActionResponder
          */
         if ($handler instanceof ActionHandlerInterface) {
             $handler->handle($builder);
-        }
-
-        /**
-         * Set the response override so that
-         * the form plugin can play too.
-         *
-         * If the form is an ajax request then
-         * DO NOT override. Ajax is looking for JSON.
-         */
-        if (!$builder->isAjax()) {
-            $this->response->set($builder->getFormResponse());
         }
     }
 }

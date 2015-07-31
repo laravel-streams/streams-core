@@ -76,7 +76,11 @@ class ActionHandler
             $entry = $entry->toArray();
         }
 
-        $url = $this->parser->parse($action->getRedirect(), compact('entry'));
+        if (($url = $action->getRedirect()) === false) {
+            return;
+        }
+
+        $url = $this->parser->parse($url, compact('entry'));
 
         /**
          * If the URL is null then use the current one.

@@ -108,18 +108,6 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         /**
-         * Register the singleton response override container.
-         * This class is a simple DTO for assisting internal logic
-         * in critically altering the response when necessary.
-         *
-         * See: Middleware\CheckResponseOverride
-         */
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Http\Routing\ResponseOverride',
-            'Anomaly\Streams\Platform\Http\Routing\ResponseOverride'
-        );
-
-        /**
          * Register the application instance. This is
          * used to determine the application state / reference.
          */
