@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Command\AddAssets;
@@ -751,6 +752,20 @@ class FormBuilder
     public function getFormValues()
     {
         return $this->form->getValues();
+    }
+
+    /**
+     * Reset the form.
+     *
+     * @return $this
+     */
+    public function resetForm()
+    {
+        $this->form
+            ->resetFields()
+            ->setValues(new Collection());
+
+        return $this;
     }
 
     /**

@@ -675,6 +675,19 @@ class Form implements PresentableInterface
     }
 
     /**
+     * Reset field values.
+     */
+    public function resetFields()
+    {
+        /* @var FieldType $field */
+        foreach ($this->getFields() as $field) {
+            $field->setValue(null);
+        }
+
+        return $this;
+    }
+
+    /**
      * Return a created presenter.
      *
      * @return FormPresenter
