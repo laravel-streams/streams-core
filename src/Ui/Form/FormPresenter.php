@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Support\Presenter;
+use Illuminate\View\View;
 
 /**
  * Class FormPresenter
@@ -28,6 +29,12 @@ class FormPresenter extends Presenter
      */
     function __toString()
     {
-        return $this->object->getContent()->render();
+        $content = $this->object->getContent();
+
+        if ($content instanceof View) {
+            return $content->render();
+        }
+
+        return '';
     }
 }
