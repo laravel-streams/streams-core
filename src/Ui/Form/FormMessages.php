@@ -24,11 +24,23 @@ class FormMessages
         foreach ($builder->getFormFields() as $field) {
 
             foreach ($field->getValidators() as $rule => $validator) {
-                $messages[$rule] = trans(array_get($validator, 'message'));
+
+                $message = trans(array_get($validator, 'message'));
+
+                if ($message && str_contains($message, '::')) {
+                    $message = trans($message);
+                }
+
+                $messages[$rule] = $message;
             }
 
             foreach ($field->getMessages() as $rule => $message) {
-                $messages[$rule] = trans($message);
+
+                if ($message && str_contains($message, '::')) {
+                    $message = trans($message);
+                }
+
+                $messages[$rule] = $message;
             }
         }
 

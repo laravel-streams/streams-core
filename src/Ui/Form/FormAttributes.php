@@ -25,11 +25,18 @@ class FormAttributes
 
         /* @var FieldType $field */
         foreach ($builder->getFormFields() as $field) {
-            if ($locale = $field->getLocale()) {
-                $attributes[$field->getInputName()] = trans($field->getLabel()) . ' (' . $locale . ')';
-            } else {
-                $attributes[$field->getInputName()] = trans($field->getLabel());
+
+            $label = $field->getLabel();
+
+            if (str_contains($label, '::')) {
+                $label = trans($label);
             }
+
+            if ($locale = $field->getLocale()) {
+                $label .= ' (' . $locale . ')';
+            }
+
+            $attributes[$field->getInputName()] = $label;
         }
 
         return $attributes;
