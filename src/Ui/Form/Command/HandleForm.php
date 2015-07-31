@@ -40,6 +40,12 @@ class HandleForm implements SelfHandling
             return;
         }
 
-        app()->call($this->builder->getHandler(), ['builder' => $this->builder]);
+        $handler = $this->builder->getHandler();
+
+        if (!str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+            $handler .= '@handle';
+        }
+
+        app()->call($handler, ['builder' => $this->builder]);
     }
 }
