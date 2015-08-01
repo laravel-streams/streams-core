@@ -86,7 +86,7 @@ class LoadCurrentTheme
         } else {
             $theme = $this->themes->get($this->config->get('streams::themes.standard.active'));
         }
-        
+
         if ($theme instanceof Theme) {
 
             $theme->setActive(true);

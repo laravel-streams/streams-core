@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Image;
 
 use Anomaly\FilesModule\File\Contract\FileInterface;
+use Anomaly\FilesModule\File\FilePresenter;
 use Anomaly\Streams\Platform\Application\Application;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
@@ -302,7 +303,7 @@ class Image
         }
 
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
-        
+
         $image->save($this->directory . $path);
     }
 
@@ -337,6 +338,13 @@ class Image
         }
 
         if ($image instanceof FileInterface) {
+            $this->setExtension($image->getExtension());
+        }
+
+        if ($image instanceof FilePresenter) {
+
+            $image = $image->getObject();
+            
             $this->setExtension($image->getExtension());
         }
 
