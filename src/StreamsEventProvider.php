@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform;
 
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 
 /**
@@ -20,12 +21,14 @@ class StreamsEventProvider extends EventServiceProvider
      */
     protected $listen = [
         'Anomaly\Streams\Platform\Application\Event\ApplicationHasLoaded'        => [
-            'Anomaly\Streams\Platform\Addon\Theme\Listener\LoadActiveTheme',
             'Anomaly\Streams\Platform\Addon\Module\Listener\DetectActiveModule',
             'Anomaly\Streams\Platform\Application\Listener\CheckIfInstallerExists',
             'Anomaly\Streams\Platform\Ui\ControlPanel\Listener\LoadControlPanel',
             'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\GuessBreadcrumbs',
             'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\LoadBreadcrumbs'
+        ],
+        'Anomaly\Streams\Platform\Addon\Event\AddonsRegistered'                  => [
+            -100 => 'Anomaly\Streams\Platform\Addon\Theme\Listener\LoadActiveTheme',
         ],
         'Anomaly\Streams\Platform\Model\Event\ModelWasDeleted'                   => [
             'Anomaly\Streams\Platform\Model\Listener\DeleteTranslations'
@@ -86,4 +89,22 @@ class StreamsEventProvider extends EventServiceProvider
         ]
     ];
 
+    /**
+     * Register the application's event listeners.
+     *
+     * @param  Dispatcher $events
+     * @return void
+     */
+    public function boot(Dispatcher $events)
+    {
+        foreach ($this->listen as $event => $listeners) {
+            foreach ($listeners as $priority => $listener) {
+                $events->listen($event, $listener, $priority);
+            }
+        }
+
+        foreach ($this->subscribe as $subscriber) {
+            $events->subscribe($subscriber);
+        }
+    }
 }
