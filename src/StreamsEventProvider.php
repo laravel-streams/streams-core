@@ -28,7 +28,7 @@ class StreamsEventProvider extends EventServiceProvider
             'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\LoadBreadcrumbs'
         ],
         'Anomaly\Streams\Platform\Addon\Event\AddonsRegistered'                  => [
-            -100 => 'Anomaly\Streams\Platform\Addon\Theme\Listener\LoadActiveTheme',
+            'Anomaly\Streams\Platform\Addon\Theme\Listener\LoadActiveTheme' => -100,
         ],
         'Anomaly\Streams\Platform\Model\Event\ModelWasDeleted'                   => [
             'Anomaly\Streams\Platform\Model\Listener\DeleteTranslations'
@@ -98,7 +98,15 @@ class StreamsEventProvider extends EventServiceProvider
     public function boot(Dispatcher $events)
     {
         foreach ($this->listen as $event => $listeners) {
-            foreach ($listeners as $priority => $listener) {
+            foreach ($listeners as $key => $listener) {
+
+                if (is_integer($listener)) {
+                    $listener = $key;
+                    $priority = $listener;
+                } else {
+                    $priority = 0;
+                }
+
                 $events->listen($event, $listener, $priority);
             }
         }
