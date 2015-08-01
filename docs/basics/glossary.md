@@ -51,7 +51,6 @@ Usually, components are not used directly but are built with [definitions](#defi
 An array representation of a [component](#component) that is normalized, processed and converted into the [component's](#component) class. Definitions are usually used with [builders](#builder).
 
 
-
 <a name="form"></a>
 ### Form
 
