@@ -86,11 +86,13 @@ class LoadActiveTheme
         } else {
             $theme = $this->themes->standard()->active();
         }
-
-        if (!$theme instanceof Theme && $this->request->segment(1) === 'admin') {
-            $theme = $this->themes->get($this->config->get('streams::themes.active.admin'));
-        } else {
-            $theme = $this->themes->get($this->config->get('streams::themes.active.standard'));
+        
+        if (!$theme instanceof Theme) {
+            if ($this->request->segment(1) == 'admin') {
+                $theme = $this->themes->get($this->config->get('streams::themes.active.admin'));
+            } else {
+                $theme = $this->themes->get($this->config->get('streams::themes.active.standard'));
+            }
         }
 
         if ($theme instanceof Theme) {
