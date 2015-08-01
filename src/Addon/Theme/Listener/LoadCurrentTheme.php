@@ -82,19 +82,11 @@ class LoadCurrentTheme
     public function handle()
     {
         if (in_array($this->request->segment(1), ['installer', 'admin'])) {
-            $theme = $this->themes->admin()->active();
+            $theme = $this->themes->get($this->config->get('streams::themes.admin.active'));
         } else {
-            $theme = $this->themes->standard()->active();
+            $theme = $this->themes->get($this->config->get('streams::themes.standard.active'));
         }
         
-        if (!$theme instanceof Theme) {
-            if ($this->request->segment(1) == 'admin') {
-                $theme = $this->themes->get($this->config->get('streams::themes.admin.active'));
-            } else {
-                $theme = $this->themes->get($this->config->get('streams::themes.standard.active'));
-            }
-        }
-
         if ($theme instanceof Theme) {
 
             $theme->setActive(true);
