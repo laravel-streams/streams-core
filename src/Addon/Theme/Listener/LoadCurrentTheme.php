@@ -8,14 +8,14 @@ use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
 
 /**
- * Class LoadActiveTheme
+ * Class LoadCurrentTheme
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Listener
  */
-class LoadActiveTheme
+class LoadCurrentTheme
 {
 
     /**
@@ -54,7 +54,7 @@ class LoadActiveTheme
     protected $request;
 
     /**
-     * Create a new LoadActiveTheme instance.
+     * Create a new LoadCurrentTheme instance.
      *
      * @param Asset      $asset
      * @param Image      $image
@@ -89,9 +89,9 @@ class LoadActiveTheme
         
         if (!$theme instanceof Theme) {
             if ($this->request->segment(1) == 'admin') {
-                $theme = $this->themes->get($this->config->get('streams::themes.active.admin'));
+                $theme = $this->themes->get($this->config->get('streams::themes.admin.active'));
             } else {
-                $theme = $this->themes->get($this->config->get('streams::themes.active.standard'));
+                $theme = $this->themes->get($this->config->get('streams::themes.standard.active'));
             }
         }
 
