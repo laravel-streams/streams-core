@@ -29,6 +29,8 @@ A class that holds and/or provides the [definitions](#definition) for various [c
 
 An object that helps build larger objects like [forms](#form) and [tables](#table). Form actions, form fields, table row buttons, table columns, and table filters are just some examples of components.
 
+Usually, components are not used directly but are built with [definitions](#definition) through a [builder](#builder).
+
 
 <a name="definition"></a>
 ### Definition
@@ -47,3 +49,19 @@ An object that helps build larger objects like [forms](#form) and [tables](#tabl
 	]
 
 An array representation of a [component](#component) that is normalized, processed and converted into the [component's](#component) class. Definitions are usually used with [builders](#builder).
+
+
+
+<a name="form"></a>
+### Form
+
+	<?php namespace Anomaly\ExampleModule\Example\Form;
+
+	use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+
+	class ExampleFormBuilder extends FormBuilder
+	{
+		// Definitions
+	}
+
+A UI object that is built by extending the core `Anomaly\Streams\Platform\Ui\Form\FormBuilder` and setting various [component](#component) [definitions](#definition). Forms can utilize Streams or be 100% custom built.
