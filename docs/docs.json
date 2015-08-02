@@ -18,5 +18,12 @@
             "image": "Table",
             "asset": "Form"
         }
+    },
+    "developers": {
+        "title": "Developer",
+        "pages": {
+            "plugins": "Developing Plugins",
+            "modules": "Developing Modules"
+        }
     }
 }
