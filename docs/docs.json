@@ -15,15 +15,18 @@
     "builders": {
         "title": "Builders",
         "pages": {
-            "image": "Table",
-            "asset": "Form"
+            "table": "Table",
+            "form": "Form"
         }
     },
     "developers": {
-        "title": "Developer",
+        "title": "Developers",
         "pages": {
             "plugins": "Developing Plugins",
-            "modules": "Developing Modules"
+            "modules": "Developing Modules",
+            "extensions": "Developing Extensions",
+            "streams": "Developing with Streams",
+            "contribution-guide": "Contribution Guide"
         }
     }
 }
