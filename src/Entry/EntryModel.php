@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -185,6 +186,19 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $type->setEntry($this);
 
         return $type;
+    }
+
+    /**
+     * Get the field type presenter.
+     *
+     * @param $fieldSlug
+     * @return FieldTypePresenter
+     */
+    public function getFieldTypePresenter($fieldSlug)
+    {
+        $type = $this->getFieldType($fieldSlug);
+
+        return $type->getPresenter();
     }
 
     /**

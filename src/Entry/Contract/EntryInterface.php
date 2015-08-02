@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\EntryPresenter;
@@ -130,6 +131,14 @@ interface EntryInterface
      * @return FieldType
      */
     public function getFieldType($fieldSlug);
+
+    /**
+     * Get the field type presenter.
+     *
+     * @param $fieldSlug
+     * @return FieldTypePresenter
+     */
+    public function getFieldTypePresenter($fieldSlug);
 
     /**
      * Get all assignments.
