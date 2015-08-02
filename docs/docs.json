@@ -4,5 +4,19 @@
         "pages": {
             "addons": "Addons"
         }
+    },
+    "services": {
+        "title": "Services",
+        "pages": {
+            "asset": "Asset",
+            "image": "Image"
+        }
+    },
+    "builders": {
+        "title": "Builders",
+        "pages": {
+            "image": "Table",
+            "asset": "Form"
+        }
     }
 }
