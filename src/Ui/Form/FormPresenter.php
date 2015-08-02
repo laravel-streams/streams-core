@@ -80,7 +80,7 @@ class FormPresenter extends Presenter
      * @param null $view
      * @return string
      */
-    public function body($view = null)
+    public function renderFields($view = null)
     {
         return $this->view
             ->make($view ?: 'streams::form/partials/fields', ['form' => $this->object])
@@ -93,7 +93,7 @@ class FormPresenter extends Presenter
      * @param null $view
      * @return string
      */
-    public function actions($view = null)
+    public function renderActions($view = null)
     {
         return $this->view
             ->make($view ?: 'streams::buttons/buttons', ['buttons' => $this->object->getActions()])
