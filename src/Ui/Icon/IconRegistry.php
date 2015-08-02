@@ -35,6 +35,7 @@ class IconRegistry
         'translate'            => 'glyphicons glyphicons-translate',
         'duplicate'            => 'glyphicons glyphicons-duplicate',
         'airplane'             => 'glyphicons glyphicons-airplane',
+        'calendar'             => 'glyphicons glyphicons-calendar',
         'comments'             => 'glyphicons glyphicons-comments',
         'picture'              => 'glyphicons glyphicons-picture',
         'retweet'              => 'glyphicons glyphicons-retweet',
