@@ -15,15 +15,37 @@
     "builders": {
         "title": "Builders",
         "pages": {
-            "image": "Table",
-            "asset": "Form"
+            "table": "Table",
+            "form": "Form"
+        }
+    },
+    "support": {
+        "title": "Support",
+        "pages": {
+            "authorizer": "Authorizer",
+            "collection": "Collection",
+            "configurator": "Configurator",
+            "csv": "CSV",
+            "evaluator": "Evaluator",
+            "hydrator": "Hydrator",
+            "parser": "Parser",
+            "presenter": "Presenter",
+            "request": "Request",
+            "resolver": "Resolver",
+            "string": "String",
+            "translator": "Translator",
+            "url": "URL"
         }
     },
     "developers": {
-        "title": "Developer",
+        "title": "Developers",
         "pages": {
             "plugins": "Developing Plugins",
-            "modules": "Developing Modules"
+            "modules": "Developing Modules",
+            "extensions": "Developing Extensions",
+            "field-types": "Developing Field Types",
+            "streams": "Developing with Streams",
+            "contribution-guide": "Contribution Guide"
         }
     }
 }
