@@ -25,6 +25,7 @@
             "plugins": "Developing Plugins",
             "modules": "Developing Modules",
             "extensions": "Developing Extensions",
+            "field-types": "Developing Field Types",
             "streams": "Developing with Streams",
             "contribution-guide": "Contribution Guide"
         }
