@@ -22,6 +22,8 @@
     "support": {
         "title": "Support",
         "pages": {
+            "authorizer": "Authorizer",
+            "collection": "Collection",
             "configurator": "Configurator",
             "csv": "CSV",
             "evaluator": "Evaluator",
