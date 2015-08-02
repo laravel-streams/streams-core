@@ -19,6 +19,22 @@
             "form": "Form"
         }
     },
+    "support": {
+        "title": "Support",
+        "pages": {
+            "configurator": "Configurator",
+            "csv": "CSV",
+            "evaluator": "Evaluator",
+            "hydrator": "Hydrator",
+            "parser": "Parser",
+            "presenter": "Presenter",
+            "request": "Request",
+            "resolver": "Resolver",
+            "string": "String",
+            "translator": "Translator",
+            "url": "URL"
+        }
+    },
     "developers": {
         "title": "Developers",
         "pages": {
