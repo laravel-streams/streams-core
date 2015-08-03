@@ -81,4 +81,14 @@ Some filters are applied automatically. Adding a .less file will automatically a
 
 `min`: runs the asset or asset collection through the appropriate minification filter.
 
-`min`: runs the asset or asset collection through the appropriate minification filter.
+`parse`: runs the asset or asset collection through the Twig parser. Compiler filters also parse when compiling.
+
+`less`: runs the asset or asset collection through the LESS CSS compiler. Automatically applied to .less files.
+
+`styl`: runs the asset or asset collection through the Stylus CSS compiler. Automatically applied to .styl files.
+
+`scss`: runs the asset or asset collection through the SASS CSS compiler. Automatically applied to .scss files.
+
+`coffee`: runs the asset or asset collection through the Coffee JS compiler. Automatically applied to .coffee files.
+
+`jsx`: runs the asset or asset collection through the ReactJSX JS compiler. Automatically applied to .jsx files.
