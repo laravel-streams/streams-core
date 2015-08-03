@@ -37,7 +37,7 @@ Discussion regarding bugs, new features, and implementation of existing features
 
 **Major** new features should always be sent to the `master` branch, which contains upcoming releases.
 
-If you are unsure if your feature qualifies as a major or minor, please ask Ryan Thompson in the `#general` Slack channel ([StreamsChat](https://streamschat.slack.com/)).
+If you are unsure if your feature qualifies as a major or minor, please ask `ryanthompson` in the `#general` Slack channel ([StreamsChat](https://streamschat.slack.com/)).
 
 <a name="security-vulnerabilities"></a>
 ## Security Vulnerabilities
