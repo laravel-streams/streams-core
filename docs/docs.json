@@ -3,14 +3,17 @@
         "title": "The Basics",
         "pages": {
             "addons": "Addons",
-            "builders": "Builders"
+            "builders": "Builders",
+            "prefixes": "Prefixes",
+            "views": "Views"
         }
     },
     "services": {
         "title": "Services",
         "pages": {
             "asset": "Asset",
-            "image": "Image"
+            "image": "Image",
+            "artisan": "Artisan"
         }
     },
     "builders": {
@@ -20,6 +23,14 @@
             "form": "Form",
             "tree": "Tree",
             "grid": "Grid"
+        }
+    },
+    "database": {
+        "title": "Database",
+        "pages": {
+            "getting-started": "Getting Started",
+            "migrations": "Migrations",
+            "seeding": "Seeding"
         }
     },
     "developers": {

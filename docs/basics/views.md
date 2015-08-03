@@ -19,7 +19,7 @@ A simple view might look something like this:
         </body>
     </html>
 
-Since this view is stored at `addons/shared/anomaly/example-module/resources/views/greeting.php`, we may return it using the global `view` helper function like so:
+Since this view is stored at `addons/shared/anomaly/example-module/resources/views/greeting.php`, we may return it using the global `view` helper function and the addon's `namespace prefix` like so:
 
     Route::get('/', function ()    {
         return view('anomaly.module.example::greeting', ['name' => 'Ryan']);
