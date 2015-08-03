@@ -122,9 +122,9 @@ The `style` method on the asset manager wraps the `path` method in a `<style>` t
 
 The `script` method on the asset manager wraps the `path` method in a `<script>` tag. In addition to a second argument specifying additional filters to apply, you may also pass a third argument specifying attributes to be added to the `<script>` tag:
 
-	$tag = $asset->style('example.css');
+	$tag = $asset->script('example.css');
 	
-	$tag = $asset->style('example.css', ['min'], ['media' => 'print']);
+	$tag = $asset->script('example.css', ['min'], ['media' => 'print']);
 
 #### Obtaining Individual Asset Tags
 
