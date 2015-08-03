@@ -21,7 +21,7 @@
         "guzzlehttp/guzzle": "6.0.*",
         "guzzlehttp/psr7": "1.1.*",
         "guzzlehttp/promises": "1.0.*",
-        "kriswallsmith/assetic": "master",
+        "kriswallsmith/assetic": "~1.2",
         "leafo/scssphp": "0.1.0 ",
         "lmammino/jsmin4assetic": "1.0.*",
         "natxet/CssMin": "3.0.*",

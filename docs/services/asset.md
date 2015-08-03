@@ -4,13 +4,15 @@
 	- [Configuration](#configuration)
 - [Collections](#collections)
 - [Filters](#filters)
-	- [Minify](#minify)	
+	- [Available Filters](#available-filters)
 
 
 <a name="introduction"></a>
 ## Introduction
 
-The Asset service is a simple and powerful asset manager for your application. `Anomaly\Streams\Platform\Asset\Asset` class helps you manage and use assets in your application and various addons.
+The Asset service is a simple and powerful asset manager for your application. It helps you manage, manipulate and use assets in your application and various addons.
+
+	use Anomaly\Streams\Platform\Asset\Asset;
 
 The Asset service implements the popular [Assetic](https://github.com/kriswallsmith/assetic) package.
 
@@ -74,7 +76,9 @@ Some filters are applied automatically. Adding a .less file will automatically a
 	$asset->add('collection.css', 'prefix::path/to/asset.less');
 
 
-<a name="min-filter"></a>
-### `min`
+<a name="available-filters"></a>
+### Available Filters
 
-The `min` filter runs the asset or asset collection through the appropriate minification filter.
+`min`: runs the asset or asset collection through the appropriate minification filter.
+
+`min`: runs the asset or asset collection through the appropriate minification filter.
