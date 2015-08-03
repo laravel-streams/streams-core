@@ -3,8 +3,8 @@
         "title": "The Basics",
         "pages": {
             "addons": "Addons",
-            "builders": "Builders",
-            "prefixes": "Prefixes",
+            /*"builders": "Builders",
+            "prefixes": "Prefixes",*/
             "views": "Views"
         }
     },
@@ -12,11 +12,11 @@
         "title": "Services",
         "pages": {
             "asset": "Asset",
-            "image": "Image",
-            "artisan": "Artisan"
+            "image": "Image"/*,
+            "artisan": "Artisan"*/
         }
     },
-    "builders": {
+    /*"builders": {
         "title": "Builders",
         "pages": {
             "image": "Table",
@@ -24,16 +24,16 @@
             "tree": "Tree",
             "grid": "Grid"
         }
-    },
-    "database": {
+    },*/
+    /*"database": {
         "title": "Database",
         "pages": {
             "getting-started": "Getting Started",
             "migrations": "Migrations",
             "seeding": "Seeding"
         }
-    },
-    "developers": {
+    },*/
+    /*"developers": {
         "title": "Developer",
         "pages": {
             "themes": "Developing Themes",
@@ -42,5 +42,5 @@
             "field-types": "Developing Field Types",
             "extensions": "Developing Extensions"
         }
-    }
+    }*/
 }
