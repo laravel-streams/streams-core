@@ -57,7 +57,7 @@ Or a remote path:
 <a name="modifying-images"></a>
 ### Modifying Images
 
-You can manipulate images by using [Intervention Image API methods](http://image.intervention.io/). Of course, you can chain methods in a fluent style too.
+You can manipulate images by using [Intervention Image API methods](http://image.intervention.io/). Supported methods include `blur`, `brightness`, `colorize`, `contrast`, `crop`, `encode`, `fit`, `flip`, `gamma`, `greyscale`, `heighten`, `invert`, `limitColors`, `pixelate`, `opacity`, `resize`, `rotate`, `amount`, and `widen`.
 
 	$example = $image->make('module::images/example.jpg');
 	
