@@ -26,7 +26,7 @@ Source code is managed on GitHub, and there are repositories for each addon and 
 <a name="core-development-discussion"></a>
 ## Core Development Discussion
 
-Discussion regarding bugs, new features, and implementation of existing features takes place in the `#internals` channel of the [StreamsChat](https://streamschat.slack.com/) Slack team. Ryan Thompson, the maintainer of the Streams Platform, it's addons and first party distributions, is typically present in the channel on weekdays from 10am-4pm (UTC-06:00 or America/Chicago), and sporadically present in the channel at other times.
+Discussion regarding bugs, new features, and implementation of existing features takes place in the `#internals` channel of the [PyroCMS](https://pyrocms.slack.com/) Slack team. Ryan Thompson, the maintainer of the Streams Platform, it's addons and first party distributions, is typically present in the channel on weekdays from 10am-4pm (UTC-06:00 or America/Chicago), and sporadically present in the channel at other times.
 
 <a name="which-branch"></a>
 ## Which Branch?
@@ -37,7 +37,7 @@ Discussion regarding bugs, new features, and implementation of existing features
 
 **Major** new features should always be sent to the `master` branch, which contains upcoming releases.
 
-If you are unsure if your feature qualifies as a major or minor, please ask `ryanthompson` in the `#general` Slack channel ([StreamsChat](https://streamschat.slack.com/)).
+If you are unsure if your feature qualifies as a major or minor, please ask `ryanthompson` in the `#general` Slack channel ([PyroCMS](https://pyrocms.slack.com/)).
 
 <a name="security-vulnerabilities"></a>
 ## Security Vulnerabilities
