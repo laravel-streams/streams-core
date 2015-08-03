@@ -13,7 +13,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-The Streams Platform provides powerful asset manager for your application based on the [Assetic](https://github.com/kriswallsmith/assetic) framework by [Kris Wallsmith](http://kriswallsmith.net).
+The Streams Platform provides powerful asset manager for your application based on the [Assetic](https://github.com/kriswallsmith/assetic) framework by Kris Wallsmith.
 
 <a name="collections"></a>
 ### Collections
@@ -97,7 +97,7 @@ You may wish to use files that use an alternate syntax like LESS for CSS or Coff
 <a name="obtaining-cached-output-files"></a>
 ### Obtaining Cached Output Files
 
-The `path` method on the asset manager is used to compile and retrieve the path to the cached output file. If the file does not exist, or any included asset has been modified, the file will recompile. If you wish, you may pass a second argument specifying additional filters to apply to the entire collection:
+The `path` method on the asset manager is used to compile and retrieve the path to the cached output file. If the output file does not exist, or any included asset has been modified, the file will recompile. If you wish, you may pass a second argument specifying additional filters to apply to the entire collection:
 
 	$path = $asset->path('example.js');
 	
