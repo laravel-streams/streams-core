@@ -42,7 +42,7 @@ If you are unsure if your feature qualifies as a major or minor, please ask `rya
 <a name="security-vulnerabilities"></a>
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within the Streams Platform or any of it's addons / distributions, please send an e-mail to Ryan Thompson at <a href="mailto:ryan@pyrocms.com">ryan@pyrocms.com</a>. All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within the Streams Platform or any of it's addons / distributions, please send an e-mail to Ryan Thompson at <a href="mailto:ryan@anomaly.is">ryan@anomaly.is</a>. All security vulnerabilities will be promptly addressed.
 
 <a name="coding-style"></a>
 ## Coding Style
