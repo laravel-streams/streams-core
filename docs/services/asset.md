@@ -92,3 +92,5 @@ Some filters are applied automatically. Adding a .less file will automatically a
 `coffee`: runs the asset or asset collection through the Coffee JS compiler. Automatically applied to .coffee files.
 
 `jsx`: runs the asset or asset collection through the ReactJSX JS compiler. Automatically applied to .jsx files.
+
+`embed`: embeds referenced images as base64 encoded data URIs.
