@@ -337,6 +337,10 @@ class Image
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
         }
 
+        if (is_string($image) && str_is('*://*', $image) && !starts_with($image, ['http', 'https'])) {
+            $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
+        }
+
         if ($image instanceof FileInterface) {
             $this->setExtension($image->getExtension());
         }
@@ -433,6 +437,12 @@ class Image
         if ($this->image instanceof FileInterface) {
             return $this->manager
                 ->make(app('League\Flysystem\MountManager')->read($this->image->diskPath()))
+                ->encode($this->getExtension());
+        }
+
+        if (is_string($this->image) && str_is('*://*', $this->image) && !starts_with($this->image, ['http', 'https'])) {
+            return $this->manager
+                ->make(app('League\Flysystem\MountManager')->read($this->image))
                 ->encode($this->getExtension());
         }
 
