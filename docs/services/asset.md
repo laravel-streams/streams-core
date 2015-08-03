@@ -65,13 +65,11 @@ Here is a similar example of how to do almost the same thing, but output a path 
 
 #### path($collection, array $filters = [])
 
-	$asset->path('theme.css');
+	$asset->path('print.css', ['min']);
 
 Returns the file path for the combined assets in `$collection` after processing. The `$filters` array will be added to existing asset filters.
 
 #### paths($collection, array $filters = [])
-
-	$asset->paths('theme.css');
 
 Similar to the path method, returns an array of file paths for each asset in `$collection` after processing. The `$filters` array will be added to each asset's existing filters.
 
