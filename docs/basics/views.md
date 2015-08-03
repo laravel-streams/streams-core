@@ -1,6 +1,7 @@
 # Views
 
 - [Basic Usage](#basic-usage)
+    - [Addon Views](#addon-views)
     - [Passing Data To Views](#passing-data-to-views)
     - [Sharing Data With All Views](#sharing-data-with-all-views)
 - [View Composers](#view-composers)
@@ -41,8 +42,14 @@ If you need to determine if a view exists, you may use the `exists` method after
 
 When the `view` helper is called without arguments, an instance of `Illuminate\Contracts\View\Factory` is returned, giving you access to any of the factory's methods.
 
-<a name="view-data"></a>
-### View Data
+<a name="addon-views"></a>
+### Addon Views
+
+All addons support views. Addon views are stored in the addon's `resources/views` directory. When referencing addon views you must specify a path hint prefix like `prefix::path.to.view` using the addon's namespace:
+
+	view('anomaly.field_type.text::input');
+
+You may also use the `module::` and `theme::` prefixes to reference the active module or theme.
 
 <a name="passing-data-to-views"></a>
 #### Passing Data To Views
