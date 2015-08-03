@@ -3,7 +3,7 @@
 - [Introduction](#introduction)
 	- [Configuration](#configuration)
 - [Collections](#collections)
-	- [Generating Output](#generating-output)
+	- [Generating Public Asset Paths](#generating-public-asset-paths)
 - [Filters](#filters)
 	- [Available Filters](#available-filters)
 
@@ -63,11 +63,11 @@ Here is a similar example of how to do almost the same thing, but output a path 
 <a name="generating-output"></a>
 ### Generating Output
 
-### path($collection, array $filters = [])
+
 
 	$asset->path('print.css', ['min']);
 
-Returns the file path for the combined assets in `$collection` after processing. The `$filters` array will be added to existing asset filters.
+Returns the file path for the combined assets in the `print.css` collection after processing. The `min` filter will be added to all existing asset filters.
 
 ### paths($collection, array $filters = [])
 
