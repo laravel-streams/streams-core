@@ -237,13 +237,14 @@ class Asset
      *
      * @param       $collection
      * @param array $filters
+     * @param array $attributes
      * @return array
      */
-    public function scripts($collection, array $filters = [])
+    public function scripts($collection, array $filters = [], array $attributes = [])
     {
         return array_map(
-            function ($path) {
-                return $this->html->script($path);
+            function ($path) use ($attributes) {
+                return $this->html->script($path, $attributes);
             },
             $this->paths($collection, $filters)
         );
@@ -254,13 +255,14 @@ class Asset
      *
      * @param       $collection
      * @param array $filters
+     * @param array $attributes
      * @return array
      */
-    public function styles($collection, array $filters = [])
+    public function styles($collection, array $filters = [], array $attributes = [])
     {
         return array_map(
-            function ($path) {
-                return $this->html->style($path);
+            function ($path) use ($attributes) {
+                return $this->html->style($path, $attributes);
             },
             $this->paths($collection, $filters)
         );

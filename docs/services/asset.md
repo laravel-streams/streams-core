@@ -3,6 +3,7 @@
 - [Introduction](#introduction)
 	- [Configuration](#configuration)
 - [Collections](#collections)
+	- [Generating Output](#generating-output)
 - [Filters](#filters)
 	- [Available Filters](#available-filters)
 
@@ -39,7 +40,7 @@ A collection is simply a collection of files you would like to group together. C
 
 	$asset->add('collection.css', 'prefix::path/to/asset.css', ['filter']);
 
-The Asset service uses a fluent API so you can chain as many methods as you like.
+The Asset service uses a fluent API so you can chain as many methods as you like. **Note that collections MUST include a file extension reflecting their desired output file extension.**
 
 Below is an example of adding multiples files to a single collection, combining those files and outputting a single file path with all the assets processed, combined and ready to go:
 
@@ -58,6 +59,33 @@ Here is a similar example of how to do almost the same thing, but output a path 
 		->add('example.js', 'prefix::path/to/asset.jsx');
 	
 	$asset->paths('example.js') // Returns array of compiled .js files
+
+<a name="generating-output"></a>
+### Generating Output
+
+#### `path($collection, array $filters = [])`
+
+Returns the file path for the combined assets in `$collection` after processing. The `$filters` array will be added to existing asset filters.
+
+#### `paths($collection, array $filters = [])`
+
+Similar to the path method, returns an array of file paths for each asset in `$collection` after processing. The `$filters` array will be added to each asset's existing filters.
+
+#### `style($collection, array $filters = [], array $attributes = [])`
+
+Returns the a `<style>` tag for the combined assets in `$collection` after processing. The `$filters` array will be added to existing asset filters. The `$attributes` will be added as HTML attributes to the style tag.
+
+#### `styles($collection, array $filters = [], array $attributes = [])`
+
+Similar to the style method, returns an array of `<style>` tags for each asset in `$collection` after processing. The `$filters` array will be added to each asset's existing filters. The `$attributes` will be added as HTML attributes to each style tag.
+
+#### `script($collection, array $filters = [], array $attributes = [])`
+
+Returns the a `<script>` tag for the combined assets in `$collection` after processing. The `$filters` array will be added to existing asset filters. The `$attributes` will be added as HTML attributes to the script tag.
+
+#### `scripts($collection, array $filters = [], array $attributes = [])`
+
+Similar to the script method, returns an array of `<script>` tags for each asset in `$collection` after processing. The `$filters` array will be added to each asset's existing filters. The `$attributes` will be added as HTML attributes to each script tag.
 
 
 <a name="filters"></a>
