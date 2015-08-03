@@ -2,7 +2,8 @@
     "basics": {
         "title": "The Basics",
         "pages": {
-            "addons": "Addons"
+            "addons": "Addons",
+            "builders": "Builders"
         }
     },
     "services": {
@@ -16,14 +17,19 @@
         "title": "Builders",
         "pages": {
             "image": "Table",
-            "asset": "Form"
+            "form": "Form",
+            "tree": "Tree",
+            "grid": "Grid"
         }
     },
     "developers": {
         "title": "Developer",
         "pages": {
+            "themes": "Developing Themes",
             "plugins": "Developing Plugins",
-            "modules": "Developing Modules"
+            "modules": "Developing Modules",
+            "field-types": "Developing Field Types",
+            "extensions": "Developing Extensions"
         }
     }
 }
