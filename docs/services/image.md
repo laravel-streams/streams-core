@@ -4,6 +4,7 @@
 - [Configuration](#configuration)
 - [Image Usage](#image-usage)
 	- [Working With Images](#working-with-images)
+	- [Modifying Images](#modifying-images)
 	- [Obtaining Cached Output Images](#obtaining-cached-output-images)
 
 
@@ -53,7 +54,8 @@ Or a remote path:
 
 	$example = $image->make('http://example.com/images/example.jpg');
 
-#### Manipulating Images
+<a name="modifying-images"></a>
+### Modifying Images
 
 You can manipulate images by using [Intervention Image API methods](http://image.intervention.io/). Of course, you can chain methods in a fluent style too.
 
