@@ -63,13 +63,13 @@ Here is a similar example of how to do almost the same thing, but output a path 
 <a name="generating-output"></a>
 ### Generating Output
 
-#### path($collection, array $filters = [])
+### path($collection, array $filters = [])
 
 	$asset->path('print.css', ['min']);
 
 Returns the file path for the combined assets in `$collection` after processing. The `$filters` array will be added to existing asset filters.
 
-#### paths($collection, array $filters = [])
+### paths($collection, array $filters = [])
 
 Similar to the path method, returns an array of file paths for each asset in `$collection` after processing. The `$filters` array will be added to each asset's existing filters.
 
