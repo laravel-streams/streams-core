@@ -85,6 +85,30 @@ class UiPluginFunctions
     }
 
     /**
+     * Return elapsed time.
+     *
+     * @return float
+     */
+    public function elapsed()
+    {
+        return number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 2);
+    }
+
+    /**
+     * Get the memory footprint.
+     *
+     * @return string
+     */
+    public function footprint()
+    {
+        $size = memory_get_usage(true);
+
+        $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
+
+        return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
+    }
+
+    /**
      * Handle form control.
      *
      * @param array $parameters
