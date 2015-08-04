@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Application\Application;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
 use Intervention\Image\ImageManager;
+use League\Flysystem\File;
 
 /**
  * Class Image
@@ -276,7 +277,11 @@ class Image
             return true;
         }
 
-        if (is_string($this->image) && filemtime($path) < filemtime($this->image)) {
+        if (is_string($this->image) && !str_is('*://*', $this->image) && filemtime($path) < filemtime($this->image)) {
+            return true;
+        }
+
+        if ($this->image instanceof File && filemtime($path) < $this->image->getTimestamp()) {
             return true;
         }
 
@@ -333,6 +338,13 @@ class Image
         if (is_string($image) && str_contains($image, '::')) {
 
             $image = $this->paths->realPath($image);
+
+            $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
+        }
+
+        if (is_string($image) && str_is('*://*', $image) && !starts_with($image, ['http', 'https'])) {
+
+            $this->image = app('League\Flysystem\MountManager')->get($image);
 
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
         }
@@ -433,6 +445,12 @@ class Image
         if ($this->image instanceof FileInterface) {
             return $this->manager
                 ->make(app('League\Flysystem\MountManager')->read($this->image->diskPath()))
+                ->encode($this->getExtension());
+        }
+
+        if ($this->image instanceof File) {
+            return $this->manager
+                ->make($this->image->read())
                 ->encode($this->getExtension());
         }
 
