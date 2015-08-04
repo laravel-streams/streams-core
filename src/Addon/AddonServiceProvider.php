@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
-use Anomaly\Streams\Platform\View\ViewMobileOverrides;
-use Anomaly\Streams\Platform\View\ViewOverrides;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -102,11 +100,39 @@ class AddonServiceProvider extends ServiceProvider
     protected $mobile = [];
 
     /**
+     * Cached services.
+     *
+     * @var array
+     */
+    protected $cached = [];
+
+    /**
+     * The twig instance.
+     *
+     * @var Bridge
+     */
+    protected $twig;
+
+    /**
      * The addon instance.
      *
      * @var Addon
      */
     protected $addon;
+
+    /**
+     * The event dispatcher.
+     *
+     * @var Dispatcher
+     */
+    protected $events;
+
+    /**
+     * The router utility.
+     *
+     * @var Router
+     */
+    protected $router;
 
     /**
      * Create a new AddonServiceProvider instance.
@@ -117,6 +143,12 @@ class AddonServiceProvider extends ServiceProvider
     public function __construct($app, Addon $addon)
     {
         $this->addon = $addon;
+
+        $this->twig            = $app->make('twig');
+        $this->router          = $app->make('router');
+        $this->events          = $app->make('events');
+        $this->viewOverrides   = $app->make('Anomaly\Streams\Platform\View\ViewOverrides');
+        $this->mobileOverrides = $app->make('Anomaly\Streams\Platform\View\ViewMobileOverrides');
 
         parent::__construct($app);
     }
@@ -196,9 +228,6 @@ class AddonServiceProvider extends ServiceProvider
             return;
         }
 
-        /* @var Dispatcher $events */
-        $events = $this->app->make('events');
-
         foreach ($listen as $event => $listeners) {
             foreach ($listeners as $key => $listener) {
 
@@ -209,7 +238,7 @@ class AddonServiceProvider extends ServiceProvider
                     $priority = 0;
                 }
 
-                $events->listen($event, $listener, $priority);
+                $this->events->listen($event, $listener, $priority);
             }
         }
     }
@@ -219,12 +248,13 @@ class AddonServiceProvider extends ServiceProvider
      */
     protected function registerRoutes()
     {
-        if (!$routes = $this->getRoutes()) {
+        if ($this->routesAreCached()) {
             return;
         }
 
-        /* @var Router $router */
-        $router = $this->app->make('router');
+        if (!$routes = $this->getRoutes()) {
+            return;
+        }
 
         foreach ($routes as $uri => $route) {
 
@@ -246,7 +276,7 @@ class AddonServiceProvider extends ServiceProvider
 
             array_set($route, 'streams::addon', $this->addon->getNamespace());
 
-            $router->{$verb}($uri, $route)->where($constraints);
+            $this->router->{$verb}($uri, $route)->where($constraints);
         }
     }
 
@@ -259,11 +289,8 @@ class AddonServiceProvider extends ServiceProvider
             return;
         }
 
-        /* @var Bridge $twig */
-        $twig = $this->app->make('twig');
-
         foreach ($plugins as $plugin) {
-            $twig->addExtension($this->app->make($plugin));
+            $this->twig->addExtension($this->app->make($plugin));
         }
     }
 
@@ -296,13 +323,8 @@ class AddonServiceProvider extends ServiceProvider
             return;
         }
 
-        /* @var ViewOverrides $viewOverrides */
-        /* @var ViewMobileOverrides $mobileOverrides */
-        $viewOverrides   = $this->app->make('Anomaly\Streams\Platform\View\ViewOverrides');
-        $mobileOverrides = $this->app->make('Anomaly\Streams\Platform\View\ViewMobileOverrides');
-
-        $viewOverrides->put($this->addon->getNamespace(), $overrides);
-        $mobileOverrides->put($this->addon->getNamespace(), $mobiles);
+        $this->viewOverrides->put($this->addon->getNamespace(), $overrides);
+        $this->mobileOverrides->put($this->addon->getNamespace(), $mobiles);
     }
 
     /**
@@ -327,9 +349,29 @@ class AddonServiceProvider extends ServiceProvider
      */
     protected function registerAdditionalRoutes()
     {
+        if ($this->routesAreCached()) {
+            return;
+        }
+
         if (method_exists($this, 'map')) {
             $this->app->call([$this, 'map']);
         }
+    }
+
+    /**
+     * Check if routes are cached.
+     */
+    protected function routesAreCached()
+    {
+        if (in_array('routes', $this->cached)) {
+            return true;
+        }
+
+        if (file_exists(base_path('bootstrap/cache/routes.php'))) {
+            return $this->cached[] = 'routes';
+        }
+
+        return false;
     }
 
     /**
