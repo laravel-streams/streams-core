@@ -139,6 +139,21 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         /**
+         * Addon integration binders and manager/loader
+         * classes should be singleton bound. These should
+         * be removed from IoC later too.
+         */
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\AddonBinder',
+            'Anomaly\Streams\Platform\Addon\AddonBinder'
+        );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\AddonManager',
+            'Anomaly\Streams\Platform\Addon\AddonManager'
+        );
+
+        /**
          * Register our messages service. This is used for
          * error reporting and other messages.
          */
