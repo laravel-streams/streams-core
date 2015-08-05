@@ -356,7 +356,7 @@ class Image
         if ($image instanceof FilePresenter) {
 
             $image = $image->getObject();
-            
+
             $this->setExtension($image->getExtension());
         }
 
