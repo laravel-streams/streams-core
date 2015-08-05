@@ -281,6 +281,13 @@ class Image
             return true;
         }
 
+        if (is_string($this->image) && str_is('*://*', $this->image) && filemtime($path) < app(
+                'League\Flysystem\MountManager'
+            )->getTimestamp($this->image)
+        ) {
+            return true;
+        }
+
         if ($this->image instanceof File && filemtime($path) < $this->image->getTimestamp()) {
             return true;
         }
@@ -451,6 +458,12 @@ class Image
         if ($this->image instanceof File) {
             return $this->manager
                 ->make($this->image->read())
+                ->encode($this->getExtension());
+        }
+
+        if (is_string($this->image) && str_is('*://*', $this->image)) {
+            return $this->manager
+                ->make(app('League\Flysystem\MountManager')->read($this->image))
                 ->encode($this->getExtension());
         }
 
