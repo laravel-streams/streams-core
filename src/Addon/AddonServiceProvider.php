@@ -276,7 +276,11 @@ class AddonServiceProvider extends ServiceProvider
 
             array_set($route, 'streams::addon', $this->addon->getNamespace());
 
-            $this->router->{$verb}($uri, $route)->where($constraints);
+            if (!str_contains($route['uses'], '@')) {
+                $this->router->controller($uri, $route['uses']);
+            } else {
+                $this->router->{$verb}($uri, $route)->where($constraints);
+            }
         }
     }
 

@@ -104,12 +104,21 @@ class DetectActiveModule
          */
         $route = $this->request->route();
 
-        if (!$route || !$module = $this->modules->get(array_get($route->getAction(), 'streams::addon'))) {
-            return;
+        /* @var Module $module */
+        if ($route && $module = $this->modules->get(array_get($route->getAction(), 'streams::addon'))) {
+            $module->setActive(true);
         }
 
-        /* @var Module $module */
-        $module->setActive(true);
+        if (!$module && $this->request->segment(1) == 'admin' && $module = $this->modules->findBySlug(
+                $this->request->segment(2)
+            )
+        ) {
+            $module->setActive(true);
+        }
+
+        if (!$module) {
+            return;
+        }
 
         $this->container->make('view')->addNamespace('module', $module->getPath('resources/views'));
         $this->container->make('translator')->addNamespace('module', $module->getPath('resources/lang'));
