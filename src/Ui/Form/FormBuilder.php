@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Ui\Form\Command\AddAssets;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\PopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
@@ -178,6 +179,22 @@ class FormBuilder
     }
 
     /**
+     * Handle the form post.
+     *
+     * @param null $entry
+     * @throws \Exception
+     */
+    public function handle($entry = null)
+    {
+        if (!app('request')->isMethod('post')) {
+            throw new \Exception('The handle method must be used with a POST request.');
+        }
+
+        $this->build($entry);
+        $this->post();
+    }
+
+    /**
      * Trigger post operations
      * for the form.
      *
@@ -187,6 +204,8 @@ class FormBuilder
     {
         if (app('request')->isMethod('post')) {
             $this->dispatch(new PostForm($this));
+        } else {
+            $this->dispatch(new PopulateFields($this));
         }
 
         return $this;

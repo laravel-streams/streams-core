@@ -5,7 +5,7 @@
 
     <div class="container-fluid">
 
-        {{ form_open({'enctype': 'multipart/form-data', 'url': url_full()}) }}
+        {{ form_open({'enctype': 'multipart/form-data', 'url': form.options.url ?: url_full()}) }}
 
         {# Chrome Autocomplete Fix #}
         <input style="display:none">
