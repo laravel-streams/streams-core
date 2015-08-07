@@ -19,7 +19,7 @@ class EntryTranslationsModel extends EloquentModel
      *
      * @var int
      */
-    protected $cacheMinutes = 99999;
+    //protected $cacheMinutes = 99999;
 
     /**
      * Boot the model.
@@ -54,7 +54,7 @@ class EntryTranslationsModel extends EloquentModel
         }
 
         if (!$parent = $this->getParent()) {
-            return null;
+            return $this->attributes[$key];
         }
 
         /* @var AssignmentInterface $assignment */
