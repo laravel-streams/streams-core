@@ -15,6 +15,16 @@ class SetDefaultParameters implements SelfHandling
 {
 
     /**
+     * Skip these.
+     *
+     * @var array
+     */
+    protected $skips = [
+        'model',
+        'repository'
+    ];
+
+    /**
      * Default properties.
      *
      * @var array
@@ -54,6 +64,10 @@ class SetDefaultParameters implements SelfHandling
 
         /* @var \ReflectionProperty $property */
         foreach ($reflection->getProperties(\ReflectionProperty::IS_PROTECTED) as $property) {
+
+            if(in_array($property->getName(), $this->skips)) {
+                return;
+            }
 
             /**
              * If there is no getter then skip it.
