@@ -39,10 +39,6 @@ class ValidateForm implements SelfHandling
      */
     public function handle(Container $container)
     {
-        if (!$this->builder->canSave()) {
-            return;
-        }
-
         $validator = $this->builder->getValidator();
 
         /**
