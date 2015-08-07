@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Collection\CacheCollection;
-use Anomaly\Streams\Platform\Model\Users\UsersRolesEntryTranslationsModel;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -340,7 +339,11 @@ class EloquentModel extends Model implements Arrayable
                 return null;
             }
 
-            return $this->getTranslation()->$key;
+            $translation = $this->getTranslation();
+
+            $translation->setRelation('parent', $this);
+
+            return $translation->$key;
         }
 
         return parent::getAttribute($key);
