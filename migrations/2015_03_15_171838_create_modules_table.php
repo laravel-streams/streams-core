@@ -5,13 +5,13 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
 /**
- * Class AnomalyModuleInstallerCreateExtensionsTable
+ * Class CreateModulesTable
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  */
-class AnomalyModuleInstallerCreateExtensionsTable extends Migration
+class CreateModulesTable extends Migration
 {
 
     /**
@@ -24,9 +24,9 @@ class AnomalyModuleInstallerCreateExtensionsTable extends Migration
         /* @var Builder $schema */
         $schema = app('db')->connection()->getSchemaBuilder();
 
-        if (!$schema->hasTable('addons_extensions')) {
+        if (!$schema->hasTable('addons_modules')) {
             $schema->create(
-                'addons_extensions',
+                'addons_modules',
                 function (Blueprint $table) {
 
                     $table->increments('id');
@@ -50,6 +50,6 @@ class AnomalyModuleInstallerCreateExtensionsTable extends Migration
         /* @var Builder $schema */
         $schema = app('db')->connection()->getSchemaBuilder();
 
-        $schema->dropIfExists('addons_extensions');
+        $schema->dropIfExists('addons_modules');
     }
 }

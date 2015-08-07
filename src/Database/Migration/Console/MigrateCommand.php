@@ -33,7 +33,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
      */
     public function fire()
     {
-        if (!$this->input->getOption('no-addons')) {
+        if (!$this->input->getOption('no-addons') && !$this->input->getOption('path')) {
 
             $this->prepareDatabase();
 

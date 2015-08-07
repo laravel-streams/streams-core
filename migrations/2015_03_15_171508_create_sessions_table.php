@@ -4,13 +4,13 @@ use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 /**
- * Class AnomalyModuleInstallerCreateFailedJobsTable
+ * Class CreateSessionsTable
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  */
-class AnomalyModuleInstallerCreateFailedJobsTable extends Migration
+class CreateSessionsTable extends Migration
 {
 
     /**
@@ -21,13 +21,11 @@ class AnomalyModuleInstallerCreateFailedJobsTable extends Migration
     public function up()
     {
         Schema::create(
-            'failed_jobs',
+            'sessions',
             function (Blueprint $table) {
-                $table->increments('id');
-                $table->text('connection');
-                $table->text('queue');
+                $table->string('id')->unique();
                 $table->text('payload');
-                $table->timestamp('failed_at');
+                $table->integer('last_activity');
             }
         );
     }
@@ -39,6 +37,6 @@ class AnomalyModuleInstallerCreateFailedJobsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('failed_jobs');
+        Schema::drop('sessions');
     }
 }

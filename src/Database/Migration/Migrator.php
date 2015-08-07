@@ -127,8 +127,6 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
 
         if ($addon = $addons->get($namespace)) {
             $path = $addon->getPath('migrations/') . $file . '.php';
-        } elseif ($namespace === 'streams') {
-            $path = base_path('vendor/anomaly/streams-platform/migrations/') . $file . '.php';
         } else {
             $path = base_path('database/migrations/') . $file . '.php';
         }

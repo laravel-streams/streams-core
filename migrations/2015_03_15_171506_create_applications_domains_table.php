@@ -4,13 +4,13 @@ use Anomaly\Streams\Platform\Database\Migration\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 /**
- * Class AnomalyModuleInstallerCreateApplicationsDomainsTable
+ * Class CreateApplicationsDomainsTable
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  */
-class AnomalyModuleInstallerCreateApplicationsDomainsTable extends Migration
+class CreateApplicationsDomainsTable extends Migration
 {
 
     /**
