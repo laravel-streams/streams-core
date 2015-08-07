@@ -45,7 +45,7 @@ class HandleForm implements SelfHandling
 
         $handler = $this->builder->getHandler();
 
-        if (!str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+        if ($handler && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
             $handler .= '@handle';
         }
 

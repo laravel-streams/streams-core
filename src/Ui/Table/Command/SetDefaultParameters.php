@@ -65,8 +65,8 @@ class SetDefaultParameters implements SelfHandling
         /* @var \ReflectionProperty $property */
         foreach ($reflection->getProperties(\ReflectionProperty::IS_PROTECTED) as $property) {
 
-            if(in_array($property->getName(), $this->skips)) {
-                return;
+            if (in_array($property->getName(), $this->skips)) {
+                continue;
             }
 
             /**
