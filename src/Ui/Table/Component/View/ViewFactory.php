@@ -20,7 +20,7 @@ class ViewFactory
      *
      * @var string
      */
-    protected $view = 'Anomaly\Streams\Platform\Ui\Table\Component\View\View';
+    protected $view = View::class;
 
     /**
      * The hydrator utility.

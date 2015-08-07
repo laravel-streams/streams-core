@@ -4,6 +4,8 @@ use Anomaly\Streams\Platform\Http\Routing\ResponseOverride;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class ActionResponder
@@ -17,6 +19,23 @@ class ActionResponder
 {
 
     /**
+     * The service container.
+     *
+     * @var Container
+     */
+    private $container;
+
+    /**
+     * Create a new ActionResponder instance.
+     *
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
      * Set the form response using the active action
      * form response handler.
      *
@@ -27,19 +46,16 @@ class ActionResponder
     {
         $handler = $action->getHandler();
 
-        /**
-         * If the handler is a Closure then call
-         * it using the application container.
-         */
-        if ($handler instanceof \Closure) {
-            app()->call($handler, compact('builder'));
+        // Self handling implies @handle
+        if (is_string($handler) && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+            $handler .= '@handle';
         }
 
         /**
-         * If the handler is a callable string then
-         * call it using the application container.
+         * If the handler is a closure or callable
+         * string then call it using the service container.
          */
-        if (is_string($handler) && str_contains($handler, '@')) {
+        if (is_string($handler) || $handler instanceof \Closure) {
             app()->call($handler, compact('builder'));
         }
 

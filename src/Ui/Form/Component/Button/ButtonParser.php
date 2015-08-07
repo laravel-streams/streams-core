@@ -41,10 +41,6 @@ class ButtonParser
     {
         $entry = $builder->getFormEntry();
 
-        if (is_object($entry) && $entry instanceof Arrayable) {
-            $entry = $entry->toArray();
-        }
-
         $builder->setButtons($this->parser->parse($builder->getButtons(), compact('entry')));
     }
 }

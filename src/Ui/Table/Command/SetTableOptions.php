@@ -41,17 +41,13 @@ class SetTableOptions implements SelfHandling
      */
     public function handle(Resolver $resolver, Evaluator $evaluator)
     {
-        $arguments = ['builder' => $this->builder];
+        $evaluator->evaluate(
+            $resolver->resolve($this->builder->getOptions(), ['builder' => $this->builder]),
+            ['builder' => $this->builder]
+        );
 
-        $table = $this->builder->getTable();
-
-        $options = $this->builder->getOptions();
-
-        $options = $resolver->resolve($options, $arguments);
-        $options = $evaluator->evaluate($options, $arguments);
-
-        foreach ($options as $key => $value) {
-            $table->setOption($key, $value);
+        foreach ($this->builder->getOptions() as $key => $value) {
+            $this->builder->setTableOption($key, $value);
         }
     }
 }

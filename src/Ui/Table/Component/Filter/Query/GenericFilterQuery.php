@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter\Handler
  */
-class GenericFilterQuery
+class GenericFilterQuery implements SelfHandling
 {
 
     /**

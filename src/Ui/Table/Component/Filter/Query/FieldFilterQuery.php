@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Filter\Handler
  */
-class FieldFilterQuery
+class FieldFilterQuery implements SelfHandling
 {
 
     /**

@@ -41,10 +41,6 @@ class FieldParser
     {
         $entry = $builder->getFormEntry();
 
-        if (is_object($entry) && $entry instanceof Arrayable) {
-            $entry = $entry->toArray();
-        }
-
         $builder->setFields($this->parser->parse($builder->getFields(), compact('entry')));
     }
 }

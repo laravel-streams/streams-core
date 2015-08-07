@@ -669,6 +669,6 @@ class Form implements PresentableInterface
             return app()->make($presenter, ['object' => $this]);
         }
 
-        return app()->make('Anomaly\Streams\Platform\Ui\Form\FormPresenter', ['object' => $this]);
+        return app()->make(FormPresenter::class, ['object' => $this]);
     }
 }

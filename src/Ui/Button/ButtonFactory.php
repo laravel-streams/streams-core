@@ -20,7 +20,7 @@ class ButtonFactory
      *
      * @var string
      */
-    protected $button = 'Anomaly\Streams\Platform\Ui\Button\Button';
+    protected $button = Button::class;
 
     /**
      * The button registry.

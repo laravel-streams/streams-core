@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery;
 use Closure;
 
 /**
@@ -47,7 +48,7 @@ class Filter implements FilterInterface
      *
      * @var string|Closure
      */
-    protected $query = 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery@handle';
+    protected $query = GenericFilterQuery::class;
 
     /**
      * Get the filter query.

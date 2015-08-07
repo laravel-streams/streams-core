@@ -20,7 +20,7 @@ class ActionFactory
      *
      * @var string
      */
-    protected $action = 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Action';
+    protected $action = Action::class;
 
     /**
      * The translator utility.

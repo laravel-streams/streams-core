@@ -41,65 +41,6 @@ class SetDefaultOptions implements SelfHandling
         $table = $this->builder->getTable();
 
         /**
-         * Set the default options handler based
-         * on the builder class. Defaulting to
-         * no handler.
-         */
-        if (!$table->getOption('options')) {
-
-            $options = str_replace('TableBuilder', 'TableOptions', get_class($this->builder));
-
-            if (class_exists($options)) {
-                app()->call($options . '@handle', compact('builder', 'table'));
-            }
-        }
-
-        /**
-         * Set the default data handler based
-         * on the builder class. Defaulting to
-         * no handler.
-         */
-        if (!$table->getOption('data')) {
-
-            $options = str_replace('TableBuilder', 'TableData', get_class($this->builder));
-
-            if (class_exists($options)) {
-                $table->setOption('data', $options . '@handle');
-            }
-        }
-
-        /**
-         * Set a optional entries handler based
-         * on the builder class. Defaulting to
-         * no handler in which case we will use
-         * the model and included repositories.
-         */
-        if (!$table->getOption('entries')) {
-
-            $entries = str_replace('TableBuilder', 'TableEntries', get_class($this->builder));
-
-            if (class_exists($entries)) {
-                $table->setOption('entries', $entries . '@handle');
-            }
-        }
-
-        /**
-         * Set the default options handler based
-         * on the builder class. Defaulting to
-         * no handler.
-         */
-        if (!$table->getOption('repository')) {
-
-            $model = $table->getModel();
-
-            if (!$table->getOption('repository') && $model instanceof EntryModel) {
-                $table->setOption('repository', 'Anomaly\Streams\Platform\Entry\EntryTableRepository');
-            } elseif (!$table->getOption('repository') && $model instanceof EloquentModel) {
-                $table->setOption('repository', 'Anomaly\Streams\Platform\Model\EloquentTableRepository');
-            }
-        }
-
-        /**
          * Set the default ordering options.
          */
         if (!$table->getOption('order_by')) {

@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
@@ -90,6 +91,11 @@ class ActionExecutor
         $options = $builder->getTableOptions();
         $handler = $action->getHandler();
 
+        // Self handling implies @handle
+        if (is_string($handler) && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+            $handler .= '@handle';
+        }
+
         /**
          * Authorize the action.
          */
@@ -111,7 +117,11 @@ class ActionExecutor
          */
         if (is_string($handler) || $handler instanceof \Closure) {
 
-            if (is_string($handler) && class_exists($handler) && class_implements($handler, 'Illuminate\Contracts\Bus\SelfHandling')) {
+            if (is_string($handler) && class_exists($handler) && class_implements(
+                    $handler,
+                    'Illuminate\Contracts\Bus\SelfHandling'
+                )
+            ) {
                 $handler .= '@handle';
             }
 

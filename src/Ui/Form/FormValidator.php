@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Command\RepopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetErrorMessages;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Validation\Validator;
 
@@ -13,7 +14,7 @@ use Illuminate\Validation\Validator;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form
  */
-class FormValidator
+class FormValidator implements SelfHandling
 {
 
     use DispatchesJobs;
@@ -81,7 +82,7 @@ class FormValidator
      *
      * @param FormBuilder $builder
      */
-    public function validate(FormBuilder $builder)
+    public function handle(FormBuilder $builder)
     {
         $factory = app('validator');
 

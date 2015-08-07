@@ -1,5 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Edit;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder;
+
 /**
  * Class ActionRegistry
  *
@@ -18,13 +22,13 @@ class ActionRegistry
      */
     protected $actions = [
         'delete'  => [
-            'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete@handle'
+            'handler' => Delete::class
         ],
         'edit'    => [
-            'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Edit@handle'
+            'handler' => Edit::class
         ],
         'reorder' => [
-            'handler' => 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder@handle',
+            'handler' => Reorder::class,
             'text'    => 'streams::button.reorder',
             'icon'    => 'fa fa-sort-amount-asc',
             'class'   => 'reorder',

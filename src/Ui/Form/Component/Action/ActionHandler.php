@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -14,7 +15,7 @@ use Illuminate\Routing\Redirector;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action
  */
-class ActionHandler
+class ActionHandler implements SelfHandling
 {
 
     /**

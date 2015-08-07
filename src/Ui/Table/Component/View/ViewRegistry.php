@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\All;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\RecentlyCreated;
+
 /**
  * Class ViewRegistry
  *
@@ -20,12 +23,12 @@ class ViewRegistry
         'all'              => [
             'slug' => 'all',
             'text' => 'streams::view.all',
-            'view' => 'Anomaly\Streams\Platform\Ui\Table\Component\View\Type\ViewAll',
+            'view' => All::class,
         ],
         'recently_created' => [
             'slug' => 'recently_created',
             'text' => 'streams::view.recently_created',
-            'view' => 'Anomaly\Streams\Platform\Ui\Table\Component\View\Type\ViewRecentlyCreated',
+            'view' => RecentlyCreated::class,
         ]
     ];
 

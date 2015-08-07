@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Ui\Table\Component\View\View;
 
 /**
- * Class ViewAll
+ * Class All
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\View\Type
  */
-class ViewAll extends View
+class All extends View
 {
 
     /**
@@ -18,6 +18,6 @@ class ViewAll extends View
      *
      * @var string
      */
-    protected $query = 'Anomaly\Streams\Platform\Ui\Table\Component\View\Type\ViewAllQuery@handle';
+    protected $query = AllQuery::class;
 
 }

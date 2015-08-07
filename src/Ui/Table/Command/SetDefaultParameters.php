@@ -15,6 +15,15 @@ class SetDefaultParameters implements SelfHandling
 {
 
     /**
+     * Default properties.
+     *
+     * @var array
+     */
+    protected $defaults = [
+
+    ];
+
+    /**
      * The table builder.
      *
      * @var TableBuilder
@@ -22,7 +31,7 @@ class SetDefaultParameters implements SelfHandling
     protected $builder;
 
     /**
-     * Create a new SetDefaultParameters instance.
+     * Create a new BuildTableColumnsCommand instance.
      *
      * @param TableBuilder $builder
      */
@@ -32,77 +41,63 @@ class SetDefaultParameters implements SelfHandling
     }
 
     /**
-     * Handle the command.
+     * Set the table model object from the builder's model.
+     *
+     * @param SetDefaultParameters $command
      */
     public function handle()
     {
         /**
-         * Set the default views handler based
-         * on the builder class. Defaulting to
-         * no handler.
+         * Next we'll loop each property and look for a handler.
          */
-        if (!$this->builder->getViews()) {
+        $reflection = new \ReflectionClass($this->builder);
 
-            $views = str_replace('TableBuilder', 'TableViews', get_class($this->builder));
+        /* @var \ReflectionProperty $property */
+        foreach ($reflection->getProperties(\ReflectionProperty::IS_PROTECTED) as $property) {
 
-            if (class_exists($views)) {
-                $this->builder->setViews($views . '@handle');
+            /**
+             * If there is no getter then skip it.
+             */
+            if (!method_exists($this->builder, $method = 'get' . ucfirst($property->getName()))) {
+                continue;
             }
-        }
 
-        /**
-         * Set the default filters handler based
-         * on the builder class. Defaulting to
-         * no handler.
-         */
-        if (!$this->builder->getFilters()) {
-
-            $filters = str_replace('TableBuilder', 'TableFilters', get_class($this->builder));
-
-            if (class_exists($filters)) {
-                $this->builder->setFilters($filters . '@handle');
+            /**
+             * If the parameter already
+             * has a value then skip it.
+             */
+            if ($this->builder->{$method}()) {
+                continue;
             }
-        }
 
-        /**
-         * Set the default columns handler based
-         * on the builder class. Defaulting to
-         * no handler.
-         */
-        if (!$this->builder->getColumns()) {
+            /**
+             * Check if we can transform the
+             * builder property into a handler.
+             * If it exists, then go ahead and use it.
+             */
+            $handler = str_replace('TableBuilder', 'Table' . ucfirst($property->getName()), get_class($this->builder));
 
-            $columns = str_replace('TableBuilder', 'TableColumns', get_class($this->builder));
+            if (class_exists($handler)) {
 
-            if (class_exists($columns)) {
-                $this->builder->setColumns($columns . '@handle');
+                /**
+                 * Make sure the handler is
+                 * formatted properly.
+                 */
+                if (!str_contains($handler, '@')) {
+                    $handler .= '@handle';
+                }
+
+                $this->builder->{'set' . ucfirst($property->getName())}($handler);
+
+                continue;
             }
-        }
 
-        /**
-         * Set the default buttons handler based
-         * on the builder class. Defaulting to
-         * no handler.
-         */
-        if (!$this->builder->getButtons()) {
-
-            $buttons = str_replace('TableBuilder', 'TableButtons', get_class($this->builder));
-
-            if (class_exists($buttons)) {
-                $this->builder->setButtons($buttons . '@handle');
-            }
-        }
-
-        /**
-         * Set the default actions handler based
-         * on the builder class. Defaulting to
-         * no handler.
-         */
-        if (!$this->builder->getActions()) {
-
-            $actions = str_replace('TableBuilder', 'TableActions', get_class($this->builder));
-
-            if (class_exists($actions)) {
-                $this->builder->setActions($actions . '@handle');
+            /**
+             * If the handler does not exist and
+             * we have a default handler, use it.
+             */
+            if ($default = array_get($this->defaults, $property->getName())) {
+                $this->builder->{'set' . ucfirst($property->getName())}($default);
             }
         }
     }

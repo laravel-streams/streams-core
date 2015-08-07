@@ -49,12 +49,17 @@ class FilterQuery
          */
         if ($filter instanceof SelfHandling) {
 
-            $this->container->call([$filter, 'query'], compact('builder', 'query', 'filter'));
+            $this->container->call([$filter, 'handle'], compact('builder', 'query', 'filter'));
 
             return;
         }
 
         $handler = $filter->getQuery();
+
+        // Self handling implies @handle
+        if (is_string($handler) && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+            $handler .= '@handle';
+        }
 
         /**
          * If the handler is a callable string or Closure

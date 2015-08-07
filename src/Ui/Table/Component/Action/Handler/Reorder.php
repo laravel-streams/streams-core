@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Http\Request;
 
 /**
@@ -13,7 +14,7 @@ use Illuminate\Http\Request;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler
  */
-class Reorder extends ActionHandler
+class Reorder extends ActionHandler implements SelfHandling
 {
 
     /**

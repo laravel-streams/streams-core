@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Entry\EntryFormRepository;
 use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Model\EloquentFormRepository;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Container\Container;
@@ -57,11 +59,11 @@ class SetRepository implements SelfHandling
                 $this->builder->setRepository($container->make($repository, compact('form', 'model')));
             } elseif (!$this->builder->getRepository() && $model instanceof EntryModel) {
                 $this->builder->setRepository(
-                    $container->make('Anomaly\Streams\Platform\Entry\EntryFormRepository', compact('form', 'model'))
+                    $container->make(EntryFormRepository::class, compact('form', 'model'))
                 );
             } elseif (!$this->builder->getRepository() && $model instanceof EloquentModel) {
                 $this->builder->setRepository(
-                    $container->make('Anomaly\Streams\Platform\Model\EloquentFormRepository', compact('form', 'model'))
+                    $container->make(EloquentFormRepository::class, compact('form', 'model'))
                 );
             }
         }

@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Ui\Table\Command\MakeTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\PostTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\SetTableResponse;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,6 +33,20 @@ class TableBuilder
      * @var null|string
      */
     protected $model = null;
+
+    /**
+     * The entries handler.
+     *
+     * @var null|string
+     */
+    protected $entries = null;
+
+    /**
+     * The table repository.
+     *
+     * @var null|TableRepositoryInterface
+     */
+    protected $repository = null;
 
     /**
      * The views configuration.
@@ -182,6 +197,52 @@ class TableBuilder
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * Get the entries.
+     *
+     * @return null|string
+     */
+    public function getEntries()
+    {
+        return $this->entries;
+    }
+
+    /**
+     * Set the entries.
+     *
+     * @param $entries
+     * @return $this
+     */
+    public function setEntries($entries)
+    {
+        $this->entries = $entries;
+
+        return $this;
+    }
+
+    /**
+     * Get the repository.
+     *
+     * @return TableRepositoryInterface|null
+     */
+    public function getRepository()
+    {
+        return $this->repository;
+    }
+
+    /**
+     * Set the repository.
+     *
+     * @param TableRepositoryInterface $repository
+     * @return $this
+     */
+    public function setRepository(TableRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+
+        return $this;
     }
 
     /**

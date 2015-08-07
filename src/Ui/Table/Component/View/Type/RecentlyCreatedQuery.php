@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\View\Type
  */
-class ViewRecentlyCreatedQuery implements ViewQueryInterface
+class RecentlyCreatedQuery implements ViewQueryInterface
 {
 
     /**

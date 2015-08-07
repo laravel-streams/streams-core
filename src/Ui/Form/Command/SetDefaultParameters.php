@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\FormHandler;
+use Anomaly\Streams\Platform\Ui\Form\FormValidator;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
@@ -20,8 +22,8 @@ class SetDefaultParameters implements SelfHandling
      * @var array
      */
     protected $defaults = [
-        'handler'   => 'Anomaly\Streams\Platform\Ui\Form\FormHandler@handle',
-        'validator' => 'Anomaly\Streams\Platform\Ui\Form\FormValidator@validate'
+        'handler'   => FormHandler::class,
+        'validator' => FormValidator::class
     ];
 
     /**

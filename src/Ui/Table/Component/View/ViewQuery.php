@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewQueryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -47,6 +48,11 @@ class ViewQuery
     {
         if (!$handler = $view->getQuery()) {
             return;
+        }
+
+        // Self handling implies @handle
+        if (is_string($handler) && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+            $handler .= '@handle';
         }
 
         /**

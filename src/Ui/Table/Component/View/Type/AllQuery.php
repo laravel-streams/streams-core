@@ -5,14 +5,14 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class ViewAllQuery
+ * Class AllQuery
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\View\Type
  */
-class ViewAllQuery implements ViewQueryInterface
+class AllQuery implements ViewQueryInterface
 {
 
     /**

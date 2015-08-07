@@ -51,9 +51,9 @@ class Action extends Button implements ActionInterface
     /**
      * The action handler.
      *
-     * @var mixed
+     * @var string
      */
-    protected $handler = 'Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionHandler@handle';
+    protected $handler = ActionHandler::class;
 
     /**
      * Get the action handler.

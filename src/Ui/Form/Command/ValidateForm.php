@@ -46,6 +46,13 @@ class ValidateForm implements SelfHandling
         $validator = $this->builder->getValidator();
 
         /**
+         * If it's self handling just add @handle
+         */
+        if (!str_contains($validator, '@') && class_implements($validator, SelfHandling::class)) {
+            $validator .= '@handle';
+        }
+
+        /**
          * If the validator is a string or Closure then it's a handler
          * and we and can resolve it through the service container.
          */

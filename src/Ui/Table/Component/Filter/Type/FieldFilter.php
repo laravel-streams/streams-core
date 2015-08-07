@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\FieldFilterQuery;
 
 /**
  * Class FieldFilter
@@ -20,7 +21,7 @@ class FieldFilter extends Filter implements FieldFilterInterface
      *
      * @var string
      */
-    protected $query = 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\FieldFilterQuery@handle';
+    protected $query = FieldFilterQuery::class;
 
     /**
      * The filter field.
