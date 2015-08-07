@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionCollection;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
 use Robbo\Presenter\PresentableInterface;
@@ -35,13 +34,6 @@ class Form implements PresentableInterface
      * @var null|mixed
      */
     protected $model = null;
-
-    /**
-     * The form repository.
-     *
-     * @var null|FormRepositoryInterface
-     */
-    protected $repository = null;
 
     /**
      * The form stream.
@@ -244,29 +236,6 @@ class Form implements PresentableInterface
     public function getModel()
     {
         return $this->model;
-    }
-
-    /**
-     * Get the form repository.
-     *
-     * @return FormRepositoryInterface|null
-     */
-    public function getRepository()
-    {
-        return $this->repository;
-    }
-
-    /**
-     * Set the form repository.
-     *
-     * @param FormRepositoryInterface $repository
-     * @return $this
-     */
-    public function setRepository(FormRepositoryInterface $repository)
-    {
-        $this->repository = $repository;
-
-        return $this;
     }
 
     /**

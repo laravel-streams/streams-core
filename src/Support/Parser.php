@@ -58,7 +58,7 @@ class Parser
      */
     public function parse($target, array $data = [])
     {
-        $data = $this->mergeDefaultData($data);
+        $data = $this->prepareData($data);
 
         /**
          * If the target is an array
@@ -75,10 +75,21 @@ class Parser
          * format then parse the target with the payload.
          */
         if (is_string($target) && str_contains($target, ['{', '}'])) {
-            $target = $this->parser->render($target, $this->prepData($data));
+            $target = $this->parser->render($target, $data);
         }
 
         return $target;
+    }
+
+    /**
+     * Prepare the data.
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function prepareData(array $data)
+    {
+        return $this->toArray($this->mergeDefaultData($data));
     }
 
     /**
@@ -96,42 +107,12 @@ class Parser
     }
 
     /**
-     * Return the target cleaned of remaining tags.
-     *
-     * @param $target
-     * @return mixed
-     */
-    protected function clean($target)
-    {
-
-        /**
-         * If the target is an array
-         * then clean it recursively.
-         */
-        if (is_array($target)) {
-            foreach ($target as &$value) {
-                $value = $this->clean($value);
-            }
-        }
-
-        /**
-         * if the target is a string then
-         * clean it as is.
-         */
-        if (is_string($target) && str_contains($target, ['{', '}'])) {
-            $target = preg_replace("/\{[a-z._]+?\}/", '', $target);
-        }
-
-        return $target;
-    }
-
-    /**
      * Prep data for parsing.
      *
      * @param array $data
      * @return array
      */
-    protected function prepData(array $data)
+    protected function toArray(array $data)
     {
         foreach ($data as $key => &$value) {
             if (is_object($value) && $value instanceof Arrayable) {

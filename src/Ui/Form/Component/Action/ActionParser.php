@@ -33,10 +33,6 @@ class ActionParser
     {
         $entry = $builder->getFormEntry();
 
-        if (is_object($entry) && $entry instanceof Arrayable) {
-            $entry = $entry->toArray();
-        }
-
         $builder->setActions($this->parser->parse($builder->getActions(), compact('entry')));
     }
 }

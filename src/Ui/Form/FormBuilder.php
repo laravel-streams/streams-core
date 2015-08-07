@@ -18,6 +18,7 @@ use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,6 +50,20 @@ class FormBuilder
      * @var null|string
      */
     protected $handler = null;
+
+    /**
+     * The form validator.
+     *
+     * @var null|string
+     */
+    protected $validator = null;
+
+    /**
+     * The form repository.
+     *
+     * @var null|FormRepositoryInterface
+     */
+    protected $repository = null;
 
     /**
      * The form model.
@@ -90,9 +105,7 @@ class FormBuilder
      *
      * @var array|string
      */
-    protected $buttons = [
-        'cancel'
-    ];
+    protected $buttons = [];
 
     /**
      * The form options.
@@ -317,6 +330,52 @@ class FormBuilder
     }
 
     /**
+     * Get the validator.
+     *
+     * @return null|string
+     */
+    public function getValidator()
+    {
+        return $this->validator;
+    }
+
+    /**
+     * Set the validator.
+     *
+     * @param $validator
+     * @return $this
+     */
+    public function setValidator($validator)
+    {
+        $this->validator = $validator;
+
+        return $this;
+    }
+
+    /**
+     * Get the repository.
+     *
+     * @return FormRepositoryInterface|null
+     */
+    public function getRepository()
+    {
+        return $this->repository;
+    }
+
+    /**
+     * Set the form repository.
+     *
+     * @param FormRepositoryInterface $repository
+     * @return $this
+     */
+    public function setRepository(FormRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+
+        return $this;
+    }
+
+    /**
      * Set the form model.
      *
      * @param  $model
@@ -508,10 +567,10 @@ class FormBuilder
     /**
      * Set the options.
      *
-     * @param array $options
+     * @param array|string $options
      * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions($options)
     {
         $this->options = $options;
 
@@ -984,6 +1043,19 @@ class FormBuilder
     public function addFormSection($slug, array $section)
     {
         $this->form->addSection($slug, $section);
+
+        return $this;
+    }
+
+    /**
+     * Set the form entry.
+     *
+     * @param $entry
+     * @return $this
+     */
+    public function setFormEntry($entry)
+    {
+        $this->form->setEntry($entry);
 
         return $this;
     }

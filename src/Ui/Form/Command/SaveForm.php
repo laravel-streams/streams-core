@@ -39,9 +39,7 @@ class SaveForm implements SelfHandling
         $this->builder->fire('saving', ['builder' => $this->builder]);
         $this->builder->fireFieldEvents('form_saving');
 
-        $form = $this->builder->getForm();
-
-        $repository = $form->getRepository();
+        $repository = $this->builder->getRepository();
 
         $repository->save($this->builder);
 

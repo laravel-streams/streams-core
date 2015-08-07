@@ -33,14 +33,13 @@ class SetFormOptions implements SelfHandling
      */
     public function handle(Resolver $resolver, Evaluator $evaluator)
     {
-        $arguments = ['builder' => $this->builder];
+        $evaluator->evaluate(
+            $resolver->resolve($this->builder->getOptions(), ['builder' => $this->builder]),
+            ['builder' => $this->builder]
+        );
 
-        $form = $this->builder->getForm();
-
-        $options = $evaluator->evaluate($resolver->resolve($this->builder->getOptions(), $arguments), $arguments);
-
-        foreach ($options as $key => $value) {
-            $form->setOption($key, $value);
+        foreach ($this->builder->getOptions() as $key => $value) {
+            $this->builder->setFormOption($key, $value);
         }
     }
 }
