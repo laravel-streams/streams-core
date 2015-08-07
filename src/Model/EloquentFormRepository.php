@@ -91,6 +91,9 @@ class EloquentFormRepository implements FormRepositoryInterface
             ['id', 'created_at', 'created_by', 'updated_at', 'updated_by']
         );
 
+        // Remove skipped fields.
+        $data = array_diff_key($data, array_flip($builder->getSkips()));
+
         /**
          * Save default translation input.
          *
