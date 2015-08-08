@@ -91,7 +91,7 @@ class UiPluginFunctions
      */
     public function elapsed()
     {
-        return number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 2);
+        return number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 2) . ' s';
     }
 
     /**
