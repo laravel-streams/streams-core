@@ -38,6 +38,7 @@ class StreamPlugin extends Plugin
     public function getFunctions()
     {
         return [
+            new \Twig_SimpleFunction('streams_paginated', [$this->functions, 'paginated']),
             new \Twig_SimpleFunction('streams_entries', [$this->functions, 'entries']),
             new \Twig_SimpleFunction('streams_entry', [$this->functions, 'entry']),
             new \Twig_SimpleFunction('streams_form', [$this->functions, 'form'])

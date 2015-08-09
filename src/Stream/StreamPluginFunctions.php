@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Entry\EntryPresenter;
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Robbo\Presenter\Decorator;
 
 /**
@@ -61,6 +62,17 @@ class StreamPluginFunctions
         $this->hydrator  = $hydrator;
         $this->container = $container;
         $this->decorator = $decorator;
+    }
+
+    /**
+     * Return a paginated collection of entries.
+     *
+     * @param array $parameters
+     * @return LengthAwarePaginator
+     */
+    public function paginated(array $parameters = [])
+    {
+        return $this->query->paginate($parameters);
     }
 
     /**
