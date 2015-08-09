@@ -90,6 +90,16 @@ class EloquentModel extends Model implements Arrayable
     }
 
     /**
+     * Return the object's md5.
+     *
+     * @return string
+     */
+    public function md5()
+    {
+        return md5(json_encode($this->toArray()));
+    }
+
+    /**
      * Fire a model event.
      *
      * @param $event

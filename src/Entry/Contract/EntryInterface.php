@@ -200,6 +200,13 @@ interface EntryInterface
     public function lastModified();
 
     /**
+     * Return the object's md5.
+     *
+     * @return string
+     */
+    public function md5();
+
+    /**
      * Return a new presenter instance.
      *
      * @return EntryPresenter
