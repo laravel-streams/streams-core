@@ -1,12 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Addon\Plugin\PluginQuery;
 use Anomaly\Streams\Platform\Entry\EntryCollection;
-use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Entry\EntryPresenter;
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Container\Container;
-use Illuminate\Database\Eloquent\Builder;
 use Robbo\Presenter\Decorator;
 
 /**
@@ -21,16 +20,11 @@ class StreamPluginFunctions
 {
 
     /**
-     * These are methods that are
-     * protected and may not be
-     * accessed during plugin use.
+     * The plugin query utility.
      *
-     * @var array
+     * @var PluginQuery
      */
-    protected $protectedMethods = [
-        'update',
-        'delete'
-    ];
+    private $query;
 
     /**
      * The hydrator utility.
@@ -56,12 +50,14 @@ class StreamPluginFunctions
     /**
      * Create a new StreamPluginFunctions instance.
      *
-     * @param Hydrator  $hydrator
-     * @param Container $container
-     * @param Decorator $decorator
+     * @param PluginQuery $query
+     * @param Hydrator    $hydrator
+     * @param Container   $container
+     * @param Decorator   $decorator
      */
-    public function __construct(Hydrator $hydrator, Container $container, Decorator $decorator)
+    public function __construct(PluginQuery $query, Hydrator $hydrator, Container $container, Decorator $decorator)
     {
+        $this->query     = $query;
         $this->hydrator  = $hydrator;
         $this->container = $container;
         $this->decorator = $decorator;
@@ -75,29 +71,7 @@ class StreamPluginFunctions
      */
     public function entries(array $parameters = [])
     {
-        if (!$model = array_get($parameters, 'model')) {
-
-            $stream    = ucfirst(camel_case(array_get($parameters, 'stream')));
-            $namespace = ucfirst(camel_case(array_get($parameters, 'namespace')));
-
-            $model = 'Anomaly\Streams\Platform\Model\\' . $namespace . '\\' . $namespace . $stream . 'EntryModel';
-        }
-
-        /* @var EntryModel|Builder $model */
-        $model = $this->container->make($model);
-
-        foreach ($parameters as $parameter => $arguments) {
-
-            $method = camel_case($parameter);
-
-            if (in_array($method, $this->protectedMethods)) {
-                continue;
-            }
-
-            $model = call_user_func([$model, $method], $arguments);
-        }
-
-        return $this->decorator->decorate($model->get());
+        return $this->query->get($parameters);
     }
 
     /**
@@ -108,29 +82,7 @@ class StreamPluginFunctions
      */
     public function entry(array $parameters = [])
     {
-        if (!$model = array_get($parameters, 'model')) {
-
-            $stream    = ucfirst(camel_case(array_get($parameters, 'stream')));
-            $namespace = ucfirst(camel_case(array_get($parameters, 'namespace')));
-
-            $model = 'Anomaly\Streams\Platform\Model\\' . $namespace . '\\' . $namespace . $stream . 'EntryModel';
-        }
-
-        /* @var EntryModel|Builder $model */
-        $model = $this->container->make($model);
-
-        foreach ($parameters as $parameter => $arguments) {
-
-            $method = camel_case($parameter);
-
-            if (in_array($method, $this->protectedMethods)) {
-                continue;
-            }
-
-            $model = call_user_func([$model, $method], $arguments);
-        }
-
-        return $this->decorator->decorate($model->first());
+        return $this->query->first($parameters);
     }
 
     /**
