@@ -64,6 +64,18 @@ class UiPluginFunctions
     }
 
     /**
+     * Return a rendered view.
+     *
+     * @param       $view
+     * @param array $data
+     * @return string
+     */
+    public function view($view, array $data = [])
+    {
+        return view($view, $data)->render();
+    }
+
+    /**
      * Render buttons.
      *
      * @param $buttons

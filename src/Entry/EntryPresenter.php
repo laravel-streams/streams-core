@@ -24,44 +24,6 @@ class EntryPresenter extends EloquentPresenter
     protected $object;
 
     /**
-     * When accessing a property of a decorated entry
-     * object first check to see if the key represents
-     * a streams field. If it does then return the field
-     * type's presenter object. Otherwise handle normally.
-     *
-     * @param  $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        if ($assignment = $this->object->getAssignment($key)) {
-
-            $type = $assignment->getFieldType($this);
-
-            if ($assignment->isTranslatable() && $locale = config('app.locale')) {
-
-                $entry = $this->object->translateOrDefault($locale);
-
-                $type->setLocale($locale);
-            } else {
-                $entry = $this->object;
-            }
-
-            $type
-                ->setEntry($entry)
-                ->setValue($entry->getFieldValue($key));
-
-            if (method_exists($type, 'getRelation')) {
-                return $this->__getDecorator()->decorate($entry->{$key});
-            }
-
-            return $type->getPresenter();
-        }
-
-        return parent::__get($key);
-    }
-
-    /**
      * Return the date string for created at.
      *
      * @return string
@@ -159,5 +121,43 @@ class EntryPresenter extends EloquentPresenter
             ),
             $this->object->getTitle()
         );
+    }
+
+    /**
+     * When accessing a property of a decorated entry
+     * object first check to see if the key represents
+     * a streams field. If it does then return the field
+     * type's presenter object. Otherwise handle normally.
+     *
+     * @param  $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        if ($assignment = $this->object->getAssignment($key)) {
+
+            $type = $assignment->getFieldType($this);
+
+            if ($assignment->isTranslatable() && $locale = config('app.locale')) {
+
+                $entry = $this->object->translateOrDefault($locale);
+
+                $type->setLocale($locale);
+            } else {
+                $entry = $this->object;
+            }
+
+            $type
+                ->setEntry($entry)
+                ->setValue($entry->getFieldValue($key));
+
+            if (method_exists($type, 'getRelation')) {
+                return $this->__getDecorator()->decorate($entry->{$key});
+            }
+
+            return $type->getPresenter();
+        }
+
+        return parent::__get($key);
     }
 }
