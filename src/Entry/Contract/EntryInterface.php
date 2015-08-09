@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\EntryPresenter;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Carbon\Carbon;
 
 /**
  * Interface EntryInterface
@@ -190,6 +191,13 @@ interface EntryInterface
      * @return bool
      */
     public function isDeletable();
+
+    /**
+     * Return the last modified datetime.
+     *
+     * @return Carbon
+     */
+    public function lastModified();
 
     /**
      * Return a new presenter instance.
