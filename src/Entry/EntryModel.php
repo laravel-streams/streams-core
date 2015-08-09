@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Carbon\Carbon;
 use Robbo\Presenter\PresentableInterface;
 
 /**
@@ -383,6 +384,16 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $stream = $this->getStream();
 
         return $stream->isTranslatable();
+    }
+
+    /**
+     * Return the last modified datetime.
+     *
+     * @return Carbon
+     */
+    public function lastModified()
+    {
+        return $this->last_modified ?: $this->created_at;
     }
 
     /**
