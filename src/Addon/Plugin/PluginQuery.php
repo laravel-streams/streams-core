@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Entry\EntryPresenter;
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Robbo\Presenter\Decorator;
 
@@ -89,6 +90,19 @@ class PluginQuery
     public function first(array $parameters)
     {
         return $this->decorator->decorate($this->build($parameters)->first());
+    }
+
+    /**
+     * Return a paginated result.
+     *
+     * @param array $parameters
+     * @return LengthAwarePaginator
+     */
+    public function paginate(array $parameters)
+    {
+        $perPage = array_pull($parameters, 'per_page', 15);
+
+        return $this->decorator->decorate($this->build($parameters)->paginate($perPage));
     }
 
     /**
