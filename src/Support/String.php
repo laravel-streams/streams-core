@@ -16,7 +16,7 @@ class String
 {
 
     /**
-     * The twig instance.[
+     * The twig instance.
      *
      * @var Bridge
      */

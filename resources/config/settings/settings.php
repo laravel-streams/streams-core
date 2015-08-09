@@ -36,6 +36,7 @@ return [
                 'Y/n/j'     => date('Y/n/j'),
                 'n/j/Y'     => date('n/j/Y'),
                 'M j, Y'    => date('M j, Y'),
+                'j F, Y'    => date('j F, Y'),
                 'D M j, Y'  => date('D M j, Y'),
                 'F jS, Y'   => date('F jS, Y'),
                 'l F jS, Y' => date('l F jS, Y'),

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'date_format' => 'D M j, Y',
+    'date_format' => 'j F, Y',
     'time_format' => 'g:i A',
 
     /*
