@@ -50,6 +50,9 @@ class ApplicationReady
             return $response;
         }
 
+        // http://wappalyzer.com
+        setcookie('powered_by', 'PyroCMS');
+
         return $next($request);
     }
 }
