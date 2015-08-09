@@ -77,7 +77,7 @@ class FieldTypeSchema
 
         // Mark the column unique if desired and not translatable.
         if ($assignment->isUnique() && !$assignment->isTranslatable()) {
-            $table->unique($this->fieldType->getColumnName());
+            $table->unique($this->fieldType->getColumnName(), $this->fieldType->getColumnName());
         }
     }
 
