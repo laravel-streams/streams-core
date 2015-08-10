@@ -1,5 +1,5 @@
 <?php
-
+$test = 'test';
 return [
     'enabled'   => env('ENABLED_LOCALES', ['en']),
     'supported' => [
