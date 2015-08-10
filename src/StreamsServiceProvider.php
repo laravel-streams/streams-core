@@ -12,7 +12,6 @@ use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
 use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
 use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\ServiceProvider;
 
