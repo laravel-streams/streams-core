@@ -200,11 +200,11 @@ interface EntryInterface
     public function lastModified();
 
     /**
-     * Return the object's md5.
+     * Return the object's ETag fingerprint.
      *
      * @return string
      */
-    public function md5();
+    public function etag();
 
     /**
      * Return a new presenter instance.

@@ -90,13 +90,13 @@ class EloquentModel extends Model implements Arrayable
     }
 
     /**
-     * Return the object's md5.
+     * Return the object's ETag fingerprint.
      *
      * @return string
      */
-    public function md5()
+    public function etag()
     {
-        return md5(json_encode($this->toArray()));
+        return md5(get_class($this) . json_encode($this->toArray()));
     }
 
     /**
