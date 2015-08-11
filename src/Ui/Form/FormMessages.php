@@ -21,7 +21,7 @@ class FormMessages
     {
         $messages = [];
 
-        foreach ($builder->getFormFields() as $field) {
+        foreach ($builder->getEnabledFormFields() as $field) {
 
             foreach ($field->getValidators() as $rule => $validator) {
 

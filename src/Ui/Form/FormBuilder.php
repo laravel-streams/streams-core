@@ -912,6 +912,16 @@ class FormBuilder
     }
 
     /**
+     * Get the enabled form fields.
+     *
+     * @return Component\Field\FieldCollection
+     */
+    public function getEnabledFormFields()
+    {
+        return $this->form->getEnabledFields();
+    }
+
+    /**
      * Get the form field.
      *
      * @param $fieldSlug
@@ -920,6 +930,17 @@ class FormBuilder
     public function getFormField($fieldSlug)
     {
         return $this->form->getField($fieldSlug);
+    }
+
+    /**
+     * Disable a form field.
+     *
+     * @param $fieldSlug
+     * @return FieldType
+     */
+    public function disableFormField($fieldSlug)
+    {
+        return $this->form->disableField($fieldSlug);
     }
 
     /**

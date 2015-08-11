@@ -24,7 +24,7 @@ class FormAttributes
         $attributes = [];
 
         /* @var FieldType $field */
-        foreach ($builder->getFormFields() as $field) {
+        foreach ($builder->getEnabledFormFields() as $field) {
 
             $label = $field->getLabel();
 

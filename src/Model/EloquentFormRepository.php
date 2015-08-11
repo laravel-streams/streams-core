@@ -80,7 +80,8 @@ class EloquentFormRepository implements FormRepositoryInterface
         $entry  = $form->getEntry();
         $fields = $form->getFields();
 
-        $fields = $fields->allowed();
+        $allowed  = $fields->allowed();
+        $disabled = $fields->disabled();
 
         /**
          * Set initial data from the
@@ -88,7 +89,10 @@ class EloquentFormRepository implements FormRepositoryInterface
          */
         $data = array_diff_key(
             $entry->getUnguardedAttributes(),
-            ['id', 'created_at', 'created_by', 'updated_at', 'updated_by']
+            array_merge(
+                ['id', 'created_at', 'created_by', 'updated_at', 'updated_by'],
+                array_flip($disabled->fieldSlugs())
+            )
         );
 
         /**
@@ -96,7 +100,7 @@ class EloquentFormRepository implements FormRepositoryInterface
          *
          * @var FieldType $field
          */
-        foreach ($fields->notTranslatable() as $field) {
+        foreach ($allowed->notTranslatable() as $field) {
             if (!$field->getLocale()) {
                 array_set($data, $field->getField(), $form->getValue($field->getInputName()));
             }
@@ -112,7 +116,7 @@ class EloquentFormRepository implements FormRepositoryInterface
 
             foreach (config('streams::locales.enabled') as $locale) {
 
-                foreach ($fields->translatable() as $field) {
+                foreach ($allowed->translatable() as $field) {
 
                     if ($field->getLocale() == $locale) {
                         array_set(

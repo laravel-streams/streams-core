@@ -28,7 +28,7 @@ class FormRules
         $stream = $builder->getFormStream();
 
         /* @var FieldType $field */
-        foreach ($builder->getFormFields() as $field) {
+        foreach ($builder->getEnabledFormFields() as $field) {
 
             if ($field->isDisabled()) {
                 continue;

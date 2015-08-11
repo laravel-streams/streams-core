@@ -40,7 +40,7 @@ class LoadFormValues implements SelfHandling
         $form = $this->builder->getForm();
 
         /* @var FieldType $field */
-        foreach ($form->getFields() as $field) {
+        foreach ($form->getEnabledFields() as $field) {
             $form->setValue($field->getInputName(), $field->getPostValue());
         }
     }

@@ -492,6 +492,21 @@ class Form implements PresentableInterface
     }
 
     /**
+     * Disable a field.
+     *
+     * @param $field
+     * @return $this
+     */
+    public function disableField($field)
+    {
+        $field = $this->getField($field);
+
+        $field->setDisabled(true);
+
+        return $this;
+    }
+
+    /**
      * Set the form views.
      *
      * @param Collection $fields
@@ -512,6 +527,16 @@ class Form implements PresentableInterface
     public function getFields()
     {
         return $this->fields;
+    }
+
+    /**
+     * Get the enabled fields.
+     *
+     * @return FieldCollection
+     */
+    public function getEnabledFields()
+    {
+        return $this->fields->enabled();
     }
 
     /**

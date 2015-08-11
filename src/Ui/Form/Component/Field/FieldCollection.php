@@ -172,7 +172,7 @@ class FieldCollection extends Collection
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if (!$item instanceof SelfHandling) {
+            if (!$item->isDisabled() && !$item instanceof SelfHandling) {
                 $allowed[] = $item;
             }
         }
@@ -215,6 +215,38 @@ class FieldCollection extends Collection
                 break;
             }
         }
+    }
+
+    /**
+     * Return an array of field slugs
+     * for all the fields in the collection.
+     *
+     * @return array
+     */
+    public function fieldSlugs()
+    {
+        return array_map(
+            function (FieldType $field) {
+                return $field->getField();
+            },
+            $this->all()
+        );
+    }
+
+    /**
+     * Return an array of field names
+     * for all the fields in the collection.
+     *
+     * @return array
+     */
+    public function fieldNames()
+    {
+        return array_map(
+            function (FieldType $field) {
+                return $field->getFieldName();
+            },
+            $this->all()
+        );
     }
 
     /**
