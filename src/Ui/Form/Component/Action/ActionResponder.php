@@ -56,7 +56,7 @@ class ActionResponder
          * string then call it using the service container.
          */
         if (is_string($handler) || $handler instanceof \Closure) {
-            app()->call($handler, compact('builder'));
+            $this->container->call($handler, compact('builder'));
         }
 
         /**
