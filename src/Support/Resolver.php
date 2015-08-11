@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class Resolver
@@ -38,14 +39,17 @@ class Resolver
     /**
      * Resolve the target.
      *
-     * @param       $target
-     * @param array $arguments
+     * @param        $target
+     * @param array  $arguments
+     * @param string $method
      * @return mixed
      */
-    public function resolve($target, array $arguments = [])
+    public function resolve($target, array $arguments = [], $method = 'handle')
     {
         if (is_string($target) && str_contains($target, '@')) {
             return $this->container->call($target, $arguments);
+        } elseif (is_string($target) && class_implements($target, SelfHandling::class)) {
+            return $this->container->call($target . '@' . $method, $arguments);
         }
 
         return $target;
