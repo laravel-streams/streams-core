@@ -66,13 +66,13 @@ class UiPluginFunctions
     /**
      * Return a rendered view.
      *
-     * @param       $view
+     * @param       $path
      * @param array $data
      * @return string
      */
-    public function view($view, array $data = [])
+    public function view($path, array $data = [])
     {
-        return view($view, $data)->render();
+        return view($path, $data)->render();
     }
 
     /**
