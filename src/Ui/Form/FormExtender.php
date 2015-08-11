@@ -64,7 +64,7 @@ class FormExtender
 
             $factory->extend(
                 $rule,
-                function ($attribute, $value, $parameters) use ($handler, $validator, $builder) {
+                function ($attribute, $value, $parameters) use ($handler, $builder) {
                     return $this->container->call(
                         $handler,
                         compact('attribute', 'value', 'parameters', 'builder')
