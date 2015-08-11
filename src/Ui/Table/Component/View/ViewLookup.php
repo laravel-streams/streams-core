@@ -40,7 +40,7 @@ class ViewLookup
         $views = $builder->getViews();
 
         foreach ($views as &$parameters) {
-            if ($view = $this->views->get($class = array_get($parameters, 'view'))) {
+            if ($view = $this->views->get(array_get($parameters, 'view'))) {
                 $parameters = array_replace_recursive($view, $parameters);
             }
         }
