@@ -10,6 +10,7 @@
         "pages": {
             "addons": "Addons",
             "builders": "Builders [dev]",
+            "localization": "Localization",
             "views": "Views"
         }
     },

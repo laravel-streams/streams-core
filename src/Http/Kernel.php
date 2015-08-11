@@ -60,7 +60,7 @@ class Kernel extends \App\Http\Kernel
 
         $uri = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL);
 
-        if ($hint === 'uri' && preg_match($pattern, $uri, $matches)) {
+        if (($hint === 'uri' || $hint === true) && preg_match($pattern, $uri, $matches)) {
 
             $_SERVER['ORIGINAL_REQUEST_URI'] = $uri;
             $_SERVER['REQUEST_URI']          = preg_replace($pattern, '/', $uri);
@@ -74,7 +74,7 @@ class Kernel extends \App\Http\Kernel
 
         $pattern = '/^(' . implode('|', array_keys($locales['supported'])) . ')./';
 
-        if ($hint === 'domain' && preg_match($pattern, $url['host'], $matches)) {
+        if (($hint === 'domain' || $hint === true) && preg_match($pattern, $url['host'], $matches)) {
 
             define('LOCALE', $matches[1]);
 

@@ -11,13 +11,14 @@ return [
     |
     | null, "domain" or "uri"
     |
-    | If null, you must handle setting the locale yourself.
+    | If false, you must handle setting the locale yourself.
+    | If true, both "domain" and "uri" are enabled and will be detected.
     | If "domain", streams will check your sub-domain for an i18n locale key
     | If "uri", streams will check your first URI segment for an i18n locale key
     |
     */
 
-    'hint' => null,
+    'hint' => true,
 
     /*
     |--------------------------------------------------------------------------
