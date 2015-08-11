@@ -1,7 +1,45 @@
 <?php
-$test = 'test';
+
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Locale Hint
+    |--------------------------------------------------------------------------
+    |
+    | Define where to look for an i18n locale.
+    |
+    | null, "domain" or "uri"
+    |
+    | If null, you must handle setting the locale yourself.
+    | If "domain", streams will check your sub-doman for an i18n locale key
+    | If "uri", streams will check your first URI segment for an i18n locale key
+    |
+    */
+
+    'hint' => null,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enabled Locales
+    |--------------------------------------------------------------------------
+    |
+    | Define an array of locales enabled for translatable input.
+    |
+    */
+
     'enabled'   => env('ENABLED_LOCALES', ['en']),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Supported Locales
+    |--------------------------------------------------------------------------
+    |
+    | In order to enable a locale or translate anything
+    | the i18n locale key MUST be in this array.
+    |
+    */
+
     'supported' => [
         'en' => [
             'direction' => 'ltr'

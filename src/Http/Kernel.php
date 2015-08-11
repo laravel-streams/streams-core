@@ -37,8 +37,21 @@ class Kernel extends \App\Http\Kernel
      */
     protected function defineLocale()
     {
+
+        /**
+         * First grab the supported i18n locales
+         * that we should be looking for.
+         */
         $locales = require __DIR__ . '/../../resources/config/locales.php';
 
+        if (file_exists($override = __DIR__ . '/../../../../../config/streams/locales.php')) {
+            $locales = array_merge_recursive($locales, require $override);
+        }
+
+        /**
+         * Let's first look in the URI
+         * path for for a locale.
+         */
         $pattern = '/^\/(' . implode('|', array_keys($locales['supported'])) . ')\//';
 
         $uri = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL);
@@ -49,6 +62,19 @@ class Kernel extends \App\Http\Kernel
             $_SERVER['REQUEST_URI']          = preg_replace($pattern, '/', $uri);
 
             define('LOCALE', $matches[1]);
+
+            return;
+        }
+
+        $url = parse_url($_SERVER['HTTP_HOST']);
+
+        $pattern = '/^(' . implode('|', array_keys($locales['supported'])) . ')./';
+
+        if (preg_match($pattern, $url['host'], $matches)) {
+
+            define('LOCALE', $matches[1]);
+
+            return;
         }
     }
 }
