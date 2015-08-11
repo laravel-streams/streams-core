@@ -12,7 +12,7 @@ return [
     | null, "domain" or "uri"
     |
     | If null, you must handle setting the locale yourself.
-    | If "domain", streams will check your sub-doman for an i18n locale key
+    | If "domain", streams will check your sub-domain for an i18n locale key
     | If "uri", streams will check your first URI segment for an i18n locale key
     |
     */
@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'enabled'   => env('ENABLED_LOCALES', ['en']),
+    'enabled' => env('ENABLED_LOCALES', ['en']),
 
     /*
     |--------------------------------------------------------------------------
