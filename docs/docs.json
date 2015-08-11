@@ -16,7 +16,8 @@
     "foundation": {
         "title": "Application Foundations",
         "pages": {
-            "structure": "Application Structure"
+            "structure": "Application Structure",
+            "stream-entities": "Stream Entities"
         }
     },
     "services": {
