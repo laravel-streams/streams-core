@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Support\Arrayable;
 
 /**
  * Class ButtonParser

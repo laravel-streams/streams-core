@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQuery;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
 
