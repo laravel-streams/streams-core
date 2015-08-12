@@ -55,11 +55,12 @@ class Kernel extends \App\Http\Kernel
         /**
          * Check the domain for a locale.
          */
-        $url = parse_url($_SERVER['HTTP_HOST']);
+        $url  = parse_url($_SERVER['HTTP_HOST']);
+        $host = array_get($url, 'host');
 
         $pattern = '/^(' . implode('|', array_keys($locales['supported'])) . ')./';
 
-        if (($hint === 'domain' || $hint === true) && preg_match($pattern, $url['host'], $matches)) {
+        if ($host && ($hint === 'domain' || $hint === true) && preg_match($pattern, $host, $matches)) {
 
             define('LOCALE', $matches[1]);
 
