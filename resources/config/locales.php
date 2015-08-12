@@ -9,7 +9,7 @@ return [
     |
     | Define where to look for an i18n locale.
     |
-    | null, "domain" or "uri"
+    | true, false, "domain" or "uri"
     |
     | If false, you must handle setting the locale yourself.
     | If true, both "domain" and "uri" are enabled and will be detected.
