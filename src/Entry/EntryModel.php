@@ -258,10 +258,13 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      *
      * @param $key
      * @param $value
+     * @return $this
      */
     public function setRawAttribute($key, $value)
     {
         parent::setAttribute($key, $value);
+        
+        return $this;
     }
 
     /**
