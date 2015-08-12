@@ -265,6 +265,14 @@ interface EntryInterface
     public function getRawAttribute($key);
 
     /**
+     * Set a raw unmodified attribute.
+     *
+     * @param $key
+     * @param $value
+     */
+    public function setRawAttribute($key, $value);
+    
+    /**
      * Get the entry attributes.
      *
      * @return array
