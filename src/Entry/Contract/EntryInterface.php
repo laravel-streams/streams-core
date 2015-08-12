@@ -269,6 +269,7 @@ interface EntryInterface
      *
      * @param $key
      * @param $value
+     * @return $this
      */
     public function setRawAttribute($key, $value);
     
