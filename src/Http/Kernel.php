@@ -53,6 +53,20 @@ class Kernel extends \App\Http\Kernel
         }
 
         /**
+         * Check the domain for a locale.
+         */
+        $url = parse_url($_SERVER['HTTP_HOST']);
+
+        $pattern = '/^(' . implode('|', array_keys($locales['supported'])) . ')./';
+
+        if (($hint === 'domain' || $hint === true) && preg_match($pattern, $url['host'], $matches)) {
+
+            define('LOCALE', $matches[1]);
+
+            return;
+        }
+
+        /**
          * Let's first look in the URI
          * path for for a locale.
          */
@@ -70,12 +84,17 @@ class Kernel extends \App\Http\Kernel
             return;
         }
 
-        $url  = parse_url($_SERVER['HTTP_HOST']);
-        $host = array_get($url, 'host');
+        /**
+         * Check if we're on the home page.
+         */
+        $pattern = '/^\/(' . implode('|', array_keys($locales['supported'])) . ')$/';
 
-        $pattern = '/^(' . implode('|', array_keys($locales['supported'])) . ')./';
+        $uri = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL);
 
-        if ($host && ($hint === 'domain' || $hint === true) && preg_match($pattern, $host, $matches)) {
+        if (($hint === 'uri' || $hint === true) && preg_match($pattern, $uri, $matches)) {
+
+            $_SERVER['ORIGINAL_REQUEST_URI'] = $uri;
+            $_SERVER['REQUEST_URI']          = preg_replace($pattern, '/', $uri);
 
             define('LOCALE', $matches[1]);
 
