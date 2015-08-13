@@ -21,6 +21,13 @@ class ButtonInput
     protected $parser;
 
     /**
+     * The button lookup.
+     *
+     * @var ButtonLookup
+     */
+    protected $lookup;
+
+    /**
      * The button guesser.
      *
      * @var ButtonGuesser
@@ -30,7 +37,7 @@ class ButtonInput
     /**
      * @var ButtonDefaults
      */
-    private $defaults;
+    protected $defaults;
 
     /**
      * The resolver utility.
@@ -57,6 +64,7 @@ class ButtonInput
      * Create a new ButtonInput instance.
      *
      * @param ButtonParser     $parser
+     * @param ButtonLookup     $lookup
      * @param ButtonGuesser    $guesser
      * @param ButtonDefaults   $defaults
      * @param ButtonResolver   $resolver
@@ -65,6 +73,7 @@ class ButtonInput
      */
     public function __construct(
         ButtonParser $parser,
+        ButtonLookup $lookup,
         ButtonGuesser $guesser,
         ButtonDefaults $defaults,
         ButtonResolver $resolver,
@@ -72,6 +81,7 @@ class ButtonInput
         ButtonNormalizer $normalizer
     ) {
         $this->parser     = $parser;
+        $this->lookup     = $lookup;
         $this->guesser    = $guesser;
         $this->defaults   = $defaults;
         $this->resolver   = $resolver;
@@ -89,8 +99,9 @@ class ButtonInput
         $this->resolver->resolve($builder);
         $this->evaluator->evaluate($builder);
         $this->defaults->defaults($builder);
-        $this->parser->parse($builder);
         $this->normalizer->normalize($builder);
+        $this->lookup->merge($builder);
+        $this->parser->parse($builder);
         $this->guesser->guess($builder);
     }
 }
