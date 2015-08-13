@@ -57,6 +57,13 @@ class SetDefaultOptions implements SelfHandling
                 $table->setOption('order_by', ['id' => 'asc']);
             }
         }
+        
+        /**
+         * Set the default breadcrumb.
+         */
+        if ($table->getOption('breadcrumb') === null && $title = $table->getOption('title')) {
+            $table->setOption('breadcrumb', $title);
+        }
 
         /**
          * If the table ordering is currently being overridden
