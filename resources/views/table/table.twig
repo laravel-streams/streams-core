@@ -8,13 +8,13 @@
 
 <div class="container-fluid">
 
-    {% include "streams::table/partials/views" %}
-    {% include "streams::table/partials/filters" %}
+    {{ view("streams::table/partials/views", {'table': table}) }}
+    {{ view("streams::table/partials/filters", {'table': table}) }}
 
     {% if not table.rows.empty() %}
         <div class="panel panel-table">
 
-            {% include "streams::table/partials/heading" %}
+            {{ view("streams::table/partials/heading", {'table': table}) }}
 
             {{ form_open({ 'url': url_full() }) }}
             <table
@@ -22,13 +22,13 @@
                     {{ table.options.sortable ? 'data-sortable' }}
                     {{ html_attributes(table.options.attributes) }}>
 
-                {% include "streams::table/partials/header" %}
+                {{ view("streams::table/partials/header", {'table': table}) }}
 
                 {% block body %}
-                    {% include "streams::table/partials/body" %}
+                    {{ view("streams::table/partials/body", {'table': table}) }}
                 {% endblock %}
 
-                {% include "streams::table/partials/footer" %}
+                {{ view("streams::table/partials/footer", {'table': table}) }}
 
             </table>
             {{ form_close() }}
