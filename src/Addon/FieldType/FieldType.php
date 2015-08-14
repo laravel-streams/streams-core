@@ -462,6 +462,17 @@ class FieldType extends Addon
     }
 
     /**
+     * Get the input value.
+     *
+     * @param null $default
+     * @return mixed
+     */
+    public function getInputValue($default = null)
+    {
+        return $this->getPostValue($default);
+    }
+
+    /**
      * Set the label.
      *
      * @param  $label
