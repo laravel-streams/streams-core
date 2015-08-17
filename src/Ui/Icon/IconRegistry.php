@@ -12,6 +12,17 @@ class IconRegistry
 {
 
     /**
+     * Get a button.
+     *
+     * @param  $icon
+     * @return array|null
+     */
+    public function get($icon)
+    {
+        return array_get($this->icons, $icon, $icon);
+    }
+
+    /**
      * Available icon.
      *
      * @var array
@@ -25,6 +36,7 @@ class IconRegistry
         'folder-closed'        => 'glyphicons glyphicons-folder-closed',
         'cloud-upload-alt'     => 'glyphicons glyphicons-cloud-upload',
         'scissors'             => 'glyphicons glyphicons-scissors-alt',
+        'conversation'         => 'glyphicons glyphicons-conversation',
         'folder-open'          => 'glyphicons glyphicons-folder-open',
         'credit-card'          => 'glyphicons glyphicons-credit-card',
         'cloud-plus'           => 'glyphicons glyphicons-cloud-plus',
@@ -104,17 +116,6 @@ class IconRegistry
         'tag'                  => 'fa fa-tag',
         'ban'                  => 'fa fa-ban'
     ];
-
-    /**
-     * Get a button.
-     *
-     * @param  $icon
-     * @return array|null
-     */
-    public function get($icon)
-    {
-        return array_get($this->icons, $icon, $icon);
-    }
 
     /**
      * Register a button.
