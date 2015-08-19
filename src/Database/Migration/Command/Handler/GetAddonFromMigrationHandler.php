@@ -52,6 +52,6 @@ class GetAddonFromMigrationHandler
 
         preg_match($matcher, $fileName, $matches);
 
-        $this->addons->get(isset($matches[1]) ? $matches[1] : null);
+        return $this->addons->get(isset($matches[1]) ? $matches[1] : null);
     }
 }
