@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
 use Anomaly\Streams\Platform\Addon\Addon;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Command\GetAddonByNamespace;
 use Anomaly\Streams\Platform\Database\Migration\Command\GetAddonFromMigration;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -19,6 +20,23 @@ class GetAddonFromMigrationHandler
     use DispatchesJobs;
 
     /**
+     * The addon collection.
+     *
+     * @var AddonCollection
+     */
+    protected $addons;
+
+    /**
+     * Create a new GetAddonFromMigrationHandler instance.
+     *
+     * @param AddonCollection $addons
+     */
+    public function __construct(AddonCollection $addons)
+    {
+        $this->addons = $addons->merged();
+    }
+
+    /**
      * Handle the command.
      *
      * @param GetAddonFromMigration $command
@@ -34,8 +52,6 @@ class GetAddonFromMigrationHandler
 
         preg_match($matcher, $fileName, $matches);
 
-        return $this->dispatch(
-            new GetAddonByNamespace(isset($matches[1]) ? $matches[1] : null)
-        );
+        $this->addons->get(isset($matches[1]) ? $matches[1] : null);
     }
 }
