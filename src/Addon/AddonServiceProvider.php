@@ -135,6 +135,20 @@ class AddonServiceProvider extends ServiceProvider
     protected $router;
 
     /**
+     * The command scheduler.
+     *
+     * @var Schedule
+     */
+    protected $scheduler;
+
+    /**
+     * The middleware collection.
+     *
+     * @var MiddlewareCollection
+     */
+    protected $middlewares;
+
+    /**
      * Create a new AddonServiceProvider instance.
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
@@ -147,8 +161,10 @@ class AddonServiceProvider extends ServiceProvider
         $this->twig            = $app->make('twig');
         $this->router          = $app->make('router');
         $this->events          = $app->make('events');
+        $this->scheduler       = $app->make('Illuminate\Console\Scheduling\Schedule');
         $this->viewOverrides   = $app->make('Anomaly\Streams\Platform\View\ViewOverrides');
         $this->mobileOverrides = $app->make('Anomaly\Streams\Platform\View\ViewMobileOverrides');
+        $this->middlewares     = $app->make('Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection');
 
         parent::__construct($app);
     }
@@ -307,11 +323,8 @@ class AddonServiceProvider extends ServiceProvider
             return;
         }
 
-        /* @var Schedule $scheduler */
-        $scheduler = $this->app->make('Illuminate\Console\Scheduling\Schedule');
-
         foreach ($schedules as $command => $cron) {
-            $scheduler->command($command)->cron($cron);
+            $this->scheduler->command($command)->cron($cron);
         }
     }
 
@@ -340,11 +353,8 @@ class AddonServiceProvider extends ServiceProvider
             return;
         }
 
-        /* @var MiddlewareCollection $collection */
-        $collection = $this->app->make('Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection');
-
         foreach ($middleware as $class) {
-            $collection->push($class);
+            $this->middlewares->push($class);
         }
     }
 

@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Command;
 
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\ButtonBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class BuildButtons
@@ -10,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Command
  */
-class BuildButtons
+class BuildButtons implements SelfHandling
 {
 
     /**
@@ -31,12 +33,12 @@ class BuildButtons
     }
 
     /**
-     * Get the control_panel builder.
+     * Handle the command.
      *
-     * @return ControlPanelBuilder
+     * @param ButtonBuilder $builder
      */
-    public function getBuilder()
+    public function handle(ButtonBuilder $builder)
     {
-        return $this->builder;
+        $builder->build($this->builder);
     }
 }
