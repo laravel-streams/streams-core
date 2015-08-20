@@ -48,8 +48,8 @@ If streams are represented by the database table and assigned fields by the tabl
 
 Since streams extends Laravel's Eloquent model you can access stream entries using their models and work with them just like any other model.
 
-<a name="stream-usage"></a>
-## Stream Usage
+<a name="streams-usage"></a>
+## Streams Usage
 
 Streams are tightly bound to Laravel's `migrations` and Eloquent `models`. If you know how to use these services you already know how to create and use streams... Fancy that!
 
