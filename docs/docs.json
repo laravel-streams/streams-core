@@ -9,7 +9,7 @@
         "title": "The Basics",
         "pages": {
             "addons": "Addons",
-            "builders": "Builders [dev]",
+            "builders": "Builders",
             "localization": "Localization",
             "views": "Views"
         }
@@ -18,7 +18,7 @@
         "title": "Application Foundations",
         "pages": {
             "structure": "Application Structure",
-            "stream-entities": "Stream Entities"
+            "streams": "Streams"
         }
     },
     "services": {
@@ -26,7 +26,6 @@
         "pages": {
             "asset": "Asset",
             "image": "Image",
-            "artisan": "Artisan [dev]"
         }
     },
     "builders": {
