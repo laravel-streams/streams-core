@@ -25,7 +25,7 @@
         "title": "Services",
         "pages": {
             "asset": "Asset",
-            "image": "Image",
+            "image": "Image"
         }
     },
     "builders": {
