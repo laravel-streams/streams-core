@@ -17,7 +17,7 @@ Every application requires defining structures of data. For example, a website m
 <a name="what-are-streams"></a>
 ## What Are Streams?
 
-Streams are simply structures of data that you can store data in. Anything can be defined by a stream. For example, you could create a `stream` for TV Shows and add `fields` to it like title, category, a commercial image and so on.
+Streams are simply structures of data that you can store data in. Anything can be defined by a stream. For example, you could create a `stream` for TV Shows and add `fields` to it like a title, category, and description.
 
 On a technical level, streams are simply database tables (every stream represents a database table), so if you need to reference streams directly in with an Eloquent model, you can easily do that.
 
