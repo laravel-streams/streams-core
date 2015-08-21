@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\View\Listener;
 
+use Anomaly\Streams\Platform\View\Event\TemplateDataIsLoading;
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
 use Anomaly\Streams\Platform\View\ViewTemplate;
+use Illuminate\Events\Dispatcher;
 
 /**
  * Class LoadTemplateData
@@ -15,6 +17,13 @@ class LoadTemplateData
 {
 
     /**
+     * The event dispatcher.
+     *
+     * @var Dispatcher
+     */
+    private $events;
+
+    /**
      * The view template.
      *
      * @var ViewTemplate
@@ -25,10 +34,12 @@ class LoadTemplateData
      * Create a new LoadTemplateData instance.
      *
      * @param ViewTemplate $template
+     * @param Dispatcher   $events
      */
-    public function __construct(ViewTemplate $template)
+    public function __construct(ViewTemplate $template, Dispatcher $events)
     {
         $this->template = $template;
+        $this->events   = $events;
     }
 
     /**
@@ -43,6 +54,8 @@ class LoadTemplateData
         if (array_get($view->getData(), 'template')) {
             return;
         }
+
+        $this->events->fire(new TemplateDataIsLoading($this->template));
 
         if (array_merge($view->getFactory()->getShared(), $view->getData())) {
             $view['template'] = $this->template;
