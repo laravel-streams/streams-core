@@ -50,7 +50,7 @@ class ApplicationReady
             return $response;
         }
 
-        if(env('APP_ENV') != 'testing') {
+        if (env('APP_ENV') != 'testing') {
             // http://wappalyzer.com
             setcookie('powered_by', 'PyroCMS');
         }
