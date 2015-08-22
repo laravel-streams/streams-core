@@ -75,7 +75,7 @@ class GenerateEntryModelHandler
 
         $data = $this->getTemplateData($stream);
 
-        $template = file_get_contents(__DIR__ . '/../../../../resources/assets/generator/model.twig');
+        $template = file_get_contents(__DIR__ . '/../../../../resources/stubs/models/entry.stub');
 
         $file = $this->getFilePath($stream);
 
