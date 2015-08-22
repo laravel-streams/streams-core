@@ -34,6 +34,8 @@ class StreamsServiceProvider extends ServiceProvider
 
     /**
      * Boot the service provider.
+     *
+     * @param AddonManager $manager
      */
     public function boot(AddonManager $manager)
     {
@@ -49,7 +51,11 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new AddViewNamespaces());
         $this->dispatch(new AddTwigExtensions());
 
-        $manager->register();
+        $this->app->booted(
+            function () use ($manager) {
+                $manager->register();
+            }
+        );
     }
 
     /**
