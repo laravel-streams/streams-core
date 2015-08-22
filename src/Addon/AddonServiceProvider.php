@@ -22,6 +22,34 @@ class AddonServiceProvider extends ServiceProvider
     use DispatchesJobs;
 
     /**
+     * Class bindings.
+     *
+     * @var array
+     */
+    protected $bindings = [];
+
+    /**
+     * The addon commands.
+     *
+     * @var array
+     */
+    protected $commands = [];
+
+    /**
+     * The addon command schedules.
+     *
+     * @var array
+     */
+    protected $schedules = [];
+
+    /**
+     * The addon view overrides.
+     *
+     * @var array
+     */
+    protected $overrides = [];
+
+    /**
      * The addon plugins.
      *
      * @var array
@@ -62,34 +90,6 @@ class AddonServiceProvider extends ServiceProvider
      * @var array
      */
     protected $singletons = [];
-
-    /**
-     * Class bindings.
-     *
-     * @var array
-     */
-    protected $bindings = [];
-
-    /**
-     * The addon commands.
-     *
-     * @var array
-     */
-    protected $commands = [];
-
-    /**
-     * The addon command schedules.
-     *
-     * @var array
-     */
-    protected $schedules = [];
-
-    /**
-     * The addon view overrides.
-     *
-     * @var array
-     */
-    protected $overrides = [];
 
     /**
      * The addon view overrides
