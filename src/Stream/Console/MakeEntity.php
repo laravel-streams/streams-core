@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityCollection;
+use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityController;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityFormBuilder;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityModel;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityModelInterface;
@@ -65,6 +66,7 @@ class MakeEntity extends Command
         $this->dispatch(new WriteEntityModel($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityObserver($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityPresenter($addon, $slug, $namespace));
+        $this->dispatch(new WriteEntityController($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityCollection($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityRepository($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityFormBuilder($addon, $slug, $namespace));
