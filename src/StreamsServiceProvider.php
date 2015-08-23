@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform;
 
-use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Command\RegisterAddons;
 use Anomaly\Streams\Platform\Application\Command\AddTwigExtensions;
 use Anomaly\Streams\Platform\Application\Command\ConfigureCommandBus;
@@ -34,10 +33,8 @@ class StreamsServiceProvider extends ServiceProvider
 
     /**
      * Boot the service provider.
-     *
-     * @param AddonManager $manager
      */
-    public function boot(AddonManager $manager)
+    public function boot()
     {
         $this->dispatch(new SetCoreConnection());
         $this->dispatch(new ConfigureCommandBus());
@@ -52,8 +49,8 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new AddTwigExtensions());
 
         $this->app->booted(
-            function () use ($manager) {
-                $manager->register();
+            function () {
+                $this->dispatch(new RegisterAddons());
             }
         );
     }
@@ -488,6 +485,7 @@ class StreamsServiceProvider extends ServiceProvider
                 'Anomaly\Streams\Platform\Stream\Console\Compile',
                 'Anomaly\Streams\Platform\Stream\Console\Cleanup',
                 'Anomaly\Streams\Platform\Stream\Console\Destroy',
+                'Anomaly\Streams\Platform\Stream\Console\MakeEntity',
                 'Anomaly\Streams\Platform\Addon\Console\MakeAddon',
                 'Anomaly\Streams\Platform\Addon\Module\Console\Install',
                 'Anomaly\Streams\Platform\Addon\Module\Console\Uninstall',

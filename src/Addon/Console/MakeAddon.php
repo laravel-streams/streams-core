@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Console;
 
+use Anomaly\Streams\Platform\Addon\Command\RegisterAddons;
 use Anomaly\Streams\Platform\Addon\Console\Command\MakeAddonPaths;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonClass;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonComposer;
@@ -63,6 +64,19 @@ class MakeAddon extends Command
         $this->dispatch(new WriteAddonClass($path, $type, $slug, $vendor));
         $this->dispatch(new WriteAddonComposer($path, $type, $slug, $vendor));
         $this->dispatch(new WriteAddonServiceProvider($path, $type, $slug, $vendor));
+
+        $this->dispatch(new RegisterAddons());
+
+        if ($type == 'module' || $this->option('migration')) {
+            $this->call(
+                'make:migration',
+                [
+                    'name'     => 'create_' . $slug . '_fields',
+                    '--addon'  => "{$vendor}.{$type}.{$slug}",
+                    '--fields' => true
+                ]
+            );
+        }
     }
 
     /**
@@ -85,7 +99,8 @@ class MakeAddon extends Command
     protected function getOptions()
     {
         return [
-            ['shared', null, InputOption::VALUE_NONE, 'Indicates if the addon should be created in shared addons.']
+            ['shared', null, InputOption::VALUE_NONE, 'Indicates if the addon should be created in shared addons.'],
+            ['migration', null, InputOption::VALUE_NONE, 'Indicates if a fields migration should be created.']
         ];
     }
 }

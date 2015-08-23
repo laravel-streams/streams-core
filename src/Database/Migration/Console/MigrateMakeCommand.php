@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Database\Migration\Command\CreateAddonMigrationFolder;
 use Anomaly\Streams\Platform\Database\Migration\Command\GetMigrationName;
+use Anomaly\Streams\Platform\Database\Migration\MigrationCreator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -18,12 +19,21 @@ class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\Migrate
     use DispatchesJobs;
 
     /**
+     * The migration creator.
+     *
+     * @var MigrationCreator
+     */
+    protected $creator;
+
+    /**
      * The console command signature.
      *
      * @var string
      */
     protected $signature = 'make:migration {name : The name of the migration.}
         {--addon= : The addon to create the migration file in.}
+        {--fields : Create a fields type migration.}
+        {--stream= : Create a stream type migration.}
         {--create= : The table to be created.}
         {--table= : The table to migrate.}
         {--path= : The location where the migration file should be created.}';
@@ -70,7 +80,7 @@ class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\Migrate
             $path = $this->getMigrationPath();
         }
 
-        $file = pathinfo($this->creator->create($name, $path, $table, $create), PATHINFO_FILENAME);
+        $file = pathinfo($this->creator->setCommand($this)->create($name, $path, $table, $create), PATHINFO_FILENAME);
 
         $this->line("<info>Created Migration:</info> $file");
     }

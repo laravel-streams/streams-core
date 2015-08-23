@@ -1,0 +1,57 @@
+<?php namespace {namespace};
+
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+
+class {class} extends FormBuilder
+{
+
+    /**
+     * The fields config.
+     *
+     * @var array|string
+     */
+    protected $fields = [];
+
+    /**
+     * Fields to skip.
+     *
+     * @var array|string
+     */
+    protected $skips = [];
+
+    /**
+     * The actions config.
+     *
+     * @var array|string
+     */
+    protected $actions = [];
+
+    /**
+     * The buttons config.
+     *
+     * @var array|string
+     */
+    protected $buttons = [];
+
+    /**
+     * The form options.
+     *
+     * @var array
+     */
+    protected $options = [];
+
+    /**
+     * The form sections.
+     *
+     * @var array
+     */
+    protected $sections = [];
+
+    /**
+     * The form assets.
+     *
+     * @var array
+     */
+    protected $assets = [];
+
+}

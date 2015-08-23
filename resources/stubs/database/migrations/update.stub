@@ -3,7 +3,8 @@
 use Illuminate\Database\Schema\Blueprint;
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 
-class DummyClass extends Migration {
+class {class} extends Migration
+{
 
 	/**
 	 * Run the migrations.
@@ -12,7 +13,10 @@ class DummyClass extends Migration {
 	 */
 	public function up()
 	{
-		//
+		Schema::table('{table}', function(Blueprint $table)
+		{
+			//
+		});
 	}
 
 	/**
@@ -22,7 +26,9 @@ class DummyClass extends Migration {
 	 */
 	public function down()
 	{
-		//
+		Schema::table('{table}', function(Blueprint $table)
+		{
+			//
+		});
 	}
-
 }

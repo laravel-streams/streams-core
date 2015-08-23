@@ -1,0 +1,57 @@
+<?php namespace {namespace};
+
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+
+class {class} extends TableBuilder
+{
+
+    /**
+     * The views configuration.
+     *
+     * @var array|string
+     */
+    protected $views = [];
+
+    /**
+     * The filters configuration.
+     *
+     * @var array|string
+     */
+    protected $filters = [];
+
+    /**
+     * The columns configuration.
+     *
+     * @var array|string
+     */
+    protected $columns = [];
+
+    /**
+     * The buttons configuration.
+     *
+     * @var array|string
+     */
+    protected $buttons = [];
+
+    /**
+     * The actions configuration.
+     *
+     * @var array|string
+     */
+    protected $actions = [];
+
+    /**
+     * The table options.
+     *
+     * @var array
+     */
+    protected $options = [];
+
+    /**
+     * The table assets.
+     *
+     * @var array
+     */
+    protected $assets = [];
+
+}
