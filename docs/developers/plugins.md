@@ -15,7 +15,7 @@ Plugins are special [Twig extensions](http://twig.sensiolabs.org/doc/advanced.ht
 
 You may reference the request plugin shipped with PyroCMS on GitHub:
 
-[https://github.com/anomalylabs/example-plugin](https://github.com/anomalylabs/example-plugin).
+[https://github.com/anomalylabs/request-plugin](https://github.com/anomalylabs/request-plugin).
 
 <a name="creating-a-plugin"></a>
 ### Creating A plugin
