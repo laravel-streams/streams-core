@@ -2,6 +2,7 @@
 
 - [Introduction](#introduction)
 	- [Creating A Theme](#creating-a-theme)
+	- [Starter Theme](#starter-theme)
 - [Theme Components](#theme-components)
 	- [Views](#views)
 	- [Layouts](#layouts)
@@ -13,6 +14,13 @@
 ## Introduction
 
 Themes are addons that control the way the control panel and public facing content look. Two themes can be active at any given time. An `admin` theme for the control panel and a `standard` theme for public facing content.
+
+<a name="starter-theme"></a>
+### Starter Theme
+
+You may reference the official starter standard theme shipped with PyroCMS on GitHub:
+
+[https://github.com/anomalylabs/starter-theme](https://github.com/anomalylabs/starter-theme).
 
 <a name="creating-a-theme"></a>
 ### Creating A Theme
