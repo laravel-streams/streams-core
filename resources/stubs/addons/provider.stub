@@ -25,10 +25,6 @@ class {provider} extends AddonServiceProvider
     {
     }
 
-    public function register()
-    {
-    }
-
     public function map()
     {
     }

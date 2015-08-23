@@ -475,7 +475,13 @@ class AddonServiceProvider extends ServiceProvider
      */
     public function getRoutes()
     {
-        return $this->routes;
+        $routes = $this->routes;
+
+        foreach (glob($this->addon->getPath('resources/routes/*')) as $include) {
+            $routes = array_merge(require $include, $routes);
+        }
+
+        return $routes;
     }
 
     /**

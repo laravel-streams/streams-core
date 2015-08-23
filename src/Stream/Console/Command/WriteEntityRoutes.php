@@ -6,14 +6,14 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class WriteEntityController
+ * Class WriteEntityRoutes
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Stream\Console\Command
  */
-class WriteEntityController implements SelfHandling
+class WriteEntityRoutes implements SelfHandling
 {
 
     /**
@@ -39,7 +39,7 @@ class WriteEntityController implements SelfHandling
 
 
     /**
-     * Create a new WriteEntityController instance.
+     * Create a new WriteEntityRoutes instance.
      *
      * @param Addon $addon
      * @param       $slug
@@ -63,24 +63,18 @@ class WriteEntityController implements SelfHandling
         $suffix = ucfirst(camel_case($this->slug));
         $entity = str_singular($suffix);
 
-        $class        = "{$suffix}Controller";
-        $form         = "{$entity}FormBuilder";
-        $table        = "{$entity}TableBuilder";
-        $namespace    = $this->addon->getTransformedClass("Http\\Controller\\Admin");
-        $formBuilder  = $this->addon->getTransformedClass("{$entity}\\Form\\{$entity}FormBuilder");
-        $tableBuilder = $this->addon->getTransformedClass("{$entity}\\Table\\{$entity}TableBuilder");
+        $segment    = $this->slug;
+        $addon      = $this->addon->getSlug();
+        $controller = $this->addon->getTransformedClass("Http\\Controller\\Admin\\{$suffix}Controller");
 
-        $path = $this->addon->getPath("src/Http/Controller/Admin/{$suffix}Controller.php");
+        $path = $this->addon->getPath("resources/routes/{$this->slug}.php");
 
         $template = $filesystem->get(
-            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/http/controller/admin.stub")
+            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/http/routes.stub")
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);
 
-        $filesystem->put(
-            $path,
-            $parser->parse($template, compact('class', 'namespace', 'formBuilder', 'tableBuilder', 'form', 'table'))
-        );
+        $filesystem->put($path, $parser->parse($template, compact('addon', 'segment', 'controller')));
     }
 }

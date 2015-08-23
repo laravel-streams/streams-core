@@ -11,6 +11,7 @@ use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityObserver;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityPresenter;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRepository;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRepositoryInterface;
+use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityRoutes;
 use Anomaly\Streams\Platform\Stream\Console\Command\WriteEntityTableBuilder;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -64,6 +65,7 @@ class MakeEntity extends Command
         }
 
         $this->dispatch(new WriteEntityModel($addon, $slug, $namespace));
+        $this->dispatch(new WriteEntityRoutes($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityObserver($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityPresenter($addon, $slug, $namespace));
         $this->dispatch(new WriteEntityController($addon, $slug, $namespace));

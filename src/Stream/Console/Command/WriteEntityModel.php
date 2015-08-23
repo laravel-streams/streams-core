@@ -69,7 +69,7 @@ class WriteEntityModel implements SelfHandling
         $extends    = $prefix . $suffix . 'EntryModel';
         $namespace  = $this->addon->getTransformedClass("{$entity}");
         $interface  = $this->addon->getTransformedClass("{$entity}\\Contract\\{$entity}Interface");
-        $base       = "Anomaly\\Streams\\Platform\\Model\\{$prefix}\\{$suffix}";
+        $base       = "Anomaly\\Streams\\Platform\\Model\\{$prefix}\\{$prefix}{$suffix}EntryModel";
 
         $path = $this->addon->getPath("src/{$entity}/{$entity}Model.php");
 
