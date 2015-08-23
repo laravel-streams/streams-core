@@ -48,7 +48,7 @@
     "developers": {
         "title": "Developer",
         "pages": {
-            "themes": "Developing Themes [dev]",
+            "themes": "Developing Themes",
             "plugins": "Developing Plugins [dev]",
             "modules": "Developing Modules [dev]",
             "field-types": "Developing Field Types [dev]",
