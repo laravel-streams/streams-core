@@ -74,7 +74,7 @@ class WriteEntityController implements SelfHandling
         $path = $this->addon->getPath("src/Http/Controller/Admin/{$suffix}Controller.php");
 
         $template = $filesystem->get(
-            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/controller/admin.stub")
+            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/http/controller/admin.stub")
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);
