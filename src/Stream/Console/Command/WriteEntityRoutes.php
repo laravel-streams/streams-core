@@ -61,8 +61,7 @@ class WriteEntityRoutes implements SelfHandling
     public function handle(Parser $parser, Filesystem $filesystem)
     {
         $suffix = ucfirst(camel_case($this->slug));
-        $entity = str_singular($suffix);
-
+        
         $segment    = $this->slug;
         $addon      = $this->addon->getSlug();
         $controller = $this->addon->getTransformedClass("Http\\Controller\\Admin\\{$suffix}Controller");
