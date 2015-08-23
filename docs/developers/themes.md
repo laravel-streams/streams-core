@@ -185,7 +185,7 @@ You may also override views specifically for mobile user agents by adding the vi
 <a name="other-components"></a>
 ### Other Components
 
-While themes can not be installed and thus can not create streams, they share the same base addon class. however unlikely it may that you need to, you may use many of the basic services and components outlined in addon documentation.
+While themes can not be installed and thus can not create streams, they share the same base addon class. However unlikely it may that you need to, you may use many of the basic services and components outlined in addon documentation.
 
 For example, the theme's [service provider](../../basics/addons#service-provider) can register anything you may need. You can also utilize the theme's `src` folder however you see fit.
 
