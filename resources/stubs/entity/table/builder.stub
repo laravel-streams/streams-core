@@ -6,35 +6,35 @@ class {class} extends TableBuilder
 {
 
     /**
-     * The views configuration.
+     * The table views.
      *
      * @var array|string
      */
     protected $views = [];
 
     /**
-     * The filters configuration.
+     * The table filters.
      *
      * @var array|string
      */
     protected $filters = [];
 
     /**
-     * The columns configuration.
+     * The table columns.
      *
      * @var array|string
      */
     protected $columns = [];
 
     /**
-     * The buttons configuration.
+     * The table buttons.
      *
      * @var array|string
      */
     protected $buttons = [];
 
     /**
-     * The actions configuration.
+     * The table actions.
      *
      * @var array|string
      */

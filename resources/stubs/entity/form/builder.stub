@@ -6,7 +6,7 @@ class {class} extends FormBuilder
 {
 
     /**
-     * The fields config.
+     * The form fields.
      *
      * @var array|string
      */
@@ -20,14 +20,14 @@ class {class} extends FormBuilder
     protected $skips = [];
 
     /**
-     * The actions config.
+     * The form actions.
      *
      * @var array|string
      */
     protected $actions = [];
 
     /**
-     * The buttons config.
+     * The form buttons.
      *
      * @var array|string
      */
