@@ -54,7 +54,7 @@ class HrefGuesser
 
             // If HREF is set then skip it.
             if (isset($section['attributes']['href'])) {
-                return;
+                continue;
             }
 
             $module = $this->modules->active();
