@@ -11,10 +11,10 @@ return [
     ],
     'time_format'   => [
         'label'        => 'Zeitformat',
-        'instructions' => 'Wie soll eine Zeitangaben auf der Website und im Control Panel dargestellt werden?'
+        'instructions' => 'Wie soll eine Zeitangabe auf der Website und im Control Panel dargestellt werden?'
     ],
     'admin_locale'  => [
-        'label'        => 'Control Panel Sprache',
+        'label'        => 'Sprache des Control Panels',
         'instructions' => 'In welcher Sprache sollen Inhalte im <strong>Control Panel</strong> angezeigt werden?'
     ],
     'public_locale' => [

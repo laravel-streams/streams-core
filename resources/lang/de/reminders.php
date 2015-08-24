@@ -13,7 +13,7 @@ return [
     |
     */
 
-    "password" => "Passwörter müssen mindestens 6 Zeichen gross sein, sowie dem Wert in der Bestätigung entsprechen.",
+    "password" => "Das Passwort muss mindestens 6 Zeichen lang sein und dem Wert in der Bestätigung entsprechen.",
     "user"     => "Wir können keinen Benutzer mit dieser E-Mail-Adresse finden.",
     "token"    => "Das Token zur Passwort-Wiederherstellung ist ungültig.",
     "sent"     => "Angaben zur Passwort-Wiederherstellung wurden versendet!",

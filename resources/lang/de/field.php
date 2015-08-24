@@ -10,7 +10,7 @@ return [
         'instructions' => 'Der Slug wird, unter anderem, für den Spaltenname in der Datenbank benutzt.'
     ],
     'type' => [
-        'name'         => 'Feld Typ',
-        'instructions' => 'Welchen Feld-Typen möchten Sie für dieses Feld verwenden?'
+        'name'         => 'Feld-Typ',
+        'instructions' => 'Welchen Feld-Typ möchten Sie für dieses Feld verwenden?'
     ],
 ];
