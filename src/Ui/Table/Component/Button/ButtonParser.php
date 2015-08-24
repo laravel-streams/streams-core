@@ -37,7 +37,7 @@ class ButtonParser
      * @param       $entry
      * @return array
      */
-    public function parser(array $button, $entry)
+    public function parse(array $button, $entry)
     {
         return $this->parser->parse($button, compact('entry'));
     }

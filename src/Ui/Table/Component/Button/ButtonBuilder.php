@@ -80,7 +80,7 @@ class ButtonBuilder
             array_set($button, 'entry', $entry);
 
             $button = $this->evaluator->evaluate($button, compact('entry', 'table'));
-            $button = $this->parser->parser($button, $entry);
+            $button = $this->parser->parse($button, $entry);
             $button = $this->factory->make($button);
 
             if (!$button->isEnabled()) {
