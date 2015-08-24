@@ -1,14 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Plugin;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryCollection;
 use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Entry\EntryPresenter;
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
-use Robbo\Presenter\Decorator;
 
 /**
  * Class PluginQuery
@@ -50,24 +49,15 @@ class PluginQuery
     protected $container;
 
     /**
-     * The presenter decorator.
-     *
-     * @var Decorator
-     */
-    protected $decorator;
-
-    /**
      * Create a new StreamPluginFunctions instance.
      *
      * @param Hydrator  $hydrator
      * @param Container $container
-     * @param Decorator $decorator
      */
-    public function __construct(Hydrator $hydrator, Container $container, Decorator $decorator)
+    public function __construct(Hydrator $hydrator, Container $container)
     {
         $this->hydrator  = $hydrator;
         $this->container = $container;
-        $this->decorator = $decorator;
     }
 
     /**
@@ -78,18 +68,18 @@ class PluginQuery
      */
     public function get(array $parameters)
     {
-        return $this->decorator->decorate($this->build($parameters)->get());
+        return $this->build($parameters)->get();
     }
 
     /**
      * Return a result.
      *
      * @param array $parameters
-     * @return EntryPresenter
+     * @return EntryInterface
      */
     public function first(array $parameters)
     {
-        return $this->decorator->decorate($this->build($parameters)->first());
+        return $this->build($parameters)->first();
     }
 
     /**
@@ -102,7 +92,7 @@ class PluginQuery
     {
         $perPage = array_pull($parameters, 'per_page', 15);
 
-        return $this->decorator->decorate($this->build($parameters)->paginate($perPage));
+        return $this->build($parameters)->paginate($perPage);
     }
 
     /**

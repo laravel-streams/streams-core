@@ -1,31 +1,31 @@
-<?php namespace Anomaly\Streams\Platform\Stream;
+<?php namespace Anomaly\Streams\Platform;
 
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 
 /**
- * Class StreamPlugin
+ * Class StreamsPlugin
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream
+ * @package       Anomaly\Streams\Platform
  */
-class StreamPlugin extends Plugin
+class StreamsPlugin extends Plugin
 {
 
     /**
      * The plugin functions.
      *
-     * @var StreamPluginFunctions
+     * @var StreamsPluginFunctions
      */
     protected $functions;
 
     /**
-     * Create a new StreamPlugin instance.
+     * Create a new StreamsPlugin instance.
      *
-     * @param StreamPluginFunctions $functions
+     * @param StreamsPluginFunctions $functions
      */
-    public function __construct(StreamPluginFunctions $functions)
+    public function __construct(StreamsPluginFunctions $functions)
     {
         $this->functions = $functions;
     }
@@ -38,10 +38,10 @@ class StreamPlugin extends Plugin
     public function getFunctions()
     {
         return [
+            new \Twig_SimpleFunction('streams_form', [$this->functions, 'form'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('streams_paginated', [$this->functions, 'paginated']),
             new \Twig_SimpleFunction('streams_entries', [$this->functions, 'entries']),
-            new \Twig_SimpleFunction('streams_entry', [$this->functions, 'entry']),
-            new \Twig_SimpleFunction('streams_form', [$this->functions, 'form'])
+            new \Twig_SimpleFunction('streams_entry', [$this->functions, 'entry'])
         ];
     }
 }
