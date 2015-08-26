@@ -275,6 +275,11 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
+            'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Section',
+            'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Section'
+        );
+
+        $this->app->singleton(
             'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection',
             'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection'
         );
