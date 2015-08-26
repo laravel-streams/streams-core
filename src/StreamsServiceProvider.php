@@ -183,7 +183,7 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Support\Authorizer',
             'Anomaly\Streams\Platform\Support\Authorizer'
         );
-        
+
         $this->app->singleton(
             'Anomaly\Streams\Platform\Support\Evaluator',
             'Anomaly\Streams\Platform\Support\Evaluator'
@@ -277,11 +277,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->singleton(
             'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry',
             'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Section',
-            'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Section'
         );
 
         $this->app->singleton(
