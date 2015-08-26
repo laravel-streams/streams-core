@@ -180,6 +180,11 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
+            'Anomaly\Streams\Platform\Support\Authorizer',
+            'Anomaly\Streams\Platform\Support\Authorizer'
+        );
+        
+        $this->app->singleton(
             'Anomaly\Streams\Platform\Support\Evaluator',
             'Anomaly\Streams\Platform\Support\Evaluator'
         );
