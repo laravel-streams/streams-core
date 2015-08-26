@@ -267,6 +267,19 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         $this->app->singleton(
+            'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\ButtonBuilder',
+            'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\ButtonBuilder'
+        );
+
+        /**
+         * Register section UI services.
+         */
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionBuilder',
+            'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionBuilder'
+        );
+
+        $this->app->singleton(
             'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection',
             'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection'
         );
@@ -294,6 +307,12 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface',
             'Anomaly\Streams\Platform\Entry\EntryRepository'
         );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Entry\EntryObserver',
+            'Anomaly\Streams\Platform\Entry\EntryObserver'
+        );
+
 
         /**
          * Register the field model and repository.
@@ -395,6 +414,11 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->singleton(
             'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
             'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection'
+        );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor',
+            'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor'
         );
 
         $this->app->singleton(
