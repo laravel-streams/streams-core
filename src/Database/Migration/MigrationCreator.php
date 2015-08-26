@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameToClass;
 use Anomaly\Streams\Platform\Database\Migration\Console\MigrateMakeCommand;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**

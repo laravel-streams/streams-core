@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;

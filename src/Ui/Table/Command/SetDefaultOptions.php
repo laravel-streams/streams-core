@@ -57,7 +57,7 @@ class SetDefaultOptions implements SelfHandling
                 $table->setOption('order_by', ['id' => 'asc']);
             }
         }
-        
+
         /**
          * Set the default breadcrumb.
          */

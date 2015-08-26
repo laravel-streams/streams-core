@@ -68,7 +68,7 @@ class WriteAddonLang implements SelfHandling
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);
-        
+
         $filesystem->put($path, $parser->parse($template, compact('title', 'type')));
     }
 }

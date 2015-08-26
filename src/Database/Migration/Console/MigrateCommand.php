@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Console;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Database\Migration\Migrator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;

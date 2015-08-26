@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use App\Console\Kernel;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class UninstallModule

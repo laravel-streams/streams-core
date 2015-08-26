@@ -129,7 +129,7 @@ class Addon implements PresentableInterface, Arrayable
     public function getTransformedClass($suffix = null)
     {
         $namespace = implode('\\', array_slice(explode('\\', get_class($this)), 0, -1));
-        
+
         return $namespace . ($suffix ? '\\' . $suffix : $suffix);
     }
 

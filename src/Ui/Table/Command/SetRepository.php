@@ -5,8 +5,8 @@ use Anomaly\Streams\Platform\Entry\EntryTableRepository;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentTableRepository;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class SetRepository

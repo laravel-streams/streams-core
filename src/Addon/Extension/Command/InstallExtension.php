@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasInstalled;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use App\Console\Kernel;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class InstallExtension

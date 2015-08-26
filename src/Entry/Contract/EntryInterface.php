@@ -272,7 +272,7 @@ interface EntryInterface
      * @return $this
      */
     public function setRawAttribute($key, $value);
-    
+
     /**
      * Get the entry attributes.
      *

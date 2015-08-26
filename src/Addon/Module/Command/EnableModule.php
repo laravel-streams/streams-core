@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasEnabled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class EnableModule

@@ -252,7 +252,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         return parent::getAttribute($key);
     }
-    
+
     /**
      * Set a raw unmodified attribute.
      *
@@ -263,7 +263,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function setRawAttribute($key, $value)
     {
         parent::setAttribute($key, $value);
-        
+
         return $this;
     }
 

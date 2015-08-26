@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Application\Event\ApplicationHasLoaded;
 use Closure;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

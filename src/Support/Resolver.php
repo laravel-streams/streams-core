@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class Resolver

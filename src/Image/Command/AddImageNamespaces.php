@@ -2,8 +2,8 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Image\Image;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class AddImageNamespaces

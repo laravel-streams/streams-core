@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\View\Event\TemplateDataIsLoading;
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
 use Anomaly\Streams\Platform\View\ViewTemplate;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class LoadTemplateData

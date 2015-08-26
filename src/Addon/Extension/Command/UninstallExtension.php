@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasUninstalled;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use App\Console\Kernel;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class UninstallExtension
@@ -53,7 +53,7 @@ class UninstallExtension implements SelfHandling
         $console->call('streams:cleanup');
 
         $extensions->uninstall($this->extension);
-        
+
         $events->fire(new ExtensionWasUninstalled($this->extension));
 
         return true;

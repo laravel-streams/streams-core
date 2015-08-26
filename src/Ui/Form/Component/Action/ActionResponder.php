@@ -3,8 +3,8 @@
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class ActionResponder

@@ -39,7 +39,7 @@ class RemoveSkippedFields implements SelfHandling
         if (!$this->builder->canSave()) {
             return;
         }
-        
+
         $form = $this->builder->getForm();
 
         foreach ($this->builder->getSkips() as $fieldSlug) {

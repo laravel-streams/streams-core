@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Event\AddonsRegistered;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class AddonManager

@@ -5,7 +5,7 @@ use Anomaly\Streams\Platform\Asset\Event\ThemeVariablesAreLoading;
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class LoadThemeVariables

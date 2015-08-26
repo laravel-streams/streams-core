@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterfa
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasDisabled;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class DisableExtension
