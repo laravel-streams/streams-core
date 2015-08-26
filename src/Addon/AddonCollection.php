@@ -44,17 +44,6 @@ class AddonCollection extends Collection
     }
 
     /**
-     * Push an addon to the collection.
-     *
-     * @param mixed $addon
-     */
-    public function push($addon)
-    {
-        /* @var Addon $addon */
-        $this->items[$addon->getNamespace()] = $addon;
-    }
-
-    /**
      * Find an addon by it's slug.
      *
      * @param  $slug
@@ -99,23 +88,26 @@ class AddonCollection extends Collection
     }
 
     /**
-     * Return all addon types merged as one.
-     *
-     * @return AddonCollection
+     * Disperse addons to their
+     * respective collections.
      */
-    public function merged()
+    public function disperse()
     {
-        $addons = [];
-
         foreach (config('streams::addons.types') as $type) {
 
+            /* @var AddonCollection $collection */
+            $collection = app("{$type}.collection");
+
             /* @var Addon $addon */
-            foreach (app("{$type}.collection") as $addon) {
-                $addons[$addon->getNamespace()] = $addon;
+            foreach ($this->items as $addon) {
+
+                if ($addon->getType() !== $type) {
+                    continue;
+                }
+
+                $collection->put($addon->getNamespace(), $addon);
             }
         }
-
-        return self::make($addons);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
@@ -73,11 +74,20 @@ class FieldModel extends EloquentModel implements FieldInterface
     protected $table = 'streams_fields';
 
     /**
+     * The field type builder.
+     *
+     * @var FieldTypeBuilder
+     */
+    protected static $builder;
+
+    /**
      * Boot the model.
      */
     protected static function boot()
     {
         self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
+
+        self::$builder = app(FieldTypeBuilder::class);
 
         parent::boot();
     }
@@ -149,7 +159,7 @@ class FieldModel extends EloquentModel implements FieldInterface
             return null;
         }
 
-        return $this->dispatch(new BuildFieldType(compact('type', 'field', 'label', 'config')));
+        return self::$builder->build(compact('type', 'field', 'label', 'config'));
     }
 
     /**

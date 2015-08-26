@@ -55,17 +55,11 @@ class StreamsEventProvider extends EventServiceProvider
         'Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted'         => [
             'Anomaly\Streams\Platform\Assignment\Listener\DropTableColumn'
         ],
-        'Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasRegistered'        => [
-            'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection'
-        ],
         'Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled'         => [
             'Anomaly\Streams\Platform\Addon\Module\Listener\MarkModuleInstalled'
         ],
         'Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasUninstalled'       => [
             'Anomaly\Streams\Platform\Addon\Module\Listener\MarkModuleUninstalled'
-        ],
-        'Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasRegistered'  => [
-            'Anomaly\Streams\Platform\Addon\Extension\Listener\PutExtensionInCollection'
         ],
         'Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasInstalled'   => [
             'Anomaly\Streams\Platform\Addon\Extension\Listener\MarkExtensionInstalled'
@@ -73,15 +67,8 @@ class StreamsEventProvider extends EventServiceProvider
         'Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasUninstalled' => [
             'Anomaly\Streams\Platform\Addon\Extension\Listener\MarkExtensionUninstalled'
         ],
-        'Anomaly\Streams\Platform\Addon\FieldType\Event\FieldTypeWasRegistered'  => [
-            'Anomaly\Streams\Platform\Addon\FieldType\Listener\PutFieldTypeInCollection'
-        ],
         'Anomaly\Streams\Platform\Addon\Plugin\Event\PluginWasRegistered'        => [
-            'Anomaly\Streams\Platform\Addon\Plugin\Listener\PutPluginInCollection',
             'Anomaly\Streams\Platform\Addon\Plugin\Listener\AddPluginToTwig'
-        ],
-        'Anomaly\Streams\Platform\Addon\Theme\Event\ThemeWasRegistered'          => [
-            'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection'
         ],
         'Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying'                => [
             'Anomaly\Streams\Platform\Ui\Table\Component\View\Listener\ApplyView',

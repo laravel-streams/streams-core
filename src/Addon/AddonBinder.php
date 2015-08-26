@@ -2,6 +2,8 @@
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\Plugin\Event\PluginWasRegistered;
+use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 use Illuminate\Container\Container;
 
 /**
@@ -37,11 +39,11 @@ class AddonBinder
     protected $integrator;
 
     /**
-     * The addon dispatcher.
+     * The addon collection.
      *
-     * @var AddonDispatcher
+     * @var AddonCollection
      */
-    protected $dispatcher;
+    protected $collection;
 
     /**
      * The addon configuration utility.
@@ -56,20 +58,20 @@ class AddonBinder
      * @param Container          $container
      * @param AddonProvider      $provider
      * @param AddonIntegrator    $integrator
-     * @param AddonDispatcher    $dispatcher
+     * @param AddonCollection    $collection
      * @param AddonConfiguration $configuration
      */
     public function __construct(
         Container $container,
         AddonProvider $provider,
         AddonIntegrator $integrator,
-        AddonDispatcher $dispatcher,
+        AddonCollection $collection,
         AddonConfiguration $configuration
     ) {
         $this->provider      = $provider;
         $this->container     = $container;
-        $this->dispatcher    = $dispatcher;
         $this->integrator    = $integrator;
+        $this->collection    = $collection;
         $this->configuration = $configuration;
     }
 
@@ -116,6 +118,11 @@ class AddonBinder
         // Continue loading things.
         $this->provider->register($addon);
         $this->integrator->register($addon);
-        $this->dispatcher->addonWasRegistered($addon);
+
+        if ($addon instanceof Plugin) {
+            app('events')->fire(new PluginWasRegistered($addon));
+        }
+
+        $this->collection->put($addon->getNamespace(), $addon);
     }
 }

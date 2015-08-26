@@ -162,6 +162,11 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Addon\AddonManager'
         );
 
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\AddonCollection',
+            'Anomaly\Streams\Platform\Addon\AddonCollection'
+        );
+
         /**
          * Register our messages service. This is used for
          * error reporting and other messages.

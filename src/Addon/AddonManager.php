@@ -24,6 +24,13 @@ class AddonManager
     protected $paths;
 
     /**
+     * The addon collection.
+     *
+     * @var AddonCollection
+     */
+    protected $addons;
+
+    /**
      * The addon loader.
      *
      * @var AddonLoader
@@ -38,18 +45,18 @@ class AddonManager
     protected $binder;
 
     /**
-     * The event dispatcher.
-     *
-     * @var Dispatcher
-     */
-    protected $dispatcher;
-
-    /**
      * The modules model.
      *
      * @var ModuleModel
      */
     protected $modules;
+
+    /**
+     * The event dispatcher.
+     *
+     * @var Dispatcher
+     */
+    protected $dispatcher;
 
     /**
      * The extensions model.
@@ -61,22 +68,25 @@ class AddonManager
     /**
      * Create a new AddonManager instance.
      *
-     * @param AddonPaths     $paths
-     * @param AddonBinder    $binder
-     * @param AddonLoader    $loader
-     * @param Dispatcher     $dispatcher
-     * @param ModuleModel    $modules
-     * @param ExtensionModel $extensions
+     * @param AddonPaths      $paths
+     * @param AddonBinder     $binder
+     * @param AddonLoader     $loader
+     * @param ModuleModel     $modules
+     * @param Dispatcher      $dispatcher
+     * @param ExtensionModel  $extensions
+     * @param AddonCollection $collection
      */
     function __construct(
         AddonPaths $paths,
         AddonBinder $binder,
         AddonLoader $loader,
-        Dispatcher $dispatcher,
         ModuleModel $modules,
-        ExtensionModel $extensions
+        Dispatcher $dispatcher,
+        ExtensionModel $extensions,
+        AddonCollection $addons
     ) {
         $this->paths      = $paths;
+        $this->addons     = $addons;
         $this->binder     = $binder;
         $this->loader     = $loader;
         $this->modules    = $modules;
@@ -107,6 +117,12 @@ class AddonManager
         foreach ($this->paths->all() as $path) {
             $this->binder->register($path, $enabled, $installed);
         }
+
+        /**
+         * Disperse addons to their
+         * respective collections.
+         */
+        $this->addons->disperse();
 
         $this->dispatcher->fire(new AddonsRegistered());
     }
