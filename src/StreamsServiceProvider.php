@@ -98,6 +98,14 @@ class StreamsServiceProvider extends ServiceProvider
         );
 
         /**
+         * This should be a singleton too.
+         */
+        $this->app->singleton(
+            'Illuminate\Console\Scheduling\Schedule',
+            'Illuminate\Console\Scheduling\Schedule'
+        );
+
+        /**
          * Override a couple default Middlewares
          * so we can handle them ourselves later.
          */
@@ -295,6 +303,11 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Entry\EntryRepository'
         );
 
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Entry\EntryObserver',
+            'Anomaly\Streams\Platform\Entry\EntryObserver'
+        );
+
         /**
          * Register the field model and repository.
          * This will help others swap it out as needed.
@@ -390,6 +403,16 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->bind(
             'extension.collection',
             'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection'
+        );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor',
+            'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor'
+        );
+
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeModifier',
+            'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeModifier'
         );
 
         $this->app->singleton(
