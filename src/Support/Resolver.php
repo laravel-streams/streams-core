@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
@@ -22,7 +22,7 @@ class Resolver
     /**
      * The IoC container.
      *
-     * @var \Illuminate\Container\Container
+     * @var \Illuminate\Contracts\Container\Container
      */
     protected $container;
 
