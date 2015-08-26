@@ -336,6 +336,11 @@ class StreamsServiceProvider extends ServiceProvider
             'Anomaly\Streams\Platform\Stream\StreamRepository'
         );
 
+        $this->app->singleton(
+            'Anomaly\Streams\Platform\Stream\StreamModel',
+            'Anomaly\Streams\Platform\Stream\StreamModel'
+        );
+
         /**
          * Register the assignments model and repository.
          * This will help others swap it out as needed.

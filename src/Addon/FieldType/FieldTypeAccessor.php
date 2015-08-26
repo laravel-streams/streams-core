@@ -19,16 +19,6 @@ class FieldTypeAccessor
     protected $fieldType;
 
     /**
-     * Create a new FieldTypeAccessor instance.
-     *
-     * @param FieldType $fieldType
-     */
-    public function __construct(FieldType $fieldType)
-    {
-        $this->fieldType = $fieldType;
-    }
-
-    /**
      * Set the value.
      *
      * @param $value
@@ -57,5 +47,28 @@ class FieldTypeAccessor
         $attributes = $entry->getAttributes();
 
         return array_get($attributes, $this->fieldType->getColumnName());
+    }
+
+    /**
+     * Get the field type.
+     *
+     * @return FieldType
+     */
+    public function getFieldType()
+    {
+        return $this->fieldType;
+    }
+
+    /**
+     * Set the field type.
+     *
+     * @param FieldType $fieldType
+     * @return $this
+     */
+    public function setFieldType(FieldType $fieldType)
+    {
+        $this->fieldType = $fieldType;
+
+        return $this;
     }
 }

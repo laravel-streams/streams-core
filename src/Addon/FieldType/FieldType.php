@@ -832,7 +832,12 @@ class FieldType extends Addon
             $this->modifier = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeModifier';
         }
 
-        return app()->make($this->modifier, ['fieldType' => $this]);
+        /* @var FieldTypeModifier $modifier */
+        $modifier = app()->make($this->modifier);
+
+        $modifier->setFieldType($this);
+
+        return $modifier;
     }
 
     /**
@@ -850,7 +855,12 @@ class FieldType extends Addon
             $this->accessor = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor';
         }
 
-        return app()->make($this->accessor, ['fieldType' => $this]);
+        /* @var FieldTypeAccessor $accessor */
+        $accessor = app()->make($this->accessor);
+
+        $accessor->setFieldType($this);
+
+        return $accessor;
     }
 
     /**
