@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration;
 
-use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Database\Migration\Command\Migrate;
 use Anomaly\Streams\Platform\Database\Migration\Command\Rollback;
 use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameToClass;
@@ -123,7 +122,7 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
     {
         $namespace = $this->getNamespaceFromMigrationFile($file);
 
-        $addons = (new AddonCollection())->merged();
+        $addons = app('Anomaly\Streams\Platform\Addon\AddonCollection');
 
         if ($addon = $addons->get($namespace)) {
             $path = $addon->getPath('migrations/') . $file . '.php';

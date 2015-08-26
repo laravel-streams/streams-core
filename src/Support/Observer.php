@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Illuminate\Bus\Dispatcher as CommandDispatcher;
 use Illuminate\Events\Dispatcher as EventDispatcher;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class Observer
@@ -16,6 +17,7 @@ class Observer
 {
 
     use FiresCallbacks;
+    use DispatchesJobs;
 
     /**
      * The event dispatcher.

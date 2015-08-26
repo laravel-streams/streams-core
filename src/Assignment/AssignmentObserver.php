@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
+use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumn;
+use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted;
@@ -37,6 +39,8 @@ class AssignmentObserver extends Observer
         $model->flushCache();
         $model->compileStream();
 
+        $this->dispatch(new AddAssignmentColumn($model));
+
         $this->events->fire(new AssignmentWasCreated($model));
     }
 
@@ -62,6 +66,8 @@ class AssignmentObserver extends Observer
     {
         $model->flushCache();
         $model->compileStream();
+
+        $this->dispatch(new DropAssignmentColumn($model));
 
         $this->events->fire(new AssignmentWasDeleted($model));
     }

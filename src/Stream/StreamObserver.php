@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTable;
+use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasCreated;
 use Anomaly\Streams\Platform\Stream\Event\StreamWasDeleted;
@@ -40,6 +42,8 @@ class StreamObserver extends Observer
         $model->compile();
         $model->flushCache();
 
+        $this->dispatch(new CreateStreamsEntryTable($model));
+
         $this->events->fire(new StreamWasCreated($model));
     }
 
@@ -52,6 +56,8 @@ class StreamObserver extends Observer
     {
         $model->compile();
         $model->flushCache();
+
+        $this->dispatch(new DropStreamsEntryTable($model));
 
         $this->events->fire(new StreamWasDeleted($model));
     }

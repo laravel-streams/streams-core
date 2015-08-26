@@ -52,7 +52,7 @@ class CreateAddonMigrationFolderHandler
     {
         $path = null;
 
-        if ($addon = $this->addons->merged()->get($command->getAddon())) {
+        if ($addon = $this->addons->get($command->getAddon())) {
 
             $path = $addon->getPath('migrations');
 

@@ -1,6 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
+use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
+use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
+use App\Console\Kernel;
+use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Events\Dispatcher;
 
 /**
  * Class InstallModule
@@ -10,7 +15,7 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Module\Command
  */
-class InstallModule
+class InstallModule implements SelfHandling
 {
 
     /**
@@ -40,22 +45,30 @@ class InstallModule
     }
 
     /**
-     * Get the seed flag.
+     * Handle the command.
      *
+     * @param Kernel                    $console
+     * @param Dispatcher                $dispatcher
+     * @param ModuleRepositoryInterface $modules
      * @return bool
      */
-    public function getSeed()
+    public function handle(Kernel $console, Dispatcher $dispatcher, ModuleRepositoryInterface $modules)
     {
-        return $this->seed;
-    }
+        $options = [
+            '--addon' => $this->module->getNamespace(),
+            '--force' => true
+        ];
 
-    /**
-     * Get the module.
-     *
-     * @return Module
-     */
-    public function getModule()
-    {
-        return $this->module;
+        $console->call('migrate:refresh', $options);
+
+        if ($this->seed) {
+            $console->call('db:seed', $options);
+        }
+
+        $modules->install($this->module);
+
+        $dispatcher->fire(new ModuleWasInstalled($this->module));
+
+        return true;
     }
 }

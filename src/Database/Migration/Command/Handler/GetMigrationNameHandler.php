@@ -46,7 +46,7 @@ class GetMigrationNameHandler
 
         $name = $originalName = $command->getName();
 
-        if ($addon = $this->addons->merged()->get($namespace)) {
+        if ($addon = $this->addons->get($namespace)) {
 
             $name = "{$namespace}__{$originalName}";
 

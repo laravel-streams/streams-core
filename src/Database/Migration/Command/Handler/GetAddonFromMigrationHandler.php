@@ -33,7 +33,7 @@ class GetAddonFromMigrationHandler
      */
     public function __construct(AddonCollection $addons)
     {
-        $this->addons = $addons->merged();
+        $this->addons = $addons;
     }
 
     /**

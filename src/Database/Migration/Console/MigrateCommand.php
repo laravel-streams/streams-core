@@ -37,7 +37,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
 
             $this->prepareDatabase();
 
-            $addons = (new AddonCollection())->merged();
+            $addons = app('Anomaly\Streams\Platform\Addon\AddonCollection');
 
             if ($namespaces = $this->input->getOption('addon')) {
 

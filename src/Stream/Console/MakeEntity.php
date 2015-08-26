@@ -50,8 +50,6 @@ class MakeEntity extends Command
      */
     public function fire(AddonCollection $addons)
     {
-        $addons = $addons->merged();
-
         $slug  = $this->argument('slug');
         $addon = $this->argument('addon');
 
