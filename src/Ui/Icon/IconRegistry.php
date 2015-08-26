@@ -84,6 +84,8 @@ class IconRegistry
         'arrows-h'             => 'fa fa-arrows-h',
         'arrows-v'             => 'fa fa-arrows-v',
         'envelope'             => 'fa fa-envelope',
+        'facebook'             => 'fa fa-facebook',
+        'twitter'              => 'fa fa-twitter',
         'sitemap'              => 'fa fa-sitemap',
         'options'              => 'fa fa-options',
         'refresh'              => 'fa fa-refresh',
