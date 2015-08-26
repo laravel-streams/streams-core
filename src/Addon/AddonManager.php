@@ -109,6 +109,8 @@ class AddonManager
         foreach ($this->paths->all() as $path) {
             $this->loader->load($path);
         }
+        
+        $this->loader->register();
 
         /**
          * Then register all of the addons now

@@ -46,7 +46,5 @@ class AddonLoader extends ClassLoader
         foreach (array_get($composer['autoload'], 'files', []) as $file) {
             include($path . '/' . $file);
         }
-
-        parent::register();
     }
 }
