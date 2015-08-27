@@ -519,6 +519,10 @@ class Asset
             return true;
         }
 
+        if (env('APP_DEBUG') && in_array('debug', $filters)) {
+            return true;
+        }
+
         // Merge filters from collection files.
         foreach ($this->collections[$collection] as $fileFilters) {
             $filters = array_filter(array_unique(array_merge($filters, $fileFilters)));
