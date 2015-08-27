@@ -69,6 +69,7 @@ class StreamsServiceProvider extends ServiceProvider
     protected $commands = [
         'Anomaly\Streams\Platform\Asset\Console\Clear',
         'Anomaly\Streams\Platform\Stream\Console\Compile',
+        'Anomaly\Streams\Platform\Stream\Console\Refresh',
         'Anomaly\Streams\Platform\Stream\Console\Cleanup',
         'Anomaly\Streams\Platform\Stream\Console\Destroy',
         'Anomaly\Streams\Platform\Stream\Console\MakeEntity',
