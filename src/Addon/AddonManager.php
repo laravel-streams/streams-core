@@ -105,7 +105,7 @@ class AddonManager
          * respective collections.
          */
         $this->addons->disperse();
-        
+
         $this->dispatcher->fire(new AddonsRegistered());
     }
 

@@ -79,7 +79,7 @@ class FieldTypeBuilder
          * the field type from the container.
          */
         if (is_string($type) && str_is('*.*.*', $type)) {
-            $type = clone($this->container->make($type));
+            $type = clone($this->fieldTypes->make($type));
         }
 
         /**
