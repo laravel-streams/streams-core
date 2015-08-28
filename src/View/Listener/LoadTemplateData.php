@@ -55,7 +55,12 @@ class LoadTemplateData
             return;
         }
 
-        $this->events->fire(new TemplateDataIsLoading($this->template));
+        if (!$this->template->isLoaded()) {
+
+            $this->events->fire(new TemplateDataIsLoading($this->template));
+
+            $this->template->setLoaded(true);
+        }
 
         if (array_merge($view->getFactory()->getShared(), $view->getData())) {
             $view['template'] = $this->template;
