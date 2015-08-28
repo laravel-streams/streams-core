@@ -105,9 +105,7 @@ class AddonManager
          * respective collections.
          */
         $this->addons->disperse();
-
-        //dd(number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 2) . ' s');
-
+        
         $this->dispatcher->fire(new AddonsRegistered());
     }
 
