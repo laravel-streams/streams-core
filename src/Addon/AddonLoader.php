@@ -24,7 +24,7 @@ class AddonLoader extends ClassLoader
 
         if (file_exists($autoload)) {
 
-            require_once $autoload;
+            include $autoload;
 
             return;
         }

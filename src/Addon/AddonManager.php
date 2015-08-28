@@ -31,13 +31,6 @@ class AddonManager
     protected $addons;
 
     /**
-     * The addon loader.
-     *
-     * @var AddonLoader
-     */
-    protected $loader;
-
-    /**
      * The addon binder.
      *
      * @var AddonBinder
@@ -70,7 +63,6 @@ class AddonManager
      *
      * @param AddonPaths      $paths
      * @param AddonBinder     $binder
-     * @param AddonLoader     $loader
      * @param ModuleModel     $modules
      * @param Dispatcher      $dispatcher
      * @param ExtensionModel  $extensions
@@ -79,7 +71,6 @@ class AddonManager
     function __construct(
         AddonPaths $paths,
         AddonBinder $binder,
-        AddonLoader $loader,
         ModuleModel $modules,
         Dispatcher $dispatcher,
         ExtensionModel $extensions,
@@ -88,7 +79,6 @@ class AddonManager
         $this->paths      = $paths;
         $this->addons     = $addons;
         $this->binder     = $binder;
-        $this->loader     = $loader;
         $this->modules    = $modules;
         $this->dispatcher = $dispatcher;
         $this->extensions = $extensions;
@@ -103,16 +93,6 @@ class AddonManager
         $installed = $this->getInstalledAddonNamespaces();
 
         /**
-         * First load all the addons
-         * so they're available.
-         */
-        foreach ($this->paths->all() as $path) {
-            $this->loader->load($path);
-        }
-        
-        $this->loader->register();
-
-        /**
          * Then register all of the addons now
          * that they're all PSR autoloaded.
          */
@@ -125,6 +105,8 @@ class AddonManager
          * respective collections.
          */
         $this->addons->disperse();
+
+        //dd(number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 2) . ' s');
 
         $this->dispatcher->fire(new AddonsRegistered());
     }

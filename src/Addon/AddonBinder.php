@@ -18,6 +18,13 @@ class AddonBinder
 {
 
     /**
+     * The addon loader.
+     *
+     * @var AddonLoader
+     */
+    private $loader;
+
+    /**
      * The addon provider.
      *
      * @var AddonProvider
@@ -56,6 +63,7 @@ class AddonBinder
      * Create a new AddonBinder instance.
      *
      * @param Container          $container
+     * @param AddonLoader        $loader
      * @param AddonProvider      $provider
      * @param AddonIntegrator    $integrator
      * @param AddonCollection    $collection
@@ -63,11 +71,13 @@ class AddonBinder
      */
     public function __construct(
         Container $container,
+        AddonLoader $loader,
         AddonProvider $provider,
         AddonIntegrator $integrator,
         AddonCollection $collection,
         AddonConfiguration $configuration
     ) {
+        $this->loader        = $loader;
         $this->provider      = $provider;
         $this->container     = $container;
         $this->integrator    = $integrator;
@@ -92,11 +102,23 @@ class AddonBinder
                 $slug
             ) . studly_case($type);
 
-        $addon = app($addon)
-            ->setPath($path)
-            ->setType($type)
-            ->setSlug($slug)
-            ->setVendor($vendor);
+        try {
+            $addon = app($addon)
+                ->setPath($path)
+                ->setType($type)
+                ->setSlug($slug)
+                ->setVendor($vendor);
+        } catch (\Exception $e) {
+
+            $this->loader->load($path);
+            $this->loader->register();
+
+            $addon = app($addon)
+                ->setPath($path)
+                ->setType($type)
+                ->setSlug($slug)
+                ->setVendor($vendor);
+        }
 
         // If the addon supports states - set the state now.
         if ($addon instanceof Module || $addon instanceof Extension) {
