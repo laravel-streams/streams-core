@@ -88,7 +88,6 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $bindings = [
-        'App\Http\Middleware\VerifyCsrfToken'                                            => 'Anomaly\Streams\Platform\Http\Middleware\BypassCsrfToken',
         'Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode'                  => 'Anomaly\Streams\Platform\Http\Middleware\BypassMaintenanceCheck',
         'Illuminate\Contracts\Debug\ExceptionHandler'                                    => 'Anomaly\Streams\Platform\Exception\ExceptionHandler',
         'Anomaly\Streams\Platform\Entry\EntryModel'                                      => 'Anomaly\Streams\Platform\Entry\EntryModel',
