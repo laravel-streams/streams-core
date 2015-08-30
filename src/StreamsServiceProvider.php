@@ -74,6 +74,8 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Stream\Console\Destroy',
         'Anomaly\Streams\Platform\Stream\Console\MakeEntity',
         'Anomaly\Streams\Platform\Addon\Console\MakeAddon',
+        'Anomaly\Streams\Platform\Addon\Console\CacheAddons',
+        'Anomaly\Streams\Platform\Addon\Console\ClearAddons',
         'Anomaly\Streams\Platform\Addon\Module\Console\Install',
         'Anomaly\Streams\Platform\Addon\Module\Console\Uninstall',
         'Anomaly\Streams\Platform\Addon\Module\Console\Reinstall',

@@ -58,6 +58,10 @@ class AddonPaths
      */
     public function all()
     {
+        if (file_exists($addons = base_path('bootstrap/cache/addons.php'))) {
+            return include $addons;
+        }
+
         $core        = $this->core() ?: [];
         $shared      = $this->shared() ?: [];
         $application = $this->application() ?: [];
