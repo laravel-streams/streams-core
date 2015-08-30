@@ -123,6 +123,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Addon\AddonManager'                                  => 'Anomaly\Streams\Platform\Addon\AddonManager',
         'Anomaly\Streams\Platform\Addon\AddonCollection'                               => 'Anomaly\Streams\Platform\Addon\AddonCollection',
         'Anomaly\Streams\Platform\Message\MessageBag'                                  => 'Anomaly\Streams\Platform\Message\MessageBag',
+        'Anomaly\Streams\Platform\Stream\StreamStore'                                  => 'Anomaly\Streams\Platform\Stream\StreamStore',
         'Anomaly\Streams\Platform\Support\Configurator'                                => 'Anomaly\Streams\Platform\Support\Configurator',
         'Anomaly\Streams\Platform\Support\Authorizer'                                  => 'Anomaly\Streams\Platform\Support\Authorizer',
         'Anomaly\Streams\Platform\Support\Evaluator'                                   => 'Anomaly\Streams\Platform\Support\Evaluator',

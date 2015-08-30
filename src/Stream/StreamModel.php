@@ -65,11 +65,20 @@ class StreamModel extends EloquentModel implements StreamInterface
     protected $table = 'streams_streams';
 
     /**
+     * The streams store.
+     *
+     * @var StreamStore
+     */
+    protected static $store;
+
+    /**
      * Boot the model.
      */
     protected static function boot()
     {
         self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
+
+        self::$store = app('Anomaly\Streams\Platform\Stream\StreamStore');
 
         parent::boot();
     }
@@ -82,6 +91,12 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     public function make(array $data)
     {
+        $payload = $data;
+
+        if ($stream = self::$store->get($data)) {
+            return $stream;
+        }
+
         $assignments = array();
 
         $streamModel        = new StreamModel();
@@ -90,8 +105,12 @@ class StreamModel extends EloquentModel implements StreamInterface
         $data['view_options'] = serialize(array_get($data, 'view_options', []));
 
         if ($translations = array_pull($data, 'translations')) {
-            foreach ($translations as $translation) {
-                $streamTranslations->push(new StreamModelTranslation($translation));
+            foreach ($translations as $attributes) {
+
+                $translation = new StreamModelTranslation();
+                $translation->setRawAttributes($attributes);
+
+                $streamTranslations->push($translation);
             }
         }
 
@@ -113,8 +132,12 @@ class StreamModel extends EloquentModel implements StreamInterface
                     $fieldTranslations = new EloquentCollection();
 
                     if (isset($assignment['field']['translations'])) {
-                        foreach (array_pull($assignment['field'], 'translations') as $translation) {
-                            $fieldTranslations->push(new FieldModelTranslation($translation));
+                        foreach (array_pull($assignment['field'], 'translations') as $attributes) {
+
+                            $translation = new FieldModelTranslation();
+                            $translation->setRawAttributes($attributes);
+
+                            $fieldTranslations->push($translation);
                         }
                     }
 
@@ -130,8 +153,12 @@ class StreamModel extends EloquentModel implements StreamInterface
                     $assignmentTranslations = new EloquentCollection();
 
                     if (isset($assignment['translations'])) {
-                        foreach (array_pull($assignment, 'translations') as $translation) {
-                            $assignmentTranslations->push(new AssignmentModelTranslation($translation));
+                        foreach (array_pull($assignment, 'translations') as $attributes) {
+
+                            $translation = new AssignmentModelTranslation();
+                            $translation->setRawAttributes($attributes);
+
+                            $assignmentTranslations->push($translation);
                         }
                     }
 
@@ -152,6 +179,8 @@ class StreamModel extends EloquentModel implements StreamInterface
         $streamModel->setRelation('assignments', $assignmentsCollection);
 
         $streamModel->assignments = $assignmentsCollection;
+
+        self::$store->put($payload, $streamModel);
 
         return $streamModel;
     }
