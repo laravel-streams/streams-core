@@ -200,7 +200,11 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getConfig()
     {
-        return $this->config;
+        if (is_array($this->attributes['config'])) {
+            return $this->attributes['config'];
+        }
+
+        return $this->attributes['config'] = $this->config;
     }
 
     /**
@@ -300,7 +304,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function isUnique()
     {
-        return $this->unique;
+        return $this->attributes['unique'];
     }
 
     /**
@@ -310,7 +314,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function isRequired()
     {
-        return $this->required;
+        return $this->attributes['required'];
     }
 
     /**
@@ -320,7 +324,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function isTranslatable()
     {
-        return $this->translatable;
+        return $this->attributes['translatable'];
     }
 
     /**
