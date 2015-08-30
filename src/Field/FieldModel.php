@@ -120,7 +120,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function getSlug()
     {
-        return $this->attributes['slug'];
+        return $this->getAttributeFromArray('slug');
     }
 
     /**

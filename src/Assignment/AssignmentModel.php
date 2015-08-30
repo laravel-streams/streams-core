@@ -274,8 +274,8 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getField()
     {
-        if (isset($this->cache['field'])) {
-            return $this->cache['field'];
+        if ($field = $this->getAttributeFromArray('field')) {
+            return $field;
         }
 
         return $this->cache['field'] = $this->field;
@@ -304,7 +304,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function isUnique()
     {
-        return $this->attributes['unique'];
+        return $this->getAttributeFromArray('unique');
     }
 
     /**
@@ -314,7 +314,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function isRequired()
     {
-        return $this->attributes['required'];
+        return $this->getAttributeFromArray('required');
     }
 
     /**
@@ -324,7 +324,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function isTranslatable()
     {
-        return $this->attributes['translatable'];
+        return $this->getAttributeFromArray('translatable');
     }
 
     /**
@@ -357,7 +357,11 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getConfigAttribute($config)
     {
-        return (array)unserialize($config);
+        if (!is_array($config)) {
+            return (array)unserialize($config);
+        }
+
+        return $config;
     }
 
     /**
