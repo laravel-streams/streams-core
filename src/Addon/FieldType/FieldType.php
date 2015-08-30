@@ -824,6 +824,11 @@ class FieldType extends Addon
      */
     public function getModifier()
     {
+        /* @var FieldTypeModifier $modifier */
+        if (is_object($modifier = $this->modifier)) {
+            return $modifier->setFieldType($this);
+        }
+
         if (!$this->modifier) {
             $this->modifier = get_class($this) . 'Modifier';
         }
@@ -832,12 +837,11 @@ class FieldType extends Addon
             $this->modifier = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeModifier';
         }
 
-        /* @var FieldTypeModifier $modifier */
         $modifier = app()->make($this->modifier);
 
         $modifier->setFieldType($this);
 
-        return $modifier;
+        return $this->modifier = $modifier;
     }
 
     /**
@@ -847,6 +851,11 @@ class FieldType extends Addon
      */
     public function getAccessor()
     {
+        /* @var FieldTypeAccessor $accessor */
+        if (is_object($accessor = $this->accessor)) {
+            return $accessor->setFieldType($this);
+        }
+
         if (!$this->accessor) {
             $this->accessor = get_class($this) . 'Accessor';
         }
@@ -855,12 +864,11 @@ class FieldType extends Addon
             $this->accessor = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor';
         }
 
-        /* @var FieldTypeAccessor $accessor */
         $accessor = app()->make($this->accessor);
 
         $accessor->setFieldType($this);
 
-        return $accessor;
+        return $this->accessor = $accessor;
     }
 
     /**
