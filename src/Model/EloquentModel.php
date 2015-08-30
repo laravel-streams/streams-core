@@ -70,6 +70,13 @@ class EloquentModel extends Model implements Arrayable
     ];
 
     /**
+     * Runtime cache.
+     *
+     * @var array
+     */
+    protected $cache = [];
+
+    /**
      * Boot the model.
      */
     protected static function boot()
@@ -287,15 +294,15 @@ class EloquentModel extends Model implements Arrayable
      */
     public function getTranslation($locale = null, $withFallback = false)
     {
-        $locale = $locale ?: config('app.fallback_locale');
+        $locale = $locale ?: $this->getFallbackLocale();
 
         if ($translation = $this->getTranslationByLocaleKey($locale)) {
             return $translation;
         } elseif ($withFallback
-            && config('app.fallback_locale')
-            && $this->getTranslationByLocaleKey(config('app.fallback_locale'))
+            && $this->getFallbackLocale()
+            && $this->getTranslationByLocaleKey($this->getFallbackLocale())
         ) {
-            return $this->getTranslationByLocaleKey(config('app.fallback_locale'));
+            return $this->getTranslationByLocaleKey($this->getFallbackLocale());
         }
 
         return null;
@@ -303,7 +310,7 @@ class EloquentModel extends Model implements Arrayable
 
     public function hasTranslation($locale = null)
     {
-        $locale = $locale ?: config('app.fallback_locale');
+        $locale = $locale ?: $this->getFallbackLocale();
 
         foreach ($this->translations as $translation) {
 
@@ -587,6 +594,20 @@ class EloquentModel extends Model implements Arrayable
         }
 
         return array_filter(array_diff_key($attributes, array_flip($this->getGuarded())));
+    }
+
+    /**
+     * Get the fallback locale.
+     *
+     * @return string
+     */
+    protected function getFallbackLocale()
+    {
+        if (isset($this->cache['fallback_locale'])) {
+            return $this->cache['fallback_locale'];
+        }
+
+        return $this->cache['fallback_locale'] = config('app.fallback_locale');
     }
 
     public function toArray()
