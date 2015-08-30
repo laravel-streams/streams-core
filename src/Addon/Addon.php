@@ -49,6 +49,13 @@ class Addon implements PresentableInterface, Arrayable
     protected $vendor = null;
 
     /**
+     * The addon namespace.
+     *
+     * @var null|string
+     */
+    protected $namespace = null;
+
+    /**
      * Get the addon's presenter.
      *
      * @return Presenter
@@ -116,7 +123,11 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getNamespace($key = null)
     {
-        return "{$this->getVendor()}.{$this->getType()}.{$this->getSlug()}" . ($key ? '::' . $key : $key);
+        if (!$this->namespace) {
+            $this->makeNamespace();
+        }
+
+        return $this->namespace . ($key ? '::' . $key : $key);
     }
 
     /**
@@ -269,6 +280,14 @@ class Addon implements PresentableInterface, Arrayable
     public function getVendor()
     {
         return $this->vendor;
+    }
+
+    /**
+     * Make the addon namespace.
+     */
+    protected function makeNamespace()
+    {
+        $this->namespace = "{$this->getVendor()}.{$this->getType()}.{$this->getSlug()}";
     }
 
     /**

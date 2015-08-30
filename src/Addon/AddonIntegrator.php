@@ -3,6 +3,8 @@
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Support\Configurator;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Translation\Translator;
 
 /**
  * Class AddonIntegrator
@@ -30,6 +32,20 @@ class AddonIntegrator
     protected $image;
 
     /**
+     * The view factory.
+     *
+     * @var Factory
+     */
+    protected $views;
+
+    /**
+     * The translator utility.
+     *
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
      * The configurator utility.
      *
      * @var Configurator
@@ -41,12 +57,21 @@ class AddonIntegrator
      *
      * @param Asset        $asset
      * @param Image        $image
+     * @param Factory      $views
+     * @param Translator   $translator
      * @param Configurator $configurator
      */
-    public function __construct(Asset $asset, Image $image, Configurator $configurator)
-    {
+    public function __construct(
+        Asset $asset,
+        Image $image,
+        Factory $views,
+        Translator $translator,
+        Configurator $configurator
+    ) {
         $this->asset        = $asset;
         $this->image        = $image;
+        $this->views        = $views;
+        $this->translator   = $translator;
         $this->configurator = $configurator;
     }
 
@@ -63,8 +88,8 @@ class AddonIntegrator
             base_path('config/addon/' . $addon->getSlug() . '-' . $addon->getType())
         );
 
-        app('view')->addNamespace($addon->getNamespace(), $addon->getPath('resources/views'));
-        app('translator')->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
+        $this->views->addNamespace($addon->getNamespace(), $addon->getPath('resources/views'));
+        $this->translator->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
 
         $this->asset->addPath($addon->getNamespace(), $addon->getPath('resources'));
         $this->image->addPath($addon->getNamespace(), $addon->getPath('resources'));

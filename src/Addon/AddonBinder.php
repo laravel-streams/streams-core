@@ -5,6 +5,8 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Plugin\Event\PluginWasRegistered;
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Events\Dispatcher;
+use TwigBridge\Bridge;
 
 /**
  * Class AddonBinder
@@ -16,6 +18,20 @@ use Illuminate\Contracts\Container\Container;
  */
 class AddonBinder
 {
+
+    /**
+     * The twig bridge.
+     *
+     * @var Bridge
+     */
+    protected $twig;
+
+    /**
+     * The event dispatcher.
+     *
+     * @var Dispatcher
+     */
+    protected $events;
 
     /**
      * The addon provider.
@@ -55,6 +71,8 @@ class AddonBinder
     /**
      * Create a new AddonBinder instance.
      *
+     * @param Bridge             $twig
+     * @param Dispatcher         $events
      * @param Container          $container
      * @param AddonProvider      $provider
      * @param AddonIntegrator    $integrator
@@ -62,12 +80,16 @@ class AddonBinder
      * @param AddonConfiguration $configuration
      */
     public function __construct(
+        Bridge $twig,
+        Dispatcher $events,
         Container $container,
         AddonProvider $provider,
         AddonIntegrator $integrator,
         AddonCollection $collection,
         AddonConfiguration $configuration
     ) {
+        $this->twig          = $twig;
+        $this->events        = $events;
         $this->provider      = $provider;
         $this->container     = $container;
         $this->integrator    = $integrator;
@@ -120,7 +142,7 @@ class AddonBinder
         $this->integrator->register($addon);
 
         if ($addon instanceof Plugin) {
-            app('events')->fire(new PluginWasRegistered($addon));
+            $this->twig->addExtension($addon);
         }
 
         $this->collection->put($addon->getNamespace(), $addon);
