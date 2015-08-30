@@ -120,7 +120,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function getSlug()
     {
-        return $this->slug;
+        return $this->attributes['slug'];
     }
 
     /**
@@ -150,16 +150,20 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function getType()
     {
+        if (isset($this->cache['type'])) {
+            return $this->cache['type'];
+        }
+
         $type   = $this->type;
         $field  = $this->slug;
         $label  = $this->name;
         $config = $this->config;
 
         if (!$type) {
-            return null;
+            return $this->cache['type'] = null;
         }
 
-        return self::$builder->build(compact('type', 'field', 'label', 'config'));
+        return $this->cache['type'] = self::$builder->build(compact('type', 'field', 'label', 'config'));
     }
 
     /**
