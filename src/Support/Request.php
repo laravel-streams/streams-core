@@ -12,6 +12,13 @@ class Request
 {
 
     /**
+     * The output cache.
+     *
+     * @var array
+     */
+    protected $cache = [];
+
+    /**
      * The request object.
      *
      * @var \Illuminate\Http\Request
@@ -35,6 +42,10 @@ class Request
      */
     public function toArray()
     {
+        if ($this->cache) {
+            return $this->cache;
+        }
+
         $request = [
             'path' => $this->request->path(),
             'uri'  => $this->request->getRequestUri(),
@@ -62,7 +73,7 @@ class Request
             ];
         }
 
-        return $request;
+        return $this->cache = $request;
     }
 
     /**
