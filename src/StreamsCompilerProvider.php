@@ -56,6 +56,7 @@ class StreamsCompilerProvider
             'vendor/anomaly/streams-platform/src/Ui/UiPlugin.php',
 
             // Miscellaneous
+            'vendor/anomaly/streams-platform/src/Http/Middleware/MiddlewareCollection.php',
             'vendor/anomaly/streams-platform/src/Addon/Extension/ExtensionModel.php',
             'vendor/anomaly/streams-platform/src/Addon/Module/ModuleModel.php',
             'vendor/anomaly/streams-platform/src/View/ViewMobileOverrides.php',
