@@ -274,8 +274,8 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getField()
     {
-        if ($field = $this->getAttributeFromArray('field')) {
-            return $field;
+        if (isset($this->cache['field']) && $this->cache['field']) {
+            return $this->cache['field'];
         }
 
         return $this->cache['field'] = $this->field;
