@@ -23,12 +23,20 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 {
 
     /**
-     * Validation rules. These are overridden
-     * on the compiled models.
+     * The validation rules. These are
+     * overridden on the compiled models.
      *
      * @var array
      */
     protected $rules = [];
+
+    /**
+     * The field slugs. These are
+     * overridden on compiled models.
+     *
+     * @var array
+     */
+    protected $fields = [];
 
     /**
      * The compiled stream data.
@@ -234,7 +242,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             !$this->hasGetMutator($key)
             && !in_array($key, [$this->relations])
             && !method_exists($this, $key)
-            && $this->getFieldType($key)
+            && in_array($key, $this->fields)
         ) {
             return $this->getFieldValue($key);
         } else {
