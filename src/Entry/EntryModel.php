@@ -28,7 +28,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      *
      * @var array
      */
-    public $rules = [];
+    protected $rules = [];
 
     /**
      * The compiled stream data.

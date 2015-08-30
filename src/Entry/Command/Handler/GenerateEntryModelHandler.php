@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModel;
 use Anomaly\Streams\Platform\Entry\Parser\EntryClassParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryDatesParser;
+use Anomaly\Streams\Platform\Entry\Parser\EntryFieldSlugsParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryNamespaceParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryRelationsParser;
 use Anomaly\Streams\Platform\Entry\Parser\EntryRulesParser;
@@ -118,6 +119,7 @@ class GenerateEntryModelHandler
             'trashable'               => (new EntryTrashableParser())->parse($stream),
             'relations'               => (new EntryRelationsParser())->parse($stream),
             'namespace'               => (new EntryNamespaceParser())->parse($stream),
+            'field_slugs'             => (new EntryFieldSlugsParser())->parse($stream),
             'translation_model'       => (new EntryTranslationModelParser())->parse($stream),
             'translated_attributes'   => (new EntryTranslatedAttributesParser())->parse($stream),
             'translation_foreign_key' => (new EntryTranslationForeignKeyParser())->parse($stream)

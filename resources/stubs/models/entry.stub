@@ -11,9 +11,11 @@ class {class} extends EntryModel
 
     protected $titleName = '{title}';
 
-    public $rules = {rules};
+    protected $rules = {rules};
 
-    public $dates = {dates};
+    protected $fields = {field_slugs};
+
+    protected $dates = {dates};
 
     {translated_attributes}
 
