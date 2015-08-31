@@ -131,7 +131,9 @@ class AddonProvider
 
         $provider = get_class($addon) . 'ServiceProvider';
 
-        if (!class_exists($provider)) {
+        $file = substr($provider, strrpos($provider, '\\') + 1);
+
+        if (!file_exists($addon->getPath("src/{$file}.php"))) {
             return;
         }
 
