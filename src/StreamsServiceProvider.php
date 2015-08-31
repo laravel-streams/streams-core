@@ -102,9 +102,10 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface'     => 'Anomaly\Streams\Platform\Assignment\AssignmentRepository',
         'Anomaly\Streams\Platform\Addon\Module\ModuleModel'                              => 'Anomaly\Streams\Platform\Addon\Module\ModuleModel',
         'Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface'       => 'Anomaly\Streams\Platform\Addon\Module\ModuleRepository',
-        'module.collection'                                                              => 'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
         'Anomaly\Streams\Platform\Addon\Extension\ExtensionModel'                        => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionModel',
         'Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface' => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionRepository',
+        'addon.collection'                                                               => 'Anomaly\Streams\Platform\Addon\AddonCollection',
+        'module.collection'                                                              => 'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
         'extension.collection'                                                           => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
         'field_type.collection'                                                          => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
         'plugin.collection'                                                              => 'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
@@ -233,8 +234,6 @@ class StreamsServiceProvider extends ServiceProvider
         if (env('APP_DEBUG')) {
             $this->app->register('Barryvdh\Debugbar\ServiceProvider');
         }
-
-        file_put_contents(base_path('log.txt'), '');
 
         // Register bindings.
         foreach ($this->bindings as $abstract => $concrete) {
