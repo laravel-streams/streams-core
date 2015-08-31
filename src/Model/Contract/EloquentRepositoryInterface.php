@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * Interface EloquentRepositoryInterface
@@ -36,6 +37,14 @@ interface EloquentRepositoryInterface
      * @return EloquentModel
      */
     public function create(array $attributes);
+
+    /**
+     * Return a paginated collection.
+     *
+     * @param array $parameters
+     * @return LengthAwarePaginator
+     */
+    public function paginate(array $parameters = []);
 
     /**
      * Save a record.

@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class EloquentRepository
@@ -43,6 +45,52 @@ class EloquentRepository implements EloquentRepositoryInterface
     public function create(array $attributes)
     {
         return $this->model->create($attributes);
+    }
+
+    /**
+     * Return a paginated collection.
+     *
+     * @param array $parameters
+     * @return LengthAwarePaginator
+     */
+    public function paginate(array $parameters = [])
+    {
+        $paginator = array_pull($parameters, 'paginator');
+        $perPage   = array_pull($parameters, 'per_page', 15);
+
+        /* @var Builder $query */
+        $query = $this->model->newQuery();
+
+        /**
+         * First apply any desired scope.
+         */
+        if ($scope = array_pull($parameters, 'scope')) {
+            call_user_func([$query, camel_case($scope)], array_pull($parameters, 'scope_arguments', []));
+        }
+
+        /**
+         * Lastly we need to loop through all of the
+         * parameters and assume the rest are methods
+         * to call on the query builder.
+         */
+        foreach ($parameters as $method => $arguments) {
+
+            $method = camel_case($method);
+
+            if (in_array($method, ['update', 'delete'])) {
+                continue;
+            }
+
+            call_user_func([$query, $method], $arguments);
+        }
+
+        if ($paginator === 'simple') {
+            $pagination = $query->simplePaginate($perPage);
+        } else {
+            $pagination = $query->paginate($perPage);
+        }
+
+        return $pagination;
     }
 
     /**
