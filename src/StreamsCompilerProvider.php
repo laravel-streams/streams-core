@@ -61,8 +61,10 @@ class StreamsCompilerProvider
             'vendor/anomaly/streams-platform/src/Addon/Module/ModuleModel.php',
             'vendor/anomaly/streams-platform/src/View/ViewMobileOverrides.php',
             'vendor/anomaly/streams-platform/src/Model/EloquentPresenter.php',
+            'vendor/anomaly/streams-platform/src/Addon/AddonIntegrator.php',
             'vendor/anomaly/streams-platform/src/Entry/EntryPresenter.php',
-            'vendor/anomaly/streams-platform/src/View/ViewOverrides.php',
+            'vendor/anomaly/streams-platform/src/Addon/AddonManager.php',
+            'vendor/anomaly/streams-platform/src/View/ViewOverrides.php'
         ];
     }
 }

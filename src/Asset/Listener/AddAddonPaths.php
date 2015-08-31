@@ -43,7 +43,7 @@ class AddAddonPaths
 
         /* @var Addon $addon */
         foreach ($addons as $addon) {
-            $this->paths->addPath($addon->getNamespace(), $addon->getPath());
+            $this->paths->addPath($addon->getNamespace(), $addon->getPath('resources'));
         }
     }
 }

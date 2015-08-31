@@ -38,11 +38,11 @@ class AddonManager
     protected $loader;
 
     /**
-     * The addon binder.
+     * The addon integrator.
      *
-     * @var AddonBinder
+     * @var AddonIntegrator
      */
-    protected $binder;
+    protected $integrator;
 
     /**
      * The modules model.
@@ -69,27 +69,27 @@ class AddonManager
      * Create a new AddonManager instance.
      *
      * @param AddonPaths      $paths
-     * @param AddonBinder     $binder
      * @param AddonLoader     $loader
      * @param ModuleModel     $modules
      * @param Dispatcher      $dispatcher
      * @param ExtensionModel  $extensions
-     * @param AddonCollection $collection
+     * @param AddonIntegrator $integrator
+     * @param AddonCollection $addons
      */
     function __construct(
         AddonPaths $paths,
-        AddonBinder $binder,
         AddonLoader $loader,
         ModuleModel $modules,
         Dispatcher $dispatcher,
         ExtensionModel $extensions,
+        AddonIntegrator $integrator,
         AddonCollection $addons
     ) {
         $this->paths      = $paths;
         $this->addons     = $addons;
-        $this->binder     = $binder;
         $this->loader     = $loader;
         $this->modules    = $modules;
+        $this->integrator = $integrator;
         $this->dispatcher = $dispatcher;
         $this->extensions = $extensions;
     }
@@ -122,7 +122,7 @@ class AddonManager
          * that they're all PSR autoloaded.
          */
         foreach ($paths as $path) {
-            $this->binder->register($path, $enabled, $installed);
+            $this->integrator->register($path, $enabled, $installed);
         }
 
         /**

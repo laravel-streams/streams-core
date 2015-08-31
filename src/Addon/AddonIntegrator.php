@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
-use Anomaly\Streams\Platform\Support\Configurator;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -12,14 +11,14 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Translation\Translator;
 
 /**
- * Class AddonBinder
+ * Class AddonIntegrator
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon
  */
-class AddonBinder
+class AddonIntegrator
 {
 
     /**
@@ -65,24 +64,16 @@ class AddonBinder
     protected $translator;
 
     /**
-     * The addon configuration utility.
+     * Create a new AddonIntegrator instance.
      *
-     * @var AddonConfiguration
-     */
-    protected $configuration;
-
-    /**
-     * Create a new AddonBinder instance.
-     *
-     * @param Asset              $asset
-     * @param Image              $image
-     * @param Factory            $views
-     * @param Dispatcher         $events
-     * @param Container          $container
-     * @param Translator         $translator
-     * @param AddonProvider      $provider
-     * @param AddonCollection    $collection
-     * @param AddonConfiguration $configuration
+     * @param Asset           $asset
+     * @param Image           $image
+     * @param Factory         $views
+     * @param Dispatcher      $events
+     * @param Container       $container
+     * @param Translator      $translator
+     * @param AddonProvider   $provider
+     * @param AddonCollection $collection
      */
     public function __construct(
         Factory $views,
@@ -90,16 +81,14 @@ class AddonBinder
         Container $container,
         Translator $translator,
         AddonProvider $provider,
-        AddonCollection $collection,
-        AddonConfiguration $configuration
+        AddonCollection $collection
     ) {
-        $this->views         = $views;
-        $this->events        = $events;
-        $this->provider      = $provider;
-        $this->container     = $container;
-        $this->collection    = $collection;
-        $this->translator    = $translator;
-        $this->configuration = $configuration;
+        $this->views      = $views;
+        $this->events     = $events;
+        $this->provider   = $provider;
+        $this->container  = $container;
+        $this->collection = $collection;
+        $this->translator = $translator;
     }
 
     /**
@@ -134,13 +123,6 @@ class AddonBinder
 
         $this->container->alias($addon->getNamespace(), $alias = get_class($addon));
         $this->container->instance($alias, $addon);
-
-        /**
-         * Load addon configuration before running
-         * the addon's service provider so we can
-         * use configurable bindings.
-         */
-        $this->configuration->load($addon);
 
         // Continue loading things.
         $this->provider->register($addon);
