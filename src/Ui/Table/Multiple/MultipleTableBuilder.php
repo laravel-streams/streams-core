@@ -9,6 +9,7 @@ use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\SetActiveFilters;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableCollection;
+use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class MultipleTableBuilder
@@ -34,11 +35,11 @@ class MultipleTableBuilder extends TableBuilder
      * @param Table           $table
      * @param TableCollection $tables
      */
-    public function __construct(Table $table, TableCollection $tables)
+    public function __construct(Table $table, TableCollection $tables, Repository $config)
     {
         $this->tables = $tables;
 
-        parent::__construct($table);
+        parent::__construct($table, $config);
     }
 
     /**
