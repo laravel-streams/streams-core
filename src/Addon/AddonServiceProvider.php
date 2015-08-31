@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Support\ServiceProvider;
 
 /**
  * Class AddonServiceProvider
@@ -11,7 +11,7 @@ use Illuminate\Support\ServiceProvider;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Addon
  */
-class AddonServiceProvider extends ServiceProvider
+class AddonServiceProvider
 {
 
     use DispatchesJobs;
@@ -95,32 +95,29 @@ class AddonServiceProvider extends ServiceProvider
     protected $mobile = [];
 
     /**
+     * The application instance.
+     *
+     * @var Application
+     */
+    protected $app;
+
+    /**
+     * The addon instance.
+     *
+     * @var Addon
+     */
+    protected $addon;
+
+    /**
      * Create a new AddonServiceProvider instance.
      *
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     * @param Addon                                        $addon
+     * @param Application $app
+     * @param Addon       $addon
      */
-    public function __construct($app, Addon $addon)
+    public function __construct(Application $app, Addon $addon)
     {
+        $this->app   = $app;
         $this->addon = $addon;
-
-        parent::__construct($app);
-    }
-
-    /**
-     * Boot the service provider.
-     */
-    public function boot()
-    {
-        //
-    }
-
-    /**
-     * Register the service provider.
-     */
-    public function register()
-    {
-        //
     }
 
     /**
