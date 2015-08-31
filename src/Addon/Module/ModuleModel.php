@@ -74,7 +74,7 @@ class ModuleModel extends EloquentModel implements ModuleInterface
     /**
      * Get all enabled module namespaces.
      *
-     * @return array
+     * @return EloquentCollection
      */
     public function getEnabledNamespaces()
     {
@@ -84,7 +84,7 @@ class ModuleModel extends EloquentModel implements ModuleInterface
     /**
      * Get all installed module namespaces.
      *
-     * @return array
+     * @return EloquentCollection
      */
     public function getInstalledNamespaces()
     {

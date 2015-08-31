@@ -173,11 +173,8 @@ class StreamsServiceProvider extends ServiceProvider
 
     /**
      * Boot the service provider.
-     *
-     * @param AddonManager $manager
-     * @param Dispatcher   $events
      */
-    public function boot(AddonManager $manager, Dispatcher $events)
+    public function boot()
     {
         $this->dispatch(new SetCoreConnection());
         $this->dispatch(new ConfigureCommandBus());
@@ -191,7 +188,13 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new AddViewNamespaces());
 
         $this->app->booted(
-            function () use ($manager, $events) {
+            function () {
+
+                /* @var AddonManager $manager */
+                $manager = $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager');
+
+                /* @var Dispatcher $events */
+                $events = $this->app->make('Illuminate\Contracts\Events\Dispatcher');
 
                 $events->listen(
                     'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
@@ -230,6 +233,8 @@ class StreamsServiceProvider extends ServiceProvider
         if (env('APP_DEBUG')) {
             $this->app->register('Barryvdh\Debugbar\ServiceProvider');
         }
+
+        file_put_contents(base_path('log.txt'), '');
 
         // Register bindings.
         foreach ($this->bindings as $abstract => $concrete) {

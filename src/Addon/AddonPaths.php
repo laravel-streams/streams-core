@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Filesystem\Filesystem;
 
 /**
  * Class AddonPaths
@@ -16,20 +14,6 @@ class AddonPaths
 {
 
     /**
-     * The file system.
-     *
-     * @var FileSystem
-     */
-    protected $files;
-
-    /**
-     * The application container.
-     *
-     * @var Container
-     */
-    protected $container;
-
-    /**
      * The stream application.
      *
      * @var Application
@@ -39,14 +23,10 @@ class AddonPaths
     /**
      * Create a new AddonPaths instance.
      *
-     * @param Filesystem  $files
-     * @param Container   $container
      * @param Application $application
      */
-    function __construct(Filesystem $files, Container $container, Application $application)
+    function __construct(Application $application)
     {
-        $this->files       = $files;
-        $this->container   = $container;
         $this->application = $application;
     }
 
@@ -76,14 +56,14 @@ class AddonPaths
      */
     public function core()
     {
-        $path = $this->container->make('path.base') . '/core';
+        $path = base_path('core');
 
         if (!is_dir($path)) {
 
             return false;
         }
 
-        return $this->vendorAddons($this->files->directories($path));
+        return $this->vendorAddons(glob("{$path}/*", GLOB_ONLYDIR));
     }
 
     /**
@@ -93,14 +73,14 @@ class AddonPaths
      */
     public function shared()
     {
-        $path = $this->container->make('path.base') . '/addons/shared';
+        $path = base_path('addons/shared');
 
         if (!is_dir($path)) {
 
             return false;
         }
 
-        return $this->vendorAddons($this->files->directories($path));
+        return $this->vendorAddons(glob("{$path}/*", GLOB_ONLYDIR));
     }
 
     /**
@@ -110,14 +90,14 @@ class AddonPaths
      */
     public function application()
     {
-        $path = $this->container->make('path.base') . '/addons/' . $this->application->getReference();
+        $path = base_path('addons/' . $this->application->getReference());
 
         if (!is_dir($path)) {
 
             return false;
         }
 
-        return $this->vendorAddons($this->files->directories($path));
+        return $this->vendorAddons(glob("{$path}/*", GLOB_ONLYDIR));
     }
 
     /**
@@ -131,7 +111,7 @@ class AddonPaths
         $paths = [];
 
         foreach ($directories as $vendor) {
-            foreach ($this->files->directories($vendor) as $addon) {
+            foreach (glob("{$vendor}/*", GLOB_ONLYDIR) as $addon) {
                 $paths[] = $addon;
             }
         }

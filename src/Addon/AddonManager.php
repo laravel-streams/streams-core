@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Event\AddonsRegistered;
+use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -102,13 +102,15 @@ class AddonManager
         $enabled   = $this->getEnabledAddonNamespaces();
         $installed = $this->getInstalledAddonNamespaces();
 
+        $paths = $this->paths->all();
+
         /**
          * First load all the addons
          * so they're available.
          */
         if (env('APP_DEBUG')) {
 
-            foreach ($this->paths->all() as $path) {
+            foreach ($paths as $path) {
                 $this->loader->load($path);
             }
 
@@ -119,7 +121,7 @@ class AddonManager
          * Then register all of the addons now
          * that they're all PSR autoloaded.
          */
-        foreach ($this->paths->all() as $path) {
+        foreach ($paths as $path) {
             $this->binder->register($path, $enabled, $installed);
         }
 
@@ -129,7 +131,7 @@ class AddonManager
          */
         $this->addons->disperse();
 
-        $this->dispatcher->fire(new AddonsRegistered());
+        $this->dispatcher->fire(new AddonsHaveRegistered($this->addons));
     }
 
     /**

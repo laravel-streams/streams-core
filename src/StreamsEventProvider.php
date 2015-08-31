@@ -27,8 +27,11 @@ class StreamsEventProvider extends EventServiceProvider
             'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\GuessBreadcrumbs',
             'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\LoadBreadcrumbs'
         ],
-        'Anomaly\Streams\Platform\Addon\Event\AddonsRegistered'           => [
+        'Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered'       => [
             'Anomaly\Streams\Platform\Addon\Theme\Listener\LoadCurrentTheme' => -100,
+            'Anomaly\Streams\Platform\Support\Listener\MergeAddonConfiguration',
+            'Anomaly\Streams\Platform\Asset\Listener\AddAddonPaths',
+            'Anomaly\Streams\Platform\Image\Listener\AddAddonPaths'
         ],
         'Anomaly\Streams\Platform\View\Event\ViewComposed'                => [
             'Anomaly\Streams\Platform\View\Listener\DecorateData',

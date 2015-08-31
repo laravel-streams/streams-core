@@ -2,11 +2,14 @@
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
-use Anomaly\Streams\Platform\Addon\Plugin\Event\PluginWasRegistered;
-use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
+use Anomaly\Streams\Platform\Asset\Asset;
+use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Support\Configurator;
+use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
-use TwigBridge\Bridge;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Translation\Translator;
 
 /**
  * Class AddonBinder
@@ -20,11 +23,11 @@ class AddonBinder
 {
 
     /**
-     * The twig bridge.
+     * The view factory.
      *
-     * @var Bridge
+     * @var Factory
      */
-    protected $twig;
+    protected $views;
 
     /**
      * The event dispatcher.
@@ -48,18 +51,18 @@ class AddonBinder
     protected $container;
 
     /**
-     * The addon integrator.
-     *
-     * @var AddonIntegrator
-     */
-    protected $integrator;
-
-    /**
      * The addon collection.
      *
      * @var AddonCollection
      */
     protected $collection;
+
+    /**
+     * The translator utility.
+     *
+     * @var Translator
+     */
+    protected $translator;
 
     /**
      * The addon configuration utility.
@@ -71,29 +74,31 @@ class AddonBinder
     /**
      * Create a new AddonBinder instance.
      *
-     * @param Bridge             $twig
+     * @param Asset              $asset
+     * @param Image              $image
+     * @param Factory            $views
      * @param Dispatcher         $events
      * @param Container          $container
+     * @param Translator         $translator
      * @param AddonProvider      $provider
-     * @param AddonIntegrator    $integrator
      * @param AddonCollection    $collection
      * @param AddonConfiguration $configuration
      */
     public function __construct(
-        Bridge $twig,
+        Factory $views,
         Dispatcher $events,
         Container $container,
+        Translator $translator,
         AddonProvider $provider,
-        AddonIntegrator $integrator,
         AddonCollection $collection,
         AddonConfiguration $configuration
     ) {
-        $this->twig          = $twig;
+        $this->views         = $views;
         $this->events        = $events;
         $this->provider      = $provider;
         $this->container     = $container;
-        $this->integrator    = $integrator;
         $this->collection    = $collection;
+        $this->translator    = $translator;
         $this->configuration = $configuration;
     }
 
@@ -114,6 +119,7 @@ class AddonBinder
                 $slug
             ) . studly_case($type);
 
+        /* @var Addon|Module|Extension $addon */
         $addon = app($addon)
             ->setPath($path)
             ->setType($type)
@@ -121,14 +127,13 @@ class AddonBinder
             ->setVendor($vendor);
 
         // If the addon supports states - set the state now.
-        if ($addon instanceof Module || $addon instanceof Extension) {
-            $addon
-                ->setInstalled(in_array($addon->getNamespace(), $installed))
-                ->setEnabled(in_array($addon->getNamespace(), $enabled));
+        if ($addon->getType() === 'module' || $addon->getType() === 'extension') {
+            $addon->setInstalled(in_array($addon->getNamespace(), $installed));
+            $addon->setEnabled(in_array($addon->getNamespace(), $enabled));
         }
 
-        $this->container->instance(get_class($addon), $addon);
-        $this->container->instance($addon->getNamespace(), $addon);
+        $this->container->alias($addon->getNamespace(), $alias = get_class($addon));
+        $this->container->instance($alias, $addon);
 
         /**
          * Load addon configuration before running
@@ -139,10 +144,26 @@ class AddonBinder
 
         // Continue loading things.
         $this->provider->register($addon);
-        $this->integrator->register($addon);
 
-        if ($addon instanceof Plugin) {
-            $this->twig->addExtension($addon);
+        // Add the view / translation namespaces.
+        $this->views->addNamespace($addon->getNamespace(), $addon->getPath('resources/views'));
+        $this->translator->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
+
+        /**
+         * If the addon is a plugin then
+         * load it into Twig when appropriate.
+         */
+        if ($addon->getType() === 'plugin') {
+
+            $this->events->listen(
+                'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
+                function (RegisteringTwigPlugins $event) use ($addon) {
+
+                    $twig = $event->getTwig();
+
+                    $twig->addExtension($addon);
+                }
+            );
         }
 
         $this->collection->put($addon->getNamespace(), $addon);

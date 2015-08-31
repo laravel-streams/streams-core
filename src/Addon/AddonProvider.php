@@ -10,7 +10,6 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Router;
-use TwigBridge\Bridge;
 
 /**
  * Class AddonProvider
