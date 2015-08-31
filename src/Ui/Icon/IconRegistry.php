@@ -111,6 +111,7 @@ class IconRegistry
         'star'                 => 'fa fa-star',
         'code'                 => 'fa fa-code',
         'save'                 => 'fa fa-save',
+        'play'                 => 'fa fa-play',
         'plus'                 => 'fa fa-plus',
         'bars'                 => 'fa fa-bars',
         'cogs'                 => 'fa fa-cogs',
