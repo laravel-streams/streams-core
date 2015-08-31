@@ -32,7 +32,7 @@ class EloquentQueryBuilder extends Builder
     public function get($columns = ['*'])
     {
         $this->orderByDefault();
-        $this->rememberIndex();
+        /*$this->rememberIndex();
 
         if ($this->model->getCacheMinutes()) {
             return app('cache')->remember(
@@ -42,7 +42,7 @@ class EloquentQueryBuilder extends Builder
                     return parent::get($columns);
                 }
             );
-        }
+        }*/
 
         return parent::get($columns);
     }

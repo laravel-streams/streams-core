@@ -11,6 +11,7 @@ use Anomaly\Streams\Platform\Ui\Grid\Command\PostGrid;
 use Anomaly\Streams\Platform\Ui\Grid\Command\SetGridResponse;
 use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Contract\ItemInterface;
 use Anomaly\Streams\Platform\Ui\Grid\Contract\GridRepositoryInterface;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
@@ -65,11 +66,22 @@ class GridBuilder
     protected $grid;
 
     /**
-     * @param Grid $grid
+     * The config repository.
+     *
+     * @var Repository
      */
-    function __construct(Grid $grid)
+    protected $config;
+
+    /**
+     * Create a new GridBuilder instance.
+     *
+     * @param Grid       $grid
+     * @param Repository $config
+     */
+    function __construct(Grid $grid, Repository $config)
     {
-        $this->grid = $grid;
+        $this->grid   = $grid;
+        $this->config = $config;
     }
 
     /**
@@ -122,6 +134,28 @@ class GridBuilder
     public function getGrid()
     {
         return $this->grid;
+    }
+
+    /**
+     * Get the config repository.
+     *
+     * @return Repository
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * Get a config value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getConfigValue($key, $default = null)
+    {
+        return $this->config->get($key, $default);
     }
 
     /**

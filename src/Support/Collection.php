@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Illuminate\Contracts\Config\Repository;
+
 /**
  * Class Collection
  *
@@ -10,6 +12,25 @@
  */
 class Collection extends \Illuminate\Support\Collection
 {
+
+    /**
+     * The config repository.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
+     * Create a new Collection instance.
+     *
+     * @param array $items
+     */
+    public function __construct($items = [])
+    {
+        $this->config = config();
+
+        parent::__construct($items);
+    }
 
     /**
      * Return shuffled items.
@@ -65,5 +86,27 @@ class Collection extends \Illuminate\Support\Collection
     public function only(array $keys)
     {
         return array_intersect_key($this->items, $keys);
+    }
+
+    /**
+     * Get a field with the __get accessor.
+     *
+     * @param $name
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        return $this->get($name);
+    }
+
+    /**
+     * Get a field with the __call accessor.
+     *
+     * @param $name
+     * @param $arguments
+     */
+    function __call($name, $arguments)
+    {
+        return $this->get($name);
     }
 }

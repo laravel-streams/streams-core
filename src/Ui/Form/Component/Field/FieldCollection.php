@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Support\Collection;
 
 /**
  * Class FieldCollection
@@ -25,11 +25,13 @@ class FieldCollection extends Collection
     {
         $fields = [];
 
+        $locale = $this->config->get('app.fallback_locale');
+
         /* @var FieldType $item */
         foreach ($this->items as $item) {
 
             // If it's the base local then add it.
-            if ($item->getLocale() == config('app.fallback_locale')) {
+            if ($item->getLocale() == $locale) {
                 $fields[] = $item;
             }
 
@@ -247,28 +249,5 @@ class FieldCollection extends Collection
             },
             $this->all()
         );
-    }
-
-    /**
-     * Get a field with the __get accessor.
-     *
-     * @param $name
-     * @return FieldType
-     */
-    public function __get($name)
-    {
-        return $this->get($name);
-    }
-
-    /**
-     * Get a field with the __call accessor.
-     *
-     * @param $name
-     * @param $arguments
-     * @return FieldType
-     */
-    function __call($name, $arguments)
-    {
-        return $this->get($name);
     }
 }

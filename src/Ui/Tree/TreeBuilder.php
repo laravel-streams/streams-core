@@ -11,6 +11,7 @@ use Anomaly\Streams\Platform\Ui\Tree\Command\PostTree;
 use Anomaly\Streams\Platform\Ui\Tree\Command\SetTreeResponse;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
 use Anomaly\Streams\Platform\Ui\Tree\Contract\TreeRepositoryInterface;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
@@ -65,11 +66,22 @@ class TreeBuilder
     protected $tree;
 
     /**
-     * @param Tree $tree
+     * The config repository.
+     *
+     * @var Repository
      */
-    function __construct(Tree $tree)
+    protected $config;
+
+    /**
+     * Create a new TreeBuilder instance.
+     *
+     * @param Tree       $tree
+     * @param Repository $config
+     */
+    function __construct(Tree $tree, Repository $config)
     {
-        $this->tree = $tree;
+        $this->tree   = $tree;
+        $this->config = $config;
     }
 
     /**
@@ -122,6 +134,28 @@ class TreeBuilder
     public function getTree()
     {
         return $this->tree;
+    }
+
+    /**
+     * Get the config repository.
+     *
+     * @return Repository
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * Get a config value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getConfigValue($key, $default = null)
+    {
+        return $this->config->get($key, $default);
     }
 
     /**

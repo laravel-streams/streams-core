@@ -9,6 +9,7 @@ use Anomaly\Streams\Platform\Ui\Table\Command\PostTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\SetTableResponse;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
@@ -105,13 +106,22 @@ class TableBuilder
     protected $table;
 
     /**
+     * The config repository.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
      * Create a new TableBuilder instance.
      *
-     * @param Table $table
+     * @param Table      $table
+     * @param Repository $config
      */
-    public function __construct(Table $table)
+    public function __construct(Table $table, Repository $config)
     {
-        $this->table = $table;
+        $this->table  = $table;
+        $this->config = $config;
     }
 
     /**
@@ -174,6 +184,28 @@ class TableBuilder
     public function getTable()
     {
         return $this->table;
+    }
+
+    /**
+     * Get the config repository.
+     *
+     * @return Repository
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * Get a config value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getConfigValue($key, $default = null)
+    {
+        return $this->config->get($key, $default);
     }
 
     /**
