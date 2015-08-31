@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\BuildForms;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\HandleErrors;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\MergeFields;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\PostForms;
+use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class MultipleFormBuilder
@@ -36,12 +37,14 @@ class MultipleFormBuilder extends FormBuilder
      *
      * @param Form           $form
      * @param FormCollection $forms
+     * @param Repository     $config
      */
-    public function __construct(Form $form, FormCollection $forms)
+    public function __construct(Form $form, FormCollection $forms, Repository $config)
     {
-        $this->forms = $forms;
+        $this->forms  = $forms;
+        $this->config = $config;
 
-        parent::__construct($form);
+        parent::__construct($form, $config);
     }
 
     /**
