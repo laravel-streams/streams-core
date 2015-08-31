@@ -16,7 +16,7 @@ class AdminController extends BaseController
      */
     public function __construct()
     {
-
+        dd(number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 2) . ' s');
         /**
          * The authenticate middleware in
          * Laravel is re-bound in the Users

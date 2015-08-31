@@ -10,12 +10,13 @@ use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
 use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
 use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
 use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
+use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\ServiceProvider;
-use TwigBridge\Bridge;
 
 /**
  * Class StreamsServiceProvider
@@ -174,9 +175,9 @@ class StreamsServiceProvider extends ServiceProvider
      * Boot the service provider.
      *
      * @param AddonManager $manager
-     * @param Bridge       $twig
+     * @param Dispatcher   $events
      */
-    public function boot(AddonManager $manager, Bridge $twig)
+    public function boot(AddonManager $manager, Dispatcher $events)
     {
         $this->dispatch(new SetCoreConnection());
         $this->dispatch(new ConfigureCommandBus());
@@ -190,13 +191,21 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new AddViewNamespaces());
 
         $this->app->booted(
-            function () use ($manager, $twig) {
+            function () use ($manager, $events) {
 
-                foreach ($this->plugins as $plugin) {
-                    $twig->addExtension($this->app->make($plugin));
-                }
+                $events->listen(
+                    'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
+                    function (RegisteringTwigPlugins $event) {
 
-                $twig->addExtension(new MarkdownExtension(new MichelfMarkdownEngine()));
+                        $twig = $event->getTwig();
+
+                        foreach ($this->plugins as $plugin) {
+                            $twig->addExtension($this->app->make($plugin));
+                        }
+
+                        $twig->addExtension(new MarkdownExtension(new MichelfMarkdownEngine()));
+                    }
+                );
 
                 $manager->register();
             }

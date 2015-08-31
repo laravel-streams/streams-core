@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
+use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Anomaly\Streams\Platform\View\ViewMobileOverrides;
 use Anomaly\Streams\Platform\View\ViewOverrides;
 use Illuminate\Console\Scheduling\Schedule;
@@ -28,13 +29,6 @@ class AddonProvider
      * @var array
      */
     protected $cached = [];
-
-    /**
-     * The Twig instance.
-     *
-     * @var Bridge
-     */
-    protected $twig;
 
     /**
      * The router instance.
@@ -88,14 +82,12 @@ class AddonProvider
     /**
      * Create a new AddonProvider instance.
      *
-     * @param Bridge      $twig
      * @param Router      $router
      * @param Dispatcher  $events
      * @param Schedule    $schedule
      * @param Application $application
      */
     public function __construct(
-        Bridge $twig,
         Router $router,
         Dispatcher $events,
         Schedule $schedule,
@@ -104,7 +96,6 @@ class AddonProvider
         MiddlewareCollection $middlewares,
         ViewMobileOverrides $viewMobileOverrides
     ) {
-        $this->twig                = $twig;
         $this->router              = $router;
         $this->events              = $events;
         $this->schedule            = $schedule;
@@ -153,7 +144,9 @@ class AddonProvider
         $this->registerMiddleware($provider);
         $this->registerAdditionalRoutes($provider);
 
-        $this->application->register($provider);
+        if (method_exists($provider, 'register')) {
+            $this->application->call([$provider, 'register']);
+        }
     }
 
     /**
@@ -176,7 +169,16 @@ class AddonProvider
     protected function registerCommands(AddonServiceProvider $provider)
     {
         if ($commands = $provider->getCommands()) {
-            $provider->commands($commands);
+
+            // To register the commands with Artisan, we will grab each of the arguments
+            // passed into the method and listen for Artisan "start" event which will
+            // give us the Artisan console instance which we will give commands to.
+            $this->events->listen(
+                'artisan.start',
+                function (\Illuminate\Console\Application $artisan) use ($commands) {
+                    $artisan->resolveCommands($commands);
+                }
+            );
         }
     }
 
@@ -286,9 +288,17 @@ class AddonProvider
             return;
         }
 
-        foreach ($plugins as $plugin) {
-            $this->twig->addExtension(app($plugin));
-        }
+        $this->events->listen(
+            'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
+            function (RegisteringTwigPlugins $event) use ($plugins) {
+
+                $twig = $event->getTwig();
+
+                foreach ($plugins as $plugin) {
+                    $twig->addExtension(app($plugin));
+                }
+            }
+        );
     }
 
     /**
