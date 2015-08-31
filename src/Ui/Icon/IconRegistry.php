@@ -71,6 +71,7 @@ class IconRegistry
         'cloud-upload'         => 'fa fa-cloud-upload',
         'times-circle'         => 'fa fa-times-circle',
         'times-square'         => 'fa fa-times-square',
+        'addon'                => 'fa fa-puzzle-piece',
         'newspaper'            => 'fa fa-newspaper-o',
         'plus-circle'          => 'fa fa-plus-circle',
         'plus-square'          => 'fa fa-plus-square',
