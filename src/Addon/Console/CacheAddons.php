@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Console;
 
 use Anomaly\Streams\Platform\Addon\AddonPaths;
-use Anomaly\Streams\Platform\Addon\Console\Command\CacheAddonsPaths;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 

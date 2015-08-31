@@ -121,6 +121,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Illuminate\Console\Scheduling\Schedule'                                       => 'Illuminate\Console\Scheduling\Schedule',
         'Anomaly\Streams\Platform\Application\Application'                             => 'Anomaly\Streams\Platform\Application\Application',
         'Anomaly\Streams\Platform\Model\EloquentObserver'                              => 'Anomaly\Streams\Platform\Model\EloquentObserver',
+        'Anomaly\Streams\Platform\Addon\AddonLoader'                                   => 'Anomaly\Streams\Platform\Addon\AddonLoader',
         'Anomaly\Streams\Platform\Addon\AddonBinder'                                   => 'Anomaly\Streams\Platform\Addon\AddonBinder',
         'Anomaly\Streams\Platform\Addon\AddonManager'                                  => 'Anomaly\Streams\Platform\Addon\AddonManager',
         'Anomaly\Streams\Platform\Addon\AddonCollection'                               => 'Anomaly\Streams\Platform\Addon\AddonCollection',
