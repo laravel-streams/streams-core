@@ -16,7 +16,7 @@ class AdminController extends BaseController
      */
     public function __construct()
     {
-        
+
         /**
          * The authenticate middleware in
          * Laravel is re-bound in the Users
