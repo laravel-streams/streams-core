@@ -108,14 +108,11 @@ class AddonManager
          * First load all the addons
          * so they're available.
          */
-        if (env('APP_DEBUG')) {
-
-            foreach ($paths as $path) {
-                $this->loader->load($path);
-            }
-
-            $this->loader->register();
+        foreach ($paths as $path) {
+            $this->loader->load($path);
         }
+
+        $this->loader->register();
 
         /**
          * Then register all of the addons now

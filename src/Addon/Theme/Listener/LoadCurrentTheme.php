@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Theme\Listener;
 
-use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
@@ -87,7 +86,7 @@ class LoadCurrentTheme
             $theme = $this->themes->get($this->config->get('streams::themes.standard.active'));
         }
 
-        if ($theme instanceof Theme) {
+        if ($theme) {
 
             $theme->setActive(true);
             $theme->setCurrent(true);
