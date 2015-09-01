@@ -19,7 +19,6 @@ use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response;
@@ -144,22 +143,13 @@ class FormBuilder
     protected $form;
 
     /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * Crate a new FormBuilder instance.
      *
-     * @param Form       $form
-     * @param Repository $config
+     * @param Form $form
      */
-    public function __construct(Form $form, Repository $config)
+    public function __construct(Form $form)
     {
-        $this->form   = $form;
-        $this->config = $config;
+        $this->form = $form;
     }
 
     /**
@@ -281,28 +271,6 @@ class FormBuilder
     public function getForm()
     {
         return $this->form;
-    }
-
-    /**
-     * Get the config repository.
-     *
-     * @return Repository
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * Get a config value.
-     *
-     * @param      $key
-     * @param null $default
-     * @return mixed
-     */
-    public function getConfigValue($key, $default = null)
-    {
-        return $this->config->get($key, $default);
     }
 
     /**
