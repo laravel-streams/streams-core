@@ -254,6 +254,10 @@ class Image
      */
     protected function getCachePath()
     {
+        if (starts_with($this->getImage(), ['//', 'http'])) {
+            return $this->getImage();
+        }
+        
         $filename = md5(var_export([md5($this->getImage()), $this->applied], true)) . '.' . $this->getExtension();
 
         $path = 'assets/' . $this->application->getReference() . '/cache/' . $filename;
