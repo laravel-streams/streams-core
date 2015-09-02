@@ -66,11 +66,6 @@ class EloquentObserver extends Observer
     {
         $model->flushCache();
 
-        /* @var Model $translation */
-        foreach ($model->translations as $translation) {
-            $translation->delete();
-        }
-
         $this->events->fire(new ModelsWereUpdated($model));
     }
 
@@ -82,6 +77,11 @@ class EloquentObserver extends Observer
     public function deleted(EloquentModel $model)
     {
         $model->flushCache();
+
+        /* @var Model $translation */
+        foreach ($model->translations as $translation) {
+            $translation->delete();
+        }
 
         $this->events->fire(new ModelWasDeleted($model));
     }
