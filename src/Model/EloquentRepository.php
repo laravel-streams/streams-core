@@ -81,7 +81,7 @@ class EloquentRepository implements EloquentRepositoryInterface
                 continue;
             }
 
-            call_user_func_array([$query, $method], $arguments);
+            call_user_func_array([$query, $method], [$arguments]);
         }
 
         if ($paginator === 'simple') {
