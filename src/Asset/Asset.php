@@ -187,6 +187,10 @@ class Asset
             $this->add($collection, $collection, $filters);
         }
 
+        if (!$path = $this->getPath($collection, $filters)) {
+            return null;
+        }
+
         return url($this->getPath($collection, $filters));
     }
 
@@ -317,6 +321,10 @@ class Asset
 
         if ($this->shouldPublish($path, $collection, $filters)) {
             $this->publish($path, $collection, $filters);
+        }
+
+        if (filesize($path) == 0) {
+            return null;
         }
 
         return $path;

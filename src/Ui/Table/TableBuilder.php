@@ -106,22 +106,13 @@ class TableBuilder
     protected $table;
 
     /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * Create a new TableBuilder instance.
      *
-     * @param Table      $table
-     * @param Repository $config
+     * @param Table $table
      */
-    public function __construct(Table $table, Repository $config)
+    public function __construct(Table $table)
     {
-        $this->table  = $table;
-        $this->config = $config;
+        $this->table = $table;
     }
 
     /**
@@ -184,28 +175,6 @@ class TableBuilder
     public function getTable()
     {
         return $this->table;
-    }
-
-    /**
-     * Get the config repository.
-     *
-     * @return Repository
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * Get a config value.
-     *
-     * @param      $key
-     * @param null $default
-     * @return mixed
-     */
-    public function getConfigValue($key, $default = null)
-    {
-        return $this->config->get($key, $default);
     }
 
     /**

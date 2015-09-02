@@ -259,10 +259,11 @@ interface EntryInterface
     /**
      * Get a raw unmodified attribute.
      *
-     * @param $key
+     * @param      $key
+     * @param bool $process
      * @return mixed|null
      */
-    public function getRawAttribute($key);
+    public function getRawAttribute($key, $process = true);
 
     /**
      * Set a raw unmodified attribute.

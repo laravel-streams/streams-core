@@ -22,8 +22,8 @@ class FieldTranslator
     {
         $translations = [];
 
-        $defaultLocale  = $builder->getConfigValue('app.fallback_locale');
-        $enabledLocales = $builder->getConfigValue('streams::locales.enabled');
+        $defaultLocale  = config('app.fallback_locale');
+        $enabledLocales = config('streams::locales.enabled');
 
         /**
          * For each field if the assignment is translatable

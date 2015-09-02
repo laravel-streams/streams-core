@@ -57,6 +57,8 @@ class SeparatorFilter implements FilterInterface
      */
     public function filterDump(AssetInterface $asset)
     {
-        $asset->setContent($asset->getContent() . $this->separator);
+        if ($content = $asset->getContent()) {
+            $asset->setContent($content . $this->separator);
+        }
     }
 }

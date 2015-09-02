@@ -30,7 +30,7 @@ class ExceptionHandler extends Handler
         if ($this->isHttpException($e)) {
             return $this->renderHttpException($e);
         } elseif (!config('app.debug')) {
-            return response()->view("streams::errors.500", ['message' => $e->getMessage()]);
+            return response()->setStatusCode(500)->view("streams::errors.500", ['message' => $e->getMessage()]);
         } else {
             return parent::render($request, $e);
         }

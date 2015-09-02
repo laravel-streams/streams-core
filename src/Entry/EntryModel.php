@@ -253,11 +253,16 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Get a raw unmodified attribute.
      *
-     * @param $key
+     * @param      $key
+     * @param bool $process
      * @return mixed|null
      */
-    public function getRawAttribute($key)
+    public function getRawAttribute($key, $process = true)
     {
+        if (!$process) {
+            return $this->getAttributeFromArray($key);
+        }
+
         return parent::getAttribute($key);
     }
 
@@ -415,7 +420,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function lastModified()
     {
-        return $this->last_modified ?: $this->created_at;
+        return $this->updated_at ?: $this->created_at;
     }
 
     /**

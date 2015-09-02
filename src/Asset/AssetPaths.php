@@ -61,7 +61,7 @@ class AssetPaths
                 throw new \Exception("Path hint [{$namespace}::{$path}] does not exist!");
             }
 
-            return $this->paths[$namespace] . '/' . $path;
+            return rtrim($this->paths[$namespace], '/') . '/' . $path;
         }
 
         return $path;
