@@ -44,6 +44,11 @@ class EntryStreamParser
     protected function parseStream(StreamInterface $stream, &$string)
     {
         foreach ($stream->getAttributes() as $key => $value) {
+
+            if (is_string($value)) {
+                $value = addslashes($value);
+            }
+
             $string .= "\n'{$key}' => '{$value}',";
         }
     }
@@ -78,6 +83,10 @@ class EntryStreamParser
         foreach ($assignment->getAttributes() as $key => $value) {
             $value = $assignment->getAttribute($key);
 
+            if (is_string($value)) {
+                $value = addslashes($value);
+            }
+
             if (is_array($value)) {
                 $value = serialize($value);
             }
@@ -106,6 +115,10 @@ class EntryStreamParser
 
         foreach ($field->getAttributes() as $key => $value) {
             $value = $field->getAttribute($key);
+
+            if (is_string($value)) {
+                $value = addslashes($value);
+            }
 
             if (is_array($value)) {
                 $value = serialize($value);
@@ -148,7 +161,12 @@ class EntryStreamParser
         $string .= "\n[";
 
         foreach ($translation->getAttributes() as $key => $value) {
+
             $value = $translation->getAttribute($key);
+
+            if (is_string($value)) {
+                $value = addslashes($value);
+            }
 
             $string .= "\n'{$key}' => '{$value}',";
         }
