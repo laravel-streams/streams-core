@@ -146,7 +146,7 @@ class PluginQuery
                 continue;
             }
 
-            call_user_func([$query, $method], $arguments);
+            call_user_func_array([$query, $method], $arguments);
         }
 
         return $query;
