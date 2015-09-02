@@ -312,6 +312,10 @@ class Image
     {
         $image = $this->makeImage();
 
+        if (!$image) {
+            return null;
+        }
+
         foreach ($this->applied as $method => $arguments) {
             if (in_array($method, $this->getAllowedMethods())) {
                 call_user_func_array([$image, $method], $arguments);
