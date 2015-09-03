@@ -25,12 +25,35 @@ class AssignmentCollection extends EloquentCollection
     public function findByFieldSlug($slug)
     {
         foreach ($this->items as $item) {
-            if ($item instanceof AssignmentInterface && $item->getFieldSlug() == $slug) {
+            /* @var AssignmentInterface $item */
+            if ($item->getFieldSlug() == $slug) {
                 return $item;
             }
         }
 
         return null;
+    }
+
+
+    /**
+     * Find all fields using
+     * the provided field type.
+     *
+     * @param $namespace
+     * @return static
+     */
+    public function findAllByFieldType($namespace)
+    {
+        return new static(
+            array_filter(
+                array_map(
+                    function (AssignmentInterface $assignment) use ($namespace) {
+                        return $assignment->getAttribute('type') == $namespace;
+                    },
+                    $this->items
+                )
+            )
+        );
     }
 
     /**

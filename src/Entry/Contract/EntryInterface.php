@@ -49,6 +49,13 @@ interface EntryInterface
     public function getTitle();
 
     /**
+     * Get the title key.
+     *
+     * @return string
+     */
+    public function getTitleName();
+
+    /**
      * Get the stream.
      *
      * @return StreamInterface
