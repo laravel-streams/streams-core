@@ -32,17 +32,21 @@ class EloquentQueryBuilder extends Builder
     public function get($columns = ['*'])
     {
         $this->orderByDefault();
-        /*$this->rememberIndex();
 
-        if ($this->model->getCacheMinutes()) {
-            return app('cache')->remember(
-                $this->getCacheKey(),
-                $this->model->getCacheMinutes(),
-                function () use ($columns) {
-                    return parent::get($columns);
-                }
-            );
-        }*/
+        if (!env('APP_DEBUG')) {
+
+            $this->rememberIndex();
+
+            if ($this->model->getCacheMinutes()) {
+                return app('cache')->remember(
+                    $this->getCacheKey(),
+                    $this->model->getCacheMinutes(),
+                    function () use ($columns) {
+                        return parent::get($columns);
+                    }
+                );
+            }
+        }
 
         return parent::get($columns);
     }
