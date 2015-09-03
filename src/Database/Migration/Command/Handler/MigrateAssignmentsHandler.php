@@ -84,6 +84,10 @@ class MigrateAssignmentsHandler
                 $assignment = [];
             }
 
+            if (!is_array($assignment)) {
+                throw new \Exception('The assignment must be an array or field_slug value.');
+            }
+
             /**
              * If the label exists in the base array
              * then move it to the translated array

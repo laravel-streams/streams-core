@@ -79,8 +79,10 @@ class EloquentObserver extends Observer
         $model->flushCache();
 
         /* @var Model $translation */
-        foreach ($model->translations as $translation) {
-            $translation->delete();
+        if ($model->isTranslatable()) {
+            foreach ($model->translations as $translation) {
+                $translation->delete();
+            }
         }
 
         $this->events->fire(new ModelWasDeleted($model));
