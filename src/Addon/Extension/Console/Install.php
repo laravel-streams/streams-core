@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension\Console;
 
+use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionManager;
 use Illuminate\Console\Command;
@@ -38,7 +39,14 @@ class Install extends Command
      */
     public function fire(ExtensionManager $manager, ExtensionCollection $extensions)
     {
-        $manager->install($extension = $extensions->get($this->argument('extension')));
+        /* @var Extension $extension */
+        $extension = $extensions->get($this->argument('extension'));
+
+        $extension->fire('installing');
+
+        $manager->install($extension);
+
+        $extension->fire('installed');
 
         $this->info(trans($extension->getName()) . ' installed successfully!');
     }

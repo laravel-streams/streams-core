@@ -2,8 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
-use Anomaly\Streams\Platform\Asset\Asset;
-use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Support\Configurator;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -64,16 +63,24 @@ class AddonIntegrator
     protected $translator;
 
     /**
+     * The configurator utility.
+     *
+     * @var Configurator
+     */
+    protected $configurator;
+
+    /**
      * Create a new AddonIntegrator instance.
      *
-     * @param Asset           $asset
-     * @param Image           $image
      * @param Factory         $views
      * @param Dispatcher      $events
      * @param Container       $container
      * @param Translator      $translator
      * @param AddonProvider   $provider
+     * @param Configurator    $configurator
      * @param AddonCollection $collection
+     * @internal param Asset $asset
+     * @internal param Image $image
      */
     public function __construct(
         Factory $views,
@@ -81,14 +88,16 @@ class AddonIntegrator
         Container $container,
         Translator $translator,
         AddonProvider $provider,
+        Configurator $configurator,
         AddonCollection $collection
     ) {
-        $this->views      = $views;
-        $this->events     = $events;
-        $this->provider   = $provider;
-        $this->container  = $container;
-        $this->collection = $collection;
-        $this->translator = $translator;
+        $this->views        = $views;
+        $this->events       = $events;
+        $this->provider     = $provider;
+        $this->container    = $container;
+        $this->collection   = $collection;
+        $this->translator   = $translator;
+        $this->configurator = $configurator;
     }
 
     /**
@@ -121,8 +130,16 @@ class AddonIntegrator
             $addon->setEnabled(in_array($addon->getNamespace(), $enabled));
         }
 
+        // Bind to the service container.
         $this->container->alias($addon->getNamespace(), $alias = get_class($addon));
         $this->container->instance($alias, $addon);
+
+        // Merge in addon configuration.
+        $this->configurator->addNamespace($addon->getNamespace(), $addon->getPath('resources/config'));
+        $this->configurator->mergeNamespace(
+            $addon->getNamespace(),
+            base_path('config/addon/' . $addon->getSlug() . '-' . $addon->getType())
+        );
 
         // Continue loading things.
         $this->provider->register($addon);
