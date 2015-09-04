@@ -10,7 +10,7 @@ class {addon} extends Module
      *
      * @var string
      */
-    protected $navigation = 'addon';
+    protected $icon = 'addon';
 
     /**
      * The module sections.
