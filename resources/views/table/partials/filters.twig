@@ -10,10 +10,13 @@
         {% endfor %}
 
         <button type="submit" class="btn btn-success">
-            {{ icon('fa fa-filter') }}
-            {{ trans('streams::button.filter') }}
+            {{ icon(table.options.filters.filter_icon ?: 'filter') }}
+            {{ trans(table.options.filters.filter_text ?: 'streams::button.filter') }}
         </button>
-        <a href="{{ url_current() }}" class="btn btn-default">{{ trans('streams::button.clear') }}</a>
+        <a href="{{ url_current() }}" class="btn btn-default">
+            {{ icon(table.options.filters.clear_icon ? table.options.filters.clear_icon) }}
+            {{ trans(table.options.filters.clear_text ?: 'streams::button.clear') }}
+        </a>
     </form>
 
 {% endif %}

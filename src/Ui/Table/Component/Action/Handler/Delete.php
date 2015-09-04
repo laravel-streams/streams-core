@@ -17,7 +17,7 @@ class Delete extends ActionHandler implements SelfHandling
 {
 
     /**
-     * Save the order of the entries.
+     * Delete the selected entries.
      *
      * @param TableBuilder $builder
      * @param array        $selected

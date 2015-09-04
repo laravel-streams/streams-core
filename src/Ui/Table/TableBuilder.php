@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Ui\Table\Command\LoadTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\MakeTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\PostTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\SetTableResponse;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Illuminate\Contracts\Config\Repository;
@@ -548,6 +549,17 @@ class TableBuilder
     public function getTableFilters()
     {
         return $this->table->getFilters();
+    }
+
+    /**
+     * Get the table filter.
+     *
+     * @param $key
+     * @return FilterInterface
+     */
+    public function getTableFilter($key)
+    {
+        return $this->table->getFilter($key);
     }
 
     /**

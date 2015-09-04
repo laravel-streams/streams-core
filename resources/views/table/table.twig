@@ -35,11 +35,15 @@
 
         </div>
     {% else %}
-        <div class="panel">
-            <div class="panel-body">
-                {{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}
+
+        {% block no_results %}
+            <div class="panel">
+                <div class="panel-body">
+                    {{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}
+                </div>
             </div>
-        </div>
+        {% endblock %}
+
     {% endif %}
 
 </div>

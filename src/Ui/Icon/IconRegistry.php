@@ -92,6 +92,7 @@ class IconRegistry
         'refresh'              => 'fa fa-refresh',
         'warning'              => 'fa fa-warning',
         'unlock'               => 'fa fa-unlock',
+        'filter'               => 'fa fa-filter',
         'repeat'               => 'fa fa-repeat',
         'laptop'               => 'fa fa-laptop',
         'upload'               => 'fa fa-upload',
