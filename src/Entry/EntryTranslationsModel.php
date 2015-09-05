@@ -157,16 +157,4 @@ class EntryTranslationsModel extends EloquentModel
     {
         return call_user_func_array([$this->getParent(), $name], $arguments);
     }
-
-    /**
-     * Get the attribute from the parent
-     * if it does not exist here.
-     *
-     * @param string $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        return $this->getParent()->{$key};
-    }
 }
