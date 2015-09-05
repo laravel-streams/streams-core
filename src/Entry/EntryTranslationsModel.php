@@ -155,15 +155,18 @@ class EntryTranslationsModel extends EloquentModel
      */
     function __call($name, $arguments)
     {
-        if (method_exists($this, $name)) {
-            return call_user_func_array([$this, $name], $arguments);
-        }
+        return call_user_func_array([$this->getParent(), $name], $arguments);
+    }
 
-        if ($this->getParent() && method_exists($this->getParent(), $name)) {
-            return call_user_func_array([$this->getParent(), $name], $arguments);
-        }
-
-        // Let it throw the exception.
-        return call_user_func_array([$this, $name], $arguments);
+    /**
+     * Get the attribute from the parent
+     * if it does not exist here.
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        return $this->getParent()->{$key};
     }
 }

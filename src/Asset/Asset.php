@@ -323,7 +323,7 @@ class Asset
             $this->publish($path, $collection, $filters);
         }
 
-        if (filesize($path) == 0) {
+        if (file_exists($path) && filesize($path) == 0) {
             return null;
         }
 
