@@ -38,7 +38,7 @@ class EntryTranslationsModel extends EloquentModel
      */
     public function getLocale()
     {
-        return $this->{$this->getLocaleKey()};
+        return $this->getAttributeFromArray($this->getLocaleKey());
     }
 
     /**
