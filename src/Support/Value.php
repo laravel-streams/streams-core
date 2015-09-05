@@ -73,7 +73,7 @@ class Value
          * If the value is a view path then return a view.
          */
         if ($view = array_get($parameters, 'view')) {
-            return view($view, compact('table', $term, 'value'));
+            return view($view, ['value' => $value, $term => $entry]);
         }
 
         /**
@@ -103,8 +103,8 @@ class Value
                 $entry = $this->decorator->decorate($entry);
 
                 $value = data_get(
-                    compact('entry'),
-                    str_replace("{$term}.{$match[1]}.", 'entry.' . camel_case($match[1]) . '.', $value)
+                    [$term => $entry],
+                    str_replace("{$term}.{$match[1]}.", $term . '.' . camel_case($match[1]) . '.', $value)
                 );
             }
         }
@@ -129,7 +129,7 @@ class Value
          * By default we can just pass the value through
          * the evaluator utility and be done with it.
          */
-        $value = $this->evaluator->evaluate($value, compact($term));
+        $value = $this->evaluator->evaluate($value, [$term => $entry]);
 
         /**
          * Lastly, prepare the entry to be
@@ -144,7 +144,7 @@ class Value
         /**
          * Parse the value with the entry.
          */
-        $value = $this->parser->render($parameters['wrapper'], compact('value', $term));
+        $value = $this->parser->render($parameters['wrapper'], ['value' => $value, $term => $entry]);
 
         /**
          * If the value looks like a language
