@@ -2,8 +2,17 @@
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use StringTemplate\Engine;
 
+/**
+ * Class Value
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Support
+ */
 class Value
 {
 
@@ -43,16 +52,28 @@ class Value
     }
 
     /**
-     * @param $value
+     * Make a value from the parameters and entry.
+     *
+     * @param $parameters
      * @param $payload
+     * @return mixed|string
      */
-    public function make($value, $entry)
+    public function make($parameters, $entry, $term = 'entry')
     {
+        if (is_string($parameters)) {
+            $parameters = [
+                'wrapper' => '{value}',
+                'value'   => $parameters
+            ];
+        }
+
+        $value = array_get($parameters, 'value');
+
         /**
          * If the value is a view path then return a view.
          */
-        if ($view = array_get($column, 'view')) {
-            return view($view, compact('table', 'entry', 'value'));
+        if ($view = array_get($parameters, 'view')) {
+            return view($view, compact('table', $term, 'value'));
         }
 
         /**
@@ -73,7 +94,7 @@ class Value
          * If the value matches a field with a relation
          * then parse the string using the eager loaded entry.
          */
-        if (is_string($value) && preg_match("/^entry.([a-zA-Z\\_]+)/", $value, $match)) {
+        if (is_string($value) && preg_match("/^{$term}.([a-zA-Z\\_]+)/", $value, $match)) {
 
             $fieldSlug = camel_case($match[1]);
 
@@ -83,7 +104,7 @@ class Value
 
                 $value = data_get(
                     compact('entry'),
-                    str_replace("entry.{$match[1]}.", 'entry.' . camel_case($match[1]) . '.', $value)
+                    str_replace("{$term}.{$match[1]}.", 'entry.' . camel_case($match[1]) . '.', $value)
                 );
             }
         }
@@ -98,7 +119,7 @@ class Value
         /**
          * If the value matches a method in the presenter.
          */
-        if (is_string($value) && preg_match("/^entry.([a-zA-Z\\_]+)/", $value, $match)) {
+        if (is_string($value) && preg_match("/^{$term}.([a-zA-Z\\_]+)/", $value, $match)) {
             if (method_exists($entry, camel_case($match[1]))) {
                 $value = $entry->{camel_case($match[1])}();
             }
@@ -108,7 +129,7 @@ class Value
          * By default we can just pass the value through
          * the evaluator utility and be done with it.
          */
-        $value = $this->evaluator->evaluate($value, compact('table', 'entry'));
+        $value = $this->evaluator->evaluate($value, compact($term));
 
         /**
          * Lastly, prepare the entry to be
@@ -123,7 +144,7 @@ class Value
         /**
          * Parse the value with the entry.
          */
-        $value = $this->parser->render($column['wrapper'], compact('value', 'entry'));
+        $value = $this->parser->render($parameters['wrapper'], compact('value', $term));
 
         /**
          * If the value looks like a language
