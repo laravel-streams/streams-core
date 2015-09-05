@@ -66,7 +66,7 @@ class FieldFactory
         /* @var EntryInterface $entry */
         if ($stream && $entry instanceof EntryInterface && $entry->hasField(array_get($parameters, 'field'))) {
 
-            $field    = $entry->getFieldType(array_get($parameters, 'field'));
+            $field    = clone($entry->getFieldType(array_get($parameters, 'field')));
             $modifier = $field->getModifier();
 
             $value = array_pull($parameters, 'value');
