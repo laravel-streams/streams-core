@@ -563,6 +563,22 @@ class TableBuilder
     }
 
     /**
+     * Get a table filter value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getTableFilterValue($key, $default = null)
+    {
+        if ($filter = $this->table->getFilter($key)) {
+            return $filter->getValue();
+        }
+
+        return $default;
+    }
+
+    /**
      * Get the table views.
      *
      * @return Component\View\ViewCollection

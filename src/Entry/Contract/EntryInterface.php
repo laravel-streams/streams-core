@@ -77,6 +77,13 @@ interface EntryInterface
     public function getStreamSlug();
 
     /**
+     * Get the entry's stream name.
+     *
+     * @return string
+     */
+    public function getStreamName();
+
+    /**
      * Get the entry's stream prefix.
      *
      * @return string
