@@ -21,7 +21,7 @@ class ActionDefaults
     public function defaults(FormBuilder $builder)
     {
         if ($builder->getActions() === []) {
-            $builder->setActions(['save']);
+            $builder->setActions(['save', 'save_and_edit']);
         }
     }
 }
