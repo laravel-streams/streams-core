@@ -18,6 +18,8 @@ $(function () {
                 left: container.rootGroup.pointer.left - $item.offset().left,
                 top: container.rootGroup.pointer.top - $item.offset().top
             };
+
+            _super($item, container);
         },
         onDrag: function ($item, position) {
             $item.css({
