@@ -14,6 +14,6 @@ return [
     'delete_installer'    => 'The installer module still exists! Please delete it from your server! Leaving it online means control of this site could be granted to somebody else.',
     'create_success'      => ':name created successfully.',
     'edit_success'        => ':name updated successfully.',
-    'confirm_delete'      => 'Are you sure you want to delete?<br><small>This can not be undone.</small>',
-    'prompt_delete'       => 'Are you sure you want to delete?<br><small>Type \"yes\" to confirm.</small>',
+    'confirm_delete'      => '<h3>Are you sure you want to delete?</h3><p>This can not be undone.</p>',
+    'prompt_delete'       => '<h3>Are you sure you want to delete?</h3><p>Type \"yes\" to confirm.</p>',
 ];
