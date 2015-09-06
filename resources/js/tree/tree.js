@@ -1,4 +1,7 @@
 $(function () {
+
+    var adjustment;
+
     var tree = $('ul.tree.sortable').sortable({
         handle: '.handle',
         onDragStart: function ($item, container, _super, event) {
@@ -10,6 +13,17 @@ $(function () {
             $item.addClass('dragged');
 
             $('body').addClass('dragging');
+
+            adjustment = {
+                left: container.rootGroup.pointer.left - $item.offset().left,
+                top: container.rootGroup.pointer.top - $item.offset().top
+            };
+        },
+        onDrag: function ($item, position) {
+            $item.css({
+                left: position.left - adjustment.left,
+                top: position.top - adjustment.top
+            });
         },
         onDrop: function ($item, container, _super, event) {
 
