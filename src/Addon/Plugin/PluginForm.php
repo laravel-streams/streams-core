@@ -134,7 +134,7 @@ class PluginForm
             $builder->setFormOption('redirect', $this->request->fullUrl());
         }
 
-        $this->cache->forever('form::' . $parameters['key'], $builder);
+        $this->cache->forever('form::' . $parameters['key'], $parameters);
 
         return $builder;
     }

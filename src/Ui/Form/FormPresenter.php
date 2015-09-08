@@ -61,6 +61,10 @@ class FormPresenter extends Presenter
      */
     public function open(array $options = [])
     {
+        if ($url = $this->object->getOption('url')) {
+            $options['url'] = $url;
+        }
+
         return $this->html->open($options);
     }
 
