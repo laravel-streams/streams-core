@@ -46,16 +46,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     protected $stream = [];
 
     /**
-     * Boot the model.
-     */
-    protected static function boot()
-    {
-        self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
-
-        parent::boot();
-    }
-
-    /**
      * Get the ID.
      *
      * @return mixed
@@ -110,7 +100,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $assignment = $this->getAssignment($fieldSlug);
 
-        $type = $assignment->getFieldType($this);
+        $type = $assignment->getFieldType();
 
         $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
@@ -123,7 +113,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $type->setEntry($entry);
 
-        return $modifier->restore($accessor->get($fieldSlug));
+        return $modifier->restore($accessor->get());
     }
 
     /**

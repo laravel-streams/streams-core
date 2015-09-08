@@ -73,16 +73,6 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     protected $table = 'streams_assignments';
 
     /**
-     * Boot the model.
-     */
-    protected static function boot()
-    {
-        self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
-
-        parent::boot();
-    }
-
-    /**
      * Because the assignment record holds translatable data
      * we have a conflict. The assignment table has translations
      * but not all assignment are translatable. This helps avoid

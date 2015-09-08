@@ -7,8 +7,18 @@ use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
 use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
 use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
 use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
+use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Entry\EntryObserver;
+use Anomaly\Streams\Platform\Field\FieldModel;
+use Anomaly\Streams\Platform\Field\FieldObserver;
 use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
@@ -122,7 +132,6 @@ class StreamsServiceProvider extends ServiceProvider
         'League\Flysystem\MountManager'                                                => 'League\Flysystem\MountManager',
         'Illuminate\Console\Scheduling\Schedule'                                       => 'Illuminate\Console\Scheduling\Schedule',
         'Anomaly\Streams\Platform\Application\Application'                             => 'Anomaly\Streams\Platform\Application\Application',
-        'Anomaly\Streams\Platform\Model\EloquentObserver'                              => 'Anomaly\Streams\Platform\Model\EloquentObserver',
         'Anomaly\Streams\Platform\Addon\AddonLoader'                                   => 'Anomaly\Streams\Platform\Addon\AddonLoader',
         'Anomaly\Streams\Platform\Addon\AddonBinder'                                   => 'Anomaly\Streams\Platform\Addon\AddonBinder',
         'Anomaly\Streams\Platform\Addon\AddonManager'                                  => 'Anomaly\Streams\Platform\Addon\AddonManager',
@@ -148,7 +157,6 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry'                            => 'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry',
         'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection' => 'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection',
         'Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection'                => 'Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection',
-        'Anomaly\Streams\Platform\Entry\EntryObserver'                                 => 'Anomaly\Streams\Platform\Entry\EntryObserver',
         'Anomaly\Streams\Platform\Stream\StreamModel'                                  => 'Anomaly\Streams\Platform\Stream\StreamModel',
         'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'                       => 'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
         'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection'         => 'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection',
@@ -187,6 +195,12 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new AddAssetNamespaces());
         $this->dispatch(new AddImageNamespaces());
         $this->dispatch(new AddViewNamespaces());
+
+        EntryModel::observe(EntryObserver::class);
+        FieldModel::observe(FieldObserver::class);
+        StreamModel::observe(StreamObserver::class);
+        EloquentModel::observe(EloquentObserver::class);
+        AssignmentModel::observe(AssignmentObserver::class);
 
         $this->app->booted(
             function () {

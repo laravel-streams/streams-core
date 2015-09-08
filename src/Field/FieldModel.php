@@ -85,8 +85,6 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     protected static function boot()
     {
-        self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
-
         self::$builder = app(FieldTypeBuilder::class);
 
         parent::boot();

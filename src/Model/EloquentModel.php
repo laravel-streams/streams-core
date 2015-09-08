@@ -77,16 +77,6 @@ class EloquentModel extends Model implements Arrayable
     protected $cache = [];
 
     /**
-     * Boot the model.
-     */
-    protected static function boot()
-    {
-        self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
-
-        parent::boot();
-    }
-
-    /**
      * Get the ID.
      *
      * @return integer
