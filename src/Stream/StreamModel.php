@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Entry\EntryObserver;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Field\FieldModelTranslation;
@@ -179,6 +180,10 @@ class StreamModel extends EloquentModel implements StreamInterface
         $streamModel->assignments = $assignmentsCollection;
 
         self::$store->put($payload, $streamModel);
+
+        $entryModel = $streamModel->getEntryModel();
+
+        $entryModel::observe(EntryObserver::class);
 
         return $streamModel;
     }
