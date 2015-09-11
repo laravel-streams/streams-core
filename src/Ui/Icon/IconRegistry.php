@@ -81,6 +81,7 @@ class IconRegistry
         'dashboard'            => 'fa fa-dashboard',
         'compress'             => 'fa fa-compress',
         'language'             => 'fa fa-language',
+        'database'             => 'fa fa-database',
         'list-alt'             => 'fa fa-list-alt',
         'arrows-h'             => 'fa fa-arrows-h',
         'arrows-v'             => 'fa fa-arrows-v',
