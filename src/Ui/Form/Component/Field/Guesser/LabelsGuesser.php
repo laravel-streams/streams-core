@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -46,7 +45,16 @@ class LabelsGuesser
              * No stream means we can't
              * really do much here.
              */
-            if (!$stream instanceof StreamInterface) {
+            if (!$stream) {
+
+                $key = "module::field.{$field['field']}";
+
+                if (trans()->has("{$key}.name")) {
+                    $field['label'] = "{$key}.name";
+                } else {
+                    $field['label'] = "{$key}.label";
+                }
+
                 continue;
             }
 
