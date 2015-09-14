@@ -117,6 +117,7 @@ class IconRegistry
         'plus'                 => 'fa fa-plus',
         'bars'                 => 'fa fa-bars',
         'cogs'                 => 'fa fa-cogs',
+        'tags'                 => 'fa fa-tags',
         'cog'                  => 'fa fa-cog',
         'rss'                  => 'fa fa-rss',
         'tag'                  => 'fa fa-tag',
