@@ -25,7 +25,11 @@ class AddonLoader
      */
     public function __construct()
     {
-        $this->loader = spl_autoload_functions()[1][0];
+        foreach (spl_autoload_functions() as $loader) {
+            if ($loader[0] instanceof ClassLoader) {
+                $this->loader = $loader[0];
+            }
+        }
     }
 
     /**
