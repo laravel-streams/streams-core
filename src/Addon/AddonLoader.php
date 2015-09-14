@@ -30,6 +30,10 @@ class AddonLoader
                 $this->loader = $loader[0];
             }
         }
+
+        if (!$this->loader) {
+            throw new \Exception("The ClassLoader could not be found.");
+        }
     }
 
     /**
