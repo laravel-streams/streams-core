@@ -48,6 +48,16 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Return a new instance.
+     *
+     * @return EloquentModel
+     */
+    public function newInstance()
+    {
+        return $this->model->newInstance();
+    }
+
+    /**
      * Return a paginated collection.
      *
      * @param array $parameters

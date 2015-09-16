@@ -28,11 +28,6 @@ class ButtonRegistry
             'type' => 'default',
             'text' => 'streams::button.settings'
         ],
-        'configure' => [
-            'icon' => 'cog',
-            'type' => 'default',
-            'text' => 'streams::button.configure'
-        ],
         /**
          * Link Buttons
          */
@@ -77,6 +72,11 @@ class ButtonRegistry
             'text' => 'streams::button.submit',
             'type' => 'success'
         ],
+        'install'   => [
+            'text' => 'streams::button.install',
+            'icon' => 'download',
+            'type' => 'success'
+        ],
         /**
          * Info Buttons
          */
@@ -95,6 +95,11 @@ class ButtonRegistry
         'fields'    => [
             'text' => 'streams::button.fields',
             'icon' => 'list-alt',
+            'type' => 'info'
+        ],
+        'configure' => [
+            'text' => 'streams::button.configure',
+            'icon' => 'wrench',
             'type' => 'info'
         ],
         /**
@@ -144,6 +149,15 @@ class ButtonRegistry
                 'data-match'   => 'yes',
                 'data-toggle'  => 'prompt',
                 'data-message' => 'streams::message.prompt_delete'
+            ]
+        ],
+        'uninstall' => [
+            'type'       => 'danger',
+            'icon'       => 'times-circle',
+            'text'       => 'streams::button.uninstall',
+            'attributes' => [
+                'data-toggle'  => 'confirm',
+                'data-message' => 'streams::message.confirm_uninstall'
             ]
         ]
     ];

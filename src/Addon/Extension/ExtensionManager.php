@@ -22,19 +22,21 @@ class ExtensionManager
      *
      * @param Extension $module
      * @param bool      $seed
+     * @return bool
      */
     public function install(Extension $module, $seed = false)
     {
-        $this->dispatch(new InstallExtension($module, $seed));
+        return $this->dispatch(new InstallExtension($module, $seed));
     }
 
     /**
      * Uninstall a module.
      *
      * @param Extension $module
+     * @return bool
      */
     public function uninstall(Extension $module)
     {
-        $this->dispatch(new UninstallExtension($module));
+        return $this->dispatch(new UninstallExtension($module));
     }
 }

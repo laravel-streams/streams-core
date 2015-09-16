@@ -25,7 +25,9 @@ class ExtensionCollection extends AddonCollection
         $matches = [];
 
         foreach ($this->items as $item) {
-            if ($item instanceof Extension && str_is($pattern, $item->getProvides())) {
+
+            /* @var Extension $item */
+            if (str_is($pattern, $item->getProvides())) {
                 $matches[] = $item;
             }
         }
@@ -44,7 +46,9 @@ class ExtensionCollection extends AddonCollection
     public function find($key)
     {
         foreach ($this->items as $item) {
-            if ($item instanceof Extension && $item->getProvides() == $key) {
+
+            /* @var Extension $item */
+            if ($item->getProvides() == $key) {
                 return $item;
             }
         }
@@ -60,7 +64,9 @@ class ExtensionCollection extends AddonCollection
     public function active()
     {
         foreach ($this->items as $item) {
-            if ($item instanceof Extension && $item->isActive()) {
+
+            /* @var Extension $item */
+            if ($item->isActive()) {
                 return $item;
             }
         }
@@ -78,7 +84,9 @@ class ExtensionCollection extends AddonCollection
         $installed = [];
 
         foreach ($this->items as $item) {
-            if ($item instanceof Extension && $item->isInstalled()) {
+
+            /* @var Extension $item */
+            if ($item->isInstalled()) {
                 $installed[] = $item;
             }
         }
@@ -96,7 +104,9 @@ class ExtensionCollection extends AddonCollection
         $installed = [];
 
         foreach ($this->items as $item) {
-            if ($item instanceof Extension && !$item->isInstalled()) {
+
+            /* @var Extension $item */
+            if (!$item->isInstalled()) {
                 $installed[] = $item;
             }
         }
@@ -114,7 +124,9 @@ class ExtensionCollection extends AddonCollection
         $enabled = [];
 
         foreach ($this->items as $item) {
-            if ($item instanceof Extension && $item->isEnabled()) {
+
+            /* @var Extension $item */
+            if ($item->isEnabled()) {
                 $enabled[] = $item;
             }
         }
@@ -134,9 +146,10 @@ class ExtensionCollection extends AddonCollection
             return false;
         }
 
+        /* @var Extension $item */
         $item = $this->items[$slug];
 
-        if ($item instanceof Extension) {
+        if ($item) {
             return $item->isInstalled();
         }
 

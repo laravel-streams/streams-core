@@ -24,6 +24,13 @@ class ButtonBuilder
     protected $input;
 
     /**
+     * The button value utility.
+     *
+     * @var ButtonValue
+     */
+    protected $value;
+
+    /**
      * The button parser.
      *
      * @var ButtonParser
@@ -48,13 +55,20 @@ class ButtonBuilder
      * Create a new ButtonBuilder instance.
      *
      * @param ButtonInput   $input
+     * @param ButtonValue   $value
      * @param ButtonParser  $parser
      * @param ButtonFactory $factory
      * @param Evaluator     $evaluator
      */
-    public function __construct(ButtonInput $input, ButtonParser $parser, ButtonFactory $factory, Evaluator $evaluator)
-    {
+    public function __construct(
+        ButtonInput $input,
+        ButtonValue $value,
+        ButtonParser $parser,
+        ButtonFactory $factory,
+        Evaluator $evaluator
+    ) {
         $this->input     = $input;
+        $this->value     = $value;
         $this->parser    = $parser;
         $this->factory   = $factory;
         $this->evaluator = $evaluator;
@@ -81,6 +95,7 @@ class ButtonBuilder
 
             $button = $this->evaluator->evaluate($button, compact('entry', 'table'));
             $button = $this->parser->parse($button, $entry);
+            $button = $this->value->replace($button, $entry);
             $button = $this->factory->make($button);
 
             if (!$button->isEnabled()) {

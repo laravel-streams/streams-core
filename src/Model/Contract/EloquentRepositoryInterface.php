@@ -39,6 +39,13 @@ interface EloquentRepositoryInterface
     public function create(array $attributes);
 
     /**
+     * Return a new instance.
+     *
+     * @return EloquentModel
+     */
+    public function newInstance();
+
+    /**
      * Return a paginated collection.
      *
      * @param array $parameters

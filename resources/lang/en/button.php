@@ -32,5 +32,9 @@ return [
     'settings'           => 'Settings',
     'fields'             => 'Fields',
     'send'               => 'Send',
-    'submit'             => 'Submit'
+    'submit'             => 'Submit',
+    'enable'             => 'Enable',
+    'disable'            => 'Disable',
+    'install'            => 'Install',
+    'uninstall'          => 'Uninstall'
 ];
