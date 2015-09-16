@@ -64,16 +64,16 @@ class VerifyCsrfToken extends \App\Http\Middleware\VerifyCsrfToken
      */
     public function handle($request, Closure $next)
     {
+        // If the method is not a post - skip.
+        if (!$request->isMethod('post')) {
+            return $next($request);
+        }
+
         // Get the route action.
         $action = $this->route->getAction();
 
         // If the route disabled the CSRF - skip.
         if (array_get($action, 'csrf') === false) {
-            return $next($request);
-        }
-
-        // If the method is not a post - skip.
-        if (!$request->isMethod('post')) {
             return $next($request);
         }
 

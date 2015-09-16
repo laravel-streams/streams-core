@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Http\Controller;
 
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 /**
@@ -17,10 +19,27 @@ class BaseController extends Controller
     use DispatchesJobs;
 
     /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     * The response factory.
+     *
+     * @var ResponseFactory
+     */
+    protected $response;
+
+    /**
      * Create a new BaseController instance.
      */
     public function __construct()
     {
+        $this->request  = app('Illuminate\Http\Request');
+        $this->response = app('Illuminate\Contracts\Routing\ResponseFactory');
+
         // Let addons manipulate middleware first.
         foreach (app('Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection') as $middleware) {
             $this->middleware($middleware);
