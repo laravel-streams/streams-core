@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Command;
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class PostTree
+ * Class PostTree.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class PostTree implements SelfHandling
 {
-
     use DispatchesJobs;
 
     /**

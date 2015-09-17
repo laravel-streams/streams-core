@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Predict\SaveAndEditNextPredictor;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class ActionPredictor
+ * Class ActionPredictor.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class ActionPredictor
 {
-
     /**
      * The save and edit next predictor.
      *
@@ -26,7 +27,7 @@ class ActionPredictor
      *
      * @param SaveAndEditNextPredictor $saveAndEditNext
      */
-    function __construct(SaveAndEditNextPredictor $saveAndEditNext)
+    public function __construct(SaveAndEditNextPredictor $saveAndEditNext)
     {
         $this->saveAndEditNext = $saveAndEditNext;
     }

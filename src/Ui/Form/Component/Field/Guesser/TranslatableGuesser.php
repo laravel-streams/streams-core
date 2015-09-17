@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class TranslatableGuesser
+ * Class TranslatableGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class TranslatableGuesser
 {
-
     /**
      * Guess the field instructions.
      *
@@ -23,7 +24,7 @@ class TranslatableGuesser
         $fields = $builder->getFields();
         $entry  = $builder->getFormEntry();
 
-        if (!is_object($entry)) {
+        if (! is_object($entry)) {
             return;
         }
 

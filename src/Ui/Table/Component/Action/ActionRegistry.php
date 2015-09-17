@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Edit;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder;
 
 /**
- * Class ActionRegistry
+ * Class ActionRegistry.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder;
  */
 class ActionRegistry
 {
-
     /**
      * Available actions.
      *
@@ -22,18 +23,18 @@ class ActionRegistry
      */
     protected $actions = [
         'delete'  => [
-            'handler' => Delete::class
+            'handler' => Delete::class,
         ],
         'edit'    => [
-            'handler' => Edit::class
+            'handler' => Edit::class,
         ],
         'reorder' => [
             'handler' => Reorder::class,
             'text'    => 'streams::button.reorder',
             'icon'    => 'fa fa-sort-amount-asc',
             'class'   => 'reorder',
-            'type'    => 'success'
-        ]
+            'type'    => 'success',
+        ],
     ];
 
     /**
@@ -44,8 +45,8 @@ class ActionRegistry
      */
     public function get($action)
     {
-        if (!$action) {
-            return null;
+        if (! $action) {
+            return;
         }
 
         return array_get($this->actions, $action);

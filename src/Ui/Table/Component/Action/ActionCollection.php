@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 use Illuminate\Support\Collection;
 
 /**
- * Class ActionCollection
+ * Class ActionCollection.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Support\Collection;
  */
 class ActionCollection extends Collection
 {
-
     /**
      * Return the active action or null.
      *
@@ -27,7 +28,7 @@ class ActionCollection extends Collection
             }
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -44,6 +45,6 @@ class ActionCollection extends Collection
             }
         }
 
-        return null;
+        return;
     }
 }

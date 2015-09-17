@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
 use Anomaly\Streams\Platform\Ui\Grid\Contract\GridRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class GetGridEntries
+ * Class GetGridEntries.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class GetGridEntries implements SelfHandling
 {
-
     /**
      * The grid builder.
      *
@@ -40,13 +41,12 @@ class GetGridEntries implements SelfHandling
         $grid  = $this->builder->getGrid();
         $model = $this->builder->getModel();
 
-        /**
+        /*
          * If the builder has an entries handler
          * then call it through the container and
          * let it load the entries itself.
          */
         if ($handler = $grid->getOption('entries')) {
-
             app()->call($handler, ['builder' => $this->builder]);
 
             return;
@@ -54,23 +54,23 @@ class GetGridEntries implements SelfHandling
 
         $entries = $grid->getEntries();
 
-        /**
+        /*
          * If the entries have already been set on the
          * grid then return. Nothing to do here.
          *
          * If the model is not set then they need
          * to load the grid entries themselves.
          */
-        if (!$entries->isEmpty() || !$model) {
+        if (! $entries->isEmpty() || ! $model) {
             return;
         }
 
-        /**
+        /*
          * Resolve the model out of the container.
          */
         $repository = $grid->getRepository();
 
-        /**
+        /*
          * If the repository is an instance of
          * GridRepositoryInterface use it.
          */

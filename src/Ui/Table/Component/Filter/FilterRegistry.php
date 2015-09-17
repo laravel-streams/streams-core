@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\FieldFilter;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\InputFilter;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\SelectFilter;
 
 /**
- * Class FilterRegistry
+ * Class FilterRegistry.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\SelectFilter;
  */
 class FilterRegistry
 {
-
     /**
      * Available filters.
      *
@@ -31,7 +32,7 @@ class FilterRegistry
         ],
         'field'  => [
             'filter' => FieldFilter::class,
-        ]
+        ],
     ];
 
     /**

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewQueryInterface;
@@ -8,7 +10,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class ViewQuery
+ * Class ViewQuery.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class ViewQuery
 {
-
     /**
      * The service container.
      *
@@ -46,16 +47,16 @@ class ViewQuery
      */
     public function handle(TableBuilder $builder, Builder $query, ViewInterface $view)
     {
-        if (!$handler = $view->getQuery()) {
+        if (! $handler = $view->getQuery()) {
             return;
         }
 
         // Self handling implies @handle
-        if (is_string($handler) && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+        if (is_string($handler) && ! str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
             $handler .= '@handle';
         }
 
-        /**
+        /*
          * If the handler is a callable string or Closure
          * then call it using the IoC container.
          */
@@ -63,7 +64,7 @@ class ViewQuery
             $this->container->call($handler, compact('builder', 'query'));
         }
 
-        /**
+        /*
          * If the handle is an instance of ViewQueryInterface
          * simply call the handle method on it.
          */

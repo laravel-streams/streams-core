@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Contract;
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Support\Collection;
 
 /**
- * Interface TreeRepositoryInterface
+ * Interface TreeRepositoryInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Support\Collection;
  */
 interface TreeRepositoryInterface
 {
-
     /**
      * Get the tree entries.
      *

@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Theme\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Theme\Event;
 
 use Anomaly\Streams\Platform\Addon\Theme\Theme;
 
 /**
- * Class ThemeWasRegistered
+ * Class ThemeWasRegistered.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\Theme\Theme;
  */
 class ThemeWasRegistered
 {
-
     /**
      * The theme object.
      *

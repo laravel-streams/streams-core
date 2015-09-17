@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveAction;
 
 /**
- * Class SetActiveActionHandler
+ * Class SetActiveActionHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveAction;
  */
 class SetActiveActionHandler
 {
-
     /**
      * Set the active action.
      *
@@ -25,11 +26,11 @@ class SetActiveActionHandler
         $options = $form->getOptions();
         $actions = $form->getActions();
 
-        if ($action = $actions->findBySlug(app('request')->get($options->get('prefix') . 'action'))) {
+        if ($action = $actions->findBySlug(app('request')->get($options->get('prefix').'action'))) {
             $action->setActive(true);
         }
 
-        if (!$action && $action = $actions->first()) {
+        if (! $action && $action = $actions->first()) {
             $action->setActive(true);
         }
     }

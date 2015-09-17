@@ -16,13 +16,12 @@ use Assetic\Filter\FilterInterface;
 
 /**
  * Inserts a separator between assets to prevent merge failures
- * e.g. missing semicolon at the end of a JS file
+ * e.g. missing semicolon at the end of a JS file.
  *
  * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  */
 class SeparatorFilter implements FilterInterface
 {
-
     /**
      * The separation character.
      *
@@ -58,7 +57,7 @@ class SeparatorFilter implements FilterInterface
     public function filterDump(AssetInterface $asset)
     {
         if ($content = $asset->getContent()) {
-            $asset->setContent($content . $this->separator);
+            $asset->setContent($content.$this->separator);
         }
     }
 }

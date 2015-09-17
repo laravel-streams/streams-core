@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Image\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Image\Command;
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Image\Image;
@@ -6,7 +8,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 
 /**
- * Class AddImageNamespaces
+ * Class AddImageNamespaces.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Contracts\Container\Container;
  */
 class AddImageNamespaces implements SelfHandling
 {
-
     /**
      * Handle the command.
      */
@@ -23,7 +24,7 @@ class AddImageNamespaces implements SelfHandling
     {
         $image->addPath('public', base_path('public'));
         $image->addPath('asset', $application->getAssetsPath());
-        $image->addPath('streams', $container->make('streams.path') . '/resources');
-        $image->addPath('bower', $container->make('path.base') . '/bin/bower_components');
+        $image->addPath('streams', $container->make('streams.path').'/resources');
+        $image->addPath('bower', $container->make('path.base').'/bin/bower_components');
     }
 }

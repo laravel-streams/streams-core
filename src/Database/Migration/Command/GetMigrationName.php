@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Command;
 
 /**
- * Class GetMigrationName
+ * Class GetMigrationName.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class GetMigrationName
 {
-
     /**
      * The migration name.
      *

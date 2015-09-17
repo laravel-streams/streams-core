@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
- * Class SectionBuilder
+ * Class SectionBuilder.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  */
 class SectionBuilder
 {
-
     /**
      * The section input.
      *
@@ -42,7 +43,7 @@ class SectionBuilder
      * @param SectionFactory $factory
      * @param Authorizer     $authorizer
      */
-    function __construct(SectionInput $input, SectionFactory $factory, Authorizer $authorizer)
+    public function __construct(SectionInput $input, SectionFactory $factory, Authorizer $authorizer)
     {
         $this->input      = $input;
         $this->factory    = $factory;
@@ -62,8 +63,7 @@ class SectionBuilder
         $this->input->read($builder);
 
         foreach ($builder->getSections() as $slug => $section) {
-
-            if (!$this->authorizer->authorize($section['permission'])) {
+            if (! $this->authorizer->authorize($section['permission'])) {
                 continue;
             }
 

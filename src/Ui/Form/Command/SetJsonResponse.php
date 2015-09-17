@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Routing\ResponseFactory;
 
 /**
- * Class SetJsonResponse
+ * Class SetJsonResponse.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Routing\ResponseFactory;
  */
 class SetJsonResponse implements SelfHandling
 {
-
     /**
      * The form builder.
      *
@@ -43,7 +44,7 @@ class SetJsonResponse implements SelfHandling
             $response->json(
                 [
                     'errors'   => $this->builder->getFormErrors()->getMessages(),
-                    'redirect' => $this->builder->getFormActions()->active()->getRedirect()
+                    'redirect' => $this->builder->getFormActions()->active()->getRedirect(),
                 ]
             )
         );

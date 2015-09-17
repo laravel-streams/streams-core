@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Type;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Type;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\View;
 
 /**
- * Class RecentlyCreated
+ * Class RecentlyCreated.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,12 +14,10 @@ use Anomaly\Streams\Platform\Ui\Table\Component\View\View;
  */
 class RecentlyCreated extends View
 {
-
     /**
      * The view query.
      *
      * @var string
      */
     protected $query = RecentlyCreatedQuery::class;
-
 }

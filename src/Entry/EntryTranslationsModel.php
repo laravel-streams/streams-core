@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
- * Class EntryTranslationsModel
+ * Class EntryTranslationsModel.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  */
 class EntryTranslationsModel extends EloquentModel
 {
-
     /**
      * Cache minutes.
      *
@@ -26,7 +27,7 @@ class EntryTranslationsModel extends EloquentModel
      */
     protected static function boot()
     {
-        self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
+        self::observe(app(substr(__CLASS__, 0, -5).'Observer'));
 
         parent::boot();
     }
@@ -53,14 +54,14 @@ class EntryTranslationsModel extends EloquentModel
             return parent::getAttribute('locale');
         }
 
-        if (!$parent = $this->getParent()) {
+        if (! $parent = $this->getParent()) {
             return $this->attributes[$key];
         }
 
         /* @var AssignmentInterface $assignment */
         $assignment = $parent->getAssignment($key);
 
-        if (!$assignment) {
+        if (! $assignment) {
             return parent::getAttribute($key);
         }
 
@@ -93,15 +94,14 @@ class EntryTranslationsModel extends EloquentModel
      */
     public function setAttribute($key, $value)
     {
-        if (!$parent = $this->getParent()) {
-            return null;
+        if (! $parent = $this->getParent()) {
+            return;
         }
 
         /* @var AssignmentInterface $assignment */
         $assignment = $parent->getAssignment($key);
 
-        if (!$assignment) {
-
+        if (! $assignment) {
             parent::setAttribute($key, $value);
 
             return;
@@ -126,15 +126,14 @@ class EntryTranslationsModel extends EloquentModel
      */
     public function fireFieldTypeEvents($trigger, $payload = [])
     {
-        if (!$parent = $this->getParent()) {
-            return null;
+        if (! $parent = $this->getParent()) {
+            return;
         }
 
         $assignments = $parent->getAssignments();
 
         /* @var AssignmentInterface $assignment */
         foreach ($assignments->translatable() as $assignment) {
-
             $fieldType = $assignment->getFieldType();
 
             $fieldType->setValue($parent->getFieldValue($assignment->getFieldSlug()));
@@ -153,7 +152,7 @@ class EntryTranslationsModel extends EloquentModel
      * @param array  $arguments
      * @return mixed
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         return call_user_func_array([$this->getParent(), $name], $arguments);
     }
@@ -169,7 +168,7 @@ class EntryTranslationsModel extends EloquentModel
     {
         $value = parent::__get($key);
 
-        if (!$value && $parent = $this->getParent()) {
+        if (! $value && $parent = $this->getParent()) {
             return $parent->{$key};
         }
 

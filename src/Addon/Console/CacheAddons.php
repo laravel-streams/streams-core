@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Console;
 
 use Anomaly\Streams\Platform\Addon\AddonPaths;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class CacheAddons
+ * Class CacheAddons.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class CacheAddons extends Command
 {
-
     use DispatchesJobs;
 
     /**

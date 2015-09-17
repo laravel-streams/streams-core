@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Parser;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Parser;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class EntryTranslationForeignKeyParser
+ * Class EntryTranslationForeignKeyParser.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryTranslationForeignKeyParser
 {
-
     /**
      * Return the translation foreign key attribute.
      *
@@ -21,8 +22,8 @@ class EntryTranslationForeignKeyParser
      */
     public function parse(StreamInterface $stream)
     {
-        if (!$stream->isTranslatable()) {
-            return null;
+        if (! $stream->isTranslatable()) {
+            return;
         }
 
         return 'protected $translationForeignKey = \'entry_id\';';

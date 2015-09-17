@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module\Listener;
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
@@ -10,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 
 /**
- * Class DetectActiveModule
+ * Class DetectActiveModule.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -19,7 +21,6 @@ use Illuminate\Routing\Route;
  */
 class DetectActiveModule
 {
-
     /**
      * The asset utility.
      *
@@ -99,7 +100,7 @@ class DetectActiveModule
          * and we MUST have a namespace in the
          * streams::addon action parameter.
          *
-         * @var Route $route
+         * @var Route
          */
         $route = $this->request->route();
 
@@ -108,14 +109,14 @@ class DetectActiveModule
             $module->setActive(true);
         }
 
-        if (!$module && $this->request->segment(1) == 'admin' && $module = $this->modules->findBySlug(
+        if (! $module && $this->request->segment(1) == 'admin' && $module = $this->modules->findBySlug(
                 $this->request->segment(2)
             )
         ) {
             $module->setActive(true);
         }
 
-        if (!$module) {
+        if (! $module) {
             return;
         }
 
@@ -128,7 +129,7 @@ class DetectActiveModule
         if ($this->request->segment(1) === 'admin') {
             $this->breadcrumbs->add(
                 trans($module->getName()),
-                url('admin/' . $module->getSlug())
+                url('admin/'.$module->getSlug())
             );
         }
     }

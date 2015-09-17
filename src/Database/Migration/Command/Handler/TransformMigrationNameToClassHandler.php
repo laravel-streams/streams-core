@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
 use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameToClass;
 
 /**
- * Class TransformMigrationNameToClassHandler
+ * Class TransformMigrationNameToClassHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameTo
  */
 class TransformMigrationNameToClassHandler
 {
-
     /**
      * Handle the command.
      *
@@ -29,14 +30,13 @@ class TransformMigrationNameToClassHandler
 
         // Insert the version number if there are three segments or more
         if (count($segments) >= 3) {
-
             $key       = $segments[0];
             $version   = $segments[1];
             $migration = $segments[2];
 
             $transformed =
-                studly_case(str_replace('.', '_', $key)) . '_' .
-                str_replace('.', '_', $version) . '_' .
+                studly_case(str_replace('.', '_', $key)).'_'.
+                str_replace('.', '_', $version).'_'.
                 studly_case(str_replace('.', '_', $migration));
         }
 

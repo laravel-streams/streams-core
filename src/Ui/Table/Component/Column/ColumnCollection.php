@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 
 use Illuminate\Support\Collection;
 
 /**
- * Class ColumnCollection
+ * Class ColumnCollection.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,5 +14,4 @@ use Illuminate\Support\Collection;
  */
 class ColumnCollection extends Collection
 {
-
 }

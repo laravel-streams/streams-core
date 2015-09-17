@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class PermissionGuesser
+ * Class PermissionGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class PermissionGuesser
 {
-
     /**
      * The module collection.
      *
@@ -51,7 +52,7 @@ class PermissionGuesser
         $actions = $builder->getActions();
         $stream  = $builder->getTableStream();
 
-        if (!$module = $this->modules->active()) {
+        if (! $module = $this->modules->active()) {
             return;
         }
 
@@ -59,20 +60,20 @@ class PermissionGuesser
 
         foreach ($actions as &$action) {
 
-            /**
+            /*
              * Nothing to do if set already.
              */
             if (isset($action['permission'])) {
                 continue;
             }
 
-            /**
+            /*
              * Try and guess the permission.
              */
             if ($stream) {
-                $action['permission'] = $module->getNamespace($stream->getSlug() . '.' . $action['slug']);
+                $action['permission'] = $module->getNamespace($stream->getSlug().'.'.$action['slug']);
             } elseif ($section) {
-                $action['permission'] = $module->getNamespace($section->getSlug() . '.' . $action['slug']);
+                $action['permission'] = $module->getNamespace($section->getSlug().'.'.$action['slug']);
             }
         }
 

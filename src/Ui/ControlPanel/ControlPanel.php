@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection
 use Illuminate\Support\Collection;
 
 /**
- * Class ControlPanel
+ * Class ControlPanel.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Support\Collection;
  */
 class ControlPanel
 {
-
     /**
      * The section buttons.
      *
@@ -36,7 +37,7 @@ class ControlPanel
      * @param Collection        $buttons
      * @param SectionCollection $sections
      */
-    function __construct(Collection $buttons, SectionCollection $sections)
+    public function __construct(Collection $buttons, SectionCollection $sections)
     {
         $this->buttons  = $buttons;
         $this->sections = $sections;

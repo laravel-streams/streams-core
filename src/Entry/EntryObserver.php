@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Command\SetMetaInformation;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -11,7 +13,7 @@ use Anomaly\Streams\Platform\Model\Event\ModelsWereUpdated;
 use Anomaly\Streams\Platform\Support\Observer;
 
 /**
- * Class EntryObserver
+ * Class EntryObserver.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -21,7 +23,6 @@ use Anomaly\Streams\Platform\Support\Observer;
  */
 class EntryObserver extends Observer
 {
-
     /**
      * Run after a record is created.
      *

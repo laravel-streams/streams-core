@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
 /**
- * Class Button
+ * Class Button.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
  */
 class Button implements ButtonInterface
 {
-
     /**
      * The button URL.
      *
@@ -97,7 +98,7 @@ class Button implements ButtonInterface
      */
     public function isDropdown()
     {
-        return (bool)$this->getDropdown();
+        return (bool) $this->getDropdown();
     }
 
     /**

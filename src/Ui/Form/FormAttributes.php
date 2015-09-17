@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 
 /**
- * Class FormAttributes
+ * Class FormAttributes.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
  */
 class FormAttributes
 {
-
     /**
      * Make custom validation messages.
      *
@@ -25,7 +26,6 @@ class FormAttributes
 
         /* @var FieldType $field */
         foreach ($builder->getEnabledFormFields() as $field) {
-
             $label = $field->getLabel();
 
             if (str_contains($label, '::')) {
@@ -33,7 +33,7 @@ class FormAttributes
             }
 
             if ($locale = $field->getLocale()) {
-                $label .= ' (' . $locale . ')';
+                $label .= ' ('.$locale.')';
             }
 
             $attributes[$field->getInputName()] = $label;

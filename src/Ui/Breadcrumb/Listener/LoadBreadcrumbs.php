@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Breadcrumb\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Breadcrumb\Listener;
 
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 
 /**
- * Class LoadBreadcrumbs
+ * Class LoadBreadcrumbs.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\View\ViewTemplate;
  */
 class LoadBreadcrumbs
 {
-
     /**
      * The view template.
      *

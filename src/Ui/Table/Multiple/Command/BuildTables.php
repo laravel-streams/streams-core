@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class BuildTables
+ * Class BuildTables.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class BuildTables implements SelfHandling
 {
-
     /**
      * The multiple form builder.
      *
@@ -39,7 +40,6 @@ class BuildTables implements SelfHandling
     {
         /* @var TableBuilder $builder */
         foreach ($this->builder->getTables() as $builder) {
-
             $builder
                 ->setFilters($this->builder->getFilters())
                 ->setButtons($this->builder->getButtons())

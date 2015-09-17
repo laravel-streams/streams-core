@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Console\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Console\Event;
 
 use Illuminate\Console\Command;
 
 /**
- * Class StreamsIsRefreshing
+ * Class StreamsIsRefreshing.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Console\Command;
  */
 class StreamsIsRefreshing
 {
-
     /**
      * The console command.
      *

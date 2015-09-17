@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension\Command;
 
 /**
- * Class InstallExtensionsTable
+ * Class InstallExtensionsTable.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,5 +12,4 @@
  */
 class InstallExtensionsTable
 {
-
 }

@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Field;
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentRepository;
 
 /**
- * Class FieldRepository
+ * Class FieldRepository.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Model\EloquentRepository;
  */
 class FieldRepository extends EloquentRepository implements FieldRepositoryInterface
 {
-
     /**
      * The field model.
      *

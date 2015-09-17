@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Illuminate\Contracts\Support\Arrayable;
@@ -7,7 +9,7 @@ use Robbo\Presenter\PresentableInterface;
 use Robbo\Presenter\Presenter;
 
 /**
- * Class Addon
+ * Class Addon.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Robbo\Presenter\Presenter;
  */
 class Addon implements PresentableInterface, Arrayable
 {
-
     use FiresCallbacks;
     use DispatchesJobs;
 
@@ -72,7 +73,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function isCore()
     {
-        return str_contains($this->getPath(), 'core/' . $this->getVendor());
+        return str_contains($this->getPath(), 'core/'.$this->getVendor());
     }
 
     /**
@@ -82,7 +83,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function isShared()
     {
-        return str_contains($this->getPath(), 'addons/shared/' . $this->getVendor());
+        return str_contains($this->getPath(), 'addons/shared/'.$this->getVendor());
     }
 
     /**
@@ -123,11 +124,11 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getNamespace($key = null)
     {
-        if (!$this->namespace) {
+        if (! $this->namespace) {
             $this->makeNamespace();
         }
 
-        return $this->namespace . ($key ? '::' . $key : $key);
+        return $this->namespace.($key ? '::'.$key : $key);
     }
 
     /**
@@ -141,7 +142,7 @@ class Addon implements PresentableInterface, Arrayable
     {
         $namespace = implode('\\', array_slice(explode('\\', get_class($this)), 0, -1));
 
-        return $namespace . ($suffix ? '\\' . $suffix : $suffix);
+        return $namespace.($suffix ? '\\'.$suffix : $suffix);
     }
 
     /**
@@ -159,7 +160,7 @@ class Addon implements PresentableInterface, Arrayable
      * config matching the key.
      *
      * @param string $key
-     * @return boolean
+     * @return bool
      */
     public function hasConfig($key = '*')
     {
@@ -175,8 +176,8 @@ class Addon implements PresentableInterface, Arrayable
     {
         $json = $this->getPath('composer.json');
 
-        if (!file_exists($json)) {
-            return null;
+        if (! file_exists($json)) {
+            return;
         }
 
         return json_decode(file_get_contents($json));
@@ -200,7 +201,7 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getPath($path = null)
     {
-        return $this->path . ($path ? '/' . $path : $path);
+        return $this->path.($path ? '/'.$path : $path);
     }
 
     /**
@@ -296,15 +297,15 @@ class Addon implements PresentableInterface, Arrayable
      * @param $name
      * @return mixed
      */
-    function __get($name)
+    public function __get($name)
     {
-        $method = camel_case('get_' . $name);
+        $method = camel_case('get_'.$name);
 
         if (method_exists($this, $method)) {
             return $this->{$method}();
         }
 
-        $method = camel_case('is_' . $name);
+        $method = camel_case('is_'.$name);
 
         if (method_exists($this, $method)) {
             return $this->{$method}();
@@ -319,15 +320,15 @@ class Addon implements PresentableInterface, Arrayable
      * @param $name
      * @return bool
      */
-    function __isset($name)
+    public function __isset($name)
     {
-        $method = camel_case('get_' . $name);
+        $method = camel_case('get_'.$name);
 
         if (method_exists($this, $method)) {
             return true;
         }
 
-        $method = camel_case('is_' . $name);
+        $method = camel_case('is_'.$name);
 
         if (method_exists($this, $method)) {
             return true;
@@ -347,7 +348,7 @@ class Addon implements PresentableInterface, Arrayable
             'id'        => $this->getNamespace(),
             'name'      => $this->getName(),
             'namespace' => $this->getNamespace(),
-            'type'      => $this->getType()
+            'type'      => $this->getType(),
         ];
     }
 }

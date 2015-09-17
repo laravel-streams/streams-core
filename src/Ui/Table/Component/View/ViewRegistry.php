@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\All;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\RecentlyCreated;
 
 /**
- * Class ViewRegistry
+ * Class ViewRegistry.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\RecentlyCreated;
  */
 class ViewRegistry
 {
-
     /**
      * Available views.
      *
@@ -29,7 +30,7 @@ class ViewRegistry
             'slug' => 'recently_created',
             'text' => 'streams::view.recently_created',
             'view' => RecentlyCreated::class,
-        ]
+        ],
     ];
 
     /**
@@ -40,8 +41,8 @@ class ViewRegistry
      */
     public function get($view)
     {
-        if (!$view) {
-            return null;
+        if (! $view) {
+            return;
         }
 
         return array_get($this->views, $view);

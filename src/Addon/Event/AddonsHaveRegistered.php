@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Event;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 
 /**
- * Class AddonsHaveRegistered
+ * Class AddonsHaveRegistered.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class AddonsHaveRegistered
 {
-
     /**
      * The addon collection.
      *

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
 use Anomaly\Streams\Platform\Database\Migration\Command\RollbackStream;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 
 /**
- * Class RollbackStreamHandler
+ * Class RollbackStreamHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
  */
 class RollbackStreamHandler
 {
-
     /**
      * The stream repository.
      *
@@ -42,13 +43,13 @@ class RollbackStreamHandler
 
         $stream = $migration->getStream();
 
-        if (!$stream) {
+        if (! $stream) {
             return;
         }
 
         if (is_string($stream)) {
             $stream = [
-                'slug' => $stream
+                'slug' => $stream,
             ];
         }
 

@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module\Contract;
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
- * Interface ModuleRepositoryInterface
+ * Interface ModuleRepositoryInterface.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  */
 interface ModuleRepositoryInterface
 {
-
     /**
      * Return all modules in the database.
      *

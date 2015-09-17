@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
 use Illuminate\Contracts\Container\Container;
 
 /**
- * Class RowFactory
+ * Class RowFactory.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Container\Container;
  */
 class RowFactory
 {
-
     /**
      * The hydrator utility.
      *

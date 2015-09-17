@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command;
 
 use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
@@ -8,7 +10,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Http\Request;
 
 /**
- * Class SetActiveSection
+ * Class SetActiveSection.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Illuminate\Http\Request;
  */
 class SetActiveSection implements SelfHandling
 {
-
     /**
      * The control_panel builder.
      *
@@ -47,7 +48,7 @@ class SetActiveSection implements SelfHandling
         $controlPanel = $this->builder->getControlPanel();
         $sections     = $controlPanel->getSections();
 
-        /**
+        /*
          * If we already have an active section
          * then we don't need to do this.
          */
@@ -57,7 +58,7 @@ class SetActiveSection implements SelfHandling
 
         foreach ($sections as $section) {
 
-            /**
+            /*
              * Get the HREF for both the active
              * and loop iteration section.
              */
@@ -68,15 +69,15 @@ class SetActiveSection implements SelfHandling
                 $activeHref = array_get($active->getAttributes(), 'href');
             }
 
-            /**
+            /*
              * If the request URL does not even
              * contain the HREF then skip it.
              */
-            if (!str_contains($request->url(), $href)) {
+            if (! str_contains($request->url(), $href)) {
                 continue;
             }
 
-            /**
+            /*
              * Compare the length of the active HREF
              * and loop iteration HREF. The longer the
              * HREF the more detailed and exact it is and
@@ -91,7 +92,7 @@ class SetActiveSection implements SelfHandling
             }
         }
 
-        /**
+        /*
          * If we have an active section determined
          * then mark it as such.
          */
@@ -102,12 +103,12 @@ class SetActiveSection implements SelfHandling
         }
 
         // No active section!
-        if (!$active) {
+        if (! $active) {
             return;
         }
 
         // Authorize the active section.
-        if (!$authorizer->authorize($active->getPermission())) {
+        if (! $authorizer->authorize($active->getPermission())) {
             abort(403);
         }
 

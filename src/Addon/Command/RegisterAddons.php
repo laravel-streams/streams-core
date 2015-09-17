@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Command;
 
 use Anomaly\Streams\Platform\Addon\AddonManager;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class RegisterAddons
+ * Class RegisterAddons.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class RegisterAddons implements SelfHandling
 {
-
     /**
      * Handle the command.
      *

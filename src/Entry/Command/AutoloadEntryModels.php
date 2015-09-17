@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Command;
 
 use Anomaly\Streams\Platform\Application\Application;
 use Composer\Autoload\ClassLoader;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class AutoloadEntryModels
+ * Class AutoloadEntryModels.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class AutoloadEntryModels implements SelfHandling
 {
-
     /**
      * Handle the command.
      *

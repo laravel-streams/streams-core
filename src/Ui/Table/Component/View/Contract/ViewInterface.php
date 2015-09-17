@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Contract;
 
 /**
- * Interface ViewInterface
+ * Interface ViewInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 interface ViewInterface
 {
-
     /**
      * Get the attributes.
      *

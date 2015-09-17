@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Event;
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class TreeIsQuerying
+ * Class TreeIsQuerying.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class TreeIsQuerying
 {
-
     /**
      * The tree builder.
      *

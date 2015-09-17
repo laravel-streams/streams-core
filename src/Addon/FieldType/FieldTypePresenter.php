@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Addon\AddonPresenter;
 
 /**
- * Class FieldTypePresenter
+ * Class FieldTypePresenter.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\AddonPresenter;
  */
 class FieldTypePresenter extends AddonPresenter
 {
-
     /**
      * The resource object.
      * This is for IDE hinting.
@@ -44,11 +45,11 @@ class FieldTypePresenter extends AddonPresenter
     {
         $value = $this->object->getValue();
 
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             return '';
         }
 
-        return (string)$this->object->getValue();
+        return (string) $this->object->getValue();
     }
 
     /**

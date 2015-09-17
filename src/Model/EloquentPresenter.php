@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Support\Presenter;
 use Illuminate\Contracts\Support\Arrayable;
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Support\Arrayable;
  */
 class EloquentPresenter extends Presenter implements Arrayable
 {
-
     /**
      * Create a new EloquentPresenter instance.
      *

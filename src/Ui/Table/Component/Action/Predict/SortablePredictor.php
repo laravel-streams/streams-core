@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Predict;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Predict;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class SortablePredictor
+ * Class SortablePredictor.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class SortablePredictor
 {
-
     /**
      * Predict the presence of of the sortable action.
      *

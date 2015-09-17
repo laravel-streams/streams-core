@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Field\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Contract;
 
 use Anomaly\Streams\Platform\Field\FieldCollection;
 use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
- * Interface FieldRepositoryInterface
+ * Interface FieldRepositoryInterface.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  */
 interface FieldRepositoryInterface extends EloquentRepositoryInterface
 {
-
     /**
      * Find a field by it's slug and namespace.
      *

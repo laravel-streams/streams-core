@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Collection;
+<?php
+
+namespace Anomaly\Streams\Platform\Collection;
 
 use Illuminate\Support\Collection;
 
 /**
- * Class CacheCollection
+ * Class CacheCollection.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Support\Collection;
  */
 class CacheCollection extends Collection
 {
-
     /**
      * The collection key.
      *

@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Field\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Event;
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 
 /**
- * Class FieldWasCreated
+ * Class FieldWasCreated.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
  */
 class FieldWasCreated
 {
-
     /**
      * The field object.
      *

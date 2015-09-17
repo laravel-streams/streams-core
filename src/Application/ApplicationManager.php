@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Application;
+<?php
+
+namespace Anomaly\Streams\Platform\Application;
 
 use Anomaly\Streams\Platform\Application\Command\CreateApplication;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class ApplicationManager
+ * Class ApplicationManager.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class ApplicationManager
 {
-
     use DispatchesJobs;
 
     /**

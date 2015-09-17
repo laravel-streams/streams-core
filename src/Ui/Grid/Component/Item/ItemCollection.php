@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Component\Item;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Component\Item;
 
 use Anomaly\Streams\Platform\Support\Collection;
 
 /**
- * Class ItemCollection
+ * Class ItemCollection.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,5 +14,4 @@ use Anomaly\Streams\Platform\Support\Collection;
  */
 class ItemCollection extends Collection
 {
-
 }

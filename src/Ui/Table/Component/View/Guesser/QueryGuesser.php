@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Guesser;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class QueryGuesser
+ * Class QueryGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class QueryGuesser
 {
-
     /**
      * Guess the query handler for the views.
      *
@@ -25,9 +26,9 @@ class QueryGuesser
         foreach ($views as &$view) {
 
             // Only automate it if not set.
-            if (!isset($view['query'])) {
+            if (! isset($view['query'])) {
                 if (class_exists($class = $this->guessClass($builder, $view))) {
-                    $view['query'] = $class . '@handle';
+                    $view['query'] = $class.'@handle';
                 }
             }
         }
@@ -48,6 +49,6 @@ class QueryGuesser
 
         array_pop($class);
 
-        return implode('\\', $class) . '\\View\\' . ucfirst(camel_case($view['slug'])) . 'Query';
+        return implode('\\', $class).'\\View\\'.ucfirst(camel_case($view['slug'])).'Query';
     }
 }

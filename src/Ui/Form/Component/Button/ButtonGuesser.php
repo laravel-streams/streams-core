@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser\EnabledGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser\HrefGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class ButtonGuesser
+ * Class ButtonGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class ButtonGuesser
 {
-
     /**
      * The HREF guesser.
      *

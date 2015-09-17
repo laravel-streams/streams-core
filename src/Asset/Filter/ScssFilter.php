@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Asset\Filter;
+<?php
+
+namespace Anomaly\Streams\Platform\Asset\Filter;
 
 use Anomaly\Streams\Platform\Asset\AssetParser;
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\ScssphpFilter;
 
 /**
- * Class ScssFilter
+ * Class ScssFilter.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Assetic\Filter\ScssphpFilter;
  */
 class ScssFilter extends ScssphpFilter
 {
-
     /**
      * The asset parser utility.
      *

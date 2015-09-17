@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Message\MessageBag;
@@ -11,7 +13,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
 /**
- * Class ActionExecutor
+ * Class ActionExecutor.
  *
  * @link          http://anomaly.is/streams-plattable
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -20,7 +22,6 @@ use Illuminate\Http\Request;
  */
 class ActionExecutor
 {
-
     /**
      * The request object.
      *
@@ -92,31 +93,29 @@ class ActionExecutor
         $handler = $action->getHandler();
 
         // Self handling implies @handle
-        if (is_string($handler) && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+        if (is_string($handler) && ! str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
             $handler .= '@handle';
         }
 
-        /**
+        /*
          * Authorize the action.
          */
-        if (!$this->authorizer->authorize($action->getPermission())) {
-
+        if (! $this->authorizer->authorize($action->getPermission())) {
             $this->messages->error('streams::message.403');
 
             return;
         }
 
-        /**
+        /*
          * Get the IDs of the selected rows.
          */
-        $selected = $this->request->get($options->get('prefix') . 'id', []);
+        $selected = $this->request->get($options->get('prefix').'id', []);
 
-        /**
+        /*
          * If the handler is a callable string or Closure
          * then call it using the IoC container.
          */
         if (is_string($handler) || $handler instanceof \Closure) {
-
             if (is_string($handler) && class_exists($handler) && class_implements(
                     $handler,
                     'Illuminate\Contracts\Bus\SelfHandling'
@@ -130,12 +129,11 @@ class ActionExecutor
             return;
         }
 
-        /**
+        /*
          * If the handle is an instance of ActionHandlerInterface
          * simply call the handle method on it.
          */
         if ($handler instanceof ActionHandlerInterface) {
-
             $handler->handle($builder, $selected);
 
             return;

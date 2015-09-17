@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Application\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Application\Command;
 
 use Anomaly\Streams\Platform\Application\ApplicationRepository;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class CreateApplication
+ * Class CreateApplication.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class CreateApplication implements SelfHandling
 {
-
     /**
      * The application attributes.
      *

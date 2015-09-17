@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class SetGridRepository
+ * Class SetGridRepository.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class SetGridRepository implements SelfHandling
 {
-
     /**
      * The grid builder.
      *
@@ -41,15 +42,15 @@ class SetGridRepository implements SelfHandling
 
         $repository = $grid->getOption('repository');
 
-        /**
+        /*
          * If there is no repository
          * then skip this step.
          */
-        if (!$repository) {
+        if (! $repository) {
             return;
         }
 
-        /**
+        /*
          * Set the repository on the form!
          */
         $grid->setRepository(app()->make($repository, compact('model', 'grid')));

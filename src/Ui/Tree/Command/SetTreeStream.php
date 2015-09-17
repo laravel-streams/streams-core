@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Command;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class SetTreeStream
+ * Class SetTreeStream.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class SetTreeStream implements SelfHandling
 {
-
     /**
      * The tree builder.
      *
@@ -40,7 +41,7 @@ class SetTreeStream implements SelfHandling
         $tree  = $this->builder->getTree();
         $model = $this->builder->getModel();
 
-        if (is_string($model) && !class_exists($model)) {
+        if (is_string($model) && ! class_exists($model)) {
             return;
         }
 

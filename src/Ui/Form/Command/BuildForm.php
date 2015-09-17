@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActions;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveAction;
@@ -10,7 +12,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class BuildForm
+ * Class BuildForm.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -19,7 +21,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class BuildForm implements SelfHandling
 {
-
     use DispatchesJobs;
 
     /**
@@ -44,7 +45,7 @@ class BuildForm implements SelfHandling
      */
     public function handle()
     {
-        /**
+        /*
          * Setup some objects and options using
          * provided input or sensible defaults.
          */
@@ -56,7 +57,7 @@ class BuildForm implements SelfHandling
         $this->dispatch(new SetFormOptions($this->builder));
         $this->dispatch(new SetFormEntry($this->builder)); // Do this last.
 
-        /**
+        /*
          * Before we go any further, authorize the request.
          */
         $this->dispatch(new AuthorizeForm($this->builder));
@@ -66,18 +67,18 @@ class BuildForm implements SelfHandling
          */
         $this->dispatch(new BuildFields($this->builder));
 
-        /**
+        /*
          * Build form sections.
          */
         $this->dispatch(new BuildSections($this->builder));
 
-        /**
+        /*
          * Build form actions and flag active.
          */
         $this->dispatch(new BuildActions($this->builder));
         $this->dispatch(new SetActiveAction($this->builder));
 
-        /**
+        /*
          * Build form buttons.
          */
         $this->dispatch(new BuildButtons($this->builder));

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Http\Middleware;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 
 /**
- * Class BypassMaintenanceCheck
+ * Class BypassMaintenanceCheck.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Http\Request;
  */
 class BypassMaintenanceCheck
 {
-
     /**
      * Handle the request.
      *

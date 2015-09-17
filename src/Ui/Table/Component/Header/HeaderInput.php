@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class HeaderInput
+ * Class HeaderInput.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class HeaderInput
 {
-
     /**
      * @var HeaderGuesser
      */
@@ -26,7 +27,7 @@ class HeaderInput
     protected $resolver;
 
     /**
-     * The header defaults;
+     * The header defaults;.
      *
      * @var HeaderDefaults
      */

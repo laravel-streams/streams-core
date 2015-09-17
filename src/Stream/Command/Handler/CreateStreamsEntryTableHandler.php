@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Command\Handler;
 
 use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\StreamSchema;
 
 /**
- * Class CreateStreamsEntryTableHandler
+ * Class CreateStreamsEntryTableHandler.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Stream\StreamSchema;
  */
 class CreateStreamsEntryTableHandler
 {
-
     /**
      * The schema object.
      *
@@ -43,7 +44,6 @@ class CreateStreamsEntryTableHandler
         $this->schema->createTable($stream);
 
         if ($stream->isTranslatable()) {
-
             $table = $stream->getEntryTranslationsTableName();
 
             $this->schema->createTranslationsTable($table);

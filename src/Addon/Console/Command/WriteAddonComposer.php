@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Console\Command;
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class WriteAddonComposer
+ * Class WriteAddonComposer.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Filesystem\Filesystem;
  */
 class WriteAddonComposer implements SelfHandling
 {
-
     /**
      * The addon path.
      *
@@ -73,9 +74,9 @@ class WriteAddonComposer implements SelfHandling
         $type   = $this->type;
         $vendor = $this->vendor;
 
-        $prefix = ucfirst(camel_case($vendor)) . '\\\\' . ucfirst(camel_case($slug)) . ucfirst(
+        $prefix = ucfirst(camel_case($vendor)).'\\\\'.ucfirst(camel_case($slug)).ucfirst(
                 camel_case($type)
-            ) . '\\\\';
+            ).'\\\\';
 
         $template = $filesystem->get(
             base_path('vendor/anomaly/streams-platform/resources/stubs/addons/composer.stub')

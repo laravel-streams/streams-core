@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Database\Seeder\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Seeder\Command;
 
 use Illuminate\Console\Command;
 
 /**
- * Class Seed
+ * Class Seed.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Console\Command;
  */
 class Seed
 {
-
     /**
      * The seeder class to run.
      *

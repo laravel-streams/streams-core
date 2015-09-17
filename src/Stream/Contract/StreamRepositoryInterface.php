@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Contract;
 
 use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
- * Interface StreamRepositoryInterface
+ * Interface StreamRepositoryInterface.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  */
 interface StreamRepositoryInterface extends EloquentRepositoryInterface
 {
-
     /**
      * Find a stream by it's namespace and slug.
      *

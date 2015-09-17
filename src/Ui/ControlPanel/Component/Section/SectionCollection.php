@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 use Illuminate\Support\Collection;
 
 /**
- * Class SectionCollection
+ * Class SectionCollection.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Support\Collection;
  */
 class SectionCollection extends Collection
 {
-
     /**
      * Return the active section.
      *
@@ -28,6 +29,6 @@ class SectionCollection extends Collection
             }
         }
 
-        return null;
+        return;
     }
 }

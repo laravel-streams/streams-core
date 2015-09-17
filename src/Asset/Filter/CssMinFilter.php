@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Asset\Filter;
+<?php
+
+namespace Anomaly\Streams\Platform\Asset\Filter;
 
 /**
- * Class CssMinFilter
+ * Class CssMinFilter.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,5 +12,4 @@
  */
 class CssMinFilter extends \Assetic\Filter\CssMinFilter
 {
-
 }

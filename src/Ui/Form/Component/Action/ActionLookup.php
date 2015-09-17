@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class ActionLookup
+ * Class ActionLookup.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class ActionLookup
 {
-
     /**
      * The action registry.
      *
@@ -34,7 +35,7 @@ class ActionLookup
      * @param ActionRegistry $actions
      * @param ButtonRegistry $buttons
      */
-    function __construct(ActionRegistry $actions, ButtonRegistry $buttons)
+    public function __construct(ActionRegistry $actions, ButtonRegistry $buttons)
     {
         $this->actions = $actions;
         $this->buttons = $buttons;
@@ -50,7 +51,6 @@ class ActionLookup
         $actions = $builder->getActions();
 
         foreach ($actions as &$parameters) {
-
             $action = $original = array_pull($parameters, 'action');
 
             if ($action && $action = $this->actions->get($action)) {

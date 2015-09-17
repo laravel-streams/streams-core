@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
- * Class ModuleModel
+ * Class ModuleModel.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  */
 class ModuleModel extends EloquentModel implements ModuleInterface
 {
-
     /**
      * Define the table name.
      *
@@ -47,7 +48,7 @@ class ModuleModel extends EloquentModel implements ModuleInterface
     {
         $module = $this->findByNamespace($namespace);
 
-        if ($module instanceof ModuleModel) {
+        if ($module instanceof self) {
             return $module;
         }
 

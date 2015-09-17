@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -7,7 +9,7 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class AssignmentModel
+ * Class AssignmentModel.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class AssignmentModel extends EloquentModel implements AssignmentInterface
 {
-
     /**
      * Do not use timestamps.
      *
@@ -30,7 +31,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      * @var array
      */
     protected $attributes = [
-        'config' => 'a:0:{}'
+        'config' => 'a:0:{}',
     ];
 
     /**
@@ -55,7 +56,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     protected $translatedAttributes = [
         'label',
         'placeholder',
-        'instructions'
+        'instructions',
     ];
 
     /**
@@ -131,14 +132,14 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     {
         $field = $this->getField();
 
-        if (!$field) {
-            return null;
+        if (! $field) {
+            return;
         }
 
         $type = $field->getType();
 
-        if (!$type) {
-            return null;
+        if (! $type) {
+            return;
         }
 
         $type->mergeConfig($this->getConfig());
@@ -280,8 +281,8 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     {
         $field = $this->getField();
 
-        if (!$field) {
-            return null;
+        if (! $field) {
+            return;
         }
 
         return $field->getId();
@@ -336,7 +337,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function setConfigAttribute($config)
     {
-        $this->attributes['config'] = serialize((array)$config);
+        $this->attributes['config'] = serialize((array) $config);
     }
 
     /**
@@ -347,8 +348,8 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getConfigAttribute($config)
     {
-        if (!is_array($config)) {
-            return (array)unserialize($config);
+        if (! is_array($config)) {
+            return (array) unserialize($config);
         }
 
         return $config;
@@ -358,7 +359,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      * @param array $items
      * @return AssignmentCollection
      */
-    public function newCollection(array $items = array())
+    public function newCollection(array $items = [])
     {
         return new AssignmentCollection($items);
     }

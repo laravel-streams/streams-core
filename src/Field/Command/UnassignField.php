@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Field\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Command;
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class UnassignField
+ * Class UnassignField.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class UnassignField
 {
-
     /**
      * The field to unassign.
      *
@@ -35,7 +36,7 @@ class UnassignField
      * @param FieldInterface  $field
      * @param StreamInterface $stream
      */
-    function __construct(FieldInterface $field, StreamInterface $stream)
+    public function __construct(FieldInterface $field, StreamInterface $stream)
     {
         $this->field  = $field;
         $this->stream = $stream;

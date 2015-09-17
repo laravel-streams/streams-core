@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Contract;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Interface ViewHandlerInterface
+ * Interface ViewHandlerInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 interface ViewHandlerInterface
 {
-
     /**
      * Handle the view's table modification.
      *

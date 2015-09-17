@@ -1,16 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Database\Seeder;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Seeder;
 
 use Anomaly\Streams\Platform\Database\Seeder\Console\SeedCommand;
 use Illuminate\Database\SeedServiceProvider;
 
 /**
- * Class SeederServiceProvider
+ * Class SeederServiceProvider.
  *
  * @package Anomaly\Streams\Platform\Database\Seeder
  */
 class SeederServiceProvider extends SeedServiceProvider
 {
-
     /**
      * Register the service provider.
      *

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Field\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Command;
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class AutoAssignField
+ * Class AutoAssignField.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class AssignField
 {
-
     /**
      * The field we're assigning.
      *
@@ -42,7 +43,7 @@ class AssignField
      * @param StreamInterface $stream
      * @param array           $attributes
      */
-    function __construct(FieldInterface $field, StreamInterface $stream, array $attributes)
+    public function __construct(FieldInterface $field, StreamInterface $stream, array $attributes)
     {
         $this->field      = $field;
         $this->stream     = $stream;

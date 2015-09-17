@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Stream;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
- * Class StreamModelTranslation
+ * Class StreamModelTranslation.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  */
 class StreamModelTranslation extends EloquentModel
 {
-
     /**
      * Do not use timestamps.
      *
@@ -33,5 +34,4 @@ class StreamModelTranslation extends EloquentModel
      * @var string
      */
     protected $table = 'streams_streams_translations';
-
 }

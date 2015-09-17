@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Image;
+<?php
+
+namespace Anomaly\Streams\Platform\Image;
 
 /**
- * Class ImagePluginFunctions
+ * Class ImagePluginFunctions.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class ImagePluginFunctions
 {
-
     /**
      * The image utility.
      *

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Http\Middleware;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Middleware;
 
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Closure;
@@ -8,7 +10,7 @@ use Illuminate\Routing\Route;
 use Illuminate\Session\TokenMismatchException;
 
 /**
- * Class VerifyCsrfToken
+ * Class VerifyCsrfToken.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Illuminate\Session\TokenMismatchException;
  */
 class VerifyCsrfToken extends \App\Http\Middleware\VerifyCsrfToken
 {
-
     /**
      * The route instance.
      *
@@ -65,7 +66,7 @@ class VerifyCsrfToken extends \App\Http\Middleware\VerifyCsrfToken
     public function handle($request, Closure $next)
     {
         // If the method is not a post - skip.
-        if (!$request->isMethod('post')) {
+        if (! $request->isMethod('post')) {
             return $next($request);
         }
 
@@ -77,14 +78,13 @@ class VerifyCsrfToken extends \App\Http\Middleware\VerifyCsrfToken
             return $next($request);
         }
 
-        /**
+        /*
          * Try validating the CSRF token with the
          * base Laravel Middleware.
          */
         try {
             return parent::handle($request, $next);
         } catch (TokenMismatchException $e) {
-
             $this->messages->error('streams::message.csrf_token_mismatch');
 
             return $this->redirector->back();

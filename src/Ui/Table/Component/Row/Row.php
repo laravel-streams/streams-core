@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Support\Collection;
 
 /**
- * Class Row
+ * Class Row.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Support\Collection;
  */
 class Row implements RowInterface
 {
-
     /**
      * The row entry.
      *

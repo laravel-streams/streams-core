@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class HandlerGuesser
+ * Class HandlerGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class HandlerGuesser
 {
-
     /**
      * Guess the action handler.
      *
@@ -25,9 +26,9 @@ class HandlerGuesser
         foreach ($actions as &$action) {
 
             // Only if it's not already set.
-            if (!isset($action['handler'])) {
+            if (! isset($action['handler'])) {
                 if (class_exists($class = $this->guessClass($builder, $action))) {
-                    $action['handler'] = $class . '@handle';
+                    $action['handler'] = $class.'@handle';
                 }
             }
         }
@@ -48,6 +49,6 @@ class HandlerGuesser
 
         array_pop($class);
 
-        return implode('\\', $class) . '\\Action\\' . ucfirst(camel_case($action['slug'])) . 'Handler';
+        return implode('\\', $class).'\\Action\\'.ucfirst(camel_case($action['slug'])).'Handler';
     }
 }

@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class FieldInput
+ * Class FieldInput.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class FieldInput
 {
-
     /**
      * The field filler.
      *
@@ -89,7 +90,7 @@ class FieldInput
      * @param FieldNormalizer $normalizer
      * @param FieldTranslator $translator
      */
-    function __construct(
+    public function __construct(
         FieldFiller $filler,
         FieldParser $parser,
         FieldGuesser $guesser,

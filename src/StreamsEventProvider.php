@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform;
+<?php
+
+namespace Anomaly\Streams\Platform;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 
 /**
- * Class StreamsEventProvider
+ * Class StreamsEventProvider.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider;
  */
 class StreamsEventProvider extends EventServiceProvider
 {
-
     /**
      * Event listeners.
      *
@@ -25,24 +26,24 @@ class StreamsEventProvider extends EventServiceProvider
             'Anomaly\Streams\Platform\Application\Listener\CheckIfInstallerExists',
             'Anomaly\Streams\Platform\Ui\ControlPanel\Listener\LoadControlPanel',
             'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\GuessBreadcrumbs',
-            'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\LoadBreadcrumbs'
+            'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\LoadBreadcrumbs',
         ],
         'Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered'       => [
             'Anomaly\Streams\Platform\Addon\Theme\Listener\LoadCurrentTheme' => -100,
             'Anomaly\Streams\Platform\Asset\Listener\AddAddonPaths',
-            'Anomaly\Streams\Platform\Image\Listener\AddAddonPaths'
+            'Anomaly\Streams\Platform\Image\Listener\AddAddonPaths',
         ],
         'Anomaly\Streams\Platform\View\Event\ViewComposed'                => [
             'Anomaly\Streams\Platform\View\Listener\DecorateData',
-            'Anomaly\Streams\Platform\View\Listener\LoadTemplateData'
+            'Anomaly\Streams\Platform\View\Listener\LoadTemplateData',
         ],
         'Anomaly\Streams\Platform\Addon\Plugin\Event\PluginWasRegistered' => [
-            'Anomaly\Streams\Platform\Addon\Plugin\Listener\AddPluginToTwig'
+            'Anomaly\Streams\Platform\Addon\Plugin\Listener\AddPluginToTwig',
         ],
         'Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying'         => [
             'Anomaly\Streams\Platform\Ui\Table\Component\View\Listener\ApplyView',
-            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\FilterResults'
-        ]
+            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener\FilterResults',
+        ],
     ];
 
     /**
@@ -55,7 +56,6 @@ class StreamsEventProvider extends EventServiceProvider
     {
         foreach ($this->listen as $event => $listeners) {
             foreach ($listeners as $key => $listener) {
-
                 if (is_integer($listener)) {
                     $listener = $key;
                     $priority = $listener;

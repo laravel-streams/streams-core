@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Model\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Model\Event;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
- * Class ModelWasDeleted
+ * Class ModelWasDeleted.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  */
 class ModelWasDeleted
 {
-
     /**
      * The model object.
      *
@@ -25,7 +26,7 @@ class ModelWasDeleted
      *
      * @param EloquentModel $model
      */
-    function __construct(EloquentModel $model)
+    public function __construct(EloquentModel $model)
     {
         $this->model = $model;
     }

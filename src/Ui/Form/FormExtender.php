@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Validation\Factory;
 
 /**
- * Class FormExtender
+ * Class FormExtender.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Validation\Factory;
  */
 class FormExtender
 {
-
     /**
      * The service container.
      *
@@ -55,7 +56,6 @@ class FormExtender
     protected function registerValidators(Factory $factory, FormBuilder $builder, FieldType $fieldType)
     {
         foreach ($fieldType->getValidators() as $rule => $validator) {
-
             $handler = array_get($validator, 'handler');
 
             if (class_exists($handler) && class_implements($handler, 'Illuminate\Contracts\Bus\SelfHandling')) {

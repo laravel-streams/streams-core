@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQuery;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
 
 /**
- * Class FilterResults
+ * Class FilterResults.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
  */
 class FilterResults
 {
-
     /**
      * The filter query utility.
      *

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection;
@@ -8,7 +10,7 @@ use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Illuminate\Support\Collection;
 
 /**
- * Class AddonCollection
+ * Class AddonCollection.
  *
  * @method ExtensionCollection extensions();
  * @method FieldTypeCollection fieldTypes();
@@ -23,7 +25,6 @@ use Illuminate\Support\Collection;
  */
 class AddonCollection extends Collection
 {
-
     /**
      * Return only core addons.
      *
@@ -59,7 +60,7 @@ class AddonCollection extends Collection
             }
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -100,7 +101,6 @@ class AddonCollection extends Collection
 
             /* @var Addon $addon */
             foreach ($this->items as $addon) {
-
                 if ($addon->getType() !== $type) {
                     continue;
                 }
@@ -137,7 +137,7 @@ class AddonCollection extends Collection
      * @param $arguments
      * @return AddonCollection
      */
-    function __call($method, $arguments)
+    public function __call($method, $arguments)
     {
         $type = str_singular($method);
 
@@ -154,7 +154,7 @@ class AddonCollection extends Collection
      * @param $name
      * @return AddonCollection
      */
-    function __get($name)
+    public function __get($name)
     {
         $type = str_singular($name);
 

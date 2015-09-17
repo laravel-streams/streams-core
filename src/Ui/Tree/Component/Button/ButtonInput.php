@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
 /**
- * Class ButtonInput
+ * Class ButtonInput.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
  */
 class ButtonInput
 {
-
     /**
      * The button guesser.
      *

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Entry\EntryTableRepository;
@@ -9,7 +11,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 
 /**
- * Class SetRepository
+ * Class SetRepository.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -18,7 +20,6 @@ use Illuminate\Contracts\Container\Container;
  */
 class SetRepository implements SelfHandling
 {
-
     /**
      * The table builder.
      *
@@ -43,18 +44,17 @@ class SetRepository implements SelfHandling
      */
     public function handle(Container $container)
     {
-        /**
+        /*
          * Set the default options handler based
          * on the builder class. Defaulting to
          * no handler.
          */
-        if (!$this->builder->getRepository()) {
-
+        if (! $this->builder->getRepository()) {
             $model = $this->builder->getTableModel();
 
-            if (!$this->builder->getRepository() && $model instanceof EntryModel) {
+            if (! $this->builder->getRepository() && $model instanceof EntryModel) {
                 $this->builder->setRepository($container->make(EntryTableRepository::class, compact('model')));
-            } elseif (!$this->builder->getRepository() && $model instanceof EloquentModel) {
+            } elseif (! $this->builder->getRepository() && $model instanceof EloquentModel) {
                 $this->builder->setRepository($container->make(EloquentTableRepository::class, compact('model')));
             }
         }

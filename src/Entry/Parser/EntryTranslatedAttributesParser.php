@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Parser;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Parser;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class EntryTranslatedAttributesParser
+ * Class EntryTranslatedAttributesParser.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryTranslatedAttributesParser
 {
-
     /**
      * Return the translation foreign key attribute.
      *
@@ -21,16 +22,16 @@ class EntryTranslatedAttributesParser
      */
     public function parse(StreamInterface $stream)
     {
-        if (!$stream->isTranslatable()) {
-            return null;
+        if (! $stream->isTranslatable()) {
+            return;
         }
 
         $assignments = $stream->getTranslatableAssignments();
 
         if ($assignments->isEmpty()) {
-            return null;
+            return;
         }
 
-        return 'protected $translatedAttributes = [\'' . implode('\', \'', $assignments->fieldSlugs()) . '\'];';
+        return 'protected $translatedAttributes = [\''.implode('\', \'', $assignments->fieldSlugs()).'\'];';
     }
 }

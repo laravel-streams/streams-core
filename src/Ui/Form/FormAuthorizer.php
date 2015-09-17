@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Support\Authorizer;
 
 /**
- * Class FormAuthorizer
+ * Class FormAuthorizer.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Support\Authorizer;
  */
 class FormAuthorizer
 {
-
     /**
      * The module collection.
      *
@@ -55,7 +56,7 @@ class FormAuthorizer
             return;
         }
 
-        if (!env('INSTALLED')) {
+        if (! env('INSTALLED')) {
             return;
         }
 
@@ -67,20 +68,19 @@ class FormAuthorizer
             $permission = $module->getNamespace($permission);
         }
 
-        /**
+        /*
          * If the option is not set then
          * try and automate the permission.
          */
-        if (!$permission && $module && ($stream = $builder->getFormStream())) {
-
+        if (! $permission && $module && ($stream = $builder->getFormStream())) {
             $entry = $builder->getFormEntry();
 
             if ($entry instanceof EntryInterface) {
-                $permission = $module->getNamespace($stream->getSlug() . '.write');
+                $permission = $module->getNamespace($stream->getSlug().'.write');
             }
         }
 
-        if (!$this->authorizer->authorize($permission)) {
+        if (! $this->authorizer->authorize($permission)) {
             abort(403);
         }
     }

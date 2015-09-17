@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Plugin;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Plugin;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 
 /**
- * Class PluginCollection
+ * Class PluginCollection.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,5 +14,4 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class PluginCollection extends AddonCollection
 {
-
 }

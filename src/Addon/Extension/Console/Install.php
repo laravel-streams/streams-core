@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension\Console;
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
@@ -7,7 +9,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
- * Class Install
+ * Class Install.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class Install extends Command
 {
-
     /**
      * The console command name.
      *
@@ -48,7 +49,7 @@ class Install extends Command
 
         $extension->fire('installed');
 
-        $this->info(trans($extension->getName()) . ' installed successfully!');
+        $this->info(trans($extension->getName()).' installed successfully!');
     }
 
     /**

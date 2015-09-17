@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class ActionInput
+ * Class ActionInput.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class ActionInput
 {
-
     /**
      * The action parser.
      *
@@ -73,7 +74,7 @@ class ActionInput
      * @param ActionPredictor  $predictor
      * @param ActionNormalizer $normalizer
      */
-    function __construct(
+    public function __construct(
         ActionParser $parser,
         ActionLookup $lookup,
         ActionGuesser $guesser,

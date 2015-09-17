@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class RemoveSkippedFields
+ * Class RemoveSkippedFields.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class RemoveSkippedFields implements SelfHandling
 {
-
     /**
      * The form builder.
      *
@@ -36,7 +37,7 @@ class RemoveSkippedFields implements SelfHandling
      */
     public function handle()
     {
-        if (!$this->builder->canSave()) {
+        if (! $this->builder->canSave()) {
             return;
         }
 

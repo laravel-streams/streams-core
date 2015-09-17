@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 
 /**
- * Class Resolver
+ * Class Resolver.
  *
  * This is a handy class for getting input from
  * a callable target.
@@ -18,7 +20,6 @@ use Illuminate\Contracts\Container\Container;
  */
 class Resolver
 {
-
     /**
      * The IoC container.
      *
@@ -49,7 +50,7 @@ class Resolver
         if (is_string($target) && str_contains($target, '@')) {
             return $this->container->call($target, $arguments);
         } elseif (is_string($target) && class_implements($target, SelfHandling::class)) {
-            return $this->container->call($target . '@' . $method, $arguments);
+            return $this->container->call($target.'@'.$method, $arguments);
         }
 
         return $target;

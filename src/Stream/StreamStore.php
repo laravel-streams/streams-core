@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Stream;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class StreamStore
+ * Class StreamStore.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class StreamStore
 {
-
     /**
      * The cached streams.
      *
@@ -43,6 +44,6 @@ class StreamStore
             return $this->cache[md5(json_encode($data))];
         }
 
-        return null;
+        return;
     }
 }

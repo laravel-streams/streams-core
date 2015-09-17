@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Asset\Filter;
+<?php
+
+namespace Anomaly\Streams\Platform\Asset\Filter;
 
 use Anomaly\Streams\Platform\Asset\AssetParser;
 use Assetic\Asset\AssetInterface;
 
 /**
- * Class StylusFilter
+ * Class StylusFilter.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Assetic\Asset\AssetInterface;
  */
 class StylusFilter extends \Assetic\Filter\StylusFilter
 {
-
     /**
      * The asset parser utility.
      *

@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType\Event;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 
 /**
- * Class FieldTypeWasRegistered
+ * Class FieldTypeWasRegistered.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
  */
 class FieldTypeWasRegistered
 {
-
     /**
      * The fieldType object.
      *

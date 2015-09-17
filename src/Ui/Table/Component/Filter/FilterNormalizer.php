@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class FilterNormalizer
+ * Class FilterNormalizer.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class FilterNormalizer
 {
-
     /**
      * Normalize filter input.
      *
@@ -25,37 +26,37 @@ class FilterNormalizer
 
         foreach ($filters as $slug => &$filter) {
 
-            /**
+            /*
              * If the filter is a string then use
              * it for everything.
              */
-            if (is_string($filter) && !str_contains($filter, '/')) {
+            if (is_string($filter) && ! str_contains($filter, '/')) {
                 $filter = [
                     'slug'   => $filter,
                     'field'  => $filter,
-                    'filter' => 'field'
+                    'filter' => 'field',
                 ];
             }
 
-            /**
+            /*
              * If the filter is a class string then use
              * it for the filter.
              */
             if (is_string($filter) && str_contains($filter, '/')) {
                 $filter = [
                     'slug'   => $slug,
-                    'filter' => $filter
+                    'filter' => $filter,
                 ];
             }
 
-            /**
+            /*
              * Move the slug to the filter.
              */
-            if (!isset($filter['slug'])) {
+            if (! isset($filter['slug'])) {
                 $filter['slug'] = $slug;
             }
 
-            /**
+            /*
              * Set the table's stream.
              */
             $filter['stream'] = $stream;

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Plugin;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Plugin;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -7,7 +9,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
 
 /**
- * Class PluginForm
+ * Class PluginForm.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Http\Request;
  */
 class PluginForm
 {
-
     /**
      * The cache repository.
      *
@@ -105,13 +106,12 @@ class PluginForm
     {
         $parameters['key'] = md5(json_encode($parameters));
 
-        if (!$builder = array_get($parameters, 'builder')) {
-            if (!$model = array_get($parameters, 'model')) {
-
+        if (! $builder = array_get($parameters, 'builder')) {
+            if (! $model = array_get($parameters, 'model')) {
                 $stream    = ucfirst(camel_case(array_get($parameters, 'stream')));
                 $namespace = ucfirst(camel_case(array_get($parameters, 'namespace')));
 
-                $model = 'Anomaly\Streams\Platform\Model\\' . $namespace . '\\' . $namespace . $stream . 'EntryModel';
+                $model = 'Anomaly\Streams\Platform\Model\\'.$namespace.'\\'.$namespace.$stream.'EntryModel';
 
                 array_set($parameters, 'model', $model);
             }
@@ -125,16 +125,16 @@ class PluginForm
         $this->hydrator->hydrate($builder, $parameters);
 
         // Use the core form handler if none set.
-        if (!$builder->getFormOption('url')) {
-            $builder->setFormOption('url', 'form/handle/' . $parameters['key']);
+        if (! $builder->getFormOption('url')) {
+            $builder->setFormOption('url', 'form/handle/'.$parameters['key']);
         }
 
         // Use the current page if no redirect.
-        if (!$builder->getFormOption('redirect')) {
+        if (! $builder->getFormOption('redirect')) {
             $builder->setFormOption('redirect', $this->request->fullUrl());
         }
 
-        $this->cache->forever('form::' . $parameters['key'], $parameters);
+        $this->cache->forever('form::'.$parameters['key'], $parameters);
 
         return $builder;
     }

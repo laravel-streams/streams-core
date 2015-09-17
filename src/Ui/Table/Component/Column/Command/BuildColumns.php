@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class BuildColumns
+ * Class BuildColumns.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class BuildColumns
 {
-
     /**
      * The table builder.
      *

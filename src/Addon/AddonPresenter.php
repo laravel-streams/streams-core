@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Support\Presenter;
 
 /**
- * Class AddonPresenter
+ * Class AddonPresenter.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Support\Presenter;
  */
 class AddonPresenter extends Presenter
 {
-
     /**
      * The resource object.
      * This is for IDE hinting.
@@ -29,13 +30,13 @@ class AddonPresenter extends Presenter
     public function locationLabel()
     {
         if ($this->object->isCore()) {
-            return '<span class="label label-danger">' . trans('streams::addon.core') . '</span>';
+            return '<span class="label label-danger">'.trans('streams::addon.core').'</span>';
         }
 
         if ($this->object->isShared()) {
-            return '<span class="label label-success">' . trans('streams::addon.shared') . '</span>';
+            return '<span class="label label-success">'.trans('streams::addon.shared').'</span>';
         }
 
-        return '<span class="label label-warning">' . trans('streams::addon.private') . '</span>';
+        return '<span class="label label-warning">'.trans('streams::addon.private').'</span>';
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Application\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\Application\Listener;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Message\MessageBag;
@@ -6,7 +8,7 @@ use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
 
 /**
- * Class CheckIfInstallerExists
+ * Class CheckIfInstallerExists.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Http\Request;
  */
 class CheckIfInstallerExists
 {
-
     /**
      * The config repository.
      *
@@ -66,7 +67,7 @@ class CheckIfInstallerExists
     public function handle()
     {
         if (
-            !$this->config->get('app.debug') &&
+            ! $this->config->get('app.debug') &&
             $this->request->path() == 'admin/dashboard' &&
             $this->modules->get('anomaly.module.installer')
         ) {

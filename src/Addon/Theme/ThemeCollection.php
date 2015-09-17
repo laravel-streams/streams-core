@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Theme;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Theme;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 
 /**
- * Class ThemeCollection
+ * Class ThemeCollection.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class ThemeCollection extends AddonCollection
 {
-
     /**
      * Return the active theme.
      *
@@ -27,7 +28,7 @@ class ThemeCollection extends AddonCollection
             }
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -65,7 +66,7 @@ class ThemeCollection extends AddonCollection
 
         /* @var Theme $item */
         foreach ($this->items as $item) {
-            if (!$item->isAdmin()) {
+            if (! $item->isAdmin()) {
                 $items[] = $item;
             }
         }
@@ -106,6 +107,6 @@ class ThemeCollection extends AddonCollection
             }
         }
 
-        return null;
+        return;
     }
 }

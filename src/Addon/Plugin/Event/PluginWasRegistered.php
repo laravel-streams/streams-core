@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Plugin\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Plugin\Event;
 
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 
 /**
- * Class PluginWasRegistered
+ * Class PluginWasRegistered.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
  */
 class PluginWasRegistered
 {
-
     /**
      * The plugin object.
      *

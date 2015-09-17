@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class FormRules
+ * Class FormRules.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class FormRules
 {
-
     /**
      * Compile rules from form fields.
      *
@@ -29,7 +30,6 @@ class FormRules
 
         /* @var FieldType $field */
         foreach ($builder->getEnabledFormFields() as $field) {
-
             if ($field->isDisabled()) {
                 continue;
             }
@@ -40,27 +40,24 @@ class FormRules
 
             $fieldRules = array_filter(array_unique($field->getRules()));
 
-            if (!$stream instanceof StreamInterface) {
-
+            if (! $stream instanceof StreamInterface) {
                 $rules[$field->getInputName()] = implode('|', $fieldRules);
 
                 continue;
             }
 
             if ($assignment = $stream->getAssignment($field->getField())) {
-
                 $type = $assignment->getFieldType();
 
                 if ($type->isRequired()) {
                     $fieldRules[] = 'required';
                 }
 
-                if (!isset($fieldRules['unique']) && $assignment->isUnique() && !$assignment->isTranslatable()) {
-
-                    $unique = 'unique:' . $stream->getEntryTableName() . ',' . $field->getColumnName();
+                if (! isset($fieldRules['unique']) && $assignment->isUnique() && ! $assignment->isTranslatable()) {
+                    $unique = 'unique:'.$stream->getEntryTableName().','.$field->getColumnName();
 
                     if ($entry && $id = $entry->getId()) {
-                        $unique .= ',' . $id;
+                        $unique .= ','.$id;
                     }
 
                     $fieldRules[] = $unique;

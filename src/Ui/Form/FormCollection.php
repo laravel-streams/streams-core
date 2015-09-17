@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Illuminate\Support\Collection;
 
 /**
- * Class FormCollection
+ * Class FormCollection.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Support\Collection;
  */
 class FormCollection extends Collection
 {
-
     /**
      * Put a form into the form collection.
      *

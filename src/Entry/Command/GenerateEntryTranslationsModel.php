@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Command;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class GenerateEntryTranslationsModel
+ * Class GenerateEntryTranslationsModel.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class GenerateEntryTranslationsModel
 {
-
     /**
      * The stream interface.
      *

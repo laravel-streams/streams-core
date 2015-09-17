@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Support\Translator;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
 /**
- * Class ButtonFactory
+ * Class ButtonFactory.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
  */
 class ButtonFactory
 {
-
     /**
      * The default button class.
      *
@@ -72,7 +73,7 @@ class ButtonFactory
 
         $parameters = $this->translator->translate($parameters);
 
-        if (!array_get($parameters, 'button') || !class_exists(array_get($parameters, 'button'))) {
+        if (! array_get($parameters, 'button') || ! class_exists(array_get($parameters, 'button'))) {
             array_set($parameters, 'button', $this->button);
         }
 

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -24,7 +26,7 @@ use Illuminate\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class FormBuilder
+ * Class FormBuilder.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -33,7 +35,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class FormBuilder
 {
-
     use DispatchesJobs;
     use FiresCallbacks;
 
@@ -199,7 +200,7 @@ class FormBuilder
      */
     public function handle($entry = null)
     {
-        if (!app('request')->isMethod('post')) {
+        if (! app('request')->isMethod('post')) {
             throw new \Exception('The handle method must be used with a POST request.');
         }
 
@@ -234,7 +235,7 @@ class FormBuilder
     {
         $this->make($entry);
 
-        if (!$this->form->getResponse()) {
+        if (! $this->form->getResponse()) {
             $this->dispatch(new SetFormResponse($this));
         }
 
@@ -686,7 +687,7 @@ class FormBuilder
      */
     public function addAsset($collection, $asset)
     {
-        if (!isset($this->assets[$collection])) {
+        if (! isset($this->assets[$collection])) {
             $this->assets[$collection] = [];
         }
 
@@ -1028,7 +1029,7 @@ class FormBuilder
     {
         $errors = $this->form->getErrors();
 
-        return !$errors->isEmpty();
+        return ! $errors->isEmpty();
     }
 
     /**
@@ -1090,7 +1091,7 @@ class FormBuilder
      */
     public function getRequestValue($key, $default = null)
     {
-        return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
+        return array_get($_REQUEST, $this->getOption('prefix').$key, $default);
     }
 
     /**

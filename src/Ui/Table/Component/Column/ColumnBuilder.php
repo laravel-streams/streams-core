@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class ColumnBuilder
+ * Class ColumnBuilder.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class ColumnBuilder
 {
-
     /**
      * The column reader.
      *
@@ -74,7 +75,6 @@ class ColumnBuilder
         $this->input->read($builder, $entry);
 
         foreach ($builder->getColumns() as $column) {
-
             array_set($column, 'entry', $entry);
 
             $column = $this->evaluator->evaluate($column, compact('entry', 'table'));

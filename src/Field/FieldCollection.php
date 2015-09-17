@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Field;
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class FieldCollection
+ * Class FieldCollection.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class FieldCollection extends EloquentCollection
 {
-
     /**
      * Create a new FieldCollection instance.
      *
@@ -39,7 +40,7 @@ class FieldCollection extends EloquentCollection
 
         /* @var FieldInterface $item */
         foreach ($this->items as $item) {
-            if (!$item->hasAssignments()) {
+            if (! $item->hasAssignments()) {
                 $unassigned[] = $item;
             }
         }
@@ -83,7 +84,7 @@ class FieldCollection extends EloquentCollection
             array_filter(
                 $this->items,
                 function (FieldInterface $field) use ($fieldSlugs) {
-                    return !in_array($field->getSlug(), $fieldSlugs);
+                    return ! in_array($field->getSlug(), $fieldSlugs);
                 }
             )
         );
@@ -100,7 +101,7 @@ class FieldCollection extends EloquentCollection
 
         /* @var FieldInterface $item */
         foreach ($this->items as $item) {
-            if (!$item->isLocked()) {
+            if (! $item->isLocked()) {
                 $unlocked[] = $item;
             }
         }

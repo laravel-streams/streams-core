@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class BuildFilters
+ * Class BuildFilters.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class BuildFilters implements SelfHandling
 {
-
     /**
      * The table builder.
      *

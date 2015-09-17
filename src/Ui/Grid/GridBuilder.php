@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -16,7 +18,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
 /**
- * Class GridBuilder
+ * Class GridBuilder.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -25,7 +27,6 @@ use Illuminate\Support\Collection;
  */
 class GridBuilder
 {
-
     use FiresCallbacks;
     use DispatchesJobs;
 
@@ -69,7 +70,7 @@ class GridBuilder
      *
      * @param Grid $grid
      */
-    function __construct(Grid $grid)
+    public function __construct(Grid $grid)
     {
         $this->grid = $grid;
     }
@@ -95,7 +96,7 @@ class GridBuilder
     {
         $this->build();
 
-        if (!app('request')->isMethod('post')) {
+        if (! app('request')->isMethod('post')) {
             $this->dispatch(new LoadGrid($this));
             $this->dispatch(new AddAssets($this));
             $this->dispatch(new MakeGrid($this));
@@ -253,7 +254,7 @@ class GridBuilder
      */
     public function addAsset($collection, $asset)
     {
-        if (!isset($this->assets[$collection])) {
+        if (! isset($this->assets[$collection])) {
             $this->assets[$collection] = [];
         }
 
@@ -393,6 +394,6 @@ class GridBuilder
      */
     public function getRequestValue($key, $default = null)
     {
-        return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
+        return array_get($_REQUEST, $this->getOption('prefix').$key, $default);
     }
 }

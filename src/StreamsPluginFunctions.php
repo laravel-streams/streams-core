@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform;
+<?php
+
+namespace Anomaly\Streams\Platform;
 
 use Anomaly\Streams\Platform\Addon\Plugin\PluginForm;
 use Anomaly\Streams\Platform\Addon\Plugin\PluginQuery;
@@ -8,7 +10,7 @@ use Anomaly\Streams\Platform\Support\Decorator;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
- * Class StreamsPluginFunctions
+ * Class StreamsPluginFunctions.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  */
 class StreamsPluginFunctions
 {
-
     /**
      * The plugin form utility.
      *

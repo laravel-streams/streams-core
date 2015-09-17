@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Asset\Filter;
+<?php
+
+namespace Anomaly\Streams\Platform\Asset\Filter;
 
 use Anomaly\Streams\Platform\Asset\AssetParser;
 use Assetic\Asset\AssetInterface;
@@ -6,7 +8,7 @@ use Assetic\Filter\FilterInterface;
 use CoffeeScript\Compiler;
 
 /**
- * Class CoffeeFilter
+ * Class CoffeeFilter.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use CoffeeScript\Compiler;
  */
 class CoffeeFilter implements FilterInterface
 {
-
     /**
      * The asset parser utility.
      *

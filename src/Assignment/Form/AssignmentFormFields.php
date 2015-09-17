@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment\Form;
 
 /**
- * Class AssignmentFormFields
+ * Class AssignmentFormFields.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class AssignmentFormFields
 {
-
     /**
      * Handle the form fields.
      *
@@ -23,36 +24,36 @@ class AssignmentFormFields
                 'label'        => [
                     'label'        => 'streams::assignment.label.name',
                     'instructions' => 'streams::assignment.label.instructions',
-                    'type'         => 'anomaly.field_type.text'
+                    'type'         => 'anomaly.field_type.text',
                 ],
                 'placeholder'  => [
                     'label'        => 'streams::assignment.placeholder.name',
                     'instructions' => 'streams::assignment.placeholder.instructions',
-                    'type'         => 'anomaly.field_type.text'
+                    'type'         => 'anomaly.field_type.text',
                 ],
                 'instructions' => [
                     'label'        => 'streams::assignment.instructions.name',
                     'instructions' => 'streams::assignment.instructions.instructions',
-                    'type'         => 'anomaly.field_type.textarea'
+                    'type'         => 'anomaly.field_type.textarea',
                 ],
                 'required'     => [
                     'label'        => 'streams::assignment.required.label',
                     'instructions' => 'streams::assignment.required.instructions',
                     'type'         => 'anomaly.field_type.boolean',
-                    'disabled'     => 'edit'
+                    'disabled'     => 'edit',
                 ],
                 'unique'       => [
                     'label'        => 'streams::assignment.unique.label',
                     'instructions' => 'streams::assignment.unique.instructions',
                     'type'         => 'anomaly.field_type.boolean',
-                    'disabled'     => 'edit'
+                    'disabled'     => 'edit',
                 ],
                 'translatable' => [
                     'label'        => 'streams::assignment.translatable.label',
                     'instructions' => 'streams::assignment.translatable.instructions',
                     'type'         => 'anomaly.field_type.boolean',
-                    'disabled'     => 'edit'
-                ]
+                    'disabled'     => 'edit',
+                ],
             ]
         );
     }

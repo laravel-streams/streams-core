@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Multiple;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Multiple;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -14,7 +16,7 @@ use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\MergeFields;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\PostForms;
 
 /**
- * Class MultipleFormBuilder
+ * Class MultipleFormBuilder.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -23,7 +25,6 @@ use Anomaly\Streams\Platform\Ui\Form\Multiple\Command\PostForms;
  */
 class MultipleFormBuilder extends FormBuilder
 {
-
     /**
      * The form collection.
      *
@@ -68,12 +69,11 @@ class MultipleFormBuilder extends FormBuilder
 
         /* @var FormBuilder $builder */
         foreach ($forms = $this->getForms() as $slug => $builder) {
-
-            $this->fire('saving_' . $slug, compact('builder', 'forms'));
+            $this->fire('saving_'.$slug, compact('builder', 'forms'));
 
             $builder->saveForm();
 
-            $this->fire('saved_' . $slug, compact('builder', 'forms'));
+            $this->fire('saved_'.$slug, compact('builder', 'forms'));
         }
 
         $this->fire('saved', ['builder' => $this]);
@@ -115,7 +115,7 @@ class MultipleFormBuilder extends FormBuilder
             $key,
             $builder
                 ->setSave(false)
-                ->setOption('prefix', $key . '_')
+                ->setOption('prefix', $key.'_')
         );
 
         return $this;

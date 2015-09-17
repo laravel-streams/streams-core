@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class SetActiveAction
+ * Class SetActiveAction.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class SetActiveAction
 {
-
     /**
      * The form builder.
      *

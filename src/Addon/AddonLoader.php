@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Composer\Autoload\ClassLoader;
 
 /**
- * Class AddonLoader
+ * Class AddonLoader.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Composer\Autoload\ClassLoader;
  */
 class AddonLoader
 {
-
     /**
      * The class loader instance.
      *
@@ -31,8 +32,8 @@ class AddonLoader
             }
         }
 
-        if (!$this->loader) {
-            throw new \Exception("The ClassLoader could not be found.");
+        if (! $this->loader) {
+            throw new \Exception('The ClassLoader could not be found.');
         }
     }
 
@@ -43,31 +44,30 @@ class AddonLoader
      */
     public function load($path)
     {
-        $autoload = $path . '/vendor/autoload.php';
+        $autoload = $path.'/vendor/autoload.php';
 
         if (file_exists($autoload)) {
-
             include $autoload;
 
             return;
         }
 
-        $composer = json_decode(file_get_contents($path . '/composer.json'), true);
+        $composer = json_decode(file_get_contents($path.'/composer.json'), true);
 
-        if (!array_key_exists('autoload', $composer)) {
+        if (! array_key_exists('autoload', $composer)) {
             return;
         }
 
         foreach (array_get($composer['autoload'], 'psr-4', []) as $namespace => $autoload) {
-            $this->loader->addPsr4($namespace, $path . '/' . $autoload, false);
+            $this->loader->addPsr4($namespace, $path.'/'.$autoload, false);
         }
 
         foreach (array_get($composer['autoload'], 'psr-0', []) as $namespace => $autoload) {
-            $this->loader->add($namespace, $path . '/' . $autoload, false);
+            $this->loader->add($namespace, $path.'/'.$autoload, false);
         }
 
         foreach (array_get($composer['autoload'], 'files', []) as $file) {
-            include($path . '/' . $file);
+            include $path.'/'.$file;
         }
     }
 

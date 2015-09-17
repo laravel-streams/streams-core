@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class FieldTranslator
+ * Class FieldTranslator.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class FieldTranslator
 {
-
     /**
      * Translate form fields.
      *
@@ -25,22 +26,19 @@ class FieldTranslator
         $defaultLocale  = config('app.fallback_locale');
         $enabledLocales = config('streams::locales.enabled');
 
-        /**
+        /*
          * For each field if the assignment is translatable
          * then duplicate it and set a couple simple
          * parameters to assist in rendering.
          */
         foreach ($builder->getFields() as $field) {
-
-            if (!array_get($field, 'translatable', false)) {
-
+            if (! array_get($field, 'translatable', false)) {
                 $translations[] = $field;
 
                 continue;
             }
 
             foreach ($enabledLocales as $locale) {
-
                 $translation = $field;
 
                 array_set($translation, 'locale', $locale);

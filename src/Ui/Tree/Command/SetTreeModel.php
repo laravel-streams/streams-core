@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Command;
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class SetTreeModel
+ * Class SetTreeModel.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class SetTreeModel implements SelfHandling
 {
-
     /**
      * The tree builder.
      *
@@ -36,27 +37,24 @@ class SetTreeModel implements SelfHandling
      */
     public function handle()
     {
-
         $tree  = $this->builder->getTree();
         $model = $this->builder->getModel();
 
-        /**
+        /*
          * If the model is already instantiated
          * then use it as is.
          */
         if (is_object($model)) {
-
             $tree->setModel($model);
 
             return;
         }
 
-        /**
+        /*
          * If no model is set, try guessing the
          * model based on best practices.
          */
-        if (!$model) {
-
+        if (! $model) {
             $parts = explode('\\', str_replace('TreeBuilder', 'Model', get_class($this->builder)));
 
             unset($parts[count($parts) - 2]);
@@ -66,14 +64,14 @@ class SetTreeModel implements SelfHandling
             $this->builder->setModel($model);
         }
 
-        /**
+        /*
          * If the model is not set then skip it.
          */
-        if (!class_exists($model)) {
+        if (! class_exists($model)) {
             return;
         }
 
-        /**
+        /*
          * Set the model on the tree!
          */
         $tree->setModel(app($model));

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Command;
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class SetTreeRepository
+ * Class SetTreeRepository.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class SetTreeRepository implements SelfHandling
 {
-
     /**
      * The tree builder.
      *
@@ -41,15 +42,15 @@ class SetTreeRepository implements SelfHandling
 
         $repository = $tree->getOption('repository');
 
-        /**
+        /*
          * If there is no repository
          * then skip this step.
          */
-        if (!$repository) {
+        if (! $repository) {
             return;
         }
 
-        /**
+        /*
          * Set the repository on the form!
          */
         $tree->setRepository(app()->make($repository, compact('model', 'tree')));

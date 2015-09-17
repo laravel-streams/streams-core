@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Guesser;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class PlaceholdersGuesser
+ * Class PlaceholdersGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class PlaceholdersGuesser
 {
-
     /**
      * Guess some table table filter placeholders.
      *
@@ -38,7 +39,7 @@ class PlaceholdersGuesser
             // Get the placeholder off the assignment.
             if ($assignment = $stream->getAssignment($filter['field'])) {
 
-                /**
+                /*
                  * Always use the field name
                  * as the placeholder. Placeholders
                  * that are assigned otherwise usually

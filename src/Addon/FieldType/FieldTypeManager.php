@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class FieldTypeManager
+ * Class FieldTypeManager.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class FieldTypeManager
 {
-
     use DispatchesJobs;
 
     /**

@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 /**
- * Class Translator
+ * Class Translator.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class Translator
 {
-
     /**
      * The laravel translator.
      *
@@ -23,7 +24,7 @@ class Translator
      *
      * @param \Illuminate\Translation\Translator $translator
      */
-    function __construct(\Illuminate\Translation\Translator $translator)
+    public function __construct(\Illuminate\Translation\Translator $translator)
     {
         $this->translator = $translator;
     }

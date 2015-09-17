@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Illuminate\Database\Schema\Blueprint;
@@ -6,7 +8,7 @@ use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\Fluent;
 
 /**
- * Class FieldTypeSchema
+ * Class FieldTypeSchema.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Support\Fluent;
  */
 class FieldTypeSchema
 {
-
     /**
      * The schema builder object.
      *
@@ -51,7 +52,7 @@ class FieldTypeSchema
     public function addColumn(Blueprint $table, AssignmentInterface $assignment)
     {
         // Skip if no column type.
-        if (!$this->fieldType->getColumnType()) {
+        if (! $this->fieldType->getColumnType()) {
             return;
         }
 
@@ -63,21 +64,21 @@ class FieldTypeSchema
         /**
          * Add the column to the table.
          *
-         * @var Blueprint|Fluent $column
+         * @var Blueprint|Fluent
          */
         $column = $table
             ->{$this->fieldType->getColumnType()}(
                 $this->fieldType->getColumnName()
             )
-            ->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true);
+            ->nullable(! $assignment->isTranslatable() ? ! $assignment->isRequired() : true);
 
-        if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
+        if (! str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
             $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
         }
 
         // Mark the column unique if desired and not translatable.
-        if ($assignment->isUnique() && !$assignment->isTranslatable()) {
-            $table->unique($this->fieldType->getColumnName(), 'unique_' . $this->fieldType->getColumnName());
+        if ($assignment->isUnique() && ! $assignment->isTranslatable()) {
+            $table->unique($this->fieldType->getColumnName(), 'unique_'.$this->fieldType->getColumnName());
         }
     }
 
@@ -90,7 +91,7 @@ class FieldTypeSchema
     public function changeColumn(Blueprint $table, AssignmentInterface $assignment)
     {
         // Skip if no column type.
-        if (!$this->fieldType->getColumnType()) {
+        if (! $this->fieldType->getColumnType()) {
             return;
         }
     }
@@ -103,12 +104,12 @@ class FieldTypeSchema
     public function dropColumn(Blueprint $table)
     {
         // Skip if no column type.
-        if (!$this->fieldType->getColumnType()) {
+        if (! $this->fieldType->getColumnType()) {
             return;
         }
 
         // Skip if the column doesn't exist.
-        if (!$this->schema->hasColumn($table->getTable(), $this->fieldType->getColumnName())) {
+        if (! $this->schema->hasColumn($table->getTable(), $this->fieldType->getColumnName())) {
             return;
         }
 

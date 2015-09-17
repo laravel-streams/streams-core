@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentRepository;
 
 /**
- * Class EntryRepository
+ * Class EntryRepository.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,5 +15,4 @@ use Anomaly\Streams\Platform\Model\EloquentRepository;
  */
 class EntryRepository extends EloquentRepository implements EntryRepositoryInterface
 {
-
 }

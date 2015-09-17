@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Event;
 
 use Anomaly\Streams\Platform\Ui\Form\Form;
 
 /**
- * Class FormIsValidating
+ * Class FormIsValidating.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Form\Form;
  */
 class FormIsValidating
 {
-
     /**
      * The form object.
      *

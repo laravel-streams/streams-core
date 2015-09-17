@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Plugin\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Plugin\Listener;
 
 use Anomaly\Streams\Platform\Addon\Plugin\Event\PluginWasRegistered;
 use TwigBridge\Bridge;
 
 /**
- * Class AddPluginToTwig
+ * Class AddPluginToTwig.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use TwigBridge\Bridge;
  */
 class AddPluginToTwig
 {
-
     /**
      * The Twig instance.
      *
@@ -30,7 +31,6 @@ class AddPluginToTwig
     {
         $this->twig = $twig;
     }
-
 
     /**
      * Handle the event.

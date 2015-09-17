@@ -1,12 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Button\ButtonBuilder;
-use Anomaly\Streams\Platform\Ui\Tree\Component\Item;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
 /**
- * Class ItemBuilder
+ * Class ItemBuilder.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +16,6 @@ use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
  */
 class ItemBuilder
 {
-
     /**
      * The value utility.
      *
@@ -50,7 +50,7 @@ class ItemBuilder
      * @param ItemFactory   $factory
      * @param Evaluator     $evaluator
      */
-    function __construct(ItemValue $value, ButtonBuilder $buttons, ItemFactory $factory, Evaluator $evaluator)
+    public function __construct(ItemValue $value, ButtonBuilder $buttons, ItemFactory $factory, Evaluator $evaluator)
     {
         $this->value     = $value;
         $this->buttons   = $buttons;
@@ -66,7 +66,6 @@ class ItemBuilder
     public function build(TreeBuilder $builder)
     {
         foreach ($builder->getTreeEntries() as $entry) {
-
             $buttons = $this->buttons->build($builder, $entry);
 
             $buttons = $buttons->enabled();

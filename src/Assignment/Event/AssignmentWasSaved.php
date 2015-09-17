@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment\Event;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 
 /**
- * Class AssignmentWasSaved
+ * Class AssignmentWasSaved.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
  */
 class AssignmentWasSaved
 {
-
     /**
      * The assignment interface.
      *

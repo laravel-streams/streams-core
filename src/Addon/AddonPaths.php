@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Application\Application;
 
 /**
- * Class AddonPaths
+ * Class AddonPaths.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Application\Application;
  */
 class AddonPaths
 {
-
     /**
      * The stream application.
      *
@@ -25,11 +26,10 @@ class AddonPaths
      *
      * @param Application $application
      */
-    function __construct(Application $application)
+    public function __construct(Application $application)
     {
         $this->application = $application;
     }
-
 
     /**
      * Return all addon paths in a given folder.
@@ -58,8 +58,7 @@ class AddonPaths
     {
         $path = base_path('core');
 
-        if (!is_dir($path)) {
-
+        if (! is_dir($path)) {
             return false;
         }
 
@@ -75,8 +74,7 @@ class AddonPaths
     {
         $path = base_path('addons/shared');
 
-        if (!is_dir($path)) {
-
+        if (! is_dir($path)) {
             return false;
         }
 
@@ -90,10 +88,9 @@ class AddonPaths
      */
     public function application()
     {
-        $path = base_path('addons/' . $this->application->getReference());
+        $path = base_path('addons/'.$this->application->getReference());
 
-        if (!is_dir($path)) {
-
+        if (! is_dir($path)) {
             return false;
         }
 

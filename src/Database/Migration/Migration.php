@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Database\Migration\Command\GetAddonFromMigration;
@@ -12,7 +14,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class Migration
+ * Class Migration.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -21,7 +23,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 abstract class Migration extends \Illuminate\Database\Migrations\Migration
 {
-
     use DispatchesJobs;
 
     /**
@@ -180,14 +181,14 @@ abstract class Migration extends \Illuminate\Database\Migrations\Migration
     }
 
     /**
-     * Migrate
+     * Migrate.
      */
     public function up()
     {
     }
 
     /**
-     * Rollback
+     * Rollback.
      */
     public function down()
     {

@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class ViewNormalizer
+ * Class ViewNormalizer.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class ViewNormalizer
 {
-
     /**
      * Normalize the view input.
      *
@@ -24,7 +25,7 @@ class ViewNormalizer
 
         foreach ($views as $slug => &$view) {
 
-            /**
+            /*
              * If the slug is numeric and the view is
              * a string then treat the string as both the
              * view and the slug. This is OK as long as
@@ -38,60 +39,60 @@ class ViewNormalizer
                 ];
             }
 
-            /**
+            /*
              * If the slug is NOT numeric and the view is a
              * string then use the slug as the slug and the
              * view as the view.
              */
-            if (!is_numeric($slug) && is_string($view)) {
+            if (! is_numeric($slug) && is_string($view)) {
                 $view = [
                     'slug' => $slug,
                     'view' => $view,
                 ];
             }
 
-            /**
+            /*
              * If the slug is not numeric and the view is an
              * array without a slug then use the slug for
              * the slug for the view.
              */
-            if (is_array($view) && !isset($view['slug']) && !is_numeric($slug)) {
+            if (is_array($view) && ! isset($view['slug']) && ! is_numeric($slug)) {
                 $view['slug'] = $slug;
             }
 
-            /**
+            /*
              * Make sure we have a view property.
              */
-            if (is_array($view) && !isset($view['view'])) {
+            if (is_array($view) && ! isset($view['view'])) {
                 $view['view'] = $view['slug'];
             }
 
-            /**
+            /*
              * Make sure some default parameters exist.
              */
             $view['attributes'] = array_get($view, 'attributes', []);
 
-            /**
+            /*
              * Move the HREF if any to the attributes.
              */
             if (isset($view['href'])) {
                 array_set($view['attributes'], 'href', array_pull($view, 'href'));
             }
 
-            /**
+            /*
              * Move the target if any to the attributes.
              */
             if (isset($view['target'])) {
                 array_set($view['attributes'], 'target', array_pull($view, 'target'));
             }
 
-            /**
+            /*
              * Make sure the HREF is absolute.
              */
             if (
                 isset($view['attributes']['href']) &&
                 is_string($view['attributes']['href']) &&
-                !starts_with($view['attributes']['href'], 'http')
+                ! starts_with($view['attributes']['href'], 'http')
             ) {
                 $view['attributes']['href'] = url($view['attributes']['href']);
             }

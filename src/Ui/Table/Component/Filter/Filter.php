@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery;
 use Closure;
 
 /**
- * Class Filter
+ * Class Filter.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Closure;
  */
 class Filter implements FilterInterface
 {
-
     /**
      * The filter slug.
      *
@@ -103,7 +104,7 @@ class Filter implements FilterInterface
      */
     public function getInput()
     {
-        return null;
+        return;
     }
 
     /**
@@ -123,7 +124,7 @@ class Filter implements FilterInterface
      */
     public function getInputName()
     {
-        return $this->getPrefix() . 'filter_' . $this->getSlug();
+        return $this->getPrefix().'filter_'.$this->getSlug();
     }
 
     /**

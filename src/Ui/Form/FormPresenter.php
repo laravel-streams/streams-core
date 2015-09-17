@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Support\Presenter;
 use Collective\Html\FormBuilder as Html;
@@ -6,7 +8,7 @@ use Illuminate\View\Factory;
 use Illuminate\View\View;
 
 /**
- * Class FormPresenter
+ * Class FormPresenter.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\View\View;
  */
 class FormPresenter extends Presenter
 {
-
     /**
      * The form HTML builder.
      *
@@ -109,7 +110,7 @@ class FormPresenter extends Presenter
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         $content = $this->object->getContent();
 

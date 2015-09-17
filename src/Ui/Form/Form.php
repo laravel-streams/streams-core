@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -18,7 +20,7 @@ use Robbo\Presenter\PresentableInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class Form
+ * Class Form.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -27,7 +29,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Form implements PresentableInterface
 {
-
     /**
      * The form model.
      *
@@ -212,7 +213,7 @@ class Form implements PresentableInterface
      */
     public function hasErrors()
     {
-        return !$this->errors->isEmpty();
+        return ! $this->errors->isEmpty();
     }
 
     /**
@@ -665,7 +666,7 @@ class Form implements PresentableInterface
     {
         $fields = $this->fields->translatable();
 
-        return (!$fields->isEmpty());
+        return (! $fields->isEmpty());
     }
 
     /**
@@ -688,7 +689,7 @@ class Form implements PresentableInterface
      */
     public function getPresenter()
     {
-        $presenter = get_class($this) . 'Presenter';
+        $presenter = get_class($this).'Presenter';
 
         if (class_exists($presenter)) {
             return app()->make($presenter, ['object' => $this]);

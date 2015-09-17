@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class SetDefaultOptions
+ * Class SetDefaultOptions.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class SetDefaultOptions implements SelfHandling
 {
-
     /**
      * The table builder.
      *
@@ -40,11 +41,10 @@ class SetDefaultOptions implements SelfHandling
     {
         $table = $this->builder->getTable();
 
-        /**
+        /*
          * Set the default ordering options.
          */
-        if (!$table->getOption('order_by')) {
-
+        if (! $table->getOption('order_by')) {
             $model = $table->getModel();
 
             if ($model instanceof EntryModel) {
@@ -58,14 +58,14 @@ class SetDefaultOptions implements SelfHandling
             }
         }
 
-        /**
+        /*
          * Set the default breadcrumb.
          */
         if ($table->getOption('breadcrumb') === null && $title = $table->getOption('title')) {
             $table->setOption('breadcrumb', $title);
         }
 
-        /**
+        /*
          * If the table ordering is currently being overridden
          * then set the values from the request on the builder
          * last so it actually has an effect.

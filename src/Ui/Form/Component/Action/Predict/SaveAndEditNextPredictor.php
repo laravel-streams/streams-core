@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Predict;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Predict;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class SaveAndEditNextPredictor
+ * Class SaveAndEditNextPredictor.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class SaveAndEditNextPredictor
 {
-
     /**
      * Predict if the save_and_edit_next action
      * should be included.

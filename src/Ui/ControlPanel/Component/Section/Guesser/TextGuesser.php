@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
- * Class TextGuesser
+ * Class TextGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  */
 class TextGuesser
 {
-
     /**
      * The module collection.
      *
@@ -49,7 +50,7 @@ class TextGuesser
 
             $module = $this->modules->active();
 
-            $section['text'] = $module->getNamespace('addon.section.' . $section['slug']);
+            $section['text'] = $module->getNamespace('addon.section.'.$section['slug']);
         }
 
         $builder->setSections($sections);

@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item\Command;
 
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\ItemBuilder;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class BuildItems
+ * Class BuildItems.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class BuildItems implements SelfHandling
 {
-
     /**
      * The tree builder.
      *

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Image;
+<?php
+
+namespace Anomaly\Streams\Platform\Image;
 
 use Anomaly\FilesModule\File\Contract\FileInterface;
 use Anomaly\FilesModule\File\FilePresenter;
@@ -9,7 +11,7 @@ use Intervention\Image\ImageManager;
 use League\Flysystem\File;
 
 /**
- * Class Image
+ * Class Image.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -18,7 +20,6 @@ use League\Flysystem\File;
  */
 class Image
 {
-
     /**
      * The publish flag.
      *
@@ -202,7 +203,7 @@ class Image
      */
     public function image($alt = null, $attributes = [])
     {
-        if (!$alt) {
+        if (! $alt) {
             $alt = array_get($this->attributes, 'alt');
         }
 
@@ -257,10 +258,10 @@ class Image
         if (starts_with($this->getImage(), ['//', 'http'])) {
             return $this->getImage();
         }
-        
-        $filename = md5(var_export([md5($this->getImage()), $this->applied], true)) . '.' . $this->getExtension();
 
-        $path = 'assets/' . $this->application->getReference() . '/cache/' . $filename;
+        $filename = md5(var_export([md5($this->getImage()), $this->applied], true)).'.'.$this->getExtension();
+
+        $path = 'assets/'.$this->application->getReference().'/cache/'.$filename;
 
         if ($this->shouldPublish($path)) {
             $this->publish($path);
@@ -270,18 +271,18 @@ class Image
     }
 
     /**
-     * Determine if the image needs to be published
+     * Determine if the image needs to be published.
      *
      * @param $path
      * @return bool
      */
     private function shouldPublish($path)
     {
-        if (!$this->files->exists($path)) {
+        if (! $this->files->exists($path)) {
             return true;
         }
 
-        if (is_string($this->image) && !str_is('*://*', $this->image) && filemtime($path) < filemtime($this->image)) {
+        if (is_string($this->image) && ! str_is('*://*', $this->image) && filemtime($path) < filemtime($this->image)) {
             return true;
         }
 
@@ -312,8 +313,8 @@ class Image
     {
         $image = $this->makeImage();
 
-        if (!$image) {
-            return null;
+        if (! $image) {
+            return;
         }
 
         foreach ($this->applied as $method => $arguments) {
@@ -324,7 +325,7 @@ class Image
 
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
-        $image->save($this->directory . $path);
+        $image->save($this->directory.$path);
     }
 
     /**
@@ -351,14 +352,12 @@ class Image
     {
         // Replace path prefixes.
         if (is_string($image) && str_contains($image, '::')) {
-
             $image = $this->paths->realPath($image);
 
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
         }
 
-        if (is_string($image) && str_is('*://*', $image) && !starts_with($image, ['http', 'https'])) {
-
+        if (is_string($image) && str_is('*://*', $image) && ! starts_with($image, ['http', 'https'])) {
             $this->image = app('League\Flysystem\MountManager')->get($image);
 
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
@@ -369,7 +368,6 @@ class Image
         }
 
         if ($image instanceof FilePresenter) {
-
             $image = $image->getObject();
 
             $this->setExtension($image->getExtension());
@@ -498,14 +496,13 @@ class Image
      * @param $arguments
      * @return $this|mixed
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         if (in_array($name, $this->getAllowedMethods())) {
             return $this->applyModification($name, $arguments);
         }
 
-        if (!method_exists($this, $name)) {
-
+        if (! method_exists($this, $name)) {
             array_set($this->attributes, $name, array_shift($arguments));
 
             return $this;

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Routing\UrlGenerator;
 
 /**
- * Class Url
+ * Class Url.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Routing\UrlGenerator;
  */
 class Url implements Arrayable
 {
-
     /**
      * The url generator.
      *
@@ -39,7 +40,7 @@ class Url implements Arrayable
     public function toArray()
     {
         return [
-            'previous' => $this->url->previous()
+            'previous' => $this->url->previous(),
         ];
     }
 
@@ -50,7 +51,7 @@ class Url implements Arrayable
      * @param $arguments
      * @return mixed
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         return call_user_func_array([$this->url, $name], $arguments);
     }

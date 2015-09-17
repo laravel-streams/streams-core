@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class SetGridStream
+ * Class SetGridStream.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class SetGridStream implements SelfHandling
 {
-
     /**
      * The grid builder.
      *
@@ -40,7 +41,7 @@ class SetGridStream implements SelfHandling
         $grid  = $this->builder->getGrid();
         $model = $this->builder->getModel();
 
-        if (is_string($model) && !class_exists($model)) {
+        if (is_string($model) && ! class_exists($model)) {
             return;
         }
 

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class ButtonBuilder
+ * Class ButtonBuilder.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class ButtonBuilder
 {
-
     /**
      * The input reader.
      *
@@ -50,9 +51,7 @@ class ButtonBuilder
         $this->input->read($builder);
 
         foreach ($builder->getButtons() as $button) {
-
             if (array_get($button, 'enabled', true)) {
-
                 $button = $this->factory->make($button);
 
                 $button->setSize('sm');

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
@@ -10,7 +12,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Carbon\Carbon;
 
 /**
- * Interface EntryInterface
+ * Interface EntryInterface.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -19,7 +21,6 @@ use Carbon\Carbon;
  */
 interface EntryInterface
 {
-
     /**
      * Get the ID.
      *

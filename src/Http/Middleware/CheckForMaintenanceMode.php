@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Http\Middleware;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Foundation\Application;
 
 /**
- * Class CheckForMaintenanceMode
+ * Class CheckForMaintenanceMode.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Contracts\Foundation\Application;
  */
 class CheckForMaintenanceMode
 {
-
     /**
      * The application instance.
      *

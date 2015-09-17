@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 
 /**
- * Class HandleForm
+ * Class HandleForm.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Container\Container;
  */
 class HandleForm implements SelfHandling
 {
-
     /**
      * The form builder.
      *
@@ -45,7 +46,7 @@ class HandleForm implements SelfHandling
 
         $handler = $this->builder->getHandler();
 
-        if ($handler && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+        if ($handler && ! str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
             $handler .= '@handle';
         }
 

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnValue;
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\GetColumnValue;
 
 /**
- * Class GetColumnValueHandler
+ * Class GetColumnValueHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Column\Command\GetColumnValue;
  */
 class GetColumnValueHandler
 {
-
     /**
      * The value utility.
      *

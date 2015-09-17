@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Http\Middleware;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Middleware;
 
 use Anomaly\Streams\Platform\Support\Authorizer;
 use Closure;
@@ -6,7 +8,7 @@ use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
 
 /**
- * Class CheckSiteStatus
+ * Class CheckSiteStatus.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Http\Request;
  */
 class CheckSiteStatus
 {
-
     /**
      * The config repository.
      *
@@ -54,31 +55,31 @@ class CheckSiteStatus
     {
         $enabled = $this->config->get('streams::access.site_enabled', true);
 
-        /**
+        /*
          * Continue on if we're enabled.
          */
         if ($enabled) {
             return $next($request);
         }
 
-        /**
+        /*
          * Continue on if we're in admin.
          */
         if ($request->segment(1) == 'admin') {
             return $next($request);
         }
 
-        /**
+        /*
          * If the user has permission then we're good.
          */
         if ($this->authorizer->authorize('streams::access_disabled_site')) {
             return $next($request);
         }
 
-        /**
+        /*
          * If we're disabled then we need to abort.
          */
-        if (!in_array($request->getClientIp(), $this->config->get('streams::access.ip_whitelist', []))) {
+        if (! in_array($request->getClientIp(), $this->config->get('streams::access.ip_whitelist', []))) {
             return response()->view('streams::errors/503', [], 503);
         }
 

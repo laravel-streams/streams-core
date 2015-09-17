@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Parser;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Parser;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class EntryTranslationsClassParser
+ * Class EntryTranslationsClassParser.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryTranslationsClassParser
 {
-
     /**
      * Return the entry translations model class.
      *
@@ -21,6 +22,6 @@ class EntryTranslationsClassParser
      */
     public function parse(StreamInterface $stream)
     {
-        return studly_case("{$stream->getNamespace()}_{$stream->getSlug()}") . 'EntryTranslationsModel';
+        return studly_case("{$stream->getNamespace()}_{$stream->getSlug()}").'EntryTranslationsModel';
     }
 }

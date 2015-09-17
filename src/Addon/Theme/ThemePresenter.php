@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Theme;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Theme;
 
 use Anomaly\Streams\Platform\Addon\AddonPresenter;
 
 /**
- * Class ThemePresenter
+ * Class ThemePresenter.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\AddonPresenter;
  */
 class ThemePresenter extends AddonPresenter
 {
-
     /**
      * The decorated object.
      * This is for IDE hinting.
@@ -29,7 +30,7 @@ class ThemePresenter extends AddonPresenter
     public function activeLabel()
     {
         if ($this->object->isActive()) {
-            return '<span class="label label-success">' . trans('streams::addon.active') . '</span>';
+            return '<span class="label label-success">'.trans('streams::addon.active').'</span>';
         }
     }
 

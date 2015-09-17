@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
- * Class AddonManager
+ * Class AddonManager.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Contracts\Events\Dispatcher;
  */
 class AddonManager
 {
-
     /**
      * The addon paths.
      *
@@ -76,7 +77,7 @@ class AddonManager
      * @param AddonIntegrator $integrator
      * @param AddonCollection $addons
      */
-    function __construct(
+    public function __construct(
         AddonPaths $paths,
         AddonLoader $loader,
         ModuleModel $modules,
@@ -104,7 +105,7 @@ class AddonManager
 
         $paths = $this->paths->all();
 
-        /**
+        /*
          * First load all the addons
          * so they're available.
          */
@@ -114,7 +115,7 @@ class AddonManager
 
         $this->loader->register();
 
-        /**
+        /*
          * Then register all of the addons now
          * that they're all PSR autoloaded.
          */
@@ -122,7 +123,7 @@ class AddonManager
             $this->integrator->register($path, $enabled, $installed);
         }
 
-        /**
+        /*
          * Disperse addons to their
          * respective collections.
          */

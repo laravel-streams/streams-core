@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
 use Illuminate\Support\Collection;
 
 /**
- * Class RowCollection
+ * Class RowCollection.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,5 +14,4 @@ use Illuminate\Support\Collection;
  */
 class RowCollection extends Collection
 {
-
 }

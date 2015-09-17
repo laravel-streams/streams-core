@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Support\Translator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 
 /**
- * Class ActionFactory
+ * Class ActionFactory.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
  */
 class ActionFactory
 {
-
     /**
      * The default action.
      *
@@ -42,7 +43,7 @@ class ActionFactory
      * @param Hydrator   $hydrator
      * @param Translator $translator
      */
-    function __construct(Hydrator $hydrator, Translator $translator)
+    public function __construct(Hydrator $hydrator, Translator $translator)
     {
         $this->hydrator   = $hydrator;
         $this->translator = $translator;

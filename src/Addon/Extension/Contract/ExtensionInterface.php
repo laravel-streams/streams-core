@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension\Contract;
 
 /**
- * Interface ExtensionInterface
+ * Interface ExtensionInterface.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,5 +12,4 @@
  */
 interface ExtensionInterface
 {
-
 }

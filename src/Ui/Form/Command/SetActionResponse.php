@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionResponder;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class SetActionResponse
+ * Class SetActionResponse.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class SetActionResponse implements SelfHandling
 {
-
     /**
      * The form builder.
      *
@@ -49,7 +50,7 @@ class SetActionResponse implements SelfHandling
             return;
         }
 
-        if (!$this->builder->canSave()) {
+        if (! $this->builder->canSave()) {
             return;
         }
 

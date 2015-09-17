@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -16,7 +18,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
 /**
- * Class TreeBuilder
+ * Class TreeBuilder.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -25,7 +27,6 @@ use Illuminate\Support\Collection;
  */
 class TreeBuilder
 {
-
     use FiresCallbacks;
     use DispatchesJobs;
 
@@ -69,7 +70,7 @@ class TreeBuilder
      *
      * @param Tree $tree
      */
-    function __construct(Tree $tree)
+    public function __construct(Tree $tree)
     {
         $this->tree = $tree;
     }
@@ -95,7 +96,7 @@ class TreeBuilder
     {
         $this->build();
 
-        if (!app('request')->isMethod('post')) {
+        if (! app('request')->isMethod('post')) {
             $this->dispatch(new LoadTree($this));
             $this->dispatch(new AddAssets($this));
             $this->dispatch(new MakeTree($this));
@@ -253,7 +254,7 @@ class TreeBuilder
      */
     public function addAsset($collection, $asset)
     {
-        if (!isset($this->assets[$collection])) {
+        if (! isset($this->assets[$collection])) {
             $this->assets[$collection] = [];
         }
 
@@ -393,6 +394,6 @@ class TreeBuilder
      */
     public function getRequestValue($key, $default = null)
     {
-        return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
+        return array_get($_REQUEST, $this->getOption('prefix').$key, $default);
     }
 }

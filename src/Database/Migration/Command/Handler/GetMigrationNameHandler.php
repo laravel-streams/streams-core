@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Database\Migration\Command\GetMigrationName;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class GetMigrationNameHandler
+ * Class GetMigrationNameHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class GetMigrationNameHandler
 {
-
     use DispatchesJobs;
 
     /**
@@ -47,13 +48,11 @@ class GetMigrationNameHandler
         $name = $originalName = $command->getName();
 
         if ($addon = $this->addons->get($namespace)) {
-
             $name = "{$namespace}__{$originalName}";
 
             // Append the package version if there is one.
             if ($json = $addon->getComposerJson()) {
                 if (property_exists($json, 'version')) {
-
                     $version = str_slug(str_replace(['.', '-'], '_', $json->version), '_');
 
                     $name = "{$namespace}__{$version}__{$originalName}";

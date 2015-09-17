@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 
 /**
- * Class ExtensionCollection
+ * Class ExtensionCollection.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class ExtensionCollection extends AddonCollection
 {
-
     /**
      * Search for and return matching extensions.
      *
@@ -53,7 +54,7 @@ class ExtensionCollection extends AddonCollection
             }
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -71,7 +72,7 @@ class ExtensionCollection extends AddonCollection
             }
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -106,7 +107,7 @@ class ExtensionCollection extends AddonCollection
         foreach ($this->items as $item) {
 
             /* @var Extension $item */
-            if (!$item->isInstalled()) {
+            if (! $item->isInstalled()) {
                 $installed[] = $item;
             }
         }
@@ -142,7 +143,7 @@ class ExtensionCollection extends AddonCollection
      */
     public function isInstalled($slug)
     {
-        if (!isset($this->items[$slug])) {
+        if (! isset($this->items[$slug])) {
             return false;
         }
 

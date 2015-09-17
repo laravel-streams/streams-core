@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Console\Command;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Support\Parser;
@@ -6,7 +8,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class WriteEntityRepository
+ * Class WriteEntityRepository.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Filesystem\Filesystem;
  */
 class WriteEntityRepository implements SelfHandling
 {
-
     /**
      * The entity slug.
      *
@@ -36,7 +37,6 @@ class WriteEntityRepository implements SelfHandling
      * @var string
      */
     private $namespace;
-
 
     /**
      * Create a new WriteEntityRepository instance.
@@ -73,7 +73,7 @@ class WriteEntityRepository implements SelfHandling
         $path = $this->addon->getPath("src/{$entity}/{$entity}Repository.php");
 
         $template = $filesystem->get(
-            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/repository.stub")
+            base_path('vendor/anomaly/streams-platform/resources/stubs/entity/repository.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

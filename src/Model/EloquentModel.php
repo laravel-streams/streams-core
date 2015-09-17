@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Illuminate\Contracts\Support\Arrayable;
@@ -8,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class EloquentModel
+ * Class EloquentModel.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class EloquentModel extends Model implements Arrayable
 {
-
     use DispatchesJobs;
 
     /**
@@ -66,7 +67,7 @@ class EloquentModel extends Model implements Arrayable
         'updatingMultiple',
         'updatedMultiple',
         'deletingMultiple',
-        'deletedMultiple'
+        'deletedMultiple',
     ];
 
     /**
@@ -79,7 +80,7 @@ class EloquentModel extends Model implements Arrayable
     /**
      * Get the ID.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -93,7 +94,7 @@ class EloquentModel extends Model implements Arrayable
      */
     public function etag()
     {
-        return md5(get_class($this) . json_encode($this->toArray()));
+        return md5(get_class($this).json_encode($this->toArray()));
     }
 
     /**
@@ -113,9 +114,9 @@ class EloquentModel extends Model implements Arrayable
      * @param  array $items
      * @return Collection
      */
-    public function newCollection(array $items = array())
+    public function newCollection(array $items = [])
     {
-        $collection = substr(get_class($this), 0, -5) . 'Collection';
+        $collection = substr(get_class($this), 0, -5).'Collection';
 
         if (class_exists($collection)) {
             return new $collection($items);
@@ -295,7 +296,7 @@ class EloquentModel extends Model implements Arrayable
             return $this->getTranslationByLocaleKey($this->getFallbackLocale());
         }
 
-        return null;
+        return;
     }
 
     public function hasTranslation($locale = null)
@@ -303,7 +304,6 @@ class EloquentModel extends Model implements Arrayable
         $locale = $locale ?: $this->getFallbackLocale();
 
         foreach ($this->translations as $translation) {
-
             $translation->setRelation('parent', $this);
 
             if ($translation->getAttribute($this->getLocaleKey()) == $locale) {
@@ -321,7 +321,7 @@ class EloquentModel extends Model implements Arrayable
 
     public function getTranslationModelNameDefault()
     {
-        return get_class($this) . 'Translation';
+        return get_class($this).'Translation';
     }
 
     public function getRelationKey()
@@ -343,7 +343,7 @@ class EloquentModel extends Model implements Arrayable
     {
         if ($this->isTranslatedAttribute($key)) {
             if ($this->getTranslation() === null) {
-                return null;
+                return;
             }
 
             $translation = $this->getTranslation();
@@ -375,14 +375,13 @@ class EloquentModel extends Model implements Arrayable
      * @param array $options
      * @return bool
      */
-    public function save(array $options = array())
+    public function save(array $options = [])
     {
-        if (!$this->getTranslationModel()) {
+        if (! $this->getTranslationModel()) {
             return $this->saveModel($options);
         }
 
         if ($this->exists) {
-
             if (count($this->getDirty()) > 0) {
 
                 // If $this->exists and dirty, $this->saveModel() has to return true. If not,
@@ -419,7 +418,7 @@ class EloquentModel extends Model implements Arrayable
      * @param  array $options
      * @return bool
      */
-    public function saveModel(array $options = array())
+    public function saveModel(array $options = [])
     {
         $query = $this->newQueryWithoutScopes();
 
@@ -444,7 +443,7 @@ class EloquentModel extends Model implements Arrayable
             $saved = $this->performInsert($query, $options);
         }
 
-        if ($saved && !$this->isTranslatable()) {
+        if ($saved && ! $this->isTranslatable()) {
             $this->finishSave($options);
         }
 
@@ -461,12 +460,10 @@ class EloquentModel extends Model implements Arrayable
         $saved = true;
 
         foreach ($this->translations as $translation) {
-
             $translation->setRelation('parent', $this);
 
             /* @var EloquentModel $translation */
             if ($saved && $this->isTranslationDirty($translation)) {
-
                 $translation->setAttribute($this->getRelationKey(), $this->getKey());
 
                 $saved = $translation->save();
@@ -506,7 +503,6 @@ class EloquentModel extends Model implements Arrayable
     private function getTranslationByLocaleKey($key)
     {
         foreach ($this->translations as $translation) {
-
             $translation->setRelation('parent', $this);
 
             if ($translation->getAttribute($this->getLocaleKey()) == $key) {
@@ -514,7 +510,7 @@ class EloquentModel extends Model implements Arrayable
             }
         }
 
-        return null;
+        return;
     }
 
     public function isTranslatedAttribute($key)
@@ -529,7 +525,7 @@ class EloquentModel extends Model implements Arrayable
 
     protected function isKeyALocale($key)
     {
-        return config('streams::locales.supported.' . $key) !== null;
+        return config('streams::locales.supported.'.$key) !== null;
     }
 
     protected function isTranslationDirty(Model $translation)
@@ -634,7 +630,7 @@ class EloquentModel extends Model implements Arrayable
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return json_encode($this->toArray());
     }

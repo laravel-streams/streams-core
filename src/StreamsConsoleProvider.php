@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform;
+<?php
+
+namespace Anomaly\Streams\Platform;
 
 use Illuminate\Foundation\Providers\ConsoleSupportServiceProvider;
 
 /**
- * Class StreamsConsoleProvider
+ * Class StreamsConsoleProvider.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Foundation\Providers\ConsoleSupportServiceProvider;
  */
 class StreamsConsoleProvider extends ConsoleSupportServiceProvider
 {
-
     /**
      * The provider class names.
      *
@@ -27,5 +28,4 @@ class StreamsConsoleProvider extends ConsoleSupportServiceProvider
         'Illuminate\Routing\GeneratorServiceProvider',
         'Illuminate\Session\CommandsServiceProvider',
     ];
-
 }

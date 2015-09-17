@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module\Event;
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 
 /**
- * Class ModuleWasDisabled
+ * Class ModuleWasDisabled.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
  */
 class ModuleWasDisabled
 {
-
     /**
      * The module object.
      *

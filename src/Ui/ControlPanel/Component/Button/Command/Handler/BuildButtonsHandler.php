@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Command\BuildButtons;
 
 /**
- * Class BuildButtonsHandler
+ * Class BuildButtonsHandler.
  *
  * @link          http://anomaly.is/streams-Platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Command\BuildButto
  */
 class BuildButtonsHandler
 {
-
     /**
      * The button builder.
      *

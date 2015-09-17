@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Field\Table;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Table;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class FieldTableBuilder
+ * Class FieldTableBuilder.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class FieldTableBuilder extends TableBuilder
 {
-
     /**
      * The related stream instance.
      *
@@ -37,17 +38,17 @@ class FieldTableBuilder extends TableBuilder
     protected $columns = [
         [
             'heading' => 'streams::field.name.name',
-            'value'   => 'entry.name'
+            'value'   => 'entry.name',
         ],
         [
             'heading' => 'streams::field.slug.name',
-            'value'   => 'entry.slug'
+            'value'   => 'entry.slug',
         ],
         [
             'heading' => 'streams::field.type.name',
             'wrapper' => '{value}::addon.name',
-            'value'   => 'entry.type'
-        ]
+            'value'   => 'entry.type',
+        ],
     ];
 
     /**
@@ -56,7 +57,7 @@ class FieldTableBuilder extends TableBuilder
      * @var array
      */
     protected $buttons = [
-        'edit'
+        'edit',
     ];
 
     /**
@@ -65,7 +66,7 @@ class FieldTableBuilder extends TableBuilder
      * @var array
      */
     protected $actions = [
-        'delete'
+        'delete',
     ];
 
     /**
@@ -75,8 +76,8 @@ class FieldTableBuilder extends TableBuilder
      */
     protected $options = [
         'order_by' => [
-            'slug' => 'ASC'
-        ]
+            'slug' => 'ASC',
+        ],
     ];
 
     /**

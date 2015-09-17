@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Field\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Command\Handler;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Command\UnassignField;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
- * Class UnassignFieldHandler
+ * Class UnassignFieldHandler.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Events\Dispatcher;
  */
 class UnassignFieldHandler
 {
-
     /**
      * The event dispatcher.
      *

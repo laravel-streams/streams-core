@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Header\Guesser;
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class HeadingsGuesser
+ * Class HeadingsGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class HeadingsGuesser
 {
-
     /**
      * Guess the field for a column.
      *
@@ -28,46 +29,44 @@ class HeadingsGuesser
 
         foreach ($columns as &$column) {
 
-            /**
+            /*
              * If the heading is false or does not exist
              * then the intent was to not have
              * heading text at all.
              */
-            if (!isset($column['heading']) || $column['heading'] === false) {
+            if (! isset($column['heading']) || $column['heading'] === false) {
                 continue;
             }
 
-            /**
+            /*
              * No stream means we can't
              * really do much here.
              */
-            if (!$stream instanceof StreamInterface) {
+            if (! $stream instanceof StreamInterface) {
                 continue;
             }
 
-            /**
+            /*
              * If the heading matches a field
              * with dot format then reduce it.
              */
-            if (preg_match("/^entry.([a-zA-Z\\_]+)/", $column['heading'], $match)) {
+            if (preg_match('/^entry.([a-zA-Z\\_]+)/', $column['heading'], $match)) {
                 $column['heading'] = $match[1];
             }
 
-            /**
+            /*
              * Detect some built in columns.
              */
             if (in_array($column['heading'], ['id', 'created_at', 'created_by', 'updated_at', 'updated_by'])) {
-
-                $column['heading'] = trans('streams::entry.' . $column['heading']);
+                $column['heading'] = trans('streams::entry.'.$column['heading']);
 
                 continue;
             }
 
-            /**
+            /*
              * Detect entry title.
              */
             if (in_array($column['heading'], ['view_link', 'edit_link']) && $field = $stream->getTitleField()) {
-
                 $column['heading'] = $field->getName();
 
                 continue;
@@ -75,25 +74,24 @@ class HeadingsGuesser
 
             $field = $stream->getField($column['heading']);
 
-            /**
+            /*
              * Detect the title column.
              */
-            if (!$field && $column['heading'] == 'title' && $title = $stream->getTitleField()) {
-
+            if (! $field && $column['heading'] == 'title' && $title = $stream->getTitleField()) {
                 $column['heading'] = trans($title->getName());
 
                 continue;
             }
 
-            /**
+            /*
              * No field means we still do not have
              * anything to do here.
              */
-            if (!$field instanceof FieldInterface) {
+            if (! $field instanceof FieldInterface) {
                 continue;
             }
 
-            /**
+            /*
              * Use the name from the field.
              */
             if ($name = $field->getName()) {

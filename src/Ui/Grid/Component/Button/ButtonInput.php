@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 
 /**
- * Class ButtonInput
+ * Class ButtonInput.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
  */
 class ButtonInput
 {
-
     /**
      * The button guesser.
      *

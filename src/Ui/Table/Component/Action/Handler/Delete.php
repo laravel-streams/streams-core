@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class DeleteActionHandler
+ * Class DeleteActionHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class Delete extends ActionHandler implements SelfHandling
 {
-
     /**
      * Delete the selected entries.
      *
@@ -32,7 +33,6 @@ class Delete extends ActionHandler implements SelfHandling
         foreach ($selected as $id) {
             if ($entry = $model->find($id)) {
                 if ($entry->isDeletable() && $entry->delete()) {
-
                     $builder->fire('row_deleted', compact('builder', 'model', 'entry'));
 
                     $count++;

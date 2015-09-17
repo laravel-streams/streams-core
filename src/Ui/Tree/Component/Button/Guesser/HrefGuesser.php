@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Button\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Component\Button\Guesser;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
@@ -6,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 
 /**
- * Class HrefGuesser
+ * Class HrefGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Routing\UrlGenerator;
  */
 class HrefGuesser
 {
-
     /**
      * The URL generator.
      *
@@ -61,7 +62,7 @@ class HrefGuesser
         $buttons = $builder->getButtons();
 
         // Nothing to do if empty.
-        if (!$section = $this->sections->active()) {
+        if (! $section = $this->sections->active()) {
             return;
         }
 
@@ -74,7 +75,7 @@ class HrefGuesser
 
             // Determine the HREF based on the button type.
             if ($type = array_get($button, 'button')) {
-                $button['attributes']['href'] = $section->getHref($type . '/{entry.id}');
+                $button['attributes']['href'] = $section->getHref($type.'/{entry.id}');
             }
         }
 

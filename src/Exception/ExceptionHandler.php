@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Exception;
+<?php
+
+namespace Anomaly\Streams\Platform\Exception;
 
 use App\Exceptions\Handler;
 use Exception;
@@ -8,7 +10,7 @@ use Symfony\Component\Debug\ExceptionHandler as SymfonyDisplayer;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
- * Class ExceptionHandler
+ * Class ExceptionHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class ExceptionHandler extends Handler
 {
-
     /**
      * Render an exception into an HTTP response.
      *
@@ -29,8 +30,8 @@ class ExceptionHandler extends Handler
     {
         if ($this->isHttpException($e)) {
             return $this->renderHttpException($e);
-        } elseif (!config('app.debug')) {
-            return response()->view("streams::errors.500", ['message' => $e->getMessage()], 500);
+        } elseif (! config('app.debug')) {
+            return response()->view('streams::errors.500', ['message' => $e->getMessage()], 500);
         } else {
             return parent::render($request, $e);
         }
@@ -46,7 +47,7 @@ class ExceptionHandler extends Handler
     {
         $status = $e->getStatusCode();
 
-        if (!config('app.debug') && view()->exists("streams::errors.{$status}")) {
+        if (! config('app.debug') && view()->exists("streams::errors.{$status}")) {
             return response()->view("streams::errors.{$status}", ['message' => $e->getMessage()], $status);
         } else {
             return (new SymfonyDisplayer(config('app.debug')))->createResponse($e);

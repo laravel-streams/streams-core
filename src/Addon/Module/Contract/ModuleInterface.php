@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module\Contract;
 
 /**
- * Interface ModuleInterface
+ * Interface ModuleInterface.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,5 +12,4 @@
  */
 interface ModuleInterface
 {
-
 }

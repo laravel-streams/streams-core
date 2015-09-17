@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class RequiredGuesser
+ * Class RequiredGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class RequiredGuesser
 {
-
     /**
      * Guess the field required flag.
      *
@@ -29,7 +30,7 @@ class RequiredGuesser
 
             // Guess based on the assignment if possible.
             if (
-                !isset($field['required'])
+                ! isset($field['required'])
                 && $entry instanceof EntryInterface
                 && $assignment = $entry->getAssignment($field['field'])
             ) {

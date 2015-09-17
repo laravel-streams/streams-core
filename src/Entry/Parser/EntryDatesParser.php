@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Parser;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Parser;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class EntryDatesParser
+ * Class EntryDatesParser.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryDatesParser
 {
-
     /**
      * Return the dates attribute.
      *
@@ -36,6 +37,6 @@ class EntryDatesParser
             $dates[] = "'deleted_at'";
         }
 
-        return "[" . implode(', ', $dates) . "]";
+        return '['.implode(', ', $dates).']';
     }
 }

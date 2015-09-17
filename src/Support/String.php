@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use TwigBridge\Bridge;
 
 /**
- * Class String
+ * Class String.
  *
  * @method render
  *
@@ -14,7 +16,6 @@ use TwigBridge\Bridge;
  */
 class String
 {
-
     /**
      * The twig instance.
      *
@@ -41,7 +42,7 @@ class String
      * @param $arguments
      * @return mixed
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         return call_user_func_array([$this->twig, $name], $arguments);
     }

@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Console\Command;
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class WriteAddonLang
+ * Class WriteAddonLang.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Filesystem\Filesystem;
  */
 class WriteAddonLang implements SelfHandling
 {
-
     /**
      * The addon path.
      *

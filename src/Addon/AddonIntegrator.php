@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
@@ -10,7 +12,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Translation\Translator;
 
 /**
- * Class AddonIntegrator
+ * Class AddonIntegrator.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -19,7 +21,6 @@ use Illuminate\Translation\Translator;
  */
 class AddonIntegrator
 {
-
     /**
      * The view factory.
      *
@@ -113,9 +114,9 @@ class AddonIntegrator
         $slug   = strtolower(substr(basename($path), 0, strpos(basename($path), '-')));
         $type   = strtolower(substr(basename($path), strpos(basename($path), '-') + 1));
 
-        $addon = studly_case($vendor) . '\\' . studly_case($slug) . studly_case($type) . '\\' . studly_case(
+        $addon = studly_case($vendor).'\\'.studly_case($slug).studly_case($type).'\\'.studly_case(
                 $slug
-            ) . studly_case($type);
+            ).studly_case($type);
 
         /* @var Addon|Module|Extension $addon */
         $addon = app($addon)
@@ -138,7 +139,7 @@ class AddonIntegrator
         $this->configurator->addNamespace($addon->getNamespace(), $addon->getPath('resources/config'));
         $this->configurator->mergeNamespace(
             $addon->getNamespace(),
-            base_path('config/addon/' . $addon->getSlug() . '-' . $addon->getType())
+            base_path('config/addon/'.$addon->getSlug().'-'.$addon->getType())
         );
 
         // Continue loading things.
@@ -148,12 +149,11 @@ class AddonIntegrator
         $this->views->addNamespace($addon->getNamespace(), $addon->getPath('resources/views'));
         $this->translator->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
 
-        /**
+        /*
          * If the addon is a plugin then
          * load it into Twig when appropriate.
          */
         if ($addon->getType() === 'plugin') {
-
             $this->events->listen(
                 'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
                 function (RegisteringTwigPlugins $event) use ($addon) {

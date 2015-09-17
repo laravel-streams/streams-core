@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Application;
+<?php
+
+namespace Anomaly\Streams\Platform\Application;
 
 /**
- * Class ApplicationPluginFunctions
+ * Class ApplicationPluginFunctions.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class ApplicationPluginFunctions
 {
-
     /**
      * Return an environmental variable.
      *
@@ -32,7 +33,7 @@ class ApplicationPluginFunctions
      */
     public function humanize($value, $separator = '_')
     {
-        return ucwords(preg_replace('/[' . $separator . ']+/', ' ', strtolower(trim($value))));
+        return ucwords(preg_replace('/['.$separator.']+/', ' ', strtolower(trim($value))));
     }
 
     /**
@@ -47,7 +48,7 @@ class ApplicationPluginFunctions
     {
         $attributes = array_merge($attributes, ['name' => $value]);
 
-        return app('html')->link('#' . $value, $text, $attributes);
+        return app('html')->link('#'.$value, $text, $attributes);
     }
 
     /**
@@ -70,17 +71,16 @@ class ApplicationPluginFunctions
         $cutArea = mb_substr($value, $limit - 1, 2, 'UTF-8');
 
         if (strpos($cutArea, ' ') === false) {
-
             $value = mb_substr($value, 0, $limit, 'UTF-8');
 
             $spacePos = strrpos($value, ' ');
 
             if ($spacePos !== false) {
-                return rtrim(mb_substr($value, 0, $spacePos, 'UTF-8')) . $end;
+                return rtrim(mb_substr($value, 0, $spacePos, 'UTF-8')).$end;
             }
         }
 
-        return rtrim(mb_substr($value, 0, $limit, 'UTF-8')) . $end;
+        return rtrim(mb_substr($value, 0, $limit, 'UTF-8')).$end;
     }
 
     /**
@@ -93,7 +93,7 @@ class ApplicationPluginFunctions
      */
     public function trans($key = null, $parameters = [], $locale = null)
     {
-        if (!$key) {
+        if (! $key) {
             return $key;
         }
 

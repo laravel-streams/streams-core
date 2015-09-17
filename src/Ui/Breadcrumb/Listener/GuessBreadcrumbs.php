@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Breadcrumb\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Breadcrumb\Listener;
 
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Illuminate\Http\Request;
 
 /**
- * Class GuessBreadcrumbs
+ * Class GuessBreadcrumbs.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Http\Request;
  */
 class GuessBreadcrumbs
 {
-
     /**
      * The request object.
      *

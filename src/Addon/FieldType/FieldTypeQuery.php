@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class FieldTypeQuery
+ * Class FieldTypeQuery.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class FieldTypeQuery
 {
-
     /**
      * The parent field type.
      *
@@ -50,11 +51,11 @@ class FieldTypeQuery
 
         if ($assignment->isTranslatable()) {
             $query
-                ->join($translations, $translations . '.entry_id', '=', $table . '.id')
-                ->where($translations . '.' . $column, 'LIKE', "%" . $filter->getValue() . "%")
+                ->join($translations, $translations.'.entry_id', '=', $table.'.id')
+                ->where($translations.'.'.$column, 'LIKE', '%'.$filter->getValue().'%')
                 ->where('locale', config('app.locale'));
         } else {
-            $query->where($column, 'LIKE', "%" . $filter->getValue() . "%");
+            $query->where($column, 'LIKE', '%'.$filter->getValue().'%');
         }
     }
 

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Console;
 
 use Anomaly\Streams\Platform\Addon\Command\RegisterAddons;
 use Anomaly\Streams\Platform\Addon\Console\Command\MakeAddonPaths;
@@ -12,7 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Class MakeAddon
+ * Class MakeAddon.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -21,7 +23,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class MakeAddon extends Command
 {
-
     use DispatchesJobs;
 
     /**
@@ -45,8 +46,8 @@ class MakeAddon extends Command
     {
         $namespace = $this->argument('namespace');
 
-        if (!str_is('*.*.*', $namespace)) {
-            throw new \Exception("The namespace should be snake case and formatted like: {vendor}.{type}.{slug}");
+        if (! str_is('*.*.*', $namespace)) {
+            throw new \Exception('The namespace should be snake case and formatted like: {vendor}.{type}.{slug}');
         }
 
         list($vendor, $type, $slug) = array_map(
@@ -71,9 +72,9 @@ class MakeAddon extends Command
             $this->call(
                 'make:migration',
                 [
-                    'name'     => 'create_' . $slug . '_fields',
+                    'name'     => 'create_'.$slug.'_fields',
                     '--addon'  => "{$vendor}.{$type}.{$slug}",
-                    '--fields' => true
+                    '--fields' => true,
                 ]
             );
         }
@@ -87,7 +88,7 @@ class MakeAddon extends Command
     protected function getArguments()
     {
         return [
-            ['namespace', InputArgument::REQUIRED, 'The addon\'s desired dot namespace.']
+            ['namespace', InputArgument::REQUIRED, 'The addon\'s desired dot namespace.'],
         ];
     }
 
@@ -100,7 +101,7 @@ class MakeAddon extends Command
     {
         return [
             ['shared', null, InputOption::VALUE_NONE, 'Indicates if the addon should be created in shared addons.'],
-            ['migration', null, InputOption::VALUE_NONE, 'Indicates if a fields migration should be created.']
+            ['migration', null, InputOption::VALUE_NONE, 'Indicates if a fields migration should be created.'],
         ];
     }
 }

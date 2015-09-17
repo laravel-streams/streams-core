@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -7,7 +9,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
 
 /**
- * Class SetActiveView
+ * Class SetActiveView.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Http\Request;
  */
 class SetActiveView implements SelfHandling
 {
-
     /**
      * The table builder.
      *
@@ -50,16 +51,16 @@ class SetActiveView implements SelfHandling
             return;
         }
 
-        if ($view = $views->findBySlug($request->get($options->get('prefix') . 'view'))) {
+        if ($view = $views->findBySlug($request->get($options->get('prefix').'view'))) {
             $view->setActive(true);
         }
 
-        if (!$view && $view = $views->first()) {
+        if (! $view && $view = $views->first()) {
             $view->setActive(true);
         }
 
         // Nothing to do.
-        if (!$view) {
+        if (! $view) {
             return;
         }
 

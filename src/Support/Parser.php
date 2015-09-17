@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use Illuminate\Contracts\Support\Arrayable;
 use StringTemplate\Engine;
 
 /**
- * Class Parser
+ * Class Parser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use StringTemplate\Engine;
  */
 class Parser
 {
-
     /**
      * The URL generator.
      *
@@ -60,7 +61,7 @@ class Parser
     {
         $data = $this->prepareData($data);
 
-        /**
+        /*
          * If the target is an array
          * then parse it recursively.
          */
@@ -70,7 +71,7 @@ class Parser
             }
         }
 
-        /**
+        /*
          * if the target is a string and is in a parsable
          * format then parse the target with the payload.
          */

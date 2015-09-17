@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button;
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 
 /**
- * Class ButtonBuilder
+ * Class ButtonBuilder.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
  */
 class ButtonBuilder
 {
-
     /**
      * The button reader.
      *
@@ -76,8 +77,7 @@ class ButtonBuilder
         $this->input->read($builder, $entry);
 
         foreach ($builder->getButtons() as $button) {
-
-            if (!array_get($button, 'enabled', true)) {
+            if (! array_get($button, 'enabled', true)) {
                 continue;
             }
 

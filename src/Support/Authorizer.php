@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\UsersModule\User\Contract\UserInterface;
 use Illuminate\Auth\Guard;
 use Illuminate\Config\Repository;
 
 /**
- * Class Authorizer
+ * Class Authorizer.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Config\Repository;
  */
 class Authorizer
 {
-
     /**
      * The auth utility.
      *
@@ -35,7 +36,7 @@ class Authorizer
      * @param Guard      $guard
      * @param Repository $config
      */
-    function __construct(Guard $guard, Repository $config)
+    public function __construct(Guard $guard, Repository $config)
     {
         $this->guard  = $guard;
         $this->config = $config;
@@ -50,77 +51,71 @@ class Authorizer
      */
     public function authorize($permission, UserInterface $user = null)
     {
-        if (!$user) {
+        if (! $user) {
             $user = $this->guard->user();
         }
 
-        /**
+        /*
          * No permission, let it proceed.
          */
-        if (!$permission) {
+        if (! $permission) {
             return true;
         }
 
-        /**
+        /*
          * If the permission does not actually exist
          * then we cant really do anything with it.
          */
-        if (str_is('*::*.*', $permission) && !ends_with($permission, '*')) {
-
+        if (str_is('*::*.*', $permission) && ! ends_with($permission, '*')) {
             $parts = explode('.', str_replace('::', '.', $permission));
             $end   = array_pop($parts);
             $group = array_pop($parts);
             $parts = explode('::', $permission);
 
             // If it does not exist, we are authorized.
-            if (!in_array($end, (array)$this->config->get($parts[0] . '::permissions.' . $group))) {
+            if (! in_array($end, (array) $this->config->get($parts[0].'::permissions.'.$group))) {
                 return true;
             }
         } elseif (ends_with($permission, '*')) {
-
             $parts = explode('::', $permission);
 
             $addon = array_shift($parts);
 
-            /**
+            /*
              * Check vendor.module.slug::group.*
              * then check vendor.module.slug::*
              */
             if (str_is('*.*.*::*.*.*', $permission)) {
-
                 $end = trim(substr($permission, strpos($permission, '::') + 2), '.*');
 
-                if (!$permissions = $this->config->get($addon . '::permissions.' . $end)) {
+                if (! $permissions = $this->config->get($addon.'::permissions.'.$end)) {
                     return true;
                 } else {
                     return $user->hasAnyPermission($permissions);
                 }
             } elseif (str_is('*.*.*::*.*', $permission)) {
-
                 $end = trim(substr($permission, strpos($permission, '::') + 2), '.*');
 
-                if (!$permissions = $this->config->get($addon . '::permissions.' . $end)) {
+                if (! $permissions = $this->config->get($addon.'::permissions.'.$end)) {
                     return true;
                 } else {
-
                     $check = [];
 
                     foreach ($permissions as &$permission) {
-                        $check[] = $addon . '::' . $end . '.' . $permission;
+                        $check[] = $addon.'::'.$end.'.'.$permission;
                     }
 
                     return $user->hasAnyPermission($check);
                 }
             } else {
-                if (!$permissions = $this->config->get($addon . '::permissions')) {
+                if (! $permissions = $this->config->get($addon.'::permissions')) {
                     return true;
                 } else {
-
                     $check = [];
 
                     foreach ($permissions as $group => &$permission) {
                         foreach ($permission as $access) {
-                            $check[] = $addon . '::' . $group . '.' . $access;
+                            $check[] = $addon.'::'.$group.'.'.$access;
                         }
                     }
 
@@ -128,18 +123,17 @@ class Authorizer
                 }
             }
         } else {
-
             $parts = explode('::', $permission);
 
             $end = array_pop($parts);
 
-            if (!in_array($end, (array)$this->config->get($parts[0] . '::permissions'))) {
+            if (! in_array($end, (array) $this->config->get($parts[0].'::permissions'))) {
                 return true;
             }
         }
 
         // Check if the user actually has permission.
-        if (!$user || !$user->hasPermission($permission)) {
+        if (! $user || ! $user->hasPermission($permission)) {
             return false;
         }
 

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Contract;
 
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Illuminate\Support\Collection;
 
 /**
- * Interface GridRepositoryInterface
+ * Interface GridRepositoryInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Support\Collection;
  */
 interface GridRepositoryInterface
 {
-
     /**
      * Get the grid entries.
      *

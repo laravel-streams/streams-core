@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Contract;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Interface FormRepositoryInterface
+ * Interface FormRepositoryInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 interface FormRepositoryInterface
 {
-
     /**
      * Find an entry or return a new one.
      *

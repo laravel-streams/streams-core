@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Field;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
- * Class FieldModelTranslation
+ * Class FieldModelTranslation.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  */
 class FieldModelTranslation extends EloquentModel
 {
-
     /**
      * Do not use timestamps.
      *
@@ -33,5 +34,4 @@ class FieldModelTranslation extends EloquentModel
      * @var string
      */
     protected $table = 'streams_fields_translations';
-
 }

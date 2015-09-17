@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Plugin;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Plugin;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Twig_Environment;
@@ -6,7 +8,7 @@ use Twig_ExtensionInterface;
 use Twig_NodeVisitorInterface;
 
 /**
- * Class Plugin
+ * Class Plugin.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Twig_NodeVisitorInterface;
  */
 class Plugin extends Addon implements Twig_ExtensionInterface
 {
-
     /**
      * Get plugin name for Twig.
      *

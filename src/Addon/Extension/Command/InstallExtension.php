@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension\Command;
 
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasInstalled;
@@ -8,7 +10,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
- * Class InstallExtension
+ * Class InstallExtension.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Illuminate\Contracts\Events\Dispatcher;
  */
 class InstallExtension implements SelfHandling
 {
-
     /**
      * The seed flag.
      *
@@ -38,7 +39,7 @@ class InstallExtension implements SelfHandling
      * @param Extension $extension
      * @param bool      $seed
      */
-    function __construct(Extension $extension, $seed = false)
+    public function __construct(Extension $extension, $seed = false)
     {
         $this->seed      = $seed;
         $this->extension = $extension;
@@ -54,7 +55,7 @@ class InstallExtension implements SelfHandling
     {
         $options = [
             '--addon' => $this->extension->getNamespace(),
-            '--force' => true
+            '--force' => true,
         ];
 
         $kernel->call('migrate:refresh', $options);

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -8,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 
 /**
- * Class ActionHandler
+ * Class ActionHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Illuminate\Routing\Redirector;
  */
 class ActionHandler implements SelfHandling
 {
-
     /**
      * The parser utility.
      *
@@ -60,7 +61,7 @@ class ActionHandler implements SelfHandling
      */
     public function handle(FormBuilder $builder)
     {
-        /**
+        /*
          * If the form already has a response
          * then we're being overridden. Abort!
          */
@@ -90,14 +91,14 @@ class ActionHandler implements SelfHandling
 
         $url = $this->parser->parse($url, compact('entry'));
 
-        /**
+        /*
          * If the URL is null then use the current one.
          */
         if ($url === null) {
             $url = $this->request->fullUrl();
         }
 
-        /**
+        /*
          * If the URL is a closure then call it.
          */
         if ($url instanceof \Closure) {

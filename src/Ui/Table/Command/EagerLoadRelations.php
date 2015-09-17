@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class EagerLoadRelations
+ * Class EagerLoadRelations.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class EagerLoadRelations implements SelfHandling
 {
-
     /**
      * The table builder.
      *
@@ -39,7 +40,7 @@ class EagerLoadRelations implements SelfHandling
     {
         $stream = $this->builder->getTableStream();
 
-        if (!$stream instanceof StreamInterface) {
+        if (! $stream instanceof StreamInterface) {
             return;
         }
 
@@ -53,11 +54,11 @@ class EagerLoadRelations implements SelfHandling
 
         foreach ($this->builder->getColumns() as $column) {
 
-            /**
+            /*
              * If the column value is a string and uses a dot
              * format then check if it's a relation.
              */
-            if (is_string($column['value']) && preg_match("/^entry.([a-zA-Z\\_]+)./", $column['value'], $match)) {
+            if (is_string($column['value']) && preg_match('/^entry.([a-zA-Z\\_]+)./', $column['value'], $match)) {
                 if ($assignments->findByFieldSlug($match[1])) {
                     $eager [] = $match[1];
                 }

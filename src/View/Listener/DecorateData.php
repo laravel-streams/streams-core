@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\View\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\View\Listener;
 
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
 use Robbo\Presenter\Decorator;
 
 /**
- * Class DecorateData
+ * Class DecorateData.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Robbo\Presenter\Decorator;
  */
 class DecorateData
 {
-
     /**
      * The decorator utility.
      *

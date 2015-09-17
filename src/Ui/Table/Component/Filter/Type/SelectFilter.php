@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SelectFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 
 /**
- * Class SelectFilter
+ * Class SelectFilter.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
  */
 class SelectFilter extends Filter implements SelectFilterInterface
 {
-
     /**
      * The filter options.
      *

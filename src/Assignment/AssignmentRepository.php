@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
@@ -8,7 +10,7 @@ use Anomaly\Streams\Platform\Model\EloquentRepository;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class AssignmentRepository
+ * Class AssignmentRepository.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class AssignmentRepository extends EloquentRepository implements AssignmentRepositoryInterface
 {
-
     /**
      * The assignment model.
      *
