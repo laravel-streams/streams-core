@@ -12,6 +12,8 @@ use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
 use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
+use Anomaly\Streams\Platform\Event\Booted;
+use Anomaly\Streams\Platform\Event\Booting;
 use Anomaly\Streams\Platform\Event\Ready;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Field\FieldObserver;
@@ -186,6 +188,8 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot(Dispatcher $events)
     {
+        $events->fire(new Booting());
+
         $this->dispatch(new SetCoreConnection());
         $this->dispatch(new ConfigureCommandBus());
         $this->dispatch(new ConfigureTranslator());
@@ -205,6 +209,8 @@ class StreamsServiceProvider extends ServiceProvider
 
         $this->app->booted(
             function () use ($events) {
+
+                $events->fire(new Booted());
 
                 /* @var AddonManager $manager */
                 $manager = $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager');
