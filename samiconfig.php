@@ -1,3 +1,3 @@
 <?php
 
-return new Sami\Sami('vendor/anomaly/streams-platform/src');
+return new Sami\Sami(__DIR__ . '/src');
