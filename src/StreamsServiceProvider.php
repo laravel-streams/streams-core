@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
 use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
+use Anomaly\Streams\Platform\Event\Ready;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Field\FieldObserver;
 use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
@@ -183,7 +184,7 @@ class StreamsServiceProvider extends ServiceProvider
     /**
      * Boot the service provider.
      */
-    public function boot()
+    public function boot(Dispatcher $events)
     {
         $this->dispatch(new SetCoreConnection());
         $this->dispatch(new ConfigureCommandBus());
@@ -203,7 +204,7 @@ class StreamsServiceProvider extends ServiceProvider
         AssignmentModel::observe(AssignmentObserver::class);
 
         $this->app->booted(
-            function () {
+            function () use ($events) {
 
                 /* @var AddonManager $manager */
                 $manager = $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager');
@@ -226,6 +227,8 @@ class StreamsServiceProvider extends ServiceProvider
                 );
 
                 $manager->register();
+
+                $events->fire(new Ready());
             }
         );
     }
