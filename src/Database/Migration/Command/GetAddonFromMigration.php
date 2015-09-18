@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Command;
 
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 
 /**
- * Class GetAddonFromMigration
+ * Class GetAddonFromMigration.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Database\Migration\Migration;
  */
 class GetAddonFromMigration
 {
-
     /**
      * Get the migration.
      *

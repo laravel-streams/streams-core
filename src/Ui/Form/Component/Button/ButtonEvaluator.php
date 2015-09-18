@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class ButtonEvaluator
+ * Class ButtonEvaluator.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class ButtonEvaluator
 {
-
     /**
      * The evaluator utility.
      *

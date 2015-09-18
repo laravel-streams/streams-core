@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Event;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class TableIsQuerying
+ * Class TableIsQuerying.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class TableIsQuerying
 {
-
     /**
      * The table builder.
      *

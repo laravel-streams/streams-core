@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 /**
- * Class Hydrator
+ * Class Hydrator.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class Hydrator
 {
-
     /**
      * Hydrate an object with parameters.
      *
@@ -19,13 +20,12 @@ class Hydrator
      */
     public function hydrate($object, array $parameters)
     {
-        if (!is_object($object)) {
+        if (! is_object($object)) {
             return;
         }
 
         foreach ($parameters as $parameter => $value) {
-
-            $method = camel_case('set_' . $parameter);
+            $method = camel_case('set_'.$parameter);
 
             if (method_exists($object, $method)) {
                 $object->{$method}($value);

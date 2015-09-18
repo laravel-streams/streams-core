@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class HeaderDefaults
+ * Class HeaderDefaults.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class HeaderDefaults
 {
-
     /**
      * Set defaults.
      *
@@ -23,7 +24,7 @@ class HeaderDefaults
         if ($builder->getColumns() == []) {
             $builder->setColumns(
                 [
-                    'entry.title'
+                    'entry.title',
                 ]
             );
         }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension\Command;
 
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasUninstalled;
@@ -8,7 +10,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
- * Class UninstallExtension
+ * Class UninstallExtension.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Illuminate\Contracts\Events\Dispatcher;
  */
 class UninstallExtension implements SelfHandling
 {
-
     /**
      * The extension to uninstall.
      *
@@ -46,7 +47,7 @@ class UninstallExtension implements SelfHandling
     public function handle(Kernel $console, Dispatcher $events, ExtensionRepositoryInterface $extensions)
     {
         $options = [
-            '--addon' => $this->extension->getNamespace()
+            '--addon' => $this->extension->getNamespace(),
         ];
 
         $console->call('migrate:reset', $options);

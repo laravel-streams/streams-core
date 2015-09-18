@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameToClass;
 use Anomaly\Streams\Platform\Database\Migration\Console\MigrateMakeCommand;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class MigrationCreator
+ * Class MigrationCreator.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
 {
-
     use DispatchesJobs;
 
     /**
@@ -59,15 +60,15 @@ class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
     protected function getStub($table, $create)
     {
         if ($this->command->option('fields')) {
-            return $this->files->get($this->getStubPath() . '/fields.stub');
+            return $this->files->get($this->getStubPath().'/fields.stub');
         }
 
         if ($this->command->option('stream')) {
-            return $this->files->get($this->getStubPath() . '/stream.stub');
+            return $this->files->get($this->getStubPath().'/stream.stub');
         }
 
         if (is_null($table)) {
-            return $this->files->get($this->getStubPath() . '/blank.stub');
+            return $this->files->get($this->getStubPath().'/blank.stub');
         }
 
         // We also have stubs for creating new tables and modifying existing tables
@@ -76,7 +77,7 @@ class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
         else {
             $stub = $create ? 'create.stub' : 'update.stub';
 
-            return $this->files->get($this->getStubPath() . "/{$stub}");
+            return $this->files->get($this->getStubPath()."/{$stub}");
         }
     }
 
@@ -105,7 +106,7 @@ class MigrationCreator extends \Illuminate\Database\Migrations\MigrationCreator
      */
     public function getStubPath()
     {
-        return __DIR__ . '/../../../resources/stubs/database/migrations';
+        return __DIR__.'/../../../resources/stubs/database/migrations';
     }
 
     /**

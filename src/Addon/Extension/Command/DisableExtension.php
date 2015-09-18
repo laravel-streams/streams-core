@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension\Command;
 
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasDisabled;
@@ -7,7 +9,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
- * Class DisableExtension
+ * Class DisableExtension.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Contracts\Events\Dispatcher;
  */
 class DisableExtension implements SelfHandling
 {
-
     /**
      * The extension to uninstall.
      *

@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract;
 
 /**
- * Interface SectionInterface
+ * Interface SectionInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 interface SectionInterface
 {
-
     /**
      * Get the slug.
      *
@@ -58,14 +59,14 @@ interface SectionInterface
     /**
      * Get the active flag.
      *
-     * @return boolean
+     * @return bool
      */
     public function isActive();
 
     /**
      * Set the active flag.
      *
-     * @param boolean $active
+     * @param bool $active
      */
     public function setActive($active);
 

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Support\Authorizer;
 
 /**
- * Class ModuleCollection
+ * Class ModuleCollection.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Support\Authorizer;
  */
 class ModuleCollection extends AddonCollection
 {
-
     /**
      * Return navigate-able modules.
      *
@@ -34,7 +35,6 @@ class ModuleCollection extends AddonCollection
 
         foreach ($navigation as $key => $item) {
             if ($item->getNamespace() == 'anomaly.module.dashboard') {
-
                 $navigation = [$key => $item] + $navigation;
 
                 break;
@@ -98,7 +98,7 @@ class ModuleCollection extends AddonCollection
 
         /* @var Module $item */
         foreach ($this->items as $item) {
-            if (!$item->isEnabled()) {
+            if (! $item->isEnabled()) {
                 $disabled[] = $item;
             }
         }
@@ -120,7 +120,7 @@ class ModuleCollection extends AddonCollection
             }
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -153,7 +153,7 @@ class ModuleCollection extends AddonCollection
 
         /* @var Module $item */
         foreach ($this->items as $item) {
-            if (!$item->isInstalled()) {
+            if (! $item->isInstalled()) {
                 $installed[] = $item;
             }
         }

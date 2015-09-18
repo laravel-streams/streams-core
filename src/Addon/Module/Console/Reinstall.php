@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module\Console;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
- * Class Reinstall
+ * Class Reinstall.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class Reinstall extends Command
 {
-
     /**
      * The console command name.
      *

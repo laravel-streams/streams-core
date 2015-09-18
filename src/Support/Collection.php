@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use Illuminate\Contracts\Config\Repository;
 
 /**
- * Class Collection
+ * Class Collection.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Contracts\Config\Repository;
  */
 class Collection extends \Illuminate\Support\Collection
 {
-
     /**
      * The config repository.
      *
@@ -105,7 +106,7 @@ class Collection extends \Illuminate\Support\Collection
      * @param $name
      * @param $arguments
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         return $this->get($name);
     }

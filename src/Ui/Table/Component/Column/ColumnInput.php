@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Column;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class ColumnInput
+ * Class ColumnInput.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class ColumnInput
 {
-
     /**
      * The resolver utility.
      *

@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 /**
- * Class FieldTypePluginFunctions
+ * Class FieldTypePluginFunctions.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,5 +12,4 @@
  */
 class FieldTypePluginFunctions
 {
-
 }

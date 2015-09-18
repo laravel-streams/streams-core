@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract;
 
 /**
- * Interface InputFilterInterface
+ * Interface InputFilterInterface.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 interface InputFilterInterface extends FilterInterface
 {
-
     /**
      * Set the type.
      *

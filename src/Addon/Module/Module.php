@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 
 /**
- * Class Module
+ * Class Module.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\Addon;
  */
 class Module extends Addon
 {
-
     /**
      * The module's sections.
      *

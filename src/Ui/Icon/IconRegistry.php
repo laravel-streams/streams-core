@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Icon;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Icon;
 
 /**
- * Class IconRegistry
+ * Class IconRegistry.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class IconRegistry
 {
-
     /**
      * Get a button.
      *
@@ -146,7 +147,7 @@ class IconRegistry
         'cog'                  => 'fa fa-cog',
         'rss'                  => 'fa fa-rss',
         'tag'                  => 'fa fa-tag',
-        'ban'                  => 'fa fa-ban'
+        'ban'                  => 'fa fa-ban',
     ];
 
 }

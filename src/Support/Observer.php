@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Illuminate\Contracts\Bus\Dispatcher as CommandDispatcher;
@@ -6,7 +8,7 @@ use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class Observer
+ * Class Observer.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class Observer
 {
-
     use FiresCallbacks;
     use DispatchesJobs;
 

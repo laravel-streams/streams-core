@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
- * Class TablePagination
+ * Class TablePagination.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
  */
 class TablePagination
 {
-
     /**
      * Return table pagination data.
      *
@@ -25,7 +26,7 @@ class TablePagination
 
         $perPage   = $options->get('limit', 15);
         $page      = app('request')->get('page');
-        $path      = '/' . app('request')->path();
+        $path      = '/'.app('request')->path();
         $paginator = new LengthAwarePaginator(
             $table->getEntries(),
             $options->get('total_results', 0),

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Field\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Form;
 
 use Anomaly\Streams\Platform\Field\Form\Command\GetConfigFields;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class FieldFormFields
+ * Class FieldFormFields.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class FieldFormFields
 {
-
     use DispatchesJobs;
 
     /**
@@ -32,7 +33,7 @@ class FieldFormFields
                     'label'        => 'streams::field.name.name',
                     'instructions' => 'streams::field.name.instructions',
                     'type'         => 'anomaly.field_type.text',
-                    'required'     => true
+                    'required'     => true,
                 ],
                 'slug' => [
                     'label'        => 'streams::field.slug.name',
@@ -42,12 +43,12 @@ class FieldFormFields
                     'disabled'     => 'edit',
                     'config'       => [
                         'slugify' => 'name',
-                        'type'    => '_'
+                        'type'    => '_',
                     ],
                     'rules'        => [
-                        'unique' => 'streams_fields,slug,' . $id . ',namespace,namespace,' . $namespace
-                    ]
-                ]
+                        'unique' => 'streams_fields,slug,'.$id.',namespace,namespace,'.$namespace,
+                    ],
+                ],
             ]
         );
 

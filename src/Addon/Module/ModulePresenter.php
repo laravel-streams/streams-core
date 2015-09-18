@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\AddonPresenter;
 
 /**
- * Class ModulePresenter
+ * Class ModulePresenter.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\AddonPresenter;
  */
 class ModulePresenter extends AddonPresenter
 {
-
     /**
      * The decorated object.
      * This is for IDE hinting.
@@ -29,10 +30,10 @@ class ModulePresenter extends AddonPresenter
     public function stateLabel()
     {
         if ($this->object->isInstalled()) {
-            return '<span class="label label-success">' . trans('streams::addon.installed') . '</span>';
+            return '<span class="label label-success">'.trans('streams::addon.installed').'</span>';
         }
 
-        return '<span class="label label-default">' . trans('streams::addon.uninstalled') . '</span>';
+        return '<span class="label label-default">'.trans('streams::addon.uninstalled').'</span>';
     }
 
     /**
@@ -43,11 +44,11 @@ class ModulePresenter extends AddonPresenter
     public function statusLabel()
     {
         if ($this->object->isEnabled()) {
-            return '<span class="label label-success">' . trans('streams::addon.enabled') . '</span>';
+            return '<span class="label label-success">'.trans('streams::addon.enabled').'</span>';
         }
 
         if ($this->object->isInstalled()) {
-            return '<span class="label label-warning">' . trans('streams::addon.disabled') . '</span>';
+            return '<span class="label label-warning">'.trans('streams::addon.disabled').'</span>';
         }
     }
 }

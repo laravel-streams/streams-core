@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Command\Handler;
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Entry\Command\GenerateEntryTranslationsModel;
@@ -9,7 +11,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Support\Parser;
 
 /**
- * Class GenerateEntryTranslationsModelHandler
+ * Class GenerateEntryTranslationsModelHandler.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -18,7 +20,6 @@ use Anomaly\Streams\Platform\Support\Parser;
  */
 class GenerateEntryTranslationsModelHandler
 {
-
     /**
      * The parser utility.
      *
@@ -39,7 +40,7 @@ class GenerateEntryTranslationsModelHandler
      * @param Parser      $parser
      * @param Application $application
      */
-    function __construct(Parser $parser, Application $application)
+    public function __construct(Parser $parser, Application $application)
     {
         $this->parser      = $parser;
         $this->application = $application;
@@ -56,7 +57,7 @@ class GenerateEntryTranslationsModelHandler
 
         $data = $this->getTemplateData($stream);
 
-        $template = file_get_contents(__DIR__ . '/../../../../resources/stubs/models/translation.stub');
+        $template = file_get_contents(__DIR__.'/../../../../resources/stubs/models/translation.stub');
 
         $file = $this->getFilePath($stream);
 
@@ -73,11 +74,11 @@ class GenerateEntryTranslationsModelHandler
      */
     protected function getFilePath(StreamInterface $stream)
     {
-        $path = $this->application->getStoragePath('models/' . studly_case($stream->getNamespace()));
+        $path = $this->application->getStoragePath('models/'.studly_case($stream->getNamespace()));
 
-        $path .= '/' . studly_case($stream->getNamespace()) . studly_case($stream->getSlug());
+        $path .= '/'.studly_case($stream->getNamespace()).studly_case($stream->getSlug());
 
-        return $path . 'EntryTranslationsModel.php';
+        return $path.'EntryTranslationsModel.php';
     }
 
     /**

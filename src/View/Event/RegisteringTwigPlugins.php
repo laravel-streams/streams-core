@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\View\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\View\Event;
 
 use TwigBridge\Bridge;
 
 /**
- * Class RegisteringTwigPlugins
+ * Class RegisteringTwigPlugins.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use TwigBridge\Bridge;
  */
 class RegisteringTwigPlugins
 {
-
     /**
      * The Twig instance.
      *

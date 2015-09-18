@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Parser;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Parser;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class EntryTrashableParser
+ * Class EntryTrashableParser.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryTrashableParser
 {
-
     /**
      * Return the use statement for trashable if so.
      *
@@ -21,10 +22,10 @@ class EntryTrashableParser
      */
     public function parse(StreamInterface $stream)
     {
-        if (!$stream->isTrashable()) {
-            return null;
+        if (! $stream->isTrashable()) {
+            return;
         }
 
-        return "use \\Illuminate\\Database\\Eloquent\\SoftDeletes;";
+        return 'use \\Illuminate\\Database\\Eloquent\\SoftDeletes;';
     }
 }

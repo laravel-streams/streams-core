@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class AddAssets
+ * Class AddAssets.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class AddAssets implements SelfHandling
 {
-
     /**
      * The form builder.
      *
@@ -41,13 +42,11 @@ class AddAssets implements SelfHandling
     public function handle(Asset $asset)
     {
         foreach ($this->builder->getAssets() as $collection => $assets) {
-
-            if (!is_array($assets)) {
+            if (! is_array($assets)) {
                 $assets = [$assets];
             }
 
             foreach ($assets as $file) {
-
                 $filters = explode('|', $file);
 
                 $file = array_shift($filters);

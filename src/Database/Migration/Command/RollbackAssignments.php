@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Command;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Database\Migration\Migration;
@@ -7,7 +9,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class RollbackAssignments
+ * Class RollbackAssignments.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class RollbackAssignments implements SelfHandling
 {
-
     /**
      * The migration.
      *
@@ -55,7 +56,6 @@ class RollbackAssignments implements SelfHandling
         $stream = $streams->findBySlugAndNamespace($slug, $namespace);
 
         foreach ($this->migration->getAssignments() as $field => $assignment) {
-
             if (is_numeric($field)) {
                 $field = $assignment;
             }

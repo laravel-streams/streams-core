@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Guesser\HandlerGuesser;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Guesser\HrefGuesser;
@@ -7,7 +9,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\View\Guesser\TextGuesser;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class ViewGuesser
+ * Class ViewGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class ViewGuesser
 {
-
     /**
      * The HREF guesser.
      *

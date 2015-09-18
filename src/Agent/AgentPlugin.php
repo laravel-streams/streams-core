@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Agent;
+<?php
+
+namespace Anomaly\Streams\Platform\Agent;
 
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 use Mobile_Detect;
 
 /**
- * Class AgentPlugin
+ * Class AgentPlugin.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Mobile_Detect;
  */
 class AgentPlugin extends Plugin
 {
-
     /**
      * The agent utility.
      *

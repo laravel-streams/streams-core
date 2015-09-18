@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Event;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 
 /**
- * Class EntryWasUpdated
+ * Class EntryWasUpdated.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
  */
 class EntryWasUpdated
 {
-
     /**
      * The entry object.
      *

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button;
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Illuminate\Contracts\Support\Arrayable;
 
 /**
- * Class ButtonParser
+ * Class ButtonParser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Contracts\Support\Arrayable;
  */
 class ButtonParser
 {
-
     /**
      * The parser utility.
      *

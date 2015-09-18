@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Illuminate\Contracts\Container\Container;
 
 /**
- * Class ViewFactory
+ * Class ViewFactory.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Container\Container;
  */
 class ViewFactory
 {
-
     /**
      * The default view class.
      *
@@ -56,7 +57,7 @@ class ViewFactory
      */
     public function make(array $parameters)
     {
-        if (!class_exists(array_get($parameters, 'view'))) {
+        if (! class_exists(array_get($parameters, 'view'))) {
             array_set($parameters, 'view', $this->view);
         }
 

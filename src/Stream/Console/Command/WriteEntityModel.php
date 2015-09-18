@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Console\Command;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Support\Parser;
@@ -6,7 +8,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class WriteEntityModel
+ * Class WriteEntityModel.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Filesystem\Filesystem;
  */
 class WriteEntityModel implements SelfHandling
 {
-
     /**
      * The entity slug.
      *
@@ -36,7 +37,6 @@ class WriteEntityModel implements SelfHandling
      * @var string
      */
     private $namespace;
-
 
     /**
      * Create a new WriteEntityModel instance.
@@ -66,7 +66,7 @@ class WriteEntityModel implements SelfHandling
 
         $class      = "{$entity}Model";
         $implements = "{$entity}Interface";
-        $extends    = $prefix . $suffix . 'EntryModel';
+        $extends    = $prefix.$suffix.'EntryModel';
         $namespace  = $this->addon->getTransformedClass("{$entity}");
         $interface  = $this->addon->getTransformedClass("{$entity}\\Contract\\{$entity}Interface");
         $base       = "Anomaly\\Streams\\Platform\\Model\\{$prefix}\\{$prefix}{$suffix}EntryModel";
@@ -74,7 +74,7 @@ class WriteEntityModel implements SelfHandling
         $path = $this->addon->getPath("src/{$entity}/{$entity}Model.php");
 
         $template = $filesystem->get(
-            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/model.stub")
+            base_path('vendor/anomaly/streams-platform/resources/stubs/entity/model.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

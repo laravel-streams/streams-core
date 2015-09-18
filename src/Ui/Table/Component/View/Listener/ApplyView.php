@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Listener;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewQuery;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
 
 /**
- * Class ApplyView
+ * Class ApplyView.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
  */
 class ApplyView
 {
-
     /**
      * The view query.
      *

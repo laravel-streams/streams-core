@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\ExecuteAction;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
@@ -9,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
 
 /**
- * Class PostTable
+ * Class PostTable.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -18,7 +20,6 @@ use Illuminate\Routing\ResponseFactory;
  */
 class PostTable implements SelfHandling
 {
-
     use DispatchesJobs;
 
     /**
@@ -53,7 +54,7 @@ class PostTable implements SelfHandling
 
         $this->dispatch(new ExecuteAction($this->builder));
 
-        if (!$this->builder->getTableResponse()) {
+        if (! $this->builder->getTableResponse()) {
             $this->builder->setTableResponse($response->redirectTo($request->fullUrl()));
         }
     }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Table\Command\AddAssets;
@@ -16,7 +18,7 @@ use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class TableBuilder
+ * Class TableBuilder.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -25,7 +27,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TableBuilder
 {
-
     use DispatchesJobs;
     use FiresCallbacks;
 
@@ -443,7 +444,7 @@ class TableBuilder
      */
     public function addAsset($collection, $asset)
     {
-        if (!isset($this->assets[$collection])) {
+        if (! isset($this->assets[$collection])) {
             $this->assets[$collection] = [];
         }
 
@@ -595,7 +596,7 @@ class TableBuilder
      */
     public function hasActiveView()
     {
-        return !is_null($this->table->getViews()->active());
+        return ! is_null($this->table->getViews()->active());
     }
 
     /**
@@ -669,6 +670,6 @@ class TableBuilder
      */
     public function getRequestValue($key, $default = null)
     {
-        return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
+        return array_get($_REQUEST, $this->getOption('prefix').$key, $default);
     }
 }

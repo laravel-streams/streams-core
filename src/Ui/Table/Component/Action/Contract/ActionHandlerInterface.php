@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Interface ActionHandlerInterface
+ * Interface ActionHandlerInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 interface ActionHandlerInterface
 {
-
     /**
      * Handle the action.
      *

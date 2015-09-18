@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser\HandlerGuesser;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser\PermissionGuesser;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser\TextGuesser;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class ActionGuesser
+ * Class ActionGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class ActionGuesser
 {
-
     /**
      * The text guesser.
      *

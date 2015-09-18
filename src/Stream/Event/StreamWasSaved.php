@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Event;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class StreamWasSaved
+ * Class StreamWasSaved.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class StreamWasSaved
 {
-
     /**
      * The stream interface.
      *

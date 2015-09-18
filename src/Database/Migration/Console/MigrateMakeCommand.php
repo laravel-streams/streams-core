@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Console;
 
 use Anomaly\Streams\Platform\Database\Migration\Command\CreateAddonMigrationFolder;
 use Anomaly\Streams\Platform\Database\Migration\Command\GetMigrationName;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Database\Migration\MigrationCreator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class MigrateMakeCommand
+ * Class MigrateMakeCommand.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\MigrateMakeCommand
 {
-
     use DispatchesJobs;
 
     /**
@@ -54,7 +55,7 @@ class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\Migrate
         $table  = $this->input->getOption('table');
         $addon  = $this->input->getOption('addon');
 
-        if (!$table && is_string($create)) {
+        if (! $table && is_string($create)) {
             $table = $create;
         }
 
@@ -76,7 +77,7 @@ class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\Migrate
     {
         $name = $this->dispatch(new GetMigrationName($name, $addon));
 
-        if (!$path = $this->dispatch(new CreateAddonMigrationFolder($addon))) {
+        if (! $path = $this->dispatch(new CreateAddonMigrationFolder($addon))) {
             $path = $this->getMigrationPath();
         }
 

@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Field\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Command\Handler;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Command\AssignField;
 
 /**
- * Class AssignFieldHandler
+ * Class AssignFieldHandler.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Field\Command\AssignField;
  */
 class AssignFieldHandler
 {
-
     /**
      * The assignment repository.
      *
@@ -27,7 +28,7 @@ class AssignFieldHandler
      *
      * @param AssignmentRepositoryInterface $assignments
      */
-    function __construct(AssignmentRepositoryInterface $assignments)
+    public function __construct(AssignmentRepositoryInterface $assignments)
     {
         $this->assignments = $assignments;
     }

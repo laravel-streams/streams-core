@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class ActionNormalizer
+ * Class ActionNormalizer.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class ActionNormalizer
 {
-
     /**
      * Normalize action input.
      *
@@ -25,7 +26,7 @@ class ActionNormalizer
 
         foreach ($actions as $slug => &$action) {
 
-            /**
+            /*
              * If the slug is numeric and the action is
              * a string then treat the string as both the
              * action and the slug. This is OK as long as
@@ -39,52 +40,52 @@ class ActionNormalizer
                 ];
             }
 
-            /**
+            /*
              * If the slug is NOT numeric and the action is a
              * string then use the slug as the slug and the
              * action as the action.
              */
-            if (!is_numeric($slug) && is_string($action)) {
+            if (! is_numeric($slug) && is_string($action)) {
                 $action = [
                     'slug'   => $slug,
                     'action' => $action,
                 ];
             }
 
-            /**
+            /*
              * If the slug is not numeric and the action is an
              * array without a slug then use the slug for
              * the slug for the action.
              */
-            if (is_array($action) && !isset($action['slug']) && !is_numeric($slug)) {
+            if (is_array($action) && ! isset($action['slug']) && ! is_numeric($slug)) {
                 $action['slug'] = $slug;
             }
 
-            /**
+            /*
              * If the slug is not numeric and the action is an
              * array without a action then use the slug for
              * the action for the action.
              */
-            if (is_array($action) && !isset($action['action']) && !is_numeric($slug)) {
+            if (is_array($action) && ! isset($action['action']) && ! is_numeric($slug)) {
                 $action['action'] = $slug;
             }
 
-            /**
+            /*
              * Make sure the attributes array is set.
              */
             $action['attributes'] = array_get($action, 'attributes', []);
 
-            /**
+            /*
              * Move all data-* keys
              * to attributes.
              */
             foreach ($action as $attribute => $value) {
                 if (str_is('data-*', $attribute)) {
-                    array_set($action, 'attributes.' . $attribute, array_pull($action, $attribute));
+                    array_set($action, 'attributes.'.$attribute, array_pull($action, $attribute));
                 }
             }
 
-            /**
+            /*
              * If the HREF is present outside of the attributes
              * then pull it and put it in the attributes array.
              */
@@ -92,13 +93,13 @@ class ActionNormalizer
                 $action['attributes']['url'] = array_pull($action, 'url');
             }
 
-            /**
+            /*
              * Set defaults as expected for actions.
              */
             $action['size']     = array_get($action, 'small', 'sm');
             $action['disabled'] = array_get($action, 'disabled', array_get($action, 'toggle', true));
 
-            $action['attributes']['name']  = $prefix . 'action';
+            $action['attributes']['name']  = $prefix.'action';
             $action['attributes']['value'] = $action['slug'];
 
             // If not toggle add the ignore attribute.

@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class EloquentFormRepositoryInterface
+ * Class EloquentFormRepositoryInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class EloquentFormRepository implements FormRepositoryInterface
 {
-
     /**
      * The form model.
      *
@@ -83,7 +84,7 @@ class EloquentFormRepository implements FormRepositoryInterface
         $allowed  = $fields->allowed();
         $disabled = $fields->disabled();
 
-        /**
+        /*
          * Set initial data from the
          * entry, minus undesired data.
          */
@@ -98,30 +99,27 @@ class EloquentFormRepository implements FormRepositoryInterface
         /**
          * Save default translation input.
          *
-         * @var FieldType $field
+         * @var FieldType
          */
         foreach ($allowed->notTranslatable() as $field) {
-            if (!$field->getLocale()) {
+            if (! $field->getLocale()) {
                 array_set($data, $field->getField(), $form->getValue($field->getInputName()));
             }
         }
 
-        /**
+        /*
          * Loop through available translations
          * and save translated input.
          *
          * @var FieldType $field
          */
         if ($entry->getTranslationModel()) {
-
             foreach (config('streams::locales.enabled') as $locale) {
-
                 foreach ($allowed->translatable() as $field) {
-
                     if ($field->getLocale() == $locale) {
                         array_set(
                             $data,
-                            $locale . '.' . $field->getField(),
+                            $locale.'.'.$field->getField(),
                             $form->getValue($field->getInputName())
                         );
                     }

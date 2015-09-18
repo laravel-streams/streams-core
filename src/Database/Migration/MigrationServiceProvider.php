@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Database\Migration\Console\MigrateCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\MigrateMakeCommand;
@@ -7,7 +9,7 @@ use Anomaly\Streams\Platform\Database\Migration\Console\ResetCommand;
 use Illuminate\Database\MigrationServiceProvider as BaseMigrationServiceProvider;
 
 /**
- * Class MigrationServiceProvider
+ * Class MigrationServiceProvider.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Database\MigrationServiceProvider as BaseMigrationServiceProvider
  */
 class MigrationServiceProvider extends BaseMigrationServiceProvider
 {
-
     /**
      * Register the migration repository service.
      *

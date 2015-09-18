@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -9,7 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
 /**
- * Class Tree
+ * Class Tree.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -18,7 +20,6 @@ use Illuminate\Support\Collection;
  */
 class Tree
 {
-
     /**
      * The tree model.
      *

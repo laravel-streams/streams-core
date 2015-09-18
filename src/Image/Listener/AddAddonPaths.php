@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Image\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\Image\Listener;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
 use Anomaly\Streams\Platform\Image\ImagePaths;
 
 /**
- * Class AddAddonPaths
+ * Class AddAddonPaths.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Image\ImagePaths;
  */
 class AddAddonPaths
 {
-
     /**
      * The image paths.
      *

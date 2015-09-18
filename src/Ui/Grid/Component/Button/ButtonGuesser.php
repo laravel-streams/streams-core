@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Grid\Component\Button\Guesser\HrefGuesser;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 
 /**
- * Class ButtonGuesser
+ * Class ButtonGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
  */
 class ButtonGuesser
 {
-
     /**
      * The HREF guesser.
      *

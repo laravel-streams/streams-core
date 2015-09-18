@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Command;
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Routing\ResponseFactory;
 
 /**
- * Class SetTreeResponse
+ * Class SetTreeResponse.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Routing\ResponseFactory;
  */
 class SetTreeResponse implements SelfHandling
 {
-
     /**
      * The tree builder.
      *

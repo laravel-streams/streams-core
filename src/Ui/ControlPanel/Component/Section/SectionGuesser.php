@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser\HrefGuesser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser\PermissionGuesser;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser\TextGuess
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
- * Class SectionGuesser
+ * Class SectionGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  */
 class SectionGuesser
 {
-
     /**
      * The text guesser.
      *
@@ -44,7 +45,7 @@ class SectionGuesser
      * @param HrefGuesser       $href
      * @param PermissionGuesser $permission
      */
-    function __construct(TextGuesser $text, HrefGuesser $href, PermissionGuesser $permission)
+    public function __construct(TextGuesser $text, HrefGuesser $href, PermissionGuesser $permission)
     {
         $this->text       = $text;
         $this->href       = $href;

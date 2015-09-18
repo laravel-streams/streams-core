@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Migrations\DatabaseMigrationRepository;
 
 /**
- * Class MigrationRepository
+ * Class MigrationRepository.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Database\Migrations\DatabaseMigrationRepository;
  */
 class MigrationRepository extends DatabaseMigrationRepository
 {
-
     /**
      * Find many migrations by an addon namespace.
      *

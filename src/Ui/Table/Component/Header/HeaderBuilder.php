@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class HeaderBuilder
+ * Class HeaderBuilder.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class HeaderBuilder
 {
-
     /**
      * The input utility.
      *
@@ -51,7 +52,6 @@ class HeaderBuilder
         $this->input->read($builder);
 
         foreach ($builder->getColumns() as $column) {
-
             $column['builder'] = $builder;
 
             $table->addHeader($this->factory->make($column));

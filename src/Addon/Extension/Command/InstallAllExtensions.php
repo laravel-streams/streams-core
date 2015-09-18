@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension\Command;
 
 /**
- * Class InstallAllExtensions
+ * Class InstallAllExtensions.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class InstallAllExtensions
 {
-
     /**
      * The seed flag.
      *

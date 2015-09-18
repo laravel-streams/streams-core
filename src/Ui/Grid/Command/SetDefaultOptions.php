@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
 use Anomaly\Streams\Platform\Entry\EntryGridRepository;
 use Anomaly\Streams\Platform\Entry\EntryModel;
@@ -8,7 +10,7 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class SetDefaultOptions
+ * Class SetDefaultOptions.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class SetDefaultOptions implements SelfHandling
 {
-
     /**
      * The grid builder.
      *
@@ -42,63 +43,59 @@ class SetDefaultOptions implements SelfHandling
     {
         $grid = $this->builder->getGrid();
 
-        /**
+        /*
          * Set the default options handler based
          * on the builder class. Defaulting to
          * no handler.
          */
-        if (!$grid->getOption('options')) {
-
+        if (! $grid->getOption('options')) {
             $options = str_replace('GridBuilder', 'GridOptions', get_class($this->builder));
 
             if (class_exists($options)) {
-                app()->call($options . '@handle', compact('builder', 'grid'));
+                app()->call($options.'@handle', compact('builder', 'grid'));
             }
         }
 
-        /**
+        /*
          * Set the default data handler based
          * on the builder class. Defaulting to
          * no handler.
          */
-        if (!$grid->getOption('data')) {
-
+        if (! $grid->getOption('data')) {
             $options = str_replace('GridBuilder', 'GridData', get_class($this->builder));
 
             if (class_exists($options)) {
-                $grid->setOption('data', $options . '@handle');
+                $grid->setOption('data', $options.'@handle');
             }
         }
 
-        /**
+        /*
          * Set a optional entries handler based
          * on the builder class. Defaulting to
          * no handler in which case we will use
          * the model and included repositories.
          */
-        if (!$grid->getOption('entries')) {
-
+        if (! $grid->getOption('entries')) {
             $entries = str_replace('GridBuilder', 'GridEntries', get_class($this->builder));
 
             if (class_exists($entries)) {
-                $grid->setOption('entries', $entries . '@handle');
+                $grid->setOption('entries', $entries.'@handle');
             }
         }
 
-        /**
+        /*
          * Set the default options handler based
          * on the builder class. Defaulting to
          * no handler.
          */
-        if (!$grid->getOption('repository')) {
-
+        if (! $grid->getOption('repository')) {
             $model = $grid->getModel();
 
-            if (!$grid->getOption('repository') && $model instanceof EntryModel) {
+            if (! $grid->getOption('repository') && $model instanceof EntryModel) {
                 $grid->setOption('repository', EntryGridRepository::class);
             }
 
-            if (!$grid->getOption('repository') && $model instanceof EloquentModel) {
+            if (! $grid->getOption('repository') && $model instanceof EloquentModel) {
                 $grid->setOption('repository', EloquentGridRepository::class);
             }
         }

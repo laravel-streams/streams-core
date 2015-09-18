@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class FieldType
+ * Class FieldType.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class FieldType extends Addon
 {
-
     /**
      * The disabled flag.
      *
@@ -39,7 +40,7 @@ class FieldType extends Addon
 
     /**
      * Custom validators.
-     * i.e. 'rule' => ['message', 'handler']
+     * i.e. 'rule' => ['message', 'handler'].
      *
      * @var array
      */
@@ -47,7 +48,7 @@ class FieldType extends Addon
 
     /**
      * Custom validation messages.
-     * i.e. 'rule' => ['rule', 'message']
+     * i.e. 'rule' => ['rule', 'message'].
      *
      * @var array
      */
@@ -571,7 +572,7 @@ class FieldType extends Addon
      */
     public function getSuffix()
     {
-        return $this->locale ? '_' . $this->locale : null;
+        return $this->locale ? '_'.$this->locale : null;
     }
 
     /**
@@ -793,11 +794,11 @@ class FieldType extends Addon
      */
     public function getPresenter()
     {
-        if (!$this->presenter) {
-            $this->presenter = get_class($this) . 'Presenter';
+        if (! $this->presenter) {
+            $this->presenter = get_class($this).'Presenter';
         }
 
-        if (!class_exists($this->presenter)) {
+        if (! class_exists($this->presenter)) {
             $this->presenter = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter';
         }
 
@@ -829,11 +830,11 @@ class FieldType extends Addon
             return $modifier->setFieldType($this);
         }
 
-        if (!$this->modifier) {
-            $this->modifier = get_class($this) . 'Modifier';
+        if (! $this->modifier) {
+            $this->modifier = get_class($this).'Modifier';
         }
 
-        if (!class_exists($this->modifier)) {
+        if (! class_exists($this->modifier)) {
             $this->modifier = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeModifier';
         }
 
@@ -856,11 +857,11 @@ class FieldType extends Addon
             return $accessor->setFieldType($this);
         }
 
-        if (!$this->accessor) {
-            $this->accessor = get_class($this) . 'Accessor';
+        if (! $this->accessor) {
+            $this->accessor = get_class($this).'Accessor';
         }
 
-        if (!class_exists($this->accessor)) {
+        if (! class_exists($this->accessor)) {
             $this->accessor = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor';
         }
 
@@ -891,11 +892,11 @@ class FieldType extends Addon
      */
     public function getSchema()
     {
-        if (!$this->schema) {
-            $this->schema = get_class($this) . 'Schema';
+        if (! $this->schema) {
+            $this->schema = get_class($this).'Schema';
         }
 
-        if (!class_exists($this->schema)) {
+        if (! class_exists($this->schema)) {
             $this->schema = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeSchema';
         }
 
@@ -922,11 +923,11 @@ class FieldType extends Addon
      */
     public function getQuery()
     {
-        if (!$this->query) {
-            $this->query = get_class($this) . 'Query';
+        if (! $this->query) {
+            $this->query = get_class($this).'Query';
         }
 
-        if (!class_exists($this->query)) {
+        if (! class_exists($this->query)) {
             $this->query = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery';
         }
 
@@ -983,7 +984,7 @@ class FieldType extends Addon
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return $this->render();
     }

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
- * Class ButtonBuilder
+ * Class ButtonBuilder.
  *
  * @link    http://anomaly.is/streams-Platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  */
 class ButtonBuilder
 {
-
     /**
      * The input reader.
      *

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Console\Command;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Support\Parser;
@@ -6,7 +8,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class WriteEntityObserver
+ * Class WriteEntityObserver.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Filesystem\Filesystem;
  */
 class WriteEntityObserver implements SelfHandling
 {
-
     /**
      * The entity slug.
      *
@@ -36,7 +37,6 @@ class WriteEntityObserver implements SelfHandling
      * @var string
      */
     private $namespace;
-
 
     /**
      * Create a new WriteEntityObserver instance.
@@ -69,7 +69,7 @@ class WriteEntityObserver implements SelfHandling
         $path = $this->addon->getPath("src/{$entity}/{$entity}Observer.php");
 
         $template = $filesystem->get(
-            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/observer.stub")
+            base_path('vendor/anomaly/streams-platform/resources/stubs/entity/observer.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

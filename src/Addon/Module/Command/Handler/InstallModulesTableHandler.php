@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module\Command\Handler;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
 /**
- * Class InstallModulesTableHandler
+ * Class InstallModulesTableHandler.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Database\Schema\Builder;
  */
 class InstallModulesTableHandler
 {
-
     /**
      * The schema builder object.
      *

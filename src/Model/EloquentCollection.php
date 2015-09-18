@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Illuminate\Database\Eloquent\Collection;
 
@@ -13,7 +15,6 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class EloquentCollection extends Collection
 {
-
     /**
      * Return a collection of decorated items.
      *

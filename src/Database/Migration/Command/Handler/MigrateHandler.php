@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
 use Anomaly\Streams\Platform\Database\Migration\Command\Migrate;
 
 /**
- * Class MigrateHandler
+ * Class MigrateHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Database\Migration\Command\Migrate;
  */
 class MigrateHandler
 {
-
     /**
      * Handle the command.
      *

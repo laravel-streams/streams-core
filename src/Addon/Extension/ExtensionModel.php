@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension;
 
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
- * Class ExtensionModel
+ * Class ExtensionModel.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  */
 class ExtensionModel extends EloquentModel implements ExtensionInterface
 {
-
     /**
      * Define the table name.
      *
@@ -47,7 +48,7 @@ class ExtensionModel extends EloquentModel implements ExtensionInterface
     {
         $extension = $this->findByNamespace($namespace);
 
-        if ($extension instanceof ExtensionModel) {
+        if ($extension instanceof self) {
             return $extension;
         }
 

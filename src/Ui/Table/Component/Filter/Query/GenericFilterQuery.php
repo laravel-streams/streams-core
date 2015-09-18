@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class GenericFilterQuery
+ * Class GenericFilterQuery.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class GenericFilterQuery implements SelfHandling
 {
-
     /**
      * Handle the filter.
      *

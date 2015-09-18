@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Breadcrumb;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Breadcrumb;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 /**
- * Class BreadcrumbCollection
+ * Class BreadcrumbCollection.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Support\Collection;
  */
 class BreadcrumbCollection extends Collection
 {
-
     /**
      * The request object.
      *
@@ -42,7 +43,7 @@ class BreadcrumbCollection extends Collection
      */
     public function add($key, $url = null)
     {
-        if (!$url) {
+        if (! $url) {
             $url = $this->request->fullUrl();
         }
 
@@ -57,7 +58,7 @@ class BreadcrumbCollection extends Collection
      */
     public function put($key, $value)
     {
-        if (!starts_with($value, 'http')) {
+        if (! starts_with($value, 'http')) {
             $value = url($value);
         }
 

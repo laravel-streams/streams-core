@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class SetFormStream
+ * Class SetFormStream.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class SetFormStream implements SelfHandling
 {
-
     /**
      * The form builder.
      *
@@ -37,7 +38,7 @@ class SetFormStream implements SelfHandling
         $form  = $this->builder->getForm();
         $model = $this->builder->getModel();
 
-        if (is_string($model) && !class_exists($model)) {
+        if (is_string($model) && ! class_exists($model)) {
             return;
         }
 

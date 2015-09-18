@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Support\Authorizer;
 
 /**
- * Class TableAuthorizer
+ * Class TableAuthorizer.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Support\Authorizer;
  */
 class TableAuthorizer
 {
-
     /**
      * The module collection.
      *
@@ -50,15 +51,15 @@ class TableAuthorizer
         // Try the option first.
         $permission = $builder->getTableOption('permission');
 
-        /**
+        /*
          * If the option is not set then
          * try and automate the permission.
          */
-        if (!$permission && ($module = $this->modules->active()) && ($stream = $builder->getTableStream())) {
-            $permission = $module->getNamespace($stream->getSlug() . '.read');
+        if (! $permission && ($module = $this->modules->active()) && ($stream = $builder->getTableStream())) {
+            $permission = $module->getNamespace($stream->getSlug().'.read');
         }
 
-        if (!$this->authorizer->authorize($permission)) {
+        if (! $this->authorizer->authorize($permission)) {
             abort(403);
         }
     }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Command;
 
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
@@ -8,7 +10,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class LoadTree
+ * Class LoadTree.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class LoadTree implements SelfHandling
 {
-
     use DispatchesJobs;
 
     /**

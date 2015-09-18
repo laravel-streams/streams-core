@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Illuminate\Http\Request;
 
 /**
- * Class FormInput
+ * Class FormInput.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Http\Request;
  */
 class FormInput
 {
-
     /**
      * The request object.
      *

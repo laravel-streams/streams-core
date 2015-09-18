@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
 
 /**
- * Class UiPluginFunctions
+ * Class UiPluginFunctions.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
  */
 class UiPluginFunctions
 {
-
     /**
      * The icon registry.
      *
@@ -49,7 +50,7 @@ class UiPluginFunctions
      */
     public function icon($type, $class = null)
     {
-        return '<i class="' . $this->icons->get($type) . ' ' . $class . '"></i>';
+        return '<i class="'.$this->icons->get($type).' '.$class.'"></i>';
     }
 
     /**
@@ -92,7 +93,7 @@ class UiPluginFunctions
      */
     public function elapsed()
     {
-        return number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 2) . ' s';
+        return number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 2).' s';
     }
 
     /**
@@ -104,8 +105,8 @@ class UiPluginFunctions
     {
         $size = memory_get_usage(true);
 
-        $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
+        $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
 
-        return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
+        return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2).' '.$unit[$i];
     }
 }

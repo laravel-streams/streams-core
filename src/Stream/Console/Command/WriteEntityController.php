@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Console\Command;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Support\Parser;
@@ -6,7 +8,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class WriteEntityController
+ * Class WriteEntityController.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Filesystem\Filesystem;
  */
 class WriteEntityController implements SelfHandling
 {
-
     /**
      * The entity slug.
      *
@@ -36,7 +37,6 @@ class WriteEntityController implements SelfHandling
      * @var string
      */
     private $namespace;
-
 
     /**
      * Create a new WriteEntityController instance.
@@ -66,14 +66,14 @@ class WriteEntityController implements SelfHandling
         $class        = "{$suffix}Controller";
         $form         = "{$entity}FormBuilder";
         $table        = "{$entity}TableBuilder";
-        $namespace    = $this->addon->getTransformedClass("Http\\Controller\\Admin");
+        $namespace    = $this->addon->getTransformedClass('Http\\Controller\\Admin');
         $formBuilder  = $this->addon->getTransformedClass("{$entity}\\Form\\{$entity}FormBuilder");
         $tableBuilder = $this->addon->getTransformedClass("{$entity}\\Table\\{$entity}TableBuilder");
 
         $path = $this->addon->getPath("src/Http/Controller/Admin/{$suffix}Controller.php");
 
         $template = $filesystem->get(
-            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/http/controller/admin.stub")
+            base_path('vendor/anomaly/streams-platform/resources/stubs/entity/http/controller/admin.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

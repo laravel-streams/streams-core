@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
 use Illuminate\Contracts\Container\Container;
 
 /**
- * Class HeaderFactory
+ * Class HeaderFactory.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Container\Container;
  */
 class HeaderFactory
 {
-
     /**
      * The hydrator utility.
      *

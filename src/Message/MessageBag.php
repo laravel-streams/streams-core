@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Message;
+<?php
+
+namespace Anomaly\Streams\Platform\Message;
 
 use Illuminate\Session\Store;
 
 /**
- * Class MessageBag
+ * Class MessageBag.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Session\Store;
  */
 class MessageBag
 {
-
     /**
      * The session store.
      *

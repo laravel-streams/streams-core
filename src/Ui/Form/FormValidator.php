@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Ui\Form\Command\RepopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetErrorMessages;
@@ -7,7 +9,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Validation\Validator;
 
 /**
- * Class FormValidator
+ * Class FormValidator.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Validation\Validator;
  */
 class FormValidator implements SelfHandling
 {
-
     use DispatchesJobs;
 
     /**
@@ -110,8 +111,7 @@ class FormValidator implements SelfHandling
      */
     protected function setResponse(Validator $validator, FormBuilder $builder)
     {
-        if (!$validator->passes()) {
-
+        if (! $validator->passes()) {
             $builder
                 ->setSave(false)
                 ->setFormErrors($validator->getMessageBag());

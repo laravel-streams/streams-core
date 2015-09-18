@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\BuildActions;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Command\SetActiveAction;
@@ -13,7 +15,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class BuildTable
+ * Class BuildTable.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -22,7 +24,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class BuildTable implements SelfHandling
 {
-
     use DispatchesJobs;
 
     /**
@@ -47,7 +48,7 @@ class BuildTable implements SelfHandling
      */
     public function handle()
     {
-        /**
+        /*
          * Resolve and set the table model and stream.
          */
         $this->dispatch(new SetTableModel($this->builder));
@@ -58,7 +59,7 @@ class BuildTable implements SelfHandling
         $this->dispatch(new SetTableOptions($this->builder));
         $this->dispatch(new SetDefaultOptions($this->builder));
 
-        /**
+        /*
          * Before we go any further, authorize the request.
          */
         $this->dispatch(new AuthorizeTable($this->builder));
@@ -69,30 +70,30 @@ class BuildTable implements SelfHandling
         $this->dispatch(new BuildViews($this->builder));
         $this->dispatch(new SetActiveView($this->builder));
 
-        /**
+        /*
          * Build table filters and flag active.
          */
         $this->dispatch(new BuildFilters($this->builder));
         $this->dispatch(new SetActiveFilters($this->builder));
 
-        /**
+        /*
          * Build table actions and flag active.
          */
         $this->dispatch(new BuildActions($this->builder));
         $this->dispatch(new SetActiveAction($this->builder));
 
-        /**
+        /*
          * Build table headers.
          */
         $this->dispatch(new BuildHeaders($this->builder));
         $this->dispatch(new EagerLoadRelations($this->builder));
 
-        /**
+        /*
          * Get table entries.
          */
         $this->dispatch(new GetTableEntries($this->builder));
 
-        /**
+        /*
          * Lastly table rows.
          */
         $this->dispatch(new BuildRows($this->builder));

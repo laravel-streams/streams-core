@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -7,7 +9,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class FieldFilterQuery
+ * Class FieldFilterQuery.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class FieldFilterQuery implements SelfHandling
 {
-
     /**
      * The service container.
      *

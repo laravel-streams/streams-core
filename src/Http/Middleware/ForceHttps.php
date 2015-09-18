@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Http\Middleware;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Middleware;
 
 use Closure;
 use Illuminate\Config\Repository;
@@ -6,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 
 /**
- * Class ForceHttps
+ * Class ForceHttps.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Routing\Redirector;
  */
 class ForceHttps
 {
-
     /**
      * The config repository.
      *
@@ -54,31 +55,31 @@ class ForceHttps
     {
         $forceHttps = $this->config->get('streams::access.force_https', 'none');
 
-        /**
+        /*
          * Don't force HTTPS at all.
          */
         if ($forceHttps == 'none') {
             return $next($request);
         }
 
-        /**
+        /*
          * Force all connections through HTTPS.
          */
-        if ($forceHttps == 'all' && !$request->isSecure()) {
+        if ($forceHttps == 'all' && ! $request->isSecure()) {
             return $this->redirector->secure($request->path());
         }
 
-        /**
+        /*
          * Only force public access through HTTPS.
          */
-        if ($forceHttps == 'public' && !$request->isSecure() && $request->segment(1) !== 'admin') {
+        if ($forceHttps == 'public' && ! $request->isSecure() && $request->segment(1) !== 'admin') {
             return $this->redirector->secure($request->path());
         }
 
-        /**
+        /*
          * Only force admin access through HTTPS.
          */
-        if ($forceHttps == 'admin' && !$request->isSecure() && $request->segment(1) == 'admin') {
+        if ($forceHttps == 'admin' && ! $request->isSecure() && $request->segment(1) == 'admin') {
             return $this->redirector->secure($request->path());
         }
 

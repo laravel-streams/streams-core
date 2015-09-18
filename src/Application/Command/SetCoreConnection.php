@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Application\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Application\Command;
 
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Config\Repository;
 
 /**
- * Class SetCoreConnection
+ * Class SetCoreConnection.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Contracts\Config\Repository;
  */
 class SetCoreConnection implements SelfHandling
 {
-
     /**
      * Handle the command.
      *
@@ -23,7 +24,7 @@ class SetCoreConnection implements SelfHandling
     {
         $config->set(
             'database.connections.core',
-            $config->get('database.connections.' . $config->get('database.default'))
+            $config->get('database.connections.'.$config->get('database.default'))
         );
     }
 }

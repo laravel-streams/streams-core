@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module\Command\Handler;
 
 use Anomaly\Streams\Platform\Addon\Module\Command\InstallAllModules;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Module\ModuleManager;
 
 /**
- * Class InstallAllModulesHandler
+ * Class InstallAllModulesHandler.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleManager;
  */
 class InstallAllModulesHandler
 {
-
     /**
      * The module manager.
      *

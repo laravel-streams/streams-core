@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 
 /**
- * Class ModuleRepository
+ * Class ModuleRepository.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
  */
 class ModuleRepository implements ModuleRepositoryInterface
 {
-
     /**
      * The module model.
      *

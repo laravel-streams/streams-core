@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -7,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
 
 /**
- * Class PostTables
+ * Class PostTables.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Routing\ResponseFactory;
  */
 class PostTables implements SelfHandling
 {
-
     /**
      * The multiple form builder.
      *
@@ -47,7 +48,7 @@ class PostTables implements SelfHandling
             $builder->post();
         }
 
-        if (!$this->builder->getTableResponse()) {
+        if (! $this->builder->getTableResponse()) {
             $this->builder->setTableResponse($response->redirectTo($request->fullUrl()));
         }
     }

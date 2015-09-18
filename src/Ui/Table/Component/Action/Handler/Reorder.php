@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
@@ -7,7 +9,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Http\Request;
 
 /**
- * Class ReorderActionHandler
+ * Class ReorderActionHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Http\Request;
  */
 class Reorder extends ActionHandler implements SelfHandling
 {
-
     /**
      * Save the order of the entries.
      *
@@ -30,7 +31,7 @@ class Reorder extends ActionHandler implements SelfHandling
         $model = $builder->getTableModel();
 
         /* @var EloquentModel $entry */
-        foreach ($request->get($builder->getTableOption('prefix') . 'order', []) as $k => $id) {
+        foreach ($request->get($builder->getTableOption('prefix').'order', []) as $k => $id) {
             if ($entry = $model->find($id)) {
                 if (($entry->sort_order = $k + 1) && $entry->save()) {
                     $count++;

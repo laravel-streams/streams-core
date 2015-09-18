@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Command;
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class MakeTree
+ * Class MakeTree.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class MakeTree implements SelfHandling
 {
-
     /**
      * The tree builder.
      *

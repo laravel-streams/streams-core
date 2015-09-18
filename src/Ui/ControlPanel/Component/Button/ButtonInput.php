@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
- * Class ButtonInput
+ * Class ButtonInput.
  *
  * @link          http://anomaly.is/streams-Platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  */
 class ButtonInput
 {
-
     /**
      * The button parser.
      *

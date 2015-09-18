@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Button\Contract;
 
 /**
- * Interface ButtonInterface
+ * Interface ButtonInterface.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 interface ButtonInterface
 {
-
     /**
      * Set the dropdown.
      *

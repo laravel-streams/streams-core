@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 
 /**
- * Class FilterFactory
+ * Class FilterFactory.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
  */
 class FilterFactory
 {
-
     /**
      * The default filter class.
      *

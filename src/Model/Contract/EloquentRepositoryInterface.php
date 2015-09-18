@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Model\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Model\Contract;
 
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
- * Interface EloquentRepositoryInterface
+ * Interface EloquentRepositoryInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
  */
 interface EloquentRepositoryInterface
 {
-
     /**
      * Return all records.
      *

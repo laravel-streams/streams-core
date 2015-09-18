@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Interface FieldFilterInterface
+ * Interface FieldFilterInterface.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 interface FieldFilterInterface extends FilterInterface
 {
-
     /**
      * Set the field.
      *

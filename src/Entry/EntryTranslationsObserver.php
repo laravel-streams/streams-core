@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Command\SetMetaInformation;
 use Anomaly\Streams\Platform\Support\Observer;
 
 /**
- * Class EntryTranslationsObserver
+ * Class EntryTranslationsObserver.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Support\Observer;
  */
 class EntryTranslationsObserver extends Observer
 {
-
     /**
      * Fired just after a record is created.
      *

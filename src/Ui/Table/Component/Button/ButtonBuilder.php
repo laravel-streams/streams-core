@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Button\ButtonFactory;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class ButtonBuilder
+ * Class ButtonBuilder.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class ButtonBuilder
 {
-
     /**
      * The button reader.
      *
@@ -90,7 +91,6 @@ class ButtonBuilder
         $this->input->read($builder, $entry);
 
         foreach ($builder->getButtons() as $button) {
-
             array_set($button, 'entry', $entry);
 
             $button = $this->evaluator->evaluate($button, compact('entry', 'table'));
@@ -98,7 +98,7 @@ class ButtonBuilder
             $button = $this->value->replace($button, $entry);
             $button = $this->factory->make($button);
 
-            if (!$button->isEnabled()) {
+            if (! $button->isEnabled()) {
                 continue;
             }
 

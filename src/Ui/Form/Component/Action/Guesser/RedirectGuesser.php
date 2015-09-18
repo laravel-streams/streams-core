@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Guesser;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Http\Request;
 
 /**
- * Class RedirectGuesser
+ * Class RedirectGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Http\Request;
  */
 class RedirectGuesser
 {
-
     /**
      * The request object.
      *
@@ -51,7 +52,7 @@ class RedirectGuesser
         $actions = $builder->getActions();
 
         // Nothing to do if empty.
-        if (!$section = $this->sections->active()) {
+        if (! $section = $this->sections->active()) {
             return;
         }
 
@@ -77,13 +78,13 @@ class RedirectGuesser
                 case 'save_and_edit_next':
                     $ids = array_filter(explode(',', $builder->getRequestValue('edit_next')));
 
-                    if (!$ids) {
+                    if (! $ids) {
                         $action['redirect'] = $section->getHref();
                     } elseif (count($ids) == 1) {
-                        $action['redirect'] = $section->getHref('edit/' . array_shift($ids));
+                        $action['redirect'] = $section->getHref('edit/'.array_shift($ids));
                     } else {
                         $action['redirect'] = $section->getHref(
-                            'edit/' . array_shift($ids) . '?' . $builder->getOption('prefix') . 'edit_next=' . implode(
+                            'edit/'.array_shift($ids).'?'.$builder->getOption('prefix').'edit_next='.implode(
                                 ',',
                                 $ids
                             )

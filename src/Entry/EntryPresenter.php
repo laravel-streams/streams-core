@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentPresenter;
 
 /**
- * Class EntryPresenter
+ * Class EntryPresenter.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Model\EloquentPresenter;
  */
 class EntryPresenter extends EloquentPresenter
 {
-
     /**
      * The resource object.
      * This is for IDE hinting.
@@ -44,7 +45,7 @@ class EntryPresenter extends EloquentPresenter
     {
         return $this->object->created_at
             ->setTimezone(config('app.timezone'))
-            ->format(config('streams.date_format') . ' ' . config('streams.time_format'));
+            ->format(config('streams.date_format').' '.config('streams.time_format'));
     }
 
     /**
@@ -68,7 +69,7 @@ class EntryPresenter extends EloquentPresenter
     {
         return $this->object->updated_at
             ->setTimezone(config('app.timezone'))
-            ->format(config('streams.date_format') . ' ' . config('streams.time_format'));
+            ->format(config('streams.date_format').' '.config('streams.time_format'));
     }
 
     /**
@@ -88,7 +89,7 @@ class EntryPresenter extends EloquentPresenter
                             $this->object->getStreamNamespace(),
                             $this->object->getStreamSlug(),
                             'edit',
-                            $this->object->getId()
+                            $this->object->getId(),
                         ]
                     )
                 )
@@ -114,7 +115,7 @@ class EntryPresenter extends EloquentPresenter
                             $this->object->getStreamNamespace(),
                             $this->object->getStreamSlug(),
                             'show',
-                            $this->object->getId()
+                            $this->object->getId(),
                         ]
                     )
                 )
@@ -135,11 +136,9 @@ class EntryPresenter extends EloquentPresenter
     public function __get($key)
     {
         if ($assignment = $this->object->getAssignment($key)) {
-
             $type = $assignment->getFieldType($this);
 
             if ($assignment->isTranslatable() && $locale = config('app.locale')) {
-
                 $entry = $this->object->translateOrDefault($locale);
 
                 $type->setLocale($locale);

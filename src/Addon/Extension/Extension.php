@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 
 /**
- * Class Extension
+ * Class Extension.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\Addon;
  */
 class Extension extends Addon
 {
-
     /**
      * The provides string.
      *

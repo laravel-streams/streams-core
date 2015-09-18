@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class AddonServiceProvider
+ * Class AddonServiceProvider.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class AddonServiceProvider
 {
-
     use DispatchesJobs;
 
     /**

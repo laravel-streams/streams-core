@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class EloquentQueryBuilder
+ * Class EloquentQueryBuilder.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class EloquentQueryBuilder extends Builder
 {
-
     /**
      * The model being queried.
      *
@@ -33,8 +34,7 @@ class EloquentQueryBuilder extends Builder
     {
         $this->orderByDefault();
 
-        if (!env('APP_DEBUG')) {
-
+        if (! env('APP_DEBUG')) {
             $this->rememberIndex();
 
             if ($this->model->getCacheMinutes()) {
@@ -66,7 +66,7 @@ class EloquentQueryBuilder extends Builder
     }
 
     /**
-     * Index cache collection
+     * Index cache collection.
      *
      * @return object
      */
@@ -89,13 +89,13 @@ class EloquentQueryBuilder extends Builder
     {
         $name = $this->model->getConnectionName();
 
-        return md5($name . $this->toSql() . serialize($this->getBindings()));
+        return md5($name.$this->toSql().serialize($this->getBindings()));
     }
 
     /**
-     * Get fresh models / disable cache
+     * Get fresh models / disable cache.
      *
-     * @param  boolean $fresh
+     * @param  bool $fresh
      * @return object
      */
     public function fresh($fresh = true)

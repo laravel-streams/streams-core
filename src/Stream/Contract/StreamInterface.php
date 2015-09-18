@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
@@ -8,7 +10,7 @@ use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 
 /**
- * Interface StreamInterface
+ * Interface StreamInterface.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
  */
 interface StreamInterface
 {
-
     /**
      * Compile the entry models.
      *

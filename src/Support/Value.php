@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Illuminate\Contracts\Support\Arrayable;
@@ -6,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use StringTemplate\Engine;
 
 /**
- * Class Value
+ * Class Value.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use StringTemplate\Engine;
  */
 class Value
 {
-
     /**
      * The string parser.
      *
@@ -63,20 +64,20 @@ class Value
         if (is_string($parameters)) {
             $parameters = [
                 'wrapper' => '{value}',
-                'value'   => $parameters
+                'value'   => $parameters,
             ];
         }
 
         $value = array_get($parameters, 'value');
 
-        /**
+        /*
          * If the value is a view path then return a view.
          */
         if ($view = array_get($parameters, 'view')) {
             return view($view, ['value' => $value, $term => $entry]);
         }
 
-        /**
+        /*
          * If the entry is an instance of EntryInterface
          * then try getting the field value from the entry.
          */
@@ -90,33 +91,31 @@ class Value
             }
         }
 
-        /**
+        /*
          * If the value matches a field with a relation
          * then parse the string using the eager loaded entry.
          */
         if (is_string($value) && preg_match("/^{$term}.([a-zA-Z\\_]+)/", $value, $match)) {
-
             $fieldSlug = camel_case($match[1]);
 
             if (method_exists($entry, $fieldSlug) && $entry->{$fieldSlug}() instanceof Relation) {
-
                 $entry = $this->decorator->decorate($entry);
 
                 $value = data_get(
                     [$term => $entry],
-                    str_replace("{$term}.{$match[1]}.", $term . '.' . camel_case($match[1]) . '.', $value)
+                    str_replace("{$term}.{$match[1]}.", $term.'.'.camel_case($match[1]).'.', $value)
                 );
             }
         }
 
-        /**
+        /*
          * Decorate the entry object before
          * sending to decorate so that data_get()
          * can get into the presenter methods.
          */
         $entry = $this->decorator->decorate($entry);
 
-        /**
+        /*
          * If the value matches a method in the presenter.
          */
         if (is_string($value) && preg_match("/^{$term}.([a-zA-Z\\_]+)/", $value, $match)) {
@@ -125,13 +124,13 @@ class Value
             }
         }
 
-        /**
+        /*
          * By default we can just pass the value through
          * the evaluator utility and be done with it.
          */
         $value = $this->evaluator->evaluate($value, [$term => $entry]);
 
-        /**
+        /*
          * Lastly, prepare the entry to be
          * parsed into the string.
          */
@@ -141,12 +140,12 @@ class Value
             $entry = null;
         }
 
-        /**
+        /*
          * Parse the value with the entry.
          */
         $value = $this->parser->render($parameters['wrapper'], ['value' => $value, $term => $entry]);
 
-        /**
+        /*
          * If the value looks like a language
          * key then try translating it.
          */

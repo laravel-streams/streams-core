@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract;
 
 use Closure;
 
 /**
- * Interface FilterInterface
+ * Interface FilterInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Closure;
  */
 interface FilterInterface
 {
-
     /**
      * Set the filter query.
      *

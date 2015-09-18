@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Command;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class CreateStreamsEntryTable
+ * Class CreateStreamsEntryTable.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class CreateStreamsEntryTable
 {
-
     /**
      * The stream interface.
      *

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Theme\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Theme\Listener;
 
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Asset\Asset;
@@ -7,7 +9,7 @@ use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
 
 /**
- * Class LoadCurrentTheme
+ * Class LoadCurrentTheme.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Http\Request;
  */
 class LoadCurrentTheme
 {
-
     /**
      * The asset utility.
      *
@@ -87,7 +88,6 @@ class LoadCurrentTheme
         }
 
         if ($theme) {
-
             $theme->setActive(true);
             $theme->setCurrent(true);
 

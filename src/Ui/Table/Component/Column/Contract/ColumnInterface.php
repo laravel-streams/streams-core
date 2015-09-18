@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract;
 
 /**
- * Interface ColumnInterface
+ * Interface ColumnInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 interface ColumnInterface
 {
-
     /**
      * Get the wrapper.
      *

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Container\Container;
 
 /**
- * Class ViewHandler
+ * Class ViewHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Contracts\Container\Container;
  */
 class ViewHandler
 {
-
     /**
      * The service container.
      *
@@ -41,11 +42,11 @@ class ViewHandler
      */
     public function handle(TableBuilder $builder, ViewInterface $view)
     {
-        if (!$handler = $view->getHandler()) {
+        if (! $handler = $view->getHandler()) {
             return;
         }
 
-        /**
+        /*
          * If the handler is a callable string or Closure
          * then call it using the IoC container.
          */
@@ -53,7 +54,7 @@ class ViewHandler
             $this->container->call($handler, compact('builder'));
         }
 
-        /**
+        /*
          * If the handle is an instance of ViewHandlerInterface
          * simply call the handle method on it.
          */

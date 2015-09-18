@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class ButtonInput
+ * Class ButtonInput.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class ButtonInput
 {
-
     /**
      * The button parser.
      *

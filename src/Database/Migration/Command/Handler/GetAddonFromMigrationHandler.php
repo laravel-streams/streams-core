@@ -1,13 +1,14 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
-use Anomaly\Streams\Platform\Addon\Command\GetAddonByNamespace;
 use Anomaly\Streams\Platform\Database\Migration\Command\GetAddonFromMigration;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class GetAddonFromMigrationHandler
+ * Class GetAddonFromMigrationHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +17,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class GetAddonFromMigrationHandler
 {
-
     use DispatchesJobs;
 
     /**
@@ -44,7 +44,7 @@ class GetAddonFromMigrationHandler
      */
     public function handle(GetAddonFromMigration $command)
     {
-        $matcher = "/(^[a-zA-Z0-9._]+?)(?=__)/";
+        $matcher = '/(^[a-zA-Z0-9._]+?)(?=__)/';
 
         $reflection = new \ReflectionClass($command->getMigration());
 

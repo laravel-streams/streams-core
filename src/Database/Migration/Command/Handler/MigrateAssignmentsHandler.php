@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Database\Migration\Command\MigrateAssignments;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 
 /**
- * Class MigrateAssignmentsHandler
+ * Class MigrateAssignmentsHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
  */
 class MigrateAssignmentsHandler
 {
-
     /**
      * The field repository.
      *
@@ -44,7 +45,7 @@ class MigrateAssignmentsHandler
      * @param StreamRepositoryInterface     $streams
      * @param AssignmentRepositoryInterface $assignments
      */
-    function __construct(
+    public function __construct(
         FieldRepositoryInterface $fields,
         StreamRepositoryInterface $streams,
         AssignmentRepositoryInterface $assignments
@@ -66,7 +67,7 @@ class MigrateAssignmentsHandler
         $stream = $migration->getStream();
         $fields = $migration->getAssignments();
 
-        if (!$fields) {
+        if (! $fields) {
             return;
         }
 
@@ -78,75 +79,74 @@ class MigrateAssignmentsHandler
         );
 
         foreach ($fields as $field => $assignment) {
-
             if (is_numeric($field)) {
                 $field      = $assignment;
                 $assignment = [];
             }
 
-            if (!is_array($assignment)) {
+            if (! is_array($assignment)) {
                 throw new \Exception('The assignment must be an array or field_slug value.');
             }
 
-            /**
+            /*
              * If the label exists in the base array
              * then move it to the translated array
              * for the default locale.
              */
             if ($label = array_pull($assignment, 'label')) {
-                $assignment = array_add($assignment, config('app.fallback_locale') . '.label', $label);
+                $assignment = array_add($assignment, config('app.fallback_locale').'.label', $label);
             }
 
-            /**
+            /*
              * If the label is not set then make one
              * based on a standardized pattern.
              */
-            if (!array_get($assignment, config('app.fallback_locale') . '.label')) {
+            if (! array_get($assignment, config('app.fallback_locale').'.label')) {
                 $assignment = array_add(
                     $assignment,
-                    config('app.fallback_locale') . '.label',
+                    config('app.fallback_locale').'.label',
                     $addon ? $addon->getNamespace("field.{$field}.label") : null
                 );
             }
 
-            /**
+            /*
              * If the instructions exists in the base array
              * then move it to the translated array
              * for the default locale.
              */
             if ($instructions = array_pull($assignment, 'instructions')) {
-                $assignment = array_add($assignment, config('app.fallback_locale') . '.instructions', $instructions);
+                $assignment = array_add($assignment, config('app.fallback_locale').'.instructions', $instructions);
             }
 
-            /**
+            /*
              * If the instructions is not set then make one
              * based on a standardized pattern.
              */
-            if (!array_get($assignment, config('app.fallback_locale') . '.instructions')) {
+            if (! array_get($assignment, config('app.fallback_locale').'.instructions')) {
                 $assignment = array_add(
                     $assignment,
-                    config('app.fallback_locale') . '.instructions',
+                    config('app.fallback_locale').'.instructions',
                     $addon ? $addon->getNamespace("field.{$field}.instructions") : null
                 );
             }
 
-            /**
+            /*
              * If the placeholder exists in the base array
              * then move it to the translated array
              * for the default locale.
              */
             if ($placeholder = array_pull($assignment, 'placeholder')) {
-                $assignment = array_add($assignment, config('app.fallback_locale') . '.placeholder', $placeholder);
+                $assignment = array_add($assignment, config('app.fallback_locale').'.placeholder', $placeholder);
             }
 
-            /**
+            /*
              * If the placeholder is not set then make one
              * based on a standardized pattern.
              */
-            if (!array_get($assignment, config('app.fallback_locale') . '.placeholder')) {
+            if (! array_get($assignment, config('app.fallback_locale').'.placeholder')) {
                 $assignment = array_add(
                     $assignment,
-                    config('app.fallback_locale') . '.placeholder',
+                    config('app.fallback_locale').'.placeholder',
                     $addon ? $addon->getNamespace("field.{$field}.placeholder") : null
                 );
             }

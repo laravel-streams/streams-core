@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Command;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Command\BuildButtons;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command\BuildSections;
@@ -8,7 +10,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class BuildControlPanel
+ * Class BuildControlPanel.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class BuildControlPanel implements SelfHandling
 {
-
     use DispatchesJobs;
 
     /**

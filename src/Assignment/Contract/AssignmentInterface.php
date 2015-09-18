@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Interface AssignmentInterface
+ * Interface AssignmentInterface.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,11 +16,10 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 interface AssignmentInterface
 {
-
     /**
      * Get the ID.
      *
-     * @return null|integer
+     * @return null|int
      */
     public function getId();
 

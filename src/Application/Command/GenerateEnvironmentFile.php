@@ -1,10 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Application\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Application\Command;
 
 use Illuminate\Contracts\Bus\SelfHandling;
 
-
 /**
- * Class GenerateEnvironmentFile
+ * Class GenerateEnvironmentFile.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +14,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class GenerateEnvironmentFile implements SelfHandling
 {
-
     /**
      * The environment variables.
      *
@@ -40,9 +40,9 @@ class GenerateEnvironmentFile implements SelfHandling
 
         foreach ($this->data as $key => $value) {
             if ($key) {
-                $contents .= strtoupper($key) . '=' . $value . PHP_EOL;
+                $contents .= strtoupper($key).'='.$value.PHP_EOL;
             } else {
-                $contents .= $value . PHP_EOL;
+                $contents .= $value.PHP_EOL;
             }
         }
 

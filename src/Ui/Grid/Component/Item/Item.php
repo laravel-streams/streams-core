@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Component\Item;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Component\Item;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Contract\ItemInterface;
 
 /**
- * Class Item
+ * Class Item.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Contract\ItemInterface;
  */
 class Item implements ItemInterface
 {
-
     /**
      * The item ID.
      *

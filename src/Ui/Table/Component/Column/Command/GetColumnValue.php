@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Column\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\Contract\ColumnInterface;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 
 /**
- * Class GetColumnValue
+ * Class GetColumnValue.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Table\Table;
  */
 class GetColumnValue
 {
-
     /**
      * The table object.
      *
@@ -42,7 +43,7 @@ class GetColumnValue
      * @param ColumnInterface $column
      * @param                 $entry
      */
-    function __construct(Table $table, ColumnInterface $column, $entry)
+    public function __construct(Table $table, ColumnInterface $column, $entry)
     {
         $this->entry  = $entry;
         $this->table  = $table;

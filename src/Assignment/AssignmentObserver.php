@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumn;
@@ -9,7 +11,7 @@ use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasSaved;
 use Anomaly\Streams\Platform\Support\Observer;
 
 /**
- * Class AssignmentObserver
+ * Class AssignmentObserver.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -18,7 +20,6 @@ use Anomaly\Streams\Platform\Support\Observer;
  */
 class AssignmentObserver extends Observer
 {
-
     /**
      * Fired before creating an assignment.
      *

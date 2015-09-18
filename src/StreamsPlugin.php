@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform;
+<?php
+
+namespace Anomaly\Streams\Platform;
 
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 
 /**
- * Class StreamsPlugin
+ * Class StreamsPlugin.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
  */
 class StreamsPlugin extends Plugin
 {
-
     /**
      * The plugin functions.
      *
@@ -41,7 +42,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('streams_form', [$this->functions, 'form'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('streams_paginated', [$this->functions, 'paginated']),
             new \Twig_SimpleFunction('streams_entries', [$this->functions, 'entries']),
-            new \Twig_SimpleFunction('streams_entry', [$this->functions, 'entry'])
+            new \Twig_SimpleFunction('streams_entry', [$this->functions, 'entry']),
         ];
     }
 }

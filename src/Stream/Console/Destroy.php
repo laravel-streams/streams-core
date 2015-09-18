@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Console;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
- * Class Destroy
+ * Class Destroy.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class Destroy extends Command
 {
-
     /**
      * The console command name.
      *
@@ -38,7 +39,7 @@ class Destroy extends Command
     {
         $streams->destroy($this->argument('namespace'));
 
-        $this->info('[' . $this->argument('namespace') . '] namespace destroyed.');
+        $this->info('['.$this->argument('namespace').'] namespace destroyed.');
 
         $this->call('streams:cleanup');
     }

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Console;
 
 use Anomaly\Streams\Platform\Database\Migration\Migrator;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Class RefreshCommand
+ * Class RefreshCommand.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshCommand
 {
-
     /**
      * The migrator utility.
      *
@@ -28,7 +29,7 @@ class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshComm
      */
     public function fire()
     {
-        if (!$this->confirmToProceed()) {
+        if (! $this->confirmToProceed()) {
             return;
         }
 
@@ -39,12 +40,12 @@ class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshComm
 
         $this->call(
             'migrate:reset',
-            array(
+            [
                 '--database'  => $database,
                 '--force'     => $force,
                 '--addon'     => $addon,
-                '--no-addons' => $noAddons
-            )
+                '--no-addons' => $noAddons,
+            ]
         );
 
         // House keeping!
@@ -55,22 +56,22 @@ class RefreshCommand extends \Illuminate\Database\Console\Migrations\RefreshComm
         // them in succession. We'll also see if we need to re-seed the database.
         $this->call(
             'migrate',
-            array(
+            [
                 '--database'  => $database,
                 '--force'     => $force,
                 '--addon'     => $addon,
-                '--no-addons' => $noAddons
-            )
+                '--no-addons' => $noAddons,
+            ]
         );
 
         if ($this->input->getOption('seed')) {
             $this->call(
                 'db:seed',
-                array(
+                [
                     '--database' => $database,
                     '--force'    => $force,
-                    '--addon'    => $addon
-                )
+                    '--addon'    => $addon,
+                ]
             );
         }
     }

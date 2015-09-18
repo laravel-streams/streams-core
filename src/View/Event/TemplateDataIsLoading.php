@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\View\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\View\Event;
 
 use Anomaly\Streams\Platform\View\ViewTemplate;
 
 /**
- * Class TemplateDataIsLoading
+ * Class TemplateDataIsLoading.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\View\ViewTemplate;
  */
 class TemplateDataIsLoading
 {
-
     /**
      * Create a new TemplateDataIsLoading instance.
      *

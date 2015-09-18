@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Stream;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
 /**
- * Class StreamSchema
+ * Class StreamSchema.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Database\Schema\Builder;
  */
 class StreamSchema
 {
-
     /**
      * The schema builder.
      *

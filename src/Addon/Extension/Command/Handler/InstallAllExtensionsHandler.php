@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension\Command\Handler;
 
 use Anomaly\Streams\Platform\Addon\Extension\Command\InstallAllExtensions;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionManager;
 
 /**
- * Class InstallAllExtensionsHandler
+ * Class InstallAllExtensionsHandler.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Addon\Extension\ExtensionManager;
  */
 class InstallAllExtensionsHandler
 {
-
     /**
      * The extension manager.
      *

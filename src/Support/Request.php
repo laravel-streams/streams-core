@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 /**
- * Class Request
+ * Class Request.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class Request
 {
-
     /**
      * The output cache.
      *
@@ -68,8 +69,8 @@ class Request
                         $route->getCompiled()->getStaticPrefix(),
                         '',
                         $this->request->getRequestUri()
-                    )
-                ]
+                    ),
+                ],
             ];
         }
 
@@ -83,7 +84,7 @@ class Request
      * @param $arguments
      * @return mixed
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         return call_user_func_array([$this->request, $name], $arguments);
     }

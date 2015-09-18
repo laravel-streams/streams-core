@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment\Contract;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
@@ -7,7 +9,7 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Interface AssignmentRepositoryInterface
+ * Interface AssignmentRepositoryInterface.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 interface AssignmentRepositoryInterface extends EloquentRepositoryInterface
 {
-
     /**
      * Find an assignment by stream and field.
      *

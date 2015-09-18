@@ -1,11 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Console;
+<?php
 
-use Anomaly\Streams\Platform\Addon\Console\Command\ClearAddonsPaths;
+namespace Anomaly\Streams\Platform\Addon\Console;
+
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class ClearAddons
+ * Class ClearAddons.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +15,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class ClearAddons extends Command
 {
-
     use DispatchesJobs;
 
     /**

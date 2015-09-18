@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Database;
+<?php
+
+namespace Anomaly\Streams\Platform\Database;
 
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class DatabaseServiceProvider
+ * Class DatabaseServiceProvider.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Support\ServiceProvider;
  */
 class DatabaseServiceProvider extends ServiceProvider
 {
-
     /**
      * Register the service provider.
      *

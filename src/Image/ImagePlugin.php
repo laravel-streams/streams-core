@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Image;
+<?php
+
+namespace Anomaly\Streams\Platform\Image;
 
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 
 /**
- * Class ImagePlugin
+ * Class ImagePlugin.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
  */
 class ImagePlugin extends Plugin
 {
-
     /**
      * The plugin functions.
      *
@@ -40,7 +41,7 @@ class ImagePlugin extends Plugin
         return [
             new \Twig_SimpleFunction('image_path', [$this->functions, 'path'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('image_url', [$this->functions, 'url'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('image', [$this->functions, 'image'], ['is_safe' => ['html']])
+            new \Twig_SimpleFunction('image', [$this->functions, 'image'], ['is_safe' => ['html']]),
         ];
     }
 }

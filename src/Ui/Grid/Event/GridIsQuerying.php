@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Event;
 
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class GridIsQuerying
+ * Class GridIsQuerying.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class GridIsQuerying
 {
-
     /**
      * The grid builder.
      *

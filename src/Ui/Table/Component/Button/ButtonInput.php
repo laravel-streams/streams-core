@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class ButtonInput
+ * Class ButtonInput.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class ButtonInput
 {
-
     /**
      * The button lookup.
      *

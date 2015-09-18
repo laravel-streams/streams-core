@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Console;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Illuminate\Console\Command;
 
 /**
- * Class Cleanup
+ * Class Cleanup.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Console\Command;
  */
 class Cleanup extends Command
 {
-
     /**
      * The console command name.
      *

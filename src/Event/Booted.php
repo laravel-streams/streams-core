@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Event;
 
 /**
- * Class Booted
+ * Class Booted.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,5 +12,4 @@
  */
 class Booted
 {
-
 }

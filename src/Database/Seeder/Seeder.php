@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Database\Seeder;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Seeder;
 
 use Illuminate\Database\Seeder as BaseSeeder;
 
 /**
- * Class Seeder
+ * Class Seeder.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Database\Seeder as BaseSeeder;
  */
 class Seeder extends BaseSeeder
 {
-
     /**
      * The environment this seeder
      * applies too if any.

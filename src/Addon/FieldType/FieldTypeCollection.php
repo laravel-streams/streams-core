@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 
 /**
- * Class FieldTypeCollection
+ * Class FieldTypeCollection.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\AddonCollection;
  */
 class FieldTypeCollection extends AddonCollection
 {
-
     /**
      * Get a field type from the
      * collection by namespace key.
@@ -25,8 +26,8 @@ class FieldTypeCollection extends AddonCollection
     {
         $type = parent::get($key, $default);
 
-        if (!$type) {
-            return null;
+        if (! $type) {
+            return;
         }
 
         return clone($type);

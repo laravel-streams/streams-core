@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 
 /**
- * Class InputFilter
+ * Class InputFilter.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
  */
 class InputFilter extends Filter
 {
-
     /**
      * The input type.
      *
@@ -33,7 +34,7 @@ class InputFilter extends Filter
             $this->getValue(),
             [
                 'class'       => 'form-control',
-                'placeholder' => trans($this->getPlaceholder() ?: $this->getSlug())
+                'placeholder' => trans($this->getPlaceholder() ?: $this->getSlug()),
             ]
         );
     }

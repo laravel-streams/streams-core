@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Console;
 
 use Anomaly\Streams\Platform\Database\Migration\Migrator;
 use Illuminate\Database\Console\Migrations\ResetCommand as BaseResetCommand;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Class ResetCommand
+ * Class ResetCommand.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class ResetCommand extends BaseResetCommand
 {
-
     /**
      * The migrator utility.
      *
@@ -31,15 +32,12 @@ class ResetCommand extends BaseResetCommand
     {
         // Reset a specific addon(s).
         if ($addon = $this->input->getOption('addon')) {
-
             $pretend = $this->input->getOption('pretend');
 
             $namespaces = explode(',', $addon);
 
             foreach ($namespaces as $namespace) {
-
                 while (true) {
-
                     $count = $this->migrator->rollbackNamespace($namespace, $pretend);
 
                     // Once the migrator has run we will grab the note output and send it out to

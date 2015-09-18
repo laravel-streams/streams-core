@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -6,7 +8,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
 /**
- * Class AssignmentSchema
+ * Class AssignmentSchema.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Database\Schema\Builder;
  */
 class AssignmentSchema
 {
-
     /**
      * The schema builder object.
      *
@@ -60,7 +61,7 @@ class AssignmentSchema
     {
         $schema = $type->getSchema();
 
-        if (!$this->schema->hasTable($table)) {
+        if (! $this->schema->hasTable($table)) {
             return;
         }
 

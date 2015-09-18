@@ -1,6 +1,7 @@
-<?php namespace Anomaly\Streams\Platform\Field;
+<?php
 
-use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType;
+namespace Anomaly\Streams\Platform\Field;
+
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
@@ -10,7 +11,7 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Class FieldModel
+ * Class FieldModel.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -19,7 +20,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class FieldModel extends EloquentModel implements FieldInterface
 {
-
     /**
      * Do not use timestamps.
      *
@@ -33,7 +33,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      * @var array
      */
     protected $attributes = [
-        'config' => 'a:0:{}'
+        'config' => 'a:0:{}',
     ];
 
     /**
@@ -56,7 +56,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      * @var array
      */
     protected $translatedAttributes = [
-        'name'
+        'name',
     ];
 
     /**
@@ -157,7 +157,7 @@ class FieldModel extends EloquentModel implements FieldInterface
         $label  = $this->name;
         $config = $this->config;
 
-        if (!$type) {
+        if (! $type) {
             return $this->cache['type'] = null;
         }
 
@@ -194,7 +194,7 @@ class FieldModel extends EloquentModel implements FieldInterface
     {
         $assignments = $this->getAssignments();
 
-        return !$assignments->isEmpty();
+        return ! $assignments->isEmpty();
     }
 
     /**
@@ -225,7 +225,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function setConfigAttribute($config)
     {
-        $this->attributes['config'] = serialize((array)$config);
+        $this->attributes['config'] = serialize((array) $config);
     }
 
     /**
@@ -236,7 +236,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function getConfigAttribute($config)
     {
-        return (array)unserialize($config);
+        return (array) unserialize($config);
     }
 
     /**

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Button;
 
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Illuminate\Support\Collection;
 
 /**
- * Class ButtonCollection
+ * Class ButtonCollection.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Support\Collection;
  */
 class ButtonCollection extends Collection
 {
-
     /**
      * Return only enabled buttons.
      *

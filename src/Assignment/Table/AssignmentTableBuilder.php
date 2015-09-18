@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Table;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment\Table;
 
 use Anomaly\Streams\Platform\Assignment\Table\Command\SetDefaultProperties;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class AssignmentTableBuilder
+ * Class AssignmentTableBuilder.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class AssignmentTableBuilder extends TableBuilder
 {
-
     /**
      * The table stream.
      *
@@ -31,17 +32,17 @@ class AssignmentTableBuilder extends TableBuilder
     protected $columns = [
         [
             'heading' => 'streams::field.name.name',
-            'value'   => 'entry.field.name'
+            'value'   => 'entry.field.name',
         ],
         [
             'heading' => 'streams::field.slug.name',
-            'value'   => 'entry.field.slug'
+            'value'   => 'entry.field.slug',
         ],
         [
             'heading' => 'streams::field.type.name',
             'wrapper' => '{value}::addon.name',
-            'value'   => 'entry.field.type'
-        ]
+            'value'   => 'entry.field.type',
+        ],
     ];
 
     /**
@@ -50,7 +51,7 @@ class AssignmentTableBuilder extends TableBuilder
      * @var array
      */
     protected $buttons = [
-        'edit'
+        'edit',
     ];
 
     /**
@@ -60,7 +61,7 @@ class AssignmentTableBuilder extends TableBuilder
      */
     protected $actions = [
         'reorder',
-        'delete'
+        'delete',
     ];
 
     /**
@@ -72,11 +73,11 @@ class AssignmentTableBuilder extends TableBuilder
         'sortable' => true,
         'limit'    => 500,
         'eager'    => [
-            'field'
+            'field',
         ],
         'order_by' => [
-            'sort_order' => 'ASC'
-        ]
+            'sort_order' => 'ASC',
+        ],
     ];
 
     /**
@@ -96,7 +97,7 @@ class AssignmentTableBuilder extends TableBuilder
      */
     public function onReady()
     {
-        if (!$this->getStream()) {
+        if (! $this->getStream()) {
             throw new \Exception('The $stream parameter is required.');
         }
     }

@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Field\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Form;
 
 /**
- * Class FieldFormSections
+ * Class FieldFormSections.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class FieldFormSections
 {
-
     /**
      * Handle the form sections.
      *
@@ -44,7 +45,7 @@ class FieldFormSections
                                 }
                             )
                         );
-                    }
+                    },
                 ],
                 'configuration' => [
                     'fields' => function (FieldFormBuilder $builder) {
@@ -57,7 +58,7 @@ class FieldFormSections
                                 function ($field) {
 
                                     // Only config fields.
-                                    if (!starts_with($field['field'], 'config.')) {
+                                    if (! starts_with($field['field'], 'config.')) {
                                         return false;
                                     }
 
@@ -70,8 +71,8 @@ class FieldFormSections
                                 }
                             )
                         );
-                    }
-                ]
+                    },
+                ],
             ]
         );
     }

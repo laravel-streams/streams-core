@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Table;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class MergeRows
+ * Class MergeRows.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class MergeRows implements SelfHandling
 {
-
     /**
      * The multiple form builder.
      *

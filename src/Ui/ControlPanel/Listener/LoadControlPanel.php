@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Listener;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Anomaly\Streams\Platform\View\ViewTemplate;
@@ -6,7 +8,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 
 /**
- * Class LoadControlPanel
+ * Class LoadControlPanel.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Http\Request;
  */
 class LoadControlPanel
 {
-
     use DispatchesJobs;
 
     /**

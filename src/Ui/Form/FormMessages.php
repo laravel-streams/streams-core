@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 /**
- * Class FormMessages
+ * Class FormMessages.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class FormMessages
 {
-
     /**
      * Make custom validation messages.
      *
@@ -22,9 +23,7 @@ class FormMessages
         $messages = [];
 
         foreach ($builder->getEnabledFormFields() as $field) {
-
             foreach ($field->getValidators() as $rule => $validator) {
-
                 $message = trans(array_get($validator, 'message'));
 
                 if ($message && str_contains($message, '::')) {
@@ -35,7 +34,6 @@ class FormMessages
             }
 
             foreach ($field->getMessages() as $rule => $message) {
-
                 if ($message && str_contains($message, '::')) {
                     $message = trans($message);
                 }

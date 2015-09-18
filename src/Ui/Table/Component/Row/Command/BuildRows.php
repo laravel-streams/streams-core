@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Row\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Row\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\RowBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class BuildRows
+ * Class BuildRows.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class BuildRows implements SelfHandling
 {
-
     /**
      * The table builder.
      *

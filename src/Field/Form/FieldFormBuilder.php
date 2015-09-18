@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Field\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Field\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Form\Command\AutoAssignField;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class FieldFormBuilder
+ * Class FieldFormBuilder.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class FieldFormBuilder extends FormBuilder
 {
-
     /**
      * The related stream.
      *
@@ -52,11 +53,11 @@ class FieldFormBuilder extends FormBuilder
      */
     public function onReady()
     {
-        if (!$this->getFieldType() && !$this->getEntry()) {
+        if (! $this->getFieldType() && ! $this->getEntry()) {
             throw new \Exception('The $fieldType parameter is required when creating a field.');
         }
 
-        if (!$this->getStream() && !$this->getEntry()) {
+        if (! $this->getStream() && ! $this->getEntry()) {
             throw new \Exception('The $stream parameter is required when creating a field.');
         }
     }
@@ -70,11 +71,11 @@ class FieldFormBuilder extends FormBuilder
         $entry     = $this->getFormEntry();
         $stream    = $this->getStream();
 
-        if (!$entry->namespace) {
+        if (! $entry->namespace) {
             $entry->namespace = $stream->getNamespace();
         }
 
-        if (!$entry->type) {
+        if (! $entry->type) {
             $entry->type = $fieldType->getNamespace();
         }
     }

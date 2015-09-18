@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormAuthorizer;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class AuthorizeForm
+ * Class AuthorizeForm.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class AuthorizeForm implements SelfHandling
 {
-
     /**
      * The table builder.
      *

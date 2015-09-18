@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class ViewResolver
+ * Class ViewResolver.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class ViewResolver
 {
-
     /**
      * The resolver utility.
      *

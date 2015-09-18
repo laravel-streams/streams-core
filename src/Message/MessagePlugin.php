@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Message;
+<?php
+
+namespace Anomaly\Streams\Platform\Message;
 
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 use Illuminate\Session\Store;
 
 /**
- * Class MessagePlugin
+ * Class MessagePlugin.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Session\Store;
  */
 class MessagePlugin extends Plugin
 {
-
     /**
      * The session store.
      *
@@ -40,7 +41,7 @@ class MessagePlugin extends Plugin
     {
         return [
             new \Twig_SimpleFunction('message_exists', [$this->session, 'has']),
-            new \Twig_SimpleFunction('message_get', [$this->session, 'pull'])
+            new \Twig_SimpleFunction('message_get', [$this->session, 'pull']),
         ];
     }
 }

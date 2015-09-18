@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform;
+<?php
+
+namespace Anomaly\Streams\Platform;
 
 use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Application\Command\ConfigureCommandBus;
@@ -32,7 +34,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class StreamsServiceProvider
+ * Class StreamsServiceProvider.
  *
  * In order to consolidate service providers throughout the
  * Streams Platform, we do all of our bootstrapping here.
@@ -44,7 +46,6 @@ use Illuminate\Support\ServiceProvider;
  */
 class StreamsServiceProvider extends ServiceProvider
 {
-
     use DispatchesJobs;
 
     /**
@@ -54,7 +55,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     protected $providers = [
         'Anomaly\Streams\Platform\StreamsConsoleProvider',
-        'Anomaly\Streams\Platform\StreamsEventProvider'
+        'Anomaly\Streams\Platform\StreamsEventProvider',
     ];
 
     /**
@@ -72,7 +73,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Asset\AssetPlugin',
         'Anomaly\Streams\Platform\Image\ImagePlugin',
         'Anomaly\Streams\Platform\Message\MessagePlugin',
-        'Anomaly\Streams\Platform\Application\ApplicationPlugin'
+        'Anomaly\Streams\Platform\Application\ApplicationPlugin',
     ];
 
     /**
@@ -95,7 +96,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Addon\Module\Console\Reinstall',
         'Anomaly\Streams\Platform\Addon\Extension\Console\Install',
         'Anomaly\Streams\Platform\Addon\Extension\Console\Uninstall',
-        'Anomaly\Streams\Platform\Addon\Extension\Console\Reinstall'
+        'Anomaly\Streams\Platform\Addon\Extension\Console\Reinstall',
     ];
 
     /**
@@ -122,7 +123,7 @@ class StreamsServiceProvider extends ServiceProvider
         'extension.collection'                                                           => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
         'field_type.collection'                                                          => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
         'plugin.collection'                                                              => 'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
-        'theme.collection'                                                               => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'
+        'theme.collection'                                                               => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
     ];
 
     /**
@@ -180,7 +181,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\View\ViewMobileOverrides'                            => 'Anomaly\Streams\Platform\View\ViewMobileOverrides',
         'Anomaly\Streams\Platform\View\Listener\LoadTemplateData'                      => 'Anomaly\Streams\Platform\View\Listener\LoadTemplateData',
         'Anomaly\Streams\Platform\View\Listener\DecorateData'                          => 'Anomaly\Streams\Platform\View\Listener\DecorateData',
-        'Anomaly\Streams\Platform\Support\String'                                      => 'Anomaly\Streams\Platform\Support\String'
+        'Anomaly\Streams\Platform\Support\String'                                      => 'Anomaly\Streams\Platform\Support\String',
     ];
 
     /**
@@ -246,7 +247,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        /**
+        /*
          * Register all third party packages first.
          */
         $this->app->register('TwigBridge\ServiceProvider');
@@ -276,32 +277,31 @@ class StreamsServiceProvider extends ServiceProvider
         // Register commands.
         $this->commands($this->commands);
 
-        /**
+        /*
          * Change the default language path so
          * that there MUST be a prefix hint.
          */
         $this->app->singleton(
             'path.lang',
             function () {
-                return realpath(__DIR__ . '/../resources/lang');
+                return realpath(__DIR__.'/../resources/lang');
             }
         );
 
-        /**
+        /*
          * Register the path to the streams platform.
          * This is handy for helping load other streams things.
          */
         $this->app->instance(
             'streams.path',
-            $this->app->make('path.base') . '/vendor/anomaly/streams-platform'
+            $this->app->make('path.base').'/vendor/anomaly/streams-platform'
         );
 
-        /**
+        /*
          * If we don't have an .env file we need to head
          * to the installer (unless that's where we're at).
          */
-        if (!env('INSTALLED') && $this->app->make('request')->segment(1) !== 'installer') {
-
+        if (! env('INSTALLED') && $this->app->make('request')->segment(1) !== 'installer') {
             $this->app->make('router')->any(
                 '{url?}',
                 function (Redirector $redirector) {
@@ -312,7 +312,7 @@ class StreamsServiceProvider extends ServiceProvider
             return;
         }
 
-        /**
+        /*
          * Register form handler route.
          */
         $this->app->make('router')->post(

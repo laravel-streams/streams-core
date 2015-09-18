@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -6,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 
 /**
- * Class HrefGuesser
+ * Class HrefGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Routing\UrlGenerator;
  */
 class HrefGuesser
 {
-
     /**
      * The URL generator.
      *
@@ -62,12 +63,11 @@ class HrefGuesser
         $entry   = $builder->getFormEntry();
 
         // Nothing to do if empty.
-        if (!$section = $this->sections->active()) {
+        if (! $section = $this->sections->active()) {
             return;
         }
 
         foreach ($buttons as &$button) {
-
             if (isset($button['attributes']['href'])) {
                 continue;
             }
@@ -79,7 +79,7 @@ class HrefGuesser
                     break;
 
                 case 'delete':
-                    $button['attributes']['href'] = $section->getHref('delete/' . $entry->getId());
+                    $button['attributes']['href'] = $section->getHref('delete/'.$entry->getId());
                     break;
             }
         }

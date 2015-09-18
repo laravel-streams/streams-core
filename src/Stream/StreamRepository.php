@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentRepository;
@@ -7,7 +9,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Illuminate\Database\Schema\Builder;
 
 /**
- * Class StreamRepository
+ * Class StreamRepository.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Database\Schema\Builder;
  */
 class StreamRepository extends EloquentRepository implements StreamRepositoryInterface
 {
-
     /**
      * The stream model.
      *
@@ -59,7 +60,7 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
         $attributes['trashable']    = (array_get($attributes, 'trashable', false));
         $attributes['translatable'] = (array_get($attributes, 'translatable', false));
 
-        $attributes['prefix']       = array_get($attributes, 'prefix', array_get($attributes, 'namespace') . '_');
+        $attributes['prefix']       = array_get($attributes, 'prefix', array_get($attributes, 'namespace').'_');
         $attributes['view_options'] = array_get($attributes, 'view_options', ['id', 'created_at']);
 
         // Format just in case.
@@ -69,7 +70,7 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
         if (isset($attributes['name'])) {
             array_set(
                 $attributes,
-                config('app.fallback_locale') . '.name',
+                config('app.fallback_locale').'.name',
                 array_pull($attributes, 'name')
             );
         }
@@ -77,7 +78,7 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
         if (isset($attributes['description'])) {
             array_set(
                 $attributes,
-                config('app.fallback_locale') . '.description',
+                config('app.fallback_locale').'.description',
                 array_pull($attributes, 'description')
             );
         }
@@ -127,7 +128,7 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
     {
         /* @var StreamInterface $stream */
         foreach ($this->model->all() as $stream) {
-            if (!$this->schema->hasTable($stream->getEntryTableName())) {
+            if (! $this->schema->hasTable($stream->getEntryTableName())) {
                 $this->delete($stream);
             }
         }

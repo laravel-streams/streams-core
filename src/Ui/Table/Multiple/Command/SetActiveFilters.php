@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class SetActiveFilters
+ * Class SetActiveFilters.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class SetActiveFilters implements SelfHandling
 {
-
     /**
      * The multiple form builder.
      *
@@ -40,7 +41,7 @@ class SetActiveFilters implements SelfHandling
     {
         $filters = $this->builder->getTableFilters();
 
-        if (!$filters = $filters->active()) {
+        if (! $filters = $filters->active()) {
             return;
         }
 
@@ -62,9 +63,7 @@ class SetActiveFilters implements SelfHandling
     {
         /* @var FilterInterface $filter */
         foreach ($builder->getTableFilters() as $filter) {
-
             if ($filter->getSlug() === $slug) {
-
                 $filter->setPrefix($builder->getTableOption('prefix'));
                 $filter->setActive(true);
 

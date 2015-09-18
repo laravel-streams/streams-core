@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Traits;
+<?php
+
+namespace Anomaly\Streams\Platform\Traits;
 
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class FiresCallbacks
+ * Class FiresCallbacks.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 trait FiresCallbacks
 {
-
     /**
      * The registered callbacks.
      *
@@ -29,7 +30,7 @@ trait FiresCallbacks
      */
     public function on($trigger, $callback)
     {
-        if (!isset($this->callbacks[$trigger])) {
+        if (! isset($this->callbacks[$trigger])) {
             $this->callbacks[$trigger] = [];
         }
 
@@ -47,19 +48,19 @@ trait FiresCallbacks
      */
     public function fire($trigger, array $parameters = [])
     {
-        $method = camel_case('on_' . $trigger);
+        $method = camel_case('on_'.$trigger);
 
         if (method_exists($this, $method)) {
             app()->call([$this, $method], $parameters);
         }
 
-        $handler = get_class($this) . ucfirst(camel_case('on_' . $trigger));
+        $handler = get_class($this).ucfirst(camel_case('on_'.$trigger));
 
         if (class_exists($handler)) {
-            app()->call($handler . '@handle', $parameters);
+            app()->call($handler.'@handle', $parameters);
         }
 
-        $observer = get_class($this) . 'Callbacks';
+        $observer = get_class($this).'Callbacks';
 
         if (class_exists($observer) && $observer = app($observer, $parameters)) {
             if (method_exists($observer, $method)) {
@@ -68,7 +69,6 @@ trait FiresCallbacks
         }
 
         foreach (array_get($this->callbacks, $trigger, []) as $callback) {
-
             if (is_string($callback) || $callback instanceof \Closure) {
                 app()->call($callback, $parameters);
             }

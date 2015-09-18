@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Support\Resolver;
@@ -7,7 +9,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
 
 class SetFormOptions implements SelfHandling
 {
-
     /**
      * The form builder.
      *

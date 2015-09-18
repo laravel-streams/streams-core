@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Console;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Illuminate\Console\Command;
 
 /**
- * Class Compile
+ * Class Compile.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Console\Command;
  */
 class Compile extends Command
 {
-
     /**
      * The console command name.
      *
@@ -39,7 +40,7 @@ class Compile extends Command
         /* @var StreamInterface $stream */
         foreach ($streams->all() as $stream) {
             if ($streams->save($stream)) {
-                $this->info($stream->getEntryModelName() . ' compiled successfully.');
+                $this->info($stream->getEntryModelName().' compiled successfully.');
             }
         }
     }

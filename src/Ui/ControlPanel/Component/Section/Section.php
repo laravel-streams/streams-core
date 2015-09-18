@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 
 /**
- * Class Section
+ * Class Section.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionI
  */
 class Section implements SectionInterface
 {
-
     /**
      * The section slug.
      *
@@ -169,7 +170,7 @@ class Section implements SectionInterface
     /**
      * Get the active flag.
      *
-     * @return boolean
+     * @return bool
      */
     public function isActive()
     {
@@ -179,7 +180,7 @@ class Section implements SectionInterface
     /**
      * Set the active flag.
      *
-     * @param boolean $active
+     * @param bool $active
      */
     public function setActive($active)
     {
@@ -279,6 +280,6 @@ class Section implements SectionInterface
      */
     public function getHref($path = null)
     {
-        return array_get($this->attributes, 'href') . ($path ? '/' . $path : $path);
+        return array_get($this->attributes, 'href').($path ? '/'.$path : $path);
     }
 }

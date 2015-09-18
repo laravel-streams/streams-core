@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
@@ -12,7 +14,7 @@ use Carbon\Carbon;
 use Robbo\Presenter\PresentableInterface;
 
 /**
- * Class EntryModel
+ * Class EntryModel.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -21,7 +23,6 @@ use Robbo\Presenter\PresentableInterface;
  */
 class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface
 {
-
     /**
      * The validation rules. These are
      * overridden on the compiled models.
@@ -94,7 +95,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getFieldValue($fieldSlug, $locale = null)
     {
-        if (!$locale) {
+        if (! $locale) {
             $locale = config('app.locale');
         }
 
@@ -146,8 +147,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         $assignment = $this->getAssignment($slug);
 
-        if (!$assignment instanceof AssignmentInterface) {
-            return null;
+        if (! $assignment instanceof AssignmentInterface) {
+            return;
         }
 
         return $assignment->getField();
@@ -175,8 +176,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         $assignment = $this->getAssignment($fieldSlug);
 
-        if (!$assignment instanceof AssignmentInterface) {
-            return null;
+        if (! $assignment instanceof AssignmentInterface) {
+            return;
         }
 
         $type = $assignment->getFieldType($this);
@@ -211,7 +212,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function setAttribute($key, $value)
     {
-        if (!$this->isKeyALocale($key) && !$this->hasSetMutator($key) && $this->getFieldType($key, $value)) {
+        if (! $this->isKeyALocale($key) && ! $this->hasSetMutator($key) && $this->getFieldType($key, $value)) {
             $this->setFieldValue($key, $value);
         } else {
             parent::setAttribute($key, $value);
@@ -229,9 +230,9 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function getAttribute($key)
     {
         if (
-            !$this->hasGetMutator($key)
-            && !in_array($key, [$this->relations])
-            && !method_exists($this, $key)
+            ! $this->hasGetMutator($key)
+            && ! in_array($key, [$this->relations])
+            && ! method_exists($this, $key)
             && in_array($key, $this->fields)
         ) {
             return $this->getFieldValue($key);
@@ -249,7 +250,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getRawAttribute($key, $process = true)
     {
-        if (!$process) {
+        if (! $process) {
             return $this->getAttributeFromArray($key);
         }
 
@@ -474,7 +475,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         /* @var AssignmentInterface $assignment */
         foreach ($assignments->notTranslatable() as $assignment) {
-
             $fieldType = $assignment->getFieldType();
 
             $fieldType->setValue($this->getFieldValue($assignment->getFieldSlug()));
@@ -492,7 +492,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function stream()
     {
-        if (!$this->stream instanceof StreamInterface) {
+        if (! $this->stream instanceof StreamInterface) {
             $this->stream = app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
         }
 
@@ -505,7 +505,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function newCollection(array $items = [])
     {
-        $collection = substr(get_class($this), 0, -5) . 'Collection';
+        $collection = substr(get_class($this), 0, -5).'Collection';
 
         if (class_exists($collection)) {
             return new $collection($items);
@@ -524,7 +524,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getPresenter()
     {
-        $presenter = substr(get_class($this), 0, -5) . 'Presenter';
+        $presenter = substr(get_class($this), 0, -5).'Presenter';
 
         if (class_exists($presenter)) {
             return app()->make($presenter, ['object' => $this]);

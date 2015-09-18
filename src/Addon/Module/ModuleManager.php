@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module;
 
 use Anomaly\Streams\Platform\Addon\Module\Command\DisableModule;
 use Anomaly\Streams\Platform\Addon\Module\Command\EnableModule;
@@ -7,7 +9,7 @@ use Anomaly\Streams\Platform\Addon\Module\Command\UninstallModule;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class ModuleManager
+ * Class ModuleManager.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class ModuleManager
 {
-
     use DispatchesJobs;
 
     /**

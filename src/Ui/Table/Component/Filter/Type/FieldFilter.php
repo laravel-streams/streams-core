@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\FieldFilterQuery;
 
 /**
- * Class FieldFilter
+ * Class FieldFilter.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\FieldFilterQuery;
  */
 class FieldFilter extends Filter implements FieldFilterInterface
 {
-
     /**
      * The filter query.
      *
@@ -50,7 +51,7 @@ class FieldFilter extends Filter implements FieldFilterInterface
 
         $type->setLocale(null);
         $type->setValue($this->getValue());
-        $type->setPrefix($this->getPrefix() . 'filter_');
+        $type->setPrefix($this->getPrefix().'filter_');
         $type->setPlaceholder($this->getPlaceholder());
 
         return $type->getFilter();

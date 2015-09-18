@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
 use Anomaly\Streams\Platform\Database\Migration\Command\Rollback;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Contracts\Cache\Store;
 
 /**
- * Class RollbackHandler
+ * Class RollbackHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Cache\Store;
  */
 class RollbackHandler
 {
-
     /**
      * The cache store.
      *

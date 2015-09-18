@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension;
 
 use Anomaly\Streams\Platform\Addon\Extension\Command\InstallExtension;
 use Anomaly\Streams\Platform\Addon\Extension\Command\UninstallExtension;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class ExtensionManager
+ * Class ExtensionManager.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class ExtensionManager
 {
-
     use DispatchesJobs;
 
     /**

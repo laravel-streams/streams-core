@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Assignment;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
- * Class AssignmentCollection
+ * Class AssignmentCollection.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  */
 class AssignmentCollection extends EloquentCollection
 {
-
     /**
      * Find an assignment by it's field slug.
      *
@@ -31,9 +32,8 @@ class AssignmentCollection extends EloquentCollection
             }
         }
 
-        return null;
+        return;
     }
-
 
     /**
      * Find all fields using
@@ -88,7 +88,7 @@ class AssignmentCollection extends EloquentCollection
             array_filter(
                 array_map(
                     function (AssignmentInterface $assignment) use ($fields) {
-                        return !in_array($assignment->getFieldSlug(), $fields) ? $assignment : null;
+                        return ! in_array($assignment->getFieldSlug(), $fields) ? $assignment : null;
                     },
                     $this->items
                 )
@@ -108,7 +108,6 @@ class AssignmentCollection extends EloquentCollection
         /* @var AssignmentInterface $item */
         /* @var FieldType $type */
         foreach ($this->items as $item) {
-
             $type = $item->getFieldType();
 
             if (method_exists($type, 'getRelation')) {
@@ -131,7 +130,6 @@ class AssignmentCollection extends EloquentCollection
         /* @var AssignmentInterface $item */
         /* @var FieldType $type */
         foreach ($this->items as $item) {
-
             $type = $item->getFieldType();
 
             if (in_array($type->getColumnType(), ['date', 'datetime'])) {
@@ -172,7 +170,7 @@ class AssignmentCollection extends EloquentCollection
 
         /* @var AssignmentInterface $item */
         foreach ($this->items as $item) {
-            if (!$item->isTranslatable()) {
+            if (! $item->isTranslatable()) {
                 $translatable[] = $item;
             }
         }
@@ -229,7 +227,7 @@ class AssignmentCollection extends EloquentCollection
 
         foreach ($this->items as $item) {
             if ($item instanceof AssignmentInterface && $field = $item->getField()) {
-                if (!$field->isLocked()) {
+                if (! $field->isLocked()) {
                     $items[] = $item;
                 }
             }

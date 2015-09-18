@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Ui\Tree\Contract\TreeRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Tree\Event\TreeIsQuerying;
@@ -7,7 +9,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 
 /**
- * Class EloquentTreeRepositoryInterface
+ * Class EloquentTreeRepositoryInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Support\Collection;
  */
 class EloquentTreeRepository implements TreeRepositoryInterface
 {
-
     use DispatchesJobs;
 
     /**
@@ -47,19 +48,19 @@ class EloquentTreeRepository implements TreeRepositoryInterface
         // Start a new query.
         $query = $this->model->newQuery();
 
-        /**
+        /*
          * Prevent joins from overriding intended columns
          * by prefixing with the model's tree name.
          */
-        $query = $query->select($this->model->getTable() . '.*');
+        $query = $query->select($this->model->getTable().'.*');
 
-        /**
+        /*
          * Eager load any relations to
          * save resources and queries.
          */
         $query = $query->with($builder->getTreeOption('eager', []));
 
-        /**
+        /*
          * Raise and fire an event here to allow
          * other things (including filters / views)
          * to modify the query before proceeding.
@@ -67,7 +68,7 @@ class EloquentTreeRepository implements TreeRepositoryInterface
         $builder->fire('querying', compact('builder', 'query'));
         app('events')->fire(new TreeIsQuerying($builder, $query));
 
-        /**
+        /*
          * Before we actually adjust the baseline query
          * set the total amount of entries possible back
          * on the tree so it can be used later.
@@ -76,7 +77,7 @@ class EloquentTreeRepository implements TreeRepositoryInterface
 
         $builder->setTreeOption('total_results', $total);
 
-        /**
+        /*
          * Order the query results.
          */
         foreach ($builder->getTreeOption('order_by', ['sort_order' => 'asc']) as $column => $direction) {

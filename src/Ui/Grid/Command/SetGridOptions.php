@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Support\Resolver;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class SetGridOptions
+ * Class SetGridOptions.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class SetGridOptions implements SelfHandling
 {
-
     /**
      * The grid builder.
      *

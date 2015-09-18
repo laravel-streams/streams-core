@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Component\Item;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Component\Item;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Contract\ItemInterface;
 use Illuminate\Contracts\Container\Container;
 
 /**
- * Class ItemFactory
+ * Class ItemFactory.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Container\Container;
  */
 class ItemFactory
 {
-
     /**
      * The hydrator utility.
      *

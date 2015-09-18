@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\View;
+<?php
+
+namespace Anomaly\Streams\Platform\View;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
@@ -8,7 +10,7 @@ use Illuminate\View\View;
 use Mobile_Detect;
 
 /**
- * Class ViewComposer
+ * Class ViewComposer.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Mobile_Detect;
  */
 class ViewComposer
 {
-
     /**
      * The agent utility.
      *
@@ -68,7 +69,7 @@ class ViewComposer
      * @param ViewOverrides       $overrides
      * @param ViewMobileOverrides $mobiles
      */
-    function __construct(
+    public function __construct(
         Mobile_Detect $agent,
         Dispatcher $events,
         ThemeCollection $themes,
@@ -97,7 +98,7 @@ class ViewComposer
         $theme  = $this->themes->current();
         $module = $this->modules->active();
 
-        if (!$theme) {
+        if (! $theme) {
             return $view;
         }
 
@@ -111,7 +112,6 @@ class ViewComposer
         }
 
         if ($module) {
-
             $mobile    = $this->mobiles->get($module->getNamespace(), []);
             $overrides = $this->overrides->get($module->getNamespace(), []);
 
@@ -135,18 +135,17 @@ class ViewComposer
      */
     public function getOverloadPath(View $view)
     {
-        /**
+        /*
          * If the view is already in
          * the theme then skip it.
          */
         if (starts_with($view->getName(), 'theme::') || str_is('*.theme.*::*', $view->getName())) {
-
             $parts = explode('::', $view->getName());
 
             return end($parts);
         }
 
-        /**
+        /*
          * If the view is a streams view then
          * it's real easy to guess what the
          * override path should be.
@@ -155,21 +154,20 @@ class ViewComposer
             return str_replace('::', '/', $view->getName());
         }
 
-        /**
+        /*
          * If the view starts with module:: then
          * look up the active module.
          */
         if (starts_with($view->getName(), 'module::')) {
-
             $module = $this->modules->active();
 
             $path = str_replace('.', '/', $module->getNamespace());
-            $path .= str_replace('module::', '', '/' . $view->getName());
+            $path .= str_replace('module::', '', '/'.$view->getName());
 
             return $path;
         }
 
-        /**
+        /*
          * If the view uses a dot syntax namespace then
          * transform it all into the override view path.
          */
@@ -177,6 +175,6 @@ class ViewComposer
             return str_replace(['.', '::'], '/', $view->getName());
         }
 
-        return null;
+        return;
     }
 }

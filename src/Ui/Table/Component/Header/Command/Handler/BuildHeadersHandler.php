@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\Command\BuildHeaders;
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\HeaderBuilder;
 
 /**
- * Class BuildHeadersHandler
+ * Class BuildHeadersHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Header\HeaderBuilder;
  */
 class BuildHeadersHandler
 {
-
     /**
      * The header builder.
      *

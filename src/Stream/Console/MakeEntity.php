@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Console;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
@@ -19,7 +21,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Class MakeEntity
+ * Class MakeEntity.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -28,7 +30,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class MakeEntity extends Command
 {
-
     use DispatchesJobs;
 
     /**
@@ -54,11 +55,11 @@ class MakeEntity extends Command
         $addon = $this->argument('addon');
 
         /* @var Addon $addon */
-        if (!$addon = $addons->get($addon)) {
+        if (! $addon = $addons->get($addon)) {
             throw new \Exception("The addon [{$this->argument('addon')}] could not be found.");
         }
 
-        if (!$namespace = $this->option('namespace')) {
+        if (! $namespace = $this->option('namespace')) {
             $namespace = $addon->getSlug();
         }
 
@@ -77,9 +78,9 @@ class MakeEntity extends Command
         $this->call(
             'make:migration',
             [
-                'name'     => 'create_' . $slug . '_stream',
+                'name'     => 'create_'.$slug.'_stream',
                 '--addon'  => $addon->getNamespace(),
-                '--stream' => $slug
+                '--stream' => $slug,
             ]
         );
     }
@@ -93,7 +94,7 @@ class MakeEntity extends Command
     {
         return [
             ['slug', InputArgument::REQUIRED, 'The entity\'s stream slug.'],
-            ['addon', InputArgument::REQUIRED, 'The addon in which to put the new entity namespace.']
+            ['addon', InputArgument::REQUIRED, 'The addon in which to put the new entity namespace.'],
         ];
     }
 
@@ -106,7 +107,7 @@ class MakeEntity extends Command
     {
         return [
             ['namespace', null, InputOption::VALUE_OPTIONAL, 'The stream namespace if not the same as the addon.'],
-            ['migration', null, InputOption::VALUE_NONE, 'Indicates if an stream migration should be created.']
+            ['migration', null, InputOption::VALUE_NONE, 'Indicates if an stream migration should be created.'],
         ];
     }
 }

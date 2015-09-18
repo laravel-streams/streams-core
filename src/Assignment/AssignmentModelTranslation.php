@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Assignment;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
- * Class AssignmentModelTranslation
+ * Class AssignmentModelTranslation.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  */
 class AssignmentModelTranslation extends EloquentModel
 {
-
     /**
      * Do not use timestamps.
      *
@@ -33,5 +34,4 @@ class AssignmentModelTranslation extends EloquentModel
      * @var string
      */
     protected $table = 'streams_assignments_translations';
-
 }

@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Application;
+<?php
+
+namespace Anomaly\Streams\Platform\Application;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class Application
+ * Class Application.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class Application
 {
-
     use DispatchesJobs;
 
     /**
@@ -62,8 +63,8 @@ class Application
      */
     public function setTablePrefix()
     {
-        app('db')->getSchemaBuilder()->getConnection()->setTablePrefix($this->getReference() . '_');
-        app('db')->getSchemaBuilder()->getConnection()->getSchemaGrammar()->setTablePrefix($this->getReference() . '_');
+        app('db')->getSchemaBuilder()->getConnection()->setTablePrefix($this->getReference().'_');
+        app('db')->getSchemaBuilder()->getConnection()->getSchemaGrammar()->setTablePrefix($this->getReference().'_');
     }
 
     /**
@@ -97,7 +98,7 @@ class Application
      */
     public function getStoragePath($path = '')
     {
-        return storage_path('streams/' . $this->getReference()) . ($path ? '/' . $path : $path);
+        return storage_path('streams/'.$this->getReference()).($path ? '/'.$path : $path);
     }
 
     /**
@@ -108,7 +109,7 @@ class Application
      */
     public function getAssetsPath($path = '')
     {
-        return public_path('assets/' . $this->getReference()) . ($path ? '/' . $path : $path);
+        return public_path('assets/'.$this->getReference()).($path ? '/'.$path : $path);
     }
 
     /**
@@ -122,7 +123,7 @@ class Application
             $this->locate();
         }
 
-        return $this->reference . '_';
+        return $this->reference.'_';
     }
 
     /**
@@ -134,12 +135,10 @@ class Application
     public function locate()
     {
         if (app('db')->getSchemaBuilder()->hasTable('applications')) {
-
             if ($app = $this->applications->findByDomain(
-                trim(str_replace(array('http://', 'https://'), '', app('request')->root()), '/')
+                trim(str_replace(['http://', 'https://'], '', app('request')->root()), '/')
             )
             ) {
-
                 $this->installed = true;
                 $this->reference = $app->reference;
 

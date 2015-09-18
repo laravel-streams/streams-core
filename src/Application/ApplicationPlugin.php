@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Application;
+<?php
+
+namespace Anomaly\Streams\Platform\Application;
 
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 
 /**
- * Class ApplicationPlugin
+ * Class ApplicationPlugin.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
  */
 class ApplicationPlugin extends Plugin
 {
-
     /**
      * The plugin functions.
      *
@@ -45,14 +46,14 @@ class ApplicationPlugin extends Plugin
             new \Twig_SimpleFunction('html_anchor', [$this->functions, 'anchor'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction(
                 'language_get', function () {
-                return null;
+                return;
             }
             ),
             new \Twig_SimpleFunction(
                 'language_enabled', function () {
-                return null;
+                return;
             }
-            )
+            ),
         ];
     }
 }

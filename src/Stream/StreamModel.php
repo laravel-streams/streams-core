@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
@@ -17,7 +19,7 @@ use Anomaly\Streams\Platform\Stream\Command\CompileStream;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class StreamModel
+ * Class StreamModel.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -26,7 +28,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class StreamModel extends EloquentModel implements StreamInterface
 {
-
     /**
      * The cache minutes.
      *
@@ -55,7 +56,7 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     protected $translatedAttributes = [
         'name',
-        'description'
+        'description',
     ];
 
     /**
@@ -96,16 +97,15 @@ class StreamModel extends EloquentModel implements StreamInterface
             return $stream;
         }
 
-        $assignments = array();
+        $assignments = [];
 
-        $streamModel        = new StreamModel();
+        $streamModel        = new self();
         $streamTranslations = new EloquentCollection();
 
         $data['view_options'] = serialize(array_get($data, 'view_options', []));
 
         if ($translations = array_pull($data, 'translations')) {
             foreach ($translations as $attributes) {
-
                 $translation = new StreamModelTranslation();
                 $translation->setRawAttributes($attributes);
 
@@ -120,11 +120,8 @@ class StreamModel extends EloquentModel implements StreamInterface
         unset($this->translations);
 
         if (array_key_exists('assignments', $data)) {
-
             foreach ($data['assignments'] as $assignment) {
-
                 if (isset($assignment['field'])) {
-
                     $assignment['field']['config'] = unserialize($assignment['field']['config']);
 
                     $fieldModel        = new FieldModel();
@@ -132,7 +129,6 @@ class StreamModel extends EloquentModel implements StreamInterface
 
                     if (isset($assignment['field']['translations'])) {
                         foreach (array_pull($assignment['field'], 'translations') as $attributes) {
-
                             $translation = new FieldModelTranslation();
                             $translation->setRawAttributes($attributes);
 
@@ -153,7 +149,6 @@ class StreamModel extends EloquentModel implements StreamInterface
 
                     if (isset($assignment['translations'])) {
                         foreach (array_pull($assignment, 'translations') as $attributes) {
-
                             $translation = new AssignmentModelTranslation();
                             $translation->setRawAttributes($attributes);
 
@@ -407,8 +402,8 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     public function getField($slug)
     {
-        if (!$assignment = $this->getAssignment($slug)) {
-            return null;
+        if (! $assignment = $this->getAssignment($slug)) {
+            return;
         }
 
         return $assignment->getField();
@@ -424,8 +419,8 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     public function getFieldType($fieldSlug, EntryInterface $entry = null, $locale = null)
     {
-        if (!$assignment = $this->getAssignment($fieldSlug)) {
-            return null;
+        if (! $assignment = $this->getAssignment($fieldSlug)) {
+            return;
         }
 
         return $assignment->getFieldType($entry, $locale);
@@ -459,7 +454,7 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     public function getEntryTableName()
     {
-        return $this->getPrefix() . $this->getSlug();
+        return $this->getPrefix().$this->getSlug();
     }
 
     /**
@@ -469,7 +464,7 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     public function getEntryTranslationsTableName()
     {
-        return $this->getEntryTableName() . '_translations';
+        return $this->getEntryTableName().'_translations';
     }
 
     /**
@@ -502,7 +497,7 @@ class StreamModel extends EloquentModel implements StreamInterface
      */
     public function getForeignKey()
     {
-        return str_singular($this->getSlug()) . '_id';
+        return str_singular($this->getSlug()).'_id';
     }
 
     /**

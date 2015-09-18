@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 /**
- * Class FieldTypeModifier
+ * Class FieldTypeModifier.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class FieldTypeModifier
 {
-
     /**
      * The parent field type.
      *

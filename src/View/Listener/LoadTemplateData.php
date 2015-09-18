@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\View\Listener;
+<?php
+
+namespace Anomaly\Streams\Platform\View\Listener;
 
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Anomaly\Streams\Platform\View\Event\TemplateDataIsLoading;
@@ -8,7 +10,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use TwigBridge\Bridge;
 
 /**
- * Class LoadTemplateData
+ * Class LoadTemplateData.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use TwigBridge\Bridge;
  */
 class LoadTemplateData
 {
-
     /**
      * The Twig instance.
      *
@@ -66,8 +67,7 @@ class LoadTemplateData
             return;
         }
 
-        if (!$this->template->isLoaded()) {
-
+        if (! $this->template->isLoaded()) {
             $this->events->fire(new RegisteringTwigPlugins($this->twig));
             $this->events->fire(new TemplateDataIsLoading($this->template));
 

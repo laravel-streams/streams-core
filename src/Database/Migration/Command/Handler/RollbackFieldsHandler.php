@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration\Command\Handler;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Database\Migration\Command\RollbackFields;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
 
 /**
- * Class RollbackFieldsHandler
+ * Class RollbackFieldsHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
  */
 class RollbackFieldsHandler
 {
-
     /**
      * The field repository.
      *
@@ -54,7 +55,6 @@ class RollbackFieldsHandler
         $namespace = $migration->getNamespace();
 
         foreach ($migration->getFields() as $slug => $field) {
-
             $namespace = array_get($field, 'namespace', $namespace ?: ($addon ? $addon->getSlug() : null));
 
             if ($field = $this->fields->findBySlugAndNamespace($slug, $namespace)) {

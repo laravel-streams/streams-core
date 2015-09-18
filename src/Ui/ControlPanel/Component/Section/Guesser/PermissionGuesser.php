@@ -1,11 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 class PermissionGuesser
 {
-
     /**
      * The module collection.
      *
@@ -41,7 +42,7 @@ class PermissionGuesser
                 return;
             }
 
-            $section['permission'] = $module->getNamespace($section['slug'] . '.*');
+            $section['permission'] = $module->getNamespace($section['slug'].'.*');
         }
 
         $builder->setSections($sections);

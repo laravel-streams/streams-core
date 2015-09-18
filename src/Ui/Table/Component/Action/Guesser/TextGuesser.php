@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class TextGuesser
+ * Class TextGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class TextGuesser
 {
-
     /**
      * The module collection.
      *
@@ -40,15 +41,15 @@ class TextGuesser
     {
         $actions = $builder->getActions();
 
-        if (!$module = $this->modules->active()) {
+        if (! $module = $this->modules->active()) {
             return;
         }
 
         foreach ($actions as &$action) {
 
             // Only if it's not already set.
-            if (!isset($action['text'])) {
-                $action['text'] = $module->getNamespace('button.' . $action['slug']);
+            if (! isset($action['text'])) {
+                $action['text'] = $module->getNamespace('button.'.$action['slug']);
             }
         }
 

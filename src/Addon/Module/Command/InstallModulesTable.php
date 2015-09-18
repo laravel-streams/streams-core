@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
 /**
- * Class InstallModulesTable
+ * Class InstallModulesTable.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,5 +12,4 @@
  */
 class InstallModulesTable
 {
-
 }

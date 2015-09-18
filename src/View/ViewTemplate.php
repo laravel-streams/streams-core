@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\View;
+<?php
+
+namespace Anomaly\Streams\Platform\View;
 
 use Illuminate\Support\Collection;
 
 /**
- * Class ViewTemplate
+ * Class ViewTemplate.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Support\Collection;
  */
 class ViewTemplate extends Collection
 {
-
     /**
      * The loaded flag.
      *

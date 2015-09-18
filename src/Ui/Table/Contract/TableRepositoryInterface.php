@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Contract;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Support\Collection;
 
 /**
- * Interface TableRepositoryInterface
+ * Interface TableRepositoryInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Support\Collection;
  */
 interface TableRepositoryInterface
 {
-
     /**
      * Get the table entries.
      *

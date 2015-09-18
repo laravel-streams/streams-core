@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract;
 
 use Illuminate\Support\Collection;
 
 /**
- * Interface RowInterface
+ * Interface RowInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Support\Collection;
  */
 interface RowInterface
 {
-
     /**
      * Set the row buttons.
      *

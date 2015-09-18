@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Asset\Filter;
+<?php
+
+namespace Anomaly\Streams\Platform\Asset\Filter;
 
 use Anomaly\Streams\Platform\Asset\AssetParser;
 use Anomaly\Streams\Platform\Asset\Command\LoadThemeVariables;
@@ -8,7 +10,7 @@ use Assetic\Filter\LessphpFilter;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class LessFilter
+ * Class LessFilter.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class LessFilter extends LessphpFilter
 {
-
     use DispatchesJobs;
 
     /**

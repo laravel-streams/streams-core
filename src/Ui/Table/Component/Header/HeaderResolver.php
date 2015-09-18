@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class HeaderResolver
+ * Class HeaderResolver.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class HeaderResolver
 {
-
     /**
      * The resolver utility.
      *

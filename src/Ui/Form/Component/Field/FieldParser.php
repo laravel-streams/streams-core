@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class FieldParser
+ * Class FieldParser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class FieldParser
 {
-
     /**
      * The parser instance.
      *

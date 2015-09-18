@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class FieldTypeBuilder
+ * Class FieldTypeBuilder.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class FieldBuilder
 {
-
     /**
      * The field reader.
      *
@@ -68,7 +69,7 @@ class FieldBuilder
 
         $this->input->read($builder);
 
-        /**
+        /*
          * Convert each field to a field object
          * and put to the forms field collection.
          */
@@ -80,7 +81,7 @@ class FieldBuilder
             }
 
             // Continue if not enabled.
-            if (!array_get($field, 'enabled', true)) {
+            if (! array_get($field, 'enabled', true)) {
                 continue;
             }
 

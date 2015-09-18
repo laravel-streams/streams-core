@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class ButtonDefaults
+ * Class ButtonDefaults.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class ButtonDefaults
 {
-
     /**
      * Default the form buttons when none are defined.
      *

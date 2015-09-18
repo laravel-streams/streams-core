@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Section;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Section;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class SectionBuilder
+ * Class SectionBuilder.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class SectionBuilder
 {
-
     /**
      * The section input reader.
      *

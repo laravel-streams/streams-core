@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Console\Command;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Support\Parser;
@@ -6,7 +8,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class WriteEntityFormBuilder
+ * Class WriteEntityFormBuilder.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Filesystem\Filesystem;
  */
 class WriteEntityFormBuilder implements SelfHandling
 {
-
     /**
      * The entity slug.
      *
@@ -36,7 +37,6 @@ class WriteEntityFormBuilder implements SelfHandling
      * @var string
      */
     private $namespace;
-
 
     /**
      * Create a new WriteEntityFormBuilder instance.
@@ -69,7 +69,7 @@ class WriteEntityFormBuilder implements SelfHandling
         $path = $this->addon->getPath("src/{$entity}/Form/{$entity}FormBuilder.php");
 
         $template = $filesystem->get(
-            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/form/builder.stub")
+            base_path('vendor/anomaly/streams-platform/resources/stubs/entity/form/builder.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

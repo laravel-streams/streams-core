@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
@@ -7,7 +9,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Routing\Redirector;
 
 /**
- * Class EditActionHandler
+ * Class EditActionHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Routing\Redirector;
  */
 class Edit extends ActionHandler implements SelfHandling
 {
-
     /**
      * Save the order of the entries.
      *
@@ -33,7 +34,7 @@ class Edit extends ActionHandler implements SelfHandling
 
         if ($section = $sections->active()) {
             $builder->setTableResponse(
-                $redirector->to($section->getHref('edit/' . $edit . '?' . $prefix . 'edit_next=' . $ids))
+                $redirector->to($section->getHref('edit/'.$edit.'?'.$prefix.'edit_next='.$ids))
             );
         }
     }

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Command\Handler;
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Entry\Command\GenerateEntryModel;
@@ -20,7 +22,7 @@ use Anomaly\Streams\Platform\Support\Parser;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class GenerateEntryModelHandler
+ * Class GenerateEntryModelHandler.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -29,7 +31,6 @@ use Illuminate\Filesystem\Filesystem;
  */
 class GenerateEntryModelHandler
 {
-
     /**
      * The file system utility.
      *
@@ -58,7 +59,7 @@ class GenerateEntryModelHandler
      * @param Parser      $parser
      * @param Application $application
      */
-    function __construct(Filesystem $files, Parser $parser, Application $application)
+    public function __construct(Filesystem $files, Parser $parser, Application $application)
     {
         $this->files       = $files;
         $this->parser      = $parser;
@@ -76,7 +77,7 @@ class GenerateEntryModelHandler
 
         $data = $this->getTemplateData($stream);
 
-        $template = file_get_contents(__DIR__ . '/../../../../resources/stubs/models/entry.stub');
+        $template = file_get_contents(__DIR__.'/../../../../resources/stubs/models/entry.stub');
 
         $file = $this->getFilePath($stream);
 
@@ -94,11 +95,11 @@ class GenerateEntryModelHandler
      */
     protected function getFilePath(StreamInterface $stream)
     {
-        $path = $this->application->getStoragePath('models/' . studly_case($stream->getNamespace()));
+        $path = $this->application->getStoragePath('models/'.studly_case($stream->getNamespace()));
 
         $this->files->makeDirectory($path, 0777, true, true);
 
-        return $path . '/' . studly_case($stream->getNamespace()) . studly_case($stream->getSlug()) . 'EntryModel.php';
+        return $path.'/'.studly_case($stream->getNamespace()).studly_case($stream->getSlug()).'EntryModel.php';
     }
 
     /**
@@ -122,7 +123,7 @@ class GenerateEntryModelHandler
             'field_slugs'             => (new EntryFieldSlugsParser())->parse($stream),
             'translation_model'       => (new EntryTranslationModelParser())->parse($stream),
             'translated_attributes'   => (new EntryTranslatedAttributesParser())->parse($stream),
-            'translation_foreign_key' => (new EntryTranslationForeignKeyParser())->parse($stream)
+            'translation_foreign_key' => (new EntryTranslationForeignKeyParser())->parse($stream),
         ];
     }
 }

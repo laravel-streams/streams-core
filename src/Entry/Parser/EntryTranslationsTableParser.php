@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Parser;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Parser;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class EntryTranslationsTableParser
+ * Class EntryTranslationsTableParser.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryTranslationsTableParser
 {
-
     /**
      * Return the entry translations table name.
      *

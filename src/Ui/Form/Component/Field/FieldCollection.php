@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class FieldCollection
+ * Class FieldCollection.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class FieldCollection extends Collection
 {
-
     /**
      * Return base fields only.
      * No translations.
@@ -80,7 +81,7 @@ class FieldCollection extends Collection
             }
         }
 
-        if (!$default) {
+        if (! $default) {
             return $default;
         }
 
@@ -117,7 +118,7 @@ class FieldCollection extends Collection
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if (!$item->getLocale()) {
+            if (! $item->getLocale()) {
                 $fields[] = $item;
             }
         }
@@ -136,7 +137,7 @@ class FieldCollection extends Collection
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if (!$item->isDisabled()) {
+            if (! $item->isDisabled()) {
                 $enabled[] = $item;
             }
         }
@@ -174,7 +175,7 @@ class FieldCollection extends Collection
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if (!$item->isDisabled() && !$item instanceof SelfHandling) {
+            if (! $item->isDisabled() && ! $item instanceof SelfHandling) {
                 $allowed[] = $item;
             }
         }
@@ -211,7 +212,6 @@ class FieldCollection extends Collection
         /* @var FieldType $item */
         foreach ($this->items as $index => $item) {
             if ($item->getField() == $key) {
-
                 unset($this->items[$index]);
 
                 break;

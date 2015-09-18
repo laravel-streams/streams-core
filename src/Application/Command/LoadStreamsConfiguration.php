@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Application\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Application\Command;
 
 use Anomaly\Streams\Platform\Support\Configurator;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class LoadStreamsConfiguration
+ * Class LoadStreamsConfiguration.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class LoadStreamsConfiguration implements SelfHandling
 {
-
     /**
      * Handle the command.
      *
@@ -21,7 +22,7 @@ class LoadStreamsConfiguration implements SelfHandling
      */
     public function handle(Configurator $configurator)
     {
-        $configurator->addNamespace('streams', realpath(__DIR__ . '/../../../resources/config'));
+        $configurator->addNamespace('streams', realpath(__DIR__.'/../../../resources/config'));
         $configurator->mergeNamespace('streams', base_path('config/streams'));
     }
 }

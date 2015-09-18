@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
 use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Command\BuildItems;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
@@ -6,7 +8,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class BuildGrid
+ * Class BuildGrid.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class BuildGrid implements SelfHandling
 {
-
     use DispatchesJobs;
 
     /**
@@ -40,7 +41,7 @@ class BuildGrid implements SelfHandling
      */
     public function handle()
     {
-        /**
+        /*
          * Resolve and set the grid model and stream.
          */
         $this->dispatch(new SetGridModel($this->builder));
@@ -50,17 +51,17 @@ class BuildGrid implements SelfHandling
         $this->dispatch(new SetGridRepository($this->builder));
         $this->dispatch(new SetDefaultParameters($this->builder));
 
-        /**
+        /*
          * Before we go any further, authorize the request.
          */
         $this->dispatch(new AuthorizeGrid($this->builder));
 
-        /**
+        /*
          * Get grid entries.
          */
         $this->dispatch(new GetGridEntries($this->builder));
 
-        /**
+        /*
          * Lastly grid items.
          */
         $this->dispatch(new BuildItems($this->builder));

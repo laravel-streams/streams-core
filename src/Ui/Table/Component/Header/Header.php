@@ -1,6 +1,8 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
+<?php
 
-/**
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
+
+/*
  * Class Header
  *
  * @link          http://anomaly.is/streams-platform
@@ -12,7 +14,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class Header
+ * Class Header.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -21,7 +23,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class Header implements HeaderInterface
 {
-
     /**
      * The table builder.
      *
@@ -63,8 +64,8 @@ class Header implements HeaderInterface
         $builder   = $this->getBuilder();
         $direction = $this->getDirection('asc');
 
-        array_set($query, $builder->getTableOption('prefix') . 'order_by', $this->getSortColumn());
-        array_set($query, $builder->getTableOption('prefix') . 'sort', $direction == 'asc' ? 'desc' : 'asc');
+        array_set($query, $builder->getTableOption('prefix').'order_by', $this->getSortColumn());
+        array_set($query, $builder->getTableOption('prefix').'sort', $direction == 'asc' ? 'desc' : 'asc');
 
         return http_build_query($query);
     }
@@ -82,11 +83,11 @@ class Header implements HeaderInterface
 
         $builder = $this->getBuilder();
 
-        if (array_get($query, $builder->getTableOption('prefix') . 'order_by') !== $this->getSortColumn()) {
-            return null;
+        if (array_get($query, $builder->getTableOption('prefix').'order_by') !== $this->getSortColumn()) {
+            return;
         }
 
-        return array_get($query, $builder->getTableOption('prefix') . 'sort', $default);
+        return array_get($query, $builder->getTableOption('prefix').'sort', $default);
     }
 
     /**
@@ -138,7 +139,7 @@ class Header implements HeaderInterface
     /**
      * Get the sortable flag.
      *
-     * @return boolean
+     * @return bool
      */
     public function isSortable()
     {
@@ -148,7 +149,7 @@ class Header implements HeaderInterface
     /**
      * Set the sortable flag.
      *
-     * @param boolean $sortable
+     * @param bool $sortable
      * @return $this
      */
     public function setSortable($sortable)

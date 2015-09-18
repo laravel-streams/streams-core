@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Migration;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Migration;
 
 use Anomaly\Streams\Platform\Database\Migration\Command\Migrate;
 use Anomaly\Streams\Platform\Database\Migration\Command\Rollback;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameTo
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class Migrator
+ * Class Migrator.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class Migrator extends \Illuminate\Database\Migrations\Migrator
 {
-
     use DispatchesJobs;
 
     /**
@@ -58,7 +59,6 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
         // aren't, we will just make a note of it to the developer so they're aware
         // that all of the migrations have been run against this database system.
         if (count($migrations) == 0) {
-
             $this->note("<info>Nothing to migrate: {$this->namespace}</info>");
 
             return;
@@ -125,9 +125,9 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
         $addons = app('Anomaly\Streams\Platform\Addon\AddonCollection');
 
         if ($addon = $addons->get($namespace)) {
-            $path = $addon->getPath('migrations/') . $file . '.php';
+            $path = $addon->getPath('migrations/').$file.'.php';
         } else {
-            $path = base_path('database/migrations/') . $file . '.php';
+            $path = base_path('database/migrations/').$file.'.php';
         }
 
         if (is_file($path)) {
@@ -192,7 +192,6 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
         $migrations = $this->repository->findManyByNamespace($namespace);
 
         if (count($migrations) == 0) {
-
             $this->note("<info>Nothing to rollback: {$namespace}</info>");
 
             return count($migrations);
@@ -202,7 +201,7 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
         // to what they run on "up". It lets us backtrack through the migrations
         // and properly reverse the entire database schema operation that ran.
         foreach ($migrations as $migration) {
-            $this->runDown((object)$migration, $pretend);
+            $this->runDown((object) $migration, $pretend);
         }
 
         return count($migrations);

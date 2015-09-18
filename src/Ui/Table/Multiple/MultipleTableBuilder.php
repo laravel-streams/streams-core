@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Multiple;
 
 use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\BuildTables;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\LoadTables;
@@ -11,7 +13,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableCollection;
 
 /**
- * Class MultipleTableBuilder
+ * Class MultipleTableBuilder.
  *
  * @link          http://anomaly.is/streams-plattable
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -20,7 +22,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableCollection;
  */
 class MultipleTableBuilder extends TableBuilder
 {
-
     /**
      * The table collection.
      *
@@ -102,7 +103,7 @@ class MultipleTableBuilder extends TableBuilder
     {
         $this->tables->put(
             $key,
-            $builder->setOption('prefix', $key . '_')
+            $builder->setOption('prefix', $key.'_')
         );
 
         return $this;

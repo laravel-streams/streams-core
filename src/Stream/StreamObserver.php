@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Stream;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Stream\Command\CreateStreamsEntryTable;
 use Anomaly\Streams\Platform\Stream\Command\DropStreamsEntryTable;
@@ -9,7 +11,7 @@ use Anomaly\Streams\Platform\Stream\Event\StreamWasSaved;
 use Anomaly\Streams\Platform\Support\Observer;
 
 /**
- * Class StreamObserver
+ * Class StreamObserver.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -18,7 +20,6 @@ use Anomaly\Streams\Platform\Support\Observer;
  */
 class StreamObserver extends Observer
 {
-
     /**
      * Run after stream a record.
      *

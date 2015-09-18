@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Addon\FieldType;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class FieldTypeBuilder
+ * Class FieldTypeBuilder.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class FieldTypeBuilder
 {
-
     use DispatchesJobs;
 
     /**
@@ -60,10 +61,9 @@ class FieldTypeBuilder
      */
     public function build(array $parameters)
     {
-
         $type = array_pull($parameters, 'type');
 
-        /**
+        /*
          * If the field type is a string and
          * starts with the root namespace for
          * streams then it's a class path and
@@ -73,7 +73,7 @@ class FieldTypeBuilder
             $type = clone($this->container->make($type));
         }
 
-        /**
+        /*
          * If the field type is a dot format
          * namespace then we can also resolve
          * the field type from the container.
@@ -82,7 +82,7 @@ class FieldTypeBuilder
             $type = $this->fieldTypes->get($type);
         }
 
-        /**
+        /*
          * If we have gotten this far then it's
          * likely a simple slug and we can try
          * returning the first match for the slug.
@@ -91,10 +91,10 @@ class FieldTypeBuilder
             $type = $this->fieldTypes->findBySlug($type);
         }
 
-        /**
+        /*
          * If we don't have a field type let em know.
          */
-        if (!$type instanceof FieldType) {
+        if (! $type instanceof FieldType) {
             throw new \Exception("Field type [{$type}] not found.");
         }
 

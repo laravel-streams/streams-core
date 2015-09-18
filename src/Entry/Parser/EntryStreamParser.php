@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Parser;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Parser;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class EntryStreamParser
+ * Class EntryStreamParser.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryStreamParser
 {
-
     /**
      * Parse the stream data.
      *
@@ -44,7 +45,6 @@ class EntryStreamParser
     protected function parseStream(StreamInterface $stream, &$string)
     {
         foreach ($stream->getAttributes() as $key => $value) {
-
             if (is_string($value)) {
                 $value = addslashes($value);
             }
@@ -161,7 +161,6 @@ class EntryStreamParser
         $string .= "\n[";
 
         foreach ($translation->getAttributes() as $key => $value) {
-
             $value = $translation->getAttribute($key);
 
             if (is_string($value)) {

@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionBuilder;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class BuildSections
+ * Class BuildSections.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class BuildSections implements SelfHandling
 {
-
     /**
      * The control_panel builder.
      *

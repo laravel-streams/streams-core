@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Http\Controller;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Controller;
 
 /**
- * Class PublicController
+ * Class PublicController.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class PublicController extends BaseController
 {
-
     /**
      * Create a new BaseController instance.
      */

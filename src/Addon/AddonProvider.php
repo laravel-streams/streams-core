@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
@@ -12,7 +14,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Routing\Router;
 
 /**
- * Class AddonProvider
+ * Class AddonProvider.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -21,7 +23,6 @@ use Illuminate\Routing\Router;
  */
 class AddonProvider
 {
-
     /**
      * The cached services.
      *
@@ -111,19 +112,19 @@ class AddonProvider
      */
     public function register(Addon $addon)
     {
-        if ($addon instanceof Module && !$addon->isEnabled() && $addon->getSlug() !== 'installer') {
+        if ($addon instanceof Module && ! $addon->isEnabled() && $addon->getSlug() !== 'installer') {
             return;
         }
 
-        if ($addon instanceof Extension && !$addon->isEnabled()) {
+        if ($addon instanceof Extension && ! $addon->isEnabled()) {
             return;
         }
 
-        $provider = get_class($addon) . 'ServiceProvider';
+        $provider = get_class($addon).'ServiceProvider';
 
         $file = substr($provider, strrpos($provider, '\\') + 1);
 
-        if (!file_exists($addon->getPath("src/{$file}.php"))) {
+        if (! file_exists($addon->getPath("src/{$file}.php"))) {
             return;
         }
 
@@ -212,14 +213,12 @@ class AddonProvider
      */
     protected function registerEvents(AddonServiceProvider $provider)
     {
-        if (!$listen = $provider->getListeners()) {
+        if (! $listen = $provider->getListeners()) {
             return;
         }
 
         foreach ($listen as $event => $listeners) {
-
             foreach ($listeners as $key => $listener) {
-
                 if (is_integer($listener)) {
                     $listener = $key;
                     $priority = $listener;
@@ -244,22 +243,22 @@ class AddonProvider
             return;
         }
 
-        if (!$routes = $provider->getRoutes()) {
+        if (! $routes = $provider->getRoutes()) {
             return;
         }
 
         foreach ($routes as $uri => $route) {
 
-            /**
+            /*
              * If the route definition is an
              * not an array then let's make it one.
              * Array type routes give us more control
              * and allow us to pass information in the
              * request's route action array.
              */
-            if (!is_array($route)) {
+            if (! is_array($route)) {
                 $route = [
-                    'uses' => $route
+                    'uses' => $route,
                 ];
             }
 
@@ -268,7 +267,7 @@ class AddonProvider
 
             array_set($route, 'streams::addon', $addon->getNamespace());
 
-            if (!str_contains($route['uses'], '@')) {
+            if (! str_contains($route['uses'], '@')) {
                 $this->router->controller($uri, $route['uses']);
             } else {
                 $this->router->{$verb}($uri, $route)->where($constraints);
@@ -283,7 +282,7 @@ class AddonProvider
      */
     protected function registerPlugins(AddonServiceProvider $provider)
     {
-        if (!$plugins = $provider->getPlugins()) {
+        if (! $plugins = $provider->getPlugins()) {
             return;
         }
 
@@ -307,7 +306,7 @@ class AddonProvider
      */
     protected function registerSchedules(AddonServiceProvider $provider)
     {
-        if (!$schedules = $provider->getSchedules()) {
+        if (! $schedules = $provider->getSchedules()) {
             return;
         }
 
@@ -327,7 +326,7 @@ class AddonProvider
         $overrides = $provider->getOverrides();
         $mobiles   = $provider->getMobile();
 
-        if (!$overrides && !$mobiles) {
+        if (! $overrides && ! $mobiles) {
             return;
         }
 
@@ -342,7 +341,7 @@ class AddonProvider
      */
     protected function registerMiddleware(AddonServiceProvider $provider)
     {
-        if (!$middleware = $provider->getMiddleware()) {
+        if (! $middleware = $provider->getMiddleware()) {
             return;
         }
 

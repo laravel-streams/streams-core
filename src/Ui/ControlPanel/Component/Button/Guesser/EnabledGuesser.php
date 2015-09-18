@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Illuminate\Http\Request;
 
 /**
- * Class EnabledGuesser
+ * Class EnabledGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Http\Request;
  */
 class EnabledGuesser
 {
-
     /**
      * The request object.
      *
@@ -41,8 +42,7 @@ class EnabledGuesser
         $buttons = $builder->getButtons();
 
         foreach ($buttons as &$button) {
-
-            if (!isset($button['enabled']) || is_bool($button['enabled'])) {
+            if (! isset($button['enabled']) || is_bool($button['enabled'])) {
                 continue;
             }
 

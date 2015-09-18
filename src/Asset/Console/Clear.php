@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Asset\Console;
+<?php
+
+namespace Anomaly\Streams\Platform\Asset\Console;
 
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class Clear
+ * Class Clear.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Filesystem\Filesystem;
  */
 class Clear extends Command
 {
-
     /**
      * The console command name.
      *
@@ -39,6 +40,6 @@ class Clear extends Command
     {
         $files->deleteDirectory($directory = $application->getAssetsPath('cache'), true);
 
-        $this->info($directory . ' has been emptied!');
+        $this->info($directory.' has been emptied!');
     }
 }

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Asset;
+<?php
+
+namespace Anomaly\Streams\Platform\Asset;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\View\Factory;
 
 /**
- * Class AssetParser
+ * Class AssetParser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\View\Factory;
  */
 class AssetParser
 {
-
     /**
      * The filesystem.
      *
@@ -48,12 +49,12 @@ class AssetParser
      */
     public function parse($content)
     {
-        if (!$this->files->isDirectory($path = storage_path('framework/views/asset'))) {
+        if (! $this->files->isDirectory($path = storage_path('framework/views/asset'))) {
             $this->files->makeDirectory($path);
         }
 
-        $this->files->put(storage_path('framework/views/asset/' . (($filename = md5($content)) . '.twig')), $content);
+        $this->files->put(storage_path('framework/views/asset/'.(($filename = md5($content)).'.twig')), $content);
 
-        return $this->views->make('base_path::storage/framework/views/asset/' . $filename)->render();
+        return $this->views->make('base_path::storage/framework/views/asset/'.$filename)->render();
     }
 }

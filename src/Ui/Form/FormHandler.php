@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class FormHandler
+ * Class FormHandler.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class FormHandler implements SelfHandling
 {
-
     /**
      * Handle the form.
      *
@@ -20,7 +21,7 @@ class FormHandler implements SelfHandling
      */
     public function handle(FormBuilder $builder)
     {
-        if (!$builder->canSave()) {
+        if (! $builder->canSave()) {
             return;
         }
 

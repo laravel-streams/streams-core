@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Row;
 
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Button\ButtonBuilder;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class RowBuilder
+ * Class RowBuilder.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class RowBuilder
 {
-
     /**
      * The column builder.
      *
@@ -72,7 +73,6 @@ class RowBuilder
     public function build(TableBuilder $builder)
     {
         foreach ($builder->getTableEntries() as $entry) {
-
             $columns = $this->columns->build($builder, $entry);
             $buttons = $this->buttons->build($builder, $entry);
 

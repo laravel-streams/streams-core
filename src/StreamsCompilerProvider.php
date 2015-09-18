@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform;
+<?php
+
+namespace Anomaly\Streams\Platform;
 
 /**
- * Class StreamsCompilerProvider
+ * Class StreamsCompilerProvider.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class StreamsCompilerProvider
 {
-
     /**
      * Get files to compile during
      * Laravel's optimize command.
@@ -64,7 +65,7 @@ class StreamsCompilerProvider
             'vendor/anomaly/streams-platform/src/Addon/AddonIntegrator.php',
             'vendor/anomaly/streams-platform/src/Entry/EntryPresenter.php',
             'vendor/anomaly/streams-platform/src/Addon/AddonManager.php',
-            'vendor/anomaly/streams-platform/src/View/ViewOverrides.php'
+            'vendor/anomaly/streams-platform/src/View/ViewOverrides.php',
         ];
     }
 }

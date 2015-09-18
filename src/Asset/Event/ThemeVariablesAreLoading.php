@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Asset\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Asset\Event;
 
 use Anomaly\Streams\Platform\Support\Collection;
 
 /**
- * Class ThemeVariablesAreLoading
+ * Class ThemeVariablesAreLoading.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Support\Collection;
  */
 class ThemeVariablesAreLoading
 {
-
     /**
      * The theme variables.
      *
@@ -25,7 +26,7 @@ class ThemeVariablesAreLoading
      *
      * @param Collection $variables
      */
-    function __construct(Collection $variables)
+    public function __construct(Collection $variables)
     {
         $this->variables = $variables;
     }

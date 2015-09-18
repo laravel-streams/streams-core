@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Console\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Console\Command;
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Filesystem\Filesystem;
 
 /**
- * Class WriteAddonClass
+ * Class WriteAddonClass.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Filesystem\Filesystem;
  */
 class WriteAddonClass implements SelfHandling
 {
-
     /**
      * The addon path.
      *
@@ -71,7 +72,7 @@ class WriteAddonClass implements SelfHandling
         $type   = ucfirst(camel_case($this->type));
         $vendor = ucfirst(camel_case($this->vendor));
 
-        $addon     = $slug . $type;
+        $addon     = $slug.$type;
         $namespace = "{$vendor}\\{$addon}";
 
         $path = "{$this->path}/src/{$addon}.php";

@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
 use Anomaly\Streams\Platform\Support\Value;
 
 /**
- * Class ButtonValue
+ * Class ButtonValue.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Support\Value;
  */
 class ButtonValue
 {
-
     /**
      * The value utility.
      *
@@ -43,14 +44,13 @@ class ButtonValue
         $enabled = array_get($button, 'enabled');
 
         if (is_string($enabled)) {
-
             if ($not = starts_with($enabled, 'not ')) {
                 $enabled = substr($enabled, 4);
             }
 
             $enabled = filter_var($this->value->make($enabled, $entry), FILTER_VALIDATE_BOOLEAN);
 
-            $button['enabled'] = $not ? !$enabled : $enabled;
+            $button['enabled'] = $not ? ! $enabled : $enabled;
         }
 
         return $button;

@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension\Event;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension\Event;
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 
 /**
- * Class ExtensionWasUninstalled
+ * Class ExtensionWasUninstalled.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\Extension\Extension;
  */
 class ExtensionWasUninstalled
 {
-
     /**
      * The extension object.
      *

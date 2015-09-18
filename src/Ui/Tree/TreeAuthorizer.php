@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Support\Authorizer;
 
 /**
- * Class TreeAuthorizer
+ * Class TreeAuthorizer.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Support\Authorizer;
  */
 class TreeAuthorizer
 {
-
     /**
      * The module collection.
      *
@@ -50,15 +51,15 @@ class TreeAuthorizer
         // Try the option first.
         $permission = $builder->getTreeOption('permission');
 
-        /**
+        /*
          * If the option is not set then
          * try and automate the permission.
          */
-        if (!$permission && ($module = $this->modules->active()) && ($stream = $builder->getTreeStream())) {
-            $permission = $module->getNamespace($stream->getSlug() . '.read');
+        if (! $permission && ($module = $this->modules->active()) && ($stream = $builder->getTreeStream())) {
+            $permission = $module->getNamespace($stream->getSlug().'.read');
         }
 
-        if (!$this->authorizer->authorize($permission)) {
+        if (! $this->authorizer->authorize($permission)) {
             abort(403);
         }
     }

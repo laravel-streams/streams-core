@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
@@ -7,7 +9,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 
 /**
- * Class EloquentTableRepositoryInterface
+ * Class EloquentTableRepositoryInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Support\Collection;
  */
 class EloquentTableRepository implements TableRepositoryInterface
 {
-
     use DispatchesJobs;
 
     /**
@@ -47,19 +48,19 @@ class EloquentTableRepository implements TableRepositoryInterface
         // Start a new query.
         $query = $this->model->newQuery();
 
-        /**
+        /*
          * Prevent joins from overriding intended columns
          * by prefixing with the model's table name.
          */
-        $query = $query->select($this->model->getTable() . '.*');
+        $query = $query->select($this->model->getTable().'.*');
 
-        /**
+        /*
          * Eager load any relations to
          * save resources and queries.
          */
         $query = $query->with($builder->getTableOption('eager', []));
 
-        /**
+        /*
          * Raise and fire an event here to allow
          * other things (including filters / views)
          * to modify the query before proceeding.
@@ -67,7 +68,7 @@ class EloquentTableRepository implements TableRepositoryInterface
         $builder->fire('querying', compact('builder', 'query'));
         app('events')->fire(new TableIsQuerying($builder, $query));
 
-        /**
+        /*
          * Before we actually adjust the baseline query
          * set the total amount of entries possible back
          * on the table so it can be used later.
@@ -76,7 +77,7 @@ class EloquentTableRepository implements TableRepositoryInterface
 
         $builder->setTableOption('total_results', $total);
 
-        /**
+        /*
          * Assure that our page exists. If the page does
          * not exist then start walking backwards until
          * we find a page that is has something to show us.
@@ -86,12 +87,12 @@ class EloquentTableRepository implements TableRepositoryInterface
         $offset = $limit * ($page - 1);
 
         if ($total < $offset && $page > 1) {
-            $url = str_replace('page=' . $page, 'page=' . ($page - 1), app('request')->fullUrl());
+            $url = str_replace('page='.$page, 'page='.($page - 1), app('request')->fullUrl());
 
-            header('Location: ' . $url);
+            header('Location: '.$url);
         }
 
-        /**
+        /*
          * Limit the results to the limit and offset
          * based on the page if any.
          */
@@ -99,7 +100,7 @@ class EloquentTableRepository implements TableRepositoryInterface
 
         $query = $query->take($limit)->offset($offset);
 
-        /**
+        /*
          * Order the query results.
          */
         foreach ($builder->getTableOption('order_by') as $column => $direction) {

@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\DisabledGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\InstructionsGuesser;
@@ -11,7 +13,7 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\UniqueGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class HeadingGuesser
+ * Class HeadingGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -20,7 +22,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class FieldGuesser
 {
-
     /**
      * The labels guesser.
      *

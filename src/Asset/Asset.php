@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Asset;
+<?php
+
+namespace Anomaly\Streams\Platform\Asset;
 
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Application\Application;
@@ -19,7 +21,7 @@ use Illuminate\Filesystem\Filesystem;
 use League\Flysystem\MountManager;
 
 /**
- * Class Asset
+ * Class Asset.
  *
  * This is the asset management class. It handles front
  * and backend asset's for everything.
@@ -31,7 +33,6 @@ use League\Flysystem\MountManager;
  */
 class Asset
 {
-
     /**
      * The public base directory.
      *
@@ -139,7 +140,7 @@ class Asset
      */
     public function add($collection, $file, array $filters = [])
     {
-        if (!isset($this->collections[$collection])) {
+        if (! isset($this->collections[$collection])) {
             $this->collections[$collection] = [];
         }
 
@@ -147,23 +148,21 @@ class Asset
 
         $file = $this->paths->realPath($file);
 
-        /**
+        /*
          * If this is a remote or single existing
          * file then add it normally.
          */
         if (starts_with($file, ['http', '//']) || file_exists($file)) {
-
             $this->collections[$collection][$file] = $filters;
 
             return $this;
         }
 
-        /**
+        /*
          * If this is a valid glob pattern then add
          * it to the collection and add the glob filter.
          */
         if (count(glob($file)) > 0) {
-
             $this->collections[$collection][$file] = array_merge($filters, ['glob']);
 
             return $this;
@@ -183,12 +182,12 @@ class Asset
      */
     public function url($collection, array $filters = [])
     {
-        if (!isset($this->collections[$collection])) {
+        if (! isset($this->collections[$collection])) {
             $this->add($collection, $collection, $filters);
         }
 
-        if (!$path = $this->getPath($collection, $filters)) {
-            return null;
+        if (! $path = $this->getPath($collection, $filters)) {
+            return;
         }
 
         return url($this->getPath($collection, $filters));
@@ -203,7 +202,7 @@ class Asset
      */
     public function path($collection, array $filters = [])
     {
-        if (!isset($this->collections[$collection])) {
+        if (! isset($this->collections[$collection])) {
             $this->add($collection, $collection, $filters);
         }
 
@@ -285,7 +284,7 @@ class Asset
      */
     public function paths($collection, array $additionalFilters = [])
     {
-        if (!isset($this->collections[$collection])) {
+        if (! isset($this->collections[$collection])) {
             return [];
         }
 
@@ -310,7 +309,7 @@ class Asset
      */
     protected function getPath($collection, $filters)
     {
-        /**
+        /*
          * If the asset is remote just return it.
          */
         if (starts_with($collection, 'http')) {
@@ -324,7 +323,7 @@ class Asset
         }
 
         if (file_exists($path) && filesize($path) == 0) {
-            return null;
+            return;
         }
 
         return $path;
@@ -347,7 +346,7 @@ class Asset
 
         $hint = $this->getHint($collection);
 
-        return 'assets/' . $this->application->getReference() . '/cache/' . $hash . '.' . $hint;
+        return 'assets/'.$this->application->getReference().'/cache/'.$hash.'.'.$hint;
     }
 
     /**
@@ -365,7 +364,7 @@ class Asset
 
         $assets = $this->getAssetCollection($collection, $additionalFilters);
 
-        $path = $this->directory . $path;
+        $path = $this->directory.$path;
 
         /* @var Filesystem $files */
         $files = app('files');
@@ -523,7 +522,7 @@ class Asset
             return true;
         }
 
-        if (!file_exists($path)) {
+        if (! file_exists($path)) {
             return true;
         }
 
@@ -612,26 +611,24 @@ class Asset
     }
 
     /**
-     * Create asset collection from collection array
+     * Create asset collection from collection array.
      *
      * @param       $collection        Collection of assets
      * @param array $additionalFilters Additional filters to be applied to collection
      * @return AssetCollection
      */
-    private function getAssetCollection($collection, $additionalFilters = array())
+    private function getAssetCollection($collection, $additionalFilters = [])
     {
         $assets = new AssetCollection();
 
         $hint = $this->getHint($collection);
 
         foreach ($this->collections[$collection] as $file => $filters) {
-
             $filters = array_filter(array_unique(array_merge($filters, $additionalFilters)));
 
             $filters = $this->transformFilters($filters, $hint);
 
             if (in_array('glob', $filters)) {
-
                 unset($filters[array_search('glob', $filters)]);
 
                 $file = new GlobAsset($file, $filters);
@@ -650,7 +647,7 @@ class Asset
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return '';
     }

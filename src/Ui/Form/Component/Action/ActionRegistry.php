@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 /**
- * Class ActionRegistry
+ * Class ActionRegistry.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class ActionRegistry
 {
-
     /**
      * Available actions.
      *
@@ -19,16 +20,16 @@ class ActionRegistry
     protected $actions = [
         'save_and_edit'      => [
             'button' => 'save',
-            'text'   => 'streams::button.save_and_edit'
+            'text'   => 'streams::button.save_and_edit',
         ],
         'save_and_continue'  => [
             'button' => 'save',
-            'text'   => 'streams::button.save_and_continue'
+            'text'   => 'streams::button.save_and_continue',
         ],
         'save_and_edit_next' => [
             'button' => 'save',
-            'text'   => 'streams::button.save_and_edit_next'
-        ]
+            'text'   => 'streams::button.save_and_edit_next',
+        ],
     ];
 
     /**
@@ -39,8 +40,8 @@ class ActionRegistry
      */
     public function get($action)
     {
-        if (!$action) {
-            return null;
+        if (! $action) {
+            return;
         }
 
         return array_get($this->actions, $action);

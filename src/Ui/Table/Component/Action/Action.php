@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 
 /**
- * Class Action
+ * Class Action.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
  */
 class Action extends Button implements ActionInterface
 {
-
     /**
      * The action tag.
      *

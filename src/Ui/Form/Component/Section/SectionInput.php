@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Section;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Section;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class SectionInput
+ * Class SectionInput.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class SectionInput
 {
-
     /**
      * The resolver utility.
      *
@@ -33,7 +34,7 @@ class SectionInput
      * @param SectionResolver  $resolver
      * @param SectionEvaluator $evaluator
      */
-    function __construct(SectionResolver $resolver, SectionEvaluator $evaluator)
+    public function __construct(SectionResolver $resolver, SectionEvaluator $evaluator)
     {
         $this->resolver  = $resolver;
         $this->evaluator = $evaluator;

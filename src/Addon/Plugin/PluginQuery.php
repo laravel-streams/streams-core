@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Plugin;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Plugin;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryCollection;
@@ -10,7 +12,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class PluginQuery
+ * Class PluginQuery.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -19,7 +21,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class PluginQuery
 {
-
     use FiresCallbacks;
 
     /**
@@ -31,7 +32,7 @@ class PluginQuery
      */
     protected $protectedMethods = [
         'update',
-        'delete'
+        'delete',
     ];
 
     /**
@@ -105,17 +106,16 @@ class PluginQuery
     protected function build(array $parameters)
     {
 
-        /**
+        /*
          * Determine the model by either using
          * the passed model class string OR
          * building one with namespace / stream.
          */
-        if (!$model = array_pull($parameters, 'model')) {
-
+        if (! $model = array_pull($parameters, 'model')) {
             $stream    = ucfirst(camel_case(array_pull($parameters, 'stream')));
             $namespace = ucfirst(camel_case(array_pull($parameters, 'namespace')));
 
-            $model = 'Anomaly\Streams\Platform\Model\\' . $namespace . '\\' . $namespace . $stream . 'EntryModel';
+            $model = 'Anomaly\Streams\Platform\Model\\'.$namespace.'\\'.$namespace.$stream.'EntryModel';
         }
 
         /* @var EntryModel $model */
@@ -126,20 +126,19 @@ class PluginQuery
 
         $this->fire('querying', compact('query', 'model', 'parameters'));
 
-        /**
+        /*
          * First apply any desired scope.
          */
         if ($scope = array_pull($parameters, 'scope')) {
             call_user_func([$query, camel_case($scope)], array_pull($parameters, 'scope_arguments', []));
         }
 
-        /**
+        /*
          * Lastly we need to loop through all of the
          * parameters and assume the rest are methods
          * to call on the query builder.
          */
         foreach ($parameters as $method => $arguments) {
-
             $method = camel_case($method);
 
             if (in_array($method, $this->protectedMethods)) {

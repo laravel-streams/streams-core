@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract;
 
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 
 /**
- * Interface ActionInterface
+ * Interface ActionInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
  */
 interface ActionInterface extends ButtonInterface
 {
-
     /**
      * Set the action handler.
      *

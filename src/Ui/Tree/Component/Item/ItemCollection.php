@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
 
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
 
 /**
- * Class ItemCollection
+ * Class ItemCollection.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
  */
 class ItemCollection extends Collection
 {
-
     /**
      * Return only root items.
      *
@@ -25,7 +26,7 @@ class ItemCollection extends Collection
 
         /* @var ItemInterface $item */
         foreach ($this->items as $item) {
-            if (!$item->getParent()) {
+            if (! $item->getParent()) {
                 $root[] = $item;
             }
         }

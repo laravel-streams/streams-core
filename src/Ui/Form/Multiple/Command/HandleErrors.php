@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Multiple\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Multiple\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Multiple\MultipleFormBuilder;
@@ -6,7 +8,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Support\MessageBag;
 
 /**
- * Class HandleErrors
+ * Class HandleErrors.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Support\MessageBag;
  */
 class HandleErrors implements SelfHandling
 {
-
     /**
      * The multiple form builder.
      *
@@ -45,7 +46,7 @@ class HandleErrors implements SelfHandling
                 // We can't save now!
                 $this->builder->setSave(false);
 
-                /**
+                /*
                  * Merge errors from child forms into the
                  * multiple form builder's form instance.
                  */

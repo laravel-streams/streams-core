@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\Button;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
- * Class ButtonLookup
+ * Class ButtonLookup.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  */
 class ButtonLookup
 {
-
     /**
      * The button registry.
      *
@@ -41,7 +42,6 @@ class ButtonLookup
         $buttons = $builder->getButtons();
 
         foreach ($buttons as &$parameters) {
-
             if ($button = $this->buttons->get(array_get($parameters, 'button'))) {
                 $parameters = array_replace_recursive($button, $parameters);
             }

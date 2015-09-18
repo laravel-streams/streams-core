@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
- * Class SectionInput
+ * Class SectionInput.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  */
 class SectionInput
 {
-
     /**
      * The section parser.
      *
@@ -66,7 +67,7 @@ class SectionInput
      * @param SectionEvaluator  $evaluator
      * @param SectionNormalizer $normalizer
      */
-    function __construct(
+    public function __construct(
         SectionParser $parser,
         SectionGuesser $guesser,
         ModuleCollection $modules,

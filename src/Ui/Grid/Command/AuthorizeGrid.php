@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
 use Anomaly\Streams\Platform\Ui\Grid\GridAuthorizer;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class AuthorizeGrid
+ * Class AuthorizeGrid.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class AuthorizeGrid implements SelfHandling
 {
-
     /**
      * The grid builder.
      *

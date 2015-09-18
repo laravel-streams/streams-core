@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Multiple\Command;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
@@ -6,7 +8,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class SetActiveActions
+ * Class SetActiveActions.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class SetActiveActions implements SelfHandling
 {
-
     /**
      * The multiple form builder.
      *
@@ -40,7 +41,7 @@ class SetActiveActions implements SelfHandling
     {
         $actions = $this->builder->getTableActions();
 
-        if (!$action = $actions->active()) {
+        if (! $action = $actions->active()) {
             return;
         }
 
@@ -59,9 +60,7 @@ class SetActiveActions implements SelfHandling
     {
         /* @var ActionInterface $action */
         foreach ($builder->getTableActions() as $action) {
-
             if ($action->getSlug() === $slug) {
-
                 $action->setPrefix($builder->getTableOption('prefix'));
                 $action->setActive(true);
 

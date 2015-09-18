@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Image;
+<?php
+
+namespace Anomaly\Streams\Platform\Image;
 
 use Illuminate\Config\Repository;
 
 /**
- * Class ImagePaths
+ * Class ImagePaths.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Config\Repository;
  */
 class ImagePaths
 {
-
     /**
      * @var array
      */
@@ -52,14 +53,13 @@ class ImagePaths
     public function realPath($path)
     {
         if (str_contains($path, '::')) {
-
             list($namespace, $path) = explode('::', $path);
 
-            if (!isset($this->paths[$namespace])) {
+            if (! isset($this->paths[$namespace])) {
                 throw new \Exception("Path hint [{$namespace}::{$path}] does not exist!");
             }
 
-            return rtrim($this->paths[$namespace], '/') . '/' . $path;
+            return rtrim($this->paths[$namespace], '/').'/'.$path;
         }
 
         return $path;

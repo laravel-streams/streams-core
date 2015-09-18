@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Field;
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Event\FieldWasCreated;
@@ -8,7 +10,7 @@ use Anomaly\Streams\Platform\Field\Event\FieldWasUpdated;
 use Anomaly\Streams\Platform\Support\Observer;
 
 /**
- * Class FieldObserver
+ * Class FieldObserver.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Anomaly\Streams\Platform\Support\Observer;
  */
 class FieldObserver extends Observer
 {
-
     /**
      * Fired after creating a field.
      *

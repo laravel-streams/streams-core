@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryCollection;
@@ -9,8 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Query
 {
-
-
     /**
      * These are methods that are
      * protected and may not be
@@ -20,7 +20,7 @@ class Query
      */
     protected $protectedMethods = [
         'update',
-        'delete'
+        'delete',
     ];
 
     /**
@@ -141,20 +141,19 @@ class Query
         /* @var Builder $query */
         $query = $model->newQuery();
 
-        /**
+        /*
          * First apply any desired scope.
          */
         if ($scope = array_pull($parameters, 'scope')) {
             call_user_func([$query, camel_case($scope)], array_pull($parameters, 'scope_arguments', []));
         }
 
-        /**
+        /*
          * Lastly we need to loop through all of the
          * parameters and assume the rest are methods
          * to call on the query builder.
          */
         foreach ($parameters as $method => $arguments) {
-
             $method = camel_case($method);
 
             if (in_array($method, $this->protectedMethods)) {
@@ -180,21 +179,20 @@ class Query
      */
     protected function getModel(array &$parameters)
     {
-        /**
+        /*
          * Determine the model by either using
          * the passed model class string OR
          * building one with namespace / stream.
          */
-        if (!$model = array_pull($parameters, 'model')) {
-
+        if (! $model = array_pull($parameters, 'model')) {
             $stream    = ucfirst(camel_case(array_pull($parameters, 'stream')));
             $namespace = ucfirst(camel_case(array_pull($parameters, 'namespace')));
 
-            if (!$stream || !$namespace) {
+            if (! $stream || ! $namespace) {
                 throw new \Exception('You must provide a model or stream and namespace parameter');
             }
 
-            $model = 'Anomaly\Streams\Platform\Model\\' . $namespace . '\\' . $namespace . $stream . 'EntryModel';
+            $model = 'Anomaly\Streams\Platform\Model\\'.$namespace.'\\'.$namespace.$stream.'EntryModel';
         }
 
         return $this->container->make($model);

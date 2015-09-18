@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Grid\Component\Button;
 
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 
 /**
- * Class ButtonResolver
+ * Class ButtonResolver.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
  */
 class ButtonResolver
 {
-
     /**
      * The resolver utility.
      *

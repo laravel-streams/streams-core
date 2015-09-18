@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\Handler;
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionBuilder;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActions;
 
 /**
- * Class BuildActionsHandler
+ * Class BuildActionsHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\BuildActions;
  */
 class BuildActionsHandler
 {
-
     /**
      * The action builder.
      *

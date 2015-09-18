@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Theme;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Theme;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 
 /**
- * Class Theme
+ * Class Theme.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\Addon;
  */
 class Theme extends Addon
 {
-
     /**
      * Determines whether this is
      * an admin theme or not.

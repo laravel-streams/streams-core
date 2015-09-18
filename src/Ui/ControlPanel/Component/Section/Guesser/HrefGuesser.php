@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Illuminate\Routing\UrlGenerator;
 
 /**
- * Class HrefGuesser
+ * Class HrefGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Routing\UrlGenerator;
  */
 class HrefGuesser
 {
-
     /**
      * The URL generator.
      *
@@ -59,10 +60,10 @@ class HrefGuesser
 
             $module = $this->modules->active();
 
-            $href = $this->url->to('admin/' . $module->getSlug());
+            $href = $this->url->to('admin/'.$module->getSlug());
 
             if ($index !== 0 && $module->getSlug() !== $section['slug']) {
-                $href .= '/' . $section['slug'];
+                $href .= '/'.$section['slug'];
             }
 
             $section['attributes']['href'] = $href;

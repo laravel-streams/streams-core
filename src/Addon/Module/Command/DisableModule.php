@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasDisabled;
@@ -7,7 +9,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
- * Class DisableModule
+ * Class DisableModule.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Contracts\Events\Dispatcher;
  */
 class DisableModule implements SelfHandling
 {
-
     /**
      * The module to uninstall.
      *

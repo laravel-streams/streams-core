@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Database\Seeder\Command\Handler;
+<?php
+
+namespace Anomaly\Streams\Platform\Database\Seeder\Command\Handler;
 
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
@@ -7,7 +9,7 @@ use Anomaly\Streams\Platform\Database\Seeder\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class SeedHandler
+ * Class SeedHandler.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class SeedHandler
 {
-
     /**
      * The addon collection.
      *
@@ -55,7 +56,7 @@ class SeedHandler
 
         Model::unguard();
 
-        /**
+        /*
          * If the addon was passed then
          * get it and seed it.
          */
@@ -63,7 +64,7 @@ class SeedHandler
             $this->call($this->getSeederClass($addon));
         }
 
-        /**
+        /*
          * If a seeder class was passed then
          * call it from the seeder utility.
          */
@@ -71,12 +72,12 @@ class SeedHandler
             $this->call($class);
         }
 
-        /**
+        /*
          * If no addon or class was passed then
          * loop through all addons and run
          * their seeders.
          */
-        if (!$addon && !$class) {
+        if (! $addon && ! $class) {
             foreach ($this->addons as $addon) {
                 $this->call($this->getSeederClass($addon));
             }
@@ -103,6 +104,6 @@ class SeedHandler
      */
     protected function getSeederClass(Addon $addon)
     {
-        return get_class($addon) . 'Seeder';
+        return get_class($addon).'Seeder';
     }
 }

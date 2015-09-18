@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Http\Controller;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Controller;
 
 /**
- * Class ResourceController
+ * Class ResourceController.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class ResourceController extends PublicController
 {
-
     /**
      * Create a new ResourceController instance.
      */

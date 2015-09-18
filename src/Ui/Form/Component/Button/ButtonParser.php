@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Button;
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class ButtonParser
+ * Class ButtonParser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class ButtonParser
 {
-
     /**
      * The parser utility.
      *

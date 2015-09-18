@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Application;
+<?php
+
+namespace Anomaly\Streams\Platform\Application;
 
 /**
- * Class ApplicationRepository
+ * Class ApplicationRepository.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class ApplicationRepository
 {
-
     /**
      * The application model.
      *

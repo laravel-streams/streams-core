@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Command;
 
 use Anomaly\Streams\Platform\Entry\EntryTranslationsModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
@@ -7,7 +9,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Database\Query\Builder;
 
 /**
- * Class SetMetaInformation
+ * Class SetMetaInformation.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Database\Query\Builder;
  */
 class SetMetaInformation implements SelfHandling
 {
-
     /**
      * The entry object.
      *
@@ -44,19 +45,18 @@ class SetMetaInformation implements SelfHandling
         /* @var Builder $query */
         $query = $this->entry->newQuery();
 
-        if (!$this->entry->getKey()) {
-
+        if (! $this->entry->getKey()) {
             $this->entry->updated_at = null;
             $this->entry->created_at = time();
             $this->entry->created_by = $auth->id();
 
-            if (!$this->entry instanceof EntryTranslationsModel) {
+            if (! $this->entry instanceof EntryTranslationsModel) {
                 $this->entry->sort_order = $query->count('id') + 1;
             }
         } else {
 
             // In case it's being imported with an ID.
-            if (!$this->entry->created_at) {
+            if (! $this->entry->created_at) {
                 $this->entry->created_at = time();
                 $this->entry->created_by = $auth->id();
             }

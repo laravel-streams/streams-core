@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -7,7 +9,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 
 /**
- * Class LoadForm
+ * Class LoadForm.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -16,7 +18,6 @@ use Illuminate\Contracts\Container\Container;
  */
 class LoadForm implements SelfHandling
 {
-
     /**
      * The form builder.
      *
@@ -59,7 +60,7 @@ class LoadForm implements SelfHandling
 
         $form->addData('form', $form);
 
-        if ($breadcrumb = $form->getOption('breadcrumb', 'streams::form.mode.' . $form->getMode())) {
+        if ($breadcrumb = $form->getOption('breadcrumb', 'streams::form.mode.'.$form->getMode())) {
             $breadcrumbs->put($breadcrumb, '#');
         }
     }

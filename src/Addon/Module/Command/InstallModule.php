@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
@@ -8,7 +10,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
- * Class InstallModule
+ * Class InstallModule.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Illuminate\Contracts\Events\Dispatcher;
  */
 class InstallModule implements SelfHandling
 {
-
     /**
      * The seed flag.
      *
@@ -38,7 +39,7 @@ class InstallModule implements SelfHandling
      * @param Module $module
      * @param bool   $seed
      */
-    function __construct(Module $module, $seed = false)
+    public function __construct(Module $module, $seed = false)
     {
         $this->seed   = $seed;
         $this->module = $module;
@@ -56,7 +57,7 @@ class InstallModule implements SelfHandling
     {
         $options = [
             '--addon' => $this->module->getNamespace(),
-            '--force' => true
+            '--force' => true,
         ];
 
         $console->call('migrate:refresh', $options);

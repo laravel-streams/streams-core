@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use SplFileInfo;
 
 /**
- * Class Configurator
+ * Class Configurator.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use SplFileInfo;
  */
 class Configurator
 {
-
     /**
      * The file system.
      *
@@ -35,7 +36,7 @@ class Configurator
      * @param Filesystem $files
      * @param Repository $config
      */
-    function __construct(Filesystem $files, Repository $config)
+    public function __construct(Filesystem $files, Repository $config)
     {
         $this->files  = $files;
         $this->config = $config;
@@ -49,23 +50,22 @@ class Configurator
      */
     public function addNamespace($namespace, $directory)
     {
-        if (!$this->files->isDirectory($directory)) {
+        if (! $this->files->isDirectory($directory)) {
             return;
         }
 
         /* @var SplFileInfo $file */
         foreach ($this->files->allFiles($directory) as $file) {
-
             $key = ltrim(
                 str_replace(
                     $directory,
                     '',
                     $file->getPath()
-                ) . '/' . $file->getBaseName('.php'),
+                ).'/'.$file->getBaseName('.php'),
                 '/'
             );
 
-            $this->config->set($namespace . '::' . $key, $this->files->getRequire($file->getPathname()));
+            $this->config->set($namespace.'::'.$key, $this->files->getRequire($file->getPathname()));
         }
     }
 
@@ -77,26 +77,25 @@ class Configurator
      */
     public function mergeNamespace($namespace, $directory)
     {
-        if (!$this->files->isDirectory($directory)) {
+        if (! $this->files->isDirectory($directory)) {
             return;
         }
 
         /* @var SplFileInfo $file */
         foreach ($this->files->allFiles($directory) as $file) {
-
             $key = ltrim(
                 str_replace(
                     $directory,
                     '',
                     $file->getPath()
-                ) . '/' . $file->getBaseName('.php'),
+                ).'/'.$file->getBaseName('.php'),
                 '/'
             );
 
             $this->config->set(
-                $namespace . '::' . $key,
+                $namespace.'::'.$key,
                 array_replace(
-                    $this->config->get($namespace . '::' . $key, []),
+                    $this->config->get($namespace.'::'.$key, []),
                     $this->files->getRequire($file->getPathname())
                 )
             );

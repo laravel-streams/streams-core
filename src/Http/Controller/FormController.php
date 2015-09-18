@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Http\Controller;
+<?php
+
+namespace Anomaly\Streams\Platform\Http\Controller;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Cache\Repository;
 use Illuminate\Routing\Redirector;
 
 /**
- * Class FormController
+ * Class FormController.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Routing\Redirector;
  */
 class FormController extends PublicController
 {
-
     /**
      * Handle the form.
      *
@@ -26,7 +27,7 @@ class FormController extends PublicController
     public function handle(Repository $cache, Redirector $redirect, $key)
     {
         /* @var FormBuilder $builder */
-        $builder = app('Anomaly\Streams\Platform\Addon\Plugin\PluginForm')->resolve($cache->get('form::' . $key));
+        $builder = app('Anomaly\Streams\Platform\Addon\Plugin\PluginForm')->resolve($cache->get('form::'.$key));
 
         $response = $builder
             ->build()

@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Support;
+<?php
+
+namespace Anomaly\Streams\Platform\Support;
 
 /**
- * Class Csv
+ * Class Csv.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 class Csv
 {
-
     /**
      * The length to retrieve.
      *
@@ -66,8 +67,7 @@ class Csv
                 $this->getEnclosure(),
                 $this->getEscape()
             )) !== false) {
-
-            if ($this->hasHeader() && !$header) {
+            if ($this->hasHeader() && ! $header) {
                 $header = $row;
             } elseif ($this->hasHeader()) {
                 $data[] = array_combine($header, $row);

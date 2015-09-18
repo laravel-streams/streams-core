@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Application;
+<?php
+
+namespace Anomaly\Streams\Platform\Application;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ApplicationModel
+ * Class ApplicationModel.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ApplicationModel extends Model
 {
-
     /**
      * No timestamps right now.
      *
@@ -43,7 +44,6 @@ class ApplicationModel extends Model
         'name',
         'domain',
         'enabled',
-        'reference'
+        'reference',
     ];
-
 }

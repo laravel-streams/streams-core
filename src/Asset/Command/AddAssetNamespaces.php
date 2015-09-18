@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Asset\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Asset\Command;
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Asset\Asset;
@@ -6,7 +8,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 
 /**
- * Class AddAssetNamespaces
+ * Class AddAssetNamespaces.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -15,7 +17,6 @@ use Illuminate\Contracts\Container\Container;
  */
 class AddAssetNamespaces implements SelfHandling
 {
-
     /**
      * Handle the command.
      */
@@ -24,7 +25,7 @@ class AddAssetNamespaces implements SelfHandling
         $asset->addPath('public', base_path('public'));
         $asset->addPath('asset', $application->getAssetsPath());
         $asset->addPath('storage', $application->getStoragePath());
-        $asset->addPath('streams', $container->make('streams.path') . '/resources');
-        $asset->addPath('bower', $container->make('path.base') . '/bin/bower_components');
+        $asset->addPath('streams', $container->make('streams.path').'/resources');
+        $asset->addPath('bower', $container->make('path.base').'/bin/bower_components');
     }
 }

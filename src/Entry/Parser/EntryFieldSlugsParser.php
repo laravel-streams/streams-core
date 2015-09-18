@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Parser;
+<?php
+
+namespace Anomaly\Streams\Platform\Entry\Parser;
 
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
- * Class EntryFieldSlugsParser
+ * Class EntryFieldSlugsParser.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  */
 class EntryFieldSlugsParser
 {
-
     /**
      * Return the entry model base namespace.
      *
@@ -21,7 +22,7 @@ class EntryFieldSlugsParser
      */
     public function parse(StreamInterface $stream)
     {
-        $string = "[";
+        $string = '[';
 
         foreach ($stream->getAssignmentFieldSlugs() as $slug) {
             $string .= "\n'{$slug}',";

@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Command\BuildControlPanel;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class ControlPanelBuilder
+ * Class ControlPanelBuilder.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  */
 class ControlPanelBuilder
 {
-
     use DispatchesJobs;
 
     /**

@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Guesser;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Guesser;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Routing\UrlGenerator;
 
 /**
- * Class HrefGuesser
+ * Class HrefGuesser.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Routing\UrlGenerator;
  */
 class HrefGuesser
 {
-
     /**
      * The URL generator.
      *
@@ -53,9 +54,9 @@ class HrefGuesser
         foreach ($views as &$view) {
 
             // Only automate it if not set.
-            if (!isset($view['attributes']['href'])) {
+            if (! isset($view['attributes']['href'])) {
                 $view['attributes']['href'] = $this->url->to(
-                    $this->request->path() . '?' . array_get($view, 'prefix') . 'view=' . $view['slug']
+                    $this->request->path().'?'.array_get($view, 'prefix').'view='.$view['slug']
                 );
             }
         }

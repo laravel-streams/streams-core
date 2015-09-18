@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class EloquentRepository
+ * Class EloquentRepository.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class EloquentRepository implements EloquentRepositoryInterface
 {
-
     /**
      * Return all records.
      *
@@ -71,20 +72,19 @@ class EloquentRepository implements EloquentRepositoryInterface
         /* @var Builder $query */
         $query = $this->model->newQuery();
 
-        /**
+        /*
          * First apply any desired scope.
          */
         if ($scope = array_pull($parameters, 'scope')) {
             call_user_func([$query, camel_case($scope)], array_pull($parameters, 'scope_arguments', []));
         }
 
-        /**
+        /*
          * Lastly we need to loop through all of the
          * parameters and assume the rest are methods
          * to call on the query builder.
          */
         foreach ($parameters as $method => $arguments) {
-
             $method = camel_case($method);
 
             if (in_array($method, ['update', 'delete'])) {

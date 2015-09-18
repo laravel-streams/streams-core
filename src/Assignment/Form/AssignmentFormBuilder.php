@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Assignment\Form;
+<?php
+
+namespace Anomaly\Streams\Platform\Assignment\Form;
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class AssignmentFormBuilder
+ * Class AssignmentFormBuilder.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class AssignmentFormBuilder extends FormBuilder
 {
-
     /**
      * The related field.
      *
@@ -43,11 +44,11 @@ class AssignmentFormBuilder extends FormBuilder
      */
     public function onReady()
     {
-        if (!$this->getStream() && !$this->getEntry()) {
+        if (! $this->getStream() && ! $this->getEntry()) {
             throw new \Exception('The $stream parameter is required when creating an assignment.');
         }
 
-        if (!$this->getField() && !$this->getEntry()) {
+        if (! $this->getField() && ! $this->getEntry()) {
             throw new \Exception('The $field parameter is required when creating an assignment.');
         }
     }
@@ -61,11 +62,11 @@ class AssignmentFormBuilder extends FormBuilder
         $stream = $this->getStream();
         $field  = $this->getField();
 
-        if (!$entry->stream_id) {
+        if (! $entry->stream_id) {
             $entry->stream_id = $stream->getId();
         }
 
-        if (!$entry->field_id) {
+        if (! $entry->field_id) {
             $entry->field_id = $field->getId();
         }
     }

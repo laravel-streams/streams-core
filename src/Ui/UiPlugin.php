@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui;
 
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 
 /**
- * Class UiPlugin
+ * Class UiPlugin.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
  */
 class UiPlugin extends Plugin
 {
-
     /**
      * The plugin functions.
      *
@@ -43,7 +44,7 @@ class UiPlugin extends Plugin
             new \Twig_SimpleFunction('buttons', [$this->functions, 'buttons'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('elapsed', [$this->functions, 'elapsed'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('constants', [$this->functions, 'constants'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('footprint', [$this->functions, 'footprint'], ['is_safe' => ['html']])
+            new \Twig_SimpleFunction('footprint', [$this->functions, 'footprint'], ['is_safe' => ['html']]),
         ];
     }
 }

@@ -1,7 +1,9 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract;
 
 /**
- * Interface ItemInterface
+ * Interface ItemInterface.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -10,7 +12,6 @@
  */
 interface ItemInterface
 {
-
     /**
      * Get the ID.
      *

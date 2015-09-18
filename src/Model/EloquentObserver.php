@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Model;
+<?php
+
+namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Model\Event\ModelsWereDeleted;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereUpdated;
@@ -11,7 +13,7 @@ use Anomaly\Streams\Platform\Support\Observer;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class EloquentObserver
+ * Class EloquentObserver.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -20,7 +22,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class EloquentObserver extends Observer
 {
-
     /**
      * Run after a record is created.
      *

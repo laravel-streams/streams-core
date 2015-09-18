@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Addon\Extension\Contract;
+<?php
+
+namespace Anomaly\Streams\Platform\Addon\Extension\Contract;
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
- * Interface ExtensionRepositoryInterface
+ * Interface ExtensionRepositoryInterface.
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
  */
 interface ExtensionRepositoryInterface
 {
-
     /**
      * Return all extensions in the database.
      *

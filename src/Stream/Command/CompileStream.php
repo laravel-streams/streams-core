@@ -1,11 +1,13 @@
-<?php namespace Anomaly\Streams\Platform\Stream\Command;
+<?php
+
+namespace Anomaly\Streams\Platform\Stream\Command;
 
 use Anomaly\Streams\Platform\Entry\EntryUtility;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class CompileStream
+ * Class CompileStream.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -14,7 +16,6 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class CompileStream implements SelfHandling
 {
-
     /**
      * The stream interface.
      *

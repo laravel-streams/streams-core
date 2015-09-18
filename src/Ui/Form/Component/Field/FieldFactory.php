@@ -1,4 +1,6 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
@@ -8,7 +10,7 @@ use Anomaly\Streams\Platform\Support\Hydrator;
 use Illuminate\Http\Request;
 
 /**
- * Class FieldFactory
+ * Class FieldFactory.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -17,7 +19,6 @@ use Illuminate\Http\Request;
  */
 class FieldFactory
 {
-
     /**
      * The field type builder utility.
      *
@@ -65,7 +66,6 @@ class FieldFactory
     {
         /* @var EntryInterface $entry */
         if ($stream && $entry instanceof EntryInterface && $entry->hasField(array_get($parameters, 'field'))) {
-
             $field    = clone($entry->getFieldType(array_get($parameters, 'field')));
             $modifier = $field->getModifier();
 
@@ -73,18 +73,16 @@ class FieldFactory
 
             /* @var EntryInterface $entry */
             $field->setValue(
-                (!is_null($value)) ? $modifier->restore($value) : $entry->getFieldValue($field->getField())
+                (! is_null($value)) ? $modifier->restore($value) : $entry->getFieldValue($field->getField())
             );
         } elseif (is_object($entry)) {
-
             $field    = $this->builder->build($parameters);
             $modifier = $field->getModifier();
 
             $value = array_pull($parameters, 'value');
 
-            $field->setValue((!is_null($value)) ? $modifier->restore($value) : $entry->{$field->getField()});
+            $field->setValue((! is_null($value)) ? $modifier->restore($value) : $entry->{$field->getField()});
         } else {
-
             $field    = $this->builder->build($parameters);
             $modifier = $field->getModifier();
 

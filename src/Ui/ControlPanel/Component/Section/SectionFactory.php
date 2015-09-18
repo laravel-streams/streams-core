@@ -1,9 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 
 /**
- * Class SectionFactory
+ * Class SectionFactory.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -12,7 +14,6 @@ use Anomaly\Streams\Platform\Support\Hydrator;
  */
 class SectionFactory
 {
-
     /**
      * The default section class.
      *

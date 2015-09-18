@@ -1,10 +1,12 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
+<?php
+
+namespace Anomaly\Streams\Platform\Ui\Form\Component\Action;
 
 use Anomaly\Streams\Platform\Ui\Button\Button;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 
 /**
- * Class Action
+ * Class Action.
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
@@ -13,7 +15,6 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
  */
 class Action extends Button implements ActionInterface
 {
-
     /**
      * The active flag.
      *
@@ -36,7 +37,6 @@ class Action extends Button implements ActionInterface
     protected $slug = 'default';
 
     /**
-     *
      * @var bool
      */
     protected $save = true;
