@@ -32,8 +32,13 @@ class AddonCollection extends Collection
     public function __construct($items = [])
     {
         /* @var Addon $item */
-        foreach ($items as $item) {
-            $this->items[$item->getNamespace()] = $item;
+        foreach ($items as $key => $item) {
+
+            if (is_object($item)) {
+                $key = $item->getNamespace();
+            }
+
+            $this->items[$key] = $item;
         }
     }
 
