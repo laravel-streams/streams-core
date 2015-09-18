@@ -36,7 +36,9 @@ class StreamTableBuilder extends TableBuilder
      */
     public function onQuerying(Builder $query)
     {
-        $query->where('namespace', 'variables');
+        if ($namespace = $this->getNamespace()) {
+            $query->where('namespace', $namespace);
+        }
     }
 
     /**
