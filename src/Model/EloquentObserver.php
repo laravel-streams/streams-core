@@ -26,6 +26,16 @@ class EloquentObserver extends Observer
      *
      * @param EloquentModel $model
      */
+    public function creating(EloquentModel $model)
+    {
+        return true;
+    }
+
+    /**
+     * Run after a record is created.
+     *
+     * @param EloquentModel $model
+     */
     public function created(EloquentModel $model)
     {
         $model->flushCache();

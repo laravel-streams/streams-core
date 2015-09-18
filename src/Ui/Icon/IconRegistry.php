@@ -23,6 +23,20 @@ class IconRegistry
     }
 
     /**
+     * Register a button.
+     *
+     * @param       $icon
+     * @param array $parameters
+     * @return $this
+     */
+    public function register($icon, array $parameters)
+    {
+        array_set($this->icons, $icon, $parameters);
+
+        return $this;
+    }
+
+    /**
      * Available icon.
      *
      * @var array
@@ -63,7 +77,9 @@ class IconRegistry
         'fire'                 => 'glyphicons glyphicons-fire',
         'keys'                 => 'glyphicons glyphicons-keys',
         'car'                  => 'glyphicons glyphicons-car',
+        'diners-club'          => 'fa  fa-cc-diners-club',
         'check-circle-alt'     => 'fa fa-check-circle-o',
+        'mastercard'           => 'fa fa-cc-mastercard',
         'external-link'        => 'fa fa-external-link',
         'check-circle'         => 'fa fa-check-circle',
         'video-camera'         => 'fa fa-video-camera',
@@ -72,11 +88,13 @@ class IconRegistry
         'times-circle'         => 'fa fa-times-circle',
         'times-square'         => 'fa fa-times-square',
         'addon'                => 'fa fa-puzzle-piece',
+        'discover'             => 'fa fa-cc-discover',
         'newspaper'            => 'fa fa-newspaper-o',
         'plus-circle'          => 'fa fa-plus-circle',
         'plus-square'          => 'fa fa-plus-square',
         'rss-square'           => 'fa fa-rss-square',
         'map-marker'           => 'fa fa-map-marker',
+        'paypal'               => 'fa fa-cc-paypal',
         'power-off'            => 'fa fa-power-off',
         'dashboard'            => 'fa fa-dashboard',
         'compress'             => 'fa fa-compress',
@@ -90,6 +108,7 @@ class IconRegistry
         'envelope'             => 'fa fa-envelope',
         'facebook'             => 'fa fa-facebook',
         'twitter'              => 'fa fa-twitter',
+        'amex'                 => 'fa fa-cc-amex',
         'sitemap'              => 'fa fa-sitemap',
         'options'              => 'fa fa-options',
         'refresh'              => 'fa fa-refresh',
@@ -104,6 +123,8 @@ class IconRegistry
         'expand'               => 'fa fa-expand',
         'wrench'               => 'fa fa-wrench',
         'file'                 => 'fa fa-file-o',
+        'jcb'                  => 'fa fa-cc-jcb',
+        'stripe'               => 'fa-cc-stripe',
         'phone'                => 'fa fa-phone',
         'users'                => 'fa fa-users',
         'times'                => 'fa fa-times',
@@ -128,17 +149,4 @@ class IconRegistry
         'ban'                  => 'fa fa-ban'
     ];
 
-    /**
-     * Register a button.
-     *
-     * @param       $icon
-     * @param array $parameters
-     * @return $this
-     */
-    public function register($icon, array $parameters)
-    {
-        array_set($this->icons, $icon, $parameters);
-
-        return $this;
-    }
 }
