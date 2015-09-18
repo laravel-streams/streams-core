@@ -9,6 +9,7 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Robbo\Presenter\PresentableInterface;
 
 /**
@@ -44,6 +45,17 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      * @var array|StreamInterface
      */
     protected $stream = [];
+
+    /**
+     * Order results by sort order.
+     *
+     * @param Builder    $query
+     * @param bool|false $reversed
+     */
+    public function scopeSorted(Builder $query, $reversed = false)
+    {
+        $query->orderBy('sort_order', ($reversed ? 'DESC' : 'ASC'));
+    }
 
     /**
      * Get the ID.
