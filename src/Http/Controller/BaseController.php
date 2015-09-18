@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Http\Controller;
 
+use Anomaly\Streams\Platform\Event\Response;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
@@ -17,6 +19,13 @@ class BaseController extends Controller
 {
 
     use DispatchesJobs;
+
+    /**
+     * The event dispatcher.
+     *
+     * @var Dispatcher
+     */
+    protected $events;
 
     /**
      * The request object.
@@ -39,6 +48,9 @@ class BaseController extends Controller
     {
         $this->request  = app('Illuminate\Http\Request');
         $this->response = app('Illuminate\Contracts\Routing\ResponseFactory');
+        $this->events   = app('Illuminate\Contracts\Events\Dispatcher');
+
+        $this->events->fire(new Response($this));
 
         // Let addons manipulate middleware first.
         foreach (app('Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection') as $middleware) {
