@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header\Guesser;
 
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -89,7 +88,7 @@ class HeadingsGuesser
              * No field means we still do not have
              * anything to do here.
              */
-            if (!$field instanceof FieldInterface) {
+            if (!$field) {
                 continue;
             }
 
