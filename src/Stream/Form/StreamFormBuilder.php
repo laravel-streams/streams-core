@@ -15,6 +15,20 @@ class StreamFormBuilder extends FormBuilder
 {
 
     /**
+     * The stream prefix.
+     *
+     * @var null|string
+     */
+    protected $prefix = null;
+
+    /**
+     * The stream namespace.
+     *
+     * @var null|string
+     */
+    protected $namespace = null;
+
+    /**
      * The form model.
      *
      * @var StreamModel
@@ -44,7 +58,69 @@ class StreamFormBuilder extends FormBuilder
         'description' => [
             'translatable' => true,
             'type'         => 'anomaly.field_type.textarea'
-        ],
+        ]
     ];
+
+    /**
+     * Fired just before saving.
+     */
+    public function onSaving()
+    {
+        $entry = $this->getFormEntry();
+
+        if ($prefix = $this->getPrefix()) {
+            $entry->prefix = $prefix;
+        }
+
+        if ($namespace = $this->getNamespace()) {
+            $entry->namespace = $namespace;
+        }
+    }
+
+    /**
+     * Get the prefix.
+     *
+     * @return null|string
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * Set the prefix.
+     *
+     * @param $prefix
+     * @return $this
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    /**
+     * Get the namespace.
+     *
+     * @return null|string
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+    /**
+     * Set the namespace.
+     *
+     * @param $namespace
+     * @return $this
+     */
+    public function setNamespace($namespace)
+    {
+        $this->namespace = $namespace;
+
+        return $this;
+    }
 
 }
