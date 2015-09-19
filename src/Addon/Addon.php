@@ -337,6 +337,16 @@ class Addon implements PresentableInterface, Arrayable
     }
 
     /**
+     * Return the addon as a string.
+     *
+     * @return string
+     */
+    function __toString()
+    {
+        return $this->getNamespace();
+    }
+
+    /**
      * Get the instance as an array.
      *
      * @return array
