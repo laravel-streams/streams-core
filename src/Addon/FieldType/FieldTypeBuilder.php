@@ -94,7 +94,7 @@ class FieldTypeBuilder
         /**
          * If we don't have a field type let em know.
          */
-        if (!$type instanceof FieldType) {
+        if (!$type) {
             throw new \Exception("Field type [{$type}] not found.");
         }
 
