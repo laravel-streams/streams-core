@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
@@ -20,7 +19,7 @@ class AssignmentCollection extends EloquentCollection
      * Find an assignment by it's field slug.
      *
      * @param  $slug
-     * @return FieldInterface
+     * @return AssignmentInterface
      */
     public function findByFieldSlug($slug)
     {
