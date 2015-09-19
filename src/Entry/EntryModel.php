@@ -188,7 +188,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     {
         $assignment = $this->getAssignment($fieldSlug);
 
-        if (!$assignment instanceof AssignmentInterface) {
+        if (!$assignment) {
             return null;
         }
 

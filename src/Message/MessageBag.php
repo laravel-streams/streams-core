@@ -112,7 +112,10 @@ class MessageBag
      */
     public function flush()
     {
-        $this->flush();
+        $this->session->forget('info');
+        $this->session->forget('error');
+        $this->session->forget('success');
+        $this->session->forget('warning');
 
         return $this;
     }
