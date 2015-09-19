@@ -45,7 +45,7 @@ class LabelsGuesser
              * No stream means we can't
              * really do much here.
              */
-            if (!$stream) {
+            if (!$stream || !$stream->getAssignment($field['field'])) {
 
                 $key = "module::field.{$field['field']}";
 
