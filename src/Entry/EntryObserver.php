@@ -23,6 +23,15 @@ class EntryObserver extends Observer
 {
 
     /**
+     * Run before a record is created.
+     *
+     * @param EntryInterface $entry
+     */
+    public function creating(EntryInterface $entry)
+    {
+    }
+
+    /**
      * Run after a record is created.
      *
      * @param EntryInterface $entry
