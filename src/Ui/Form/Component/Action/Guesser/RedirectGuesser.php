@@ -66,6 +66,7 @@ class RedirectGuesser
             switch (array_get($action, 'action')) {
 
                 case 'save':
+                case 'submit':
                     $action['redirect'] = $section->getHref();
                     break;
 
