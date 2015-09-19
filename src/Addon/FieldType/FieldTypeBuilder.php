@@ -61,7 +61,7 @@ class FieldTypeBuilder
     public function build(array $parameters)
     {
 
-        $type = array_pull($parameters, 'type');
+        $type = array_get($parameters, 'type');
 
         /**
          * If the field type is a string and

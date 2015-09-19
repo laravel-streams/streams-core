@@ -124,9 +124,11 @@ class AddonManager
 
         /**
          * Disperse addons to their
-         * respective collections.
+         * respective collections and
+         * finish the integration service.
          */
         $this->addons->disperse();
+        $this->integrator->finish();
 
         $this->dispatcher->fire(new AddonsHaveRegistered($this->addons));
     }

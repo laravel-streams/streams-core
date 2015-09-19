@@ -8,6 +8,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Translation\Translator;
+use Twig_ExtensionInterface;
 
 /**
  * Class AddonIntegrator
@@ -117,7 +118,7 @@ class AddonIntegrator
                 $slug
             ) . studly_case($type);
 
-        /* @var Addon|Module|Extension $addon */
+        /* @var Addon|Module|Extension|Twig_ExtensionInterface $addon */
         $addon = app($addon)
             ->setPath($path)
             ->setType($type)
@@ -166,5 +167,13 @@ class AddonIntegrator
         }
 
         $this->collection->put($addon->getNamespace(), $addon);
+    }
+
+    /**
+     * Finish up addon integration.
+     */
+    public function finish()
+    {
+        $this->provider->boot();
     }
 }
