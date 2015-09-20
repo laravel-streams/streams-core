@@ -148,6 +148,7 @@ class AddonProvider
         $this->registerSchedules($provider);
         $this->registerProviders($provider);
         $this->registerMiddleware($provider);
+        $this->registerRouteMiddleware($provider);
 
         if (method_exists($provider, 'register')) {
             $this->application->call([$provider, 'register']);
@@ -368,6 +369,22 @@ class AddonProvider
         }
 
         $this->middlewares->merge($middleware);
+    }
+
+    /**
+     * Register route middleware.
+     *
+     * @param AddonServiceProvider $provider
+     */
+    protected function registerRouteMiddleware(AddonServiceProvider $provider)
+    {
+        if (!$middleware = $provider->getRouteMiddleware()) {
+            return;
+        }
+
+        foreach ($middleware as $name => $class) {
+            $this->router->middleware($name, $class);
+        }
     }
 
     /**

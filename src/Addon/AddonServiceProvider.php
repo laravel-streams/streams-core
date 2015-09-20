@@ -66,6 +66,13 @@ class AddonServiceProvider
     protected $middleware = [];
 
     /**
+     * Addon route middleware.
+     *
+     * @var array
+     */
+    protected $routeMiddleware = [];
+
+    /**
      * Addon event listeners.
      *
      * @var array
@@ -224,6 +231,16 @@ class AddonServiceProvider
     public function getMiddleware()
     {
         return $this->middleware;
+    }
+
+    /**
+     * Get the route middleware.
+     *
+     * @return array
+     */
+    public function getRouteMiddleware()
+    {
+        return $this->routeMiddleware;
     }
 
     /**
