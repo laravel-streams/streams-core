@@ -70,6 +70,36 @@ interface SectionInterface
     public function setActive($active);
 
     /**
+     * Get the highlighted flag.
+     *
+     * @return boolean
+     */
+    public function isHighlighted();
+
+    /**
+     * Set the highlighted flag.
+     *
+     * @param boolean $active
+     * @return $this
+     */
+    public function setHighlighted($highlighted);
+
+    /**
+     * Get the parent.
+     *
+     * @return null|string
+     */
+    public function getParent();
+
+    /**
+     * Set the parent.
+     *
+     * @param $parent
+     * @return $this
+     */
+    public function setParent($parent);
+
+    /**
      * Get the buttons.
      *
      * @return array|string

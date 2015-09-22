@@ -67,7 +67,7 @@ class SectionBuilder
                 continue;
             }
 
-            $sections->push($this->factory->make($section));
+            $sections->put($slug, $this->factory->make($section));
         }
     }
 }

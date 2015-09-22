@@ -94,8 +94,21 @@ class SetActiveSection implements SelfHandling
         /**
          * If we have an active section determined
          * then mark it as such.
+         *
+         * @var SectionInterface $active
+         * @var SectionInterface $section
          */
-        if ($active && $active instanceof SectionInterface) {
+        if ($active) {
+
+            if ($active->getParent()) {
+
+                $section = $sections->get($active->getParent(), $sections->first());
+
+                $section->setHighlighted(true);
+
+                $breadcrumbs->put($section->getBreadcrumb() ?: $section->getText(), $section->getHref());
+            }
+
             $active->setActive(true);
         } elseif ($active = $sections->first()) {
             $active->setActive(true);

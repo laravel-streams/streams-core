@@ -35,18 +35,32 @@ class Section implements SectionInterface
     protected $text = null;
 
     /**
-     * The section class.
+     * The class.
      *
      * @var null|string
      */
     protected $class = null;
 
     /**
-     * The section's active flag.
+     * The active flag.
      *
      * @var bool
      */
     protected $active = false;
+
+    /**
+     * The highlighted flag.
+     *
+     * @var bool
+     */
+    protected $highlighted = false;
+
+    /**
+     * The section parent.
+     *
+     * @var null|string
+     */
+    protected $parent = null;
 
     /**
      * Section buttons. These are only to
@@ -184,6 +198,52 @@ class Section implements SectionInterface
     public function setActive($active)
     {
         $this->active = $active;
+    }
+
+    /**
+     * Get the highlighted flag.
+     *
+     * @return boolean
+     */
+    public function isHighlighted()
+    {
+        return $this->highlighted;
+    }
+
+    /**
+     * Set the highlighted flag.
+     *
+     * @param boolean $active
+     * @return $this
+     */
+    public function setHighlighted($highlighted)
+    {
+        $this->highlighted = $highlighted;
+
+        return $this;
+    }
+
+    /**
+     * Get the parent.
+     *
+     * @return null|string
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Set the parent.
+     *
+     * @param $parent
+     * @return $this
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+
+        return $this;
     }
 
     /**

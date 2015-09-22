@@ -30,4 +30,21 @@ class SectionCollection extends Collection
 
         return null;
     }
+
+    /**
+     * Return only root sections.
+     *
+     * @return SectionCollection
+     */
+    public function root()
+    {
+        return self::make(
+            array_filter(
+                $this->all(),
+                function (SectionInterface $section) {
+                    return $section->getParent() === null;
+                }
+            )
+        );
+    }
 }
