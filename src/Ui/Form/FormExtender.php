@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Validation\Factory;
+use Illuminate\Validation\Validator;
 
 /**
  * Class FormExtender
@@ -64,10 +65,10 @@ class FormExtender
 
             $factory->extend(
                 $rule,
-                function ($attribute, $value, $parameters) use ($handler, $builder) {
+                function ($attribute, $value, $parameters, Validator $validator) use ($handler, $builder) {
                     return $this->container->call(
                         $handler,
-                        compact('attribute', 'value', 'parameters', 'builder')
+                        compact('attribute', 'value', 'parameters', 'builder', 'validator')
                     );
                 },
                 array_get($validator, 'message')

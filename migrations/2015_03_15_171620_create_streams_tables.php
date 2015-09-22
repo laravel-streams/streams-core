@@ -33,12 +33,13 @@ class CreateStreamsTables extends Migration
                     $table->string('namespace');
                     $table->string('slug');
                     $table->string('prefix')->nullable();
-                    $table->text('view_options');
-                    $table->string('title_column');
-                    $table->string('order_by');
+                    $table->string('title_column')->default('id');
+                    $table->string('order_by')->default('id');
                     $table->string('locked')->default(0);
-                    $table->string('translatable')->default(0);
+                    $table->string('hidden')->default(0);
                     $table->string('trashable')->default(0);
+                    $table->string('translatable')->default(0);
+                    $table->text('view_options')->default(serialize(['id', 'created_at']));
 
                     $table->unique(['namespace', 'slug']);
                 }

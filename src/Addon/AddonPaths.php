@@ -14,6 +14,13 @@ class AddonPaths
 {
 
     /**
+     * The runtime cache.
+     *
+     * @var null
+     */
+    protected $cache = null;
+
+    /**
      * The stream application.
      *
      * @var Application
@@ -38,6 +45,10 @@ class AddonPaths
      */
     public function all()
     {
+        if ($this->cache) {
+            return $this->cache;
+        }
+        
         if (file_exists($addons = base_path('bootstrap/cache/addons.php'))) {
             return include $addons;
         }

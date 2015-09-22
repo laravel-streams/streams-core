@@ -291,13 +291,23 @@ class StreamModel extends EloquentModel implements StreamInterface
     }
 
     /**
-     * Get the translatable flag.
+     * Get the locked flag.
      *
      * @return bool
      */
-    public function isTranslatable()
+    public function isLocked()
     {
-        return $this->translatable;
+        return $this->locked;
+    }
+
+    /**
+     * Get the hidden flag.
+     *
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return $this->hidden;
     }
 
     /**
@@ -308,6 +318,16 @@ class StreamModel extends EloquentModel implements StreamInterface
     public function isTrashable()
     {
         return $this->trashable;
+    }
+
+    /**
+     * Get the translatable flag.
+     *
+     * @return bool
+     */
+    public function isTranslatable()
+    {
+        return $this->translatable;
     }
 
     /**
