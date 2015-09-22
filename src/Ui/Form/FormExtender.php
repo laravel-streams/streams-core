@@ -58,7 +58,7 @@ class FormExtender
 
             $handler = array_get($validator, 'handler');
 
-            if (class_exists($handler) && class_implements($handler, 'Illuminate\Contracts\Bus\SelfHandling')) {
+            if (is_string($handler) && !str_contains($handler, '@')) {
                 $handler .= '@handle';
             }
 
