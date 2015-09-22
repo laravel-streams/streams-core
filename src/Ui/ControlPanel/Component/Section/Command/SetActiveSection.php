@@ -101,6 +101,8 @@ class SetActiveSection implements SelfHandling
         if ($active) {
             if ($active->getParent()) {
 
+                $active->setActive(true);
+
                 $section = $sections->get($active->getParent(), $sections->first());
 
                 $section->setHighlighted(true);

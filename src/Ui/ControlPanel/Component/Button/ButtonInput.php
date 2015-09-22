@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
 
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
@@ -74,9 +73,8 @@ class ButtonInput
 
         $controlPanel = $builder->getControlPanel();
         $sections     = $controlPanel->getSections();
-        $section      = $sections->active();
 
-        if ($section instanceof SectionInterface) {
+        if ($section = $sections->active()) {
             $buttons = $section->getButtons();
         }
 
