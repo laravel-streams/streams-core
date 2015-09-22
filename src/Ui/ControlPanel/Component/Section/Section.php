@@ -198,6 +198,8 @@ class Section implements SectionInterface
     public function setActive($active)
     {
         $this->active = $active;
+
+        return $this;
     }
 
     /**

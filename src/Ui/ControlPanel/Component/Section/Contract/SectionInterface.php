@@ -52,6 +52,7 @@ interface SectionInterface
      * Set the text.
      *
      * @param string $text
+     * @return $this
      */
     public function setText($text);
 
@@ -66,6 +67,7 @@ interface SectionInterface
      * Set the active flag.
      *
      * @param boolean $active
+     * @return $this
      */
     public function setActive($active);
 

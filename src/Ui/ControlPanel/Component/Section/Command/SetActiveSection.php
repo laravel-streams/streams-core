@@ -99,7 +99,6 @@ class SetActiveSection implements SelfHandling
          * @var SectionInterface $section
          */
         if ($active) {
-
             if ($active->getParent()) {
 
                 $section = $sections->get($active->getParent(), $sections->first());
@@ -107,11 +106,11 @@ class SetActiveSection implements SelfHandling
                 $section->setHighlighted(true);
 
                 $breadcrumbs->put($section->getBreadcrumb() ?: $section->getText(), $section->getHref());
+            } else {
+                $active->setActive(true)->setHighlighted(true);
             }
-
-            $active->setActive(true);
         } elseif ($active = $sections->first()) {
-            $active->setActive(true);
+            $active->setActive(true)->setHighlighted(true);
         }
 
         // No active section!
