@@ -36,7 +36,7 @@ class FormAttributes
                 $label .= ' (' . $locale . ')';
             }
 
-            $attributes[$field->getInputName()] = $label;
+            $attributes[$field->getInputName()] = '"' . $label . '"';
         }
 
         return $attributes;

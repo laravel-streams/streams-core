@@ -4,5 +4,6 @@
         class="form-control {{ field_type.class }}"
         type="{{ field_type.config.type ?: 'text' }}"
         placeholder="{{ trans(field_type.placeholder) }}"
+        {{ field_type.required ? 'required' }}
         {{ field_type.disabled ? 'disabled' }}
         {{ field_type.readonly ? 'readonly' }}>
