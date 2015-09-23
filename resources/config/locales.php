@@ -78,6 +78,9 @@ return [
         'sl' => [
             'direction' => 'ltr'
         ],
+        'sme' => [
+            'direction' => 'ltr'
+        ],
         'pl' => [
             'direction' => 'ltr'
         ],

@@ -32,6 +32,9 @@ return [
         'name' => 'Dutch'
     ],
     'se' => [
+        'name' => 'Swedish'
+    ],
+    'sme' => [
         'name' => 'Northern Sami'
     ],
     'sl' => [
