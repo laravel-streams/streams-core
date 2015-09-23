@@ -39,7 +39,7 @@ class CreateStreamsTables extends Migration
                     $table->string('hidden')->default(0);
                     $table->string('trashable')->default(0);
                     $table->string('translatable')->default(0);
-                    $table->text('view_options')->default(serialize(['id', 'created_at']));
+                    $table->text('view_options');
 
                     $table->unique(['namespace', 'slug']);
                 }
