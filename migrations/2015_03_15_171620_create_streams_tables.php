@@ -35,10 +35,10 @@ class CreateStreamsTables extends Migration
                     $table->string('prefix')->nullable();
                     $table->string('title_column')->default('id');
                     $table->string('order_by')->default('id');
-                    $table->string('locked')->default(0);
-                    $table->string('hidden')->default(0);
-                    $table->string('trashable')->default(0);
-                    $table->string('translatable')->default(0);
+                    $table->boolean('locked')->default(0);
+                    $table->boolean('hidden')->default(0);
+                    $table->boolean('trashable')->default(0);
+                    $table->boolean('translatable')->default(0);
                     $table->text('view_options')->default();
 
                     $table->unique(['namespace', 'slug']);
