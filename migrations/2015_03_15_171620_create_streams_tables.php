@@ -39,7 +39,7 @@ class CreateStreamsTables extends Migration
                     $table->boolean('hidden')->default(0);
                     $table->boolean('trashable')->default(0);
                     $table->boolean('translatable')->default(0);
-                    $table->text('view_options')->default();
+                    $table->text('view_options');
 
                     $table->unique(['namespace', 'slug']);
                 }
