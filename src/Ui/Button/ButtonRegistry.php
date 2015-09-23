@@ -77,6 +77,11 @@ class ButtonRegistry
             'icon' => 'download',
             'type' => 'success'
         ],
+        'entries'     => [
+            'text' => 'streams::button.entries',
+            'icon' => 'list-ol',
+            'type' => 'success'
+        ],
         /**
          * Info Buttons
          */

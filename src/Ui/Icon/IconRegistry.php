@@ -107,6 +107,7 @@ class IconRegistry
         'arrows-v'             => 'fa fa-arrows-v',
         'envelope'             => 'fa fa-envelope',
         'facebook'             => 'fa fa-facebook',
+        'list-ol'              => 'fa fa-list-ol',
         'twitter'              => 'fa fa-twitter',
         'amex'                 => 'fa fa-cc-amex',
         'sitemap'              => 'fa fa-sitemap',
