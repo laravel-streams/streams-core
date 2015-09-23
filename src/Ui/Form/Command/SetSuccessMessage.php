@@ -72,16 +72,6 @@ class SetSuccessMessage implements SelfHandling
         }
 
         /**
-         * Use the option success message.
-         */
-        if ($this->builder->getFormOption('success_message') !== null) {
-            $this->builder->setFormOption(
-                'success_message',
-                trans('streams::message.' . $mode . '_success', $parameters)
-            );
-        }
-
-        /**
          * Set the default success message.
          */
         if ($this->builder->getFormOption('success_message') === null) {
