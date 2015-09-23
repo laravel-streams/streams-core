@@ -67,7 +67,7 @@ class PluginForm
      * @param array $parameters
      * @return FormBuilder
      */
-    public function build(array $parameters)
+    public function build(array $parameters = [])
     {
         return $this->resolve($parameters)->build();
     }
@@ -78,7 +78,7 @@ class PluginForm
      * @param array $parameters
      * @return FormBuilder
      */
-    public function make(array $parameters)
+    public function make(array $parameters = [])
     {
         return $this->resolve($parameters)->make();
     }
@@ -89,7 +89,7 @@ class PluginForm
      * @param array $parameters
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function render(array $parameters)
+    public function render(array $parameters = [])
     {
         return $this->resolve($parameters)->render();
     }
@@ -101,7 +101,7 @@ class PluginForm
      * @param array $parameters
      * @return FormBuilder
      */
-    public function resolve(array $parameters)
+    public function resolve(array $parameters = [])
     {
         $parameters['key'] = md5(json_encode($parameters));
 
