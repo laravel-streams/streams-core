@@ -25,10 +25,17 @@ class LabelsGuesser
 
         foreach ($fields as &$field) {
 
+            $locale = array_get($field, 'locale');
+
             /**
              * If the label is already set then use it.
              */
             if (isset($field['label'])) {
+
+                if (str_is('*::*', $field['label'])) {
+                    $field['label'] = trans($field['label'], [], null, $locale);
+                }
+
                 continue;
             }
 
@@ -54,6 +61,10 @@ class LabelsGuesser
                     $field['label'] = "{$key}.label";
                 }
 
+                if (str_is('*::*', $field['label'])) {
+                    $field['label'] = trans($field['label'], [], null, $locale);
+                }
+
                 continue;
             }
 
@@ -73,13 +84,11 @@ class LabelsGuesser
              */
             $label = $assignment->getLabel();
 
-            $locale = array_get($field, 'locale');
-
-            if (str_is('*.*.*::*', $label) && trans()->has($label, $locale)) {
+            if (str_is('*::*', $label) && trans()->has($label, $locale)) {
                 $field['label'] = trans($label, [], null, $locale);
             }
 
-            if (!isset($field['label']) && $label && !str_is('*.*.*::*', $label)) {
+            if (!isset($field['label']) && $label && !str_is('*::*', $label)) {
                 $field['label'] = $label;
             }
 
@@ -87,7 +96,7 @@ class LabelsGuesser
 
                 $label = $assignment->getFieldName();
 
-                if (str_is('*.*.*::*', $label) && trans()->has($label, $locale)) {
+                if (str_is('*::*', $label) && trans()->has($label, $locale)) {
                     $field['label'] = trans($label, [], null, $locale);
                 }
             }

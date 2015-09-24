@@ -27,10 +27,17 @@ class InstructionsGuesser
 
         foreach ($fields as &$field) {
 
+            $locale = array_get($field, 'locale');
+
             /**
              * If the instructions are already set then use it.
              */
             if (isset($field['instructions'])) {
+
+                if (str_is('*::*', $field['instructions'])) {
+                    $field['instructions'] = trans($field['instructions'], [], null, $locale);
+                }
+
                 continue;
             }
 
@@ -63,8 +70,8 @@ class InstructionsGuesser
             /**
              * Try using the assignment instructions if available.
              */
-            if (trans()->has($instructions = $assignment->getInstructions(), array_get($field, 'locale'))) {
-                $field['instructions'] = trans($instructions, [], null, array_get($field, 'locale'));
+            if (trans()->has($instructions = $assignment->getInstructions(), $locale)) {
+                $field['instructions'] = trans($instructions, [], null, $locale);
             } elseif ($instructions && !str_is('*.*.*::*', $instructions)) {
                 $field['instructions'] = $instructions;
             }
