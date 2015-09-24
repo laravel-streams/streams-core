@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -64,7 +63,7 @@ class LabelsGuesser
              * No assignment means we still do
              * not have anything to do here.
              */
-            if (!$assignment instanceof AssignmentInterface) {
+            if (!$assignment) {
                 continue;
             }
 
@@ -72,12 +71,29 @@ class LabelsGuesser
              * Try using the assignment label if available
              * otherwise use the field name as the label.
              */
-            if (trans()->has($label = $assignment->getLabel(), array_get($field, 'locale'))) {
-                $field['label'] = trans($label, [], null, array_get($field, 'locale'));
-            } elseif ($label && !str_is('*.*.*::*', $label)) {
+            $label = $assignment->getLabel();
+
+            $locale = array_get($field, 'locale');
+
+            if (str_is('*.*.*::*', $label) && trans()->has($label, $locale)) {
+                $field['label'] = trans($label, [], null, $locale);
+            }
+
+            if (!isset($field['label']) && $label && !str_is('*.*.*::*', $label)) {
                 $field['label'] = $label;
-            } elseif (trans()->has($name = $assignment->getFieldName(), array_get($field, 'locale'))) {
-                $field['label'] = trans($name, [], null, array_get($field, 'locale'));
+            }
+
+            if (!isset($field['label'])) {
+
+                $label = $assignment->getFieldName();
+
+                if (str_is('*.*.*::*', $label) && trans()->has($label, $locale)) {
+                    $field['label'] = trans($label, [], null, $locale);
+                }
+            }
+
+            if (!isset($field['label'])) {
+                $field['label'] = $label;
             }
         }
 
