@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 
@@ -78,32 +79,39 @@ class ActionHandler implements SelfHandling
         }
 
         // Get the redirect from the form first.
-        $url = $builder->getFormOption('redirect');
+        $redirect = $builder->getFormOption('redirect');
 
-        if ($url === null) {
-            $url = $action->getRedirect();
+        if ($redirect === null) {
+            $redirect = $action->getRedirect();
         }
 
-        if ($url === false) {
+        if ($redirect instanceof RedirectResponse) {
+
+            $builder->setFormResponse($redirect);
+
             return;
         }
 
-        $url = $this->parser->parse($url, compact('entry'));
+        if ($redirect === false) {
+            return;
+        }
+
+        $redirect = $this->parser->parse($redirect, compact('entry'));
 
         /**
-         * If the URL is null then use the current one.
+         * If the redirect is null then use the current one.
          */
-        if ($url === null) {
-            $url = $this->request->fullUrl();
+        if ($redirect === null) {
+            $redirect = $this->request->fullUrl();
         }
 
         /**
          * If the URL is a closure then call it.
          */
-        if ($url instanceof \Closure) {
-            $url = app()->call($url, compact('builder'));
+        if ($redirect instanceof \Closure) {
+            $redirect = app()->call($redirect, compact('builder'));
         }
 
-        $builder->setFormResponse($this->redirector->to($url));
+        $builder->setFormResponse($this->redirector->to($redirect));
     }
 }
