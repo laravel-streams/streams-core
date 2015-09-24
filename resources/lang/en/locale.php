@@ -31,7 +31,7 @@ return [
     'nl' => [
         'name' => 'Dutch'
     ],
-    'se' => [
+    'sv' => [
         'name' => 'Swedish'
     ],
     'sme' => [
