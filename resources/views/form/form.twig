@@ -5,11 +5,11 @@
 
     <div class="container-fluid">
 
-        {{ form_open({'enctype': 'multipart/form-data', 'url': form.options.url ?: url_full()}) }}
+        {{ form_open({'class': 'form ', 'enctype': 'multipart/form-data', 'url': form.options.url ?: url_full()}) }}
 
         {# Chrome Autocomplete Fix #}
         <input style="display:none">
-        <input type="password" style="display:none">
+        <input type="password" style="display:none; visibility: hidden;">
 
         {{ view("streams::form/partials/translations", {'form': form}) }}
         {{ view("streams::form/partials/heading", {'form': form}) }}
