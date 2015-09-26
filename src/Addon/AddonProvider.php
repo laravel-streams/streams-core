@@ -364,11 +364,9 @@ class AddonProvider
      */
     protected function registerMiddleware(AddonServiceProvider $provider)
     {
-        if (!$middleware = $provider->getMiddleware()) {
-            return;
+        foreach ($provider->getMiddleware() as $middleware) {
+            $this->middlewares->push($middleware);
         }
-
-        $this->middlewares->merge($middleware);
     }
 
     /**
