@@ -144,7 +144,10 @@ class Value
         /**
          * Parse the value with the entry.
          */
-        $value = $this->parser->render($parameters['wrapper'], ['value' => $value, $term => $entry]);
+        $value = $this->parser->render(
+            array_get($parameters, 'wrapper', '{value}'),
+            ['value' => $value, $term => $entry]
+        );
 
         /**
          * If the value looks like a language

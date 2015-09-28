@@ -68,6 +68,13 @@ interface StreamInterface
     public function getDescription();
 
     /**
+     * Get the view options.
+     *
+     * @return array
+     */
+    public function getViewOptions();
+
+    /**
      * Get the locked flag.
      *
      * @return bool

@@ -163,6 +163,15 @@ interface EntryInterface
     public function getAssignments();
 
     /**
+     * Get all assignments of the
+     * provided field type namespace.
+     *
+     * @param $fieldType
+     * @return AssignmentCollection
+     */
+    public function getAssignmentsByFieldType($fieldType);
+
+    /**
      * Get an assignment by field slug.
      *
      * @param  $fieldSlug

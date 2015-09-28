@@ -165,6 +165,16 @@ class FieldModel extends EloquentModel implements FieldInterface
     }
 
     /**
+     * Get the field type value.
+     *
+     * @return string
+     */
+    public function getTypeValue()
+    {
+        return $this->getAttributeFromArray('type');
+    }
+
+    /**
      * Get the configuration.
      *
      * @return mixed

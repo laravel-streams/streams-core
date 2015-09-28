@@ -136,6 +136,13 @@ class FormBuilder
     protected $save = true;
 
     /**
+     * The read only flag.
+     *
+     * @var bool
+     */
+    protected $readOnly = false;
+
+    /**
      * The form object.
      *
      * @var Form
@@ -1114,5 +1121,28 @@ class FormBuilder
     public function canSave()
     {
         return $this->save;
+    }
+
+    /**
+     * Set the read only flag.
+     *
+     * @param $readOnly
+     * @return $this
+     */
+    public function setReadOnly($readOnly)
+    {
+        $this->readOnly = $readOnly;
+
+        return $this;
+    }
+
+    /**
+     * Return the read only flag.
+     *
+     * @return bool
+     */
+    public function isReadOnly()
+    {
+        return $this->readOnly;
     }
 }

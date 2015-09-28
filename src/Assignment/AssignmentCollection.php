@@ -45,12 +45,10 @@ class AssignmentCollection extends EloquentCollection
     {
         return new static(
             array_filter(
-                array_map(
-                    function (AssignmentInterface $assignment) use ($namespace) {
-                        return $assignment->getAttribute('type') == $namespace;
-                    },
-                    $this->items
-                )
+                $this->items,
+                function (AssignmentInterface $assignment) use ($namespace) {
+                    return $assignment->getFieldTypeValue() == $namespace;
+                }
             )
         );
     }

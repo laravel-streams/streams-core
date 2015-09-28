@@ -114,6 +114,15 @@ interface AssignmentInterface
     public function getFieldType();
 
     /**
+     * Get the field type value. This helps
+     * avoid spinning up a type instance
+     * if you don't really need it.
+     *
+     * @return string
+     */
+    public function getFieldTypeValue();
+
+    /**
      * Get the assignment's field's name.
      *
      * @return string

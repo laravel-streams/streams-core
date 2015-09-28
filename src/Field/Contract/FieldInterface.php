@@ -57,6 +57,13 @@ interface FieldInterface
     public function getType();
 
     /**
+     * Get the field type value.
+     *
+     * @return string
+     */
+    public function getTypeValue();
+
+    /**
      * Get the configuration.
      *
      * @return mixed

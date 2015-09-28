@@ -291,6 +291,16 @@ class StreamModel extends EloquentModel implements StreamInterface
     }
 
     /**
+     * Get the view options.
+     *
+     * @return array
+     */
+    public function getViewOptions()
+    {
+        return $this->view_options;
+    }
+
+    /**
      * Get the locked flag.
      *
      * @return bool
@@ -462,7 +472,7 @@ class StreamModel extends EloquentModel implements StreamInterface
     }
 
     /**
-     * Unserialize the view options after getting them off the model.
+     * Unserialize the view options.
      *
      * @param  $viewOptions
      * @return mixed

@@ -119,7 +119,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $modifier = $type->getModifier();
 
         if ($assignment->isTranslatable()) {
+
             $entry = $this->translateOrDefault($locale);
+
+            $type->setLocale($locale);
         } else {
             $entry = $this;
         }
@@ -186,13 +189,26 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getFieldType($fieldSlug)
     {
+        $locale = config('app.locale');
+
         $assignment = $this->getAssignment($fieldSlug);
 
         if (!$assignment) {
             return null;
         }
 
-        $type = $assignment->getFieldType($this);
+        $type = $assignment->getFieldType();
+
+        if ($assignment->isTranslatable()) {
+
+            $entry = $this->translateOrDefault($locale);
+
+            $type->setLocale($locale);
+        } else {
+            $entry = $this;
+        }
+
+        $type->setEntry($entry);
 
         $type->setValue($this->getFieldValue($fieldSlug));
         $type->setEntry($this);
@@ -375,6 +391,20 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $stream = $this->getStream();
 
         return $stream->getAssignments();
+    }
+
+    /**
+     * Get all assignments of the
+     * provided field type namespace.
+     *
+     * @param $fieldType
+     * @return AssignmentCollection
+     */
+    public function getAssignmentsByFieldType($fieldType)
+    {
+        $assignments = $this->getAssignments();
+
+        return $assignments->findAllByFieldType($fieldType);
     }
 
     /**

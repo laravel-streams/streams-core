@@ -148,6 +148,20 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     }
 
     /**
+     * Get the field type value. This helps
+     * avoid spinning up a type instance
+     * if you don't really need it.
+     *
+     * @return string
+     */
+    public function getFieldTypeValue()
+    {
+        $field = $this->getField();
+
+        return $field->getTypeValue();
+    }
+
+    /**
      * Get the field name.
      *
      * @return string
