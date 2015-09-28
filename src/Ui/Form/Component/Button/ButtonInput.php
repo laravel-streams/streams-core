@@ -35,11 +35,6 @@ class ButtonInput
     protected $guesser;
 
     /**
-     * @var ButtonDefaults
-     */
-    protected $defaults;
-
-    /**
      * The resolver utility.
      *
      * @var ButtonResolver
@@ -66,7 +61,6 @@ class ButtonInput
      * @param ButtonParser     $parser
      * @param ButtonLookup     $lookup
      * @param ButtonGuesser    $guesser
-     * @param ButtonDefaults   $defaults
      * @param ButtonResolver   $resolver
      * @param ButtonEvaluator  $evaluator
      * @param ButtonNormalizer $normalizer
@@ -75,7 +69,6 @@ class ButtonInput
         ButtonParser $parser,
         ButtonLookup $lookup,
         ButtonGuesser $guesser,
-        ButtonDefaults $defaults,
         ButtonResolver $resolver,
         ButtonEvaluator $evaluator,
         ButtonNormalizer $normalizer
@@ -83,7 +76,6 @@ class ButtonInput
         $this->parser     = $parser;
         $this->lookup     = $lookup;
         $this->guesser    = $guesser;
-        $this->defaults   = $defaults;
         $this->resolver   = $resolver;
         $this->evaluator  = $evaluator;
         $this->normalizer = $normalizer;
@@ -98,7 +90,6 @@ class ButtonInput
     {
         $this->resolver->resolve($builder);
         $this->evaluator->evaluate($builder);
-        $this->defaults->defaults($builder);
         $this->normalizer->normalize($builder);
         $this->lookup->merge($builder);
         $this->parser->parse($builder);
