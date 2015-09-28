@@ -1,9 +1,11 @@
 <div class="panel controls">
     <div class="panel-body">
 
-        <div class="actions">
-            {{ buttons(form.actions)|raw }}
-        </div>
+        {% if not form.options.read_only %}
+            <div class="actions">
+                {{ buttons(form.actions)|raw }}
+            </div>
+        {% endif %}
 
         <div class="buttons">
             {{ buttons(form.buttons)|raw }}
