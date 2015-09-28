@@ -20,16 +20,6 @@ class ActionDefaults
      */
     public function defaults(FormBuilder $builder)
     {
-        $enabled = $builder->getFormOption('enable_defaults', []);
-
-        if ($enabled === false) {
-            return;
-        }
-
-        if (is_array($enabled) && !in_array('actions', $enabled)) {
-            return;
-        }
-
         if ($builder->getActions() === []) {
             $builder->setActions(['save', 'save_and_edit']);
         }

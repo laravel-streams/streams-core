@@ -20,16 +20,6 @@ class ButtonDefaults
      */
     public function defaults(FormBuilder $builder)
     {
-        $enabled = $builder->getFormOption('enable_defaults', []);
-
-        if ($enabled === false) {
-            return;
-        }
-
-        if (is_array($enabled) && !in_array('buttons', $enabled)) {
-            return;
-        }
-
         if ($builder->getButtons() === []) {
             $builder->setButtons(['cancel']);
         }
