@@ -59,7 +59,7 @@ class LoadForm implements SelfHandling
 
         // Move this to options so we can read it.
         $this->builder->setFormOption('read_only', $this->builder->isReadOnly());
-        
+
         $form->addData('form', $form);
 
         if ($breadcrumb = $form->getOption('breadcrumb', 'streams::form.mode.' . $form->getMode())) {
