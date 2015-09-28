@@ -117,9 +117,13 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getFieldSlug()
     {
+        if (isset($this->cache['field_slug']) && $this->cache['field_slug']) {
+            return $this->cache['field_slug'];
+        }
+
         $field = $this->getField();
 
-        return $field->getSlug();
+        return $this->cache['field_slug'] = $field->getSlug();
     }
 
     /**
@@ -204,11 +208,15 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getConfig()
     {
-        if (is_array($this->attributes['config'])) {
-            return $this->attributes['config'];
+        if (isset($this->cache['config']) && $this->cache['config']) {
+            return $this->cache['config'];
         }
 
-        return $this->attributes['config'] = $this->config;
+        if (is_array($this->attributes['config'])) {
+            return $this->cache['config'] = $this->attributes['config'];
+        }
+
+        return $this->cache['config'] = $this->attributes['config'] = $this->config;
     }
 
     /**

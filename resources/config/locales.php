@@ -72,7 +72,7 @@ return [
         'nl' => [
             'direction' => 'ltr'
         ],
-        'se' => [
+        'sv' => [
             'direction' => 'ltr'
         ],
         'sl' => [

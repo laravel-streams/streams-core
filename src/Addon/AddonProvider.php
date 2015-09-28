@@ -364,11 +364,9 @@ class AddonProvider
      */
     protected function registerMiddleware(AddonServiceProvider $provider)
     {
-        if (!$middleware = $provider->getMiddleware()) {
-            return;
+        foreach ($provider->getMiddleware() as $middleware) {
+            $this->middlewares->push($middleware);
         }
-
-        $this->middlewares->merge($middleware);
     }
 
     /**
@@ -378,11 +376,7 @@ class AddonProvider
      */
     protected function registerRouteMiddleware(AddonServiceProvider $provider)
     {
-        if (!$middleware = $provider->getRouteMiddleware()) {
-            return;
-        }
-
-        foreach ($middleware as $name => $class) {
+        foreach ($provider->getRouteMiddleware() as $name => $class) {
             $this->router->middleware($name, $class);
         }
     }
