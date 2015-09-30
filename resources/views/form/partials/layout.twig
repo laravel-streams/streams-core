@@ -1,6 +1,6 @@
 {% if form.fields.empty %}
-    <div class="panel">
-        <div class="panel-body">
+    <div class="{{ form.options.panel_class }}">
+        <div class="{{ form.options.panel_body_class }}">
             {{ trans("streams::message.no_fields_available") }}
         </div>
     </div>

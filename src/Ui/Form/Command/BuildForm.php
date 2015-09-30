@@ -54,6 +54,7 @@ class BuildForm implements SelfHandling
         $this->dispatch(new SetRepository($this->builder));
 
         $this->dispatch(new SetFormOptions($this->builder));
+        $this->dispatch(new SetDefaultOptions($this->builder));
         $this->dispatch(new SetFormEntry($this->builder)); // Do this last.
 
         /**

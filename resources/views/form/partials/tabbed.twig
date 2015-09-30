@@ -1,8 +1,8 @@
-<div class="{{ section.class }}" {{ html_attributes(section.attributes) }}>
+<div class="{{ section.class ?: form.options.panel_body_class }}" {{ html_attributes(section.attributes) }}>
 
     {% if section.title %}
-        <div class="panel-heading">
-            <h2 class="panel-title">
+        <div class="{{ form.options.panel_heading_class }}">
+            <h2 class="{{ form.options.panel_title_class }}">
                 {{ trans(section.title)|raw }}
 
                 {% if section.description %}

@@ -1,8 +1,8 @@
-<div class="{{ section.class ?: 'panel' }}" {{ html_attributes(section.attributes) }}>
+<div class="{{ section.class ?: form.options.panel_class }}" {{ html_attributes(section.attributes) }}>
 
     {% if section.title %}
-        <div class="panel-heading">
-            <h2 class="panel-title">
+        <div class="{{ form.options.panel_heading_class }}">
+            <h2 class="{{ form.options.panel_title_class }}">
                 {{ trans(section.title) }}
 
                 {% if section.description %}
@@ -14,7 +14,7 @@
         </div>
     {% endif %}
 
-    <div class="panel-body">
+    <div class="{{ form.options.panel_body_class }}">
         {% for field in section.fields %}
             {% for field in form.fields.translations(field) %}
                 {{ field.render|raw }}

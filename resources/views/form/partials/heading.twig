@@ -1,7 +1,7 @@
 {% if form.options.title %}
-    <div class="panel">
-        <div class="panel-heading">
-            <h4 class="title">
+    <div class="{{ form.options.panel_class }}">
+        <div class="{{ form.options.panel_heading_class }}">
+            <h4 class="{{ form.options.panel_title_class }}">
                 {{ trans(form.options.title)|raw }}
 
                 {% if form.options.description %}

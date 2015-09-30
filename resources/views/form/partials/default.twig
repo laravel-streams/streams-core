@@ -1,6 +1,6 @@
-<div class="panel">
+<div class="{{ form.options.panel_class }}">
 
-    <div class="panel-body">
+    <div class="{{ form.options.panel_body_class }}">
         {% for field in form.fields %}
             {{ field.render|raw }}
         {% endfor %}
