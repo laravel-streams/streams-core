@@ -71,6 +71,7 @@ class ButtonInput
         $this->resolver->resolve($builder);
         $this->normalizer->normalize($builder);
         $this->lookup->merge($builder);
+        $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);
     }
 }
