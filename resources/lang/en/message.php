@@ -6,6 +6,7 @@ return [
     '503'                 => 'Be right back.',
     '404'                 => 'Page not found.',
     '500'                 => 'There was an error.',
+    'help'                => 'Help',
     'no_results'          => 'No results.',
     'no_fields_available' => 'No fields available.',
     'delete_success'      => ':count row(s) were deleted successfully.',

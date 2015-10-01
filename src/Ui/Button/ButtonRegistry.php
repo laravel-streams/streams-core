@@ -92,6 +92,13 @@ class ButtonRegistry
             'icon' => 'fa fa-info',
             'type' => 'info'
         ],
+        'help'        => [
+            'icon'        => 'circle-question-mark',
+            'text'        => 'streams::button.help',
+            'type'        => 'info',
+            'data-toggle' => 'modal',
+            'data-target' => '#modal'
+        ],
         'view'        => [
             'text' => 'streams::button.view',
             'icon' => 'fa fa-eye',

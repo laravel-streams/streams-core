@@ -14,6 +14,7 @@ return [
     'add'                => 'Add',
     'edit'               => 'Edit',
     'view'               => 'View',
+    'help'               => 'Help',
     'delete'             => 'Delete',
     'create'             => 'Create',
     'cancel'             => 'Cancel',
