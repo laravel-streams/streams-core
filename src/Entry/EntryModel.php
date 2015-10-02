@@ -524,7 +524,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
             $fieldType->setEntry($this);
 
-            $fieldType->fire($trigger, array_merge(compact('fieldType', 'entry'), $payload));
+            $payload['entry']     = $this;
+            $payload['fieldType'] = $fieldType;
+
+            $fieldType->fire($trigger, $payload);
         }
     }
 

@@ -29,6 +29,7 @@ class EntryObserver extends Observer
      */
     public function creating(EntryInterface $entry)
     {
+        $entry->fireFieldTypeEvents('entry_creating');
     }
 
     /**
@@ -38,6 +39,8 @@ class EntryObserver extends Observer
      */
     public function created(EntryInterface $entry)
     {
+        $entry->fireFieldTypeEvents('entry_created');
+
         $this->events->fire(new EntryWasCreated($entry));
     }
 
@@ -62,6 +65,8 @@ class EntryObserver extends Observer
      */
     public function saving(EntryInterface $entry)
     {
+        $entry->fireFieldTypeEvents('entry_saving');
+
         $this->commands->dispatch(new SetMetaInformation($entry));
     }
 
