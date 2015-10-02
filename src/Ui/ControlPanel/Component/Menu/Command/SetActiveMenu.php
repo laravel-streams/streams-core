@@ -1,21 +1,21 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Menu\Command;
 
 use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Menu\Contract\MenuItemInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Http\Request;
 
 /**
- * Class SetActiveSection
+ * Class SetActiveMenu
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command
+ * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Menu\Command
  */
-class SetActiveSection implements SelfHandling
+class SetActiveMenu implements SelfHandling
 {
 
     /**
@@ -26,7 +26,7 @@ class SetActiveSection implements SelfHandling
     protected $builder;
 
     /**
-     * Create a new SetActiveSection instance.
+     * Create a new SetActiveMenu instance.
      *
      * @param ControlPanelBuilder $builder
      */
@@ -45,35 +45,26 @@ class SetActiveSection implements SelfHandling
     public function handle(Request $request, Authorizer $authorizer, BreadcrumbCollection $breadcrumbs)
     {
         $controlPanel = $this->builder->getControlPanel();
-        $sections     = $controlPanel->getSections();
-        $menu         = $controlPanel->getMenu();
+        $menus        = $controlPanel->getMenu();
 
         /**
-         * If we already have an active section
+         * If we already have an active menu
          * then we don't need to do this.
          */
-        if ($active = $sections->active()) {
+        if ($active = $menus->active()) {
             return;
         }
 
-        /**
-         * Is we have an active menu then skip
-         * that too because we can't have both.
-         */
-        if ($menu->active()) {
-            return;
-        }
-
-        foreach ($sections as $section) {
+        foreach ($menus as $menu) {
 
             /**
              * Get the HREF for both the active
-             * and loop iteration section.
+             * and loop iteration menu.
              */
-            $href       = array_get($section->getAttributes(), 'href');
+            $href       = array_get($menu->getAttributes(), 'href');
             $activeHref = '';
 
-            if ($active && $active instanceof SectionInterface) {
+            if ($active && $active instanceof MenuItemInterface) {
                 $activeHref = array_get($active->getAttributes(), 'href');
             }
 
@@ -90,46 +81,46 @@ class SetActiveSection implements SelfHandling
              * and loop iteration HREF. The longer the
              * HREF the more detailed and exact it is and
              * the more likely it is the active HREF and
-             * therefore the active section.
+             * therefore the active menu.
              */
             $hrefLength       = strlen($href);
             $activeHrefLength = strlen($activeHref);
 
             if ($hrefLength > $activeHrefLength) {
-                $active = $section;
+                $active = $menu;
             }
         }
 
         /**
-         * If we have an active section determined
+         * If we have an active menu determined
          * then mark it as such.
          *
-         * @var SectionInterface $active
-         * @var SectionInterface $section
+         * @var MenuItemInterface $active
+         * @var MenuItemInterface $menu
          */
         if ($active) {
             if ($active->getParent()) {
 
                 $active->setActive(true);
 
-                $section = $sections->get($active->getParent(), $sections->first());
+                $menu = $menus->get($active->getParent(), $menus->first());
 
-                $section->setHighlighted(true);
+                $menu->setHighlighted(true);
 
-                $breadcrumbs->put($section->getBreadcrumb() ?: $section->getText(), $section->getHref());
+                $breadcrumbs->put($menu->getBreadcrumb() ?: $menu->getText(), $menu->getHref());
             } else {
                 $active->setActive(true)->setHighlighted(true);
             }
-        } elseif ($active = $sections->first()) {
+        } elseif ($active = $menus->first()) {
             $active->setActive(true)->setHighlighted(true);
         }
 
-        // No active section!
+        // No active menu!
         if (!$active) {
             return;
         }
 
-        // Authorize the active section.
+        // Authorize the active menu.
         if (!$authorizer->authorize($active->getPermission())) {
             abort(403);
         }
