@@ -103,24 +103,12 @@ class PluginForm
      */
     public function resolve(array $parameters = [])
     {
+        $parameters = $this->setDefaults($parameters);
+
         $parameters['key'] = md5(json_encode($parameters));
 
-        if (!$builder = array_get($parameters, 'builder')) {
-            if (!$model = array_get($parameters, 'model')) {
-
-                $stream    = ucfirst(camel_case(array_get($parameters, 'stream')));
-                $namespace = ucfirst(camel_case(array_get($parameters, 'namespace')));
-
-                $model = 'Anomaly\Streams\Platform\Model\\' . $namespace . '\\' . $namespace . $stream . 'EntryModel';
-
-                array_set($parameters, 'model', $model);
-            }
-
-            $builder = 'Anomaly\Streams\Platform\Ui\Form\FormBuilder';
-        }
-
         /* @var FormBuilder $builder */
-        $builder = $this->container->make($builder);
+        $builder = $this->container->make(array_get($parameters, 'builder'));
 
         $this->hydrator->hydrate($builder, $parameters);
 
@@ -137,5 +125,59 @@ class PluginForm
         $this->cache->forever('form::' . $parameters['key'], $parameters);
 
         return $builder;
+    }
+
+    /**
+     * Set the default parameters.
+     *
+     * @param array $parameters
+     * @return array
+     */
+    protected function setDefaults(array $parameters)
+    {
+
+        /**
+         * Set the default builder and model based
+         * a stream and namespace parameter provided.
+         */
+        if (!$builder = array_get($parameters, 'builder')) {
+            if (!$model = array_get($parameters, 'model')) {
+
+                $stream    = ucfirst(camel_case(array_get($parameters, 'stream')));
+                $namespace = ucfirst(camel_case(array_get($parameters, 'namespace')));
+
+                $model = 'Anomaly\Streams\Platform\Model\\' . $namespace . '\\' . $namespace . $stream . 'EntryModel';
+
+                array_set($parameters, 'model', $model);
+            }
+
+            array_set($parameters, 'builder', 'Anomaly\Streams\Platform\Ui\Form\FormBuilder');
+        }
+
+        /**
+         * Set some default options.
+         */
+        array_set(
+            $parameters,
+            'options.panel_class',
+            array_get($parameters, 'options.panel_class', 'section')
+        );
+        array_set(
+            $parameters,
+            'options.panel_body_class',
+            array_get($parameters, 'options.panel_body_class', 'section-body')
+        );
+        array_set(
+            $parameters,
+            'options.panel_title_class',
+            array_get($parameters, 'options.panel_title_class', 'section-title')
+        );
+        array_set(
+            $parameters,
+            'options.panel_heading_class',
+            array_get($parameters, 'options.panel_heading_class', 'section-heading')
+        );
+
+        return $parameters;
     }
 }

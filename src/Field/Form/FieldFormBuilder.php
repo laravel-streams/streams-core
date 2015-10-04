@@ -38,20 +38,6 @@ class FieldFormBuilder extends FormBuilder
     protected $fieldType = null;
 
     /**
-     * The form model.
-     *
-     * @var string
-     */
-    protected $model = 'Anomaly\Streams\Platform\Field\FieldModel';
-
-    /**
-     * The form fields.
-     *
-     * @var string
-     */
-    protected $fields = 'Anomaly\Streams\Platform\Field\Form\FieldFormFields@handle';
-
-    /**
      * Fired when the builder
      * is ready to build.
      *

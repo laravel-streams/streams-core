@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Support\Evaluator;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Bus\SelfHandling;
 
@@ -17,6 +18,13 @@ class GetConfigFields implements SelfHandling
 {
 
     /**
+     * The form builder.
+     *
+     * @var FormBuilder
+     */
+    protected $builder;
+
+    /**
      * The field type object.
      *
      * @var FieldType
@@ -28,8 +36,9 @@ class GetConfigFields implements SelfHandling
      *
      * @param FieldType $fieldType
      */
-    public function __construct(FieldType $fieldType)
+    public function __construct(FormBuilder $builder, FieldType $fieldType)
     {
+        $this->builder   = $builder;
         $this->fieldType = $fieldType;
     }
 
@@ -41,11 +50,13 @@ class GetConfigFields implements SelfHandling
      */
     public function handle(Repository $config, Evaluator $evaluator)
     {
-        $fields = [];
+        if (!$fields = $config->get($this->fieldType->getNamespace('config/config'))) {
+            $fields = $config->get($this->fieldType->getNamespace('config'), []);
+        }
 
-        $config = $evaluator->evaluate($config->get($this->fieldType->getNamespace('config'), []));
+        $fields = $evaluator->evaluate($fields);
 
-        foreach ($config as $slug => &$field) {
+        foreach ($fields as $slug => $field) {
 
             /**
              * Determine the field label.
@@ -85,8 +96,8 @@ class GetConfigFields implements SelfHandling
             $field['field'] = 'config.' . $slug;
 
             $fields['config.' . $slug] = $field;
-        }
 
-        return $fields;
+            $this->builder->addField($field);
+        }
     }
 }

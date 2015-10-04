@@ -52,9 +52,7 @@ class FieldFormFields
         );
 
         if (($type = $builder->getFormEntry()->getType()) || ($type = $builder->getFieldType())) {
-            foreach ($this->dispatch(new GetConfigFields($type)) as $field) {
-                $builder->addField($field);
-            }
+            $this->dispatch(new GetConfigFields($builder, $type));
         }
     }
 }

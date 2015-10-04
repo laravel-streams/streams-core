@@ -190,7 +190,7 @@ class GridBuilder
      */
     public function setOptions(array $options)
     {
-        $this->options = $options;
+        $this->options = array_merge($this->options, $options);
 
         return $this;
     }

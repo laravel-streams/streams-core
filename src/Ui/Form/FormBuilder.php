@@ -579,7 +579,7 @@ class FormBuilder
      */
     public function setOptions($options)
     {
-        $this->options = $options;
+        $this->options = array_merge($this->options, $options);
 
         return $this;
     }

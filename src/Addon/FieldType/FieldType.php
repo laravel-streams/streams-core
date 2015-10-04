@@ -201,6 +201,18 @@ class FieldType extends Addon
     protected $query = null;
 
     /**
+     * Return a config value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function config($key, $default = null)
+    {
+        return array_get($this->getConfig(), $key, $default);
+    }
+
+    /**
      * Get the disabled flag.
      *
      * @return bool
