@@ -18,7 +18,7 @@
 
             {{ form_open({ 'url': url_full() }) }}
             <table
-                    class="{{ table.options.class ?: 'table striped' }}"
+                    class="{{ table.options.class ?: 'table' }}"
                     {{ table.options.sortable ? 'data-sortable' }}
                     {{ html_attributes(table.options.attributes) }}>
 

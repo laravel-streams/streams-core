@@ -128,4 +128,17 @@ class EloquentRepository implements EloquentRepositoryInterface
     {
         return $entry->delete();
     }
+
+    /**
+     * Set the repository model.
+     *
+     * @param EloquentModel $model
+     * @return $this
+     */
+    public function setModel(EloquentModel $model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
 }

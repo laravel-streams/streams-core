@@ -53,6 +53,17 @@ class UiPluginFunctions
     }
 
     /**
+     * Return icon class.
+     *
+     * @param      $type
+     * @return string
+     */
+    public function iconClass($type)
+    {
+        return $this->icons->get($type);
+    }
+
+    /**
      * Return a rendered view.
      *
      * @param       $path

@@ -12,31 +12,6 @@ class IconRegistry
 {
 
     /**
-     * Get a button.
-     *
-     * @param  $icon
-     * @return array|null
-     */
-    public function get($icon)
-    {
-        return array_get($this->icons, $icon, $icon);
-    }
-
-    /**
-     * Register a button.
-     *
-     * @param       $icon
-     * @param array $parameters
-     * @return $this
-     */
-    public function register($icon, array $parameters)
-    {
-        array_set($this->icons, $icon, $parameters);
-
-        return $this;
-    }
-
-    /**
      * Available icon.
      *
      * @var array
@@ -79,6 +54,7 @@ class IconRegistry
         'car'                  => 'glyphicons glyphicons-car',
         'diners-club'          => 'fa  fa-cc-diners-club',
         'check-circle-alt'     => 'fa fa-check-circle-o',
+        'check-square-alt'     => 'fa fa-check-square-o',
         'mastercard'           => 'fa fa-cc-mastercard',
         'external-link'        => 'fa fa-external-link',
         'check-circle'         => 'fa fa-check-circle',
@@ -97,6 +73,8 @@ class IconRegistry
         'paypal'               => 'fa fa-cc-paypal',
         'power-off'            => 'fa fa-power-off',
         'dashboard'            => 'fa fa-dashboard',
+        'square-alt'           => 'fa fa-square-o',
+        'circle-alt'           => 'fa fa-circle-o',
         'compress'             => 'fa fa-compress',
         'exchange'             => 'fa fa-exchange',
         'download'             => 'fa fa-download',
@@ -115,6 +93,8 @@ class IconRegistry
         'options'              => 'fa fa-options',
         'refresh'              => 'fa fa-refresh',
         'warning'              => 'fa fa-warning',
+        'square'               => 'fa fa-square',
+        'circle'               => 'fa fa-circle',
         'unlock'               => 'fa fa-unlock',
         'filter'               => 'fa fa-filter',
         'repeat'               => 'fa fa-repeat',
@@ -151,4 +131,28 @@ class IconRegistry
         'ban'                  => 'fa fa-ban'
     ];
 
+    /**
+     * Get a button.
+     *
+     * @param  $icon
+     * @return array|null
+     */
+    public function get($icon)
+    {
+        return array_get($this->icons, $icon, $icon);
+    }
+
+    /**
+     * Register a button.
+     *
+     * @param       $icon
+     * @param array $parameters
+     * @return $this
+     */
+    public function register($icon, array $parameters)
+    {
+        array_set($this->icons, $icon, $parameters);
+
+        return $this;
+    }
 }

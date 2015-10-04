@@ -68,4 +68,12 @@ interface EloquentRepositoryInterface
      * @return bool
      */
     public function delete(EloquentModel $entry);
+
+    /**
+     * Set the repository model.
+     *
+     * @param EloquentModel $model
+     * @return $this
+     */
+    public function setModel(EloquentModel $model);
 }
