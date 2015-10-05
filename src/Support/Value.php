@@ -54,12 +54,19 @@ class Value
     /**
      * Make a value from the parameters and entry.
      *
-     * @param $parameters
-     * @param $payload
+     * @param       $parameters
+     * @param       $payload
+     * @param array $payload
      * @return mixed|string
      */
-    public function make($parameters, $entry, $term = 'entry')
+    public function make($parameters, $entry, $term = 'entry', $payload = [])
     {
+        $payload[$term] = $entry;
+
+        /**
+         * If a flat value was sent in
+         * then convert it to an array.
+         */
         if (is_string($parameters)) {
             $parameters = [
                 'wrapper' => '{value}',
@@ -114,7 +121,7 @@ class Value
          * sending to decorate so that data_get()
          * can get into the presenter methods.
          */
-        $entry = $this->decorator->decorate($entry);
+        $payload[$term] = $entry = $this->decorator->decorate($entry);
 
         /**
          * If the value matches a method in the presenter.
@@ -125,11 +132,13 @@ class Value
             }
         }
 
+        $payload[$term] = $entry;
+
         /**
          * By default we can just pass the value through
          * the evaluator utility and be done with it.
          */
-        $value = $this->evaluator->evaluate($value, [$term => $entry]);
+        $value = $this->evaluator->evaluate($value, $payload);
 
         /**
          * Lastly, prepare the entry to be
