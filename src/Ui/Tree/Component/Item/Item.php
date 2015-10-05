@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
+use Anomaly\Streams\Platform\Ui\Tree\Component\Column\ColumnCollection;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
 
 /**
@@ -22,18 +23,18 @@ class Item implements ItemInterface
     protected $id;
 
     /**
-     * The item value.
-     *
-     * @var string
-     */
-    protected $value;
-
-    /**
      * The parent ID.
      *
      * @var int
      */
     protected $parent;
+
+    /**
+     * The column collection.
+     *
+     * @var ColumnCollection
+     */
+    protected $columns;
 
     /**
      * The item buttons.
@@ -66,29 +67,6 @@ class Item implements ItemInterface
     }
 
     /**
-     * Get the value.
-     *
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     * Set the value.
-     *
-     * @param $value
-     * @return $this
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-
-        return $this;
-    }
-
-    /**
      * Get the parent ID.
      *
      * @return int
@@ -107,6 +85,29 @@ class Item implements ItemInterface
     public function setParent($parent)
     {
         $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get the columns.
+     *
+     * @return ColumnCollection
+     */
+    public function getColumns()
+    {
+        return $this->columns;
+    }
+
+    /**
+     * Set the columns.
+     *
+     * @param ColumnCollection $columns
+     * @return $this
+     */
+    public function setColumns(ColumnCollection $columns)
+    {
+        $this->columns = $columns;
 
         return $this;
     }

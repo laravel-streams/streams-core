@@ -5,7 +5,13 @@
 
                 {{ icon('bars', 'handle btn btn-xs') }}
 
-                {{ item.value|raw }}
+                {% for column in item.columns %}
+                    {% if column.value %}
+                        <span class="{{ column.class }}" {{ column.attributes }}>
+                        {{ column.value|raw }}
+                    </span>
+                    {% endif %}
+                {% endfor %}
 
                 <div class="buttons">
                     {{ buttons(item.buttons) }}

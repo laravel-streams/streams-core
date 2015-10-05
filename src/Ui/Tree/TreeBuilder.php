@@ -37,7 +37,14 @@ class TreeBuilder
     protected $model = null;
 
     /**
-     * The buttons configuration.
+     * The item columns.
+     *
+     * @var array|string
+     */
+    protected $columns = [];
+
+    /**
+     * The item buttons.
      *
      * @var array|string
      */
@@ -147,6 +154,29 @@ class TreeBuilder
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * Set the columns.
+     *
+     * @param $columns
+     * @return $this
+     */
+    public function setColumns($columns)
+    {
+        $this->columns = $columns;
+
+        return $this;
+    }
+
+    /**
+     * Get the columns.
+     *
+     * @return array
+     */
+    public function getColumns()
+    {
+        return $this->columns;
     }
 
     /**
