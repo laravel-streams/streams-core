@@ -42,8 +42,11 @@ class SetJsonResponse implements SelfHandling
         $this->builder->setFormResponse(
             $response->json(
                 [
-                    'errors'   => $this->builder->getFormErrors()->getMessages(),
-                    'redirect' => $this->builder->getFormActions()->active()->getRedirect()
+                    'errors' => $this->builder->getFormErrors()->getMessages(),
+                    'redirect' => $this->builder->getFormOption(
+                        'redirect',
+                        $this->builder->getFormActions()->active()->getRedirect()
+                    )
                 ]
             )
         );

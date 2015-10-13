@@ -163,6 +163,13 @@ interface EntryInterface
     public function getAssignments();
 
     /**
+     * Get field slugs for all assignments.
+     *
+     * @return array
+     */
+    public function getAssignmentFieldSlugs();
+
+    /**
      * Get all assignments of the
      * provided field type namespace.
      *

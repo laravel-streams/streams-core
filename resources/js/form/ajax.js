@@ -1,7 +1,7 @@
 $(function () {
 
     // Focus on the first input.
-    $('form.form').on('submit', function (e) {
+    $('form.ajax').on('submit', function (e) {
 
         e.preventDefault();
 
@@ -9,8 +9,14 @@ $(function () {
 
             if (data.errors.length) {
                 alert(data.errors.join('\n'));
-            } else {
+
+                return false;
+            }
+
+            if (data.redirect) {
                 window.location = data.redirect;
+            } else {
+                $('.modal').modal('hide');
             }
         });
     });
