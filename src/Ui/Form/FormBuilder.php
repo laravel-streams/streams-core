@@ -19,6 +19,7 @@ use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
+use Closure;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response;
@@ -597,7 +598,7 @@ class FormBuilder
     /**
      * Set the sections.
      *
-     * @param array $sections
+     * @param array|Closure $sections
      * @return $this
      */
     public function setSections($sections)
@@ -627,6 +628,7 @@ class FormBuilder
      * @param       $section
      * @param       $slug
      * @param array $tab
+     * @return $this
      */
     public function addSectionTab($section, $slug, array $tab)
     {
