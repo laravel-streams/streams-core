@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Http\Controller;
 
 use Anomaly\Streams\Platform\Event\Response;
+use Anomaly\Streams\Platform\Message\MessageBag;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -42,13 +43,21 @@ class BaseController extends Controller
     protected $response;
 
     /**
+     * The flash messages.
+     *
+     * @var MessageBag
+     */
+    protected $messages;
+
+    /**
      * Create a new BaseController instance.
      */
     public function __construct()
     {
         $this->request  = app('Illuminate\Http\Request');
-        $this->response = app('Illuminate\Contracts\Routing\ResponseFactory');
         $this->events   = app('Illuminate\Contracts\Events\Dispatcher');
+        $this->response = app('Illuminate\Contracts\Routing\ResponseFactory');
+        $this->messages = app('Anomaly\Streams\Platform\Message\MessageBag');
 
         $this->events->fire(new Response($this));
 

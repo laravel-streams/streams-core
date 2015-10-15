@@ -107,7 +107,7 @@ class MultipleFormBuilder extends FormBuilder
      *
      * @param             $key
      * @param FormBuilder $builder
-     * @return $this
+     * @return MultipleFormBuilder
      */
     public function addForm($key, FormBuilder $builder)
     {

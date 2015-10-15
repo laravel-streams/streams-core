@@ -51,4 +51,18 @@ $(function () {
             return result
         }
     });
+
+    /**
+     * Toggle displaying children.
+     */
+    $('ul.tree.sortable .handle').click(function (e) {
+
+        e.preventDefault();
+
+        var children = $(this).closest('li').find('ul');
+
+        if (children) {
+            children.toggleClass('hidden');
+        }
+    });
 });
