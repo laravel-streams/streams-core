@@ -527,7 +527,7 @@ class Asset
             return true;
         }
 
-        if (env('APP_DEBUG') && in_array('debug', $filters)) {
+        if (env('APP_DEBUG') && in_array('debug', $this->collectionFilters($collection, $filters))) {
             return true;
         }
 
@@ -643,6 +643,20 @@ class Asset
         }
 
         return $assets;
+    }
+
+    /**
+     * Return the filters used in a collection.
+     *
+     * @param       $collection
+     * @param array $filters
+     * @return array
+     */
+    protected function collectionFilters($collection, array $filters = [])
+    {
+        return array_unique(
+            array_merge($filters, call_user_func_array('array_merge', array_get($this->collections, $collection, [])))
+        );
     }
 
     /**
