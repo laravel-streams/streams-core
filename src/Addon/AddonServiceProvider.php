@@ -1,5 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
+use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -111,7 +115,7 @@ class AddonServiceProvider
     /**
      * The addon instance.
      *
-     * @var Addon
+     * @var FieldType|Module|Plugin|Theme
      */
     protected $addon;
 

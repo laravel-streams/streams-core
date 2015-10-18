@@ -393,7 +393,15 @@ class AddonProvider
         }
 
         if (method_exists($provider, 'map')) {
-            $this->application->call([$provider, 'map']);
+            try {
+                $this->application->call([$provider, 'map']);
+            } catch (\Exception $e) {
+                /**
+                 * If, for whatever reason, this fails let
+                 * it fail silently. Mapping additional routes
+                 * could be volatile at certain application states.
+                 */
+            }
         }
     }
 
