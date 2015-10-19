@@ -59,6 +59,16 @@ class ColumnNormalizer
             }
 
             /**
+             * Move all data-* keys
+             * to attributes.
+             */
+            foreach ($column as $attribute => $value) {
+                if (str_is('data-*', $attribute)) {
+                    array_set($column, 'attributes.' . $attribute, array_pull($column, $attribute));
+                }
+            }
+
+            /**
              * If no value wrap is set
              * then use a default.
              */

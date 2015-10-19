@@ -83,6 +83,10 @@ class ColumnBuilder
 
             $column = $this->evaluator->evaluate($column, compact('entry', 'tree'));
 
+            if (array_get($column, 'enabled', null) === false) {
+                continue;
+            }
+
             $column['value'] = $this->value->make($tree, $column, $entry);
 
             $columns->push($this->factory->make($column));

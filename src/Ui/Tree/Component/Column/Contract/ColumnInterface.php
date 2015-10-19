@@ -27,6 +27,21 @@ interface ColumnInterface
     public function setWrapper($wrapper);
 
     /**
+     * Get the attributes.
+     *
+     * @return array
+     */
+    public function getAttributes();
+
+    /**
+     * Set the attributes.
+     *
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes);
+
+    /**
      * Get the view.
      *
      * @return null|string

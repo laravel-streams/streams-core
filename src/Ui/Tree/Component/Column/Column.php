@@ -21,6 +21,13 @@ class Column implements ColumnInterface
     protected $wrapper = null;
 
     /**
+     * The column attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [];
+
+    /**
      * The column view.
      *
      * @var null
@@ -74,6 +81,29 @@ class Column implements ColumnInterface
     public function setWrapper($wrapper)
     {
         $this->wrapper = $wrapper;
+
+        return $this;
+    }
+
+    /**
+     * Get the attributes.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Set the attributes.
+     *
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
 
         return $this;
     }

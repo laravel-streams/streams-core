@@ -49,5 +49,19 @@ class SetDefaultParameters implements SelfHandling
                 $this->builder->setButtons($buttons . '@handle');
             }
         }
+
+        /**
+         * Set the default columns handler based
+         * on the builder class. Defaulting to
+         * no handler.
+         */
+        if (!$this->builder->getColumns()) {
+
+            $columns = str_replace('TreeBuilder', 'TreeColumns', get_class($this->builder));
+
+            if (class_exists($columns)) {
+                $this->builder->setColumns($columns . '@handle');
+            }
+        }
     }
 }
