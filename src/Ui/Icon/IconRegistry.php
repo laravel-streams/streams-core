@@ -115,6 +115,7 @@ class IconRegistry
         'cubes'                => 'fa fa-cubes',
         'locked'               => 'fa fa-lock',
         'lock'                 => 'fa fa-lock',
+        'home'                 => 'fa fa-home',
         'film'                 => 'fa fa-film',
         'star'                 => 'fa fa-star',
         'plug'                 => 'fa fa-plug',
