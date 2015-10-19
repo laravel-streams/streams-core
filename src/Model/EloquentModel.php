@@ -227,7 +227,7 @@ class EloquentModel extends Model implements Arrayable
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    /*public function newQuery()
+    public function newQuery()
     {
         $builder = new EloquentQueryBuilder($this->newBaseQueryBuilder());
 
@@ -237,7 +237,7 @@ class EloquentModel extends Model implements Arrayable
         $builder->setModel($this)->with($this->with);
 
         return $this->applyGlobalScopes($builder);
-    }*/
+    }
 
     /*
      * Alias for getTranslation()

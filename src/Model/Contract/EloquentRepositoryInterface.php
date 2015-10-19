@@ -62,6 +62,14 @@ interface EloquentRepositoryInterface
     public function save(EloquentModel $entry);
 
     /**
+     * Update multiple records.
+     *
+     * @param array $attributes
+     * @return bool
+     */
+    public function update(array $attributes = []);
+
+    /**
      * Delete a record.
      *
      * @param EloquentModel $entry

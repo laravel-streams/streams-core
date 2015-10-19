@@ -119,6 +119,17 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Update multiple records.
+     *
+     * @param array $attributes
+     * @return bool
+     */
+    public function update(array $attributes = [])
+    {
+        return $this->model->update($attributes);
+    }
+
+    /**
      * Delete a record.
      *
      * @param EloquentModel $entry

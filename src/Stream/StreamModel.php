@@ -321,6 +321,16 @@ class StreamModel extends EloquentModel implements StreamInterface
     }
 
     /**
+     * Get the sortable flag.
+     *
+     * @return bool
+     */
+    public function isSortable()
+    {
+        return $this->sortable;
+    }
+
+    /**
      * Get the trashable flag.
      *
      * @return bool

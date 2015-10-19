@@ -89,6 +89,13 @@ interface StreamInterface
     public function isHidden();
 
     /**
+     * Get the sortable flag.
+     *
+     * @return bool
+     */
+    public function isSortable();
+
+    /**
      * Get the trashable flag.
      *
      * @return bool

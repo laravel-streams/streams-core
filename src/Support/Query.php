@@ -7,20 +7,39 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * Class Query
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Support
+ */
 class Query
 {
 
-
     /**
-     * These are methods that are
-     * protected and may not be
-     * accessed during plugin use.
+     * These are method prefixes that will
+     * help us apply modifying methods.
      *
      * @var array
      */
-    protected $protectedMethods = [
-        'update',
-        'delete'
+    protected $prefixes = [
+        'where_',
+        'or_where_',
+        'and_where_',
+        'order_by_'
+    ];
+
+    /**
+     * These are pre-approved safe methods
+     * that are accessible via this API.
+     *
+     * @var array
+     */
+    protected $methods = [
+        'order_by',
+        'where_raw'
     ];
 
     /**
@@ -133,7 +152,7 @@ class Query
      * @param string $fetch
      * @return array|Builder
      */
-    protected function build(array $parameters)
+    public function build(array $parameters)
     {
         // Get the model instance.
         $model = $this->getModel($parameters);
@@ -155,16 +174,32 @@ class Query
          */
         foreach ($parameters as $method => $arguments) {
 
-            $method = camel_case($method);
+            if (in_array($method, $this->methods)) {
 
-            if (in_array($method, $this->protectedMethods)) {
-                throw new \Exception("The [{$method}] method is not allowed!");
+                call_user_func_array([$query, camel_case($method)], (array)$arguments);
+
+                continue;
             }
 
-            if (is_array($arguments)) {
-                call_user_func_array([$query, $method], $arguments);
-            } else {
-                call_user_func_array([$query, $method], [$arguments]);
+            foreach ($this->prefixes as $prefix) {
+                if (starts_with($method, $prefix)) {
+
+                    $column = substr($method, strlen($prefix));
+                    $method = camel_case(substr($method, 0, -strlen($column)));
+
+                    if (!is_array($arguments)) {
+                        $arguments = [
+                            $column,
+                            $arguments
+                        ];
+                    } else {
+                        array_unshift($arguments, $column);
+                    }
+
+                    call_user_func_array([$query, $method], $arguments);
+
+                    continue;
+                }
             }
         }
 

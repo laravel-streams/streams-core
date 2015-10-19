@@ -1,8 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\PagesModule\Page\PageModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Model\Pages\PagesPagesEntryModel;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -148,8 +150,14 @@ class EloquentQueryBuilder extends Builder
         $model = $this->getModel();
         $query = $this->getQuery();
 
-        if ($query->orders === null && ($model instanceof EntryInterface || $model instanceof AssignmentModel)) {
-            $query->orderBy('sort_order', 'ASC');
+        if ($query->orders === null) {
+            if ($model instanceof AssignmentModel) {
+                $query->orderBy('sort_order', 'ASC');
+            } elseif ($model instanceof EntryInterface) {
+                if ($model->getStream()->isSortable()) {
+                    $query->orderBy('sort_order', 'ASC');
+                }
+            }
         }
     }
 }
