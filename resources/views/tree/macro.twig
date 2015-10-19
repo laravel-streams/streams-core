@@ -5,10 +5,10 @@
 
                 {{ icon('bars', 'handle btn btn-xs') }}
 
-                {% for column in item.columns %}
-                    {% if column.value %}
-                        <span class="{{ column.class }}" {{ html_attributes(column.attributes) }}>
-                        {{ column.value|raw }}
+                {% for segment in item.segments %}
+                    {% if segment.value %}
+                        <span class="{{ segment.class }}" {{ html_attributes(segment.attributes) }}>
+                        {{ segment.value|raw }}
                     </span>
                     {% endif %}
                 {% endfor %}

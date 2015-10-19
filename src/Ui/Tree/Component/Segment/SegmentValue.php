@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Column;
+<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
 
 use Anomaly\Streams\Platform\Support\Value;
 use Anomaly\Streams\Platform\Ui\Tree\Tree;
@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\View\View;
 
 /**
- * Class ColumnValue
+ * Class SegmentValue
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Column
+ * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Segment
  */
-class ColumnValue
+class SegmentValue
 {
 
     /**
@@ -25,7 +25,7 @@ class ColumnValue
     protected $value;
 
     /**
-     * Create a new ColumnValue instance.
+     * Create a new SegmentValue instance.
      *
      * @param Value $value
      */
@@ -35,15 +35,15 @@ class ColumnValue
     }
 
     /**
-     * Return the column value.
+     * Return the segment value.
      *
      * @param Tree $tree
-     * @param array $column
+     * @param array $segment
      * @param       $entry
      * @return View|mixed|null
      */
-    public function make(Tree $tree, array $column, $entry)
+    public function make(Tree $tree, array $segment, $entry)
     {
-        return $this->value->make($column, $entry, 'entry', compact('tree'));
+        return $this->value->make($segment, $entry, 'entry', compact('tree'));
     }
 }

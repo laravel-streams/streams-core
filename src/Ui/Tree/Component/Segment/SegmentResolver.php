@@ -1,17 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Column;
+<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
 
 use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
 /**
- * Class ColumnResolver
+ * Class SegmentResolver
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Tree\Component\View
  */
-class ColumnResolver
+class SegmentResolver
 {
 
     /**
@@ -22,7 +22,7 @@ class ColumnResolver
     protected $resolver;
 
     /**
-     * Create a new ColumnResolver instance.
+     * Create a new SegmentResolver instance.
      *
      * @param Resolver $resolver
      */
@@ -38,6 +38,6 @@ class ColumnResolver
      */
     public function resolve(TreeBuilder $builder)
     {
-        $this->resolver->resolve($builder->getColumns(), compact('builder'));
+        $this->resolver->resolve($builder->getSegments(), compact('builder'));
     }
 }

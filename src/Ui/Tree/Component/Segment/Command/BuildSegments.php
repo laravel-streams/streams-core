@@ -1,16 +1,16 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Column\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Command;
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
 /**
- * Class BuildColumns
+ * Class BuildSegments
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Column\Command
+ * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Command
  */
-class BuildColumns
+class BuildSegments
 {
 
     /**
@@ -21,7 +21,7 @@ class BuildColumns
     protected $builder;
 
     /**
-     * Create a new BuildColumns instance.
+     * Create a new BuildSegments instance.
      *
      * @param TreeBuilder $builder
      */

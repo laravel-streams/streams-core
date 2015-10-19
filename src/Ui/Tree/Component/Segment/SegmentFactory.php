@@ -1,25 +1,25 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Column;
+<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
 
 use Anomaly\Streams\Platform\Support\Hydrator;
-use Anomaly\Streams\Platform\Ui\Tree\Component\Column\Contract\ColumnInterface;
+use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Contract\SegmentInterface;
 
 /**
- * Class ColumnFactory
+ * Class SegmentFactory
  *
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Ui\Tree\Component\Column
+ * @package Anomaly\Streams\Platform\Ui\Tree\Component\Segment
  */
-class ColumnFactory
+class SegmentFactory
 {
 
     /**
-     * The default column class.
+     * The default segment class.
      *
      * @var string
      */
-    protected $column = Column::class;
+    protected $segment = Segment::class;
 
     /**
      * The hydrator utility.
@@ -29,7 +29,7 @@ class ColumnFactory
     protected $hydrator;
 
     /**
-     * Create a new ColumnFactory instance.
+     * Create a new SegmentFactory instance.
      *
      * @param Hydrator $hydrator
      */
@@ -39,17 +39,17 @@ class ColumnFactory
     }
 
     /**
-     * Make a column.
+     * Make a segment.
      *
      * @param  array $parameters
-     * @return ColumnInterface
+     * @return SegmentInterface
      */
     public function make(array $parameters)
     {
-        $column = app()->make(array_get($parameters, 'column', $this->column), $parameters);
+        $segment = app()->make(array_get($parameters, 'segment', $this->segment), $parameters);
 
-        $this->hydrator->hydrate($column, $parameters);
+        $this->hydrator->hydrate($segment, $parameters);
 
-        return $column;
+        return $segment;
     }
 }

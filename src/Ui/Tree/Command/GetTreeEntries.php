@@ -23,7 +23,7 @@ class GetTreeEntries implements SelfHandling
     protected $builder;
 
     /**
-     * Create a new BuildTreeColumnsCommand instance.
+     * Create a new BuildTreeSegmentsCommand instance.
      *
      * @param TreeBuilder $builder
      */

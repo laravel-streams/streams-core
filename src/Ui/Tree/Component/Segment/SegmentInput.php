@@ -1,46 +1,46 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Column;
+<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
 
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
 /**
- * Class ColumnInput
+ * Class SegmentInput
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Column
+ * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Segment
  */
-class ColumnInput
+class SegmentInput
 {
 
     /**
      * The resolver utility.
      *
-     * @var ColumnResolver
+     * @var SegmentResolver
      */
     protected $resolver;
 
     /**
-     * The column normalizer.
+     * The segment normalizer.
      *
-     * @var ColumnNormalizer
+     * @var SegmentNormalizer
      */
     protected $normalizer;
 
     /**
-     * Create a new ColumnInput instance.
+     * Create a new SegmentInput instance.
      *
-     * @param ColumnResolver   $resolver
-     * @param ColumnNormalizer $normalizer
+     * @param SegmentResolver   $resolver
+     * @param SegmentNormalizer $normalizer
      */
-    public function __construct(ColumnResolver $resolver, ColumnNormalizer $normalizer)
+    public function __construct(SegmentResolver $resolver, SegmentNormalizer $normalizer)
     {
         $this->resolver   = $resolver;
         $this->normalizer = $normalizer;
     }
 
     /**
-     * Read the builder's column input.
+     * Read the builder's segment input.
      *
      * @param TreeBuilder $builder
      */

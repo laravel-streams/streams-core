@@ -1,62 +1,62 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Column;
+<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment;
 
-use Anomaly\Streams\Platform\Ui\Tree\Component\Column\Contract\ColumnInterface;
+use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Contract\SegmentInterface;
 
 /**
- * Class Column
+ * Class Segment
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Column
+ * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Segment
  */
-class Column implements ColumnInterface
+class Segment implements SegmentInterface
 {
 
     /**
-     * The column wrapper.
+     * The segment wrapper.
      *
      * @var null|string
      */
     protected $wrapper = null;
 
     /**
-     * The column attributes.
+     * The segment attributes.
      *
      * @var array
      */
     protected $attributes = [];
 
     /**
-     * The column view.
+     * The segment view.
      *
      * @var null
      */
     protected $view = null;
 
     /**
-     * The column value.
+     * The segment value.
      *
      * @var null|mixed
      */
     protected $value = null;
 
     /**
-     * The column class.
+     * The segment class.
      *
      * @var null|string
      */
     protected $class = null;
 
     /**
-     * The column header.
+     * The segment header.
      *
      * @var null|string
      */
     protected $header = null;
 
     /**
-     * The column entry.
+     * The segment entry.
      *
      * @var null|mixed
      */
@@ -132,7 +132,7 @@ class Column implements ColumnInterface
     }
 
     /**
-     * Get the column class.
+     * Get the segment class.
      *
      * @return null|string
      */
@@ -142,7 +142,7 @@ class Column implements ColumnInterface
     }
 
     /**
-     * Set the column class.
+     * Set the segment class.
      *
      * @param $class
      * @return $this
@@ -155,7 +155,7 @@ class Column implements ColumnInterface
     }
 
     /**
-     * Get the column header.
+     * Get the segment header.
      *
      * @return null|string
      */
@@ -165,7 +165,7 @@ class Column implements ColumnInterface
     }
 
     /**
-     * Set the column header.
+     * Set the segment header.
      *
      * @param $header
      * @return $this
@@ -178,7 +178,7 @@ class Column implements ColumnInterface
     }
 
     /**
-     * Get the column value.
+     * Get the segment value.
      *
      * @return mixed|null
      */
@@ -188,7 +188,7 @@ class Column implements ColumnInterface
     }
 
     /**
-     * Set the column value.
+     * Set the segment value.
      *
      * @param $value
      * @return $this

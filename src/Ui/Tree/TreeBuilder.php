@@ -37,11 +37,11 @@ class TreeBuilder
     protected $model = null;
 
     /**
-     * The item columns.
+     * The item segments.
      *
      * @var array|string
      */
-    protected $columns = [];
+    protected $segments = [];
 
     /**
      * The item buttons.
@@ -157,26 +157,26 @@ class TreeBuilder
     }
 
     /**
-     * Set the columns.
+     * Set the segments.
      *
-     * @param $columns
+     * @param $segments
      * @return $this
      */
-    public function setColumns($columns)
+    public function setSegments($segments)
     {
-        $this->columns = $columns;
+        $this->segments = $segments;
 
         return $this;
     }
 
     /**
-     * Get the columns.
+     * Get the segments.
      *
      * @return array
      */
-    public function getColumns()
+    public function getSegments()
     {
-        return $this->columns;
+        return $this->segments;
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Item;
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
-use Anomaly\Streams\Platform\Ui\Tree\Component\Column\ColumnCollection;
+use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\SegmentCollection;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
 
 /**
@@ -30,11 +30,11 @@ class Item implements ItemInterface
     protected $parent;
 
     /**
-     * The column collection.
+     * The segment collection.
      *
-     * @var ColumnCollection
+     * @var SegmentCollection
      */
-    protected $columns;
+    protected $segments;
 
     /**
      * The item buttons.
@@ -90,24 +90,24 @@ class Item implements ItemInterface
     }
 
     /**
-     * Get the columns.
+     * Get the segments.
      *
-     * @return ColumnCollection
+     * @return SegmentCollection
      */
-    public function getColumns()
+    public function getSegments()
     {
-        return $this->columns;
+        return $this->segments;
     }
 
     /**
-     * Set the columns.
+     * Set the segments.
      *
-     * @param ColumnCollection $columns
+     * @param SegmentCollection $segments
      * @return $this
      */
-    public function setColumns(ColumnCollection $columns)
+    public function setSegments(SegmentCollection $segments)
     {
-        $this->columns = $columns;
+        $this->segments = $segments;
 
         return $this;
     }

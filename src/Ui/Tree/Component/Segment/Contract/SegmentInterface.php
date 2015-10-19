@@ -1,14 +1,14 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Column\Contract;
+<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Contract;
 
 /**
- * Interface ColumnInterface
+ * Interface SegmentInterface
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Column\Contract
+ * @package       Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Contract
  */
-interface ColumnInterface
+interface SegmentInterface
 {
 
     /**
@@ -57,7 +57,7 @@ interface ColumnInterface
     public function setView($view);
 
     /**
-     * Set the column class.
+     * Set the segment class.
      *
      * @param $class
      * @return $this
@@ -65,14 +65,14 @@ interface ColumnInterface
     public function setClass($class);
 
     /**
-     * Get the column class.
+     * Get the segment class.
      *
      * @return null|string
      */
     public function getClass();
 
     /**
-     * Set the column header.
+     * Set the segment header.
      *
      * @param $header
      * @return $this
@@ -80,14 +80,14 @@ interface ColumnInterface
     public function setHeader($header);
 
     /**
-     * Get the column header.
+     * Get the segment header.
      *
      * @return null|string
      */
     public function getHeader();
 
     /**
-     * Set the column value.
+     * Set the segment value.
      *
      * @param $value
      * @return $this
@@ -95,7 +95,7 @@ interface ColumnInterface
     public function setValue($value);
 
     /**
-     * Get the column value.
+     * Get the segment value.
      *
      * @return mixed|null
      */

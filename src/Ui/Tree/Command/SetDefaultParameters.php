@@ -51,16 +51,16 @@ class SetDefaultParameters implements SelfHandling
         }
 
         /**
-         * Set the default columns handler based
+         * Set the default segments handler based
          * on the builder class. Defaulting to
          * no handler.
          */
-        if (!$this->builder->getColumns()) {
+        if (!$this->builder->getSegments()) {
 
-            $columns = str_replace('TreeBuilder', 'TreeColumns', get_class($this->builder));
+            $segments = str_replace('TreeBuilder', 'TreeSegments', get_class($this->builder));
 
-            if (class_exists($columns)) {
-                $this->builder->setColumns($columns . '@handle');
+            if (class_exists($segments)) {
+                $this->builder->setSegments($segments . '@handle');
             }
         }
     }

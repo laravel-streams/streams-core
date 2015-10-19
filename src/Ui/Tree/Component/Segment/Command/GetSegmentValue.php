@@ -1,17 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Column\Command;
+<?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Command;
 
-use Anomaly\Streams\Platform\Ui\Tree\Component\Column\Contract\ColumnInterface;
+use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Contract\SegmentInterface;
 use Anomaly\Streams\Platform\Ui\Tree\Tree;
 
 /**
- * Class GetColumnValue
+ * Class GetSegmentValue
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Tree\Command
  */
-class GetColumnValue
+class GetSegmentValue
 {
 
     /**
@@ -22,11 +22,11 @@ class GetColumnValue
     protected $tree;
 
     /**
-     * The column object.
+     * The segment object.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Tree\Component\Column\Contract\ColumnInterface
+     * @var \Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Contract\SegmentInterface
      */
-    protected $column;
+    protected $segment;
 
     /**
      * The entry object.
@@ -36,27 +36,27 @@ class GetColumnValue
     protected $entry;
 
     /**
-     * Create a new GetColumnValue instance.
+     * Create a new GetSegmentValue instance.
      *
      * @param Tree           $tree
-     * @param ColumnInterface $column
+     * @param SegmentInterface $segment
      * @param                 $entry
      */
-    function __construct(Tree $tree, ColumnInterface $column, $entry)
+    function __construct(Tree $tree, SegmentInterface $segment, $entry)
     {
         $this->entry  = $entry;
         $this->tree  = $tree;
-        $this->column = $column;
+        $this->segment = $segment;
     }
 
     /**
-     * Get the column object.
+     * Get the segment object.
      *
-     * @return ColumnInterface
+     * @return SegmentInterface
      */
-    public function getColumn()
+    public function getSegment()
     {
-        return $this->column;
+        return $this->segment;
     }
 
     /**
