@@ -72,21 +72,6 @@ interface SegmentInterface
     public function getClass();
 
     /**
-     * Set the segment header.
-     *
-     * @param $header
-     * @return $this
-     */
-    public function setHeader($header);
-
-    /**
-     * Get the segment header.
-     *
-     * @return null|string
-     */
-    public function getHeader();
-
-    /**
      * Set the segment value.
      *
      * @param $value

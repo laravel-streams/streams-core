@@ -49,13 +49,6 @@ class Segment implements SegmentInterface
     protected $class = null;
 
     /**
-     * The segment header.
-     *
-     * @var null|string
-     */
-    protected $header = null;
-
-    /**
      * The segment entry.
      *
      * @var null|mixed
@@ -150,29 +143,6 @@ class Segment implements SegmentInterface
     public function setClass($class)
     {
         $this->class = $class;
-
-        return $this;
-    }
-
-    /**
-     * Get the segment header.
-     *
-     * @return null|string
-     */
-    public function getHeader()
-    {
-        return $this->header;
-    }
-
-    /**
-     * Set the segment header.
-     *
-     * @param $header
-     * @return $this
-     */
-    public function setHeader($header)
-    {
-        $this->header = $header;
 
         return $this;
     }
