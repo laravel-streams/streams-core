@@ -1,10 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\PagesModule\Page\PageModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Model\Pages\PagesPagesEntryModel;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -35,7 +33,7 @@ class EloquentQueryBuilder extends Builder
     {
         $this->orderByDefault();
 
-        if (!env('APP_DEBUG')) {
+        /*if (!env('APP_DEBUG') || env('DB_CACHE')) {
 
             $this->rememberIndex();
 
@@ -48,7 +46,7 @@ class EloquentQueryBuilder extends Builder
                     }
                 );
             }
-        }
+        }*/
 
         return parent::get($columns);
     }
