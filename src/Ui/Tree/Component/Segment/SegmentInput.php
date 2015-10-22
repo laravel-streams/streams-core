@@ -14,6 +14,13 @@ class SegmentInput
 {
 
     /**
+     * The segment parser.
+     *
+     * @var SegmentParser
+     */
+    protected $parser;
+
+    /**
      * The resolver utility.
      *
      * @var SegmentResolver
@@ -37,12 +44,18 @@ class SegmentInput
     /**
      * Create a new SegmentInput instance.
      *
+     * @param SegmentParser     $parser
      * @param SegmentResolver   $resolver
      * @param SegmentTranslator $translator
      * @param SegmentNormalizer $normalizer
      */
-    public function __construct(SegmentResolver $resolver, SegmentTranslator $translator, SegmentNormalizer $normalizer)
-    {
+    public function __construct(
+        SegmentParser $parser,
+        SegmentResolver $resolver,
+        SegmentTranslator $translator,
+        SegmentNormalizer $normalizer
+    ) {
+        $this->parser     = $parser;
         $this->resolver   = $resolver;
         $this->translator = $translator;
         $this->normalizer = $normalizer;
@@ -57,6 +70,8 @@ class SegmentInput
     {
         $this->resolver->resolve($builder);
         $this->normalizer->normalize($builder);
+        $this->parser->parse($builder);
+        
         $this->translator->translate($builder);
     }
 }

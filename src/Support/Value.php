@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use StringTemplate\Engine;
 
 /**
  * Class Value
@@ -19,7 +18,7 @@ class Value
     /**
      * The string parser.
      *
-     * @var Engine
+     * @var Parser
      */
     protected $parser;
 
@@ -40,11 +39,11 @@ class Value
     /**
      * Create a new ColumnValue instance.
      *
-     * @param Engine    $parser
+     * @param Parser    $parser
      * @param Evaluator $evaluator
      * @param Decorator $decorator
      */
-    public function __construct(Engine $parser, Evaluator $evaluator, Decorator $decorator)
+    public function __construct(Parser $parser, Evaluator $evaluator, Decorator $decorator)
     {
         $this->parser    = $parser;
         $this->evaluator = $evaluator;
@@ -153,7 +152,7 @@ class Value
         /**
          * Parse the value with the entry.
          */
-        $value = $this->parser->render(
+        $value = $this->parser->parse(
             array_get($parameters, 'wrapper', '{value}'),
             ['value' => $value, $term => $entry]
         );

@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Event\Response;
 use Anomaly\Streams\Platform\Message\MessageBag;
+use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -36,13 +37,6 @@ class BaseController extends Controller
     protected $request;
 
     /**
-     * The response factory.
-     *
-     * @var ResponseFactory
-     */
-    protected $response;
-
-    /**
      * The flash messages.
      *
      * @var MessageBag
@@ -50,14 +44,29 @@ class BaseController extends Controller
     protected $messages;
 
     /**
+     * The response factory.
+     *
+     * @var ResponseFactory
+     */
+    protected $response;
+
+    /**
+     * The breadcrumb collection.
+     *
+     * @var BreadcrumbCollection
+     */
+    protected $breadcrumbs;
+
+    /**
      * Create a new BaseController instance.
      */
     public function __construct()
     {
-        $this->request  = app('Illuminate\Http\Request');
-        $this->events   = app('Illuminate\Contracts\Events\Dispatcher');
-        $this->response = app('Illuminate\Contracts\Routing\ResponseFactory');
-        $this->messages = app('Anomaly\Streams\Platform\Message\MessageBag');
+        $this->request     = app('Illuminate\Http\Request');
+        $this->events      = app('Illuminate\Contracts\Events\Dispatcher');
+        $this->messages    = app('Anomaly\Streams\Platform\Message\MessageBag');
+        $this->response    = app('Illuminate\Contracts\Routing\ResponseFactory');
+        $this->breadcrumbs = app('Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection');
 
         $this->events->fire(new Response($this));
 
