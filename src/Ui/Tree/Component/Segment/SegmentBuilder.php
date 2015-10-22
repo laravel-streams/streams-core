@@ -48,7 +48,7 @@ class SegmentBuilder
      * @param SegmentInput   $input
      * @param SegmentValue   $value
      * @param SegmentFactory $factory
-     * @param Evaluator     $evaluator
+     * @param Evaluator      $evaluator
      */
     public function __construct(SegmentInput $input, SegmentValue $value, SegmentFactory $factory, Evaluator $evaluator)
     {
