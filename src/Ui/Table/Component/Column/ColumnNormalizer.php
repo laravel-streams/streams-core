@@ -59,6 +59,15 @@ class ColumnNormalizer
             }
 
             /**
+             * If the key is non-numerical and
+             * the column is an array without
+             * a heading then use the key.
+             */
+            if (!is_numeric($key) && is_array($column) && !array_has($column, 'heading')) {
+                $column['heading'] = $key;
+            }
+
+            /**
              * If no value wrap is set
              * then use a default.
              */

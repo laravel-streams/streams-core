@@ -60,6 +60,15 @@ class HeaderNormalizer
             }
 
             /**
+             * If the key is non-numerical and
+             * the column is an array without
+             * a heading then use the key.
+             */
+            if (!is_numeric($key) && is_array($column) && !isset($column['heading'])) {
+                $column['heading'] = $key;
+            }
+
+            /**
              * If there is no value then use NULL
              */
             array_set($column, 'value', array_get($column, 'value', null));
