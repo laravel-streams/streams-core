@@ -68,6 +68,15 @@ class ColumnNormalizer
             }
 
             /**
+             * If the key is non-numerical and
+             * the column is an array without
+             * a value then use the key.
+             */
+            if (!is_numeric($key) && is_array($column) && !isset($column['value'])) {
+                $column['value'] = $key;
+            }
+
+            /**
              * If no value wrap is set
              * then use a default.
              */
