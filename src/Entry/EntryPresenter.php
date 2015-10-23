@@ -93,7 +93,7 @@ class EntryPresenter extends EloquentPresenter
                     )
                 )
             ),
-            $this->object->getTitle()
+            $this->object->{$this->object->getTitleName()}
         );
     }
 
@@ -119,7 +119,7 @@ class EntryPresenter extends EloquentPresenter
                     )
                 )
             ),
-            $this->object->getTitle()
+            $this->object->{$this->object->getTitleName()}
         );
     }
 
