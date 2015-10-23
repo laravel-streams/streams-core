@@ -38,6 +38,9 @@ class StreamsEventProvider extends EventServiceProvider
             'Anomaly\Streams\Platform\View\Listener\DecorateData',
             'Anomaly\Streams\Platform\View\Listener\LoadTemplateData'
         ],
+        'Anomaly\Streams\Platform\View\Event\TemplateDataIsLoading'       => [
+            'Anomaly\Streams\Platform\View\Listener\LoadGlobalData'
+        ],
         'Anomaly\Streams\Platform\Addon\Plugin\Event\PluginWasRegistered' => [
             'Anomaly\Streams\Platform\Addon\Plugin\Listener\AddPluginToTwig'
         ],

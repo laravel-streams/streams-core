@@ -610,7 +610,6 @@ class EloquentModel extends Model implements Arrayable
     public function toArray()
     {
         $attributes = $this->attributesToArray();
-        $methods    = $this->methodsToArray();
 
         foreach ($this->translatedAttributes as $field) {
             if ($translation = $this->getTranslation()) {
@@ -618,16 +617,11 @@ class EloquentModel extends Model implements Arrayable
             }
         }
 
-        foreach ($methods as $method) {
-            $attributes[snake_case($method)] = call_user_func([$this, $method]);
+        foreach ($this->getArrayableMethods() as $key => $method) {
+            $attributes[$key] = call_user_func([$this, $method]);
         }
 
         return $attributes;
-    }
-
-    protected function methodsToArray()
-    {
-        return $this->getArrayableMethods();
     }
 
     protected function getArrayableMethods()

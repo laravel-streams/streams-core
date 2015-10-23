@@ -5,9 +5,11 @@ use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Routing\Redirector;
 
 /**
  * Class BaseController
@@ -21,6 +23,13 @@ class BaseController extends Controller
 {
 
     use DispatchesJobs;
+
+    /**
+     * The view factory.
+     *
+     * @var Factory
+     */
+    protected $view;
 
     /**
      * The event dispatcher.
@@ -44,6 +53,13 @@ class BaseController extends Controller
     protected $messages;
 
     /**
+     * The redirect utility.
+     *
+     * @var Redirector
+     */
+    protected $redirect;
+
+    /**
      * The response factory.
      *
      * @var ResponseFactory
@@ -63,6 +79,8 @@ class BaseController extends Controller
     public function __construct()
     {
         $this->request     = app('Illuminate\Http\Request');
+        $this->redirect    = app('Illuminate\Routing\Redirector');
+        $this->view        = app('Illuminate\Contracts\View\Factory');
         $this->events      = app('Illuminate\Contracts\Events\Dispatcher');
         $this->messages    = app('Anomaly\Streams\Platform\Message\MessageBag');
         $this->response    = app('Illuminate\Contracts\Routing\ResponseFactory');

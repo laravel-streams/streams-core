@@ -42,8 +42,14 @@ class ColumnValue
      * @param       $entry
      * @return View|mixed|null
      */
-    public function make(Table $table, array $column, $entry)
+    public function make(Table $table, $column, $entry)
     {
+        if (is_array($column['value'])) {
+            foreach ($column['value'] as &$value) {
+                $value = $this->value->make($value, $entry, 'entry', compact('table'));
+            }
+        }
+
         return $this->value->make($column, $entry, 'entry', compact('table'));
     }
 }
