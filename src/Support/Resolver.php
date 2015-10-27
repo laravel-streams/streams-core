@@ -41,18 +41,33 @@ class Resolver
      *
      * @param        $target
      * @param array  $arguments
-     * @param string $method
+     * @param array  $options
      * @return mixed
      */
-    public function resolve($target, array $arguments = [], $method = 'handle')
+    public function resolve($target, array $arguments = [], array $options = [])
     {
+        $method = array_get($options, 'method', 'handle');
+        $recursive = array_get($options, 'recursive', false);
+
         if (is_string($target) && str_contains($target, '@')) {
             $target = $this->container->call($target, $arguments);
         } elseif (is_string($target) && class_exists($target) && class_implements($target, SelfHandling::class)) {
             $target = $this->container->call($target . '@' . $method, $arguments);
         } elseif (is_array($target)) {
             foreach ($target as $key => $value) {
-                $target[$key] = $this->resolve($value, $arguments, $method);
+                if ($recursive) {
+                    $target[$key] = $this->resolve($value, $arguments, $method, $options);
+                } else {
+                    if (is_string($value) && str_contains($value, '@')) {
+                        $target[$key] = $this->container->call($value, $arguments);
+                    } elseif (is_string($value) && class_exists($value) && class_implements(
+                            $value,
+                            SelfHandling::class
+                        )
+                    ) {
+                        $target[$key] = $this->container->call($value . '@' . $method, $arguments);
+                    }
+                }
             }
         }
 
