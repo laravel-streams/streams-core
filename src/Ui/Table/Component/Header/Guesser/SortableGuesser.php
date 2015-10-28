@@ -44,6 +44,17 @@ class SortableGuesser
             }
 
             /**
+             * If the sort column is set and
+             * sortable is not yet, set it.
+             */
+            if (isset($column['sort_column'])) {
+
+                $column['sortable'] = true;
+
+                continue;
+            }
+
+            /**
              * No stream means we can't
              * really do much here.
              */
