@@ -23,6 +23,7 @@ class AddImageNamespaces implements SelfHandling
     {
         $image->addPath('public', base_path('public'));
         $image->addPath('asset', $application->getAssetsPath());
+        $image->addPath('resources', $application->getResourcesPath());
         $image->addPath('streams', $container->make('streams.path') . '/resources');
         $image->addPath('bower', $container->make('path.base') . '/bin/bower_components');
     }
