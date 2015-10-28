@@ -101,6 +101,17 @@ class Application
     }
 
     /**
+     * Get the resources path for the application.
+     *
+     * @param string $path
+     * @return string
+     */
+    public function getResourcesPath($path = '')
+    {
+        return base_path('resources/' . $this->getReference()) . ($path ? '/' . $path : $path);
+    }
+
+    /**
      * Get the public assets path for the application.
      *
      * @param string $path
