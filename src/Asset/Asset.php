@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Asset\Filter\CoffeeFilter;
 use Anomaly\Streams\Platform\Asset\Filter\CssMinFilter;
 use Anomaly\Streams\Platform\Asset\Filter\JsMinFilter;
 use Anomaly\Streams\Platform\Asset\Filter\LessFilter;
+use Anomaly\Streams\Platform\Asset\Filter\NodeLessFilter;
 use Anomaly\Streams\Platform\Asset\Filter\ParseFilter;
 use Anomaly\Streams\Platform\Asset\Filter\ScssFilter;
 use Anomaly\Streams\Platform\Asset\Filter\SeparatorFilter;
@@ -17,6 +18,7 @@ use Assetic\Filter\PhpCssEmbedFilter;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
 use League\Flysystem\MountManager;
+use Illuminate\Config\Repository;
 
 /**
  * Class Asset
@@ -99,6 +101,13 @@ class Asset
     protected $application;
 
     /**
+     * The filters settings config
+     *
+     * @var array
+     */
+    protected $config;
+
+    /**
      * Create a new Application instance.
      *
      * @param Application     $application
@@ -114,8 +123,10 @@ class Asset
         MountManager $manager,
         AssetPaths $paths,
         AssetParser $parser,
-        HtmlBuilder $html
+        HtmlBuilder $html,
+        Repository $config
     ) {
+        $this->config      = $config->get('streams::assets.filters', ['less' => 'phpless']);
         $this->html        = $html;
         $this->paths       = $paths;
         $this->themes      = $themes;
@@ -396,7 +407,8 @@ class Asset
                     break;
 
                 case 'less':
-                    $filter = new LessFilter($this->parser);
+                    $filter = ($this->config['less'] == 'phpless') ? new LessFilter($this->parser) :
+                    new NodeLessFilter($this->parser);
                     break;
 
                 case 'styl':
