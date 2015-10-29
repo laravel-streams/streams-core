@@ -65,6 +65,13 @@ interface AssignmentInterface
     public function getLabel();
 
     /**
+     * Get the warning.
+     *
+     * @return string
+     */
+    public function getWarning();
+
+    /**
      * Get the instructions.
      *
      * @return string

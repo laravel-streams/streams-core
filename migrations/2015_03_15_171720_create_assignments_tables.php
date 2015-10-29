@@ -53,6 +53,7 @@ class CreateAssignmentsTables extends Migration
                     $table->string('locale')->index();
 
                     $table->string('label')->nullable();
+                    $table->string('warning')->nullable();
                     $table->string('placeholder')->nullable();
                     $table->text('instructions')->nullable();
                 }

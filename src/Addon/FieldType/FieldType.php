@@ -70,35 +70,42 @@ class FieldType extends Addon
     /**
      * The field slug.
      *
-     * @var null
+     * @var null|string
      */
     protected $field = null;
 
     /**
      * The field value.
      *
-     * @var null
+     * @var null|mixed
      */
     protected $value = null;
 
     /**
      * The field label.
      *
-     * @var null
+     * @var null|string
      */
     protected $label = null;
 
     /**
+     * The field warning.
+     *
+     * @var null|string
+     */
+    protected $warning = null;
+
+    /**
      * The field's input locale.
      *
-     * @var null
+     * @var null|string
      */
     protected $locale = null;
 
     /**
      * The field instructions.
      *
-     * @var null
+     * @var null|string
      */
     protected $instructions = null;
 
@@ -505,6 +512,29 @@ class FieldType extends Addon
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * Set the warning.
+     *
+     * @param $warning
+     * @return $this
+     */
+    public function setWarning($warning)
+    {
+        $this->warning = $warning;
+
+        return $this;
+    }
+
+    /**
+     * Get the warning.
+     *
+     * @return null|string
+     */
+    public function getWarning()
+    {
+        return $this->warning;
     }
 
     /**

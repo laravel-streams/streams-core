@@ -10,6 +10,7 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\ReadOnlyGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\RequiredGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\TranslatableGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\UniqueGuesser;
+use Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser\WarningsGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -43,6 +44,13 @@ class FieldGuesser
      * @var EnabledGuesser
      */
     protected $enabled;
+
+    /**
+     * The warnings guesser.
+     *
+     * @var WarningsGuesser
+     */
+    protected $warnings;
 
     /**
      * The prefixes guesser.
@@ -99,6 +107,7 @@ class FieldGuesser
      * @param LabelsGuesser       $labels
      * @param UniqueGuesser       $unique
      * @param EnabledGuesser      $enabled
+     * @param WarningsGuesser     $warnings
      * @param PrefixesGuesser     $prefixes
      * @param RequiredGuesser     $required
      * @param DisabledGuesser     $disabled
@@ -111,6 +120,7 @@ class FieldGuesser
         LabelsGuesser $labels,
         UniqueGuesser $unique,
         EnabledGuesser $enabled,
+        WarningsGuesser $warnings,
         PrefixesGuesser $prefixes,
         RequiredGuesser $required,
         DisabledGuesser $disabled,
@@ -122,6 +132,7 @@ class FieldGuesser
         $this->labels       = $labels;
         $this->unique       = $unique;
         $this->enabled      = $enabled;
+        $this->warnings     = $warnings;
         $this->prefixes     = $prefixes;
         $this->required     = $required;
         $this->disabled     = $disabled;
@@ -141,6 +152,7 @@ class FieldGuesser
         $this->labels->guess($builder);
         $this->unique->guess($builder);
         $this->enabled->guess($builder);
+        $this->warnings->guess($builder);
         $this->prefixes->guess($builder);
         $this->required->guess($builder);
         $this->disabled->guess($builder);

@@ -54,6 +54,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     protected $translatedAttributes = [
         'label',
+        'warning',
         'placeholder',
         'instructions'
     ];
@@ -227,6 +228,16 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * Get the warning.
+     *
+     * @return string
+     */
+    public function getWarning()
+    {
+        return $this->warning;
     }
 
     /**

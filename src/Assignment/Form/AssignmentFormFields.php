@@ -35,6 +35,11 @@ class AssignmentFormFields
                     'instructions' => 'streams::assignment.instructions.instructions',
                     'type'         => 'anomaly.field_type.textarea'
                 ],
+                'warning'      => [
+                    'label'        => 'streams::assignment.warning.name',
+                    'instructions' => 'streams::assignment.warning.instructions',
+                    'type'         => 'anomaly.field_type.text'
+                ],
                 'required'     => [
                     'label'        => 'streams::assignment.required.label',
                     'instructions' => 'streams::assignment.required.instructions',

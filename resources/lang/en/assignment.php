@@ -32,5 +32,9 @@ return [
     'instructions' => [
         'name'         => 'Instructions',
         'instructions' => 'Field instructions will be displayed in forms to assist users.'
+    ],
+    'warning'      => [
+        'name'         => 'Warning',
+        'instructions' => 'Warnings help bring attention to important information.'
     ]
 ];

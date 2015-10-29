@@ -21,6 +21,15 @@
         <p class="help-block">{{ field_type.instructions|raw }}</p>
     {% endif %}
 
+    {% if field_type.warning %}
+        <p class="help-block">
+            <span class="text-warning">
+                {{ icon('warning') }}
+                {{ field_type.warning }}
+            </span>
+        </p>
+    {% endif %}
+
     {{ field_type.input|raw }}
 
 </div>
