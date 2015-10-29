@@ -28,6 +28,7 @@ class IconRegistry
         'conversation'         => 'glyphicons glyphicons-conversation',
         'folder-open'          => 'glyphicons glyphicons-folder-open',
         'credit-card'          => 'glyphicons glyphicons-credit-card',
+        'git-branch'           => 'glyphicons glyphicons-git-branch',
         'cloud-plus'           => 'glyphicons glyphicons-cloud-plus',
         'adjust'               => 'glyphicons glyphicons-adjust-alt',
         'eyedropper'           => 'glyphicons glyphicons-eyedropper',
