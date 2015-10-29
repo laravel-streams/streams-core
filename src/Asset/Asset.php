@@ -16,9 +16,9 @@ use Assetic\Asset\FileAsset;
 use Assetic\Asset\GlobAsset;
 use Assetic\Filter\PhpCssEmbedFilter;
 use Collective\Html\HtmlBuilder;
+use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use League\Flysystem\MountManager;
-use Illuminate\Config\Repository;
 
 /**
  * Class Asset
@@ -101,7 +101,7 @@ class Asset
     protected $application;
 
     /**
-     * The filters settings config
+     * The config repository.
      *
      * @var array
      */
@@ -113,22 +113,23 @@ class Asset
      * @param Application     $application
      * @param ThemeCollection $themes
      * @param MountManager    $manager
-     * @param AssetPaths      $paths
      * @param AssetParser     $parser
+     * @param Repository      $config
+     * @param AssetPaths      $paths
      * @param HtmlBuilder     $html
      */
     public function __construct(
         Application $application,
         ThemeCollection $themes,
         MountManager $manager,
-        AssetPaths $paths,
         AssetParser $parser,
-        HtmlBuilder $html,
-        Repository $config
+        Repository $config,
+        AssetPaths $paths,
+        HtmlBuilder $html
     ) {
-        $this->config      = $config->get('streams::assets.filters', ['less' => 'phpless']);
         $this->html        = $html;
         $this->paths       = $paths;
+        $this->config      = $config;
         $this->themes      = $themes;
         $this->parser      = $parser;
         $this->manager     = $manager;
@@ -180,7 +181,7 @@ class Asset
             return $this;
         }
 
-        if (config('app.debug')) {
+        if ($this->config->get('app.debug')) {
             throw new \Exception("Asset [{$file}] does not exist!");
         }
     }
@@ -407,8 +408,11 @@ class Asset
                     break;
 
                 case 'less':
-                    $filter = ($this->config['less'] == 'phpless') ? new LessFilter($this->parser) :
-                    new NodeLessFilter($this->parser);
+                    if ($this->config->get('streams::assets.filters.less') == 'php') {
+                        $filter = new LessFilter($this->parser);
+                    } else {
+                        $filter = new NodeLessFilter($this->parser);
+                    }
                     break;
 
                 case 'styl':

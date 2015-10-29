@@ -14,21 +14,23 @@ return [
     |
     | $asset->add('collection.css', 'example::path/to/asset.css');
     |
-    | -------------------------------------------------------------------
-    | Explanations of Variables
-    | -------------------------------------------------------------------
-    |
-    | ['paths']   
-    | ['filters'] Setting for filters implementaitons 
-    |    * ['less']  choose between 'phpless' (default) or 'nodeless' filters
-    |
-    |
     */
+
     'paths' => [
         //'example' => 'some/local/path',
         //'s3'      => 'https://region.amazonaws.com/bucket'
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Filters
+    |--------------------------------------------------------------------------
+    |
+    | Less: "php" or "node"
+    |
+    */
+
     'filters' => [
-        'less' => 'phpless'
+        'less' => 'php'
     ]
 ];
