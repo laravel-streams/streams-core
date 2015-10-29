@@ -82,11 +82,15 @@ class EloquentTableRepository implements TableRepositoryInterface
          * we find a page that is has something to show us.
          */
         $limit  = $builder->getTableOption('limit', 15);
-        $page   = app('request')->get('page', 1);
+        $page   = app('request')->get($builder->getTableOption('prefix') . 'page', 1);
         $offset = $limit * ($page - 1);
 
         if ($total < $offset && $page > 1) {
-            $url = str_replace('page=' . $page, 'page=' . ($page - 1), app('request')->fullUrl());
+            $url = str_replace(
+                $builder->getTableOption('prefix') . 'page=' . $page,
+                $builder->getTableOption('prefix') . 'page=' . ($page - 1),
+                app('request')->fullUrl()
+            );
 
             header('Location: ' . $url);
         }
@@ -95,7 +99,7 @@ class EloquentTableRepository implements TableRepositoryInterface
          * Limit the results to the limit and offset
          * based on the page if any.
          */
-        $offset = $limit * (app('request')->get('page', 1) - 1);
+        $offset = $limit * (app('request')->get($builder->getTableOption('prefix') . 'page', 1) - 1);
 
         $query = $query->take($limit)->offset($offset);
 
