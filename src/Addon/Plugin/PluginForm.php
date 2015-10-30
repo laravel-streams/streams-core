@@ -110,6 +110,12 @@ class PluginForm
         /* @var FormBuilder $builder */
         $builder = $this->container->make(array_get($parameters, 'builder'));
 
+        // Merge options if not a handler.
+        if (is_array($options = $builder->getOptions())) {
+            $builder->setOptions(array_merge_recursive($options, array_pull($parameters, 'options', [])));
+        }
+
+        // Hydrate the builder.
         $this->hydrator->hydrate($builder, $parameters);
 
         // Use the core form handler if none set.
