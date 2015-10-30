@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <div class="container-fluid">
+    <div class="{{ form.options.container_class }}">
 
         {{ form_open({'class': 'form', 'enctype': 'multipart/form-data', 'url': form.options.url ?: url_full()}) }}
 

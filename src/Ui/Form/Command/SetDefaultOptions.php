@@ -56,5 +56,9 @@ class SetDefaultOptions implements SelfHandling
         if (!$form->getOption('panel_body_class')) {
             $form->setOption('panel_body_class', $form->getOption('panel_class') . '-body');
         }
+
+        if (!$form->getOption('container_class')) {
+            $form->setOption('container_class', 'container-fluid');
+        }
     }
 }
