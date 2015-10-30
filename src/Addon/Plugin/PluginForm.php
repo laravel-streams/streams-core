@@ -112,7 +112,7 @@ class PluginForm
 
         // Merge options if not a handler.
         if (is_array($options = $builder->getOptions())) {
-            $builder->setOptions(array_merge_recursive($options, array_pull($parameters, 'options', [])));
+            $builder->setOptions(array_replace_recursive($options, array_pull($parameters, 'options', [])));
         }
 
         // Hydrate the builder.
