@@ -23,11 +23,6 @@ class ButtonRegistry
         'default'     => [
             'type' => 'default'
         ],
-        'settings'    => [
-            'icon' => 'cog',
-            'type' => 'default',
-            'text' => 'streams::button.settings'
-        ],
         /**
          * Link Buttons
          */
@@ -113,6 +108,11 @@ class ButtonRegistry
             'text' => 'streams::button.fields',
             'icon' => 'list-alt',
             'type' => 'info'
+        ],
+        'settings'    => [
+            'text' => 'streams::button.settings',
+            'type' => 'info',
+            'icon' => 'cog',
         ],
         'configure'   => [
             'text' => 'streams::button.configure',

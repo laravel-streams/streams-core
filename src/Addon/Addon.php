@@ -163,7 +163,25 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function hasConfig($key = '*')
     {
-        return (config($this->getNamespace($key)));
+        return (bool)config($this->getNamespace($key));
+    }
+
+    /**
+     * Return whether an addon has
+     * config matching any key.
+     *
+     * @param array $keys
+     * @return bool
+     */
+    public function hasAnyConfig(array $keys = ['*'])
+    {
+        foreach ($keys as $key) {
+            if ($this->hasConfig($key)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
