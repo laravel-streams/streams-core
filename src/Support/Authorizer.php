@@ -54,6 +54,10 @@ class Authorizer
             $user = $this->guard->user();
         }
 
+        if (!$user) {
+            return true; // Don't know about this.
+        }
+
         return $this->checkPermission($permission, $user);
     }
 
