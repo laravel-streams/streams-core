@@ -70,12 +70,12 @@ class Configurator
     }
 
     /**
-     * Merge a namespace to configuration.
+     * Add namespace overrides to configuration.
      *
      * @param $namespace
      * @param $directory
      */
-    public function mergeNamespace($namespace, $directory)
+    public function addNamespaceOverrides($namespace, $directory)
     {
         if (!$this->files->isDirectory($directory)) {
             return;

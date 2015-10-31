@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Support\Configurator;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Illuminate\Contracts\Container\Container;
@@ -64,6 +65,13 @@ class AddonIntegrator
     protected $translator;
 
     /**
+     * The application instance.
+     *
+     * @var Application
+     */
+    protected $application;
+
+    /**
      * The configurator utility.
      *
      * @var Configurator
@@ -78,6 +86,7 @@ class AddonIntegrator
      * @param Container       $container
      * @param Translator      $translator
      * @param AddonProvider   $provider
+     * @param Application     $application
      * @param Configurator    $configurator
      * @param AddonCollection $collection
      * @internal param Asset $asset
@@ -89,6 +98,7 @@ class AddonIntegrator
         Container $container,
         Translator $translator,
         AddonProvider $provider,
+        Application $application,
         Configurator $configurator,
         AddonCollection $collection
     ) {
@@ -98,6 +108,7 @@ class AddonIntegrator
         $this->container    = $container;
         $this->collection   = $collection;
         $this->translator   = $translator;
+        $this->application  = $application;
         $this->configurator = $configurator;
     }
 
@@ -135,11 +146,23 @@ class AddonIntegrator
         $this->container->alias($addon->getNamespace(), $alias = get_class($addon));
         $this->container->instance($alias, $addon);
 
-        // Merge in addon configuration.
+        // Load package configuration.
         $this->configurator->addNamespace($addon->getNamespace(), $addon->getPath('resources/config'));
-        $this->configurator->mergeNamespace(
+
+        // Load system overrides.
+        $this->configurator->addNamespaceOverrides(
             $addon->getNamespace(),
-            base_path('config/addon/' . $addon->getSlug() . '-' . $addon->getType())
+            base_path(
+                'resources/core/config/addon/' . $addon->getVendor() . '/' . $addon->getSlug() . '-' . $addon->getType()
+            )
+        );
+
+        // Load application overrides.
+        $this->configurator->addNamespaceOverrides(
+            $addon->getNamespace(),
+            $this->application->getResourcesPath(
+                'config/addon/' . $addon->getVendor() . '/' . $addon->getSlug() . '-' . $addon->getType()
+            )
         );
 
         // Continue loading things.
