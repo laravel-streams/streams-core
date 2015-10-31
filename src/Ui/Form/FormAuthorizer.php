@@ -50,7 +50,7 @@ class FormAuthorizer
             return;
         }
 
-        if (!$this->authorizer->authorizeAny((array)$permission)) {
+        if ($permission && !$this->authorizer->authorizeAny((array)$permission)) {
             abort(403);
         }
     }
