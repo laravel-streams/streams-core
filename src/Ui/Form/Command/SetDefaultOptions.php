@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
@@ -33,8 +34,10 @@ class SetDefaultOptions implements SelfHandling
 
     /**
      * Handle the command.
+     *
+     * @param ModuleCollection $modules
      */
-    public function handle()
+    public function handle(ModuleCollection $modules)
     {
         $form = $this->builder->getForm();
 
@@ -59,6 +62,22 @@ class SetDefaultOptions implements SelfHandling
 
         if (!$form->getOption('container_class')) {
             $form->setOption('container_class', 'container-fluid');
+        }
+
+        /**
+         * If the permission is not set then
+         * try and automate it.
+         */
+        if ($form->getOption('permission') === null && ($module = $modules->active(
+            )) && ($stream = $this->builder->getFormStream())
+        ) {
+            $form->setOption(
+                'permission',
+                [
+                    $module->getNamespace($stream->getSlug() . '.write'),
+                    $module->getNamespace($stream->getSlug() . '.' . $this->builder->getFormMode())
+                ]
+            );
         }
     }
 }

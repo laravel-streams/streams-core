@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -35,8 +36,10 @@ class SetDefaultOptions implements SelfHandling
 
     /**
      * Handle the command.
+     *
+     * @param ModuleCollection $modules
      */
-    public function handle()
+    public function handle(ModuleCollection $modules)
     {
         $table = $this->builder->getTable();
 
@@ -72,6 +75,16 @@ class SetDefaultOptions implements SelfHandling
          */
         if ($orderBy = $this->builder->getRequestValue('order_by')) {
             $table->setOption('order_by', [$orderBy => $this->builder->getRequestValue('sort', 'asc')]);
+        }
+
+        /**
+         * If the permission is not set then
+         * try and automate it.
+         */
+        if ($table->getOption('permission') === null && ($module = $modules->active(
+            )) && ($stream = $this->builder->getTableStream())
+        ) {
+            $table->setOption('permission', $module->getNamespace($stream->getSlug() . '.read'));
         }
     }
 }
