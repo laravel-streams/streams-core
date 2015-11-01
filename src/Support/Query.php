@@ -28,6 +28,9 @@ class Query
         'where_',
         'or_where_',
         'and_where_',
+        'where_in_',
+        'or_where_in_',
+        'and_where_in_',
         'order_by_'
     ];
 
