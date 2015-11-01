@@ -26,7 +26,7 @@ interface EloquentRepositoryInterface
      * Find a record by it's ID.
      *
      * @param $id
-     * @return EloquentModel
+     * @return null|EloquentModel
      */
     public function find($id);
 

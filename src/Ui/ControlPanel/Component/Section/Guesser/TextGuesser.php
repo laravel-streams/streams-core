@@ -44,7 +44,7 @@ class TextGuesser
 
             // If text is set then skip it.
             if (isset($section['text'])) {
-                return;
+                continue;
             }
 
             $module = $this->modules->active();

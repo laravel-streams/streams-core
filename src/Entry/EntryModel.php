@@ -48,6 +48,17 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     protected $stream = [];
 
     /**
+     * Sort the query.
+     *
+     * @param Builder $builder
+     * @param string  $direction
+     */
+    public function scopeSorted(Builder $builder, $direction = 'asc')
+    {
+        $builder->orderBy('sort_order', $direction);
+    }
+
+    /**
      * Get the ID.
      *
      * @return mixed

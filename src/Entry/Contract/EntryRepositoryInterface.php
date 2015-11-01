@@ -13,4 +13,12 @@ use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 interface EntryRepositoryInterface extends EloquentRepositoryInterface
 {
 
+    /**
+     * Get the first entry
+     * by it's sort order.
+     *
+     * @param string $direction
+     * @return EntryInterface|null
+     */
+    public function first($direction = 'asc');
 }

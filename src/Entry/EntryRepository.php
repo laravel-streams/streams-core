@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentRepository;
 
@@ -14,4 +15,15 @@ use Anomaly\Streams\Platform\Model\EloquentRepository;
 class EntryRepository extends EloquentRepository implements EntryRepositoryInterface
 {
 
+    /**
+     * Get the first entry
+     * by it's sort order.
+     *
+     * @param string $direction
+     * @return EntryInterface|null
+     */
+    public function first($direction = 'asc')
+    {
+        return $this->model->sorted($direction)->first();
+    }
 }
