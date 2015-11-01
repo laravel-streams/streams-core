@@ -62,6 +62,20 @@ class SetDefaultOptions implements SelfHandling
         }
 
         /**
+         * Set the default sortable option.
+         */
+        if ($table->getOption('sortable') === null) {
+
+            $model = $table->getModel();
+
+            if ($model instanceof EntryModel) {
+                if ($table->getOption('sortable')) {
+                    $table->setOption('sortable', true);
+                }
+            }
+        }
+
+        /**
          * Set the default breadcrumb.
          */
         if ($table->getOption('breadcrumb') === null && $title = $table->getOption('title')) {
