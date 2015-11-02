@@ -59,6 +59,10 @@ class HrefGuesser
                     $button['attributes']['href'] = $active->getHref('create');
                     break;
             }
+
+            if (!isset($button['attributes']['href']) && isset($button['button'])) {
+                $button['attributes']['href'] = $active->getHref($button['button']);
+            }
         }
 
         $builder->setButtons($buttons);
