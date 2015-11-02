@@ -19,14 +19,14 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Class MakeEntity
+ * Class Make
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Stream\Console
  */
-class MakeEntity extends Command
+class Make extends Command
 {
 
     use DispatchesJobs;
@@ -36,14 +36,14 @@ class MakeEntity extends Command
      *
      * @var string
      */
-    protected $name = 'make:entity';
+    protected $name = 'make:stream';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new streams entity namespace.';
+    protected $description = 'Make a streams entity namespace.';
 
     /**
      * Execute the console command.
