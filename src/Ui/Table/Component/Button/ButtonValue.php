@@ -44,13 +44,9 @@ class ButtonValue
 
         if (is_string($enabled)) {
 
-            if ($not = starts_with($enabled, 'not ')) {
-                $enabled = substr($enabled, 4);
-            }
-
             $enabled = filter_var($this->value->make($enabled, $entry), FILTER_VALIDATE_BOOLEAN);
 
-            $button['enabled'] = $not ? !$enabled : $enabled;
+            $button['enabled'] = $enabled;
         }
 
         return $button;
