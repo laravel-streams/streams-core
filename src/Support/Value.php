@@ -68,8 +68,7 @@ class Value
          */
         if (is_string($parameters)) {
             $parameters = [
-                'wrapper' => '{value}',
-                'value'   => $parameters
+                'value' => $parameters
             ];
         }
 
@@ -145,23 +144,36 @@ class Value
          */
         if ($entry instanceof Arrayable) {
             $entry = $entry->toArray();
-        } else {
-            $entry = null;
         }
 
         /**
          * Parse the value with the entry.
          */
-        $value = $this->parser->parse(
-            array_get($parameters, 'wrapper', '{value}'),
-            ['value' => $value, $term => $entry]
-        );
+        if ($wrapper = array_get($parameters, 'wrapper')) {
+            $value = $this->parser->parse(
+                $wrapper,
+                ['value' => $value, $term => $entry]
+            );
+        }
+
+        /**
+         * Parse the value with the value too.
+         */
+        if (is_string($value)) {
+            $value = $this->parser->parse(
+                $value,
+                [
+                    'value' => $value,
+                    $term   => $entry
+                ]
+            );
+        }
 
         /**
          * If the value looks like a language
          * key then try translating it.
          */
-        if (str_is('*.*.*::*', $value)) {
+        if (is_string($value) && str_is('*.*.*::*', $value)) {
             $value = trans($value);
         }
 
