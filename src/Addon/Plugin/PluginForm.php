@@ -103,7 +103,7 @@ class PluginForm
      */
     public function resolve(array $parameters = [])
     {
-        $parameters = $this->setDefaults($parameters);
+        $parameters = $cache = $this->setDefaults($parameters);
 
         $parameters['key'] = md5(json_encode($parameters));
 
@@ -128,7 +128,7 @@ class PluginForm
             $builder->setFormOption('redirect', $this->request->fullUrl());
         }
 
-        $this->cache->forever('form::' . $parameters['key'], $parameters);
+        $this->cache->forever('form::' . $parameters['key'], $cache);
 
         return $builder;
     }
