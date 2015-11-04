@@ -151,6 +151,11 @@ return [
     'mail_host'        => 'anomaly.field_type.text',
     'mail_port'        => 'anomaly.field_type.integer',
     'mail_username'    => 'anomaly.field_type.text',
-    'mail_password'    => 'anomaly.field_type.text',
+    'mail_password'    => [
+        'type'     => 'anomaly.field_type.text',
+        'config'   => [
+            'type' => 'password'
+        ]
+    ],
     'mail_debug'       => 'anomaly.field_type.boolean'
 ];
