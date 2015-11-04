@@ -5,7 +5,7 @@ use TwigBridge\Bridge;
 /**
  * Class String
  *
- * @method render
+ * @method render() render($string, array $payload)
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>

@@ -16,6 +16,13 @@ class Value
 {
 
     /**
+     * The string renderer.
+     *
+     * @var String
+     */
+    protected $string;
+
+    /**
      * The string parser.
      *
      * @var Parser
@@ -39,12 +46,14 @@ class Value
     /**
      * Create a new ColumnValue instance.
      *
+     * @param String    $string
      * @param Parser    $parser
      * @param Evaluator $evaluator
      * @param Decorator $decorator
      */
-    public function __construct(Parser $parser, Evaluator $evaluator, Decorator $decorator)
+    public function __construct(String $string, Parser $parser, Evaluator $evaluator, Decorator $decorator)
     {
+        $this->string    = $string;
         $this->parser    = $parser;
         $this->evaluator = $evaluator;
         $this->decorator = $decorator;
@@ -175,6 +184,14 @@ class Value
          */
         if (is_string($value) && str_is('*.*.*::*', $value)) {
             $value = trans($value);
+        }
+
+        /**
+         * If the value looks like a renderable
+         * string then render it.
+         */
+        if (is_string($value) && str_contains($value, '{{')) {
+            $value = $this->string->render($value, [$term => $entry]);
         }
 
         return $value;
