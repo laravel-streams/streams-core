@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Http\Controller;
 
+use Anomaly\Streams\Platform\Addon\Plugin\PluginForm;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Cache\Repository;
 use Illuminate\Routing\Redirector;
@@ -18,15 +19,16 @@ class FormController extends PublicController
     /**
      * Handle the form.
      *
+     * @param PluginForm $form
      * @param Repository $cache
      * @param Redirector $redirect
      * @param            $key
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(Repository $cache, Redirector $redirect, $key)
+    public function handle(PluginForm $form, Repository $cache, Redirector $redirect, $key)
     {
         /* @var FormBuilder $builder */
-        $builder = app('Anomaly\Streams\Platform\Addon\Plugin\PluginForm')->resolve($cache->get('form::' . $key));
+        $builder = $form->resolve($cache->get('form::' . $key));
 
         $response = $builder
             ->build()
