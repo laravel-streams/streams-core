@@ -95,7 +95,7 @@ return [
     ],
     'mail_password'    => [
         'label'        => 'SMTP Password',
-        'instructions' => 'This is the SMTP username used by your application to deliver emails.'
+        'instructions' => 'This is the SMTP password used by your application to deliver emails.'
     ],
     'mail_debug'       => [
         'label'        => 'Debug Mode',
