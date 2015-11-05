@@ -44,6 +44,11 @@ class LoadModuleInstallers implements SelfHandling
     {
         /* @var Module $module */
         foreach ($modules as $module) {
+
+            if ($module->getNamespace() == 'anomaly.module.installer') {
+                continue;
+            }
+
             $this->installers->add(
                 new Installer(
                     trans('streams::installer.installing', ['installing' => trans($module->getName())]),

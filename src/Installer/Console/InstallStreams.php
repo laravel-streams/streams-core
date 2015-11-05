@@ -3,17 +3,19 @@
 use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Application\Command\ReloadEnvironmentFile;
-use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
 use Anomaly\Streams\Platform\Application\Command\WriteEnvironmentFile;
+use Anomaly\Streams\Platform\Installer\Console\Command\ConfigureDatabase;
 use Anomaly\Streams\Platform\Installer\Console\Command\ConfirmLicense;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadApplicationInstallers;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadCoreInstallers;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadExtensionInstallers;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadModuleInstallers;
+use Anomaly\Streams\Platform\Installer\Console\Command\LocateApplication;
 use Anomaly\Streams\Platform\Installer\Console\Command\RunInstallers;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetAdminData;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetApplicationData;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetDatabaseData;
+use Anomaly\Streams\Platform\Installer\Console\Command\SetDatabasePrefix;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetOtherData;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetStreamsData;
 use Anomaly\Streams\Platform\Installer\Event\StreamsHasInstalled;
@@ -69,17 +71,9 @@ class InstallStreams extends Command
         $this->dispatch(new WriteEnvironmentFile($data->all()));
         $this->dispatch(new ReloadEnvironmentFile());
 
-        config()->set('database', require base_path('config/database.php'));
-
-        $this->dispatch(new SetCoreConnection());
-
-        app('db')->getSchemaBuilder()->getConnection()->setTablePrefix(env('APPLICATION_REFERENCE') . '_');
-        app('db')->getSchemaBuilder()->getConnection()->getSchemaGrammar()->setTablePrefix(
-            env('APPLICATION_REFERENCE') . '_'
-        );
-
-        $application->setReference(env('APPLICATION_REFERENCE'));
-        $application->locate();
+        $this->dispatch(new ConfigureDatabase());
+        $this->dispatch(new SetDatabasePrefix());
+        $this->dispatch(new LocateApplication());
 
         $installers = new InstallerCollection();
 
