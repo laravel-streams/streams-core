@@ -60,7 +60,7 @@ class InstallStreams extends Command
 
         $data = new Collection();
 
-        $this->dispatch(new SetStreamsData($data, $this));
+        $this->dispatch(new SetStreamsData($data));
         $this->dispatch(new SetDatabaseData($data, $this));
         $this->dispatch(new SetApplicationData($data, $this));
         $this->dispatch(new SetAdminData($data, $this));
@@ -74,7 +74,9 @@ class InstallStreams extends Command
         $this->dispatch(new SetCoreConnection());
 
         app('db')->getSchemaBuilder()->getConnection()->setTablePrefix(env('APPLICATION_REFERENCE') . '_');
-        app('db')->getSchemaBuilder()->getConnection()->getSchemaGrammar()->setTablePrefix(env('APPLICATION_REFERENCE') . '_');
+        app('db')->getSchemaBuilder()->getConnection()->getSchemaGrammar()->setTablePrefix(
+            env('APPLICATION_REFERENCE') . '_'
+        );
 
         $application->setReference(env('APPLICATION_REFERENCE'));
         $application->locate();

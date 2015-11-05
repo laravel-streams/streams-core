@@ -24,22 +24,13 @@ class SetStreamsData implements SelfHandling
     protected $data;
 
     /**
-     * The console command.
-     *
-     * @var Command
-     */
-    protected $command;
-
-    /**
      * Create a new SetStreamsData instance.
      *
      * @param Collection $data
-     * @param Command    $command
      */
-    function __construct(Collection $data, Command $command)
+    function __construct(Collection $data)
     {
-        $this->data    = $data;
-        $this->command = $command;
+        $this->data = $data;
     }
 
     /**
