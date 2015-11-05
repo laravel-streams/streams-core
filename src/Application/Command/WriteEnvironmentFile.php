@@ -4,14 +4,14 @@ use Illuminate\Contracts\Bus\SelfHandling;
 
 
 /**
- * Class GenerateEnvironmentFile
+ * Class WriteEnvironmentFile
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Application\Command
  */
-class GenerateEnvironmentFile implements SelfHandling
+class WriteEnvironmentFile implements SelfHandling
 {
 
     /**
@@ -22,7 +22,7 @@ class GenerateEnvironmentFile implements SelfHandling
     protected $data;
 
     /**
-     * Create a new GenerateEnvironmentFile instance.
+     * Create a new WriteEnvironmentFile instance.
      *
      * @param array $data
      */

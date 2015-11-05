@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Application\Console;
 
-use Anomaly\Streams\Platform\Application\Command\GenerateEnvironmentFile;
-use Anomaly\Streams\Platform\Application\Command\GetEnvironmentData;
+use Anomaly\Streams\Platform\Application\Command\ReadEnvironmentFile;
+use Anomaly\Streams\Platform\Application\Command\WriteEnvironmentFile;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputArgument;
@@ -42,11 +42,11 @@ class EnvSet extends Command
 
         list($variable, $value) = explode('=', $line, 2);
 
-        $data = $this->dispatch(new GetEnvironmentData());
+        $data = $this->dispatch(new ReadEnvironmentFile());
 
         array_set($data, $variable, $value);
 
-        $this->dispatch(new GenerateEnvironmentFile($data));
+        $this->dispatch(new WriteEnvironmentFile($data));
     }
 
     /**

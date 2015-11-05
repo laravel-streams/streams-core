@@ -3,14 +3,14 @@
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class GetEnvironmentData
+ * Class ReadEnvironmentFile
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Application\Command
  */
-class GetEnvironmentData implements SelfHandling
+class ReloadEnvironmentFile implements SelfHandling
 {
 
     /**
@@ -20,21 +20,12 @@ class GetEnvironmentData implements SelfHandling
      */
     public function handle()
     {
-        $data = [];
-
         foreach (file(base_path('.env'), FILE_IGNORE_NEW_LINES) as $line) {
 
             // Check for # comments.
-            if (starts_with($line, '#')) {
-                $data[] = $line;
-            } else {
-
-                list($key, $value) = explode('=', $line);
-
-                $data[$key] = $value;
+            if (!starts_with($line, '#')) {
+                putenv($line);
             }
         }
-
-        return $data;
     }
 }
