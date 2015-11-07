@@ -105,6 +105,13 @@ class EntryObserver extends Observer
         $entry->flushCache();
         $entry->fireFieldTypeEvents('entry_deleted');
 
+        /* @var EntryTranslationsModel $translation */
+        if ($entry->isTranslatable()) {
+            foreach ($entry->getTranslations() as $translation) {
+                $translation->delete();
+            }
+        }
+
         $this->events->fire(new EntryWasDeleted($entry));
     }
 
