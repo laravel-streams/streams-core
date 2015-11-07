@@ -12,28 +12,30 @@
     {{ view("streams::table/partials/filters", {'table': table}) }}
 
     {% if not table.rows.empty() %}
-        <div class="panel panel-table">
+        {% block panel %}
+            <div class="panel panel-table">
 
-            {{ view("streams::table/partials/heading", {'table': table}) }}
+                {{ view("streams::table/partials/heading", {'table': table}) }}
 
-            {{ form_open({ 'url': url_full() }) }}
-            <table
-                    class="{{ table.options.class ?: 'table' }}"
-                    {{ table.options.sortable ? 'data-sortable' }}
-                    {{ html_attributes(table.options.attributes) }}>
+                {{ form_open({ 'url': url_full() }) }}
+                <table
+                        class="{{ table.options.class ?: 'table' }}"
+                        {{ table.options.sortable ? 'data-sortable' }}
+                        {{ html_attributes(table.options.attributes) }}>
 
-                {{ view("streams::table/partials/header", {'table': table}) }}
+                    {{ view("streams::table/partials/header", {'table': table}) }}
 
-                {% block body %}
-                    {{ view("streams::table/partials/body", {'table': table}) }}
-                {% endblock %}
+                    {% block body %}
+                        {{ view("streams::table/partials/body", {'table': table}) }}
+                    {% endblock %}
 
-                {{ view("streams::table/partials/footer", {'table': table}) }}
+                    {{ view("streams::table/partials/footer", {'table': table}) }}
 
-            </table>
-            {{ form_close() }}
+                </table>
+                {{ form_close() }}
 
-        </div>
+            </div>
+        {% endblock %}
     {% else %}
 
         {% block no_results %}
