@@ -129,7 +129,21 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $type->setEntry($entry);
 
-        return $modifier->restore($accessor->get());
+        $value = $modifier->restore($accessor->get());
+
+        if (
+            $value === null &&
+            $assignment->isTranslatable() &&
+            $assignment->isRequired() &&
+            $translation = $this->translate()
+        ) {
+
+            $type->setEntry($translation);
+
+            $value = $modifier->restore($accessor->get());
+        }
+
+        return $value;
     }
 
     /**
