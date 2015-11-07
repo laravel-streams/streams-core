@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Carbon\Carbon;
 
 /**
  * Class EntryTranslationsModel
@@ -13,6 +14,13 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  */
 class EntryTranslationsModel extends EloquentModel
 {
+
+    /**
+     * This model uses timestamps.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
 
     /**
      * Cache minutes.
@@ -29,6 +37,16 @@ class EntryTranslationsModel extends EloquentModel
         self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
 
         parent::boot();
+    }
+
+    /**
+     * Return the last modified datetime.
+     *
+     * @return Carbon
+     */
+    public function lastModified()
+    {
+        return $this->updated_at ?: $this->created_at;
     }
 
     /**
