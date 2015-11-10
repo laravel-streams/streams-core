@@ -77,6 +77,21 @@ class ButtonRegistry
             'icon' => 'list-ol',
             'type' => 'success'
         ],
+        'done'        => [
+            'text' => 'streams::button.done',
+            'type' => 'success',
+            'icon' => 'check'
+        ],
+        'finish'      => [
+            'text' => 'streams::button.finish',
+            'type' => 'success',
+            'icon' => 'check'
+        ],
+        'finished'    => [
+            'text' => 'streams::button.finished',
+            'type' => 'success',
+            'icon' => 'check'
+        ],
         /**
          * Info Buttons
          */
