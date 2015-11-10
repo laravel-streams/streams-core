@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\Streams\Platform\Entry\Command\DeleteTranslations;
 use Anomaly\Streams\Platform\Entry\Command\SetMetaInformation;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasCreated;
@@ -29,7 +30,7 @@ class EntryObserver extends Observer
      */
     public function creating(EntryInterface $entry)
     {
-        //$entry->fireFieldTypeEvents('entry_creating');
+        //
     }
 
     /**
@@ -45,6 +46,16 @@ class EntryObserver extends Observer
     }
 
     /**
+     * Run before a record is updated.
+     *
+     * @param EntryInterface $entry
+     */
+    public function updating(EntryInterface $entry)
+    {
+        //
+    }
+
+    /**
      * Run after a record is updated.
      *
      * @param EntryInterface $entry
@@ -54,6 +65,18 @@ class EntryObserver extends Observer
         $entry->fireFieldTypeEvents('entry_updated');
 
         $this->events->fire(new EntryWasUpdated($entry));
+    }
+
+    /**
+     * Run after multiple entries have been updated.
+     *
+     * @param EntryInterface $entry
+     */
+    public function updatedMultiple(EntryInterface $entry)
+    {
+        $entry->flushCache();
+
+        $this->events->fire(new ModelsWereUpdated($entry));
     }
 
     /**
@@ -84,15 +107,13 @@ class EntryObserver extends Observer
     }
 
     /**
-     * Run after multiple entries have been updated.
+     * Run before a record is deleted.
      *
      * @param EntryInterface $entry
      */
-    public function updatedMultiple(EntryInterface $entry)
+    public function deleting(EntryInterface $entry)
     {
-        $entry->flushCache();
-
-        $this->events->fire(new ModelsWereUpdated($entry));
+        //
     }
 
     /**
@@ -105,12 +126,7 @@ class EntryObserver extends Observer
         $entry->flushCache();
         $entry->fireFieldTypeEvents('entry_deleted');
 
-        /* @var EntryTranslationsModel $translation */
-        if ($entry->isTranslatable()) {
-            foreach ($entry->getTranslations() as $translation) {
-                $translation->delete();
-            }
-        }
+        $this->commands->dispatch(new DeleteTranslations($entry));
 
         $this->events->fire(new EntryWasDeleted($entry));
     }
