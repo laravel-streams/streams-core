@@ -9,6 +9,7 @@ use Anomaly\Streams\Platform\Ui\Table\Command\PostTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\SetTableResponse;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -586,6 +587,19 @@ class TableBuilder
     public function getTableViews()
     {
         return $this->table->getViews();
+    }
+
+    /**
+     * Set the table views.
+     *
+     * @param ViewCollection $views
+     * @return $this
+     */
+    public function setTableViews(ViewCollection $views)
+    {
+        $this->table->setViews($views);
+
+        return $this;
     }
 
     /**

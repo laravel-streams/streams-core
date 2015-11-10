@@ -80,4 +80,17 @@ trait FiresCallbacks
 
         return $this;
     }
+
+    /**
+     * Set the callbacks.
+     *
+     * @param array $callbacks
+     * @return $this
+     */
+    public function setCallbacks(array $callbacks)
+    {
+        $this->callbacks = $callbacks;
+
+        return $this;
+    }
 }

@@ -63,6 +63,22 @@ class AddonCollection extends Collection
     }
 
     /**
+     * Get an addon.
+     *
+     * @param mixed $key
+     * @param null  $default
+     * @return Addon|mixed|null
+     */
+    public function get($key, $default = null)
+    {
+        if (!$addon = parent::get($key, $default)) {
+            return $this->findBySlug($key);
+        }
+
+        return $addon;
+    }
+
+    /**
      * Find an addon by it's slug.
      *
      * @param  $slug
