@@ -44,7 +44,10 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
 
                 $addons = $addons->filter(
                     function (Addon $addon) use ($namespaces) {
-                        return in_array($addon->getNamespace(), $namespaces);
+                        return in_array($addon->getNamespace(), $namespaces) || in_array(
+                            $addon->getSlug(),
+                            $namespaces
+                        );
                     }
                 );
             }
