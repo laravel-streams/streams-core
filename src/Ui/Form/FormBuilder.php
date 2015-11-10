@@ -580,6 +580,19 @@ class FormBuilder
      */
     public function setOptions($options)
     {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Merge in options.
+     *
+     * @param array|string $options
+     * @return $this
+     */
+    public function mergeOptions($options)
+    {
         $this->options = array_merge($this->options, $options);
 
         return $this;
