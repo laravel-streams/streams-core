@@ -46,6 +46,8 @@ class ViewQuery
      */
     public function handle(TableBuilder $builder, Builder $query, ViewInterface $view)
     {
+        $view->fire('querying', compact('builder', 'query'));
+
         if (!$handler = $view->getQuery()) {
             return;
         }
