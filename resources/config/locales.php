@@ -93,10 +93,10 @@ return [
         'ru' => [
             'direction' => 'ltr'
         ],
-        'cn' => [
+        'zh-cn' => [
             'direction' => 'ltr'
         ],
-        'tw' => [
+        'zh-tw' => [
             'direction' => 'ltr'
         ],
         'he' => [
