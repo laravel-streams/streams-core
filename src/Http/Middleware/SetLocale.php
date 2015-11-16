@@ -64,22 +64,22 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($locale = $request->get('locale')) {
+        if ($locale = $request->get('_locale')) {
 
             if ($locale) {
-                $request->session()->put('locale', $locale);
+                $request->session()->put('_locale', $locale);
             } else {
-                $request->session()->remove('locale');
+                $request->session()->remove('_locale');
             }
 
             return $this->redirect->to($request->path());
         }
 
-        if ($locale = $request->session()->get('locale')) {
+        if ($locale = $request->session()->get('_locale')) {
 
             $this->application->setLocale($locale);
 
-            $this->repository->set('locale', $locale);
+            $this->repository->set('_locale', $locale);
         }
 
         return $next($request);
