@@ -89,6 +89,16 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Get the sort order.
+     *
+     * @return int
+     */
+    public function getSortOrder()
+    {
+        return $this->sort_order;
+    }
+
+    /**
      * Get the entries title.
      *
      * @return mixed
