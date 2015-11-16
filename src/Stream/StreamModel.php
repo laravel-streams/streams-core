@@ -101,7 +101,7 @@ class StreamModel extends EloquentModel implements StreamInterface
         $streamModel        = new StreamModel();
         $streamTranslations = new EloquentCollection();
 
-        $data['view_options'] = serialize(array_get($data, 'view_options', []));
+        $data['config'] = serialize(array_get($data, 'config', []));
 
         if ($translations = array_pull($data, 'translations')) {
             foreach ($translations as $attributes) {
@@ -295,9 +295,9 @@ class StreamModel extends EloquentModel implements StreamInterface
      *
      * @return array
      */
-    public function getViewOptions()
+    public function getConfig()
     {
-        return $this->view_options;
+        return $this->config;
     }
 
     /**
@@ -476,9 +476,9 @@ class StreamModel extends EloquentModel implements StreamInterface
      *
      * @param $viewOptions
      */
-    public function setViewOptionsAttribute($viewOptions)
+    public function setConfigAttribute($viewOptions)
     {
-        $this->attributes['view_options'] = serialize($viewOptions);
+        $this->attributes['config'] = serialize($viewOptions);
     }
 
     /**
@@ -487,7 +487,7 @@ class StreamModel extends EloquentModel implements StreamInterface
      * @param  $viewOptions
      * @return mixed
      */
-    public function getViewOptionsAttribute($viewOptions)
+    public function getConfigAttribute($viewOptions)
     {
         return unserialize($viewOptions);
     }

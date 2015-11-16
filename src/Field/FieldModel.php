@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
-use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
@@ -259,21 +258,6 @@ class FieldModel extends EloquentModel implements FieldInterface
         /* @var AssignmentInterface $assignment */
         foreach ($this->getAssignments() as $assignment) {
             $assignment->compileStream();
-        }
-
-        return $this;
-    }
-
-    /**
-     * Delete related assignments.
-     *
-     * @return FieldInterface
-     */
-    public function deleteAssignments()
-    {
-        /* @var AssignmentInterface|EloquentModel $assignment */
-        foreach ($this->getAssignments() as $assignment) {
-            $assignment->delete();
         }
 
         return $this;

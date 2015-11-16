@@ -51,9 +51,9 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
      */
     public function create(array $attributes = [])
     {
-        $attributes['slug']         = str_slug(array_get($attributes, 'slug'), '_');
-        $attributes['view_options'] = array_get($attributes, 'view_options', ['id', 'created_at']);
-        $attributes['prefix']       = array_get($attributes, 'prefix', array_get($attributes, 'namespace') . '_');
+        $attributes['config'] = array_get($attributes, 'config', []);
+        $attributes['slug']   = str_slug(array_get($attributes, 'slug'), '_');
+        $attributes['prefix'] = array_get($attributes, 'prefix', array_get($attributes, 'namespace') . '_');
 
         if (isset($attributes['name'])) {
             array_set(

@@ -33,6 +33,7 @@ class IconRegistry
         'adjust'               => 'glyphicons glyphicons-adjust-alt',
         'eyedropper'           => 'glyphicons glyphicons-eyedropper',
         'fullscreen'           => 'glyphicons glyphicons-fullscreen',
+        'thumbnails'           => 'glyphicons glyphicons-thumbnails',
         'paperclip'            => 'glyphicons glyphicons-paperclip',
         'translate'            => 'glyphicons glyphicons-translate',
         'duplicate'            => 'glyphicons glyphicons-duplicate',

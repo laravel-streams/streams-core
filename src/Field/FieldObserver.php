@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
+use Anomaly\Streams\Platform\Field\Command\DeleteFieldAssignments;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Event\FieldWasCreated;
 use Anomaly\Streams\Platform\Field\Event\FieldWasDeleted;
@@ -62,7 +63,7 @@ class FieldObserver extends Observer
      */
     public function deleting(FieldInterface $model)
     {
-        $model->deleteAssignments();
+        $this->commands->dispatch(new DeleteFieldAssignments($model));
     }
 
     /**

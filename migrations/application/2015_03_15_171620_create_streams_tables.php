@@ -40,7 +40,7 @@ class CreateStreamsTables extends Migration
                     $table->boolean('sortable')->default(0);
                     $table->boolean('trashable')->default(0);
                     $table->boolean('translatable')->default(0);
-                    $table->text('view_options');
+                    $table->text('config');
 
                     $table->unique(['namespace', 'slug']);
                 }

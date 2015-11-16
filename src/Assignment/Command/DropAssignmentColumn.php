@@ -46,6 +46,10 @@ class DropAssignmentColumn implements SelfHandling
             return;
         }
 
+        if (!$stream) {
+            return;
+        }
+
         if (!$this->assignment->isTranslatable()) {
             $table = $stream->getEntryTableName();
         } else {
