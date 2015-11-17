@@ -84,5 +84,11 @@ return [
     ],
     'hi'    => [
         'name' => 'Hindi'
-    ]
+    ],
+    'zh-cn' => [
+        'name' => 'Chinese (Simplified)'
+    ],
+    'zh-tw' => [
+        'name' => 'Chinese (Taiwan)'
+    ],
 ];
