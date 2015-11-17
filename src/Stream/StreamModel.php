@@ -181,10 +181,6 @@ class StreamModel extends EloquentModel implements StreamInterface
 
         self::$store->put($payload, $streamModel);
 
-        $entryModel = $streamModel->getEntryModel();
-
-        $entryModel::observe(EntryObserver::class);
-
         return $streamModel;
     }
 
