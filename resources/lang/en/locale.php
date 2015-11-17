@@ -1,85 +1,88 @@
 <?php
 
 return [
-    'en' => [
+    'en'    => [
         'name' => 'English'
     ],
-    'fa' => [
+    'fa'    => [
         'name' => 'Persian'
     ],
-    'de' => [
+    'de'    => [
         'name' => 'German'
     ],
-    'ar' => [
+    'ar'    => [
         'name' => 'Arabic'
     ],
-    'cs' => [
+    'cs'    => [
         'name' => 'Czech'
     ],
-    'el' => [
+    'el'    => [
         'name' => 'Greek'
     ],
-    'es' => [
+    'es'    => [
         'name' => 'Spanish'
     ],
-    'fr' => [
+    'fr'    => [
         'name' => 'French'
     ],
-    'it' => [
+    'fr-ca' => [
+        'name' => 'French (Canadian)'
+    ],
+    'it'    => [
         'name' => 'Italian'
     ],
-    'nl' => [
+    'nl'    => [
         'name' => 'Dutch'
     ],
-    'sv' => [
+    'sv'    => [
         'name' => 'Swedish'
     ],
-    'sme' => [
+    'sme'   => [
         'name' => 'Northern Sami'
     ],
-    'sl' => [
+    'sl'    => [
         'name' => 'Slovene'
     ],
-    'pl' => [
+    'pl'    => [
         'name' => 'Polish'
     ],
-    'pt' => [
+    'pt'    => [
         'name' => 'Portuguese'
     ],
-    'br' => [
+    'br'    => [
         'name' => 'Breton'
     ],
-    'ru' => [
+    'ru'    => [
         'name' => 'Russian'
     ],
-    'cn' => [
+    'cn'    => [
         'name' => 'Chinese'
     ],
-    'tw' => [
+    'tw'    => [
         'name' => 'Twi'
     ],
-    'he' => [
+    'he'    => [
         'name' => 'Hebrew'
     ],
-    'lt' => [
+    'lt'    => [
         'name' => 'Lithuanian'
     ],
-    'fi' => [
+    'fi'    => [
         'name' => 'Finnish'
     ],
-    'da' => [
+    'da'    => [
         'name' => 'Danish'
     ],
-    'id' => [
+    'id'    => [
         'name' => 'Indonesian'
     ],
-    'hu' => [
+    'hu'    => [
         'name' => 'Hungarian'
     ],
-    'th' => [
+    'th'    => [
         'name' => 'Thai'
     ],
-    'hi' => [
+    'hi'    => [
         'name' => 'Hindi'
     ]
 ];
