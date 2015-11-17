@@ -64,6 +64,10 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next)
     {
+        if (defined('LOCALE')) {
+            return $next($request);
+        }
+
         if ($locale = $request->get('_locale')) {
 
             if ($locale) {
