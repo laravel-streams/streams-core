@@ -169,7 +169,6 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection'         => 'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection',
         'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection'                 => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
         'Anomaly\Streams\Platform\Addon\Extension\Listener\PutExtensionInCollection'   => 'Anomaly\Streams\Platform\Addon\Extension\Listener\PutExtensionInCollection',
-        'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor'                   => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor',
         'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeModifier'                   => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeModifier',
         'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection'                 => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
         'Anomaly\Streams\Platform\Addon\FieldType\Listener\PutFieldTypeInCollection'   => 'Anomaly\Streams\Platform\Addon\FieldType\Listener\PutFieldTypeInCollection',

@@ -1,0 +1,43 @@
+{% if not actions.empty() %}
+    {{ asset_add("scripts.js", "streams::js/table/actions.js") }}
+{% endif %}
+
+{% if table.options.sortable %}
+    {{ asset_add("scripts.js", "streams::js/table/sortable.js") }}
+{% endif %}
+
+<div class="modal-body">
+
+    {{ view("streams::table/partials/views", {'table': table}) }}
+    {{ view("streams::table/partials/filters", {'table': table}) }}
+
+    {% if not table.rows.empty() %}
+
+        {{ view("streams::table/partials/heading", {'table': table}) }}
+
+        {{ form_open({ 'url': url_full() }) }}
+        <table
+                class="{{ table.options.class ?: 'table table-condensed' }}"
+                {{ table.options.sortable ? 'data-sortable' }}
+                {{ html_attributes(table.options.attributes) }}>
+
+            {{ view("streams::table/partials/header", {'table': table}) }}
+
+            {% block body %}
+                {{ view("streams::table/partials/body", {'table': table}) }}
+            {% endblock %}
+
+            {{ view("streams::table/partials/footer", {'table': table}) }}
+
+        </table>
+        {{ form_close() }}
+
+    {% else %}
+
+        {% block no_results %}
+            {{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}
+        {% endblock %}
+
+    {% endif %}
+
+</div>

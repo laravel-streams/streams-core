@@ -31,6 +31,13 @@ class TableBuilder
     use FiresCallbacks;
 
     /**
+     * The ajax flag.
+     *
+     * @var bool
+     */
+    protected $ajax = false;
+
+    /**
      * The table model.
      *
      * @var null|string
@@ -167,6 +174,29 @@ class TableBuilder
         }
 
         return $this->table->getResponse();
+    }
+
+    /**
+     * Get the ajax flag.
+     *
+     * @return bool
+     */
+    public function isAjax()
+    {
+        return $this->ajax;
+    }
+
+    /**
+     * Set the ajax flag.
+     *
+     * @param $ajax
+     * @return $this
+     */
+    public function setAjax($ajax)
+    {
+        $this->ajax = $ajax;
+
+        return $this;
     }
 
     /**
