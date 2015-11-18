@@ -16,6 +16,17 @@ class EntryRepository extends EloquentRepository implements EntryRepositoryInter
 {
 
     /**
+     * Get the entries by sort order.
+     *
+     * @param string $direction
+     * @return EntryCollection|static
+     */
+    public function sorted($direction = 'asc')
+    {
+        return $this->model->sorted($direction)->get();
+    }
+
+    /**
      * Get the first entry
      * by it's sort order.
      *

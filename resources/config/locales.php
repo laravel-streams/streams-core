@@ -18,8 +18,7 @@ return [
     |
     */
 
-    'hint' => true,
-
+    'hint'      => true,
     /*
     |--------------------------------------------------------------------------
     | Enabled Locales
@@ -29,8 +28,7 @@ return [
     |
     */
 
-    'enabled' => env('ENABLED_LOCALES', ['en']),
-
+    'enabled'   => env('ENABLED_LOCALES', ['en']),
     /*
     |--------------------------------------------------------------------------
     | Supported Locales
@@ -42,55 +40,58 @@ return [
     */
 
     'supported' => [
-        'en' => [
+        'en'    => [
             'direction' => 'ltr'
         ],
-        'fa' => [
+        'fa'    => [
             'direction' => 'rtl'
         ],
-        'de' => [
+        'de'    => [
             'direction' => 'ltr'
         ],
-        'ar' => [
+        'ar'    => [
             'direction' => 'rtl'
         ],
-        'cs' => [
+        'cs'    => [
             'direction' => 'ltr'
         ],
-        'el' => [
+        'el'    => [
             'direction' => 'ltr'
         ],
-        'es' => [
+        'es'    => [
             'direction' => 'ltr'
         ],
-        'fr' => [
+        'fr'    => [
             'direction' => 'ltr'
         ],
-        'it' => [
+        'fr-ca' => [
             'direction' => 'ltr'
         ],
-        'nl' => [
+        'it'    => [
             'direction' => 'ltr'
         ],
-        'sv' => [
+        'nl'    => [
             'direction' => 'ltr'
         ],
-        'sl' => [
+        'sv'    => [
             'direction' => 'ltr'
         ],
-        'sme' => [
+        'sl'    => [
             'direction' => 'ltr'
         ],
-        'pl' => [
+        'sme'   => [
             'direction' => 'ltr'
         ],
-        'pt' => [
+        'pl'    => [
             'direction' => 'ltr'
         ],
-        'br' => [
+        'pt'    => [
             'direction' => 'ltr'
         ],
-        'ru' => [
+        'br'    => [
+            'direction' => 'ltr'
+        ],
+        'ru'    => [
             'direction' => 'ltr'
         ],
         'zh-cn' => [
@@ -99,28 +100,28 @@ return [
         'zh-tw' => [
             'direction' => 'ltr'
         ],
-        'he' => [
+        'he'    => [
             'direction' => 'rtl'
         ],
-        'lt' => [
+        'lt'    => [
             'direction' => 'ltr'
         ],
-        'fi' => [
+        'fi'    => [
             'direction' => 'ltr'
         ],
-        'da' => [
+        'da'    => [
             'direction' => 'ltr'
         ],
-        'id' => [
+        'id'    => [
             'direction' => 'ltr'
         ],
-        'hu' => [
+        'hu'    => [
             'direction' => 'ltr'
         ],
-        'th' => [
+        'th'    => [
             'direction' => 'ltr'
         ],
-        'hi' => [
+        'hi'    => [
             'direction' => 'ltr'
         ]
     ]

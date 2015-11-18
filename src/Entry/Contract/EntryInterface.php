@@ -43,6 +43,13 @@ interface EntryInterface
     public function getEntryTitle();
 
     /**
+     * Get the sort order.
+     *
+     * @return int
+     */
+    public function getSortOrder();
+
+    /**
      * Get the title.
      *
      * @return mixed
