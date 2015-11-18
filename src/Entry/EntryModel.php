@@ -56,7 +56,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $class    = get_class($instance);
         $events   = $instance->getObservableEvents();
-        $observer = substr(__CLASS__, 0, -5) . 'Observer';
+        $observer = substr($class, 0, -5) . 'Observer';
 
         if ($events && class_exists($observer)) {
             self::observe(app($observer));
