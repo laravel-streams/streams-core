@@ -1,6 +1,6 @@
 {% if not table.filters.empty() %}
 
-    <form method="get" id="filters" class="form-inline">
+    {{ form_open({'method': 'get', 'id': 'filters', 'url': url_full(), 'class': 'form-inline'}) }}
         <input type="hidden" name="{{ table.options.prefix }}view" value="{{ table.views.active().getSlug() }}">
 
         {% for filter in table.filters %}
@@ -17,6 +17,6 @@
             {{ icon(table.options.filters.clear_icon ? table.options.filters.clear_icon) }}
             {{ trans(table.options.filters.clear_text ?: 'streams::button.clear') }}
         </a>
-    </form>
+    {{ form_close() }}
 
 {% endif %}
