@@ -2,7 +2,9 @@
 <tr>
     <th colspan="50%" style="padding: 10px;">
 
-        {{ buttons(table.actions)|raw }}
+        <div class="pull-left actions">
+            {{ buttons(table.actions)|raw }}
+        </div>
 
         {% if table.data.pagination.links %}
             <div class="pull-right">
