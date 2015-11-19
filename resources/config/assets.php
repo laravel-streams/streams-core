@@ -26,11 +26,13 @@ return [
     | Filters
     |--------------------------------------------------------------------------
     |
-    | Less: "php" or "node"
+    | LESS: "php" or "node"
+    | SCSS: "php" or "ruby"
     |
     */
 
     'filters' => [
-        'less' => 'php'
+        'less' => 'php',
+        'scss' => 'php'
     ]
 ];

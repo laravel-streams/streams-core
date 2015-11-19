@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Asset\Filter\JsMinFilter;
 use Anomaly\Streams\Platform\Asset\Filter\LessFilter;
 use Anomaly\Streams\Platform\Asset\Filter\NodeLessFilter;
 use Anomaly\Streams\Platform\Asset\Filter\ParseFilter;
+use Anomaly\Streams\Platform\Asset\Filter\RubyScssFilter;
 use Anomaly\Streams\Platform\Asset\Filter\ScssFilter;
 use Anomaly\Streams\Platform\Asset\Filter\SeparatorFilter;
 use Anomaly\Streams\Platform\Asset\Filter\StylusFilter;
@@ -420,7 +421,11 @@ class Asset
                     break;
 
                 case 'scss':
-                    $filter = new ScssFilter($this->parser);
+                    if ($this->config->get('streams::assets.filters.scss') == 'php') {
+                        $filter = new ScssFilter($this->parser);
+                    } else {
+                        $filter = new RubyScssFilter($this->parser);
+                    }
                     break;
 
                 case 'coffee':
