@@ -23,7 +23,7 @@
 
 {% if not table.rows.empty() %}
 
-    {{ form_open({ 'url': url_full() }) }}
+    {{ form_open({'url': url_full(), 'class': 'ajax'}) }}
 
     <table
             class="{{ table.options.class ?: 'table-condensed' }} table ajax"
@@ -37,8 +37,6 @@
         {% endblock %}
 
     </table>
-
-    <br>
 
     {{ view("streams::table/ajax/footer", {'table': table}) }}
 
