@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
 
     // Toggle all table actions
     $('[data-toggle="all"]').on('change', function () {
@@ -9,10 +9,10 @@ $(document).ready(function () {
     // Only allow actions if rows are selected.
     $('table').find(':checkbox').on('change', function () {
 
-        if ($(this).closest('table').find(':checkbox:checked').length) {
-            $(this).closest('table').find('tfoot').find('button:not([data-ignore])').removeClass('disabled');
+        if ($(this).closest('form').find(':checkbox:checked').length) {
+            $(this).closest('form').find('.actions').find('button:not([data-ignore])').removeClass('disabled');
         } else {
-            $(this).closest('table').find('tfoot').find('button:not([data-ignore])').addClass('disabled');
+            $(this).closest('form').find('.actions').find('button:not([data-ignore])').addClass('disabled');
         }
     });
 });

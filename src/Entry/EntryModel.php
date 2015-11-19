@@ -48,6 +48,28 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     protected $stream = [];
 
     /**
+     * Boot the model
+     */
+    protected static function boot()
+    {
+        $instance = new static;
+
+        $class    = get_class($instance);
+        $events   = $instance->getObservableEvents();
+        $observer = substr($class, 0, -5) . 'Observer';
+
+        if ($events && class_exists($observer)) {
+            self::observe(app($observer));
+        }
+
+        if ($events && !static::$dispatcher->hasListeners('eloquent.' . array_shift($events) . ': ' . $class)) {
+            self::observe(EntryObserver::class);
+        }
+
+        parent::boot();
+    }
+
+    /**
      * Sort the query.
      *
      * @param Builder $builder
@@ -264,7 +286,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function setAttribute($key, $value)
     {
-        if (!$this->isKeyALocale($key) && !$this->hasSetMutator($key) && $this->getFieldType($key, $value)) {
+        if (!$this->isKeyALocale($key) && !$this->hasSetMutator($key) && $this->getFieldType($key)) {
             $this->setFieldValue($key, $value);
         } else {
             parent::setAttribute($key, $value);

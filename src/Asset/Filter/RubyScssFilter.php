@@ -2,16 +2,17 @@
 
 use Anomaly\Streams\Platform\Asset\AssetParser;
 use Assetic\Asset\AssetInterface;
+use Assetic\Filter\Sass\ScssFilter;
 
 /**
- * Class NodeLessFilter
+ * Class RubyScssFilter
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Asset\Filter
  */
-class NodeLessFilter extends \Assetic\Filter\LessFilter
+class RubyScssFilter extends ScssFilter
 {
 
     /**
@@ -22,7 +23,7 @@ class NodeLessFilter extends \Assetic\Filter\LessFilter
     protected $parser;
 
     /**
-     * Create a new NodeLessFilter instance.
+     * Create a new RubyScssFilter instance.
      *
      * @param AssetParser $parser
      */
@@ -30,13 +31,7 @@ class NodeLessFilter extends \Assetic\Filter\LessFilter
     {
         $this->parser = $parser;
 
-        parent::__construct(
-            '/usr/local/bin/node',
-            [
-                '/usr/local/lib/node_modules',
-                '/usr/local/lib/node_modules/less/bin/lessc'
-            ]
-        );
+        parent::__construct('/usr/bin/sass', null);
     }
 
     /**

@@ -82,6 +82,11 @@ class ButtonRegistry
             'type' => 'success',
             'icon' => 'check'
         ],
+        'select'      => [
+            'text' => 'streams::button.select',
+            'type' => 'success',
+            'icon' => 'check'
+        ],
         'finish'      => [
             'text' => 'streams::button.finish',
             'type' => 'success',

@@ -1,6 +1,6 @@
 {% if not table.filters.empty() %}
 
-    {{ form_open({'method': 'get', 'id': 'filters', 'url': url_full(), 'class': 'form-inline'}) }}
+    {{ form_open({'method': 'get', 'id': 'filters', 'url': url_full(), 'class': 'ajax form-inline'}) }}
         <input type="hidden" name="{{ table.options.prefix }}view" value="{{ table.views.active().getSlug() }}">
 
         {% for filter in table.filters %}
@@ -13,7 +13,7 @@
             {{ icon(table.options.filters.filter_icon ?: 'filter') }}
             {{ trans(table.options.filters.filter_text ?: 'streams::button.filter') }}
         </button>
-        <a href="{{ url_current() }}" class="btn btn-default">
+        <a href="{{ url_current() }}" class="btn btn-default ajax">
             {{ icon(table.options.filters.clear_icon ? table.options.filters.clear_icon) }}
             {{ trans(table.options.filters.clear_text ?: 'streams::button.clear') }}
         </a>

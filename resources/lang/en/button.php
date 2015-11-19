@@ -23,6 +23,7 @@ return [
     'done'               => 'Done',
     'finish'             => 'Finish',
     'finished'           => 'Finished',
+    'select'             => 'Select',
     'save'               => 'Save',
     'save_and_edit'      => 'Save & Edit',
     'save_and_exit'      => 'Save & Exit',
