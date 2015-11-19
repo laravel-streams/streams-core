@@ -74,6 +74,10 @@ class Authorizer
             $user = $this->guard->user();
         }
 
+        if (!$user) {
+            return true; // Don't know about this.
+        }
+
         foreach ($permissions as $permission) {
             if ($this->checkPermission($permission, $user)) {
                 return true;
@@ -94,6 +98,10 @@ class Authorizer
     {
         if (!$user) {
             $user = $this->guard->user();
+        }
+
+        if (!$user) {
+            return true; // Don't know about this.
         }
 
         foreach ($permissions as $permission) {
