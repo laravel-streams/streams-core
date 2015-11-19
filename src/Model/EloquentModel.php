@@ -70,13 +70,6 @@ class EloquentModel extends Model implements Arrayable
     ];
 
     /**
-     * Arrayable model methods.
-     *
-     * @var array
-     */
-    protected $arrayable = [];
-
-    /**
      * Runtime cache.
      *
      * @var array
@@ -617,16 +610,7 @@ class EloquentModel extends Model implements Arrayable
             }
         }
 
-        foreach ($this->getArrayableMethods() as $key => $method) {
-            $attributes[$key] = call_user_func([$this, $method]);
-        }
-
         return $attributes;
-    }
-
-    protected function getArrayableMethods()
-    {
-        return $this->arrayable;
     }
 
     private function alwaysFillable()
