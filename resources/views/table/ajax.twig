@@ -1,5 +1,3 @@
-{{ asset_add("scripts.js", "streams::js/table/ajax.js") }}
-
 {% if not actions.empty() %}
     {{ asset_add("scripts.js", "streams::js/table/actions.js") }}
 {% endif %}
@@ -13,7 +11,7 @@
 <div class="modal-body">
 
     {{ view("streams::table/partials/views", {'table': table}) }}
-    {{ view("streams::table/partials/filters", {'table': table}) }}
+    {{ view("streams::table/ajax/filters", {'table': table}) }}
 
     {% if table.rows.empty() %}
         {% block no_results %}
