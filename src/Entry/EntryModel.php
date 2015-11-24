@@ -282,7 +282,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      *
      * @param  string $key
      * @param  mixed  $value
-     * @return void
+     * @return $this
      */
     public function setAttribute($key, $value)
     {
@@ -291,6 +291,8 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         } else {
             parent::setAttribute($key, $value);
         }
+
+        return $this;
     }
 
     /**

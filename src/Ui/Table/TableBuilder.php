@@ -126,16 +126,22 @@ class TableBuilder
 
     /**
      * Build the table.
+     *
+     * @return $this
      */
     public function build()
     {
         $this->fire('ready', ['builder' => $this]);
 
         $this->dispatch(new BuildTable($this));
+
+        return $this;
     }
 
     /**
      * Make the table response.
+     *
+     * @return $this
      */
     public function make()
     {
@@ -147,17 +153,23 @@ class TableBuilder
             $this->dispatch(new AddAssets($this));
             $this->dispatch(new MakeTable($this));
         }
+
+        return $this;
     }
 
     /**
      * Trigger post operations
      * for the table.
+     *
+     * @return $this
      */
     public function post()
     {
         if (app('request')->isMethod('post')) {
             $this->dispatch(new PostTable($this));
         }
+
+        return $this;
     }
 
     /**
@@ -702,6 +714,16 @@ class TableBuilder
     public function getTableResponse()
     {
         return $this->table->getResponse();
+    }
+
+    /**
+     * Get the table content.
+     *
+     * @return null|string
+     */
+    public function getTableContent()
+    {
+        return $this->table->getContent();
     }
 
     /**

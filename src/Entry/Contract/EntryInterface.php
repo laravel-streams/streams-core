@@ -289,7 +289,7 @@ interface EntryInterface
      *
      * @param  $key
      * @param  $value
-     * @return mixed
+     * @return $this
      */
     public function setAttribute($key, $value);
 
