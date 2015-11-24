@@ -136,7 +136,7 @@ class EntryPresenter extends EloquentPresenter
     {
         if ($assignment = $this->object->getAssignment($key)) {
 
-            $type = $assignment->getFieldType($this);
+            $type = $assignment->getFieldType();
 
             if ($assignment->isTranslatable() && $locale = config('app.locale')) {
 
@@ -152,7 +152,7 @@ class EntryPresenter extends EloquentPresenter
                 ->setValue($entry->getFieldValue($key));
 
             if (method_exists($type, 'getRelation')) {
-                return $this->__getDecorator()->decorate($entry->{$key});
+                return $this->__getDecorator()->decorate($entry->getRelationValue(camel_case($key)));
             }
 
             return $type->getPresenter();

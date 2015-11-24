@@ -100,5 +100,29 @@ class SetDefaultOptions implements SelfHandling
         ) {
             $table->setOption('permission', $module->getNamespace($stream->getSlug() . '.read'));
         }
+
+
+        /**
+         * Set the default panel classes.
+         */
+        if ($table->getOption('panel_class') === null) {
+            $table->setOption('panel_class', 'panel');
+        }
+
+        if ($table->getOption('panel_title_class') === null) {
+            $table->setOption('panel_title_class', 'title');
+        }
+
+        if ($table->getOption('panel_heading_class') === null) {
+            $table->setOption('panel_heading_class', $table->getOption('panel_class') . '-heading');
+        }
+
+        if ($table->getOption('panel_body_class') === null) {
+            $table->setOption('panel_body_class', $table->getOption('panel_class') . '-body');
+        }
+
+        if ($table->getOption('container_class') === null) {
+            $table->setOption('container_class', 'container-fluid');
+        }
     }
 }

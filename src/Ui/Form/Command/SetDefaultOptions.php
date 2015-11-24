@@ -44,23 +44,23 @@ class SetDefaultOptions implements SelfHandling
         /**
          * Set the default panel classes.
          */
-        if (!$form->getOption('panel_class')) {
+        if ($form->getOption('panel_class') == null) {
             $form->setOption('panel_class', 'panel');
         }
 
-        if (!$form->getOption('panel_title_class')) {
+        if ($form->getOption('panel_title_class') === null) {
             $form->setOption('panel_title_class', 'title');
         }
 
-        if (!$form->getOption('panel_heading_class')) {
+        if ($form->getOption('panel_heading_class') === null) {
             $form->setOption('panel_heading_class', $form->getOption('panel_class') . '-heading');
         }
 
-        if (!$form->getOption('panel_body_class')) {
+        if ($form->getOption('panel_body_class') === null) {
             $form->setOption('panel_body_class', $form->getOption('panel_class') . '-body');
         }
 
-        if (!$form->getOption('container_class')) {
+        if ($form->getOption('container_class') === null) {
             $form->setOption('container_class', 'container-fluid');
         }
 
