@@ -1,8 +1,8 @@
 {% if table.options.title or table.options.description %}
 
     {% if table.options.title %}
-        <div class="panel-heading">
-            <h4 class="title">
+        <div class="{{ table.options.panel_heading_class }}">
+            <h4 class="{{ table.options.panel_title_class }}">
                 {{ trans(table.options.title)|raw }}
 
                 {% if table.options.description %}

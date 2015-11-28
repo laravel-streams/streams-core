@@ -164,6 +164,11 @@ class ButtonRegistry
             'icon' => 'fa fa-exclamation-circle',
             'type' => 'danger'
         ],
+        'remove'      => [
+            'text' => 'streams::button.remove',
+            'type' => 'danger',
+            'icon' => 'ban'
+        ],
         'delete'      => [
             'text'       => 'streams::button.delete',
             'icon'       => 'trash',

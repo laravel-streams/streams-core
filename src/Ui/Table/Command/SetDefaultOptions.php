@@ -83,6 +83,13 @@ class SetDefaultOptions implements SelfHandling
         }
 
         /**
+         * Show headers by default.
+         */
+        if ($table->getOption('show_headers') === null) {
+            $table->setOption('show_headers', true);
+        }
+
+        /**
          * If the table ordering is currently being overridden
          * then set the values from the request on the builder
          * last so it actually has an effect.
