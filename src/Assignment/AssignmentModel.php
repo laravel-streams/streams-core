@@ -277,7 +277,11 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getStreamSlug()
     {
-        return $this->stream->getSlug();
+        if ($stream = $this->getStream()) {
+            return $stream->getSlug();
+        }
+
+        return null;
     }
 
     /**
@@ -287,7 +291,11 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function getStreamPrefix()
     {
-        return $this->stream->getPrefix();
+        if ($stream = $this->getStream()) {
+            return $stream->getPrefix();
+        }
+
+        return null;
     }
 
     /**

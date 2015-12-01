@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
+use Illuminate\Contracts\View\Factory;
 
 /**
  * Class UiPluginFunctions
@@ -13,6 +14,13 @@ use Anomaly\Streams\Platform\Ui\Icon\IconRegistry;
  */
 class UiPluginFunctions
 {
+
+    /**
+     * The view factory.
+     *
+     * @var Factory
+     */
+    protected $view;
 
     /**
      * The icon registry.
@@ -31,11 +39,13 @@ class UiPluginFunctions
     /**
      * Create a new UiPluginFunctions instance.
      *
+     * @param Factory      $view
      * @param IconRegistry $icons
      * @param Hydrator     $hydrator
      */
-    public function __construct(IconRegistry $icons, Hydrator $hydrator)
+    public function __construct(Factory $view, IconRegistry $icons, Hydrator $hydrator)
     {
+        $this->view     = $view;
         $this->icons    = $icons;
         $this->hydrator = $hydrator;
     }
@@ -72,7 +82,25 @@ class UiPluginFunctions
      */
     public function view($path, array $data = [])
     {
-        return view($path, $data)->render();
+        return $this->view->make($path, $data)->render();
+    }
+
+    /**
+     * Return the layout if it exists.
+     *
+     * @param        $layout
+     * @param string $default
+     * @return string
+     */
+    public function layout($layout, $default = 'default')
+    {
+        if ($this->view->exists($layout = "theme::layouts/{$layout}")) {
+            return $layout;
+        }
+
+        dd($layout);
+
+        return "theme::layouts/{$default}";
     }
 
     /**

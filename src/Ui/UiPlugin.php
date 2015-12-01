@@ -43,6 +43,7 @@ class UiPlugin extends Plugin
             new \Twig_SimpleFunction('view', [$this->functions, 'view'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('buttons', [$this->functions, 'buttons'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('elapsed', [$this->functions, 'elapsed'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('layout', [$this->functions, 'layout'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('constants', [$this->functions, 'constants'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('footprint', [$this->functions, 'footprint'], ['is_safe' => ['html']])
         ];
