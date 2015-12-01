@@ -56,6 +56,7 @@ class IconRegistry
         'car'                  => 'glyphicons glyphicons-car',
         'diners-club'          => 'fa  fa-cc-diners-club',
         'question-circle'      => 'fa fa-question-circle',
+        'facebook-square'      => 'fa fa-facebook-square',
         'check-circle-alt'     => 'fa fa-check-circle-o',
         'check-square-alt'     => 'fa fa-check-square-o',
         'mastercard'           => 'fa fa-cc-mastercard',
