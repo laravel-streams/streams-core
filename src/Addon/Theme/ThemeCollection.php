@@ -18,11 +18,17 @@ class ThemeCollection extends AddonCollection
      *
      * @return Theme
      */
-    public function active()
+    public function active($type = null)
     {
+        if (!$type) {
+            return $this->current();
+        }
+
+        $admin = $type == 'standard' ? false : true;
+
         /* @var Theme $item */
         foreach ($this->items as $item) {
-            if ($item->isActive()) {
+            if ($item->isActive() && $item->isAdmin() === $admin) {
                 return $item;
             }
         }
