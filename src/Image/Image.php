@@ -296,7 +296,7 @@ class Image
             return true;
         }
 
-        if ($this->image instanceof FileInterface && filemtime($path) < $this->image->created_at->format('U')) {
+        if ($this->image instanceof FileInterface && filemtime($path) < $this->image->lastModified()->format('U')) {
             return true;
         }
 
@@ -459,7 +459,7 @@ class Image
     {
         if ($this->image instanceof FileInterface) {
             return $this->manager
-                ->make(app('League\Flysystem\MountManager')->read($this->image->diskPath()))
+                ->make(app('League\Flysystem\MountManager')->read($this->image->location()))
                 ->encode($this->getExtension());
         }
 
