@@ -55,6 +55,7 @@ class ButtonRegistry
             'type' => 'success'
         ],
         'add'         => [
+            'text' => 'streams::button.add',
             'icon' => 'fa fa-plus',
             'type' => 'success'
         ],
