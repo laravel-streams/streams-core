@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Translation\Translator;
 
 /**
  * Class GetConfigFields
@@ -48,7 +49,7 @@ class GetConfigFields implements SelfHandling
      * @param Repository $config
      * @param Evaluator  $evaluator
      */
-    public function handle(Repository $config, Evaluator $evaluator)
+    public function handle(Repository $config, Evaluator $evaluator, Translator $translator)
     {
         if (!$fields = $config->get($this->fieldType->getNamespace('config/config'))) {
             $fields = $config->get($this->fieldType->getNamespace('config'), []);
@@ -63,8 +64,8 @@ class GetConfigFields implements SelfHandling
              */
             $label = $this->fieldType->getNamespace('config.' . $slug . '.label');
 
-            if (!trans()->has($label)) {
-                $label = trans($this->fieldType->getNamespace('config.' . $slug . '.name'));
+            if (!$translator->has($label)) {
+                $label = $this->fieldType->getNamespace('config.' . $slug . '.name');
             }
 
             $field['label'] = array_get($field, 'label', $label);
@@ -74,7 +75,7 @@ class GetConfigFields implements SelfHandling
              */
             $instructions = $this->fieldType->getNamespace('config.' . $slug . '.instructions');
 
-            if (trans()->has($instructions)) {
+            if ($translator->has($instructions)) {
                 $field['instructions'] = $instructions;
             }
 
@@ -83,8 +84,17 @@ class GetConfigFields implements SelfHandling
              */
             $placeholder = $this->fieldType->getNamespace('config.' . $slug . '.placeholder');
 
-            if (trans()->has($placeholder)) {
+            if ($translator->has($placeholder)) {
                 $field['placeholder'] = $placeholder;
+            }
+
+            /**
+             * Determine the warning.
+             */
+            $warning = $this->fieldType->getNamespace('config.' . $slug . '.warning');
+
+            if ($translator->has($warning)) {
+                $field['warning'] = $warning;
             }
 
             /**
