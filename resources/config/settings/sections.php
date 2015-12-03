@@ -29,10 +29,16 @@ return [
             'access'       => [
                 'title'  => 'streams::tab.access',
                 'fields' => [
-                    'site_enabled',
+                    'force_https'
+                ]
+            ],
+            'maintenance'  => [
+                'title'  => 'streams::tab.maintenance',
+                'fields' => [
+                    'maintenance_mode',
                     '503_message',
                     'ip_whitelist',
-                    'force_https'
+                    'basic_auth'
                 ]
             ],
             'email'        => [
@@ -45,7 +51,10 @@ return [
                     'mail_port',
                     'mail_username',
                     'mail_password',
-                    'mail_debug'
+                    'mail_debug',
+                    'mailgun_domain',
+                    'mailgun_secret',
+                    'mandrill_secret'
                 ]
             ]
         ]

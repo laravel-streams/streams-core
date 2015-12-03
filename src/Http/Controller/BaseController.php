@@ -94,7 +94,6 @@ class BaseController extends Controller
         }
 
         // These may be manipulated by the middleware above.
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\CheckForMaintenanceMode');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ApplicationReady');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ForceHttps');

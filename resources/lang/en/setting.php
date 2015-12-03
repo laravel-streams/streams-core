@@ -33,14 +33,18 @@ return [
         'label'        => 'Enabled Languages',
         'instructions' => 'Specify which languages are available for your website or application.'
     ],
-    'site_enabled'     => [
-        'label'        => 'Site Enabled',
-        'instructions' => 'Use this option to the enable or disable the public-facing part of the application.<br>This is useful when you want to take the application down for maintenance or development.'
+    'maintenance_mode' => [
+        'label'        => 'Maintenance Mode',
+        'instructions' => 'Use this option to the disable the public-facing part of the application.<br>This is useful when you want to take the application down for maintenance or development.'
     ],
     'ip_whitelist'     => [
         'label'        => 'IP Whitelist',
-        'instructions' => 'When the status is set to "disabled" these IP addresses will be allowed to access the application.',
+        'instructions' => 'When maintenance mode is enabled, these IP addresses will be allowed to access the front of the application.',
         'placeholder'  => 'Separate each IP address with a comma.'
+    ],
+    'basic_auth'       => [
+        'label'        => 'Prompt for authentication?',
+        'instructions' => 'When maintenance mode is enabled, prompt users for HTTP authentication?'
     ],
     '503_message'      => [
         'label'        => 'Unavailable Message',
@@ -100,6 +104,15 @@ return [
     'mail_debug'       => [
         'label'        => 'Debug Mode',
         'instructions' => 'When this option is enabled, email will not be sent but will instead be written to your application\'s logs files so you may inspect the message.'
+    ],
+    'mailgun_domain'   => [
+        'label' => 'Mailgun Domain'
+    ],
+    'mailgun_secret'   => [
+        'label' => 'Mailgun Secret'
+    ],
+    'mandrill_secret'  => [
+        'label' => 'Mandrill Secret'
     ],
     'cache_driver'     => [
         'label'        => 'Cache Driver',

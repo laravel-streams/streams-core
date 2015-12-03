@@ -4,15 +4,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Force HTTPS
+    | IP Whitelist
     |--------------------------------------------------------------------------
     |
-    | You may opt to force an SSL connection when accessing the application.
-    | Supported options are "none", "all", "public", "admin"
+    | If the site is disabled, only these IPs will be allowed to view public
+    | facing content.
     |
     | NOTE: This configuration may be overridden by the Settings module.
     |
     */
 
-    'force_https' => env('FORCE_HTTPS', 'none')
+    'ip_whitelist' => explode(',', env('IP_WHITELIST'))
+
 ];

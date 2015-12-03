@@ -1,6 +1,7 @@
 <?php
 
 return [
+    '401'                 => 'Invalid credentials.',
     '403'                 => 'Access denied.',
     '429'                 => 'Too many requests.<br><small>Please try again later.</small>',
     '503'                 => 'Be right back.',

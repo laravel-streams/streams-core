@@ -87,22 +87,24 @@ return [
             }
         ]
     ],
-    'site_enabled'     => [
+    'maintenance_mode' => [
         'type'   => 'anomaly.field_type.boolean',
         'config' => [
-            'default_value' => true
+            'default_value' => false,
+            'off_text'      => 'OFF',
+            'on_text'       => 'ON'
         ]
     ],
     '503_message'      => [
-        'type'     => 'anomaly.field_type.textarea',
-        'required' => true,
-        'config'   => [
-            'default_value' => function () {
-                return 'streams::message.503';
-            }
-        ]
+        'type' => 'anomaly.field_type.textarea'
     ],
     'ip_whitelist'     => 'anomaly.field_type.tags',
+    'basic_auth'       => [
+        'type'   => 'anomaly.field_type.boolean',
+        'config' => [
+            'default_value' => false
+        ]
+    ],
     'force_https'      => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
@@ -152,8 +154,8 @@ return [
     'mail_port'        => 'anomaly.field_type.integer',
     'mail_username'    => 'anomaly.field_type.text',
     'mail_password'    => [
-        'type'     => 'anomaly.field_type.text',
-        'config'   => [
+        'type'   => 'anomaly.field_type.text',
+        'config' => [
             'type' => 'password'
         ]
     ],

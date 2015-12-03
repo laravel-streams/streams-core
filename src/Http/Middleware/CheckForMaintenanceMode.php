@@ -1,7 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Http\Middleware;
 
+use Anomaly\Streams\Platform\Support\Authorizer;
+use Anomaly\UsersModule\User\Contract\UserInterface;
 use Closure;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\Request;
 
 /**
  * Class CheckForMaintenanceMode
@@ -22,14 +27,40 @@ class CheckForMaintenanceMode
     protected $app;
 
     /**
+     * The auth guard.
+     *
+     * @var Guard
+     */
+    protected $guard;
+
+    /**
+     * The config repository.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
+     * The permission authorizer.
+     *
+     * @var Authorizer
+     */
+    protected $authorizer;
+
+    /**
      * Create a new CheckForMaintenanceMode instance.
      *
      * @param  Application $app
-     * @return void
+     * @param Guard        $guard
+     * @param Repository   $config
+     * @param Authorizer   $authorizer
      */
-    public function __construct(Application $app)
+    public function __construct(Application $app, Guard $guard, Repository $config, Authorizer $authorizer)
     {
-        $this->app = $app;
+        $this->app        = $app;
+        $this->guard      = $guard;
+        $this->config     = $config;
+        $this->authorizer = $authorizer;
     }
 
     /**
@@ -39,12 +70,31 @@ class CheckForMaintenanceMode
      * @param  \Closure                 $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        if ($this->app->isDownForMaintenance()) {
-            abort(503);
+        if (!$this->app->isDownForMaintenance() && $this->config->get('streams::maintenance.enabled', false) !== true) {
+            return $next($request);
         }
 
-        return $next($request);
+        if ($request->segment(1) == 'admin') {
+            return $next($request);
+        }
+
+        if (in_array($request->getClientIp(), $this->config->get('streams::maintenance.ip_whitelist', []))) {
+            return $next($request);
+        }
+
+        /* @var UserInterface $user */
+        $user = $this->guard->user();
+
+        if ($user && $user->isAdmin()) {
+            return $next($request);
+        }
+
+        if ($user && $this->authorizer->authorize('streams::maintenance_mode.access')) {
+            return $next($request);
+        }
+
+        abort(503);
     }
 }
