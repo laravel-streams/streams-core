@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
  * Class CheckForMaintenanceMode
@@ -68,7 +69,7 @@ class CheckForMaintenanceMode
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure                 $next
-     * @return mixed
+     * @return void|mixed
      */
     public function handle(Request $request, Closure $next)
     {
@@ -95,8 +96,18 @@ class CheckForMaintenanceMode
             return $next($request);
         }
 
-        if (!$user) {
-            return $this->guard->onceBasic() ?: $next($request);
+        if (!$user && $this->config->get('streams::maintenance.auth')) {
+
+            /* @var Response|null $response */
+            $response = $this->guard->onceBasic();
+
+            if (!$response) {
+                return $next($request);
+            }
+
+            $response->setContent(view('streams::errors.401'));
+
+            return $response;
         }
 
         abort(503);

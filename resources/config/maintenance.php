@@ -25,6 +25,6 @@ return [
     |
     */
 
-    'maintenance_auth' => env('MAINTENANCE_AUTH')
+    'auth' => env('MAINTENANCE_AUTH')
 
 ];
