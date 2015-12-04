@@ -1,6 +1,16 @@
 <?php
 
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Name & Description
+    |--------------------------------------------------------------------------
+    |
+    | These values provide very basic identification for your application.
+    |
+    */
+
     'name'        => [
         'type'   => 'anomaly.field_type.text',
         'config' => [

@@ -19,6 +19,7 @@ return [
     */
 
     'hint'      => true,
+
     /*
     |--------------------------------------------------------------------------
     | Enabled Locales
@@ -28,7 +29,8 @@ return [
     |
     */
 
-    'enabled'   => env('ENABLED_LOCALES', ['en']),
+    'enabled'   => explode(',', env('ENABLED_LOCALES', 'en')),
+
     /*
     |--------------------------------------------------------------------------
     | Supported Locales

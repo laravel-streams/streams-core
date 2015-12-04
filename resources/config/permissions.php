@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'maintenance_mode' => [
+    'maintenance' => [
         'access'
     ]
 ];

@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'enabled'   => env('ENABLED_CURRENCIES', ['USD']),
+    'enabled'   => explode(',', env('ENABLED_CURRENCIES', 'USD')),
 
     /*
     |--------------------------------------------------------------------------

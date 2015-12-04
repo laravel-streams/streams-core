@@ -7,13 +7,24 @@ return [
     | IP Whitelist
     |--------------------------------------------------------------------------
     |
-    | If the site is disabled, only these IPs will be allowed to view public
-    | facing content.
-    |
-    | NOTE: This configuration may be overridden by the Settings module.
+    | If maintenance mode is enabled, only these IPs will be allowed to
+    | view public facing content.
     |
     */
 
-    'ip_whitelist' => explode(',', env('IP_WHITELIST'))
+    'ip_whitelist' => explode(',', env('IP_WHITELIST')),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Maintenance Authentication
+    |--------------------------------------------------------------------------
+    |
+    | If maintenance mode is enabled, prompt for basic authentication?
+    | The user must have the "streams::maintenance.access" permission
+    | in order to view public facing content.
+    |
+    */
+
+    'maintenance_auth' => env('MAINTENANCE_AUTH')
 
 ];

@@ -98,8 +98,6 @@ class UiPluginFunctions
             return $layout;
         }
 
-        dd($layout);
-
         return "theme::layouts/{$default}";
     }
 

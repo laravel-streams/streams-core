@@ -72,7 +72,7 @@ class CheckForMaintenanceMode
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!$this->app->isDownForMaintenance() && $this->config->get('streams::maintenance.enabled', false) !== true) {
+        if (!$this->app->isDownForMaintenance()) {
             return $next($request);
         }
 
@@ -91,8 +91,12 @@ class CheckForMaintenanceMode
             return $next($request);
         }
 
-        if ($user && $this->authorizer->authorize('streams::maintenance_mode.access')) {
+        if ($user && $this->authorizer->authorize('streams::maintenance.access')) {
             return $next($request);
+        }
+
+        if (!$user) {
+            return $this->guard->onceBasic() ?: $next($request);
         }
 
         abort(503);
