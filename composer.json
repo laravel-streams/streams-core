@@ -23,7 +23,7 @@
         "guzzlehttp/psr7": "1.1.*",
         "guzzlehttp/promises": "1.0.*",
         "kriswallsmith/assetic": "1.2.*",
-        "leafo/scssphp": "0.1.0 ",
+        "leafo/scssphp": "0.6.0 ",
         "lmammino/jsmin4assetic": "1.0.*",
         "natxet/CssMin": "3.0.*",
         "oyejorge/less.php": "1.7.*",
