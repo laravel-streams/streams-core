@@ -3,16 +3,14 @@
 use TwigBridge\Bridge;
 
 /**
- * Class String
- *
- * @method render() render($string, array $payload)
+ * Class Template
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Support
  */
-class String
+class Template
 {
 
     /**
@@ -23,26 +21,27 @@ class String
     protected $twig;
 
     /**
-     * Create a new String instance.
+     * Create a new Template instance.
+     *
+     * @param Bridge $twig
      */
-    public function __construct()
+    public function __construct(Bridge $twig)
     {
-        $twig = clone(app('TwigBridge\Bridge'));
-
-        $twig->setLoader(new \Twig_Loader_String());
-
         $this->twig = $twig;
     }
 
     /**
-     * Call everything on twig.
+     * Render a string template.
      *
-     * @param $name
-     * @param $arguments
-     * @return mixed
+     * @param       $template
+     * @param array $payload
+     * @return string
+     * @throws \Exception
      */
-    function __call($name, $arguments)
+    function render($template, array $payload = [])
     {
-        return call_user_func_array([$this->twig, $name], $arguments);
+        $template = $this->twig->createTemplate($template);
+
+        return $template->render($payload);
     }
 }

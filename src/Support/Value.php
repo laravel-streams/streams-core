@@ -16,18 +16,18 @@ class Value
 {
 
     /**
-     * The string renderer.
-     *
-     * @var String
-     */
-    protected $string;
-
-    /**
      * The string parser.
      *
      * @var Parser
      */
     protected $parser;
+
+    /**
+     * The template parser.
+     *
+     * @var Template
+     */
+    protected $template;
 
     /**
      * The evaluator utility.
@@ -46,15 +46,15 @@ class Value
     /**
      * Create a new ColumnValue instance.
      *
-     * @param String    $string
      * @param Parser    $parser
+     * @param Template  $template
      * @param Evaluator $evaluator
      * @param Decorator $decorator
      */
-    public function __construct(String $string, Parser $parser, Evaluator $evaluator, Decorator $decorator)
+    public function __construct(Parser $parser, Template $template, Evaluator $evaluator, Decorator $decorator)
     {
-        $this->string    = $string;
         $this->parser    = $parser;
+        $this->template  = $template;
         $this->evaluator = $evaluator;
         $this->decorator = $decorator;
     }
@@ -191,7 +191,7 @@ class Value
          * string then render it.
          */
         if (is_string($value) && str_contains($value, '{{')) {
-            $value = $this->string->render($value, [$term => $entry]);
+            $value = $this->template->render($value, [$term => $entry]);
         }
 
         return $value;

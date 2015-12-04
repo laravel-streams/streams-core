@@ -43,7 +43,7 @@ class StreamsCompilerProvider
 
             // Support
             'vendor/anomaly/streams-platform/src/Support/Parser.php',
-            'vendor/anomaly/streams-platform/src/Support/String.php',
+            'vendor/anomaly/streams-platform/src/Support/Template.php',
             'vendor/anomaly/streams-platform/src/Support/Observer.php',
             'vendor/anomaly/streams-platform/src/Support/Resolver.php',
             'vendor/anomaly/streams-platform/src/Support/Decorator.php',
