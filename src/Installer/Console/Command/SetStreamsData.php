@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
 use Anomaly\Streams\Platform\Support\Collection;
-use Illuminate\Console\Command;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Config\Repository;
 
@@ -41,11 +40,11 @@ class SetStreamsData implements SelfHandling
      */
     public function handle(Repository $config)
     {
+        $this->data->put('APP_ENV', 'local');
         $this->data->put('INSTALLED', 'false');
         $this->data->put('APP_DEBUG', 'false');
-        $this->data->put('APP_ENV', 'local');
         $this->data->put('APP_KEY', str_random(32));
-        $this->data->put('ADMIN_THEME', $config->get('streams::themes.admin.active'));
-        $this->data->put('STANDARD_THEME', $config->get('streams::themes.standard.active'));
+        $this->data->put('ADMIN_THEME', $config->get('streams::themes.admin'));
+        $this->data->put('STANDARD_THEME', $config->get('streams::themes.standard'));
     }
 }
