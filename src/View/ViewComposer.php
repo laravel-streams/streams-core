@@ -121,6 +121,9 @@ class ViewComposer
     public function compose(View $view)
     {
         if (!$this->theme) {
+
+            $this->events->fire(new ViewComposed($view));
+
             return $view;
         }
 
