@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Plugin;
 
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
-use Anomaly\Streams\Platform\Entry\Plugin\Command\GetEntryBuilder;
+use Anomaly\Streams\Platform\Entry\Plugin\Command\GetCriteriaModel;
 
 /**
  * Class EntryPlugin
@@ -25,13 +25,13 @@ class EntryPlugin extends Plugin
             new \Twig_SimpleFunction(
                 'entry',
                 function ($namespace, $stream) {
-                    return $this->dispatch(new GetEntryBuilder($namespace, $stream, 'first'));
+                    return $this->dispatch(new GetCriteriaModel($namespace, $stream, 'first'));
                 }
             ),
             new \Twig_SimpleFunction(
                 'entries',
                 function ($namespace, $stream) {
-                    return $this->dispatch(new GetEntryBuilder($namespace, $stream, 'get'));
+                    return $this->dispatch(new GetCriteriaModel($namespace, $stream, 'get'));
                 }
             )
         ];

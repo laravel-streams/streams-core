@@ -4,14 +4,14 @@ use Anomaly\Streams\Platform\Entry\Plugin\EntryQuery;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class GetEntryBuilder
+ * Class GetCriteriaModel
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry\Plugin\Command
  */
-class GetEntryBuilder implements SelfHandling
+class GetCriteriaModel implements SelfHandling
 {
 
     /**
@@ -36,7 +36,7 @@ class GetEntryBuilder implements SelfHandling
     protected $namespace;
 
     /**
-     * Create a new GetEntryBuilder instance.
+     * Create a new GetCriteriaModel instance.
      *
      * @param $namespace
      * @param $stream
@@ -52,7 +52,7 @@ class GetEntryBuilder implements SelfHandling
      * Handle the command.
      *
      * @param EntryQuery $query
-     * @return \Anomaly\Streams\Platform\Entry\Plugin\EntryBuilder
+     * @return \Anomaly\Streams\Platform\Entry\EntryCriteria
      */
     public function handle(EntryQuery $query)
     {
