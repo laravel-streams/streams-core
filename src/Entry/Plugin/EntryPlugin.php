@@ -24,13 +24,19 @@ class EntryPlugin extends Plugin
         return [
             new \Twig_SimpleFunction(
                 'entry',
-                function ($namespace, $stream) {
+                function ($namespace, $stream = null) {
+
+                    $stream = $stream ?: $namespace;
+
                     return $this->dispatch(new GetCriteriaModel($namespace, $stream, 'first'));
                 }
             ),
             new \Twig_SimpleFunction(
                 'entries',
-                function ($namespace, $stream) {
+                function ($namespace, $stream = null) {
+
+                    $stream = $stream ?: $namespace;
+
                     return $this->dispatch(new GetCriteriaModel($namespace, $stream, 'get'));
                 }
             )

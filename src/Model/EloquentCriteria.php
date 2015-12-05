@@ -38,7 +38,7 @@ class EloquentCriteria
     /**
      * The query builder.
      *
-     * @var Builder
+     * @var Builder|\Illuminate\Database\Query\Builder
      */
     protected $query;
 
@@ -82,6 +82,21 @@ class EloquentCriteria
     public function find($identifier, array $columns = ['*'])
     {
         return (new Decorator())->decorate($this->query->find($identifier, $columns));
+    }
+
+    /**
+     * Find an entry by column value.
+     *
+     * @param       $column
+     * @param       $value
+     * @param array $columns
+     * @return Presenter
+     */
+    public function findBy($column, $value, array $columns = ['*'])
+    {
+        $this->query->where($column, $value);
+
+        return (new Decorator())->decorate($this->query->first($columns));
     }
 
     /**
@@ -129,8 +144,17 @@ class EloquentCriteria
         if ($this->methodIsSafe($name)) {
 
             call_user_func_array([$this->query, $name], $arguments);
+        }
 
-            return $this;
+        if (starts_with($name, 'findBy') && $column = snake_case(substr($name, 6))) {
+
+            call_user_func_array([$this->query, 'where'], array_merge([$column], $arguments));
+
+            return $this->first();
+        }
+
+        if (starts_with($name, 'where') && $column = snake_case(substr($name, 5))) {
+            call_user_func_array([$this->query, 'where'], array_merge([$column], $arguments));
         }
 
         return $this;
