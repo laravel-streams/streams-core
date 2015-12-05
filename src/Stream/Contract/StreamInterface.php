@@ -167,6 +167,15 @@ interface StreamInterface
     public function getAssignment($fieldSlug);
 
     /**
+     * Return whether a stream
+     * has a field assigned.
+     *
+     * @param $fieldSlug
+     * @return bool
+     */
+    public function hasAssignment($fieldSlug);
+
+    /**
      * Get a stream field by it's slug.
      *
      * @param  $slug

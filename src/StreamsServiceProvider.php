@@ -72,6 +72,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Asset\AssetPlugin',
         'Anomaly\Streams\Platform\Image\ImagePlugin',
         'Anomaly\Streams\Platform\Message\MessagePlugin',
+        'Anomaly\Streams\Platform\Entry\Plugin\EntryPlugin',
         'Anomaly\Streams\Platform\Application\ApplicationPlugin'
     ];
 
@@ -183,7 +184,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\View\ViewMobileOverrides'                            => 'Anomaly\Streams\Platform\View\ViewMobileOverrides',
         'Anomaly\Streams\Platform\View\Listener\LoadTemplateData'                      => 'Anomaly\Streams\Platform\View\Listener\LoadTemplateData',
         'Anomaly\Streams\Platform\View\Listener\DecorateData'                          => 'Anomaly\Streams\Platform\View\Listener\DecorateData',
-        'Anomaly\Streams\Platform\Support\Template'                                      => 'Anomaly\Streams\Platform\Support\Template'
+        'Anomaly\Streams\Platform\Support\Template'                                    => 'Anomaly\Streams\Platform\Support\Template'
     ];
 
     /**

@@ -7,7 +7,6 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Entry\EntryObserver;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Field\FieldModelTranslation;
@@ -433,6 +432,18 @@ class StreamModel extends EloquentModel implements StreamInterface
     public function getAssignment($fieldSlug)
     {
         return $this->getAssignments()->findByFieldSlug($fieldSlug);
+    }
+
+    /**
+     * Return whether a stream
+     * has a field assigned.
+     *
+     * @param $fieldSlug
+     * @return bool
+     */
+    public function hasAssignment($fieldSlug)
+    {
+        return (bool)$this->getAssignment($fieldSlug);
     }
 
     /**
