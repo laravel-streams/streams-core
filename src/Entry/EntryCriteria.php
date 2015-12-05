@@ -26,7 +26,6 @@ class EntryCriteria
         'andWhere',
         'orderBy',
         'limit',
-        'first',
         'with',
         'skip',
         'take'
@@ -87,6 +86,17 @@ class EntryCriteria
     public function find($id, array $columns = ['*'])
     {
         return (new Decorator())->decorate($this->query->find($id, $columns));
+    }
+
+    /**
+     * Return the first entry.
+     *
+     * @param array $columns
+     * @return EntryPresenter
+     */
+    public function first(array $columns = ['*'])
+    {
+        return (new Decorator())->decorate($this->query->first($columns));
     }
 
     /**
