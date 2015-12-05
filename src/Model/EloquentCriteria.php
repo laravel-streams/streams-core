@@ -1,20 +1,39 @@
-<?php namespace Anomaly\Streams\Platform\Entry;
+<?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Model\EloquentCriteria;
-use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Support\Decorator;
+use Anomaly\Streams\Platform\Support\Presenter;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class EntryCriteria
+ * Class EloquentCriteria
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry\Plugin
+ * @package       Anomaly\Streams\Platform\Model
  */
-class EntryCriteria extends EloquentCriteria
+class EloquentCriteria
 {
+
+    use DispatchesJobs;
+
+    /**
+     * Safe builder methods.
+     *
+     * @var array
+     */
+    private $safe = [
+        'where',
+        'orWhere',
+        'andWhere',
+        'orderBy',
+        'limit',
+        'with',
+        'skip',
+        'take'
+    ];
 
     /**
      * The query builder.
@@ -22,13 +41,6 @@ class EntryCriteria extends EloquentCriteria
      * @var Builder
      */
     protected $query;
-
-    /**
-     * The stream instance.
-     *
-     * @var StreamInterface
-     */
-    protected $stream;
 
     /**
      * Set the get method.
@@ -40,21 +52,20 @@ class EntryCriteria extends EloquentCriteria
     /**
      * Create a new EntryCriteria instance.
      *
-     * @param Builder         $query
-     * @param StreamInterface $stream
+     * @param Builder $query
+     * @param string  $method
      */
-    public function __construct(Builder $query, StreamInterface $stream, $method = 'get')
+    public function __construct(Builder $query, $method = 'get')
     {
-        $this->stream = $stream;
-
-        parent::__construct($query, $method);
+        $this->query  = $query;
+        $this->method = $method;
     }
 
     /**
      * Get the entries.
      *
      * @param array $columns
-     * @return EntryCollection|EntryPresenter
+     * @return Collection|Presenter
      */
     public function get(array $columns = ['*'])
     {
@@ -66,7 +77,7 @@ class EntryCriteria extends EloquentCriteria
      *
      * @param       $id
      * @param array $columns
-     * @return EntryPresenter
+     * @return Presenter
      */
     public function find($id, array $columns = ['*'])
     {
@@ -77,7 +88,7 @@ class EntryCriteria extends EloquentCriteria
      * Return the first entry.
      *
      * @param array $columns
-     * @return EntryPresenter
+     * @return Presenter
      */
     public function first(array $columns = ['*'])
     {
