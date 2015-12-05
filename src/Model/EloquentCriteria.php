@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -73,15 +73,15 @@ class EloquentCriteria
     }
 
     /**
-     * Find the entry.
+     * Find an entry.
      *
-     * @param       $id
+     * @param       $identifier
      * @param array $columns
      * @return Presenter
      */
-    public function find($id, array $columns = ['*'])
+    public function find($identifier, array $columns = ['*'])
     {
-        return (new Decorator())->decorate($this->query->find($id, $columns));
+        return (new Decorator())->decorate($this->query->find($identifier, $columns));
     }
 
     /**
