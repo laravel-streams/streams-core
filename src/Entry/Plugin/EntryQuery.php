@@ -57,8 +57,8 @@ class EntryQuery
      */
     public function make($namespace, $stream, $method = 'get')
     {
-        $stream    = ucfirst(snake_case($stream));
-        $namespace = ucfirst(snake_case($namespace));
+        $stream    = ucfirst(camel_case($stream));
+        $namespace = ucfirst(camel_case($namespace));
 
         /* @var EntryModel $model */
         $model = $this->container->make(

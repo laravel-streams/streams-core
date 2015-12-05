@@ -67,7 +67,6 @@ class StreamsServiceProvider extends ServiceProvider
         'TwigBridge\Extension\Laravel\Form',
         'TwigBridge\Extension\Laravel\Html',
         'Anomaly\Streams\Platform\Ui\UiPlugin',
-        'Anomaly\Streams\Platform\StreamsPlugin',
         'Anomaly\Streams\Platform\Agent\AgentPlugin',
         'Anomaly\Streams\Platform\Asset\AssetPlugin',
         'Anomaly\Streams\Platform\Image\ImagePlugin',

@@ -25,7 +25,11 @@ class EntryCriteria
         'orWhere',
         'andWhere',
         'orderBy',
-        'limit'
+        'limit',
+        'first',
+        'with',
+        'skip',
+        'take'
     ];
 
     /**
