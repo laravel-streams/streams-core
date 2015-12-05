@@ -17,7 +17,9 @@ abstract class Presenter extends \Robbo\Presenter\Presenter
      * @var array
      */
     protected $disallowed = [
-        'delete'
+        'delete',
+        'save',
+        'update'
     ];
 
     /**
