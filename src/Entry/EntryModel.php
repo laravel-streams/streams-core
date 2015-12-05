@@ -602,10 +602,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             $this->stream = app('Anomaly\Streams\Platform\Stream\StreamModel')->make($this->stream);
         }
 
-        if (($concrete = get_class($this)) !== ($abstract = $this->stream->getEntryModelName())) {
-            app()->bind($abstract, $concrete);
-        }
-
         return $this->stream;
     }
 
