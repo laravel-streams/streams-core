@@ -111,6 +111,17 @@ class EntryCriteria
     }
 
     /**
+     * Route through __call.
+     *
+     * @param $name
+     * @return Builder|null
+     */
+    function __get($name)
+    {
+        return $this->__call($name, []);
+    }
+
+    /**
      * Call the method on the query.
      *
      * @param $name
