@@ -1,21 +1,19 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Plugin;
+<?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Entry\EntryCriteria;
-use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class EntryQuery
+ * Class EntryFactory
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry\Plugin
+ * @package       Anomaly\Streams\Platform\Entry
  */
-class EntryQuery
+class EntryFactory
 {
 
     use DispatchesJobs;

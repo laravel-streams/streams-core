@@ -143,7 +143,7 @@ class IconRegistry
      * Get a button.
      *
      * @param  $icon
-     * @return array|null
+     * @return string
      */
     public function get($icon)
     {

@@ -63,16 +63,10 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $plugins = [
-        'Phive\Twig\Extensions\Deferred\DeferredExtension',
         'TwigBridge\Extension\Laravel\Form',
         'TwigBridge\Extension\Laravel\Html',
-        'Anomaly\Streams\Platform\Ui\UiPlugin',
-        'Anomaly\Streams\Platform\Agent\AgentPlugin',
-        'Anomaly\Streams\Platform\Asset\AssetPlugin',
-        'Anomaly\Streams\Platform\Image\ImagePlugin',
-        'Anomaly\Streams\Platform\Message\MessagePlugin',
-        'Anomaly\Streams\Platform\Entry\Plugin\EntryPlugin',
-        'Anomaly\Streams\Platform\Application\ApplicationPlugin'
+        'Anomaly\Streams\Platform\StreamsPlugin',
+        'Phive\Twig\Extensions\Deferred\DeferredExtension'
     ];
 
     /**
