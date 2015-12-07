@@ -121,49 +121,6 @@ class FormCriteria
     }
 
     /**
-     * Route through __get
-     *
-     * @param $name
-     * @return $this
-     */
-    public function __get($name)
-    {
-        return $this->__call($name, []);
-    }
-
-    /**
-     * @param $name
-     * @param $arguments
-     * @return $this
-     */
-    public function __call($name, $arguments)
-    {
-
-        if (method_exists($this->builder, camel_case('set_' . $name))) {
-
-            array_set($this->parameters, $name, $arguments);
-
-            return $this;
-        }
-
-        if (method_exists($this->builder, camel_case('add_' . $name))) {
-
-            array_set($this->parameters, $name, $arguments);
-
-            return $this;
-        }
-
-        if (!method_exists($this->builder, camel_case($name)) && count($arguments) === 1) {
-
-            array_set($this->parameters, "options.{$name}", array_shift($arguments));
-
-            return $this;
-        }
-
-        return $this;
-    }
-
-    /**
      * Set the default parameters.
      */
     protected function setDefaults()
@@ -215,5 +172,58 @@ class FormCriteria
                 $this->builder->getOption('panel_heading_class', '')
             )
         );
+    }
+
+    /**
+     * Route through __get
+     *
+     * @param $name
+     * @return $this
+     */
+    public function __get($name)
+    {
+        return $this->__call($name, []);
+    }
+
+    /**
+     * @param $name
+     * @param $arguments
+     * @return $this
+     */
+    public function __call($name, $arguments)
+    {
+
+        if (method_exists($this->builder, camel_case('set_' . $name))) {
+
+            array_set($this->parameters, $name, $arguments);
+
+            return $this;
+        }
+
+        if (method_exists($this->builder, camel_case('add_' . $name))) {
+
+            array_set($this->parameters, $name, $arguments);
+
+            return $this;
+        }
+
+        if (!method_exists($this->builder, camel_case($name)) && count($arguments) === 1) {
+
+            array_set($this->parameters, "options.{$name}", array_shift($arguments));
+
+            return $this;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Return the form.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->get()->__toString();
     }
 }
