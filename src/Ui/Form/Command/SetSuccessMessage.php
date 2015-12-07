@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Translation\Translator;
 
 /**
  * Class SetSuccessMessage
@@ -35,7 +36,7 @@ class SetSuccessMessage implements SelfHandling
     /**
      * Handle the command.
      */
-    public function handle(MessageBag $messages)
+    public function handle(MessageBag $messages, Translator $translator)
     {
         // If we can't save or there are errors then skip it.
         if ($this->builder->hasFormErrors() || !$this->builder->canSave()) {
@@ -63,7 +64,7 @@ class SetSuccessMessage implements SelfHandling
         ];
 
         // If the name doesn't exist we need to be clever.
-        if (str_contains($parameters['name'], '::') && !trans()->has($parameters['name']) && $stream) {
+        if (str_contains($parameters['name'], '::') && !$translator->has($parameters['name']) && $stream) {
             $parameters['name'] = ucfirst(str_singular(str_replace('_', ' ', $stream->getSlug())));
         } elseif ($parameters['name']) {
             $parameters['name'] = str_singular(trans($parameters['name']));
@@ -81,6 +82,8 @@ class SetSuccessMessage implements SelfHandling
             );
         }
 
-        $messages->success($this->builder->getFormOption('success_message'));
+        $messages->{$this->builder->getFormOption('success_message_type', 'success')}(
+            $this->builder->getFormOption('success_message')
+        );
     }
 }

@@ -192,7 +192,9 @@ class FormCriteria
 
         if (!method_exists($this->builder, camel_case($name)) && count($arguments) === 1) {
 
-            array_set($this->parameters, "options.{$name}", array_shift($arguments));
+            $key = snake_case($name);
+
+            array_set($this->parameters, "options.{$key}", array_shift($arguments));
 
             return $this;
         }
