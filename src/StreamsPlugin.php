@@ -13,6 +13,7 @@ use Anomaly\Streams\Platform\Ui\Button\Command\GetButtons;
 use Anomaly\Streams\Platform\Ui\Command\GetElapsedTime;
 use Anomaly\Streams\Platform\Ui\Command\GetMemoryUsage;
 use Anomaly\Streams\Platform\Ui\Command\GetTranslatedString;
+use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
 use Anomaly\Streams\Platform\Ui\Icon\Command\GetIcon;
 use Anomaly\Streams\Platform\View\Command\GetConstants;
 use Anomaly\Streams\Platform\View\Command\GetLayoutName;
@@ -132,6 +133,15 @@ class StreamsPlugin extends Plugin
                 'image',
                 function ($image) {
                     return $this->dispatch(new MakeImageTag($image));
+                },
+                [
+                    'is_safe' => ['html']
+                ]
+            ),
+            new \Twig_SimpleFunction(
+                'form',
+                function ($form) {
+                    return $this->dispatch(new GetFormCriteria($form));
                 },
                 [
                     'is_safe' => ['html']

@@ -1,7 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Entry\EntryPresenter;
 use Anomaly\Streams\Platform\Support\Collection;
+use Anomaly\Streams\Platform\Support\Decorator;
+use Anomaly\Streams\Platform\Support\Presenter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -64,11 +67,11 @@ class EloquentCriteria
      * Get the entries.
      *
      * @param array $columns
-     * @return Collection|EloquentModel|EntryInterface
+     * @return Collection|Presenter|EntryPresenter
      */
     public function get(array $columns = ['*'])
     {
-        return $this->query->{$this->method}($columns);
+        return (new Decorator())->decorate($this->query->{$this->method}($columns));
     }
 
     /**
@@ -76,11 +79,11 @@ class EloquentCriteria
      *
      * @param       $identifier
      * @param array $columns
-     * @return EloquentModel|EntryInterface
+     * @return Presenter|EntryPresenter
      */
     public function find($identifier, array $columns = ['*'])
     {
-        return $this->query->find($identifier, $columns);
+        return (new Decorator())->decorate($this->query->find($identifier, $columns));
     }
 
     /**
@@ -89,13 +92,13 @@ class EloquentCriteria
      * @param       $column
      * @param       $value
      * @param array $columns
-     * @return EloquentModel|EntryInterface
+     * @return Presenter|EntryPresenter
      */
     public function findBy($column, $value, array $columns = ['*'])
     {
         $this->query->where($column, $value);
 
-        return $this->query->first($columns);
+        return (new Decorator())->decorate($this->query->first($columns));
     }
 
     /**
@@ -106,7 +109,7 @@ class EloquentCriteria
      */
     public function first(array $columns = ['*'])
     {
-        return $this->query->first($columns);
+        return (new Decorator())->decorate($this->query->first($columns));
     }
 
     /**
