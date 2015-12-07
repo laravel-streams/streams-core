@@ -38,6 +38,10 @@ class FormController extends PublicController
             ->post()
             ->getFormResponse();
 
+        if ($response && $response->getStatusCode() !== 200) {
+            return $response;
+        }
+
         if ($builder->hasFormErrors()) {
             return $redirect->back();
         }

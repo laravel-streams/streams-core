@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Hydrator;
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,8 @@ use Illuminate\Http\Request;
  */
 class FormCriteria
 {
+
+    use FiresCallbacks;
 
     /**
      * The cache repository.
@@ -72,6 +75,8 @@ class FormCriteria
         $this->request    = $request;
         $this->hydrator   = $hydrator;
         $this->parameters = $parameters;
+
+        $this->setBuilder($builder);
     }
 
     /**
@@ -81,7 +86,7 @@ class FormCriteria
      */
     public function get()
     {
-        $this->setDefaults();
+        $this->fire('ready', ['criteria' => $this]);
 
         array_set($this->parameters, 'key', md5(json_encode($this->parameters)));
 
@@ -121,57 +126,35 @@ class FormCriteria
     }
 
     /**
-     * Set the default parameters.
+     * Get the builder.
+     *
+     * @return FormBuilder
      */
-    protected function setDefaults()
+    public function getBuilder()
     {
-        array_set(
-            $this->parameters,
-            'builder',
-            get_class($this->builder)
-        );
+        return $this->builder;
+    }
+
+    /**
+     * Set the form builder.
+     *
+     * @param FormBuilder $builder
+     * @return $this
+     */
+    protected function setBuilder(FormBuilder $builder)
+    {
+        array_set($this->parameters, 'builder', get_class($builder));
 
         array_set(
             $this->parameters,
-            'options.redirect',
-            array_get(
-                $this->parameters,
-                'options.redirect',
-                $this->builder->getOption('redirect', $this->request->fullUrl())
+            'options',
+            array_merge(
+                $builder->getOptions(),
+                array_get($this->parameters, 'options', [])
             )
         );
 
-        array_set(
-            $this->parameters,
-            'options.panel_class',
-            array_get($this->parameters, 'options.panel_class', $this->builder->getOption('panel_class', ''))
-        );
-
-        array_set(
-            $this->parameters,
-            'options.panel_body_class',
-            array_get($this->parameters, 'options.panel_body_class', $this->builder->getOption('panel_body_class', ''))
-        );
-
-        array_set(
-            $this->parameters,
-            'options.panel_title_class',
-            array_get(
-                $this->parameters,
-                'options.panel_title_class',
-                $this->builder->getOption('panel_title_class', '')
-            )
-        );
-
-        array_set(
-            $this->parameters,
-            'options.panel_heading_class',
-            array_get(
-                $this->parameters,
-                'options.panel_heading_class',
-                $this->builder->getOption('panel_heading_class', '')
-            )
-        );
+        return $this;
     }
 
     /**
