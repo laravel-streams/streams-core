@@ -35,7 +35,8 @@
         "barryvdh/laravel-httpcache": "0.2.*",
         "phive/twig-extensions-deferred": "0.3.*",
         "league/flysystem-cached-adapter": "1.0.*",
-        "symfony/yaml": "~2.0"
+        "symfony/yaml": "~2.0",
+        "mrjgreen/db-sync": "3.0.*"
     },
     "require-dev": {
         "phpspec/phpspec": "~2.0",

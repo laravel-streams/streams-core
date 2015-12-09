@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Illuminate\Foundation\Bus\DispatchesJobs;
+
 /**
  * Class Presenter
  *
@@ -10,6 +12,8 @@
  */
 abstract class Presenter extends \Robbo\Presenter\Presenter
 {
+
+    use DispatchesJobs;
 
     /**
      * Disallowed names.
