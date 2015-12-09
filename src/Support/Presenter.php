@@ -16,11 +16,11 @@ abstract class Presenter extends \Robbo\Presenter\Presenter
     use DispatchesJobs;
 
     /**
-     * Disallowed names.
+     * Protected names.
      *
      * @var array
      */
-    protected $disallowed = [
+    protected $protected = [
         'delete',
         'save',
         'update'
@@ -59,7 +59,7 @@ abstract class Presenter extends \Robbo\Presenter\Presenter
      */
     public function __get($var)
     {
-        if (in_array($var, $this->disallowed)) {
+        if (in_array($var, $this->protected)) {
             return null;
         }
 
@@ -111,7 +111,7 @@ abstract class Presenter extends \Robbo\Presenter\Presenter
      */
     public function __call($method, $arguments)
     {
-        if (in_array(snake_case($method), $this->disallowed)) {
+        if (in_array(snake_case($method), $this->protected)) {
             return null;
         }
 

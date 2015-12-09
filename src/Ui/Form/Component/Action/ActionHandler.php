@@ -102,7 +102,7 @@ class ActionHandler implements SelfHandling
          * If the redirect is null then use the current one.
          */
         if ($redirect === null) {
-            $redirect = $this->request->fullUrl();
+            $redirect = $this->redirector->back()->getTargetUrl();
         }
 
         /**

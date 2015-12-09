@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Entry\EntryPresenter;
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
@@ -65,7 +67,7 @@ class EloquentCriteria
      * Get the entries.
      *
      * @param array $columns
-     * @return Collection|Presenter
+     * @return Collection|Presenter|EntryPresenter
      */
     public function get(array $columns = ['*'])
     {
@@ -77,7 +79,7 @@ class EloquentCriteria
      *
      * @param       $identifier
      * @param array $columns
-     * @return Presenter
+     * @return Presenter|EntryPresenter
      */
     public function find($identifier, array $columns = ['*'])
     {
@@ -90,7 +92,7 @@ class EloquentCriteria
      * @param       $column
      * @param       $value
      * @param array $columns
-     * @return Presenter
+     * @return Presenter|EntryPresenter
      */
     public function findBy($column, $value, array $columns = ['*'])
     {
@@ -103,7 +105,7 @@ class EloquentCriteria
      * Return the first entry.
      *
      * @param array $columns
-     * @return Presenter
+     * @return EloquentModel|EntryInterface
      */
     public function first(array $columns = ['*'])
     {

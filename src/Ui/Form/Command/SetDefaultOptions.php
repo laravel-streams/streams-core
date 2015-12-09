@@ -44,7 +44,7 @@ class SetDefaultOptions implements SelfHandling
         /**
          * Set the default panel classes.
          */
-        if ($form->getOption('panel_class') == null) {
+        if ($form->getOption('panel_class') === null) {
             $form->setOption('panel_class', 'panel');
         }
 

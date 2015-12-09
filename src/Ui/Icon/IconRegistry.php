@@ -79,6 +79,7 @@ class IconRegistry
         'paypal'               => 'fa fa-cc-paypal',
         'power-off'            => 'fa fa-power-off',
         'dashboard'            => 'fa fa-dashboard',
+        'share'                => 'fa fa-share-alt',
         'square-alt'           => 'fa fa-square-o',
         'circle-alt'           => 'fa fa-circle-o',
         'compress'             => 'fa fa-compress',
@@ -143,7 +144,7 @@ class IconRegistry
      * Get a button.
      *
      * @param  $icon
-     * @return array|null
+     * @return string
      */
     public function get($icon)
     {

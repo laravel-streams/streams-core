@@ -212,6 +212,18 @@ class Image
     }
 
     /**
+     * Return the image tag to an image.
+     *
+     * @param null  $alt
+     * @param array $attributes
+     * @return string
+     */
+    public function img($alt = null, $attributes = [])
+    {
+        return $this->img($alt, $attributes);
+    }
+
+    /**
      * Return the image response.
      *
      * @param null $format
@@ -257,7 +269,7 @@ class Image
         if (starts_with($this->getImage(), ['//', 'http'])) {
             return $this->getImage();
         }
-        
+
         $filename = md5(var_export([md5($this->getImage()), $this->applied], true)) . '.' . $this->getExtension();
 
         $path = 'assets/' . $this->application->getReference() . '/cache/' . $filename;

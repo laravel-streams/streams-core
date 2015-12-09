@@ -1,27 +1,15 @@
-<?php namespace Anomaly\Streams\Platform\Application;
+<?php namespace Anomaly\Streams\Platform\Support;
 
 /**
- * Class ApplicationPluginFunctions
+ * Class Str
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Application
+ * @package       Anomaly\Streams\Platform\Support
  */
-class ApplicationPluginFunctions
+class Str
 {
-
-    /**
-     * Return an environmental variable.
-     *
-     * @param      $key
-     * @param null $default
-     * @return mixed
-     */
-    public function env($key, $default = null)
-    {
-        return env($key, $default);
-    }
 
     /**
      * Return a humanized string.
@@ -33,21 +21,6 @@ class ApplicationPluginFunctions
     public function humanize($value, $separator = '_')
     {
         return ucwords(preg_replace('/[' . $separator . ']+/', ' ', strtolower(trim($value))));
-    }
-
-    /**
-     * Return an anchor tag.
-     *
-     * @param string $value
-     * @param string $text
-     * @param array  $attributes
-     * @return string
-     */
-    public function anchor($value, $text, $attributes = [])
-    {
-        $attributes = array_merge($attributes, ['name' => $value]);
-
-        return app('html')->link('#' . $value, $text, $attributes);
     }
 
     /**
@@ -81,26 +54,5 @@ class ApplicationPluginFunctions
         }
 
         return rtrim(mb_substr($value, 0, $limit, 'UTF-8')) . $end;
-    }
-
-    /**
-     * Return the translated key.
-     *
-     * @param null  $key
-     * @param array $parameters
-     * @param null  $locale
-     * @return string
-     */
-    public function trans($key = null, $parameters = [], $locale = null)
-    {
-        if (!$key) {
-            return $key;
-        }
-
-        if (is_array($string = trans($key, $parameters, $locale))) {
-            return $key;
-        }
-
-        return $string;
     }
 }

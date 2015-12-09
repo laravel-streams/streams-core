@@ -1,17 +1,17 @@
-<?php namespace Anomaly\Streams\Platform\Entry\Plugin\Command;
+<?php namespace Anomaly\Streams\Platform\Entry\Command;
 
-use Anomaly\Streams\Platform\Entry\Plugin\EntryQuery;
+use Anomaly\Streams\Platform\Entry\EntryFactory;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class GetCriteriaModel
+ * Class GetEntryCriteria
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry\Plugin\Command
+ * @package       Anomaly\Streams\Platform\Entry\Command
  */
-class GetCriteriaModel implements SelfHandling
+class GetEntryCriteria implements SelfHandling
 {
 
     /**
@@ -36,7 +36,7 @@ class GetCriteriaModel implements SelfHandling
     protected $namespace;
 
     /**
-     * Create a new GetCriteriaModel instance.
+     * Create a new GetEntryCriteria instance.
      *
      * @param $namespace
      * @param $stream
@@ -51,11 +51,11 @@ class GetCriteriaModel implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param EntryQuery $query
+     * @param EntryFactory $factory
      * @return \Anomaly\Streams\Platform\Entry\EntryCriteria
      */
-    public function handle(EntryQuery $query)
+    public function handle(EntryFactory $factory)
     {
-        return $query->make($this->namespace, $this->stream, $this->method);
+        return $factory->make($this->namespace, $this->stream, $this->method);
     }
 }
