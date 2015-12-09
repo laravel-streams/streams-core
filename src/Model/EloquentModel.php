@@ -37,9 +37,9 @@ class EloquentModel extends Model implements Arrayable
     /**
      * The number of minutes to cache query results.
      *
-     * @var null
+     * @var null|false|int
      */
-    protected $cacheMinutes = false;
+    protected $ttl = false;
 
     /**
      * The attributes that are
@@ -148,26 +148,26 @@ class EloquentModel extends Model implements Arrayable
     }
 
     /**
-     * Set the cache minutes.
+     * Set the ttl.
      *
-     * @param  $cacheMinutes
+     * @param  $ttl
      * @return $this
      */
-    public function setCacheMinutes($cacheMinutes)
+    public function setTtl($ttl)
     {
-        $this->cacheMinutes = $cacheMinutes;
+        $this->ttl = $ttl;
 
         return $this;
     }
 
     /**
-     * Get the cache minutes.
+     * Get the ttl.
      *
      * @return int|mixed
      */
-    public function getCacheMinutes()
+    public function getTtl()
     {
-        return $this->cacheMinutes;
+        return $this->ttl;
     }
 
     /**

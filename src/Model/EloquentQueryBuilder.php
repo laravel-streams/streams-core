@@ -33,20 +33,20 @@ class EloquentQueryBuilder extends Builder
     {
         $this->orderByDefault();
 
-        /*if (!env('APP_DEBUG') || env('DB_CACHE')) {
+        if (!env('APP_DEBUG') || env('DB_CACHE')) {
 
             $this->rememberIndex();
 
-            if ($this->model->getCacheMinutes()) {
+            if ($this->model->getTtl()) {
                 return app('cache')->remember(
                     $this->getCacheKey(),
-                    $this->model->getCacheMinutes(),
+                    $this->model->getTtl(),
                     function () use ($columns) {
                         return parent::get($columns);
                     }
                 );
             }
-        }*/
+        }
 
         return parent::get($columns);
     }
@@ -58,7 +58,7 @@ class EloquentQueryBuilder extends Builder
      */
     protected function rememberIndex()
     {
-        if ($this->model->getCacheMinutes()) {
+        if ($this->model->getTtl()) {
             $this->indexCacheCollection();
         }
 
