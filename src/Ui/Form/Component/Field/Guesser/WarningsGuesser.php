@@ -78,6 +78,10 @@ class WarningsGuesser
              */
             $warning = $assignment->getWarning();
 
+            if (empty($warning)) {
+                $warning = "module::field.{$field['field']}.warning";
+            }
+
             if (str_is('*::*', $warning) && trans()->has($warning, $locale)) {
                 $field['warning'] = trans($warning, [], null, $locale);
             }
