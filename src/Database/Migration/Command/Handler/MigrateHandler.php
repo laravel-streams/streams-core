@@ -25,5 +25,7 @@ class MigrateHandler
         $migration->createFields();
         $migration->createStream();
         $migration->assignFields();
+
+        $migration->up();
     }
 }

@@ -39,9 +39,13 @@ class RollbackHandler
      */
     public function handle(Rollback $command)
     {
-        $command->getMigration()->unassignFields();
-        $command->getMigration()->deleteStream();
-        $command->getMigration()->deleteFields();
+        $migration = $command->getMigration();
+
+        $migration->unassignFields();
+        $migration->deleteStream();
+        $migration->deleteFields();
+
+        $migration->down();
 
         $this->cache->flush();
     }
