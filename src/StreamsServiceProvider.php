@@ -130,7 +130,6 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $singletons = [
-        'Robbo\Presenter\Decorator'                                                    => 'Robbo\Presenter\Decorator',
         'League\Flysystem\MountManager'                                                => 'League\Flysystem\MountManager',
         'Illuminate\Console\Scheduling\Schedule'                                       => 'Illuminate\Console\Scheduling\Schedule',
         'Anomaly\Streams\Platform\Application\Application'                             => 'Anomaly\Streams\Platform\Application\Application',

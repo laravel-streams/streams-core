@@ -161,9 +161,9 @@ class Image
      */
     public function make($image)
     {
-        $clone = clone($this);
+        $this->applied = [];
 
-        return $clone->setImage($image);
+        return $this->setImage($image);
     }
 
     /**
