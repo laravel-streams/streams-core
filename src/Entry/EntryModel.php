@@ -305,7 +305,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAttribute($key)
     {
-        $relation = camel_case($key);
+        // Check if it's a relation first.
+        if (isset($this->relations[$relation = camel_case($key)])) {
+            return parent::getAttribute($relation);
+        }
 
         if (
             !$this->hasGetMutator($key)
@@ -314,8 +317,6 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
             && in_array($key, $this->fields)
         ) {
             return $this->getFieldValue($key);
-        } elseif (isset($this->relations[$relation])) {
-            return $this->relations[$relation] ?: parent::getAttribute($relation);
         } else {
             return parent::getAttribute($key);
         }
