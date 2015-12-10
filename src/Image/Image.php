@@ -220,7 +220,7 @@ class Image
      */
     public function img($alt = null, $attributes = [])
     {
-        return $this->img($alt, $attributes);
+        return $this->image($alt, $attributes);
     }
 
     /**
