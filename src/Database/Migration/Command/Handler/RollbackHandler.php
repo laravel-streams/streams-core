@@ -44,9 +44,7 @@ class RollbackHandler
         $migration->unassignFields();
         $migration->deleteStream();
         $migration->deleteFields();
-
-        $migration->down();
-
+        
         $this->cache->flush();
     }
 }
