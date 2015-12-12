@@ -34,7 +34,8 @@ class EloquentCriteria
         'limit',
         'with',
         'skip',
-        'take'
+        'take',
+        'cache'
     ];
 
     /**

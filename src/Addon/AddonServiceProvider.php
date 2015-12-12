@@ -21,6 +21,13 @@ class AddonServiceProvider
     use DispatchesJobs;
 
     /**
+     * Class aliases.
+     *
+     * @var array
+     */
+    protected $aliases = [];
+
+    /**
      * Class bindings.
      *
      * @var array
@@ -129,6 +136,16 @@ class AddonServiceProvider
     {
         $this->app   = $app;
         $this->addon = $addon;
+    }
+
+    /**
+     * Get class aliases.
+     *
+     * @return array
+     */
+    public function getAliases()
+    {
+        return $this->aliases;
     }
 
     /**

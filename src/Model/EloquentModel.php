@@ -97,6 +97,17 @@ class EloquentModel extends Model implements Arrayable
     }
 
     /**
+     * Alias for $this->setTtl($ttl)
+     *
+     * @param $ttl
+     * @return EloquentModel
+     */
+    public function cache($ttl)
+    {
+        return $this->setTtl($ttl);
+    }
+
+    /**
      * Fire a model event.
      *
      * @param $event

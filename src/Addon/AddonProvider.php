@@ -136,6 +136,7 @@ class AddonProvider
 
         $this->providers[] = $provider = new $provider($this->application, $addon);
 
+        $this->bindAliases($provider);
         $this->bindClasses($provider);
         $this->bindSingletons($provider);
 
@@ -200,6 +201,18 @@ class AddonProvider
                     $artisan->resolveCommands($commands);
                 }
             );
+        }
+    }
+
+    /**
+     * Bind class aliases.
+     *
+     * @param AddonServiceProvider $provider
+     */
+    protected function bindAliases(AddonServiceProvider $provider)
+    {
+        foreach ($provider->getAliases() as $abstract => $alias) {
+            $this->application->alias($abstract, $alias);
         }
     }
 
