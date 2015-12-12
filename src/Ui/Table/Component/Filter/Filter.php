@@ -45,6 +45,13 @@ class Filter implements FilterInterface
     protected $prefix = null;
 
     /**
+     * The exact flag.
+     *
+     * @var bool
+     */
+    protected $exact = false;
+
+    /**
      * The active flag.
      *
      * @var bool
@@ -185,6 +192,29 @@ class Filter implements FilterInterface
         $this->slug = $slug;
 
         return $this;
+    }
+
+    /**
+     * Set the exact flag.
+     *
+     * @param bool $exact
+     * @return $this
+     */
+    public function setExact($exact)
+    {
+        $this->exact = $exact;
+
+        return $this;
+    }
+
+    /**
+     * Return the exact flag.
+     *
+     * @return bool
+     */
+    public function isExact()
+    {
+        return $this->exact;
     }
 
     /**

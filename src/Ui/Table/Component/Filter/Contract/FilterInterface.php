@@ -51,6 +51,21 @@ interface FilterInterface
     public function getValue();
 
     /**
+     * Set the exact flag.
+     *
+     * @param bool $exact
+     * @return $this
+     */
+    public function setExact($exact);
+
+    /**
+     * Get the exact flag.
+     *
+     * @return bool
+     */
+    public function isExact();
+
+    /**
      * Set the active flag.
      *
      * @param bool $active

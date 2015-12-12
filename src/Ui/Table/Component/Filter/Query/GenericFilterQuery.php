@@ -61,6 +61,10 @@ class GenericFilterQuery implements SelfHandling
             return;
         }
 
-        $query->where($filter->getSlug(), 'LIKE', "%{$filter->getValue()}%");
+        if ($filter->isExact()) {
+            $query->where($filter->getSlug(), $filter->getValue());
+        } else {
+            $query->where($filter->getSlug(), 'LIKE', "%{$filter->getValue()}%");
+        }
     }
 }
