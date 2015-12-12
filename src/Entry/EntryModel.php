@@ -306,14 +306,13 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function getAttribute($key)
     {
         // Check if it's a relation first.
-        if (isset($this->relations[$relation = camel_case($key)])) {
+        if (isset($this->relations[$relation = camel_case($key)]) || method_exists($this, $relation)) {
             return parent::getAttribute($relation);
         }
 
         if (
             !$this->hasGetMutator($key)
-            && !isset($this->relations[$relation])
-            && !method_exists($this, $key)
+            && !method_exists($this, $relation)
             && in_array($key, $this->fields)
         ) {
             return $this->getFieldValue($key);
