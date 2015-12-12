@@ -13,6 +13,10 @@ class {provider} extends AddonServiceProvider
 
     protected $listeners = [];
 
+    protected $aliases = [];
+
+    protected $bindings = [];
+
     protected $providers = [];
 
     protected $singletons = [];
