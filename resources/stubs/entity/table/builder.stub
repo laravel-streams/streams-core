@@ -31,14 +31,18 @@ class {class} extends TableBuilder
      *
      * @var array|string
      */
-    protected $buttons = [];
+    protected $buttons = [
+        'edit'
+    ];
 
     /**
      * The table actions.
      *
      * @var array|string
      */
-    protected $actions = [];
+    protected $actions = [
+        'delete'
+    ];
 
     /**
      * The table options.
