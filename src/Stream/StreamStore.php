@@ -28,7 +28,7 @@ class StreamStore
      */
     public function put($data, StreamInterface $stream)
     {
-        $this->cache[md5(json_encode($data))] = $stream;
+        $this->cache[$this->getCacheKey($data)] = $stream;
     }
 
     /**
@@ -39,10 +39,24 @@ class StreamStore
      */
     public function get($data)
     {
-        if (isset($this->cache[md5(json_encode($data))])) {
-            return $this->cache[md5(json_encode($data))];
+        if (isset($this->cache[$this->getCacheKey($data)])) {
+            return $this->cache[$this->getCacheKey($data)];
         }
 
         return null;
+    }
+
+    /**
+     * Get the cache key.
+     *
+     * @param array $data
+     * @return string
+     */
+    protected function getCacheKey(array $data)
+    {
+        $stream    = array_get($data, 'slug');
+        $namespace = array_get($data, 'namespace');
+
+        return "stream.make::{$namespace}.{$stream}";
     }
 }

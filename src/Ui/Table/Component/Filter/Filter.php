@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery;
 use Closure;
@@ -21,6 +22,20 @@ class Filter implements FilterInterface
      * @var string
      */
     protected $slug = 'default';
+
+    /**
+     * The filter field.
+     *
+     * @var string
+     */
+    protected $field;
+
+    /**
+     * The stream object.
+     *
+     * @var StreamInterface
+     */
+    protected $stream;
 
     /**
      * The filter prefix.
@@ -193,5 +208,51 @@ class Filter implements FilterInterface
     public function isActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set the filter field.
+     *
+     * @param  $field
+     * @return $this
+     */
+    public function setField($field)
+    {
+        $this->field = $field;
+
+        return $this;
+    }
+
+    /**
+     * Get the filter field.
+     *
+     * @return string
+     */
+    public function getField()
+    {
+        return $this->field;
+    }
+
+    /**
+     * Set the stream.
+     *
+     * @param  StreamInterface $stream
+     * @return $this
+     */
+    public function setStream(StreamInterface $stream)
+    {
+        $this->stream = $stream;
+
+        return $this;
+    }
+
+    /**
+     * Get the stream.
+     *
+     * @return StreamInterface
+     */
+    public function getStream()
+    {
+        return $this->stream;
     }
 }
