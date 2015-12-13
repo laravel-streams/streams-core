@@ -39,7 +39,7 @@ class SetActiveFilters implements SelfHandling
     {
         /* @var FilterInterface $filter */
         foreach ($this->builder->getTableFilters() as $filter) {
-            if (app('request')->get($filter->getInputName()) !== null) {
+            if (app('request')->get($filter->getInputName())) {
                 $filter->setActive(true);
             }
         }
