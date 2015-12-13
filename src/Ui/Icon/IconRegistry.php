@@ -137,7 +137,8 @@ class IconRegistry
         'cog'                  => 'fa fa-cog',
         'rss'                  => 'fa fa-rss',
         'tag'                  => 'fa fa-tag',
-        'ban'                  => 'fa fa-ban'
+        'ban'                  => 'fa fa-ban',
+        'usd'                  => 'fa fa-usd'
     ];
 
     /**
