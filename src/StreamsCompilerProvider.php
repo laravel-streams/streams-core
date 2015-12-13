@@ -52,9 +52,6 @@ class StreamsCompilerProvider
             'vendor/anomaly/streams-platform/src/Support/Translator.php',
             'vendor/anomaly/streams-platform/src/Support/Configurator.php',
 
-            // UI
-            'vendor/anomaly/streams-platform/src/Ui/UiPlugin.php',
-
             // Miscellaneous
             'vendor/anomaly/streams-platform/src/Http/Middleware/MiddlewareCollection.php',
             'vendor/anomaly/streams-platform/src/Addon/Extension/ExtensionModel.php',
