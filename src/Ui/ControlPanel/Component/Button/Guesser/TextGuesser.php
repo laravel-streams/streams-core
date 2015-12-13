@@ -60,6 +60,10 @@ class TextGuesser
             if (!isset($button['text']) && isset($button['button'])) {
                 $button['text'] = $module->getNamespace('button.' . $button['button']);
             }
+
+            if (!isset($button['text']) && isset($button['button'])) {
+                $button['text'] = $module->getNamespace('button.' . $button['button']);
+            }
         }
 
         $builder->setButtons($buttons);
