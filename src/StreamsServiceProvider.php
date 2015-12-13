@@ -190,9 +190,9 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new SetCoreConnection());
         $this->dispatch(new ConfigureCommandBus());
         $this->dispatch(new ConfigureTranslator());
-        $this->dispatch(new LoadStreamsConfiguration());
-
         $this->dispatch(new InitializeApplication());
+
+        $this->dispatch(new LoadStreamsConfiguration());
         $this->dispatch(new AutoloadEntryModels());
         $this->dispatch(new AddAssetNamespaces());
         $this->dispatch(new AddImageNamespaces());
