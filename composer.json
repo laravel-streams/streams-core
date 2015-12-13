@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "laravel/framework": "5.1.13",
+        "laravel/framework": "5.1.*",
         "laravel/envoy": "1.0.*",
         "laravelcollective/html": "5.1.*",
         "doctrine/dbal": "2.5.*",
