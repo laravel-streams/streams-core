@@ -34,7 +34,7 @@ class SelectFilter extends Filter implements SelectFilterInterface
 
         return app('form')->select(
             $this->getInputName(),
-            array_merge([null => trans($this->getPlaceholder() ?: '----')], $this->getOptions()),
+            [null => trans($this->getPlaceholder() ?: '----')] + $this->getOptions(),
             $this->getValue(),
             $options
         );
