@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\View\Listener;
 
+use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Anomaly\Streams\Platform\View\Event\TemplateDataIsLoading;
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
@@ -75,7 +76,7 @@ class LoadTemplateData
         }
 
         if (array_merge($view->getFactory()->getShared(), $view->getData())) {
-            $view['template'] = $this->template;
+            $view['template'] = (new Decorator())->decorate($this->template);
         }
     }
 }
