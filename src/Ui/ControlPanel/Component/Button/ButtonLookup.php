@@ -34,7 +34,7 @@ class ButtonLookup
 
         foreach ($buttons as &$parameters) {
 
-            $button = $original = array_get($parameters, 'button');
+            $button = $original = array_pull($parameters, 'button');
 
             if ($button && $button = $this->buttons->get($button)) {
                 $parameters = array_replace_recursive($button, array_except($parameters, 'button'));

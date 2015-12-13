@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
@@ -16,6 +17,13 @@ class TextGuesser
 {
 
     /**
+     * The button registry.
+     *
+     * @var ButtonRegistry
+     */
+    protected $buttons;
+
+    /**
      * The module collection.
      *
      * @var ModuleCollection
@@ -25,10 +33,12 @@ class TextGuesser
     /**
      * Create a new TextGuesser instance.
      *
+     * @param ButtonRegistry   $buttons
      * @param ModuleCollection $modules
      */
-    public function __construct(ModuleCollection $modules)
+    public function __construct(ButtonRegistry $buttons, ModuleCollection $modules)
     {
+        $this->buttons = $buttons;
         $this->modules = $modules;
     }
 
@@ -54,6 +64,10 @@ class TextGuesser
         foreach ($buttons as &$button) {
 
             if (isset($button['text'])) {
+                continue;
+            }
+
+            if (array_get($this->buttons->get(array_get($button, 'button')), 'text')) {
                 continue;
             }
 
