@@ -78,17 +78,6 @@ class Collection extends \Illuminate\Support\Collection
     }
 
     /**
-     * Return only the provided keys.
-     *
-     * @param array $keys
-     * @return array
-     */
-    public function only(array $keys)
-    {
-        return array_intersect_key($this->items, $keys);
-    }
-
-    /**
      * Get a field with the __get accessor.
      *
      * @param $name
