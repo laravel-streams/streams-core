@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Event\Response;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
+use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
@@ -60,6 +61,13 @@ class BaseController extends Controller
     protected $redirect;
 
     /**
+     * The view template.
+     *
+     * @var ViewTemplate
+     */
+    protected $template;
+
+    /**
      * The response factory.
      *
      * @var ResponseFactory
@@ -82,6 +90,7 @@ class BaseController extends Controller
         $this->redirect    = app('Illuminate\Routing\Redirector');
         $this->view        = app('Illuminate\Contracts\View\Factory');
         $this->events      = app('Illuminate\Contracts\Events\Dispatcher');
+        $this->template    = app('Anomaly\Streams\Platform\View\ViewTemplate');
         $this->messages    = app('Anomaly\Streams\Platform\Message\MessageBag');
         $this->response    = app('Illuminate\Contracts\Routing\ResponseFactory');
         $this->breadcrumbs = app('Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection');
