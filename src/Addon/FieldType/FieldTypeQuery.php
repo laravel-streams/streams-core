@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FieldFilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -35,10 +35,10 @@ class FieldTypeQuery
      * Filter a query by the value of a
      * field using this field type.
      *
-     * @param Builder              $query
-     * @param FieldFilterInterface $filter
+     * @param Builder         $query
+     * @param FilterInterface $filter
      */
-    public function filter(Builder $query, FieldFilterInterface $filter)
+    public function filter(Builder $query, FilterInterface $filter)
     {
         $stream     = $filter->getStream();
         $assignment = $stream->getAssignment($filter->getField());

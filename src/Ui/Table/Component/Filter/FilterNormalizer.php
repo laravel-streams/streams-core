@@ -56,6 +56,13 @@ class FilterNormalizer
             }
 
             /**
+             * Fallback the field.
+             */
+            if (!isset($filter['field']) && $stream && $stream->hasAssignment($filter['slug'])) {
+                $filter['field'] = $filter['slug'];
+            }
+
+            /**
              * Set the table's stream.
              */
             $filter['stream'] = $stream;

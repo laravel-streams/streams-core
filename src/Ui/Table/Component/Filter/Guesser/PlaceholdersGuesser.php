@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Guesser;
 
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -14,6 +15,23 @@ class PlaceholdersGuesser
 {
 
     /**
+     * The module collection.
+     *
+     * @var ModuleCollection
+     */
+    protected $modules;
+
+    /**
+     * Create a new PlaceholdersGuesser instance.
+     *
+     * @param ModuleCollection $modules
+     */
+    public function __construct(ModuleCollection $modules)
+    {
+        $this->modules = $modules;
+    }
+
+    /**
      * Guess some table table filter placeholders.
      *
      * @param TableBuilder $builder
@@ -25,18 +43,13 @@ class PlaceholdersGuesser
 
         foreach ($filters as &$filter) {
 
-            // Only guessing for filter types.
-            if ($filter['filter'] !== 'field') {
-                continue;
-            }
-
             // Skip if we already have a placeholder.
             if (isset($filter['placeholder'])) {
                 continue;
             }
 
             // Get the placeholder off the assignment.
-            if ($assignment = $stream->getAssignment($filter['field'])) {
+            if ($assignment = $stream->getAssignment(array_get($filter, 'field'))) {
 
                 /**
                  * Always use the field name
@@ -48,6 +61,14 @@ class PlaceholdersGuesser
                  * would just be weird.
                  */
                 $filter['placeholder'] = $assignment->getFieldName();
+            }
+
+            if (!array_get($filter, 'placeholder') && $module = $this->modules->active()) {
+                $filter['placeholder'] = $module->getNamespace('field.' . $filter['slug'] . '.placeholder');
+            }
+
+            if (!array_get($filter, 'placeholder')) {
+                $filter['placeholder'] = $filter['slug'];
             }
         }
 

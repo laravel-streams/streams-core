@@ -51,6 +51,11 @@ class FilterBuilder
         $this->input->read($builder);
 
         foreach ($builder->getFilters() as $filter) {
+
+            if (array_get($filter, 'enabled') === false) {
+                continue;
+            }
+
             $table->addFilter($this->factory->make($filter));
         }
     }
