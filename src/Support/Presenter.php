@@ -10,7 +10,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Support
  */
-abstract class Presenter extends \Robbo\Presenter\Presenter
+class Presenter extends \Robbo\Presenter\Presenter
 {
 
     use DispatchesJobs;
