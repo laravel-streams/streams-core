@@ -147,7 +147,18 @@ class TableBuilder
     {
         $this->build();
         $this->post();
+        $this->response();
 
+        return $this;
+    }
+
+    /**
+     * Return the table response.
+     *
+     * @return $this
+     */
+    public function response()
+    {
         if ($this->table->getResponse() === null) {
             $this->dispatch(new LoadTable($this));
             $this->dispatch(new AddAssets($this));
