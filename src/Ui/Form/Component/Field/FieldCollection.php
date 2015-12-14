@@ -25,7 +25,7 @@ class FieldCollection extends Collection
     {
         $fields = [];
 
-        $locale = $this->config->get('app.fallback_locale');
+        $locale = config('app.fallback_locale');
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
