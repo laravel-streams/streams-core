@@ -65,7 +65,9 @@ class FilterNormalizer
             /**
              * Set the table's stream.
              */
-            $filter['stream'] = $stream;
+            if ($stream) {
+                $filter['stream'] = $stream;
+            }
         }
 
         $builder->setFilters($filters);
