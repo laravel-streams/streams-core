@@ -61,7 +61,7 @@ class PluginCriteria
     /**
      * @param $name
      * @param $arguments
-     * @return $this
+     * @return mixed|$this
      */
     function __call($name, $arguments)
     {
@@ -78,5 +78,13 @@ class PluginCriteria
         return $this;
     }
 
-
+    /**
+     * Trigger on toString.
+     *
+     * @return string
+     */
+    function __toString()
+    {
+        return $this->{$this->trigger};
+    }
 }
