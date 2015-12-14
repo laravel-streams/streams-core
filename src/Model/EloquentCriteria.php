@@ -145,7 +145,6 @@ class EloquentCriteria
     function __call($name, $arguments)
     {
         if ($this->methodIsSafe($name)) {
-
             call_user_func_array([$this->query, $name], $arguments);
         }
 
