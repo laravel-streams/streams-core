@@ -222,7 +222,9 @@ class StreamsServiceProvider extends ServiceProvider
                         $twig = $event->getTwig();
 
                         foreach ($this->plugins as $plugin) {
-                            $twig->addExtension($this->app->make($plugin));
+                            if (!$twig->hasExtension($plugin)) {
+                                $twig->addExtension($this->app->make($plugin));
+                            }
                         }
 
                         $twig->addExtension(new MarkdownExtension(new MichelfMarkdownEngine()));
