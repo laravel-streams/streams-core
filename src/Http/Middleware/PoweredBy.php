@@ -37,7 +37,7 @@ class PoweredBy
     /**
      * Say it loud.
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @param  \Closure $next
      * @return mixed
      */
