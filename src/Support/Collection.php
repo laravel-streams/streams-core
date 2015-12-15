@@ -60,7 +60,7 @@ class Collection extends \Illuminate\Support\Collection
     }
 
     /**
-     * Get a field with the __get accessor.
+     * Map to get.
      *
      * @param $name
      * @return mixed
@@ -68,5 +68,16 @@ class Collection extends \Illuminate\Support\Collection
     public function __get($name)
     {
         return $this->get($name);
+    }
+
+    /**
+     * Map to get.
+     *
+     * @param string $method
+     * @param array  $parameters
+     */
+    public function __call($method, $parameters)
+    {
+        return $this->get($method);
     }
 }

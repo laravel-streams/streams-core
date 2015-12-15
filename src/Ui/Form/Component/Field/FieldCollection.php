@@ -75,7 +75,7 @@ class FieldCollection extends Collection
     {
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if ($item->getInputName() == $key) {
+            if ($item->getField() == $key) {
                 return $item;
             }
         }
