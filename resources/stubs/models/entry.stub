@@ -17,6 +17,8 @@ class {class} extends EntryModel
 
     protected $dates = {dates};
 
+    protected $relationships = {relationships};
+
     {translated_attributes}
 
     {translation_foreign_key}
