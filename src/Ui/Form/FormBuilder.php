@@ -965,6 +965,23 @@ class FormBuilder
     }
 
     /**
+     * Get the form attribute map.
+     *
+     * @return FieldType
+     */
+    public function getFormFieldFromAttribute($attribute)
+    {
+        /* @var FieldType $field */
+        foreach ($this->form->getFields() as $field) {
+            if ($field->getInputName() == $attribute) {
+                return $field;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Disable a form field.
      *
      * @param $fieldSlug
@@ -978,7 +995,7 @@ class FormBuilder
     /**
      * Get the form field slugs.
      *
-     * @return Array
+     * @return array
      */
     public function getFormFieldSlugs()
     {
@@ -990,7 +1007,7 @@ class FormBuilder
     /**
      * Get the form field names.
      *
-     * @return Array
+     * @return array
      */
     public function getFormFieldNames()
     {
