@@ -66,6 +66,12 @@ class FormExtender
             $factory->extend(
                 $rule,
                 function ($attribute, $value, $parameters, Validator $validator) use ($handler, $builder) {
+
+                    // Remove the form prefix.
+                    if ($prefix = $builder->getFormOption('prefix')) {
+                        $attribute = substr($attribute, strlen($prefix));
+                    }
+
                     return $this->container->call(
                         $handler,
                         compact('attribute', 'value', 'parameters', 'builder', 'validator')
