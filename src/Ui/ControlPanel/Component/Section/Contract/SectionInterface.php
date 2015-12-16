@@ -162,7 +162,8 @@ interface SectionInterface
     /**
      * Get the HREF attribute.
      *
+     * @param null $path
      * @return string
      */
-    public function getHref();
+    public function getHref($path = null);
 }

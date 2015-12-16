@@ -796,6 +796,16 @@ class FormBuilder
     }
 
     /**
+     * Get the contextual entry ID.
+     *
+     * @return int|mixed|null
+     */
+    public function getContextualId()
+    {
+        return $this->getFormEntryId();
+    }
+
+    /**
      * Get the form mode.
      *
      * @return null|string

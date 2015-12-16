@@ -170,4 +170,17 @@ class MultipleFormBuilder extends FormBuilder
 
         return $builder->getFormEntryId();
     }
+
+    /**
+     * Get the contextual entry ID.
+     *
+     * @return int|mixed|null
+     */
+    public function getContextualId()
+    {
+        /* @var FormBuilder $form */
+        $form = $this->forms->first();
+
+        return $form->getContextualId();
+    }
 }

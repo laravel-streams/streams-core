@@ -337,6 +337,7 @@ class Section implements SectionInterface
     /**
      * Get the HREF attribute.
      *
+     * @param null $path
      * @return string
      */
     public function getHref($path = null)
