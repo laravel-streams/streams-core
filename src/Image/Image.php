@@ -92,8 +92,15 @@ class Image
         'resize',
         'rotate',
         'amount',
-        'widen',
+        'widen'
     ];
+
+    /**
+     * The quality of the output.
+     *
+     * @var int
+     */
+    protected $quality = 100;
 
     /**
      * The HTML builder.
@@ -246,6 +253,30 @@ class Image
     }
 
     /**
+     * Set the quality.
+     *
+     * @param $quality
+     * @return $this
+     */
+    public function quality($quality)
+    {
+        return $this->setQuality($quality);
+    }
+
+    /**
+     * Set the quality.
+     *
+     * @param $quality
+     * @return $this
+     */
+    public function setQuality($quality)
+    {
+        $this->quality = (int)$quality;
+
+        return $this;
+    }
+
+    /**
      * Add a modification to apply to the image.
      *
      * @param  $method
@@ -270,7 +301,9 @@ class Image
             return $this->getImage();
         }
 
-        $filename = md5(var_export([md5($this->getImage()), $this->applied], true)) . '.' . $this->getExtension();
+        $filename = md5(
+                var_export([md5($this->getImage()), $this->applied], true) . $this->getQuality()
+            ) . '.' . $this->getExtension();
 
         $path = 'assets/' . $this->application->getReference() . '/cache/' . $filename;
 
@@ -336,7 +369,7 @@ class Image
 
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
-        $image->save($this->directory . $path);
+        $image->save($this->directory . $path, $this->getQuality());
     }
 
     /**
@@ -400,6 +433,16 @@ class Image
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Get the quality.
+     *
+     * @return int
+     */
+    public function getQuality()
+    {
+        return $this->quality;
     }
 
     /**
