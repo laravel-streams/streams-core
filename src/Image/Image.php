@@ -170,7 +170,11 @@ class Image
     {
         $clone = clone($this);
 
-        return $clone->setImage($image);
+        try {
+            return $clone->setImage($image);
+        } catch (\Exception $e) {
+            return $this;
+        }
     }
 
     /**
