@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumn;
+use Anomaly\Streams\Platform\Assignment\Command\DeleteAssignmentTranslations;
 use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
@@ -68,6 +69,7 @@ class AssignmentObserver extends Observer
         $model->compileStream();
 
         $this->dispatch(new DropAssignmentColumn($model));
+        $this->dispatch(new DeleteAssignmentTranslations($model));
 
         $this->events->fire(new AssignmentWasDeleted($model));
     }

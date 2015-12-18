@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
  * Interface FieldInterface
@@ -84,6 +85,13 @@ interface FieldInterface
      * @return bool
      */
     public function hasAssignments();
+
+    /**
+     * Get related translations.
+     *
+     * @return EloquentCollection
+     */
+    public function getTranslations();
 
     /**
      * Return whether the field is

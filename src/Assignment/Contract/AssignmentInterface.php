@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
@@ -171,6 +172,13 @@ interface AssignmentInterface
      * @return mixed
      */
     public function getAttribute($key);
+
+    /**
+     * Get related translations.
+     *
+     * @return EloquentCollection
+     */
+    public function getTranslations();
 
     /**
      * Flush the entry model's cache.

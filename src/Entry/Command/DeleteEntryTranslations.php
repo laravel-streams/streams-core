@@ -4,14 +4,14 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
- * Class DeleteTranslations
+ * Class DeleteEntryTranslations
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Entry\Command
  */
-class DeleteTranslations implements SelfHandling
+class DeleteEntryTranslations implements SelfHandling
 {
 
     /**
@@ -22,7 +22,7 @@ class DeleteTranslations implements SelfHandling
     protected $entry;
 
     /**
-     * Create a new DeleteTranslations instance.
+     * Create a new DeleteEntryTranslations instance.
      *
      * @param EntryInterface $entry
      */

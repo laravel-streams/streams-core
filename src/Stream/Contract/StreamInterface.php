@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
  * Interface StreamInterface
@@ -220,6 +221,13 @@ interface StreamInterface
      * @return string
      */
     public function getEntryTranslationsTableName();
+
+    /**
+     * Get related translations.
+     *
+     * @return EloquentCollection
+     */
+    public function getTranslations();
 
     /**
      * Get the foreign key.
