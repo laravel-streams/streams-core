@@ -4,7 +4,6 @@ use Closure;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class PoweredBy
@@ -46,8 +45,8 @@ class PoweredBy
         /* @var \Illuminate\Http\Response $response */
         $response = $next($request);
 
-        $response->header('X-Powered-By', 'Streams Platform');
-        $response->header(
+        $response->headers->set('X-Powered-By', 'Streams Platform');
+        $response->headers->set(
             'X-Streams-Distribution',
             $this->config->get('streams::distribution.name') . '-' . $this->config->get('streams::distribution.version')
         );
