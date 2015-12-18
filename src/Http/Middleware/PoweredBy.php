@@ -46,10 +46,6 @@ class PoweredBy
         /* @var \Illuminate\Http\Response $response */
         $response = $next($request);
 
-        if (!isset($response->headers)) {
-            return $response;
-        }
-
         $response->header('X-Powered-By', 'Streams Platform');
         $response->header(
             'X-Streams-Distribution',
