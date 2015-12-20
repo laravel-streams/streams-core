@@ -798,7 +798,7 @@ class FormBuilder
     /**
      * Get the contextual entry ID.
      *
-     * @return int|mixed|null
+     * @return int|null
      */
     public function getContextualId()
     {
@@ -1140,6 +1140,18 @@ class FormBuilder
     public function getRequestValue($key, $default = null)
     {
         return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
+    }
+
+    /**
+     * Get a post value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getPostValue($key, $default = null)
+    {
+        return array_get($_POST, $this->getOption('prefix') . $key, $default);
     }
 
     /**
