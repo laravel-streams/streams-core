@@ -170,6 +170,10 @@ class Image
      */
     public function make($image)
     {
+        if ($image instanceof Image) {
+            return $image;
+        }
+
         $clone = clone($this);
 
         try {
@@ -546,6 +550,10 @@ class Image
 
         if (is_string($this->image) && file_exists($this->image)) {
             return $this->manager->make($this->image);
+        }
+
+        if ($this->image instanceof Image) {
+            return $this->image;
         }
     }
 
