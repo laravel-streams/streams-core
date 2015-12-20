@@ -2,11 +2,13 @@
 
 use Anomaly\FilesModule\File\Contract\FileInterface;
 use Anomaly\FilesModule\File\FilePresenter;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Application\Application;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
 use Intervention\Image\ImageManager;
 use League\Flysystem\File;
+use Robbo\Presenter\Presenter;
 
 /**
  * Class Image
@@ -398,6 +400,14 @@ class Image
      */
     public function setImage($image)
     {
+        if ($image instanceof Presenter) {
+            $image = $image->getObject();
+        }
+
+        if ($image instanceof FieldType) {
+            $image = $image->getValue();
+        }
+
         // Replace path prefixes.
         if (is_string($image) && str_contains($image, '::')) {
 
