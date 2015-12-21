@@ -58,7 +58,7 @@ class Kernel extends \App\Http\Kernel
         $url  = parse_url($_SERVER['HTTP_HOST']);
         $host = array_get($url, 'host');
 
-        $pattern = '/^(' . implode('|', array_keys($locales['supported'])) . ')./';
+        $pattern = '/^(' . implode('|', array_keys($locales['supported'])) . ')(\.)./';
 
         if ($host && ($hint === 'domain' || $hint === true) && preg_match($pattern, $host, $matches)) {
 
