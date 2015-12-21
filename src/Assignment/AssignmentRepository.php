@@ -82,5 +82,17 @@ class AssignmentRepository extends EloquentRepository implements AssignmentRepos
             ->whereNull('streams_streams.id')
             ->orWhereNull('streams_fields.id')
             ->delete();
+
+        $translations = $this->model->getTranslationModel();
+
+        $translations
+            ->leftJoin(
+                'streams_assignments',
+                'streams_assignments_translations.assignment_id',
+                '=',
+                'streams_assignments.id'
+            )
+            ->whereNull('streams_assignments.id')
+            ->delete();
     }
 }

@@ -84,5 +84,17 @@ class FieldRepository extends EloquentRepository implements FieldRepositoryInter
         $this->model->where('slug', '')->delete();
         $this->model->where('namespace', '')->delete();
         $this->model->whereNotIn('type', $fieldTypes)->delete();
+
+        $translations = $this->model->getTranslationModel();
+
+        $translations
+            ->leftJoin(
+                'streams_fields',
+                'streams_fields_translations.field_id',
+                '=',
+                'streams_fields.id'
+            )
+            ->whereNull('streams_fields.id')
+            ->delete();
     }
 }

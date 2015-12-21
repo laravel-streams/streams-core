@@ -327,6 +327,11 @@ class EloquentModel extends Model implements Arrayable
 
     public function getTranslationModel()
     {
+        return new $this->translationModel;
+    }
+
+    public function getTranslationModelName()
+    {
         return $this->translationModel;
     }
 
@@ -347,7 +352,7 @@ class EloquentModel extends Model implements Arrayable
 
     public function translations()
     {
-        return $this->hasMany($this->getTranslationModel(), $this->getRelationKey());
+        return $this->hasMany($this->getTranslationModelName(), $this->getRelationKey());
     }
 
     public function getAttribute($key)
@@ -388,7 +393,7 @@ class EloquentModel extends Model implements Arrayable
      */
     public function save(array $options = array())
     {
-        if (!$this->getTranslationModel()) {
+        if (!$this->getTranslationModelName()) {
             return $this->saveModel($options);
         }
 
@@ -553,7 +558,7 @@ class EloquentModel extends Model implements Arrayable
 
     public function getNewTranslation($locale)
     {
-        $modelName = $this->getTranslationModel();
+        $modelName = $this->getTranslationModelName();
 
         /* @var EloquentModel $translation */
         $translation = new $modelName;

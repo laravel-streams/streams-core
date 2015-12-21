@@ -61,7 +61,5 @@ class RollbackFieldsHandler
                 $this->fields->delete($field);
             }
         }
-
-        $this->fields->cleanup();
     }
 }

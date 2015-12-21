@@ -120,5 +120,17 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
                 $this->delete($stream);
             }
         }
+
+        $translations = $this->model->getTranslationModel();
+
+        $translations
+            ->leftJoin(
+                'streams_streams',
+                'streams_streams_translations.stream_id',
+                '=',
+                'streams_streams.id'
+            )
+            ->whereNull('streams_streams.id')
+            ->delete();
     }
 }

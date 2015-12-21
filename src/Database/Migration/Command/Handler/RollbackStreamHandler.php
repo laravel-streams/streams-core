@@ -60,7 +60,5 @@ class RollbackStreamHandler
         if ($stream = $this->streams->findBySlugAndNamespace($stream['slug'], $stream['namespace'])) {
             $this->streams->delete($stream);
         }
-
-        $this->streams->cleanup();
     }
 }
