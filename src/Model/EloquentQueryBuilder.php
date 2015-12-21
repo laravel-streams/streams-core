@@ -93,6 +93,19 @@ class EloquentQueryBuilder extends Builder
     }
 
     /**
+     * Set the model TTl.
+     *
+     * @param $ttl
+     * @return $this
+     */
+    public function cache($ttl)
+    {
+        $this->model->setTtl($ttl);
+
+        return $this;
+    }
+
+    /**
      * Get fresh models / disable cache
      *
      * @param  boolean $fresh
