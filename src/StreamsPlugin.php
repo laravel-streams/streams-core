@@ -139,6 +139,15 @@ class StreamsPlugin extends Plugin
                 ]
             ),
             new \Twig_SimpleFunction(
+                'img',
+                function ($image) {
+                    return $this->dispatch(new MakeImageTag($image));
+                },
+                [
+                    'is_safe' => ['html']
+                ]
+            ),
+            new \Twig_SimpleFunction(
                 'form',
                 function ($form) {
                     return $this->dispatch(new GetFormCriteria($form));
@@ -231,7 +240,6 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('asset_styles', [$this->asset, 'styles'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('asset_script', [$this->asset, 'script'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('asset_scripts', [$this->asset, 'scripts'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('img', [$this->image, 'image'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('str_truncate', [$this->str, 'truncate']),
             new \Twig_SimpleFunction('str_humanize', [$this->str, 'humanize'])
         ];
