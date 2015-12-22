@@ -3,7 +3,8 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Illuminate\Database\Eloquent\Builder;
+use Anomaly\Streams\Platform\Support\Presenter;
+use Robbo\Presenter\Decorator;
 
 /**
  * Class FieldType
@@ -1009,15 +1010,15 @@ class FieldType extends Addon
     }
 
     /**
-     * Return the relation from the compiled model. This
-     * is where you would modify the relation if needed.
+     * Decorate the value.
      *
-     * @param  Builder $relation
-     * @return Builder
+     * @param Decorator $decorator
+     * @param           $value
+     * @return Presenter
      */
-    public function relation(Builder $relation)
+    public function decorate(Decorator $decorator, $value)
     {
-        return $relation;
+        return $decorator->decorate($value);
     }
 
     /**
