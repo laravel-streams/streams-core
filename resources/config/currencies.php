@@ -24,10 +24,8 @@ return [
     */
 
     'supported' => [
-        [
-            'USD' => [
-                'symbol' => '$'
-            ]
+        'USD' => [
+            'symbol' => '$'
         ]
     ]
 ];
