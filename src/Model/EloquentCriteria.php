@@ -27,11 +27,14 @@ class EloquentCriteria
      * @var array
      */
     private $safe = [
-        'where',
-        'orWhere',
+        'innerJoin',
         'andWhere',
+        'leftJoin',
+        'orWhere',
         'orderBy',
+        'where',
         'limit',
+        'join',
         'with',
         'skip',
         'take',
