@@ -48,6 +48,18 @@ class PluginCriteria
     }
 
     /**
+     * Return an option value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function option($key, $default = null)
+    {
+        return array_get($this->options, $key, $default);
+    }
+
+    /**
      * Route through __call
      *
      * @param $name
@@ -66,7 +78,7 @@ class PluginCriteria
     function __call($name, $arguments)
     {
         if ($name == $this->trigger) {
-            return call_user_func($this->callback, new Collection($this->options));
+            return app()->call($this->callback, ['options' => new Collection($this->options), 'criteria' => $this]);
         }
 
         if (method_exists($this, $name)) {

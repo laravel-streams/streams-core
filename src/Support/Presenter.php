@@ -129,6 +129,6 @@ class Presenter extends \Robbo\Presenter\Presenter
             return $this->object->__toString();
         }
 
-        parent::__toString();
+        return json_encode($this->object);
     }
 }
