@@ -113,7 +113,7 @@ class EntryPresenter extends EloquentPresenter
                             'admin',
                             $this->object->getStreamNamespace(),
                             $this->object->getStreamSlug(),
-                            'show',
+                            'view',
                             $this->object->getId()
                         ]
                     )
