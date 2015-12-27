@@ -73,6 +73,7 @@ class IconRegistry
         'plus-circle'          => 'fa fa-plus-circle',
         'plus-square'          => 'fa fa-plus-square',
         'quote-right'          => 'fa fa-quote-right',
+        'envelope-alt'         => 'fa fa-envelope-o',
         'quote-left'           => 'fa fa-quote-left',
         'rss-square'           => 'fa fa-rss-square',
         'map-marker'           => 'fa fa-map-marker',
