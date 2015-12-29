@@ -479,27 +479,6 @@ class StreamModel extends EloquentModel implements StreamInterface
     }
 
     /**
-     * Serialize the view options before setting them on the model.
-     *
-     * @param $viewOptions
-     */
-    public function setConfigAttribute($viewOptions)
-    {
-        $this->attributes['config'] = serialize($viewOptions);
-    }
-
-    /**
-     * Unserialize the view options.
-     *
-     * @param  $viewOptions
-     * @return mixed
-     */
-    public function getConfigAttribute($viewOptions)
-    {
-        return unserialize($viewOptions);
-    }
-
-    /**
      * Get the entry table name.
      *
      * @return string
@@ -550,6 +529,77 @@ class StreamModel extends EloquentModel implements StreamInterface
     public function getForeignKey()
     {
         return str_singular($this->getSlug()) . '_id';
+    }
+
+    /**
+     * Set the config attribute.
+     *
+     * @param $config
+     */
+    public function setConfigAttribute($config)
+    {
+        $this->attributes['config'] = serialize($config);
+    }
+
+    /**
+     * Get the config attribute.
+     *
+     * @param  $viewOptions
+     * @return mixed
+     */
+    public function getConfigAttribute($config)
+    {
+        return unserialize($config);
+    }
+
+    /**
+     * Set the locked attribute.
+     *
+     * @param $locked
+     */
+    public function setLockedAttribute($locked)
+    {
+        $this->attributes['locked'] = filter_var($locked, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * Set the hidden attribute.
+     *
+     * @param $hidden
+     */
+    public function setHiddenAttribute($hidden)
+    {
+        $this->attributes['hidden'] = filter_var($hidden, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * Set the sortable attribute.
+     *
+     * @param $sortable
+     */
+    public function setSortableAttribute($sortable)
+    {
+        $this->attributes['sortable'] = filter_var($sortable, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * Set the trashable attribute.
+     *
+     * @param $trashable
+     */
+    public function setTrashableAttribute($trashable)
+    {
+        $this->attributes['trashable'] = filter_var($trashable, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * Set the translatable attribute.
+     *
+     * @param $translatable
+     */
+    public function setTranslatableAttribute($translatable)
+    {
+        $this->attributes['translatable'] = filter_var($translatable, FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
