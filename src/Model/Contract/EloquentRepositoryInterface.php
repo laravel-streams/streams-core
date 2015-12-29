@@ -84,4 +84,11 @@ interface EloquentRepositoryInterface
      * @return $this
      */
     public function setModel(EloquentModel $model);
+
+    /**
+     * Get the model.
+     *
+     * @return EloquentModel
+     */
+    public function getModel();
 }
