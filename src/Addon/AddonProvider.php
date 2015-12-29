@@ -346,8 +346,10 @@ class AddonProvider
             return;
         }
 
-        foreach ($schedules as $command => $cron) {
-            $this->schedule->command($command)->cron($cron);
+        foreach ($schedules as $cron => $commands) {
+            foreach (array_filter($commands) as $command) {
+                $this->schedule->command($command)->cron($cron);
+            }
         }
     }
 
