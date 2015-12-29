@@ -355,6 +355,12 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
      */
     public function isTranslatable()
     {
+        $stream = $this->getStream();
+
+        if (!$stream->isTranslatable()) {
+            return false;
+        }
+
         return $this->getAttributeFromArray('translatable');
     }
 
