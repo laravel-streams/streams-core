@@ -141,7 +141,7 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
-     * Set the repository model.
+     * Set the model.
      *
      * @param EloquentModel $model
      * @return $this
@@ -151,5 +151,15 @@ class EloquentRepository implements EloquentRepositoryInterface
         $this->model = $model;
 
         return $this;
+    }
+
+    /**
+     * Get the model.
+     *
+     * @return EloquentModel
+     */
+    public function getModel()
+    {
+        return $this->model;
     }
 }
