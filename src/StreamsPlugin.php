@@ -199,6 +199,12 @@ class StreamsPlugin extends Plugin
                 }
             ),
             new \Twig_SimpleFunction(
+                'decorate',
+                function ($value) {
+                    return (new Decorator())->decorate($value);
+                }
+            ),
+            new \Twig_SimpleFunction(
                 'request_time',
                 function ($decimal = 2) {
                     return $this->dispatch(new GetElapsedTime($decimal));
