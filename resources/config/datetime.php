@@ -9,8 +9,6 @@ return [
     |
     | This is the default format of dates and times displayed.
     |
-    | NOTE: This configuration may be overridden by the Settings module.
-    |
     */
 
     'date_format' => 'j F, Y',
@@ -23,8 +21,6 @@ return [
     |
     | This is the timezone used for display purposes only. It is suggested
     | to keep the system timezone (app.timezone) as UTC.
-    |
-    | NOTE: This configuration may be overridden by the Settings module.
     |
     */
 
