@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Console;
 
 use Anomaly\Streams\Platform\Database\Migration\Migrator;
-use Anomaly\Streams\Platform\Stream\CleanupStreams;
+use Anomaly\Streams\Platform\Stream\Command\CleanupStreams;
 use Illuminate\Database\Console\Migrations\ResetCommand as BaseResetCommand;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;

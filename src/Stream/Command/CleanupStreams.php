@@ -1,4 +1,4 @@
-<?php namespace Anomaly\Streams\Platform\Stream;
+<?php namespace Anomaly\Streams\Platform\Stream\Command;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
@@ -11,7 +11,7 @@ use Illuminate\Contracts\Bus\SelfHandling;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Stream
+ * @package       Anomaly\Streams\Platform\Stream\Command
  */
 class CleanupStreams implements SelfHandling
 {
