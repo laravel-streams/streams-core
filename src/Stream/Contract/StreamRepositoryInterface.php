@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
+use Anomaly\Streams\Platform\Stream\StreamCollection;
 
 /**
  * Interface StreamRepositoryInterface
@@ -37,6 +38,21 @@ interface StreamRepositoryInterface extends EloquentRepositoryInterface
      * @param $namespace
      */
     public function destroy($namespace);
+
+    /**
+     * Return streams that are/not hidden.
+     *
+     * @param $hidden
+     * @return StreamCollection
+     */
+    public function hidden($hidden = true);
+
+    /**
+     * Return only visible streams.
+     *
+     * @return StreamCollection
+     */
+    public function visible();
 
     /**
      * Clean up abandoned streams.

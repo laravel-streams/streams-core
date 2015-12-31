@@ -43,5 +43,7 @@ return [
     'disable'            => 'Disable',
     'install'            => 'Install',
     'uninstall'          => 'Uninstall',
-    'entries'            => 'Entries'
+    'entries'            => 'Entries',
+    'upload'             => 'Upload',
+    'download'           => 'Download'
 ];

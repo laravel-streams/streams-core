@@ -98,6 +98,27 @@ class StreamRepository extends EloquentRepository implements StreamRepositoryInt
     }
 
     /**
+     * Return streams that are/not hidden.
+     *
+     * @param $hidden
+     * @return StreamCollection
+     */
+    public function hidden($hidden = true)
+    {
+        return $this->model->where('hidden', $hidden)->get();
+    }
+
+    /**
+     * Return only visible streams.
+     *
+     * @return StreamCollection
+     */
+    public function visible()
+    {
+        return $this->hidden(false);
+    }
+
+    /**
      * Destroy a namespace.
      *
      * @param $namespace
