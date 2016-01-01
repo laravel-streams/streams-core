@@ -37,7 +37,6 @@ class GetTreeEntries implements SelfHandling
      */
     public function handle()
     {
-        $tree  = $this->builder->getTree();
         $model = $this->builder->getModel();
 
         /**
@@ -45,14 +44,14 @@ class GetTreeEntries implements SelfHandling
          * then call it through the container and
          * let it load the entries itself.
          */
-        if ($handler = $tree->getOption('entries')) {
+        if ($handler = $this->builder->getTreeOption('entries')) {
 
             app()->call($handler, ['builder' => $this->builder]);
 
             return;
         }
 
-        $entries = $tree->getEntries();
+        $entries = $this->builder->getTreeEntries();
 
         /**
          * If the entries have already been set on the
@@ -68,14 +67,14 @@ class GetTreeEntries implements SelfHandling
         /**
          * Resolve the model out of the container.
          */
-        $repository = $tree->getRepository();
+        $repository = $this->builder->getTreeRepository();
 
         /**
          * If the repository is an instance of
          * TreeRepositoryInterface use it.
          */
         if ($repository instanceof TreeRepositoryInterface) {
-            $tree->setEntries($repository->get($this->builder));
+            $this->builder->setTreeEntries($repository->get($this->builder));
         }
     }
 }
