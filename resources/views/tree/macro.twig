@@ -3,7 +3,9 @@
         <li data-id="{{ item.id }}">
             <div class="panel">
 
-                {{ icon('bars', 'handle btn btn-xs') }}
+                {% if tree.options.get('sortable', true) %}
+                    {{ icon('bars', 'handle btn btn-xs') }}
+                {% endif %}
 
                 {% for segment in item.segments %}
                     {% if segment.value %}

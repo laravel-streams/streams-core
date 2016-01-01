@@ -83,6 +83,8 @@ class TreeBuilder
 
     /**
      * Build the tree.
+     *
+     * @return $this
      */
     public function build()
     {
@@ -93,20 +95,53 @@ class TreeBuilder
         if (app('request')->isMethod('post')) {
             $this->dispatch(new PostTree($this));
         }
+
+        return $this;
     }
 
     /**
      * Make the tree response.
+     *
+     * @return $this
      */
     public function make()
     {
         $this->build();
+        $this->post();
 
+        return $this;
+    }
+
+    /**
+     * Post the table.
+     *
+     * @return $this
+     */
+    public function post()
+    {
         if (!app('request')->isMethod('post')) {
             $this->dispatch(new LoadTree($this));
             $this->dispatch(new AddAssets($this));
             $this->dispatch(new MakeTree($this));
         }
+
+        return $this;
+    }
+
+    /**
+     * Return the tree response.
+     *
+     * @return $this
+     */
+    public function response()
+    {
+        if ($this->tree->getResponse() === null) {
+            $this->dispatch(new LoadTree($this));
+            $this->dispatch(new AddAssets($this));
+            $this->dispatch(new MakeTree($this));
+        }
+
+        return $this;
     }
 
     /**
@@ -118,7 +153,9 @@ class TreeBuilder
     {
         $this->make();
 
-        $this->dispatch(new SetTreeResponse($this));
+        if ($this->tree->getResponse() === null) {
+            $this->dispatch(new SetTreeResponse($this));
+        }
 
         return $this->tree->getResponse();
     }
@@ -402,6 +439,16 @@ class TreeBuilder
     public function getTreeResponse()
     {
         return $this->tree->getResponse();
+    }
+
+    /**
+     * Get the tree content.
+     *
+     * @return null|string
+     */
+    public function getTreeContent()
+    {
+        return $this->tree->getContent();
     }
 
     /**
