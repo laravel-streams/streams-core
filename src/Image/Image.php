@@ -64,11 +64,25 @@ class Image
     protected $attributes = [];
 
     /**
-     * Applied filters.
+     * Applied alterations.
      *
      * @var array
      */
-    protected $applied = [];
+    protected $alterations = [];
+
+    /**
+     * Image srcsets.
+     *
+     * @var array
+     */
+    protected $srcsets = [];
+
+    /**
+     * Image sources.
+     *
+     * @var array
+     */
+    protected $sources = [];
 
     /**
      * Allowed methods.
@@ -192,8 +206,8 @@ class Image
     {
         $path = $this->getCachePath();
 
-        $this->image   = null;
-        $this->applied = [];
+        $this->image       = null;
+        $this->alterations = [];
 
         return $path;
     }
@@ -225,6 +239,10 @@ class Image
 
         $attributes = array_merge($this->attributes, $attributes);
 
+        if ($srcset = $this->srcset()) {
+            $attributes['srcset'] = $srcset;
+        }
+
         return $this->html->image($this->path(), $alt, $attributes);
     }
 
@@ -238,6 +256,39 @@ class Image
     public function img($alt = null, $attributes = [])
     {
         return $this->image($alt, $attributes);
+    }
+
+    /**
+     * Return a picture tag.
+     *
+     * @return string
+     */
+    public function picture()
+    {
+        $sources = [];
+
+        /* @var Image $image */
+        foreach ($this->getSources() as $media => $image) {
+            $sources[] = $image->source();
+        }
+
+        $sources[] = $this->image();
+
+        $sources = implode("\n", $sources);
+
+        return "<picture>\n{$sources}\n</picture>";
+    }
+
+    /**
+     * Return a source tag.
+     *
+     * @return string
+     */
+    public function source()
+    {
+        $attributes = $this->html->attributes($this->getAttributes());
+
+        return "<source {$attributes} srcset=\"{$this->url()}\">";
     }
 
     /**
@@ -287,20 +338,6 @@ class Image
     }
 
     /**
-     * Add a modification to apply to the image.
-     *
-     * @param  $method
-     * @param  $arguments
-     * @return $this
-     */
-    protected function applyModification($method, $arguments)
-    {
-        $this->applied[$method] = $arguments;
-
-        return $this;
-    }
-
-    /**
      * Get the cache path of the image.
      *
      * @return string
@@ -312,7 +349,7 @@ class Image
         }
 
         $filename = md5(
-                var_export([md5($this->getImage()), $this->applied], true) . $this->getQuality()
+                var_export([md5($this->getImage()), $this->getAlterations()], true) . $this->getQuality()
             ) . '.' . $this->getExtension();
 
         $path = 'assets/' . $this->application->getReference() . '/cache/' . $filename;
@@ -371,9 +408,13 @@ class Image
             return null;
         }
 
-        foreach ($this->applied as $method => $arguments) {
+        foreach ($this->getAlterations() as $method => $arguments) {
             if (in_array($method, $this->getAllowedMethods())) {
-                call_user_func_array([$image, $method], $arguments);
+                if (is_array($arguments)) {
+                    call_user_func_array([$image, $method], $arguments);
+                } else {
+                    call_user_func([$image, $method], $arguments);
+                }
             }
         }
 
@@ -392,6 +433,79 @@ class Image
     public function attr($attribute, $value)
     {
         array_set($this->attributes, $attribute, $value);
+
+        return $this;
+    }
+
+    /**
+     * Return the image srcsets by set.
+     *
+     * @return array
+     */
+    public function srcset()
+    {
+        $sources = [];
+
+        /* @var Image $image */
+        foreach ($this->getSrcsets() as $descriptor => $image) {
+            $sources[] = $image->url() . ' ' . $descriptor;
+        }
+
+        return implode(', ', $sources);
+    }
+
+    /**
+     * Set the srcsets/alterations.
+     *
+     * @param array $srcsets
+     */
+    public function srcsets(array $srcsets)
+    {
+        foreach ($srcsets as $descriptor => &$alterations) {
+
+            $image = $this->make(array_pull($alterations, 'image', $this->getImage()))->setOutput('url');
+
+            foreach ($alterations as $method => $arguments) {
+                if (is_array($arguments)) {
+                    call_user_func_array([$image, $method], $arguments);
+                } else {
+                    call_user_func([$image, $method], $arguments);
+                }
+            }
+
+            $alterations = $image;
+        }
+
+        $this->setSrcsets($srcsets);
+
+        return $this;
+    }
+
+    /**
+     * Set the sources/alterations.
+     *
+     * @param array $sources
+     */
+    public function sources(array $sources)
+    {
+        foreach ($sources as $media => &$alterations) {
+
+            $image = $this->make(array_pull($alterations, 'image', $this->getImage()))->setOutput('source');
+
+            call_user_func([$image, 'media'], $media);
+
+            foreach ($alterations as $method => $arguments) {
+                if (is_array($arguments)) {
+                    call_user_func_array([$image, $method], $arguments);
+                } else {
+                    call_user_func([$image, $method], $arguments);
+                }
+            }
+
+            $alterations = $image;
+        }
+
+        $this->setSources($sources);
 
         return $this;
     }
@@ -451,6 +565,126 @@ class Image
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Get the alterations.
+     *
+     * @return array
+     */
+    public function getAlterations()
+    {
+        return $this->alterations;
+    }
+
+    /**
+     * Set the alterations.
+     *
+     * @param array $alterations
+     * @return $this
+     */
+    public function setAlterations(array $alterations)
+    {
+        $this->alterations = $alterations;
+
+        return $this;
+    }
+
+    /**
+     * Add an alteration.
+     *
+     * @param  $method
+     * @param  $arguments
+     * @return $this
+     */
+    protected function addAlteration($method, $arguments)
+    {
+        $this->alterations[$method] = $arguments;
+
+        return $this;
+    }
+
+    /**
+     * Get the attributes.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Set the attributes.
+     *
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * Add an attribute.
+     *
+     * @param  $attribute
+     * @param  $value
+     * @return $this
+     */
+    protected function addAttribute($attribute, $value)
+    {
+        $this->attributes[$attribute] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get the srcsets.
+     *
+     * @return array
+     */
+    public function getSrcsets()
+    {
+        return $this->srcsets;
+    }
+
+    /**
+     * Set the srcsets.
+     *
+     * @param array $srcsets
+     * @return $this
+     */
+    public function setSrcsets(array $srcsets)
+    {
+        $this->srcsets = $srcsets;
+
+        return $this;
+    }
+
+    /**
+     * Get the sources.
+     *
+     * @return array
+     */
+    public function getSources()
+    {
+        return $this->sources;
+    }
+
+    /**
+     * Set the sources.
+     *
+     * @param array $sources
+     * @return $this
+     */
+    public function setSources(array $sources)
+    {
+        $this->sources = $sources;
+
+        return $this;
     }
 
     /**
@@ -578,7 +812,7 @@ class Image
     function __call($name, $arguments)
     {
         if (in_array($name, $this->getAllowedMethods())) {
-            return $this->applyModification($name, $arguments);
+            return $this->addAlteration($name, $arguments);
         }
 
         if (!method_exists($this, $name)) {
