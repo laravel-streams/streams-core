@@ -200,6 +200,11 @@ class Image
 
         $clone = clone($this);
 
+        $clone->setAlterations([]);
+        $clone->setSources([]);
+        $clone->setSrcsets([]);
+        $clone->setImage(null);
+
         try {
             return $clone->setImage($image);
         } catch (\Exception $e) {
@@ -215,9 +220,6 @@ class Image
     public function path()
     {
         $path = $this->getCachePath();
-
-        $this->image       = null;
-        $this->alterations = [];
 
         return $path;
     }
@@ -296,7 +298,7 @@ class Image
             if ($media != 'fallback') {
                 $sources[] = $image->source();
             } else {
-                $sources[] = $this->image();
+                $sources[] = $image->image();
             }
         }
 
@@ -515,8 +517,10 @@ class Image
      * Set the sources/alterations.
      *
      * @param array $sources
+     * @param bool  $merge
+     * @return $this
      */
-    public function sources(array $sources, $merge = false)
+    public function sources(array $sources, $merge = true)
     {
         foreach ($sources as $media => &$alterations) {
 
