@@ -14,9 +14,11 @@ class ImagePaths
 {
 
     /**
+     * Registered image paths.
+     *
      * @var array
      */
-    protected $paths = [];
+    protected $paths;
 
     /**
      * Create a new ImagePaths instance.
