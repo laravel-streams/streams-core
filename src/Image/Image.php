@@ -133,6 +133,13 @@ class Image
     protected $paths;
 
     /**
+     * The image macros.
+     *
+     * @var ImageMacros
+     */
+    protected $macros;
+
+    /**
      * The file system.
      *
      * @var Filesystem
@@ -161,17 +168,20 @@ class Image
      * @param ImageManager $manager
      * @param Application  $application
      * @param ImagePaths   $paths
+     * @param ImageMacros  $macros
      */
     public function __construct(
         HtmlBuilder $html,
         Filesystem $files,
         ImageManager $manager,
         Application $application,
-        ImagePaths $paths
+        ImagePaths $paths,
+        ImageMacros $macros
     ) {
         $this->html        = $html;
         $this->files       = $files;
         $this->paths       = $paths;
+        $this->macros      = $macros;
         $this->manager     = $manager;
         $this->application = $application;
     }
@@ -210,6 +220,18 @@ class Image
         $this->alterations = [];
 
         return $path;
+    }
+
+    /**
+     * Run a macro on the image.
+     *
+     * @param $macro
+     * @return Image
+     * @throws \Exception
+     */
+    public function macro($macro)
+    {
+        return $this->macros->run($macro, $this);
     }
 
     /**
