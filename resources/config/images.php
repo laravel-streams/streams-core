@@ -15,8 +15,21 @@ return [
     | $image->make('example::path/to/image.jpg');
     |
     */
-    'paths' => [
-        //'example' => 'some/local/path',
-        //'s3'      => 'https://region.amazonaws.com/bucket'
-    ]
+
+    'paths'  => [],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Macros
+    |--------------------------------------------------------------------------
+    |
+    | Add additional macros for the image manager here.
+    |
+    | Later you can run macros on images like:
+    |
+    | $image->make('example::path/to/image.jpg')->macro('2x');
+    |
+    */
+
+    'macros' => []
 ];
