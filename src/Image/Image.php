@@ -253,13 +253,13 @@ class Image
      * @param array $attributes
      * @return string
      */
-    public function image($alt = null, $attributes = [])
+    public function image($alt = null, array $attributes = [])
     {
         if (!$alt) {
-            $alt = array_get($this->attributes, 'alt');
+            $alt = array_get($this->getAttributes(), 'alt');
         }
 
-        $attributes = array_merge($this->attributes, $attributes);
+        $attributes = array_merge($this->getAttributes(), $attributes);
 
         if ($srcset = $this->srcset()) {
             $attributes['srcset'] = $srcset;
@@ -275,7 +275,7 @@ class Image
      * @param array $attributes
      * @return string
      */
-    public function img($alt = null, $attributes = [])
+    public function img($alt = null, array $attributes = [])
     {
         return $this->image($alt, $attributes);
     }
@@ -285,20 +285,26 @@ class Image
      *
      * @return string
      */
-    public function picture()
+    public function picture(array $attributes = [])
     {
         $sources = [];
 
+        $attributes = array_merge($this->getAttributes(), $attributes);
+
         /* @var Image $image */
         foreach ($this->getSources() as $media => $image) {
-            $sources[] = $image->source();
+            if ($media != 'fallback') {
+                $sources[] = $image->source();
+            } else {
+                $sources[] = $this->image();
+            }
         }
-
-        $sources[] = $this->image();
 
         $sources = implode("\n", $sources);
 
-        return "<picture>\n{$sources}\n</picture>";
+        $attributes = $this->html->attributes($attributes);
+
+        return "<picture {$attributes}>\n{$sources}\n</picture>";
     }
 
     /**
