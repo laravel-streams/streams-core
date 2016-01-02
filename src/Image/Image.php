@@ -308,9 +308,11 @@ class Image
      */
     public function source()
     {
+        $this->addAttribute('srcset', $this->srcset() ?: $this->url() . ' 2x, ' . $this->url() . ' 1x');
+
         $attributes = $this->html->attributes($this->getAttributes());
 
-        return "<source {$attributes} srcset=\"{$this->url()}\">";
+        return "<source {$attributes}>";
     }
 
     /**
@@ -508,9 +510,13 @@ class Image
      *
      * @param array $sources
      */
-    public function sources(array $sources)
+    public function sources(array $sources, $merge = false)
     {
         foreach ($sources as $media => &$alterations) {
+
+            if ($merge) {
+                $alterations = array_merge($this->getAlterations(), $alterations);
+            }
 
             $image = $this->make(array_pull($alterations, 'image', $this->getImage()))->setOutput('source');
 
@@ -577,6 +583,40 @@ class Image
         $this->image = $image;
 
         return $this;
+    }
+
+    /**
+     * Make an image instance.
+     *
+     * @return \Intervention\Image\Image
+     */
+    protected function makeImage()
+    {
+        if ($this->image instanceof FileInterface) {
+            return $this->manager
+                ->make(app('League\Flysystem\MountManager')->read($this->image->location()))
+                ->encode($this->getExtension());
+        }
+
+        if ($this->image instanceof File) {
+            return $this->manager
+                ->make($this->image->read())
+                ->encode($this->getExtension());
+        }
+
+        if (is_string($this->image) && str_is('*://*', $this->image)) {
+            return $this->manager
+                ->make(app('League\Flysystem\MountManager')->read($this->image))
+                ->encode($this->getExtension());
+        }
+
+        if (is_string($this->image) && file_exists($this->image)) {
+            return $this->manager->make($this->image);
+        }
+
+        if ($this->image instanceof Image) {
+            return $this->image;
+        }
     }
 
     /**
@@ -777,40 +817,6 @@ class Image
         $this->paths->addPath($namespace, $path);
 
         return $this;
-    }
-
-    /**
-     * Make an image instance.
-     *
-     * @return \Intervention\Image\Image
-     */
-    protected function makeImage()
-    {
-        if ($this->image instanceof FileInterface) {
-            return $this->manager
-                ->make(app('League\Flysystem\MountManager')->read($this->image->location()))
-                ->encode($this->getExtension());
-        }
-
-        if ($this->image instanceof File) {
-            return $this->manager
-                ->make($this->image->read())
-                ->encode($this->getExtension());
-        }
-
-        if (is_string($this->image) && str_is('*://*', $this->image)) {
-            return $this->manager
-                ->make(app('League\Flysystem\MountManager')->read($this->image))
-                ->encode($this->getExtension());
-        }
-
-        if (is_string($this->image) && file_exists($this->image)) {
-            return $this->manager->make($this->image);
-        }
-
-        if ($this->image instanceof Image) {
-            return $this->image;
-        }
     }
 
     /**
