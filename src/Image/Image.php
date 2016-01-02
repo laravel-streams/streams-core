@@ -435,7 +435,7 @@ class Image
         $image = $this->makeImage();
 
         if (!$image) {
-            return null;
+            return;
         }
 
         foreach ($this->getAlterations() as $method => $arguments) {
