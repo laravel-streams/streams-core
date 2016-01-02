@@ -665,7 +665,7 @@ class Image
      * @param  $arguments
      * @return $this
      */
-    protected function addAlteration($method, $arguments)
+    public function addAlteration($method, $arguments)
     {
         $this->alterations[$method] = $arguments;
 

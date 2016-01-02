@@ -152,6 +152,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Asset\AssetParser'                                   => 'Anomaly\Streams\Platform\Asset\AssetParser',
         'Anomaly\Streams\Platform\Image\Image'                                         => 'Anomaly\Streams\Platform\Image\Image',
         'Anomaly\Streams\Platform\Image\ImagePaths'                                    => 'Anomaly\Streams\Platform\Image\ImagePaths',
+        'Anomaly\Streams\Platform\Image\ImageMacros'                                   => 'Anomaly\Streams\Platform\Image\ImageMacros',
         'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry'                => 'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry',
         'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry'            => 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry',
         'Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection'                  => 'Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection',

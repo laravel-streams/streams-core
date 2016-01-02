@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Image;
 
 use Illuminate\Config\Repository;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class ImageMacros
@@ -18,16 +19,52 @@ class ImageMacros
      *
      * @var array
      */
-    protected $macros = [];
+    protected $macros;
+
+    /**
+     * The service container.
+     *
+     * @var Container
+     */
+    protected $container;
 
     /**
      * Create a new ImageMacros instance.
      *
+     * @param Container  $container
      * @param Repository $config
      */
-    public function __construct(Repository $config)
+    public function __construct(Repository $config, Container $container)
     {
-        $this->macros = $config->get('streams::images.macros', []);
+        $this->macros    = $config->get('streams::images.macros', []);
+        $this->container = $container;
+    }
+
+    /**
+     * Run a macro.
+     *
+     * @param       $macro
+     * @param Image $image
+     * @return Image
+     * @throws \Exception
+     */
+    public function run($macro, Image $image)
+    {
+        if (!$process = array_get($this->getMacros(), $macro)) {
+            return $image;
+        }
+
+        if (is_array($process)) {
+            foreach ($process as $method => $arguments) {
+                $image->addAlteration($method, $arguments);
+            }
+        }
+
+        if ($process instanceof \Closure) {
+            $this->container->call($process, compact('image', 'macro'));
+        }
+
+        return $image;
     }
 
     /**
@@ -65,22 +102,5 @@ class ImageMacros
         $this->macros[$namespace] = $macro;
 
         return $this;
-    }
-
-    /**
-     * Run a macro.
-     *
-     * @param       $macro
-     * @param Image $image
-     * @return Image
-     * @throws \Exception
-     */
-    public function run($macro, Image $image)
-    {
-        if (!$macro = array_get($this->getMacros(), $macro)) {
-            throw new \Exception("The {$macro} image macro does not exist.");
-        }
-
-        return $image;
     }
 }
