@@ -576,8 +576,10 @@ class Image
         foreach ($agents as $agent => $alterations) {
             if (
                 $this->agent->is($agent)
+                || ($agent == 'phone' && $this->agent->isPhone())
                 || ($agent == 'mobile' && $this->agent->isMobile())
                 || ($agent == 'tablet' && $this->agent->isTablet())
+                || ($agent == 'desktop' && $this->agent->isDesktop())
             ) {
                 foreach ($alterations as $method => $arguments) {
                     if (is_array($arguments)) {
