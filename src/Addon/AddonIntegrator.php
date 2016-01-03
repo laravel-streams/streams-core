@@ -153,7 +153,10 @@ class AddonIntegrator
         $this->configurator->addNamespaceOverrides(
             $addon->getNamespace(),
             base_path(
-                'resources/core/config/addon/' . $addon->getVendor() . '/' . $addon->getSlug() . '-' . $addon->getType()
+                'resources/core/config/addons/'
+                . $addon->getVendor() . '/'
+                . $addon->getSlug() . '-'
+                . $addon->getType()
             )
         );
 
@@ -161,7 +164,10 @@ class AddonIntegrator
         $this->configurator->addNamespaceOverrides(
             $addon->getNamespace(),
             $this->application->getResourcesPath(
-                'config/addon/' . $addon->getVendor() . '/' . $addon->getSlug() . '-' . $addon->getType()
+                'config/addons/'
+                . $addon->getVendor() . '/'
+                . $addon->getSlug() . '-'
+                . $addon->getType()
             )
         );
 
