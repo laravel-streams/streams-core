@@ -4,8 +4,10 @@ use Anomaly\FilesModule\File\Contract\FileInterface;
 use Anomaly\FilesModule\File\FilePresenter;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Application\Application;
+use Closure;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
+use Intervention\Image\Constraint;
 use Intervention\Image\ImageManager;
 use League\Flysystem\File;
 use Mobile_Detect;
@@ -455,6 +457,11 @@ class Image
         }
 
         foreach ($this->getAlterations() as $method => $arguments) {
+
+            if ($method == 'resize') {
+                $this->guessResizeArguments($arguments);
+            }
+
             if (in_array($method, $this->getAllowedMethods())) {
                 if (is_array($arguments)) {
                     call_user_func_array([$image, $method], $arguments);
@@ -877,6 +884,27 @@ class Image
         $this->paths->addPath($namespace, $path);
 
         return $this;
+    }
+
+    /**
+     * Guess the resize callback value
+     * from a boolean.
+     *
+     * @param array $arguments
+     */
+    protected function guessResizeArguments(array &$arguments)
+    {
+        $arguments = array_pad($arguments, 3, null);
+
+        if (end($arguments) instanceof \Closure) {
+            return;
+        }
+
+        if (array_pop($arguments) !== false && (is_null($arguments[0]) || is_null($arguments[1]))) {
+            $arguments[] = function (Constraint $constraint) {
+                $constraint->aspectRatio();
+            };
+        }
     }
 
     /**
