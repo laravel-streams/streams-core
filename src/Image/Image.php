@@ -8,6 +8,7 @@ use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
 use Intervention\Image\ImageManager;
 use League\Flysystem\File;
+use Mobile_Detect;
 use Robbo\Presenter\Presenter;
 
 /**
@@ -147,6 +148,13 @@ class Image
     protected $files;
 
     /**
+     * The user agent utility.
+     *
+     * @var Mobile_Detect
+     */
+    protected $agent;
+
+    /**
      * The image manager.
      *
      * @var ImageManager
@@ -173,6 +181,7 @@ class Image
     public function __construct(
         HtmlBuilder $html,
         Filesystem $files,
+        Mobile_Detect $agent,
         ImageManager $manager,
         Application $application,
         ImagePaths $paths,
@@ -180,6 +189,7 @@ class Image
     ) {
         $this->html        = $html;
         $this->files       = $files;
+        $this->agent       = $agent;
         $this->paths       = $paths;
         $this->macros      = $macros;
         $this->manager     = $manager;
@@ -319,6 +329,10 @@ class Image
         $this->addAttribute('srcset', $this->srcset() ?: $this->url() . ' 2x, ' . $this->url() . ' 1x');
 
         $attributes = $this->html->attributes($this->getAttributes());
+
+        if ($srcset = $this->srcset()) {
+            $attributes['srcset'] = $srcset;
+        }
 
         return "<source {$attributes}>";
     }
@@ -530,7 +544,9 @@ class Image
 
             $image = $this->make(array_pull($alterations, 'image', $this->getImage()))->setOutput('source');
 
-            call_user_func([$image, 'media'], $media);
+            if ($media != 'fallback') {
+                call_user_func([$image, 'media'], $media);
+            }
 
             foreach ($alterations as $method => $arguments) {
                 if (is_array($arguments)) {
@@ -544,6 +560,38 @@ class Image
         }
 
         $this->setSources($sources);
+
+        return $this;
+    }
+
+    /**
+     * Alter the image based on the user agents.
+     *
+     * @param array $agents
+     * @param bool  $exit
+     * @return $this
+     */
+    public function agents(array $agents, $exit = false)
+    {
+        foreach ($agents as $agent => $alterations) {
+            if (
+                $this->agent->is($agent)
+                || ($agent == 'mobile' && $this->agent->isMobile())
+                || ($agent == 'tablet' && $this->agent->isTablet())
+            ) {
+                foreach ($alterations as $method => $arguments) {
+                    if (is_array($arguments)) {
+                        call_user_func_array([$this, $method], $arguments);
+                    } else {
+                        call_user_func([$this, $method], $arguments);
+                    }
+                }
+
+                if ($exit) {
+                    return $this;
+                }
+            }
+        }
 
         return $this;
     }
