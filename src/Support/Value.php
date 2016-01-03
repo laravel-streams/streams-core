@@ -75,7 +75,7 @@ class Value
          * If a flat value was sent in
          * then convert it to an array.
          */
-        if (is_string($parameters)) {
+        if (!is_array($parameters)) {
             $parameters = [
                 'value' => $parameters
             ];
