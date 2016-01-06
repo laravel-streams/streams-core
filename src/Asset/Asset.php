@@ -19,6 +19,7 @@ use Assetic\Filter\PhpCssEmbedFilter;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\Request;
 use League\Flysystem\MountManager;
 
 /**
@@ -41,13 +42,6 @@ class Asset
      * @var null
      */
     protected $directory = null;
-
-    /**
-     * If true force publishing.
-     *
-     * @var bool
-     */
-    protected $publish = false;
 
     /**
      * Groups of assets. Groups can
@@ -88,6 +82,13 @@ class Asset
     protected $themes;
 
     /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * The mount manager.
      *
      * @var MountManager
@@ -117,6 +118,7 @@ class Asset
      * @param AssetParser     $parser
      * @param Repository      $config
      * @param AssetPaths      $paths
+     * @param Request         $request
      * @param HtmlBuilder     $html
      */
     public function __construct(
@@ -126,6 +128,7 @@ class Asset
         AssetParser $parser,
         Repository $config,
         AssetPaths $paths,
+        Request $request,
         HtmlBuilder $html
     ) {
         $this->html        = $html;
@@ -134,6 +137,7 @@ class Asset
         $this->themes      = $themes;
         $this->parser      = $parser;
         $this->manager     = $manager;
+        $this->request     = $request;
         $this->application = $application;
     }
 
@@ -540,7 +544,7 @@ class Asset
             return false;
         }
 
-        if ($this->publish === true) {
+        if ($this->request->isNoCache() === true) {
             return true;
         }
 
@@ -620,23 +624,10 @@ class Asset
     }
 
     /**
-     * Set the publish flag.
-     *
-     * @param  $publish
-     * @return $this
-     */
-    public function setPublish($publish)
-    {
-        $this->publish = $publish;
-
-        return $this;
-    }
-
-    /**
      * Create asset collection from collection array
      *
-     * @param       $collection        Collection of assets
-     * @param array $additionalFilters Additional filters to be applied to collection
+     * @param       $collection
+     * @param array $additionalFilters
      * @return AssetCollection
      */
     private function getAssetCollection($collection, $additionalFilters = array())
