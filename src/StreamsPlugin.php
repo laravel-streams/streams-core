@@ -20,7 +20,7 @@ use Anomaly\Streams\Platform\View\Command\GetLayoutName;
 use Anomaly\Streams\Platform\View\Command\GetView;
 use Illuminate\Session\Store;
 use Illuminate\Translation\Translator;
-use Mobile_Detect;
+use Jenssegers\Agent\Agent;
 
 /**
  * Class StreamsPlugin
@@ -43,7 +43,7 @@ class StreamsPlugin extends Plugin
     /**
      * The agent utility.
      *
-     * @var Mobile_Detect
+     * @var Agent
      */
     protected $agent;
 
@@ -78,13 +78,13 @@ class StreamsPlugin extends Plugin
     /**
      * Create a new AgentPlugin instance.
      *
-     * @param Str           $str
-     * @param Mobile_Detect $agent
-     * @param Asset         $asset
-     * @param Image         $image
-     * @param Store         $session
+     * @param Str   $str
+     * @param Agent $agent
+     * @param Asset $asset
+     * @param Image $image
+     * @param Store $session
      */
-    public function __construct(Str $str, Mobile_Detect $agent, Asset $asset, Image $image, Store $session)
+    public function __construct(Str $str, Agent $agent, Asset $asset, Image $image, Store $session)
     {
         $this->str     = $str;
         $this->agent   = $agent;
