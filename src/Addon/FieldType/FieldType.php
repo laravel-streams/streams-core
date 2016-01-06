@@ -217,7 +217,7 @@ class FieldType extends Addon
      */
     public function config($key, $default = null)
     {
-        return array_get($this->getConfig(), $key, $default);
+        return array_get($this->config, $key, $default);
     }
 
     /**
