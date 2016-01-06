@@ -68,6 +68,17 @@ class EloquentCriteria
     }
 
     /**
+     * Get the paginated entries.
+     *
+     * @param array $columns
+     * @return Collection|Presenter|EntryPresenter
+     */
+    public function paginate($perPage = 15, array $columns = ['*'])
+    {
+        return (new Decorator())->decorate($this->query->paginate($perPage, $columns));
+    }
+
+    /**
      * Get the entries.
      *
      * @param array $columns
