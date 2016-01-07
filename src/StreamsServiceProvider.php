@@ -18,6 +18,7 @@ use Anomaly\Streams\Platform\Event\Ready;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Field\FieldObserver;
 use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
+use Anomaly\Streams\Platform\Lang\Loader;
 use Anomaly\Streams\Platform\Mail\Mailer;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
@@ -31,6 +32,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Translation\Translator;
 
 /**
  * Class StreamsServiceProvider
@@ -288,6 +290,40 @@ class StreamsServiceProvider extends ServiceProvider
             'Illuminate\Contracts\Mail\Mailer',
             function () {
                 return $this->app->make('mailer');
+            }
+        );
+
+        /**
+         * Change the lang loader so we can
+         * add a few more necessary override
+         * paths to the API.
+         */
+        $this->app->singleton(
+            'translation.loader',
+            function () {
+                return new Loader($this->app->make('files'), $this->app->make('path.lang'));
+            }
+        );
+
+        /**
+         * Re-bind the translator so we can use
+         * the new loader defined above.
+         */
+        $this->app->singleton(
+            'translator',
+            function ($app) {
+                $loader = $app['translation.loader'];
+
+                // When registering the translator component, we'll need to set the default
+                // locale as well as the fallback locale. So, we'll grab the application
+                // configuration so we can easily get both of these values from there.
+                $locale = $app['config']['app.locale'];
+
+                $trans = new Translator($loader, $locale);
+
+                $trans->setFallback($app['config']['app.fallback_locale']);
+
+                return $trans;
             }
         );
     }

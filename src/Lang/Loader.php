@@ -77,7 +77,7 @@ class Loader extends FileLoader
 
             list($vendor, $type, $slug) = explode('.', $namespace);
 
-            $file = base_path("resources/core/lang/addon/{$vendor}/{$slug}-{$type}/{$locale}/{$group}.php");
+            $file = base_path("resources/core/lang/addons/{$vendor}/{$slug}-{$type}/{$locale}/{$group}.php");
 
             if ($this->files->exists($file)) {
                 $lines = array_replace_recursive($lines, $this->files->getRequire($file));
@@ -111,7 +111,7 @@ class Loader extends FileLoader
 
             list($vendor, $type, $slug) = explode('.', $namespace);
 
-            $file = $this->application->getResourcesPath("lang/addon/{$vendor}/{$slug}-{$type}/{$locale}/{$group}.php");
+            $file = $this->application->getResourcesPath("lang/addons/{$vendor}/{$slug}-{$type}/{$locale}/{$group}.php");
 
             if ($this->files->exists($file)) {
                 $lines = array_replace_recursive($lines, $this->files->getRequire($file));
