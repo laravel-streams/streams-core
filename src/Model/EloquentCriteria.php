@@ -32,6 +32,7 @@ class EloquentCriteria
         'leftJoin',
         'orWhere',
         'orderBy',
+        'select',
         'where',
         'limit',
         'join',
