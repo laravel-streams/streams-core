@@ -36,23 +36,21 @@ class Str
      */
     public function truncate($value, $limit = 100, $end = '...')
     {
-        if (mb_strlen($value) <= $limit) {
-            return $value;
-        }
+        $parts = preg_split('/([\s\n\r]+)/', $value, null, PREG_SPLIT_DELIM_CAPTURE);
+        $count = count($parts);
 
-        $cutArea = mb_substr($value, $limit - 1, 2, 'UTF-8');
+        $last   = 0;
+        $length = 0;
 
-        if (strpos($cutArea, ' ') === false) {
+        for (; $last < $count; ++$last) {
 
-            $value = mb_substr($value, 0, $limit, 'UTF-8');
+            $length += strlen($parts[$last]);
 
-            $spacePos = strrpos($value, ' ');
-
-            if ($spacePos !== false) {
-                return rtrim(mb_substr($value, 0, $spacePos, 'UTF-8')) . $end;
+            if ($length > $limit) {
+                break;
             }
         }
 
-        return rtrim(mb_substr($value, 0, $limit, 'UTF-8')) . $end;
+        return trim(implode(array_slice($parts, 0, $last))) . $end;
     }
 }
