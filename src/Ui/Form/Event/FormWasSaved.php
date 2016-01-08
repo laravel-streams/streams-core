@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Event;
 
-use Anomaly\Streams\Platform\Ui\Form\Form;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
  * Class FormWasSaved
@@ -14,29 +14,29 @@ class FormWasSaved
 {
 
     /**
-     * The form object.
+     * The form builder.
      *
-     * @var Form
+     * @var FormBuilder
      */
-    protected $form;
+    protected $builder;
 
     /**
-     * Create a new FormWasSaved instance.
+     * Create a new FormWasValidated instance.
      *
-     * @param Form $form
+     * @param FormBuilder $builder
      */
-    public function __construct(Form $form)
+    public function __construct(FormBuilder $builder)
     {
-        $this->form = $form;
+        $this->builder = $builder;
     }
 
     /**
      * Ge the form.
      *
-     * @return Form
+     * @return FormBuilder
      */
-    public function getForm()
+    public function getBuilder()
     {
-        return $this->form;
+        return $this->builder;
     }
 }

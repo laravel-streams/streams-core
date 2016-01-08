@@ -2,7 +2,9 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Command\RepopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetErrorMessages;
+use Anomaly\Streams\Platform\Ui\Form\Event\FormWasValidated;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Validation\Validator;
 
@@ -34,6 +36,13 @@ class FormValidator implements SelfHandling
     protected $input;
 
     /**
+     * The event dispatcher.
+     *
+     * @var Dispatcher
+     */
+    protected $events;
+
+    /**
      * The extender utility.
      *
      * @var FormExtender
@@ -59,6 +68,7 @@ class FormValidator implements SelfHandling
      *
      * @param FormRules      $rules
      * @param FormInput      $input
+     * @param Dispatcher     $events
      * @param FormExtender   $extender
      * @param FormMessages   $messages
      * @param FormAttributes $attributes
@@ -66,12 +76,14 @@ class FormValidator implements SelfHandling
     public function __construct(
         FormRules $rules,
         FormInput $input,
+        Dispatcher $events,
         FormExtender $extender,
         FormMessages $messages,
         FormAttributes $attributes
     ) {
         $this->rules      = $rules;
         $this->input      = $input;
+        $this->events     = $events;
         $this->extender   = $extender;
         $this->messages   = $messages;
         $this->attributes = $attributes;
@@ -100,6 +112,8 @@ class FormValidator implements SelfHandling
         $validator->setAttributeNames($attributes);
 
         $this->setResponse($validator, $builder);
+
+        $this->events->fire(new FormWasValidated($builder));
     }
 
     /**

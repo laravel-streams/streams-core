@@ -5,8 +5,10 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveAction;
 use Anomaly\Streams\Platform\Ui\Form\Component\Button\Command\BuildButtons;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\BuildFields;
 use Anomaly\Streams\Platform\Ui\Form\Component\Section\Command\BuildSections;
+use Anomaly\Streams\Platform\Ui\Form\Event\FormWasBuilt;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -41,8 +43,10 @@ class BuildForm implements SelfHandling
 
     /**
      * Handle the command.
+     *
+     * @param Dispatcher $events
      */
-    public function handle()
+    public function handle(Dispatcher $events)
     {
         /**
          * Setup some objects and options using
@@ -82,5 +86,7 @@ class BuildForm implements SelfHandling
          * Build form buttons.
          */
         $this->dispatch(new BuildButtons($this->builder));
+        
+        $events->fire(new FormWasBuilt($this->builder));
     }
 }
