@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Application\Application;
 use Closure;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\Request;
 use Intervention\Image\Constraint;
 use Intervention\Image\ImageManager;
 use League\Flysystem\File;
@@ -164,6 +165,13 @@ class Image
     protected $manager;
 
     /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * The stream application.
      *
      * @var Application
@@ -173,12 +181,14 @@ class Image
     /**
      * Create a new Image instance.
      *
-     * @param HtmlBuilder  $html
-     * @param Filesystem   $files
-     * @param ImageManager $manager
-     * @param Application  $application
-     * @param ImagePaths   $paths
-     * @param ImageMacros  $macros
+     * @param HtmlBuilder   $html
+     * @param Filesystem    $files
+     * @param Mobile_Detect $agent
+     * @param ImageManager  $manager
+     * @param Application   $application
+     * @param Request       $request
+     * @param ImagePaths    $paths
+     * @param ImageMacros   $macros
      */
     public function __construct(
         HtmlBuilder $html,
@@ -186,6 +196,7 @@ class Image
         Mobile_Detect $agent,
         ImageManager $manager,
         Application $application,
+        Request $request,
         ImagePaths $paths,
         ImageMacros $macros
     ) {
@@ -195,6 +206,7 @@ class Image
         $this->paths       = $paths;
         $this->macros      = $macros;
         $this->manager     = $manager;
+        $this->request     = $request;
         $this->application = $application;
     }
 

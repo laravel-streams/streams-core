@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Ui\Form\Event\FormWasSaved;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class SaveForm
@@ -33,8 +35,10 @@ class SaveForm implements SelfHandling
 
     /**
      * Handle the command.
+     *
+     * @param Dispatcher $events
      */
-    public function handle()
+    public function handle(Dispatcher $events)
     {
         $this->builder->fire('saving', ['builder' => $this->builder]);
         $this->builder->fireFieldEvents('form_saving');
@@ -45,5 +49,7 @@ class SaveForm implements SelfHandling
 
         $this->builder->fire('saved', ['builder' => $this->builder]);
         $this->builder->fireFieldEvents('form_saved');
+
+        $events->fire(new FormWasSaved($this->builder));
     }
 }

@@ -20,7 +20,7 @@ use Anomaly\Streams\Platform\View\Command\GetLayoutName;
 use Anomaly\Streams\Platform\View\Command\GetView;
 use Illuminate\Session\Store;
 use Illuminate\Translation\Translator;
-use Mobile_Detect;
+use Jenssegers\Agent\Agent;
 
 /**
  * Class StreamsPlugin
@@ -43,7 +43,7 @@ class StreamsPlugin extends Plugin
     /**
      * The agent utility.
      *
-     * @var Mobile_Detect
+     * @var Agent
      */
     protected $agent;
 
@@ -78,13 +78,13 @@ class StreamsPlugin extends Plugin
     /**
      * Create a new AgentPlugin instance.
      *
-     * @param Str           $str
-     * @param Mobile_Detect $agent
-     * @param Asset         $asset
-     * @param Image         $image
-     * @param Store         $session
+     * @param Str   $str
+     * @param Agent $agent
+     * @param Asset $asset
+     * @param Image $image
+     * @param Store $session
      */
-    public function __construct(Str $str, Mobile_Detect $agent, Asset $asset, Image $image, Store $session)
+    public function __construct(Str $str, Agent $agent, Asset $asset, Image $image, Store $session)
     {
         $this->str     = $str;
         $this->agent   = $agent;
@@ -234,7 +234,9 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('agent_device', [$this->agent, 'device']),
             new \Twig_SimpleFunction('agent_browser', [$this->agent, 'browser']),
             new \Twig_SimpleFunction('agent_platform', [$this->agent, 'platform']),
+            new \Twig_SimpleFunction('agent_is_phone', [$this->agent, 'isPhone']),
             new \Twig_SimpleFunction('agent_is_robot', [$this->agent, 'isRobot']),
+            new \Twig_SimpleFunction('agent_is_tablet', [$this->agent, 'isTablet']),
             new \Twig_SimpleFunction('agent_is_mobile', [$this->agent, 'isMobile']),
             new \Twig_SimpleFunction('agent_is_desktop', [$this->agent, 'isDesktop']),
             new \Twig_SimpleFunction('asset_add', [$this->asset, 'add']),

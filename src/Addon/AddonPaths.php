@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Application\Application;
+use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class AddonPaths
@@ -21,6 +22,13 @@ class AddonPaths
     protected $cache = null;
 
     /**
+     * The config repository.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
      * The stream application.
      *
      * @var Application
@@ -31,9 +39,11 @@ class AddonPaths
      * Create a new AddonPaths instance.
      *
      * @param Application $application
+     * @param Repository  $config
      */
-    function __construct(Application $application)
+    function __construct(Application $application, Repository $config)
     {
+        $this->config      = $config;
         $this->application = $application;
     }
 
@@ -48,16 +58,33 @@ class AddonPaths
         if ($this->cache) {
             return $this->cache;
         }
-        
+
         if (file_exists($addons = base_path('bootstrap/cache/addons.php'))) {
             return include $addons;
         }
+
+        $eager    = $this->eager();
+        $deferred = $this->deferred();
 
         $core        = $this->core() ?: [];
         $shared      = $this->shared() ?: [];
         $application = $this->application() ?: [];
 
-        return array_filter(array_merge($core, $shared, $application));
+        /**
+         * Merge the eager and deferred
+         * onto the front and back of
+         * the paths respectively.
+         */
+        return array_unique(
+            array_merge(
+                $eager,
+                array_reverse(
+                    array_unique(
+                        array_reverse(array_merge(array_filter(array_merge($core, $shared, $application)), $deferred))
+                    )
+                )
+            )
+        );
     }
 
     /**
@@ -128,5 +155,35 @@ class AddonPaths
         }
 
         return $paths;
+    }
+
+    /**
+     * Return paths to eager loaded addons.
+     *
+     * @return array
+     */
+    protected function eager()
+    {
+        return array_map(
+            function ($path) {
+                return base_path($path);
+            },
+            $this->config->get('streams::addons.eager', [])
+        );
+    }
+
+    /**
+     * Return paths to deferred addons.
+     *
+     * @return array
+     */
+    protected function deferred()
+    {
+        return array_map(
+            function ($path) {
+                return base_path($path);
+            },
+            $this->config->get('streams::addons.deferred', [])
+        );
     }
 }

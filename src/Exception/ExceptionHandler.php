@@ -27,7 +27,12 @@ class ExceptionHandler extends Handler
      */
     public function render($request, Exception $e)
     {
-        if ($this->isHttpException($e)) {
+        if ($e instanceof HttpException) {
+
+            /*if ($e->getStatusCode() == 404 && $request->path() !== '404') {
+                return redirect('404');
+            }*/
+
             return $this->renderHttpException($e);
         } elseif (!config('app.debug')) {
             return response()->view("streams::errors.500", ['message' => $e->getMessage()], 500);
