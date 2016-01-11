@@ -442,6 +442,19 @@ class TreeBuilder
     }
 
     /**
+     * Set the tree repository.
+     *
+     * @param TreeRepositoryInterface $repository
+     * @return $this
+     */
+    public function setTreeRepository(TreeRepositoryInterface $repository)
+    {
+        $this->tree->setRepository($repository);
+
+        return $this;
+    }
+
+    /**
      * Get the tree content.
      *
      * @return null|string
