@@ -70,7 +70,7 @@ class AddonPaths
         $shared      = $this->shared() ?: [];
         $application = $this->application() ?: [];
 
-        return array_filter(array_merge($eager, $core, $shared, $application, $deferred));
+        return array_filter(array_unique(array_merge($eager, $core, $shared, $application, $deferred)));
     }
 
     /**
