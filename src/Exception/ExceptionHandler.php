@@ -33,10 +33,8 @@ class ExceptionHandler extends Handler
                 return $this->renderHttpException($e);
             }
 
-            $redirect = config('streams::access.404_redirect');
-
-            if ($redirect && $request->path() !== $redirect) {
-                return redirect($redirect);
+            if (($redirect = config('streams::access.404_redirect')) && $request->path() !== $redirect) {
+                return redirect($redirect, config('streams::access.404_type', 301));
             }
 
             return $this->renderHttpException($e);
