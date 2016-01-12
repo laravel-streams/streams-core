@@ -29,9 +29,15 @@ class ExceptionHandler extends Handler
     {
         if ($e instanceof HttpException) {
 
-            /*if ($e->getStatusCode() == 404 && $request->path() !== '404') {
-                return redirect('404');
-            }*/
+            if (!$e->getStatusCode() == 404) {
+                return $this->renderHttpException($e);
+            }
+
+            $redirect = config('streams::access.404_redirect');
+
+            if ($redirect && $request->path() !== $redirect) {
+                return redirect($redirect);
+            }
 
             return $this->renderHttpException($e);
         } elseif (!config('app.debug')) {

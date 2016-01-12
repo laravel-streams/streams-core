@@ -12,5 +12,16 @@ return [
     |
     */
 
-    'force_https' => env('FORCE_HTTPS', 'none')
+    'force_https' => env('FORCE_HTTPS', 'none'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | 404 Redirect
+    |--------------------------------------------------------------------------
+    |
+    | You may opt to redirect a 404 to a specific URL / path.
+    |
+    */
+
+    '404_redirect' => env('404_REDIRECT')
 ];
