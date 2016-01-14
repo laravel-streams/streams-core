@@ -384,7 +384,7 @@ class StreamsServiceProvider extends ServiceProvider
                 if (str_contains($frequency, ' ')) {
                     $schedule->command($command)->cron($frequency);
                 } else {
-                    $schedule->command($command)->{$frequency}();
+                    $schedule->command($command)->{camel_case($frequency)}();
                 }
             }
         }

@@ -351,7 +351,7 @@ class AddonProvider
                 if (str_contains($frequency, ' ')) {
                     $this->schedule->command($command)->cron($frequency);
                 } else {
-                    $this->schedule->command($command)->{$frequency}();
+                    $this->schedule->command($command)->{camel_case($frequency)}();
                 }
             }
         }
