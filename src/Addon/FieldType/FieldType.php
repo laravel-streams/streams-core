@@ -471,6 +471,16 @@ class FieldType extends Addon
     }
 
     /**
+     * Return if any posted input exists.
+     *
+     * @return bool
+     */
+    public function hasPostedInput()
+    {
+        return isset($_POST[str_replace('.', '_', $this->getInputName())]);
+    }
+
+    /**
      * Get the value to validate.
      *
      * @param null $default

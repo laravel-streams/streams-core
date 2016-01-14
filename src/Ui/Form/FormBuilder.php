@@ -223,7 +223,7 @@ class FormBuilder
      */
     public function post()
     {
-        if (app('request')->isMethod('post') && $this->hasPostData()) {
+        if (app('request')->isMethod('post') && $this->hasPostedInput()) {
             $this->dispatch(new PostForm($this));
         } else {
             $this->dispatch(new PopulateFields($this));
@@ -1161,7 +1161,7 @@ class FormBuilder
      * @param null $default
      * @return mixed
      */
-    public function hasPostValue($key)
+    public function hasPostedInput($key)
     {
         return isset($_POST[$this->getOption('prefix') . $key]);
     }
@@ -1175,7 +1175,7 @@ class FormBuilder
     {
         /* @var FieldType $field */
         foreach ($this->getFormFields() as $field) {
-            if ($field->getPostValue()) {
+            if ($field->hasPostedInput()) {
                 return true;
             }
         }
