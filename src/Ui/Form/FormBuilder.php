@@ -223,7 +223,7 @@ class FormBuilder
      */
     public function post()
     {
-        if (app('request')->isMethod('post') && $this->hasPostedInput()) {
+        if (app('request')->isMethod('post') && $this->hasPostData()) {
             $this->dispatch(new PostForm($this));
         } else {
             $this->dispatch(new PopulateFields($this));
