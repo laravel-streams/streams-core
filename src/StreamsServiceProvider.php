@@ -29,6 +29,7 @@ use Anomaly\Streams\Platform\View\Command\ClearTwigCache;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Redirector;
@@ -50,6 +51,13 @@ class StreamsServiceProvider extends ServiceProvider
 {
 
     use DispatchesJobs;
+
+    /**
+     * The scheduled commands.
+     *
+     * @var array
+     */
+    protected $schedule = [];
 
     /**
      * The providers to register.
@@ -351,22 +359,35 @@ class StreamsServiceProvider extends ServiceProvider
         }
 
         // Register bindings.
-        foreach ($this->bindings as $abstract => $concrete) {
+        foreach (array_merge($this->bindings, config('streams.bindings', [])) as $abstract => $concrete) {
             $this->app->bind($abstract, $concrete);
         }
 
         // Register singletons.
-        foreach ($this->singletons as $abstract => $concrete) {
+        foreach (array_merge($this->singletons, config('streams.singletons', [])) as $abstract => $concrete) {
             $this->app->singleton($abstract, $concrete);
         }
 
         // Register streams other providers.
-        foreach ($this->providers as $provider) {
+        foreach (array_merge($this->providers, config('streams.providers', [])) as $provider) {
             $this->app->register($provider);
         }
 
         // Register commands.
-        $this->commands($this->commands);
+        $this->commands(array_merge($this->commands, config('streams.commands', [])));
+
+        /* @var Schedule $schedule */
+        $schedule = $this->app->make(Schedule::class);
+
+        foreach (array_merge($this->schedule, config('streams.schedule', [])) as $frequency => $commands) {
+            foreach (array_filter($commands) as $command) {
+                if (str_contains($frequency, ' ')) {
+                    $schedule->command($command)->cron($frequency);
+                } else {
+                    $schedule->command($command)->{$frequency}();
+                }
+            }
+        }
 
         /**
          * Change the default language path so
