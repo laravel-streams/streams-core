@@ -357,7 +357,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     {
         $stream = $this->getStream();
 
-        if (!$stream->isTranslatable()) {
+        if ($stream && !$stream->isTranslatable()) {
             return false;
         }
 
