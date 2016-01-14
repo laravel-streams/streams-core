@@ -223,7 +223,7 @@ class FormBuilder
      */
     public function post()
     {
-        if (app('request')->isMethod('post')) {
+        if (app('request')->isMethod('post') && $this->hasPostData()) {
             $this->dispatch(new PostForm($this));
         } else {
             $this->dispatch(new PopulateFields($this));
@@ -1152,6 +1152,35 @@ class FormBuilder
     public function getPostValue($key, $default = null)
     {
         return array_get($_POST, $this->getOption('prefix') . $key, $default);
+    }
+
+    /**
+     * Return a post key flag.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function hasPostValue($key)
+    {
+        return isset($_POST[$this->getOption('prefix') . $key]);
+    }
+
+    /**
+     * Return whether any post data exists.
+     *
+     * @return bool
+     */
+    public function hasPostData()
+    {
+        /* @var FieldType $field */
+        foreach ($this->getFormFields() as $field) {
+            if ($field->getPostValue()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
