@@ -1,18 +1,19 @@
 <?php namespace Anomaly\Streams\Platform\View\Command;
 
+use App\Console\Kernel;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Http\Request;
 use TwigBridge\Bridge;
 
 /**
- * Class ClearTwigCache
+ * Class ClearCache
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\View\Command
  */
-class ClearTwigCache implements SelfHandling
+class ClearCache implements SelfHandling
 {
 
     /**
@@ -21,9 +22,10 @@ class ClearTwigCache implements SelfHandling
      * @param Request $request
      * @param Bridge  $twig
      */
-    public function handle(Request $request, Bridge $twig)
+    public function handle(Request $request, Kernel $console, Bridge $twig)
     {
         if ($request->isNoCache()) {
+            $console->call('cache:clear');
             $twig->clearCacheFiles();
         }
     }

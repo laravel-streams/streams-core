@@ -25,7 +25,7 @@ use Anomaly\Streams\Platform\Model\EloquentObserver;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
-use Anomaly\Streams\Platform\View\Command\ClearTwigCache;
+use Anomaly\Streams\Platform\View\Command\ClearCache;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
@@ -209,7 +209,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new AddAssetNamespaces());
         $this->dispatch(new AddImageNamespaces());
         $this->dispatch(new AddViewNamespaces());
-        $this->dispatch(new ClearTwigCache());
+        $this->dispatch(new ClearCache());
 
         EntryModel::observe(EntryObserver::class);
         FieldModel::observe(FieldObserver::class);
