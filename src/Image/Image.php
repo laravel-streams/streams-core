@@ -112,7 +112,8 @@ class Image
         'resize',
         'rotate',
         'amount',
-        'widen'
+        'widen',
+        'orientate'
     ];
 
     /**
