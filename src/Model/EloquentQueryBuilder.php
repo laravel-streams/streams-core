@@ -171,27 +171,4 @@ class EloquentQueryBuilder extends Builder
             }
         }
     }
-
-    /**
-     * Check for field type querying methods.
-     *
-     * @param string $method
-     * @param array  $parameters
-     * @return mixed
-     */
-    public function __call($method, $parameters)
-    {
-        if ($this->model instanceof EntryInterface) {
-            if ($query = $this->model->getFieldTypeQuery(snake_case($method))) {
-                if (method_exists($query, $scope = camel_case(array_shift($parameters)))) {
-
-                    array_unshift($parameters, $this);
-
-                    return call_user_func_array([$query, $scope], $parameters);
-                }
-            }
-        }
-
-        return parent::__call($method, $parameters);
-    }
 }

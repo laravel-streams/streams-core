@@ -678,6 +678,23 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Get a new query builder for the model's table.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function newQuery()
+    {
+        $builder = new EntryQueryBuilder($this->newBaseQueryBuilder());
+
+        // Once we have the query builders, we will set the model instances so the
+        // builder can easily access any information it may need from the model
+        // while it is constructing and executing various queries against it.
+        $builder->setModel($this)->with($this->with);
+
+        return $this->applyGlobalScopes($builder);
+    }
+
+    /**
      * Override the __get method.
      *
      * @param string $key
