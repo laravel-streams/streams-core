@@ -183,7 +183,7 @@ class EloquentQueryBuilder extends Builder
     {
         if ($this->model instanceof EntryInterface) {
             if ($query = $this->model->getFieldTypeQuery(snake_case($method))) {
-                if (method_exists($query, $scope = camel_case('scope_' . array_shift($parameters)))) {
+                if (method_exists($query, $scope = camel_case(array_shift($parameters)))) {
 
                     array_unshift($parameters, $this);
 
