@@ -26,20 +26,8 @@ class EloquentCriteria
      *
      * @var array
      */
-    private $safe = [
-        'innerJoin',
-        'andWhere',
-        'leftJoin',
-        'orWhere',
-        'orderBy',
-        'select',
-        'where',
-        'limit',
-        'join',
-        'with',
-        'skip',
-        'take',
-        'cache'
+    private $disabled = [
+        'delete'
     ];
 
     /**
@@ -136,7 +124,7 @@ class EloquentCriteria
      */
     protected function methodIsSafe($name)
     {
-        return (in_array($name, $this->safe));
+        return (!in_array($name, $this->disabled));
     }
 
     /**
