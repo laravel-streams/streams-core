@@ -215,12 +215,17 @@ class Image
      * Make a new image instance.
      *
      * @param mixed $image
+     * @param null  $output
      * @return $this
      */
-    public function make($image)
+    public function make($image, $output = null)
     {
         if ($image instanceof Image) {
             return $image;
+        }
+
+        if ($output) {
+            $this->setOutput($output);
         }
 
         $clone = clone($this);
