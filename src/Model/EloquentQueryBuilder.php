@@ -38,13 +38,17 @@ class EloquentQueryBuilder extends Builder
             $this->rememberIndex();
 
             if ($this->model->getTtl()) {
-                return app('cache')->remember(
-                    $this->getCacheKey(),
-                    $this->model->getTtl(),
-                    function () use ($columns) {
-                        return parent::get($columns);
-                    }
-                );
+                try {
+                    return app('cache')->remember(
+                        $this->getCacheKey(),
+                        $this->model->getTtl(),
+                        function () use ($columns) {
+                            return parent::get($columns);
+                        }
+                    );
+                } catch(\Exception $e) {
+                    return parent::get($columns);
+                }
             }
         }
 
