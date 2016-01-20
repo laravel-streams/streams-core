@@ -685,6 +685,10 @@ class Image
 
         $this->image = $image;
 
+        if (in_array($this->getExtension(), ['jpg', 'jpeg'])) {
+            $this->addAlteration('orientate');
+        }
+
         return $this;
     }
 
@@ -695,6 +699,8 @@ class Image
      */
     protected function makeImage()
     {
+        $this->addAlteration('orientate');
+
         if ($this->image instanceof FileInterface) {
             return $this->manager->make(app('League\Flysystem\MountManager')->read($this->image->location()));
         }
@@ -788,7 +794,7 @@ class Image
      * @param  $arguments
      * @return $this
      */
-    public function addAlteration($method, $arguments)
+    public function addAlteration($method, $arguments = [])
     {
         $this->alterations[$method] = $arguments;
 
