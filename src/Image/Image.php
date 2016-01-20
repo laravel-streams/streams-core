@@ -481,20 +481,16 @@ class Image
     {
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
-        $image = $this->makeImage();
-
-        if (!$image) {
-            return;
-        }
-
-        if ($image->exif('Orientation') && $image->exif('Orientation') > 1) {
-            $this->addAlteration('orientate');
-        }
-
         if (!$this->getAlterations() && $content = $this->dumpImage()) {
 
             $this->files->put($this->directory . $path, $content);
 
+            return;
+        }
+
+        $image = $this->makeImage();
+
+        if (!$image) {
             return;
         }
 
