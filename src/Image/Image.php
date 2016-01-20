@@ -678,21 +678,15 @@ class Image
     protected function makeImage()
     {
         if ($this->image instanceof FileInterface) {
-            return $this->manager
-                ->make(app('League\Flysystem\MountManager')->read($this->image->location()))
-                ->encode($this->getExtension());
-        }
-
-        if ($this->image instanceof File) {
-            return $this->manager
-                ->make($this->image->read())
-                ->encode($this->getExtension());
+            return $this->manager->make(app('League\Flysystem\MountManager')->read($this->image->location()));
         }
 
         if (is_string($this->image) && str_is('*://*', $this->image)) {
-            return $this->manager
-                ->make(app('League\Flysystem\MountManager')->read($this->image))
-                ->encode($this->getExtension());
+            return $this->manager->make(app('League\Flysystem\MountManager')->read($this->image));
+        }
+
+        if ($this->image instanceof File) {
+            return $this->manager->make($this->image->read());
         }
 
         if (is_string($this->image) && file_exists($this->image)) {

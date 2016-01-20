@@ -187,11 +187,12 @@ interface EntryInterface
     public function getAssignments();
 
     /**
-     * Get field slugs for all assignments.
+     * Get the field slugs for assigned fields.
      *
+     * @param null $prefix
      * @return array
      */
-    public function getAssignmentFieldSlugs();
+    public function getAssignmentFieldSlugs($prefix = null);
 
     /**
      * Get all assignments of the

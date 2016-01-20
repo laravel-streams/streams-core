@@ -470,15 +470,16 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Get field slugs for all assignments.
+     * Get the field slugs for assigned fields.
      *
+     * @param null $prefix
      * @return array
      */
-    public function getAssignmentFieldSlugs()
+    public function getAssignmentFieldSlugs($prefix = null)
     {
         $assignments = $this->getAssignments();
 
-        return $assignments->fieldSlugs();
+        return $assignments->fieldSlugs($prefix);
     }
 
     /**

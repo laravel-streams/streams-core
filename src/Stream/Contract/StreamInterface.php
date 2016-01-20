@@ -134,9 +134,10 @@ interface StreamInterface
     /**
      * Get the field slugs for assigned fields.
      *
+     * @param null $prefix
      * @return array
      */
-    public function getAssignmentFieldSlugs();
+    public function getAssignmentFieldSlugs($prefix = null);
 
     /**
      * Get the related date assignments.

@@ -180,15 +180,16 @@ class AssignmentCollection extends EloquentCollection
     /**
      * Return an array of field slugs.
      *
+     * @param null $prefix
      * @return array
      */
-    public function fieldSlugs()
+    public function fieldSlugs($prefix = null)
     {
         $slugs = [];
 
         /* @var AssignmentInterface $item */
         foreach ($this->items as $item) {
-            $slugs[] = $item->getFieldSlug();
+            $slugs[] = $prefix . $item->getFieldSlug();
         }
 
         return $slugs;
