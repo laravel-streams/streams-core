@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Application\Application;
 use Closure;
 use Collective\Html\HtmlBuilder;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Intervention\Image\Constraint;
@@ -119,9 +120,9 @@ class Image
     /**
      * The quality of the output.
      *
-     * @var int
+     * @var null|int
      */
-    protected $quality = 100;
+    protected $quality = null;
 
     /**
      * The HTML builder.
@@ -159,6 +160,13 @@ class Image
     protected $agent;
 
     /**
+     * The config repository.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
      * The image manager.
      *
      * @var ImageManager
@@ -185,6 +193,7 @@ class Image
      * @param HtmlBuilder   $html
      * @param Filesystem    $files
      * @param Mobile_Detect $agent
+     * @param Repository    $config
      * @param ImageManager  $manager
      * @param Application   $application
      * @param Request       $request
@@ -195,6 +204,7 @@ class Image
         HtmlBuilder $html,
         Filesystem $files,
         Mobile_Detect $agent,
+        Repository $config,
         ImageManager $manager,
         Application $application,
         Request $request,
@@ -205,6 +215,7 @@ class Image
         $this->files       = $files;
         $this->agent       = $agent;
         $this->paths       = $paths;
+        $this->config      = $config;
         $this->macros      = $macros;
         $this->manager     = $manager;
         $this->request     = $request;
@@ -468,6 +479,15 @@ class Image
      */
     protected function publish($path)
     {
+        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
+
+        if (!$this->getAlterations() && $content = $this->dumpImage()) {
+
+            $this->files->put($this->directory . $path, $content);
+
+            return;
+        }
+
         $image = $this->makeImage();
 
         if (!$image) {
@@ -488,8 +508,6 @@ class Image
                 }
             }
         }
-
-        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
         $image->save($this->directory . $path, $this->getQuality());
     }
@@ -696,6 +714,38 @@ class Image
         if ($this->image instanceof Image) {
             return $this->image;
         }
+
+        return null;
+    }
+
+    /**
+     * Dump an image instance's data.
+     *
+     * @return string
+     */
+    protected function dumpImage()
+    {
+        if ($this->image instanceof FileInterface) {
+            return app('League\Flysystem\MountManager')->read($this->image->location());
+        }
+
+        if (is_string($this->image) && str_is('*://*', $this->image)) {
+            return app('League\Flysystem\MountManager')->read($this->image);
+        }
+
+        if ($this->image instanceof File) {
+            return $this->image->read();
+        }
+
+        if (is_string($this->image) && file_exists($this->image)) {
+            return file_get_contents($this->image);
+        }
+
+        if ($this->image instanceof Image) {
+            return $this->image->encode();
+        }
+
+        return null;
     }
 
     /**
@@ -835,7 +885,7 @@ class Image
      */
     public function getQuality()
     {
-        return $this->quality;
+        return $this->quality ?: $this->config->get('streams::images.quality');
     }
 
     /**
