@@ -487,7 +487,7 @@ class Image
             return;
         }
 
-        if ($image->exif('Orientation')) {
+        if (!$image->exif('Orientation') || $image->exif('Orientation') === 1) {
             $this->addAlteration('orientate');
         }
 
