@@ -209,7 +209,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new AddAssetNamespaces());
         $this->dispatch(new AddImageNamespaces());
         $this->dispatch(new AddViewNamespaces());
-        $this->dispatch(new ClearCache());
 
         EntryModel::observe(EntryObserver::class);
         FieldModel::observe(FieldObserver::class);
