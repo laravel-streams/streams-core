@@ -487,7 +487,7 @@ class Image
             return;
         }
 
-        if (!$image->exif('Orientation') || $image->exif('Orientation') === 1) {
+        if ($image->exif('Orientation') && $image->exif('Orientation') > 1) {
             $this->addAlteration('orientate');
         }
 
@@ -699,8 +699,6 @@ class Image
      */
     protected function makeImage()
     {
-        $this->addAlteration('orientate');
-
         if ($this->image instanceof FileInterface) {
             return $this->manager->make(app('League\Flysystem\MountManager')->read($this->image->location()));
         }
