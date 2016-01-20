@@ -481,6 +481,14 @@ class Image
     {
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
+        if (!$image = $this->makeImage()) {
+            return;
+        }
+
+        if ($image->exif('Orientation') && $image->exif('Orientation') > 1) {
+            $this->addAlteration('orientate');
+        }
+
         if (!$this->getAlterations() && $content = $this->dumpImage()) {
 
             $this->files->put($this->directory . $path, $content);
@@ -488,10 +496,8 @@ class Image
             return;
         }
 
-        $image = $this->makeImage();
-
-        if (!$image) {
-            return;
+        if (in_array('orientate', $this->getAlterations())) {
+            $this->setAlterations(array_unique(array_merge(['orientate'], $this->getAlterations())));
         }
 
         foreach ($this->getAlterations() as $method => $arguments) {
