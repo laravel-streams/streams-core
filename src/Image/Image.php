@@ -391,6 +391,36 @@ class Image
     }
 
     /**
+     * Set the width attribute.
+     *
+     * @param null $width
+     * @return Image
+     */
+    public function width($width = null)
+    {
+        if (!$width && ($image = $this->getImage()) instanceof FileInterface) {
+            $width = $image->getWidth();
+        }
+
+        return $this->addAttribute('width', $width);
+    }
+
+    /**
+     * Set the height attribute.
+     *
+     * @param null $height
+     * @return Image
+     */
+    public function height($height = null)
+    {
+        if (!$height && ($image = $this->getImage()) instanceof FileInterface) {
+            $height = $image->getHeight();
+        }
+
+        return $this->addAttribute('height', $height);
+    }
+
+    /**
      * Set the quality.
      *
      * @param $quality
