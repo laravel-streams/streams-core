@@ -504,7 +504,7 @@ class Image
             return;
         }
 
-        if ($image->exif('Orientation') && $image->exif('Orientation') > 1) {
+        if (is_callable('exif_read_data') && $image->exif('Orientation') && $image->exif('Orientation') > 1) {
             $this->addAlteration('orientate');
         }
 
