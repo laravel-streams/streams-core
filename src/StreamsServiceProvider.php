@@ -301,40 +301,6 @@ class StreamsServiceProvider extends ServiceProvider
             }
         );
 
-        /**
-         * Change the lang loader so we can
-         * add a few more necessary override
-         * paths to the API.
-         */
-        $this->app->singleton(
-            'translation.loader',
-            function () {
-                return new Loader($this->app->make('files'), $this->app->make('path.lang'));
-            }
-        );
-
-        /**
-         * Re-bind the translator so we can use
-         * the new loader defined above.
-         */
-        $this->app->singleton(
-            'translator',
-            function ($app) {
-                $loader = $app['translation.loader'];
-
-                // When registering the translator component, we'll need to set the default
-                // locale as well as the fallback locale. So, we'll grab the application
-                // configuration so we can easily get both of these values from there.
-                $locale = $app['config']['app.locale'];
-
-                $trans = new Translator($loader, $locale);
-
-                $trans->setFallback($app['config']['app.fallback_locale']);
-
-                return $trans;
-            }
-        );
-
         $this->dispatch(new ConfigureTranslator());
     }
 

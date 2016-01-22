@@ -1,8 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
+use Anomaly\Streams\Platform\Lang\Loader;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Application;
+use Illuminate\Translation\Translator;
 
 /**
  * Class ConfigureTranslator
@@ -24,6 +26,40 @@ class ConfigureTranslator implements SelfHandling
     public function handle(Repository $config, Application $application)
     {
 
+        /**
+         * Change the lang loader so we can
+         * add a few more necessary override
+         * paths to the API.
+         */
+        $application->singleton(
+            'translation.loader',
+            function () use ($application) {
+                return new Loader($application->make('files'), $application->make('path.lang'));
+            }
+        );
+
+        /**
+         * Re-bind the translator so we can use
+         * the new loader defined above.
+         */
+        $application->singleton(
+            'translator',
+            function () use ($application) {
+                $loader = $application->make('translation.loader');
+
+                // When registering the translator component, we'll need to set the default
+                // locale as well as the fallback locale. So, we'll grab the application
+                // configuration so we can easily get both of these values from there.
+                $locale = $application->make('config')->get('app.locale');
+
+                $trans = new Translator($loader, $locale);
+
+                $trans->setFallback($application->make('config')->get('app.fallback_locale'));
+
+                return $trans;
+            }
+        );
+        
         /**
          * Set the locale if LOCALE is defined.
          *
