@@ -515,7 +515,7 @@ class Image
             return;
         }
 
-        if (in_array('orientate', $this->getAlterations())) {
+        if (is_callable('exif_read_data') && in_array('orientate', $this->getAlterations())) {
             $this->setAlterations(array_unique(array_merge(['orientate'], $this->getAlterations())));
         }
 
