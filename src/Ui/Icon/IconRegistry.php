@@ -94,6 +94,7 @@ class IconRegistry
         'envelope'             => 'fa fa-envelope',
         'question'             => 'fa fa-question',
         'facebook'             => 'fa fa-facebook',
+        'th-large'             => 'fa fa-th-large',
         'youtube'              => 'fa fa-youtube',
         'list-ol'              => 'fa fa-list-ol',
         'twitter'              => 'fa fa-twitter',
@@ -140,7 +141,8 @@ class IconRegistry
         'rss'                  => 'fa fa-rss',
         'tag'                  => 'fa fa-tag',
         'ban'                  => 'fa fa-ban',
-        'usd'                  => 'fa fa-usd'
+        'usd'                  => 'fa fa-usd',
+        'th'                   => 'fa fa-th'
     ];
 
     /**
