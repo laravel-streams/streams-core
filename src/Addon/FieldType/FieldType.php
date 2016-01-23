@@ -3,8 +3,8 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
-use Robbo\Presenter\Decorator;
 
 /**
  * Class FieldType
@@ -1022,13 +1022,12 @@ class FieldType extends Addon
     /**
      * Decorate the value.
      *
-     * @param Decorator $decorator
      * @param           $value
      * @return Presenter
      */
-    public function decorate(Decorator $decorator, $value)
+    public function decorate($value)
     {
-        return $decorator->decorate($value);
+        return (new Decorator())->decorate($value);
     }
 
     /**

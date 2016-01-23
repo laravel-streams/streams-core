@@ -150,7 +150,7 @@ class EntryPresenter extends EloquentPresenter
             $type->setEntry($entry);
 
             if (method_exists($type, 'getRelation')) {
-                return $type->decorate($this->__getDecorator(), $entry->getRelationValue(camel_case($key)));
+                return $type->decorate($entry->getRelationValue(camel_case($key)));
             }
 
             $type->setValue($entry->getFieldValue($key));
