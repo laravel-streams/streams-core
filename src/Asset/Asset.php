@@ -19,7 +19,6 @@ use Assetic\Filter\PhpCssEmbedFilter;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Http\Request;
 use League\Flysystem\MountManager;
 
 /**
@@ -82,13 +81,6 @@ class Asset
     protected $themes;
 
     /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
      * The mount manager.
      *
      * @var MountManager
@@ -118,7 +110,6 @@ class Asset
      * @param AssetParser     $parser
      * @param Repository      $config
      * @param AssetPaths      $paths
-     * @param Request         $request
      * @param HtmlBuilder     $html
      */
     public function __construct(
@@ -128,7 +119,6 @@ class Asset
         AssetParser $parser,
         Repository $config,
         AssetPaths $paths,
-        Request $request,
         HtmlBuilder $html
     ) {
         $this->html        = $html;
@@ -137,7 +127,6 @@ class Asset
         $this->themes      = $themes;
         $this->parser      = $parser;
         $this->manager     = $manager;
-        $this->request     = $request;
         $this->application = $application;
     }
 
@@ -542,10 +531,6 @@ class Asset
     {
         if (starts_with($path, 'http')) {
             return false;
-        }
-
-        if ($this->request->isNoCache() === true) {
-            return true;
         }
 
         if (!file_exists($path)) {

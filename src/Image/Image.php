@@ -8,7 +8,6 @@ use Closure;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Http\Request;
 use Intervention\Image\Constraint;
 use Intervention\Image\ImageManager;
 use League\Flysystem\File;
@@ -174,13 +173,6 @@ class Image
     protected $manager;
 
     /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
      * The stream application.
      *
      * @var Application
@@ -196,7 +188,6 @@ class Image
      * @param Repository    $config
      * @param ImageManager  $manager
      * @param Application   $application
-     * @param Request       $request
      * @param ImagePaths    $paths
      * @param ImageMacros   $macros
      */
@@ -207,7 +198,6 @@ class Image
         Repository $config,
         ImageManager $manager,
         Application $application,
-        Request $request,
         ImagePaths $paths,
         ImageMacros $macros
     ) {
@@ -218,7 +208,6 @@ class Image
         $this->config      = $config;
         $this->macros      = $macros;
         $this->manager     = $manager;
-        $this->request     = $request;
         $this->application = $application;
     }
 
@@ -402,6 +391,36 @@ class Image
     }
 
     /**
+     * Set the width attribute.
+     *
+     * @param null $width
+     * @return Image
+     */
+    public function width($width = null)
+    {
+        if (!$width && ($image = $this->getImage()) instanceof FileInterface) {
+            $width = $image->getWidth();
+        }
+
+        return $this->addAttribute('width', $width);
+    }
+
+    /**
+     * Set the height attribute.
+     *
+     * @param null $height
+     * @return Image
+     */
+    public function height($height = null)
+    {
+        if (!$height && ($image = $this->getImage()) instanceof FileInterface) {
+            $height = $image->getHeight();
+        }
+
+        return $this->addAttribute('height', $height);
+    }
+
+    /**
      * Set the quality.
      *
      * @param $quality
@@ -485,7 +504,7 @@ class Image
             return;
         }
 
-        if ($image->exif('Orientation') && $image->exif('Orientation') > 1) {
+        if (is_callable('exif_read_data') && $image->exif('Orientation') && $image->exif('Orientation') > 1) {
             $this->addAlteration('orientate');
         }
 
@@ -496,7 +515,7 @@ class Image
             return;
         }
 
-        if (in_array('orientate', $this->getAlterations())) {
+        if (is_callable('exif_read_data') && in_array('orientate', $this->getAlterations())) {
             $this->setAlterations(array_unique(array_merge(['orientate'], $this->getAlterations())));
         }
 
