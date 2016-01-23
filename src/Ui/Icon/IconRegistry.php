@@ -122,6 +122,7 @@ class IconRegistry
         'trash'                => 'fa fa-trash',
         'check'                => 'fa fa-check',
         'cubes'                => 'fa fa-cubes',
+        'user'                 => 'fa fa-user',
         'locked'               => 'fa fa-lock',
         'lock'                 => 'fa fa-lock',
         'home'                 => 'fa fa-home',
