@@ -34,6 +34,11 @@ class ExceptionHandler extends Handler
             }
 
             if (($redirect = config('streams::access.404_redirect')) && $request->path() !== $redirect) {
+
+                if ($request->segment(1) == 'admin') {
+                    $redirect = config('anomaly.module.users::paths.cp_home', $redirect);
+                }
+
                 return redirect($redirect, config('streams::access.404_type', 301));
             }
 
