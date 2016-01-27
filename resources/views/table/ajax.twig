@@ -25,18 +25,20 @@
 
     {{ form_open({'url': url_full(), 'class': 'ajax'}) }}
 
-    <table
-            class="{{ table.options.class ?: 'table-condensed' }} table ajax"
-            {{ table.options.sortable ? 'data-sortable' }}
-            {{ html_attributes(table.options.attributes) }}>
+    <div class="table-responsive">
+        <table
+                class="{{ table.options.class ?: 'table-condensed' }} table ajax"
+                {{ table.options.sortable ? 'data-sortable' }}
+                {{ html_attributes(table.options.attributes) }}>
 
-        {{ view("streams::table/partials/header", {'table': table}) }}
+            {{ view("streams::table/partials/header", {'table': table}) }}
 
-        {% block body %}
-            {{ view("streams::table/partials/body", {'table': table}) }}
-        {% endblock %}
+            {% block body %}
+                {{ view("streams::table/partials/body", {'table': table}) }}
+            {% endblock %}
 
-    </table>
+        </table>
+    </div>
 
     {{ view("streams::table/ajax/footer", {'table': table}) }}
 

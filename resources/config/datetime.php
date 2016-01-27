@@ -12,5 +12,16 @@ return [
     */
 
     'date_format' => 'j F, Y',
-    'time_format' => 'g:i A'
+    'time_format' => 'g:i A',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Timezones
+    |--------------------------------------------------------------------------
+    |
+    | This is the default timezone used for display.
+    |
+    */
+
+    'default_timezone' => env('DEFAULT_TIMEZONE', 'UTC')
 ];

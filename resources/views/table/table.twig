@@ -18,20 +18,22 @@
                 {{ view("streams::table/partials/heading", {'table': table}) }}
 
                 {{ form_open({ 'url': url_full() }) }}
-                <table
-                        class="{{ table.options.class ?: 'table' }}"
-                        {{ table.options.sortable ? 'data-sortable' }}
-                        {{ html_attributes(table.options.attributes) }}>
+                <div class="table-responsive">
+                    <table
+                            class="{{ table.options.class ?: 'table' }}"
+                            {{ table.options.sortable ? 'data-sortable' }}
+                            {{ html_attributes(table.options.attributes) }}>
 
-                    {{ view("streams::table/partials/header", {'table': table}) }}
+                        {{ view("streams::table/partials/header", {'table': table}) }}
 
-                    {% block body %}
-                        {{ view("streams::table/partials/body", {'table': table}) }}
-                    {% endblock %}
+                        {% block body %}
+                            {{ view("streams::table/partials/body", {'table': table}) }}
+                        {% endblock %}
 
-                    {{ view("streams::table/partials/footer", {'table': table}) }}
+                        {{ view("streams::table/partials/footer", {'table': table}) }}
 
-                </table>
+                    </table>
+                </div>
                 {{ form_close() }}
 
             </div>
