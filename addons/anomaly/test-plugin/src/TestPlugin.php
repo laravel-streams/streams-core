@@ -1,10 +1,10 @@
-<?php namespace {namespace};
+<?php namespace Anomaly\TestPlugin;
 
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 use Twig_Environment;
 use Twig_NodeVisitorInterface;
 
-class {addon} extends Plugin
+class TestPlugin extends Plugin
 {
 
     /**
