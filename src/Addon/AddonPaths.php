@@ -83,7 +83,9 @@ class AddonPaths
                 $eager,
                 array_reverse(
                     array_unique(
-                        array_reverse(array_merge(array_filter(array_merge($core, $shared, $application)), $deferred))
+                        array_reverse(
+                            array_merge(array_filter(array_merge($core, $shared, $application, $testing)), $deferred)
+                        )
                     )
                 )
             )
@@ -197,7 +199,7 @@ class AddonPaths
      */
     protected function testing()
     {
-        $path = base_path('test/addons');
+        $path = base_path('tests/addons');
 
         if (!is_dir($path) || env('APP_ENV') !== 'testing') {
             return false;
