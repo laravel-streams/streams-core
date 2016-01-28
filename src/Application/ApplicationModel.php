@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
-use Illuminate\Database\Eloquent\Model;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
  * Class ApplicationModel
@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Application
  */
-class ApplicationModel extends Model
+class ApplicationModel extends EloquentModel
 {
 
     /**

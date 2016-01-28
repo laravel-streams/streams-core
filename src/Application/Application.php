@@ -129,10 +129,6 @@ class Application
      */
     public function tablePrefix()
     {
-        if (is_null($this->reference)) {
-            $this->locate();
-        }
-
         return $this->reference . '_';
     }
 
@@ -146,10 +142,7 @@ class Application
     {
         if (app('db')->getSchemaBuilder()->hasTable('applications')) {
 
-            if ($app = $this->applications->findByDomain(
-                trim(str_replace(array('http://', 'https://'), '', app('request')->root()), '/')
-            )
-            ) {
+            if ($app = $this->applications->findByDomain(app('request')->root())) {
 
                 $this->installed = true;
                 $this->reference = $app->reference;
