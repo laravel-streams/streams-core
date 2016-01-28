@@ -103,16 +103,19 @@ class LoadCurrentTheme
      */
     public function handle()
     {
+        $admin    = $this->themes->get($this->config->get('streams::themes.admin'));
+        $standard = $this->themes->get($this->config->get('streams::themes.standard'));
+
+        $admin->setActive(true);
+        $standard->setActive(true);
+
         if (in_array($this->request->segment(1), ['installer', 'admin'])) {
-            $theme = $this->themes->get($this->config->get('streams::themes.admin'));
+            $admin->setCurrent(true);
         } else {
-            $theme = $this->themes->get($this->config->get('streams::themes.standard'));
+            $standard->setCurrent(true);
         }
 
-        if ($theme) {
-
-            $theme->setActive(true);
-            $theme->setCurrent(true);
+        if ($theme = $this->themes->current()) {
 
             $this->view->addNamespace('theme', $theme->getPath('resources/views'));
             $this->translator->addNamespace('theme', $theme->getPath('resources/lang'));

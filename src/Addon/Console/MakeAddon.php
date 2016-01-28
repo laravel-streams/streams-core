@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Console;
 
+use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Command\RegisterAddons;
 use Anomaly\Streams\Platform\Addon\Console\Command\MakeAddonPaths;
 use Anomaly\Streams\Platform\Addon\Console\Command\WriteAddonClass;
@@ -41,7 +42,7 @@ class MakeAddon extends Command
     /**
      * Execute the console command.
      */
-    public function fire()
+    public function fire(AddonManager $addons)
     {
         $namespace = $this->argument('namespace');
 
@@ -65,7 +66,7 @@ class MakeAddon extends Command
         $this->dispatch(new WriteAddonComposer($path, $type, $slug, $vendor));
         $this->dispatch(new WriteAddonServiceProvider($path, $type, $slug, $vendor));
 
-        $this->dispatch(new RegisterAddons());
+        $addons->register();
 
         if ($type == 'module' || $this->option('migration')) {
             $this->call(

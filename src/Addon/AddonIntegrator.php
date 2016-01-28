@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Application\Application;
@@ -196,6 +197,8 @@ class AddonIntegrator
         }
 
         $this->collection->put($addon->getNamespace(), $addon);
+
+        $this->events->fire(new AddonWasRegistered($addon));
     }
 
     /**

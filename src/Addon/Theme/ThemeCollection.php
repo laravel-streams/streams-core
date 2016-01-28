@@ -37,30 +37,6 @@ class ThemeCollection extends AddonCollection
     }
 
     /**
-     * Return the active standard theme.
-     *
-     * @return null|Theme
-     */
-    public function activeStandard()
-    {
-        return $this
-            ->standard()
-            ->active();
-    }
-
-    /**
-     * Return the active admin theme.
-     *
-     * @return null|Theme
-     */
-    public function activeAdmin()
-    {
-        return $this
-            ->admin()
-            ->active();
-    }
-
-    /**
      * Return only non-admin themes.
      *
      * @return ThemeCollection

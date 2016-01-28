@@ -178,7 +178,6 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection'                 => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
         'Anomaly\Streams\Platform\Addon\FieldType\Listener\PutFieldTypeInCollection'   => 'Anomaly\Streams\Platform\Addon\FieldType\Listener\PutFieldTypeInCollection',
         'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection'                       => 'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
-        'Anomaly\Streams\Platform\Addon\Plugin\Listener\AddPluginToTwig'               => 'Anomaly\Streams\Platform\Addon\Plugin\Listener\AddPluginToTwig',
         'Anomaly\Streams\Platform\Addon\Plugin\Listener\PutPluginInCollection'         => 'Anomaly\Streams\Platform\Addon\Plugin\Listener\PutPluginInCollection',
         'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'                         => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
         'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection'           => 'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection',
