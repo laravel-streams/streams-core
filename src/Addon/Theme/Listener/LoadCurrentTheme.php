@@ -106,12 +106,17 @@ class LoadCurrentTheme
         $admin    = $this->themes->get($this->config->get('streams::themes.admin'));
         $standard = $this->themes->get($this->config->get('streams::themes.standard'));
 
-        $admin->setActive(true);
-        $standard->setActive(true);
+        if ($admin) {
+            $admin->setActive(true);
+        }
 
-        if (in_array($this->request->segment(1), ['installer', 'admin'])) {
+        if ($standard) {
+            $standard->setActive(true);
+        }
+
+        if ($admin && in_array($this->request->segment(1), ['installer', 'admin'])) {
             $admin->setCurrent(true);
-        } else {
+        } elseif ($standard) {
             $standard->setCurrent(true);
         }
 
