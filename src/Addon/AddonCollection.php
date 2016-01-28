@@ -63,6 +63,25 @@ class AddonCollection extends Collection
     }
 
     /**
+     * Return only testing addons.
+     *
+     * @return AddonCollection
+     */
+    public function testing()
+    {
+        $testing = [];
+
+        /* @var Addon $item */
+        foreach ($this->items as $item) {
+            if ($item->isTesting()) {
+                $testing[] = $item;
+            }
+        }
+
+        return self::make($testing);
+    }
+
+    /**
      * Get an addon.
      *
      * @param mixed $key
