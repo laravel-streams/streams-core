@@ -87,6 +87,16 @@ class Addon implements PresentableInterface, Arrayable
     }
 
     /**
+     * Return whether the addon is for testing or not.
+     *
+     * @return bool
+     */
+    public function isTesting()
+    {
+        return str_contains($this->getPath(), 'tests/addons/' . $this->getVendor());
+    }
+
+    /**
      * Get the addon name string.
      *
      * @return string

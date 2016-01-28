@@ -70,6 +70,9 @@ class AddonPaths
         $shared      = $this->shared() ?: [];
         $application = $this->application() ?: [];
 
+        // Testing only
+        $testing = $this->testing() ?: [];
+
         /**
          * Merge the eager and deferred
          * onto the front and back of
@@ -185,5 +188,21 @@ class AddonPaths
             },
             $this->config->get('streams::addons.deferred', [])
         );
+    }
+
+    /**
+     * Return paths to testing only addons.
+     *
+     * @return array|bool
+     */
+    protected function testing()
+    {
+        $path = base_path('test/addons');
+
+        if (!is_dir($path) || env('APP_ENV') !== 'testing') {
+            return false;
+        }
+
+        return $this->vendorAddons(glob("{$path}/*", GLOB_ONLYDIR));
     }
 }

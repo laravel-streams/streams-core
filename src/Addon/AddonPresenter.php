@@ -20,22 +20,4 @@ class AddonPresenter extends Presenter
      * @var Addon
      */
     protected $object;
-
-    /**
-     * Return the location wrapped in a label.
-     *
-     * @return string
-     */
-    public function locationLabel()
-    {
-        if ($this->object->isCore()) {
-            return '<span class="label label-danger">' . trans('streams::addon.core') . '</span>';
-        }
-
-        if ($this->object->isShared()) {
-            return '<span class="label label-success">' . trans('streams::addon.shared') . '</span>';
-        }
-
-        return '<span class="label label-warning">' . trans('streams::addon.private') . '</span>';
-    }
 }
