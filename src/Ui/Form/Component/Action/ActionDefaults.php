@@ -21,11 +21,7 @@ class ActionDefaults
     public function defaults(FormBuilder $builder)
     {
         if ($builder->getActions() === []) {
-            $builder->setActions(['save' => [
-                'dropdown' => [
-                    'save_and_edit'
-                ]
-            ]]);
+            $builder->setActions(['save', 'save_and_edit']);
         }
     }
 }
