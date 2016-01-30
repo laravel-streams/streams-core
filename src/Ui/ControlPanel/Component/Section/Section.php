@@ -28,11 +28,11 @@ class Section implements SectionInterface
     protected $icon = null;
 
     /**
-     * The section text.
+     * The section title.
      *
      * @var null|string
      */
-    protected $text = null;
+    protected $title = null;
 
     /**
      * The class.
@@ -47,6 +47,13 @@ class Section implements SectionInterface
      * @var bool
      */
     protected $active = false;
+
+    /**
+     * The section description.
+     *
+     * @var null|string
+     */
+    protected $description = null;
 
     /**
      * The highlighted flag.
@@ -138,23 +145,23 @@ class Section implements SectionInterface
     }
 
     /**
-     * Get the text.
+     * Get the title.
      *
      * @return string
      */
-    public function getText()
+    public function getTitle()
     {
-        return $this->text;
+        return $this->title;
     }
 
     /**
-     * Set the text.
+     * Set the title.
      *
-     * @param string $text
+     * @param string $title
      */
-    public function setText($text)
+    public function setTitle($title)
     {
-        $this->text = $text;
+        $this->title = $title;
     }
 
     /**
@@ -198,6 +205,29 @@ class Section implements SectionInterface
     public function setActive($active)
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get the description.
+     *
+     * @return null|string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set the description.
+     *
+     * @param $description
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
 
         return $this;
     }

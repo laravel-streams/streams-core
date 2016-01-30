@@ -42,19 +42,19 @@ interface SectionInterface
     public function setIcon($icon);
 
     /**
-     * Get the text.
+     * Get the title.
      *
      * @return string
      */
-    public function getText();
+    public function getTitle();
 
     /**
-     * Set the text.
+     * Set the title.
      *
-     * @param string $text
+     * @param string $title
      * @return $this
      */
-    public function setText($text);
+    public function setTitle($title);
 
     /**
      * Get the active flag.
@@ -70,6 +70,21 @@ interface SectionInterface
      * @return $this
      */
     public function setActive($active);
+
+    /**
+     * Get the description.
+     *
+     * @return null|string
+     */
+    public function getDescription();
+
+    /**
+     * Set the description.
+     *
+     * @param $description
+     * @return $this
+     */
+    public function setDescription($description);
 
     /**
      * Get the highlighted flag.

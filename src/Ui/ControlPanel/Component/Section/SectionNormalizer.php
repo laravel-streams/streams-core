@@ -57,7 +57,7 @@ class SectionNormalizer
             }
 
             /**
-             * If the slug is a string and the text is not
+             * If the slug is a string and the title is not
              * set then use the slug as the slug.
              */
             if (is_string($slug) && !isset($section['slug'])) {

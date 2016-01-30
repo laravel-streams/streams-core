@@ -2,16 +2,17 @@
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Illuminate\Translation\Translator;
 
 /**
- * Class TextGuesser
+ * Class DescriptionGuesser
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser
  */
-class TextGuesser
+class DescriptionGuesser
 {
 
     /**
@@ -22,17 +23,26 @@ class TextGuesser
     protected $modules;
 
     /**
-     * Create a new TextGuesser instance.
+     * The translator utility.
+     *
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
+     * Create a new DescriptionGuesser instance.
      *
      * @param ModuleCollection $modules
+     * @param Translator       $translator
      */
-    public function __construct(ModuleCollection $modules)
+    public function __construct(ModuleCollection $modules, Translator $translator)
     {
-        $this->modules = $modules;
+        $this->modules    = $modules;
+        $this->translator = $translator;
     }
 
     /**
-     * Guess the sections text.
+     * Guess the sections description.
      *
      * @param ControlPanelBuilder $builder
      */
@@ -42,14 +52,18 @@ class TextGuesser
 
         foreach ($sections as &$section) {
 
-            // If text is set then skip it.
-            if (isset($section['text'])) {
+            // If description is set then skip it.
+            if (isset($section['description'])) {
                 continue;
             }
 
             $module = $this->modules->active();
 
-            $section['text'] = $module->getNamespace('addon.section.' . $section['slug']);
+            $description = $module->getNamespace('section.' . $section['slug'] . '.description');
+
+            if ($this->translator->has($description)) {
+                $section['description'] = $description;
+            }
         }
 
         $builder->setSections($sections);

@@ -116,7 +116,7 @@ class SetActiveSection implements SelfHandling
 
                 $section->setHighlighted(true);
 
-                $breadcrumbs->put($section->getBreadcrumb() ?: $section->getText(), $section->getHref());
+                $breadcrumbs->put($section->getBreadcrumb() ?: $section->getTitle(), $section->getHref());
             } else {
                 $active->setActive(true)->setHighlighted(true);
             }
@@ -136,7 +136,7 @@ class SetActiveSection implements SelfHandling
 
         // Add the bread crumb.
         if (($breadcrumb = $active->getBreadcrumb()) !== false) {
-            $breadcrumbs->put($breadcrumb ?: $active->getText(), $active->getHref());
+            $breadcrumbs->put($breadcrumb ?: $active->getTitle(), $active->getHref());
         }
     }
 }
