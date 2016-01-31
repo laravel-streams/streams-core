@@ -1,28 +1,32 @@
-<div class="" {{ html_attributes(section.attributes) }}>
+<div class="card" {{ html_attributes(section.attributes) }}>
 
     {% if section.title %}
-        <div class="{{ form.options.panel_heading_class }}">
-            <h2 class="{{ form.options.panel_title_class }}">
+        <div class="card-header">
+            <h2 class="card-title">
                 {{ trans(section.title)|raw }}
 
                 {% if section.description %}
-                    <small class="clearfix">
-                        {{ trans(section.description)|raw }}
+                    <small>
+                        <br>{{ trans(section.description)|raw }}
                     </small>
                 {% endif %}
             </h2>
         </div>
     {% endif %}
 
-    <ul class="nav nav-tabs">
-        {% for slug, tab in section.tabs %}
-            <li class="{{ loop.first ? 'active' }}">
-                <a href="#tab-{{ slug }}" data-toggle="tab">{{ trans(tab.title) }}</a>
-            </li>
-        {% endfor %}
+    <ul class="nav nav-sections">
+        {% spaceless %}
+            {% for slug, tab in section.tabs %}
+                <li class="nav-item" style="width: {{ 100/section.tabs|length }}%;">
+                    <a href="#tab-{{ slug }}" data-toggle="tab" class="nav-link {{ loop.first ? 'active' }}">
+                        {{ trans(tab.title) }}
+                    </a>
+                </li>
+            {% endfor %}
+        {% endspaceless %}
     </ul>
 
-    <div class="tab-content">
+    <div class="card-block">
         {% for slug, tab in section.tabs %}
             <div class="tab-pane {{ loop.first ? 'active' }}" id="tab-{{ slug }}">
                 {% if tab.fields is empty %}
@@ -32,7 +36,7 @@
                 {% else %}
                     {% for field in tab.fields %}
                         {% for field in form.fields.translations(field) %}
-                            {{ field.render|raw }}
+                            {{ field.render({'form': form})|raw }}
                         {% endfor %}
                     {% endfor %}
                 {% endif %}

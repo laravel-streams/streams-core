@@ -216,6 +216,16 @@ class Form implements PresentableInterface
     }
 
     /**
+     * Return whether a field has errors or not.
+     *
+     * @return bool
+     */
+    public function hasError($fieldName)
+    {
+        return $this->errors->has($fieldName);
+    }
+
+    /**
      * Set the model object.
      *
      * @param $model

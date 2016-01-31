@@ -1,16 +1,15 @@
 {% if form.options.title %}
-    <div class="{{ form.options.panel_class }}">
-        <div class="{{ form.options.panel_heading_class }}">
-            <h4 class="{{ form.options.panel_title_class }}">
+    <div class="card">
+        <div class="card-block">
+            <h4 class="card-title">
                 {{ trans(form.options.title)|raw }}
 
                 {% if form.options.description %}
-                    <small class="clearfix">
-                        {{ trans(form.options.description)|raw }}
+                    <small>
+                        <br>{{ trans(form.options.description)|raw }}
                     </small>
                 {% endif %}
             </h4>
         </div>
-
     </div>
 {% endif %}

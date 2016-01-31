@@ -6,14 +6,14 @@
     {{ asset_add("scripts.js", "streams::js/table/sortable.js") }}
 {% endif %}
 
-<div class="{{ table.options.container_class }}">
+<div class="container-fluid">
 
     {{ view("streams::table/partials/views", {'table': table}) }}
     {{ view("streams::table/partials/filters", {'table': table}) }}
 
     {% if not table.rows.empty() %}
-        {% block panel %}
-            <div class="{{ table.options.panel_class }} panel-table">
+        {% block card %}
+            <div class="card">
 
                 {{ view("streams::table/partials/heading", {'table': table}) }}
 
@@ -41,8 +41,8 @@
     {% else %}
 
         {% block no_results %}
-            <div class="panel">
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-block">
                     {{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}
                 </div>
             </div>

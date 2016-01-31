@@ -786,11 +786,12 @@ class FieldType extends Addon
     /**
      * Render the input and wrapper.
      *
+     * @param array $payload
      * @return string
      */
-    public function render()
+    public function render($payload = [])
     {
-        return view($this->getWrapperView(), ['field_type' => $this])->render();
+        return view($this->getWrapperView(), array_merge($payload, ['field_type' => $this]))->render();
     }
 
     /**

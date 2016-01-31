@@ -11,8 +11,9 @@
 
         {% if not table.actions.empty() %}
             <td>
-                <label class="checkbox">
+                <label class="c-input c-checkbox">
                     <input type="checkbox" name="{{ row.table.options.prefix }}id[]" value="{{ row.entry.id }}"/>
+                    <span class="c-indicator"></span>
                 </label>
             </td>
         {% endif %}
@@ -23,7 +24,7 @@
             </td>
         {% endfor %}
 
-        <td class="text-right buttons">
+        <td class="text-lg-right">
             <nobr>{{ buttons(row.buttons)|raw }}</nobr>
         </td>
 

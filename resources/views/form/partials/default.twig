@@ -1,9 +1,9 @@
-<div class="{{ form.options.panel_class }}">
+<div class="card">
+    <div class="card-block">
 
-    <div class="{{ form.options.panel_body_class }}">
         {% for field in form.fields %}
-            {{ field.render|raw }}
+            {{ field.render({'form': form})|raw }}
         {% endfor %}
-    </div>
 
+    </div>
 </div>
