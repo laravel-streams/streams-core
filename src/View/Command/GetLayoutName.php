@@ -48,6 +48,10 @@ class GetLayoutName implements SelfHandling
      */
     public function handle(Factory $view)
     {
+        if ($view->exists($this->layout)) {
+            return $this->layout;
+        }
+
         if ($view->exists($layout = "theme::layouts/{$this->layout}")) {
             return $layout;
         }
