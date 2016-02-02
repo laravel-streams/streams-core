@@ -187,7 +187,7 @@ class Value
         }
 
         /**
-         * If the value looks like a renderable
+         * If the value looks like a render-able
          * string then render it.
          */
         if (is_string($value) && str_contains($value, '{{')) {

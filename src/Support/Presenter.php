@@ -98,7 +98,7 @@ class Presenter extends \Robbo\Presenter\Presenter
                 is_array($this->object) ? $this->object[$var] : $this->object->$var
             );
         } catch (\Exception $e) {
-            // Don't do anything.
+            return null;
         }
     }
 
