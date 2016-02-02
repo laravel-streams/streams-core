@@ -23,7 +23,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->assertEquals(3, $collection->pad(3));
+        $this->assertEquals(3, $collection->pad(3)->count());
     }
 
     public function testCanPadItemsWithValue()
