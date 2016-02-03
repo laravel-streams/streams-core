@@ -234,7 +234,7 @@ class StreamsServiceProvider extends ServiceProvider
                             }
                         }
 
-                        if ($twig->hasExtension('markdown')) {
+                        if (!$twig->hasExtension('markdown')) {
                             $twig->addExtension(new MarkdownExtension(new MichelfMarkdownEngine()));
                         }
                     }
