@@ -46,6 +46,13 @@ interface EloquentRepositoryInterface
     public function newInstance();
 
     /**
+     * Count all records.
+     *
+     * @return int
+     */
+    public function count();
+
+    /**
      * Return a paginated collection.
      *
      * @param array $parameters
