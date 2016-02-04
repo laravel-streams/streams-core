@@ -34,7 +34,7 @@ class AddonCollection extends Collection
         /* @var Addon $item */
         foreach ($items as $key => $item) {
 
-            if (is_object($item)) {
+            if ($item instanceof Addon) {
                 $key = $item->getNamespace();
             }
 
