@@ -34,13 +34,19 @@ class Translator
      * @param array $target
      * @return array
      */
-    public function translate(array $target)
+    public function translate($target)
     {
-        foreach ($target as &$value) {
-            if (is_string($value) && $this->translator->has($value)) {
-                $value = $this->translator->trans($value);
-            } elseif (is_array($value)) {
-                $value = $this->translate($value);
+        if (is_string($target)) {
+            return $this->translator->trans($target);
+        }
+
+        if (is_array($target)) {
+            foreach ($target as &$value) {
+                if (is_string($value) && $this->translator->has($value)) {
+                    $value = $this->translator->trans($value);
+                } elseif (is_array($value)) {
+                    $value = $this->translate($value);
+                }
             }
         }
 

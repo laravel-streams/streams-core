@@ -48,15 +48,7 @@ class Collection extends \Illuminate\Support\Collection
             return $this;
         }
 
-        if ($value) {
-            return new static(array_pad($this->items, $size, $value));
-        }
-
-        while ($this->count() < $size) {
-            $this->items = array_merge($this->items, $this->items);
-        }
-
-        return new static($this->items);
+        return new static(array_pad($this->items, $size, $value));
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Asset\Command;
 
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
-use Anomaly\Streams\Platform\Asset\Event\ThemeVariablesAreLoading;
+use Anomaly\Streams\Platform\Asset\Event\ThemeVariablesHaveLoaded;
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -26,7 +26,7 @@ class LoadThemeVariables implements SelfHandling
     protected $variables;
 
     /**
-     * Create a new ThemeVariablesAreLoading instance.
+     * Create a new ThemeVariablesHaveLoaded instance.
      *
      * @param ThemeCollection $themes
      */
@@ -44,12 +44,6 @@ class LoadThemeVariables implements SelfHandling
      */
     public function handle(Dispatcher $events, Repository $config, ThemeCollection $themes)
     {
-        $events->fire(new ThemeVariablesAreLoading($this->variables));
-
-        /**
-         * If there is a current theme, we've been
-         * taken care of already.
-         */
         if (!$theme = $themes->current()) {
             return;
         }
@@ -57,5 +51,7 @@ class LoadThemeVariables implements SelfHandling
         foreach ($config->get($theme->getNamespace('variables'), []) as $key => $value) {
             $this->variables->put($key, $value);
         }
+
+        $events->fire(new ThemeVariablesHaveLoaded($this->variables));
     }
 }

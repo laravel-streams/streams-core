@@ -56,7 +56,7 @@ class LessFilter extends LessphpFilter
     {
         $compiler = new \lessc();
 
-        $this->dispatch(new LoadThemeVariables($variables = new Collection(config('theme::theme', config('theme')))));
+        $this->dispatch(new LoadThemeVariables($variables = new Collection()));
 
         $compiler->setVariables($variables->all());
 

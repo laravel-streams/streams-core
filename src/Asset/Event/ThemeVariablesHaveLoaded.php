@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Support\Collection;
 
 /**
- * Class ThemeVariablesAreLoading
+ * Class ThemeVariablesHaveLoaded
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Asset\Event
  */
-class ThemeVariablesAreLoading
+class ThemeVariablesHaveLoaded
 {
 
     /**
@@ -21,7 +21,7 @@ class ThemeVariablesAreLoading
     protected $variables;
 
     /**
-     * Create a new ThemeVariablesAreLoading instance.
+     * Create a new ThemeVariablesHaveLoaded instance.
      *
      * @param Collection $variables
      */
