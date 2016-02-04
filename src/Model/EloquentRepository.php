@@ -58,6 +58,16 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Count all records.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return $this->model->count();
+    }
+
+    /**
      * Return a paginated collection.
      *
      * @param array $parameters
