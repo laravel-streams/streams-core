@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Mobile_Detect;
 
@@ -70,6 +71,13 @@ class ViewComposer
     protected $addons;
 
     /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * The view overrides collection.
      *
      * @var ViewOverrides
@@ -88,6 +96,7 @@ class ViewComposer
      * @param Mobile_Detect       $agent
      * @param Dispatcher          $events
      * @param AddonCollection     $addons
+     * @param Request             $request
      * @param ViewOverrides       $overrides
      * @param ViewMobileOverrides $mobiles
      */
@@ -97,6 +106,7 @@ class ViewComposer
         Dispatcher $events,
         AddonCollection $addons,
         ViewOverrides $overrides,
+        Request $request,
         ViewMobileOverrides $mobiles
     ) {
         $this->view      = $view;
@@ -104,9 +114,12 @@ class ViewComposer
         $this->events    = $events;
         $this->addons    = $addons;
         $this->mobiles   = $mobiles;
+        $this->request   = $request;
         $this->overrides = $overrides;
 
-        $this->theme  = $this->addons->themes->active('standard');
+        $area = $request->segment(1) == 'admin' ? 'admin' : 'standard';
+        
+        $this->theme  = $this->addons->themes->active($area);
         $this->module = $this->addons->modules->active();
 
         $this->mobile = $this->agent->isMobile();
