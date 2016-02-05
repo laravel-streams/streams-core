@@ -34,7 +34,7 @@ class CreateModulesTable extends Migration
                     $table->boolean('installed')->default(0);
                     $table->boolean('enabled')->default(0);
 
-                    $table->unique('namespace');
+                    $table->unique('namespace', 'unique_modules');
                 }
             );
         }

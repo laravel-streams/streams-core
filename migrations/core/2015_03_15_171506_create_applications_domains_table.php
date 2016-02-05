@@ -30,7 +30,7 @@ class CreateApplicationsDomainsTable extends Migration
                     $table->string('domain');
                     $table->string('locale');
 
-                    $table->unique('domain');
+                    $table->unique('domain', 'unique_domains');
                 }
             );
         }

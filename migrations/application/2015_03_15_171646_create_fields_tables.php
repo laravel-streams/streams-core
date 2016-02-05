@@ -36,7 +36,7 @@ class CreateFieldsTables extends Migration
                     $table->text('config');
                     $table->boolean('locked')->default(0);
 
-                    $table->unique(['namespace', 'slug']);
+                    $table->unique(['namespace', 'slug'], 'unique_streams');
                 }
             );
         }
