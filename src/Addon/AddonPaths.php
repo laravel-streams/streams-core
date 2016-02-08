@@ -15,13 +15,6 @@ class AddonPaths
 {
 
     /**
-     * The runtime cache.
-     *
-     * @var null
-     */
-    protected $cache = null;
-
-    /**
      * The config repository.
      *
      * @var Repository
@@ -55,14 +48,6 @@ class AddonPaths
      */
     public function all()
     {
-        if ($this->cache) {
-            return $this->cache;
-        }
-
-        if (file_exists($addons = base_path('bootstrap/cache/addons.php'))) {
-            return include $addons;
-        }
-
         $eager    = $this->eager();
         $deferred = $this->deferred();
 
@@ -70,8 +55,11 @@ class AddonPaths
         $shared      = $this->shared() ?: [];
         $application = $this->application() ?: [];
 
-        // Testing only
+        // Testing only addons.
         $testing = $this->testing() ?: [];
+
+        // Other configured addons.
+        $configured = $this->configured() ?: [];
 
         /**
          * Merge the eager and deferred
@@ -84,7 +72,12 @@ class AddonPaths
                 array_reverse(
                     array_unique(
                         array_reverse(
-                            array_merge(array_filter(array_merge($core, $shared, $application, $testing)), $deferred)
+                            array_merge(
+                                array_filter(
+                                    array_merge($core, $shared, $application, $configured, $testing)
+                                ),
+                                $deferred
+                            )
                         )
                     )
                 )
@@ -189,6 +182,21 @@ class AddonPaths
                 return base_path($path);
             },
             $this->config->get('streams::addons.deferred', [])
+        );
+    }
+
+    /**
+     * Return paths to configured addons.
+     *
+     * @return array|bool
+     */
+    protected function configured()
+    {
+        return array_map(
+            function ($path) {
+                return base_path($path);
+            },
+            $this->config->get('streams::addons.paths', [])
         );
     }
 

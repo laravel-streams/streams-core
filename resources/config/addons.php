@@ -21,6 +21,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Configured Addon Paths
+    |--------------------------------------------------------------------------
+    |
+    | These manually defined addon paths can be helpful
+    | when you need to push an addon path into load
+    | that is shipped IN another addon.
+    |
+    */
+
+    'paths' => [
+        //addons/shared/example-module/addons/anomaly/fancy-field_type'
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Eager Loaded Addons
     |--------------------------------------------------------------------------
     |
