@@ -10,6 +10,7 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Session\Store;
 
 /**
  * Class BuildForm
@@ -46,8 +47,11 @@ class BuildForm implements SelfHandling
      *
      * @param Dispatcher $events
      */
-    public function handle(Dispatcher $events)
+    public function handle(Dispatcher $events, Store $session)
     {
+        if ($session->has('test')) {
+            echo $session->pull('test');
+        }
         /**
          * Setup some objects and options using
          * provided input or sensible defaults.
