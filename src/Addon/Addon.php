@@ -67,6 +67,26 @@ class Addon implements PresentableInterface, Arrayable
     }
 
     /**
+     * Return a new service provider.
+     *
+     * @return AddonServiceProvider
+     */
+    public function newServiceProvider()
+    {
+        return app()->make($this->getServiceProvider(), [app(), $this]);
+    }
+
+    /**
+     * Get the service provider class.
+     *
+     * @return string
+     */
+    public function getServiceProvider()
+    {
+        return get_class($this) . 'ServiceProvider';
+    }
+
+    /**
      * Return whether the addon is core or not.
      *
      * @return bool

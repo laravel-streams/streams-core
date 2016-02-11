@@ -126,15 +126,13 @@ class AddonProvider
             return;
         }
 
-        $provider = get_class($addon) . 'ServiceProvider';
+        $provider = $addon->getServiceProvider();
 
-        $file = substr($provider, strrpos($provider, '\\') + 1);
-
-        if (!file_exists($addon->getPath("src/{$file}.php"))) {
+        if (!class_exists($provider)) {
             return;
         }
 
-        $this->providers[] = $provider = new $provider($this->application, $addon);
+        $this->providers[] = $provider = $addon->newServiceProvider();
 
         $this->bindAliases($provider);
         $this->bindClasses($provider);
