@@ -126,12 +126,12 @@ class AddonIntegrator
         $slug   = strtolower(substr(basename($path), 0, strpos(basename($path), '-')));
         $type   = strtolower(substr(basename($path), strpos(basename($path), '-') + 1));
 
-        $addon = studly_case($vendor) . '\\' . studly_case($slug) . studly_case($type) . '\\' . studly_case(
+        $class = studly_case($vendor) . '\\' . studly_case($slug) . studly_case($type) . '\\' . studly_case(
                 $slug
             ) . studly_case($type);
 
         /* @var Addon|Module|Extension|Twig_ExtensionInterface $addon */
-        $addon = app($addon)
+        $addon = app($class)
             ->setPath($path)
             ->setType($type)
             ->setSlug($slug)
