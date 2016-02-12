@@ -451,7 +451,11 @@ class Image
         $path = 'assets/' . $this->application->getReference() . '/cache/' . $filename;
 
         if ($this->shouldPublish($path)) {
-            $this->publish($path);
+            try {
+                $this->publish($path);
+            } catch (\Exception $e) {
+                return null;
+            }
         }
 
         return $path;
