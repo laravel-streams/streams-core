@@ -82,6 +82,51 @@ class FieldTypeSchema
     }
 
     /**
+     * Update the field type column to the table.
+     *
+     * @param Blueprint           $table
+     * @param AssignmentInterface $assignment
+     */
+    public function updateColumn(Blueprint $table, AssignmentInterface $assignment)
+    {
+        // Skip if no column type.
+        if (!$this->fieldType->getColumnType()) {
+            return;
+        }
+
+        // Skip if the column doesn't exists.
+        if (!$this->schema->hasColumn($table->getTable(), $this->fieldType->getColumnName())) {
+            return;
+        }
+
+        /**
+         * Update the column to the table.
+         *
+         * @var Blueprint|Fluent $column
+         */
+        $column = $table
+            ->{$this->fieldType->getColumnType()}(
+                $this->fieldType->getColumnName()
+            )
+            ->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true)
+            ->change();
+
+        if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
+            $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
+        }
+
+        /**
+         * Mark the column unique if desired and not translatable.
+         * Otherwise, drop the unique index.
+         */
+        if ($assignment->isUnique() && !$assignment->isTranslatable()) {
+            $table->unique($this->fieldType->getColumnName(), md5('unique_' . $this->fieldType->getColumnName()));
+        } elseif (!$assignment->isUnique() && !$assignment->isTranslatable()) {
+            $column->dropIndex(md5('unique_' . $this->fieldType->getColumnName()));
+        }
+    }
+
+    /**
      * Change the field type column.
      *
      * @param Blueprint           $table
