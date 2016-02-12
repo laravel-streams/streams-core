@@ -51,6 +51,25 @@ class AssignmentSchema
     }
 
     /**
+     * Update a column.
+     *
+     * @param                     $table
+     * @param FieldType           $type
+     * @param AssignmentInterface $assignment
+     */
+    public function updateColumn($table, FieldType $type, AssignmentInterface $assignment)
+    {
+        $schema = $type->getSchema();
+
+        $this->schema->table(
+            $table,
+            function (Blueprint $table) use ($schema, $assignment) {
+                $schema->updateColumn($table, $assignment);
+            }
+        );
+    }
+
+    /**
      * Drop a column.
      *
      * @param           $table

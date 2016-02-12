@@ -43,20 +43,17 @@ class AssignmentFormFields
                 'required'     => [
                     'label'        => 'streams::assignment.required.label',
                     'instructions' => 'streams::assignment.required.instructions',
-                    'type'         => 'anomaly.field_type.boolean',
-                    'disabled'     => 'edit'
+                    'type'         => 'anomaly.field_type.boolean'
                 ],
                 'unique'       => [
                     'label'        => 'streams::assignment.unique.label',
                     'instructions' => 'streams::assignment.unique.instructions',
-                    'type'         => 'anomaly.field_type.boolean',
-                    'disabled'     => 'edit'
+                    'type'         => 'anomaly.field_type.boolean'
                 ],
                 'translatable' => [
                     'label'        => 'streams::assignment.translatable.label',
                     'instructions' => 'streams::assignment.translatable.instructions',
-                    'type'         => 'anomaly.field_type.boolean',
-                    'disabled'     => 'edit'
+                    'type'         => 'anomaly.field_type.boolean'
                 ]
             ]
         );
