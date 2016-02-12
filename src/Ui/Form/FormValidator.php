@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Ui\Form\Command\FlashFieldValues;
 use Anomaly\Streams\Platform\Ui\Form\Command\RepopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetErrorMessages;
 use Anomaly\Streams\Platform\Ui\Form\Event\FormWasValidated;
@@ -131,6 +132,7 @@ class FormValidator implements SelfHandling
                 ->setFormErrors($validator->getMessageBag());
 
             $this->dispatch(new SetErrorMessages($builder));
+            $this->dispatch(new FlashFieldValues($builder));
         }
 
         $this->dispatch(new RepopulateFields($builder));

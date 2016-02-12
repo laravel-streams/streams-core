@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Cache\Repository;
 use Illuminate\Routing\Redirector;
+use Illuminate\Session\Store;
 
 /**
  * Class FormController
@@ -24,7 +25,7 @@ class FormController extends PublicController
      * @param            $key
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(Repository $cache, Redirector $redirect, $key)
+    public function handle(Repository $cache, Redirector $redirect, Store $session, $key)
     {
         $parameters = $cache->get('form::' . $key);
 

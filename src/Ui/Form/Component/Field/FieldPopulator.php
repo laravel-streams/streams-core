@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Session\Store;
 
 /**
  * Class FieldPopulator
@@ -14,6 +15,23 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class FieldPopulator
 {
+
+    /**
+     * The session store.
+     *
+     * @var Store
+     */
+    protected $session;
+
+    /**
+     * Create a new FieldPopulator instance.
+     *
+     * @param $session
+     */
+    public function __construct(Store $session)
+    {
+        $this->session = $session;
+    }
 
     /**
      * Populate the fields with entry values.
@@ -66,6 +84,14 @@ class FieldPopulator
                 )
             ) {
                 $field['value'] = array_get($type->getConfig(), 'default_value');
+            }
+
+            /**
+             * Lastly if we have flashed data from a front end
+             * form handler then use that value for the field.
+             */
+            if ($this->session->has($field['prefix'] . $field['field'])) {
+                $field['value'] = $this->session->pull($field['prefix'] . $field['field']);
             }
         }
 
