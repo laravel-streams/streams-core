@@ -1,6 +1,6 @@
 $(function () {
 
-    $('#translations').find('a[lang]').click(function (e) {
+    $('[data-toggle="lang"]').click(function (e) {
 
         e.preventDefault();
 
