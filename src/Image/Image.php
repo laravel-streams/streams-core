@@ -454,7 +454,7 @@ class Image
             try {
                 $this->publish($path);
             } catch (\Exception $e) {
-                return null;
+                return $this->config->get('app.debug', false) ? $e->getMessage() : null;
             }
         }
 
