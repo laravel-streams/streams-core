@@ -17,8 +17,8 @@
     <ul class="nav nav-sections">
         {% spaceless %}
             {% for slug, tab in section.tabs %}
-                <li class="nav-item" style="width: {{ 100/section.tabs|length }}%;">
-                    <a href="#tab-{{ slug }}" data-toggle="tab" class="nav-link {{ loop.first ? 'active' }}">
+                <li class="nav-item {{ loop.first ? 'active' }}" style="width: {{ 100/section.tabs|length }}%;">
+                    <a href="#tab-{{ slug }}" data-toggle="tab" class="nav-link">
                         {{ trans(tab.title) }}
                     </a>
                 </li>
