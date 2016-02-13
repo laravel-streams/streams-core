@@ -32,6 +32,20 @@ class FieldTypePresenter extends AddonPresenter
     }
 
     /**
+     * Return the custom field attributes.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'data-field'      => $this->object->getField(),
+            'data-field_name' => $this->object->getFieldName(),
+            'data-provides'   => $this->object->getNamespace()
+        ];
+    }
+
+    /**
      * By default return the value.
      * This can be dangerous if used in a loop!
      * There is a PHP bug that caches it's
