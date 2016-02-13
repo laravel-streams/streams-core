@@ -79,13 +79,39 @@ class LabelsGuesser
             }
 
             /**
-             * Try using the assignment label if available
-             * otherwise use the field name as the label.
+             * Try using the assignment label system.
+             * This is generated but check for a field
+             * specific variation first.
              */
-            $label = $assignment->getLabel();
+            $label = $assignment->getLabel() . '.' . $stream->getSlug();
 
             if (str_is('*::*', $label) && trans()->has($label, $locale)) {
                 $field['label'] = trans($label, [], null, $locale);
+            }
+
+            /**
+             * Next try using the fallback assignment
+             * label system as generated verbatim.
+             */
+            $label = $assignment->getLabel() . '.default';
+
+            if (!isset($field['label']) && str_is('*::*', $label) && trans()->has($label, $locale)) {
+                $field['label'] = trans($label, [], null, $locale);
+            }
+
+            /**
+             * Next try using the default assignment
+             * label system as generated verbatim.
+             */
+            $label = $assignment->getLabel();
+
+            if (
+                !isset($field['label'])
+                && str_is('*::*', $label)
+                && trans()->has($label, $locale)
+                && is_string($translated = trans($label, [], null, $locale))
+            ) {
+                $field['label'] = $translated;
             }
 
             if (!isset($field['label']) && $label && !str_is('*::*', $label)) {
