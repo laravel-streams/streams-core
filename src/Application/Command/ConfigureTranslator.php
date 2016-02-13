@@ -59,7 +59,7 @@ class ConfigureTranslator implements SelfHandling
                 return $trans;
             }
         );
-        
+
         /**
          * Set the locale if LOCALE is defined.
          *
