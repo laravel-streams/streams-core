@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Closure;
 
@@ -13,6 +14,8 @@ use Closure;
  */
 class View implements ViewInterface
 {
+
+    use FiresCallbacks;
 
     /**
      * The view slug.
