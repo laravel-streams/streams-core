@@ -6,8 +6,6 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Session\Store;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class SetLocale

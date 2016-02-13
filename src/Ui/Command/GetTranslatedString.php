@@ -55,13 +55,13 @@ class GetTranslatedString implements SelfHandling
      * @param Translator $translator
      * @return string
      */
-    public function handle(Translator $translator)
+    public function handle()
     {
         if (!$this->key) {
             return $this->key;
         }
 
-        if (is_array($string = $translator->get($this->key, $this->parameters, $this->locale))) {
+        if (is_array($string = trans($this->key, $this->parameters, $this->locale))) {
             return $this->key;
         }
 
