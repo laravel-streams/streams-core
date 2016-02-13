@@ -73,19 +73,44 @@ class WarningsGuesser
             }
 
             /**
-             * Try using the assignment warning if available
-             * otherwise use the field name as the warning.
+             * Try using the assignment warning system.
+             * This is generated but check for a field
+             * specific variation first.
              */
-            $warning = $assignment->getWarning();
-
-            if (empty($warning)) {
-                $warning = "module::field.{$field['field']}.warning";
-            }
+            $warning = $assignment->getWarning() . '.' . $stream->getSlug();
 
             if (str_is('*::*', $warning) && trans()->has($warning, $locale)) {
                 $field['warning'] = trans($warning, [], null, $locale);
             }
 
+            /**
+             * Next try using the fallback assignment
+             * warning system as generated verbatim.
+             */
+            $warning = $assignment->getWarning() . '.default';
+
+            if (!isset($field['warning']) && str_is('*::*', $warning) && trans()->has($warning, $locale)) {
+                $field['warning'] = trans($warning, [], null, $locale);
+            }
+
+            /**
+             * Next try using the default assignment
+             * warning system as generated verbatim.
+             */
+            $warning = $assignment->getWarning();
+
+            if (
+                !isset($field['warning'])
+                && str_is('*::*', $warning)
+                && trans()->has($warning, $locale)
+                && is_string($translated = trans($warning, [], null, $locale))
+            ) {
+                $field['warning'] = $translated;
+            }
+
+            /**
+             * Lastly check if it's just a standard string.
+             */
             if (!isset($field['warning']) && $warning && !str_is('*::*', $warning)) {
                 $field['warning'] = $warning;
             }

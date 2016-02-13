@@ -68,11 +68,45 @@ class InstructionsGuesser
             }
 
             /**
-             * Try using the assignment instructions if available.
+             * Try using the assignment instructions system.
+             * This is generated but check for a field
+             * specific variation first.
              */
-            if (trans()->has($instructions = $assignment->getInstructions(), $locale)) {
+            $instructions = $assignment->getInstructions() . '.' . $stream->getSlug();
+
+            if (str_is('*::*', $instructions) && trans()->has($instructions, $locale)) {
                 $field['instructions'] = trans($instructions, [], null, $locale);
-            } elseif ($instructions && !str_is('*.*.*::*', $instructions)) {
+            }
+
+            /**
+             * Next try using the fallback assignment
+             * instructions system as generated verbatim.
+             */
+            $instructions = $assignment->getInstructions() . '.default';
+
+            if (!isset($field['instructions']) && str_is('*::*', $instructions) && trans()->has($instructions, $locale)) {
+                $field['instructions'] = trans($instructions, [], null, $locale);
+            }
+
+            /**
+             * Next try using the default assignment
+             * instructions system as generated verbatim.
+             */
+            $instructions = $assignment->getInstructions();
+
+            if (
+                !isset($field['instructions'])
+                && str_is('*::*', $instructions)
+                && trans()->has($instructions, $locale)
+                && is_string($translated = trans($instructions, [], null, $locale))
+            ) {
+                $field['instructions'] = $translated;
+            }
+
+            /**
+             * Lastly check if it's just a standard string.
+             */
+            if (!isset($field['instructions']) && $instructions && !str_is('*::*', $instructions)) {
                 $field['instructions'] = $instructions;
             }
         }
