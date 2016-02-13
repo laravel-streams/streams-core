@@ -46,5 +46,8 @@ return [
     'uninstall'          => 'Uninstall',
     'entries'            => 'Entries',
     'upload'             => 'Upload',
-    'download'           => 'Download'
+    'download'           => 'Download',
+    'add_field'          => 'Add Field',
+    'new_field'          => 'New Field',
+    'assign_fields'      => 'Assign Fields'
 ];

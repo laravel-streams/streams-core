@@ -20,78 +20,93 @@ class ButtonRegistry
         /**
          * Default Buttons
          */
-        'default'     => [
+        'default'       => [
             'type' => 'default'
         ],
-        'cancel'      => [
+        'cancel'        => [
             'text' => 'streams::button.cancel',
             'type' => 'default'
         ],
         /**
          * Success Buttons
          */
-        'green'       => [
+        'green'         => [
             'type' => 'success'
         ],
-        'success'     => [
+        'success'       => [
             'icon' => 'check',
             'type' => 'success'
         ],
-        'save'        => [
+        'save'          => [
             'text' => 'streams::button.save',
             'icon' => 'save',
             'type' => 'success'
         ],
-        'create'      => [
+        'create'        => [
             'text' => 'streams::button.create',
             'icon' => 'fa fa-asterisk',
             'type' => 'success'
         ],
-        'new'         => [
+        'new'           => [
             'text' => 'streams::button.new',
             'icon' => 'fa fa-plus',
             'type' => 'success'
         ],
-        'add'         => [
+        'new_field'     => [
+            'text' => 'streams::button.new_field',
+            'icon' => 'fa fa-plus',
+            'type' => 'success'
+        ],
+        'add'           => [
             'text' => 'streams::button.add',
             'icon' => 'fa fa-plus',
             'type' => 'success'
         ],
-        'send'        => [
+        'add_field'     => [
+            'text' => 'streams::button.add_field',
+            'icon' => 'fa fa-plus',
+            'type' => 'success'
+        ],
+        'assign_fields' => [
+            'text' => 'streams::button.assign_fields',
+            'icon' => 'fa fa-plus',
+            'type' => 'success'
+        ],
+        'send'          => [
             'text' => 'streams::button.send',
             'icon' => 'envelope',
             'type' => 'success'
         ],
-        'submit'      => [
+        'submit'        => [
             'text' => 'streams::button.submit',
             'type' => 'success'
         ],
-        'install'     => [
+        'install'       => [
             'text' => 'streams::button.install',
             'icon' => 'download',
             'type' => 'success'
         ],
-        'entries'     => [
+        'entries'       => [
             'text' => 'streams::button.entries',
             'icon' => 'list-ol',
             'type' => 'success'
         ],
-        'done'        => [
+        'done'          => [
             'text' => 'streams::button.done',
             'type' => 'success',
             'icon' => 'check'
         ],
-        'select'      => [
+        'select'        => [
             'text' => 'streams::button.select',
             'type' => 'success',
             'icon' => 'check'
         ],
-        'finish'      => [
+        'finish'        => [
             'text' => 'streams::button.finish',
             'type' => 'success',
             'icon' => 'check'
         ],
-        'finished'    => [
+        'finished'      => [
             'text' => 'streams::button.finished',
             'type' => 'success',
             'icon' => 'check'
@@ -99,41 +114,41 @@ class ButtonRegistry
         /**
          * Info Buttons
          */
-        'blue'        => [
+        'blue'          => [
             'type' => 'info'
         ],
-        'info'        => [
+        'info'          => [
             'icon' => 'fa fa-info',
             'type' => 'info'
         ],
-        'help'        => [
+        'help'          => [
             'icon'        => 'circle-question-mark',
             'text'        => 'streams::button.help',
             'type'        => 'info',
             'data-toggle' => 'modal',
             'data-target' => '#modal'
         ],
-        'view'        => [
+        'view'          => [
             'text' => 'streams::button.view',
             'icon' => 'fa fa-eye',
             'type' => 'info'
         ],
-        'fields'      => [
+        'fields'        => [
             'text' => 'streams::button.fields',
             'icon' => 'list-alt',
             'type' => 'info'
         ],
-        'assignments' => [
+        'assignments'   => [
             'text' => 'streams::button.assignments',
             'icon' => 'list-alt',
             'type' => 'info'
         ],
-        'settings'    => [
+        'settings'      => [
             'text' => 'streams::button.settings',
             'type' => 'info',
             'icon' => 'cog',
         ],
-        'configure'   => [
+        'configure'     => [
             'text' => 'streams::button.configure',
             'icon' => 'wrench',
             'type' => 'info'
@@ -141,14 +156,14 @@ class ButtonRegistry
         /**
          * Warning Buttons
          */
-        'orange'      => [
+        'orange'        => [
             'type' => 'warning'
         ],
-        'warning'     => [
+        'warning'       => [
             'icon' => 'warning',
             'type' => 'warning'
         ],
-        'edit'        => [
+        'edit'          => [
             'text' => 'streams::button.edit',
             'icon' => 'pencil',
             'type' => 'warning'
@@ -156,19 +171,19 @@ class ButtonRegistry
         /**
          * Danger Buttons
          */
-        'red'         => [
+        'red'           => [
             'type' => 'danger'
         ],
-        'danger'      => [
+        'danger'        => [
             'icon' => 'fa fa-exclamation-circle',
             'type' => 'danger'
         ],
-        'remove'      => [
+        'remove'        => [
             'text' => 'streams::button.remove',
             'type' => 'danger',
             'icon' => 'ban'
         ],
-        'delete'      => [
+        'delete'        => [
             'text'       => 'streams::button.delete',
             'icon'       => 'trash',
             'type'       => 'danger',
@@ -177,14 +192,14 @@ class ButtonRegistry
                 'data-message' => 'streams::message.confirm_delete'
             ]
         ],
-        'confirm'     => [
+        'confirm'       => [
             'type'       => 'danger',
             'attributes' => [
                 'data-toggle'  => 'confirm',
                 'data-message' => 'streams::message.confirm_delete'
             ]
         ],
-        'prompt'      => [
+        'prompt'        => [
             'type'       => 'danger',
             'attributes' => [
                 'data-match'   => 'yes',
@@ -192,7 +207,7 @@ class ButtonRegistry
                 'data-message' => 'streams::message.prompt_delete'
             ]
         ],
-        'uninstall'   => [
+        'uninstall'     => [
             'type'       => 'danger',
             'icon'       => 'times-circle',
             'text'       => 'streams::button.uninstall',

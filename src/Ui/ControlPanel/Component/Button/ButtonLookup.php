@@ -34,16 +34,18 @@ class ButtonLookup
 
         foreach ($buttons as &$parameters) {
 
-            $button = $original = array_pull($parameters, 'button');
-
-            if ($button && $button = $this->buttons->get($button)) {
-                $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
+            if (!$button = array_get($parameters, 'button')) {
+                continue;
             }
 
-            $button = array_get($parameters, 'button', $original);
+            if ($button && $button = $this->buttons->get($button)) {
+                $parameters = array_replace_recursive($button, $parameters);
+            }
+
+            $button = array_get($parameters, 'button', $button);
 
             if ($button && $button = $this->buttons->get($button)) {
-                $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
+                $parameters = array_replace_recursive($button, $parameters);
             }
         }
 
