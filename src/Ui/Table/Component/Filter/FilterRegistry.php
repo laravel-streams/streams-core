@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\FieldFilter;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\InputFilter;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\SearchFilter;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\SelectFilter;
 
 /**
@@ -24,6 +25,10 @@ class FilterRegistry
         'input'  => [
             'slug'   => 'input',
             'filter' => InputFilter::class,
+        ],
+        'search' => [
+            'slug'   => 'search',
+            'filter' => SearchFilter::class,
         ],
         'select' => [
             'slug'   => 'select',

@@ -8,6 +8,7 @@ return [
     '404'                 => 'Page not found.',
     '500'                 => 'There was an error.',
     'help'                => 'Help',
+    'search'              => 'Search',
     'system'              => 'System',
     'no_results'          => 'No results.',
     'access_denied'       => 'Access denied.',
