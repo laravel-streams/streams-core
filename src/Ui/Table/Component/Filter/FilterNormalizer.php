@@ -49,10 +49,17 @@ class FilterNormalizer
             }
 
             /**
-             * Move the slug to the filter.
+             * Move the slug into the filter.
              */
             if (!isset($filter['slug'])) {
                 $filter['slug'] = $slug;
+            }
+
+            /**
+             * Move the slug to the filter.
+             */
+            if (!isset($filter['filter'])) {
+                $filter['filter'] = $filter['slug'];
             }
 
             /**
