@@ -8,8 +8,9 @@ $(function () {
         var locale = $(this).attr('lang');
         var form = $(this).closest('form');
 
-        selected.closest('ul').find('li').removeClass('active');
-        selected.closest('li').addClass('active');
+        selected.closest('.btn-group').find('button').text(selected.text());
+        selected.closest('div').find('a').removeClass('active');
+        selected.addClass('active');
 
         form.find('.form-group[lang]').addClass('hidden');
         form.find('.form-group[lang="' + locale + '"]').removeClass('hidden');
