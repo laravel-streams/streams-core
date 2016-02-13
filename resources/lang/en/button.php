@@ -37,6 +37,7 @@ return [
     'configure'          => 'Configure',
     'settings'           => 'Settings',
     'fields'             => 'Fields',
+    'assignments'        => 'Assignments',
     'send'               => 'Send',
     'submit'             => 'Submit',
     'enable'             => 'Enable',

@@ -23,12 +23,9 @@ class ButtonRegistry
         'default'     => [
             'type' => 'default'
         ],
-        /**
-         * Link Buttons
-         */
         'cancel'      => [
             'text' => 'streams::button.cancel',
-            'type' => 'link'
+            'type' => 'default'
         ],
         /**
          * Success Buttons
@@ -127,7 +124,7 @@ class ButtonRegistry
             'type' => 'info'
         ],
         'assignments' => [
-            'text' => 'streams::button.fields',
+            'text' => 'streams::button.assignments',
             'icon' => 'list-alt',
             'type' => 'info'
         ],
