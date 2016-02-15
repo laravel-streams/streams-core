@@ -39,7 +39,6 @@ class FieldFormFields
                     'instructions' => 'streams::field.slug.instructions',
                     'type'         => 'anomaly.field_type.slug',
                     'required'     => true,
-                    'disabled'     => 'edit',
                     'config'       => [
                         'slugify' => 'name',
                         'type'    => '_'

@@ -127,17 +127,14 @@ class FieldTypeSchema
     }
 
     /**
-     * Change the field type column.
+     * Rename the column.
      *
-     * @param Blueprint           $table
-     * @param AssignmentInterface $assignment
+     * @param Blueprint $table
+     * @param FieldType $from
      */
-    public function changeColumn(Blueprint $table, AssignmentInterface $assignment)
+    public function renameColumn(Blueprint $table, FieldType $from)
     {
-        // Skip if no column type.
-        if (!$this->fieldType->getColumnType()) {
-            return;
-        }
+        $table->renameColumn($from->getColumnName(), $this->fieldType->getColumnName());
     }
 
     /**
