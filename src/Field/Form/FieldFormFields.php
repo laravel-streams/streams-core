@@ -48,6 +48,11 @@ class FieldFormFields
                         'unique' => 'streams_fields,slug,' . $id . ',namespace,namespace,' . $namespace
                     ]
                 ],
+                'placeholder'  => [
+                    'label'        => 'streams::field.placeholder.name',
+                    'instructions' => 'streams::field.placeholder.instructions',
+                    'type'         => 'anomaly.field_type.text'
+                ],
                 'instructions' => [
                     'label'        => 'streams::field.instructions.name',
                     'instructions' => 'streams::field.instructions.instructions',

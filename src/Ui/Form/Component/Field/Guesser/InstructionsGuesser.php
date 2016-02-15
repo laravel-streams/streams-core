@@ -69,17 +69,6 @@ class InstructionsGuesser
             }
 
             /**
-             * Try using the assignment instructions system.
-             * This is generated but check for a field
-             * specific variation first.
-             */
-            $instructions = $assignment->getInstructions() . '.' . $stream->getSlug();
-
-            if (str_is('*::*', $instructions) && trans()->has($instructions, $locale)) {
-                $field['instructions'] = trans($instructions, [], null, $locale);
-            }
-
-            /**
              * Next try using the fallback assignment
              * instructions system as generated verbatim.
              */

@@ -95,7 +95,7 @@ class MigrateFieldsHandler
                 $field = array_add(
                     $field,
                     config('app.fallback_locale') . '.instructions',
-                    $addon ? $addon->getNamespace("field.{$field}.instructions") : null
+                    $addon ? $addon->getNamespace("field.{$slug}.instructions") : null
                 );
             }
 
@@ -116,7 +116,7 @@ class MigrateFieldsHandler
                 $field = array_add(
                     $field,
                     config('app.fallback_locale') . '.placeholder',
-                    $addon ? $addon->getNamespace("field.{$field}.placeholder") : null
+                    $addon ? $addon->getNamespace("field.{$slug}.placeholder") : null
                 );
             }
 
@@ -137,7 +137,7 @@ class MigrateFieldsHandler
                 $field = array_add(
                     $field,
                     config('app.fallback_locale') . '.warning',
-                    $addon ? $addon->getNamespace("field.{$field}.warning") : null
+                    $addon ? $addon->getNamespace("field.{$slug}.warning") : null
                 );
             }
 

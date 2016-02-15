@@ -46,7 +46,7 @@ class EloquentQueryBuilder extends Builder
                             return parent::get($columns);
                         }
                     );
-                } catch(\Exception $e) {
+                } catch (\Exception $e) {
                     return parent::get($columns);
                 }
             }
@@ -171,6 +171,23 @@ class EloquentQueryBuilder extends Builder
             } elseif ($model instanceof EntryInterface) {
                 if ($model->getStream()->isSortable()) {
                     $query->orderBy('sort_order', 'ASC');
+                } elseif ($model->titleColumnIsTranslatable()) {
+
+                    $query->join(
+                        $model->getTranslationsTableName(),
+                        $model->getTranslationsTableName() . '.entry_id',
+                        '=',
+                        $model->getTableName() . '.id'
+                    );
+
+                    $query->where(
+                        $model->getTranslationsTableName() . '.locale',
+                        config('app.fallback_locale')
+                    );
+
+                    $query->orderBy($model->getTitleName(), 'ASC');
+                } elseif ($model->getTitleName() !== 'id') {
+                    $query->orderBy($model->getTitleName(), 'ASC');
                 }
             }
         }

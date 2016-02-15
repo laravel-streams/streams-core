@@ -50,8 +50,9 @@ class CreateFieldsTables extends Migration
                     $table->integer('field_id');
                     $table->string('locale')->index();
                     $table->string('name')->nullable();
+                    $table->string('placeholder')->nullable();
                     $table->string('warning')->nullable();
-                    $table->string('instructions')->nullable();
+                    $table->text('instructions')->nullable();
                 }
             );
         }

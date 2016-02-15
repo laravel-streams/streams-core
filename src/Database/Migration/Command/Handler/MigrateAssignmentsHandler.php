@@ -105,7 +105,7 @@ class MigrateAssignmentsHandler
                 $assignment = array_add(
                     $assignment,
                     config('app.fallback_locale') . '.label',
-                    $addon ? $addon->getNamespace("field.{$field}.label") : null
+                    $addon ? $addon->getNamespace("field.{$field}.label.{$stream->getSlug()}") : null
                 );
             }
 
@@ -126,7 +126,7 @@ class MigrateAssignmentsHandler
                 $assignment = array_add(
                     $assignment,
                     config('app.fallback_locale') . '.instructions',
-                    $addon ? $addon->getNamespace("field.{$field}.instructions") : null
+                    $addon ? $addon->getNamespace("field.{$field}.instructions.{$stream->getSlug()}") : null
                 );
             }
 
@@ -147,7 +147,7 @@ class MigrateAssignmentsHandler
                 $assignment = array_add(
                     $assignment,
                     config('app.fallback_locale') . '.placeholder',
-                    $addon ? $addon->getNamespace("field.{$field}.placeholder") : null
+                    $addon ? $addon->getNamespace("field.{$field}.placeholder.{$stream->getSlug()}") : null
                 );
             }
 
@@ -168,7 +168,7 @@ class MigrateAssignmentsHandler
                 $assignment = array_add(
                     $assignment,
                     config('app.fallback_locale') . '.warning',
-                    $addon ? $addon->getNamespace("field.{$field}.warning") : null
+                    $addon ? $addon->getNamespace("field.{$field}.warning.{$stream->getSlug()}") : null
                 );
             }
 

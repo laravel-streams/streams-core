@@ -74,17 +74,6 @@ class WarningsGuesser
             }
 
             /**
-             * Try using the assignment warning system.
-             * This is generated but check for a field
-             * specific variation first.
-             */
-            $warning = $assignment->getWarning() . '.' . $stream->getSlug();
-
-            if (str_is('*::*', $warning) && trans()->has($warning, $locale)) {
-                $field['warning'] = trans($warning, [], null, $locale);
-            }
-
-            /**
              * Next try using the fallback assignment
              * warning system as generated verbatim.
              */

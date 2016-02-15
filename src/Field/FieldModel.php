@@ -57,6 +57,7 @@ class FieldModel extends EloquentModel implements FieldInterface
     protected $translatedAttributes = [
         'name',
         'warning',
+        'placeholder',
         'instructions'
     ];
 

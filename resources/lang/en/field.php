@@ -17,6 +17,10 @@ return [
         'name'         => 'Field Type',
         'instructions' => 'What field type do you want to use for this field?'
     ],
+    'placeholder'  => [
+        'name'         => 'Placeholder',
+        'instructions' => 'If supported, placeholders will display in the input when no input has been entered.'
+    ],
     'instructions' => [
         'name'         => 'Instructions',
         'instructions' => 'Field instructions will be displayed in forms to assist users.'
