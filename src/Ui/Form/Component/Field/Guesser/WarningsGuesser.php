@@ -63,6 +63,7 @@ class WarningsGuesser
             }
 
             $assignment = $stream->getAssignment($field['field']);
+            $object     = $stream->getField($field['field']);
 
             /**
              * No assignment means we still do
@@ -109,7 +110,29 @@ class WarningsGuesser
             }
 
             /**
-             * Lastly check if it's just a standard string.
+             * Check if it's just a standard string.
+             */
+            if (!isset($field['warning']) && $warning && !str_is('*::*', $warning)) {
+                $field['warning'] = $warning;
+            }
+
+            /**
+             * Next try using the default field
+             * warning system as generated verbatim.
+             */
+            $warning = $object->getWarning();
+
+            if (
+                !isset($field['warning'])
+                && str_is('*::*', $warning)
+                && trans()->has($warning, $locale)
+                && is_string($translated = trans($warning, [], null, $locale))
+            ) {
+                $field['warning'] = $translated;
+            }
+
+            /**
+             * Check if it's just a standard string.
              */
             if (!isset($field['warning']) && $warning && !str_is('*::*', $warning)) {
                 $field['warning'] = $warning;

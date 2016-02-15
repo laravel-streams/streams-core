@@ -28,13 +28,13 @@ class FieldFormFields
 
         $builder->setFields(
             [
-                'name' => [
+                'name'         => [
                     'label'        => 'streams::field.name.name',
                     'instructions' => 'streams::field.name.instructions',
                     'type'         => 'anomaly.field_type.text',
                     'required'     => true
                 ],
-                'slug' => [
+                'slug'         => [
                     'label'        => 'streams::field.slug.name',
                     'instructions' => 'streams::field.slug.instructions',
                     'type'         => 'anomaly.field_type.slug',
@@ -47,6 +47,16 @@ class FieldFormFields
                     'rules'        => [
                         'unique' => 'streams_fields,slug,' . $id . ',namespace,namespace,' . $namespace
                     ]
+                ],
+                'instructions' => [
+                    'label'        => 'streams::field.instructions.name',
+                    'instructions' => 'streams::field.instructions.instructions',
+                    'type'         => 'anomaly.field_type.textarea'
+                ],
+                'warning'      => [
+                    'label'        => 'streams::field.warning.name',
+                    'instructions' => 'streams::field.warning.instructions',
+                    'type'         => 'anomaly.field_type.text'
                 ]
             ]
         );

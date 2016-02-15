@@ -58,6 +58,7 @@ class InstructionsGuesser
             }
 
             $assignment = $stream->getAssignment($field['field']);
+            $object     = $stream->getField($field['field']);
 
             /**
              * No assignment means we still do
@@ -84,7 +85,11 @@ class InstructionsGuesser
              */
             $instructions = $assignment->getInstructions() . '.default';
 
-            if (!isset($field['instructions']) && str_is('*::*', $instructions) && trans()->has($instructions, $locale)) {
+            if (!isset($field['instructions']) && str_is('*::*', $instructions) && trans()->has(
+                    $instructions,
+                    $locale
+                )
+            ) {
                 $field['instructions'] = trans($instructions, [], null, $locale);
             }
 
@@ -104,7 +109,29 @@ class InstructionsGuesser
             }
 
             /**
-             * Lastly check if it's just a standard string.
+             * Check if it's just a standard string.
+             */
+            if (!isset($field['instructions']) && $instructions && !str_is('*::*', $instructions)) {
+                $field['instructions'] = $instructions;
+            }
+
+            /**
+             * Next try using the default field
+             * instructions system as generated verbatim.
+             */
+            $instructions = $object->getInstructions();
+
+            if (
+                !isset($field['instructions'])
+                && str_is('*::*', $instructions)
+                && trans()->has($instructions, $locale)
+                && is_string($translated = trans($instructions, [], null, $locale))
+            ) {
+                $field['instructions'] = $translated;
+            }
+
+            /**
+             * Check if it's just a standard string.
              */
             if (!isset($field['instructions']) && $instructions && !str_is('*::*', $instructions)) {
                 $field['instructions'] = $instructions;
