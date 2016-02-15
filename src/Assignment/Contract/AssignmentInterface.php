@@ -117,9 +117,10 @@ interface AssignmentInterface
     /**
      * Get the assignment's field's type.
      *
+     * @param bool $fresh
      * @return FieldType
      */
-    public function getFieldType();
+    public function getFieldType($fresh = false);
 
     /**
      * Get the field type value. This helps

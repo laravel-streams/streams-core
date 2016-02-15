@@ -130,9 +130,10 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     /**
      * Get the assignment's field's type.
      *
-     * @return null|FieldType
+     * @param bool $fresh
+     * @return FieldType|null
      */
-    public function getFieldType()
+    public function getFieldType($fresh = false)
     {
         $field = $this->getField();
 
@@ -140,7 +141,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
             return null;
         }
 
-        $type = $field->getType();
+        $type = $field->getType($fresh);
 
         if (!$type) {
             return null;

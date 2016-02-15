@@ -53,9 +53,10 @@ interface FieldInterface
     /**
      * Get the field type.
      *
+     * @param bool $fresh
      * @return FieldType
      */
-    public function getType();
+    public function getType($fresh = false);
 
     /**
      * Get the field type value.
