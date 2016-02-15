@@ -166,11 +166,13 @@ class FieldModel extends EloquentModel implements FieldInterface
     /**
      * Get the field type.
      *
-     * @return null|FieldType
+     * @param bool $fresh
+     * @return FieldType|null
+     * @throws \Exception
      */
-    public function getType()
+    public function getType($fresh = false)
     {
-        if (isset($this->cache['type'])) {
+        if ($fresh === false && isset($this->cache['type'])) {
             return $this->cache['type'];
         }
 

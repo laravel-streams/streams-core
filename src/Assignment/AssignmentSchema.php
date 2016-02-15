@@ -70,6 +70,30 @@ class AssignmentSchema
     }
 
     /**
+     * Rename a column.
+     *
+     * @param                     $table
+     * @param FieldType           $type
+     * @param AssignmentInterface $assignment
+     */
+    public function renameColumn($table, FieldType $type, AssignmentInterface $assignment)
+    {
+        $schema = $type->getSchema();
+        $from   = $assignment->getFieldType(true);
+
+        if ($from->getColumnName() === $type->getColumnName()) {
+            return;
+        }
+
+        $this->schema->table(
+            $table,
+            function (Blueprint $table) use ($schema, $from) {
+                $schema->renameColumn($table, $from);
+            }
+        );
+    }
+
+    /**
      * Drop a column.
      *
      * @param           $table

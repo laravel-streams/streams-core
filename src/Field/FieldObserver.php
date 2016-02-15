@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Field\Command\DeleteFieldAssignments;
 use Anomaly\Streams\Platform\Field\Command\DeleteFieldTranslations;
+use Anomaly\Streams\Platform\Field\Command\RenameFieldAssignments;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Event\FieldWasCreated;
 use Anomaly\Streams\Platform\Field\Event\FieldWasDeleted;
@@ -30,6 +31,16 @@ class FieldObserver extends Observer
         $model->flushCache();
 
         $this->events->fire(new FieldWasCreated($model));
+    }
+
+    /**
+     * Run before a record is updated.
+     *
+     * @param FieldInterface $model
+     */
+    public function updating(FieldInterface $model)
+    {
+        $this->dispatch(new RenameFieldAssignments($model));
     }
 
     /**
