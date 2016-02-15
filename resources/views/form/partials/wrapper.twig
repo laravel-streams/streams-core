@@ -1,16 +1,7 @@
 <div
         {{ field_type.locale ? 'lang=' ~ field_type.locale }}
-<<<<<<< Updated upstream
         class="form-group {{ field_type.slug }}-field_type {{ field_type.hidden ? 'hidden' }}"
         data-field="{{ field_type.field_name }}">
-=======
-        class="
-            form-group
-            {{ form.hasErrors() ? form.hasError(field_type.input_name) ? 'has-danger' : 'has-success' }}
-            {{ field_type.slug }}-field_type
-            {{ field_type.hidden ? 'hidden' }}
-            ">
->>>>>>> Stashed changes
 
     <label class="control-label">
         {{ field_type.object.label|raw }}
