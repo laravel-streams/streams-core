@@ -85,6 +85,36 @@ class StreamSchema
     }
 
     /**
+     * Rename a table.
+     *
+     * @param StreamInterface $from
+     * @param StreamInterface $to
+     */
+    public function renameTable(StreamInterface $from, StreamInterface $to)
+    {
+        if ($from->getEntryTableName() === $to->getEntryTableName()) {
+            return;
+        }
+
+        $this->schema->rename($from->getEntryTableName(), $to->getEntryTableName());
+    }
+
+    /**
+     * Rename a translations table.
+     *
+     * @param StreamInterface $from
+     * @param StreamInterface $to
+     */
+    public function renameTranslationsTable(StreamInterface $from, StreamInterface $to)
+    {
+        if ($from->getEntryTranslationsTableName() === $to->getEntryTranslationsTableName()) {
+            return;
+        }
+
+        $this->schema->rename($from->getEntryTranslationsTableName(), $to->getEntryTranslationsTableName());
+    }
+
+    /**
      * Drop a table.
      *
      * @param $table

@@ -36,7 +36,8 @@ class RenameAssignmentColumn implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param AssignmentSchema $schema
+     * @param AssignmentSchema              $schema
+     * @param AssignmentRepositoryInterface $assignments
      */
     public function handle(AssignmentSchema $schema, AssignmentRepositoryInterface $assignments)
     {
