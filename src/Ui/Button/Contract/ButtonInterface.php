@@ -27,6 +27,21 @@ interface ButtonInterface
     public function getDropdown();
 
     /**
+     * Set the parent.
+     *
+     * @param $parent
+     * @return $this
+     */
+    public function setParent($parent);
+
+    /**
+     * Get the parent.
+     *
+     * @return string|null
+     */
+    public function getParent();
+
+    /**
      * Return whether the button is a dropdown or not.
      *
      * @return bool

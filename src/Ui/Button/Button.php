@@ -84,6 +84,13 @@ class Button implements ButtonInterface
     protected $dropdown = [];
 
     /**
+     * The parent dropdown.
+     *
+     * @var null|string
+     */
+    protected $parent = null;
+
+    /**
      * The entry object.
      *
      * @var null|mixed
@@ -121,6 +128,29 @@ class Button implements ButtonInterface
         $this->dropdown = $dropdown;
 
         return $this;
+    }
+
+    /**
+     * Set the parent.
+     *
+     * @param $parent
+     * @return $this
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get the parent.
+     *
+     * @return string|null
+     */
+    public function getParent()
+    {
+        return $this->parent;
     }
 
     /**
