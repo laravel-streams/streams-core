@@ -173,7 +173,7 @@ class EloquentQueryBuilder extends Builder
                     $query->orderBy('sort_order', 'ASC');
                 } elseif ($model->titleColumnIsTranslatable()) {
 
-                    $query->join(
+                    $query->leftJoin(
                         $model->getTranslationsTableName(),
                         $model->getTranslationsTableName() . '.entry_id',
                         '=',
