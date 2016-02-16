@@ -42,6 +42,11 @@ class ButtonRegistry
             'icon' => 'save',
             'type' => 'success'
         ],
+        'update'        => [
+            'text' => 'streams::button.save',
+            'icon' => 'save',
+            'type' => 'success'
+        ],
         'create'        => [
             'text' => 'streams::button.create',
             'icon' => 'fa fa-asterisk',
