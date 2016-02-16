@@ -35,6 +35,13 @@ class ActionInput
     protected $guesser;
 
     /**
+     * The dropdown utility.
+     *
+     * @var ActionDropdown
+     */
+    protected $dropdown;
+
+    /**
      * The resolver utility.
      *
      * @var ActionResolver
@@ -68,6 +75,7 @@ class ActionInput
      * @param ActionParser     $parser
      * @param ActionLookup     $lookup
      * @param ActionGuesser    $guesser
+     * @param ActionDropdown   $dropdown
      * @param ActionResolver   $resolver
      * @param ActionPredictor  $predictor
      * @param ActionEvaluator  $evaluator
@@ -77,6 +85,7 @@ class ActionInput
         ActionParser $parser,
         ActionLookup $lookup,
         ActionGuesser $guesser,
+        ActionDropdown $dropdown,
         ActionResolver $resolver,
         ActionPredictor $predictor,
         ActionEvaluator $evaluator,
@@ -85,6 +94,7 @@ class ActionInput
         $this->parser     = $parser;
         $this->lookup     = $lookup;
         $this->guesser    = $guesser;
+        $this->dropdown   = $dropdown;
         $this->resolver   = $resolver;
         $this->predictor  = $predictor;
         $this->evaluator  = $evaluator;
@@ -103,8 +113,10 @@ class ActionInput
         $this->evaluator->evaluate($builder);
         $this->predictor->predict($builder);
         $this->normalizer->normalize($builder);
+        $this->dropdown->flatten($builder);
         $this->lookup->merge($builder);
         $this->guesser->guess($builder);
         $this->parser->parse($builder);
+        $this->dropdown->build($builder);
     }
 }

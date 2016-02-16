@@ -44,11 +44,11 @@ class TextGuesser
             return;
         }
 
-        foreach ($buttons as $key => &$button) {
+        foreach ($buttons as &$button) {
 
             // Skip if set already.
-            if (!isset($button['text']) && !is_numeric($key)) {
-                $button['text'] = $module->getNamespace('button.' . $key);
+            if (!isset($button['text']) && isset($button['button'])) {
+                $button['text'] = $module->getNamespace('button.' . $button['button']);
             }
         }
 
