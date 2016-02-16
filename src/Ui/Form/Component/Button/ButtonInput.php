@@ -35,6 +35,13 @@ class ButtonInput
     protected $guesser;
 
     /**
+     * The button dropdown utility.
+     *
+     * @var ButtonDropdown
+     */
+    protected $dropdown;
+
+    /**
      * The resolver utility.
      *
      * @var ButtonResolver
@@ -61,6 +68,7 @@ class ButtonInput
      * @param ButtonParser     $parser
      * @param ButtonLookup     $lookup
      * @param ButtonGuesser    $guesser
+     * @param ButtonDropdown   $dropdown
      * @param ButtonResolver   $resolver
      * @param ButtonEvaluator  $evaluator
      * @param ButtonNormalizer $normalizer
@@ -69,6 +77,7 @@ class ButtonInput
         ButtonParser $parser,
         ButtonLookup $lookup,
         ButtonGuesser $guesser,
+        ButtonDropdown $dropdown,
         ButtonResolver $resolver,
         ButtonEvaluator $evaluator,
         ButtonNormalizer $normalizer
@@ -76,6 +85,7 @@ class ButtonInput
         $this->parser     = $parser;
         $this->lookup     = $lookup;
         $this->guesser    = $guesser;
+        $this->dropdown   = $dropdown;
         $this->resolver   = $resolver;
         $this->evaluator  = $evaluator;
         $this->normalizer = $normalizer;
@@ -91,8 +101,10 @@ class ButtonInput
         $this->resolver->resolve($builder);
         $this->evaluator->evaluate($builder);
         $this->normalizer->normalize($builder);
+        $this->dropdown->flatten($builder);
         $this->lookup->merge($builder);
         $this->parser->parse($builder);
         $this->guesser->guess($builder);
+        $this->dropdown->build($builder);
     }
 }

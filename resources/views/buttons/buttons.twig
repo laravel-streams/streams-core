@@ -34,7 +34,7 @@
             </a>
 
             {# Render the actual dropdown links #}
-            <ul class="dropdown-menu pull-right">
+            <ul class="dropdown-menu dropdown-menu-{{ button.position }}">
                 {% for link in button.dropdown %}
                     {% if button.text %}
                         <li>
