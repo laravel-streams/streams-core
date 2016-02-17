@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
 
+use Anomaly\Streams\Platform\Entry\EntryQueryBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SearchFilterInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
@@ -24,6 +25,12 @@ class SearchFilterQuery implements SelfHandling
      */
     public function handle(Builder $query, SearchFilterInterface $filter)
     {
+        $stream = $filter->getStream();
+
+        if ($stream && $stream->isTranslatable() && $query instanceof EntryQueryBuilder) {
+            $query->joinTranslations();
+        }
+
         $query->where(
             function (Builder $query) use ($filter) {
                 foreach ($filter->getColumns() as $column) {
