@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header\Guesser;
 
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
@@ -15,6 +16,23 @@ class HeadingsGuesser
 {
 
     /**
+     * The module collection.
+     *
+     * @var ModuleCollection
+     */
+    protected $modules;
+
+    /**
+     * Create a new HeadingsGuesser instance.
+     *
+     * @param ModuleCollection $modules
+     */
+    public function __construct(ModuleCollection $modules)
+    {
+        $this->modules = $modules;
+    }
+
+    /**
      * Guess the field for a column.
      *
      * @param TableBuilder $builder
@@ -22,8 +40,9 @@ class HeadingsGuesser
     public function guess(TableBuilder $builder)
     {
         $columns = $builder->getColumns();
+        $stream  = $builder->getTableStream();
 
-        $stream = $builder->getTableStream();
+        $module = $this->modules->active();
 
         foreach ($columns as &$column) {
 
@@ -85,18 +104,21 @@ class HeadingsGuesser
             }
 
             /**
-             * No field means we still do not have
-             * anything to do here.
+             * Use the name from the field.
              */
-            if (!$field) {
-                continue;
+            if ($field && $name = $field->getName()) {
+                $column['heading'] = $name;
             }
 
             /**
-             * Use the name from the field.
+             * If no field look for
+             * a name anyways.
              */
-            if ($name = $field->getName()) {
-                $column['heading'] = $name;
+            if (!$field && $module && trans()->has(
+                    $heading = $module->getNamespace('field.' . $column['heading'] . '.name')
+                )
+            ) {
+                $column['heading'] = $heading;
             }
         }
 
