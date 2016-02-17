@@ -47,8 +47,8 @@ class TextGuesser
         foreach ($buttons as &$button) {
 
             // Skip if set already.
-            if (!isset($button['text']) && isset($button['button'])) {
-                $button['text'] = $module->getNamespace('button.' . $button['button']);
+            if (!isset($button['text']) && isset($button['slug'])) {
+                $button['text'] = $module->getNamespace('button.' . $button['slug']);
             }
         }
 

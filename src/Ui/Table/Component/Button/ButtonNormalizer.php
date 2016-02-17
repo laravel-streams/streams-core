@@ -58,6 +58,15 @@ class ButtonNormalizer
         }
 
         /**
+         * If the key is a string and the button
+         * is an array without a slug param then
+         * move the key into the button as that param.
+         */
+        if (!is_integer($key) && !isset($button['slug'])) {
+            $button['slug'] = $key;
+        }
+
+        /**
          * Move the HREF if any to the attributes.
          */
         if (isset($button['href'])) {
