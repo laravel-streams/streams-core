@@ -32,10 +32,25 @@ class EntryQueryBuilder extends EloquentQueryBuilder
         $query = $this->model->getFieldTypeQuery(snake_case($method));
 
         $method = array_shift($parameters);
-        
+
         array_unshift($parameters, $this);
 
         return call_user_func_array([$query, camel_case($method)], $parameters);
+    }
+
+    /**
+     * Join the translations table.
+     */
+    public function joinTranslations()
+    {
+        $this->query->leftJoin(
+            $this->model->getTranslationsTableName(),
+            $this->model->getTranslationsTableName() . '.entry_id',
+            '=',
+            $this->model->getTableName() . '.id'
+        );
+
+        $this->where($this->model->getTranslationsTableName() . '.locale', app('app.fallback_locale'));
     }
 
     /**
