@@ -64,6 +64,10 @@ class EloquentQueryBuilder extends Builder
      */
     public function hasJoin($table)
     {
+        if (!$this->query->joins) {
+            return false;
+        }
+
         /* @var JoinClause $join */
         foreach ($this->query->joins as $join) {
             if ($join->table === $table) {
@@ -192,17 +196,9 @@ class EloquentQueryBuilder extends Builder
                     $query->orderBy('sort_order', 'ASC');
                 } elseif ($model->titleColumnIsTranslatable()) {
 
-                    $query->leftJoin(
-                        $model->getTranslationsTableName(),
-                        $model->getTranslationsTableName() . '.entry_id',
-                        '=',
-                        $model->getTableName() . '.id'
-                    );
-
-                    $query->where(
-                        $model->getTranslationsTableName() . '.locale',
-                        config('app.fallback_locale')
-                    );
+                    if ($this->hasJoin($model->getTranslationsTableName())) {
+                        $this->joinTranslations();
+                    }
 
                     $query->orderBy($model->getTitleName(), 'ASC');
                 } elseif ($model->getTitleName() !== 'id') {
