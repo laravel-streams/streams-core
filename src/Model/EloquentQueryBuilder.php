@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Entry\EntryQueryBuilder;
 use Database\Query\JoinClause;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -196,7 +197,7 @@ class EloquentQueryBuilder extends Builder
                     $query->orderBy('sort_order', 'ASC');
                 } elseif ($model->titleColumnIsTranslatable()) {
 
-                    if ($this->hasJoin($model->getTranslationsTableName())) {
+                    if ($this instanceof EntryQueryBuilder && $this->hasJoin($model->getTranslationsTableName())) {
                         $this->joinTranslations();
                     }
 
