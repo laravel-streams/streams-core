@@ -1,9 +1,9 @@
 <div class="card">
     <div class="card-block">
-
-        {% for field in form.fields %}
-            {{ field.render({'form': form})|raw }}
-        {% endfor %}
-
+        <div class="field-group">
+            {% for field in form.fields %}
+                {{ field.render({'form': form})|raw }}
+            {% endfor %}
+        </div>
     </div>
 </div>

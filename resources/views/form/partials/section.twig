@@ -16,9 +16,11 @@
 
     <div class="card-block">
         {% for field in section.fields %}
-            {% for field in form.fields.translations(field) %}
-                {{ field.render|raw }}
-            {% endfor %}
+            <div class="field-group">
+                {% for field in form.fields.translations(field) %}
+                    {{ field.render|raw }}
+                {% endfor %}
+            </div>
         {% endfor %}
     </div>
 

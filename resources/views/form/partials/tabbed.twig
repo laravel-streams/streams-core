@@ -35,9 +35,11 @@
                     </div>
                 {% else %}
                     {% for field in tab.fields %}
-                        {% for field in form.fields.translations(field) %}
-                            {{ field.render({'form': form})|raw }}
-                        {% endfor %}
+                        <div class="field-group">
+                            {% for field in form.fields.translations(field) %}
+                                {{ field.render({'form': form})|raw }}
+                            {% endfor %}
+                        </div>
                     {% endfor %}
                 {% endif %}
             </div>
