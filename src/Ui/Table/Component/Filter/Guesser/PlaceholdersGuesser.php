@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Translation\Translator;
 
 /**
  * Class PlaceholdersGuesser
@@ -22,13 +23,22 @@ class PlaceholdersGuesser
     protected $modules;
 
     /**
+     * The translator service.
+     *
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
      * Create a new PlaceholdersGuesser instance.
      *
      * @param ModuleCollection $modules
+     * @param Translator       $translator
      */
-    public function __construct(ModuleCollection $modules)
+    public function __construct(ModuleCollection $modules, Translator $translator)
     {
-        $this->modules = $modules;
+        $this->modules    = $modules;
+        $this->translator = $translator;
     }
 
     /**
@@ -63,8 +73,20 @@ class PlaceholdersGuesser
                 $filter['placeholder'] = $assignment->getFieldName();
             }
 
-            if (!array_get($filter, 'placeholder') && $module = $this->modules->active()) {
-                $filter['placeholder'] = $module->getNamespace('field.' . $filter['slug'] . '.placeholder');
+            if (!$module = $this->modules->active()) {
+                continue;
+            }
+
+            $placeholder = $module->getNamespace('field.' . $filter['slug'] . '.placeholder');
+
+            if (!isset($filter['placeholder']) && $this->translator->has($placeholder)) {
+                $filter['placeholder'] = $placeholder;
+            }
+
+            $placeholder = $module->getNamespace('field.' . $filter['slug'] . '.name');
+
+            if (!isset($filter['placeholder']) && $this->translator->has($placeholder)) {
+                $filter['placeholder'] = $placeholder;
             }
 
             if (!array_get($filter, 'placeholder')) {
