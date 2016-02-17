@@ -70,6 +70,14 @@ class FilterNormalizer
             }
 
             /**
+             * If there is no filter type
+             * then assume it's the slug.
+             */
+            if (!isset($filter['filter'])) {
+                $filter['filter'] = $filter['slug'];
+            }
+
+            /**
              * Set the table's stream.
              */
             if ($stream) {

@@ -1006,7 +1006,7 @@ class FormBuilder
     {
         $fields = $this->form->getFields();
 
-        return $fields->lists('field')->all();
+        return array_unique($fields->lists('field')->all());
     }
 
     /**
