@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Database\Query\JoinClause;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -53,6 +54,24 @@ class EloquentQueryBuilder extends Builder
         }
 
         return parent::get($columns);
+    }
+
+    /**
+     * Return if a table has been joined or not.
+     *
+     * @param $table
+     * @return bool
+     */
+    public function hasJoin($table)
+    {
+        /* @var JoinClause $join */
+        foreach ($this->query->joins as $join) {
+            if ($join->table === $table) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

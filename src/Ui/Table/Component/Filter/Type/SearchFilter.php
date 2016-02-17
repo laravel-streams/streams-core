@@ -17,6 +17,13 @@ class SearchFilter extends Filter implements SearchFilterInterface
 {
 
     /**
+     * The fields to search.
+     *
+     * @var array
+     */
+    protected $fields = [];
+
+    /**
      * The columns to search.
      *
      * @var array
@@ -67,6 +74,29 @@ class SearchFilter extends Filter implements SearchFilterInterface
     public function setColumns(array $columns)
     {
         $this->columns = $columns;
+
+        return $this;
+    }
+
+    /**
+     * Get the fields.
+     *
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    /**
+     * Set the fields.
+     *
+     * @param array $fields
+     * @return $this
+     */
+    public function setFields(array $fields)
+    {
+        $this->fields = $fields;
 
         return $this;
     }

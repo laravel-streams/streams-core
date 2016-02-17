@@ -50,7 +50,7 @@ class EntryQueryBuilder extends EloquentQueryBuilder
             $this->model->getTableName() . '.id'
         );
 
-        $this->where($this->model->getTranslationsTableName() . '.locale', app('app.fallback_locale'));
+        $this->where($this->model->getTranslationsTableName() . '.locale', config('app.fallback_locale'));
     }
 
     /**
