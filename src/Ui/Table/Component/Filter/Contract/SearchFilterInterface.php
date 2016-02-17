@@ -12,6 +12,21 @@ interface SearchFilterInterface extends FilterInterface
 {
 
     /**
+     * Get the fields.
+     *
+     * @return array
+     */
+    public function getFields();
+
+    /**
+     * Set the fields.
+     *
+     * @param array $fields
+     * @return $this
+     */
+    public function setFields(array $fields);
+
+    /**
      * Get the columns.
      *
      * @return array

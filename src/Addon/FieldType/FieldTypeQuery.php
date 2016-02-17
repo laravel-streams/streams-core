@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
+use Anomaly\Streams\Platform\Entry\EntryQueryBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -13,6 +14,13 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class FieldTypeQuery
 {
+
+    /**
+     * The where constraint to use.
+     *
+     * @var string
+     */
+    protected $constraint = 'and';
 
     /**
      * The parent field type.
@@ -43,18 +51,18 @@ class FieldTypeQuery
         $stream     = $filter->getStream();
         $assignment = $stream->getAssignment($filter->getField());
 
-        $column = $this->fieldType->getColumnName();
-
-        $table        = $stream->getEntryTableName();
+        $column       = $this->fieldType->getColumnName();
         $translations = $stream->getEntryTranslationsTableName();
 
         if ($assignment->isTranslatable()) {
-            $query
-                ->join($translations, $translations . '.entry_id', '=', $table . '.id')
-                ->where($translations . '.' . $column, 'LIKE', "%" . $filter->getValue() . "%")
-                ->where('locale', config('app.locale'));
+
+            if ($query instanceof EntryQueryBuilder && !$query->hasJoin($translations)) {
+                $query->joinTranslations();
+            }
+
+            $query->{$this->where()}($translations . '.' . $column, 'LIKE', "%" . $filter->getValue() . "%");
         } else {
-            $query->where($column, 'LIKE', "%" . $filter->getValue() . "%");
+            $query->{$this->where()}($column, 'LIKE', "%" . $filter->getValue() . "%");
         }
     }
 
@@ -68,5 +76,38 @@ class FieldTypeQuery
     public function orderBy(Builder $query, $direction)
     {
         $query->orderBy($this->fieldType->getColumnName(), $direction);
+    }
+
+    /**
+     * Get the constraint.
+     *
+     * @return string
+     */
+    public function getConstraint()
+    {
+        return $this->constraint;
+    }
+
+    /**
+     * Set the constraint.
+     *
+     * @param $constraint
+     * @return $this
+     */
+    public function setConstraint($constraint)
+    {
+        $this->constraint = $constraint;
+
+        return $this;
+    }
+
+    /**
+     * Return the where clause for the given constraint.
+     *
+     * @return string
+     */
+    protected function where()
+    {
+        return $this->constraint == 'and' ? 'where' : 'orWhere';
     }
 }

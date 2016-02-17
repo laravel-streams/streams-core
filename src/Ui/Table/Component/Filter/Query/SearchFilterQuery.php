@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Entry\EntryQueryBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SearchFilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,12 +19,30 @@ class SearchFilterQuery implements SelfHandling
 {
 
     /**
+     * The service container.
+     *
+     * @var Container
+     */
+    protected $container;
+
+    /**
+     * Create a new FieldFilterQuery instance.
+     *
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
      * Handle the filter.
      *
      * @param Builder               $query
      * @param SearchFilterInterface $filter
+     * @param TableBuilder          $builder
      */
-    public function handle(Builder $query, SearchFilterInterface $filter)
+    public function handle(Builder $query, SearchFilterInterface $filter, TableBuilder $builder)
     {
         $stream = $filter->getStream();
 
@@ -32,9 +51,22 @@ class SearchFilterQuery implements SelfHandling
         }
 
         $query->where(
-            function (Builder $query) use ($filter) {
+            function (Builder $query) use ($filter, $stream) {
+
                 foreach ($filter->getColumns() as $column) {
                     $query->orWhere($column, 'LIKE', "%{$filter->getValue()}%");
+                }
+
+                foreach ($filter->getFields() as $field) {
+
+                    $filter->setField($field);
+
+                    $fieldType      = $stream->getFieldType($field);
+                    $fieldTypeQuery = $fieldType->getQuery();
+
+                    $fieldTypeQuery->setConstraint('or');
+
+                    $this->container->call([$fieldTypeQuery, 'filter'], compact('query', 'filter', 'builder'));
                 }
             }
         );
