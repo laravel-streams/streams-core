@@ -64,6 +64,10 @@ class EloquentQueryBuilder extends Builder
      */
     public function hasJoin($table)
     {
+        if (!$this->query->joins) {
+            return false;
+        }
+
         /* @var JoinClause $join */
         foreach ($this->query->joins as $join) {
             if ($join->table === $table) {
@@ -190,6 +194,18 @@ class EloquentQueryBuilder extends Builder
             } elseif ($model instanceof EntryInterface) {
                 if ($model->getStream()->isSortable()) {
                     $query->orderBy('sort_order', 'ASC');
+<<<<<<< Updated upstream
+=======
+                } elseif ($model->titleColumnIsTranslatable()) {
+
+                    if ($this->hasJoin($model->getTranslationsTableName())) {
+                        $this->joinTranslations();
+                    }
+
+                    $query->orderBy($model->getTitleName(), 'ASC');
+                } elseif ($model->getTitleName() !== 'id') {
+                    $query->orderBy($model->getTitleName(), 'ASC');
+>>>>>>> Stashed changes
                 }
             }
         }

@@ -43,6 +43,10 @@ class EntryQueryBuilder extends EloquentQueryBuilder
      */
     public function joinTranslations()
     {
+        if ($this->hasJoin($this->model->getTranslationsTableName())) {
+            return;
+        }
+
         $this->query->leftJoin(
             $this->model->getTranslationsTableName(),
             $this->model->getTranslationsTableName() . '.entry_id',

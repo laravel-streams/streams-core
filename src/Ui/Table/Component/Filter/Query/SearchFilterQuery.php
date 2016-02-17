@@ -40,9 +40,8 @@ class SearchFilterQuery implements SelfHandling
      *
      * @param Builder               $query
      * @param SearchFilterInterface $filter
-     * @param TableBuilder          $builder
      */
-    public function handle(Builder $query, SearchFilterInterface $filter, TableBuilder $builder)
+    public function handle(Builder $query, SearchFilterInterface $filter)
     {
         $stream = $filter->getStream();
 
