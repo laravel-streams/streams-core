@@ -5,6 +5,8 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Robbo\Presenter\PresentableInterface;
+use Robbo\Presenter\Robbo;
 
 /**
  * Class AssignmentModel
@@ -14,7 +16,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Assignment
  */
-class AssignmentModel extends EloquentModel implements AssignmentInterface
+class AssignmentModel extends EloquentModel implements AssignmentInterface, PresentableInterface
 {
 
     /**
@@ -409,6 +411,16 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface
     public function newCollection(array $items = array())
     {
         return new AssignmentCollection($items);
+    }
+
+    /**
+     * Return a created presenter.
+     *
+     * @return AssignmentPresenter
+     */
+    public function getPresenter()
+    {
+        return new AssignmentPresenter($this);
     }
 
     /**
