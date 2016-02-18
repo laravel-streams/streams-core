@@ -123,6 +123,9 @@ class ButtonRegistry
             'type' => 'info'
         ],
         'info'          => [
+            'type' => 'info'
+        ],
+        'information'   => [
             'text' => 'streams::button.info',
             'icon' => 'fa fa-info',
             'type' => 'info'
