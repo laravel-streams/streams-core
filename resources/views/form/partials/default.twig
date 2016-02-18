@@ -1,9 +1,11 @@
 <div class="card">
     <div class="card-block">
-        <div class="field-group">
-            {% for field in form.fields %}
-                {{ field.render({'form': form})|raw }}
-            {% endfor %}
-        </div>
+        {% for field in form.fields.base() %}
+            <div class="field-group">
+                {% for field in form.fields.translations(field.field) %}
+                    {{ field.render({'form': form})|raw }}
+                {% endfor %}
+            </div>
+        {% endfor %}
     </div>
 </div>
