@@ -65,7 +65,7 @@ class AssignmentPresenter extends EloquentPresenter
      */
     protected function uniqueLabel($size = 'sm')
     {
-        if ($this->object->isRequired()) {
+        if ($this->object->isUnique()) {
             return '<span class="label label-primary label-' . $size . '">' . trans(
                 'streams::assignment.unique.name'
             ) . '</span>';
