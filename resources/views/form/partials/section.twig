@@ -1,24 +1,26 @@
-<div class="{{ section.class ?: form.options.panel_class }}" {{ html_attributes(section.attributes) }}>
+<div class="card" {{ html_attributes(section.attributes) }}>
 
     {% if section.title %}
-        <div class="{{ form.options.panel_heading_class }}">
-            <h2 class="{{ form.options.panel_title_class }}">
+        <div class="card-header">
+            <h2 class="card-title">
                 {{ trans(section.title) }}
 
                 {% if section.description %}
-                    <small class="clearfix">
-                        {{ trans(section.description)|raw }}
+                    <small>
+                        <br>{{ trans(section.description)|raw }}
                     </small>
                 {% endif %}
             </h2>
         </div>
     {% endif %}
 
-    <div class="{{ form.options.panel_body_class }}">
+    <div class="card-block">
         {% for field in section.fields %}
-            {% for field in form.fields.translations(field) %}
-                {{ field.render|raw }}
-            {% endfor %}
+            <div class="field-group">
+                {% for field in form.fields.translations(field) %}
+                    {{ field.render|raw }}
+                {% endfor %}
+            </div>
         {% endfor %}
     </div>
 

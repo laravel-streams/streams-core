@@ -1,7 +1,7 @@
 {% macro tree(items, tree) %}
     {% for item in items %}
         <li data-id="{{ item.id }}">
-            <div class="panel">
+            <div class="card">
 
                 {% if tree.options.get('sortable', true) %}
                     {{ icon('bars', 'handle btn btn-xs') }}

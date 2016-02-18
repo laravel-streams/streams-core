@@ -42,6 +42,22 @@ class AddonCollection extends Collection
         }
     }
 
+    /**
+     * Return all addon namespaces.
+     *
+     * @param null $key
+     * @return array
+     */
+    public function namespaces($key = null)
+    {
+        return array_values(
+            $this->map(
+                function (Addon $addon) use ($key) {
+                    return $addon->getNamespace($key);
+                }
+            )->all()
+        );
+    }
 
     /**
      * Return only core addons.

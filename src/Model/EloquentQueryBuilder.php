@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Entry\EntryQueryBuilder;
 use Database\Query\JoinClause;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -47,7 +48,7 @@ class EloquentQueryBuilder extends Builder
                             return parent::get($columns);
                         }
                     );
-                } catch(\Exception $e) {
+                } catch (\Exception $e) {
                     return parent::get($columns);
                 }
             }

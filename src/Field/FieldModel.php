@@ -55,7 +55,10 @@ class FieldModel extends EloquentModel implements FieldInterface
      * @var array
      */
     protected $translatedAttributes = [
-        'name'
+        'name',
+        'warning',
+        'placeholder',
+        'instructions'
     ];
 
     /**
@@ -108,6 +111,26 @@ class FieldModel extends EloquentModel implements FieldInterface
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Get the warning.
+     *
+     * @return string
+     */
+    public function getWarning()
+    {
+        return $this->warning;
+    }
+
+    /**
+     * Get the instructions.
+     *
+     * @return string
+     */
+    public function getInstructions()
+    {
+        return $this->instructions;
     }
 
     /**

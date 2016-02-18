@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <div class="{{ form.options.container_class }}">
+    <div class="container-fluid">
 
         {{ form_open({'class': 'form', 'enctype': 'multipart/form-data', 'url': form.options.url ?: url_full()}) }}
 
@@ -10,10 +10,10 @@
         <input style="display:none">
         <input type="password" style="display:none; visibility: hidden;">
 
-        {{ view("streams::form/partials/translations", {'form': form}) }}
+        {{ view("streams::form/partials/top-controls", {'form': form}) }}
         {{ view("streams::form/partials/heading", {'form': form}) }}
         {{ view("streams::form/partials/layout", {'form': form}) }}
-        {{ view("streams::form/partials/controls", {'form': form}) }}
+        {{ view("streams::form/partials/bottom-controls", {'form': form}) }}
 
         {{ form_close() }}
 

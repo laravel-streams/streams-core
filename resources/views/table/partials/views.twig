@@ -1,9 +1,9 @@
 {% if not table.views.empty() %}
-    <nav id="views" class="navbar navbar-default">
-        <ul class="nav navbar-nav">
+    <nav id="views">
+        <ul class="nav nav-pills">
             {% for view in table.views %}
-                <li class="{{ view.isActive() ? 'active' }}">
-                    <a class="{{ view.class }}" {{ html_attributes(view.attributes) }}>
+                <li class="nav-item">
+                    <a class="{{ view.class }} nav-link {{ view.isActive() ? 'active' }}" {{ html_attributes(view.attributes) }}>
                         {{ view.icon ? icon(view.icon)|raw }}
                         {{ trans(view.getText()) }}
                     </a>

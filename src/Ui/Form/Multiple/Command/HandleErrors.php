@@ -61,8 +61,8 @@ class HandleErrors implements SelfHandling
      */
     protected function mergeErrors(MessageBag $errors)
     {
-        foreach ($errors->all() as $field => $message) {
-            $this->builder->addFormError($field, $message);
+        foreach ($errors->getMessages() as $field => $message) {
+            $this->builder->addFormError($field, implode('<br>', $message));
         }
     }
 }

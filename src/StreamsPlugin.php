@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform;
 
+use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Entry\Command\GetEntryCriteria;
@@ -226,6 +227,19 @@ class StreamsPlugin extends Plugin
                 'trans',
                 function ($key, array $parameters = [], $locale = 'en') {
                     return $this->dispatch(new GetTranslatedString($key, $parameters, $locale));
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'addons',
+                function ($type = null) {
+
+                    $addons = app(AddonCollection::class);
+
+                    if ($type) {
+                        $addons = $addons->{str_plural($type)}();
+                    }
+
+                    return $addons;
                 }
             ),
             new \Twig_SimpleFunction('trans_exists', [$this->translator, 'exists']),

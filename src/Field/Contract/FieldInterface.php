@@ -30,6 +30,20 @@ interface FieldInterface
     public function getName();
 
     /**
+     * Get the warning.
+     *
+     * @return string
+     */
+    public function getWarning();
+
+    /**
+     * Get the instructions.
+     *
+     * @return string
+     */
+    public function getInstructions();
+
+    /**
      * Get the stream.
      *
      * @return string

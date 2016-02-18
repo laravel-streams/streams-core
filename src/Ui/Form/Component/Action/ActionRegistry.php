@@ -17,17 +17,25 @@ class ActionRegistry
      * @var array
      */
     protected $actions = [
-        'save_and_edit'      => [
-            'button' => 'save',
-            'text'   => 'streams::button.save_and_edit'
+        'update'         => [
+            'button' => 'update',
+            'text'   => 'streams::button.update'
         ],
-        'save_and_continue'  => [
+        'save_exit'      => [
             'button' => 'save',
-            'text'   => 'streams::button.save_and_continue'
+            'text'   => 'streams::button.save_exit'
         ],
-        'save_and_edit_next' => [
+        'save_edit'      => [
             'button' => 'save',
-            'text'   => 'streams::button.save_and_edit_next'
+            'text'   => 'streams::button.save_edit'
+        ],
+        'save_continue'  => [
+            'button' => 'save',
+            'text'   => 'streams::button.save_continue'
+        ],
+        'save_edit_next' => [
+            'button' => 'save',
+            'text'   => 'streams::button.save_edit_next'
         ]
     ];
 

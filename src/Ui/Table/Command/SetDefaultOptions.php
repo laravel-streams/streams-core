@@ -44,24 +44,6 @@ class SetDefaultOptions implements SelfHandling
         $table = $this->builder->getTable();
 
         /**
-         * Set the default ordering options.
-         */
-        if (!$table->getOption('order_by')) {
-
-            $model = $table->getModel();
-
-            if ($model instanceof EntryModel) {
-                if ($table->getOption('sortable') || $model->titleColumnIsTranslatable()) {
-                    $table->setOption('order_by', ['sort_order' => 'asc']);
-                } else {
-                    $table->setOption('order_by', [$model->getTitleName() => 'asc']);
-                }
-            } elseif ($model instanceof EloquentModel) {
-                $table->setOption('order_by', ['id' => 'asc']);
-            }
-        }
-
-        /**
          * Set the default sortable option.
          */
         if ($table->getOption('sortable') === null) {

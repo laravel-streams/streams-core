@@ -797,6 +797,10 @@ class FormBuilder
     {
         $entry = $this->getFormEntry();
 
+        if (!$entry instanceof EloquentModel) {
+            return null;
+        }
+
         return $entry->getId();
     }
 

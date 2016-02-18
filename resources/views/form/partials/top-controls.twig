@@ -1,0 +1,31 @@
+<div class="controls top card" data-spy="affix" data-offset-top="247">
+    <div class="card-block">
+
+        {% if not form.options.read_only %}
+            <div class="actions">
+                {{ buttons(form.actions)|raw }}
+            </div>
+        {% endif %}
+
+        {% if form.translatable %}
+            <div class="btn-group" style="display: inline-block;">
+                <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown">
+                    English
+                </button>
+                <div class="dropdown-menu">
+                    {% for iso in config_get('streams::locales.enabled') %}
+                        <a class="dropdown-item {{ iso == config_get('app.fallback_locale') ? 'active' }}" href="#"
+                           data-toggle="lang" lang="{{ iso }}">
+                            {{ trans('streams::locale.' ~ iso ~ '.name') }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="buttons">
+            {{ buttons(form.buttons)|raw }}
+        </div>
+
+    </div>
+</div>

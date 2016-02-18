@@ -18,7 +18,6 @@ class PublicController extends BaseController
     {
         parent::__construct();
 
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\SetLocale');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\CheckForMaintenanceMode');
     }
 }
