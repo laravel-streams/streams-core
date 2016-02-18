@@ -194,18 +194,15 @@ class EloquentQueryBuilder extends Builder
             } elseif ($model instanceof EntryInterface) {
                 if ($model->getStream()->isSortable()) {
                     $query->orderBy('sort_order', 'ASC');
-<<<<<<< Updated upstream
-=======
                 } elseif ($model->titleColumnIsTranslatable()) {
 
-                    if ($this->hasJoin($model->getTranslationsTableName())) {
+                    if (!$this->hasJoin($model->getTranslationsTableName())) {
                         $this->joinTranslations();
                     }
 
                     $query->orderBy($model->getTitleName(), 'ASC');
                 } elseif ($model->getTitleName() !== 'id') {
                     $query->orderBy($model->getTitleName(), 'ASC');
->>>>>>> Stashed changes
                 }
             }
         }
