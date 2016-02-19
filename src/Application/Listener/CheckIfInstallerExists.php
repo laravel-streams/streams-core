@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
+use Illuminate\Session\Store;
 
 /**
  * Class CheckIfInstallerExists
@@ -31,6 +32,13 @@ class CheckIfInstallerExists
     protected $request;
 
     /**
+     * The session store.
+     *
+     * @var Store
+     */
+    protected $session;
+
+    /**
      * The module collection.
      *
      * @var ModuleCollection
@@ -49,13 +57,20 @@ class CheckIfInstallerExists
      *
      * @param Repository       $config
      * @param Request          $request
+     * @param Store            $session
      * @param ModuleCollection $modules
      * @param MessageBag       $messages
      */
-    public function __construct(Repository $config, Request $request, ModuleCollection $modules, MessageBag $messages)
-    {
+    public function __construct(
+        Repository $config,
+        Request $request,
+        Store $session,
+        ModuleCollection $modules,
+        MessageBag $messages
+    ) {
         $this->config   = $config;
         $this->request  = $request;
+        $this->session  = $session;
         $this->modules  = $modules;
         $this->messages = $messages;
     }
@@ -67,9 +82,11 @@ class CheckIfInstallerExists
     {
         if (
             !$this->config->get('app.debug') &&
+            !$this->session->get(__CLASS__ . 'warned') &&
             $this->request->path() == 'admin/dashboard' &&
             $this->modules->get('anomaly.module.installer')
         ) {
+            $this->session->set(__CLASS__ . 'warned', true);
             $this->messages->error('streams::message.delete_installer');
         }
     }
