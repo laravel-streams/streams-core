@@ -56,7 +56,7 @@ class EloquentTableRepository implements TableRepositoryInterface
          * and our query builder is compliant then
          * join the translations table.
          */
-        if ($stream->isTranslatable() && $query instanceof EntryQueryBuilder) {
+        if ($stream && $stream->isTranslatable() && $query instanceof EntryQueryBuilder) {
             $query->joinTranslations();
         }
 
