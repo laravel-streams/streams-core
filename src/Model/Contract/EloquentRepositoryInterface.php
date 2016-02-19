@@ -86,6 +86,8 @@ interface EloquentRepositoryInterface
 
     /**
      * Truncate the entries.
+     *
+     * @return $this
      */
     public function truncate();
 
