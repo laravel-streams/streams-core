@@ -165,6 +165,16 @@ class EntryTranslationsModel extends EloquentModel
     }
 
     /**
+     * Truncate the translation's table.
+     *
+     * @return mixed
+     */
+    public function truncate()
+    {
+        return $this->newQuery()->truncate();
+    }
+
+    /**
      * Let the parent handle calls if they don't exist here.
      *
      * @param string $name
