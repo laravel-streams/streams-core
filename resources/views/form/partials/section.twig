@@ -1,16 +1,8 @@
 <div class="card" {{ html_attributes(section.attributes) }}>
 
     {% if section.title %}
-        <div class="card-header">
-            <h2 class="card-title">
-                {{ trans(section.title) }}
-
-                {% if section.description %}
-                    <small>
-                        <br>{{ trans(section.description)|raw }}
-                    </small>
-                {% endif %}
-            </h2>
+        <div class="card-label card-label-{{ section.context ?: 'info' }}">
+            {{ trans(section.title) }}
         </div>
     {% endif %}
 
@@ -23,5 +15,9 @@
             </div>
         {% endfor %}
     </div>
+
+    {% if section.title or section.context %}
+        <div class="card-corner card-corner-{{ section.context ?: 'info' }}"></div>
+    {% endif %}
 
 </div>

@@ -57,6 +57,21 @@ interface SectionInterface
     public function setTitle($title);
 
     /**
+     * Get the class.
+     *
+     * @return string
+     */
+    public function getClass();
+
+    /**
+     * Set the class.
+     *
+     * @param $class
+     * @return $this
+     */
+    public function setClass($class);
+
+    /**
      * Get the active flag.
      *
      * @return boolean
