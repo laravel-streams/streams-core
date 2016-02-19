@@ -56,6 +56,13 @@ class Button implements ButtonInterface
     protected $size = 'md';
 
     /**
+     * The required permission.
+     *
+     * @var null|string
+     */
+    protected $permission = null;
+
+    /**
      * The disabled flag.
      *
      * @var bool
@@ -340,6 +347,29 @@ class Button implements ButtonInterface
     public function setSize($size)
     {
         $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * Get the permission.
+     *
+     * @return null|string
+     */
+    public function getPermission()
+    {
+        return $this->permission;
+    }
+
+    /**
+     * Set the permission.
+     *
+     * @param $permission
+     * @return $this
+     */
+    public function setPermission($permission)
+    {
+        $this->permission = $permission;
 
         return $this;
     }

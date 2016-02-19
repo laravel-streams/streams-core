@@ -169,6 +169,21 @@ interface ButtonInterface
     public function getSize();
 
     /**
+     * Get the permission.
+     *
+     * @return null|string
+     */
+    public function getPermission();
+
+    /**
+     * Set the permission.
+     *
+     * @param $permission
+     * @return $this
+     */
+    public function setPermission($permission);
+
+    /**
      * Set the URL.
      *
      * @param $url
