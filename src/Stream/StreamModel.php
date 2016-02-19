@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentModelTranslation;
@@ -468,7 +470,7 @@ class StreamModel extends EloquentModel implements StreamInterface
      * @param                $fieldSlug
      * @param EntryInterface $entry
      * @param null|string    $locale
-     * @return mixed
+     * @return FieldType
      */
     public function getFieldType($fieldSlug, EntryInterface $entry = null, $locale = null)
     {
@@ -477,6 +479,23 @@ class StreamModel extends EloquentModel implements StreamInterface
         }
 
         return $assignment->getFieldType($entry, $locale);
+    }
+
+    /**
+     * Get a field's query utility by the field's slug.
+     *
+     * @param                $fieldSlug
+     * @param EntryInterface $entry
+     * @param null|string    $locale
+     * @return FieldTypeQuery
+     */
+    public function getFieldTypeQuery($fieldSlug, EntryInterface $entry = null, $locale = null)
+    {
+        if (!$fieldType = $this->getFieldType($fieldSlug, $entry, $locale)) {
+            return null;
+        }
+
+        return $fieldType->getQuery();
     }
 
     /**

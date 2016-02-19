@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
+use Anomaly\Streams\Platform\Entry\EntryQueryBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
@@ -44,8 +45,20 @@ class EloquentTableRepository implements TableRepositoryInterface
      */
     public function get(TableBuilder $builder)
     {
+        // Grab any stream we have.
+        $stream = $builder->getTableStream();
+
         // Start a new query.
         $query = $this->model->newQuery();
+
+        /**
+         * If we have a stream, it's translatable
+         * and our query builder is compliant then
+         * join the translations table.
+         */
+        if ($stream->isTranslatable() && $query instanceof EntryQueryBuilder) {
+            $query->joinTranslations();
+        }
 
         /**
          * Prevent joins from overriding intended columns
@@ -108,7 +121,11 @@ class EloquentTableRepository implements TableRepositoryInterface
          */
         if ($order = $builder->getTableOption('order_by')) {
             foreach ($order as $column => $direction) {
-                $query = $query->orderBy($column, $direction);
+                if ($stream && $utility = $stream->getFieldTypeQuery($column)) {
+                    $utility->orderBy($query, $direction);
+                } else {
+                    $query = $query->orderBy($column, $direction);
+                }
             }
         }
 
