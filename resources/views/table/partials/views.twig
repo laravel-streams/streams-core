@@ -1,14 +1,18 @@
 {% if not table.views.empty() %}
-    <nav id="views">
-        <ul class="nav nav-pills">
-            {% for view in table.views %}
-                <li class="nav-item">
-                    <a class="{{ view.class }} nav-link {{ view.isActive() ? 'active' }}" {{ html_attributes(view.attributes) }}>
+    <div class="card">
+
+        <nav class="navbar navbar-light">
+            <div class="nav navbar-nav">
+                {% for view in table.views %}
+                    <a
+                            class="nav-item nav-link {{ view.class }} {{ view.isActive() ? 'active' }}"
+                            {{ html_attributes(view.attributes) }}>
                         {{ view.icon ? icon(view.icon)|raw }}
                         {{ trans(view.getText()) }}
                     </a>
-                </li>
-            {% endfor %}
-        </ul>
-    </nav>
+                {% endfor %}
+            </div>
+        </nav>
+
+    </div>
 {% endif %}
