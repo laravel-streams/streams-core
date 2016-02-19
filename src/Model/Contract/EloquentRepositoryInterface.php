@@ -85,6 +85,11 @@ interface EloquentRepositoryInterface
     public function delete(EloquentModel $entry);
 
     /**
+     * Truncate the entries.
+     */
+    public function truncate();
+
+    /**
      * Set the repository model.
      *
      * @param EloquentModel $model

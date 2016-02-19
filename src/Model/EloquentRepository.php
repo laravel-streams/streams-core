@@ -151,6 +151,15 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Truncate the entries.
+     */
+    public function truncate()
+    {
+        $this->model->truncate();
+        $this->model->flushCache();
+    }
+
+    /**
      * Set the model.
      *
      * @param EloquentModel $model
