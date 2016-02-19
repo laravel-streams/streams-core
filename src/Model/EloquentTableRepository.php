@@ -112,6 +112,10 @@ class EloquentTableRepository implements TableRepositoryInterface
             }
         }
 
+        if ($builder->getTableOption('sortable')) {
+            $query = $query->orderBy('sort_order', 'ASC');
+        }
+
         return $query->get();
     }
 }
