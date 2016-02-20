@@ -25,5 +25,5 @@ return [
 
     '404_redirect' => env('404_REDIRECT'),
     '404_type'     => env('404_TYPE', 301)
-    
+
 ];
