@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension\Command;
 
+use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasInstalled;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
@@ -47,11 +48,18 @@ class InstallExtension implements SelfHandling
     /**
      * Handle the command.
      *
-     * @param  InstallExtension $kernel
+     * @param InstallExtension|Kernel      $console
+     * @param AddonManager                 $manager
+     * @param Dispatcher                   $dispatcher
+     * @param ExtensionRepositoryInterface $extensions
      * @return bool
      */
-    public function handle(Kernel $kernel, Dispatcher $dispatcher, ExtensionRepositoryInterface $extensions)
-    {
+    public function handle(
+        Kernel $console,
+        AddonManager $manager,
+        Dispatcher $dispatcher,
+        ExtensionRepositoryInterface $extensions
+    ) {
         $this->extension->fire('installing');
 
         $options = [
@@ -59,9 +67,15 @@ class InstallExtension implements SelfHandling
             '--force' => true
         ];
 
-        $kernel->call('migrate:refresh', $options);
+        $console->call('migrate:refresh', $options);
 
         $extensions->install($this->extension);
+
+        $manager->register();
+
+        if ($this->seed) {
+            $console->call('db:seed', $options);
+        }
 
         $this->extension->fire('installed');
 

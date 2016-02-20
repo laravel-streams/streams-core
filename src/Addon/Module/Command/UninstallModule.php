@@ -50,6 +50,7 @@ class UninstallModule implements SelfHandling
         ];
 
         $console->call('migrate:reset', $options);
+        $console->call('streams:destroy', ['namespace' => $this->module->getSlug()]);
         $console->call('streams:cleanup');
 
         $modules->uninstall($this->module);

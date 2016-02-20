@@ -2,6 +2,7 @@
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class Reinstall
@@ -34,7 +35,7 @@ class Reinstall extends Command
     public function fire()
     {
         $this->call('module:uninstall', ['module' => $this->argument('module')]);
-        $this->call('module:install', ['module' => $this->argument('module')]);
+        $this->call('module:install', ['module' => $this->argument('module'), '--seed' => $this->option('seed')]);
     }
 
     /**
@@ -45,7 +46,19 @@ class Reinstall extends Command
     protected function getArguments()
     {
         return [
-            ['module', InputArgument::REQUIRED, 'The module\'s dot namespace.'],
+            ['module', InputArgument::REQUIRED, 'The module\'s dot namespace.']
+        ];
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['seed', null, InputOption::VALUE_NONE, 'Seed the module after installing?']
         ];
     }
 }

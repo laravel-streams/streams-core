@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Command;
 
+use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface;
 use Anomaly\Streams\Platform\Addon\Module\Event\ModuleWasInstalled;
 use Anomaly\Streams\Platform\Addon\Module\Module;
@@ -48,12 +49,17 @@ class InstallModule implements SelfHandling
      * Handle the command.
      *
      * @param Kernel                    $console
+     * @param AddonManager              $manager
      * @param Dispatcher                $dispatcher
      * @param ModuleRepositoryInterface $modules
      * @return bool
      */
-    public function handle(Kernel $console, Dispatcher $dispatcher, ModuleRepositoryInterface $modules)
-    {
+    public function handle(
+        Kernel $console,
+        AddonManager $manager,
+        Dispatcher $dispatcher,
+        ModuleRepositoryInterface $modules
+    ) {
         $this->module->fire('installing');
 
         $options = [
@@ -63,11 +69,13 @@ class InstallModule implements SelfHandling
 
         $console->call('migrate:refresh', $options);
 
+        $modules->install($this->module);
+
+        $manager->register();
+
         if ($this->seed) {
             $console->call('db:seed', $options);
         }
-
-        $modules->install($this->module);
 
         $this->module->fire('installed');
 

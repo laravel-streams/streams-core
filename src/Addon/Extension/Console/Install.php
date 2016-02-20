@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionManager;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class Install
@@ -42,7 +43,7 @@ class Install extends Command
         /* @var Extension $extension */
         $extension = $extensions->get($this->argument('extension'));
 
-        $manager->install($extension);
+        $manager->install($extension, $this->option('seed'));
 
         $this->info(trans($extension->getName()) . ' installed successfully!');
     }
@@ -55,7 +56,19 @@ class Install extends Command
     protected function getArguments()
     {
         return [
-            ['extension', InputArgument::REQUIRED, 'The extension\'s dot namespace.'],
+            ['extension', InputArgument::REQUIRED, 'The extension\'s dot namespace.']
+        ];
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['seed', null, InputOption::VALUE_NONE, 'Seed the extension after installing?']
         ];
     }
 }

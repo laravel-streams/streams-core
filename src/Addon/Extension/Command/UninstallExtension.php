@@ -52,6 +52,7 @@ class UninstallExtension implements SelfHandling
         ];
 
         $console->call('migrate:reset', $options);
+        $console->call('streams:destroy', ['namespace' => $this->extension->getSlug()]);
         $console->call('streams:cleanup');
 
         $extensions->uninstall($this->extension);
