@@ -32,7 +32,11 @@ class FieldFormFields
                     'label'        => 'streams::field.name.name',
                     'instructions' => 'streams::field.name.instructions',
                     'type'         => 'anomaly.field_type.text',
-                    'required'     => true
+                    'required'     => true,
+                    'config'       => [
+                        'max'       => 64,
+                        'suggested' => 20
+                    ]
                 ],
                 'slug'         => [
                     'label'        => 'streams::field.slug.name',
@@ -41,7 +45,8 @@ class FieldFormFields
                     'required'     => true,
                     'config'       => [
                         'slugify' => 'name',
-                        'type'    => '_'
+                        'type'    => '_',
+                        'max'     => 64
                     ],
                     'rules'        => [
                         'unique' => 'streams_fields,slug,' . $id . ',namespace,namespace,' . $namespace
