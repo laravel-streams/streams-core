@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -271,6 +272,16 @@ class FieldModel extends EloquentModel implements FieldInterface
     public function getConfigAttribute($config)
     {
         return (array)unserialize($config);
+    }
+
+    /**
+     * Set the stream namespace.
+     *
+     * @param StreamInterface $stream
+     */
+    public function setStreamAttribute(StreamInterface $stream)
+    {
+        $this->attributes['namespace'] = $stream->getNamespace();
     }
 
     /**
