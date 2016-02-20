@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field\Guesser;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -28,7 +30,7 @@ class LabelsGuesser
             $locale = array_get($field, 'locale');
 
             /**
-             * If the label is already set then use it.
+             * If the label are already set then use it.
              */
             if (isset($field['label'])) {
 
@@ -51,42 +53,19 @@ class LabelsGuesser
              * No stream means we can't
              * really do much here.
              */
-            if (!$stream || !$stream->getAssignment($field['field'])) {
-
-                $key = "module::field.{$field['field']}";
-
-                if (trans()->has("{$key}.name")) {
-                    $field['label'] = "{$key}.name";
-                } else {
-                    $field['label'] = "{$key}.label";
-                }
-
-                if (str_is('*::*', $field['label'])) {
-                    $field['label'] = trans($field['label'], [], null, $locale);
-                }
-
+            if (!$stream instanceof StreamInterface) {
                 continue;
             }
 
             $assignment = $stream->getAssignment($field['field']);
+            $object     = $stream->getField($field['field']);
 
             /**
              * No assignment means we still do
              * not have anything to do here.
              */
-            if (!$assignment) {
+            if (!$assignment instanceof AssignmentInterface) {
                 continue;
-            }
-
-            /**
-             * Try using the assignment label system.
-             * This is generated but check for a field
-             * specific variation first.
-             */
-            $label = $assignment->getLabel() . '.' . $stream->getSlug();
-
-            if (str_is('*::*', $label) && trans()->has($label, $locale)) {
-                $field['label'] = trans($label, [], null, $locale);
             }
 
             /**
@@ -95,7 +74,11 @@ class LabelsGuesser
              */
             $label = $assignment->getLabel() . '.default';
 
-            if (!isset($field['label']) && str_is('*::*', $label) && trans()->has($label, $locale)) {
+            if (!isset($field['label']) && str_is('*::*', $label) && trans()->has(
+                    $label,
+                    $locale
+                )
+            ) {
                 $field['label'] = trans($label, [], null, $locale);
             }
 
@@ -114,20 +97,58 @@ class LabelsGuesser
                 $field['label'] = $translated;
             }
 
+            /**
+             * Check if it's just a standard string.
+             */
             if (!isset($field['label']) && $label && !str_is('*::*', $label)) {
                 $field['label'] = $label;
             }
 
-            if (!isset($field['label'])) {
+            /**
+             * Next try using the generic assignment
+             * label system without the stream identifier.
+             */
+            $label = explode('.', $assignment->getLabel());
 
-                $label = $assignment->getFieldName();
+            array_pop($label);
 
-                if (str_is('*::*', $label) && trans()->has($label, $locale)) {
-                    $field['label'] = trans($label, [], null, $locale);
-                }
+            $label = implode('.', $label);
+
+            if (
+                !isset($field['label'])
+                && str_is('*::*', $label)
+                && trans()->has($label, $locale)
+                && is_string($translated = trans($label, [], null, $locale))
+            ) {
+                $field['label'] = $translated;
             }
 
-            if (!isset($field['label'])) {
+            /**
+             * Check if it's just a standard string.
+             */
+            if (!isset($field['label']) && $label && !str_is('*::*', $label)) {
+                $field['label'] = $label;
+            }
+
+            /**
+             * Next try using the default field
+             * label system as generated verbatim.
+             */
+            $label = $object->getName();
+
+            if (
+                !isset($field['label'])
+                && str_is('*::*', $label)
+                && trans()->has($label, $locale)
+                && is_string($translated = trans($label, [], null, $locale))
+            ) {
+                $field['label'] = $translated;
+            }
+
+            /**
+             * Check if it's just a standard string.
+             */
+            if (!isset($field['label']) && $label && !str_is('*::*', $label)) {
                 $field['label'] = $label;
             }
         }
