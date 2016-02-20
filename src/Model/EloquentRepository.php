@@ -163,6 +163,8 @@ class EloquentRepository implements EloquentRepositoryInterface
             $this->delete($entry);
         }
 
+        $this->model->truncate(); // Clear trash
+
         if ($this->model->isTranslatable() && $translation = $this->model->getTranslationModel()) {
 
             $translation->flushCache();
