@@ -47,11 +47,20 @@ class EntryQueryBuilder extends EloquentQueryBuilder
             return;
         }
 
+        $this->query->addSelect($this->model->getTableName() . '.*');
+
+        array_map(
+            function ($field) {
+                $this->query->addSelect($this->model->getTranslationsTableName() . '.' . $field);
+            },
+            $this->model->getTranslatableAssignments()->fieldSlugs()
+        );
+
         $this->query->leftJoin(
             $this->model->getTranslationsTableName(),
-            $this->model->getTranslationsTableName() . '.entry_id',
+            $this->model->getTableName() . '.id',
             '=',
-            $this->model->getTableName() . '.id'
+            $this->model->getTranslationsTableName() . '.entry_id'
         );
 
         $this->where($this->model->getTranslationsTableName() . '.locale', config('app.fallback_locale'));
