@@ -16,13 +16,6 @@ class GetFormCriteria implements SelfHandling
 {
 
     /**
-     * The builder.
-     *
-     * @var string
-     */
-    protected $builder;
-
-    /**
      * The builder parameters.
      *
      * @var array
@@ -32,12 +25,10 @@ class GetFormCriteria implements SelfHandling
     /**
      * Create a new GetFormCriteria instance.
      *
-     * @param array $builder
      * @param array $parameters
      */
-    public function __construct($builder = null, array $parameters = [])
+    public function __construct($parameters)
     {
-        $this->builder    = $builder;
         $this->parameters = $parameters;
     }
 
@@ -49,6 +40,12 @@ class GetFormCriteria implements SelfHandling
      */
     public function handle(FormFactory $factory)
     {
-        return $factory->make($this->builder, $this->parameters);
+        if (is_string($this->parameters)) {
+            $this->parameters = [
+                'builder' => $this->parameters
+            ];
+        }
+
+        return $factory->make($this->parameters);
     }
 }

@@ -54,6 +54,8 @@ class InstallModule implements SelfHandling
      */
     public function handle(Kernel $console, Dispatcher $dispatcher, ModuleRepositoryInterface $modules)
     {
+        $this->module->fire('installing');
+
         $options = [
             '--addon' => $this->module->getNamespace(),
             '--force' => true
@@ -66,6 +68,8 @@ class InstallModule implements SelfHandling
         }
 
         $modules->install($this->module);
+
+        $this->module->fire('installed');
 
         $dispatcher->fire(new ModuleWasInstalled($this->module));
 

@@ -52,6 +52,8 @@ class InstallExtension implements SelfHandling
      */
     public function handle(Kernel $kernel, Dispatcher $dispatcher, ExtensionRepositoryInterface $extensions)
     {
+        $this->extension->fire('installing');
+
         $options = [
             '--addon' => $this->extension->getNamespace(),
             '--force' => true
@@ -60,6 +62,8 @@ class InstallExtension implements SelfHandling
         $kernel->call('migrate:refresh', $options);
 
         $extensions->install($this->extension);
+
+        $this->extension->fire('installed');
 
         $dispatcher->fire(new ExtensionWasInstalled($this->extension));
 

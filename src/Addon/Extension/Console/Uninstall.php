@@ -39,14 +39,10 @@ class Uninstall extends Command
      */
     public function fire(ExtensionManager $manager, ExtensionCollection $extensions)
     {
-        /* @var Extension $extension*/
+        /* @var Extension $extension */
         $extension = $extensions->get($this->argument('extension'));
 
-        $extension->fire('installing');
-
         $manager->uninstall($extension);
-
-        $extension->fire('installed');
 
         $this->info(trans($extension->getName()) . ' uninstalled successfully!');
     }

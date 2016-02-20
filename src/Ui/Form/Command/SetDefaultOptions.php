@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
@@ -36,47 +37,52 @@ class SetDefaultOptions implements SelfHandling
      * Handle the command.
      *
      * @param ModuleCollection $modules
+     * @param ThemeCollection  $themes
      */
-    public function handle(ModuleCollection $modules)
+    public function handle(ModuleCollection $modules, ThemeCollection $themes)
     {
-        $form = $this->builder->getForm();
+        $theme = $themes->current();
 
         /**
-         * Set the default panel classes.
+         * Default the form view based on the request.
          */
-        if ($form->getOption('panel_class') === null) {
-            $form->setOption('panel_class', 'panel');
+        if (!$this->builder->getFormOption('form_view') && $this->builder->isAjax()) {
+            $this->builder->setFormOption('form_view', 'streams::form/ajax');
         }
 
-        if ($form->getOption('panel_title_class') === null) {
-            $form->setOption('panel_title_class', 'title');
+        if (!$this->builder->getFormOption('form_view') && $theme && $theme->isAdmin()) {
+            $this->builder->setFormOption('form_view', 'streams::form/form');
         }
 
-        if ($form->getOption('panel_heading_class') === null) {
-            $form->setOption('panel_heading_class', $form->getOption('panel_class') . '-heading');
+        if (!$this->builder->getFormOption('form_view') && $theme && !$theme->isAdmin()) {
+            $this->builder->setFormOption('form_view', 'streams::form/standard');
         }
 
-        if ($form->getOption('panel_body_class') === null) {
-            $form->setOption('panel_body_class', $form->getOption('panel_class') . '-body');
+        if (!$this->builder->getFormOption('form_view')) {
+            $this->builder->setFormOption('form_view', 'streams::form/admin/form');
         }
 
-        if ($form->getOption('container_class') === null) {
-            $form->setOption('container_class', 'container-fluid');
+        /**
+         * Default the form wrapper view as well.
+         */
+        if (!$this->builder->getFormOption('wrapper_view') && $this->builder->isAjax()) {
+            $this->builder->setFormOption('wrapper_view', 'streams::ajax');
+        }
+
+        if (!$this->builder->getFormOption('wrapper_view')) {
+            $this->builder->setFormOption('wrapper_view', 'streams::blank');
         }
 
         /**
          * If the permission is not set then
          * try and automate it.
          */
-        if ($form->getOption('permission') === null && ($module = $modules->active(
+        if ($this->builder->getFormOption('permission') === null && ($module = $modules->active(
             )) && ($stream = $this->builder->getFormStream())
         ) {
-            $form->setOption(
+            $this->builder->setFormOption(
                 'permission',
-                [
-                    $module->getNamespace($stream->getSlug() . '.write'),
-                    $module->getNamespace($stream->getSlug() . '.' . $this->builder->getFormMode())
-                ]
+                $module->getNamespace($stream->getSlug() . '.write')
             );
         }
     }

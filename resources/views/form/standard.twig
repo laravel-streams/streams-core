@@ -1,0 +1,12 @@
+{{ asset_add("scripts.js", "streams::js/form/translations.js") }}
+
+{% block content %}
+
+    {{ form_open({'class': 'form', 'enctype': 'multipart/form-data', 'url': form.options.url}) }}
+
+    {{ view("streams::form/partials/fields", {'form': form}) }}
+    {{ view("streams::buttons/buttons", {'buttons': form.actions}) }}
+
+    {{ form_close() }}
+
+{% endblock %}

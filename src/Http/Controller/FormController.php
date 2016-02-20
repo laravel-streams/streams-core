@@ -28,7 +28,7 @@ class FormController extends PublicController
     {
         $parameters = $cache->get('form::' . $key);
 
-        $criteria = $this->dispatch(new GetFormCriteria(array_get($parameters, 'builder'), $parameters));
+        $criteria = $this->dispatch(new GetFormCriteria($parameters));
 
         /* @var FormBuilder $builder */
         $builder = $criteria->builder();
@@ -46,6 +46,6 @@ class FormController extends PublicController
             return $redirect->back();
         }
 
-        return $response;
+        return $response ?: $redirect->back();
     }
 }

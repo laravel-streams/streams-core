@@ -9,8 +9,8 @@
 
 <div class="container-fluid">
 
-    {{ view("streams::table/partials/views", {'table': table}) }}
     {{ view("streams::table/partials/filters", {'table': table}) }}
+    {{ view("streams::table/partials/views", {'table': table}) }}
 
     {% if not table.rows.empty() %}
         {% block card %}

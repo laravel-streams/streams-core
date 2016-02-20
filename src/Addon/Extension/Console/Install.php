@@ -42,11 +42,7 @@ class Install extends Command
         /* @var Extension $extension */
         $extension = $extensions->get($this->argument('extension'));
 
-        $extension->fire('installing');
-
         $manager->install($extension);
-
-        $extension->fire('installed');
 
         $this->info(trans($extension->getName()) . ' installed successfully!');
     }

@@ -150,8 +150,8 @@ class StreamsPlugin extends Plugin
             ),
             new \Twig_SimpleFunction(
                 'form',
-                function ($form) {
-                    return $this->dispatch(new GetFormCriteria($form));
+                function ($parameters) {
+                    return $this->dispatch(new GetFormCriteria($parameters));
                 },
                 [
                     'is_safe' => ['html']

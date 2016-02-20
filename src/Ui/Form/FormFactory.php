@@ -37,9 +37,11 @@ class FormFactory
      * @param array $parameters
      * @return FormCriteria
      */
-    public function make($builder = null, array $parameters = [])
+    public function make(array $parameters = [])
     {
-        $builder = $this->container->make($builder ?: 'Anomaly\Streams\Platform\Ui\Form\FormBuilder');
+        $parameters = $this->resolve($parameters);
+
+        $builder = $this->container->make($parameters['builder']);
 
         $criteria = substr(get_class($builder), 0, -7) . 'Criteria';
 
@@ -54,5 +56,33 @@ class FormFactory
                 'parameters' => $parameters
             ]
         );
+    }
+
+    /**
+     * @param array $parameters
+     * @return array
+     */
+    protected function resolve(array $parameters)
+    {
+
+        /**
+         * Set the default builder and model based
+         * a stream and namespace parameter provided.
+         */
+        if (!$builder = array_get($parameters, 'builder')) {
+            if (!$model = array_get($parameters, 'model')) {
+
+                $stream    = ucfirst(camel_case(array_get($parameters, 'stream')));
+                $namespace = ucfirst(camel_case(array_get($parameters, 'namespace')));
+
+                $model = 'Anomaly\Streams\Platform\Model\\' . $namespace . '\\' . $namespace . $stream . 'EntryModel';
+
+                array_set($parameters, 'model', $model);
+            }
+
+            array_set($parameters, 'builder', 'Anomaly\Streams\Platform\Ui\Form\FormBuilder');
+        }
+
+        return $parameters;
     }
 }

@@ -42,11 +42,7 @@ class Uninstall extends Command
         /* @var Module $module */
         $module = $modules->get($this->argument('module'));
 
-        $module->fire('installing');
-
         $manager->uninstall($module);
-
-        $module->fire('installed');
 
         $this->info(trans($module->getName()) . ' uninstalled successfully!');
     }

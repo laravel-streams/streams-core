@@ -43,6 +43,8 @@ class UninstallModule implements SelfHandling
      */
     public function handle(Kernel $console, Dispatcher $events, ModuleRepositoryInterface $modules)
     {
+        $this->module->fire('uninstalling');
+
         $options = [
             '--addon' => $this->module->getNamespace()
         ];
@@ -51,6 +53,8 @@ class UninstallModule implements SelfHandling
         $console->call('streams:cleanup');
 
         $modules->uninstall($this->module);
+
+        $this->module->fire('uninstalled');
 
         $events->fire(new ModuleWasUninstalled($this->module));
     }

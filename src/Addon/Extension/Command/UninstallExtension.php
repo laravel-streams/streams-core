@@ -45,6 +45,8 @@ class UninstallExtension implements SelfHandling
      */
     public function handle(Kernel $console, Dispatcher $events, ExtensionRepositoryInterface $extensions)
     {
+        $this->extension->fire('uninstalling');
+
         $options = [
             '--addon' => $this->extension->getNamespace()
         ];
@@ -53,6 +55,8 @@ class UninstallExtension implements SelfHandling
         $console->call('streams:cleanup');
 
         $extensions->uninstall($this->extension);
+
+        $this->extension->fire('uninstalled');
 
         $events->fire(new ExtensionWasUninstalled($this->extension));
 

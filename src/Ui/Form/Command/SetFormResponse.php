@@ -44,7 +44,7 @@ class SetFormResponse implements SelfHandling
 
         $this->builder->setFormResponse(
             $response->view(
-                $options->get('wrapper_view', $this->builder->isAjax() ? 'streams::ajax' : 'streams::blank'),
+                $options->get('wrapper_view'),
                 $data
             )
         );

@@ -42,11 +42,7 @@ class Install extends Command
         /* @var Module $module */
         $module = $modules->get($this->argument('module'));
 
-        $module->fire('installing');
-
         $manager->install($module);
-
-        $module->fire('installed');
 
         $this->info(trans($module->getName()) . ' installed successfully!');
     }
