@@ -29,7 +29,7 @@ class ActionRegistry
             'handler' => Delete::class
         ],
         'force_delete' => [
-            'button'  => 'delete',
+            'button'  => 'prompt',
             'handler' => ForceDelete::class,
             'text'    => 'streams::button.force_delete',
         ],

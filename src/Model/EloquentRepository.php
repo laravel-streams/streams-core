@@ -211,6 +211,8 @@ class EloquentRepository implements EloquentRepositoryInterface
             foreach ($translation->all() as $entry) {
                 $this->delete($entry);
             }
+
+            $translation->truncate(); // Clear trash
         }
 
         return $this;
