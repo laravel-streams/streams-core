@@ -49,7 +49,7 @@ class FieldFormFields
                         'max'     => 64
                     ],
                     'rules'        => [
-                        'unique' => 'streams_fields,slug,' . $id . ',namespace,namespace,' . $namespace
+                        'unique' => 'streams_fields,slug,' . $id
                     ]
                 ],
                 'placeholder'  => [
