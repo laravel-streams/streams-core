@@ -114,8 +114,8 @@ class ButtonInput
         $this->normalizer->normalize($builder);
         $this->dropdown->flatten($builder);
         $this->lookup->merge($builder);
-        $this->parser->parse($builder);
         $this->guesser->guess($builder);
+        $this->parser->parse($builder);
         $this->dropdown->build($builder);
     }
 }
