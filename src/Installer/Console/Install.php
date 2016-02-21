@@ -27,14 +27,14 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
- * Class InstallStreams
+ * Class Install
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Installer\Console
  */
-class InstallStreams extends Command
+class Install extends Command
 {
 
     use DispatchesJobs;
@@ -44,7 +44,7 @@ class InstallStreams extends Command
      *
      * @var string
      */
-    protected $name = 'install:streams';
+    protected $name = 'install';
 
     /**
      * The console command description.
