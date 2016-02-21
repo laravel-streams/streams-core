@@ -616,6 +616,16 @@ class EloquentModel extends Model implements Arrayable
         return $this->cache['fallback_locale'] = config('app.fallback_locale');
     }
 
+    /**
+     * Return if the entry is trashed or not.
+     *
+     * @return bool
+     */
+    public function trashed()
+    {
+        return parent::trashed();
+    }
+
     public function toArray()
     {
         $attributes = $this->attributesToArray();

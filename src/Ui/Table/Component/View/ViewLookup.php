@@ -41,7 +41,7 @@ class ViewLookup
 
         foreach ($views as &$parameters) {
             if ($view = $this->views->get(array_get($parameters, 'view'))) {
-                $parameters = array_replace_recursive($view, $parameters);
+                $parameters = array_replace_recursive($view, array_except($parameters, ['view']));
             }
         }
 

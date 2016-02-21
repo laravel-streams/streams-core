@@ -255,6 +255,13 @@ interface EntryInterface
     public function lastModified();
 
     /**
+     * Return if the entry is trashed or not.
+     *
+     * @return bool
+     */
+    public function trashed();
+
+    /**
      * Return the object's ETag fingerprint.
      *
      * @return string

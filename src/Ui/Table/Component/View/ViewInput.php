@@ -28,6 +28,13 @@ class ViewInput
     protected $guesser;
 
     /**
+     * The view defaults.
+     *
+     * @var ViewDefaults
+     */
+    protected $defaults;
+
+    /**
      * The view resolver.
      *
      * @var ViewResolver
@@ -46,17 +53,20 @@ class ViewInput
      *
      * @param ViewLookup     $lookup
      * @param ViewGuesser    $guesser
+     * @param ViewDefaults   $defaults
      * @param ViewResolver   $resolver
      * @param ViewNormalizer $normalizer
      */
     public function __construct(
         ViewLookup $lookup,
         ViewGuesser $guesser,
+        ViewDefaults $defaults,
         ViewResolver $resolver,
         ViewNormalizer $normalizer
     ) {
         $this->lookup     = $lookup;
         $this->guesser    = $guesser;
+        $this->defaults   = $defaults;
         $this->resolver   = $resolver;
         $this->normalizer = $normalizer;
     }
@@ -70,6 +80,7 @@ class ViewInput
     public function read(TableBuilder $builder)
     {
         $this->resolver->resolve($builder);
+        $this->defaults->defaults($builder);
         $this->normalizer->normalize($builder);
         $this->lookup->merge($builder);
         $this->guesser->guess($builder);

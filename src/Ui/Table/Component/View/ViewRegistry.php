@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\All;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\RecentlyCreated;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\Trash;
 
 /**
  * Class ViewRegistry
@@ -24,6 +25,11 @@ class ViewRegistry
             'slug' => 'all',
             'text' => 'streams::view.all',
             'view' => All::class,
+        ],
+        'trash'            => [
+            'slug' => 'trash',
+            'text' => 'streams::view.trash',
+            'view' => Trash::class,
         ],
         'recently_created' => [
             'slug' => 'recently_created',

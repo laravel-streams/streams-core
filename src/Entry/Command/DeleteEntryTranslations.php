@@ -36,7 +36,7 @@ class DeleteEntryTranslations implements SelfHandling
      */
     public function handle()
     {
-        if ($this->entry->isTranslatable()) {
+        if ($this->entry->isTranslatable() && !$this->entry->trashed()) {
             foreach ($this->entry->getTranslations() as $translation) {
                 $translation->delete();
             }
