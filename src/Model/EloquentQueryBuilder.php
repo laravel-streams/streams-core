@@ -196,18 +196,17 @@ class EloquentQueryBuilder extends Builder
                     $query->orderBy('sort_order', 'ASC');
                 } elseif ($model->titleColumnIsTranslatable()) {
 
-                    if (!$this->hasJoin($model->getTranslationsTableName())) {
-                        $this->query->leftJoin(
-                            $model->getTranslationsTableName(),
-                            $model->getTableName() . '.id',
-                            '=',
-                            $model->getTranslationsTableName() . '.entry_id'
-                        );
+                    $this->query->leftJoin(
+                        $model->getTranslationsTableName(),
+                        $model->getTableName() . '.id',
+                        '=',
+                        $model->getTranslationsTableName() . '.entry_id'
+                    );
 
-                        $this->where($model->getTranslationsTableName() . '.locale', config('app.fallback_locale'));
-                    }
-
-                    $query->orderBy($model->getTitleName(), 'ASC');
+                    $this
+                        ->select($model->getTableName().'.*')
+                        ->where($model->getTranslationsTableName() . '.locale', config('app.fallback_locale'))
+                        ->orderBy($model->getTranslationsTableName() . '.' . $model->getTitleName(), 'ASC');
                 } elseif ($model->getTitleName() && $model->getTitleName() !== 'id') {
                     $query->orderBy($model->getTitleName(), 'ASC');
                 }
