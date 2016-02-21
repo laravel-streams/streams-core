@@ -23,8 +23,7 @@ class FieldFormFields
      */
     public function handle(FieldFormBuilder $builder)
     {
-        $id        = $builder->getFormEntryId();
-        $namespace = $builder->getFieldNamespace();
+        $id = $builder->getFormEntryId();
 
         $builder->setFields(
             [
@@ -33,6 +32,7 @@ class FieldFormFields
                     'instructions' => 'streams::field.name.instructions',
                     'type'         => 'anomaly.field_type.text',
                     'required'     => true,
+                    'translatable' => true,
                     'config'       => [
                         'max'       => 64,
                         'suggested' => 20
@@ -55,17 +55,20 @@ class FieldFormFields
                 'placeholder'  => [
                     'label'        => 'streams::field.placeholder.name',
                     'instructions' => 'streams::field.placeholder.instructions',
-                    'type'         => 'anomaly.field_type.text'
+                    'type'         => 'anomaly.field_type.text',
+                    'translatable' => true
                 ],
                 'instructions' => [
                     'label'        => 'streams::field.instructions.name',
                     'instructions' => 'streams::field.instructions.instructions',
-                    'type'         => 'anomaly.field_type.textarea'
+                    'type'         => 'anomaly.field_type.textarea',
+                    'translatable' => true
                 ],
                 'warning'      => [
                     'label'        => 'streams::field.warning.name',
                     'instructions' => 'streams::field.warning.instructions',
-                    'type'         => 'anomaly.field_type.text'
+                    'type'         => 'anomaly.field_type.text',
+                    'translatable' => true
                 ]
             ]
         );

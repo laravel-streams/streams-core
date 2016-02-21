@@ -38,28 +38,9 @@ class StreamFormBuilder extends FormBuilder
     /**
      * The form fields.
      *
-     * @var array
+     * @var StreamFormFields
      */
-    protected $fields = [
-        'name'        => [
-            'required'     => true,
-            'translatable' => true,
-            'type'         => 'anomaly.field_type.text'
-        ],
-        'slug'        => [
-            'unique'   => true,
-            'required' => true,
-            'disabled' => 'edit',
-            'type'     => 'anomaly.field_type.slug',
-            'config'   => [
-                'slugify' => 'name'
-            ]
-        ],
-        'description' => [
-            'translatable' => true,
-            'type'         => 'anomaly.field_type.textarea'
-        ]
-    ];
+    protected $fields = StreamFormFields::class;
 
     /**
      * Fired just before saving.
