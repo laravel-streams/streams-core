@@ -222,6 +222,17 @@ class EloquentModel extends Model implements Arrayable
     }
 
     /**
+     * Return whether the model is being
+     * force deleted or not.
+     *
+     * @return bool
+     */
+    public function isForceDeleting()
+    {
+        return isset($this->forceDeleting) && $this->forceDeleting == true;
+    }
+
+    /**
      * Flush the model's cache.
      *
      * @return $this

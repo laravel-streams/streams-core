@@ -1,18 +1,18 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Type;
+<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Query;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewQueryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class TrashQuery
+ * Class AllQuery
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Table\Component\View\Type
+ * @package       Anomaly\Streams\Platform\Ui\Table\Component\View\Query
  */
-class TrashQuery implements ViewQueryInterface
+class AllQuery implements ViewQueryInterface
 {
 
     /**
@@ -23,6 +23,5 @@ class TrashQuery implements ViewQueryInterface
      */
     public function handle(TableBuilder $builder, Builder $query)
     {
-        $query->withTrashed();
     }
 }

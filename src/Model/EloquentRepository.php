@@ -37,6 +37,21 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Find a trashed record by it's ID.
+     *
+     * @param $id
+     * @return null|EloquentModel
+     */
+    public function findTrashed($id)
+    {
+        return $this->model
+            ->onlyTrashed()
+            ->orderBy('id', 'ASC')
+            ->where('id', $id)
+            ->first();
+    }
+
+    /**
      * Create a new record.
      *
      * @param array $attributes
@@ -148,6 +163,17 @@ class EloquentRepository implements EloquentRepositoryInterface
     public function delete(EloquentModel $entry)
     {
         return $entry->delete();
+    }
+
+    /**
+     * Force delete a record.
+     *
+     * @param EloquentModel $entry
+     * @return bool
+     */
+    public function forceDelete(EloquentModel $entry)
+    {
+        return $entry->forceDelete();
     }
 
     /**

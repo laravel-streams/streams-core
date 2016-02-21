@@ -31,6 +31,14 @@ interface EloquentRepositoryInterface
     public function find($id);
 
     /**
+     * Find a trashed record by it's ID.
+     *
+     * @param $id
+     * @return null|EloquentModel
+     */
+    public function findTrashed($id);
+
+    /**
      * Create a new record.
      *
      * @param array $attributes
@@ -83,6 +91,14 @@ interface EloquentRepositoryInterface
      * @return bool
      */
     public function delete(EloquentModel $entry);
+
+    /**
+     * Force delete a record.
+     *
+     * @param EloquentModel $entry
+     * @return bool
+     */
+    public function forceDelete(EloquentModel $entry);
 
     /**
      * Truncate the entries.

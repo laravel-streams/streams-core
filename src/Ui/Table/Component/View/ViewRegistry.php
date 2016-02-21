@@ -27,9 +27,15 @@ class ViewRegistry
             'view' => All::class,
         ],
         'trash'            => [
-            'slug' => 'trash',
-            'text' => 'streams::view.trash',
-            'view' => Trash::class,
+            'slug'    => 'trash',
+            'text'    => 'streams::view.trash',
+            'view'    => Trash::class,
+            'buttons' => [
+                'restore'
+            ],
+            'actions' => [
+                'force_delete'
+            ]
         ],
         'recently_created' => [
             'slug' => 'recently_created',

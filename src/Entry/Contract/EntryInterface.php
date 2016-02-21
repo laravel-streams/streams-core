@@ -248,6 +248,21 @@ interface EntryInterface
     public function isDeletable();
 
     /**
+     * Return whether the entry is trashable or not.
+     *
+     * @return bool
+     */
+    public function isTrashable();
+
+    /**
+     * Return whether the model is being
+     * force deleted or not.
+     *
+     * @return bool
+     */
+    public function isForceDeleting();
+
+    /**
      * Return the last modified datetime.
      *
      * @return Carbon

@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Type;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Query\AllQuery;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\View;
 
 /**

@@ -548,6 +548,18 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Return whether the entry is trashable or not.
+     *
+     * @return bool
+     */
+    public function isTrashable()
+    {
+        $stream = $this->getStream();
+
+        return $stream->isTrashable();
+    }
+
+    /**
      * Return the last modified datetime.
      *
      * @return Carbon
