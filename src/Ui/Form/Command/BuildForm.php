@@ -90,7 +90,7 @@ class BuildForm implements SelfHandling
          * Build form buttons.
          */
         $this->dispatch(new BuildButtons($this->builder));
-        
+
         $events->fire(new FormWasBuilt($this->builder));
     }
 }

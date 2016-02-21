@@ -21,24 +21,6 @@ class EntryQueryBuilder extends EloquentQueryBuilder
     protected $model;
 
     /**
-     * Check for field type querying methods.
-     *
-     * @param string $method
-     * @param array  $parameters
-     * @return mixed
-     */
-    public function fieldType($method, $parameters)
-    {
-        $query = $this->model->getFieldTypeQuery(snake_case($method));
-
-        $method = array_shift($parameters);
-
-        array_unshift($parameters, $this);
-
-        return call_user_func_array([$query, camel_case($method)], $parameters);
-    }
-
-    /**
      * Dynamically handle calls into the query instance.
      *
      * @param  string $method
@@ -55,5 +37,23 @@ class EntryQueryBuilder extends EloquentQueryBuilder
         }
 
         return parent::__call($method, $parameters);
+    }
+
+    /**
+     * Check for field type querying methods.
+     *
+     * @param string $method
+     * @param array  $parameters
+     * @return mixed
+     */
+    public function fieldType($method, $parameters)
+    {
+        $query = $this->model->getFieldTypeQuery(snake_case($method));
+
+        $method = array_shift($parameters);
+
+        array_unshift($parameters, $this);
+
+        return call_user_func_array([$query, camel_case($method)], $parameters);
     }
 }

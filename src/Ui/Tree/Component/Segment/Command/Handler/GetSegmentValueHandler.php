@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Command\Handler;
 
-use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\SegmentValue;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Command\GetSegmentValue;
+use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\SegmentValue;
 
 /**
  * Class GetSegmentValueHandler
@@ -39,8 +39,8 @@ class GetSegmentValueHandler
      */
     public function handle(GetSegmentValue $command)
     {
-        $entry  = $command->getEntry();
-        $tree  = $command->getTree();
+        $entry   = $command->getEntry();
+        $tree    = $command->getTree();
         $segment = $command->getSegment();
 
         return $this->value->make($tree, $segment, $entry);

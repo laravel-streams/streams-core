@@ -135,16 +135,6 @@ class ControlPanelBuilder
     }
 
     /**
-     * Get the control panel sections.
-     *
-     * @return Component\Section\SectionCollection
-     */
-    public function getControlPanelSections()
-    {
-        return $this->controlPanel->getSections();
-    }
-
-    /**
      * Return the active control panel section.
      *
      * @return Component\Section\Contract\SectionInterface|null
@@ -154,5 +144,15 @@ class ControlPanelBuilder
         $sections = $this->getControlPanelSections();
 
         return $sections->active();
+    }
+
+    /**
+     * Get the control panel sections.
+     *
+     * @return Component\Section\SectionCollection
+     */
+    public function getControlPanelSections()
+    {
+        return $this->controlPanel->getSections();
     }
 }

@@ -204,7 +204,7 @@ class EloquentQueryBuilder extends Builder
                     );
 
                     $this
-                        ->select($model->getTableName().'.*')
+                        ->select($model->getTableName() . '.*')
                         ->where($model->getTranslationsTableName() . '.locale', config('app.fallback_locale'))
                         ->orderBy($model->getTranslationsTableName() . '.' . $model->getTitleName(), 'ASC');
                 } elseif ($model->getTitleName() && $model->getTitleName() !== 'id') {

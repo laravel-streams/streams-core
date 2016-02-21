@@ -86,6 +86,36 @@ class AddonPaths
     }
 
     /**
+     * Return paths to eager loaded addons.
+     *
+     * @return array
+     */
+    protected function eager()
+    {
+        return array_map(
+            function ($path) {
+                return base_path($path);
+            },
+            $this->config->get('streams::addons.eager', [])
+        );
+    }
+
+    /**
+     * Return paths to deferred addons.
+     *
+     * @return array
+     */
+    protected function deferred()
+    {
+        return array_map(
+            function ($path) {
+                return base_path($path);
+            },
+            $this->config->get('streams::addons.deferred', [])
+        );
+    }
+
+    /**
      * Return all core addon paths in a given folder.
      *
      * @return bool
@@ -100,6 +130,25 @@ class AddonPaths
         }
 
         return $this->vendorAddons(glob("{$path}/*", GLOB_ONLYDIR));
+    }
+
+    /**
+     * Return vendor addons of a given type.
+     *
+     * @param $directories
+     * @return array
+     */
+    protected function vendorAddons($directories)
+    {
+        $paths = [];
+
+        foreach ($directories as $vendor) {
+            foreach (glob("{$vendor}/*", GLOB_ONLYDIR) as $addon) {
+                $paths[] = $addon;
+            }
+        }
+
+        return $paths;
     }
 
     /**
@@ -137,52 +186,19 @@ class AddonPaths
     }
 
     /**
-     * Return vendor addons of a given type.
+     * Return paths to testing only addons.
      *
-     * @param $directories
-     * @return array
+     * @return array|bool
      */
-    protected function vendorAddons($directories)
+    protected function testing()
     {
-        $paths = [];
+        $path = base_path('vendor/anomaly/streams-platform/addons');
 
-        foreach ($directories as $vendor) {
-            foreach (glob("{$vendor}/*", GLOB_ONLYDIR) as $addon) {
-                $paths[] = $addon;
-            }
+        if (!is_dir($path) || env('APP_ENV') !== 'testing') {
+            return false;
         }
 
-        return $paths;
-    }
-
-    /**
-     * Return paths to eager loaded addons.
-     *
-     * @return array
-     */
-    protected function eager()
-    {
-        return array_map(
-            function ($path) {
-                return base_path($path);
-            },
-            $this->config->get('streams::addons.eager', [])
-        );
-    }
-
-    /**
-     * Return paths to deferred addons.
-     *
-     * @return array
-     */
-    protected function deferred()
-    {
-        return array_map(
-            function ($path) {
-                return base_path($path);
-            },
-            $this->config->get('streams::addons.deferred', [])
-        );
+        return $this->vendorAddons(glob("{$path}/*", GLOB_ONLYDIR));
     }
 
     /**
@@ -198,21 +214,5 @@ class AddonPaths
             },
             $this->config->get('streams::addons.paths', [])
         );
-    }
-
-    /**
-     * Return paths to testing only addons.
-     *
-     * @return array|bool
-     */
-    protected function testing()
-    {
-        $path = base_path('vendor/anomaly/streams-platform/addons');
-
-        if (!is_dir($path) || env('APP_ENV') !== 'testing') {
-            return false;
-        }
-
-        return $this->vendorAddons(glob("{$path}/*", GLOB_ONLYDIR));
     }
 }

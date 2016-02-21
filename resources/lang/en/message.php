@@ -19,8 +19,9 @@ return [
     'delete_installer'    => 'The installer module still exists! Please delete it from your server! Leaving it online means control of this site could be granted to somebody else.',
     'create_success'      => ':name created successfully.',
     'edit_success'        => ':name updated successfully.',
-    'confirm_delete'      => '<h3>Are you sure you want to delete?</h3><p>This can not be undone.</p>',
+    'confirm_delete'      => '<h3>Are you sure you want to delete?</h3>',
     'confirm_uninstall'   => '<h3>Are you sure you want to uninstall?</h3><p>Any associated data will be lost.</p>',
     'prompt_delete'       => '<h3>Are you sure you want to delete?</h3><p>Type \"yes\" to confirm.</p>',
     'form_is_read_only'   => 'This form is read only!',
+    'restore_success'     => 'The entry was restored successfully.',
 ];

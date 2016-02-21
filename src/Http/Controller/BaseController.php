@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Event\Response;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\View\ViewTemplate;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
@@ -24,6 +25,13 @@ class BaseController extends Controller
 {
 
     use DispatchesJobs;
+
+    /**
+     * The service container.
+     *
+     * @var Container
+     */
+    protected $container;
 
     /**
      * The view factory.
@@ -86,6 +94,7 @@ class BaseController extends Controller
      */
     public function __construct()
     {
+        $this->container   = app();
         $this->request     = app('Illuminate\Http\Request');
         $this->redirect    = app('Illuminate\Routing\Redirector');
         $this->view        = app('Illuminate\Contracts\View\Factory');

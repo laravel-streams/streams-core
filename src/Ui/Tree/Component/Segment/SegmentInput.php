@@ -71,7 +71,7 @@ class SegmentInput
         $this->resolver->resolve($builder);
         $this->normalizer->normalize($builder);
         $this->parser->parse($builder);
-        
+
         $this->translator->translate($builder);
     }
 }

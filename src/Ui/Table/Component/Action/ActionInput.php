@@ -14,13 +14,6 @@ class ActionInput
 {
 
     /**
-     * The action parser.
-     *
-     * @var ActionParser
-     */
-    private $parser;
-
-    /**
      * The action lookup.
      *
      * @var ActionLookup
@@ -68,6 +61,13 @@ class ActionInput
      * @var ActionNormalizer
      */
     protected $normalizer;
+
+    /**
+     * The action parser.
+     *
+     * @var ActionParser
+     */
+    private $parser;
 
     /**
      * Create a new ActionInput instance.

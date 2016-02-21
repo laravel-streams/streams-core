@@ -37,6 +37,23 @@ class ThemeCollection extends AddonCollection
     }
 
     /**
+     * Return the current theme.
+     *
+     * @return null|Theme
+     */
+    public function current()
+    {
+        /* @var Theme $item */
+        foreach ($this->items as $item) {
+            if ($item->isCurrent()) {
+                return $item;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Return only non-admin themes.
      *
      * @return ThemeCollection
@@ -72,22 +89,5 @@ class ThemeCollection extends AddonCollection
         }
 
         return new static($items);
-    }
-
-    /**
-     * Return the current theme.
-     *
-     * @return null|Theme
-     */
-    public function current()
-    {
-        /* @var Theme $item */
-        foreach ($this->items as $item) {
-            if ($item->isCurrent()) {
-                return $item;
-            }
-        }
-
-        return null;
     }
 }

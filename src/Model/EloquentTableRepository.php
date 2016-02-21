@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Entry\EntryQueryBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;

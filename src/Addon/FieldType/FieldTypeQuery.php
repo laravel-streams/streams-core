@@ -91,6 +91,16 @@ class FieldTypeQuery
     }
 
     /**
+     * Return the where clause for the given constraint.
+     *
+     * @return string
+     */
+    protected function where()
+    {
+        return $this->constraint == 'and' ? 'where' : 'orWhere';
+    }
+
+    /**
      * Order a query in the given direction
      * by a field using this field type.
      *
@@ -123,15 +133,5 @@ class FieldTypeQuery
         $this->constraint = $constraint;
 
         return $this;
-    }
-
-    /**
-     * Return the where clause for the given constraint.
-     *
-     * @return string
-     */
-    protected function where()
-    {
-        return $this->constraint == 'and' ? 'where' : 'orWhere';
     }
 }

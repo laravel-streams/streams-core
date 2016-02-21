@@ -47,12 +47,12 @@ class PresenterStub
 
     protected $protected = true;
 
+    protected $protectedValue = 'protected';
+
     public function isProtected()
     {
         return $this->protected;
     }
-
-    protected $protectedValue = 'protected';
 
     public function getProtectedValue()
     {

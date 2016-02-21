@@ -1,85 +1,85 @@
 <?php
 
 return [
-    'sv' => [
+    'sv'  => [
         'name' => 'Svenska'
     ],
-    'en' => [
+    'en'  => [
         'name' => 'Engelska'
     ],
-    'ar' => [
+    'ar'  => [
         'name' => 'Arabiska'
     ],
-    'br' => [
+    'br'  => [
         'name' => 'Bretonska'
     ],
-    'da' => [
+    'da'  => [
         'name' => 'Danska'
     ],
-    'fr' => [
+    'fr'  => [
         'name' => 'Franska'
     ],
-    'fi' => [
+    'fi'  => [
         'name' => 'Finska'
     ],
-    'el' => [
+    'el'  => [
         'name' => 'Grekiska'
     ],
-    'he' => [
+    'he'  => [
         'name' => 'Hebreiska'
     ],
-    'hi' => [
+    'hi'  => [
         'name' => 'Hindi'
     ],
-    'id' => [
+    'id'  => [
         'name' => 'Indonesiska'
     ],
-    'it' => [
+    'it'  => [
         'name' => 'Italienska'
     ],
-    'cn' => [
+    'cn'  => [
         'name' => 'Kinesiska'
     ],
-    'lt' => [
+    'lt'  => [
         'name' => 'Litauiska'
     ],
-    'nl' => [
+    'nl'  => [
         'name' => 'Nederländska'
     ],
     'sme' => [
         'name' => 'Nordsamiska'
     ],
-    'fa' => [
+    'fa'  => [
         'name' => 'Persiska'
     ],
-    'pl' => [
+    'pl'  => [
         'name' => 'Polska'
     ],
-    'pt' => [
+    'pt'  => [
         'name' => 'Portugisiska'
     ],
-    'ru' => [
+    'ru'  => [
         'name' => 'Ryska'
     ],
-    'sl' => [
+    'sl'  => [
         'name' => 'Slovenska'
     ],
-    'es' => [
+    'es'  => [
         'name' => 'Spanska'
     ],
-    'tw' => [
+    'tw'  => [
         'name' => 'Taiwanesiska'
     ],
-    'th' => [
+    'th'  => [
         'name' => 'Thailändska'
     ],
-    'cs' => [
+    'cs'  => [
         'name' => 'Tjeckiska'
     ],
-    'de' => [
+    'de'  => [
         'name' => 'Tyska'
     ],
-    'hu' => [
+    'hu'  => [
         'name' => 'Ungerska'
     ],
 ];

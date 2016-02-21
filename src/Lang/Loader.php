@@ -39,7 +39,7 @@ class Loader extends FileLoader
      * Load namespaced overrides from
      * system AND application paths.
      *
-     * @param array  $lines
+     * @param array $lines
      * @param string $locale
      * @param string $group
      * @param string $namespace
@@ -111,7 +111,9 @@ class Loader extends FileLoader
 
             list($vendor, $type, $slug) = explode('.', $namespace);
 
-            $file = $this->application->getResourcesPath("lang/addons/{$vendor}/{$slug}-{$type}/{$locale}/{$group}.php");
+            $file = $this->application->getResourcesPath(
+                "lang/addons/{$vendor}/{$slug}-{$type}/{$locale}/{$group}.php"
+            );
 
             if ($this->files->exists($file)) {
                 $lines = array_replace_recursive($lines, $this->files->getRequire($file));

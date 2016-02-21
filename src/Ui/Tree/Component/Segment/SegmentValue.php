@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Support\Value;
 use Anomaly\Streams\Platform\Ui\Tree\Tree;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\View\View;
 
 /**
@@ -37,7 +36,7 @@ class SegmentValue
     /**
      * Return the segment value.
      *
-     * @param Tree $tree
+     * @param Tree  $tree
      * @param array $segment
      * @param       $entry
      * @return View|mixed|null

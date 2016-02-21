@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Command\Handler;
 
-use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\SegmentBuilder;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\Command\BuildSegments;
+use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\SegmentBuilder;
 
 /**
  * Class BuildSegmentsHandler

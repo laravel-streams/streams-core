@@ -101,6 +101,14 @@ interface EloquentRepositoryInterface
     public function forceDelete(EloquentModel $entry);
 
     /**
+     * Restore a trashed record.
+     *
+     * @param EloquentModel $entry
+     * @return bool
+     */
+    public function restore(EloquentModel $entry);
+
+    /**
      * Truncate the entries.
      *
      * @return $this

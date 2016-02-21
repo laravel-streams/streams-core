@@ -177,6 +177,17 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Restore a trashed record.
+     *
+     * @param EloquentModel $entry
+     * @return bool
+     */
+    public function restore(EloquentModel $entry)
+    {
+        return $entry->restore();
+    }
+
+    /**
      * Truncate the entries.
      *
      * @return $this

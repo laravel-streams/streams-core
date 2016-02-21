@@ -32,6 +32,20 @@ class StreamStore
     }
 
     /**
+     * Get the cache key.
+     *
+     * @param array $data
+     * @return string
+     */
+    protected function getCacheKey(array $data)
+    {
+        $stream    = array_get($data, 'slug');
+        $namespace = array_get($data, 'namespace');
+
+        return "stream.make::{$namespace}.{$stream}";
+    }
+
+    /**
      * Get a stream from cache.
      *
      * @param $data
@@ -44,19 +58,5 @@ class StreamStore
         }
 
         return null;
-    }
-
-    /**
-     * Get the cache key.
-     *
-     * @param array $data
-     * @return string
-     */
-    protected function getCacheKey(array $data)
-    {
-        $stream    = array_get($data, 'slug');
-        $namespace = array_get($data, 'namespace');
-
-        return "stream.make::{$namespace}.{$stream}";
     }
 }

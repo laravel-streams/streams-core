@@ -38,14 +38,14 @@ class GetSegmentValue
     /**
      * Create a new GetSegmentValue instance.
      *
-     * @param Tree           $tree
+     * @param Tree             $tree
      * @param SegmentInterface $segment
-     * @param                 $entry
+     * @param                  $entry
      */
     function __construct(Tree $tree, SegmentInterface $segment, $entry)
     {
-        $this->entry  = $entry;
-        $this->tree  = $tree;
+        $this->entry   = $entry;
+        $this->tree    = $tree;
         $this->segment = $segment;
     }
 

@@ -1,8 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
 
-use Anomaly\Streams\Platform\Entry\EntryQueryBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SearchFilterInterface;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder;

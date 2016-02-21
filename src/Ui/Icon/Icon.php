@@ -1,13 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Icon;
 
-/**
- * Class Icon
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Icon
- */
+    /**
+     * Class Icon
+     *
+     * @link          http://anomaly.is/streams-platform
+     * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+     * @author        Ryan Thompson <ryan@anomaly.is>
+     * @package       Anomaly\Streams\Platform\Ui\Icon
+     */
 /**
  * Class Icon
  *
@@ -32,16 +32,6 @@ class Icon
      * @var string
      */
     protected $class;
-
-    /**
-     * Return the icon output.
-     *
-     * @return string
-     */
-    public function output()
-    {
-        return '<i class="' . $this->type . ' ' . $this->class . '"></i>';
-    }
 
     /**
      * Get the type.
@@ -97,5 +87,15 @@ class Icon
     function __toString()
     {
         return $this->output();
+    }
+
+    /**
+     * Return the icon output.
+     *
+     * @return string
+     */
+    public function output()
+    {
+        return '<i class="' . $this->type . ' ' . $this->class . '"></i>';
     }
 }

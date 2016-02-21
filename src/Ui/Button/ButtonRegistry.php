@@ -106,6 +106,11 @@ class ButtonRegistry
             'type' => 'success',
             'icon' => 'check'
         ],
+        'restore'       => [
+            'text' => 'streams::button.restore',
+            'type' => 'success',
+            'icon' => 'repeat'
+        ],
         'finish'        => [
             'text' => 'streams::button.finish',
             'type' => 'success',

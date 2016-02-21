@@ -390,11 +390,16 @@ class StreamsServiceProvider extends ServiceProvider
         }
 
         /**
-         * Register form handler route.
+         * Register system routes.
          */
         $this->app->make('router')->post(
             'form/handle/{key}',
             'Anomaly\Streams\Platform\Http\Controller\FormController@handle'
+        );
+
+        $this->app->make('router')->get(
+            'entry/handle/restore/{addon}/{namespace}/{stream}/{id}',
+            'Anomaly\Streams\Platform\Http\Controller\EntryController@restore'
         );
     }
 }

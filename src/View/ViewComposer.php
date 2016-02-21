@@ -118,7 +118,7 @@ class ViewComposer
         $this->overrides = $overrides;
 
         $area = $request->segment(1) == 'admin' ? 'admin' : 'standard';
-        
+
         $this->theme  = $this->addons->themes->active($area);
         $this->module = $this->addons->modules->active();
 

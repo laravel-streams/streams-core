@@ -1,11 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
 use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
-use Illuminate\Console\Command;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Michelf\Markdown;
 
 /**
  * Class ConfigureDatabase

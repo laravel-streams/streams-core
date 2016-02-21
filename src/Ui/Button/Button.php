@@ -145,6 +145,16 @@ class Button implements ButtonInterface
     }
 
     /**
+     * Get the dropdown position.
+     *
+     * @return array
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
      * Set the dropdown position.
      *
      * @param array $position
@@ -158,13 +168,13 @@ class Button implements ButtonInterface
     }
 
     /**
-     * Get the dropdown position.
+     * Get the parent.
      *
-     * @return array
+     * @return string|null
      */
-    public function getPosition()
+    public function getParent()
     {
-        return $this->position;
+        return $this->parent;
     }
 
     /**
@@ -178,16 +188,6 @@ class Button implements ButtonInterface
         $this->parent = $parent;
 
         return $this;
-    }
-
-    /**
-     * Get the parent.
-     *
-     * @return string|null
-     */
-    public function getParent()
-    {
-        return $this->parent;
     }
 
     /**

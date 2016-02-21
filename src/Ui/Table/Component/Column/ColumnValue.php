@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Support\Value;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\View\View;
 
 /**

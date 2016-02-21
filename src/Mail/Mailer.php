@@ -14,9 +14,9 @@ class Mailer extends \Illuminate\Mail\Mailer
     /**
      * Send a new message using a view.
      *
-     * @param  string|array  $view
-     * @param  array  $data
-     * @param  \Closure|string  $callback
+     * @param  string|array    $view
+     * @param  array           $data
+     * @param  \Closure|string $callback
      * @return mixed
      */
     public function send($view, array $data, $callback)

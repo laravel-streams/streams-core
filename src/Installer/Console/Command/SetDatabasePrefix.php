@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Installer\Console\Command;
 
-use Illuminate\Console\Command;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Bus\DispatchesJobs;

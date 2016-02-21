@@ -18,6 +18,7 @@ return [
     'help'           => 'Help',
     'remove'         => 'Remove',
     'delete'         => 'Delete',
+    'restore'        => 'Restore',
     'force_delete'   => 'Force Delete',
     'create'         => 'Create',
     'cancel'         => 'Cancel',

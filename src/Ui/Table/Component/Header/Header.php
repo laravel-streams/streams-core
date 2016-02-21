@@ -70,6 +70,29 @@ class Header implements HeaderInterface
     }
 
     /**
+     * Get the table builder.
+     *
+     * @return TableBuilder
+     */
+    public function getBuilder()
+    {
+        return $this->builder;
+    }
+
+    /**
+     * Set the table builder.
+     *
+     * @param TableBuilder $builder
+     * @return $this
+     */
+    public function setBuilder(TableBuilder $builder)
+    {
+        $this->builder = $builder;
+
+        return $this;
+    }
+
+    /**
      * Get the current direction
      * defaulting to ascending.
      *
@@ -90,24 +113,24 @@ class Header implements HeaderInterface
     }
 
     /**
-     * Get the table builder.
+     * Get the sort column.
      *
-     * @return TableBuilder
+     * @return string
      */
-    public function getBuilder()
+    public function getSortColumn()
     {
-        return $this->builder;
+        return $this->sortColumn;
     }
 
     /**
-     * Set the table builder.
+     * Set the sort column.
      *
-     * @param TableBuilder $builder
+     * @param string $sortColumn
      * @return $this
      */
-    public function setBuilder(TableBuilder $builder)
+    public function setSortColumn($sortColumn)
     {
-        $this->builder = $builder;
+        $this->sortColumn = $sortColumn;
 
         return $this;
     }
@@ -154,29 +177,6 @@ class Header implements HeaderInterface
     public function setSortable($sortable)
     {
         $this->sortable = $sortable;
-
-        return $this;
-    }
-
-    /**
-     * Get the sort column.
-     *
-     * @return string
-     */
-    public function getSortColumn()
-    {
-        return $this->sortColumn;
-    }
-
-    /**
-     * Set the sort column.
-     *
-     * @param string $sortColumn
-     * @return $this
-     */
-    public function setSortColumn($sortColumn)
-    {
-        $this->sortColumn = $sortColumn;
 
         return $this;
     }

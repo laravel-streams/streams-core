@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Carbon\Carbon;
 use Illuminate\Auth\Guard;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Database\Query\Builder;

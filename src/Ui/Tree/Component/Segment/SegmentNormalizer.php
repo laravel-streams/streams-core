@@ -32,7 +32,7 @@ class SegmentNormalizer
             if (!is_numeric($key) && !is_array($segment) && class_exists($segment)) {
                 $segment = [
                     'heading' => $key,
-                    'segment'  => $segment
+                    'segment' => $segment
                 ];
             }
 
