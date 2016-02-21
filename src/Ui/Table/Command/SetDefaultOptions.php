@@ -64,20 +64,6 @@ class SetDefaultOptions implements SelfHandling
         }
 
         /**
-         * Show headers by default.
-         */
-        if ($table->getOption('show_headers') === null) {
-            $table->setOption('show_headers', true);
-        }
-
-        /**
-         * Show views by default.
-         */
-        if ($table->getOption('show_views') === null) {
-            $table->setOption('show_views', true);
-        }
-
-        /**
          * If the table ordering is currently being overridden
          * then set the values from the request on the builder
          * last so it actually has an effect.
@@ -94,30 +80,6 @@ class SetDefaultOptions implements SelfHandling
             )) && ($stream = $this->builder->getTableStream())
         ) {
             $table->setOption('permission', $module->getNamespace($stream->getSlug() . '.read'));
-        }
-
-
-        /**
-         * Set the default panel classes.
-         */
-        if ($table->getOption('panel_class') === null) {
-            $table->setOption('panel_class', 'panel');
-        }
-
-        if ($table->getOption('panel_title_class') === null) {
-            $table->setOption('panel_title_class', 'title');
-        }
-
-        if ($table->getOption('panel_heading_class') === null) {
-            $table->setOption('panel_heading_class', $table->getOption('panel_class') . '-heading');
-        }
-
-        if ($table->getOption('panel_body_class') === null) {
-            $table->setOption('panel_body_class', $table->getOption('panel_class') . '-body');
-        }
-
-        if ($table->getOption('container_class') === null) {
-            $table->setOption('container_class', 'container-fluid');
         }
     }
 }

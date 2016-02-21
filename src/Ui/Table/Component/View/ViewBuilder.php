@@ -48,6 +48,10 @@ class ViewBuilder
     {
         $table = $builder->getTable();
 
+        if ($builder->getTableOption('disable_views')) {
+            return;
+        }
+
         $this->input->read($builder);
 
         foreach ($builder->getViews() as $view) {
