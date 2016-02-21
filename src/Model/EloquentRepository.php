@@ -173,7 +173,9 @@ class EloquentRepository implements EloquentRepositoryInterface
      */
     public function forceDelete(EloquentModel $entry)
     {
-        return $entry->forceDelete();
+        $entry->forceDelete();
+
+        return true;
     }
 
     /**
