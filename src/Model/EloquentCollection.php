@@ -15,6 +15,16 @@ class EloquentCollection extends Collection
 {
 
     /**
+     * Return the item IDs.
+     *
+     * @return array
+     */
+    public function ids()
+    {
+        return $this->lists('id')->all();
+    }
+
+    /**
      * Return a collection of decorated items.
      *
      * @return static
