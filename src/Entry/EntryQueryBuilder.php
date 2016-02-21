@@ -39,34 +39,6 @@ class EntryQueryBuilder extends EloquentQueryBuilder
     }
 
     /**
-     * Join the translations table.
-     */
-    public function joinTranslations()
-    {
-        if ($this->hasJoin($this->model->getTranslationsTableName())) {
-            return;
-        }
-
-        $this->query->addSelect($this->model->getTableName() . '.*');
-
-        array_map(
-            function ($field) {
-                $this->query->addSelect($this->model->getTranslationsTableName() . '.' . $field);
-            },
-            $this->model->getTranslatableAssignments()->fieldSlugs()
-        );
-
-        $this->query->leftJoin(
-            $this->model->getTranslationsTableName(),
-            $this->model->getTableName() . '.id',
-            '=',
-            $this->model->getTranslationsTableName() . '.entry_id'
-        );
-
-        $this->where($this->model->getTranslationsTableName() . '.locale', config('app.fallback_locale'));
-    }
-
-    /**
      * Dynamically handle calls into the query instance.
      *
      * @param  string $method

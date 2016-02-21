@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Entry\EntryQueryBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -56,13 +55,38 @@ class FieldTypeQuery
 
         if ($assignment->isTranslatable()) {
 
-            if ($query instanceof EntryQueryBuilder && !$query->hasJoin($translations)) {
-                $query->joinTranslations();
-            }
+            $query->leftJoin(
+                $stream->getEntryTranslationsTableName() . ' AS filter_' . $filter->getSlug(),
+                $stream->getEntryTableName() . '.id',
+                '=',
+                $stream->getEntryTranslationsTableName() . '.entry_id'
+            );
 
-            $query->{$this->where()}($translations . '.' . $column, 'LIKE', "%" . $filter->getValue() . "%");
+            $query->addSelect($translations . '.locale');
+            $query->addSelect($translations . '.' . $column);
+
+            $query->{$this->where()}(
+                function (Builder $query) use ($stream, $filter, $column) {
+
+                    $query->where($stream->getEntryTranslationsTableName() . '.locale', config('app.fallback_locale'));
+                    $query->where(
+                        $stream->getEntryTranslationsTableName() . '.' . $column,
+                        'LIKE',
+                        "%" . $filter->getValue() . "%"
+                    );
+                }
+            );
         } else {
-            $query->{$this->where()}($column, 'LIKE', "%" . $filter->getValue() . "%");
+
+            $query->{$this->where()}(
+                function (Builder $query) use ($stream, $filter, $column) {
+                    $query->where(
+                        $stream->getEntryTableName() . '.' . $column,
+                        'LIKE',
+                        "%" . $filter->getValue() . "%"
+                    );
+                }
+            );
         }
     }
 

@@ -52,15 +52,6 @@ class EloquentTableRepository implements TableRepositoryInterface
         $query = $this->model->newQuery();
 
         /**
-         * If we have a stream, it's translatable
-         * and our query builder is compliant then
-         * join the translations table.
-         */
-        if ($stream && $stream->isTranslatable() && $query instanceof EntryQueryBuilder) {
-            $query->joinTranslations();
-        }
-
-        /**
          * Prevent joins from overriding intended columns
          * by prefixing with the model's table name.
          */

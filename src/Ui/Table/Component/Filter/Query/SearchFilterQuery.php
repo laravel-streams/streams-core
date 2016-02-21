@@ -45,8 +45,13 @@ class SearchFilterQuery implements SelfHandling
     {
         $stream = $filter->getStream();
 
-        if ($stream && $stream->isTranslatable() && $query instanceof EntryQueryBuilder) {
-            $query->joinTranslations();
+        if ($stream->isTranslatable()) {
+            $query->leftJoin(
+                $stream->getEntryTranslationsTableName(),
+                $stream->getEntryTableName() . '.id',
+                '=',
+                $stream->getEntryTranslationsTableName() . '.entry_id'
+            );
         }
 
         $query->where(
