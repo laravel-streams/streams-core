@@ -222,6 +222,16 @@ class EloquentModel extends Model implements Arrayable
     }
 
     /**
+     * Return if the model is restorable or not.
+     *
+     * @return bool
+     */
+    public function isRestorable()
+    {
+        return true;
+    }
+
+    /**
      * Return whether the model is being
      * force deleted or not.
      *

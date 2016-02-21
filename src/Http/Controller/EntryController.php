@@ -95,6 +95,13 @@ class EntryController extends AdminController
             abort(403);
         }
 
+        if (!$entry->isRestorable()) {
+
+            $this->messages->error('streams::message.restore_failed');
+
+            return $this->redirect->back();
+        }
+
         $this->repository->restore($entry);
 
         $this->messages->success('streams::message.restore_success');

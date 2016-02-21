@@ -248,6 +248,13 @@ interface EntryInterface
     public function isDeletable();
 
     /**
+     * Return if the model is restorable or not.
+     *
+     * @return bool
+     */
+    public function isRestorable();
+
+    /**
      * Return whether the entry is trashable or not.
      *
      * @return bool
