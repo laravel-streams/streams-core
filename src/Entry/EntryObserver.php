@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Entry\Command\SetMetaInformation;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasCreated;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasDeleted;
+use Anomaly\Streams\Platform\Entry\Event\EntryWasRestored;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasSaved;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasUpdated;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereDeleted;
@@ -144,5 +145,18 @@ class EntryObserver extends Observer
         $entry->flushCache();
 
         $this->events->fire(new ModelsWereDeleted($entry));
+    }
+
+    /**
+     * Run after a record has been restored.
+     *
+     * @param EntryInterface $entry
+     */
+    public function restored(EntryInterface $entry)
+    {
+        $entry->flushCache();
+        $entry->fireFieldTypeEvents('entry_restored');
+
+        $this->events->fire(new EntryWasRestored($entry));
     }
 }
