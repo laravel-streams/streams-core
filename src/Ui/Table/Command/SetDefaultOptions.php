@@ -71,6 +71,13 @@ class SetDefaultOptions implements SelfHandling
         }
 
         /**
+         * Show views by default.
+         */
+        if ($table->getOption('show_views') === null) {
+            $table->setOption('show_views', true);
+        }
+
+        /**
          * If the table ordering is currently being overridden
          * then set the values from the request on the builder
          * last so it actually has an effect.
