@@ -63,7 +63,7 @@ class AssignmentTableBuilder extends TableBuilder
      */
     protected $actions = [
         'reorder',
-        'delete'
+        'prompt'
     ];
 
     /**

@@ -198,23 +198,19 @@ class ButtonRegistry
             'icon' => 'ban'
         ],
         'delete'        => [
-            'text'       => 'streams::button.delete',
             'icon'       => 'trash',
             'type'       => 'danger',
-            'attributes' => [
-                'data-toggle'  => 'confirm',
-                'data-message' => 'streams::message.confirm_delete'
-            ]
-        ],
-        'confirm'       => [
-            'type'       => 'danger',
+            'text'       => 'streams::button.delete',
             'attributes' => [
                 'data-toggle'  => 'confirm',
                 'data-message' => 'streams::message.confirm_delete'
             ]
         ],
         'prompt'        => [
+            'icon'       => 'trash',
             'type'       => 'danger',
+            'button'     => 'delete',
+            'text'       => 'streams::button.delete',
             'attributes' => [
                 'data-match'   => 'yes',
                 'data-toggle'  => 'prompt',

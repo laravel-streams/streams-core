@@ -72,7 +72,7 @@ class FieldTableBuilder extends TableBuilder
      * @var array
      */
     protected $actions = [
-        'delete'
+        'prompt'
     ];
 
     /**

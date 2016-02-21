@@ -25,6 +25,9 @@ class ActionRegistry
         'delete'       => [
             'handler' => Delete::class
         ],
+        'prompt'       => [
+            'handler' => Delete::class
+        ],
         'force_delete' => [
             'button'  => 'delete',
             'handler' => ForceDelete::class,
