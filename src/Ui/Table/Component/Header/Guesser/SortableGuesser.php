@@ -108,6 +108,8 @@ class SortableGuesser
              * If the field type has a database
              * column type then we can sort on it
              * by default!
+             *
+             * @todo: Allow sorting of translatable fields.
              */
             if ($type->getColumnType() && !$assignment->isTranslatable()) {
                 $column['sortable']    = true;
