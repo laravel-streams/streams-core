@@ -32,7 +32,7 @@ return [
     */
 
     'filters' => [
-        'less' => 'php',
-        'scss' => 'php'
+        'less' => env('LESS_COMPILER', 'php'),
+        'scss' => env('SCSS_COMPILER', 'php')
     ]
 ];
