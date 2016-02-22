@@ -23,7 +23,8 @@ class FieldFormFields
      */
     public function handle(FieldFormBuilder $builder)
     {
-        $id = $builder->getFormEntryId();
+        $id        = $builder->getFormEntryId();
+        $namespace = $builder->getNamespace();
 
         $builder->setFields(
             [
@@ -49,7 +50,7 @@ class FieldFormFields
                         'max'     => 64
                     ],
                     'rules'        => [
-                        'unique' => 'streams_fields,slug,' . $id
+                        'unique' => 'streams_fields,slug,' . $id . ',namespace,namespace,' . $namespace
                     ]
                 ],
                 'placeholder'  => [
