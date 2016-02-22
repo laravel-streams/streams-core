@@ -46,6 +46,10 @@ class HeaderBuilder
      */
     public function build(TableBuilder $builder)
     {
+        if ($builder->getTableOption('enable_headers') === false) {
+            return;
+        }
+
         $table = $builder->getTable();
 
         $this->input->read($builder);

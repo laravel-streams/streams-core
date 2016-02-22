@@ -46,11 +46,11 @@ class ViewBuilder
      */
     public function build(TableBuilder $builder)
     {
-        $table = $builder->getTable();
-
-        if ($builder->getTableOption('disable_views')) {
+        if ($builder->getTableOption('enable_views') === false) {
             return;
         }
+
+        $table = $builder->getTable();
 
         $this->input->read($builder);
 
