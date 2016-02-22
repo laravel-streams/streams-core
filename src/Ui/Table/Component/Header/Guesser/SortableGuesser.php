@@ -26,7 +26,7 @@ class SortableGuesser
 
         foreach ($columns as &$column) {
 
-            if ($builder->getTableOption('disable_sortable_headers')) {
+            if ($builder->getTableOption('sortable_headers') === false) {
 
                 $column['sortable'] = false;
 
