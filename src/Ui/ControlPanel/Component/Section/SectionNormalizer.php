@@ -77,6 +77,16 @@ class SectionNormalizer
             }
 
             /**
+             * Move all data-* keys
+             * to attributes.
+             */
+            foreach ($section as $attribute => $value) {
+                if (str_is('data-*', $attribute)) {
+                    array_set($section, 'attributes.' . $attribute, array_pull($section, $attribute));
+                }
+            }
+
+            /**
              * Make sure the HREF is absolute.
              */
             if (
