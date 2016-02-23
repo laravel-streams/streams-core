@@ -87,7 +87,7 @@ class SectionNormalizer
             }
 
             /**
-             * Make sure the HREF is absolute.
+             * Make sure the HREF and data-HREF are absolute.
              */
             if (
                 isset($section['attributes']['href']) &&
@@ -95,6 +95,14 @@ class SectionNormalizer
                 !starts_with($section['attributes']['href'], 'http')
             ) {
                 $section['attributes']['href'] = url($section['attributes']['href']);
+            }
+
+            if (
+                isset($section['attributes']['data-href']) &&
+                is_string($section['attributes']['data-href']) &&
+                !starts_with($section['attributes']['data-href'], 'http')
+            ) {
+                $section['attributes']['data-href'] = url($section['attributes']['data-href']);
             }
         }
 

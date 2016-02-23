@@ -70,11 +70,19 @@ class SetActiveSection implements SelfHandling
              * Get the HREF for both the active
              * and loop iteration section.
              */
-            $href       = array_get($section->getAttributes(), 'href');
+            $href       = array_get(
+                $section->getAttributes(),
+                'data-href',
+                array_get($section->getAttributes(), 'href')
+            );
             $activeHref = '';
 
             if ($active && $active instanceof SectionInterface) {
-                $activeHref = array_get($active->getAttributes(), 'href');
+                $activeHref = array_get(
+                    $active->getAttributes(),
+                    'data-href',
+                    array_get($active->getAttributes(), 'href')
+                );
             }
 
             /**
