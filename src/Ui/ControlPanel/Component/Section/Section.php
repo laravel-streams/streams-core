@@ -372,6 +372,10 @@ class Section implements SectionInterface
      */
     public function getHref($path = null)
     {
-        return array_get($this->attributes, 'href') . ($path ? '/' . $path : $path);
+        return array_get(
+            $this->attributes,
+            'data-href',
+            array_get($this->attributes, 'href')
+        ) . ($path ? '/' . $path : $path);
     }
 }
