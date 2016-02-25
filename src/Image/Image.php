@@ -448,7 +448,7 @@ class Image
                 var_export([md5($this->getImage()), $this->getAlterations()], true) . $this->getQuality()
             ) . '.' . $this->getExtension();
 
-        $path = 'assets/' . $this->application->getReference() . '/cache/' . $filename;
+        $path = 'assets/' . $this->application->getReference() . '/streams/' . $filename;
 
         if ($this->shouldPublish($path)) {
             try {
