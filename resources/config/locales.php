@@ -63,6 +63,9 @@ return [
         'es' => [
             'direction' => 'ltr'
         ],
+        'et' => [
+            'direction' => 'ltr'
+        ],
         'fr' => [
             'direction' => 'ltr'
         ],
