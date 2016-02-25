@@ -349,11 +349,15 @@ class Asset
             return ltrim(str_replace(public_path(), '', $collection), '/');
         }
 
+        if (in_array('preserve', $filters)) {
+            return 'assets/' . $this->application->getReference() . '/streams/' . $collection;
+        }
+
         $hash = $this->hashCollection($collection, $filters);
 
         $hint = $this->getHint($collection);
 
-        return 'assets/' . $this->application->getReference() . '/cache/' . $hash . '.' . $hint;
+        return 'assets/' . $this->application->getReference() . '/streams/' . $hash . '.' . $hint;
     }
 
     /**
