@@ -22,6 +22,9 @@ return [
     'es'    => [
         'name' => 'Spanish'
     ],
+    'et'    => [
+        'name' => 'Estonian'
+    ],
     'fr'    => [
         'name' => 'French'
     ],
