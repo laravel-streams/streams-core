@@ -49,9 +49,7 @@ class BuildForm implements SelfHandling
      */
     public function handle(Dispatcher $events, Store $session)
     {
-        if ($session->has('test')) {
-            echo $session->pull('test');
-        }
+        
         /**
          * Setup some objects and options using
          * provided input or sensible defaults.
