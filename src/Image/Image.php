@@ -444,9 +444,7 @@ class Image
             return $this->getImage();
         }
 
-        $filename = md5(
-                var_export([md5($this->getImage()), $this->getAlterations()], true) . $this->getQuality()
-            ) . '.' . $this->getExtension();
+        $filename = ltrim(str_replace(base_path(), '', $this->getImage()), '/');
 
         $path = 'assets/' . $this->application->getReference() . '/streams/' . $filename;
 
