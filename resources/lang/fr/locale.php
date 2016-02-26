@@ -25,13 +25,19 @@ return [
     'fr' => [
         'name' => 'Français'
     ],
+    'fr-ca' => [
+        'name' => 'Français (Canadien)'
+    ],
     'it' => [
         'name' => 'Italien'
     ],
     'nl' => [
         'name' => 'Néerlandais'
     ],
-    'se' => [
+    'sv'    => [
+        'name' => 'Suède'
+    ],
+    'sme' => [
         'name' => 'Sami du nord'
     ],
     'sl' => [
@@ -48,9 +54,6 @@ return [
     ],
     'ru' => [
         'name' => 'Russe'
-    ],
-    'cn' => [
-        'name' => 'Chinois'
     ],
     'tw' => [
         'name' => 'Twi'
@@ -78,5 +81,11 @@ return [
     ],
     'hi' => [
         'name' => 'Hindi'
-    ]
+    ],
+    'zh-cn' => [
+        'name' => 'Chinois (Simplifié)'
+    ],
+    'zh-tw' => [
+        'name' => 'Chinois (Taiwan)'
+    ],
 ];
