@@ -19,6 +19,7 @@ use Assetic\Filter\PhpCssEmbedFilter;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\Request;
 use League\Flysystem\MountManager;
 
 /**
@@ -88,6 +89,13 @@ class Asset
     protected $manager;
 
     /**
+     * The HTTP request.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * The stream application.
      *
      * @var Application
@@ -110,6 +118,7 @@ class Asset
      * @param AssetParser     $parser
      * @param Repository      $config
      * @param AssetPaths      $paths
+     * @param Request         $request
      * @param HtmlBuilder     $html
      */
     public function __construct(
@@ -119,6 +128,7 @@ class Asset
         AssetParser $parser,
         Repository $config,
         AssetPaths $paths,
+        Request $request,
         HtmlBuilder $html
     ) {
         $this->html        = $html;
@@ -127,6 +137,7 @@ class Asset
         $this->themes      = $themes;
         $this->parser      = $parser;
         $this->manager     = $manager;
+        $this->request     = $request;
         $this->application = $application;
     }
 
@@ -541,7 +552,19 @@ class Asset
             return true;
         }
 
-        if (env('APP_DEBUG') && in_array('debug', $this->collectionFilters($collection, $filters))) {
+        $debug = $this->config->get('streams::assets.live', false);
+
+        $live = in_array('live', $this->collectionFilters($collection, $filters));
+
+        if ($debug === true && $live) {
+            return true;
+        }
+
+        if ($debug == 'standard' && $live && $this->request->segment(1) !== 'admin') {
+            return true;
+        }
+
+        if ($debug == 'admin' && $live && $this->request->segment(1) === 'admin') {
             return true;
         }
 

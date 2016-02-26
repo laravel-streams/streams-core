@@ -34,5 +34,20 @@ return [
     'filters' => [
         'less' => env('LESS_COMPILER', 'php'),
         'scss' => env('SCSS_COMPILER', 'php')
-    ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Live
+    |--------------------------------------------------------------------------
+    |
+    | Define which assets marked live are to be compiled.
+    |
+    | true: Assets request for both the CP and frontend.
+    | public: Assets requested ONLY by the frontend.
+    | admin: Assets requested ONLY by the CP.
+    |
+    */
+
+    'live' => env('LIVE_ASSETS', false)
 ];
