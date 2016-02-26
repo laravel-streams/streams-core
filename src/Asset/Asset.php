@@ -552,6 +552,10 @@ class Asset
             return true;
         }
 
+        if (in_array('force', $this->collectionFilters($collection, $filters))) {
+            return true;
+        }
+
         $debug = $this->config->get('streams::assets.live', false);
 
         $live = in_array('live', $this->collectionFilters($collection, $filters));
