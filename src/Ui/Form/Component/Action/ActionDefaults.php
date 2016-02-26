@@ -21,7 +21,21 @@ class ActionDefaults
     public function defaults(FormBuilder $builder)
     {
         if ($builder->getActions() === []) {
-            $builder->setActions(['save']);
+            if ($builder->getFormMode() == 'create') {
+                $builder->setActions(
+                    [
+                        'save',
+                        'save_edit'
+                    ]
+                );
+            } else {
+                $builder->setActions(
+                    [
+                        'update',
+                        'save_exit'
+                    ]
+                );
+            }
         }
     }
 }

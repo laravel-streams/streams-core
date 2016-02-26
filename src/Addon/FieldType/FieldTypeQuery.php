@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -12,6 +13,13 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class FieldTypeQuery
 {
+
+    /**
+     * The where constraint to use.
+     *
+     * @var string
+     */
+    protected $constraint = 'and';
 
     /**
      * The parent field type.
@@ -34,12 +42,62 @@ class FieldTypeQuery
      * Filter a query by the value of a
      * field using this field type.
      *
-     * @param  Builder $query
-     * @param          $value
+     * @param Builder         $query
+     * @param FilterInterface $filter
      */
-    public function filter(Builder $query, $value)
+    public function filter(Builder $query, FilterInterface $filter)
     {
-        $query->where($this->fieldType->getColumnName(), 'LIKE', "%{$value}%");
+        $stream     = $filter->getStream();
+        $assignment = $stream->getAssignment($filter->getField());
+
+        $column       = $this->fieldType->getColumnName();
+        $translations = $stream->getEntryTranslationsTableName();
+
+        if ($assignment->isTranslatable()) {
+
+            $query->leftJoin(
+                $stream->getEntryTranslationsTableName() . ' AS filter_' . $filter->getSlug(),
+                $stream->getEntryTableName() . '.id',
+                '=',
+                $stream->getEntryTranslationsTableName() . '.entry_id'
+            );
+
+            $query->addSelect($translations . '.locale');
+            $query->addSelect($translations . '.' . $column);
+
+            $query->{$this->where()}(
+                function (Builder $query) use ($stream, $filter, $column) {
+
+                    $query->where($stream->getEntryTranslationsTableName() . '.locale', config('app.fallback_locale'));
+                    $query->where(
+                        $stream->getEntryTranslationsTableName() . '.' . $column,
+                        'LIKE',
+                        "%" . $filter->getValue() . "%"
+                    );
+                }
+            );
+        } else {
+
+            $query->{$this->where()}(
+                function (Builder $query) use ($stream, $filter, $column) {
+                    $query->where(
+                        $stream->getEntryTableName() . '.' . $column,
+                        'LIKE',
+                        "%" . $filter->getValue() . "%"
+                    );
+                }
+            );
+        }
+    }
+
+    /**
+     * Return the where clause for the given constraint.
+     *
+     * @return string
+     */
+    protected function where()
+    {
+        return $this->constraint == 'and' ? 'where' : 'orWhere';
     }
 
     /**
@@ -52,5 +110,28 @@ class FieldTypeQuery
     public function orderBy(Builder $query, $direction)
     {
         $query->orderBy($this->fieldType->getColumnName(), $direction);
+    }
+
+    /**
+     * Get the constraint.
+     *
+     * @return string
+     */
+    public function getConstraint()
+    {
+        return $this->constraint;
+    }
+
+    /**
+     * Set the constraint.
+     *
+     * @param $constraint
+     * @return $this
+     */
+    public function setConstraint($constraint)
+    {
+        $this->constraint = $constraint;
+
+        return $this;
     }
 }

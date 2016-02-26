@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\FormHandler;
+use Anomaly\Streams\Platform\Ui\Form\FormValidator;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
@@ -13,6 +15,26 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 class SetDefaultParameters implements SelfHandling
 {
+
+    /**
+     * Skip these.
+     *
+     * @var array
+     */
+    protected $skips = [
+        'model',
+        'repository'
+    ];
+
+    /**
+     * Default properties.
+     *
+     * @var array
+     */
+    protected $defaults = [
+        'handler'   => FormHandler::class,
+        'validator' => FormValidator::class
+    ];
 
     /**
      * The form builder.
@@ -39,84 +61,69 @@ class SetDefaultParameters implements SelfHandling
     public function handle()
     {
         /**
-         * Set the default form handler based
-         * on the builder class. Defaulting to
-         * the base handler.
-         */
-        if (!$this->builder->getHandler()) {
-
-            $handler = str_replace('FormBuilder', 'FormHandler', get_class($this->builder));
-
-            if (class_exists($handler)) {
-                $this->builder->setHandler($handler . '@handle');
-            } else {
-                $this->builder->setHandler('Anomaly\Streams\Platform\Ui\Form\FormHandler@handle');
-            }
-        }
-
-        /**
-         * Set the default fields handler based
-         * on the builder class. Defaulting to
-         * all fields.
-         */
-        if (!$this->builder->getFields()) {
-
-            $fields = str_replace('FormBuilder', 'FormFields', get_class($this->builder));
-
-            if (class_exists($fields)) {
-                $this->builder->setFields($fields . '@handle');
-            } else {
-                $this->builder->setFields(['*']);
-            }
-        }
-
-        /**
-         * Set the default actions handler based
-         * on the builder class. Defaulting to
-         * no handler.
-         */
-        if (!$this->builder->getActions()) {
-
-            $actions = str_replace('FormBuilder', 'FormActions', get_class($this->builder));
-
-            if (class_exists($actions)) {
-                $this->builder->setActions($actions . '@handle');
-            }
-        }
-
-        /**
-         * Set the default buttons handler based
-         * on the builder class. Defaulting to
-         * no handler.
-         */
-        if (!$this->builder->getButtons()) {
-
-            $buttons = str_replace('FormBuilder', 'FormButtons', get_class($this->builder));
-
-            if (class_exists($buttons)) {
-                $this->builder->setButtons($buttons . '@handle');
-            }
-        }
-
-        /**
-         * Set the default form sections based
-         * on the builder class. Defaulting to
-         * no sections.
-         */
-        if (!$this->builder->getSections()) {
-
-            $sections = str_replace('FormBuilder', 'FormSections', get_class($this->builder));
-
-            if (class_exists($sections)) {
-                $this->builder->setSections($sections . '@handle');
-            }
-        }
-
-        /**
-         * Set the form mode according to the builder's entry.
+         * Set the form mode according
+         * to the builder's entry.
          */
         if (!$this->builder->getFormMode()) {
             $this->builder->setFormMode($this->builder->getEntry() ? 'edit' : 'create');
+        }
+
+        /**
+         * Next we'll loop each property and look for a handler.
+         */
+        $reflection = new \ReflectionClass($this->builder);
+
+        /* @var \ReflectionProperty $property */
+        foreach ($reflection->getProperties(\ReflectionProperty::IS_PROTECTED) as $property) {
+
+            if (in_array($property->getName(), $this->skips)) {
+                continue;
+            }
+
+            /**
+             * If there is no getter then skip it.
+             */
+            if (!method_exists($this->builder, $method = 'get' . ucfirst($property->getName()))) {
+                continue;
+            }
+
+            /**
+             * If the parameter already
+             * has a value then skip it.
+             */
+            if ($this->builder->{$method}()) {
+                continue;
+            }
+
+            /**
+             * Check if we can transform the
+             * builder property into a handler.
+             * If it exists, then go ahead and use it.
+             */
+            $handler = str_replace('FormBuilder', 'Form' . ucfirst($property->getName()), get_class($this->builder));
+
+            if (class_exists($handler)) {
+
+                /**
+                 * Make sure the handler is
+                 * formatted properly.
+                 */
+                if (!str_contains($handler, '@')) {
+                    $handler .= '@handle';
+                }
+
+                $this->builder->{'set' . ucfirst($property->getName())}($handler);
+
+                continue;
+            }
+
+            /**
+             * If the handler does not exist and
+             * we have a default handler, use it.
+             */
+            if ($default = array_get($this->defaults, $property->getName())) {
+                $this->builder->{'set' . ucfirst($property->getName())}($default);
+            }
         }
     }
 }

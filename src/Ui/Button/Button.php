@@ -56,6 +56,13 @@ class Button implements ButtonInterface
     protected $size = 'md';
 
     /**
+     * The required permission.
+     *
+     * @var null|string
+     */
+    protected $permission = null;
+
+    /**
      * The disabled flag.
      *
      * @var bool
@@ -82,6 +89,27 @@ class Button implements ButtonInterface
      * @var array
      */
     protected $dropdown = [];
+
+    /**
+     * The dropdown position.
+     *
+     * @var string
+     */
+    protected $position = 'left';
+
+    /**
+     * The parent dropdown.
+     *
+     * @var null|string
+     */
+    protected $parent = null;
+
+    /**
+     * The entry object.
+     *
+     * @var null|mixed
+     */
+    protected $entry = null;
 
     /**
      * Return whether the button is a dropdown or not.
@@ -117,6 +145,52 @@ class Button implements ButtonInterface
     }
 
     /**
+     * Get the dropdown position.
+     *
+     * @return array
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * Set the dropdown position.
+     *
+     * @param array $position
+     * @return $this
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get the parent.
+     *
+     * @return string|null
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Set the parent.
+     *
+     * @param $parent
+     * @return $this
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
      * Get the attributes.
      *
      * @return array
@@ -135,6 +209,29 @@ class Button implements ButtonInterface
     public function setAttributes(array $attributes)
     {
         $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * Get the disabled flag.
+     *
+     * @return bool
+     */
+    public function isDisabled()
+    {
+        return $this->disabled;
+    }
+
+    /**
+     * Set the disabled flag.
+     *
+     * @param $disabled
+     * @return $this
+     */
+    public function setDisabled($disabled)
+    {
+        $this->disabled = $disabled;
 
         return $this;
     }
@@ -160,6 +257,29 @@ class Button implements ButtonInterface
     public function isEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Get the entry.
+     *
+     * @return mixed|null
+     */
+    public function getEntry()
+    {
+        return $this->entry;
+    }
+
+    /**
+     * Set the table.
+     *
+     * @param $entry
+     * @return $this
+     */
+    public function setEntry($entry)
+    {
+        $this->entry = $entry;
+
+        return $this;
     }
 
     /**
@@ -232,24 +352,24 @@ class Button implements ButtonInterface
     }
 
     /**
-     * Get the disabled flag.
+     * Get the permission.
      *
-     * @return bool
+     * @return null|string
      */
-    public function isDisabled()
+    public function getPermission()
     {
-        return $this->disabled;
+        return $this->permission;
     }
 
     /**
-     * Set the disabled flag.
+     * Set the permission.
      *
-     * @param $disabled
+     * @param $permission
      * @return $this
      */
-    public function setDisabled($disabled)
+    public function setPermission($permission)
     {
-        $this->disabled = $disabled;
+        $this->permission = $permission;
 
         return $this;
     }

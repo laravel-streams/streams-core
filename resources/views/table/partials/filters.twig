@@ -1,6 +1,6 @@
 {% if not table.filters.empty() %}
-
-    <form method="get" id="filters" class="form-inline">
+    <div class="card card-container">
+        {{ form_open({'method': 'get', 'id': 'filters', 'url': url_full(), 'class': 'form-inline'}) }}
         <input type="hidden" name="{{ table.options.prefix }}view" value="{{ table.views.active().getSlug() }}">
 
         {% for filter in table.filters %}
@@ -10,10 +10,13 @@
         {% endfor %}
 
         <button type="submit" class="btn btn-success">
-            {{ icon('fa fa-filter') }}
-            {{ trans('streams::button.filter') }}
+            {{ icon(table.options.filters.filter_icon ?: 'filter') }}
+            {{ trans(table.options.filters.filter_text ?: 'streams::button.filter') }}
         </button>
-        <a href="{{ url_current() }}" class="btn btn-default">{{ trans('streams::button.clear') }}</a>
-    </form>
-
+        <a href="{{ url_current() }}" class="btn btn-secondary-outline">
+            {{ icon(table.options.filters.clear_icon ? table.options.filters.clear_icon) }}
+            {{ trans(table.options.filters.clear_text ?: 'streams::button.clear') }}
+        </a>
+        {{ form_close() }}
+    </div>
 {% endif %}

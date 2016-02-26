@@ -1,8 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
 use Anomaly\Streams\Platform\Application\Application;
-use Illuminate\Container\Container;
-use Illuminate\Filesystem\Filesystem;
+use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class AddonPaths
@@ -16,18 +15,11 @@ class AddonPaths
 {
 
     /**
-     * The file system.
+     * The config repository.
      *
-     * @var FileSystem
+     * @var Repository
      */
-    protected $files;
-
-    /**
-     * The application container.
-     *
-     * @var Container
-     */
-    protected $container;
+    protected $config;
 
     /**
      * The stream application.
@@ -39,14 +31,12 @@ class AddonPaths
     /**
      * Create a new AddonPaths instance.
      *
-     * @param Filesystem  $files
-     * @param Container   $container
      * @param Application $application
+     * @param Repository  $config
      */
-    function __construct(Filesystem $files, Container $container, Application $application)
+    function __construct(Application $application, Repository $config)
     {
-        $this->files       = $files;
-        $this->container   = $container;
+        $this->config      = $config;
         $this->application = $application;
     }
 
@@ -58,11 +48,71 @@ class AddonPaths
      */
     public function all()
     {
+        $eager    = $this->eager();
+        $deferred = $this->deferred();
+
         $core        = $this->core() ?: [];
         $shared      = $this->shared() ?: [];
         $application = $this->application() ?: [];
 
-        return array_filter(array_merge($core, $shared, $application));
+        // Testing only addons.
+        $testing = $this->testing() ?: [];
+
+        // Other configured addons.
+        $configured = $this->configured() ?: [];
+
+        /**
+         * Merge the eager and deferred
+         * onto the front and back of
+         * the paths respectively.
+         */
+        return array_unique(
+            array_merge(
+                $eager,
+                array_reverse(
+                    array_unique(
+                        array_reverse(
+                            array_merge(
+                                array_filter(
+                                    array_merge($core, $shared, $application, $configured, $testing)
+                                ),
+                                $deferred
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Return paths to eager loaded addons.
+     *
+     * @return array
+     */
+    protected function eager()
+    {
+        return array_map(
+            function ($path) {
+                return base_path($path);
+            },
+            $this->config->get('streams::addons.eager', [])
+        );
+    }
+
+    /**
+     * Return paths to deferred addons.
+     *
+     * @return array
+     */
+    protected function deferred()
+    {
+        return array_map(
+            function ($path) {
+                return base_path($path);
+            },
+            $this->config->get('streams::addons.deferred', [])
+        );
     }
 
     /**
@@ -72,48 +122,14 @@ class AddonPaths
      */
     public function core()
     {
-        $path = $this->container->make('path.base') . '/core';
+        $path = base_path('core');
 
         if (!is_dir($path)) {
 
             return false;
         }
 
-        return $this->vendorAddons($this->files->directories($path));
-    }
-
-    /**
-     * Return all shared addon paths in a given folder.
-     *
-     * @return bool
-     */
-    public function shared()
-    {
-        $path = $this->container->make('path.base') . '/addons/shared';
-
-        if (!is_dir($path)) {
-
-            return false;
-        }
-
-        return $this->vendorAddons($this->files->directories($path));
-    }
-
-    /**
-     * Return all application addon paths in a given folder.
-     *
-     * @return bool
-     */
-    public function application()
-    {
-        $path = $this->container->make('path.base') . '/addons/' . $this->application->getReference();
-
-        if (!is_dir($path)) {
-
-            return false;
-        }
-
-        return $this->vendorAddons($this->files->directories($path));
+        return $this->vendorAddons(glob("{$path}/*", GLOB_ONLYDIR));
     }
 
     /**
@@ -127,11 +143,76 @@ class AddonPaths
         $paths = [];
 
         foreach ($directories as $vendor) {
-            foreach ($this->files->directories($vendor) as $addon) {
+            foreach (glob("{$vendor}/*", GLOB_ONLYDIR) as $addon) {
                 $paths[] = $addon;
             }
         }
 
         return $paths;
+    }
+
+    /**
+     * Return all shared addon paths in a given folder.
+     *
+     * @return bool
+     */
+    public function shared()
+    {
+        $path = base_path('addons/shared');
+
+        if (!is_dir($path)) {
+
+            return false;
+        }
+
+        return $this->vendorAddons(glob("{$path}/*", GLOB_ONLYDIR));
+    }
+
+    /**
+     * Return all application addon paths in a given folder.
+     *
+     * @return bool
+     */
+    public function application()
+    {
+        $path = base_path('addons/' . $this->application->getReference());
+
+        if (!is_dir($path)) {
+
+            return false;
+        }
+
+        return $this->vendorAddons(glob("{$path}/*", GLOB_ONLYDIR));
+    }
+
+    /**
+     * Return paths to testing only addons.
+     *
+     * @return array|bool
+     */
+    protected function testing()
+    {
+        $path = base_path('vendor/anomaly/streams-platform/addons');
+
+        if (!is_dir($path) || env('APP_ENV') !== 'testing') {
+            return false;
+        }
+
+        return $this->vendorAddons(glob("{$path}/*", GLOB_ONLYDIR));
+    }
+
+    /**
+     * Return paths to configured addons.
+     *
+     * @return array|bool
+     */
+    protected function configured()
+    {
+        return array_map(
+            function ($path) {
+                return base_path($path);
+            },
+            $this->config->get('streams::addons.paths', [])
+        );
     }
 }

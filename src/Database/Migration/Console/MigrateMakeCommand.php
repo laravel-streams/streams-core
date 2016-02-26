@@ -2,8 +2,8 @@
 
 use Anomaly\Streams\Platform\Database\Migration\Command\CreateAddonMigrationFolder;
 use Anomaly\Streams\Platform\Database\Migration\Command\GetMigrationName;
-use Illuminate\Foundation\Bus\DispatchesCommands;
-use Symfony\Component\Console\Input\InputOption;
+use Anomaly\Streams\Platform\Database\Migration\MigrationCreator;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class MigrateMakeCommand
@@ -16,7 +16,27 @@ use Symfony\Component\Console\Input\InputOption;
 class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\MigrateMakeCommand
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
+
+    /**
+     * The migration creator.
+     *
+     * @var MigrationCreator
+     */
+    protected $creator;
+
+    /**
+     * The console command signature.
+     *
+     * @var string
+     */
+    protected $signature = 'make:migration {name : The name of the migration.}
+        {--addon= : The addon to create the migration file in.}
+        {--fields : Create a fields type migration.}
+        {--stream= : Create a stream type migration.}
+        {--create= : The table to be created.}
+        {--table= : The table to migrate.}
+        {--path= : The location where the migration file should be created.}';
 
     /**
      * Execute the console command.
@@ -60,23 +80,8 @@ class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\Migrate
             $path = $this->getMigrationPath();
         }
 
-        $file = pathinfo($this->creator->create($name, $path, $table, $create), PATHINFO_FILENAME);
+        $file = pathinfo($this->creator->setCommand($this)->create($name, $path, $table, $create), PATHINFO_FILENAME);
 
         $this->line("<info>Created Migration:</info> $file");
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return array_merge(
-            parent::getOptions(),
-            [
-                ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon where the migration will be generated.']
-            ]
-        );
     }
 }

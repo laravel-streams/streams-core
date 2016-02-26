@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class DeleteActionHandler
@@ -12,11 +13,11 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler
  */
-class Delete extends ActionHandler
+class Delete extends ActionHandler implements SelfHandling
 {
 
     /**
-     * Save the order of the entries.
+     * Delete the selected entries.
      *
      * @param TableBuilder $builder
      * @param array        $selected

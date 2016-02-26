@@ -50,6 +50,10 @@ class ViewBuilder
 
         $this->input->read($builder);
 
+        if ($builder->getTableOption('enable_views') === false) {
+            return;
+        }
+
         foreach ($builder->getViews() as $view) {
             if (array_get($view, 'enabled', true)) {
                 $table->addView($this->factory->make($view));

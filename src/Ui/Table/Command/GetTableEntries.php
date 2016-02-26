@@ -18,7 +18,7 @@ class GetTableEntries implements SelfHandling
     /**
      * The table builder.
      *
-     * @var \Anomaly\Streams\Platform\Ui\Table\TableBuilder
+     * @var TableBuilder
      */
     protected $builder;
 
@@ -37,22 +37,19 @@ class GetTableEntries implements SelfHandling
      */
     public function handle()
     {
-        $table = $this->builder->getTable();
-        $model = $this->builder->getModel();
+        $model   = $this->builder->getModel();
+        $entries = $this->builder->getEntries();
 
         /**
          * If the builder has an entries handler
          * then call it through the container and
          * let it load the entries itself.
          */
-        if ($handler = $table->getOption('entries')) {
-
-            app()->call($handler, ['builder' => $this->builder]);
-
-            return;
+        if (is_string($entries) || $entries instanceof \Closure) {
+            app()->call($entries, ['builder' => $this->builder]);
         }
 
-        $entries = $table->getEntries();
+        $entries = $this->builder->getTableEntries();
 
         /**
          * If the entries have already been set on the
@@ -68,14 +65,14 @@ class GetTableEntries implements SelfHandling
         /**
          * Resolve the model out of the container.
          */
-        $repository = $table->getRepository();
+        $repository = $this->builder->getRepository();
 
         /**
          * If the repository is an instance of
          * TableRepositoryInterface use it.
          */
         if ($repository instanceof TableRepositoryInterface) {
-            $table->setEntries($repository->get($this->builder));
+            $this->builder->setTableEntries($repository->get($this->builder));
         }
     }
 }

@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Application\Event\ApplicationHasLoaded;
 use Closure;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -45,6 +45,8 @@ class ApplicationReady
     public function handle(Request $request, Closure $next)
     {
         $response = $this->events->fire(new ApplicationHasLoaded(), [], true);
+
+        define('IS_ADMIN', $request->segment(1) == 'admin');
 
         if ($response instanceof Response) {
             return $response;

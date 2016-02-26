@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button;
 
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
@@ -20,6 +19,13 @@ class ButtonInput
      * @var ButtonParser
      */
     protected $parser;
+
+    /**
+     * The button lookup.
+     *
+     * @var ButtonLookup
+     */
+    protected $lookup;
 
     /**
      * The button guesser.
@@ -46,17 +52,20 @@ class ButtonInput
      * Create a new ButtonInput instance.
      *
      * @param ButtonParser     $parser
+     * @param ButtonLookup     $lookup
      * @param ButtonGuesser    $guesser
      * @param ButtonResolver   $resolver
      * @param ButtonNormalizer $normalizer
      */
     public function __construct(
         ButtonParser $parser,
+        ButtonLookup $lookup,
         ButtonGuesser $guesser,
         ButtonResolver $resolver,
         ButtonNormalizer $normalizer
     ) {
         $this->parser     = $parser;
+        $this->lookup     = $lookup;
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
         $this->normalizer = $normalizer;
@@ -74,9 +83,8 @@ class ButtonInput
 
         $controlPanel = $builder->getControlPanel();
         $sections     = $controlPanel->getSections();
-        $section      = $sections->active();
 
-        if ($section instanceof SectionInterface) {
+        if ($section = $sections->active()) {
             $buttons = $section->getButtons();
         }
 
@@ -84,6 +92,7 @@ class ButtonInput
 
         $this->resolver->resolve($builder);
         $this->normalizer->normalize($builder);
+        $this->lookup->merge($builder);
         $this->guesser->guess($builder);
         $this->parser->parse($builder);
     }

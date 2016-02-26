@@ -18,7 +18,7 @@ class SectionFactory
      *
      * @var string
      */
-    protected $section = 'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Section';
+    protected $section = Section::class;
 
     /**
      * The hydrator utility.

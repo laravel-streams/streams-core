@@ -1,28 +1,41 @@
-{% if not table.options.show_header %}
+<thead>
+<tr>
 
-    <thead>
-    <tr>
+    {% if table.options.sortable %}
+        <th style="width: 30px;">&nbsp;</th>
+    {% endif %}
 
-        {% if table.options.sortable %}
-            <th style="width: 30px;">&nbsp;</th>
-        {% endif %}
+    {% if not table.actions.empty() %}
+        <th style="width: 30px;">
+            <label class="c-input c-checkbox">
+                <input data-toggle="all" type="checkbox">
+                <span class="c-indicator"></span>
+            </label>
+        </th>
+    {% endif %}
 
-        {% if not table.actions.empty() %}
-            <th style="width: 30px;">
-                <label class="checkbox">
-                    <input data-toggle="all" type="checkbox">
-                </label>
-            </th>
-        {% endif %}
+    {% for header in table.headers %}
+        <th>
+            {% if header.sortable %}
 
-        {% for header in table.headers %}
-            <th>
+                <nobr>
+                    {{ html_link(url_current() ~ '?' ~ header.getQueryString(), trans(header.heading)) }}
+
+                    {% if header.direction == 'asc' %}
+                        {{ icon('sort-ascending', 'text-muted') }}
+                    {% elseif header.direction == 'desc' %}
+                        {{ icon('sort-descending', 'text-muted') }}
+                    {% else %}
+                        {{ icon('sortable', 'text-muted') }}
+                    {% endif %}
+                </nobr>
+
+            {% else %}
                 {{ trans(header.heading)|raw }}
-            </th>
-        {% endfor %}
+            {% endif %}
+        </th>
+    {% endfor %}
 
-        <th class="buttons">&nbsp;</th>
-    </tr>
-    </thead>
-
-{% endif %}
+    <th class="buttons">&nbsp;</th>
+</tr>
+</thead>

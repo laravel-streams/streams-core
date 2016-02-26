@@ -27,5 +27,6 @@ class AddViewNamespaces implements SelfHandling
         $views->addNamespace('streams', __DIR__ . '/../../../resources/views');
         $views->addNamespace('storage', $application->getStoragePath());
         $views->addNamespace('base_path', base_path());
+        $views->addExtension('html', 'php');
     }
 }

@@ -44,6 +44,11 @@ class SetTableResponse implements SelfHandling
         $options = $table->getOptions();
         $data    = $table->getData();
 
-        $table->setResponse($response->view($options->get('wrapper_view', 'streams::blank'), $data));
+        $table->setResponse(
+            $response->view(
+                $options->get('wrapper_view', $this->builder->isAjax() ? 'streams::ajax' : 'streams::blank'),
+                $data
+            )
+        );
     }
 }

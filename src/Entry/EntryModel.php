@@ -1,17 +1,22 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Robbo\Presenter\PresentableInterface;
 
 /**
  * Class EntryModel
  *
+ * @method        Builder sorted()
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
@@ -21,12 +26,27 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 {
 
     /**
-     * Validation rules. These are overridden
-     * on the compiled models.
+     * The validation rules. These are
+     * overridden on the compiled models.
      *
      * @var array
      */
-    public $rules = [];
+    protected $rules = [];
+
+    /**
+     * The field slugs. These are
+     * overridden on compiled models.
+     *
+     * @var array
+     */
+    protected $fields = [];
+
+    /**
+     * The entry relationships by field slug.
+     *
+     * @var array
+     */
+    protected $relationships = [];
 
     /**
      * The compiled stream data.
@@ -36,13 +56,36 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     protected $stream = [];
 
     /**
-     * Boot the model.
+     * Boot the model
      */
     protected static function boot()
     {
-        self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
+        $instance = new static;
+
+        $class    = get_class($instance);
+        $events   = $instance->getObservableEvents();
+        $observer = substr($class, 0, -5) . 'Observer';
+
+        if ($events && class_exists($observer)) {
+            self::observe(app($observer));
+        }
+
+        if ($events && !static::$dispatcher->hasListeners('eloquent.' . array_shift($events) . ': ' . $class)) {
+            self::observe(EntryObserver::class);
+        }
 
         parent::boot();
+    }
+
+    /**
+     * Sort the query.
+     *
+     * @param Builder $builder
+     * @param string  $direction
+     */
+    public function scopeSorted(Builder $builder, $direction = 'asc')
+    {
+        $builder->orderBy('sort_order', $direction);
     }
 
     /**
@@ -53,6 +96,36 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function getId()
     {
         return $this->getKey();
+    }
+
+    /**
+     * Get the entry ID.
+     *
+     * @return mixed
+     */
+    public function getEntryId()
+    {
+        return $this->getId();
+    }
+
+    /**
+     * Get the entry title.
+     *
+     * @return mixed
+     */
+    public function getEntryTitle()
+    {
+        return $this->getTitle();
+    }
+
+    /**
+     * Get the sort order.
+     *
+     * @return int
+     */
+    public function getSortOrder()
+    {
+        return $this->sort_order;
     }
 
     /**
@@ -80,20 +153,37 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
         $assignment = $this->getAssignment($fieldSlug);
 
-        $type = $assignment->getFieldType($this);
+        $type = $assignment->getFieldType();
 
         $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
 
         if ($assignment->isTranslatable()) {
+
             $entry = $this->translateOrDefault($locale);
+
+            $type->setLocale($locale);
         } else {
             $entry = $this;
         }
 
         $type->setEntry($entry);
 
-        return $modifier->restore($accessor->get($fieldSlug));
+        $value = $modifier->restore($accessor->get());
+
+        if (
+            $value === null &&
+            $assignment->isTranslatable() &&
+            $assignment->isRequired() &&
+            $translation = $this->translate()
+        ) {
+
+            $type->setEntry($translation);
+
+            $value = $modifier->restore($accessor->get());
+        }
+
+        return $value;
     }
 
     /**
@@ -153,13 +243,26 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getFieldType($fieldSlug)
     {
+        $locale = config('app.locale');
+
         $assignment = $this->getAssignment($fieldSlug);
 
-        if (!$assignment instanceof AssignmentInterface) {
+        if (!$assignment) {
             return null;
         }
 
-        $type = $assignment->getFieldType($this);
+        $type = $assignment->getFieldType();
+
+        if ($assignment->isTranslatable()) {
+
+            $entry = $this->translateOrDefault($locale);
+
+            $type->setLocale($locale);
+        } else {
+            $entry = $this;
+        }
+
+        $type->setEntry($entry);
 
         $type->setValue($this->getFieldValue($fieldSlug));
         $type->setEntry($this);
@@ -168,16 +271,33 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
-     * Get the rules for a field.
+     * Get the field type query.
      *
-     * @param  $fieldSlug
-     * @return array
+     * @param $fieldSlug
+     * @return FieldTypeQuery
      */
-    public function getFieldRules($fieldSlug)
+    public function getFieldTypeQuery($fieldSlug)
     {
-        $field = $this->getField($fieldSlug);
+        if (!$type = $this->getFieldType($fieldSlug)) {
+            return null;
+        }
 
-        return $field->getRules();
+        return $type->getQuery();
+    }
+
+    /**
+     * Get the field type presenter.
+     *
+     * @param $fieldSlug
+     * @return FieldTypePresenter
+     */
+    public function getFieldTypePresenter($fieldSlug)
+    {
+        if (!$type = $this->getFieldType($fieldSlug)) {
+            return null;
+        }
+
+        return $type->getPresenter();
     }
 
     /**
@@ -187,15 +307,17 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      *
      * @param  string $key
      * @param  mixed  $value
-     * @return void
+     * @return $this
      */
     public function setAttribute($key, $value)
     {
-        if (!$this->isKeyALocale($key) && !$this->hasSetMutator($key) && $this->getFieldType($key, $value)) {
+        if (!$this->isKeyALocale($key) && !$this->hasSetMutator($key) && $this->getFieldType($key)) {
             $this->setFieldValue($key, $value);
         } else {
             parent::setAttribute($key, $value);
         }
+
+        return $this;
     }
 
     /**
@@ -208,11 +330,14 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function getAttribute($key)
     {
+        // Check if it's a relationship first.
+        if (in_array($key, $this->relationships)) {
+            return parent::getAttribute(camel_case($key));
+        }
+
         if (
             !$this->hasGetMutator($key)
-            && !in_array($key, [$this->relations])
-            && !method_exists($this, $key)
-            && $this->getFieldType($key)
+            && in_array($key, $this->fields)
         ) {
             return $this->getFieldValue($key);
         } else {
@@ -223,12 +348,31 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Get a raw unmodified attribute.
      *
-     * @param $key
+     * @param      $key
+     * @param bool $process
      * @return mixed|null
      */
-    public function getRawAttribute($key)
+    public function getRawAttribute($key, $process = true)
     {
+        if (!$process) {
+            return $this->getAttributeFromArray($key);
+        }
+
         return parent::getAttribute($key);
+    }
+
+    /**
+     * Set a raw unmodified attribute.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function setRawAttribute($key, $value)
+    {
+        parent::setAttribute($key, $value);
+
+        return $this;
     }
 
     /**
@@ -263,6 +407,18 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $stream = $this->getStream();
 
         return $stream->getSlug();
+    }
+
+    /**
+     * Get the entry's stream name.
+     *
+     * @return string
+     */
+    public function getStreamName()
+    {
+        $stream = $this->getStream();
+
+        return $stream->getName();
     }
 
     /**
@@ -311,6 +467,33 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
         $stream = $this->getStream();
 
         return $stream->getAssignments();
+    }
+
+    /**
+     * Get the field slugs for assigned fields.
+     *
+     * @param null $prefix
+     * @return array
+     */
+    public function getAssignmentFieldSlugs($prefix = null)
+    {
+        $assignments = $this->getAssignments();
+
+        return $assignments->fieldSlugs($prefix);
+    }
+
+    /**
+     * Get all assignments of the
+     * provided field type namespace.
+     *
+     * @param $fieldType
+     * @return AssignmentCollection
+     */
+    public function getAssignmentsByFieldType($fieldType)
+    {
+        $assignments = $this->getAssignments();
+
+        return $assignments->findAllByFieldType($fieldType);
     }
 
     /**
@@ -365,6 +548,28 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Return whether the entry is trashable or not.
+     *
+     * @return bool
+     */
+    public function isTrashable()
+    {
+        $stream = $this->getStream();
+
+        return $stream->isTrashable();
+    }
+
+    /**
+     * Return the last modified datetime.
+     *
+     * @return Carbon
+     */
+    public function lastModified()
+    {
+        return $this->updated_at ?: $this->created_at;
+    }
+
+    /**
      * Return whether the title column is
      * translatable or not.
      *
@@ -409,8 +614,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function fireFieldTypeEvents($trigger, $payload = [])
     {
+        $assignments = $this->getAssignments();
+
         /* @var AssignmentInterface $assignment */
-        foreach ($this->getAssignments() as $assignment) {
+        foreach ($assignments->notTranslatable() as $assignment) {
 
             $fieldType = $assignment->getFieldType();
 
@@ -418,7 +625,10 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 
             $fieldType->setEntry($this);
 
-            $fieldType->fire($trigger, array_merge(compact('fieldType', 'entry'), $payload));
+            $payload['entry']     = $this;
+            $payload['fieldType'] = $fieldType;
+
+            $fieldType->fire($trigger, $payload);
         }
     }
 
@@ -478,5 +688,37 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     public function newPresenter()
     {
         return $this->getPresenter();
+    }
+
+    /**
+     * Get a new query builder for the model's table.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function newQuery()
+    {
+        $builder = new EntryQueryBuilder($this->newBaseQueryBuilder());
+
+        // Once we have the query builders, we will set the model instances so the
+        // builder can easily access any information it may need from the model
+        // while it is constructing and executing various queries against it.
+        $builder->setModel($this)->with($this->with);
+
+        return $this->applyGlobalScopes($builder);
+    }
+
+    /**
+     * Override the __get method.
+     *
+     * @param string $key
+     * @return EntryPresenter|mixed
+     */
+    public function __get($key)
+    {
+        if ($key === 'decorated') {
+            return $this->getPresenter();
+        }
+
+        return parent::__get($key); // TODO: Change the autogenerated stub
     }
 }

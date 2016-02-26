@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class HandleForm
@@ -33,9 +34,21 @@ class HandleForm implements SelfHandling
 
     /**
      * Handle the event.
+     *
+     * @param Container $container
      */
-    public function handle()
+    public function handle(Container $container)
     {
-        app()->call($this->builder->getHandler(), ['builder' => $this->builder]);
+        if ($this->builder->hasFormErrors()) {
+            return;
+        }
+
+        $handler = $this->builder->getHandler();
+
+        if ($handler && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+            $handler .= '@handle';
+        }
+
+        $container->call($handler, ['builder' => $this->builder]);
     }
 }

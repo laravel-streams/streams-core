@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
@@ -27,17 +27,18 @@ class FormRules
         $entry  = $builder->getFormEntry();
         $stream = $builder->getFormStream();
 
-        foreach ($builder->getFormFields() as $field) {
+        /* @var FieldType $field */
+        foreach ($builder->getEnabledFormFields() as $field) {
 
             if ($field->isDisabled()) {
                 continue;
             }
 
-            $fieldRules = array_filter(array_unique($field->getRules()));
-
-            if ($entry instanceof EntryInterface) {
-                $fieldRules = $fieldRules + $entry->getFieldRules($field->getField());
+            if (in_array($field->getField(), $builder->getSkips())) {
+                continue;
             }
+
+            $fieldRules = array_filter(array_unique($field->getRules()));
 
             if (!$stream instanceof StreamInterface) {
 
@@ -48,7 +49,9 @@ class FormRules
 
             if ($assignment = $stream->getAssignment($field->getField())) {
 
-                if ($assignment->isRequired() || $field->isRequired()) {
+                $type = $assignment->getFieldType();
+
+                if ($type->isRequired()) {
                     $fieldRules[] = 'required';
                 }
 

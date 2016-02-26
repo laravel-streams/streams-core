@@ -1,7 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Asset\Asset;
-use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
+use Anomaly\Streams\Platform\Addon\Extension\Extension;
+use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Application\Application;
+use Anomaly\Streams\Platform\Support\Configurator;
+use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Translation\Translator;
+use Twig_ExtensionInterface;
 
 /**
  * Class AddonIntegrator
@@ -15,66 +24,188 @@ class AddonIntegrator
 {
 
     /**
-     * The asset utility.
+     * The view factory.
      *
-     * @var Asset
+     * @var Factory
      */
-    protected $asset;
+    protected $views;
 
     /**
-     * The image utility.
+     * The event dispatcher.
      *
-     * @var Image
+     * @var Dispatcher
      */
-    protected $image;
+    protected $events;
+
+    /**
+     * The addon provider.
+     *
+     * @var AddonProvider
+     */
+    protected $provider;
+
+    /**
+     * The IoC container.
+     *
+     * @var Container
+     */
+    protected $container;
+
+    /**
+     * The addon collection.
+     *
+     * @var AddonCollection
+     */
+    protected $collection;
+
+    /**
+     * The translator utility.
+     *
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
+     * The application instance.
+     *
+     * @var Application
+     */
+    protected $application;
+
+    /**
+     * The configurator utility.
+     *
+     * @var Configurator
+     */
+    protected $configurator;
 
     /**
      * Create a new AddonIntegrator instance.
      *
-     * @param Asset $asset
-     * @param Image $image
+     * @param Factory         $views
+     * @param Dispatcher      $events
+     * @param Container       $container
+     * @param Translator      $translator
+     * @param AddonProvider   $provider
+     * @param Application     $application
+     * @param Configurator    $configurator
+     * @param AddonCollection $collection
+     * @internal param Asset $asset
+     * @internal param Image $image
      */
-    public function __construct(Asset $asset, Image $image)
-    {
-        $this->asset = $asset;
-        $this->image = $image;
+    public function __construct(
+        Factory $views,
+        Dispatcher $events,
+        Container $container,
+        Translator $translator,
+        AddonProvider $provider,
+        Application $application,
+        Configurator $configurator,
+        AddonCollection $collection
+    ) {
+        $this->views        = $views;
+        $this->events       = $events;
+        $this->provider     = $provider;
+        $this->container    = $container;
+        $this->collection   = $collection;
+        $this->translator   = $translator;
+        $this->application  = $application;
+        $this->configurator = $configurator;
     }
 
     /**
-     * Register integrations for an addon.
+     * Register an addon.
      *
-     * @param Addon $addon
+     * @param $path
+     * @param $enabled
+     * @param $installed
      */
-    public function register(Addon $addon)
+    public function register($path, array $enabled, array $installed)
     {
-        app('view')->addNamespace($addon->getNamespace(), $addon->getPath('resources/views'));
+        $vendor = strtolower(basename(dirname($path)));
+        $slug   = strtolower(substr(basename($path), 0, strpos(basename($path), '-')));
+        $type   = strtolower(substr(basename($path), strpos(basename($path), '-') + 1));
 
-        if (app('files')->isDirectory($addon->getPath('resources/config'))) {
-            foreach (app('files')->allFiles($addon->getPath('resources/config')) as $file) {
+        $class = studly_case($vendor) . '\\' . studly_case($slug) . studly_case($type) . '\\' . studly_case(
+                $slug
+            ) . studly_case($type);
 
-                if (!$file instanceof \SplFileInfo) {
-                    continue;
-                }
+        /* @var Addon|Module|Extension|Twig_ExtensionInterface $addon */
+        $addon = app($class)
+            ->setPath($path)
+            ->setType($type)
+            ->setSlug($slug)
+            ->setVendor($vendor);
 
-                $key = ltrim(
-                    str_replace(
-                        $addon->getPath('resources/config'),
-                        '',
-                        $file->getPath()
-                    ) . '/' . $file->getBaseName('.php'),
-                    '/'
-                );
-
-                app('config')->set(
-                    $addon->getNamespace($key),
-                    app('files')->getRequire($file->getPathname())
-                );
-            }
+        // If the addon supports states - set the state now.
+        if ($addon->getType() === 'module' || $addon->getType() === 'extension') {
+            $addon->setInstalled(in_array($addon->getNamespace(), $installed));
+            $addon->setEnabled(in_array($addon->getNamespace(), $enabled));
         }
 
-        app('translator')->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
+        // Bind to the service container.
+        $this->container->alias($addon->getNamespace(), $alias = get_class($addon));
+        $this->container->instance($alias, $addon);
 
-        $this->asset->addPath($addon->getNamespace(), $addon->getPath('resources'));
-        $this->image->addPath($addon->getNamespace(), $addon->getPath('resources'));
+        // Load package configuration.
+        $this->configurator->addNamespace($addon->getNamespace(), $addon->getPath('resources/config'));
+
+        // Load system overrides.
+        $this->configurator->addNamespaceOverrides(
+            $addon->getNamespace(),
+            base_path(
+                'resources/core/config/addons/'
+                . $addon->getVendor() . '/'
+                . $addon->getSlug() . '-'
+                . $addon->getType()
+            )
+        );
+
+        // Load application overrides.
+        $this->configurator->addNamespaceOverrides(
+            $addon->getNamespace(),
+            $this->application->getResourcesPath(
+                'config/addons/'
+                . $addon->getVendor() . '/'
+                . $addon->getSlug() . '-'
+                . $addon->getType()
+            )
+        );
+
+        // Continue loading things.
+        $this->provider->register($addon);
+
+        // Add the view / translation namespaces.
+        $this->views->addNamespace($addon->getNamespace(), $addon->getPath('resources/views'));
+        $this->translator->addNamespace($addon->getNamespace(), $addon->getPath('resources/lang'));
+
+        /**
+         * If the addon is a plugin then
+         * load it into Twig when appropriate.
+         */
+        if ($addon->getType() === 'plugin') {
+
+            $this->events->listen(
+                'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
+                function (RegisteringTwigPlugins $event) use ($addon) {
+
+                    $twig = $event->getTwig();
+
+                    $twig->addExtension($addon);
+                }
+            );
+        }
+
+        $this->collection->put($addon->getNamespace(), $addon);
+
+        $this->events->fire(new AddonWasRegistered($addon));
+    }
+
+    /**
+     * Finish up addon integration.
+     */
+    public function finish()
+    {
+        $this->provider->boot();
     }
 }

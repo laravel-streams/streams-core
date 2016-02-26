@@ -3,42 +3,52 @@
 {% endif %}
 
 {% if table.options.sortable %}
+    {{ asset_add("scripts.js", "streams::js/table/jquery-sortable.js") }}
     {{ asset_add("scripts.js", "streams::js/table/sortable.js") }}
 {% endif %}
 
 <div class="container-fluid">
 
-    {% include "streams::table/partials/views" %}
-    {% include "streams::table/partials/filters" %}
-    {% include "streams::table/partials/heading" %}
+    {{ view("streams::table/partials/filters", {'table': table}) }}
+    {{ view("streams::table/partials/views", {'table': table}) }}
 
     {% if not table.rows.empty() %}
-        <div class="panel">
+        {% block card %}
+            <div class="card">
 
-            {{ form_open({ 'url': url_full() }) }}
-            <table
-                    class="{{ table.options.class ?: 'table striped' }}"
-                    {{ table.options.sortable ? 'data-sortable' }}
-                    {{ html_attributes(table.options.attributes) }}>
+                {{ view("streams::table/partials/heading", {'table': table}) }}
 
-                {% include "streams::table/partials/header" %}
+                {{ form_open({ 'url': url_full() }) }}
+                <div class="table-responsive">
+                    <table
+                            class="{{ table.options.class ?: 'table' }}"
+                            {{ table.options.sortable ? 'data-sortable' }}
+                            {{ html_attributes(table.options.attributes) }}>
 
-                {% block body %}
-                    {% include "streams::table/partials/body" %}
-                {% endblock %}
+                        {{ view("streams::table/partials/header", {'table': table}) }}
 
-                {% include "streams::table/partials/footer" %}
+                        {% block body %}
+                            {{ view("streams::table/partials/body", {'table': table}) }}
+                        {% endblock %}
 
-            </table>
-            {{ form_close() }}
+                        {{ view("streams::table/partials/footer", {'table': table}) }}
 
-        </div>
-    {% else %}
-        <div class="panel">
-            <div class="panel-body">
-                {{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}
+                    </table>
+                </div>
+                {{ form_close() }}
+
             </div>
-        </div>
+        {% endblock %}
+    {% else %}
+
+        {% block no_results %}
+            <div class="card">
+                <div class="card-block">
+                    {{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}
+                </div>
+            </div>
+        {% endblock %}
+
     {% endif %}
 
 </div>

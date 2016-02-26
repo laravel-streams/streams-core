@@ -3,8 +3,6 @@
 return [
     'addon'       => 'Addon',
     'addons'      => 'Addons',
-    'block'       => 'Block',
-    'blocks'      => 'Blocks',
     'theme'       => 'Theme',
     'themes'      => 'Themes',
     'module'      => 'Module',
@@ -17,5 +15,15 @@ return [
     'field_types' => 'Field Types',
     'type'        => 'Type',
     'name'        => 'Name',
-    'description' => 'Description'
+    'description' => 'Description',
+    'core'        => 'Core',
+    'shared'      => 'Shared',
+    'private'     => 'Private',
+    'installed'   => 'Installed',
+    'uninstalled' => 'Uninstalled',
+    'enabled'     => 'Enabled',
+    'disabled'    => 'Disabled',
+    'active'      => 'Active',
+    'admin'       => 'Admin',
+    'public'      => 'Public'
 ];

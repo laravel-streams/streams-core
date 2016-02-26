@@ -1,11 +1,19 @@
 {% macro tree(items, tree) %}
     {% for item in items %}
         <li data-id="{{ item.id }}">
-            <div class="panel">
+            <div class="card">
 
-                {{ icon('bars', 'handle btn btn-xs') }}
+                {% if tree.options.get('sortable', true) %}
+                    {{ icon('bars', 'handle btn btn-xs') }}
+                {% endif %}
 
-                {{ item.value|raw }}
+                {% for segment in item.segments %}
+                    {% if segment.value %}
+                        <span class="{{ segment.class }}" {{ html_attributes(segment.attributes) }}>
+                        {{ segment.value|raw }}
+                    </span>
+                    {% endif %}
+                {% endfor %}
 
                 <div class="buttons">
                     {{ buttons(item.buttons) }}

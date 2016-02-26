@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class Evaluator
@@ -16,7 +16,7 @@ class Evaluator
     /**
      * The IoC container.
      *
-     * @var \Illuminate\Container\Container
+     * @var \Illuminate\Contracts\Container\Container
      */
     protected $container;
 
@@ -76,6 +76,6 @@ class Evaluator
      */
     protected function isTraversable($target)
     {
-        return (!preg_match('/[^a-z.]/', $target));
+        return (!preg_match('/[^a-z._]/', $target));
     }
 }

@@ -1,10 +1,18 @@
 <?php namespace Anomaly\Streams\Platform\Image;
 
+use Anomaly\FilesModule\File\Contract\FileInterface;
+use Anomaly\FilesModule\File\FilePresenter;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Application\Application;
+use Closure;
 use Collective\Html\HtmlBuilder;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Filesystem\Filesystem;
+use Intervention\Image\Constraint;
 use Intervention\Image\ImageManager;
-use League\Flysystem\MountManager;
+use League\Flysystem\File;
+use Mobile_Detect;
+use Robbo\Presenter\Presenter;
 
 /**
  * Class Image
@@ -14,7 +22,7 @@ use League\Flysystem\MountManager;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Asset
  */
-class Image extends ImageManager
+class Image
 {
 
     /**
@@ -39,6 +47,13 @@ class Image extends ImageManager
     protected $image = null;
 
     /**
+     * The file extension.
+     *
+     * @var null|string
+     */
+    protected $extension = null;
+
+    /**
      * The default output method.
      *
      * @var string
@@ -53,18 +68,32 @@ class Image extends ImageManager
     protected $attributes = [];
 
     /**
-     * Applied filters.
+     * Applied alterations.
      *
      * @var array
      */
-    protected $applied = [];
+    protected $alterations = [];
+
+    /**
+     * Image srcsets.
+     *
+     * @var array
+     */
+    protected $srcsets = [];
+
+    /**
+     * Image sources.
+     *
+     * @var array
+     */
+    protected $sources = [];
 
     /**
      * Allowed methods.
      *
      * @var array
      */
-    protected $methods = [
+    protected $allowedMethods = [
         'blur',
         'brightness',
         'colorize',
@@ -84,7 +113,15 @@ class Image extends ImageManager
         'rotate',
         'amount',
         'widen',
+        'orientate'
     ];
+
+    /**
+     * The quality of the output.
+     *
+     * @var null|int
+     */
+    protected $quality = null;
 
     /**
      * The HTML builder.
@@ -101,6 +138,13 @@ class Image extends ImageManager
     protected $paths;
 
     /**
+     * The image macros.
+     *
+     * @var ImageMacros
+     */
+    protected $macros;
+
+    /**
      * The file system.
      *
      * @var Filesystem
@@ -108,9 +152,23 @@ class Image extends ImageManager
     protected $files;
 
     /**
-     * The mount manager.
+     * The user agent utility.
      *
-     * @var MountManager
+     * @var Mobile_Detect
+     */
+    protected $agent;
+
+    /**
+     * The config repository.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
+     * The image manager.
+     *
+     * @var ImageManager
      */
     protected $manager;
 
@@ -124,22 +182,31 @@ class Image extends ImageManager
     /**
      * Create a new Image instance.
      *
-     * @param HtmlBuilder  $html
-     * @param Filesystem   $files
-     * @param MountManager $manager
-     * @param Application  $application
-     * @param ImagePaths   $paths
+     * @param HtmlBuilder $html
+     * @param Filesystem $files
+     * @param Mobile_Detect $agent
+     * @param Repository $config
+     * @param ImageManager $manager
+     * @param Application $application
+     * @param ImagePaths $paths
+     * @param ImageMacros $macros
      */
     public function __construct(
         HtmlBuilder $html,
         Filesystem $files,
-        MountManager $manager,
+        Mobile_Detect $agent,
+        Repository $config,
+        ImageManager $manager,
         Application $application,
-        ImagePaths $paths
+        ImagePaths $paths,
+        ImageMacros $macros
     ) {
         $this->html        = $html;
         $this->files       = $files;
+        $this->agent       = $agent;
         $this->paths       = $paths;
+        $this->config      = $config;
+        $this->macros      = $macros;
         $this->manager     = $manager;
         $this->application = $application;
     }
@@ -148,13 +215,280 @@ class Image extends ImageManager
      * Make a new image instance.
      *
      * @param mixed $image
-     * @return Image
+     * @param null $output
+     * @return $this
      */
-    public function make($image)
+    public function make($image, $output = null)
     {
+        if ($image instanceof Image) {
+            return $image;
+        }
+
+        if ($output) {
+            $this->setOutput($output);
+        }
+
         $clone = clone($this);
 
-        return $clone->setImage($image);
+        $clone->setAlterations([]);
+        $clone->setSources([]);
+        $clone->setSrcsets([]);
+        $clone->setImage(null);
+
+        try {
+            return $clone->setImage($image);
+        } catch (\Exception $e) {
+            return $this;
+        }
+    }
+
+    /**
+     * Return the path to an image.
+     *
+     * @return string
+     */
+    public function path()
+    {
+        $path = $this->getCachePath();
+
+        return $path;
+    }
+
+    /**
+     * Run a macro on the image.
+     *
+     * @param $macro
+     * @return Image
+     * @throws \Exception
+     */
+    public function macro($macro)
+    {
+        return $this->macros->run($macro, $this);
+    }
+
+    /**
+     * Return the URL to an image.
+     *
+     * @param array $parameters
+     * @param null $secure
+     * @return string
+     */
+    public function url(array $parameters = [], $secure = null)
+    {
+        return url($this->path(), $parameters, $secure);
+    }
+
+    /**
+     * Return the image tag to an image.
+     *
+     * @param null $alt
+     * @param array $attributes
+     * @return string
+     */
+    public function image($alt = null, array $attributes = [])
+    {
+        if (!$alt) {
+            $alt = array_get($this->getAttributes(), 'alt');
+        }
+
+        $attributes = array_merge($this->getAttributes(), $attributes);
+
+        if ($srcset = $this->srcset()) {
+            $attributes['srcset'] = $srcset;
+        }
+
+        return $this->html->image($this->path(), $alt, $attributes);
+    }
+
+    /**
+     * Return the image tag to an image.
+     *
+     * @param null $alt
+     * @param array $attributes
+     * @return string
+     */
+    public function img($alt = null, array $attributes = [])
+    {
+        return $this->image($alt, $attributes);
+    }
+
+    /**
+     * Return a picture tag.
+     *
+     * @return string
+     */
+    public function picture(array $attributes = [])
+    {
+        $sources = [];
+
+        $attributes = array_merge($this->getAttributes(), $attributes);
+
+        /* @var Image $image */
+        foreach ($this->getSources() as $media => $image) {
+            if ($media != 'fallback') {
+                $sources[] = $image->source();
+            } else {
+                $sources[] = $image->image();
+            }
+        }
+
+        $sources = implode("\n", $sources);
+
+        $attributes = $this->html->attributes($attributes);
+
+        return "<picture {$attributes}>\n{$sources}\n</picture>";
+    }
+
+    /**
+     * Return a source tag.
+     *
+     * @return string
+     */
+    public function source()
+    {
+        $this->addAttribute('srcset', $this->srcset() ?: $this->url() . ' 2x, ' . $this->url() . ' 1x');
+
+        $attributes = $this->html->attributes($this->getAttributes());
+
+        if ($srcset = $this->srcset()) {
+            $attributes['srcset'] = $srcset;
+        }
+
+        return "<source {$attributes}>";
+    }
+
+    /**
+     * Return the image response.
+     *
+     * @param null $format
+     * @param int $quality
+     * @return String
+     */
+    public function encode($format = null, $quality = 100)
+    {
+        return $this->manager->make($this->getCachePath())->encode($format, $quality);
+    }
+
+    /**
+     * Return the output.
+     *
+     * @return string
+     */
+    public function output()
+    {
+        return $this->{$this->output}();
+    }
+
+    /**
+     * Set the quality.
+     *
+     * @param $quality
+     * @return $this
+     */
+    public function quality($quality)
+    {
+        return $this->setQuality($quality);
+    }
+
+    /**
+     * Set the width attribute.
+     *
+     * @param null $width
+     * @return Image
+     */
+    public function width($width = null)
+    {
+        if (!$width && ($image = $this->getImage()) instanceof FileInterface) {
+            $width = $image->getWidth();
+        }
+
+        return $this->addAttribute('width', $width);
+    }
+
+    /**
+     * Set the height attribute.
+     *
+     * @param null $height
+     * @return Image
+     */
+    public function height($height = null)
+    {
+        if (!$height && ($image = $this->getImage()) instanceof FileInterface) {
+            $height = $image->getHeight();
+        }
+
+        return $this->addAttribute('height', $height);
+    }
+
+    /**
+     * Set the quality.
+     *
+     * @param $quality
+     * @return $this
+     */
+    public function setQuality($quality)
+    {
+        $this->quality = (int)$quality;
+
+        return $this;
+    }
+
+    /**
+     * Get the cache path of the image.
+     *
+     * @return string
+     */
+    protected function getCachePath()
+    {
+        if (starts_with($this->getImage(), ['//', 'http'])) {
+            return $this->getImage();
+        }
+
+        $path = 'assets/' . $this->application->getReference() . '/streams/' . $this->getImageFilename();
+
+        if ($this->shouldPublish($path)) {
+            try {
+                $this->publish($path);
+            } catch (\Exception $e) {
+                return $this->config->get('app.debug', false) ? $e->getMessage() : null;
+            }
+        }
+
+        return $path;
+    }
+
+    /**
+     * Determine if the image needs to be published
+     *
+     * @param $path
+     * @return bool
+     */
+    private function shouldPublish($path)
+    {
+        if (!$this->files->exists($path)) {
+            return true;
+        }
+
+        if (is_string($this->image) && !str_is('*://*', $this->image) && filemtime($path) < filemtime($this->image)) {
+            return true;
+        }
+
+        if (is_string($this->image) && str_is('*://*', $this->image) && filemtime($path) < app(
+                'League\Flysystem\MountManager'
+            )->getTimestamp($this->image)
+        ) {
+            return true;
+        }
+
+        if ($this->image instanceof File && filemtime($path) < $this->image->getTimestamp()) {
+            return true;
+        }
+
+        if ($this->image instanceof FileInterface && filemtime($path) < $this->image->lastModified()->format('U')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -164,50 +498,43 @@ class Image extends ImageManager
      */
     protected function publish($path)
     {
-        $image = parent::make($this->image);
+        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
-        foreach ($this->applied as $method => $arguments) {
-            if (in_array($method, $this->methods)) {
-                $image = call_user_func_array([$image, $method], $arguments);
+        if (!$image = $this->makeImage()) {
+            return;
+        }
+
+        if (function_exists('exif_read_data') && $image->exif('Orientation') && $image->exif('Orientation') > 1) {
+            $this->addAlteration('orientate');
+        }
+
+        if (!$this->getAlterations() && $content = $this->dumpImage()) {
+
+            $this->files->put($this->directory . $path, $content);
+
+            return;
+        }
+
+        if (is_callable('exif_read_data') && in_array('orientate', $this->getAlterations())) {
+            $this->setAlterations(array_unique(array_merge(['orientate'], $this->getAlterations())));
+        }
+
+        foreach ($this->getAlterations() as $method => $arguments) {
+
+            if ($method == 'resize') {
+                $this->guessResizeArguments($arguments);
+            }
+
+            if (in_array($method, $this->getAllowedMethods())) {
+                if (is_array($arguments)) {
+                    call_user_func_array([$image, $method], $arguments);
+                } else {
+                    call_user_func([$image, $method], $arguments);
+                }
             }
         }
 
-        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
-
-        $image->save($this->directory . $path);
-    }
-
-    /**
-     * Get the path of the image.
-     *
-     * @return string
-     */
-    protected function getPath()
-    {
-        if (starts_with($this->image, ['http', '//'])) {
-            return $this->image;
-        }
-
-        $filename = md5(var_export([$this->image, $this->applied], true)) . '.' . $this->getExtension($this->image);
-
-        $path = 'assets/' . $this->application->getReference() . '/cache/' . $filename;
-
-        if (isset($_GET['_publish']) || !$this->files->exists($path)) {
-            $this->publish($path);
-        }
-
-        return $path;
-    }
-
-    /**
-     * Get the extension from a path.
-     *
-     * @param  $path
-     * @return mixed
-     */
-    protected function getExtension($path)
-    {
-        return pathinfo($path, PATHINFO_EXTENSION);
+        $image->save($this->directory . $path, $this->getQuality());
     }
 
     /**
@@ -225,310 +552,382 @@ class Image extends ImageManager
     }
 
     /**
-     * Apply a blur effect.
+     * Return the image srcsets by set.
      *
-     * @param  $pixels
-     * @return $this
+     * @return array
      */
-    public function blur($pixels)
+    public function srcset()
     {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
+        $sources = [];
 
-    /**
-     * Adjust the brightness.
-     *
-     * @param  $level
-     * @return $this
-     */
-    public function brightness($level)
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Modify the color levels.
-     *
-     * @param  $red
-     * @param  $green
-     * @param  $blue
-     * @return $this
-     */
-    public function colorize($red, $green, $blue)
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Adjust the contrast.
-     *
-     * @param  $level
-     * @return $this
-     */
-    public function contrast($level)
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Crop the image.
-     *
-     * @param       $width
-     * @param       $height
-     * @param  null $x
-     * @param  null $y
-     * @return $this
-     */
-    public function crop($width, $height, $x = null, $y = null)
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Fit the image to spec.
-     *
-     * @param       $width
-     * @param  null $height
-     * @return $this
-     */
-    public function fit($width, $height = null)
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Flip the image.
-     *
-     * @param  $direction
-     * @return $this
-     */
-    public function flip($direction)
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Adjust the gamma level.
-     *
-     * @param  $level
-     * @return $this
-     */
-    public function gamma($level)
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Convert to greyscale.
-     *
-     * @return $this
-     */
-    public function greyscale()
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Convert to grayscale.
-     *
-     * @return $this
-     */
-    public function grayscale()
-    {
-        return $this->greyscale();
-    }
-
-    /**
-     * Adjust the height.
-     *
-     * @param  $height
-     * @return $this
-     */
-    public function heighten($height)
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Invert the colors.
-     *
-     * @return $this
-     */
-    public function invert()
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Limit colors used.
-     *
-     * @param       $count
-     * @param  null $matte
-     * @return $this
-     */
-    public function limitColors($count, $matte = null)
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Pixelate the image.
-     *
-     * @param  $size
-     * @return $this
-     */
-    public function pixelate($size)
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Adjust the opacity.
-     *
-     * @param  $opacity
-     * @return $this
-     */
-    public function opacity($opacity)
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Adjust the quality.
-     *
-     * @param  $quality
-     * @return $this
-     */
-    public function quality($quality)
-    {
-        return $this->applyModification('encode', [$this->getExtension($this->image), $quality]);
-    }
-
-    /**
-     * Resize the image.
-     *
-     * @param  $width
-     * @param  $height
-     * @return $this
-     */
-    public function resize($width, $height)
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Rotate the image.
-     *
-     * @param       $angle
-     * @param  null $background
-     * @return $this
-     */
-    public function rotate($angle, $background = null)
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Adjust the width.
-     *
-     * @param  $width
-     * @return $this
-     */
-    public function widen($width)
-    {
-        return $this->applyModification(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * Return the path to an image.
-     *
-     * @return string
-     */
-    public function path()
-    {
-        $path = $this->getPath();
-
-        $this->image   = null;
-        $this->applied = [];
-
-        return $path;
-    }
-
-    /**
-     * Return the URL to an image.
-     *
-     * @param array $parameters
-     * @param null  $secure
-     * @return string
-     */
-    public function url(array $parameters = [], $secure = null)
-    {
-        return url($this->path(), $parameters, $secure);
-    }
-
-    /**
-     * Return the image tag to an image.
-     *
-     * @param null  $alt
-     * @param array $attributes
-     * @return string
-     */
-    public function image($alt = null, $attributes = [])
-    {
-        if (!$alt) {
-            $alt = array_get($this->attributes, 'alt');
+        /* @var Image $image */
+        foreach ($this->getSrcsets() as $descriptor => $image) {
+            $sources[] = $image->url() . ' ' . $descriptor;
         }
 
-        $attributes = array_merge($this->attributes, $attributes);
-
-        return $this->html->image($this->getPath(), $alt, $attributes);
+        return implode(', ', $sources);
     }
 
     /**
-     * Return the output.
+     * Set the srcsets/alterations.
+     *
+     * @param array $srcsets
+     */
+    public function srcsets(array $srcsets)
+    {
+        foreach ($srcsets as $descriptor => &$alterations) {
+
+            $image = $this->make(array_pull($alterations, 'image', $this->getImage()))->setOutput('url');
+
+            foreach ($alterations as $method => $arguments) {
+                if (is_array($arguments)) {
+                    call_user_func_array([$image, $method], $arguments);
+                } else {
+                    call_user_func([$image, $method], $arguments);
+                }
+            }
+
+            $alterations = $image;
+        }
+
+        $this->setSrcsets($srcsets);
+
+        return $this;
+    }
+
+    /**
+     * Set the sources/alterations.
+     *
+     * @param array $sources
+     * @param bool $merge
+     * @return $this
+     */
+    public function sources(array $sources, $merge = true)
+    {
+        foreach ($sources as $media => &$alterations) {
+
+            if ($merge) {
+                $alterations = array_merge($this->getAlterations(), $alterations);
+            }
+
+            $image = $this->make(array_pull($alterations, 'image', $this->getImage()))->setOutput('source');
+
+            if ($media != 'fallback') {
+                call_user_func([$image, 'media'], $media);
+            }
+
+            foreach ($alterations as $method => $arguments) {
+                if (is_array($arguments)) {
+                    call_user_func_array([$image, $method], $arguments);
+                } else {
+                    call_user_func([$image, $method], $arguments);
+                }
+            }
+
+            $alterations = $image;
+        }
+
+        $this->setSources($sources);
+
+        return $this;
+    }
+
+    /**
+     * Alter the image based on the user agents.
+     *
+     * @param array $agents
+     * @param bool $exit
+     * @return $this
+     */
+    public function agents(array $agents, $exit = false)
+    {
+        foreach ($agents as $agent => $alterations) {
+            if (
+                $this->agent->is($agent)
+                || ($agent == 'phone' && $this->agent->isPhone())
+                || ($agent == 'mobile' && $this->agent->isMobile())
+                || ($agent == 'tablet' && $this->agent->isTablet())
+                || ($agent == 'desktop' && $this->agent->isDesktop())
+            ) {
+                foreach ($alterations as $method => $arguments) {
+                    if (is_array($arguments)) {
+                        call_user_func_array([$this, $method], $arguments);
+                    } else {
+                        call_user_func([$this, $method], $arguments);
+                    }
+                }
+
+                if ($exit) {
+                    return $this;
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set the image.
+     *
+     * @param  $image
+     * @return $this
+     */
+    public function setImage($image)
+    {
+        if ($image instanceof Presenter) {
+            $image = $image->getObject();
+        }
+
+        if ($image instanceof FieldType) {
+            $image = $image->getValue();
+        }
+
+        // Replace path prefixes.
+        if (is_string($image) && str_contains($image, '::')) {
+
+            $image = $this->paths->realPath($image);
+
+            $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
+        }
+
+        if (is_string($image) && str_is('*://*', $image) && !starts_with($image, ['http', 'https'])) {
+
+            $this->image = app('League\Flysystem\MountManager')->get($image);
+
+            $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
+        }
+
+        if ($image instanceof FileInterface) {
+            $this->setExtension($image->getExtension());
+        }
+
+        if ($image instanceof FilePresenter) {
+
+            $image = $image->getObject();
+
+            $this->setExtension($image->getExtension());
+        }
+
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Make an image instance.
+     *
+     * @return \Intervention\Image\Image
+     */
+    protected function makeImage()
+    {
+        if ($this->image instanceof FileInterface) {
+            return $this->manager->make(app('League\Flysystem\MountManager')->read($this->image->location()));
+        }
+
+        if (is_string($this->image) && str_is('*://*', $this->image)) {
+            return $this->manager->make(app('League\Flysystem\MountManager')->read($this->image));
+        }
+
+        if ($this->image instanceof File) {
+            return $this->manager->make($this->image->read());
+        }
+
+        if (is_string($this->image) && file_exists($this->image)) {
+            return $this->manager->make($this->image);
+        }
+
+        if ($this->image instanceof Image) {
+            return $this->image;
+        }
+
+        return null;
+    }
+
+    /**
+     * Dump an image instance's data.
      *
      * @return string
      */
-    public function output()
+    protected function dumpImage()
     {
-        return $this->{$this->output}();
+        if ($this->image instanceof FileInterface) {
+            return app('League\Flysystem\MountManager')->read($this->image->location());
+        }
+
+        if (is_string($this->image) && str_is('*://*', $this->image)) {
+            return app('League\Flysystem\MountManager')->read($this->image);
+        }
+
+        if ($this->image instanceof File) {
+            return $this->image->read();
+        }
+
+        if (is_string($this->image) && file_exists($this->image)) {
+            return file_get_contents($this->image);
+        }
+
+        if ($this->image instanceof Image) {
+            return $this->image->encode();
+        }
+
+        return null;
     }
 
     /**
-     * Add a modification to apply to the image.
+     * Get the image's file name.
+     *
+     * @return string
+     */
+    protected function getImageFilename()
+    {
+        $image = $this->getImage();
+
+        /* @var FileInterface $filename */
+        if ($image instanceof FileInterface) {
+            return $image->getName();
+        }
+
+        return ltrim(str_replace(base_path(), '', (string)$image), '/');
+    }
+
+    /**
+     * Get the image instance.
+     *
+     * @return \Intervention\Image\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Get the alterations.
+     *
+     * @return array
+     */
+    public function getAlterations()
+    {
+        return $this->alterations;
+    }
+
+    /**
+     * Set the alterations.
+     *
+     * @param array $alterations
+     * @return $this
+     */
+    public function setAlterations(array $alterations)
+    {
+        $this->alterations = $alterations;
+
+        return $this;
+    }
+
+    /**
+     * Add an alteration.
      *
      * @param  $method
      * @param  $arguments
      * @return $this
      */
-    protected function applyModification($method, $arguments)
+    public function addAlteration($method, $arguments = [])
     {
-        $this->applied[$method] = $arguments;
+        $this->alterations[$method] = $arguments;
 
         return $this;
     }
 
     /**
-     * Set the image by it's path.
+     * Get the attributes.
      *
-     * @param  $path
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Set the attributes.
+     *
+     * @param array $attributes
      * @return $this
      */
-    public function setImage($path)
+    public function setAttributes(array $attributes)
     {
-        $path = $this->paths->realPath($path);
-
-        if (
-            config('app.debug')
-            && !starts_with($path, ['http', '//'])
-            && !is_file($path)
-        ) {
-            throw new \Exception("Image [{$path}] does not exist!");
-        }
-
-        $this->image = $path;
+        $this->attributes = $attributes;
 
         return $this;
+    }
+
+    /**
+     * Add an attribute.
+     *
+     * @param  $attribute
+     * @param  $value
+     * @return $this
+     */
+    protected function addAttribute($attribute, $value)
+    {
+        $this->attributes[$attribute] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get the srcsets.
+     *
+     * @return array
+     */
+    public function getSrcsets()
+    {
+        return $this->srcsets;
+    }
+
+    /**
+     * Set the srcsets.
+     *
+     * @param array $srcsets
+     * @return $this
+     */
+    public function setSrcsets(array $srcsets)
+    {
+        $this->srcsets = $srcsets;
+
+        return $this;
+    }
+
+    /**
+     * Get the sources.
+     *
+     * @return array
+     */
+    public function getSources()
+    {
+        return $this->sources;
+    }
+
+    /**
+     * Set the sources.
+     *
+     * @param array $sources
+     * @return $this
+     */
+    public function setSources(array $sources)
+    {
+        $this->sources = $sources;
+
+        return $this;
+    }
+
+    /**
+     * Get the quality.
+     *
+     * @return int
+     */
+    public function getQuality()
+    {
+        return $this->quality ?: $this->config->get('streams::images.quality');
     }
 
     /**
@@ -545,16 +944,71 @@ class Image extends ImageManager
     }
 
     /**
-     * Add an image path hint.
+     * Get the extension.
+     *
+     * @return null|string
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    /**
+     * Set the extension.
+     *
+     * @param $extension
+     * @return $this
+     */
+    public function setExtension($extension)
+    {
+        $this->extension = $extension;
+
+        return $this;
+    }
+
+    /**
+     * Get the allowed methods.
+     *
+     * @return array
+     */
+    public function getAllowedMethods()
+    {
+        return $this->allowedMethods;
+    }
+
+    /**
+     * Add a path by it's namespace hint.
      *
      * @param $namespace
      * @param $path
+     * @return $this
      */
     public function addPath($namespace, $path)
     {
         $this->paths->addPath($namespace, $path);
 
         return $this;
+    }
+
+    /**
+     * Guess the resize callback value
+     * from a boolean.
+     *
+     * @param array $arguments
+     */
+    protected function guessResizeArguments(array &$arguments)
+    {
+        $arguments = array_pad($arguments, 3, null);
+
+        if (end($arguments) instanceof \Closure) {
+            return;
+        }
+
+        if (array_pop($arguments) !== false && (is_null($arguments[0]) || is_null($arguments[1]))) {
+            $arguments[] = function (Constraint $constraint) {
+                $constraint->aspectRatio();
+            };
+        }
     }
 
     /**
@@ -577,6 +1031,10 @@ class Image extends ImageManager
      */
     function __call($name, $arguments)
     {
+        if (in_array($name, $this->getAllowedMethods())) {
+            return $this->addAlteration($name, $arguments);
+        }
+
         if (!method_exists($this, $name)) {
 
             array_set($this->attributes, $name, array_shift($arguments));

@@ -1,8 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Entry\EntryModel;
-use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Ui\Table\Multiple\MultipleTableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
@@ -36,94 +35,51 @@ class SetDefaultOptions implements SelfHandling
 
     /**
      * Handle the command.
+     *
+     * @param ModuleCollection $modules
      */
-    public function handle()
+    public function handle(ModuleCollection $modules)
     {
         $table = $this->builder->getTable();
 
         /**
-         * Set the default options handler based
-         * on the builder class. Defaulting to
-         * no handler.
+         * Set the default sortable option.
          */
-        if (!$table->getOption('options')) {
-
-            $options = str_replace('TableBuilder', 'TableOptions', get_class($this->builder));
-
-            if (class_exists($options)) {
-                app()->call($options . '@handle', compact('builder', 'table'));
-            }
-        }
-
-        /**
-         * Set the default data handler based
-         * on the builder class. Defaulting to
-         * no handler.
-         */
-        if (!$table->getOption('data')) {
-
-            $options = str_replace('TableBuilder', 'TableData', get_class($this->builder));
-
-            if (class_exists($options)) {
-                $table->setOption('data', $options . '@handle');
-            }
-        }
-
-        /**
-         * Set a optional entries handler based
-         * on the builder class. Defaulting to
-         * no handler in which case we will use
-         * the model and included repositories.
-         */
-        if (!$table->getOption('entries')) {
-
-            $entries = str_replace('TableBuilder', 'TableEntries', get_class($this->builder));
-
-            if (class_exists($entries)) {
-                $table->setOption('entries', $entries . '@handle');
-            }
-        }
-
-        /**
-         * Set the default options handler based
-         * on the builder class. Defaulting to
-         * no handler.
-         */
-        if (!$table->getOption('repository')) {
-
-            $model = $table->getModel();
-
-            if (!$table->getOption('repository') && $model instanceof EntryModel) {
-                $table->setOption('repository', 'Anomaly\Streams\Platform\Entry\EntryTableRepository');
-            } elseif (!$table->getOption('repository') && $model instanceof EloquentModel) {
-                $table->setOption('repository', 'Anomaly\Streams\Platform\Model\EloquentTableRepository');
-            }
-        }
-
-        /**
-         * Set the default ordering options.
-         */
-        if (!$table->getOption('order_by')) {
+        if ($table->getOption('sortable') === null) {
 
             $model = $table->getModel();
 
             if ($model instanceof EntryModel) {
-                if ($table->getOption('sortable') || $model->titleColumnIsTranslatable()) {
-                    $table->setOption('order_by', ['sort_order' => 'asc']);
-                } else {
-                    $table->setOption('order_by', [$model->getTitleName() => 'asc']);
+                if ($table->getOption('sortable')) {
+                    $table->setOption('sortable', true);
                 }
-            } elseif ($model instanceof EloquentModel) {
-                $table->setOption('order_by', ['id' => 'asc']);
             }
         }
 
         /**
-         * If we're using a multiple table builder we need
-         * to set a different table_view if none is set.
+         * Set the default breadcrumb.
          */
-        if ($this->builder instanceof MultipleTableBuilder && !$table->getOption('table_view')) {
-            //$table->setOption('table_view', 'streams::table/multiple');
+        if ($table->getOption('breadcrumb') === null && $title = $table->getOption('title')) {
+            $table->setOption('breadcrumb', $title);
+        }
+
+        /**
+         * If the table ordering is currently being overridden
+         * then set the values from the request on the builder
+         * last so it actually has an effect.
+         */
+        if ($orderBy = $this->builder->getRequestValue('order_by')) {
+            $table->setOption('order_by', [$orderBy => $this->builder->getRequestValue('sort', 'asc')]);
+        }
+
+        /**
+         * If the permission is not set then
+         * try and automate it.
+         */
+        if ($table->getOption('permission') === null && ($module = $modules->active(
+            )) && ($stream = $this->builder->getTableStream())
+        ) {
+            $table->setOption('permission', $module->getNamespace($stream->getSlug() . '.read'));
         }
     }
 }

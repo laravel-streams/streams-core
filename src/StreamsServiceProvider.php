@@ -1,17 +1,37 @@
 <?php namespace Anomaly\Streams\Platform;
 
-use Anomaly\Streams\Platform\Addon\Command\RegisterAddons;
-use Anomaly\Streams\Platform\Application\Command\AddTwigExtensions;
+use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Application\Command\ConfigureCommandBus;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
+use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
 use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
 use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
+use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
 use Anomaly\Streams\Platform\Entry\Command\AutoloadEntryModels;
+use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Entry\EntryObserver;
+use Anomaly\Streams\Platform\Event\Booted;
+use Anomaly\Streams\Platform\Event\Booting;
+use Anomaly\Streams\Platform\Event\Ready;
+use Anomaly\Streams\Platform\Field\FieldModel;
+use Anomaly\Streams\Platform\Field\FieldObserver;
 use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
+use Anomaly\Streams\Platform\Mail\Mailer;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Anomaly\Streams\Platform\View\Command\ClearCache;
+use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
+use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
+use Aptoma\Twig\Extension\MarkdownExtension;
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,30 +49,258 @@ use Illuminate\Support\ServiceProvider;
 class StreamsServiceProvider extends ServiceProvider
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
+
+    /**
+     * The scheduled commands.
+     *
+     * @var array
+     */
+    protected $schedule = [];
+
+    /**
+     * The providers to register.
+     *
+     * @var array
+     */
+    protected $providers = [
+        'Anomaly\Streams\Platform\StreamsConsoleProvider',
+        'Anomaly\Streams\Platform\StreamsEventProvider'
+    ];
+
+    /**
+     * The plugins to register.
+     *
+     * @var array
+     */
+    protected $plugins = [
+        'TwigBridge\Extension\Laravel\Form',
+        'TwigBridge\Extension\Laravel\Html',
+        'Anomaly\Streams\Platform\StreamsPlugin',
+        'Phive\Twig\Extensions\Deferred\DeferredExtension'
+    ];
+
+    /**
+     * The commands to register.
+     *
+     * @var array
+     */
+    protected $commands = [
+        'Anomaly\Streams\Platform\Asset\Console\Clear',
+        'Anomaly\Streams\Platform\Stream\Console\Make',
+        'Anomaly\Streams\Platform\Stream\Console\Compile',
+        'Anomaly\Streams\Platform\Stream\Console\Refresh',
+        'Anomaly\Streams\Platform\Stream\Console\Cleanup',
+        'Anomaly\Streams\Platform\Stream\Console\Destroy',
+        'Anomaly\Streams\Platform\Addon\Console\MakeAddon',
+        'Anomaly\Streams\Platform\Addon\Module\Console\Install',
+        'Anomaly\Streams\Platform\Addon\Module\Console\Uninstall',
+        'Anomaly\Streams\Platform\Addon\Module\Console\Reinstall',
+        'Anomaly\Streams\Platform\Addon\Extension\Console\Install',
+        'Anomaly\Streams\Platform\Addon\Extension\Console\Uninstall',
+        'Anomaly\Streams\Platform\Addon\Extension\Console\Reinstall',
+        'Anomaly\Streams\Platform\Installer\Console\Install',
+        'Anomaly\Streams\Platform\Application\Console\EnvSet',
+    ];
+
+    /**
+     * The class bindings.
+     *
+     * @var array
+     */
+    protected $bindings = [
+        'Illuminate\Contracts\Debug\ExceptionHandler'                                    => 'Anomaly\Streams\Platform\Exception\ExceptionHandler',
+        'Illuminate\Routing\UrlGenerator'                                                => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
+        'Illuminate\Contracts\Routing\UrlGenerator'                                      => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
+        'Anomaly\Streams\Platform\Entry\EntryModel'                                      => 'Anomaly\Streams\Platform\Entry\EntryModel',
+        'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface'               => 'Anomaly\Streams\Platform\Entry\EntryRepository',
+        'Anomaly\Streams\Platform\Field\FieldModel'                                      => 'Anomaly\Streams\Platform\Field\FieldModel',
+        'Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface'               => 'Anomaly\Streams\Platform\Field\FieldRepository',
+        'Anomaly\Streams\Platform\Stream\StreamModel'                                    => 'Anomaly\Streams\Platform\Stream\StreamModel',
+        'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface'             => 'Anomaly\Streams\Platform\Stream\StreamRepository',
+        'Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface'            => 'Anomaly\Streams\Platform\Model\EloquentRepository',
+        'Anomaly\Streams\Platform\Assignment\AssignmentModel'                            => 'Anomaly\Streams\Platform\Assignment\AssignmentModel',
+        'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface'     => 'Anomaly\Streams\Platform\Assignment\AssignmentRepository',
+        'Anomaly\Streams\Platform\Addon\Module\ModuleModel'                              => 'Anomaly\Streams\Platform\Addon\Module\ModuleModel',
+        'Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface'       => 'Anomaly\Streams\Platform\Addon\Module\ModuleRepository',
+        'Anomaly\Streams\Platform\Addon\Extension\ExtensionModel'                        => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionModel',
+        'Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface' => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionRepository',
+        'addon.collection'                                                               => 'Anomaly\Streams\Platform\Addon\AddonCollection',
+        'module.collection'                                                              => 'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
+        'extension.collection'                                                           => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
+        'field_type.collection'                                                          => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
+        'plugin.collection'                                                              => 'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
+        'theme.collection'                                                               => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'
+    ];
+
+    /**
+     * The singleton bindings.
+     *
+     * @var array
+     */
+    protected $singletons = [
+        'League\Flysystem\MountManager'                                                => 'League\Flysystem\MountManager',
+        'Illuminate\Console\Scheduling\Schedule'                                       => 'Illuminate\Console\Scheduling\Schedule',
+        'Anomaly\Streams\Platform\Application\Application'                             => 'Anomaly\Streams\Platform\Application\Application',
+        'Anomaly\Streams\Platform\Addon\AddonLoader'                                   => 'Anomaly\Streams\Platform\Addon\AddonLoader',
+        'Anomaly\Streams\Platform\Addon\AddonBinder'                                   => 'Anomaly\Streams\Platform\Addon\AddonBinder',
+        'Anomaly\Streams\Platform\Addon\AddonManager'                                  => 'Anomaly\Streams\Platform\Addon\AddonManager',
+        'Anomaly\Streams\Platform\Addon\AddonCollection'                               => 'Anomaly\Streams\Platform\Addon\AddonCollection',
+        'Anomaly\Streams\Platform\Message\MessageBag'                                  => 'Anomaly\Streams\Platform\Message\MessageBag',
+        'Anomaly\Streams\Platform\Stream\StreamStore'                                  => 'Anomaly\Streams\Platform\Stream\StreamStore',
+        'Anomaly\Streams\Platform\Support\Configurator'                                => 'Anomaly\Streams\Platform\Support\Configurator',
+        'Anomaly\Streams\Platform\Support\Authorizer'                                  => 'Anomaly\Streams\Platform\Support\Authorizer',
+        'Anomaly\Streams\Platform\Support\Evaluator'                                   => 'Anomaly\Streams\Platform\Support\Evaluator',
+        'Anomaly\Streams\Platform\Support\Parser'                                      => 'Anomaly\Streams\Platform\Support\Parser',
+        'Anomaly\Streams\Platform\Support\Hydrator'                                    => 'Anomaly\Streams\Platform\Support\Hydrator',
+        'Anomaly\Streams\Platform\Support\Resolver'                                    => 'Anomaly\Streams\Platform\Support\Resolver',
+        'Anomaly\Streams\Platform\Support\Translator'                                  => 'Anomaly\Streams\Platform\Support\Translator',
+        'Anomaly\Streams\Platform\Asset\Asset'                                         => 'Anomaly\Streams\Platform\Asset\Asset',
+        'Anomaly\Streams\Platform\Asset\AssetPaths'                                    => 'Anomaly\Streams\Platform\Asset\AssetPaths',
+        'Anomaly\Streams\Platform\Asset\AssetParser'                                   => 'Anomaly\Streams\Platform\Asset\AssetParser',
+        'Anomaly\Streams\Platform\Image\Image'                                         => 'Anomaly\Streams\Platform\Image\Image',
+        'Anomaly\Streams\Platform\Image\ImagePaths'                                    => 'Anomaly\Streams\Platform\Image\ImagePaths',
+        'Anomaly\Streams\Platform\Image\ImageMacros'                                   => 'Anomaly\Streams\Platform\Image\ImageMacros',
+        'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry'                => 'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry',
+        'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry'            => 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry',
+        'Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection'                  => 'Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection',
+        'Anomaly\Streams\Platform\Ui\Icon\IconRegistry'                                => 'Anomaly\Streams\Platform\Ui\Icon\IconRegistry',
+        'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry'                            => 'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry',
+        'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection' => 'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection',
+        'Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection'                => 'Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection',
+        'Anomaly\Streams\Platform\Stream\StreamModel'                                  => 'Anomaly\Streams\Platform\Stream\StreamModel',
+        'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'                       => 'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
+        'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection'         => 'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection',
+        'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection'                 => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
+        'Anomaly\Streams\Platform\Addon\Extension\Listener\PutExtensionInCollection'   => 'Anomaly\Streams\Platform\Addon\Extension\Listener\PutExtensionInCollection',
+        'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeModifier'                   => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeModifier',
+        'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection'                 => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
+        'Anomaly\Streams\Platform\Addon\FieldType\Listener\PutFieldTypeInCollection'   => 'Anomaly\Streams\Platform\Addon\FieldType\Listener\PutFieldTypeInCollection',
+        'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection'                       => 'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
+        'Anomaly\Streams\Platform\Addon\Plugin\Listener\PutPluginInCollection'         => 'Anomaly\Streams\Platform\Addon\Plugin\Listener\PutPluginInCollection',
+        'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'                         => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
+        'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection'           => 'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection',
+        'Anomaly\Streams\Platform\View\ViewComposer'                                   => 'Anomaly\Streams\Platform\View\ViewComposer',
+        'Anomaly\Streams\Platform\View\ViewTemplate'                                   => 'Anomaly\Streams\Platform\View\ViewTemplate',
+        'Anomaly\Streams\Platform\View\ViewOverrides'                                  => 'Anomaly\Streams\Platform\View\ViewOverrides',
+        'Anomaly\Streams\Platform\View\ViewMobileOverrides'                            => 'Anomaly\Streams\Platform\View\ViewMobileOverrides',
+        'Anomaly\Streams\Platform\View\Listener\LoadTemplateData'                      => 'Anomaly\Streams\Platform\View\Listener\LoadTemplateData',
+        'Anomaly\Streams\Platform\View\Listener\DecorateData'                          => 'Anomaly\Streams\Platform\View\Listener\DecorateData',
+        'Anomaly\Streams\Platform\Support\Template'                                    => 'Anomaly\Streams\Platform\Support\Template'
+    ];
 
     /**
      * Boot the service provider.
      */
-    public function boot()
+    public function boot(Dispatcher $events)
     {
+        $events->fire(new Booting());
+
         $this->dispatch(new SetCoreConnection());
         $this->dispatch(new ConfigureCommandBus());
-        $this->dispatch(new ConfigureTranslator());
-        $this->dispatch(new LoadStreamsConfiguration());
-
         $this->dispatch(new InitializeApplication());
+        $this->dispatch(new LoadEnvironmentOverrides());
+
+        $this->dispatch(new LoadStreamsConfiguration());
         $this->dispatch(new AutoloadEntryModels());
         $this->dispatch(new AddAssetNamespaces());
         $this->dispatch(new AddImageNamespaces());
         $this->dispatch(new AddViewNamespaces());
-        $this->dispatch(new AddTwigExtensions());
+
+        EntryModel::observe(EntryObserver::class);
+        FieldModel::observe(FieldObserver::class);
+        StreamModel::observe(StreamObserver::class);
+        EloquentModel::observe(EloquentObserver::class);
+        AssignmentModel::observe(AssignmentObserver::class);
 
         $this->app->booted(
-            function () {
-                $this->dispatch(new RegisterAddons());
+            function () use ($events) {
+
+                $events->fire(new Booted());
+
+                /* @var AddonManager $manager */
+                $manager = $this->app->make('Anomaly\Streams\Platform\Addon\AddonManager');
+
+                /* @var Dispatcher $events */
+                $events = $this->app->make('Illuminate\Contracts\Events\Dispatcher');
+
+                $events->listen(
+                    'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
+                    function (RegisteringTwigPlugins $event) {
+
+                        $twig = $event->getTwig();
+
+                        foreach ($this->plugins as $plugin) {
+                            if (!$twig->hasExtension($plugin)) {
+                                $twig->addExtension($this->app->make($plugin));
+                            }
+                        }
+
+                        if (!$twig->hasExtension('markdown')) {
+                            $twig->addExtension(new MarkdownExtension(new MichelfMarkdownEngine()));
+                        }
+                    }
+                );
+
+                $manager->register();
+
+                $events->fire(new Ready());
             }
         );
+
+        $this->app->singleton(
+            'mailer',
+            function () {
+
+                $mailer = new Mailer(
+                    $this->app['view'], $this->app['swift.mailer'], $this->app['events']
+                );
+
+                $mailer->setContainer($this->app);
+
+                if ($this->app->bound('Psr\Log\LoggerInterface')) {
+                    $mailer->setLogger($this->app->make('Psr\Log\LoggerInterface'));
+                }
+
+                if ($this->app->bound('queue')) {
+                    $mailer->setQueue($this->app['queue.connection']);
+                }
+
+                $from = $this->app['config']['mail.from'];
+
+                if (is_array($from) && isset($from['address'])) {
+                    $mailer->alwaysFrom($from['address'], $from['name']);
+                }
+
+                $to = $this->app['config']['mail.to'];
+
+                if (is_array($to) && isset($to['address'])) {
+                    $mailer->alwaysTo($to['address'], $to['name']);
+                }
+
+                $pretend = $this->app['config']->get('mail.pretend', false);
+
+                $mailer->pretend($pretend);
+
+                return $mailer;
+            }
+        );
+
+        $this->app->singleton(
+            'Illuminate\Mail\Mailer',
+            function () {
+                return $this->app->make('mailer');
+            }
+        );
+
+        $this->app->singleton(
+            'Illuminate\Contracts\Mail\Mailer',
+            function () {
+                return $this->app->make('mailer');
+            }
+        );
+
+        $this->dispatch(new ConfigureTranslator());
     }
 
     /**
@@ -66,417 +314,50 @@ class StreamsServiceProvider extends ServiceProvider
          * Register all third party packages first.
          */
         $this->app->register('TwigBridge\ServiceProvider');
-        $this->app->register('Barryvdh\Debugbar\ServiceProvider');
         $this->app->register('Barryvdh\HttpCache\ServiceProvider');
         $this->app->register('Collective\Html\HtmlServiceProvider');
-        $this->app->register('Jenssegers\Agent\AgentServiceProvider');
         $this->app->register('Intervention\Image\ImageServiceProvider');
 
-        /**
-         * Bind composer because for some reason
-         * it is not already bound sometimes..
-         */
-        $this->app->bind(
-            'composer',
-            'Illuminate\Foundation\Composer'
-        );
+        if (env('APP_DEBUG')) {
+            $this->app->register('Barryvdh\Debugbar\ServiceProvider');
+        }
 
-        /**
-         * Singleton some third party stuff.
-         */
-        $this->app->singleton(
-            'Robbo\Presenter\Decorator',
-            'Robbo\Presenter\Decorator'
-        );
+        // Register bindings.
+        foreach (array_merge($this->bindings, config('streams.bindings', [])) as $abstract => $concrete) {
+            $this->app->bind($abstract, $concrete);
+        }
 
-        /**
-         * Bind the mount manager as a
-         * singleton for simple integration.
-         */
-        $this->app->singleton(
-            'League\Flysystem\MountManager',
-            'League\Flysystem\MountManager'
-        );
+        // Register singletons.
+        foreach (array_merge($this->singletons, config('streams.singletons', [])) as $abstract => $concrete) {
+            $this->app->singleton($abstract, $concrete);
+        }
 
-        /**
-         * Override the default CSRF check so
-         * we can handle it a little better.
-         */
-        $this->app->bind(
-            'App\Http\Middleware\VerifyCsrfToken',
-            'Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken'
-        );
+        // Register streams other providers.
+        foreach (array_merge($this->providers, config('streams.providers', [])) as $provider) {
+            $this->app->register($provider);
+        }
 
-        /**
-         * Register the application instance. This is
-         * used to determine the application state / reference.
-         */
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Application\Application',
-            'Anomaly\Streams\Platform\Application\Application'
-        );
+        // Register commands.
+        $this->commands(array_merge($this->commands, config('streams.commands', [])));
 
-        /**
-         * This is used often, make it a singleton.
-         */
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Model\EloquentObserver',
-            'Anomaly\Streams\Platform\Model\EloquentObserver'
-        );
+        /* @var Schedule $schedule */
+        $schedule = $this->app->make(Schedule::class);
 
-        /**
-         * Register our own exception handler. This will let
-         * us intercept exceptions and make them pretty if
-         * not in debug mode.
-         */
-        $this->app->bind(
-            'Illuminate\Contracts\Debug\ExceptionHandler',
-            'Anomaly\Streams\Platform\Exception\ExceptionHandler'
-        );
-
-        /**
-         * Register our messages service. This is used for
-         * error reporting and other messages.
-         */
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Message\MessageBag',
-            'Anomaly\Streams\Platform\Message\MessageBag'
-        );
-
-        /**
-         * Register these common support instances
-         * as singletons. They're used a lot.
-         */
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Support\Configurator',
-            'Anomaly\Streams\Platform\Support\Configurator'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Support\Evaluator',
-            'Anomaly\Streams\Platform\Support\Evaluator'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Support\Parser',
-            'Anomaly\Streams\Platform\Support\Parser'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Support\Hydrator',
-            'Anomaly\Streams\Platform\Support\Hydrator'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Support\Resolver',
-            'Anomaly\Streams\Platform\Support\Resolver'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Support\Translator',
-            'Anomaly\Streams\Platform\Support\Translator'
-        );
-
-        /**
-         * Register the assets utility.
-         */
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Asset\Asset',
-            'Anomaly\Streams\Platform\Asset\Asset'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Asset\AssetPaths',
-            'Anomaly\Streams\Platform\Asset\AssetPaths'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Asset\AssetParser',
-            'Anomaly\Streams\Platform\Asset\AssetParser'
-        );
-
-        /**
-         * Register the image utility.
-         */
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Image\Image',
-            'Anomaly\Streams\Platform\Image\Image'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Image\ImagePaths',
-            'Anomaly\Streams\Platform\Image\ImagePaths'
-        );
-
-        /**
-         * Register the view template DTO.
-         */
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\View\ViewTemplate ',
-            'Anomaly\Streams\Platform\View\ViewTemplate'
-        );
-
-        /**
-         * Register table UI services and components.
-         */
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry',
-            'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewRegistry'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry',
-            'Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterRegistry'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection',
-            'Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection'
-        );
-
-        /**
-         * Register button UI services.
-         */
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Ui\Icon\IconRegistry',
-            'Anomaly\Streams\Platform\Ui\Icon\IconRegistry'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry',
-            'Anomaly\Streams\Platform\Ui\Button\ButtonRegistry'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection',
-            'Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection'
-        );
-
-        /**
-         * Register the entry model and repository.
-         * This will help others swap it out as needed.
-         */
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Entry\EntryModel',
-            'Anomaly\Streams\Platform\Entry\EntryModel'
-        );
-
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface',
-            'Anomaly\Streams\Platform\Entry\EntryRepository'
-        );
-
-        /**
-         * Register the field model and repository.
-         * This will help others swap it out as needed.
-         */
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Field\FieldModel',
-            'Anomaly\Streams\Platform\Field\FieldModel'
-        );
-
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface',
-            'Anomaly\Streams\Platform\Field\FieldRepository'
-        );
-
-        /**
-         * Register the streams model and repository.
-         * This will help others swap it out as needed.
-         */
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Stream\StreamModel',
-            'Anomaly\Streams\Platform\Stream\StreamModel'
-        );
-
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface',
-            'Anomaly\Streams\Platform\Stream\StreamRepository'
-        );
-
-        /**
-         * Register the assignments model and repository.
-         * This will help others swap it out as needed.
-         */
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Assignment\AssignmentModel',
-            'Anomaly\Streams\Platform\Assignment\AssignmentModel'
-        );
-
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface',
-            'Anomaly\Streams\Platform\Assignment\AssignmentRepository'
-        );
-
-        /**
-         * Register the addon collections and models as
-         * needed. This lets us access loaded addons and
-         * any state they're in at any time without reloading.
-         */
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Addon\Module\ModuleModel',
-            'Anomaly\Streams\Platform\Addon\Module\ModuleModel'
-        );
-
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Addon\Module\Contract\ModuleRepositoryInterface',
-            'Anomaly\Streams\Platform\Addon\Module\ModuleRepository'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\Module\ModuleCollection',
-            'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection',
-            'Anomaly\Streams\Platform\Addon\Module\Listener\PutModuleInCollection'
-        );
-
-        $this->app->bind(
-            'module.collection',
-            'Anomaly\Streams\Platform\Addon\Module\ModuleCollection'
-        );
-
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Addon\Extension\ExtensionModel',
-            'Anomaly\Streams\Platform\Addon\Extension\ExtensionModel'
-        );
-
-        $this->app->bind(
-            'Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface',
-            'Anomaly\Streams\Platform\Addon\Extension\ExtensionRepository'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
-            'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\Extension\Listener\PutExtensionInCollection',
-            'Anomaly\Streams\Platform\Addon\Extension\Listener\PutExtensionInCollection'
-        );
-
-        $this->app->bind(
-            'extension.collection',
-            'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
-            'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\FieldType\Listener\PutFieldTypeInCollection',
-            'Anomaly\Streams\Platform\Addon\FieldType\Listener\PutFieldTypeInCollection'
-        );
-
-        $this->app->bind(
-            'field_type.collection',
-            'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
-            'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\Plugin\Listener\AddPluginToTwig',
-            'Anomaly\Streams\Platform\Addon\Plugin\Listener\AddPluginToTwig'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\Plugin\Listener\PutPluginInCollection',
-            'Anomaly\Streams\Platform\Addon\Plugin\Listener\PutPluginInCollection'
-        );
-
-        $this->app->bind(
-            'plugin.collection',
-            'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\Block\BlockCollection',
-            'Anomaly\Streams\Platform\Addon\Block\BlockCollection'
-        );
-
-        $this->app->bind(
-            'block.collection',
-            'Anomaly\Streams\Platform\Addon\Block\BlockCollection'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
-            'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection',
-            'Anomaly\Streams\Platform\Addon\Theme\Listener\PutThemeInCollection'
-        );
-
-        $this->app->bind(
-            'theme.collection',
-            'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'
-        );
-
-        /**
-         * These view namespace classes are used
-         * pretty often. Let's make them singletons.
-         */
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\View\ViewComposer',
-            'Anomaly\Streams\Platform\View\ViewComposer'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\View\ViewTemplate',
-            'Anomaly\Streams\Platform\View\ViewTemplate'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\View\ViewOverrides',
-            'Anomaly\Streams\Platform\View\ViewOverrides'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\View\ViewMobileOverrides',
-            'Anomaly\Streams\Platform\View\ViewMobileOverrides'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\View\Listener\LoadTemplateData',
-            'Anomaly\Streams\Platform\View\Listener\LoadTemplateData'
-        );
-
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\View\Listener\DecorateData',
-            'Anomaly\Streams\Platform\View\Listener\DecorateData'
-        );
-
-        /**
-         * Register commands.
-         */
-        $this->commands(
-            [
-                'Anomaly\Streams\Platform\Asset\Console\Clear',
-                'Anomaly\Streams\Platform\Stream\Console\Compile',
-                'Anomaly\Streams\Platform\Stream\Console\Cleanup',
-                'Anomaly\Streams\Platform\Addon\Module\Console\Install',
-                'Anomaly\Streams\Platform\Addon\Module\Console\Uninstall',
-                'Anomaly\Streams\Platform\Addon\Extension\Console\Install',
-                'Anomaly\Streams\Platform\Addon\Extension\Console\Uninstall'
-            ]
-        );
+        foreach (array_merge($this->schedule, config('streams.schedule', [])) as $frequency => $commands) {
+            foreach (array_filter($commands) as $command) {
+                if (str_contains($frequency, ' ')) {
+                    $schedule->command($command)->cron($frequency);
+                } else {
+                    $schedule->command($command)->{camel_case($frequency)}();
+                }
+            }
+        }
 
         /**
          * Change the default language path so
          * that there MUST be a prefix hint.
          */
-        $this->app->bind(
+        $this->app->singleton(
             'path.lang',
             function () {
                 return realpath(__DIR__ . '/../resources/lang');
@@ -503,21 +384,22 @@ class StreamsServiceProvider extends ServiceProvider
                 function (Redirector $redirector) {
                     return $redirector->to('installer');
                 }
-            )->where(['url' => '[-a-z0-9/]+']);
+            )->where(['url' => '(.*)']);
 
             return;
         }
 
-        // Register streams console provider.
-        $this->app->register('Anomaly\Streams\Platform\StreamsConsoleProvider');
+        /**
+         * Register system routes.
+         */
+        $this->app->make('router')->post(
+            'form/handle/{key}',
+            'Anomaly\Streams\Platform\Http\Controller\FormController@handle'
+        );
 
-        // Register streams event provider.
-        $this->app->register('Anomaly\Streams\Platform\StreamsEventProvider');
-
-        // Bind a string loader version of twig.
-        $this->app->singleton(
-            'Anomaly\Streams\Platform\Support\String',
-            'Anomaly\Streams\Platform\Support\String'
+        $this->app->make('router')->get(
+            'entry/handle/restore/{addon}/{namespace}/{stream}/{id}',
+            'Anomaly\Streams\Platform\Http\Controller\EntryController@restore'
         );
     }
 }

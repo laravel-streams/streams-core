@@ -1,19 +1,23 @@
-<div class="{{ section.class ?: 'panel' }}" {{ html_attributes(section.attributes) }}>
+<div class="card" {{ html_attributes(section.attributes) }}>
 
     {% if section.title %}
-        <div class="panel-heading">
-            <h2 class="panel-title">
-                {{ trans(section.title) }}
-            </h2>
+        <div class="card-label card-label-{{ section.context ?: 'info' }}">
+            {{ trans(section.title) }}
         </div>
     {% endif %}
 
-    <div class="panel-body">
+    <div class="card-block">
         {% for field in section.fields %}
-            {% for field in form.fields.translations(field) %}
-                {{ field.render|raw }}
-            {% endfor %}
+            <div class="field-group">
+                {% for field in form.fields.translations(field) %}
+                    {{ field.render|raw }}
+                {% endfor %}
+            </div>
         {% endfor %}
     </div>
+
+    {% if section.title or section.context %}
+        <div class="card-corner card-corner-{{ section.context ?: 'info' }}"></div>
+    {% endif %}
 
 </div>

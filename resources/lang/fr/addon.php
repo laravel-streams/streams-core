@@ -3,8 +3,6 @@
 return [
     'addon'       => 'Addon',
     'addons'      => 'Addons',
-    'block'       => 'Bloc',
-    'blocks'      => 'Blocs',
     'theme'       => 'Thème',
     'themes'      => 'Thèmes',
     'module'      => 'Module',

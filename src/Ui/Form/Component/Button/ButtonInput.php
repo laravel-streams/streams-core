@@ -21,11 +21,32 @@ class ButtonInput
     protected $parser;
 
     /**
+     * The button lookup.
+     *
+     * @var ButtonLookup
+     */
+    protected $lookup;
+
+    /**
      * The button guesser.
      *
      * @var ButtonGuesser
      */
     protected $guesser;
+
+    /**
+     * The button dropdown utility.
+     *
+     * @var ButtonDropdown
+     */
+    protected $dropdown;
+
+    /**
+     * The button defaults.
+     *
+     * @var ButtonDefaults
+     */
+    protected $defaults;
 
     /**
      * The resolver utility.
@@ -52,20 +73,29 @@ class ButtonInput
      * Create a new ButtonInput instance.
      *
      * @param ButtonParser     $parser
+     * @param ButtonLookup     $lookup
      * @param ButtonGuesser    $guesser
+     * @param ButtonDefaults   $defaults
+     * @param ButtonDropdown   $dropdown
      * @param ButtonResolver   $resolver
      * @param ButtonEvaluator  $evaluator
      * @param ButtonNormalizer $normalizer
      */
     public function __construct(
         ButtonParser $parser,
+        ButtonLookup $lookup,
         ButtonGuesser $guesser,
+        ButtonDefaults $defaults,
+        ButtonDropdown $dropdown,
         ButtonResolver $resolver,
         ButtonEvaluator $evaluator,
         ButtonNormalizer $normalizer
     ) {
         $this->parser     = $parser;
+        $this->lookup     = $lookup;
         $this->guesser    = $guesser;
+        $this->defaults   = $defaults;
+        $this->dropdown   = $dropdown;
         $this->resolver   = $resolver;
         $this->evaluator  = $evaluator;
         $this->normalizer = $normalizer;
@@ -80,8 +110,12 @@ class ButtonInput
     {
         $this->resolver->resolve($builder);
         $this->evaluator->evaluate($builder);
-        $this->parser->parse($builder);
+        $this->defaults->defaults($builder);
         $this->normalizer->normalize($builder);
+        $this->dropdown->flatten($builder);
+        $this->lookup->merge($builder);
         $this->guesser->guess($builder);
+        $this->parser->parse($builder);
+        $this->dropdown->build($builder);
     }
 }

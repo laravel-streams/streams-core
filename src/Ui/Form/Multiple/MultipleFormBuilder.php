@@ -1,5 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Multiple;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\Form;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\Ui\Form\FormCollection;
@@ -102,7 +107,7 @@ class MultipleFormBuilder extends FormBuilder
      *
      * @param             $key
      * @param FormBuilder $builder
-     * @return $this
+     * @return MultipleFormBuilder
      */
     public function addForm($key, FormBuilder $builder)
     {
@@ -114,5 +119,68 @@ class MultipleFormBuilder extends FormBuilder
         );
 
         return $this;
+    }
+
+    /**
+     * Get a child form.
+     *
+     * @param $key
+     * @return FormBuilder
+     */
+    public function getChildForm($key)
+    {
+        return $this->forms->get($key);
+    }
+
+    /**
+     * Get the stream of a child form.
+     *
+     * @param $key
+     * @return StreamInterface|null
+     */
+    public function getChildFormStream($key)
+    {
+        $builder = $this->getChildForm($key);
+
+        return $builder->getFormStream();
+    }
+
+    /**
+     * Get the entry of a child form.
+     *
+     * @param $key
+     * @return EloquentModel|EntryInterface|FieldInterface|AssignmentInterface|null
+     */
+    public function getChildFormEntry($key)
+    {
+        $builder = $this->getChildForm($key);
+
+        return $builder->getFormEntry();
+    }
+
+    /**
+     * Get the entry ID of a child form.
+     *
+     * @param $key
+     * @return int|null
+     */
+    public function getChildFormEntryId($key)
+    {
+        $builder = $this->getChildForm($key);
+
+        return $builder->getFormEntryId();
+    }
+
+    /**
+     * Get the contextual entry ID.
+     *
+     * @return int|mixed|null
+     */
+    public function getContextualId()
+    {
+        /* @var FormBuilder $form */
+        $form = $this->forms->first();
+
+        return $form->getContextualId();
     }
 }

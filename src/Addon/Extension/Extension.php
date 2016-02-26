@@ -119,4 +119,14 @@ class Extension extends Addon
     {
         return $this->active;
     }
+
+    /**
+     * Get the module's presenter.
+     *
+     * @return ExtensionPresenter
+     */
+    public function getPresenter()
+    {
+        return app()->make('Anomaly\Streams\Platform\Addon\Extension\ExtensionPresenter', ['object' => $this]);
+    }
 }

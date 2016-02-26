@@ -42,7 +42,7 @@ class FormInput
         $input = [];
 
         /* @var FieldType $field */
-        foreach ($builder->getFormFields() as $field) {
+        foreach ($builder->getEnabledFormFields() as $field) {
             $input[$field->getInputName()] = $field->getValidationValue();
         }
 

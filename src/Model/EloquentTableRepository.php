@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 
 /**
@@ -17,7 +17,7 @@ use Illuminate\Support\Collection;
 class EloquentTableRepository implements TableRepositoryInterface
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The repository model.
@@ -44,6 +44,9 @@ class EloquentTableRepository implements TableRepositoryInterface
      */
     public function get(TableBuilder $builder)
     {
+        // Grab any stream we have.
+        $stream = $builder->getTableStream();
+
         // Start a new query.
         $query = $this->model->newQuery();
 
@@ -82,11 +85,15 @@ class EloquentTableRepository implements TableRepositoryInterface
          * we find a page that is has something to show us.
          */
         $limit  = $builder->getTableOption('limit', 15);
-        $page   = app('request')->get('page', 1);
+        $page   = app('request')->get($builder->getTableOption('prefix') . 'page', 1);
         $offset = $limit * ($page - 1);
 
         if ($total < $offset && $page > 1) {
-            $url = str_replace('page=' . $page, 'page=' . ($page - 1), app('request')->fullUrl());
+            $url = str_replace(
+                $builder->getTableOption('prefix') . 'page=' . $page,
+                $builder->getTableOption('prefix') . 'page=' . ($page - 1),
+                app('request')->fullUrl()
+            );
 
             header('Location: ' . $url);
         }
@@ -95,15 +102,25 @@ class EloquentTableRepository implements TableRepositoryInterface
          * Limit the results to the limit and offset
          * based on the page if any.
          */
-        $offset = $limit * (app('request')->get('page', 1) - 1);
+        $offset = $limit * (app('request')->get($builder->getTableOption('prefix') . 'page', 1) - 1);
 
         $query = $query->take($limit)->offset($offset);
 
         /**
          * Order the query results.
          */
-        foreach ($builder->getTableOption('order_by') as $column => $direction) {
-            $query = $query->orderBy($column, $direction);
+        if ($order = $builder->getTableOption('order_by')) {
+            foreach ($order as $column => $direction) {
+                if ($stream && $utility = $stream->getFieldTypeQuery($column)) {
+                    $utility->orderBy($query, $direction);
+                } else {
+                    $query = $query->orderBy($column, $direction);
+                }
+            }
+        }
+
+        if ($builder->getTableOption('sortable')) {
+            $query = $query->orderBy('sort_order', 'ASC');
         }
 
         return $query->get();

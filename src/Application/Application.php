@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class Application
@@ -13,7 +13,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class Application
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Keep installed status around.
@@ -112,16 +112,23 @@ class Application
     }
 
     /**
+     * Get the resources path for the application.
+     *
+     * @param string $path
+     * @return string
+     */
+    public function getResourcesPath($path = '')
+    {
+        return base_path('resources/' . $this->getReference()) . ($path ? '/' . $path : $path);
+    }
+
+    /**
      * Return the app reference.
      *
      * @return string
      */
     public function tablePrefix()
     {
-        if (is_null($this->reference)) {
-            $this->locate();
-        }
-
         return $this->reference . '_';
     }
 
@@ -135,10 +142,7 @@ class Application
     {
         if (app('db')->getSchemaBuilder()->hasTable('applications')) {
 
-            if ($app = $this->applications->findByDomain(
-                trim(str_replace(array('http://', 'https://'), '', app('request')->root()), '/')
-            )
-            ) {
+            if ($app = $this->applications->findByDomain(app('request')->root())) {
 
                 $this->installed = true;
                 $this->reference = $app->reference;

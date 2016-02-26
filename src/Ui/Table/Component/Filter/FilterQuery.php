@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -17,14 +18,30 @@ class FilterQuery
 {
 
     /**
+     * The service container.
+     *
+     * @var Container
+     */
+    protected $container;
+
+    /**
+     * Create a new FilterQuery instance.
+     *
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
      * Modify the table's query using the filters.
      *
      * @param TableBuilder    $builder
-     * @param Builder         $query
      * @param FilterInterface $filter
-     * @return mixed
+     * @param Builder         $query
      */
-    public function filter(TableBuilder $builder, Builder $query, FilterInterface $filter)
+    public function filter(TableBuilder $builder, FilterInterface $filter, Builder $query)
     {
         /**
          * If the filter is self handling then let
@@ -32,22 +49,24 @@ class FilterQuery
          */
         if ($filter instanceof SelfHandling) {
 
-            app()->call([$filter, 'handle'], compact('builder', 'query', 'filter'));
+            $this->container->call([$filter, 'handle'], compact('builder', 'query', 'filter'));
 
             return;
         }
 
-        $handler = $filter->getHandler();
+        $handler = $filter->getQuery();
+
+        // Self handling implies @handle
+        if (is_string($handler) && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+            $handler .= '@handle';
+        }
 
         /**
          * If the handler is a callable string or Closure
          * then call it using the IoC container.
          */
         if (is_string($handler) || $handler instanceof \Closure) {
-
-            app()->call($handler, compact('builder', 'query', 'filter'));
-
-            return;
+            $this->container->call($handler, compact('builder', 'query', 'filter'));
         }
     }
 }

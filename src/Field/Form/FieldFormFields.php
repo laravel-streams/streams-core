@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
 use Anomaly\Streams\Platform\Field\Form\Command\GetConfigFields;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class FieldFormFields
@@ -14,7 +14,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class FieldFormFields
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Handle the command.
@@ -24,37 +24,58 @@ class FieldFormFields
     public function handle(FieldFormBuilder $builder)
     {
         $id        = $builder->getFormEntryId();
-        $namespace = $builder->getFieldNamespace();
+        $namespace = $builder->getNamespace();
 
         $builder->setFields(
             [
-                'name' => [
+                'name'         => [
                     'label'        => 'streams::field.name.name',
                     'instructions' => 'streams::field.name.instructions',
                     'type'         => 'anomaly.field_type.text',
-                    'required'     => true
+                    'required'     => true,
+                    'translatable' => true,
+                    'config'       => [
+                        'max'       => 64,
+                        'suggested' => 20
+                    ]
                 ],
-                'slug' => [
+                'slug'         => [
                     'label'        => 'streams::field.slug.name',
                     'instructions' => 'streams::field.slug.instructions',
                     'type'         => 'anomaly.field_type.slug',
                     'required'     => true,
-                    'disabled'     => 'edit',
                     'config'       => [
                         'slugify' => 'name',
-                        'type'    => '_'
+                        'type'    => '_',
+                        'max'     => 64
                     ],
                     'rules'        => [
                         'unique' => 'streams_fields,slug,' . $id . ',namespace,namespace,' . $namespace
                     ]
+                ],
+                'placeholder'  => [
+                    'label'        => 'streams::field.placeholder.name',
+                    'instructions' => 'streams::field.placeholder.instructions',
+                    'type'         => 'anomaly.field_type.text',
+                    'translatable' => true
+                ],
+                'instructions' => [
+                    'label'        => 'streams::field.instructions.name',
+                    'instructions' => 'streams::field.instructions.instructions',
+                    'type'         => 'anomaly.field_type.textarea',
+                    'translatable' => true
+                ],
+                'warning'      => [
+                    'label'        => 'streams::field.warning.name',
+                    'instructions' => 'streams::field.warning.instructions',
+                    'type'         => 'anomaly.field_type.text',
+                    'translatable' => true
                 ]
             ]
         );
 
         if (($type = $builder->getFormEntry()->getType()) || ($type = $builder->getFieldType())) {
-            foreach ($config = $this->dispatch(new GetConfigFields($type)) as $field) {
-                $builder->addField($field);
-            }
+            $this->dispatch(new GetConfigFields($builder, $type));
         }
     }
 }

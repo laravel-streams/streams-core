@@ -46,6 +46,7 @@ class SetActiveSection implements SelfHandling
     {
         $controlPanel = $this->builder->getControlPanel();
         $sections     = $controlPanel->getSections();
+        $menu         = $controlPanel->getMenu();
 
         /**
          * If we already have an active section
@@ -55,17 +56,33 @@ class SetActiveSection implements SelfHandling
             return;
         }
 
+        /**
+         * Is we have an active menu then skip
+         * that too because we can't have both.
+         */
+        if ($menu->active()) {
+            return;
+        }
+
         foreach ($sections as $section) {
 
             /**
              * Get the HREF for both the active
              * and loop iteration section.
              */
-            $href       = array_get($section->getAttributes(), 'href');
+            $href       = array_get(
+                $section->getAttributes(),
+                'data-href',
+                array_get($section->getAttributes(), 'href')
+            );
             $activeHref = '';
 
             if ($active && $active instanceof SectionInterface) {
-                $activeHref = array_get($active->getAttributes(), 'href');
+                $activeHref = array_get(
+                    $active->getAttributes(),
+                    'data-href',
+                    array_get($active->getAttributes(), 'href')
+                );
             }
 
             /**
@@ -94,11 +111,25 @@ class SetActiveSection implements SelfHandling
         /**
          * If we have an active section determined
          * then mark it as such.
+         *
+         * @var SectionInterface $active
+         * @var SectionInterface $section
          */
-        if ($active && $active instanceof SectionInterface) {
-            $active->setActive(true);
+        if ($active) {
+            if ($active->getParent()) {
+
+                $active->setActive(true);
+
+                $section = $sections->get($active->getParent(), $sections->first());
+
+                $section->setHighlighted(true);
+
+                $breadcrumbs->put($section->getBreadcrumb() ?: $section->getTitle(), $section->getHref());
+            } else {
+                $active->setActive(true)->setHighlighted(true);
+            }
         } elseif ($active = $sections->first()) {
-            $active->setActive(true);
+            $active->setActive(true)->setHighlighted(true);
         }
 
         // No active section!
@@ -113,7 +144,7 @@ class SetActiveSection implements SelfHandling
 
         // Add the bread crumb.
         if (($breadcrumb = $active->getBreadcrumb()) !== false) {
-            $breadcrumbs->put($breadcrumb ?: $active->getText(), $active->getHref());
+            $breadcrumbs->put($breadcrumb ?: $active->getTitle(), $active->getHref());
         }
     }
 }

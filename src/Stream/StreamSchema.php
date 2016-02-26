@@ -65,16 +65,16 @@ class StreamSchema
      * @param $table
      * @param $foreignKey
      */
-    public function createTranslationsTable($table, $foreignKey)
+    public function createTranslationsTable($table)
     {
         $this->schema->dropIfExists($table);
 
         $this->schema->create(
             $table,
-            function (Blueprint $table) use ($foreignKey) {
+            function (Blueprint $table) {
 
                 $table->increments('id');
-                $table->integer($foreignKey);
+                $table->integer('entry_id');
                 $table->datetime('created_at');
                 $table->integer('created_by')->nullable();
                 $table->datetime('updated_at')->nullable();
@@ -82,6 +82,36 @@ class StreamSchema
                 $table->string('locale')->index();
             }
         );
+    }
+
+    /**
+     * Rename a table.
+     *
+     * @param StreamInterface $from
+     * @param StreamInterface $to
+     */
+    public function renameTable(StreamInterface $from, StreamInterface $to)
+    {
+        if ($from->getEntryTableName() === $to->getEntryTableName()) {
+            return;
+        }
+
+        $this->schema->rename($from->getEntryTableName(), $to->getEntryTableName());
+    }
+
+    /**
+     * Rename a translations table.
+     *
+     * @param StreamInterface $from
+     * @param StreamInterface $to
+     */
+    public function renameTranslationsTable(StreamInterface $from, StreamInterface $to)
+    {
+        if ($from->getEntryTranslationsTableName() === $to->getEntryTranslationsTableName()) {
+            return;
+        }
+
+        $this->schema->rename($from->getEntryTranslationsTableName(), $to->getEntryTranslationsTableName());
     }
 
     /**

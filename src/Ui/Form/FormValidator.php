@@ -1,8 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Anomaly\Streams\Platform\Ui\Form\Command\FlashFieldValues;
 use Anomaly\Streams\Platform\Ui\Form\Command\RepopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetErrorMessages;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Anomaly\Streams\Platform\Ui\Form\Event\FormWasValidated;
+use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Validation\Validator;
 
 /**
@@ -13,10 +17,10 @@ use Illuminate\Validation\Validator;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form
  */
-class FormValidator
+class FormValidator implements SelfHandling
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The form rules compiler.
@@ -33,6 +37,13 @@ class FormValidator
     protected $input;
 
     /**
+     * The event dispatcher.
+     *
+     * @var Dispatcher
+     */
+    protected $events;
+
+    /**
      * The extender utility.
      *
      * @var FormExtender
@@ -47,23 +58,36 @@ class FormValidator
     protected $messages;
 
     /**
+     * The attributes builder.
+     *
+     * @var FormAttributes
+     */
+    protected $attributes;
+
+    /**
      * Create a new FormValidator instance.
      *
-     * @param FormRules    $rules
-     * @param FormInput    $input
-     * @param FormExtender $extender
-     * @param FormMessages $messages
+     * @param FormRules      $rules
+     * @param FormInput      $input
+     * @param Dispatcher     $events
+     * @param FormExtender   $extender
+     * @param FormMessages   $messages
+     * @param FormAttributes $attributes
      */
     public function __construct(
         FormRules $rules,
         FormInput $input,
+        Dispatcher $events,
         FormExtender $extender,
-        FormMessages $messages
+        FormMessages $messages,
+        FormAttributes $attributes
     ) {
-        $this->rules    = $rules;
-        $this->input    = $input;
-        $this->extender = $extender;
-        $this->messages = $messages;
+        $this->rules      = $rules;
+        $this->input      = $input;
+        $this->events     = $events;
+        $this->extender   = $extender;
+        $this->messages   = $messages;
+        $this->attributes = $attributes;
     }
 
     /**
@@ -71,22 +95,26 @@ class FormValidator
      *
      * @param FormBuilder $builder
      */
-    public function validate(FormBuilder $builder)
+    public function handle(FormBuilder $builder)
     {
         $factory = app('validator');
 
         $this->extender->extend($factory, $builder);
 
-        $input    = $this->input->all($builder);
-        $messages = $this->messages->get($builder);
-        $rules    = $this->rules->compile($builder);
+        $input      = $this->input->all($builder);
+        $messages   = $this->messages->make($builder);
+        $attributes = $this->attributes->make($builder);
+        $rules      = $this->rules->compile($builder);
 
         /* @var Validator $validator */
         $validator = $factory->make($input, $rules);
 
         $validator->setCustomMessages($messages);
+        $validator->setAttributeNames($attributes);
 
         $this->setResponse($validator, $builder);
+
+        $this->events->fire(new FormWasValidated($builder));
     }
 
     /**
@@ -104,7 +132,9 @@ class FormValidator
                 ->setFormErrors($validator->getMessageBag());
 
             $this->dispatch(new SetErrorMessages($builder));
-            $this->dispatch(new RepopulateFields($builder));
+            $this->dispatch(new FlashFieldValues($builder));
         }
+
+        $this->dispatch(new RepopulateFields($builder));
     }
 }

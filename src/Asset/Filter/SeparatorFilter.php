@@ -22,7 +22,10 @@ use Assetic\Filter\FilterInterface;
  */
 class SeparatorFilter implements FilterInterface
 {
+
     /**
+     * The separation character.
+     *
      * @var string
      */
     private $separator;
@@ -37,12 +40,25 @@ class SeparatorFilter implements FilterInterface
         $this->separator = $separator;
     }
 
+    /**
+     * Filters an asset after it has been loaded.
+     *
+     * @param AssetInterface $asset
+     */
     public function filterLoad(AssetInterface $asset)
     {
+        //
     }
 
+    /**
+     * Filters an asset just before it's dumped.
+     *
+     * @param AssetInterface $asset
+     */
     public function filterDump(AssetInterface $asset)
     {
-        $asset->setContent($asset->getContent() . $this->separator);
+        if ($content = $asset->getContent()) {
+            $asset->setContent($content . $this->separator);
+        }
     }
 }

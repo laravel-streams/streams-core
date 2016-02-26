@@ -5,9 +5,12 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\Command\SetActiveAction;
 use Anomaly\Streams\Platform\Ui\Form\Component\Button\Command\BuildButtons;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\Command\BuildFields;
 use Anomaly\Streams\Platform\Ui\Form\Component\Section\Command\BuildSections;
+use Anomaly\Streams\Platform\Ui\Form\Event\FormWasBuilt;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Session\Store;
 
 /**
  * Class BuildForm
@@ -20,7 +23,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class BuildForm implements SelfHandling
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The form builder.
@@ -41,19 +44,23 @@ class BuildForm implements SelfHandling
 
     /**
      * Handle the command.
+     *
+     * @param Dispatcher $events
      */
-    public function handle()
+    public function handle(Dispatcher $events, Store $session)
     {
+        
         /**
          * Setup some objects and options using
          * provided input or sensible defaults.
          */
         $this->dispatch(new SetFormModel($this->builder));
         $this->dispatch(new SetFormStream($this->builder));
+        $this->dispatch(new SetDefaultParameters($this->builder));
+        $this->dispatch(new SetRepository($this->builder));
+
         $this->dispatch(new SetFormOptions($this->builder));
         $this->dispatch(new SetDefaultOptions($this->builder));
-        $this->dispatch(new SetFormRepository($this->builder));
-        $this->dispatch(new SetDefaultParameters($this->builder));
         $this->dispatch(new SetFormEntry($this->builder)); // Do this last.
 
         /**
@@ -81,5 +88,7 @@ class BuildForm implements SelfHandling
          * Build form buttons.
          */
         $this->dispatch(new BuildButtons($this->builder));
+
+        $events->fire(new FormWasBuilt($this->builder));
     }
 }

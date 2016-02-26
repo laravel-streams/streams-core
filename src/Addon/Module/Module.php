@@ -21,6 +21,13 @@ class Module extends Addon
     protected $sections = [];
 
     /**
+     * The module's menu.
+     *
+     * @var string|array
+     */
+    protected $menu = [];
+
+    /**
      * The module's icon.
      *
      * @var string
@@ -70,6 +77,16 @@ class Module extends Addon
     public function getSections()
     {
         return $this->sections;
+    }
+
+    /**
+     * Get the module's menu.
+     *
+     * @return array|string
+     */
+    public function getMenu()
+    {
+        return $this->menu;
     }
 
     /**
@@ -172,5 +189,15 @@ class Module extends Addon
     public function isActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Get the module's presenter.
+     *
+     * @return ModulePresenter
+     */
+    public function getPresenter()
+    {
+        return app()->make('Anomaly\Streams\Platform\Addon\Module\ModulePresenter', ['object' => $this]);
     }
 }

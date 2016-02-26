@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Field\Contract;
 
 use Anomaly\Streams\Platform\Field\FieldCollection;
+use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 
 /**
  * Interface FieldRepositoryInterface
@@ -10,38 +12,15 @@ use Anomaly\Streams\Platform\Field\FieldCollection;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Field\Contract
  */
-interface FieldRepositoryInterface
+interface FieldRepositoryInterface extends EloquentRepositoryInterface
 {
-
-    /**
-     * Create a new field.
-     *
-     * @param array $attributes
-     * @return FieldInterface
-     */
-    public function create(array $attributes);
-
-    /**
-     * Delete a field.
-     *
-     * @param FieldInterface $field
-     */
-    public function delete(FieldInterface $field);
-
-    /**
-     * Find a field by ID.
-     *
-     * @param $id
-     * @return null|FieldInterface
-     */
-    public function find($id);
 
     /**
      * Find a field by it's slug and namespace.
      *
      * @param  $slug
      * @param  $namespace
-     * @return null|FieldInterface
+     * @return null|FieldInterface|EloquentModel
      */
     public function findBySlugAndNamespace($slug, $namespace);
 
@@ -51,7 +30,7 @@ interface FieldRepositoryInterface
      * @param  $namespace
      * @return FieldCollection
      */
-    public function findByNamespace($namespace);
+    public function findAllByNamespace($namespace);
 
     /**
      * Clean up abandoned fields.

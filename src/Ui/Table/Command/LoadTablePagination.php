@@ -39,6 +39,10 @@ class LoadTablePagination implements SelfHandling
      */
     public function handle(TablePagination $pagination)
     {
+        if ($this->table->getOption('enable_pagination') === false) {
+            return;
+        }
+
         $data = $this->table->getData();
 
         $pagination = $pagination->make($this->table);

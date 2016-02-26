@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
+use Anomaly\Streams\Platform\Model\EloquentRepository;
 
 /**
  * Class FieldRepository
@@ -11,13 +12,13 @@ use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Field
  */
-class FieldRepository implements FieldRepositoryInterface
+class FieldRepository extends EloquentRepository implements FieldRepositoryInterface
 {
 
     /**
      * The field model.
      *
-     * @var
+     * @var FieldModel
      */
     protected $model;
 
@@ -37,34 +38,12 @@ class FieldRepository implements FieldRepositoryInterface
      * @param array $attributes
      * @return FieldInterface
      */
-    public function create(array $attributes)
+    public function create(array $attributes = [])
     {
-        $attributes['rules']  = array_get($attributes, 'rules', []);
         $attributes['config'] = array_get($attributes, 'config', []);
         $attributes['locked'] = (array_get($attributes, 'locked', true));
 
         return $this->model->create($attributes);
-    }
-
-    /**
-     * Delete a field.
-     *
-     * @param FieldInterface $field
-     */
-    public function delete(FieldInterface $field)
-    {
-        $field->delete();
-    }
-
-    /**
-     * Find a field by ID.
-     *
-     * @param $id
-     * @return null|FieldInterface
-     */
-    public function find($id)
-    {
-        return $this->model->find($id);
     }
 
     /**
@@ -85,7 +64,7 @@ class FieldRepository implements FieldRepositoryInterface
      * @param  $namespace
      * @return FieldCollection
      */
-    public function findByNamespace($namespace)
+    public function findAllByNamespace($namespace)
     {
         return $this->model->where('namespace', $namespace)->get();
     }
@@ -95,6 +74,8 @@ class FieldRepository implements FieldRepositoryInterface
      */
     public function cleanup()
     {
+        $fieldTypes = app('field_type.collection')->lists('namespace');
+
         $this->model
             ->leftJoin('streams_streams', 'streams_fields.namespace', '=', 'streams_streams.namespace')
             ->whereNull('streams_streams.id')
@@ -102,5 +83,18 @@ class FieldRepository implements FieldRepositoryInterface
 
         $this->model->where('slug', '')->delete();
         $this->model->where('namespace', '')->delete();
+        $this->model->whereNotIn('type', $fieldTypes)->delete();
+
+        $translations = $this->model->getTranslationModel();
+
+        $translations
+            ->leftJoin(
+                'streams_fields',
+                'streams_fields_translations.field_id',
+                '=',
+                'streams_fields.id'
+            )
+            ->whereNull('streams_fields.id')
+            ->delete();
     }
 }

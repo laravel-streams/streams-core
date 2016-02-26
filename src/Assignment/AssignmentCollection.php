@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
@@ -20,17 +19,58 @@ class AssignmentCollection extends EloquentCollection
      * Find an assignment by it's field slug.
      *
      * @param  $slug
-     * @return FieldInterface
+     * @return AssignmentInterface
      */
     public function findByFieldSlug($slug)
     {
         foreach ($this->items as $item) {
-            if ($item instanceof AssignmentInterface && $item->getFieldSlug() == $slug) {
+            /* @var AssignmentInterface $item */
+            if ($item->getFieldSlug() == $slug) {
                 return $item;
             }
         }
 
         return null;
+    }
+
+
+    /**
+     * Find all fields using
+     * the provided field type.
+     *
+     * @param $namespace
+     * @return static
+     */
+    public function findAllByFieldType($namespace)
+    {
+        return new static(
+            array_filter(
+                $this->items,
+                function (AssignmentInterface $assignment) use ($namespace) {
+                    return $assignment->getFieldTypeValue() == $namespace;
+                }
+            )
+        );
+    }
+
+    /**
+     * Return assignments only included the provided fields.
+     *
+     * @param array $fields
+     * @return AssignmentCollection
+     */
+    public function withFields(array $fields)
+    {
+        return new static(
+            array_filter(
+                array_map(
+                    function (AssignmentInterface $assignment) use ($fields) {
+                        return in_array($assignment->getFieldSlug(), $fields) ? $assignment : null;
+                    },
+                    $this->items
+                )
+            )
+        );
     }
 
     /**
@@ -119,17 +159,37 @@ class AssignmentCollection extends EloquentCollection
     }
 
     /**
+     * Return only assignments that are NOT translatable.
+     *
+     * @return AssignmentCollection
+     */
+    public function notTranslatable()
+    {
+        $translatable = [];
+
+        /* @var AssignmentInterface $item */
+        foreach ($this->items as $item) {
+            if (!$item->isTranslatable()) {
+                $translatable[] = $item;
+            }
+        }
+
+        return self::make($translatable);
+    }
+
+    /**
      * Return an array of field slugs.
      *
+     * @param null $prefix
      * @return array
      */
-    public function fieldSlugs()
+    public function fieldSlugs($prefix = null)
     {
         $slugs = [];
 
         /* @var AssignmentInterface $item */
         foreach ($this->items as $item) {
-            $slugs[] = $item->getFieldSlug();
+            $slugs[] = $prefix . $item->getFieldSlug();
         }
 
         return $slugs;

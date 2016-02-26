@@ -21,6 +21,13 @@ class ActionInput
     protected $parser;
 
     /**
+     * The action lookup.
+     *
+     * @var ActionLookup
+     */
+    protected $lookup;
+
+    /**
      * The action guesser.
      *
      * @var ActionGuesser
@@ -42,6 +49,13 @@ class ActionInput
     protected $defaults;
 
     /**
+     * The action dropdown utility.
+     *
+     * @var ActionDropdown
+     */
+    protected $dropdown;
+
+    /**
      * The action predictor.
      *
      * @var ActionPredictor
@@ -59,24 +73,30 @@ class ActionInput
      * Create an ActionInput instance.
      *
      * @param ActionParser     $parser
+     * @param ActionLookup     $lookup
      * @param ActionGuesser    $guesser
      * @param ActionResolver   $resolver
      * @param ActionDefaults   $defaults
+     * @param ActionDropdown   $dropdown
      * @param ActionPredictor  $predictor
      * @param ActionNormalizer $normalizer
      */
     function __construct(
         ActionParser $parser,
+        ActionLookup $lookup,
         ActionGuesser $guesser,
         ActionResolver $resolver,
         ActionDefaults $defaults,
+        ActionDropdown $dropdown,
         ActionPredictor $predictor,
         ActionNormalizer $normalizer
     ) {
         $this->parser     = $parser;
+        $this->lookup     = $lookup;
         $this->guesser    = $guesser;
         $this->resolver   = $resolver;
         $this->defaults   = $defaults;
+        $this->dropdown   = $dropdown;
         $this->predictor  = $predictor;
         $this->normalizer = $normalizer;
     }
@@ -92,7 +112,10 @@ class ActionInput
         $this->defaults->defaults($builder);
         $this->predictor->predict($builder);
         $this->normalizer->normalize($builder);
+        $this->dropdown->flatten($builder);
         $this->guesser->guess($builder);
+        $this->lookup->merge($builder);
         $this->parser->parse($builder);
+        $this->dropdown->build($builder);
     }
 }

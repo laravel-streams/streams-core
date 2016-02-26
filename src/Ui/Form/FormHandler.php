@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
+use Illuminate\Contracts\Bus\SelfHandling;
+
 /**
  * Class FormHandler
  *
@@ -8,7 +10,7 @@
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Form
  */
-class FormHandler
+class FormHandler implements SelfHandling
 {
 
     /**

@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class RowFactory
@@ -22,13 +23,22 @@ class RowFactory
     protected $hydrator;
 
     /**
+     * The service container.
+     *
+     * @var Container
+     */
+    private $container;
+
+    /**
      * Create a new RowFactory instance.
      *
-     * @param Hydrator $hydrator
+     * @param Hydrator  $hydrator
+     * @param Container $container
      */
-    public function __construct(Hydrator $hydrator)
+    public function __construct(Hydrator $hydrator, Container $container)
     {
-        $this->hydrator = $hydrator;
+        $this->hydrator  = $hydrator;
+        $this->container = $container;
     }
 
     /**
@@ -39,7 +49,7 @@ class RowFactory
      */
     public function make(array $parameters)
     {
-        $row = app()->make('Anomaly\Streams\Platform\Ui\Table\Component\Row\Row', $parameters);
+        $row = $this->container->make(Row::class, $parameters);
 
         $this->hydrator->hydrate($row, $parameters);
 

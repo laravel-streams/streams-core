@@ -101,11 +101,11 @@ class CacheCollection extends Collection
     }
 
     /**
-     * Make the items unique.
+     * Return only unique items from the collection array.
      *
-     * @return $this
+     * @param  null $key
      */
-    public function unique()
+    public function unique($key = null)
     {
         $this->items = array_unique($this->items);
 

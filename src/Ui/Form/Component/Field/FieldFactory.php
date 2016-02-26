@@ -66,13 +66,15 @@ class FieldFactory
         /* @var EntryInterface $entry */
         if ($stream && $entry instanceof EntryInterface && $entry->hasField(array_get($parameters, 'field'))) {
 
-            $field    = $entry->getFieldType(array_get($parameters, 'field'));
+            $field    = clone($entry->getFieldType(array_get($parameters, 'field')));
             $modifier = $field->getModifier();
 
             $value = array_pull($parameters, 'value');
 
             /* @var EntryInterface $entry */
-            $field->setValue($value ? $modifier->restore($value) : $entry->getFieldValue($field->getField()));
+            $field->setValue(
+                (!is_null($value)) ? $modifier->restore($value) : $entry->getAttribute($field->getField())
+            );
         } elseif (is_object($entry)) {
 
             $field    = $this->builder->build($parameters);
@@ -80,7 +82,7 @@ class FieldFactory
 
             $value = array_pull($parameters, 'value');
 
-            $field->setValue($value ? $modifier->restore($value) : $entry->{$field->getField()});
+            $field->setValue((!is_null($value)) ? $modifier->restore($value) : $entry->{$field->getField()});
         } else {
 
             $field    = $this->builder->build($parameters);
@@ -93,9 +95,11 @@ class FieldFactory
         $field->setEntry($entry);
 
         // Merge in rules and validators.
-        $field->mergeRules(array_pull($parameters, 'rules', []));
-        $field->mergeConfig(array_pull($parameters, 'config', []));
-        $field->mergeValidators(array_pull($parameters, 'validators', []));
+        $field
+            ->mergeRules(array_pull($parameters, 'rules', []))
+            ->mergeConfig(array_pull($parameters, 'config', []))
+            ->mergeMessages(array_pull($parameters, 'messages', []))
+            ->mergeValidators(array_pull($parameters, 'validators', []));
 
         // Hydrate the field with parameters.
         $this->hydrator->hydrate($field, $parameters);

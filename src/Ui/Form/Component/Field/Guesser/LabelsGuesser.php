@@ -27,10 +27,17 @@ class LabelsGuesser
 
         foreach ($fields as &$field) {
 
+            $locale = array_get($field, 'locale');
+
             /**
-             * If the label is already set then use it.
+             * If the label are already set then use it.
              */
             if (isset($field['label'])) {
+
+                if (str_is('*::*', $field['label'])) {
+                    $field['label'] = trans($field['label'], [], null, $locale);
+                }
+
                 continue;
             }
 
@@ -51,6 +58,7 @@ class LabelsGuesser
             }
 
             $assignment = $stream->getAssignment($field['field']);
+            $object     = $stream->getField($field['field']);
 
             /**
              * No assignment means we still do
@@ -61,15 +69,87 @@ class LabelsGuesser
             }
 
             /**
-             * Try using the assignment label if available
-             * otherwise use the field name as the label.
+             * Next try using the fallback assignment
+             * label system as generated verbatim.
              */
-            if (trans()->has($label = $assignment->getLabel(), array_get($field, 'locale'))) {
-                $field['label'] = trans($label, [], null, array_get($field, 'locale'));
-            } elseif ($label && !str_is('*.*.*::*', $label)) {
+            $label = $assignment->getLabel() . '.default';
+
+            if (!isset($field['label']) && str_is('*::*', $label) && trans()->has(
+                    $label,
+                    $locale
+                )
+            ) {
+                $field['label'] = trans($label, [], null, $locale);
+            }
+
+            /**
+             * Next try using the default assignment
+             * label system as generated verbatim.
+             */
+            $label = $assignment->getLabel();
+
+            if (
+                !isset($field['label'])
+                && str_is('*::*', $label)
+                && trans()->has($label, $locale)
+                && is_string($translated = trans($label, [], null, $locale))
+            ) {
+                $field['label'] = $translated;
+            }
+
+            /**
+             * Check if it's just a standard string.
+             */
+            if (!isset($field['label']) && $label && !str_is('*::*', $label)) {
                 $field['label'] = $label;
-            } elseif (trans()->has($name = $assignment->getFieldName(), array_get($field, 'locale'))) {
-                $field['label'] = trans($name, [], null, array_get($field, 'locale'));
+            }
+
+            /**
+             * Next try using the generic assignment
+             * label system without the stream identifier.
+             */
+            $label = explode('.', $assignment->getLabel());
+
+            array_pop($label);
+
+            $label = implode('.', $label);
+
+            if (
+                !isset($field['label'])
+                && str_is('*::*', $label)
+                && trans()->has($label, $locale)
+                && is_string($translated = trans($label, [], null, $locale))
+            ) {
+                $field['label'] = $translated;
+            }
+
+            /**
+             * Check if it's just a standard string.
+             */
+            if (!isset($field['label']) && $label && !str_is('*::*', $label)) {
+                $field['label'] = $label;
+            }
+
+            /**
+             * Next try using the default field
+             * label system as generated verbatim.
+             */
+            $label = $object->getName();
+
+            if (
+                !isset($field['label'])
+                && str_is('*::*', $label)
+                && trans()->has($label, $locale)
+                && is_string($translated = trans($label, [], null, $locale))
+            ) {
+                $field['label'] = $translated;
+            }
+
+            /**
+             * Check if it's just a standard string.
+             */
+            if (!isset($field['label']) && $label && !str_is('*::*', $label)) {
+                $field['label'] = $label;
             }
         }
 

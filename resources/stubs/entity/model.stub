@@ -1,0 +1,9 @@
+<?php namespace {namespace};
+
+use {interface};
+use {base};
+
+class {class} extends {extends} implements {implements}
+{
+
+}

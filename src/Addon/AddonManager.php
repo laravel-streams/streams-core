@@ -1,9 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
-use Anomaly\Streams\Platform\Addon\Event\AddonsRegistered;
+use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class AddonManager
@@ -24,6 +24,13 @@ class AddonManager
     protected $paths;
 
     /**
+     * The addon collection.
+     *
+     * @var AddonCollection
+     */
+    protected $addons;
+
+    /**
      * The addon loader.
      *
      * @var AddonLoader
@@ -31,18 +38,11 @@ class AddonManager
     protected $loader;
 
     /**
-     * The addon binder.
+     * The addon integrator.
      *
-     * @var AddonBinder
+     * @var AddonIntegrator
      */
-    protected $binder;
-
-    /**
-     * The event dispatcher.
-     *
-     * @var Dispatcher
-     */
-    protected $dispatcher;
+    protected $integrator;
 
     /**
      * The modules model.
@@ -50,6 +50,13 @@ class AddonManager
      * @var ModuleModel
      */
     protected $modules;
+
+    /**
+     * The event dispatcher.
+     *
+     * @var Dispatcher
+     */
+    protected $dispatcher;
 
     /**
      * The extensions model.
@@ -61,25 +68,28 @@ class AddonManager
     /**
      * Create a new AddonManager instance.
      *
-     * @param AddonPaths     $paths
-     * @param AddonBinder    $binder
-     * @param AddonLoader    $loader
-     * @param Dispatcher     $dispatcher
-     * @param ModuleModel    $modules
-     * @param ExtensionModel $extensions
+     * @param AddonPaths      $paths
+     * @param AddonLoader     $loader
+     * @param ModuleModel     $modules
+     * @param Dispatcher      $dispatcher
+     * @param ExtensionModel  $extensions
+     * @param AddonIntegrator $integrator
+     * @param AddonCollection $addons
      */
     function __construct(
         AddonPaths $paths,
-        AddonBinder $binder,
         AddonLoader $loader,
-        Dispatcher $dispatcher,
         ModuleModel $modules,
-        ExtensionModel $extensions
+        Dispatcher $dispatcher,
+        ExtensionModel $extensions,
+        AddonIntegrator $integrator,
+        AddonCollection $addons
     ) {
         $this->paths      = $paths;
-        $this->binder     = $binder;
+        $this->addons     = $addons;
         $this->loader     = $loader;
         $this->modules    = $modules;
+        $this->integrator = $integrator;
         $this->dispatcher = $dispatcher;
         $this->extensions = $extensions;
     }
@@ -92,23 +102,35 @@ class AddonManager
         $enabled   = $this->getEnabledAddonNamespaces();
         $installed = $this->getInstalledAddonNamespaces();
 
+        $paths = $this->paths->all();
+
         /**
          * First load all the addons
          * so they're available.
          */
-        foreach ($this->paths->all() as $path) {
+        foreach ($paths as $path) {
             $this->loader->load($path);
         }
+
+        $this->loader->register();
 
         /**
          * Then register all of the addons now
          * that they're all PSR autoloaded.
          */
-        foreach ($this->paths->all() as $path) {
-            $this->binder->register($path, $enabled, $installed);
+        foreach ($paths as $path) {
+            $this->integrator->register($path, $enabled, $installed);
         }
 
-        $this->dispatcher->fire(new AddonsRegistered());
+        /**
+         * Disperse addons to their
+         * respective collections and
+         * finish the integration service.
+         */
+        $this->addons->disperse();
+        $this->integrator->finish();
+
+        $this->dispatcher->fire(new AddonsHaveRegistered($this->addons));
     }
 
     /**
@@ -119,8 +141,8 @@ class AddonManager
     protected function getEnabledAddonNamespaces()
     {
         if (env('INSTALLED')) {
-            $modules    = $this->modules->getEnabledNamespaces();
-            $extensions = $this->extensions->getEnabledNamespaces();
+            $modules    = $this->modules->getEnabledNamespaces()->all();
+            $extensions = $this->extensions->getEnabledNamespaces()->all();
         } else {
             $modules    = [];
             $extensions = [];
@@ -137,8 +159,8 @@ class AddonManager
     protected function getInstalledAddonNamespaces()
     {
         if (env('INSTALLED')) {
-            $modules    = $this->modules->getInstalledNamespaces();
-            $extensions = $this->extensions->getInstalledNamespaces();
+            $modules    = $this->modules->getInstalledNamespaces()->all();
+            $extensions = $this->extensions->getInstalledNamespaces()->all();
         } else {
             $modules    = [];
             $extensions = [];

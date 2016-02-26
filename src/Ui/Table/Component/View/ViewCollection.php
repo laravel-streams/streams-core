@@ -21,8 +21,9 @@ class ViewCollection extends Collection
      */
     public function active()
     {
+        /* @var ViewInterface $item */
         foreach ($this->items as $item) {
-            if ($item instanceof ViewInterface && $item->isActive()) {
+            if ($item->isActive()) {
                 return $item;
             }
         }
@@ -38,8 +39,9 @@ class ViewCollection extends Collection
      */
     public function findBySlug($slug)
     {
+        /* @var ViewInterface $item */
         foreach ($this->items as $item) {
-            if ($item instanceof ViewInterface && $item->getSlug() == $slug) {
+            if ($item->getSlug() == $slug) {
                 return $item;
             }
         }

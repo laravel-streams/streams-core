@@ -5,15 +5,16 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Field\FieldCollection;
 use Anomaly\Streams\Platform\Ui\Form\Component\Section\SectionCollection;
-use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
-use Illuminate\Support\Collection;
 use Illuminate\Support\MessageBag;
+use Illuminate\View\View;
+use Robbo\Presenter\PresentableInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -24,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Form
  */
-class Form
+class Form implements PresentableInterface
 {
 
     /**
@@ -33,13 +34,6 @@ class Form
      * @var null|mixed
      */
     protected $model = null;
-
-    /**
-     * The form repository.
-     *
-     * @var null|FormRepositoryInterface
-     */
-    protected $repository = null;
 
     /**
      * The form stream.
@@ -222,6 +216,16 @@ class Form
     }
 
     /**
+     * Return whether a field has errors or not.
+     *
+     * @return bool
+     */
+    public function hasError($fieldName)
+    {
+        return $this->errors->has($fieldName);
+    }
+
+    /**
      * Set the model object.
      *
      * @param $model
@@ -242,29 +246,6 @@ class Form
     public function getModel()
     {
         return $this->model;
-    }
-
-    /**
-     * Get the form repository.
-     *
-     * @return FormRepositoryInterface|null
-     */
-    public function getRepository()
-    {
-        return $this->repository;
-    }
-
-    /**
-     * Set the form repository.
-     *
-     * @param FormRepositoryInterface $repository
-     * @return $this
-     */
-    public function setRepository(FormRepositoryInterface $repository)
-    {
-        $this->repository = $repository;
-
-        return $this;
     }
 
     /**
@@ -329,7 +310,7 @@ class Form
     /**
      * Get the form content.
      *
-     * @return null|string
+     * @return null|View
      */
     public function getContent()
     {
@@ -508,6 +489,34 @@ class Form
     }
 
     /**
+     * Remove a field.
+     *
+     * @param $field
+     * @return $this
+     */
+    public function removeField($field)
+    {
+        $this->fields->forget($field);
+
+        return $this;
+    }
+
+    /**
+     * Disable a field.
+     *
+     * @param $field
+     * @return $this
+     */
+    public function disableField($field)
+    {
+        $field = $this->getField($field);
+
+        $field->setDisabled(true);
+
+        return $this;
+    }
+
+    /**
      * Set the form views.
      *
      * @param Collection $fields
@@ -531,6 +540,16 @@ class Form
     }
 
     /**
+     * Get the enabled fields.
+     *
+     * @return FieldCollection
+     */
+    public function getEnabledFields()
+    {
+        return $this->fields->enabled();
+    }
+
+    /**
      * Get a form field.
      *
      * @param $fieldSlug
@@ -539,16 +558,6 @@ class Form
     public function getField($fieldSlug)
     {
         return $this->fields->get($fieldSlug);
-    }
-
-    /**
-     * Skip a field.
-     *
-     * @param $fieldSlug
-     */
-    public function skipField($fieldSlug)
-    {
-        $this->fields->skip($fieldSlug);
     }
 
     /**
@@ -667,5 +676,34 @@ class Form
         $fields = $this->fields->translatable();
 
         return (!$fields->isEmpty());
+    }
+
+    /**
+     * Reset field values.
+     */
+    public function resetFields()
+    {
+        /* @var FieldType $field */
+        foreach ($this->getFields() as $field) {
+            $field->setValue(null);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Return a created presenter.
+     *
+     * @return FormPresenter
+     */
+    public function getPresenter()
+    {
+        $presenter = get_class($this) . 'Presenter';
+
+        if (class_exists($presenter)) {
+            return app()->make($presenter, ['object' => $this]);
+        }
+
+        return app()->make(FormPresenter::class, ['object' => $this]);
     }
 }

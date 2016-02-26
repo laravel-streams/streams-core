@@ -50,7 +50,14 @@ class HeaderBuilder
 
         $this->input->read($builder);
 
+        if ($builder->getTableOption('enable_headers') === false) {
+            return;
+        }
+
         foreach ($builder->getColumns() as $column) {
+
+            $column['builder'] = $builder;
+
             $table->addHeader($this->factory->make($column));
         }
     }

@@ -1,0 +1,31 @@
+<?php namespace Anomaly\Streams\Platform\Model\{namespace};
+
+use Anomaly\Streams\Platform\Entry\EntryModel;
+
+class {class} extends EntryModel
+{
+
+    {trashable}
+
+    protected $table = '{table}';
+
+    protected $titleName = '{title}';
+
+    protected $rules = {rules};
+
+    protected $fields = {field_slugs};
+
+    protected $dates = {dates};
+
+    protected $relationships = {relationships};
+
+    {translated_attributes}
+
+    {translation_foreign_key}
+
+    {translation_model}
+
+    protected $stream = {stream};
+
+    {relations}
+}

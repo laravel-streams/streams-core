@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Tree\Command;
 
 use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Entry\EntryTreeRepository;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Model\EloquentTreeRepository;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
@@ -93,11 +95,11 @@ class SetDefaultOptions implements SelfHandling
             $model = $tree->getModel();
 
             if (!$tree->getOption('repository') && $model instanceof EntryModel) {
-                $tree->setOption('repository', 'Anomaly\Streams\Platform\Entry\EntryTreeRepository');
+                $tree->setOption('repository', EntryTreeRepository::class);
             }
 
             if (!$tree->getOption('repository') && $model instanceof EloquentModel) {
-                $tree->setOption('repository', 'Anomaly\Streams\Platform\Model\EloquentTreeRepository');
+                $tree->setOption('repository', EloquentTreeRepository::class);
             }
         }
     }

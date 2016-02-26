@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Action;
 
 use Anomaly\Streams\Platform\Message\MessageBag;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class ActionHandler
@@ -10,7 +11,7 @@ use Anomaly\Streams\Platform\Message\MessageBag;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action
  */
-abstract class ActionHandler
+abstract class ActionHandler implements SelfHandling
 {
 
     /**

@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Ui\Tree\Contract\TreeRepositoryInterface;
 use Anomaly\Streams\Platform\Ui\Tree\Event\TreeIsQuerying;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 
 /**
@@ -17,7 +17,7 @@ use Illuminate\Support\Collection;
 class EloquentTreeRepository implements TreeRepositoryInterface
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The repository model.

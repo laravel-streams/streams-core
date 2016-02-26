@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Carbon\Carbon;
 
 /**
  * Class EntryTranslationsModel
@@ -15,11 +16,18 @@ class EntryTranslationsModel extends EloquentModel
 {
 
     /**
+     * This model uses timestamps.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
+
+    /**
      * Cache minutes.
      *
      * @var int
      */
-    protected $cacheMinutes = 99999;
+    //protected $cacheMinutes = 99999;
 
     /**
      * Boot the model.
@@ -32,6 +40,26 @@ class EntryTranslationsModel extends EloquentModel
     }
 
     /**
+     * Return the last modified datetime.
+     *
+     * @return Carbon
+     */
+    public function lastModified()
+    {
+        return $this->updated_at ?: $this->created_at;
+    }
+
+    /**
+     * Get the locale.
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->getAttributeFromArray($this->getLocaleKey());
+    }
+
+    /**
      * Get an attribute.
      *
      * @param string $key
@@ -39,8 +67,12 @@ class EntryTranslationsModel extends EloquentModel
      */
     public function getAttribute($key)
     {
+        if ($key === 'locale') {
+            return parent::getAttribute('locale');
+        }
+
         if (!$parent = $this->getParent()) {
-            return null;
+            return $this->attributes[$key];
         }
 
         /* @var AssignmentInterface $assignment */
@@ -116,17 +148,30 @@ class EntryTranslationsModel extends EloquentModel
             return null;
         }
 
+        $assignments = $parent->getAssignments();
+
         /* @var AssignmentInterface $assignment */
-        foreach ($parent->getAssignments() as $assignment) {
+        foreach ($assignments->translatable() as $assignment) {
 
             $fieldType = $assignment->getFieldType();
 
             $fieldType->setValue($parent->getFieldValue($assignment->getFieldSlug()));
 
             $fieldType->setEntry($this);
+            $fieldType->setLocale($this->locale);
 
             $fieldType->fire($trigger, array_merge(compact('fieldType', 'entry'), $payload));
         }
+    }
+
+    /**
+     * Truncate the translation's table.
+     *
+     * @return mixed
+     */
+    public function truncate()
+    {
+        return $this->newQuery()->truncate();
     }
 
     /**
@@ -138,15 +183,24 @@ class EntryTranslationsModel extends EloquentModel
      */
     function __call($name, $arguments)
     {
-        if (method_exists($this, $name)) {
-            return call_user_func_array([$this, $name], $arguments);
+        return call_user_func_array([$this->getParent(), $name], $arguments);
+    }
+
+    /**
+     * Get the attribute from the parent
+     * if it does not exist here.
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        $value = parent::__get($key);
+
+        if (!$value && $parent = $this->getParent()) {
+            return $parent->{$key};
         }
 
-        if ($this->getParent() && method_exists($this->getParent(), $name)) {
-            return call_user_func_array([$this->getParent(), $name], $arguments);
-        }
-
-        // Let it throw the exception.
-        return call_user_func_array([$this, $name], $arguments);
+        return $value;
     }
 }

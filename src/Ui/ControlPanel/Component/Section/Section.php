@@ -14,6 +14,13 @@ class Section implements SectionInterface
 {
 
     /**
+     * The section slug.
+     *
+     * @var null|string
+     */
+    protected $slug = null;
+
+    /**
      * The section icon.
      *
      * @var null|string
@@ -21,25 +28,46 @@ class Section implements SectionInterface
     protected $icon = null;
 
     /**
-     * The section text.
+     * The section title.
      *
      * @var null|string
      */
-    protected $text = null;
+    protected $title = null;
 
     /**
-     * The section class.
+     * The class.
      *
      * @var null|string
      */
     protected $class = null;
 
     /**
-     * The section's active flag.
+     * The active flag.
      *
      * @var bool
      */
     protected $active = false;
+
+    /**
+     * The section description.
+     *
+     * @var null|string
+     */
+    protected $description = null;
+
+    /**
+     * The highlighted flag.
+     *
+     * @var bool
+     */
+    protected $highlighted = false;
+
+    /**
+     * The section parent.
+     *
+     * @var null|string
+     */
+    protected $parent = null;
 
     /**
      * Section buttons. These are only to
@@ -71,6 +99,29 @@ class Section implements SectionInterface
     protected $breadcrumb = null;
 
     /**
+     * Get the slug.
+     *
+     * @return null|string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set the slug.
+     *
+     * @param $slug
+     * @return $this
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
      * Get the icon.
      *
      * @return null|string
@@ -94,23 +145,23 @@ class Section implements SectionInterface
     }
 
     /**
-     * Get the text.
+     * Get the title.
      *
      * @return string
      */
-    public function getText()
+    public function getTitle()
     {
-        return $this->text;
+        return $this->title;
     }
 
     /**
-     * Set the text.
+     * Set the title.
      *
-     * @param string $text
+     * @param string $title
      */
-    public function setText($text)
+    public function setTitle($title)
     {
-        $this->text = $text;
+        $this->title = $title;
     }
 
     /**
@@ -154,6 +205,77 @@ class Section implements SectionInterface
     public function setActive($active)
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get the description.
+     *
+     * @return null|string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set the description.
+     *
+     * @param $description
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get the highlighted flag.
+     *
+     * @return boolean
+     */
+    public function isHighlighted()
+    {
+        return $this->highlighted;
+    }
+
+    /**
+     * Set the highlighted flag.
+     *
+     * @param boolean $active
+     * @return $this
+     */
+    public function setHighlighted($highlighted)
+    {
+        $this->highlighted = $highlighted;
+
+        return $this;
+    }
+
+    /**
+     * Get the parent.
+     *
+     * @return null|string
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Set the parent.
+     *
+     * @param $parent
+     * @return $this
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+
+        return $this;
     }
 
     /**
@@ -245,10 +367,15 @@ class Section implements SectionInterface
     /**
      * Get the HREF attribute.
      *
+     * @param null $path
      * @return string
      */
     public function getHref($path = null)
     {
-        return array_get($this->attributes, 'href') . ($path ? '/' . $path : $path);
+        return array_get(
+            $this->attributes,
+            'data-href',
+            array_get($this->attributes, 'href')
+        ) . ($path ? '/' . $path : $path);
     }
 }

@@ -27,10 +27,24 @@ class ExceptionHandler extends Handler
      */
     public function render($request, Exception $e)
     {
-        if ($this->isHttpException($e)) {
+        if ($e instanceof HttpException) {
+
+            if (!$e->getStatusCode() == 404) {
+                return $this->renderHttpException($e);
+            }
+
+            if (($redirect = config('streams::access.404_redirect')) && $request->path() !== $redirect) {
+
+                if ($request->segment(1) == 'admin') {
+                    $redirect = config('anomaly.module.users::paths.cp_home', $redirect);
+                }
+
+                return redirect($redirect, config('streams::access.404_type', 301));
+            }
+
             return $this->renderHttpException($e);
         } elseif (!config('app.debug')) {
-            return response()->view("streams::errors.500", ['message' => $e->getMessage()]);
+            return response()->view("streams::errors.500", ['message' => $e->getMessage()], 500);
         } else {
             return parent::render($request, $e);
         }

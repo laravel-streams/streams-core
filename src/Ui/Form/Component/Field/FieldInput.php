@@ -35,6 +35,13 @@ class FieldInput
     protected $guesser;
 
     /**
+     * The field defaulter.
+     *
+     * @var FieldDefaults
+     */
+    protected $defaults;
+
+    /**
      * The resolver utility.
      *
      * @var FieldResolver
@@ -75,6 +82,7 @@ class FieldInput
      * @param FieldFiller     $filler
      * @param FieldParser     $parser
      * @param FieldGuesser    $guesser
+     * @param FieldDefaults   $defaults
      * @param FieldResolver   $resolver
      * @param FieldEvaluator  $evaluator
      * @param FieldPopulator  $populator
@@ -85,6 +93,7 @@ class FieldInput
         FieldFiller $filler,
         FieldParser $parser,
         FieldGuesser $guesser,
+        FieldDefaults $defaults,
         FieldResolver $resolver,
         FieldEvaluator $evaluator,
         FieldPopulator $populator,
@@ -94,6 +103,7 @@ class FieldInput
         $this->filler     = $filler;
         $this->parser     = $parser;
         $this->guesser    = $guesser;
+        $this->defaults   = $defaults;
         $this->resolver   = $resolver;
         $this->evaluator  = $evaluator;
         $this->populator  = $populator;
@@ -111,6 +121,7 @@ class FieldInput
         $this->resolver->resolve($builder);
         $this->normalizer->normalize($builder);
         $this->evaluator->evaluate($builder);
+        $this->defaults->defaults($builder);
         $this->filler->fill($builder);
 
         $this->normalizer->normalize($builder); //Yes, again.

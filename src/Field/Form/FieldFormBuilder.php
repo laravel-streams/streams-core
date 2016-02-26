@@ -24,25 +24,18 @@ class FieldFormBuilder extends FormBuilder
     protected $stream = null;
 
     /**
+     * The field namespace.
+     *
+     * @var null|string
+     */
+    protected $namespace = null;
+
+    /**
      * The field type.
      *
      * @var null|FieldType
      */
     protected $fieldType = null;
-
-    /**
-     * The form model.
-     *
-     * @var string
-     */
-    protected $model = 'Anomaly\Streams\Platform\Field\FieldModel';
-
-    /**
-     * The form fields.
-     *
-     * @var string
-     */
-    protected $fields = 'Anomaly\Streams\Platform\Field\Form\FieldFormFields@handle';
 
     /**
      * Fired when the builder
@@ -56,8 +49,8 @@ class FieldFormBuilder extends FormBuilder
             throw new \Exception('The $fieldType parameter is required when creating a field.');
         }
 
-        if (!$this->getStream() && !$this->getEntry()) {
-            throw new \Exception('The $stream parameter is required when creating a field.');
+        if ((!$this->getStream() && !$this->getNamespace()) && !$this->getEntry()) {
+            throw new \Exception('The $stream OR $namespace parameter is required when creating a field.');
         }
     }
 
@@ -68,10 +61,11 @@ class FieldFormBuilder extends FormBuilder
     {
         $fieldType = $this->getFieldType();
         $entry     = $this->getFormEntry();
+        $namespace = $this->getNamespace();
         $stream    = $this->getStream();
 
         if (!$entry->namespace) {
-            $entry->namespace = $stream->getNamespace();
+            $entry->namespace = $stream ? $stream->getNamespace() : $namespace;
         }
 
         if (!$entry->type) {
@@ -106,6 +100,29 @@ class FieldFormBuilder extends FormBuilder
     public function setStream(StreamInterface $stream)
     {
         $this->stream = $stream;
+
+        return $this;
+    }
+
+    /**
+     * Get the namespace.
+     *
+     * @return null|string
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+    /**
+     * Set the namespace.
+     *
+     * @param $namespace
+     * @return $this
+     */
+    public function setNamespace($namespace)
+    {
+        $this->namespace = $namespace;
 
         return $this;
     }

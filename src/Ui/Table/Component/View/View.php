@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
+use Closure;
 
 /**
  * Class View
@@ -12,6 +14,8 @@ use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
  */
 class View implements ViewInterface
 {
+
+    use FiresCallbacks;
 
     /**
      * The view slug.
@@ -79,9 +83,16 @@ class View implements ViewInterface
     /**
      * The view handler.
      *
-     * @var mixed
+     * @var callable|null|string
      */
-    protected $handler = 'Anomaly\Streams\Platform\Ui\Table\Component\View\ViewHandler@handle';
+    protected $handler = null;
+
+    /**
+     * The view query.
+     *
+     * @var null|string|Closure
+     */
+    protected $query = null;
 
     /**
      * Get the attributes.
@@ -109,7 +120,7 @@ class View implements ViewInterface
     /**
      * Get the view handler.
      *
-     * @return mixed
+     * @return callable|null|string
      */
     public function getHandler()
     {
@@ -125,6 +136,29 @@ class View implements ViewInterface
     public function setHandler($handler)
     {
         $this->handler = $handler;
+
+        return $this;
+    }
+
+    /**
+     * Get the query.
+     *
+     * @return callable|null|string
+     */
+    public function getQuery()
+    {
+        return $this->query;
+    }
+
+    /**
+     * Set the query.
+     *
+     * @param $query
+     * @return $this
+     */
+    public function setQuery($query)
+    {
+        $this->query = $query;
 
         return $this;
     }

@@ -53,8 +53,8 @@ class ButtonBuilder
         $this->input->read($builder);
 
         foreach ($builder->getButtons() as $button) {
-            if (array_get($button, 'enabled', true)) {
-                $buttons->push($this->factory->make($button));
+            if (($button = $this->factory->make($button)) && $button->isEnabled()) {
+                $buttons->push($button);
             }
         }
     }

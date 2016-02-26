@@ -2,8 +2,10 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Support\Evaluator;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Config\Repository;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Translation\Translator;
 
 /**
  * Class GetConfigFields
@@ -17,6 +19,13 @@ class GetConfigFields implements SelfHandling
 {
 
     /**
+     * The form builder.
+     *
+     * @var FormBuilder
+     */
+    protected $builder;
+
+    /**
      * The field type object.
      *
      * @var FieldType
@@ -28,8 +37,9 @@ class GetConfigFields implements SelfHandling
      *
      * @param FieldType $fieldType
      */
-    public function __construct(FieldType $fieldType)
+    public function __construct(FormBuilder $builder, FieldType $fieldType)
     {
+        $this->builder   = $builder;
         $this->fieldType = $fieldType;
     }
 
@@ -39,21 +49,23 @@ class GetConfigFields implements SelfHandling
      * @param Repository $config
      * @param Evaluator  $evaluator
      */
-    public function handle(Repository $config, Evaluator $evaluator)
+    public function handle(Repository $config, Evaluator $evaluator, Translator $translator)
     {
-        $fields = [];
+        if (!$fields = $config->get($this->fieldType->getNamespace('config/config'))) {
+            $fields = $config->get($this->fieldType->getNamespace('config'), []);
+        }
 
-        $config = $evaluator->evaluate($config->get($this->fieldType->getNamespace('config'), []));
+        $fields = $evaluator->evaluate($fields);
 
-        foreach ($config as $slug => &$field) {
+        foreach ($fields as $slug => $field) {
 
             /**
              * Determine the field label.
              */
             $label = $this->fieldType->getNamespace('config.' . $slug . '.label');
 
-            if (!trans()->has($label)) {
-                $label = trans($this->fieldType->getNamespace('config.' . $slug . '.name'));
+            if (!$translator->has($label)) {
+                $label = $this->fieldType->getNamespace('config.' . $slug . '.name');
             }
 
             $field['label'] = array_get($field, 'label', $label);
@@ -63,7 +75,7 @@ class GetConfigFields implements SelfHandling
              */
             $instructions = $this->fieldType->getNamespace('config.' . $slug . '.instructions');
 
-            if (trans()->has($instructions)) {
+            if ($translator->has($instructions)) {
                 $field['instructions'] = $instructions;
             }
 
@@ -72,8 +84,17 @@ class GetConfigFields implements SelfHandling
              */
             $placeholder = $this->fieldType->getNamespace('config.' . $slug . '.placeholder');
 
-            if (trans()->has($placeholder)) {
+            if ($translator->has($placeholder)) {
                 $field['placeholder'] = $placeholder;
+            }
+
+            /**
+             * Determine the warning.
+             */
+            $warning = $this->fieldType->getNamespace('config.' . $slug . '.warning');
+
+            if ($translator->has($warning)) {
+                $field['warning'] = $warning;
             }
 
             /**
@@ -85,8 +106,8 @@ class GetConfigFields implements SelfHandling
             $field['field'] = 'config.' . $slug;
 
             $fields['config.' . $slug] = $field;
-        }
 
-        return $fields;
+            $this->builder->addField($field);
+        }
     }
 }

@@ -57,7 +57,7 @@ class SectionNormalizer
             }
 
             /**
-             * If the slug is a string and the text is not
+             * If the slug is a string and the title is not
              * set then use the slug as the slug.
              */
             if (is_string($slug) && !isset($section['slug'])) {
@@ -77,7 +77,17 @@ class SectionNormalizer
             }
 
             /**
-             * Make sure the HREF is absolute.
+             * Move all data-* keys
+             * to attributes.
+             */
+            foreach ($section as $attribute => $value) {
+                if (str_is('data-*', $attribute)) {
+                    array_set($section, 'attributes.' . $attribute, array_pull($section, $attribute));
+                }
+            }
+
+            /**
+             * Make sure the HREF and data-HREF are absolute.
              */
             if (
                 isset($section['attributes']['href']) &&
@@ -85,6 +95,14 @@ class SectionNormalizer
                 !starts_with($section['attributes']['href'], 'http')
             ) {
                 $section['attributes']['href'] = url($section['attributes']['href']);
+            }
+
+            if (
+                isset($section['attributes']['data-href']) &&
+                is_string($section['attributes']['data-href']) &&
+                !starts_with($section['attributes']['data-href'], 'http')
+            ) {
+                $section['attributes']['data-href'] = url($section['attributes']['data-href']);
             }
         }
 

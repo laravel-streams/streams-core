@@ -37,8 +37,8 @@ class Clear extends Command
      */
     public function fire(Filesystem $files, Application $application)
     {
-        $files->deleteDirectory($directory = $application->getAssetsPath(), true);
+        $files->deleteDirectory($directory = $application->getAssetsPath('streams'), true);
 
-        $this->info($directory . ' was cleared successfully!');
+        $this->info($directory . ' has been emptied!');
     }
 }

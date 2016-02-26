@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class EloquentRepository
@@ -35,6 +37,21 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Find a trashed record by it's ID.
+     *
+     * @param $id
+     * @return null|EloquentModel
+     */
+    public function findTrashed($id)
+    {
+        return $this->model
+            ->onlyTrashed()
+            ->orderBy('id', 'ASC')
+            ->where('id', $id)
+            ->first();
+    }
+
+    /**
      * Create a new record.
      *
      * @param array $attributes
@@ -43,6 +60,76 @@ class EloquentRepository implements EloquentRepositoryInterface
     public function create(array $attributes)
     {
         return $this->model->create($attributes);
+    }
+
+    /**
+     * Return a new instance.
+     *
+     * @return EloquentModel
+     */
+    public function newInstance()
+    {
+        return $this->model->newInstance();
+    }
+
+    /**
+     * Count all records.
+     *
+     * @return int
+     */
+    public function count()
+    {
+        return $this->model->count();
+    }
+
+    /**
+     * Return a paginated collection.
+     *
+     * @param array $parameters
+     * @return LengthAwarePaginator
+     */
+    public function paginate(array $parameters = [])
+    {
+        $paginator = array_pull($parameters, 'paginator');
+        $perPage   = array_pull($parameters, 'per_page', 15);
+
+        /* @var Builder $query */
+        $query = $this->model->newQuery();
+
+        /**
+         * First apply any desired scope.
+         */
+        if ($scope = array_pull($parameters, 'scope')) {
+            call_user_func([$query, camel_case($scope)], array_pull($parameters, 'scope_arguments', []));
+        }
+
+        /**
+         * Lastly we need to loop through all of the
+         * parameters and assume the rest are methods
+         * to call on the query builder.
+         */
+        foreach ($parameters as $method => $arguments) {
+
+            $method = camel_case($method);
+
+            if (in_array($method, ['update', 'delete'])) {
+                continue;
+            }
+
+            if (is_array($arguments)) {
+                call_user_func_array([$query, $method], $arguments);
+            } else {
+                call_user_func_array([$query, $method], [$arguments]);
+            }
+        }
+
+        if ($paginator === 'simple') {
+            $pagination = $query->simplePaginate($perPage);
+        } else {
+            $pagination = $query->paginate($perPage);
+        }
+
+        return $pagination;
     }
 
     /**
@@ -57,6 +144,17 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Update multiple records.
+     *
+     * @param array $attributes
+     * @return bool
+     */
+    public function update(array $attributes = [])
+    {
+        return $this->model->update($attributes);
+    }
+
+    /**
      * Delete a record.
      *
      * @param EloquentModel $entry
@@ -65,5 +163,81 @@ class EloquentRepository implements EloquentRepositoryInterface
     public function delete(EloquentModel $entry)
     {
         return $entry->delete();
+    }
+
+    /**
+     * Force delete a record.
+     *
+     * @param EloquentModel $entry
+     * @return bool
+     */
+    public function forceDelete(EloquentModel $entry)
+    {
+        $entry->forceDelete();
+
+        return true;
+    }
+
+    /**
+     * Restore a trashed record.
+     *
+     * @param EloquentModel $entry
+     * @return bool
+     */
+    public function restore(EloquentModel $entry)
+    {
+        return $entry->restore();
+    }
+
+    /**
+     * Truncate the entries.
+     *
+     * @return $this
+     */
+    public function truncate()
+    {
+        $this->model->flushCache();
+
+        foreach ($this->model->all() as $entry) {
+            $this->delete($entry);
+        }
+
+        $this->model->truncate(); // Clear trash
+
+        if ($this->model->isTranslatable() && $translation = $this->model->getTranslationModel()) {
+
+            $translation->flushCache();
+
+            foreach ($translation->all() as $entry) {
+                $this->delete($entry);
+            }
+
+            $translation->truncate(); // Clear trash
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set the model.
+     *
+     * @param EloquentModel $model
+     * @return $this
+     */
+    public function setModel(EloquentModel $model)
+    {
+        $this->model = $model;
+
+        return $this;
+    }
+
+    /**
+     * Get the model.
+     *
+     * @return EloquentModel
+     */
+    public function getModel()
+    {
+        return $this->model;
     }
 }

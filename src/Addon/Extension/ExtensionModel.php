@@ -74,7 +74,7 @@ class ExtensionModel extends EloquentModel implements ExtensionInterface
     /**
      * Get all enabled extension namespaces.
      *
-     * @return array
+     * @return EloquentCollection
      */
     public function getEnabledNamespaces()
     {
@@ -84,7 +84,7 @@ class ExtensionModel extends EloquentModel implements ExtensionInterface
     /**
      * Get all installed extension namespaces.
      *
-     * @return array
+     * @return EloquentCollection
      */
     public function getInstalledNamespaces()
     {

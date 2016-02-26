@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Database\Seeder\Console;
 
 use Anomaly\Streams\Platform\Database\Seeder\Command\Seed;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -12,10 +12,10 @@ use Symfony\Component\Console\Input\InputOption;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Database\Seeder\Console
  */
-class SeedCommand extends \Illuminate\Database\Console\SeedCommand
+class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Execute the console command.

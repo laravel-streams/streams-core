@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Illuminate\Contracts\Config\Repository;
+
 /**
  * Class Collection
  *
@@ -13,6 +15,7 @@ class Collection extends \Illuminate\Support\Collection
 
     /**
      * Return shuffled items.
+     * Preserve the index keys.
      *
      * @param int $amount
      * @return static
@@ -45,14 +48,28 @@ class Collection extends \Illuminate\Support\Collection
             return $this;
         }
 
-        if ($value) {
-            return new static(array_pad($this->items, $size, $value));
-        }
+        return new static(array_pad($this->items, $size, $value));
+    }
 
-        while ($this->count() < $size) {
-            $this->items = array_merge($this->items, $this->items);
-        }
+    /**
+     * Map to get.
+     *
+     * @param $name
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        return $this->get($name);
+    }
 
-        return new static($this->items);
+    /**
+     * Map to get.
+     *
+     * @param string $method
+     * @param array  $parameters
+     */
+    public function __call($method, $parameters)
+    {
+        return $this->get($method);
     }
 }

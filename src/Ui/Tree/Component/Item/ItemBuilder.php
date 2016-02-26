@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Button\ButtonBuilder;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item;
+use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\SegmentBuilder;
 use Anomaly\Streams\Platform\Ui\Tree\TreeBuilder;
 
 /**
@@ -17,11 +18,11 @@ class ItemBuilder
 {
 
     /**
-     * The value utility.
+     * The segment builder.
      *
-     * @var ItemValue
+     * @var SegmentBuilder
      */
-    protected $value;
+    protected $segments;
 
     /**
      * The button builder.
@@ -45,14 +46,18 @@ class ItemBuilder
     /**
      * Create a new ItemBuilder instance.
      *
-     * @param ItemValue     $value
-     * @param ButtonBuilder $buttons
-     * @param ItemFactory   $factory
-     * @param Evaluator     $evaluator
+     * @param SegmentBuilder $segments
+     * @param ButtonBuilder  $buttons
+     * @param ItemFactory    $factory
+     * @param Evaluator      $evaluator
      */
-    function __construct(ItemValue $value, ButtonBuilder $buttons, ItemFactory $factory, Evaluator $evaluator)
-    {
-        $this->value     = $value;
+    function __construct(
+        SegmentBuilder $segments,
+        ButtonBuilder $buttons,
+        ItemFactory $factory,
+        Evaluator $evaluator
+    ) {
+        $this->segments  = $segments;
         $this->buttons   = $buttons;
         $this->factory   = $factory;
         $this->evaluator = $evaluator;
@@ -67,16 +72,15 @@ class ItemBuilder
     {
         foreach ($builder->getTreeEntries() as $entry) {
 
-            $buttons = $this->buttons->build($builder, $entry);
+            $segments = $this->segments->build($builder, $entry);
+            $buttons  = $this->buttons->build($builder, $entry);
 
             $buttons = $buttons->enabled();
 
-            $value = $this->value->make($builder, $entry);
-
             $id     = $entry->getId();
-            $parent = $entry->{$builder->getTreeOption('parent_column', 'parent_id')};
+            $parent = $entry->{$builder->getTreeOption('parent_segment', 'parent_id')};
 
-            $item = compact('builder', 'buttons', 'entry', 'value', 'parent', 'id');
+            $item = compact('builder', 'segments', 'buttons', 'entry', 'parent', 'id');
 
             $item = $this->evaluator->evaluate($item, compact('builder', 'entry'));
 

@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query\GenericFilterQuery;
+use Closure;
 
 /**
  * Class Filter
@@ -21,11 +24,32 @@ class Filter implements FilterInterface
     protected $slug = 'default';
 
     /**
+     * The filter field.
+     *
+     * @var string
+     */
+    protected $field;
+
+    /**
+     * The stream object.
+     *
+     * @var StreamInterface
+     */
+    protected $stream;
+
+    /**
      * The filter prefix.
      *
      * @var null|string
      */
     protected $prefix = null;
+
+    /**
+     * The exact flag.
+     *
+     * @var bool
+     */
+    protected $exact = false;
 
     /**
      * The active flag.
@@ -42,31 +66,31 @@ class Filter implements FilterInterface
     protected $placeholder = null;
 
     /**
-     * The filter handler.
+     * The filter query.
      *
-     * @var mixed
+     * @var string|Closure
      */
-    protected $handler = 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Handler\GenericFilterHandler@handle';
+    protected $query = GenericFilterQuery::class;
 
     /**
-     * Get the filter handler.
+     * Get the filter query.
      *
-     * @return mixed
+     * @return string|Closure
      */
-    public function getHandler()
+    public function getQuery()
     {
-        return $this->handler;
+        return $this->query;
     }
 
     /**
-     * Set the filter handler.
+     * Set the filter query.
      *
-     * @param $handler
+     * @param $query
      * @return $this
      */
-    public function setHandler($handler)
+    public function setQuery($query)
     {
-        $this->handler = $handler;
+        $this->query = $query;
 
         return $this;
     }
@@ -171,6 +195,29 @@ class Filter implements FilterInterface
     }
 
     /**
+     * Set the exact flag.
+     *
+     * @param bool $exact
+     * @return $this
+     */
+    public function setExact($exact)
+    {
+        $this->exact = $exact;
+
+        return $this;
+    }
+
+    /**
+     * Return the exact flag.
+     *
+     * @return bool
+     */
+    public function isExact()
+    {
+        return $this->exact;
+    }
+
+    /**
      * Set the active flag.
      *
      * @param bool $active
@@ -191,5 +238,51 @@ class Filter implements FilterInterface
     public function isActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set the filter field.
+     *
+     * @param  $field
+     * @return $this
+     */
+    public function setField($field)
+    {
+        $this->field = $field;
+
+        return $this;
+    }
+
+    /**
+     * Get the filter field.
+     *
+     * @return string
+     */
+    public function getField()
+    {
+        return $this->field;
+    }
+
+    /**
+     * Set the stream.
+     *
+     * @param  StreamInterface $stream
+     * @return $this
+     */
+    public function setStream(StreamInterface $stream)
+    {
+        $this->stream = $stream;
+
+        return $this;
+    }
+
+    /**
+     * Get the stream.
+     *
+     * @return StreamInterface
+     */
+    public function getStream()
+    {
+        return $this->stream;
     }
 }

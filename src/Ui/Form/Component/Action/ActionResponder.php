@@ -3,6 +3,8 @@
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class ActionResponder
@@ -16,31 +18,44 @@ class ActionResponder
 {
 
     /**
+     * The service container.
+     *
+     * @var Container
+     */
+    private $container;
+
+    /**
+     * Create a new ActionResponder instance.
+     *
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
      * Set the form response using the active action
      * form response handler.
      *
      * @param FormBuilder $builder
      * @param             $action
-     * @throws \Exception
      */
     public function setFormResponse(FormBuilder $builder, ActionInterface $action)
     {
         $handler = $action->getHandler();
 
-        /**
-         * If the handler is a Closure then call
-         * it using the application container.
-         */
-        if ($handler instanceof \Closure) {
-            return app()->call($handler, compact('builder'));
+        // Self handling implies @handle
+        if (is_string($handler) && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+            $handler .= '@handle';
         }
 
         /**
-         * If the handler is a callable string then
-         * call it using the application container.
+         * If the handler is a closure or callable
+         * string then call it using the service container.
          */
-        if (is_string($handler) && str_contains($handler, '@')) {
-            return app()->call($handler, compact('builder'));
+        if (is_string($handler) || $handler instanceof \Closure) {
+            $this->container->call($handler, compact('builder'));
         }
 
         /**
@@ -48,9 +63,7 @@ class ActionResponder
          * simply call the handle method on it.
          */
         if ($handler instanceof ActionHandlerInterface) {
-            return $handler->handle($builder);
+            $handler->handle($builder);
         }
-
-        throw new \Exception('Action $handler must be a callable string, Closure or ActionHandlerInterface.');
     }
 }

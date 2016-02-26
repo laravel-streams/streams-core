@@ -1,11 +1,15 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\EntryPresenter;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Carbon\Carbon;
 
 /**
  * Interface EntryInterface
@@ -26,11 +30,39 @@ interface EntryInterface
     public function getId();
 
     /**
+     * Get the entry ID.
+     *
+     * @return mixed
+     */
+    public function getEntryId();
+
+    /**
+     * Get the entry title.
+     *
+     * @return mixed
+     */
+    public function getEntryTitle();
+
+    /**
+     * Get the sort order.
+     *
+     * @return int
+     */
+    public function getSortOrder();
+
+    /**
      * Get the title.
      *
      * @return mixed
      */
     public function getTitle();
+
+    /**
+     * Get the title key.
+     *
+     * @return string
+     */
+    public function getTitleName();
 
     /**
      * Get the stream.
@@ -54,6 +86,13 @@ interface EntryInterface
     public function getStreamSlug();
 
     /**
+     * Get the entry's stream name.
+     *
+     * @return string
+     */
+    public function getStreamName();
+
+    /**
      * Get the entry's stream prefix.
      *
      * @return string
@@ -66,6 +105,13 @@ interface EntryInterface
      * @return string
      */
     public function getTableName();
+
+    /**
+     * Get related translations.
+     *
+     * @return EloquentCollection
+     */
+    public function getTranslations();
 
     /**
      * Get the translations table name.
@@ -118,12 +164,20 @@ interface EntryInterface
     public function getFieldType($fieldSlug);
 
     /**
-     * Get the rules for a field.
+     * Get the field type query.
      *
-     * @param  $fieldSlug
-     * @return array
+     * @param $fieldSlug
+     * @return FieldTypeQuery
      */
-    public function getFieldRules($fieldSlug);
+    public function getFieldTypeQuery($fieldSlug);
+
+    /**
+     * Get the field type presenter.
+     *
+     * @param $fieldSlug
+     * @return FieldTypePresenter
+     */
+    public function getFieldTypePresenter($fieldSlug);
 
     /**
      * Get all assignments.
@@ -131,6 +185,23 @@ interface EntryInterface
      * @return AssignmentCollection
      */
     public function getAssignments();
+
+    /**
+     * Get the field slugs for assigned fields.
+     *
+     * @param null $prefix
+     * @return array
+     */
+    public function getAssignmentFieldSlugs($prefix = null);
+
+    /**
+     * Get all assignments of the
+     * provided field type namespace.
+     *
+     * @param $fieldType
+     * @return AssignmentCollection
+     */
+    public function getAssignmentsByFieldType($fieldType);
 
     /**
      * Get an assignment by field slug.
@@ -177,6 +248,49 @@ interface EntryInterface
     public function isDeletable();
 
     /**
+     * Return if the model is restorable or not.
+     *
+     * @return bool
+     */
+    public function isRestorable();
+
+    /**
+     * Return whether the entry is trashable or not.
+     *
+     * @return bool
+     */
+    public function isTrashable();
+
+    /**
+     * Return whether the model is being
+     * force deleted or not.
+     *
+     * @return bool
+     */
+    public function isForceDeleting();
+
+    /**
+     * Return the last modified datetime.
+     *
+     * @return Carbon
+     */
+    public function lastModified();
+
+    /**
+     * Return if the entry is trashed or not.
+     *
+     * @return bool
+     */
+    public function trashed();
+
+    /**
+     * Return the object's ETag fingerprint.
+     *
+     * @return string
+     */
+    public function etag();
+
+    /**
      * Return a new presenter instance.
      *
      * @return EntryPresenter
@@ -214,7 +328,7 @@ interface EntryInterface
      *
      * @param  $key
      * @param  $value
-     * @return mixed
+     * @return $this
      */
     public function setAttribute($key, $value);
 
@@ -229,10 +343,20 @@ interface EntryInterface
     /**
      * Get a raw unmodified attribute.
      *
-     * @param $key
+     * @param      $key
+     * @param bool $process
      * @return mixed|null
      */
-    public function getRawAttribute($key);
+    public function getRawAttribute($key, $process = true);
+
+    /**
+     * Set a raw unmodified attribute.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function setRawAttribute($key, $value);
 
     /**
      * Get the entry attributes.

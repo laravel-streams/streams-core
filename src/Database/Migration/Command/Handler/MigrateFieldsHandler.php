@@ -25,7 +25,7 @@ class MigrateFieldsHandler
     /**
      * Create a new MigrateFieldsHandler instance.
      *
-     * @maram FieldRepositoryInterface $fields
+     * @param FieldRepositoryInterface $fields
      */
     public function __construct(FieldRepositoryInterface $fields)
     {
@@ -78,7 +78,75 @@ class MigrateFieldsHandler
                 );
             }
 
-            $this->fields->create($field);
+            /**
+             * If the instructions exists in the base array
+             * then move it to the translated array
+             * for the default locale.
+             */
+            if ($instructions = array_pull($field, 'instructions')) {
+                $field = array_add($field, config('app.fallback_locale') . '.instructions', $instructions);
+            }
+
+            /**
+             * If the instructions is not set then make one
+             * based on a standardized pattern.
+             */
+            if (!array_get($field, config('app.fallback_locale') . '.instructions')) {
+                $field = array_add(
+                    $field,
+                    config('app.fallback_locale') . '.instructions',
+                    $addon ? $addon->getNamespace("field.{$slug}.instructions") : null
+                );
+            }
+
+            /**
+             * If the placeholder exists in the base array
+             * then move it to the translated array
+             * for the default locale.
+             */
+            if ($placeholder = array_pull($field, 'placeholder')) {
+                $field = array_add($field, config('app.fallback_locale') . '.placeholder', $placeholder);
+            }
+
+            /**
+             * If the placeholder is not set then make one
+             * based on a standardized pattern.
+             */
+            if (!array_get($field, config('app.fallback_locale') . '.placeholder')) {
+                $field = array_add(
+                    $field,
+                    config('app.fallback_locale') . '.placeholder',
+                    $addon ? $addon->getNamespace("field.{$slug}.placeholder") : null
+                );
+            }
+
+            /**
+             * If the warning exists in the base array
+             * then move it to the translated array
+             * for the default locale.
+             */
+            if ($warning = array_pull($field, 'warning')) {
+                $field = array_add($field, config('app.fallback_locale') . '.warning', $warning);
+            }
+
+            /**
+             * If the instructions is not set then make one
+             * based on a standardized pattern.
+             */
+            if (!array_get($field, config('app.fallback_locale') . '.warning')) {
+                $field = array_add(
+                    $field,
+                    config('app.fallback_locale') . '.warning',
+                    $addon ? $addon->getNamespace("field.{$slug}.warning") : null
+                );
+            }
+
+            // Only create if it does not exist already.
+            if (!$entry = $this->fields->findBySlugAndNamespace($field['slug'], $field['namespace'])) {
+                $this->fields->create($field);
+            } else {
+                $this->fields->save($entry->fill($field));
+            }
         }
 
         return true;

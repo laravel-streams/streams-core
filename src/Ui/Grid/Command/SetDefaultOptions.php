@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Grid\Command;
 
+use Anomaly\Streams\Platform\Entry\EntryGridRepository;
 use Anomaly\Streams\Platform\Entry\EntryModel;
+use Anomaly\Streams\Platform\Model\EloquentGridRepository;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -93,11 +95,11 @@ class SetDefaultOptions implements SelfHandling
             $model = $grid->getModel();
 
             if (!$grid->getOption('repository') && $model instanceof EntryModel) {
-                $grid->setOption('repository', 'Anomaly\Streams\Platform\Entry\EntryGridRepository');
+                $grid->setOption('repository', EntryGridRepository::class);
             }
 
             if (!$grid->getOption('repository') && $model instanceof EloquentModel) {
-                $grid->setOption('repository', 'Anomaly\Streams\Platform\Model\EloquentGridRepository');
+                $grid->setOption('repository', EloquentGridRepository::class);
             }
         }
     }

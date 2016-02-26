@@ -2,6 +2,8 @@
 
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 
 /**
@@ -12,31 +14,15 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Assignment\Contract
  */
-interface AssignmentRepositoryInterface
+interface AssignmentRepositoryInterface extends EloquentRepositoryInterface
 {
-
-    /**
-     * Create a new assignment.
-     *
-     * @param array $attributes
-     * @return AssignmentInterface
-     */
-    public function create(array $attributes);
-
-    /**
-     * Find an assignment.
-     *
-     * @param $id
-     * @return null|AssignmentInterface
-     */
-    public function find($id);
 
     /**
      * Find an assignment by stream and field.
      *
      * @param StreamInterface $stream
      * @param FieldInterface  $field
-     * @return null|AssignmentInterface
+     * @return null|AssignmentInterface|EloquentModel
      */
     public function findByStreamAndField(StreamInterface $stream, FieldInterface $field);
 
@@ -47,13 +33,6 @@ interface AssignmentRepositoryInterface
      * @return AssignmentCollection
      */
     public function findByStream(StreamInterface $stream);
-
-    /**
-     * Delete an assignment.
-     *
-     * @param AssignmentInterface $assignment
-     */
-    public function delete(AssignmentInterface $assignment);
 
     /**
      * Clean up abandoned assignments.

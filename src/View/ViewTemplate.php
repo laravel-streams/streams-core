@@ -14,6 +14,13 @@ class ViewTemplate extends Collection
 {
 
     /**
+     * The loaded flag.
+     *
+     * @var bool
+     */
+    protected $loaded = false;
+
+    /**
      * Set a value.
      *
      * @param $key
@@ -23,6 +30,29 @@ class ViewTemplate extends Collection
     public function set($key, $value)
     {
         $this->put($key, $value);
+
+        return $this;
+    }
+
+    /**
+     * Get the loaded flag.
+     *
+     * @return bool
+     */
+    public function isLoaded()
+    {
+        return $this->loaded;
+    }
+
+    /**
+     * Set the loaded flag.
+     *
+     * @param $loaded
+     * @return $this
+     */
+    public function setLoaded($loaded)
+    {
+        $this->loaded = $loaded;
 
         return $this;
     }

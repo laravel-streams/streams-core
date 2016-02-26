@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Menu\Contract\MenuItemInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Menu\MenuCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Illuminate\Support\Collection;
@@ -17,6 +19,13 @@ class ControlPanel
 {
 
     /**
+     * The menu collection.
+     *
+     * @var MenuCollection
+     */
+    protected $menu;
+
+    /**
      * The section buttons.
      *
      * @var Collection
@@ -24,7 +33,7 @@ class ControlPanel
     protected $buttons;
 
     /**
-     * The theme sections.
+     * The section collection.
      *
      * @var SectionCollection
      */
@@ -35,9 +44,11 @@ class ControlPanel
      *
      * @param Collection        $buttons
      * @param SectionCollection $sections
+     * @param MenuCollection    $menu
      */
-    function __construct(Collection $buttons, SectionCollection $sections)
+    function __construct(Collection $buttons, SectionCollection $sections, MenuCollection $menu)
     {
+        $this->menu     = $menu;
         $this->buttons  = $buttons;
         $this->sections = $sections;
     }
@@ -86,5 +97,28 @@ class ControlPanel
     public function getSections()
     {
         return $this->sections;
+    }
+
+    /**
+     * Add a menu item.
+     *
+     * @param MenuItemInterface $menuItem
+     * @return $this
+     */
+    public function addMenuItem(MenuItemInterface $menuItem)
+    {
+        $this->menu->push($menuItem);
+
+        return $this;
+    }
+
+    /**
+     * Get the menu.
+     *
+     * @return MenuCollection
+     */
+    public function getMenu()
+    {
+        return $this->menu;
     }
 }

@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Image;
 
+use Illuminate\Config\Repository;
+
 /**
  * Class ImagePaths
  *
@@ -12,9 +14,44 @@ class ImagePaths
 {
 
     /**
+     * Registered image paths.
+     *
      * @var array
      */
-    protected $paths = [];
+    protected $paths;
+
+    /**
+     * Create a new ImagePaths instance.
+     *
+     * @param Repository $config
+     */
+    public function __construct(Repository $config)
+    {
+        $this->paths = $config->get('streams::images.paths', []);
+    }
+
+    /**
+     * Get the paths.
+     *
+     * @return array|mixed
+     */
+    public function getPaths()
+    {
+        return $this->paths;
+    }
+
+    /**
+     * Set the paths.
+     *
+     * @param array $paths
+     * @return $this
+     */
+    public function setPaths(array $paths)
+    {
+        $this->paths = $paths;
+
+        return $this;
+    }
 
     /**
      * Add an image path hint.
@@ -47,7 +84,7 @@ class ImagePaths
                 throw new \Exception("Path hint [{$namespace}::{$path}] does not exist!");
             }
 
-            return $this->paths[$namespace] . '/' . $path;
+            return rtrim($this->paths[$namespace], '/') . '/' . $path;
         }
 
         return $path;

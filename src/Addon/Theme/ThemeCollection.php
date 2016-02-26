@@ -18,10 +18,34 @@ class ThemeCollection extends AddonCollection
      *
      * @return Theme
      */
-    public function active()
+    public function active($type = null)
     {
+        if (!$type) {
+            return $this->current();
+        }
+
+        $admin = $type == 'standard' ? false : true;
+
+        /* @var Theme $item */
         foreach ($this->items as $item) {
-            if ($item instanceof Theme && $item->isActive()) {
+            if ($item->isActive() && $item->isAdmin() === $admin) {
+                return $item;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Return the current theme.
+     *
+     * @return null|Theme
+     */
+    public function current()
+    {
+        /* @var Theme $item */
+        foreach ($this->items as $item) {
+            if ($item->isCurrent()) {
                 return $item;
             }
         }
@@ -38,8 +62,9 @@ class ThemeCollection extends AddonCollection
     {
         $items = [];
 
+        /* @var Theme $item */
         foreach ($this->items as $item) {
-            if ($item instanceof Theme && !$item->isAdmin()) {
+            if (!$item->isAdmin()) {
                 $items[] = $item;
             }
         }
@@ -56,8 +81,9 @@ class ThemeCollection extends AddonCollection
     {
         $items = [];
 
+        /* @var Theme $item */
         foreach ($this->items as $item) {
-            if ($item instanceof Theme && $item->isAdmin()) {
+            if ($item->isAdmin()) {
                 $items[] = $item;
             }
         }

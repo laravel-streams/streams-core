@@ -1,7 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-
 /**
  * Class FormMessages
  *
@@ -14,32 +12,38 @@ class FormMessages
 {
 
     /**
-     * Extend the validation factory.
+     * Make custom validation messages.
      *
      * @param FormBuilder $builder
      * @return array
      */
-    public function get(FormBuilder $builder)
+    public function make(FormBuilder $builder)
     {
         $messages = [];
 
-        foreach ($builder->getFormFields() as $field) {
-            $this->registerValidationMessages($field, $messages);
+        foreach ($builder->getEnabledFormFields() as $field) {
+
+            foreach ($field->getValidators() as $rule => $validator) {
+
+                $message = trans(array_get($validator, 'message'));
+
+                if ($message && str_contains($message, '::')) {
+                    $message = trans($message);
+                }
+
+                $messages[$rule] = $message;
+            }
+
+            foreach ($field->getMessages() as $rule => $message) {
+
+                if ($message && str_contains($message, '::')) {
+                    $message = trans($message);
+                }
+
+                $messages[$rule] = $message;
+            }
         }
 
         return $messages;
-    }
-
-    /**
-     * Register field's custom validators.
-     *
-     * @param FieldType $field
-     * @param array     $messages
-     */
-    protected function registerValidationMessages(FieldType $field, array &$messages)
-    {
-        foreach ($field->getValidators() as $rule => $validator) {
-            $messages[$rule] = array_get($validator, 'message');
-        }
     }
 }

@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Support\Arrayable;
 
 /**
  * Class FieldParser
@@ -40,10 +39,6 @@ class FieldParser
     public function parse(FormBuilder $builder)
     {
         $entry = $builder->getFormEntry();
-
-        if (is_object($entry) && $entry instanceof Arrayable) {
-            $entry = $entry->toArray();
-        }
 
         $builder->setFields($this->parser->parse($builder->getFields(), compact('entry')));
     }

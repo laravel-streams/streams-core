@@ -1,8 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Ui\Form\Event\FormWasPosted;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class PostForm
@@ -15,7 +17,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class PostForm implements SelfHandling
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The form builder.
@@ -36,16 +38,17 @@ class PostForm implements SelfHandling
 
     /**
      * Handle the command.
+     *
+     * @param Dispatcher $events
      */
-    public function handle()
+    public function handle(Dispatcher $events)
     {
         $this->builder->fire('posting', ['builder' => $this->builder]);
         $this->builder->fireFieldEvents('form_posting');
 
-        $this->dispatch(new RemoveSkippedFields($this->builder));
-        $this->dispatch(new RemoveDisabledFields($this->builder));
+        $this->dispatch(new LoadFormValues($this->builder));
         $this->dispatch(new ValidateForm($this->builder));
-        $this->dispatch(new LoadFormValues($this->builder)); // Only after validation.
+        $this->dispatch(new RemoveSkippedFields($this->builder));
         $this->dispatch(new HandleForm($this->builder));
         $this->dispatch(new SetSuccessMessage($this->builder));
         $this->dispatch(new SetActionResponse($this->builder));
@@ -56,5 +59,7 @@ class PostForm implements SelfHandling
 
         $this->builder->fire('posted', ['builder' => $this->builder]);
         $this->builder->fireFieldEvents('form_posted');
+
+        $events->fire(new FormWasPosted($this->builder));
     }
 }

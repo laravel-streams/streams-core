@@ -2,8 +2,15 @@
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Illuminate\Contracts\Support\Arrayable;
 
+/**
+ * Class ActionParser
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action
+ */
 class ActionParser
 {
 
@@ -32,10 +39,6 @@ class ActionParser
     public function parse(FormBuilder $builder)
     {
         $entry = $builder->getFormEntry();
-
-        if (is_object($entry) && $entry instanceof Arrayable) {
-            $entry = $entry->toArray();
-        }
 
         $builder->setActions($this->parser->parse($builder->getActions(), compact('entry')));
     }

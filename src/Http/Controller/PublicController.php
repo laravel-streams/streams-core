@@ -18,6 +18,6 @@ class PublicController extends BaseController
     {
         parent::__construct();
 
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\CheckSiteStatus');
+        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\CheckForMaintenanceMode');
     }
 }

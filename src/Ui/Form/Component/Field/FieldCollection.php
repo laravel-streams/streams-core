@@ -1,8 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Field;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Support\Collection;
 
 /**
  * Class FieldCollection
@@ -25,11 +25,13 @@ class FieldCollection extends Collection
     {
         $fields = [];
 
+        $locale = config('app.fallback_locale');
+
         /* @var FieldType $item */
         foreach ($this->items as $item) {
 
             // If it's the base local then add it.
-            if ($item->getLocale() == config('app.fallback_locale')) {
+            if ($item->getLocale() == $locale) {
                 $fields[] = $item;
             }
 
@@ -54,7 +56,7 @@ class FieldCollection extends Collection
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if ($item->getField() == $field) {
+            if ($item->getFieldName() == $field) {
                 $fields[] = $item;
             }
         }
@@ -73,9 +75,13 @@ class FieldCollection extends Collection
     {
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if ($item->getInputName() == $key) {
+            if ($item->getField() == $key) {
                 return $item;
             }
+        }
+
+        if (!$default) {
+            return $default;
         }
 
         return $this->get($default);
@@ -158,16 +164,6 @@ class FieldCollection extends Collection
     }
 
     /**
-     * Skip a field.
-     *
-     * @param $fieldSlug
-     */
-    public function skip($fieldSlug)
-    {
-        $this->forget($fieldSlug);
-    }
-
-    /**
      * Return non-SelfHandling fields.
      *
      * @return FieldCollection
@@ -178,7 +174,7 @@ class FieldCollection extends Collection
 
         /* @var FieldType $item */
         foreach ($this->items as $item) {
-            if (!$item instanceof SelfHandling) {
+            if (!$item->isDisabled() && !$item instanceof SelfHandling) {
                 $allowed[] = $item;
             }
         }
@@ -221,5 +217,37 @@ class FieldCollection extends Collection
                 break;
             }
         }
+    }
+
+    /**
+     * Return an array of field slugs
+     * for all the fields in the collection.
+     *
+     * @return array
+     */
+    public function fieldSlugs()
+    {
+        return array_map(
+            function (FieldType $field) {
+                return $field->getField();
+            },
+            $this->all()
+        );
+    }
+
+    /**
+     * Return an array of field names
+     * for all the fields in the collection.
+     *
+     * @return array
+     */
+    public function fieldNames()
+    {
+        return array_map(
+            function (FieldType $field) {
+                return $field->getFieldName();
+            },
+            $this->all()
+        );
     }
 }

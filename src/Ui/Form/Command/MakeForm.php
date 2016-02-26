@@ -42,7 +42,7 @@ class MakeForm implements SelfHandling
         $data    = $form->getData();
 
         $content = view(
-            $options->get('form_view', $this->builder->isAjax() ? 'streams::form/ajax' : 'streams::form/form'),
+            $options->get('form_view'),
             $data->all()
         );
 

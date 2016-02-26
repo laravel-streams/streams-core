@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\Extension\Command\InstallExtension;
 use Anomaly\Streams\Platform\Addon\Extension\Command\UninstallExtension;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class ExtensionManager
@@ -15,26 +15,28 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class ExtensionManager
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Install a module.
      *
      * @param Extension $module
      * @param bool      $seed
+     * @return bool
      */
     public function install(Extension $module, $seed = false)
     {
-        $this->dispatch(new InstallExtension($module, $seed));
+        return $this->dispatch(new InstallExtension($module, $seed));
     }
 
     /**
      * Uninstall a module.
      *
      * @param Extension $module
+     * @return bool
      */
     public function uninstall(Extension $module)
     {
-        $this->dispatch(new UninstallExtension($module));
+        return $this->dispatch(new UninstallExtension($module));
     }
 }

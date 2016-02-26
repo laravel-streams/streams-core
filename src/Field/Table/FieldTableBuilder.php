@@ -23,6 +23,13 @@ class FieldTableBuilder extends TableBuilder
     protected $stream = null;
 
     /**
+     * The stream namespace.
+     *
+     * @var null|string
+     */
+    protected $namespace = null;
+
+    /**
      * The table model.
      *
      * @var string
@@ -65,7 +72,7 @@ class FieldTableBuilder extends TableBuilder
      * @var array
      */
     protected $actions = [
-        'delete'
+        'prompt'
     ];
 
     /**
@@ -87,7 +94,7 @@ class FieldTableBuilder extends TableBuilder
     public function onQuerying(Builder $query)
     {
         $query
-            ->where('namespace', $this->getStreamNamespace())
+            ->where('namespace', $this->getStream() ? $this->getStreamNamespace() : $this->getNamespace())
             ->where('locked', 'false');
     }
 
@@ -122,6 +129,29 @@ class FieldTableBuilder extends TableBuilder
     public function setStream(StreamInterface $stream)
     {
         $this->stream = $stream;
+
+        return $this;
+    }
+
+    /**
+     * Get the namespace.
+     *
+     * @return null|string
+     */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+    /**
+     * Set the namespace.
+     *
+     * @param $namespace
+     * @return $this
+     */
+    public function setNamespace($namespace)
+    {
+        $this->namespace = $namespace;
 
         return $this;
     }

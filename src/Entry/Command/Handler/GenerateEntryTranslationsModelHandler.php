@@ -56,7 +56,7 @@ class GenerateEntryTranslationsModelHandler
 
         $data = $this->getTemplateData($stream);
 
-        $template = file_get_contents(__DIR__ . '/../../../../resources/assets/generator/translation.twig');
+        $template = file_get_contents(__DIR__ . '/../../../../resources/stubs/models/translation.stub');
 
         $file = $this->getFilePath($stream);
 

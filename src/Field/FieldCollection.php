@@ -24,7 +24,11 @@ class FieldCollection extends EloquentCollection
     {
         /* @var FieldInterface $item */
         foreach ($items as $item) {
-            $this->items[$item->getSlug()] = $item;
+            if (is_object($item)) {
+                $this->items[$item->getSlug()] = $item;
+            } else {
+                $this->items[] = $item;
+            }
         }
     }
 
@@ -92,7 +96,7 @@ class FieldCollection extends EloquentCollection
     /**
      * Return only unlocked fields.
      *
-     * @return static|FieldCollection
+     * @return FieldCollection
      */
     public function unlocked()
     {

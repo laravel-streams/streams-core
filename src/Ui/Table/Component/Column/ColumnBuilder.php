@@ -71,7 +71,7 @@ class ColumnBuilder
 
         $columns = new ColumnCollection();
 
-        $this->input->read($builder, $entry);
+        $this->input->read($builder);
 
         foreach ($builder->getColumns() as $column) {
 

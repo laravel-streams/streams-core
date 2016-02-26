@@ -39,7 +39,7 @@ class ItemFactory
      */
     public function make(array $parameters)
     {
-        $item = app()->make('Anomaly\Streams\Platform\Ui\Tree\Component\Item\Item', $parameters);
+        $item = app()->make(Item::class, $parameters);
 
         $this->hydrator->hydrate($item, $parameters);
 

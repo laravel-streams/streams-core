@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\Contract\HeaderInterface;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class HeaderFactory
@@ -22,13 +23,22 @@ class HeaderFactory
     protected $hydrator;
 
     /**
+     * The service container.
+     *
+     * @var Container
+     */
+    private $container;
+
+    /**
      * Create a new HeaderFactory instance.
      *
-     * @param Hydrator $hydrator
+     * @param Hydrator  $hydrator
+     * @param Container $container
      */
-    public function __construct(Hydrator $hydrator)
+    public function __construct(Hydrator $hydrator, Container $container)
     {
-        $this->hydrator = $hydrator;
+        $this->hydrator  = $hydrator;
+        $this->container = $container;
     }
 
     /**
@@ -39,7 +49,7 @@ class HeaderFactory
      */
     public function make(array $parameters)
     {
-        $header = app()->make('Anomaly\Streams\Platform\Ui\Table\Component\Header\Header', $parameters);
+        $header = $this->container->make(Header::class, $parameters);
 
         $this->hydrator->hydrate($header, $parameters);
 

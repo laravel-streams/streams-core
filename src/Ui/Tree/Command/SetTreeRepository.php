@@ -39,6 +39,15 @@ class SetTreeRepository implements SelfHandling
         $tree  = $this->builder->getTree();
         $model = $tree->getModel();
 
+        /**
+         * If a repository is set
+         * then we don't have
+         * anything to do.
+         */
+        if ($this->builder->getTreeRepository()) {
+            return;
+        }
+
         $repository = $tree->getOption('repository');
 
         /**

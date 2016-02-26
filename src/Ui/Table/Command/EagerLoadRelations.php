@@ -57,8 +57,17 @@ class EagerLoadRelations implements SelfHandling
              * If the column value is a string and uses a dot
              * format then check if it's a relation.
              */
-            if (is_string($column['value']) && preg_match("/^entry.([a-zA-Z\\_]+)./", $column['value'], $match)) {
-                if ($assignments->findByFieldSlug($match[1])) {
+            if (
+                isset($column['value']) &&
+                is_string($column['value']) &&
+                preg_match("/^entry.([a-zA-Z\\_]+)./", $column['value'], $match)
+            ) {
+                if ($assignment = $assignments->findByFieldSlug($match[1])) {
+
+                    if ($assignment->getFieldType()->getNamespace() == 'anomaly.field_type.polymorphic') {
+                        continue;
+                    }
+
                     $eager [] = $match[1];
                 }
             }

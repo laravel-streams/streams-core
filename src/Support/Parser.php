@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use StringTemplate\Engine;
 
 /**
@@ -17,7 +19,7 @@ class Parser
     /**
      * The URL generator.
      *
-     * @var Url
+     * @var UrlGenerator
      */
     protected $url;
 
@@ -38,11 +40,11 @@ class Parser
     /**
      * Create a new Parser instance.
      *
-     * @param Url     $url
-     * @param Engine  $parser
-     * @param Request $request
+     * @param UrlGenerator $url
+     * @param Engine       $parser
+     * @param Request      $request
      */
-    public function __construct(Url $url, Engine $parser, Request $request)
+    public function __construct(UrlGenerator $url, Engine $parser, Request $request)
     {
         $this->url     = $url;
         $this->parser  = $parser;
@@ -58,7 +60,7 @@ class Parser
      */
     public function parse($target, array $data = [])
     {
-        $data = $this->mergeDefaultData($data);
+        $data = $this->prepareData($data);
 
         /**
          * If the target is an array
@@ -75,10 +77,21 @@ class Parser
          * format then parse the target with the payload.
          */
         if (is_string($target) && str_contains($target, ['{', '}'])) {
-            $target = $this->parser->render($target, $this->prepData($data));
+            $target = $this->parser->render($target, $data);
         }
 
         return $target;
+    }
+
+    /**
+     * Prepare the data.
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function prepareData(array $data)
+    {
+        return $this->toArray($this->mergeDefaultData($data));
     }
 
     /**
@@ -89,40 +102,10 @@ class Parser
      */
     protected function mergeDefaultData(array $data)
     {
-        $url     = $this->url->toArray();
-        $request = $this->request->toArray();
+        $url     = $this->urlData();
+        $request = $this->requestData();
 
         return array_merge(compact('url', 'request'), $data);
-    }
-
-    /**
-     * Return the target cleaned of remaining tags.
-     *
-     * @param $target
-     * @return mixed
-     */
-    protected function clean($target)
-    {
-
-        /**
-         * If the target is an array
-         * then clean it recursively.
-         */
-        if (is_array($target)) {
-            foreach ($target as &$value) {
-                $value = $this->clean($value);
-            }
-        }
-
-        /**
-         * if the target is a string then
-         * clean it as is.
-         */
-        if (is_string($target) && str_contains($target, ['{', '}'])) {
-            $target = preg_replace("/\{[a-z._]+?\}/", '', $target);
-        }
-
-        return $target;
     }
 
     /**
@@ -131,7 +114,7 @@ class Parser
      * @param array $data
      * @return array
      */
-    protected function prepData(array $data)
+    protected function toArray(array $data)
     {
         foreach ($data as $key => &$value) {
             if (is_object($value) && $value instanceof Arrayable) {
@@ -140,5 +123,55 @@ class Parser
         }
 
         return $data;
+    }
+
+    /**
+     * Return the URL data.
+     *
+     * @return array
+     */
+    protected function urlData()
+    {
+        return [
+            'previous' => $this->url->previous()
+        ];
+    }
+
+    /**
+     * Return the request data.
+     *
+     * @return array
+     */
+    protected function requestData()
+    {
+        $request = [
+            'path' => $this->request->path(),
+            'uri'  => $this->request->getRequestUri(),
+        ];
+
+        if ($route = $this->request->route()) {
+
+            $request['route'] = [
+                'uri'                      => $route->getUri(),
+                'parameters'               => $route->parameters(),
+                'parameters.to_urlencoded' => array_map(
+                    function ($parameter) {
+                        return urlencode($parameter);
+                    },
+                    $route->parameters()
+                ),
+                'parameter_names'          => $route->parameterNames(),
+                'compiled'                 => [
+                    'static_prefix'     => $route->getCompiled()->getStaticPrefix(),
+                    'parameters_suffix' => str_replace(
+                        $route->getCompiled()->getStaticPrefix(),
+                        '',
+                        $this->request->getRequestUri()
+                    )
+                ]
+            ];
+        }
+
+        return $request;
     }
 }

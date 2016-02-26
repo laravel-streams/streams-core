@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
 use Anomaly\Streams\Platform\Application\Command\CreateApplication;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class ApplicationManager
@@ -14,7 +14,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class ApplicationManager
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Create a new application.

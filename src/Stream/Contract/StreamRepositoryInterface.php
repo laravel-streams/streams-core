@@ -1,7 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Contract;
 
+use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
-use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\StreamCollection;
 
 /**
  * Interface StreamRepositoryInterface
@@ -11,44 +12,8 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Stream\Contract
  */
-interface StreamRepositoryInterface
+interface StreamRepositoryInterface extends EloquentRepositoryInterface
 {
-
-    /**
-     * Get all streams.
-     *
-     * @return EloquentCollection
-     */
-    public function all();
-
-    /**
-     * Create a new Stream.
-     *
-     * @param array $attributes
-     * @return StreamInterface
-     */
-    public function create(array $attributes);
-
-    /**
-     * Save a Stream.
-     *
-     * @param StreamInterface|EloquentModel $stream
-     * @return bool
-     */
-    public function save(StreamInterface $stream);
-
-    /**
-     * Delete a Stream.
-     *
-     * @param StreamInterface|EloquentModel $stream
-     * @return bool
-     */
-    public function delete(StreamInterface $stream);
-
-    /**
-     * Clean up abandoned streams.
-     */
-    public function cleanup();
 
     /**
      * Find a stream by it's namespace and slug.
@@ -58,4 +23,39 @@ interface StreamRepositoryInterface
      * @return null|StreamInterface
      */
     public function findBySlugAndNamespace($slug, $namespace);
+
+    /**
+     * Find all streams in a namespace.
+     *
+     * @param  $namespace
+     * @return null|EloquentCollection
+     */
+    public function findAllByNamespace($namespace);
+
+    /**
+     * Destroy a namespace.
+     *
+     * @param $namespace
+     */
+    public function destroy($namespace);
+
+    /**
+     * Return streams that are/not hidden.
+     *
+     * @param $hidden
+     * @return StreamCollection
+     */
+    public function hidden($hidden = true);
+
+    /**
+     * Return only visible streams.
+     *
+     * @return StreamCollection
+     */
+    public function visible();
+
+    /**
+     * Clean up abandoned streams.
+     */
+    public function cleanup();
 }

@@ -1,11 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\View;
 
-use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
+use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Anomaly\Streams\Platform\Addon\Module\Module;
+use Anomaly\Streams\Platform\Addon\Theme\Theme;
 use Anomaly\Streams\Platform\View\Event\ViewComposed;
-use Illuminate\Events\Dispatcher;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Jenssegers\Agent\Agent;
+use Mobile_Detect;
 
 /**
  * Class ViewComposer
@@ -19,9 +22,23 @@ class ViewComposer
 {
 
     /**
+     * Runtime cache.
+     *
+     * @var array
+     */
+    protected $cache = [];
+
+    /**
+     * The view factory.
+     *
+     * @var Factory
+     */
+    protected $view;
+
+    /**
      * The agent utility.
      *
-     * @var Agent
+     * @var Mobile_Detect
      */
     protected $agent;
 
@@ -33,18 +50,32 @@ class ViewComposer
     protected $events;
 
     /**
-     * The theme collection.
+     * The current theme.
      *
-     * @var ThemeCollection
+     * @var Theme|null
      */
-    protected $themes;
+    protected $theme;
 
     /**
-     * The module collection.
+     * The active module.
      *
-     * @var ModuleCollection
+     * @var Module|null
      */
-    protected $modules;
+    protected $module;
+
+    /**
+     * The addon collection.
+     *
+     * @var AddonCollection
+     */
+    protected $addons;
+
+    /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
 
     /**
      * The view overrides collection.
@@ -61,29 +92,37 @@ class ViewComposer
     protected $mobiles;
 
     /**
-     * @param Agent               $agent
+     * @param Factory             $view
+     * @param Mobile_Detect       $agent
      * @param Dispatcher          $events
-     * @param ThemeCollection     $themes
-     * @param ModuleCollection    $modules
+     * @param AddonCollection     $addons
+     * @param Request             $request
      * @param ViewOverrides       $overrides
      * @param ViewMobileOverrides $mobiles
      */
     function __construct(
-        Agent $agent,
+        Factory $view,
+        Mobile_Detect $agent,
         Dispatcher $events,
-        ThemeCollection $themes,
-        ModuleCollection $modules,
+        AddonCollection $addons,
         ViewOverrides $overrides,
+        Request $request,
         ViewMobileOverrides $mobiles
     ) {
+        $this->view      = $view;
         $this->agent     = $agent;
         $this->events    = $events;
-        $this->themes    = $themes;
-        $this->modules   = $modules;
+        $this->addons    = $addons;
         $this->mobiles   = $mobiles;
+        $this->request   = $request;
         $this->overrides = $overrides;
 
-        $this->mobile = $agent->isMobile();
+        $area = $request->segment(1) == 'admin' ? 'admin' : 'standard';
+
+        $this->theme  = $this->addons->themes->active($area);
+        $this->module = $this->addons->modules->active();
+
+        $this->mobile = $this->agent->isMobile();
     }
 
     /**
@@ -94,15 +133,15 @@ class ViewComposer
      */
     public function compose(View $view)
     {
-        $theme  = $this->themes->active();
-        $module = $this->modules->active();
+        if (!$this->theme) {
 
-        if (!$theme) {
+            $this->events->fire(new ViewComposed($view));
+
             return $view;
         }
 
-        $mobile    = $this->mobiles->get($theme->getNamespace(), []);
-        $overrides = $this->overrides->get($theme->getNamespace(), []);
+        $mobile    = $this->mobiles->get($this->theme->getNamespace(), []);
+        $overrides = $this->overrides->get($this->theme->getNamespace(), []);
 
         if ($this->mobile && $path = array_get($mobile, $view->getName(), null)) {
             $view->setPath($path);
@@ -110,16 +149,20 @@ class ViewComposer
             $view->setPath($path);
         }
 
-        if ($module) {
+        if ($this->module) {
 
-            $mobile    = $this->mobiles->get($module->getNamespace(), []);
-            $overrides = $this->overrides->get($module->getNamespace(), []);
+            $mobile    = $this->mobiles->get($this->module->getNamespace(), []);
+            $overrides = $this->overrides->get($this->module->getNamespace(), []);
 
             if ($this->mobile && $path = array_get($mobile, $view->getName(), null)) {
                 $view->setPath($path);
             } elseif ($path = array_get($overrides, $view->getName(), null)) {
                 $view->setPath($path);
             }
+        }
+
+        if ($overload = $this->getOverloadPath($view)) {
+            $view->setPath($overload);
         }
 
         $this->events->fire(new ViewComposed($view));
@@ -135,15 +178,29 @@ class ViewComposer
      */
     public function getOverloadPath(View $view)
     {
+
+        /**
+         * We can only overload namespaced
+         * views right now.
+         */
+        if (!str_contains($view->getName(), '::')) {
+            return null;
+        }
+
+        /**
+         * Split the view into it's
+         * namespace and path.
+         */
+        list($namespace, $path) = explode('::', $view->getName());
+
+        $path = str_replace('.', '/', $path);
+
         /**
          * If the view is already in
          * the theme then skip it.
          */
-        if (starts_with($view->getName(), 'theme::') || str_is('*.theme.*::*', $view->getName())) {
-
-            $parts = explode('::', $view->getName());
-
-            return end($parts);
+        if ($namespace == 'theme' || str_is('*.theme.*', $namespace)) {
+            return null;
         }
 
         /**
@@ -151,30 +208,22 @@ class ViewComposer
          * it's real easy to guess what the
          * override path should be.
          */
-        if (starts_with($view->getName(), 'streams::')) {
-            return str_replace('::', '/', $view->getName());
-        }
-
-        /**
-         * If the view starts with module:: then
-         * look up the active module.
-         */
-        if (starts_with($view->getName(), 'module::')) {
-
-            $module = $this->modules->active();
-
-            $path = str_replace('.', '/', $module->getNamespace());
-            $path .= str_replace('module::', '', '/' . $view->getName());
-
-            return $path;
+        if ($namespace == 'streams') {
+            $path = $this->theme->getNamespace('streams/' . $path);
         }
 
         /**
          * If the view uses a dot syntax namespace then
          * transform it all into the override view path.
          */
-        if (str_contains($view->getName(), '::')) {
-            return str_replace(['.', '::'], '/', $view->getName());
+        if ($addon = $this->addons->get($namespace)) {
+            $path = $this->theme->getNamespace(
+                "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/" . $path
+            );
+        }
+
+        if ($this->view->exists($path)) {
+            return $path;
         }
 
         return null;

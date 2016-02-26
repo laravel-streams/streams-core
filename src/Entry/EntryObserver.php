@@ -1,9 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
+use Anomaly\Streams\Platform\Entry\Command\DeleteEntryTranslations;
 use Anomaly\Streams\Platform\Entry\Command\SetMetaInformation;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasCreated;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasDeleted;
+use Anomaly\Streams\Platform\Entry\Event\EntryWasRestored;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasSaved;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasUpdated;
 use Anomaly\Streams\Platform\Model\Event\ModelsWereDeleted;
@@ -23,13 +25,35 @@ class EntryObserver extends Observer
 {
 
     /**
+     * Run before a record is created.
+     *
+     * @param EntryInterface $entry
+     */
+    public function creating(EntryInterface $entry)
+    {
+        //
+    }
+
+    /**
      * Run after a record is created.
      *
      * @param EntryInterface $entry
      */
     public function created(EntryInterface $entry)
     {
+        $entry->fireFieldTypeEvents('entry_created');
+
         $this->events->fire(new EntryWasCreated($entry));
+    }
+
+    /**
+     * Run before a record is updated.
+     *
+     * @param EntryInterface $entry
+     */
+    public function updating(EntryInterface $entry)
+    {
+        //
     }
 
     /**
@@ -45,6 +69,18 @@ class EntryObserver extends Observer
     }
 
     /**
+     * Run after multiple entries have been updated.
+     *
+     * @param EntryInterface $entry
+     */
+    public function updatedMultiple(EntryInterface $entry)
+    {
+        $entry->flushCache();
+
+        $this->events->fire(new ModelsWereUpdated($entry));
+    }
+
+    /**
      * Before saving an entry touch the
      * meta information.
      *
@@ -53,7 +89,11 @@ class EntryObserver extends Observer
      */
     public function saving(EntryInterface $entry)
     {
+        //$entry->fireFieldTypeEvents('entry_saving');
+
         $this->commands->dispatch(new SetMetaInformation($entry));
+
+        return true;
     }
 
     /**
@@ -70,15 +110,14 @@ class EntryObserver extends Observer
     }
 
     /**
-     * Run after multiple entries have been updated.
+     * Run before a record is deleted.
      *
      * @param EntryInterface $entry
+     * @return bool
      */
-    public function updatedMultiple(EntryInterface $entry)
+    public function deleting(EntryInterface $entry)
     {
-        $entry->flushCache();
-
-        $this->events->fire(new ModelsWereUpdated($entry));
+        return true;
     }
 
     /**
@@ -88,10 +127,12 @@ class EntryObserver extends Observer
      */
     public function deleted(EntryInterface $entry)
     {
-        $this->events->fire(new EntryWasDeleted($entry));
-
         $entry->flushCache();
         $entry->fireFieldTypeEvents('entry_deleted');
+
+        $this->commands->dispatch(new DeleteEntryTranslations($entry));
+
+        $this->events->fire(new EntryWasDeleted($entry));
     }
 
     /**
@@ -104,5 +145,18 @@ class EntryObserver extends Observer
         $entry->flushCache();
 
         $this->events->fire(new ModelsWereDeleted($entry));
+    }
+
+    /**
+     * Run after a record has been restored.
+     *
+     * @param EntryInterface $entry
+     */
+    public function restored(EntryInterface $entry)
+    {
+        $entry->flushCache();
+        $entry->fireFieldTypeEvents('entry_restored');
+
+        $this->events->fire(new EntryWasRestored($entry));
     }
 }

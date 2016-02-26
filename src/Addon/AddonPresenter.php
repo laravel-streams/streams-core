@@ -20,5 +20,4 @@ class AddonPresenter extends Presenter
      * @var Addon
      */
     protected $object;
-
 }

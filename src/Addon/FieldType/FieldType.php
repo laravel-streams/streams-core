@@ -3,9 +3,8 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Anomaly\Streams\Platform\Support\Decorator;
+use Anomaly\Streams\Platform\Support\Presenter;
 
 /**
  * Class FieldType
@@ -17,9 +16,6 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
  */
 class FieldType extends Addon
 {
-
-    use FiresCallbacks;
-    use DispatchesCommands;
 
     /**
      * The disabled flag.
@@ -51,6 +47,14 @@ class FieldType extends Addon
     protected $validators = [];
 
     /**
+     * Custom validation messages.
+     * i.e. 'rule' => ['rule', 'message']
+     *
+     * @var array
+     */
+    protected $messages = [];
+
+    /**
      * Configuration options.
      *
      * @var array
@@ -67,35 +71,42 @@ class FieldType extends Addon
     /**
      * The field slug.
      *
-     * @var null
+     * @var null|string
      */
     protected $field = null;
 
     /**
      * The field value.
      *
-     * @var null
+     * @var null|mixed
      */
     protected $value = null;
 
     /**
      * The field label.
      *
-     * @var null
+     * @var null|string
      */
     protected $label = null;
 
     /**
+     * The field warning.
+     *
+     * @var null|string
+     */
+    protected $warning = null;
+
+    /**
      * The field's input locale.
      *
-     * @var null
+     * @var null|string
      */
     protected $locale = null;
 
     /**
      * The field instructions.
      *
-     * @var null
+     * @var null|string
      */
     protected $instructions = null;
 
@@ -198,6 +209,18 @@ class FieldType extends Addon
     protected $query = null;
 
     /**
+     * Return a config value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function config($key, $default = null)
+    {
+        return array_get($this->config, $key, $default);
+    }
+
+    /**
      * Get the disabled flag.
      *
      * @return bool
@@ -257,10 +280,13 @@ class FieldType extends Addon
      * Merge rules.
      *
      * @param array $rules
+     * @return $this
      */
     public function mergeRules(array $rules)
     {
         $this->rules = array_unique(array_merge($this->rules, $rules));
+
+        return $this;
     }
 
     /**
@@ -277,10 +303,36 @@ class FieldType extends Addon
      * Merge validators.
      *
      * @param array $validators
+     * @return $this
      */
     public function mergeValidators(array $validators)
     {
         $this->validators = array_merge($this->validators, $validators);
+
+        return $this;
+    }
+
+    /**
+     * Get the messages.
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        return $this->messages;
+    }
+
+    /**
+     * Merge messages.
+     *
+     * @param array $messages
+     * @return $this
+     */
+    public function mergeMessages(array $messages)
+    {
+        $this->messages = array_merge($this->messages, $messages);
+
+        return $this;
     }
 
     /**
@@ -297,10 +349,13 @@ class FieldType extends Addon
      * Merge configuration.
      *
      * @param array $config
+     * @return $this
      */
     public function mergeConfig(array $config)
     {
         $this->config = array_merge($this->config, $config);
+
+        return $this;
     }
 
     /**
@@ -416,12 +471,33 @@ class FieldType extends Addon
     }
 
     /**
+     * Return if any posted input exists.
+     *
+     * @return bool
+     */
+    public function hasPostedInput()
+    {
+        return isset($_POST[str_replace('.', '_', $this->getInputName())]);
+    }
+
+    /**
      * Get the value to validate.
      *
      * @param null $default
      * @return mixed
      */
     public function getValidationValue($default = null)
+    {
+        return $this->getPostValue($default);
+    }
+
+    /**
+     * Get the input value.
+     *
+     * @param null $default
+     * @return mixed
+     */
+    public function getInputValue($default = null)
     {
         return $this->getPostValue($default);
     }
@@ -447,6 +523,29 @@ class FieldType extends Addon
     public function getLabel()
     {
         return $this->label;
+    }
+
+    /**
+     * Set the warning.
+     *
+     * @param $warning
+     * @return $this
+     */
+    public function setWarning($warning)
+    {
+        $this->warning = $warning;
+
+        return $this;
+    }
+
+    /**
+     * Get the warning.
+     *
+     * @return null|string
+     */
+    public function getWarning()
+    {
+        return $this->warning;
     }
 
     /**
@@ -631,6 +730,17 @@ class FieldType extends Addon
     }
 
     /**
+     * Get the field name. This is the field
+     * with the leading form suffix.
+     *
+     * @return string
+     */
+    public function getFieldName()
+    {
+        return "{$this->getPrefix()}{$this->getField()}";
+    }
+
+    /**
      * Get the column name.
      *
      * @return string
@@ -676,11 +786,12 @@ class FieldType extends Addon
     /**
      * Render the input and wrapper.
      *
+     * @param array $payload
      * @return string
      */
-    public function render()
+    public function render($payload = [])
     {
-        return view($this->getWrapperView(), ['field_type' => $this])->render();
+        return view($this->getWrapperView(), array_merge($payload, ['field_type' => $this]))->render();
     }
 
     /**
@@ -767,6 +878,11 @@ class FieldType extends Addon
      */
     public function getModifier()
     {
+        /* @var FieldTypeModifier $modifier */
+        if (is_object($modifier = $this->modifier)) {
+            return $modifier->setFieldType($this);
+        }
+
         if (!$this->modifier) {
             $this->modifier = get_class($this) . 'Modifier';
         }
@@ -775,7 +891,11 @@ class FieldType extends Addon
             $this->modifier = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeModifier';
         }
 
-        return app()->make($this->modifier, ['fieldType' => $this]);
+        $modifier = app()->make($this->modifier);
+
+        $modifier->setFieldType($this);
+
+        return $this->modifier = $modifier;
     }
 
     /**
@@ -785,6 +905,11 @@ class FieldType extends Addon
      */
     public function getAccessor()
     {
+        /* @var FieldTypeAccessor $accessor */
+        if (is_object($accessor = $this->accessor)) {
+            return $accessor->setFieldType($this);
+        }
+
         if (!$this->accessor) {
             $this->accessor = get_class($this) . 'Accessor';
         }
@@ -793,7 +918,11 @@ class FieldType extends Addon
             $this->accessor = 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeAccessor';
         }
 
-        return app()->make($this->accessor, ['fieldType' => $this]);
+        $accessor = app()->make($this->accessor);
+
+        $accessor->setFieldType($this);
+
+        return $this->accessor = $accessor;
     }
 
     /**
@@ -876,7 +1005,7 @@ class FieldType extends Addon
      *
      * @return string
      */
-    public function renderInput()
+    public function getInput()
     {
         return view($this->getInputView(), ['field_type' => $this])->render();
     }
@@ -886,20 +1015,29 @@ class FieldType extends Addon
      *
      * @return string
      */
-    public function renderFilter()
+    public function getFilter()
     {
         return view($this->getFilterView(), ['field_type' => $this])->render();
     }
 
     /**
-     * Return the relation from the compiled model. This
-     * is where you would modify the relation if needed.
+     * Decorate the value.
      *
-     * @param  Builder $relation
-     * @return Builder
+     * @param           $value
+     * @return Presenter
      */
-    public function relation(Builder $relation)
+    public function decorate($value)
     {
-        return $relation;
+        return (new Decorator())->decorate($value);
+    }
+
+    /**
+     * Return the rendering.
+     *
+     * @return string
+     */
+    function __toString()
+    {
+        return $this->render();
     }
 }

@@ -52,7 +52,7 @@ class ForceHttps
      */
     public function handle(Request $request, Closure $next)
     {
-        $forceHttps = $this->config->get('streams.force_https', 'none');
+        $forceHttps = $this->config->get('streams::access.force_https', 'none');
 
         /**
          * Don't force HTTPS at all.

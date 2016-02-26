@@ -19,7 +19,7 @@ class ColumnFactory
      *
      * @var string
      */
-    protected $column = 'Anomaly\Streams\Platform\Ui\Table\Component\Column\Column';
+    protected $column = Column::class;
 
     /**
      * The hydrator utility.

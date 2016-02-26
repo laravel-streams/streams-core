@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Button;
 
+use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
-use Illuminate\Support\Collection;
 
 /**
  * Class ButtonCollection
@@ -21,14 +21,10 @@ class ButtonCollection extends Collection
      */
     public function enabled()
     {
-        $enabled = [];
-
-        foreach ($this->items as $item) {
-            if ($item instanceof ButtonInterface && $item->isEnabled()) {
-                $enabled[] = $item;
+        return $this->filter(
+            function (ButtonInterface $button) {
+                return $button->isEnabled();
             }
-        }
-
-        return new static($enabled);
+        );
     }
 }

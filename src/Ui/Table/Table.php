@@ -337,6 +337,17 @@ class Table
     }
 
     /**
+     * Return a specific filter.
+     *
+     * @param $key
+     * @return FilterInterface|null
+     */
+    public function getFilter($key)
+    {
+        return $this->filters->get($key);
+    }
+
+    /**
      * Set the table options.
      *
      * @param Collection $options

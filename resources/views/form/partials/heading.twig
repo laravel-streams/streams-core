@@ -1,13 +1,15 @@
 {% if form.options.title %}
-    <div class="panel">
-        <div class="panel-heading">
-            <h4 class="title">{{ trans(form.options.title)|raw }}</h4>
-        </div>
+    <div class="card">
+        <div class="card-block">
+            <h4 class="card-title">
+                {{ trans(form.options.title)|raw }}
 
-        <div class="panel-body">
-            {% if form.options.description %}
-                <p>{{ trans(form.options.description)|raw }}</p>
-            {% endif %}
+                {% if form.options.description %}
+                    <small>
+                        <br>{{ trans(form.options.description)|raw }}
+                    </small>
+                {% endif %}
+            </h4>
         </div>
     </div>
 {% endif %}

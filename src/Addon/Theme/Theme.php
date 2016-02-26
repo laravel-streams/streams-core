@@ -30,18 +30,13 @@ class Theme extends Addon
     protected $active = false;
 
     /**
-     * Meta information.
+     * Determines whether this is
+     * the currently rendering theme
+     * or not.
      *
-     * @var array
+     * @var bool
      */
-    protected $meta = [];
-
-    /**
-     * The theme's tag class.
-     *
-     * @var string
-     */
-    protected $tag = 'Anomaly\Streams\Platform\Addon\Theme\ThemeTag';
+    protected $current = false;
 
     /**
      * Get the admin flag.
@@ -77,74 +72,35 @@ class Theme extends Addon
     }
 
     /**
-     * Get the meta data.
+     * Return the current flag.
      *
-     * @return array
+     * @return bool
      */
-    public function getMeta()
+    public function isCurrent()
     {
-        return $this->meta;
+        return $this->current;
     }
 
     /**
-     * Set the meta data.
+     * Set the current flag.
      *
-     * @param  $meta
+     * @param $current
      * @return $this
      */
-    public function setMeta($meta)
+    public function setCurrent($current)
     {
-        $this->meta = $meta;
+        $this->current = $current;
 
         return $this;
     }
 
     /**
-     * Put meta data.
+     * Get the module's presenter.
      *
-     * @param  $key
-     * @param  $meta
-     * @return $this
+     * @return ThemePresenter
      */
-    public function putMeta($key, $meta)
+    public function getPresenter()
     {
-        $this->meta[$key] = $meta;
-
-        return $this;
-    }
-
-    /**
-     * Pull meta data.
-     *
-     * @param       $key
-     * @param  null $default
-     * @return mixed
-     */
-    public function pullMeta($key, $default = null)
-    {
-        return array_get($this->meta, $key, $default);
-    }
-
-    /**
-     * Get the theme's tag class.
-     *
-     * @return string
-     */
-    public function getTag()
-    {
-        return $this->tag;
-    }
-
-    /**
-     * Set the theme's tag class.
-     *
-     * @param  $tag
-     * @return $this
-     */
-    public function setTag($tag)
-    {
-        $this->tag = $tag;
-
-        return $this;
+        return app()->make('Anomaly\Streams\Platform\Addon\Theme\ThemePresenter', ['object' => $this]);
     }
 }

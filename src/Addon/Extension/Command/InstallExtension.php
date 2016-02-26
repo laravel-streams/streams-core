@@ -1,6 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Extension\Command;
 
+use Anomaly\Streams\Platform\Addon\AddonManager;
+use Anomaly\Streams\Platform\Addon\Extension\Contract\ExtensionRepositoryInterface;
+use Anomaly\Streams\Platform\Addon\Extension\Event\ExtensionWasInstalled;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
+use App\Console\Kernel;
+use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class InstallExtension
@@ -10,7 +16,7 @@ use Anomaly\Streams\Platform\Addon\Extension\Extension;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\Extension\Command
  */
-class InstallExtension
+class InstallExtension implements SelfHandling
 {
 
     /**
@@ -40,22 +46,41 @@ class InstallExtension
     }
 
     /**
-     * Get the seed flag.
+     * Handle the command.
      *
+     * @param InstallExtension|Kernel      $console
+     * @param AddonManager                 $manager
+     * @param Dispatcher                   $dispatcher
+     * @param ExtensionRepositoryInterface $extensions
      * @return bool
      */
-    public function getSeed()
-    {
-        return $this->seed;
-    }
+    public function handle(
+        Kernel $console,
+        AddonManager $manager,
+        Dispatcher $dispatcher,
+        ExtensionRepositoryInterface $extensions
+    ) {
+        $this->extension->fire('installing');
 
-    /**
-     * Get the extension.
-     *
-     * @return Extension
-     */
-    public function getExtension()
-    {
-        return $this->extension;
+        $options = [
+            '--addon' => $this->extension->getNamespace(),
+            '--force' => true
+        ];
+
+        $console->call('migrate:refresh', $options);
+
+        $extensions->install($this->extension);
+
+        $manager->register();
+
+        if ($this->seed) {
+            $console->call('db:seed', $options);
+        }
+
+        $this->extension->fire('installed');
+
+        $dispatcher->fire(new ExtensionWasInstalled($this->extension));
+
+        return true;
     }
 }

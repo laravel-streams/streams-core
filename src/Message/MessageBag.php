@@ -34,10 +34,13 @@ class MessageBag
      * Add an error message.
      *
      * @param $message
+     * @return $this
      */
     public function error($message)
     {
         $this->merge(__FUNCTION__, $message);
+
+        return $this;
     }
 
     /**
@@ -67,29 +70,53 @@ class MessageBag
      * Add an info message.
      *
      * @param $message
+     * @return $this
      */
     public function info($message)
     {
         $this->merge(__FUNCTION__, $message);
+
+        return $this;
     }
 
     /**
      * Add a success message.
      *
      * @param $message
+     * @return $this
      */
     public function success($message)
     {
         $this->merge(__FUNCTION__, $message);
+
+        return $this;
     }
 
     /**
      * Add a warning message.
      *
      * @param $message
+     * @return $this
      */
     public function warning($message)
     {
         $this->merge(__FUNCTION__, $message);
+
+        return $this;
+    }
+
+    /**
+     * Flush the messages.
+     *
+     * @return $this
+     */
+    public function flush()
+    {
+        $this->session->forget('info');
+        $this->session->forget('error');
+        $this->session->forget('success');
+        $this->session->forget('warning');
+
+        return $this;
     }
 }

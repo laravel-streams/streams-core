@@ -49,5 +49,19 @@ class SetDefaultParameters implements SelfHandling
                 $this->builder->setButtons($buttons . '@handle');
             }
         }
+
+        /**
+         * Set the default segments handler based
+         * on the builder class. Defaulting to
+         * no handler.
+         */
+        if (!$this->builder->getSegments()) {
+
+            $segments = str_replace('TreeBuilder', 'TreeSegments', get_class($this->builder));
+
+            if (class_exists($segments)) {
+                $this->builder->setSegments($segments . '@handle');
+            }
+        }
     }
 }

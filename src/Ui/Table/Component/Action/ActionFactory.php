@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Support\Translator;
-use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 
 /**
@@ -21,21 +20,7 @@ class ActionFactory
      *
      * @var string
      */
-    protected $action = 'Anomaly\Streams\Platform\Ui\Table\Component\Action\Action';
-
-    /**
-     * The action registry.
-     *
-     * @var ActionRegistry
-     */
-    protected $actions;
-
-    /**
-     * The button registry.
-     *
-     * @var ButtonRegistry
-     */
-    protected $buttons;
+    protected $action = Action::class;
 
     /**
      * The translator utility.
@@ -54,19 +39,11 @@ class ActionFactory
     /**
      * Create a new ActionFactory instance.
      *
-     * @param ActionRegistry $actions
-     * @param ButtonRegistry $buttons
-     * @param Hydrator       $hydrator
-     * @param Translator     $translator
+     * @param Hydrator   $hydrator
+     * @param Translator $translator
      */
-    function __construct(
-        ActionRegistry $actions,
-        ButtonRegistry $buttons,
-        Hydrator $hydrator,
-        Translator $translator
-    ) {
-        $this->actions    = $actions;
-        $this->buttons    = $buttons;
+    function __construct(Hydrator $hydrator, Translator $translator)
+    {
         $this->hydrator   = $hydrator;
         $this->translator = $translator;
     }
@@ -79,23 +56,12 @@ class ActionFactory
      */
     public function make(array $parameters)
     {
-        $action = $original = array_pull($parameters, 'action');
-
-        if ($action && $action = $this->actions->get($action)) {
-            $parameters = array_replace_recursive($action, array_except($parameters, 'action'));
-        }
-
-        $button = array_get($parameters, 'button', $original);
-
-        if ($button && $button = $this->buttons->get($button)) {
-            $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
-        }
-
         $parameters = $this->translator->translate($parameters);
 
-        $action = app()->make(array_get($parameters, 'action', $this->action), $parameters);
-
-        $this->hydrator->hydrate($action, $parameters);
+        $this->hydrator->hydrate(
+            $action = app()->make(array_get($parameters, 'action', $this->action), $parameters),
+            $parameters
+        );
 
         return $action;
     }

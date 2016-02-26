@@ -3,8 +3,8 @@
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Anomaly\Streams\Platform\View\ViewTemplate;
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class LoadForm
@@ -56,6 +56,9 @@ class LoadForm implements SelfHandling
         if ($title = $form->getOption('title')) {
             $template->put('title', $title);
         }
+
+        // Move this to options so we can read it.
+        $this->builder->setFormOption('read_only', $this->builder->isReadOnly());
 
         $form->addData('form', $form);
 

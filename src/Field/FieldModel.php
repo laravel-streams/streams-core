@@ -1,11 +1,12 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
-use Anomaly\Streams\Platform\Addon\FieldType\Command\BuildFieldType;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeBuilder;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -32,7 +33,6 @@ class FieldModel extends EloquentModel implements FieldInterface
      * @var array
      */
     protected $attributes = [
-        'rules'  => 'a:0:{}',
         'config' => 'a:0:{}'
     ];
 
@@ -56,7 +56,10 @@ class FieldModel extends EloquentModel implements FieldInterface
      * @var array
      */
     protected $translatedAttributes = [
-        'name'
+        'name',
+        'warning',
+        'placeholder',
+        'instructions'
     ];
 
     /**
@@ -74,11 +77,18 @@ class FieldModel extends EloquentModel implements FieldInterface
     protected $table = 'streams_fields';
 
     /**
+     * The field type builder.
+     *
+     * @var FieldTypeBuilder
+     */
+    protected static $builder;
+
+    /**
      * Boot the model.
      */
     protected static function boot()
     {
-        self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
+        self::$builder = app(FieldTypeBuilder::class);
 
         parent::boot();
     }
@@ -105,13 +115,33 @@ class FieldModel extends EloquentModel implements FieldInterface
     }
 
     /**
+     * Get the warning.
+     *
+     * @return string
+     */
+    public function getWarning()
+    {
+        return $this->warning;
+    }
+
+    /**
+     * Get the instructions.
+     *
+     * @return string
+     */
+    public function getInstructions()
+    {
+        return $this->instructions;
+    }
+
+    /**
      * Get the slug.
      *
      * @return mixed
      */
     public function getSlug()
     {
-        return $this->slug;
+        return $this->getAttributeFromArray('slug');
     }
 
     /**
@@ -137,20 +167,36 @@ class FieldModel extends EloquentModel implements FieldInterface
     /**
      * Get the field type.
      *
-     * @return null|FieldType
+     * @param bool $fresh
+     * @return FieldType|null
+     * @throws \Exception
      */
-    public function getType()
+    public function getType($fresh = false)
     {
+        if ($fresh === false && isset($this->cache['type'])) {
+            return $this->cache['type'];
+        }
+
         $type   = $this->type;
         $field  = $this->slug;
         $label  = $this->name;
         $config = $this->config;
 
         if (!$type) {
-            return null;
+            return $this->cache['type'] = null;
         }
 
-        return $this->dispatch(new BuildFieldType(compact('type', 'field', 'label', 'config')));
+        return $this->cache['type'] = self::$builder->build(compact('type', 'field', 'label', 'config'));
+    }
+
+    /**
+     * Get the field type value.
+     *
+     * @return string
+     */
+    public function getTypeValue()
+    {
+        return $this->getAttributeFromArray('type');
     }
 
     /**
@@ -161,16 +207,6 @@ class FieldModel extends EloquentModel implements FieldInterface
     public function getConfig()
     {
         return $this->config;
-    }
-
-    /**
-     * Get the validation rules.
-     *
-     * @return mixed
-     */
-    public function getRules()
-    {
-        return $this->rules;
     }
 
     /**
@@ -239,24 +275,13 @@ class FieldModel extends EloquentModel implements FieldInterface
     }
 
     /**
-     * Set rules attribute.
+     * Set the stream namespace.
      *
-     * @param array $rules
+     * @param StreamInterface $stream
      */
-    public function setRulesAttribute($rules)
+    public function setStreamAttribute(StreamInterface $stream)
     {
-        $this->attributes['rules'] = serialize((array)$rules);
-    }
-
-    /**
-     * Return the decoded rules attribute.
-     *
-     * @param  $rules
-     * @return mixed
-     */
-    public function getRulesAttribute($rules)
-    {
-        return (array)unserialize($rules);
+        $this->attributes['namespace'] = $stream->getNamespace();
     }
 
     /**
@@ -269,21 +294,6 @@ class FieldModel extends EloquentModel implements FieldInterface
         /* @var AssignmentInterface $assignment */
         foreach ($this->getAssignments() as $assignment) {
             $assignment->compileStream();
-        }
-
-        return $this;
-    }
-
-    /**
-     * Delete related assignments.
-     *
-     * @return FieldInterface
-     */
-    public function deleteAssignments()
-    {
-        /* @var AssignmentInterface|EloquentModel $assignment */
-        foreach ($this->getAssignments() as $assignment) {
-            $assignment->delete();
         }
 
         return $this;

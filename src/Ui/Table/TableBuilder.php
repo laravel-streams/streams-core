@@ -7,8 +7,12 @@ use Anomaly\Streams\Platform\Ui\Table\Command\LoadTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\MakeTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\PostTable;
 use Anomaly\Streams\Platform\Ui\Table\Command\SetTableResponse;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Row\Contract\RowInterface;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\ViewCollection;
+use Anomaly\Streams\Platform\Ui\Table\Contract\TableRepositoryInterface;
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,8 +27,15 @@ use Symfony\Component\HttpFoundation\Response;
 class TableBuilder
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
     use FiresCallbacks;
+
+    /**
+     * The ajax flag.
+     *
+     * @var bool
+     */
+    protected $ajax = false;
 
     /**
      * The table model.
@@ -32,6 +43,20 @@ class TableBuilder
      * @var null|string
      */
     protected $model = null;
+
+    /**
+     * The entries handler.
+     *
+     * @var null|string
+     */
+    protected $entries = null;
+
+    /**
+     * The table repository.
+     *
+     * @var null|TableRepositoryInterface
+     */
+    protected $repository = null;
 
     /**
      * The views configuration.
@@ -101,38 +126,61 @@ class TableBuilder
 
     /**
      * Build the table.
+     *
+     * @return $this
      */
     public function build()
     {
         $this->fire('ready', ['builder' => $this]);
 
         $this->dispatch(new BuildTable($this));
+
+        return $this;
     }
 
     /**
      * Make the table response.
+     *
+     * @return $this
      */
     public function make()
     {
         $this->build();
         $this->post();
+        $this->response();
 
+        return $this;
+    }
+
+    /**
+     * Return the table response.
+     *
+     * @return $this
+     */
+    public function response()
+    {
         if ($this->table->getResponse() === null) {
             $this->dispatch(new LoadTable($this));
             $this->dispatch(new AddAssets($this));
             $this->dispatch(new MakeTable($this));
         }
+
+        return $this;
     }
 
     /**
      * Trigger post operations
      * for the table.
+     *
+     * @return $this
      */
     public function post()
     {
         if (app('request')->isMethod('post')) {
             $this->dispatch(new PostTable($this));
         }
+
+        return $this;
     }
 
     /**
@@ -149,6 +197,29 @@ class TableBuilder
         }
 
         return $this->table->getResponse();
+    }
+
+    /**
+     * Get the ajax flag.
+     *
+     * @return bool
+     */
+    public function isAjax()
+    {
+        return $this->ajax;
+    }
+
+    /**
+     * Set the ajax flag.
+     *
+     * @param $ajax
+     * @return $this
+     */
+    public function setAjax($ajax)
+    {
+        $this->ajax = $ajax;
+
+        return $this;
     }
 
     /**
@@ -182,6 +253,52 @@ class TableBuilder
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * Get the entries.
+     *
+     * @return null|string
+     */
+    public function getEntries()
+    {
+        return $this->entries;
+    }
+
+    /**
+     * Set the entries.
+     *
+     * @param $entries
+     * @return $this
+     */
+    public function setEntries($entries)
+    {
+        $this->entries = $entries;
+
+        return $this;
+    }
+
+    /**
+     * Get the repository.
+     *
+     * @return TableRepositoryInterface|null
+     */
+    public function getRepository()
+    {
+        return $this->repository;
+    }
+
+    /**
+     * Set the repository.
+     *
+     * @param TableRepositoryInterface $repository
+     * @return $this
+     */
+    public function setRepository(TableRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+
+        return $this;
     }
 
     /**
@@ -317,7 +434,7 @@ class TableBuilder
      */
     public function setOptions(array $options)
     {
-        $this->options = $options;
+        $this->options = array_merge($this->options, $options);
 
         return $this;
     }
@@ -489,6 +606,81 @@ class TableBuilder
     }
 
     /**
+     * Get the table filter.
+     *
+     * @param $key
+     * @return FilterInterface
+     */
+    public function getTableFilter($key)
+    {
+        return $this->table->getFilter($key);
+    }
+
+    /**
+     * Get a table filter value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getTableFilterValue($key, $default = null)
+    {
+        if ($filter = $this->table->getFilter($key)) {
+            return $filter->getValue();
+        }
+
+        return $default;
+    }
+
+    /**
+     * Get the table views.
+     *
+     * @return Component\View\ViewCollection
+     */
+    public function getTableViews()
+    {
+        return $this->table->getViews();
+    }
+
+    /**
+     * Set the table views.
+     *
+     * @param ViewCollection $views
+     * @return $this
+     */
+    public function setTableViews(ViewCollection $views)
+    {
+        $this->table->setViews($views);
+
+        return $this;
+    }
+
+    /**
+     * Return whether the table has an active view.
+     *
+     * @return bool
+     */
+    public function hasActiveView()
+    {
+        return !is_null($this->table->getViews()->active());
+    }
+
+    /**
+     * Return whether the table view is active.
+     *
+     * @param $slug
+     * @return bool
+     */
+    public function isActiveView($slug)
+    {
+        if ($active = $this->table->getViews()->active()) {
+            return $active->getSlug() === $slug;
+        }
+
+        return false;
+    }
+
+    /**
      * Add a row to the table.
      *
      * @param RowInterface $row
@@ -533,6 +725,16 @@ class TableBuilder
     public function getTableResponse()
     {
         return $this->table->getResponse();
+    }
+
+    /**
+     * Get the table content.
+     *
+     * @return null|string
+     */
+    public function getTableContent()
+    {
+        return $this->table->getContent();
     }
 
     /**

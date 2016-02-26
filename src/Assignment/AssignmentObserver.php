@@ -1,9 +1,14 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
+use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumn;
+use Anomaly\Streams\Platform\Assignment\Command\DeleteAssignmentTranslations;
+use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumn;
+use Anomaly\Streams\Platform\Assignment\Command\UpdateAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasDeleted;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasSaved;
+use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasUpdated;
 use Anomaly\Streams\Platform\Support\Observer;
 
 /**
@@ -37,7 +42,24 @@ class AssignmentObserver extends Observer
         $model->flushCache();
         $model->compileStream();
 
+        $this->dispatch(new AddAssignmentColumn($model));
+
         $this->events->fire(new AssignmentWasCreated($model));
+    }
+
+    /**
+     * Run after a record is updated.
+     *
+     * @param AssignmentInterface $model
+     */
+    public function updated(AssignmentInterface $model)
+    {
+        $model->flushCache();
+        $model->compileStream();
+
+        $this->dispatch(new UpdateAssignmentColumn($model));
+
+        $this->events->fire(new AssignmentWasUpdated($model));
     }
 
     /**
@@ -62,6 +84,9 @@ class AssignmentObserver extends Observer
     {
         $model->flushCache();
         $model->compileStream();
+
+        $this->dispatch(new DropAssignmentColumn($model));
+        $this->dispatch(new DeleteAssignmentTranslations($model));
 
         $this->events->fire(new AssignmentWasDeleted($model));
     }

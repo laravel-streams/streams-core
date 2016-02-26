@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Robbo\Presenter\PresentableInterface;
 use Robbo\Presenter\Presenter;
 
@@ -14,6 +17,9 @@ use Robbo\Presenter\Presenter;
  */
 class Addon implements PresentableInterface, Arrayable
 {
+
+    use FiresCallbacks;
+    use DispatchesJobs;
 
     /**
      * The addon path.
@@ -44,13 +50,40 @@ class Addon implements PresentableInterface, Arrayable
     protected $vendor = null;
 
     /**
+     * The addon namespace.
+     *
+     * @var null|string
+     */
+    protected $namespace = null;
+
+    /**
      * Get the addon's presenter.
      *
      * @return Presenter
      */
     public function getPresenter()
     {
-        return new AddonPresenter($this);
+        return app()->make('Anomaly\Streams\Platform\Addon\AddonPresenter', ['object' => $this]);
+    }
+
+    /**
+     * Return a new service provider.
+     *
+     * @return AddonServiceProvider
+     */
+    public function newServiceProvider()
+    {
+        return app()->make($this->getServiceProvider(), [app(), $this]);
+    }
+
+    /**
+     * Get the service provider class.
+     *
+     * @return string
+     */
+    public function getServiceProvider()
+    {
+        return get_class($this) . 'ServiceProvider';
     }
 
     /**
@@ -74,6 +107,16 @@ class Addon implements PresentableInterface, Arrayable
     }
 
     /**
+     * Return whether the addon is for testing or not.
+     *
+     * @return bool
+     */
+    public function isTesting()
+    {
+        return str_contains($this->getPath(), 'vendor/anomaly/streams-platform/addons/' . $this->getVendor());
+    }
+
+    /**
      * Get the addon name string.
      *
      * @return string
@@ -81,6 +124,16 @@ class Addon implements PresentableInterface, Arrayable
     public function getName()
     {
         return $this->getNamespace('addon.name');
+    }
+
+    /**
+     * Get the addon title string.
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return trans()->has($this->getNamespace('addon.title')) ? $this->getNamespace('addon.title') : $this->getName();
     }
 
     /**
@@ -101,7 +154,35 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function getNamespace($key = null)
     {
-        return "{$this->getVendor()}.{$this->getType()}.{$this->getSlug()}" . ($key ? '::' . $key : $key);
+        if (!$this->namespace) {
+            $this->makeNamespace();
+        }
+
+        return $this->namespace . ($key ? '::' . $key : $key);
+    }
+
+    /**
+     * Get the transformed
+     * class to another suffix.
+     *
+     * @param null $suffix
+     * @return string
+     */
+    public function getTransformedClass($suffix = null)
+    {
+        $namespace = implode('\\', array_slice(explode('\\', get_class($this)), 0, -1));
+
+        return $namespace . ($suffix ? '\\' . $suffix : $suffix);
+    }
+
+    /**
+     * Return the ID representation (namespace).
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->getNamespace();
     }
 
     /**
@@ -113,7 +194,25 @@ class Addon implements PresentableInterface, Arrayable
      */
     public function hasConfig($key = '*')
     {
-        return (config($this->getNamespace($key)));
+        return (bool)config($this->getNamespace($key));
+    }
+
+    /**
+     * Return whether an addon has
+     * config matching any key.
+     *
+     * @param array $keys
+     * @return bool
+     */
+    public function hasAnyConfig(array $keys = ['*'])
+    {
+        foreach ($keys as $key) {
+            if ($this->hasConfig($key)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -233,6 +332,14 @@ class Addon implements PresentableInterface, Arrayable
     }
 
     /**
+     * Make the addon namespace.
+     */
+    protected function makeNamespace()
+    {
+        $this->namespace = "{$this->getVendor()}.{$this->getType()}.{$this->getSlug()}";
+    }
+
+    /**
      * Get a property value from the object.
      *
      * @param $name
@@ -276,6 +383,16 @@ class Addon implements PresentableInterface, Arrayable
         }
 
         return isset($this->{$name});
+    }
+
+    /**
+     * Return the addon as a string.
+     *
+     * @return string
+     */
+    function __toString()
+    {
+        return $this->getNamespace();
     }
 
     /**

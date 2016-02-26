@@ -3,9 +3,9 @@
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\Ui\Grid\GridBuilder;
 use Anomaly\Streams\Platform\View\ViewTemplate;
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class LoadGrid
@@ -18,7 +18,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class LoadGrid implements SelfHandling
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The grid builder.

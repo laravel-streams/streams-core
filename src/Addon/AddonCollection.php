@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 /**
  * Class AddonCollection
  *
- * @method ExtensionCollection extensions()
+ * @method ExtensionCollection extensions();
  * @method FieldTypeCollection fieldTypes();
  * @method ModuleCollection modules();
  * @method PluginCollection plugins();
@@ -32,9 +32,31 @@ class AddonCollection extends Collection
     public function __construct($items = [])
     {
         /* @var Addon $item */
-        foreach ($items as $item) {
-            $this->items[$item->getNamespace()] = $item;
+        foreach ($items as $key => $item) {
+
+            if ($item instanceof Addon) {
+                $key = $item->getNamespace();
+            }
+
+            $this->items[$key] = $item;
         }
+    }
+
+    /**
+     * Return all addon namespaces.
+     *
+     * @param null $key
+     * @return array
+     */
+    public function namespaces($key = null)
+    {
+        return array_values(
+            $this->map(
+                function (Addon $addon) use ($key) {
+                    return $addon->getNamespace($key);
+                }
+            )->all()
+        );
     }
 
     /**
@@ -57,14 +79,38 @@ class AddonCollection extends Collection
     }
 
     /**
-     * Push an addon to the collection.
+     * Return only testing addons.
      *
-     * @param mixed $addon
+     * @return AddonCollection
      */
-    public function push($addon)
+    public function testing()
     {
-        /* @var Addon $addon */
-        $this->items[$addon->getNamespace()] = $addon;
+        $testing = [];
+
+        /* @var Addon $item */
+        foreach ($this->items as $item) {
+            if ($item->isTesting()) {
+                $testing[] = $item;
+            }
+        }
+
+        return self::make($testing);
+    }
+
+    /**
+     * Get an addon.
+     *
+     * @param mixed $key
+     * @param null  $default
+     * @return Addon|mixed|null
+     */
+    public function get($key, $default = null)
+    {
+        if (!$addon = parent::get($key, $default)) {
+            return $this->findBySlug($key);
+        }
+
+        return $addon;
     }
 
     /**
@@ -112,19 +158,63 @@ class AddonCollection extends Collection
     }
 
     /**
-     * Return all addon types merged as one.
+     * Disperse addons to their
+     * respective collections.
+     */
+    public function disperse()
+    {
+        foreach (config('streams::addons.types') as $type) {
+
+            /* @var AddonCollection $collection */
+            $collection = app("{$type}.collection");
+
+            /* @var Addon $addon */
+            foreach ($this->items as $addon) {
+
+                if ($addon->getType() !== $type) {
+                    continue;
+                }
+
+                $collection->put($addon->getNamespace(), $addon);
+            }
+        }
+    }
+
+    /**
+     * Return addons only with the provided configuration.
      *
+     * @param $key
      * @return AddonCollection
      */
-    public function merged()
+    public function withConfig($key)
     {
         $addons = [];
 
-        foreach (config('streams::addons.types') as $type) {
+        /* @var Addon $item */
+        foreach ($this->items as $item) {
+            if ($item->hasConfig($key)) {
+                $addons[] = $item;
+            }
+        }
 
-            /* @var Addon $addon */
-            foreach (app("{$type}.collection") as $addon) {
-                $addons[$addon->getNamespace()] = $addon;
+        return self::make($addons);
+    }
+
+    /**
+     * Return addons only with any of
+     * the provided configuration.
+     *
+     * @param array $keys
+     * @return AddonCollection
+     */
+    public function withAnyConfig(array $keys)
+    {
+        $addons = [];
+
+        /* @var Addon $item */
+        foreach ($this->items as $item) {
+            if ($item->hasAnyConfig($keys)) {
+                $addons[] = $item;
             }
         }
 

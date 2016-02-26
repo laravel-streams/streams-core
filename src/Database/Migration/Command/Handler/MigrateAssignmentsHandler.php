@@ -84,6 +84,10 @@ class MigrateAssignmentsHandler
                 $assignment = [];
             }
 
+            if (!is_array($assignment)) {
+                throw new \Exception('The assignment must be an array or field_slug value.');
+            }
+
             /**
              * If the label exists in the base array
              * then move it to the translated array
@@ -101,7 +105,7 @@ class MigrateAssignmentsHandler
                 $assignment = array_add(
                     $assignment,
                     config('app.fallback_locale') . '.label',
-                    $addon ? $addon->getNamespace("field.{$field}.label") : null
+                    $addon ? $addon->getNamespace("field.{$field}.label.{$stream->getSlug()}") : null
                 );
             }
 
@@ -122,7 +126,7 @@ class MigrateAssignmentsHandler
                 $assignment = array_add(
                     $assignment,
                     config('app.fallback_locale') . '.instructions',
-                    $addon ? $addon->getNamespace("field.{$field}.instructions") : null
+                    $addon ? $addon->getNamespace("field.{$field}.instructions.{$stream->getSlug()}") : null
                 );
             }
 
@@ -143,7 +147,28 @@ class MigrateAssignmentsHandler
                 $assignment = array_add(
                     $assignment,
                     config('app.fallback_locale') . '.placeholder',
-                    $addon ? $addon->getNamespace("field.{$field}.placeholder") : null
+                    $addon ? $addon->getNamespace("field.{$field}.placeholder.{$stream->getSlug()}") : null
+                );
+            }
+
+            /**
+             * If the warning exists in the base array
+             * then move it to the translated array
+             * for the default locale.
+             */
+            if ($warning = array_pull($assignment, 'warning')) {
+                $assignment = array_add($assignment, config('app.fallback_locale') . '.warning', $warning);
+            }
+
+            /**
+             * If the instructions is not set then make one
+             * based on a standardized pattern.
+             */
+            if (!array_get($assignment, config('app.fallback_locale') . '.warning')) {
+                $assignment = array_add(
+                    $assignment,
+                    config('app.fallback_locale') . '.warning',
+                    $addon ? $addon->getNamespace("field.{$field}.warning.{$stream->getSlug()}") : null
                 );
             }
 

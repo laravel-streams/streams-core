@@ -24,14 +24,15 @@ class TablePagination
         $options = $table->getOptions();
 
         $perPage   = $options->get('limit', 15);
-        $page      = app('request')->get('page');
+        $pageName  = $table->getOption('prefix') . 'page';
+        $page      = app('request')->get($pageName);
         $path      = '/' . app('request')->path();
         $paginator = new LengthAwarePaginator(
             $table->getEntries(),
             $options->get('total_results', 0),
             $perPage,
             $page,
-            compact('path')
+            compact('path', 'pageName')
         );
 
         $pagination          = $paginator->toArray();

@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Console;
 
 use Anomaly\Streams\Platform\Database\Migration\Migrator;
+use Anomaly\Streams\Platform\Stream\Command\CleanupStreams;
 use Illuminate\Database\Console\Migrations\ResetCommand as BaseResetCommand;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -14,6 +16,8 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class ResetCommand extends BaseResetCommand
 {
+
+    use DispatchesJobs;
 
     /**
      * The migrator utility.
@@ -59,6 +63,8 @@ class ResetCommand extends BaseResetCommand
             // Reset everything.
             parent::fire();
         }
+
+        $this->dispatch(new CleanupStreams());
     }
 
     /**

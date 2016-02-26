@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Stream;
 
 use Anomaly\Streams\Platform\Model\EloquentCollection;
-use Anomaly\Streams\Platform\Model\EloquentModel;
+use Anomaly\Streams\Platform\Model\EloquentRepository;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Illuminate\Database\Schema\Builder;
@@ -14,7 +14,7 @@ use Illuminate\Database\Schema\Builder;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Stream
  */
-class StreamRepository implements StreamRepositoryInterface
+class StreamRepository extends EloquentRepository implements StreamRepositoryInterface
 {
 
     /**
@@ -44,38 +44,17 @@ class StreamRepository implements StreamRepositoryInterface
     }
 
     /**
-     * Get all streams.
-     *
-     * @return EloquentCollection
-     */
-    public function all()
-    {
-        return $this->model->all();
-    }
-
-    /**
      * Create a new Stream.
      *
      * @param array $attributes
      * @return StreamInterface
      */
-    public function create(array $attributes)
+    public function create(array $attributes = [])
     {
-        // Set some reasonable defaults.
-        $attributes['order_by']     = array_get($attributes, 'order_by', 'id');
-        $attributes['title_column'] = array_get($attributes, 'title_column', 'id');
+        $attributes['config'] = array_get($attributes, 'config', []);
+        $attributes['slug']   = str_slug(array_get($attributes, 'slug'), '_');
+        $attributes['prefix'] = array_get($attributes, 'prefix', array_get($attributes, 'namespace') . '_');
 
-        $attributes['locked']       = (array_get($attributes, 'locked', false));
-        $attributes['trashable']    = (array_get($attributes, 'trashable', false));
-        $attributes['translatable'] = (array_get($attributes, 'translatable', false));
-
-        $attributes['prefix']       = array_get($attributes, 'prefix', array_get($attributes, 'namespace') . '_');
-        $attributes['view_options'] = array_get($attributes, 'view_options', ['id', 'created_at']);
-
-        // Format just in case.
-        $attributes['slug'] = str_slug(array_get($attributes, 'slug'), '_');
-
-        // Move to lang just in case.
         if (isset($attributes['name'])) {
             array_set(
                 $attributes,
@@ -96,17 +75,6 @@ class StreamRepository implements StreamRepositoryInterface
     }
 
     /**
-     * Save a Stream.
-     *
-     * @param StreamInterface|EloquentModel $stream
-     * @return bool
-     */
-    public function save(StreamInterface $stream)
-    {
-        return $stream->save();
-    }
-
-    /**
      * Find a stream by it's namespace and slug.
      *
      * @param  $slug
@@ -119,18 +87,47 @@ class StreamRepository implements StreamRepositoryInterface
     }
 
     /**
-     * Delete a Stream.
+     * Find all streams in a namespace.
      *
-     * @param StreamInterface|EloquentModel $stream
-     * @return bool
+     * @param  $namespace
+     * @return null|EloquentCollection
      */
-    public function delete(StreamInterface $stream)
+    public function findAllByNamespace($namespace)
     {
-        if ($deleted = $stream->delete()) {
-            $this->model->where('slug', $stream->getSlug())->where('namespace', $stream->getNamespace())->delete();
-        }
+        return $this->model->where('namespace', $namespace)->get();
+    }
 
-        return $deleted;
+    /**
+     * Return streams that are/not hidden.
+     *
+     * @param $hidden
+     * @return StreamCollection
+     */
+    public function hidden($hidden = true)
+    {
+        return $this->model->where('hidden', $hidden)->get();
+    }
+
+    /**
+     * Return only visible streams.
+     *
+     * @return StreamCollection
+     */
+    public function visible()
+    {
+        return $this->hidden(false);
+    }
+
+    /**
+     * Destroy a namespace.
+     *
+     * @param $namespace
+     */
+    public function destroy($namespace)
+    {
+        foreach ($this->findAllByNamespace($namespace) as $stream) {
+            $this->delete($stream);
+        }
     }
 
     /**
@@ -144,5 +141,17 @@ class StreamRepository implements StreamRepositoryInterface
                 $this->delete($stream);
             }
         }
+
+        $translations = $this->model->getTranslationModel();
+
+        $translations
+            ->leftJoin(
+                'streams_streams',
+                'streams_streams_translations.stream_id',
+                '=',
+                'streams_streams.id'
+            )
+            ->whereNull('streams_streams.id')
+            ->delete();
     }
 }

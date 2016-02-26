@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class ViewFactory
@@ -19,14 +20,7 @@ class ViewFactory
      *
      * @var string
      */
-    protected $view = 'Anomaly\Streams\Platform\Ui\Table\Component\View\View';
-
-    /**
-     * The view registry.
-     *
-     * @var ViewRegistry
-     */
-    protected $views;
+    protected $view = View::class;
 
     /**
      * The hydrator utility.
@@ -36,15 +30,22 @@ class ViewFactory
     protected $hydrator;
 
     /**
+     * The services container.
+     *
+     * @var Container
+     */
+    protected $container;
+
+    /**
      * Create a new ViewFactory instance.
      *
-     * @param ViewRegistry $views
-     * @param Hydrator     $hydrator
+     * @param Hydrator  $hydrator
+     * @param Container $container
      */
-    public function __construct(ViewRegistry $views, Hydrator $hydrator)
+    public function __construct(Hydrator $hydrator, Container $container)
     {
-        $this->views    = $views;
-        $this->hydrator = $hydrator;
+        $this->hydrator  = $hydrator;
+        $this->container = $container;
     }
 
     /**
@@ -55,13 +56,14 @@ class ViewFactory
      */
     public function make(array $parameters)
     {
-        if ($view = $this->views->get(array_get($parameters, 'view'))) {
-            $parameters = array_replace_recursive($view, array_except($parameters, 'view'));
+        if (!class_exists(array_get($parameters, 'view'))) {
+            array_set($parameters, 'view', $this->view);
         }
 
-        $view = app()->make(array_get($parameters, 'view', $this->view), $parameters);
-
-        $this->hydrator->hydrate($view, $parameters);
+        $this->hydrator->hydrate(
+            $view = $this->container->make(array_get($parameters, 'view'), $parameters),
+            $parameters
+        );
 
         return $view;
     }

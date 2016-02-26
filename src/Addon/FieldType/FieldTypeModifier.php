@@ -19,16 +19,6 @@ class FieldTypeModifier
     protected $fieldType;
 
     /**
-     * Create a new FieldTypeAccessor instance.
-     *
-     * @param FieldType $fieldType
-     */
-    public function __construct(FieldType $fieldType)
-    {
-        $this->fieldType = $fieldType;
-    }
-
-    /**
      * Modify the value for database storage.
      *
      * @param  $value
@@ -38,7 +28,7 @@ class FieldTypeModifier
     {
         return $value;
     }
-    
+
     /**
      * Restore the value from storage format.
      *
@@ -48,5 +38,28 @@ class FieldTypeModifier
     public function restore($value)
     {
         return $value;
+    }
+
+    /**
+     * Get the field type.
+     *
+     * @return FieldType
+     */
+    public function getFieldType()
+    {
+        return $this->fieldType;
+    }
+
+    /**
+     * Set the field type.
+     *
+     * @param FieldType $fieldType
+     * @return $this
+     */
+    public function setFieldType(FieldType $fieldType)
+    {
+        $this->fieldType = $fieldType;
+
+        return $this;
     }
 }

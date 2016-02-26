@@ -2,8 +2,8 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Asset\Asset;
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class AddAssetNamespaces
@@ -21,6 +21,7 @@ class AddAssetNamespaces implements SelfHandling
      */
     public function handle(Asset $asset, Container $container, Application $application)
     {
+        $asset->addPath('public', base_path('public'));
         $asset->addPath('asset', $application->getAssetsPath());
         $asset->addPath('storage', $application->getStoragePath());
         $asset->addPath('streams', $container->make('streams.path') . '/resources');

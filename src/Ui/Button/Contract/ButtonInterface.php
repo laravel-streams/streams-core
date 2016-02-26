@@ -27,6 +27,36 @@ interface ButtonInterface
     public function getDropdown();
 
     /**
+     * Set the dropdown position.
+     *
+     * @param array $position
+     * @return $this
+     */
+    public function setPosition($position);
+
+    /**
+     * Get the dropdown position.
+     *
+     * @return array
+     */
+    public function getPosition();
+
+    /**
+     * Set the parent.
+     *
+     * @param $parent
+     * @return $this
+     */
+    public function setParent($parent);
+
+    /**
+     * Get the parent.
+     *
+     * @return string|null
+     */
+    public function getParent();
+
+    /**
      * Return whether the button is a dropdown or not.
      *
      * @return bool
@@ -62,6 +92,21 @@ interface ButtonInterface
      * @return bool
      */
     public function isEnabled();
+
+    /**
+     * Get the entry.
+     *
+     * @return mixed|null
+     */
+    public function getEntry();
+
+    /**
+     * Set the table.
+     *
+     * @param $entry
+     * @return $this
+     */
+    public function setEntry($entry);
 
     /**
      * Set the icon.
@@ -122,6 +167,21 @@ interface ButtonInterface
      * @return string
      */
     public function getSize();
+
+    /**
+     * Get the permission.
+     *
+     * @return null|string
+     */
+    public function getPermission();
+
+    /**
+     * Set the permission.
+     *
+     * @param $permission
+     * @return $this
+     */
+    public function setPermission($permission);
 
     /**
      * Set the URL.

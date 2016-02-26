@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Command\BuildControlPanel;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class ControlPanelBuilder
@@ -14,7 +14,14 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class ControlPanelBuilder
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
+
+    /**
+     * The module menu.
+     *
+     * @var array
+     */
+    protected $menu = [];
 
     /**
      * The section buttons.
@@ -98,11 +105,45 @@ class ControlPanelBuilder
     }
 
     /**
+     * Set the sections.
+     *
      * @param array $sections
      */
     public function setSections($sections)
     {
         $this->sections = $sections;
+    }
+
+    /**
+     * Get the module menu.
+     *
+     * @return array
+     */
+    public function getMenu()
+    {
+        return $this->menu;
+    }
+
+    /**
+     * Set the menu.
+     *
+     * @param array $menu
+     */
+    public function setMenu($menu)
+    {
+        $this->menu = $menu;
+    }
+
+    /**
+     * Return the active control panel section.
+     *
+     * @return Component\Section\Contract\SectionInterface|null
+     */
+    public function getActiveSection()
+    {
+        $sections = $this->getControlPanelSections();
+
+        return $sections->active();
     }
 
     /**

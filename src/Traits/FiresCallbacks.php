@@ -55,8 +55,16 @@ trait FiresCallbacks
 
         $handler = get_class($this) . ucfirst(camel_case('on_' . $trigger));
 
-        if (class_exists($handler) && class_implements($handler, 'Illuminate\Contracts\Bus\SelfHandling')) {
+        if (class_exists($handler)) {
             app()->call($handler . '@handle', $parameters);
+        }
+
+        $observer = get_class($this) . 'Callbacks';
+
+        if (class_exists($observer) && $observer = app($observer, $parameters)) {
+            if (method_exists($observer, $method)) {
+                app()->call([$observer, $method], $parameters);
+            }
         }
 
         foreach (array_get($this->callbacks, $trigger, []) as $callback) {
@@ -69,6 +77,19 @@ trait FiresCallbacks
                 call_user_func_array([$callback, 'handle'], $parameters);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Set the callbacks.
+     *
+     * @param array $callbacks
+     * @return $this
+     */
+    public function setCallbacks(array $callbacks)
+    {
+        $this->callbacks = $callbacks;
 
         return $this;
     }

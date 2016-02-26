@@ -49,6 +49,10 @@ class SetActionResponse implements SelfHandling
             return;
         }
 
+        if (!$this->builder->canSave()) {
+            return;
+        }
+
         if ($action = $actions->active()) {
             $responder->setFormResponse($this->builder, $action);
         }

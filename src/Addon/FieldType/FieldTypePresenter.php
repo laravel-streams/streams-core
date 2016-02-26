@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
-use Anomaly\Streams\Platform\Support\Presenter;
+use Anomaly\Streams\Platform\Addon\AddonPresenter;
 
 /**
  * Class FieldTypePresenter
@@ -10,7 +10,7 @@ use Anomaly\Streams\Platform\Support\Presenter;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Addon\FieldType
  */
-class FieldTypePresenter extends Presenter
+class FieldTypePresenter extends AddonPresenter
 {
 
     /**
@@ -20,6 +20,30 @@ class FieldTypePresenter extends Presenter
      * @var FieldType
      */
     protected $object;
+
+    /**
+     * Get the object.
+     *
+     * @return FieldType
+     */
+    public function getObject()
+    {
+        return parent::getObject();
+    }
+
+    /**
+     * Return the custom field attributes.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'data-field'      => $this->object->getField(),
+            'data-field_name' => $this->object->getFieldName(),
+            'data-provides'   => $this->object->getNamespace()
+        ];
+    }
 
     /**
      * By default return the value.
@@ -34,8 +58,8 @@ class FieldTypePresenter extends Presenter
     {
         $value = $this->object->getValue();
 
-        if (!is_string($value)) {
-            return '';
+        if (is_array($value) || is_object($value)) {
+            return json_encode($value);
         }
 
         return (string)$this->object->getValue();
@@ -57,6 +81,12 @@ class FieldTypePresenter extends Presenter
             return call_user_func_array([$this, $key], []);
         }
 
-        return parent::__get($key);
+        if ($key == 'object') {
+            return $this->object;
+        }
+
+        $decorator = app()->make('Robbo\Presenter\Decorator');
+
+        return $decorator->decorate(parent::__get($key));
     }
 }

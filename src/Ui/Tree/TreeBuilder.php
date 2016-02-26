@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Tree\Command\PostTree;
 use Anomaly\Streams\Platform\Ui\Tree\Command\SetTreeResponse;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
 use Anomaly\Streams\Platform\Ui\Tree\Contract\TreeRepositoryInterface;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
@@ -27,7 +27,7 @@ class TreeBuilder
 {
 
     use FiresCallbacks;
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The tree model.
@@ -37,7 +37,14 @@ class TreeBuilder
     protected $model = null;
 
     /**
-     * The buttons configuration.
+     * The item segments.
+     *
+     * @var array|string
+     */
+    protected $segments = [];
+
+    /**
+     * The item buttons.
      *
      * @var array|string
      */
@@ -65,6 +72,8 @@ class TreeBuilder
     protected $tree;
 
     /**
+     * Create a new TreeBuilder instance.
+     *
      * @param Tree $tree
      */
     function __construct(Tree $tree)
@@ -74,6 +83,8 @@ class TreeBuilder
 
     /**
      * Build the tree.
+     *
+     * @return $this
      */
     public function build()
     {
@@ -84,20 +95,53 @@ class TreeBuilder
         if (app('request')->isMethod('post')) {
             $this->dispatch(new PostTree($this));
         }
+
+        return $this;
     }
 
     /**
      * Make the tree response.
+     *
+     * @return $this
      */
     public function make()
     {
         $this->build();
+        $this->post();
 
+        return $this;
+    }
+
+    /**
+     * Post the table.
+     *
+     * @return $this
+     */
+    public function post()
+    {
         if (!app('request')->isMethod('post')) {
             $this->dispatch(new LoadTree($this));
             $this->dispatch(new AddAssets($this));
             $this->dispatch(new MakeTree($this));
         }
+
+        return $this;
+    }
+
+    /**
+     * Return the tree response.
+     *
+     * @return $this
+     */
+    public function response()
+    {
+        if ($this->tree->getResponse() === null) {
+            $this->dispatch(new LoadTree($this));
+            $this->dispatch(new AddAssets($this));
+            $this->dispatch(new MakeTree($this));
+        }
+
+        return $this;
     }
 
     /**
@@ -109,7 +153,9 @@ class TreeBuilder
     {
         $this->make();
 
-        $this->dispatch(new SetTreeResponse($this));
+        if ($this->tree->getResponse() === null) {
+            $this->dispatch(new SetTreeResponse($this));
+        }
 
         return $this->tree->getResponse();
     }
@@ -145,6 +191,29 @@ class TreeBuilder
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * Set the segments.
+     *
+     * @param $segments
+     * @return $this
+     */
+    public function setSegments($segments)
+    {
+        $this->segments = $segments;
+
+        return $this;
+    }
+
+    /**
+     * Get the segments.
+     *
+     * @return array
+     */
+    public function getSegments()
+    {
+        return $this->segments;
     }
 
     /**
@@ -188,7 +257,7 @@ class TreeBuilder
      */
     public function setOptions(array $options)
     {
-        $this->options = $options;
+        $this->options = array_merge($this->options, $options);
 
         return $this;
     }
@@ -370,6 +439,29 @@ class TreeBuilder
     public function getTreeResponse()
     {
         return $this->tree->getResponse();
+    }
+
+    /**
+     * Set the tree repository.
+     *
+     * @param TreeRepositoryInterface $repository
+     * @return $this
+     */
+    public function setTreeRepository(TreeRepositoryInterface $repository)
+    {
+        $this->tree->setRepository($repository);
+
+        return $this;
+    }
+
+    /**
+     * Get the tree content.
+     *
+     * @return null|string
+     */
+    public function getTreeContent()
+    {
+        return $this->tree->getContent();
     }
 
     /**

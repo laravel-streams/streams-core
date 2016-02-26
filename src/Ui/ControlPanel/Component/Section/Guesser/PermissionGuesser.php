@@ -14,7 +14,7 @@ class PermissionGuesser
     protected $modules;
 
     /**
-     * Create a new TextGuesser instance.
+     * Create a new TitleGuesser instance.
      *
      * @param ModuleCollection $modules
      */
@@ -24,7 +24,7 @@ class PermissionGuesser
     }
 
     /**
-     * Guess the sections text.
+     * Guess the sections title.
      *
      * @param ControlPanelBuilder $builder
      */

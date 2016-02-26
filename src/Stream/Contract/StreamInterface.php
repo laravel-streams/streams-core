@@ -1,11 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Stream\Contract;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
  * Interface StreamInterface
@@ -68,11 +70,32 @@ interface StreamInterface
     public function getDescription();
 
     /**
-     * Get the translatable flag.
+     * Get the config.
+     *
+     * @return array
+     */
+    public function getConfig();
+
+    /**
+     * Get the locked flag.
      *
      * @return bool
      */
-    public function isTranslatable();
+    public function isLocked();
+
+    /**
+     * Get the hidden flag.
+     *
+     * @return bool
+     */
+    public function isHidden();
+
+    /**
+     * Get the sortable flag.
+     *
+     * @return bool
+     */
+    public function isSortable();
 
     /**
      * Get the trashable flag.
@@ -80,6 +103,13 @@ interface StreamInterface
      * @return bool
      */
     public function isTrashable();
+
+    /**
+     * Get the translatable flag.
+     *
+     * @return bool
+     */
+    public function isTranslatable();
 
     /**
      * Get the title column.
@@ -105,9 +135,10 @@ interface StreamInterface
     /**
      * Get the field slugs for assigned fields.
      *
+     * @param null $prefix
      * @return array
      */
-    public function getAssignmentFieldSlugs();
+    public function getAssignmentFieldSlugs($prefix = null);
 
     /**
      * Get the related date assignments.
@@ -137,6 +168,15 @@ interface StreamInterface
      * @return AssignmentInterface
      */
     public function getAssignment($fieldSlug);
+
+    /**
+     * Return whether a stream
+     * has a field assigned.
+     *
+     * @param $fieldSlug
+     * @return bool
+     */
+    public function hasAssignment($fieldSlug);
 
     /**
      * Get a stream field by it's slug.
@@ -171,6 +211,16 @@ interface StreamInterface
     public function getFieldType($fieldSlug, EntryInterface $entry = null, $locale = null);
 
     /**
+     * Get a field's query utility by the field's slug.
+     *
+     * @param                $fieldSlug
+     * @param EntryInterface $entry
+     * @param null|string    $locale
+     * @return FieldTypeQuery
+     */
+    public function getFieldTypeQuery($fieldSlug, EntryInterface $entry = null, $locale = null);
+
+    /**
      * Get the entry table name.
      *
      * @return string
@@ -183,6 +233,13 @@ interface StreamInterface
      * @return string
      */
     public function getEntryTranslationsTableName();
+
+    /**
+     * Get related translations.
+     *
+     * @return EloquentCollection
+     */
+    public function getTranslations();
 
     /**
      * Get the foreign key.

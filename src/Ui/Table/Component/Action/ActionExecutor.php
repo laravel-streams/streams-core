@@ -6,7 +6,7 @@ use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionHandlerInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Contract\ActionInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Auth\Guard;
+use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
@@ -59,7 +59,6 @@ class ActionExecutor
     /**
      * Create a new ActionExecutor instance.
      *
-     * @param Guard            $guard
      * @param Request          $request
      * @param MessageBag       $messages
      * @param Authorizer       $authorizer
@@ -67,7 +66,6 @@ class ActionExecutor
      * @param ModuleCollection $modules
      */
     public function __construct(
-        Guard $guard,
         Request $request,
         MessageBag $messages,
         Authorizer $authorizer,
@@ -93,16 +91,9 @@ class ActionExecutor
         $options = $builder->getTableOptions();
         $handler = $action->getHandler();
 
-        /**
-         * If the option is not set then
-         * try and automate the permission.
-         */
-        if (
-            !$action->getPermission()
-            && ($module = $this->modules->active())
-            && ($stream = $builder->getTableStream())
-        ) {
-            $action->setPermission($module->getNamespace($stream->getSlug() . '.' . $action->getSlug()));
+        // Self handling implies @handle
+        if (is_string($handler) && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+            $handler .= '@handle';
         }
 
         /**
@@ -125,6 +116,14 @@ class ActionExecutor
          * then call it using the IoC container.
          */
         if (is_string($handler) || $handler instanceof \Closure) {
+
+            if (is_string($handler) && class_exists($handler) && class_implements(
+                    $handler,
+                    'Illuminate\Contracts\Bus\SelfHandling'
+                )
+            ) {
+                $handler .= '@handle';
+            }
 
             app()->call($handler, compact('builder', 'selected'));
 

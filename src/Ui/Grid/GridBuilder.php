@@ -11,7 +11,7 @@ use Anomaly\Streams\Platform\Ui\Grid\Command\PostGrid;
 use Anomaly\Streams\Platform\Ui\Grid\Command\SetGridResponse;
 use Anomaly\Streams\Platform\Ui\Grid\Component\Item\Contract\ItemInterface;
 use Anomaly\Streams\Platform\Ui\Grid\Contract\GridRepositoryInterface;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
@@ -27,7 +27,7 @@ class GridBuilder
 {
 
     use FiresCallbacks;
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The grid model.
@@ -65,6 +65,8 @@ class GridBuilder
     protected $grid;
 
     /**
+     * Create a new GridBuilder instance.
+     *
      * @param Grid $grid
      */
     function __construct(Grid $grid)
@@ -188,7 +190,7 @@ class GridBuilder
      */
     public function setOptions(array $options)
     {
-        $this->options = $options;
+        $this->options = array_merge($this->options, $options);
 
         return $this;
     }

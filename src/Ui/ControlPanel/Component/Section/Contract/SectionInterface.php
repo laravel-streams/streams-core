@@ -12,18 +12,64 @@ interface SectionInterface
 {
 
     /**
-     * Get the text.
+     * Get the slug.
+     *
+     * @return null|string
+     */
+    public function getSlug();
+
+    /**
+     * Set the slug.
+     *
+     * @param $slug
+     * @return $this
+     */
+    public function setSlug($slug);
+
+    /**
+     * Get the icon.
+     *
+     * @return null|string
+     */
+    public function getIcon();
+
+    /**
+     * Set the icon.
+     *
+     * @param $icon
+     * @return $this
+     */
+    public function setIcon($icon);
+
+    /**
+     * Get the title.
      *
      * @return string
      */
-    public function getText();
+    public function getTitle();
 
     /**
-     * Set the text.
+     * Set the title.
      *
-     * @param string $text
+     * @param string $title
+     * @return $this
      */
-    public function setText($text);
+    public function setTitle($title);
+
+    /**
+     * Get the class.
+     *
+     * @return string
+     */
+    public function getClass();
+
+    /**
+     * Set the class.
+     *
+     * @param $class
+     * @return $this
+     */
+    public function setClass($class);
 
     /**
      * Get the active flag.
@@ -36,8 +82,54 @@ interface SectionInterface
      * Set the active flag.
      *
      * @param boolean $active
+     * @return $this
      */
     public function setActive($active);
+
+    /**
+     * Get the description.
+     *
+     * @return null|string
+     */
+    public function getDescription();
+
+    /**
+     * Set the description.
+     *
+     * @param $description
+     * @return $this
+     */
+    public function setDescription($description);
+
+    /**
+     * Get the highlighted flag.
+     *
+     * @return boolean
+     */
+    public function isHighlighted();
+
+    /**
+     * Set the highlighted flag.
+     *
+     * @param boolean $active
+     * @return $this
+     */
+    public function setHighlighted($highlighted);
+
+    /**
+     * Get the parent.
+     *
+     * @return null|string
+     */
+    public function getParent();
+
+    /**
+     * Set the parent.
+     *
+     * @param $parent
+     * @return $this
+     */
+    public function setParent($parent);
 
     /**
      * Get the buttons.
@@ -100,7 +192,8 @@ interface SectionInterface
     /**
      * Get the HREF attribute.
      *
+     * @param null $path
      * @return string
      */
-    public function getHref();
+    public function getHref($path = null);
 }

@@ -1,18 +1,31 @@
 $(function () {
+
+    var adjustment;
+
     var tree = $('ul.tree.sortable').sortable({
         handle: '.handle',
         onDragStart: function ($item, container, _super, event) {
             $item.css({
-                height: $item.height() + 100,
-                width: $item.width()
+                height: $item.outerHeight(),
+                width: $item.outerWidth()
             });
 
             $item.addClass('dragged');
 
             $('body').addClass('dragging');
+
+            adjustment = {
+                left: container.rootGroup.pointer.left - $item.offset().left,
+                top: container.rootGroup.pointer.top - $item.offset().top
+            };
+
+            _super($item, container);
         },
-        afterMove: function ($placeholder) {
-            $placeholder.closest('ul.tree').find('.dragged').detach().insertBefore($placeholder);
+        onDrag: function ($item, position) {
+            $item.css({
+                left: position.left - adjustment.left,
+                top: position.top - adjustment.top
+            });
         },
         onDrop: function ($item, container, _super, event) {
 
@@ -36,6 +49,20 @@ $(function () {
             delete result.sortable;
 
             return result
+        }
+    });
+
+    /**
+     * Toggle displaying children.
+     */
+    $('ul.tree.sortable .handle').click(function (e) {
+
+        e.preventDefault();
+
+        var children = $(this).closest('li').find('ul');
+
+        if (children) {
+            children.toggleClass('hidden');
         }
     });
 });

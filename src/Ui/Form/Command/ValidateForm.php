@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class ValidateForm
@@ -33,19 +34,26 @@ class ValidateForm implements SelfHandling
 
     /**
      * Handle the event.
+     *
+     * @param Container $container
      */
-    public function handle()
+    public function handle(Container $container)
     {
-        $form = $this->builder->getForm();
+        $validator = $this->builder->getValidator();
 
-        $validator = $form->getOption('validator');
+        /**
+         * If it's self handling just add @handle
+         */
+        if ($validator && !str_contains($validator, '@') && class_implements($validator, SelfHandling::class)) {
+            $validator .= '@handle';
+        }
 
         /**
          * If the validator is a string or Closure then it's a handler
-         * and we and can resolve it through the IoC container.
+         * and we and can resolve it through the service container.
          */
         if (is_string($validator) || $validator instanceof \Closure) {
-            app()->call($validator, ['builder' => $this->builder]);
+            $container->call($validator, ['builder' => $this->builder]);
         }
     }
 }

@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\LoadTables;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\MergeRows;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\PostTables;
 use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\SetActiveActions;
+use Anomaly\Streams\Platform\Ui\Table\Multiple\Command\SetActiveFilters;
 use Anomaly\Streams\Platform\Ui\Table\Table;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableCollection;
@@ -47,6 +48,7 @@ class MultipleTableBuilder extends TableBuilder
     {
         parent::build();
 
+        $this->dispatch(new SetActiveFilters($this));
         $this->dispatch(new BuildTables($this));
         $this->dispatch(new MergeRows($this));
 

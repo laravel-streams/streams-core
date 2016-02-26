@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
+use Anomaly\Streams\Platform\Model\EloquentCollection;
 
 /**
  * Interface FieldInterface
@@ -29,6 +30,20 @@ interface FieldInterface
     public function getName();
 
     /**
+     * Get the warning.
+     *
+     * @return string
+     */
+    public function getWarning();
+
+    /**
+     * Get the instructions.
+     *
+     * @return string
+     */
+    public function getInstructions();
+
+    /**
      * Get the stream.
      *
      * @return string
@@ -52,9 +67,17 @@ interface FieldInterface
     /**
      * Get the field type.
      *
+     * @param bool $fresh
      * @return FieldType
      */
-    public function getType();
+    public function getType($fresh = false);
+
+    /**
+     * Get the field type value.
+     *
+     * @return string
+     */
+    public function getTypeValue();
 
     /**
      * Get the configuration.
@@ -62,13 +85,6 @@ interface FieldInterface
      * @return mixed
      */
     public function getConfig();
-
-    /**
-     * Get the validation rules.
-     *
-     * @return mixed
-     */
-    public function getRules();
 
     /**
      * Get the related assignments.
@@ -84,6 +100,13 @@ interface FieldInterface
      * @return bool
      */
     public function hasAssignments();
+
+    /**
+     * Get related translations.
+     *
+     * @return EloquentCollection
+     */
+    public function getTranslations();
 
     /**
      * Return whether the field is
@@ -113,11 +136,4 @@ interface FieldInterface
      * @return FieldInterface
      */
     public function compileStreams();
-
-    /**
-     * Delete related assignments.
-     *
-     * @return FieldInterface
-     */
-    public function deleteAssignments();
 }

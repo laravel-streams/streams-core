@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Listener;
 
-use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\FilterQuery;
 use Anomaly\Streams\Platform\Ui\Table\Event\TableIsQuerying;
 
@@ -46,9 +45,7 @@ class FilterResults
         $filters = $builder->getTableFilters();
 
         foreach ($filters->active() as $filter) {
-            if ($filter instanceof FilterInterface) {
-                $this->query->filter($builder, $query, $filter);
-            }
+            $this->query->filter($builder, $filter, $query);
         }
     }
 }

@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Model\Event\ModelWasRestored;
 use Anomaly\Streams\Platform\Model\Event\ModelWasSaved;
 use Anomaly\Streams\Platform\Model\Event\ModelWasUpdated;
 use Anomaly\Streams\Platform\Support\Observer;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class EloquentObserver
@@ -19,6 +20,16 @@ use Anomaly\Streams\Platform\Support\Observer;
  */
 class EloquentObserver extends Observer
 {
+
+    /**
+     * Run after a record is created.
+     *
+     * @param EloquentModel $model
+     */
+    public function creating(EloquentModel $model)
+    {
+        return true;
+    }
 
     /**
      * Run after a record is created.
@@ -76,6 +87,13 @@ class EloquentObserver extends Observer
     public function deleted(EloquentModel $model)
     {
         $model->flushCache();
+
+        /* @var Model $translation */
+        if ($model->isTranslatable()) {
+            foreach ($model->translations as $translation) {
+                $translation->delete();
+            }
+        }
 
         $this->events->fire(new ModelWasDeleted($model));
     }

@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Database\Migration\Command\CreateAddonMigrationFolder;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class CreateAddonMigrationFolderHandler
@@ -16,7 +16,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class CreateAddonMigrationFolderHandler
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The file system.
@@ -52,7 +52,7 @@ class CreateAddonMigrationFolderHandler
     {
         $path = null;
 
-        if ($addon = $this->addons->merged()->get($command->getAddon())) {
+        if ($addon = $this->addons->get($command->getAddon())) {
 
             $path = $addon->getPath('migrations');
 

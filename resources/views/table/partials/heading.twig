@@ -1,17 +1,17 @@
 {% if table.options.title or table.options.description %}
-    <div class="panel">
 
-        {% if table.options.title %}
-            <div class="panel-heading">
-                <h4 class="title">{{ trans(table.options.title)|raw }}</h4>
-            </div>
-        {% endif %}
+    {% if table.options.title %}
+        <div class="card-header">
+            <h4 class="card-title">
+                {{ trans(table.options.title)|raw }}
 
-        {% if table.options.description %}
-            <div class="panel-body">
-                {{ trans(table.options.description)|raw }}
-            </div>
-        {% endif %}
+                {% if table.options.description %}
+                    <small>
+                        <br>{{ trans(table.options.description)|raw }}
+                    </small>
+                {% endif %}
+            </h4>
+        </div>
+    {% endif %}
 
-    </div>
 {% endif %}

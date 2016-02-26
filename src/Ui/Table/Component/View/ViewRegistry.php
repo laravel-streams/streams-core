@@ -1,5 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\All;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\RecentlyCreated;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Type\Trash;
+
 /**
  * Class ViewRegistry
  *
@@ -20,12 +24,23 @@ class ViewRegistry
         'all'              => [
             'slug' => 'all',
             'text' => 'streams::view.all',
-            'view' => 'Anomaly\Streams\Platform\Ui\Table\Component\View\Type\ViewAll',
+            'view' => All::class,
+        ],
+        'trash'            => [
+            'slug'    => 'trash',
+            'text'    => 'streams::view.trash',
+            'view'    => Trash::class,
+            'buttons' => [
+                'restore'
+            ],
+            'actions' => [
+                'force_delete'
+            ]
         ],
         'recently_created' => [
             'slug' => 'recently_created',
             'text' => 'streams::view.recently_created',
-            'view' => 'Anomaly\Streams\Platform\Ui\Table\Component\View\Type\ViewRecentlyCreated',
+            'view' => RecentlyCreated::class,
         ]
     ];
 
@@ -33,10 +48,14 @@ class ViewRegistry
      * Get a view.
      *
      * @param  $view
-     * @return mixed
+     * @return null|array
      */
     public function get($view)
     {
+        if (!$view) {
+            return null;
+        }
+
         return array_get($this->views, $view);
     }
 

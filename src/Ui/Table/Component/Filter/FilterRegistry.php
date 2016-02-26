@@ -1,5 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\FieldFilter;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\InputFilter;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\SearchFilter;
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\SelectFilter;
+
 /**
  * Class FilterRegistry
  *
@@ -19,14 +24,18 @@ class FilterRegistry
     protected $filters = [
         'input'  => [
             'slug'   => 'input',
-            'filter' => 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\InputFilter',
+            'filter' => InputFilter::class,
+        ],
+        'search' => [
+            'slug'   => 'search',
+            'filter' => SearchFilter::class,
         ],
         'select' => [
             'slug'   => 'select',
-            'filter' => 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\SelectFilter',
+            'filter' => SelectFilter::class,
         ],
         'field'  => [
-            'filter' => 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type\FieldFilter',
+            'filter' => FieldFilter::class,
         ]
     ];
 

@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract;
 
+use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Closure;
+
 /**
  * Interface FilterInterface
  *
@@ -12,19 +15,19 @@ interface FilterInterface
 {
 
     /**
-     * Set the filter handler.
+     * Set the filter query.
      *
      * @param $handler
      * @return $this
      */
-    public function setHandler($handler);
+    public function setQuery($query);
 
     /**
-     * Get the filter handler.
+     * Get the filter query.
      *
-     * @return mixed
+     * @return string|Closure
      */
-    public function getHandler();
+    public function getQuery();
 
     /**
      * Get the filter input.
@@ -48,6 +51,21 @@ interface FilterInterface
     public function getValue();
 
     /**
+     * Set the exact flag.
+     *
+     * @param bool $exact
+     * @return $this
+     */
+    public function setExact($exact);
+
+    /**
+     * Get the exact flag.
+     *
+     * @return bool
+     */
+    public function isExact();
+
+    /**
      * Set the active flag.
      *
      * @param bool $active
@@ -61,6 +79,36 @@ interface FilterInterface
      * @return bool
      */
     public function isActive();
+
+    /**
+     * Set the field.
+     *
+     * @param  $field
+     * @return mixed
+     */
+    public function setField($field);
+
+    /**
+     * Get the field.
+     *
+     * @return mixed
+     */
+    public function getField();
+
+    /**
+     * Set the field stream.
+     *
+     * @param StreamInterface $stream
+     * @return mixed
+     */
+    public function setStream(StreamInterface $stream);
+
+    /**
+     * Get the field stream.
+     *
+     * @return StreamInterface
+     */
+    public function getStream();
 
     /**
      * Set the filter prefix.

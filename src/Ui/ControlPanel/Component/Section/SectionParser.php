@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Support\Parser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
-use Illuminate\Http\Request;
 
 /**
  * Class SectionParser
@@ -23,22 +22,13 @@ class SectionParser
     protected $parser;
 
     /**
-     * The request object.
-     *
-     * @var Request
-     */
-    protected $request;
-
-    /**
      * Create a new SectionParser instance.
      *
-     * @param Parser  $parser
-     * @param Request $request
+     * @param Parser $parser
      */
-    public function __construct(Parser $parser, Request $request)
+    public function __construct(Parser $parser)
     {
-        $this->parser  = $parser;
-        $this->request = $request;
+        $this->parser = $parser;
     }
 
     /**
@@ -48,40 +38,6 @@ class SectionParser
      */
     public function parse(ControlPanelBuilder $builder)
     {
-        $builder->setSections(
-            $this->parser->parse(
-                $builder->getSections(),
-                [
-                    'route'   => $this->getRoute(),
-                    'request' => $this->getRequest()
-                ]
-            )
-        );
-    }
-
-    /**
-     * Get the route array.
-     *
-     * @return array
-     */
-    protected function getRoute()
-    {
-        $route = $this->request->route();
-
-        return [
-            'parameters' => $route->parameters()
-        ];
-    }
-
-    /**
-     * Get the request array.
-     *
-     * @return string
-     */
-    protected function getRequest()
-    {
-        return [
-            'path' => $this->request->path()
-        ];
+        $builder->setSections($this->parser->parse($builder->getSections()));
     }
 }

@@ -1,11 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Command;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Command\BuildButtons;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Menu\Command\BuildMenu;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Menu\Command\SetActiveMenu;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command\BuildSections;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Command\SetActiveSection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class BuildControlPanel
@@ -18,7 +20,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class BuildControlPanel implements SelfHandling
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The builder object.
@@ -44,6 +46,8 @@ class BuildControlPanel implements SelfHandling
     {
         $this->dispatch(new SetDefaultProperties($this->builder));
 
+        $this->dispatch(new BuildMenu($this->builder));
+        $this->dispatch(new SetActiveMenu($this->builder));
         $this->dispatch(new BuildSections($this->builder));
         $this->dispatch(new SetActiveSection($this->builder));
 

@@ -59,6 +59,7 @@ class SetActiveActions implements SelfHandling
     {
         /* @var ActionInterface $action */
         foreach ($builder->getTableActions() as $action) {
+
             if ($action->getSlug() === $slug) {
 
                 $action->setPrefix($builder->getTableOption('prefix'));

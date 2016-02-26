@@ -1,7 +1,5 @@
 {% extends template.layout ?: "theme::layouts/default" %}
 
 {% block content %}
-    <div class="inner">
-        {{ content|raw }}
-    </div>
+    {{ content|raw }}
 {% endblock %}

@@ -71,21 +71,21 @@ return [
             'log'      => 'Fichier de log'
         ]
     ],
-    'smtp_host'      => [
+    'mail_host'      => [
         'label'        => 'Hôte SMTP',
         'instructions' => 'Domaine ou adresse IP de l\'hôte du serveur SMTP.',
         'placeholder'  => 'smtp.mailgun.org'
     ],
-    'smtp_port'      => [
+    'mail_port'      => [
         'label'        => 'Port SMTP',
         'instructions' => 'Port personnalisé pour le serveur SMTP. 587 par défaut.',
         'placeholder'  => '587'
     ],
-    'smtp_username'  => [
+    'mail_username'  => [
         'label'        => 'Identifiant SMTP',
         'instructions' => 'Identifiant du serveur SMTP.'
     ],
-    'smtp_password'  => [
+    'mail_password'  => [
         'label'        => 'Mot de passe SMTP',
         'instructions' => 'Mot de passe pour le serveur SMTP.'
     ],

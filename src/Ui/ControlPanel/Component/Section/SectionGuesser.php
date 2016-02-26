@@ -1,8 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser\DescriptionGuesser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser\HrefGuesser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser\PermissionGuesser;
-use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser\TextGuesser;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser\TitleGuesser;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 
 /**
@@ -17,18 +18,18 @@ class SectionGuesser
 {
 
     /**
-     * The text guesser.
-     *
-     * @var TextGuesser
-     */
-    protected $text;
-
-    /**
      * The HREF guesser.
      *
      * @var HrefGuesser
      */
     protected $href;
+
+    /**
+     * The title guesser.
+     *
+     * @var TitleGuesser
+     */
+    protected $title;
 
     /**
      * The permission guesser.
@@ -38,17 +39,30 @@ class SectionGuesser
     protected $permission;
 
     /**
+     * The description guesser.
+     *
+     * @var DescriptionGuesser
+     */
+    protected $description;
+
+    /**
      * Create a new SectionGuesser instance.
      *
-     * @param TextGuesser       $text
-     * @param HrefGuesser       $href
-     * @param PermissionGuesser $permission
+     * @param HrefGuesser        $href
+     * @param TitleGuesser       $title
+     * @param PermissionGuesser  $permission
+     * @param DescriptionGuesser $description
      */
-    function __construct(TextGuesser $text, HrefGuesser $href, PermissionGuesser $permission)
-    {
-        $this->text       = $text;
-        $this->href       = $href;
-        $this->permission = $permission;
+    function __construct(
+        HrefGuesser $href,
+        TitleGuesser $title,
+        PermissionGuesser $permission,
+        DescriptionGuesser $description
+    ) {
+        $this->href        = $href;
+        $this->title       = $title;
+        $this->permission  = $permission;
+        $this->description = $description;
     }
 
     /**
@@ -58,8 +72,9 @@ class SectionGuesser
      */
     public function guess(ControlPanelBuilder $builder)
     {
-        $this->text->guess($builder);
         $this->href->guess($builder);
+        $this->title->guess($builder);
         $this->permission->guess($builder);
+        $this->description->guess($builder);
     }
 }

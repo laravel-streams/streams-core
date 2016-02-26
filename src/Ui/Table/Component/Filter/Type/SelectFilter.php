@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Type;
 
+use Anomaly\SelectFieldType\SelectFieldType;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SelectFilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter;
 
@@ -28,16 +29,16 @@ class SelectFilter extends Filter implements SelectFilterInterface
      */
     public function getInput()
     {
-        $class = 'form-control';
-
-        $options = compact('class');
-
-        return app('form')->select(
-            $this->getInputName(),
-            array_merge([null => trans($this->getPlaceholder())], $this->getOptions()),
-            $this->getValue(),
-            $options
-        );
+        return app(SelectFieldType::class)
+            ->setPlaceholder($this->getPlaceholder())
+            ->setField('filter_' . $this->getSlug())
+            ->setPrefix($this->getPrefix())
+            ->setValue($this->getValue())
+            ->mergeConfig(
+                [
+                    'options' => $this->getOptions()
+                ]
+            )->getFilter();
     }
 
     /**

@@ -19,7 +19,7 @@ class FilterFactory
      *
      * @var string
      */
-    protected $filter = 'Anomaly\Streams\Platform\Ui\Table\Component\Filter\Filter';
+    protected $filter = Filter::class;
 
     /**
      * The filter registry.

@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command;
 
+use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
  * Class SetActiveFilters
@@ -10,7 +12,7 @@ use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Ui\Table\Component\Filter\Command
  */
-class SetActiveFilters
+class SetActiveFilters implements SelfHandling
 {
 
     /**
@@ -31,12 +33,15 @@ class SetActiveFilters
     }
 
     /**
-     * Get the table builder.
-     *
-     * @return TableBuilder
+     * Handle the command.
      */
-    public function getBuilder()
+    public function handle()
     {
-        return $this->builder;
+        /* @var FilterInterface $filter */
+        foreach ($this->builder->getTableFilters() as $filter) {
+            if (app('request')->get($filter->getInputName())) {
+                $filter->setActive(true);
+            }
+        }
     }
 }

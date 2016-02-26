@@ -1,9 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Console;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Database\Migration\Migrator;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -17,7 +16,7 @@ use Symfony\Component\Console\Input\InputOption;
 class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateCommand
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * The migrator utility.
@@ -33,11 +32,11 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
      */
     public function fire()
     {
-        if (!$this->input->getOption('no-addons')) {
+        if (!$this->input->getOption('no-addons') && !$this->input->getOption('path')) {
 
             $this->prepareDatabase();
 
-            $addons = (new AddonCollection())->merged();
+            $addons = app('Anomaly\Streams\Platform\Addon\AddonCollection');
 
             if ($namespaces = $this->input->getOption('addon')) {
 
@@ -45,7 +44,10 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
 
                 $addons = $addons->filter(
                     function (Addon $addon) use ($namespaces) {
-                        return in_array($addon->getNamespace(), $namespaces);
+                        return in_array($addon->getNamespace(), $namespaces) || in_array(
+                            $addon->getSlug(),
+                            $namespaces
+                        );
                     }
                 );
             }

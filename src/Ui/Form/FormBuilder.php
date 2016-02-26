@@ -6,17 +6,21 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Command\AddAssets;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\PopulateFields;
 use Anomaly\Streams\Platform\Ui\Form\Command\PostForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SaveForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\SetFormResponse;
 use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
+use Closure;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -31,7 +35,7 @@ use Symfony\Component\HttpFoundation\Response;
 class FormBuilder
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
     use FiresCallbacks;
 
     /**
@@ -47,6 +51,20 @@ class FormBuilder
      * @var null|string
      */
     protected $handler = null;
+
+    /**
+     * The form validator.
+     *
+     * @var null|string
+     */
+    protected $validator = null;
+
+    /**
+     * The form repository.
+     *
+     * @var null|FormRepositoryInterface
+     */
+    protected $repository = null;
 
     /**
      * The form model.
@@ -88,9 +106,7 @@ class FormBuilder
      *
      * @var array|string
      */
-    protected $buttons = [
-        'cancel'
-    ];
+    protected $buttons = [];
 
     /**
      * The form options.
@@ -121,6 +137,13 @@ class FormBuilder
     protected $save = true;
 
     /**
+     * The read only flag.
+     *
+     * @var bool
+     */
+    protected $readOnly = false;
+
+    /**
      * The form object.
      *
      * @var Form
@@ -141,6 +164,7 @@ class FormBuilder
      * Build the form.
      *
      * @param null $entry
+     * @return $this
      */
     public function build($entry = null)
     {
@@ -151,19 +175,22 @@ class FormBuilder
         $this->fire('ready', ['builder' => $this]);
 
         $this->dispatch(new BuildForm($this));
+
+        return $this;
     }
 
     /**
      * Make the form.
      *
      * @param null $entry
+     * @return $this
      */
     public function make($entry = null)
     {
         $this->build($entry);
         $this->post();
 
-        if ($this->form->getResponse() === null) {
+        if ($this->getFormResponse() === null) {
             $this->dispatch(new LoadForm($this));
             $this->dispatch(new AddAssets($this));
             $this->dispatch(new MakeForm($this));
@@ -173,14 +200,41 @@ class FormBuilder
     }
 
     /**
+     * Handle the form post.
+     *
+     * @param null $entry
+     * @throws \Exception
+     */
+    public function handle($entry = null)
+    {
+        if (!app('request')->isMethod('post')) {
+            throw new \Exception('The handle method must be used with a POST request.');
+        }
+
+        $this->build($entry);
+        $this->post();
+    }
+
+    /**
      * Trigger post operations
      * for the form.
+     *
+     * @return $this
      */
     public function post()
     {
         if (app('request')->isMethod('post')) {
-            $this->dispatch(new PostForm($this));
+
+            $this->fire('post', ['builder' => $this]);
+
+            if ($this->hasPostData()) {
+                $this->dispatch(new PostForm($this));
+            }
+        } else {
+            $this->dispatch(new PopulateFields($this));
         }
+
+        return $this;
     }
 
     /**
@@ -233,6 +287,16 @@ class FormBuilder
     }
 
     /**
+     * Get the form presenter.
+     *
+     * @return FormPresenter
+     */
+    public function getFormPresenter()
+    {
+        return $this->form->getPresenter();
+    }
+
+    /**
      * Get the ajax flag.
      *
      * @return bool
@@ -274,6 +338,52 @@ class FormBuilder
     public function setHandler($handler)
     {
         $this->handler = $handler;
+
+        return $this;
+    }
+
+    /**
+     * Get the validator.
+     *
+     * @return null|string
+     */
+    public function getValidator()
+    {
+        return $this->validator;
+    }
+
+    /**
+     * Set the validator.
+     *
+     * @param $validator
+     * @return $this
+     */
+    public function setValidator($validator)
+    {
+        $this->validator = $validator;
+
+        return $this;
+    }
+
+    /**
+     * Get the repository.
+     *
+     * @return FormRepositoryInterface|null
+     */
+    public function getRepository()
+    {
+        return $this->repository;
+    }
+
+    /**
+     * Set the form repository.
+     *
+     * @param FormRepositoryInterface $repository
+     * @return $this
+     */
+    public function setRepository(FormRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
 
         return $this;
     }
@@ -386,7 +496,7 @@ class FormBuilder
      * @param $fieldSlug
      * @return $this
      */
-    public function addSkip($fieldSlug)
+    public function skipField($fieldSlug)
     {
         $this->skips[] = $fieldSlug;
 
@@ -470,12 +580,25 @@ class FormBuilder
     /**
      * Set the options.
      *
-     * @param array $options
+     * @param array|string $options
      * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions($options)
     {
         $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Merge in options.
+     *
+     * @param array|string $options
+     * @return $this
+     */
+    public function mergeOptions($options)
+    {
+        $this->options = array_merge($this->options, $options);
 
         return $this;
     }
@@ -493,7 +616,7 @@ class FormBuilder
     /**
      * Set the sections.
      *
-     * @param array $sections
+     * @param array|Closure $sections
      * @return $this
      */
     public function setSections($sections)
@@ -523,6 +646,7 @@ class FormBuilder
      * @param       $section
      * @param       $slug
      * @param array $tab
+     * @return $this
      */
     public function addSectionTab($section, $slug, array $tab)
     {
@@ -637,11 +761,21 @@ class FormBuilder
     /**
      * Get the form options.
      *
-     * @return \Illuminate\Support\Collection
+     * @return \Anomaly\Streams\Platform\Support\Collection
      */
     public function getFormOptions()
     {
         return $this->form->getOptions();
+    }
+
+    /**
+     * Get the form model.
+     *
+     * @return \Anomaly\Streams\Platform\Entry\EntryModel|EloquentModel|null
+     */
+    public function getFormModel()
+    {
+        return $this->form->getModel();
     }
 
     /**
@@ -663,7 +797,21 @@ class FormBuilder
     {
         $entry = $this->getFormEntry();
 
+        if (!$entry instanceof EloquentModel) {
+            return null;
+        }
+
         return $entry->getId();
+    }
+
+    /**
+     * Get the contextual entry ID.
+     *
+     * @return int|null
+     */
+    public function getContextualId()
+    {
+        return $this->getFormEntryId();
     }
 
     /**
@@ -702,13 +850,41 @@ class FormBuilder
     }
 
     /**
+     * Set a form value.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function setFormValue($key, $value)
+    {
+        $this->form->setValue($key, $value);
+
+        return $this;
+    }
+
+    /**
      * Get the form values.
      *
-     * @return \Illuminate\Support\Collection
+     * @return \Anomaly\Streams\Platform\Support\Collection
      */
     public function getFormValues()
     {
         return $this->form->getValues();
+    }
+
+    /**
+     * Reset the form.
+     *
+     * @return $this
+     */
+    public function resetForm()
+    {
+        $this->form
+            ->resetFields()
+            ->setValues(new Collection());
+
+        return $this;
     }
 
     /**
@@ -726,7 +902,7 @@ class FormBuilder
     /**
      * Get the form data.
      *
-     * @return \Illuminate\Support\Collection
+     * @return \Anomaly\Streams\Platform\Support\Collection
      */
     public function getFormData()
     {
@@ -774,6 +950,79 @@ class FormBuilder
     public function getFormFields()
     {
         return $this->form->getFields();
+    }
+
+    /**
+     * Get the enabled form fields.
+     *
+     * @return Component\Field\FieldCollection
+     */
+    public function getEnabledFormFields()
+    {
+        return $this->form->getEnabledFields();
+    }
+
+    /**
+     * Get the form field.
+     *
+     * @param $fieldSlug
+     * @return FieldType
+     */
+    public function getFormField($fieldSlug)
+    {
+        return $this->form->getField($fieldSlug);
+    }
+
+    /**
+     * Get the form attribute map.
+     *
+     * @return FieldType
+     */
+    public function getFormFieldFromAttribute($attribute)
+    {
+        /* @var FieldType $field */
+        foreach ($this->form->getFields() as $field) {
+            if ($field->getInputName() == $attribute) {
+                return $field;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Disable a form field.
+     *
+     * @param $fieldSlug
+     * @return FieldType
+     */
+    public function disableFormField($fieldSlug)
+    {
+        return $this->form->disableField($fieldSlug);
+    }
+
+    /**
+     * Get the form field slugs.
+     *
+     * @return array
+     */
+    public function getFormFieldSlugs()
+    {
+        $fields = $this->form->getFields();
+
+        return array_unique($fields->lists('field')->all());
+    }
+
+    /**
+     * Get the form field names.
+     *
+     * @return array
+     */
+    public function getFormFieldNames()
+    {
+        $fields = $this->form->getFields();
+
+        return $fields->lists('field_name')->all();
     }
 
     /**
@@ -878,6 +1127,19 @@ class FormBuilder
     }
 
     /**
+     * Set the form entry.
+     *
+     * @param $entry
+     * @return $this
+     */
+    public function setFormEntry($entry)
+    {
+        $this->form->setEntry($entry);
+
+        return $this;
+    }
+
+    /**
      * Get a request value.
      *
      * @param      $key
@@ -887,6 +1149,47 @@ class FormBuilder
     public function getRequestValue($key, $default = null)
     {
         return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
+    }
+
+    /**
+     * Get a post value.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function getPostValue($key, $default = null)
+    {
+        return array_get($_POST, $this->getOption('prefix') . $key, $default);
+    }
+
+    /**
+     * Return a post key flag.
+     *
+     * @param      $key
+     * @param null $default
+     * @return mixed
+     */
+    public function hasPostedInput($key)
+    {
+        return isset($_POST[$this->getOption('prefix') . $key]);
+    }
+
+    /**
+     * Return whether any post data exists.
+     *
+     * @return bool
+     */
+    public function hasPostData()
+    {
+        /* @var FieldType $field */
+        foreach ($this->getFormFields() as $field) {
+            if ($field->hasPostedInput()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -910,5 +1213,28 @@ class FormBuilder
     public function canSave()
     {
         return $this->save;
+    }
+
+    /**
+     * Set the read only flag.
+     *
+     * @param $readOnly
+     * @return $this
+     */
+    public function setReadOnly($readOnly)
+    {
+        $this->readOnly = $readOnly;
+
+        return $this;
+    }
+
+    /**
+     * Return the read only flag.
+     *
+     * @return bool
+     */
+    public function isReadOnly()
+    {
+        return $this->readOnly;
     }
 }

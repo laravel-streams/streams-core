@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Button\ButtonCollection;
 use Anomaly\Streams\Platform\Ui\Tree\Component\Item\Contract\ItemInterface;
+use Anomaly\Streams\Platform\Ui\Tree\Component\Segment\SegmentCollection;
 
 /**
  * Class Item
@@ -22,18 +23,18 @@ class Item implements ItemInterface
     protected $id;
 
     /**
-     * The item value.
-     *
-     * @var string
-     */
-    protected $value;
-
-    /**
      * The parent ID.
      *
      * @var int
      */
     protected $parent;
+
+    /**
+     * The segment collection.
+     *
+     * @var SegmentCollection
+     */
+    protected $segments;
 
     /**
      * The item buttons.
@@ -66,29 +67,6 @@ class Item implements ItemInterface
     }
 
     /**
-     * Get the value.
-     *
-     * @return string
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     * Set the value.
-     *
-     * @param $value
-     * @return $this
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-
-        return $this;
-    }
-
-    /**
      * Get the parent ID.
      *
      * @return int
@@ -107,6 +85,29 @@ class Item implements ItemInterface
     public function setParent($parent)
     {
         $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get the segments.
+     *
+     * @return SegmentCollection
+     */
+    public function getSegments()
+    {
+        return $this->segments;
+    }
+
+    /**
+     * Set the segments.
+     *
+     * @param SegmentCollection $segments
+     * @return $this
+     */
+    public function setSegments(SegmentCollection $segments)
+    {
+        $this->segments = $segments;
 
         return $this;
     }

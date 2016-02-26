@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Application\Command;
 
-use Illuminate\Bus\Dispatcher;
+use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**

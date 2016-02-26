@@ -43,22 +43,46 @@ class FilterNormalizer
              */
             if (is_string($filter) && str_contains($filter, '/')) {
                 $filter = [
-                    'slug'   => $filter,
+                    'slug'   => $slug,
                     'filter' => $filter
                 ];
             }
 
             /**
-             * Move the slug to the filter.
+             * Move the slug into the filter.
              */
             if (!isset($filter['slug'])) {
                 $filter['slug'] = $slug;
             }
 
             /**
+             * Move the slug to the filter.
+             */
+            if (!isset($filter['filter'])) {
+                $filter['filter'] = $filter['slug'];
+            }
+
+            /**
+             * Fallback the field.
+             */
+            if (!isset($filter['field']) && $stream && $stream->hasAssignment($filter['slug'])) {
+                $filter['field'] = $filter['slug'];
+            }
+
+            /**
+             * If there is no filter type
+             * then assume it's the slug.
+             */
+            if (!isset($filter['filter'])) {
+                $filter['filter'] = $filter['slug'];
+            }
+
+            /**
              * Set the table's stream.
              */
-            $filter['stream'] = $stream;
+            if ($stream) {
+                $filter['stream'] = $stream;
+            }
         }
 
         $builder->setFilters($filters);

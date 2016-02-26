@@ -1,3 +1,4 @@
+{{ asset_add("scripts.js", "streams::js/table/jquery-sortable.js") }}
 {{ asset_add("scripts.js", "streams::js/tree/tree.js") }}
 
 {% import "streams::tree/macro" as macro %}
@@ -11,8 +12,8 @@
                 {{ macro.tree(tree.items.root(), tree) }}
             </ul>
         {% else %}
-            <div class="panel">
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-block">
                     {{ trans(tree.options.get('no_results_message', 'streams::message.no_results')) }}
                 </div>
             </div>

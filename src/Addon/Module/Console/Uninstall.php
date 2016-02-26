@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Module\Console;
 
+use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Addon\Module\ModuleManager;
 use Illuminate\Console\Command;
@@ -38,7 +39,10 @@ class Uninstall extends Command
      */
     public function fire(ModuleManager $manager, ModuleCollection $modules)
     {
-        $manager->uninstall($module = $modules->get($this->argument('module')));
+        /* @var Module $module */
+        $module = $modules->get($this->argument('module'));
+
+        $manager->uninstall($module);
 
         $this->info(trans($module->getName()) . ' uninstalled successfully!');
     }

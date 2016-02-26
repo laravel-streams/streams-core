@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Header;
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Header\Guesser\HeadingsGuesser;
+use Anomaly\Streams\Platform\Ui\Table\Component\Header\Guesser\SortableGuesser;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 
 /**
@@ -15,20 +16,29 @@ class HeaderGuesser
 {
 
     /**
-     * The field guesser.
+     * The headings guesser.
      *
      * @var HeadingsGuesser
      */
-    protected $heading;
+    protected $headings;
+
+    /**
+     * The sortable guesser.
+     *
+     * @var SortableGuesser
+     */
+    protected $sortable;
 
     /**
      * Create a new HeaderGuesser instance.
      *
      * @param HeadingsGuesser $headings
+     * @param SortableGuesser $sortable
      */
-    public function __construct(HeadingsGuesser $headings)
+    public function __construct(HeadingsGuesser $headings, SortableGuesser $sortable)
     {
         $this->headings = $headings;
+        $this->sortable = $sortable;
     }
 
     /**
@@ -39,5 +49,6 @@ class HeaderGuesser
     public function guess(TableBuilder $builder)
     {
         $this->headings->guess($builder);
+        $this->sortable->guess($builder);
     }
 }

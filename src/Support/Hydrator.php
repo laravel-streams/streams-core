@@ -19,10 +19,6 @@ class Hydrator
      */
     public function hydrate($object, array $parameters)
     {
-        if (!is_object($object)) {
-            return;
-        }
-
         foreach ($parameters as $parameter => $value) {
 
             $method = camel_case('set_' . $parameter);

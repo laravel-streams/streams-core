@@ -41,7 +41,10 @@ class MakeTable implements SelfHandling
         $options = $table->getOptions();
         $data    = $table->getData();
 
-        $content = view($options->get('table_view', 'streams::table/table'), $data)->render();
+        $content = view(
+            $options->get('table_view', $this->builder->isAjax() ? 'streams::table/ajax' : 'streams::table/table'),
+            $data
+        )->render();
 
         $table->setContent($content);
         $table->addData('content', $content);

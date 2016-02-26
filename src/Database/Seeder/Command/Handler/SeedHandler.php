@@ -55,14 +55,11 @@ class SeedHandler
 
         Model::unguard();
 
-        // Get ALL addons of every kind.
-        $addons = $this->addons->merged();
-
         /**
          * If the addon was passed then
          * get it and seed it.
          */
-        if ($addon = $addons->get($command->getAddon())) {
+        if ($addon = $this->addons->get($command->getAddon())) {
             $this->call($this->getSeederClass($addon));
         }
 
@@ -80,7 +77,7 @@ class SeedHandler
          * their seeders.
          */
         if (!$addon && !$class) {
-            foreach ($addons as $addon) {
+            foreach ($this->addons as $addon) {
                 $this->call($this->getSeederClass($addon));
             }
         }

@@ -22,6 +22,9 @@ class FieldTranslator
     {
         $translations = [];
 
+        $defaultLocale  = config('app.fallback_locale');
+        $enabledLocales = config('streams::locales.enabled');
+
         /**
          * For each field if the assignment is translatable
          * then duplicate it and set a couple simple
@@ -36,14 +39,14 @@ class FieldTranslator
                 continue;
             }
 
-            foreach (config('streams::locales.enabled') as $locale) {
+            foreach ($enabledLocales as $locale) {
 
                 $translation = $field;
 
                 array_set($translation, 'locale', $locale);
                 array_set($translation, 'hidden', $locale !== $locale);
 
-                if (config('app.fallback_locale') !== $locale) {
+                if ($defaultLocale !== $locale) {
                     array_set($translation, 'hidden', true);
                     array_set($translation, 'required', false);
                     array_set($translation, 'rules', array_diff(array_get($translation, 'rules', []), ['required']));

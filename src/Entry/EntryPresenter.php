@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentPresenter;
 
 /**
@@ -18,32 +19,9 @@ class EntryPresenter extends EloquentPresenter
      * The resource object.
      * This is for IDE hinting.
      *
-     * @var EntryInterface
+     * @var EntryInterface|EloquentModel
      */
     protected $object;
-
-    /**
-     * When accessing a property of a decorated entry
-     * object first check to see if the key represents
-     * a streams field. If it does then return the field
-     * type's presenter object. Otherwise handle normally.
-     *
-     * @param  $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        if ($type = $this->object->getFieldType($key)) {
-
-            if (method_exists($type, 'getRelation')) {
-                return $this->__getDecorator()->decorate($this->object->{$key});
-            }
-
-            return $type->setEntry($this->object)->getPresenter();
-        }
-
-        return parent::__get($key);
-    }
 
     /**
      * Return the date string for created at.
@@ -94,6 +72,19 @@ class EntryPresenter extends EloquentPresenter
     }
 
     /**
+     * Return a label.
+     *
+     * @param        $text
+     * @param string $context
+     * @param string $size
+     * @return string
+     */
+    public function label($text, $context = 'default', $size = 'sm')
+    {
+        return '<span class="label label-' . $context . ' label-' . $size . '">' . $text . '</span>';
+    }
+
+    /**
      * Return the edit link.
      *
      * @return string
@@ -115,7 +106,7 @@ class EntryPresenter extends EloquentPresenter
                     )
                 )
             ),
-            $this->object->getTitle()
+            $this->object->{$this->object->getTitleName()}
         );
     }
 
@@ -135,13 +126,51 @@ class EntryPresenter extends EloquentPresenter
                             'admin',
                             $this->object->getStreamNamespace(),
                             $this->object->getStreamSlug(),
-                            'show',
+                            'view',
                             $this->object->getId()
                         ]
                     )
                 )
             ),
-            $this->object->getTitle()
+            $this->object->{$this->object->getTitleName()}
         );
+    }
+
+    /**
+     * When accessing a property of a decorated entry
+     * object first check to see if the key represents
+     * a streams field. If it does then return the field
+     * type's presenter object. Otherwise handle normally.
+     *
+     * @param  $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        if ($assignment = $this->object->getAssignment($key)) {
+
+            $type = $assignment->getFieldType();
+
+            if ($assignment->isTranslatable() && $locale = config('app.locale')) {
+
+                $entry = $this->object->translateOrDefault($locale);
+
+                $type->setLocale($locale);
+            } else {
+                $entry = $this->object;
+            }
+
+            $type->setEntry($entry);
+
+            if (method_exists($type, 'getRelation')) {
+                return $type->decorate($entry->getRelationValue(camel_case($key)));
+            }
+
+            $type->setValue($entry->getFieldValue($key));
+
+            return $type->getPresenter();
+        }
+
+        return $this->__getDecorator()->decorate(parent::__get($key));
     }
 }

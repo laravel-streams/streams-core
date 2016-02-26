@@ -1,84 +1,132 @@
 <?php
 
 return [
-    'enabled'   => env('ENABLED_LOCALES', ['en']),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Locale Hint
+    |--------------------------------------------------------------------------
+    |
+    | Define where to look for an i18n locale.
+    |
+    | true, false, "domain" or "uri"
+    |
+    | If false, you must handle setting the locale yourself.
+    | If true, both "domain" and "uri" are enabled and will be detected.
+    | If "domain", streams will check your sub-domain for an i18n locale key
+    | If "uri", streams will check your first URI segment for an i18n locale key
+    |
+    */
+
+    'hint' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enabled Locales
+    |--------------------------------------------------------------------------
+    |
+    | Define an array of locales enabled for translatable input.
+    |
+    */
+
+    'enabled' => explode(',', env('ENABLED_LOCALES', 'en')),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Supported Locales
+    |--------------------------------------------------------------------------
+    |
+    | In order to enable a locale or translate anything
+    | the i18n locale key MUST be in this array.
+    |
+    */
+
     'supported' => [
-        'en' => [
+        'en'    => [
             'direction' => 'ltr'
         ],
-        'fa' => [
+        'fa'    => [
             'direction' => 'rtl'
         ],
-        'de' => [
+        'de'    => [
             'direction' => 'ltr'
         ],
-        'ar' => [
+        'ar'    => [
             'direction' => 'rtl'
         ],
-        'cs' => [
+        'cs'    => [
             'direction' => 'ltr'
         ],
-        'el' => [
+        'el'    => [
             'direction' => 'ltr'
         ],
-        'es' => [
+        'es'    => [
             'direction' => 'ltr'
         ],
-        'fr' => [
+        'et'    => [
             'direction' => 'ltr'
         ],
-        'it' => [
+        'fr'    => [
             'direction' => 'ltr'
         ],
-        'nl' => [
+        'fr-ca' => [
             'direction' => 'ltr'
         ],
-        'se' => [
+        'it'    => [
             'direction' => 'ltr'
         ],
-        'sl' => [
+        'nl'    => [
             'direction' => 'ltr'
         ],
-        'pl' => [
+        'sv'    => [
             'direction' => 'ltr'
         ],
-        'pt' => [
+        'sl'    => [
             'direction' => 'ltr'
         ],
-        'br' => [
+        'sme'   => [
             'direction' => 'ltr'
         ],
-        'ru' => [
+        'pl'    => [
             'direction' => 'ltr'
         ],
-        'cn' => [
+        'pt'    => [
             'direction' => 'ltr'
         ],
-        'tw' => [
+        'br'    => [
             'direction' => 'ltr'
         ],
-        'he' => [
+        'ru'    => [
+            'direction' => 'ltr'
+        ],
+        'zh-cn' => [
+            'direction' => 'ltr'
+        ],
+        'zh-tw' => [
+            'direction' => 'ltr'
+        ],
+        'he'    => [
             'direction' => 'rtl'
         ],
-        'lt' => [
+        'lt'    => [
             'direction' => 'ltr'
         ],
-        'fi' => [
+        'fi'    => [
             'direction' => 'ltr'
         ],
-        'da' => [
+        'da'    => [
             'direction' => 'ltr'
         ],
-        'id' => [
+        'id'    => [
             'direction' => 'ltr'
         ],
-        'hu' => [
+        'hu'    => [
             'direction' => 'ltr'
         ],
-        'th' => [
+        'th'    => [
             'direction' => 'ltr'
         ],
-        'hi' => [
+        'hi'    => [
             'direction' => 'ltr'
         ]
     ]

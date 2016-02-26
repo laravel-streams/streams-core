@@ -71,21 +71,21 @@ return [
             'log'      => 'Log File'
         ]
     ],
-    'smtp_host'      => [
+    'mail_host'      => [
         'label'        => 'Host SMTP',
         'instructions' => 'Esta es la dirección del servidor SMTP de la aplicación.',
         'placeholder'  => 'smtp.mailgun.org'
     ],
-    'smtp_port'      => [
+    'mail_port'      => [
         'label'        => 'Puerto SMTP',
         'instructions' => 'Este es el puerto del servidor SMTP.',
         'placeholder'  => '587'
     ],
-    'smtp_username'  => [
+    'mail_username'  => [
         'label'        => 'Nombre de usuario SMTP',
         'instructions' => 'Este es el nombre de usuario del servidor SMTP.'
     ],
-    'smtp_password'  => [
+    'mail_password'  => [
         'label'        => 'Contraseña SMTP',
         'instructions' => 'Esta es la contraseña del servidor SMTP.'
     ],

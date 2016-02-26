@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use Illuminate\Container\Container;
+use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Container\Container;
 
 /**
  * Class Resolver
@@ -21,7 +22,7 @@ class Resolver
     /**
      * The IoC container.
      *
-     * @var \Illuminate\Container\Container
+     * @var \Illuminate\Contracts\Container\Container
      */
     protected $container;
 
@@ -38,14 +39,19 @@ class Resolver
     /**
      * Resolve the target.
      *
-     * @param       $target
-     * @param array $arguments
+     * @param        $target
+     * @param array  $arguments
+     * @param array  $options
      * @return mixed
      */
-    public function resolve($target, array $arguments = [])
+    public function resolve($target, array $arguments = [], array $options = [])
     {
+        $method = array_get($options, 'method', 'handle');
+
         if (is_string($target) && str_contains($target, '@')) {
-            return $this->container->call($target, $arguments);
+            $target = $this->container->call($target, $arguments);
+        } elseif (is_string($target) && class_exists($target) && class_implements($target, SelfHandling::class)) {
+            $target = $this->container->call($target . '@' . $method, $arguments);
         }
 
         return $target;

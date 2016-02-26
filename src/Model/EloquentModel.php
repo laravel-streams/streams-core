@@ -5,7 +5,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Bus\DispatchesCommands;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class EloquentModel
@@ -18,7 +18,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 class EloquentModel extends Model implements Arrayable
 {
 
-    use DispatchesCommands;
+    use DispatchesJobs;
 
     /**
      * Disable timestamps for this model.
@@ -37,12 +37,14 @@ class EloquentModel extends Model implements Arrayable
     /**
      * The number of minutes to cache query results.
      *
-     * @var null
+     * @var null|false|int
      */
-    protected $cacheMinutes = false;
+    protected $ttl = false;
 
     /**
-     * The attributes that are not mass assignable
+     * The attributes that are
+     * not mass assignable. Let upper
+     * models handle this themselves.
      *
      * @var array
      */
@@ -68,14 +70,11 @@ class EloquentModel extends Model implements Arrayable
     ];
 
     /**
-     * Boot the model.
+     * Runtime cache.
+     *
+     * @var array
      */
-    protected static function boot()
-    {
-        self::observe(app(substr(__CLASS__, 0, -5) . 'Observer'));
-
-        parent::boot();
-    }
+    protected $cache = [];
 
     /**
      * Get the ID.
@@ -85,6 +84,27 @@ class EloquentModel extends Model implements Arrayable
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Return the object's ETag fingerprint.
+     *
+     * @return string
+     */
+    public function etag()
+    {
+        return md5(get_class($this) . json_encode($this->toArray()));
+    }
+
+    /**
+     * Alias for $this->setTtl($ttl)
+     *
+     * @param $ttl
+     * @return EloquentModel
+     */
+    public function cache($ttl)
+    {
+        return $this->setTtl($ttl);
     }
 
     /**
@@ -139,26 +159,26 @@ class EloquentModel extends Model implements Arrayable
     }
 
     /**
-     * Set the cache minutes.
+     * Set the ttl.
      *
-     * @param  $cacheMinutes
+     * @param  $ttl
      * @return $this
      */
-    public function setCacheMinutes($cacheMinutes)
+    public function setTtl($ttl)
     {
-        $this->cacheMinutes = $cacheMinutes;
+        $this->ttl = $ttl;
 
         return $this;
     }
 
     /**
-     * Get the cache minutes.
+     * Get the ttl.
      *
      * @return int|mixed
      */
-    public function getCacheMinutes()
+    public function getTtl()
     {
-        return $this->cacheMinutes;
+        return $this->ttl;
     }
 
     /**
@@ -199,6 +219,27 @@ class EloquentModel extends Model implements Arrayable
     public function isDeletable()
     {
         return true;
+    }
+
+    /**
+     * Return if the model is restorable or not.
+     *
+     * @return bool
+     */
+    public function isRestorable()
+    {
+        return true;
+    }
+
+    /**
+     * Return whether the model is being
+     * force deleted or not.
+     *
+     * @return bool
+     */
+    public function isForceDeleting()
+    {
+        return isset($this->forceDeleting) && $this->forceDeleting == true;
     }
 
     /**
@@ -275,15 +316,15 @@ class EloquentModel extends Model implements Arrayable
      */
     public function getTranslation($locale = null, $withFallback = false)
     {
-        $locale = $locale ?: config('app.fallback_locale');
+        $locale = $locale ?: $this->getFallbackLocale();
 
         if ($translation = $this->getTranslationByLocaleKey($locale)) {
             return $translation;
         } elseif ($withFallback
-            && config('app.fallback_locale')
-            && $this->getTranslationByLocaleKey(config('app.fallback_locale'))
+            && $this->getFallbackLocale()
+            && $this->getTranslationByLocaleKey($this->getFallbackLocale())
         ) {
-            return $this->getTranslationByLocaleKey(config('app.fallback_locale'));
+            return $this->getTranslationByLocaleKey($this->getFallbackLocale());
         }
 
         return null;
@@ -291,7 +332,7 @@ class EloquentModel extends Model implements Arrayable
 
     public function hasTranslation($locale = null)
     {
-        $locale = $locale ?: config('app.fallback_locale');
+        $locale = $locale ?: $this->getFallbackLocale();
 
         foreach ($this->translations as $translation) {
 
@@ -306,6 +347,11 @@ class EloquentModel extends Model implements Arrayable
     }
 
     public function getTranslationModel()
+    {
+        return new $this->translationModel;
+    }
+
+    public function getTranslationModelName()
     {
         return $this->translationModel;
     }
@@ -327,7 +373,7 @@ class EloquentModel extends Model implements Arrayable
 
     public function translations()
     {
-        return $this->hasMany($this->getTranslationModel(), $this->getRelationKey());
+        return $this->hasMany($this->getTranslationModelName(), $this->getRelationKey());
     }
 
     public function getAttribute($key)
@@ -337,7 +383,11 @@ class EloquentModel extends Model implements Arrayable
                 return null;
             }
 
-            return $this->getTranslation()->$key;
+            $translation = $this->getTranslation();
+
+            $translation->setRelation('parent', $this);
+
+            return $translation->$key;
         }
 
         return parent::getAttribute($key);
@@ -364,7 +414,7 @@ class EloquentModel extends Model implements Arrayable
      */
     public function save(array $options = array())
     {
-        if (!$this->getTranslationModel()) {
+        if (!$this->getTranslationModelName()) {
             return $this->saveModel($options);
         }
 
@@ -529,7 +579,7 @@ class EloquentModel extends Model implements Arrayable
 
     public function getNewTranslation($locale)
     {
-        $modelName = $this->getTranslationModel();
+        $modelName = $this->getTranslationModelName();
 
         /* @var EloquentModel $translation */
         $translation = new $modelName;
@@ -571,6 +621,30 @@ class EloquentModel extends Model implements Arrayable
         }
 
         return array_filter(array_diff_key($attributes, array_flip($this->getGuarded())));
+    }
+
+    /**
+     * Get the fallback locale.
+     *
+     * @return string
+     */
+    protected function getFallbackLocale()
+    {
+        if (isset($this->cache['fallback_locale'])) {
+            return $this->cache['fallback_locale'];
+        }
+
+        return $this->cache['fallback_locale'] = config('app.fallback_locale');
+    }
+
+    /**
+     * Return if the entry is trashed or not.
+     *
+     * @return bool
+     */
+    public function trashed()
+    {
+        return parent::trashed();
     }
 
     public function toArray()

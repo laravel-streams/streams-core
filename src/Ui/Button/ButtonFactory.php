@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Button;
 
+use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Support\Translator;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
@@ -20,7 +21,7 @@ class ButtonFactory
      *
      * @var string
      */
-    protected $button = 'Anomaly\Streams\Platform\Ui\Button\Button';
+    protected $button = Button::class;
 
     /**
      * The button registry.
@@ -44,15 +45,29 @@ class ButtonFactory
     protected $translator;
 
     /**
+     * The authorizer utility.
+     *
+     * @var Authorizer
+     */
+    protected $authorizer;
+
+    /**
      * Create a new ButtonFactory instance.
      *
      * @param ButtonRegistry $buttons
+     * @param Authorizer     $authorizer
+     * @param Translator     $translator
      * @param Hydrator       $hydrator
      */
-    public function __construct(ButtonRegistry $buttons, Translator $translator, Hydrator $hydrator)
-    {
+    public function __construct(
+        ButtonRegistry $buttons,
+        Authorizer $authorizer,
+        Translator $translator,
+        Hydrator $hydrator
+    ) {
         $this->buttons    = $buttons;
         $this->hydrator   = $hydrator;
+        $this->authorizer = $authorizer;
         $this->translator = $translator;
     }
 
@@ -64,17 +79,26 @@ class ButtonFactory
      */
     public function make(array $parameters)
     {
-        $button = array_pull($parameters, 'button');
+        $button = array_get($parameters, 'button');
 
-        if ($button && $button = $this->buttons->get($button)) {
-            $parameters = array_replace_recursive($button, array_except($parameters, 'button'));
+        if ($button && $registered = $this->buttons->get($button)) {
+            $parameters = array_replace_recursive($registered, array_except($parameters, 'button'));
         }
 
         $parameters = $this->translator->translate($parameters);
 
-        $button = app()->make(array_get($parameters, 'button', $this->button), $parameters);
+        if (!array_get($parameters, 'button') || !class_exists(array_get($parameters, 'button'))) {
+            array_set($parameters, 'button', $this->button);
+        }
+
+        /* @var ButtonInterface $button */
+        $button = app()->make(array_get($parameters, 'button'), $parameters);
 
         $this->hydrator->hydrate($button, $parameters);
+
+        if (($permission = $button->getPermission()) && !$this->authorizer->authorize($permission)) {
+            $button->setEnabled(false);
+        }
 
         return $button;
     }
