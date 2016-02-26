@@ -5,5 +5,4 @@ return [
     'fields'      => 'Champs',
     'install'     => 'Installation',
     'assignments' => 'Assignations',
-    'module_name' => 'Module :name'
 ];

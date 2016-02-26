@@ -11,6 +11,10 @@ return [
         'instructions' => 'Description du site ou de l\'application',
         'placeholder'  => trans('distribution::addon.description')
     ],
+    'default_timezone' => [
+        'label'        => 'Fuseau horaire par défaut',
+        'instructions' => 'Choisissez le fuseau horaire par défaut. Il sera utilisé pour toutes les fonctions de date et heure.'
+    ],
     'date_format'    => [
         'label'        => 'Format de la date',
         'instructions' => 'Dans quel format les dates doivent être affichées ? <a href="http://php.net/manual/en/function.date.php" target="_blank">Documentation</a>.',
@@ -25,19 +29,27 @@ return [
         'label'        => 'Langue par défaut',
         'instructions' => 'Quelle est la langue du site ?<br>Les langues peuvent être gérées <a href="/admin/localization" target="_blank">module localisation</a>.'
     ],
-    'site_enabled'   => [
-        'label'        => 'Site actif ?',
-        'instructions' => 'Utilisez cette option pour bloquer l\'accès à la partie publique du site.'
+    'enabled_locales'  => [
+        'label'        => 'Langues actives',
+        'instructions' => 'Choisissez les langues disponibles pour votre site ou application.'
+    ],
+    'maintenance_mode' => [
+        'label'        => 'Mode maintenance',
+        'instructions' => 'Utilisez cette option pour bloquer la partie publique du site. Utile lors de mises à jour ou de développement.'
     ],
     'ip_whitelist'   => [
         'label'        => 'Liste blanche IP',
-        'instructions' => 'Quand le site est inactif, quelles adresses IP sont autorisées à accèder au site ?',
+        'instructions' => 'Quand le mode maintenance est actif, quelles adresses IP sont autorisées à accèder au site ?',
         'placeholder'  => 'Adresses séparées par une virgule.'
+    ],
+    'basic_auth'       => [
+        'label'        => 'Demander authentification ?',
+        'instructions' => 'Quand le mode maintenance est actif, demaner au visiteur une authentification HTTP ?'
     ],
     '503_message'    => [
         'label'        => 'Message de maintenance ?',
         'instructions' => 'Quel message afficher aux visiteurs quand le site est inactif ?',
-        'placeholder'  => 'De retour bientôt !'
+        'placeholder'  => 'Bientôt de retour !'
     ],
     'force_https'    => [
         'label'        => 'Forcer le HTTPS',
@@ -92,6 +104,15 @@ return [
     'mail_debug'     => [
         'label'        => 'Mode de debogage',
         'instructions' => 'En activant cette option aucun email ne sera envoyé. Ils seront écrits dans un fichier de log pour les consulter.'
+    ],
+    'mailgun_domain'   => [
+        'label' => 'Domaine Mailgun'
+    ],
+    'mailgun_secret'   => [
+        'label' => 'Mailgun Secret'
+    ],
+    'mandrill_secret'  => [
+        'label' => 'Mandrill Secret'
     ],
     'cache_driver'   => [
         'label'        => 'Méthode de mise en cache',

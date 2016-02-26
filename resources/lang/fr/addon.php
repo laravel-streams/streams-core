@@ -15,5 +15,15 @@ return [
     'field_types' => 'Types de champs',
     'type'        => 'Type',
     'name'        => 'Nom',
-    'description' => 'Description'
+    'description' => 'Description',
+    'core'        => 'Core',
+    'shared'      => 'Partagé',
+    'private'     => 'Privé',
+    'installed'   => 'Installé',
+    'uninstalled' => 'Désinstallé',
+    'enabled'     => 'Activé',
+    'disabled'    => 'Désactivé',
+    'active'      => 'Actif',
+    'admin'       => 'Admin',
+    'public'      => 'Public'
 ];
