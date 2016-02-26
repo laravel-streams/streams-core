@@ -564,7 +564,7 @@ class Asset
             return true;
         }
 
-        if ($debug == 'standard' && $live && $this->request->segment(1) !== 'admin') {
+        if ($debug == 'public' && $live && $this->request->segment(1) !== 'admin') {
             return true;
         }
 
