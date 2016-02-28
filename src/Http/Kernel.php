@@ -44,8 +44,8 @@ class Kernel extends \App\Http\Kernel
          */
         $locales = require __DIR__ . '/../../resources/config/locales.php';
 
-        if (file_exists($override = __DIR__ . '/../../../../../config/streams/locales.php')) {
-            $locales = array_merge_recursive($locales, require $override);
+        if (file_exists($override = __DIR__ . '/../../../../../resources/core/config/streams/locales.php')) {
+            $locales = array_replace_recursive($locales, require $override);
         }
 
         if (!$hint = array_get($locales, 'hint')) {
