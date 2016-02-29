@@ -127,6 +127,8 @@ class FormValidator implements SelfHandling
     {
         if (!$validator->passes()) {
 
+            //dd($validator->getRules());
+
             $builder
                 ->setSave(false)
                 ->setFormErrors($validator->getMessageBag());

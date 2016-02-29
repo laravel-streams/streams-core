@@ -190,6 +190,7 @@ class Image
     /**
      * Create a new Image instance.
      *
+     * @param UrlGenerator  $url
      * @param HtmlBuilder   $html
      * @param Filesystem    $files
      * @param Mobile_Detect $agent
@@ -200,6 +201,7 @@ class Image
      * @param ImageMacros   $macros
      */
     public function __construct(
+        UrlGenerator $url,
         HtmlBuilder $html,
         Filesystem $files,
         Mobile_Detect $agent,
@@ -209,6 +211,7 @@ class Image
         ImagePaths $paths,
         ImageMacros $macros
     ) {
+        $this->url         = $url;
         $this->html        = $html;
         $this->files       = $files;
         $this->agent       = $agent;
