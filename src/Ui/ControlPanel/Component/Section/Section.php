@@ -49,6 +49,13 @@ class Section implements SectionInterface
     protected $active = false;
 
     /**
+     * The path matcher.
+     *
+     * @var null|string
+     */
+    protected $matcher = null;
+
+    /**
      * The section description.
      *
      * @var null|string
@@ -205,6 +212,29 @@ class Section implements SectionInterface
     public function setActive($active)
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get the matcher.
+     *
+     * @return null|string
+     */
+    public function getMatcher()
+    {
+        return $this->matcher;
+    }
+
+    /**
+     * Set the matcher.
+     *
+     * @param $matcher
+     * @return $this
+     */
+    public function setMatcher($matcher)
+    {
+        $this->matcher = $matcher;
 
         return $this;
     }

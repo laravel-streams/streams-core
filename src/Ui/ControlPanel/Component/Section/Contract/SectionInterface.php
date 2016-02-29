@@ -87,6 +87,21 @@ interface SectionInterface
     public function setActive($active);
 
     /**
+     * Get the matcher.
+     *
+     * @return null|string
+     */
+    public function getMatcher();
+
+    /**
+     * Set the matcher.
+     *
+     * @param $matcher
+     * @return $this
+     */
+    public function setMatcher($matcher);
+
+    /**
      * Get the description.
      *
      * @return null|string
