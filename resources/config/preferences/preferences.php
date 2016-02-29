@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'timezone'      => [
+    /*'timezone'      => [
         'type'     => 'anomaly.field_type.select',
         'required' => true,
         'config'   => [
@@ -9,7 +9,7 @@ return [
             'options'       => function () {
                 return array_combine(timezone_identifiers_list(), timezone_identifiers_list());
             }
-        ],
+        ]
     ],
     'date_format'   => [
         'type'     => 'anomaly.field_type.select',
@@ -24,7 +24,7 @@ return [
                 'F jS, Y'   => date('F jS, Y'),
                 'l F jS, Y' => date('l F jS, Y'),
             ]
-        ],
+        ]
     ],
     'time_format'   => [
         'type'     => 'anomaly.field_type.select',
@@ -35,14 +35,14 @@ return [
                 'g:i A' => date('g:i A'),
                 'G:i A' => date('G:i A') . ' (24 hr)'
             ]
-        ],
+        ]
     ],
     'admin_locale'  => [
         'type'        => 'anomaly.field_type.language',
         'required'    => true,
         'placeholder' => false,
         'config'      => [
-            'default_value'     => config('app.locale'),
+            'default_value'     => config('streams::locales.default'),
             'available_locales' => true
         ]
     ],
@@ -51,8 +51,8 @@ return [
         'required'    => true,
         'placeholder' => false,
         'config'      => [
-            'default_value'     => config('app.locale'),
+            'default_value'     => config('streams::locales.default'),
             'available_locales' => true
         ]
-    ]
+    ]*/
 ];

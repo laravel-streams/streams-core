@@ -1,24 +1,19 @@
 <?php
 
 return [
-    [
-        'section' => 'tabbed',
-        'tabs'    => [
-            'datetime'     => [
-                'title'  => 'streams::tab.datetime',
-                'fields' => [
-                    'timezone',
-                    'date_format',
-                    'time_format'
-                ]
-            ],
-            'localization' => [
-                'title'  => 'streams::tab.localization',
-                'fields' => [
-                    'admin_locale',
-                    'public_locale'
-                ]
-            ]
+    'datetime'     => [
+        'title'  => 'streams::tab.datetime',
+        'fields' => [
+            'timezone',
+            'date_format',
+            'time_format'
+        ]
+    ],
+    'localization' => [
+        'title'  => 'streams::tab.localization',
+        'fields' => [
+            'admin_locale',
+            'public_locale'
         ]
     ]
 ];
