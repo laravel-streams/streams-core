@@ -12,6 +12,7 @@ use Anomaly\Streams\Platform\Asset\Filter\RubyScssFilter;
 use Anomaly\Streams\Platform\Asset\Filter\ScssFilter;
 use Anomaly\Streams\Platform\Asset\Filter\SeparatorFilter;
 use Anomaly\Streams\Platform\Asset\Filter\StylusFilter;
+use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Assetic\Asset\GlobAsset;
@@ -50,6 +51,13 @@ class Asset
      * @var array
      */
     protected $collections = [];
+
+    /**
+     * The URL generator.
+     *
+     * @var UrlGenerator
+     */
+    protected $url;
 
     /**
      * The HTML utility.
@@ -129,8 +137,10 @@ class Asset
         Repository $config,
         AssetPaths $paths,
         Request $request,
-        HtmlBuilder $html
+        HtmlBuilder $html,
+        UrlGenerator $url
     ) {
+        $this->url         = $url;
         $this->html        = $html;
         $this->paths       = $paths;
         $this->config      = $config;
@@ -198,7 +208,7 @@ class Asset
      * @param  array $filters
      * @return string
      */
-    public function url($collection, array $filters = [])
+    public function url($collection, array $filters = [], array $parameters = [], $secure = null)
     {
         if (!isset($this->collections[$collection])) {
             $this->add($collection, $collection, $filters);
@@ -208,7 +218,7 @@ class Asset
             return null;
         }
 
-        return url($this->getPath($collection, $filters));
+        return $this->url->asset($this->getPath($collection, $filters), $parameters, $secure);
     }
 
     /**
@@ -317,6 +327,24 @@ class Asset
                 array_keys($this->collections[$collection]),
                 array_values($this->collections[$collection])
             )
+        );
+    }
+
+    /**
+     * Return an array of style URLs.
+     *
+     * @param       $collection
+     * @param array $filters
+     * @param array $attributes
+     * @return array
+     */
+    public function urls($collection, array $filters = [], array $attributes = [])
+    {
+        return array_map(
+            function ($path) use ($attributes) {
+                return $this->url($path);
+            },
+            $this->paths($collection, $filters)
         );
     }
 
