@@ -403,6 +403,30 @@ class StreamModel extends EloquentModel implements StreamInterface
     }
 
     /**
+     * Get the unique translatable assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getUniqueAssignments()
+    {
+        $assignments = $this->getAssignments();
+
+        return $assignments->indexed();
+    }
+
+    /**
+     * Get the only required assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getRequiredAssignments()
+    {
+        $assignments = $this->getAssignments();
+
+        return $assignments->required();
+    }
+
+    /**
      * Get the related translatable assignments.
      *
      * @return AssignmentCollection

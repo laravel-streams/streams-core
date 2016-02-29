@@ -148,6 +148,20 @@ interface StreamInterface
     public function getDateAssignments();
 
     /**
+     * Get the related unique assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getUniqueAssignments();
+
+    /**
+     * Get the related required assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getRequiredAssignments();
+
+    /**
      * Get the related translatable assignments.
      *
      * @return AssignmentCollection

@@ -123,20 +123,42 @@ class AssignmentCollection extends EloquentCollection
      */
     public function dates()
     {
-        $dates = [];
+        return $this->filter(
+            function (AssignmentInterface $assignment) {
 
-        /* @var AssignmentInterface $item */
-        /* @var FieldType $type */
-        foreach ($this->items as $item) {
+                $type = $assignment->getFieldType();
 
-            $type = $item->getFieldType();
-
-            if (in_array($type->getColumnType(), ['date', 'datetime'])) {
-                $dates[] = $item;
+                return in_array($type->getColumnType(), ['date', 'datetime']);
             }
-        }
+        );
+    }
 
-        return self::make($dates);
+    /**
+     * Return only assignments that are unique.
+     *
+     * @return AssignmentCollection
+     */
+    public function indexed()
+    {
+        return $this->filter(
+            function (AssignmentInterface $assignment) {
+                return $assignment->isUnique();
+            }
+        );
+    }
+
+    /**
+     * Return only assignments that are required.
+     *
+     * @return AssignmentCollection
+     */
+    public function required()
+    {
+        return $this->filter(
+            function (AssignmentInterface $assignment) {
+                return $assignment->isRequired();
+            }
+        );
     }
 
     /**
@@ -146,16 +168,11 @@ class AssignmentCollection extends EloquentCollection
      */
     public function translatable()
     {
-        $translatable = [];
-
-        /* @var AssignmentInterface $item */
-        foreach ($this->items as $item) {
-            if ($item->isTranslatable()) {
-                $translatable[] = $item;
+        return $this->filter(
+            function (AssignmentInterface $assignment) {
+                return $assignment->isTranslatable();
             }
-        }
-
-        return self::make($translatable);
+        );
     }
 
     /**
@@ -165,16 +182,11 @@ class AssignmentCollection extends EloquentCollection
      */
     public function notTranslatable()
     {
-        $translatable = [];
-
-        /* @var AssignmentInterface $item */
-        foreach ($this->items as $item) {
-            if (!$item->isTranslatable()) {
-                $translatable[] = $item;
+        return $this->filter(
+            function (AssignmentInterface $assignment) {
+                return $assignment->isTranslatable() == false;
             }
-        }
-
-        return self::make($translatable);
+        );
     }
 
     /**

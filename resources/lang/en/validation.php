@@ -71,6 +71,7 @@ return [
         "array"   => "The :attribute must contain :size items.",
     ],
     "unique"               => "The :attribute has already been taken.",
+    "unique_trash"         => "The :attribute may already be taken by a trashed entry.",
     "url"                  => "The :attribute format is invalid.",
     "timezone"             => "The :attribute must be a valid zone.",
     /*

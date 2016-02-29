@@ -1090,6 +1090,17 @@ class FormBuilder
     }
 
     /**
+     * Return whether the field has an error or not.
+     *
+     * @param $fieldName
+     * @return bool
+     */
+    public function hasFormError($fieldName)
+    {
+        return $this->form->hasError($fieldName);
+    }
+
+    /**
      * Get the form actions.
      *
      * @return ActionCollection

@@ -1,8 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Translation\Translator;
 
 /**
  * Class SetErrorMessages
@@ -37,7 +39,7 @@ class SetErrorMessages implements SelfHandling
      *
      * @param MessageBag $messages
      */
-    public function handle(MessageBag $messages)
+    public function handle(MessageBag $messages, Translator $translator)
     {
         if ($this->builder->isAjax()) {
             return;
@@ -46,5 +48,22 @@ class SetErrorMessages implements SelfHandling
         $errors = $this->builder->getFormErrors();
 
         $messages->error($errors->all());
+
+        if (($stream = $this->builder->getFormStream()) && $stream->isTrashable()) {
+
+            /* @var AssignmentInterface $assignment */
+            foreach ($stream->getUniqueAssignments() as $assignment) {
+                if ($this->builder->hasFormError($assignment->getFieldSlug())) {
+                    $messages->warning(
+                        $translator->trans(
+                            'streams::validation.unique_trash',
+                            [
+                                'attribute' => '"' . $translator->trans($assignment->getFieldName()) . '"'
+                            ]
+                        )
+                    );
+                }
+            }
+        }
     }
 }
