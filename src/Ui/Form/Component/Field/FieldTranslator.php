@@ -22,7 +22,7 @@ class FieldTranslator
     {
         $translations = [];
 
-        $defaultLocale  = config('app.fallback_locale');
+        $defaultLocale  = config('streams::locales.default');
         $enabledLocales = config('streams::locales.enabled');
 
         /**

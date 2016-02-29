@@ -19,18 +19,18 @@ class SetLocale
 {
 
     /**
+     * The config config.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
      * The redirect utility.
      *
      * @var Redirector
      */
     protected $redirect;
-
-    /**
-     * The config repository.
-     *
-     * @var Repository
-     */
-    protected $repository;
 
     /**
      * The laravel application.
@@ -42,14 +42,14 @@ class SetLocale
     /**
      * Create a new SetLocale instance.
      *
+     * @param Repository  $config
      * @param Redirector  $redirect
-     * @param Repository  $repository
      * @param Application $application
      */
-    public function __construct(Redirector $redirect, Repository $repository, Application $application)
+    public function __construct(Repository $config, Redirector $redirect, Application $application)
     {
+        $this->config      = $config;
         $this->redirect    = $redirect;
-        $this->repository  = $repository;
         $this->application = $application;
     }
 
@@ -62,6 +62,7 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next)
     {
+
         if (defined('LOCALE')) {
             return $next($request);
         }
@@ -81,7 +82,11 @@ class SetLocale
 
             $this->application->setLocale($locale);
 
-            $this->repository->set('_locale', $locale);
+            $this->config->set('_locale', $locale);
+        }
+
+        if (!$locale) {
+            $this->application->setLocale($this->config->get('streams::locales.default'));
         }
 
         return $next($request);

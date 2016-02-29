@@ -12,11 +12,11 @@
             {% if form.translatable %}
                 <div class="btn-group" style="display: inline-block;">
                     <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown">
-                        English
+                        {{ trans('streams::locale.' ~ config_get('streams::locales.default') ~ '.name') }}
                     </button>
                     <div class="dropdown-menu">
                         {% for iso in config_get('streams::locales.enabled') %}
-                            <a class="dropdown-item {{ iso == config_get('app.fallback_locale') ? 'active' }}" href="#"
+                            <a class="dropdown-item {{ iso == config_get('streams::locales.default') ? 'active' }}" href="#"
                                data-toggle="lang" lang="{{ iso }}">
                                 {{ trans('streams::locale.' ~ iso ~ '.name') }}
                             </a>
