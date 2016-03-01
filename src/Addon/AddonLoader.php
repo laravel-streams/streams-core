@@ -43,32 +43,11 @@ class AddonLoader
      */
     public function load($path)
     {
-        $autoload = $path . '/vendor/addon.autoload.php';
-
-        if (file_exists($autoload)) {
-
-            include $autoload;
-
+        if (!file_exists($autoload = $path . '/vendor/autoload.php')) {
             return;
         }
 
-        $composer = json_decode(file_get_contents($path . '/composer.json'), true);
-
-        if (!array_key_exists('autoload', $composer)) {
-            return;
-        }
-
-        foreach (array_get($composer['autoload'], 'psr-4', []) as $namespace => $autoload) {
-            $this->loader->addPsr4($namespace, $path . '/' . $autoload, false);
-        }
-
-        foreach (array_get($composer['autoload'], 'psr-0', []) as $namespace => $autoload) {
-            $this->loader->add($namespace, $path . '/' . $autoload, false);
-        }
-
-        foreach (array_get($composer['autoload'], 'files', []) as $file) {
-            include($path . '/' . $file);
-        }
+        include $autoload;
     }
 
     /**
