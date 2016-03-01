@@ -43,7 +43,7 @@ class AddonLoader
      */
     public function load($path)
     {
-        if (file_exists($autoload = $path . '/vendor/addon.autoload.php')) {
+        if (file_exists($autoload = $path . '/vendor/autoload.php')) {
 
             include $autoload;
 
