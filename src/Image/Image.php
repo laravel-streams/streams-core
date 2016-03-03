@@ -511,6 +511,13 @@ class Image
     {
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
+        if ($this->files->extension($path) == 'svg') {
+
+            $this->files->put($path, $this->dumpImage());
+
+            return;
+        }
+
         if (!$image = $this->makeImage()) {
             return;
         }
@@ -779,6 +786,10 @@ class Image
 
         if ($this->image instanceof Image) {
             return $this->image->encode();
+        }
+
+        if (is_string($this->image) && file_exists($this->image)) {
+            return file_get_contents($this->image);
         }
 
         return null;
