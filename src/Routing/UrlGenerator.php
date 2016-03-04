@@ -33,6 +33,20 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
     /**
      * Generate an absolute URL to the given asset.
      *
+     * @param            $path
+     * @param null       $locale
+     * @param  mixed     $extra
+     * @param  bool|null $secure
+     * @return string
+     */
+    public function locale($path, $locale = null, $extra = [], $secure = null)
+    {
+        return $this->asset($locale ? $locale . '/' . $path : $path, $extra, $secure);
+    }
+
+    /**
+     * Generate an absolute URL to the given asset.
+     *
      * @param  string    $asset
      * @param  mixed     $extra
      * @param  bool|null $secure
@@ -64,7 +78,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
 
         if (($queryPosition = strpos($asset, '?')) !== false) {
             $query = mb_substr($asset, $queryPosition);
-            $asset  = mb_substr($asset, 0, $queryPosition);
+            $asset = mb_substr($asset, 0, $queryPosition);
         } else {
             $query = '';
         }
