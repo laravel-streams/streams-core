@@ -157,8 +157,8 @@ class FieldFormBuilder extends FormBuilder
      */
     public function getFieldNamespace()
     {
-        if ($this->stream) {
-            return $this->stream->getNamespace();
+        if ($stream = $this->getStream()) {
+            return $stream->getNamespace();
         }
 
         $entry = $this->getFormEntry();

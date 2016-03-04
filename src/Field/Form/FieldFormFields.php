@@ -24,7 +24,7 @@ class FieldFormFields
     public function handle(FieldFormBuilder $builder)
     {
         $id        = $builder->getFormEntryId();
-        $namespace = $builder->getNamespace();
+        $namespace = $builder->getFieldNamespace();
 
         $builder->setFields(
             [
