@@ -51,11 +51,11 @@ class FieldFormFields
                         'max'     => 64
                     ],
                     'rules'        => [
-                        'valid_field_slug',
+                        'valid_slug',
                         'unique:streams_fields,slug,' . $id . ',namespace,namespace,' . $namespace
                     ],
                     'validators'   => [
-                        'valid_field_slug' => [
+                        'valid_slug' => [
                             'handler' => SlugValidator::class,
                             'message' => 'streams::validation.invalid'
                         ]
