@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use Anomaly\UsersModule\Role\Contract\RoleInterface;
 use Anomaly\UsersModule\Role\Contract\RoleRepositoryInterface;
 use Anomaly\UsersModule\User\Contract\UserInterface;
 use Illuminate\Auth\Guard;
@@ -17,18 +18,18 @@ class Authorizer
 {
 
     /**
-     * The user repository.
-     *
-     * @var RoleRepositoryInterface $roles
-     */
-    protected $roles;
-
-    /**
      * The auth utility.
      *
      * @var Guard
      */
     protected $guard;
+
+    /**
+     * The guest role.
+     *
+     * @var RoleInterface
+     */
+    protected $guest;
 
     /**
      * The config repository.
@@ -47,8 +48,9 @@ class Authorizer
     function __construct(RoleRepositoryInterface $roles, Guard $guard, Repository $config)
     {
         $this->guard  = $guard;
-        $this->roles  = $roles;
         $this->config = $config;
+
+        $this->guest = $roles->findBySlug('guest');
     }
 
     /**
@@ -64,8 +66,8 @@ class Authorizer
             $user = $this->guard->user();
         }
 
-        if (!$user && $guest = $this->roles->findBySlug('guest')) {
-            return $guest->hasPermission($permission);
+        if (!$user && $this->guest) {
+            return $this->guest->hasPermission($permission);
         }
 
         if (!$user) {
