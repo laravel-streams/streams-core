@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class FormRules
@@ -15,6 +16,23 @@ class FormRules
 {
 
     /**
+     * The config repository.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
+     * Create a new FormRules instance.
+     *
+     * @param Repository $config
+     */
+    public function __construct(Repository $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
      * Compile rules from form fields.
      *
      * @param FormBuilder $builder
@@ -26,6 +44,8 @@ class FormRules
 
         $entry  = $builder->getFormEntry();
         $stream = $builder->getFormStream();
+
+        $locale = $this->config->get('streams::locales.default');
 
         /* @var FieldType $field */
         foreach ($builder->getEnabledFormFields() as $field) {
@@ -66,7 +86,7 @@ class FormRules
                     $fieldRules[] = $unique;
                 }
 
-                if ($assignment->isTranslatable() && $field->getLocale() !== config('app.fallback_locale')) {
+                if ($assignment->isTranslatable() && $field->getLocale() !== $locale) {
                     $fieldRules = array_diff($fieldRules, ['required']);
                 }
             }
