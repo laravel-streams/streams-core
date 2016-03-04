@@ -68,7 +68,7 @@ class Authorizer
             return $guest->hasPermission($permission);
         }
 
-        if (!!$user) {
+        if (!$user) {
             return false;
         }
 
