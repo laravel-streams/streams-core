@@ -70,6 +70,7 @@ return [
         "string"  => "The :attribute must be :size characters.",
         "array"   => "The :attribute must contain :size items.",
     ],
+    "invalid"              => "The :attribute is invalid.",
     "unique"               => "The :attribute has already been taken.",
     "unique_trash"         => "The :attribute may already be taken by a trashed entry.",
     "url"                  => "The :attribute format is invalid.",

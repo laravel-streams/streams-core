@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Field\Form;
 
 use Anomaly\Streams\Platform\Field\Form\Command\GetConfigFields;
+use Anomaly\Streams\Platform\Field\Form\Validator\SlugValidator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -50,7 +51,14 @@ class FieldFormFields
                         'max'     => 64
                     ],
                     'rules'        => [
-                        'unique' => 'streams_fields,slug,' . $id . ',namespace,namespace,' . $namespace
+                        'valid_field_slug',
+                        'unique:streams_fields,slug,' . $id . ',namespace,namespace,' . $namespace
+                    ],
+                    'validators'   => [
+                        'valid_field_slug' => [
+                            'handler' => SlugValidator::class,
+                            'message' => 'streams::validation.invalid'
+                        ]
                     ]
                 ],
                 'placeholder'  => [
