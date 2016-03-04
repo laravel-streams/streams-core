@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'enabled' => explode(',', env('LOCALE', 'en')),
+    'enabled' => explode(',', env('ENABLED_LOCALES', 'en')),
 
     /*
     |--------------------------------------------------------------------------
