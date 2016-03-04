@@ -75,7 +75,7 @@ class RedirectGuesser
                 case 'save_edit':
                 case 'save_continue':
                     $action['redirect'] = function () use ($section, $builder) {
-                        return $section->getHref('edit/' . $builder->getContextualId());
+                        return $this->request->path();
                     };
                     break;
 
