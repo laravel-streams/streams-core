@@ -172,6 +172,18 @@ class MultipleFormBuilder extends FormBuilder
     }
 
     /**
+     * Get the form mode.
+     *
+     * @return null|string
+     */
+    public function getFormMode()
+    {
+        $form = $this->forms->first();
+
+        return $form->getFormMode();
+    }
+
+    /**
      * Get the contextual entry ID.
      *
      * @return int|mixed|null
