@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\UsersModule\Role\Contract\RoleInterface;
-use Anomaly\UsersModule\Role\Contract\RoleRepositoryInterface;
 use Anomaly\UsersModule\User\Contract\UserInterface;
 use Illuminate\Auth\Guard;
 use Illuminate\Config\Repository;
@@ -20,9 +19,9 @@ class Authorizer
     /**
      * The auth utility.
      *
-     * @var Guard
+     * @var null|Guard
      */
-    protected $guard;
+    protected $guard = null;
 
     /**
      * The guest role.
@@ -41,16 +40,13 @@ class Authorizer
     /**
      * Create a new Authorizer instance.
      *
-     * @param RoleRepositoryInterface $roles
-     * @param Guard                   $guard
-     * @param Repository              $config
+     * @param Guard      $guard
+     * @param Repository $config
      */
-    function __construct(RoleRepositoryInterface $roles, Guard $guard, Repository $config)
+    function __construct(Guard $guard, Repository $config)
     {
         $this->guard  = $guard;
         $this->config = $config;
-
-        $this->guest = $roles->findBySlug('guest');
     }
 
     /**
@@ -66,7 +62,7 @@ class Authorizer
             $user = $this->guard->user();
         }
 
-        if (!$user && $this->guest) {
+        if (!$user && $this->getGuest()) {
             return $this->guest->hasPermission($permission);
         }
 
@@ -228,5 +224,28 @@ class Authorizer
         }
 
         return true;
+    }
+
+    /**
+     * Get the guest role.
+     *
+     * @return RoleInterface
+     */
+    public function getGuest()
+    {
+        return $this->guest;
+    }
+
+    /**
+     * Set the guest role.
+     *
+     * @param RoleInterface $guest
+     * @return $this
+     */
+    public function setGuest(RoleInterface $guest)
+    {
+        $this->guest = $guest;
+
+        return $this;
     }
 }
