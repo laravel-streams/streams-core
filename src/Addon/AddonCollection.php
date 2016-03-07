@@ -181,6 +181,19 @@ class AddonCollection extends Collection
     }
 
     /**
+     * Fire the registered
+     * method on all addons.
+     */
+    public function registered()
+    {
+        $this->map(
+            function (Addon $addon) {
+                $addon->fire('registered');
+            }
+        );
+    }
+
+    /**
      * Return addons only with the provided configuration.
      *
      * @param $key

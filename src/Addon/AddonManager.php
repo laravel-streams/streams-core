@@ -128,6 +128,7 @@ class AddonManager
          * finish the integration service.
          */
         $this->addons->disperse();
+        $this->addons->registered();
         $this->integrator->finish();
 
         $this->dispatcher->fire(new AddonsHaveRegistered($this->addons));

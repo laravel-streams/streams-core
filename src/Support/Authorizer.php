@@ -62,8 +62,8 @@ class Authorizer
             $user = $this->guard->user();
         }
 
-        if (!$user && $this->getGuest()) {
-            return $this->guest->hasPermission($permission);
+        if (!$user && $guest = $this->getGuest()) {
+            return $guest->hasPermission($permission);
         }
 
         if (!$user) {
