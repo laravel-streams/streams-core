@@ -198,6 +198,8 @@ class AddonIntegrator
 
         $this->collection->put($addon->getNamespace(), $addon);
 
+        $addon->fire('registered');
+
         $this->events->fire(new AddonWasRegistered($addon));
     }
 
