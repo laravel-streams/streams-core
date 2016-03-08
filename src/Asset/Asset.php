@@ -408,13 +408,15 @@ class Asset
      */
     protected function publish($path, $collection, $additionalFilters)
     {
+        $path = ltrim($path,'/');
+        
         if (str_contains($collection, public_path())) {
             return;
         }
 
         $assets = $this->getAssetCollection($collection, $additionalFilters);
 
-        $path = $this->directory . ltrim($path,'/');
+        $path = $this->directory . $path;
 
         /* @var Filesystem $files */
         $files = app('files');
@@ -572,6 +574,8 @@ class Asset
      */
     protected function shouldPublish($path, $collection, array $filters = [])
     {
+        $path = ltrim($path,'/');
+        
         if (starts_with($path, 'http')) {
             return false;
         }
