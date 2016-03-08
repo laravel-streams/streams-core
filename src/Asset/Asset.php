@@ -385,7 +385,7 @@ class Asset
     protected function getPublicPath($collection, $filters)
     {
         if (str_contains($collection, public_path())) {
-            return ltrim(str_replace(public_path(), '', $collection), '/');
+            return str_replace(public_path(), '', $collection);
         }
 
         if (in_array('preserve', $filters)) {
@@ -396,7 +396,7 @@ class Asset
 
         $hint = $this->getHint($collection);
 
-        return 'assets/' . $this->application->getReference() . '/streams/' . $hash . '.' . $hint;
+        return '/assets/' . $this->application->getReference() . '/streams/' . $hash . '.' . $hint;
     }
 
     /**
@@ -414,7 +414,7 @@ class Asset
 
         $assets = $this->getAssetCollection($collection, $additionalFilters);
 
-        $path = $this->directory . $path;
+        $path = $this->directory . ltrim($path,'/');
 
         /* @var Filesystem $files */
         $files = app('files');
