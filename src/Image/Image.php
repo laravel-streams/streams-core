@@ -455,7 +455,7 @@ class Image
             return $this->getImage();
         }
 
-        $path = 'assets/' . $this->application->getReference() . '/streams/' . $this->getImageFilename();
+        $path = '/assets/' . $this->application->getReference() . '/streams/' . $this->getImageFilename();
 
         if ($this->shouldPublish($path)) {
             try {
@@ -476,6 +476,8 @@ class Image
      */
     private function shouldPublish($path)
     {
+        $path = ltrim($path,'/');
+        
         if (!$this->files->exists($path)) {
             return true;
         }
@@ -509,6 +511,8 @@ class Image
      */
     protected function publish($path)
     {
+        $path = ltrim($path,'/');
+        
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
         if ($this->files->extension($path) == 'svg') {
