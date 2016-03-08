@@ -9,7 +9,9 @@ use Anomaly\Streams\Platform\Installer\Console\Command\ConfirmLicense;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadApplicationInstallers;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadCoreInstallers;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadExtensionInstallers;
+use Anomaly\Streams\Platform\Installer\Console\Command\LoadExtensionSeeders;
 use Anomaly\Streams\Platform\Installer\Console\Command\LoadModuleInstallers;
+use Anomaly\Streams\Platform\Installer\Console\Command\LoadModuleSeeders;
 use Anomaly\Streams\Platform\Installer\Console\Command\LocateApplication;
 use Anomaly\Streams\Platform\Installer\Console\Command\RunInstallers;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetAdminData;
@@ -93,6 +95,9 @@ class Install extends Command
         $events->fire(new StreamsHasInstalled($installers));
 
         $this->info('Running post installation tasks.');
+
+        $this->dispatch(new LoadModuleSeeders($installers));
+        $this->dispatch(new LoadExtensionSeeders($installers));
 
         $this->dispatch(new RunInstallers($installers, $this));
     }
