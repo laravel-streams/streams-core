@@ -55,7 +55,7 @@ class Kernel extends \App\Http\Kernel
         /**
          * Check the domain for a locale.
          */
-        $url  = parse_url($_SERVER['HTTP_HOST']);
+        $url  = parse_url(array_get($_SERVER, 'HTTP_HOST', env('APPLICATION_DOMAIN')));
         $host = array_get($url, 'host');
 
         $pattern = '/^(' . implode('|', array_keys($locales['supported'])) . ')(\.)./';
