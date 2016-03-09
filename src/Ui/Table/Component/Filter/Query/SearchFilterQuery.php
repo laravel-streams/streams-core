@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Component\Filter\Query;
 
+use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SearchFilterInterface;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
@@ -43,7 +44,8 @@ class SearchFilterQuery implements SelfHandling
     {
         $stream = $filter->getStream();
 
-        if ($stream->isTranslatable()) {
+        /* @var EloquentQueryBuilder $query */
+        if ($stream->isTranslatable() && !$query->hasJoin($stream->getEntryTranslationsTableName())) {
             $query->leftJoin(
                 $stream->getEntryTranslationsTableName(),
                 $stream->getEntryTableName() . '.id',
