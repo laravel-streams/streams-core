@@ -242,11 +242,8 @@ class AddonCollection extends Collection
      */
     public function sort(callable $callback = null)
     {
-        $items = $this->items;
-
-        $callback ? uasort($items, $callback) : uasort(
-            $items,
-            function (Addon $a, Addon $b) {
+        return parent::sort(
+            $callback ?: function (Addon $a, Addon $b) {
 
                 if ($a->getSlug() == $b->getSlug()) {
                     return 0;
@@ -255,8 +252,6 @@ class AddonCollection extends Collection
                 return ($a->getSlug() < $b->getSlug()) ? -1 : 1;
             }
         );
-
-        return new static($items);
     }
 
     /**
