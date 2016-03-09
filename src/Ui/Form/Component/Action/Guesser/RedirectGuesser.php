@@ -75,7 +75,7 @@ class RedirectGuesser
                 case 'save_edit':
                 case 'save_continue':
                     $action['redirect'] = function () use ($section, $builder) {
-                        return $this->request->path();
+                        return $this->request->fullUrl();
                     };
                     break;
 

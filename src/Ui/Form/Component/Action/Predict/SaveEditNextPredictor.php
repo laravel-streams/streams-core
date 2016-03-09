@@ -3,14 +3,14 @@
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
- * Class SaveAndEditNextPredictor
+ * Class SaveEditNextPredictor
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Form\Component\Action\Predict
  */
-class SaveAndEditNextPredictor
+class SaveEditNextPredictor
 {
 
     /**
@@ -22,7 +22,7 @@ class SaveAndEditNextPredictor
     public function predict(FormBuilder $builder)
     {
         if (array_filter(explode(',', $builder->getRequestValue('edit_next')))) {
-            $builder->setActions(array_merge(['save_and_edit_next'], $builder->getActions()));
+            $builder->setActions(array_merge(['save_edit_next'], $builder->getActions()));
         }
     }
 }
