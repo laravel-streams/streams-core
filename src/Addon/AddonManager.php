@@ -122,6 +122,9 @@ class AddonManager
             $this->integrator->register($path, $enabled, $installed);
         }
 
+        // Sort all addons.
+        $this->addons = $this->addons->sort();
+
         /**
          * Disperse addons to their
          * respective collections and

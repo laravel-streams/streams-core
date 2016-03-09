@@ -235,6 +235,31 @@ class AddonCollection extends Collection
     }
 
     /**
+     * Sort through each item with a callback.
+     *
+     * @param  callable|null $callback
+     * @return static
+     */
+    public function sort(callable $callback = null)
+    {
+        $items = $this->items;
+
+        $callback ? uasort($items, $callback) : uasort(
+            $items,
+            function (Addon $a, Addon $b) {
+
+                if ($a->getSlug() == $b->getSlug()) {
+                    return 0;
+                }
+
+                return ($a->getSlug() < $b->getSlug()) ? -1 : 1;
+            }
+        );
+
+        return new static($items);
+    }
+
+    /**
      * Call a method.
      *
      * @param $method
