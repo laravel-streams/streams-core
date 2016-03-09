@@ -65,6 +65,7 @@ class MigrateAssignmentsHandler
 
         $stream = $migration->getStream();
         $fields = $migration->getAssignments();
+        $namespace = $migration->getNamespace();
 
         if (!$fields) {
             return;
@@ -74,7 +75,7 @@ class MigrateAssignmentsHandler
 
         $stream = $this->streams->findBySlugAndNamespace(
             array_get($stream, 'slug'),
-            array_get($stream, 'namespace', $addon->getSlug())
+            array_get($stream, 'namespace', $namespace ?: ($addon ? $addon->getSlug() : null))
         );
 
         foreach ($fields as $field => $assignment) {
