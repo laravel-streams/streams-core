@@ -45,7 +45,7 @@ class FieldTypeSchema
     /**
      * Add the field type column to the table.
      *
-     * @param Blueprint           $table
+     * @param Blueprint $table
      * @param AssignmentInterface $assignment
      */
     public function addColumn(Blueprint $table, AssignmentInterface $assignment)
@@ -75,7 +75,7 @@ class FieldTypeSchema
             $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
         }
 
-        // Mark the column unique if desired and not translatable.
+        // Mark the column unique if it's unique AND not translatable.
         if ($assignment->isUnique() && !$assignment->isTranslatable()) {
             $table->unique($this->fieldType->getColumnName(), md5('unique_' . $this->fieldType->getColumnName()));
         }
@@ -84,7 +84,7 @@ class FieldTypeSchema
     /**
      * Update the field type column to the table.
      *
-     * @param Blueprint           $table
+     * @param Blueprint $table
      * @param AssignmentInterface $assignment
      */
     public function updateColumn(Blueprint $table, AssignmentInterface $assignment)
@@ -119,9 +119,28 @@ class FieldTypeSchema
          * Mark the column unique if desired and not translatable.
          * Otherwise, drop the unique index.
          */
-        if ($assignment->isUnique() && !$assignment->isTranslatable()) {
-            $table->unique($this->fieldType->getColumnName(), md5('unique_' . $this->fieldType->getColumnName()));
-        } elseif (!$assignment->isUnique() && !$assignment->isTranslatable()) {
+        $connection = $this->schema->getConnection();
+        $manager    = $connection->getDoctrineSchemaManager();
+        $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
+
+        // The unique index name.
+        $unique = md5('unique_' . $this->fieldType->getColumnName());
+
+        /**
+         * If the assignment is unique and not translatable
+         * and the table does not already have the given the
+         * given table index then go ahead and add it.
+         */
+        if ($assignment->isUnique() && !$assignment->isTranslatable() && !$doctrine->hasIndex($unique)) {
+            $table->unique($this->fieldType->getColumnName(), $unique);
+        }
+
+        /**
+         * If the assignment is NOT unique and not translatable
+         * and the table DOES have the given table index
+         * then we need to remove.
+         */
+        if (!$assignment->isUnique() && !$assignment->isTranslatable() && $doctrine->hasIndex($unique)) {
             $column->dropIndex(md5('unique_' . $this->fieldType->getColumnName()));
         }
     }
