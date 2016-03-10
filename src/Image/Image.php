@@ -403,7 +403,7 @@ class Image
      * @param $filename
      * @return $this
      */
-    public function filename($filename = null)
+    public function rename($filename = null)
     {
         return $this->setFilename($filename);
     }
@@ -574,7 +574,7 @@ class Image
             }
         }
 
-        $image->save($this->directory . $path, $this->getQuality());
+        $image->save($this->directory . $path, $this->getQuality($this->config->get('streams::images.quality')));
     }
 
     /**
@@ -845,6 +845,10 @@ class Image
             return $filename;
         }
 
+        if (!$this->getAlterations() && !$this->getQuality()) {
+            return $this->getImageFilename();
+        }
+
         return md5(
             var_export([md5($this->getImage()), $this->getAlterations()], true) . $this->getQuality()
         ) . '.' . $this->getExtension();
@@ -1010,11 +1014,12 @@ class Image
     /**
      * Get the quality.
      *
+     * @param null $default
      * @return int
      */
-    public function getQuality()
+    public function getQuality($default = null)
     {
-        return $this->quality ?: $this->config->get('streams::images.quality');
+        return $this->quality ?: $default;
     }
 
     /**

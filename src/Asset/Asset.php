@@ -388,8 +388,10 @@ class Asset
             return str_replace(public_path(), '', $collection);
         }
 
-        if (in_array('preserve', $filters)) {
-            return 'assets/' . $this->application->getReference() . '/streams/' . $collection;
+        if (!in_array('hash', $filters)) {
+            return '/assets/' . $this->application->getReference() . '/streams/' . $this->getCollectionPath(
+                $collection
+            );
         }
 
         $hash = $this->hashCollection($collection, $filters);
@@ -397,6 +399,19 @@ class Asset
         $hint = $this->getHint($collection);
 
         return '/assets/' . $this->application->getReference() . '/streams/' . $hash . '.' . $hint;
+    }
+
+    /**
+     * Return the collection path. This
+     * is primarily used to determine paths
+     * to single assets.
+     *
+     * @param $collection
+     * @return string
+     */
+    public function getCollectionPath($collection)
+    {
+        return ltrim(str_replace(base_path(), '', $this->paths->realPath($collection)), '/');
     }
 
     /**
@@ -408,8 +423,8 @@ class Asset
      */
     protected function publish($path, $collection, $additionalFilters)
     {
-        $path = ltrim($path,'/');
-        
+        $path = ltrim($path, '/');
+
         if (str_contains($collection, public_path())) {
             return;
         }
@@ -574,8 +589,8 @@ class Asset
      */
     protected function shouldPublish($path, $collection, array $filters = [])
     {
-        $path = ltrim($path,'/');
-        
+        $path = ltrim($path, '/');
+
         if (starts_with($path, 'http')) {
             return false;
         }
