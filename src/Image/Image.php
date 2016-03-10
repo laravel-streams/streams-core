@@ -55,6 +55,13 @@ class Image
     protected $extension = null;
 
     /**
+     * The desired filename.
+     *
+     * @var null|string
+     */
+    protected $filename = null;
+
+    /**
      * The default output method.
      *
      * @var string
@@ -391,6 +398,17 @@ class Image
     }
 
     /**
+     * Set the filename.
+     *
+     * @param $filename
+     * @return $this
+     */
+    public function filename($filename = null)
+    {
+        return $this->setFilename($filename);
+    }
+
+    /**
      * Set the quality.
      *
      * @param $quality
@@ -455,7 +473,7 @@ class Image
             return $this->getImage();
         }
 
-        $path = '/assets/' . $this->application->getReference() . '/streams/' . $this->getImageFilename();
+        $path = '/assets/' . $this->application->getReference() . '/streams/' . $this->getImagePath();
 
         if ($this->shouldPublish($path)) {
             try {
@@ -476,8 +494,8 @@ class Image
      */
     private function shouldPublish($path)
     {
-        $path = ltrim($path,'/');
-        
+        $path = ltrim($path, '/');
+
         if (!$this->files->exists($path)) {
             return true;
         }
@@ -511,8 +529,8 @@ class Image
      */
     protected function publish($path)
     {
-        $path = ltrim($path,'/');
-        
+        $path = ltrim($path, '/');
+
         $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
         if ($this->files->extension($path) == 'svg') {
@@ -806,6 +824,27 @@ class Image
      */
     protected function getImageFilename()
     {
+        $image = $this->getImage();
+
+        /* @var FileInterface $filename */
+        if ($image instanceof FileInterface) {
+            return $image->getName();
+        }
+
+        return ltrim(str_replace(base_path(), '', (string)$image), '/');
+    }
+
+    /**
+     * Get the image's file name.
+     *
+     * @return string
+     */
+    protected function getImagePath()
+    {
+        if ($filename = $this->getFilename()) {
+            return $filename;
+        }
+
         return md5(
             var_export([md5($this->getImage()), $this->getAlterations()], true) . $this->getQuality()
         ) . '.' . $this->getExtension();
@@ -819,6 +858,33 @@ class Image
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Get the file name.
+     *
+     * @return null|string
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * Set the file name.
+     *
+     * @param $filename
+     * @return $this
+     */
+    public function setFilename($filename = null)
+    {
+        if (!$filename) {
+            $filename = $this->getImageFilename();
+        }
+
+        $this->filename = $filename;
+
+        return $this;
     }
 
     /**
