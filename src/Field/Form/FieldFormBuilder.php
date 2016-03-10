@@ -160,7 +160,7 @@ class FieldFormBuilder extends FormBuilder
         if ($namespace = $this->getNamespace()) {
             return $namespace;
         }
-        
+
         if ($stream = $this->getStream()) {
             return $stream->getNamespace();
         }

@@ -3,6 +3,7 @@
         class="
             form-group
             {{ form.hasErrors() ? form.hasError(field_type.input_name) ? 'has-danger' : 'has-success' }}
+            {{ field_type.input_name }}-field
             {{ field_type.slug }}-field_type
             {{ field_type.hidden ? 'hidden' }}
             ">
