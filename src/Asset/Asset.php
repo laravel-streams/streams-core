@@ -411,7 +411,10 @@ class Asset
      */
     public function getCollectionPath($collection)
     {
-        return ltrim(str_replace(base_path(), '', $this->paths->realPath($collection)), '/');
+        return ($this->request->segment(1) == 'admin' ? 'admin' : 'public') . '/' . ltrim(
+            str_replace(base_path(), '', $this->paths->realPath($collection)),
+            '/'
+        );
     }
 
     /**
