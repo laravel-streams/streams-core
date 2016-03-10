@@ -52,7 +52,7 @@ class FieldFormFields
                     ],
                     'rules'        => [
                         'valid_slug',
-                        'unique:streams_fields,slug,' . $id . ',namespace,namespace,' . $namespace
+                        'unique:streams_fields,slug,' . $id . (!$id ?: ',id,namespace,' . $namespace)
                     ],
                     'validators'   => [
                         'valid_slug' => [
