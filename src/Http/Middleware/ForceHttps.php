@@ -57,14 +57,14 @@ class ForceHttps
         /**
          * Don't force HTTPS at all.
          */
-        if ($forceHttps == 'none' || $forceHttps === false) {
+        if ($forceHttps == 'none' || $forceHttps == false) {
             return $next($request);
         }
 
         /**
          * Force all connections through HTTPS.
          */
-        if (($forceHttps == 'all' || $forceHttps === true) && !$request->isSecure()) {
+        if (($forceHttps == 'all' || $forceHttps == true) && !$request->isSecure()) {
             return $this->redirector->secure($request->path());
         }
 
