@@ -149,6 +149,6 @@ class ImagePaths
                 ) . '.' . $image->getExtension();
         }
 
-        return "/app/{$application}/images/{$directory}{$filename}";
+        return "/app/{$application}/assets/{$directory}{$filename}";
     }
 }
