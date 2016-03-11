@@ -149,15 +149,19 @@ class AssetPaths
         /**
          * Build out path parts.
          */
+        $directory   = ltrim(dirname($path), '/') . '/';
         $application = $this->application->getReference();
-        $directory   = trim(ltrim(dirname($path), '/') . '/', '\.\/');
-        $prefix      = $this->request->segment(1) == 'admin' ? 'admin/' : null;
+        $prefix      = $this->request->segment(1) == 'admin' ? 'admin' : 'public';
         $filename    = basename($path, $this->extension($path)) . $this->hint($path);
 
         if (starts_with($directory, 'vendor/')) {
             $directory = substr($directory, 7);
         }
 
-        return "/app/{$application}/assets/{$this->hint($path)}/{$prefix}{$directory}{$filename}";
+        if (starts_with($directory, './')) {
+            $directory = null;
+        }
+
+        return "/app/{$application}/assets/{$prefix}/{$this->hint($path)}/{$directory}{$filename}";
     }
 }
