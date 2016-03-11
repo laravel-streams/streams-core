@@ -362,7 +362,7 @@ class Asset
             return $collection;
         }
 
-        $path = $this->getPublicPath($collection, $filters);
+        $path = $this->paths->outputPath($collection);
 
         if ($this->shouldPublish($path, $collection, $filters)) {
             $this->publish($path, $collection, $filters);
@@ -373,32 +373,6 @@ class Asset
         }
 
         return $path;
-    }
-
-    /**
-     * Get the public path.
-     *
-     * @param  $collection
-     * @param  $filters
-     * @return string
-     */
-    protected function getPublicPath($collection, $filters)
-    {
-        if (str_contains($collection, public_path())) {
-            return str_replace(public_path(), '', $collection);
-        }
-
-        if (!in_array('hash', $filters)) {
-            return '/assets/' . $this->application->getReference() . '/streams/' . $this->getCollectionPath(
-                $collection
-            );
-        }
-
-        $hash = $this->hashCollection($collection, $filters);
-
-        $hint = $this->getHint($collection);
-
-        return '/assets/' . $this->application->getReference() . '/streams/' . $hash . '.' . $hint;
     }
 
     /**
@@ -443,7 +417,7 @@ class Asset
 
         $files->put($path, $assets->dump());
 
-        if ($this->getExtension($path) == 'css') {
+        if ($this->paths->extension($path) == 'css') {
             $files->put($path, app('twig')->render(str_replace($this->directory, 'assets::', $path)));
         }
     }
@@ -544,41 +518,6 @@ class Asset
         }
 
         return array_unique($filters);
-    }
-
-    /**
-     * Get the extension of a path.
-     *
-     * @param  $path
-     * @return mixed
-     */
-    protected function getExtension($path)
-    {
-        return pathinfo($path, PATHINFO_EXTENSION);
-    }
-
-    /**
-     * Get the compile hint from a path.
-     * Group names MUST contain either a
-     * JS / CSS extension to hint at what
-     * to do with some automation.
-     *
-     * @param  $path
-     * @return mixed|string
-     */
-    public function getHint($path)
-    {
-        $hint = $this->getExtension($path);
-
-        if (in_array($hint, ['less', 'scss', 'styl'])) {
-            $hint = 'css';
-        }
-
-        if ($hint == 'coffee') {
-            $hint = 'js';
-        }
-
-        return $hint;
     }
 
     /**
@@ -700,7 +639,7 @@ class Asset
     {
         $assets = new AssetCollection();
 
-        $hint = $this->getHint($collection);
+        $hint = $this->paths->hint($collection);
 
         foreach ($this->collections[$collection] as $file => $filters) {
 
