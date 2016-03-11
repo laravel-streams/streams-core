@@ -12,6 +12,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\Redirector;
+use Illuminate\Routing\Route;
 
 /**
  * Class BaseController
@@ -39,6 +40,13 @@ class BaseController extends Controller
      * @var Factory
      */
     protected $view;
+
+    /**
+     * The route object.
+     *
+     * @var Route
+     */
+    protected $route;
 
     /**
      * The event dispatcher.
@@ -95,6 +103,7 @@ class BaseController extends Controller
     public function __construct()
     {
         $this->container   = app();
+        $this->route       = app('Illuminate\Routing\Route');
         $this->request     = app('Illuminate\Http\Request');
         $this->redirect    = app('Illuminate\Routing\Redirector');
         $this->view        = app('Illuminate\Contracts\View\Factory');
