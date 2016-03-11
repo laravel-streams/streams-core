@@ -30,4 +30,11 @@ interface EntryRepositoryInterface extends EloquentRepositoryInterface
      * @return EntryInterface|null
      */
     public function first($direction = 'asc');
+
+    /**
+     * Return the last modified entry.
+     *
+     * @return EntryInterface|null
+     */
+    public function lastModified();
 }

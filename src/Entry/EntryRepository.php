@@ -37,4 +37,17 @@ class EntryRepository extends EloquentRepository implements EntryRepositoryInter
     {
         return $this->model->sorted($direction)->first();
     }
+
+    /**
+     * Return the last modified entry.
+     *
+     * @return EntryInterface|null
+     */
+    public function lastModified()
+    {
+        return $this->model
+            ->orderBy('updated_at', 'DESC')
+            ->orderBy('created_at', 'DESC')
+            ->first();
+    }
 }
