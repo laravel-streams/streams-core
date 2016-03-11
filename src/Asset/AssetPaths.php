@@ -158,6 +158,6 @@ class AssetPaths
             $directory = substr($directory, 7);
         }
 
-        return "/{$application}/assets/{$this->hint($path)}/{$prefix}{$directory}{$filename}";
+        return "/app/{$application}/assets/{$this->hint($path)}/{$prefix}{$directory}{$filename}";
     }
 }
