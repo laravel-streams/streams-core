@@ -473,7 +473,7 @@ class Image
             return $this->getImage();
         }
 
-        $path = '/assets/' . $this->application->getReference() . '/streams/' . $this->getImagePath();
+        $path = $this->paths->outputPath($this);
 
         if ($this->shouldPublish($path)) {
             try {
@@ -815,43 +815,6 @@ class Image
         }
 
         return null;
-    }
-
-    /**
-     * Get the image's file name.
-     *
-     * @return string
-     */
-    protected function getImageFilename()
-    {
-        $image = $this->getImage();
-
-        /* @var FileInterface $filename */
-        if ($image instanceof FileInterface) {
-            return $image->getName();
-        }
-
-        return ltrim(str_replace(base_path(), '', (string)$image), '/');
-    }
-
-    /**
-     * Get the image's file name.
-     *
-     * @return string
-     */
-    protected function getImagePath()
-    {
-        if ($filename = $this->getFilename()) {
-            return $filename;
-        }
-
-        if (!$this->getAlterations() && !$this->getQuality()) {
-            return $this->getImageFilename();
-        }
-
-        return md5(
-            var_export([md5($this->getImage()), $this->getAlterations()], true) . $this->getQuality()
-        ) . '.' . $this->getExtension();
     }
 
     /**

@@ -108,7 +108,7 @@ class Application
      */
     public function getAssetsPath($path = '')
     {
-        return public_path('assets/' . $this->getReference()) . ($path ? '/' . $path : $path);
+        return public_path($this->getReference()) . ($path ? '/' . $path : $path);
     }
 
     /**

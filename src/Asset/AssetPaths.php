@@ -80,7 +80,7 @@ class AssetPaths
      */
     public function hint($path)
     {
-        $hint = $hint = $this->extension($path);
+        $hint = $this->extension($path);
 
         foreach ($this->config->get('streams::assets.hints', []) as $extension => $hints) {
             if (in_array($hint, $hints)) {
@@ -133,7 +133,6 @@ class AssetPaths
      */
     public function outputPath($collection)
     {
-
         /**
          * If the path is already public
          * then just use it as it is.
@@ -150,11 +149,15 @@ class AssetPaths
         /**
          * Build out path parts.
          */
-        $application = $this->application->getReference() . '/';
+        $application = $this->application->getReference();
         $directory   = trim(ltrim(dirname($path), '/') . '/', '\.\/');
-        $prefix      = $this->request->segment(1) != 'admin' ?: 'admin/';
+        $prefix      = $this->request->segment(1) == 'admin' ? 'admin/' : null;
         $filename    = basename($path, $this->extension($path)) . $this->hint($path);
 
-        return "/assets/{$application}{$prefix}{$directory}{$filename}";
+        if (starts_with($directory, 'vendor/')) {
+            $directory = substr($directory, 7);
+        }
+
+        return "/{$application}/assets/{$this->hint($path)}/{$prefix}{$directory}{$filename}";
     }
 }
