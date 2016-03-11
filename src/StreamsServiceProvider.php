@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Application\Command\ConfigureCommandBus;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
+use Anomaly\Streams\Platform\Application\Command\ConfigureUriValidator;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
@@ -198,6 +199,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         $this->dispatch(new SetCoreConnection());
         $this->dispatch(new ConfigureCommandBus());
+        $this->dispatch(new ConfigureUriValidator());
         $this->dispatch(new InitializeApplication());
         $this->dispatch(new LoadEnvironmentOverrides());
 
