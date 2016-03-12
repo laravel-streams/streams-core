@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
-use TwigBridge\Bridge;
+use Anomaly\Streams\Platform\Application\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Filesystem\Filesystem;
 
 /**
  * Class Template
@@ -14,20 +16,38 @@ class Template
 {
 
     /**
-     * The twig instance.
+     * The view factory.
      *
-     * @var Bridge
+     * @var Factory
      */
-    protected $twig;
+    protected $view;
+
+    /**
+     * The file system.
+     *
+     * @var Filesystem
+     */
+    protected $files;
+
+    /**
+     * The application instance.
+     *
+     * @var Application
+     */
+    protected $application;
 
     /**
      * Create a new Template instance.
      *
-     * @param Bridge $twig
+     * @param Factory     $view
+     * @param Filesystem  $files
+     * @param Application $application
      */
-    public function __construct(Bridge $twig)
+    public function __construct(Factory $view, Filesystem $files, Application $application)
     {
-        $this->twig = $twig;
+        $this->view        = $view;
+        $this->files       = $files;
+        $this->application = $application;
     }
 
     /**
@@ -40,8 +60,17 @@ class Template
      */
     function render($template, array $payload = [])
     {
-        $template = $this->twig->createTemplate($template);
+        $view = 'templates/' . md5($template . var_export($payload, true));
+        $path = $this->application->getStoragePath($view);
 
-        return $template->render($payload);
+        if (!$this->files->isDirectory($directory = dirname($path))) {
+            $this->files->makeDirectory($directory, 0777, true);
+        }
+
+        $this->files->put($path . '.twig', $template);
+
+        return $this->view
+            ->make('storage::' . $view, $payload)
+            ->render();
     }
 }
