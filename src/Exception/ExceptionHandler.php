@@ -33,13 +33,8 @@ class ExceptionHandler extends Handler
                 return $this->renderHttpException($e);
             }
 
-            if (($redirect = config('streams::access.404_redirect')) && $request->path() !== $redirect) {
-
-                if ($request->segment(1) == 'admin') {
-                    $redirect = config('anomaly.module.users::paths.cp_home', $redirect);
-                }
-
-                return redirect($redirect, config('streams::access.404_type', 301));
+            if (($redirect = config('streams::404.redirect')) && $request->path() !== $redirect) {
+                return redirect($redirect, 301);
             }
 
             return $this->renderHttpException($e);
