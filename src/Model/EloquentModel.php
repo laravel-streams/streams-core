@@ -638,6 +638,17 @@ class EloquentModel extends Model implements Arrayable
     }
 
     /**
+     * This is to keep consistency with the
+     * entry interface above us.
+     *
+     * @return string
+     */
+    public function getTableName()
+    {
+        return $this->getTable();
+    }
+
+    /**
      * Return if the entry is trashed or not.
      *
      * @return bool

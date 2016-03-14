@@ -53,7 +53,7 @@ class PostForm implements SelfHandling
         $this->dispatch(new SetSuccessMessage($this->builder));
         $this->dispatch(new SetActionResponse($this->builder));
 
-        if ($this->builder->isAjax()) {
+        if ($this->builder->isAjax() && !$this->builder->getFormResponse()) {
             $this->dispatch(new SetJsonResponse($this->builder));
         }
 

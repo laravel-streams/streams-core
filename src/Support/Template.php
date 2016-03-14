@@ -60,7 +60,7 @@ class Template
      */
     function render($template, array $payload = [])
     {
-        $view = 'templates/' . md5($template . var_export($payload, true));
+        $view = 'templates/' . md5($template);
         $path = $this->application->getStoragePath($view);
 
         if (!$this->files->isDirectory($directory = dirname($path))) {

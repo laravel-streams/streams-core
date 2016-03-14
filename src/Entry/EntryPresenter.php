@@ -85,13 +85,13 @@ class EntryPresenter extends EloquentPresenter
     }
 
     /**
-     * Return the edit link.
+     * Return the edit URL.
      *
      * @return string
      */
-    public function editLink()
+    public function editUrl()
     {
-        return app('html')->link(
+        return url(
             implode(
                 '/',
                 array_unique(
@@ -105,19 +105,28 @@ class EntryPresenter extends EloquentPresenter
                         ]
                     )
                 )
-            ),
-            $this->object->{$this->object->getTitleName()}
+            )
         );
     }
 
     /**
-     * Return the view link.
+     * Return the edit link.
      *
      * @return string
      */
-    public function viewLink()
+    public function editLink()
     {
-        return app('html')->link(
+        return app('html')->link($this->editUrl(), $this->object->{$this->object->getTitleName()});
+    }
+
+    /**
+     * Return the view URL.
+     *
+     * @return string
+     */
+    public function viewUrl()
+    {
+        return url(
             implode(
                 '/',
                 array_unique(
@@ -131,9 +140,18 @@ class EntryPresenter extends EloquentPresenter
                         ]
                     )
                 )
-            ),
-            $this->object->{$this->object->getTitleName()}
+            )
         );
+    }
+
+    /**
+     * Return the view link.
+     *
+     * @return string
+     */
+    public function viewLink()
+    {
+        return app('html')->link($this->viewUrl(), $this->object->{$this->object->getTitleName()});
     }
 
     /**
