@@ -34,7 +34,7 @@ class EloquentQueryBuilder extends Builder
     {
         $this->orderByDefault();
 
-        if (!env('APP_DEBUG') || env('DB_CACHE')) {
+        if (!env('APP_DEBUG') && env('DB_CACHE')) {
 
             $this->rememberIndex();
 
