@@ -32,16 +32,12 @@ class EntryCriteria extends EloquentCriteria
     {
         $this->stream = $stream;
 
-        if ($this->stream->isTranslatable()) {
-
-            // Prevent spilling over select.
-            $query->select($this->stream->getEntryTableName() . '.*');
-
-            $query->join(
-                $this->stream->getEntryTranslationsTableName() . ' AS translations',
+        if ($this->stream->isTranslatable() && !$query->hasJoin($this->stream->getEntryTranslationsTableName())) {
+            $query->leftJoin(
+                $this->stream->getEntryTranslationsTableName(),
                 $this->stream->getEntryTableName() . '.id',
                 '=',
-                'translations.entry_id'
+                $this->stream->getEntryTranslationsTableName(). '.entry_id'
             );
         }
 
