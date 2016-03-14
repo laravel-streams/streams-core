@@ -23,28 +23,6 @@ class EntryCriteria extends EloquentCriteria
     protected $stream;
 
     /**
-     * Create a new EntryCriteria instance.
-     *
-     * @param Builder         $query
-     * @param StreamInterface $stream
-     */
-    public function __construct(Builder $query, StreamInterface $stream, $method = 'get')
-    {
-        $this->stream = $stream;
-
-        if ($this->stream->isTranslatable() && !$query->hasJoin($this->stream->getEntryTranslationsTableName())) {
-            $query->leftJoin(
-                $this->stream->getEntryTranslationsTableName(),
-                $this->stream->getEntryTableName() . '.id',
-                '=',
-                $this->stream->getEntryTranslationsTableName(). '.entry_id'
-            );
-        }
-
-        parent::__construct($query, $method);
-    }
-
-    /**
      * Return sorted entries.
      *
      * @param string $direction
