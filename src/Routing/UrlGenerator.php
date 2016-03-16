@@ -19,7 +19,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      * Create a new UrlGenerator instance.
      *
      * @param RouteCollection $routes
-     * @param Request         $request
+     * @param Request $request
      */
     public function __construct(RouteCollection $routes, Request $request)
     {
@@ -34,21 +34,25 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      * Generate an absolute URL to the given asset.
      *
      * @param            $path
-     * @param null       $locale
-     * @param  mixed     $extra
+     * @param null $locale
+     * @param  mixed $extra
      * @param  bool|null $secure
      * @return string
      */
     public function locale($path, $locale = null, $extra = [], $secure = null)
     {
+        if ($locale == config('streams::locales.default')) {
+            $locale = null;
+        }
+
         return $this->asset($locale ? $locale . '/' . $path : $path, $extra, $secure);
     }
 
     /**
      * Generate an absolute URL to the given asset.
      *
-     * @param  string    $asset
-     * @param  mixed     $extra
+     * @param  string $asset
+     * @param  mixed $extra
      * @param  bool|null $secure
      * @return string
      */
