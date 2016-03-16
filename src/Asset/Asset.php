@@ -620,31 +620,6 @@ class Asset
     }
 
     /**
-     * Hash the collection.
-     *
-     * This hashes the files in a way so that the
-     * computer's base directory path does not affect
-     * the file name. This makes it easier to distribute
-     * built assets.
-     *
-     * @param $collection
-     * @param $filters
-     * @return string
-     */
-    protected function hashCollection($collection, $filters)
-    {
-        $key = [];
-
-        foreach ($this->collections[$collection] as $file => $filters) {
-            $key[str_replace(base_path(), '', $file)] = $filters;
-        }
-
-        $theme = $this->themes->active();
-
-        return md5(var_export([$key, $filters, $theme], true));
-    }
-
-    /**
      * Add a namespace path hint.
      *
      * @param  $namespace
