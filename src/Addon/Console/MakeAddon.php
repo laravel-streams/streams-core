@@ -52,7 +52,7 @@ class MakeAddon extends Command
 
         list($vendor, $type, $slug) = array_map(
             function ($value) {
-                return snake_case($value);
+                return str_slug(strtolower($value), '_');
             },
             explode('.', $namespace)
         );
