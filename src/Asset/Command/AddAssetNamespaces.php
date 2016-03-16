@@ -24,6 +24,7 @@ class AddAssetNamespaces implements SelfHandling
         $asset->addPath('public', base_path('public'));
         $asset->addPath('asset', $application->getAssetsPath());
         $asset->addPath('storage', $application->getStoragePath());
+        $asset->addPath('download', $application->getAssetsPath('assets/downloads'));
         $asset->addPath('streams', $container->make('streams.path') . '/resources');
         $asset->addPath('bower', $container->make('path.base') . '/bin/bower_components');
     }

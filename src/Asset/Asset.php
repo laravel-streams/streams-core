@@ -67,6 +67,13 @@ class Asset
     protected $html;
 
     /**
+     * The files system.
+     *
+     * @var Filesystem
+     */
+    protected $files;
+
+    /**
      * Asset path hints by namespace.
      *
      * 'module.users' => 'the/resources/path'
@@ -120,14 +127,16 @@ class Asset
     /**
      * Create a new Application instance.
      *
-     * @param Application     $application
+     * @param Application $application
      * @param ThemeCollection $themes
-     * @param MountManager    $manager
-     * @param AssetParser     $parser
-     * @param Repository      $config
-     * @param AssetPaths      $paths
-     * @param Request         $request
-     * @param HtmlBuilder     $html
+     * @param MountManager $manager
+     * @param AssetParser $parser
+     * @param Repository $config
+     * @param Filesystem $files
+     * @param AssetPaths $paths
+     * @param Request $request
+     * @param HtmlBuilder $html
+     * @param UrlGenerator $url
      */
     public function __construct(
         Application $application,
@@ -135,6 +144,7 @@ class Asset
         MountManager $manager,
         AssetParser $parser,
         Repository $config,
+        Filesystem $files,
         AssetPaths $paths,
         Request $request,
         HtmlBuilder $html,
@@ -142,6 +152,7 @@ class Asset
     ) {
         $this->url         = $url;
         $this->html        = $html;
+        $this->files       = $files;
         $this->paths       = $paths;
         $this->config      = $config;
         $this->themes      = $themes;
@@ -199,6 +210,41 @@ class Asset
         if ($this->config->get('app.debug')) {
             throw new \Exception("Asset [{$file}] does not exist!");
         }
+    }
+
+    /**
+     * Download a file and return it's path.
+     *
+     * @param $url
+     * @param null $path
+     * @return null|string
+     */
+    public function download($url, $path = null)
+    {
+        if (!$this->files->exists($path = $this->paths->downloadPath($url, $path))) {
+
+            if (!$this->files->isDirectory($directory = dirname($path = public_path(ltrim($path, '/'))))) {
+                $this->files->makeDirectory($directory, 0777, true);
+            }
+
+            if (!$this->files->exists($path)) {
+                $this->files->put($path, file_get_contents($url));
+            }
+        }
+
+        return str_replace(public_path(), '', $path);
+    }
+
+    /**
+     * Return the contents of a collection.
+     *
+     * @param $collection
+     * @param array $filters
+     * @return string
+     */
+    public function inline($collection, array $filters = [])
+    {
+        return file_get_contents($this->paths->realPath('public::' . ltrim($this->path($collection, $filters), '/')));
     }
 
     /**
@@ -410,15 +456,12 @@ class Asset
 
         $path = $this->directory . $path;
 
-        /* @var Filesystem $files */
-        $files = app('files');
+        $this->files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
 
-        $files->makeDirectory((new \SplFileInfo($path))->getPath(), 0777, true, true);
-
-        $files->put($path, $assets->dump());
+        $this->files->put($path, $assets->dump());
 
         if ($this->paths->extension($path) == 'css') {
-            $files->put($path, app('twig')->render(str_replace($this->directory, 'assets::', $path)));
+            $this->files->put($path, app('twig')->render(str_replace($this->directory, 'assets::', $path)));
         }
     }
 

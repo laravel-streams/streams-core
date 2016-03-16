@@ -47,7 +47,7 @@ class AssetPaths
      * Create a new AssetPaths instance.
      *
      * @param Repository $config
-     * @param Request    $request
+     * @param Request $request
      */
     public function __construct(Repository $config, Request $request, Application $application)
     {
@@ -123,6 +123,22 @@ class AssetPaths
         }
 
         return $path;
+    }
+
+    /**
+     * Return the download path for a remote asset.
+     *
+     * @param $url
+     * @param null $path
+     * @return string
+     */
+    public function downloadPath($url, $path = null)
+    {
+        if (!$path && $parsed = parse_url($url)) {
+            $path = array_get($parsed, 'host') . '/' . basename(array_get($parsed, 'path'));
+        }
+
+        return $path = $this->outputPath('downloads/' . $path);
     }
 
     /**
