@@ -79,7 +79,7 @@ class StreamsPlugin extends Plugin
     /**
      * Create a new AgentPlugin instance.
      *
-     * @param Str   $str
+     * @param Str $str
      * @param Agent $agent
      * @param Asset $asset
      * @param Image $image
@@ -258,8 +258,10 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('asset_urls', [$this->asset, 'urls']),
             new \Twig_SimpleFunction('asset_path', [$this->asset, 'path']),
             new \Twig_SimpleFunction('asset_paths', [$this->asset, 'paths']),
+            new \Twig_SimpleFunction('asset_download', [$this->asset, 'download']),
             new \Twig_SimpleFunction('asset_style', [$this->asset, 'style'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('asset_styles', [$this->asset, 'styles'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('asset_inline', [$this->asset, 'inline'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('asset_script', [$this->asset, 'script'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('asset_scripts', [$this->asset, 'scripts'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('str_truncate', [$this->str, 'truncate']),
