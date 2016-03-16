@@ -31,7 +31,7 @@ class EntryObserver extends Observer
      */
     public function creating(EntryInterface $entry)
     {
-        //
+        $entry->fireFieldTypeEvents('entry_creating');
     }
 
     /**
