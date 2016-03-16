@@ -223,7 +223,7 @@ class Asset
     {
         if (!$this->files->exists($path = $this->paths->downloadPath($url, $path))) {
 
-            if (!$this->files->isDirectory($directory = dirname($path = public_path(ltrim($path, '/'))))) {
+            if (!$this->files->isDirectory($directory = dirname($path = public_path(ltrim($path, '/\\'))))) {
                 $this->files->makeDirectory($directory, 0777, true);
             }
 
@@ -244,7 +244,7 @@ class Asset
      */
     public function inline($collection, array $filters = [])
     {
-        return file_get_contents($this->paths->realPath('public::' . ltrim($this->path($collection, $filters), '/')));
+        return file_get_contents($this->paths->realPath('public::' . ltrim($this->path($collection, $filters), '/\\')));
     }
 
     /**
@@ -433,7 +433,7 @@ class Asset
     {
         return ($this->request->segment(1) == 'admin' ? 'admin' : 'public') . '/' . ltrim(
             str_replace(base_path(), '', $this->paths->realPath($collection)),
-            '/'
+            '/\\'
         );
     }
 
@@ -446,7 +446,7 @@ class Asset
      */
     protected function publish($path, $collection, $additionalFilters)
     {
-        $path = ltrim($path, '/');
+        $path = ltrim($path, '/\\');
 
         if (str_contains($collection, public_path())) {
             return;
@@ -574,7 +574,7 @@ class Asset
      */
     protected function shouldPublish($path, $collection, array $filters = [])
     {
-        $path = ltrim($path, '/');
+        $path = ltrim($path, '/\\');
 
         if (starts_with($path, 'http')) {
             return false;
