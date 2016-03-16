@@ -19,6 +19,16 @@ class RedirectProtocol
 {
 
     /**
+     * An array of URIs to ignore.
+     *
+     * @var array
+     */
+    protected $ignored = [
+        'admin/*',
+        'forms/handle/*'
+    ];
+
+    /**
      * The config repository.
      *
      * @var Repository
@@ -62,6 +72,16 @@ class RedirectProtocol
      */
     public function handle(Request $request, Closure $next)
     {
+
+        /**
+         * Check if ignored.
+         */
+        foreach ($this->ignored as $ignore) {
+            if (str_is($ignore, $request->path())) {
+                return $next($request);
+            }
+        }
+
         $secure = $request->isSecure();
 
         $https = $this->resolver->resolve($this->config->get('streams::https.redirect'));
