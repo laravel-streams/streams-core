@@ -23,6 +23,20 @@ class EntryCriteria extends EloquentCriteria
     protected $stream;
 
     /**
+     * Create a new EntryCriteria instance.
+     *
+     * @param Builder         $query
+     * @param StreamInterface $stream
+     * @param string          $method
+     */
+    public function __construct(Builder $query, StreamInterface $stream, $method)
+    {
+        $this->stream = $stream;
+
+        parent::__construct($query, $method);
+    }
+
+    /**
      * Return sorted entries.
      *
      * @param string $direction
