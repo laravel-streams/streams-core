@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Application\Command\ConfigureUriValidator;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
+use Anomaly\Streams\Platform\Application\Command\MergeEnvFile;
 use Anomaly\Streams\Platform\Application\Command\SetCoreConnection;
 use Anomaly\Streams\Platform\Asset\Command\AddAssetNamespaces;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
@@ -197,24 +198,29 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $events->fire(new Booting());
 
+        // First load our app environment.
+        $this->dispatch(new LoadEnvironmentOverrides());
+
+        // Next take care of core utilities.
         $this->dispatch(new SetCoreConnection());
         $this->dispatch(new ConfigureCommandBus());
         $this->dispatch(new ConfigureUriValidator());
         $this->dispatch(new InitializeApplication());
-        $this->dispatch(new LoadEnvironmentOverrides());
 
+        // Setup and preparing utilities.
         $this->dispatch(new LoadStreamsConfiguration());
         $this->dispatch(new AutoloadEntryModels());
         $this->dispatch(new AddAssetNamespaces());
         $this->dispatch(new AddImageNamespaces());
         $this->dispatch(new AddViewNamespaces());
 
+        // Observe our base models.
         EntryModel::observe(EntryObserver::class);
         FieldModel::observe(FieldObserver::class);
         StreamModel::observe(StreamObserver::class);
         EloquentModel::observe(EloquentObserver::class);
         AssignmentModel::observe(AssignmentObserver::class);
-
+        
         $this->app->booted(
             function () use ($events) {
 
