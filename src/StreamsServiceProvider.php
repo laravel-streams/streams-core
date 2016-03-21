@@ -26,7 +26,6 @@ use Anomaly\Streams\Platform\Model\EloquentObserver;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
-use Anomaly\Streams\Platform\View\Command\ClearCache;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
@@ -197,18 +196,23 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $events->fire(new Booting());
 
+        // First load our app environment.
+        $this->dispatch(new LoadEnvironmentOverrides());
+
+        // Next take care of core utilities.
         $this->dispatch(new SetCoreConnection());
         $this->dispatch(new ConfigureCommandBus());
         $this->dispatch(new ConfigureUriValidator());
         $this->dispatch(new InitializeApplication());
-        $this->dispatch(new LoadEnvironmentOverrides());
 
+        // Setup and preparing utilities.
         $this->dispatch(new LoadStreamsConfiguration());
         $this->dispatch(new AutoloadEntryModels());
         $this->dispatch(new AddAssetNamespaces());
         $this->dispatch(new AddImageNamespaces());
         $this->dispatch(new AddViewNamespaces());
 
+        // Observe our base models.
         EntryModel::observe(EntryObserver::class);
         FieldModel::observe(FieldObserver::class);
         StreamModel::observe(StreamObserver::class);
