@@ -469,7 +469,7 @@ class Image
      */
     protected function getCachePath()
     {
-        if (starts_with($this->getImage(), ['//', 'http'])) {
+        if (starts_with($this->getImage(), ['http://', 'https://', '//'])) {
             return $this->getImage();
         }
 
@@ -731,9 +731,6 @@ class Image
         }
 
         if (is_string($image) && str_is('*://*', $image) && !starts_with($image, ['http', 'https'])) {
-
-            $this->image = app('League\Flysystem\MountManager')->get($image);
-
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
         }
 

@@ -132,6 +132,19 @@ class ImagePaths
         }
 
         /**
+         * If the path is a file or file path then
+         * put it in /app/{$application}/files/disk/folder/filename.ext
+         */
+        if (is_string($path) && str_is('*://*', $path)) {
+
+            $application = $this->application->getReference();
+
+            list($disk, $folder, $filename) = explode('/', str_replace('://', '/', $path));
+
+            return "/app/{$application}/files/{$disk}/{$folder}/{$filename}";
+        }
+
+        /**
          * Get the real path relative to our installation.
          */
         $path = str_replace(base_path(), '', $this->realPath($path));
