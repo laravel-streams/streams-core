@@ -75,6 +75,11 @@ class RedirectGuesser
                 case 'save_edit':
                 case 'save_continue':
                     $action['redirect'] = function () use ($section, $builder) {
+
+                        if ($builder->getFormMode() == 'create') {
+                            return $section->getHref('edit/' . $builder->getFormEntryId());
+                        }
+
                         return $this->request->fullUrl();
                     };
                     break;
