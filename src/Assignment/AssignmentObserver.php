@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Command\DeleteAssignmentTranslations;
 use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumn;
+use Anomaly\Streams\Platform\Assignment\Command\MoveAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Command\UpdateAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
@@ -45,6 +46,16 @@ class AssignmentObserver extends Observer
         $this->dispatch(new AddAssignmentColumn($model));
 
         $this->events->fire(new AssignmentWasCreated($model));
+    }
+
+    /**
+     * Run before a record is updated.
+     *
+     * @param AssignmentInterface $model
+     */
+    public function updating(AssignmentInterface $model)
+    {
+        $this->dispatch(new MoveAssignmentColumn($model));
     }
 
     /**
