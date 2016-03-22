@@ -153,6 +153,13 @@ class FieldType extends Addon
     protected $columnType = 'string';
 
     /**
+     * The database column length.
+     *
+     * @var null|integer
+     */
+    protected $columnLength = null;
+
+    /**
      * The field input view.
      *
      * @var string
@@ -758,6 +765,16 @@ class FieldType extends Addon
     public function getColumnType()
     {
         return $this->columnType;
+    }
+
+    /**
+     * Get the column length.
+     *
+     * @return string
+     */
+    public function getColumnLength()
+    {
+        return $this->columnLength;
     }
 
     /**

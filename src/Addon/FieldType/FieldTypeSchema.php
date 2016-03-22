@@ -45,7 +45,7 @@ class FieldTypeSchema
     /**
      * Add the field type column to the table.
      *
-     * @param Blueprint $table
+     * @param Blueprint           $table
      * @param AssignmentInterface $assignment
      */
     public function addColumn(Blueprint $table, AssignmentInterface $assignment)
@@ -65,11 +65,17 @@ class FieldTypeSchema
          *
          * @var Blueprint|Fluent $column
          */
-        $column = $table
-            ->{$this->fieldType->getColumnType()}(
-                $this->fieldType->getColumnName()
+        $column = call_user_func_array(
+            [$table, $this->fieldType->getColumnType()],
+            array_filter(
+                [
+                    $this->fieldType->getColumnName(),
+                    $this->fieldType->getColumnLength()
+                ]
             )
-            ->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true);
+        );
+
+        $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true);
 
         if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
             $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
@@ -84,7 +90,7 @@ class FieldTypeSchema
     /**
      * Update the field type column to the table.
      *
-     * @param Blueprint $table
+     * @param Blueprint           $table
      * @param AssignmentInterface $assignment
      */
     public function updateColumn(Blueprint $table, AssignmentInterface $assignment)
@@ -104,12 +110,17 @@ class FieldTypeSchema
          *
          * @var Blueprint|Fluent $column
          */
-        $column = $table
-            ->{$this->fieldType->getColumnType()}(
-                $this->fieldType->getColumnName()
+        $column = call_user_func_array(
+            [$table, $this->fieldType->getColumnType()],
+            array_filter(
+                [
+                    $this->fieldType->getColumnName(),
+                    $this->fieldType->getColumnLength()
+                ]
             )
-            ->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true)
-            ->change();
+        );
+
+        $column->nullable(!$assignment->isTranslatable() ? !$assignment->isRequired() : true)->change();
 
         if (!str_contains($this->fieldType->getColumnType(), ['text', 'blob'])) {
             $column->default(array_get($this->fieldType->getConfig(), 'default_value'));
