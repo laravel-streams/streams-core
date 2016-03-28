@@ -218,7 +218,7 @@ class ViewComposer
          */
         if ($addon = $this->addons->get($namespace)) {
             $path = $this->theme->getNamespace(
-                "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/" . $path
+                "addon/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/" . $path
             );
         }
 
