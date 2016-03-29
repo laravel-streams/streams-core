@@ -20,7 +20,8 @@ class StreamFormFields implements SelfHandling
      */
     public function handle(StreamFormBuilder $builder)
     {
-        $id = $builder->getFormEntryId();
+        $id        = $builder->getFormEntryId();
+        $namespace = $builder->getNamespace();
 
         $builder->setFields(
             [
@@ -48,7 +49,7 @@ class StreamFormFields implements SelfHandling
                         'max'     => 64
                     ],
                     'rules'        => [
-                        'unique' => 'streams_streams,slug,' . $id
+                        'unique' => 'streams_streams,slug,' . $id . ',id,namespace,' . $namespace
                     ]
                 ],
                 'description' => [
