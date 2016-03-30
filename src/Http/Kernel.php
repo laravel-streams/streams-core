@@ -37,7 +37,12 @@ class Kernel extends \App\Http\Kernel
      */
     protected function defineLocale()
     {
-
+        /**
+         * Make sure the ORIGINAL_REQUEST_URI is always available
+         * Overwrite later as neccesary
+         */
+        $_SERVER['ORIGINAL_REQUEST_URI'] = $_SERVER['REQUEST_URI'];
+        
         /**
          * First grab the supported i18n locales
          * that we should be looking for.
