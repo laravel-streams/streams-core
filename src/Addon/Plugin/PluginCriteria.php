@@ -22,6 +22,13 @@ class PluginCriteria
     protected $options = [];
 
     /**
+     * The options collection.
+     *
+     * @var Collection
+     */
+    protected $collection = Collection::class;
+
+    /**
      * The callback trigger.
      *
      * @var string
@@ -60,6 +67,61 @@ class PluginCriteria
     }
 
     /**
+     * Get the options.
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Set the options.
+     *
+     * @param array $options
+     */
+    public function setOptions(array $options = [])
+    {
+        $this->options = $options;
+    }
+
+    /**
+     * Get the collection.
+     *
+     * @return string
+     */
+    public function getCollection()
+    {
+        return $this->collection;
+    }
+
+    /**
+     * Set the collection.
+     *
+     * @param $collection
+     * @return $this
+     */
+    public function setCollection($collection)
+    {
+        $this->collection = $collection;
+
+        return $this;
+    }
+
+    /**
+     * Return a new collection.
+     *
+     * @return Collection
+     */
+    public function newCollection()
+    {
+        $collection = $this->getCollection();
+
+        return new $collection($this->getOptions());
+    }
+
+    /**
      * Route through __call
      *
      * @param $name
@@ -78,7 +140,13 @@ class PluginCriteria
     function __call($name, $arguments)
     {
         if ($name == $this->trigger) {
-            return app()->call($this->callback, ['options' => new Collection($this->options), 'criteria' => $this]);
+            return app()->call(
+                $this->callback,
+                [
+                    'options'  => $this->newCollection(),
+                    'criteria' => $this
+                ]
+            );
         }
 
         if (method_exists($this, $name)) {
