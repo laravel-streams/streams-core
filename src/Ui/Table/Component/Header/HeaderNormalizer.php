@@ -54,8 +54,8 @@ class HeaderNormalizer
              */
             if (is_string($column)) {
                 $column = [
-                    'heading' => $column,
-                    'value'   => $column
+                    'field' => $column,
+                    'value' => $column
                 ];
             }
 
@@ -64,8 +64,8 @@ class HeaderNormalizer
              * the column is an array without
              * a heading then use the key.
              */
-            if (!is_numeric($key) && is_array($column) && !isset($column['heading'])) {
-                $column['heading'] = $key;
+            if (!is_numeric($key) && is_array($column) && !isset($column['field'])) {
+                $column['field'] = $key;
             }
 
             /**
