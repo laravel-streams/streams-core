@@ -2,7 +2,10 @@
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Translation\Translator;
 
 /**
  * Class HeadingsGuesser
@@ -16,6 +19,20 @@ class HeadingsGuesser
 {
 
     /**
+     * The string utility.
+     *
+     * @var Str
+     */
+    protected $string;
+
+    /**
+     * The config repository.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
      * The module collection.
      *
      * @var ModuleCollection
@@ -23,13 +40,26 @@ class HeadingsGuesser
     protected $modules;
 
     /**
+     * The translator utility.
+     *
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
      * Create a new HeadingsGuesser instance.
      *
+     * @param Str              $string
+     * @param Repository       $config
      * @param ModuleCollection $modules
+     * @param Translator       $translator
      */
-    public function __construct(ModuleCollection $modules)
+    public function __construct(Str $string, Repository $config, ModuleCollection $modules, Translator $translator)
     {
-        $this->modules = $modules;
+        $this->string     = $string;
+        $this->config     = $config;
+        $this->modules    = $modules;
+        $this->translator = $translator;
     }
 
     /**
@@ -106,7 +136,7 @@ class HeadingsGuesser
             /**
              * Use the name from the field.
              */
-            if ($field && $name = $field->getName()) {
+            if ($field && $this->translator->has($name = $field->getName())) {
                 $column['heading'] = $name;
             }
 
@@ -114,11 +144,20 @@ class HeadingsGuesser
              * If no field look for
              * a name anyways.
              */
-            if (!$field && $module && trans()->has(
+            if (!$field && $module && $this->translator->has(
                     $heading = $module->getNamespace('field.' . $column['heading'] . '.name')
                 )
             ) {
                 $column['heading'] = $heading;
+            }
+
+            /**
+             * If no translatable heading yet and
+             * the heading matches the value (default)
+             * then humanize the heading value.
+             */
+            if ($column['heading'] == $column['value'] && !$this->config->get('app.debug')) {
+                $column['heading'] = $this->string->humanize($column['heading']);
             }
         }
 
