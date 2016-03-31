@@ -1,7 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Translation\Translator;
 
 /**
@@ -14,6 +16,18 @@ use Illuminate\Translation\Translator;
  */
 class TitleGuesser
 {
+
+    /**
+     * The config repository.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
+     * @var Str
+     */
+    protected $string;
 
     /**
      * The module collection.
@@ -34,9 +48,13 @@ class TitleGuesser
      *
      * @param ModuleCollection $modules
      * @param Translator       $translator
+     * @param Repository       $config
+     * @param Str              $string
      */
-    public function __construct(ModuleCollection $modules, Translator $translator)
+    public function __construct(ModuleCollection $modules, Translator $translator, Repository $config, Str $string)
     {
+        $this->config     = $config;
+        $this->string     = $string;
         $this->modules    = $modules;
         $this->translator = $translator;
     }
@@ -59,10 +77,24 @@ class TitleGuesser
 
             $module = $this->modules->active();
 
-            $section['title'] = $module->getNamespace('section.' . $section['slug'] . '.title');
+            $title = $module->getNamespace('section.' . $section['slug'] . '.title');
 
-            if (!$this->translator->has($section['title'])) {
-                $section['title'] = $module->getNamespace('addon.section.' . $section['slug']);
+            if (!isset($section['title']) && $this->translator->has($title)) {
+                $section['title'] = $title;
+            }
+
+            $title = $module->getNamespace('addon.section.' . $section['slug']);
+
+            if (!isset($section['title']) && $this->translator->has($title)) {
+                $section['title'] = $title;
+            }
+
+            if (!isset($section['title']) && !$this->config->get('app.debug')) {
+                $section['title'] = $this->string->humanize($section['slug']);
+            }
+
+            if (!isset($section['title'])) {
+                $section['title'] = $title;
             }
         }
 

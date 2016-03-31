@@ -2,7 +2,9 @@
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class LabelsGuesser
@@ -14,6 +16,32 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class LabelsGuesser
 {
+
+    /**
+     * The config repository.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
+     * The string utility.
+     *
+     * @var Str
+     */
+    protected $string;
+
+    /**
+     * Create a new LabelsGuesser instance.
+     *
+     * @param Str        $string
+     * @param Repository $config
+     */
+    public function __construct(Str $string, Repository $config)
+    {
+        $this->config = $config;
+        $this->string = $string;
+    }
 
     /**
      * Guess the field labels.
@@ -150,6 +178,15 @@ class LabelsGuesser
              */
             if (!isset($field['label']) && $label && !str_is('*::*', $label)) {
                 $field['label'] = $label;
+            }
+
+            /**
+             * If the field is still untranslated and
+             * we're not debugging then humanize the slug
+             * in leu of displaying an untranslated key.
+             */
+            if (!isset($field['label']) && !$this->config->get('app.debug')) {
+                $field['label'] = $this->string->humanize($field['field']);
             }
         }
 

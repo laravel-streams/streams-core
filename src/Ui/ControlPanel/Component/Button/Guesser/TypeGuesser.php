@@ -63,6 +63,9 @@ class TypeGuesser
                     $button['text'] = $module->getNamespace('button.' . $button['button']);
                 }
 
+                // Change this to slug for later.
+                $button['slug'] = $button['button'];
+
                 array_set($button, 'button', substr($button['button'], 0, 3));
             }
 
@@ -75,6 +78,9 @@ class TypeGuesser
                 if (!isset($button['text'])) {
                     $button['text'] = $module->getNamespace('button.' . $button['button']);
                 }
+
+                // Change this to slug for later.
+                $button['slug'] = $button['button'];
 
                 array_set($button, 'button', substr($button['button'], 0, 3));
             }

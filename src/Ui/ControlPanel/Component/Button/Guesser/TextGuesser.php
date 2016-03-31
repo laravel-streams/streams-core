@@ -2,8 +2,11 @@
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Translation\Translator;
 
 /**
  * Class TextGuesser
@@ -15,6 +18,20 @@ use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
  */
 class TextGuesser
 {
+
+    /**
+     * The config repository.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
+     * The string utility.
+     *
+     * @var Str
+     */
+    protected $string;
 
     /**
      * The button registry.
@@ -31,15 +48,33 @@ class TextGuesser
     protected $modules;
 
     /**
+     * The translator utility.
+     *
+     * @var Translator
+     */
+    protected $translator;
+
+    /**
      * Create a new TextGuesser instance.
      *
+     * @param Str              $string
+     * @param Repository       $config
      * @param ButtonRegistry   $buttons
      * @param ModuleCollection $modules
+     * @param Translator       $translator
      */
-    public function __construct(ButtonRegistry $buttons, ModuleCollection $modules)
-    {
-        $this->buttons = $buttons;
-        $this->modules = $modules;
+    public function __construct(
+        Str $string,
+        Repository $config,
+        ButtonRegistry $buttons,
+        ModuleCollection $modules,
+        Translator $translator
+    ) {
+        $this->config     = $config;
+        $this->string     = $string;
+        $this->buttons    = $buttons;
+        $this->modules    = $modules;
+        $this->translator = $translator;
     }
 
     /**
@@ -63,20 +98,27 @@ class TextGuesser
 
         foreach ($buttons as &$button) {
 
-            if (isset($button['text'])) {
+            if (!isset($button['button'])) {
                 continue;
             }
 
-            if (array_get($this->buttons->get(array_get($button, 'button')), 'text')) {
-                continue;
+            $text = $module->getNamespace('button.' . $button['button']);
+
+            if (!isset($button['text']) && $this->translator->has($text)) {
+                $button['text'] = $text;
             }
 
-            if (!isset($button['text']) && isset($button['button'])) {
-                $button['text'] = $module->getNamespace('button.' . $button['button']);
+            $text = $module->getNamespace('button.' . $button['button']);
+
+            if (!isset($button['text']) && $this->translator->has($text)) {
+                $button['text'] = $text;
             }
 
-            if (!isset($button['text']) && isset($button['button'])) {
-                $button['text'] = $module->getNamespace('button.' . $button['button']);
+            if (
+                (!isset($button['text']) || !$this->translator->has($button['text']))
+                && !$this->config->get('app.debug')
+            ) {
+                $button['text'] = $this->string->humanize(array_get($button, 'slug', $button['button']));
             }
         }
 
