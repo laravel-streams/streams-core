@@ -8,19 +8,21 @@
             {{ field_type.hidden ? 'hidden' }}
             ">
 
-    <label class="control-label">
-        {{ field_type.object.label|raw }}
+    {% if not field_type.label == false %}
+        <label class="control-label">
+            {{ field_type.object.label|raw }}
 
-        {% if field_type.required %}
-            <span class="required">*</span>
-        {% endif %}
+            {% if field_type.required %}
+                <span class="required">*</span>
+            {% endif %}
 
-        {% if field_type.locale %}
-            <span class="label label-default">
-                {{ trans('streams::locale.' ~ field_type.locale ~ '.name') }}
-            </span>
-        {% endif %}
-    </label>
+            {% if field_type.locale %}
+                <span class="label label-default">
+                    {{ trans('streams::locale.' ~ field_type.locale ~ '.name') }}
+                </span>
+            {% endif %}
+        </label>
+    {% endif %}
 
     {% if field_type.instructions %}
         <p class="text-muted">{{ field_type.instructions|raw }}</p>
