@@ -32,7 +32,7 @@ class StreamFormFields implements SelfHandling
                     'translatable' => true,
                     'type'         => 'anomaly.field_type.text',
                     'config'       => [
-                        'max'       => 64,
+                        'max'       => 60,
                         'suggested' => 20
                     ]
                 ],
@@ -46,7 +46,7 @@ class StreamFormFields implements SelfHandling
                     'config'       => [
                         'slugify' => 'name',
                         'type'    => '_',
-                        'max'     => 64
+                        'max'     => 60
                     ],
                     'rules'        => [
                         'unique' => 'streams_streams,slug,' . $id . ',id,namespace,' . $namespace
