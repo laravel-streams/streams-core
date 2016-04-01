@@ -25,7 +25,7 @@ class StreamFormFields implements SelfHandling
 
         $builder->setFields(
             [
-                'name'        => [
+                'name'         => [
                     'label'        => 'streams::field.name.name',
                     'instructions' => 'streams::field.name.instructions',
                     'required'     => true,
@@ -36,7 +36,7 @@ class StreamFormFields implements SelfHandling
                         'suggested' => 20
                     ]
                 ],
-                'slug'        => [
+                'slug'         => [
                     'label'        => 'streams::field.slug.name',
                     'instructions' => 'streams::field.slug.instructions',
                     'unique'       => true,
@@ -52,11 +52,29 @@ class StreamFormFields implements SelfHandling
                         'unique' => 'streams_streams,slug,' . $id . ',id,namespace,' . $namespace
                     ]
                 ],
-                'description' => [
+                'description'  => [
                     'label'        => 'streams::field.description.name',
                     'instructions' => 'streams::field.description.instructions',
                     'translatable' => true,
                     'type'         => 'anomaly.field_type.textarea'
+                ],
+                'translatable' => [
+                    'label'        => 'streams::field.translatable.name',
+                    'instructions' => 'streams::field.translatable.instructions',
+                    'translatable' => true,
+                    'type'         => 'anomaly.field_type.boolean'
+                ],
+                'trashable'    => [
+                    'label'        => 'streams::field.trashable.name',
+                    'instructions' => 'streams::field.trashable.instructions',
+                    'translatable' => true,
+                    'type'         => 'anomaly.field_type.boolean'
+                ],
+                'sortable'     => [
+                    'label'        => 'streams::field.sortable.name',
+                    'instructions' => 'streams::field.sortable.instructions',
+                    'translatable' => true,
+                    'type'         => 'anomaly.field_type.boolean'
                 ]
             ]
         );
