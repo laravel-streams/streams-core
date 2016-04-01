@@ -149,6 +149,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
             return null;
         }
 
+        $type->setField($field->getSlug());
         $type->mergeConfig($this->getConfig());
         $type->setRequired($this->isRequired());
 
