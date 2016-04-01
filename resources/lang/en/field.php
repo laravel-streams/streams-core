@@ -28,5 +28,18 @@ return [
     'warning'      => [
         'name'         => 'Warning',
         'instructions' => 'Warnings help bring attention to important information.'
+    ],
+    'translatable' => [
+        'name'         => 'Translatable',
+        'instructions' => 'Are the entries in this stream multilingual?',
+        'warning'      => 'The stream must be translatable for translatable fields to work properly.'
+    ],
+    'trashable'    => [
+        'name'         => 'Trashable',
+        'instructions' => 'Do you want to trash entries instead of deleting them?'
+    ],
+    'sortable'     => [
+        'name'         => 'Sortable',
+        'instructions' => 'Are the entries in this stream manually sortable?'
     ]
 ];
