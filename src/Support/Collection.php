@@ -52,6 +52,17 @@ class Collection extends \Illuminate\Support\Collection
     }
 
     /**
+     * An alias for slice.
+     *
+     * @param $offset
+     * @return $this
+     */
+    public function skip($offset)
+    {
+        return $this->slice($offset, null, true);
+    }
+
+    /**
      * Map to get.
      *
      * @param $name
