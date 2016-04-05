@@ -125,7 +125,7 @@ class AddonIntegrator
         if (!is_dir($path)) {
             return;
         }
-        
+
         $vendor = strtolower(basename(dirname($path)));
         $slug   = strtolower(substr(basename($path), 0, strpos(basename($path), '-')));
         $type   = strtolower(substr(basename($path), strpos(basename($path), '-') + 1));
