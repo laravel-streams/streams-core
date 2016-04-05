@@ -50,6 +50,10 @@ class AddonLoader
             return;
         }
 
+        if (!file_exists($path . '/composer.json')) {
+            return;
+        }
+
         $composer = json_decode(file_get_contents($path . '/composer.json'), true);
 
         if (!array_key_exists('autoload', $composer)) {
