@@ -13,20 +13,14 @@ class SectionNormalizer
 {
 
     /**
-     * The total number of columns in the layout
-     * 
-     * @var int
-     */
-    private $gridColumns = 24;
-    
-    /**
      * Normalize the section input
      *
      * @param FormBuilder $builder
      */
     public function normalize(FormBuilder $builder)
     {
-        $sections = $builder->getSections();
+        $sections    = $builder->getSections();
+        $gridColumns = $builder->getOption('grid_size', 24);
 
         /**
          * If no section was provided then use the fields as one row/one column per field
@@ -36,7 +30,7 @@ class SectionNormalizer
             $fields = $builder->getFields();
 
             foreach ($fields as $field) {
-                $sections['section']['rows'][] = ['columns' => [$this->getFieldDefinition($this->gridColumns, $field['field'])]];
+                $sections['section']['rows'][] = ['columns' => [$this->getFieldDefinition($gridColumns, $field['field'])]];
             }
         } else {
             /**
@@ -53,13 +47,13 @@ class SectionNormalizer
                     if (!isset($row['columns']) && !is_array($row[0])) {
 
                         $newRow = [];
-                        
-                        if(is_array($row)) {
+
+                        if (is_array($row)) {
                             foreach ($row as $column) {
-                                $newRow['columns'][] = $this->getFieldDefinition(($this->gridColumns / count($row)), $column);
+                                $newRow['columns'][] = $this->getFieldDefinition(($gridColumns / count($row)), $column);
                             }
                         } else {
-                            $newRow['columns'][] = $this->getFieldDefinition($this->gridColumns, $row);
+                            $newRow['columns'][] = $this->getFieldDefinition($gridColumns, $row);
                         }
 
                         $sections[$sectionIndex]['rows'][$rowIndex] = $newRow;
@@ -68,23 +62,23 @@ class SectionNormalizer
                         /**
                          * This is a column definition so append any additional data
                          */
-                        
+
                         $fields = $sections[$sectionIndex]['rows'][$rowIndex]['columns'];
-                        
-                        foreach($fields as $fieldIndex => $field) {
+
+                        foreach ($fields as $fieldIndex => $field) {
 
                             /**
                              * If there is no size then calculate it based on the fields
                              * siblings
                              */
-                            if(!isset($field['size'])) {
-                                $field['size'] = ($this->gridColumns / count($fields));
+                            if (!isset($field['size'])) {
+                                $field['size'] = ($gridColumns / count($fields));
                             }
 
                             /**
                              * If there is no class then set an empty class
                              */
-                            if(!isset($field['class'])) {
+                            if (!isset($field['class'])) {
                                 $field['class'] = '';
                             }
 
@@ -92,12 +86,12 @@ class SectionNormalizer
                              * If there is no field then there is nothing we can do
                              * just remove it
                              */
-                            if(!isset($field['field'])) {
+                            if (!isset($field['field'])) {
                                 unset($sections[$sectionIndex]['rows'][$rowIndex]['columns'][$fieldIndex]);
-                                
+
                                 continue;
                             }
-                            
+
                             $sections[$sectionIndex]['rows'][$rowIndex]['columns'][$fieldIndex] = $field;
                         }
                     }

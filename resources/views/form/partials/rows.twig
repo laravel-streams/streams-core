@@ -7,13 +7,12 @@
     {% endif %}
 
     <div class="card-block">
-
         {% for section in form.sections %}
             {% for row in section.rows %}
                 <div class="field-group">
                     <div class="row">
                         {% for column in row.columns %}
-                            <div class="col-md-{{ column.size }}">
+                            <div class="col-md-{{ column.size }} {{ column.class }}">
                                 {% for field in form.fields.translations(column.field) %}
                                     {{ field.render | raw }}
                                 {% endfor %}
@@ -23,17 +22,7 @@
                 </div>
             {% endfor %}
         {% endfor %}
-
-        {#
-        {% for field in section.fields %}
-            <div class="field-group">
-                {% for field in form.fields.translations(field) %}
-                    {{ field.render|raw }}
-                {% endfor %}
-            </div>
-        {% endfor %}
-        #}
-    </div>
+   </div>
 
     {% if section.title or section.context %}
         <div class="card-corner card-corner-{{ section.context ?: 'info' }}"></div>
