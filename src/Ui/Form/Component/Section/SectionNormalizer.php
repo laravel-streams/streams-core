@@ -19,8 +19,8 @@ class SectionNormalizer
      */
     public function normalize(FormBuilder $builder)
     {
-        $sections    = $builder->getSections();
-        $gridColumns = $builder->getOption('grid_size', 24);
+        $sections = $builder->getSections();
+        $gridSize = $builder->getOption('grid_size', 24);
 
         /**
          * If no section was provided then use the fields as one row/one column per field
@@ -30,7 +30,7 @@ class SectionNormalizer
             $fields = $builder->getFields();
 
             foreach ($fields as $field) {
-                $sections['section']['rows'][] = ['columns' => [$this->getFieldDefinition($gridColumns, $field['field'])]];
+                $sections['section']['rows'][] = ['columns' => [$this->getFieldDefinition($gridSize, $field['field'])]];
             }
         } else {
             /**
@@ -51,7 +51,7 @@ class SectionNormalizer
 
                         $newRow = [
                             'columns' => [
-                                $this->getFieldDefinition($gridColumns, $field)
+                                $this->getFieldDefinition($gridSize, $field)
                             ]
                         ];
 
@@ -73,10 +73,10 @@ class SectionNormalizer
 
                             if (is_array($row)) {
                                 foreach ($row as $column) {
-                                    $newRow['columns'][] = $this->getFieldDefinition(($gridColumns / count($row)), $column);
+                                    $newRow['columns'][] = $this->getFieldDefinition(($gridSize / count($row)), $column);
                                 }
                             } else {
-                                $newRow['columns'][] = $this->getFieldDefinition($gridColumns, $row);
+                                $newRow['columns'][] = $this->getFieldDefinition($gridSize, $row);
                             }
 
                             $sections[$sectionIndex]['rows'][$rowIndex] = $newRow;
@@ -95,7 +95,7 @@ class SectionNormalizer
                                  * siblings
                                  */
                                 if (!isset($field['size'])) {
-                                    $field['size'] = ($gridColumns / count($fields));
+                                    $field['size'] = ($gridSize / count($fields));
                                 }
 
                                 /**
