@@ -11,6 +11,14 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
  */
 class SectionNormalizer
 {
+
+    /**
+     * The total number of columns in the layout
+     * 
+     * @var int
+     */
+    private $gridColumns = 24;
+    
     /**
      * Normalize the section input
      *
@@ -28,7 +36,7 @@ class SectionNormalizer
             $fields = $builder->getFields();
 
             foreach ($fields as $field) {
-                $sections['section']['rows'][] = ['columns' => [$this->getFieldDefinition(24, $field['field'])]];
+                $sections['section']['rows'][] = ['columns' => [$this->getFieldDefinition($this->gridColumns, $field['field'])]];
             }
         } else {
             /**
@@ -48,10 +56,10 @@ class SectionNormalizer
                         
                         if(is_array($row)) {
                             foreach ($row as $column) {
-                                $newRow['columns'][] = $this->getFieldDefinition((24 / count($row)), $column);
+                                $newRow['columns'][] = $this->getFieldDefinition(($this->gridColumns / count($row)), $column);
                             }
                         } else {
-                            $newRow['columns'][] = $this->getFieldDefinition(24, $row);
+                            $newRow['columns'][] = $this->getFieldDefinition($this->gridColumns, $row);
                         }
 
                         $sections[$sectionIndex]['rows'][$rowIndex] = $newRow;
@@ -70,7 +78,7 @@ class SectionNormalizer
                              * siblings
                              */
                             if(!isset($field['size'])) {
-                                $field['size'] = (24 / count($fields));
+                                $field['size'] = ($this->gridColumns / count($fields));
                             }
 
                             /**
