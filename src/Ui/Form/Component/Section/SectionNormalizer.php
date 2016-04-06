@@ -39,62 +39,88 @@ class SectionNormalizer
 
             foreach ($sections as $sectionIndex => $section) {
 
-                foreach ($section['rows'] as $rowIndex => $row) {
+                /**
+                 * If a section contains only a fields array
+                 * wrap those fields one row and one column each
+                 */
+                if (isset($section['fields'])) {
 
-                    /**
-                     * This is just a field name so add the wrapping data
-                     */
-                    if (!isset($row['columns']) && !is_array($row[0])) {
+                    $section['rows'] = [];
 
-                        $newRow = [];
+                    foreach ($section['fields'] as $field) {
 
-                        if (is_array($row)) {
-                            foreach ($row as $column) {
-                                $newRow['columns'][] = $this->getFieldDefinition(($gridColumns / count($row)), $column);
-                            }
-                        } else {
-                            $newRow['columns'][] = $this->getFieldDefinition($gridColumns, $row);
-                        }
+                        $newRow = [
+                            'columns' => [
+                                $this->getFieldDefinition($gridColumns, $field)
+                            ]
+                        ];
 
-                        $sections[$sectionIndex]['rows'][$rowIndex] = $newRow;
-
-                    } else {
-                        /**
-                         * This is a column definition so append any additional data
-                         */
-
-                        $fields = $sections[$sectionIndex]['rows'][$rowIndex]['columns'];
-
-                        foreach ($fields as $fieldIndex => $field) {
-
-                            /**
-                             * If there is no size then calculate it based on the fields
-                             * siblings
-                             */
-                            if (!isset($field['size'])) {
-                                $field['size'] = ($gridColumns / count($fields));
-                            }
-
-                            /**
-                             * If there is no class then set an empty class
-                             */
-                            if (!isset($field['class'])) {
-                                $field['class'] = '';
-                            }
-
-                            /**
-                             * If there is no field then there is nothing we can do
-                             * just remove it
-                             */
-                            if (!isset($field['field'])) {
-                                unset($sections[$sectionIndex]['rows'][$rowIndex]['columns'][$fieldIndex]);
-
-                                continue;
-                            }
-
-                            $sections[$sectionIndex]['rows'][$rowIndex]['columns'][$fieldIndex] = $field;
-                        }
+                        $section['rows'][] = $newRow;
                     }
+
+                    unset($section['fields']);
+
+                } else if (isset($section['rows'])) {
+
+                    foreach ($section['rows'] as $rowIndex => $row) {
+
+                        /**
+                         * This is just a field name so add the wrapping data
+                         */
+                        if (!isset($row['columns']) && !is_array($row[0])) {
+
+                            $newRow = [];
+
+                            if (is_array($row)) {
+                                foreach ($row as $column) {
+                                    $newRow['columns'][] = $this->getFieldDefinition(($gridColumns / count($row)), $column);
+                                }
+                            } else {
+                                $newRow['columns'][] = $this->getFieldDefinition($gridColumns, $row);
+                            }
+
+                            $sections[$sectionIndex]['rows'][$rowIndex] = $newRow;
+
+                        } else {
+                            /**
+                             * This is a column definition so append any additional data
+                             */
+
+                            $fields = $sections[$sectionIndex]['rows'][$rowIndex]['columns'];
+
+                            foreach ($fields as $fieldIndex => $field) {
+
+                                /**
+                                 * If there is no size then calculate it based on the fields
+                                 * siblings
+                                 */
+                                if (!isset($field['size'])) {
+                                    $field['size'] = ($gridColumns / count($fields));
+                                }
+
+                                /**
+                                 * If there is no class then set an empty class
+                                 */
+                                if (!isset($field['class'])) {
+                                    $field['class'] = '';
+                                }
+
+                                /**
+                                 * If there is no field then there is nothing we can do
+                                 * just remove it
+                                 */
+                                if (!isset($field['field'])) {
+                                    unset($sections[$sectionIndex]['rows'][$rowIndex]['columns'][$fieldIndex]);
+
+                                    continue;
+                                }
+
+                                $sections[$sectionIndex]['rows'][$rowIndex]['columns'][$fieldIndex] = $field;
+                            }
+                        }
+
+                    }
+
                 }
             }
         }
