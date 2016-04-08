@@ -127,16 +127,16 @@ class Asset
     /**
      * Create a new Application instance.
      *
-     * @param Application $application
+     * @param Application     $application
      * @param ThemeCollection $themes
-     * @param MountManager $manager
-     * @param AssetParser $parser
-     * @param Repository $config
-     * @param Filesystem $files
-     * @param AssetPaths $paths
-     * @param Request $request
-     * @param HtmlBuilder $html
-     * @param UrlGenerator $url
+     * @param MountManager    $manager
+     * @param AssetParser     $parser
+     * @param Repository      $config
+     * @param Filesystem      $files
+     * @param AssetPaths      $paths
+     * @param Request         $request
+     * @param HtmlBuilder     $html
+     * @param UrlGenerator    $url
      */
     public function __construct(
         Application $application,
@@ -215,7 +215,7 @@ class Asset
     /**
      * Download a file and return it's path.
      *
-     * @param $url
+     * @param      $url
      * @param null $path
      * @return null|string
      */
@@ -238,7 +238,7 @@ class Asset
     /**
      * Return the contents of a collection.
      *
-     * @param $collection
+     * @param       $collection
      * @param array $filters
      * @return string
      */
@@ -476,62 +476,128 @@ class Asset
     protected function transformFilters($filters, $hint)
     {
         foreach ($filters as $k => &$filter) {
-            switch ($filter) {
-                case 'parse':
-                    $filter = new ParseFilter($this->parser);
-                    break;
 
-                case 'less':
-                    if ($this->config->get('streams::assets.filters.less') == 'php') {
-                        $filter = new LessFilter($this->parser);
-                    } else {
-                        $filter = new NodeLessFilter($this->parser);
-                    }
-                    break;
+            /**
+             * Parse Twg tags in the asset content.
+             */
+            if ($filter == 'parse') {
 
-                case 'styl':
-                    $filter = new StylusFilter($this->parser);
-                    break;
+                $filter = new ParseFilter($this->parser);
 
-                case 'scss':
-                    if ($this->config->get('streams::assets.filters.scss') == 'php') {
-                        $filter = new ScssFilter($this->parser);
-                    } else {
-                        $filter = new RubyScssFilter($this->parser);
-                    }
-                    break;
-
-                case 'coffee':
-                    $filter = new CoffeeFilter($this->parser);
-                    break;
-
-                case 'embed':
-                    $filter = new PhpCssEmbedFilter();
-                    break;
-
-                case 'min':
-                    if ($hint == 'js') {
-                        $filter = new JsMinFilter();
-                    } elseif ($hint == 'css') {
-                        $filter = new CssMinFilter();
-                    }
-                    break;
-
-                // Allow these through.
-                case 'glob':
-                    break;
-
-                default:
-                    unset($filters[$k]);
-                    break;
+                continue;
             }
+
+            /**
+             * Compile LESS to CSS with PHP.
+             */
+            if ($filter == 'less' && $this->config->get('streams::assets.filters.less', 'php') == 'php') {
+
+                $filter = new LessFilter($this->parser);
+
+                continue;
+            }
+
+            /**
+             * Compile LESS to CSS with Node.
+             */
+            if ($filter == 'less' && $this->config->get('streams::assets.filters.less', 'php') == 'node') {
+
+                $filter = new NodeLessFilter($this->parser);
+
+                continue;
+            }
+
+            /**
+             * Compile Stylus to CSS.
+             */
+            if ($filter == 'styl') {
+
+                $filter = new StylusFilter($this->parser);
+
+                continue;
+            }
+
+            /**
+             * Compile SCSS to CSS with PHP.
+             */
+            if ($filter == 'scss' && $this->config->get('streams::assets.filters.scss', 'php') == 'php') {
+
+                $filter = new ScssFilter($this->parser);
+
+                continue;
+            }
+
+            /**
+             * Compile SCSS to CSS with Ruby.
+             */
+            if ($filter == 'scss' && $this->config->get('streams::assets.filters.scss', 'php') == 'ruby') {
+
+                $filter = new RubyScssFilter($this->parser);
+
+                continue;
+            }
+
+            /**
+             * Compile CoffeeScript to JS
+             */
+            if ($filter == 'coffee') {
+
+                $filter = new CoffeeFilter($this->parser);
+
+                continue;
+            }
+
+            /**
+             * Look for and embed CSS images.
+             */
+            if ($filter == 'embed') {
+
+                $filter = new PhpCssEmbedFilter();
+
+                continue;
+            }
+
+            /**
+             * Minify JS
+             */
+            if ($filter == 'min' && $hint == 'js') {
+
+                $filter = new JsMinFilter();
+
+                continue;
+            }
+
+            /**
+             * Minify CSS
+             */
+            if ($filter == 'min' && $hint == 'css') {
+
+                $filter = new CssMinFilter();
+
+                continue;
+            }
+
+            /**
+             * Glob is a flag that's used later.
+             */
+            if ($filter == 'glob') {
+                continue;
+            }
+
+            /**
+             * No filter class could be determined!
+             */
+            $filter = null;
         }
 
+        /**
+         * Be sure to separate JS concatenations.
+         */
         if ($hint == 'js') {
             $filters[] = new SeparatorFilter();
         }
 
-        return $filters;
+        return array_filter($filters);
     }
 
     /**
