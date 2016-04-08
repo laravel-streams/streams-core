@@ -9,12 +9,6 @@
             "views": "Views"
         }
     },
-    "foundation": {
-        "title": "Application Foundations",
-        "pages": {
-            "structure": "Application Structure"
-        }
-    },
     "services": {
         "title": "Services",
         "pages": {
