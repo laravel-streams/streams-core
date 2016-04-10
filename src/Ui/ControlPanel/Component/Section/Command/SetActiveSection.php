@@ -46,21 +46,12 @@ class SetActiveSection implements SelfHandling
     {
         $controlPanel = $this->builder->getControlPanel();
         $sections     = $controlPanel->getSections();
-        $menu         = $controlPanel->getMenu();
 
         /**
          * If we already have an active section
          * then we don't need to do this.
          */
         if ($active = $sections->active()) {
-            return;
-        }
-
-        /**
-         * Is we have an active menu then skip
-         * that too because we can't have both.
-         */
-        if ($menu->active()) {
             return;
         }
 

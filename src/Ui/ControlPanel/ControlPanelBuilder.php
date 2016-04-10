@@ -17,13 +17,6 @@ class ControlPanelBuilder
     use DispatchesJobs;
 
     /**
-     * The module menu.
-     *
-     * @var array
-     */
-    protected $menu = [];
-
-    /**
      * The section buttons.
      *
      * @var array
@@ -112,26 +105,6 @@ class ControlPanelBuilder
     public function setSections($sections)
     {
         $this->sections = $sections;
-    }
-
-    /**
-     * Get the module menu.
-     *
-     * @return array
-     */
-    public function getMenu()
-    {
-        return $this->menu;
-    }
-
-    /**
-     * Set the menu.
-     *
-     * @param array $menu
-     */
-    public function setMenu($menu)
-    {
-        $this->menu = $menu;
     }
 
     /**
