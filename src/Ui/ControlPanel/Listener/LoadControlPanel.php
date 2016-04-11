@@ -58,7 +58,7 @@ class LoadControlPanel
      */
     public function handle()
     {
-        if (in_array($this->request->path(), ['admin/login', 'admin/logout'])) {
+        if (in_array($this->request->path(), ['admin/logout'])) {
             return;
         }
 
