@@ -22,6 +22,9 @@ class ButtonHandler implements SelfHandling
     public function handle(ControlPanelBuilder $builder)
     {
         if (!$section = $builder->getControlPanelActiveSection()) {
+
+            $builder->setButtons([]);
+
             return;
         }
 
