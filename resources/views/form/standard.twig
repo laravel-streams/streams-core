@@ -4,8 +4,24 @@
 
     {{ form_open({'class': 'form', 'enctype': 'multipart/form-data', 'url': form.options.url}) }}
 
-    {{ view("streams::form/partials/fields", {'form': form}) }}
+    {% if not form.sections.empty() %}
+        {% for section in form.sections %}
+            {% if section.view %}
+                {% include section.view %}
+            {% elseif section.fields %}
+                {% include "streams::form/partials/section" %}
+            {% elseif section.tabs %}
+                {% include "streams::form/partials/tabbed" %}
+            {% elseif section.rows %}
+                {{ view("streams::form/partials/rows", {'form': form, 'section': section}) }}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {{ view("streams::form/partials/fields", {'form': form}) }}
+    {% endif %}
+
     {{ view("streams::buttons/buttons", {'buttons': form.actions}) }}
+
 
     {{ form_close() }}
 
