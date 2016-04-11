@@ -4,7 +4,6 @@ use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Image\Image;
-use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
@@ -56,36 +55,26 @@ class DetectActiveModule
     protected $container;
 
     /**
-     * The breadcrumb collection.
-     *
-     * @var BreadcrumbCollection
-     */
-    protected $breadcrumbs;
-
-    /**
      * Create a new DetectActiveModule instance.
      *
-     * @param Asset                $asset
-     * @param Image                $image
-     * @param Request              $request
-     * @param ModuleCollection     $modules
-     * @param Container            $container
-     * @param BreadcrumbCollection $breadcrumbs
+     * @param Asset            $asset
+     * @param Image            $image
+     * @param Request          $request
+     * @param ModuleCollection $modules
+     * @param Container        $container
      */
     public function __construct(
         Asset $asset,
         Image $image,
         Request $request,
         ModuleCollection $modules,
-        Container $container,
-        BreadcrumbCollection $breadcrumbs
+        Container $container
     ) {
-        $this->asset       = $asset;
-        $this->image       = $image;
-        $this->request     = $request;
-        $this->modules     = $modules;
-        $this->container   = $container;
-        $this->breadcrumbs = $breadcrumbs;
+        $this->asset     = $asset;
+        $this->image     = $image;
+        $this->request   = $request;
+        $this->modules   = $modules;
+        $this->container = $container;
     }
 
     /**
@@ -124,12 +113,5 @@ class DetectActiveModule
 
         $this->asset->addPath('module', $module->getPath('resources'));
         $this->image->addPath('module', $module->getPath('resources'));
-
-        if ($this->request->segment(1) === 'admin') {
-            $this->breadcrumbs->add(
-                trans($module->getName()),
-                url('admin/' . $module->getSlug())
-            );
-        }
     }
 }
