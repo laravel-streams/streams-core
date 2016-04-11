@@ -57,17 +57,16 @@ class SectionBuilder
     public function build(ControlPanelBuilder $builder)
     {
         $controlPanel = $builder->getControlPanel();
-        $sections     = $controlPanel->getSections();
 
         $this->input->read($builder);
 
-        foreach ($builder->getSections() as $slug => $section) {
+        foreach ($builder->getSections() as $section) {
 
             if (!$this->authorizer->authorize($section['permission'])) {
                 continue;
             }
 
-            $sections->put($slug, $this->factory->make($section));
+            $controlPanel->addSection($this->factory->make($section));
         }
     }
 }

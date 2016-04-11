@@ -42,15 +42,15 @@ class LoadControlPanel
     /**
      * Create a new LoadControlPanel instance.
      *
-     * @param Request             $request
-     * @param ViewTemplate        $template
      * @param ControlPanelBuilder $controlPanel
+     * @param ViewTemplate        $template
+     * @param Request             $request
      */
-    public function __construct(Request $request, ViewTemplate $template, ControlPanelBuilder $controlPanel)
+    public function __construct(ControlPanelBuilder $controlPanel, ViewTemplate $template, Request $request)
     {
-        $this->request      = $request;
-        $this->template     = $template;
         $this->controlPanel = $controlPanel;
+        $this->template     = $template;
+        $this->request      = $request;
     }
 
     /**

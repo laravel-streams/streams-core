@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
 use Anomaly\Streams\Platform\Ui\ControlPanel\Command\BuildControlPanel;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\ButtonHandler;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationHandler;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionHandler;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -21,14 +24,21 @@ class ControlPanelBuilder
      *
      * @var array
      */
-    protected $buttons = [];
+    protected $buttons = ButtonHandler::class;
 
     /**
      * The module sections.
      *
      * @var array
      */
-    protected $sections = [];
+    protected $sections = SectionHandler::class;
+
+    /**
+     * The navigation links.
+     *
+     * @var array
+     */
+    protected $navigation = NavigationHandler::class;
 
     /**
      * The control_panel object.
@@ -108,11 +118,31 @@ class ControlPanelBuilder
     }
 
     /**
+     * Get the module navigation.
+     *
+     * @return array
+     */
+    public function getNavigation()
+    {
+        return $this->navigation;
+    }
+
+    /**
+     * Set the navigation.
+     *
+     * @param array $navigation
+     */
+    public function setNavigation($navigation)
+    {
+        $this->navigation = $navigation;
+    }
+
+    /**
      * Return the active control panel section.
      *
      * @return Component\Section\Contract\SectionInterface|null
      */
-    public function getActiveSection()
+    public function getControlPanelActiveSection()
     {
         $sections = $this->getControlPanelSections();
 
@@ -127,5 +157,15 @@ class ControlPanelBuilder
     public function getControlPanelSections()
     {
         return $this->controlPanel->getSections();
+    }
+
+    /**
+     * Get the control panel navigation.
+     *
+     * @return Component\Navigation\NavigationCollection
+     */
+    public function getControlPanelNavigation()
+    {
+        return $this->controlPanel->getNavigation();
     }
 }

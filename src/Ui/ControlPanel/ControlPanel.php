@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel;
 
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract\NavigationLinkInterface;
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\NavigationCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract\SectionInterface;
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Illuminate\Support\Collection;
@@ -31,15 +33,24 @@ class ControlPanel
     protected $sections;
 
     /**
+     * The navigation collection.
+     *
+     * @var NavigationCollection
+     */
+    protected $navigation;
+
+    /**
      * Create a new ControlPanel instance.
      *
-     * @param Collection        $buttons
-     * @param SectionCollection $sections
+     * @param Collection           $buttons
+     * @param SectionCollection    $sections
+     * @param NavigationCollection $navigation
      */
-    function __construct(Collection $buttons, SectionCollection $sections)
+    function __construct(Collection $buttons, SectionCollection $sections, NavigationCollection $navigation)
     {
-        $this->buttons  = $buttons;
-        $this->sections = $sections;
+        $this->buttons    = $buttons;
+        $this->sections   = $sections;
+        $this->navigation = $navigation;
     }
 
     /**
@@ -73,7 +84,7 @@ class ControlPanel
      */
     public function addSection(SectionInterface $section)
     {
-        $this->sections->push($section);
+        $this->sections->put($section->getSlug(), $section);
 
         return $this;
     }
@@ -86,5 +97,38 @@ class ControlPanel
     public function getSections()
     {
         return $this->sections;
+    }
+
+    /**
+     * Get the active section.
+     *
+     * @return SectionInterface|null
+     */
+    public function getActiveSection()
+    {
+        return $this->sections->active();
+    }
+
+    /**
+     * Add a navigation link.
+     *
+     * @param NavigationLinkInterface $link
+     * @return $this
+     */
+    public function addNavigationLink(NavigationLinkInterface $link)
+    {
+        $this->navigation->push($link);
+
+        return $this;
+    }
+
+    /**
+     * Get the navigation.
+     *
+     * @return NavigationCollection
+     */
+    public function getNavigation()
+    {
+        return $this->navigation;
     }
 }

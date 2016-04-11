@@ -48,13 +48,12 @@ class ButtonBuilder
     public function build(ControlPanelBuilder $builder)
     {
         $controlPanel = $builder->getControlPanel();
-        $buttons      = $controlPanel->getButtons();
 
         $this->input->read($builder);
 
         foreach ($builder->getButtons() as $button) {
             if (($button = $this->factory->make($button)) && $button->isEnabled()) {
-                $buttons->push($button);
+                $controlPanel->addButton($button);
             }
         }
     }

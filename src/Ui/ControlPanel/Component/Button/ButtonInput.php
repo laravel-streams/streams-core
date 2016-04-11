@@ -79,17 +79,6 @@ class ButtonInput
      */
     public function read(ControlPanelBuilder $builder)
     {
-        $buttons = [];
-
-        $controlPanel = $builder->getControlPanel();
-        $sections     = $controlPanel->getSections();
-
-        if ($section = $sections->active()) {
-            $buttons = $section->getButtons();
-        }
-
-        $builder->setButtons($buttons);
-
         $this->resolver->resolve($builder);
         $this->normalizer->normalize($builder);
         $this->lookup->merge($builder);

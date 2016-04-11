@@ -55,7 +55,7 @@ class PermissionGuesser
             return;
         }
 
-        $section = $this->controlPanel->getActiveSection();
+        $section = $this->controlPanel->getControlPanelActiveSection();
 
         foreach ($actions as &$action) {
 
