@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'control_panel' => 'Control Panel',
     'configuration' => 'Configuration',
     'localization'  => 'Localization',
     'maintenance'   => 'Maintenance',
@@ -11,5 +12,5 @@ return [
     'access'        => 'Access',
     'email'         => 'Email',
     'cache'         => 'Cache',
-    'field'         => 'Field',
+    'field'         => 'Field'
 ];

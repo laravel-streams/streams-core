@@ -1,13 +1,13 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract;
 
-/**
- * Interface NavigationLinkInterface
- *
- * @link          http://pyrocms.com/
- * @author        PyroCMS, Inc. <support@pyrocms.com>
- * @author        Ryan Thompson <ryan@pyrocms.com>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract
- */
+    /**
+     * Interface NavigationLinkInterface
+     *
+     * @link          http://pyrocms.com/
+     * @author        PyroCMS, Inc. <support@pyrocms.com>
+     * @author        Ryan Thompson <ryan@pyrocms.com>
+     * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Navigation\Contract
+     */
 /**
  * Interface NavigationLinkInterface
  *
@@ -78,6 +78,20 @@ interface NavigationLinkInterface
      * @return $this
      */
     public function setActive($active);
+
+    /**
+     * Get the favorite flag.
+     *
+     * @return boolean
+     */
+    public function isFavorite();
+
+    /**
+     * Set the favorite flag.
+     *
+     * @param boolean $favorite
+     */
+    public function setFavorite($favorite);
 
     /**
      * Get the attributes.
