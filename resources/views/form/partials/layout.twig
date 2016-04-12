@@ -13,8 +13,6 @@
                 {% include "streams::form/partials/section" %}
             {% elseif section.tabs %}
                 {% include "streams::form/partials/tabbed" %}
-            {% elseif section.rows %}
-                {{ view("streams::form/partials/rows", {'form': form, 'section': section}) }}
             {% endif %}
         {% endfor %}
 

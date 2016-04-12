@@ -28,24 +28,15 @@ class SectionInput
     protected $evaluator;
 
     /**
-     * The section normalizer.
-     * 
-     * @var SectionNormalizer
-     */
-    protected $normalizer;
-
-    /**
      * Create a new SectionInput instance.
      *
-     * @param SectionResolver   $resolver
-     * @param SectionEvaluator  $evaluator
-     * @param SectionNormalizer $normalizer
+     * @param SectionResolver  $resolver
+     * @param SectionEvaluator $evaluator
      */
-    function __construct(SectionResolver $resolver, SectionEvaluator $evaluator, SectionNormalizer $normalizer)
+    function __construct(SectionResolver $resolver, SectionEvaluator $evaluator)
     {
         $this->resolver  = $resolver;
         $this->evaluator = $evaluator;
-        $this->normalizer = $normalizer;
     }
 
     /**
@@ -57,6 +48,5 @@ class SectionInput
     {
         $this->resolver->resolve($builder);
         $this->evaluator->evaluate($builder);
-        $this->normalizer->normalize($builder);
     }
 }
