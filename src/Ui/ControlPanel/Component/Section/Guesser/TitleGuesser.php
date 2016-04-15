@@ -89,7 +89,7 @@ class TitleGuesser
                 $section['title'] = $title;
             }
 
-            if (!isset($section['title']) && !$this->config->get('app.debug')) {
+            if (!isset($section['title']) && $this->config->get('streams::locales.lazy')) {
                 $section['title'] = $this->string->humanize($section['slug']);
             }
 

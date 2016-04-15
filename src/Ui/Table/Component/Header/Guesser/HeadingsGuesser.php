@@ -180,7 +180,7 @@ class HeadingsGuesser
              * the heading matches the value (default)
              * then humanize the heading value.
              */
-            if (!isset($column['heading']) && !$this->config->get('app.debug')) {
+            if (!isset($column['heading']) && $this->config->get('streams::locales.lazy')) {
                 $column['heading'] = $this->string->humanize($column['field']);
             }
 

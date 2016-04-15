@@ -116,7 +116,7 @@ class TextGuesser
 
             if (
                 (!isset($button['text']) || !$this->translator->has($button['text']))
-                && !$this->config->get('app.debug')
+                && $this->config->get('streams::locales.lazy')
             ) {
                 $button['text'] = $this->string->humanize(array_get($button, 'slug', $button['button']));
             }
