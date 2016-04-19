@@ -67,7 +67,7 @@ class NavigationCollection extends Collection
             $link = $this->get($link);
         }
 
-        return $this->make($main);
+        return $this->make(array_filter($main));
     }
 
     /**
