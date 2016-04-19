@@ -165,7 +165,7 @@ class AssetPaths
         /**
          * Build out path parts.
          */
-        $directory   = ltrim(dirname($path), '/') . '/';
+        $directory   = ltrim(dirname($path), '/\\') . '/';
         $application = $this->application->getReference();
         $filename    = basename($path, $this->extension($path)) . $this->hint($path);
 
