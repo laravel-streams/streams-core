@@ -42,6 +42,13 @@ class NavigationLink implements NavigationLinkInterface
     protected $active = false;
 
     /**
+     * The favorite flag.
+     *
+     * @var bool
+     */
+    protected $favorite = false;
+
+    /**
      * The links attributes.
      *
      * @var array
@@ -146,6 +153,28 @@ class NavigationLink implements NavigationLinkInterface
     public function setActive($active)
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get the favorite flag.
+     *
+     * @return boolean
+     */
+    public function isFavorite()
+    {
+        return $this->favorite;
+    }
+
+    /**
+     * Set the favorite flag.
+     *
+     * @param boolean $favorite
+     */
+    public function setFavorite($favorite)
+    {
+        $this->favorite = $favorite;
 
         return $this;
     }

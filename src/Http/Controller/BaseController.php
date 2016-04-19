@@ -103,7 +103,6 @@ class BaseController extends Controller
     public function __construct()
     {
         $this->container   = app();
-        $this->route       = app('Illuminate\Routing\Route');
         $this->request     = app('Illuminate\Http\Request');
         $this->redirect    = app('Illuminate\Routing\Redirector');
         $this->view        = app('Illuminate\Contracts\View\Factory');
@@ -112,6 +111,8 @@ class BaseController extends Controller
         $this->messages    = app('Anomaly\Streams\Platform\Message\MessageBag');
         $this->response    = app('Illuminate\Contracts\Routing\ResponseFactory');
         $this->breadcrumbs = app('Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection');
+
+        $this->route = $this->request->route();
 
         $this->events->fire(new Response($this));
 

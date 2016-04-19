@@ -103,6 +103,9 @@ class SetActiveNavigationLink implements SelfHandling
         if (!$active) {
             return;
         }
+        
+        // Active navigation link!
+        $active->setActive(true);
 
         // Authorize the active link.
         if (!$authorizer->authorize($active->getPermission())) {

@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Contracts\Config\Repository;
+
 return [
 
     /*
@@ -14,16 +16,16 @@ return [
     'name'        => [
         'type'   => 'anomaly.field_type.text',
         'config' => [
-            'default_value' => function () {
-                return config('streams::distribution.name');
+            'default_value' => function (Repository $config) {
+                return $config->get('streams::distribution.name');
             },
         ]
     ],
     'description' => [
         'type'   => 'anomaly.field_type.text',
         'config' => [
-            'default_value' => function () {
-                return config('streams::distribution.description');
+            'default_value' => function (Repository $config) {
+                return $config->get('streams::distribution.description');
             },
         ]
     ]

@@ -185,7 +185,7 @@ class LabelsGuesser
              * we're not debugging then humanize the slug
              * in leu of displaying an untranslated key.
              */
-            if (!isset($field['label']) && !$this->config->get('app.debug')) {
+            if (!isset($field['label']) && $this->config->get('streams::locales.lazy')) {
                 $field['label'] = $this->string->humanize($field['field']);
             }
         }

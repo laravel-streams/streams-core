@@ -48,7 +48,23 @@ $(function () {
             delete result.subContainers;
             delete result.sortable;
 
-            return result
+            return result;
+        }
+    });
+
+    /**
+     * Hide initial items.
+     */
+    tree.find('li').each(function () {
+
+        var collapsed = Cookies.getJSON('tree');
+
+        if (typeof collapsed == 'undefined') {
+            collapsed = {};
+        }
+
+        if (collapsed[$(this).data('id')] == true) {
+            $(this).addClass('collapsed');
         }
     });
 
@@ -59,10 +75,17 @@ $(function () {
 
         e.preventDefault();
 
-        var children = $(this).closest('li').find('ul');
+        var item = $(this).closest('li');
+        var collapsed = Cookies.getJSON('tree');
 
-        if (children) {
-            children.toggleClass('hidden');
+        item.toggleClass('collapsed');
+
+        if (typeof collapsed == 'undefined') {
+            collapsed = {};
         }
+
+        collapsed[item.data('id')] = item.hasClass('collapsed');
+
+        Cookies.set('tree', JSON.stringify(collapsed), {path: window.location.pathname});
     });
 });

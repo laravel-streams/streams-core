@@ -2,7 +2,7 @@
 
 return [
     'datetime'     => [
-        'title'  => 'streams::tab.datetime',
+        'title'  => 'streams::label.datetime',
         'fields' => [
             'timezone',
             'date_format',
@@ -10,7 +10,7 @@ return [
         ]
     ],
     'localization' => [
-        'title'  => 'streams::tab.localization',
+        'title'  => 'streams::label.localization',
         'fields' => [
             'admin_locale',
             'public_locale'
