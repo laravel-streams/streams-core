@@ -19,6 +19,16 @@ class FieldTypeAccessor
     protected $fieldType;
 
     /**
+     * Create a new FieldTypeAccessor instance.
+     *
+     * @param FieldType $fieldType
+     */
+    public function __construct(FieldType $fieldType)
+    {
+        $this->fieldType = $fieldType;
+    }
+
+    /**
      * Set the value.
      *
      * @param $value

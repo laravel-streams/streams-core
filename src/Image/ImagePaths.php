@@ -153,7 +153,7 @@ class ImagePaths
          * Build out path parts.
          */
         $filename    = basename($path);
-        $directory   = ltrim(dirname($path), '/') . '/';
+        $directory   = ltrim(dirname($path), '/\\') . '/';
         $application = $this->application->getReference();
 
         if ($image->getAlterations() || $image->getQuality()) {
