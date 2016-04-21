@@ -130,7 +130,7 @@ class AddonServiceProvider
      * Create a new AddonServiceProvider instance.
      *
      * @param Application $app
-     * @param Addon $addon
+     * @param Addon       $addon
      */
     public function __construct(Application $app, Addon $addon)
     {
@@ -239,7 +239,9 @@ class AddonServiceProvider
 
         foreach (glob($this->addon->getPath('resources/routes/*')) as $include) {
 
-            if (!is_array(require $include)) {
+            $include = require $include;
+
+            if (!is_array($include)) {
                 continue;
             }
 
