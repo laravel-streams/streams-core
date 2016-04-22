@@ -126,7 +126,7 @@ class HeadingsGuesser
              */
             if (in_array($column['field'], ['id', 'created_at', 'created_by', 'updated_at', 'updated_by'])) {
 
-                $column['heading'] = 'streams::entry.' . $column['heading'];
+                $column['heading'] = 'streams::entry.' . $column['field'];
 
                 continue;
             }
@@ -160,7 +160,7 @@ class HeadingsGuesser
             /**
              * Use the name from the field.
              */
-            if ($field && $this->translator->has($heading = $field->getName())) {
+            if ($field && $heading = $field->getName()) {
                 $column['heading'] = $heading;
             }
 
