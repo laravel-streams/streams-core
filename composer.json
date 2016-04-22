@@ -1,10 +1,10 @@
 {
     "name": "anomaly/streams-platform",
-    "description": "Streams platform core library.",
+    "description": "A powerful, inclusive, modular PHP application engine.",
     "authors": [
         {
-            "name": "AnomalyLabs",
-            "email": "projects@anomaly.is"
+            "name": "Ryan Thompson",
+            "email": "ryan@pyrocms.com"
         }
     ],
     "require": {
@@ -52,10 +52,5 @@
     "config": {
         "bin-dir": "bin"
     },
-    "license": "MIT",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
-        }
-    }
+    "license": "MIT"
 }
