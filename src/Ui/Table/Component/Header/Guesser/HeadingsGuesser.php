@@ -126,7 +126,7 @@ class HeadingsGuesser
              */
             if (in_array($column['field'], ['id', 'created_at', 'created_by', 'updated_at', 'updated_by'])) {
 
-                $column['heading'] = 'streams::entry.' . $column['heading'];
+                $column['heading'] = 'streams::entry.' . $column['field'];
 
                 continue;
             }
