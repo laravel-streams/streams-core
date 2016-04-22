@@ -158,10 +158,13 @@ class HeadingsGuesser
             }
 
             /**
-             * Use the name from the field.
+             * Use the name from the field if it's translated
+             * or if it's NOT a translatable string.
              */
-            if ($field && $this->translator->has($heading = $field->getName())) {
-                $column['heading'] = $heading;
+            $name = $field->getName();
+
+            if ($field && (!str_is('*.*.*::*', $name) || $this->translator->has($name))) {
+                $column['heading'] = $name;
             }
 
             /**
