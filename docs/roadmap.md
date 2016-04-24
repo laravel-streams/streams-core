@@ -113,7 +113,7 @@
 
 ### Field Types
 
-- Addon
+- [&check;] Addon
 - Boolean
 - Checkboxes
 - Colorpicker
