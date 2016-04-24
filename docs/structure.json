@@ -2,6 +2,7 @@
     "basics": {
         "title": "The Basics",
         "pages": {
+            "glossary": "Glossary",
             "addons": "Addons",
             "streams": "Streams",
             "builders": "Builders",

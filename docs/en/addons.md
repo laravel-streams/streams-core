@@ -34,7 +34,7 @@ All addons follow the same basic structure, same storage pattern and can often p
 Addons are organized into six different types based on their structure and *intended* use: Modules, Field Types, Plugins, Themes, and Extensions. 
 
 <a name="modules"></a>
-### Modules
+#### Modules
 
 Modules are the primary building blocks of an application. They are the largest type of addon. They have a place in the control panel menu (usually), and can provide control panel content, plugins, services, and much more.
 

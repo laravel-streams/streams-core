@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Field;
 
-use Anomaly\Streams\Platform\Assignment\Command\UpdateAssignmentColumn;
 use Anomaly\Streams\Platform\Field\Command\DeleteFieldAssignments;
 use Anomaly\Streams\Platform\Field\Command\DeleteFieldTranslations;
 use Anomaly\Streams\Platform\Field\Command\RenameFieldAssignments;

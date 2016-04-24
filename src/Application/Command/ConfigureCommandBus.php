@@ -34,16 +34,8 @@ class ConfigureCommandBus implements SelfHandling
                     return get_class($command) . '@handle';
                 }
 
-                /**
-                 * Otherwise the handler is in the Handler
-                 * directory found in the commands directory
-                 * and the class is appended with "Handler".
-                 */
-                $handler = explode('\\', get_class($command));
-
-                array_splice($handler, count($handler) - 1, 0, 'Handler');
-
-                return implode('\\', $handler) . 'Handler@handle';
+                // Handlers are in the same directory.
+                return get_class($command) . 'Handler@handle';
             }
         );
     }

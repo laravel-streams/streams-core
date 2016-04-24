@@ -1,0 +1,65 @@
+<?php namespace Anomaly\Streams\Platform\Database\Migration\Command;
+
+use Anomaly\Streams\Platform\Addon\AddonCollection;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+
+/**
+ * Class CreateAddonMigrationFolderHandler
+ *
+ * @link          http://anomaly.is/streams-platform
+ * @author        AnomalyLabs, Inc. <hello@anomaly.is>
+ * @author        Ryan Thompson <ryan@anomaly.is>
+ * @package       Anomaly\Streams\Platform\Database\Migration\Command
+ */
+class CreateAddonMigrationFolderHandler
+{
+
+    use DispatchesJobs;
+
+    /**
+     * The file system.
+     *
+     * @var Filesystem
+     */
+    protected $files;
+
+    /**
+     * The addon collection.
+     *
+     * @var AddonCollection
+     */
+    protected $addons;
+
+    /**
+     * @param Filesystem      $files
+     * @param AddonCollection $addons
+     */
+    public function __construct(Filesystem $files, AddonCollection $addons)
+    {
+        $this->files  = $files;
+        $this->addons = $addons;
+    }
+
+    /**
+     * Handle the command.
+     *
+     * @param CreateAddonMigrationFolder $command
+     * @return string|null
+     */
+    public function handle(CreateAddonMigrationFolder $command)
+    {
+        $path = null;
+
+        if ($addon = $this->addons->get($command->getAddon())) {
+
+            $path = $addon->getPath('migrations');
+
+            if (!$this->files->isDirectory($path)) {
+                $this->files->makeDirectory($path);
+            }
+        }
+
+        return $path;
+    }
+}
