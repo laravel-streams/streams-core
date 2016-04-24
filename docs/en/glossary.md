@@ -67,9 +67,7 @@ Controllers in Pyro work just like controllers in Laravel, with some added funct
 
 Model criteria extends the plugin API of a model when fetching model results.
 
-{% code php %}
-{% verbatim %}{{ entries("store", "products").example("foo").get() }}{% endverbatim %}
-{% endcode %}
+    {% verbatim %}{{ entries("store", "products").example("foo").get() }}{% endverbatim %}
 
 <hr>
 

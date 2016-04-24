@@ -1,4 +1,4 @@
-# PyroCMS Docs
+# Pyro Docs
 
 ### Prologue
 
@@ -6,7 +6,7 @@
 - Glossary
 - Overview
 - Contributing
-- **API Documentation**
+- API Documentation
 
 ### Getting Started
 
@@ -31,54 +31,46 @@
 
 - Request Lifecycle
 - Application Structure
-- Streams Pattern
+- Service Providers
+- Streams API / Workflow
 
 ### Services
 
 - Asset
 - Authorization
 - Artisan Console
-- Billing
 - Cache
 - Collections
-- Elixir
-- Encryption
-- Errors & Logging
 - Evaluator
 - Events
-- Filesystem / Cloud Storage
-- Hashing
-- Helpers
+- Filesystem
 - Image
 - Localization
 - Mail
-- Package Development
+- Messages
 - Pagination
-- Queues
-- Redis
-- Reolver
-- Session
-- SSH Tasks
-- Task Scheduling
+- Resolver
 - Testing
 - Validation
-- Value
+- Valuation
 
 ### Database
 
 - Getting Started
 - Query Builder
-- Repositories
 - Migrations
 - Seeding
 
-### Streams / ORM
+### Eloquent ORM
 
 - Getting Started
 - Relationships
+- Repositories
 - Collections
+- Presenters
 - Criteria
 - Mutators
+- Observers
 - Serialization
 
 ### User Interface
@@ -87,10 +79,10 @@
 - Breadcrumb
 - Control Panel
 - Forms
-- Lists
 - Tables
+- Nested Lists
 
-### Building Addons
+### Developing Addons
 
 - Getting Started
 - Modules
@@ -98,3 +90,60 @@
 - Themes
 - Field Types
 - Extensions
+
+--
+
+# Addon Docs
+
+### Modules
+
+- Addons
+- Configuration
+- Dashboard
+- Files
+- Navigation
+- Pages
+- Posts
+- Preferences
+- Redirects
+- Search
+- Settings
+- Users
+- Variables
+
+### Field Types
+
+- Addon
+- Boolean
+- Checkboxes
+- Colorpicker
+- Country
+- Datetime
+- Decimal
+- Editor
+- Email
+- Encrypted
+- File
+- Files
+- Image
+- Integer
+- Language
+- Markdown
+- Multiple
+- Polymorphic
+- Relationship
+- Select
+- Slider
+- Slug
+- State
+- Tags
+- Text
+- Textarea
+- URL
+- WYSIWYG
+
+### Plugins
+
+- Contact
+- Helper
+- Request
