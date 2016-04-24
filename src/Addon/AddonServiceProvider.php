@@ -238,7 +238,14 @@ class AddonServiceProvider
         $routes = $this->routes;
 
         foreach (glob($this->addon->getPath('resources/routes/*')) as $include) {
-            $routes = array_merge(require $include, $routes);
+
+            $include = require $include;
+
+            if (!is_array($include)) {
+                continue;
+            }
+
+            $routes = array_merge($include, $routes);
         }
 
         return $routes;

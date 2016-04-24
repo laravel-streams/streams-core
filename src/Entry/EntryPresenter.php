@@ -81,7 +81,7 @@ class EntryPresenter extends EloquentPresenter
      */
     public function label($text, $context = 'default', $size = 'sm')
     {
-        return '<span class="label label-' . $context . ' label-' . $size . '">' . $text . '</span>';
+        return '<span class="label label-' . $context . ' label-' . $size . '">' . trans($text) . '</span>';
     }
 
     /**
