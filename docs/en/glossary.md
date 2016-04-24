@@ -35,6 +35,15 @@ An assignment is the relation between a Stream and a Field.
 
 <hr>
 
+<a name="B"></a>
+## B
+
+#### Builder
+
+Builders are simple classes that contain definitions for building complex components. Builders are typically found in the UI namespace but the pattern can be used anywhere.
+
+<hr>
+
 <a name="C"></a>
 ## C
 
