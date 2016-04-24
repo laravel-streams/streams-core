@@ -183,6 +183,10 @@ Observers in Pyro work just like observers in Laravel, with some added functiona
 <a name="P"></a>
 ## P
 
+#### Parse
+
+Parsing a value returns the string output after parsing with the Twig engine.
+
 #### Plugin
 
 Plugins are addons that act essentially as [Twig extensions](http://twig.sensiolabs.org/doc/advanced.html). They help extend functionality within the view layer.
@@ -258,10 +262,23 @@ Themes the addons that are responsible for displaying the control panel and the 
 
 The translation service in Pyro works just like translator in Laravel, with some added functionality.
 
+#### Tree
+
+Trees are a UI component that help you effortlessly display nestable stream entries in a sortable list.
+
 <hr>
 
 <a name="V"></a>
 ## V
+
+#### Value String
+
+Value strings are dot notated strings passed through the `\Anomaly\Streams\Platform\Support\Value` utility to resolve an entry, object, or array value.
+
+{% code php %}
+echo $value->make("entry.name", $entry);        // Juliet
+echo $value->make("entry.parent.name", $entry); // Ryan
+{% endcode %}
 
 #### View
 
