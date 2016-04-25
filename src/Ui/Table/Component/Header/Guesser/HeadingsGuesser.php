@@ -185,6 +185,20 @@ class HeadingsGuesser
             }
 
             /**
+             * If we have a translatable heading and
+             * the heading does not have a translation
+             * then humanize the heading value.
+             */
+            if (
+                isset($column['heading']) &&
+                str_is('*.*.*::*', $column['heading']) &&
+                !$this->translator->has($column['heading']) &&
+                $this->config->get('streams::locales.lazy')
+            ) {
+                $column['heading'] = $this->string->humanize($column['field']);
+            }
+
+            /**
              * Last resort.
              */
             if (!isset($column['heading'])) {
