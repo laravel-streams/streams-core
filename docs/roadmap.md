@@ -150,17 +150,12 @@
 
 ### Plugins
 
-- Auth
-- Config
-- Contact
-- Dump
-- Form
-- Gate
-- Helper
-- Html
-- Input
-- Request
-- Session
+- [&check;] Auth
+- [&check;] Config
+- [&check;] Contact
+- [&check;] Helper
+- [&check;] Request
+- [&check;] Session
 - Str
 - Translator
 - Url
