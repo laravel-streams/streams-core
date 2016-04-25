@@ -78,13 +78,11 @@ Model criteria extends the plugin API of a model when fetching model results.
 
 Definitions simple strings, arrays, closures, or handlers that describe larger components. Definitions usually describe a control panel or UI component but can also describe fields, field types, streams and more. Pyro converts definitions into objects.
 
-{% code php %}
-// Table columns definition
-protected $columns = [
-    "title",
-    "description"
-];
-{% endcode %}
+    // Table columns definition
+    protected $columns = [
+        "title",
+        "description"
+    ];
 
 <hr>
 
@@ -99,9 +97,7 @@ Entries are simply the database records in a stream. All entries belong to a str
 
 The `\Anomaly\Streams\Platform\Support\Evaluator` utility helps resolve a value from an instance of a `Closure`. The evaluator calls the closure through Laravel's service container.
 
-{% code php %}
-$value = $evaluator->evaluator($closure, $arguments);
-{% endcode %}
+    $value = $evaluator->evaluator($closure, $arguments);
 
 #### Extension
 
@@ -133,10 +129,8 @@ Forms are a UI component that help you effortlessly display forms for creating a
 
 Handlers are classes that handle more complex logic for something else. Handlers are often used for control panel or UI definitions but can be used for anything that runs through Pyro's `Resolver` service.
 
-{% code php %}
-// Table columns definition handler
-protected $columns = "Example\Table\TableColumns@handle";
-{% endcode %}
+    // Table columns definition handler
+    protected $columns = "Example\Table\TableColumns@handle";
 
 <hr>
 
@@ -160,9 +154,7 @@ The mailer in Pyro works just like the mailer in Laravel, with some added functi
 
 The `\Anomaly\Streams\Platform\Message\MessageBag` stashes string messages in the session that are used to display alert / info type messages to the user.
 
-{% code php %}
-$messages->info("Heads up!");
-{% endcode %}
+    $messages->info("Heads up!");
 
 #### Middleware
 
@@ -202,9 +194,7 @@ Plugins are addons that act essentially as [Twig extensions](http://twig.sensiol
 
 Presenters extend the entry with logic typically used in the view layer (or presentation layer).
 
-{% code php %}
-{% verbatim %}{{ products.label("sale") }} // &lt;span class="label label-success">On Sale!&lt;/span>{% endverbatim %}
-{% endcode %}
+    {% verbatim %}{{ products.label("sale") }} // &lt;span class="label label-success">On Sale!&lt;/span>{% endverbatim %}
 
 <hr>
 
@@ -219,9 +209,7 @@ Repositories are an _optional_ programming pattern used heavily in Pyro that hel
 
 The `\Anomaly\Streams\Platform\Support\Resolver` utility helps resolve a value from callable strings like `Example\Table\TableColumns@handle`. The resolver calls the handler through Laravel's service container.
 
-{% code php %}
-$value = $resolver->resolver($handler, $arguments);
-{% endcode %}
+    $value = $resolver->resolver($handler, $arguments);
 
 #### Route
 
@@ -257,9 +245,7 @@ Tables are a UI component that help you effortlessly display stream entries in s
 
 The `\Anomaly\Streams\Platform\View\ViewTemplate` is a collection of data that is set as a global variable in the view layer.
 
-{% code php %}
-$template->set("meta_title", "Hello World"); // {% verbatim %}{{ template.meta_title }}{% endverbatim %}
-{% endcode %}
+    $template->set("meta_title", "Hello World"); // {% verbatim %}{{ template.meta_title }}{% endverbatim %}
 
 #### Theme
 
@@ -282,10 +268,8 @@ Trees are a UI component that help you effortlessly display nestable stream entr
 
 Value strings are dot notated strings passed through the `\Anomaly\Streams\Platform\Support\Value` utility to resolve an entry, object, or array value.
 
-{% code php %}
-echo $value->make("entry.name", $entry);        // Juliet
-echo $value->make("entry.parent.name", $entry); // Ryan
-{% endcode %}
+    echo $value->make("entry.name", $entry);        // Juliet
+    echo $value->make("entry.parent.name", $entry); // Ryan
 
 #### View
 
