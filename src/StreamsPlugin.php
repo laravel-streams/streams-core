@@ -318,7 +318,13 @@ class StreamsPlugin extends Plugin
                     return $addons;
                 }
             ),
-            new \Twig_SimpleFunction('url', [$this->url, 'to']),
+            new \Twig_SimpleFunction('asset', [$this->url, 'asset'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('action', [$this->url, 'action'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('url', [$this, 'url'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('route', [$this->url, 'route'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('route_has', [$this->router, 'has'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('secure_url', [$this->url, 'secure'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('secure_asset', [$this->url, 'secureAsset'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('config', [$this->config, 'get']),
             new \Twig_SimpleFunction('config_get', [$this->config, 'get']),
             new \Twig_SimpleFunction('config_has', [$this->config, 'has']),
@@ -378,5 +384,18 @@ class StreamsPlugin extends Plugin
                 }
             ),
         ];
+    }
+
+    /**
+     * Return a URL.
+     *
+     * @param null  $path
+     * @param array $parameters
+     * @param null  $secure
+     * @return string
+     */
+    public function url($path = null, $parameters = [], $secure = null)
+    {
+        return $this->url->to($path, $parameters, $secure);
     }
 }
