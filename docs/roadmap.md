@@ -152,10 +152,10 @@
 
 - [&check;] Auth
 - [&check;] Config
-- Contact
+- [&check;] Contact
 - [&check;] Helper
 - [&check;] Request
-- Session
+- [&check;] Session
 - Str
 - Translator
 - Url
