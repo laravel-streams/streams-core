@@ -54,6 +54,7 @@
 - Messages
 - Pagination
 - Resolver
+- String
 - Testing
 - Validation
 - Valuation
