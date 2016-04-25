@@ -153,7 +153,6 @@
 - [&check;] Auth
 - [&check;] Config
 - Contact
-- Dump
 - Form
 - Gate
 - Helper
