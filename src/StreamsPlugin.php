@@ -21,6 +21,7 @@ use Anomaly\Streams\Platform\View\Command\GetLayoutName;
 use Anomaly\Streams\Platform\View\Command\GetView;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Session\Store;
 use Illuminate\Translation\Translator;
@@ -43,6 +44,13 @@ class StreamsPlugin extends Plugin
      * @var Str
      */
     protected $str;
+
+    /**
+     * The URL generator.
+     *
+     * @var UrlGenerator
+     */
+    protected $url;
 
     /**
      * The auth guard.
@@ -103,16 +111,18 @@ class StreamsPlugin extends Plugin
     /**
      * Create a new AgentPlugin instance.
      *
-     * @param Str        $str
-     * @param Guard      $auth
-     * @param Agent      $agent
-     * @param Asset      $asset
-     * @param Image      $image
-     * @param Repository $config
-     * @param Request    $request
-     * @param Store      $session
+     * @param UrlGenerator $url
+     * @param Str          $str
+     * @param Guard        $auth
+     * @param Agent        $agent
+     * @param Asset        $asset
+     * @param Image        $image
+     * @param Repository   $config
+     * @param Request      $request
+     * @param Store        $session
      */
     public function __construct(
+        UrlGenerator $url,
         Str $str,
         Guard $auth,
         Agent $agent,
@@ -122,6 +132,7 @@ class StreamsPlugin extends Plugin
         Request $request,
         Store $session
     ) {
+        $this->url     = $url;
         $this->str     = $str;
         $this->auth    = $auth;
         $this->agent   = $agent;
@@ -283,6 +294,15 @@ class StreamsPlugin extends Plugin
                     $arguments = array_slice(func_get_args(), 1);
 
                     return call_user_func_array([$this->str, camel_case($name)], $arguments);
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'url_*',
+                function ($name) {
+
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    return call_user_func_array([$this->url, camel_case($name)], $arguments);
                 }
             ),
             new \Twig_SimpleFunction(
