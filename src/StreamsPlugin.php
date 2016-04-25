@@ -23,6 +23,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 use Illuminate\Session\Store;
 use Illuminate\Translation\Translator;
 use Jenssegers\Agent\Agent;
@@ -88,6 +89,13 @@ class StreamsPlugin extends Plugin
     protected $image;
 
     /**
+     * The router service.
+     *
+     * @var Router
+     */
+    protected $router;
+
+    /**
      * The request object.
      *
      * @var Request
@@ -117,6 +125,7 @@ class StreamsPlugin extends Plugin
      * @param Agent        $agent
      * @param Asset        $asset
      * @param Image        $image
+     * @param Router       $router
      * @param Repository   $config
      * @param Request      $request
      * @param Store        $session
@@ -128,6 +137,7 @@ class StreamsPlugin extends Plugin
         Agent $agent,
         Asset $asset,
         Image $image,
+        Router $router,
         Repository $config,
         Request $request,
         Store $session
@@ -138,6 +148,7 @@ class StreamsPlugin extends Plugin
         $this->agent   = $agent;
         $this->asset   = $asset;
         $this->image   = $image;
+        $this->router  = $router;
         $this->config  = $config;
         $this->request = $request;
         $this->session = $session;
