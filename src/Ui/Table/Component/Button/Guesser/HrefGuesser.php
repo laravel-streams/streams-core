@@ -48,9 +48,9 @@ class HrefGuesser
     /**
      * Create a new HrefGuesser instance.
      *
-     * @param UrlGenerator $url
-     * @param Request $request
-     * @param ModuleCollection $modules
+     * @param UrlGenerator      $url
+     * @param Request           $request
+     * @param ModuleCollection  $modules
      * @param SectionCollection $sections
      */
     public function __construct(
@@ -108,7 +108,9 @@ class HrefGuesser
                     $type = array_get($button, 'button');
 
                     if ($type && !str_contains($type, '\\') && !class_exists($type)) {
-                        $button['attributes']['href'] = $this->request->getUri() . '/' . $type . '/{entry.id}';
+                        $button['attributes']['href'] = $this->url->to(
+                            $this->request->path() . '/' . $type . '/{entry.id}'
+                        );
                     }
 
                     break;
