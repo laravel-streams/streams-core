@@ -44,6 +44,7 @@
 - Authorization
 - Artisan Console
 - Cache
+- Config
 - Collections
 - Evaluator
 - Events
@@ -55,6 +56,7 @@
 - Pagination
 - Parser
 - Resolver
+- Session
 - String
 - Testing
 - Validation
