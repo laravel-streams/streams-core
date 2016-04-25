@@ -44,6 +44,7 @@
 - Authorization
 - Artisan Console
 - Cache
+- Config
 - Collections
 - Evaluator
 - Events
@@ -55,6 +56,7 @@
 - Pagination
 - Parser
 - Resolver
+- Session
 - String
 - Testing
 - Validation
@@ -150,12 +152,5 @@
 
 ### Plugins
 
-- [&check;] Auth
-- [&check;] Config
-- [&check;] Contact
+- Contact
 - [&check;] Helper
-- [&check;] Request
-- [&check;] Session
-- Str
-- Translator
-- Url
