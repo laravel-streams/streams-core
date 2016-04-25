@@ -1,5 +1,5 @@
 - [&check;] Done
-- [\x] Removed
+- [&cross;] Removed
 - [-] Work in Progress
 
 # Pyro Docs
@@ -8,7 +8,7 @@
 
 - [&check;] Welcome
 - [&check;] Glossary
-- [\x] Overview
+- [&cross;] Overview
 - [&check;] Contributing
 - [-] API Documentation
 
