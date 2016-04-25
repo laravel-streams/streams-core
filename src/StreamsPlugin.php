@@ -318,6 +318,7 @@ class StreamsPlugin extends Plugin
                     return $addons;
                 }
             ),
+            new \Twig_SimpleFunction('url', [$this->url, 'to']),
             new \Twig_SimpleFunction('config', [$this->config, 'get']),
             new \Twig_SimpleFunction('config_get', [$this->config, 'get']),
             new \Twig_SimpleFunction('config_has', [$this->config, 'has']),
