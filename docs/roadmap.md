@@ -156,6 +156,6 @@
 - [&check;] Helper
 - [&check;] Request
 - [&check;] Session
-- Str
+- [&check;] Str
 - Translator
 - Url
