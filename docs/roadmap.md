@@ -153,7 +153,6 @@
 - [&check;] Auth
 - [&check;] Config
 - Contact
-- Form
 - [&check;] Helper
 - Html
 - [&check;] Request
