@@ -154,8 +154,7 @@
 - [&check;] Config
 - Contact
 - Form
-- Gate
-- Helper
+- [&check;] Helper
 - Html
 - Input
 - [&check;] Request
