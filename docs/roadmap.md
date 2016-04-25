@@ -53,6 +53,7 @@
 - Mail
 - Messages
 - Pagination
+- Parser
 - Resolver
 - String
 - Testing
