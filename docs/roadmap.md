@@ -157,5 +157,5 @@
 - [&check;] Request
 - [&check;] Session
 - [&check;] Str
-- Translator
-- Url
+- [&check;] Translator
+- [&check;] Url
