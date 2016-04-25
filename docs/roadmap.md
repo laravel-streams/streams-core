@@ -114,21 +114,21 @@
 ### Field Types
 
 - [&check;] Addon
-- Boolean
-- Checkboxes
-- Colorpicker
-- Country
-- Datetime
-- Decimal
-- Editor
-- Email
-- Encrypted
-- File
+- [&check;] Boolean
+- [&check;] Checkboxes
+- [&check;] Colorpicker
+- [&check;] Country
+- [&check;] Datetime
+- [&check;] Decimal
+- [&check;] Editor
+- [&check;] Email
+- [&check;] Encrypted
+- [&check;] File
 - Files
 - Image
 - Integer
 - Language
-- Markdown
+- [&check;] Markdown
 - Multiple
 - Polymorphic
 - Relationship
@@ -140,7 +140,7 @@
 - Text
 - Textarea
 - URL
-- WYSIWYG
+- [&check;] WYSIWYG
 
 ### Plugins
 
