@@ -19,6 +19,9 @@ use Anomaly\Streams\Platform\Ui\Icon\Command\GetIcon;
 use Anomaly\Streams\Platform\View\Command\GetConstants;
 use Anomaly\Streams\Platform\View\Command\GetLayoutName;
 use Anomaly\Streams\Platform\View\Command\GetView;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Http\Request;
 use Illuminate\Session\Store;
 use Illuminate\Translation\Translator;
 use Jenssegers\Agent\Agent;
@@ -42,6 +45,13 @@ class StreamsPlugin extends Plugin
     protected $str;
 
     /**
+     * The auth guard.
+     *
+     * @var Guard
+     */
+    protected $auth;
+
+    /**
      * The agent utility.
      *
      * @var Agent
@@ -56,11 +66,25 @@ class StreamsPlugin extends Plugin
     protected $asset;
 
     /**
+     * The config repository.
+     *
+     * @var Repository
+     */
+    protected $config;
+
+    /**
      * The image utility.
      *
      * @var Image
      */
     protected $image;
+
+    /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
 
     /**
      * The session store.
@@ -79,18 +103,32 @@ class StreamsPlugin extends Plugin
     /**
      * Create a new AgentPlugin instance.
      *
-     * @param Str $str
-     * @param Agent $agent
-     * @param Asset $asset
-     * @param Image $image
-     * @param Store $session
+     * @param Str        $str
+     * @param Guard      $auth
+     * @param Agent      $agent
+     * @param Asset      $asset
+     * @param Image      $image
+     * @param Repository $config
+     * @param Request    $request
+     * @param Store      $session
      */
-    public function __construct(Str $str, Agent $agent, Asset $asset, Image $image, Store $session)
-    {
+    public function __construct(
+        Str $str,
+        Guard $auth,
+        Agent $agent,
+        Asset $asset,
+        Image $image,
+        Repository $config,
+        Request $request,
+        Store $session
+    ) {
         $this->str     = $str;
+        $this->auth    = $auth;
         $this->agent   = $agent;
         $this->asset   = $asset;
         $this->image   = $image;
+        $this->config  = $config;
+        $this->request = $request;
         $this->session = $session;
     }
 
@@ -224,9 +262,27 @@ class StreamsPlugin extends Plugin
                 }
             ),
             new \Twig_SimpleFunction(
+                'request_*',
+                function ($name) {
+
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    return call_user_func_array([$this->request, camel_case($name)], $arguments);
+                }
+            ),
+            new \Twig_SimpleFunction(
                 'trans',
                 function ($key, array $parameters = [], $locale = 'en') {
                     return $this->dispatch(new GetTranslatedString($key, $parameters, $locale));
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'str_*',
+                function ($name) {
+
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    return call_user_func_array([$this->str, camel_case($name)], $arguments);
                 }
             ),
             new \Twig_SimpleFunction(
@@ -242,9 +298,21 @@ class StreamsPlugin extends Plugin
                     return $addons;
                 }
             ),
+            new \Twig_SimpleFunction('config', [$this->config, 'get']),
+            new \Twig_SimpleFunction('config_get', [$this->config, 'get']),
+            new \Twig_SimpleFunction('config_has', [$this->config, 'has']),
+            new \Twig_SimpleFunction('auth_user', [$this->auth, 'user']),
+            new \Twig_SimpleFunction('auth_check', [$this->auth, 'check']),
+            new \Twig_SimpleFunction('auth_guest', [$this->auth, 'guest']),
             new \Twig_SimpleFunction('trans_exists', [$this->translator, 'exists']),
             new \Twig_SimpleFunction('message_get', [$this->session, 'pull']),
             new \Twig_SimpleFunction('message_exists', [$this->session, 'has']),
+            new \Twig_SimpleFunction('session', [$this->session, 'get']),
+            new \Twig_SimpleFunction('csrf_token', [$this->session, 'token'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('csrf_field', 'csrf_field', ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('session_get', [$this->session, 'get']),
+            new \Twig_SimpleFunction('session_pull', [$this->session, 'pull']),
+            new \Twig_SimpleFunction('session_has', [$this->session, 'has']),
             new \Twig_SimpleFunction('agent_device', [$this->agent, 'device']),
             new \Twig_SimpleFunction('agent_browser', [$this->agent, 'browser']),
             new \Twig_SimpleFunction('agent_platform', [$this->agent, 'platform']),
@@ -263,9 +331,31 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('asset_styles', [$this->asset, 'styles'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('asset_inline', [$this->asset, 'inline'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('asset_script', [$this->asset, 'script'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('asset_scripts', [$this->asset, 'scripts'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('str_truncate', [$this->str, 'truncate']),
-            new \Twig_SimpleFunction('str_humanize', [$this->str, 'humanize'])
+            new \Twig_SimpleFunction('asset_scripts', [$this->asset, 'scripts'], ['is_safe' => ['html']])
+        ];
+    }
+
+    /**
+     * Get the filters.
+     *
+     * @return array
+     */
+    public function getFilters()
+    {
+        return [
+            new \Twig_SimpleFilter('camel_case', [$this->str, 'camel']),
+            new \Twig_SimpleFilter('snake_case', [$this->str, 'snake']),
+            new \Twig_SimpleFilter('studly_case', [$this->str, 'studly']),
+            new \Twig_SimpleFilter('humanize', [$this->str, 'humanize']),
+            new \Twig_SimpleFilter(
+                'str_*',
+                function ($name) {
+
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    return call_user_func_array([$this->str, camel_case($name)], $arguments);
+                }
+            ),
         ];
     }
 }
