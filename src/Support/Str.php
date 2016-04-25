@@ -8,7 +8,7 @@
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Support
  */
-class Str
+class Str extends \Illuminate\Support\Str
 {
 
     /**
