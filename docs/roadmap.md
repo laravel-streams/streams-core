@@ -154,7 +154,6 @@
 - [&check;] Config
 - Contact
 - [&check;] Helper
-- Html
 - [&check;] Request
 - Session
 - Str
