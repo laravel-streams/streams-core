@@ -150,8 +150,8 @@
 
 ### Plugins
 
-- Auth
-- Config
+- [&check;] Auth
+- [&check;] Config
 - Contact
 - Dump
 - Form
@@ -159,7 +159,7 @@
 - Helper
 - Html
 - Input
-- Request
+- [&check;] Request
 - Session
 - Str
 - Translator
