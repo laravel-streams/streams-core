@@ -150,12 +150,5 @@
 
 ### Plugins
 
-- [&check;] Auth
-- [&check;] Config
-- [&check;] Contact
+- Contact
 - [&check;] Helper
-- [&check;] Request
-- [&check;] Session
-- [&check;] Str
-- [&check;] Translator
-- [&check;] Url
