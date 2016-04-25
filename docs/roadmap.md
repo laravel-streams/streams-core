@@ -132,22 +132,22 @@
 - [&check;] Email
 - [&check;] Encrypted
 - [&check;] File
-- Files
-- Image
-- Integer
-- Language
+- [-] Files
+- [-] Image
+- [-] Integer
+- [-] Language
 - [&check;] Markdown
-- Multiple
-- Polymorphic
-- Relationship
-- Select
-- Slider
-- Slug
-- State
-- Tags
-- Text
-- Textarea
-- URL
+- [-] Multiple
+- [-] Polymorphic
+- [-] Relationship
+- [-] Select
+- [-] Slider
+- [-] Slug
+- [-] State
+- [-] Tags
+- [-] Text
+- [-] Textarea
+- [-] URL
 - [&check;] WYSIWYG
 
 ### Plugins
