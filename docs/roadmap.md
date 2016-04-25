@@ -1,17 +1,21 @@
+- [&check;] Done
+- [X] Removed
+- [-] Work in Progress
+
 # Pyro Docs
 
 ### Prologue
 
-- Welcome
-- Glossary
-- Overview
-- Contributing
-- API Documentation
+- [&check;] Welcome
+- [&check;] Glossary
+- [X] Overview
+- [&check;] Contributing
+- [-] API Documentation
 
 ### Getting Started
 
-- Installation
-- Configuration
+- [-] Installation
+- [-] Configuration
 
 --
 
