@@ -17,31 +17,11 @@
             "image": "Image"
         }
     },
-    "builders": {
-        "title": "Builders",
-        "pages": {
-            "table": "Table [dev]",
-            "form": "Form [dev]",
-            "tree": "Tree [dev]",
-            "grid": "Grid [dev]"
-        }
-    },
-    "database": {
-        "title": "Database",
-        "pages": {
-            "getting-started": "Getting Started [dev]",
-            "migrations": "Migrations [dev]",
-            "seeding": "Seeding [dev]"
-        }
-    },
     "developers": {
         "title": "Developer",
         "pages": {
             "themes": "Developing Themes",
-            "plugins": "Developing Plugins",
-            "modules": "Developing Modules [dev]",
-            "field-types": "Developing Field Types [dev]",
-            "extensions": "Developing Extensions [dev]"
+            "plugins": "Developing Plugins"
         }
     }
 }
