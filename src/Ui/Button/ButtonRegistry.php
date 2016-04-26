@@ -147,6 +147,11 @@ class ButtonRegistry
             'icon' => 'fa fa-eye',
             'type' => 'info'
         ],
+        'export'        => [
+            'text' => 'streams::button.export',
+            'icon' => 'download',
+            'type' => 'info'
+        ],
         'fields'        => [
             'text' => 'streams::button.fields',
             'icon' => 'list-alt',

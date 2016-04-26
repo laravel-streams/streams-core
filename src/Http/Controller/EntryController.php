@@ -68,7 +68,7 @@ class EntryController extends AdminController
     }
 
     /**
-     * Delete an entry.
+     * Restore an entry.
      *
      * @param $addon
      * @param $namespace
@@ -107,5 +107,57 @@ class EntryController extends AdminController
         $this->messages->success('streams::message.restore_success');
 
         return $this->redirect->back();
+    }
+
+    /**
+     * Export all entries.
+     *
+     * @param $addon
+     * @param $namespace
+     * @param $stream
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function export($addon, $namespace, $stream)
+    {
+        $addon = $this->addons->get($addon);
+
+        /* @var StreamInterface $stream */
+        $stream = $this->streams->findBySlugAndNamespace($stream, $namespace);
+
+        /**
+         * Resolve the model and set
+         * it on the repository.
+         */
+        $this->repository->setModel($this->container->make($stream->getEntryModelName()));
+
+        if (!$this->authorizer->authorize($addon->getNamespace($stream->getSlug() . '.export'))) {
+            abort(403);
+        }
+
+        $headers = [
+            'Content-Disposition' => 'attachment; filename=' . $stream->getSlug() . '.csv',
+            'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
+            'Content-type'        => 'text/csv',
+            'Pragma'              => 'public',
+            'Expires'             => '0'
+        ];
+
+        $callback = function () {
+
+            $output = fopen('php://output', 'w');
+
+            foreach ($this->repository->all() as $k => $entry) {
+
+                if ($k == 0) {
+                    fputcsv($output, array_keys($entry->toArray()));
+                }
+
+                fputcsv($output, $entry->toArray());
+            }
+
+            fclose($output);
+        };
+
+        return $this->response->stream($callback, 200, $headers);
     }
 }

@@ -36,7 +36,9 @@ class ActionRegistry
         ],
         'export'       => [
             'button'  => 'info',
-            'handler' => Export::class
+            'icon'    => 'download',
+            'handler' => Export::class,
+            'text'    => 'streams::button.export'
         ],
         'edit'         => [
             'handler' => Edit::class

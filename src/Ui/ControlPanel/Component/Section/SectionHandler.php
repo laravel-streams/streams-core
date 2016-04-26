@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
+use Anomaly\Streams\Platform\Support\Resolver;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
@@ -23,13 +24,22 @@ class SectionHandler implements SelfHandling
     protected $modules;
 
     /**
+     * The resolver utility.
+     *
+     * @var Resolver
+     */
+    protected $resolver;
+
+    /**
      * Create a new SectionHandler instance.
      *
      * @param ModuleCollection $modules
+     * @param Resolver         $resolver
      */
-    public function __construct(ModuleCollection $modules)
+    public function __construct(ModuleCollection $modules, Resolver $resolver)
     {
-        $this->modules = $modules;
+        $this->modules  = $modules;
+        $this->resolver = $resolver;
     }
 
     /**
@@ -58,7 +68,7 @@ class SectionHandler implements SelfHandling
          * let that HANDLE the sections.
          */
         if (!$sections && class_exists($sections = get_class($module) . 'Sections')) {
-            $builder->setSections($sections . '@handle');
+            $this->resolver->resolve($sections . '@handle', compact('builder'));
         }
     }
 }

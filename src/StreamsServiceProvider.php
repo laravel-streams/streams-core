@@ -408,5 +408,10 @@ class StreamsServiceProvider extends ServiceProvider
             'entry/handle/restore/{addon}/{namespace}/{stream}/{id}',
             'Anomaly\Streams\Platform\Http\Controller\EntryController@restore'
         );
+
+        $this->app->make('router')->get(
+            'entry/handle/export/{addon}/{namespace}/{stream}',
+            'Anomaly\Streams\Platform\Http\Controller\EntryController@export'
+        );
     }
 }

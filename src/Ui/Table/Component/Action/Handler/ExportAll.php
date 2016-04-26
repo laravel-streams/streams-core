@@ -7,18 +7,18 @@ use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Routing\ResponseFactory;
 
 /**
- * Class Export
+ * Class ExportAll
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler
  */
-class Export extends ActionHandler implements SelfHandling
+class ExportAll extends ActionHandler implements SelfHandling
 {
 
     /**
-     * Export the selected entries.
+     * ExportAll the selected entries.
      *
      * @param TableBuilder    $builder
      * @param ResponseFactory $response
@@ -42,15 +42,13 @@ class Export extends ActionHandler implements SelfHandling
             $output = fopen('php://output', 'w');
 
             /* @var EloquentModel $entry */
-            foreach ($selected as $k => $id) {
-                if ($entry = $model->find($id)) {
+            foreach ($model->all() as $k => $entry) {
 
-                    if ($k == 0) {
-                        fputcsv($output, array_keys($entry->toArray()));
-                    }
-
-                    fputcsv($output, $entry->toArray());
+                if ($k == 0) {
+                    fputcsv($output, array_keys($entry->toArray()));
                 }
+
+                fputcsv($output, $entry->toArray());
             }
 
             fclose($output);

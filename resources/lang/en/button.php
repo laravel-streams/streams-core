@@ -20,6 +20,7 @@ return [
     'delete'         => 'Delete',
     'restore'        => 'Restore',
     'force_delete'   => 'Force Delete',
+    'export'         => 'Export',
     'create'         => 'Create',
     'cancel'         => 'Cancel',
     'options'        => 'Options',

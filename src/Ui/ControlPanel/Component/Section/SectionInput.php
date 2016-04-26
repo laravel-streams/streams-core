@@ -91,6 +91,7 @@ class SectionInput
     public function read(ControlPanelBuilder $builder)
     {
         $this->resolver->resolve($builder);
+        $this->evaluator->evaluate($builder);
         $this->normalizer->normalize($builder);
         $this->guesser->guess($builder);
         $this->evaluator->evaluate($builder);

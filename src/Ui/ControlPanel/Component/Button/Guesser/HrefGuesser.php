@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser;
 
+use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Http\Request;
 
 /**
@@ -15,6 +17,13 @@ class HrefGuesser
 {
 
     /**
+     * The URL generator.
+     *
+     * @var UrlGenerator
+     */
+    protected $url;
+
+    /**
      * The request object.
      *
      * @var Request
@@ -22,13 +31,24 @@ class HrefGuesser
     protected $request;
 
     /**
+     * The module collection.
+     *
+     * @var ModuleCollection
+     */
+    protected $modules;
+
+    /**
      * Create a new HrefGuesser instance.
      *
-     * @param Request $request
+     * @param UrlGenerator     $url
+     * @param Request          $request
+     * @param ModuleCollection $modules
      */
-    public function __construct(Request $request)
+    public function __construct(UrlGenerator $url, Request $request, ModuleCollection $modules)
     {
+        $this->url     = $url;
         $this->request = $request;
+        $this->modules = $modules;
     }
 
     /**
@@ -42,6 +62,7 @@ class HrefGuesser
         $sections = $builder->getControlPanelSections();
 
         $active = $sections->active();
+        $module = $this->modules->active();
 
         foreach ($buttons as &$button) {
 
@@ -57,6 +78,17 @@ class HrefGuesser
                 case 'new':
                 case 'create':
                     $button['attributes']['href'] = $active->getHref('create');
+                    break;
+
+                case 'export':
+                    if ($module) {
+                        $button['attributes']['href'] = $this->url->to(
+                            'entry/handle/export/' . $module->getNamespace() . '/' . array_get(
+                                $button,
+                                'namespace'
+                            ) . '/' . array_get($button, 'stream')
+                        );
+                    }
                     break;
             }
 
