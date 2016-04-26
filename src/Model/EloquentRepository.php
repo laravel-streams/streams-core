@@ -1,6 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Model\Contract\EloquentRepositoryInterface;
+use Anomaly\Streams\Platform\Traits\FiresCallbacks;
+use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -14,6 +16,9 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class EloquentRepository implements EloquentRepositoryInterface
 {
+
+    use FiresCallbacks;
+    use Hookable;
 
     /**
      * Return all records.
@@ -239,5 +244,21 @@ class EloquentRepository implements EloquentRepositoryInterface
     public function getModel()
     {
         return $this->model;
+    }
+
+    /**
+     * Pipe non-existing calls through hooks.
+     *
+     * @param $method
+     * @param $parameters
+     * @return mixed|null
+     */
+    public function __call($method, $parameters)
+    {
+        if ($this->hasHook($hook = snake_case($method))) {
+            return $this->call($hook, $parameters);
+        }
+
+        return null;
     }
 }

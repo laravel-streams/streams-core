@@ -14,11 +14,18 @@ trait FiresCallbacks
 {
 
     /**
-     * The registered callbacks.
+     * The local callbacks.
      *
      * @var array
      */
     protected $callbacks = [];
+
+    /**
+     * The static callbacks.
+     *
+     * @var array
+     */
+    protected static $listeners = [];
 
     /**
      * Register a new callback.
@@ -39,6 +46,24 @@ trait FiresCallbacks
     }
 
     /**
+     * Register a new listener.
+     *
+     * @param $trigger
+     * @param $callback
+     * @return $this
+     */
+    public function listen($trigger, $callback)
+    {
+        if (!isset(self::$listeners[$trigger])) {
+            self::$listeners[$trigger] = [];
+        }
+
+        self::$listeners[$trigger][] = $callback;
+
+        return $this;
+    }
+
+    /**
      * Fire a set of closures by trigger.
      *
      * @param       $trigger
@@ -47,6 +72,21 @@ trait FiresCallbacks
      */
     public function fire($trigger, array $parameters = [])
     {
+
+        /**
+         * Fire listeners first.
+         */
+        foreach (array_get(self::$listeners, $trigger, []) as $callback) {
+
+            if (is_string($callback) || $callback instanceof \Closure) {
+                app()->call($callback, $parameters);
+            }
+
+            if ($callback instanceof SelfHandling) {
+                app()->call([$callback, 'handle'], $parameters);
+            }
+        }
+
         $method = camel_case('on_' . $trigger);
 
         if (method_exists($this, $method)) {
@@ -74,7 +114,7 @@ trait FiresCallbacks
             }
 
             if ($callback instanceof SelfHandling) {
-                call_user_func_array([$callback, 'handle'], $parameters);
+                app()->call([$callback, 'handle'], $parameters);
             }
         }
 
@@ -82,15 +122,13 @@ trait FiresCallbacks
     }
 
     /**
-     * Set the callbacks.
+     * Return if the callback exists.
      *
-     * @param array $callbacks
-     * @return $this
+     * @param $trigger
+     * @return bool
      */
-    public function setCallbacks(array $callbacks)
+    public function hasCallback($trigger)
     {
-        $this->callbacks = $callbacks;
-
-        return $this;
+        return isset(self::$callbacks[$trigger]);
     }
 }
