@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Delete;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Edit;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Export;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\ForceDelete;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Reorder;
 
@@ -32,6 +33,10 @@ class ActionRegistry
             'button'  => 'prompt',
             'handler' => ForceDelete::class,
             'text'    => 'streams::button.force_delete',
+        ],
+        'export'       => [
+            'button'  => 'info',
+            'handler' => Export::class
         ],
         'edit'         => [
             'handler' => Edit::class
