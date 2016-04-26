@@ -43,12 +43,14 @@
 - Asset
 - Authorization
 - Artisan Console
+- Callbacks
 - Cache
 - Config
 - Collections
 - Evaluator
 - Events
 - Filesystem
+- Hooks
 - Image
 - Localization
 - Mail
