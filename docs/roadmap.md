@@ -40,7 +40,7 @@
 
 ### Services
 
-- Asset
+- [&check;] Asset
 - Authorization
 - Artisan Console
 - Callbacks
@@ -57,6 +57,7 @@
 - Messages
 - Pagination
 - Parser
+- Plugin
 - Resolver
 - Session
 - String
