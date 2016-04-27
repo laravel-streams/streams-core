@@ -1,62 +1,129 @@
 # Asset
 
 - [Introduction](#introduction)
+	- [Assets](#assets)
 	- [Collections](#collections)
 	- [Filters](#filters)
-- [Configuration](#configuration)
-- [Asset Usage](#asset-usage)
-	- [Adding Assets To A Collection](#adding-assets-to-a-collection)
-	- [Obtaining Cached Output Files](#obtaining-cached-output-files)
-	- [Obtaining Cached Output Tags](#obtaining-cached-output-tags)
+	- [Paths](#paths)
+- [Managing Assets](#managing-assets)
+	- [Adding Assets](#adding-assets)
+	- [Dumping Output](#output)
 
+<hr>
 
 <a name="introduction"></a>
 ## Introduction
 
-The Streams Platform provides powerful asset manager for your application based on the [Assetic](https://github.com/kriswallsmith/assetic) framework by Kris Wallsmith.
+Pyro provides a powerful asset management right out of the box. Built around the [Assetic](https://github.com/kriswallsmith/assetic) framework by Kris Wallsmith, the asset service provides a fluent API for managing collections of assets.
+
+The `\Anomaly\Streams\Platform\Asset\Asset` class makes it easy to add assets to a collection, manipulate the collection and/or it's assets with filters, then dump the result and include it in your markup.
+
+<a name="assets"></a>
+### Assets
+
+An asset is a file with _filterable_ content that can be loaded and dumped.
 
 <a name="collections"></a>
 ### Collections
 
-A collection is simply a collection of files that you would like to group together, with some properties attached to tell the asset manager how to do its job. Such properties include the filters which should be applied, the type of file to output, or the location where the source files reside.
+Collections are used to organize the assets you are working with. Assets in a collection can be combined or used individually.
 
-When defining collections, you MUST include a file extension that represents the type of file you wish to output. If working with LESS, SACC, Stylus or CSS you might want to use `example.css` as a collection. If working with Coffee Script or Javascript you might want to use `example.js`.
+<div class="alert alert-info">
+<strong>Note:</strong> Collections are <em>always</em> named such that it reflects the desired output name.
+</div>
+
+	$asset->add("collection.css", "theme::example.scss");
+	$asset->add("collection.js", "theme::example.js");
 
 <a name="filters"></a>
 ### Filters
 
-Filters are simple flags that tell the asset manager how to manipulate an asset or entire asset collection. For example the `min` filter will minify a single asset or an entire asset collection.
+Filters are used to mutate the content of the assets.
+
+<div class="alert alert-info">
+<strong>Note:</strong> Filters can be applied to individual assets in a collection as well as the entire collection.
+</div>
+
+	$asset->add("collection.css", "theme::example.scss", ["min", "live"]);
 
 #### Available Filters
 
-`min`: runs the asset or asset collection through the appropriate minification filter.
+- `min`: minifies content
+- `less`: parses LESS into CSS
+- `styl`: parses STYL into CSS
+- `scss`: parses SCSS into CSS
+- `parse`: parses content with Twig
+- `coffee`: compiles CoffeeScript into Javascript
+- `embed`: embeds image data in your stylesheets
+- `live`: refreshes content when LIVE_ASSETS is enabled
 
-`parse`: runs the asset or asset collection through the Twig parser. Compiler filters also parse when compiling.
+#### Automatic Filters
 
-`less`: runs the asset or asset collection through the LESS CSS compiler. Automatically applied to .less files.
+`scss`, `less`, `styl`, and `coffee` filters are are applied automatically to matching files.
 
-`styl`: runs the asset or asset collection through the Stylus CSS compiler. Automatically applied to .styl files.
+You may wish to use files that use an alternate syntax like LESS for CSS or Coffee for Javascript. In most cases you do not need to manually add filters to compile these assets to relevant syntax for output. Simply add them along with your other assets.
 
-`scss`: runs the asset or asset collection through the SASS CSS compiler. Automatically applied to .scss files.
+	$asset
+		->add('theme.css', 'example::styles/example.css')
+		->add('theme.css', 'example::styles/example.less')
+		->add('theme.css', 'example::styles/example.scss')
+		->add('theme.css', 'example::styles/example.styl');
 
-`coffee`: runs the asset or asset collection through the Coffee JS compiler. Automatically applied to .coffee files.
+<a name="paths"></a>
+### Paths
 
-`embed`: embeds referenced images as base64 encoded data URIs.
+To avoid having to use full paths to your assets there are a number of path hints available. Hints are a namespace that prefixes the asset path.
 
+	"theme::js/initialize.js"
 
-<a name="configuration"></a>
-## Configuration
+#### Available Path Hints
 
-The asset configuration is located at `vendor/anomaly/streams-platform/resources/config/assets.php` which can be overridden by creating your own configuration file at `config/streams/assets.php`.
+All paths are relative to your applications base path.
 
+- `public`: public/
+- `asset`: public/app/{app_reference}/
+- `storage`: storage/streams/{app_reference}/
+- `download`: public/app/{app_reference}/assets/downloads/
+- `streams`: vendor/anomaly/streams-platform/resources/
+- `bower`: bin/bower_components/
+- `theme`: {active\_theme\_path}/resources/
+- `module`: {active\_module\_path}/resources/
 
-<a name="asset-usage"></a>
-## Asset Usage
+<div class="alert alert-info">
+<strong>Note:</strong> Every single addon also registers a prefix for it's resources path like <strong>vendor.module.example</strong>
+</div>
 
-<a name="adding-assets-to-collections"></a>
-### Adding Assets To A Collection
+#### Registering Path Hints
 
-The `Anomaly\Streams\Platform\Asset\Asset` class provides access to Asset services.
+Registering path hints is super easy:
+
+	$asset->addPath("foo", base_path("example/path"));
+	
+	$asset->add("scripts.js", "foo::extra.js"); // example/path/extra.js
+
+<hr>
+
+<a name="managing-assets"></a>
+## Managing Assets
+
+The `Anomaly\Streams\Platform\Asset\Asset` class provides access to Asset services. Simply inject the class into your own to get started.
+
+	<?php namespace Anomaly\ExampleModule\Http\Controller;
+	
+	use Anomaly\Streams\Platform\Asset\Asset;
+	use Anomaly\Streams\Platform\Http\Controller\PublicController;
+	
+	class ExampleController extends PublicController
+	{
+		public function(Asset $asset)
+		{
+			$asset->add('example.css', 'module::css/main.css');
+			$asset->add('example.js', 'module::js/main.js');
+		}
+	}
+	
+<a name="adding-assets"></a>
+### Adding Assets
 
 For example, let's import the asset manager into a controller and add an asset to an asset collection:
 
@@ -74,68 +141,70 @@ For example, let's import the asset manager into a controller and add an asset t
 		}
 	}
 
+#### Adding Single Assets
+
+Assets can be added by specifying their path from your application root:
+
+	$asset->add('example.css', 'public/main.css');
+
 #### Adding Multiple Assets
 
-You can add multiple assets to the same collection by chaining or calling the `add` method multiple times using the same collection. The asset manager is a singleton so the same instance is accessible anywhere in your application.
+Adding multiple assets to a collection is easy.
 
 	$asset->add('main.css', 'module::css/main.css');
 	
 	$asset
 		->add('main.css', 'module::css/extra.css');
-		->add('main.css', 'module::css/example.css');
+		->add('main.css', 'module::css/example.less');
 
-#### Automatic Compiler Detection
+<div class="alert alert-info">
+<strong>Note:</strong> The asset class is a singleton. Loaded assets are carried throughout your application request.
+</div>
 
-You may wish to use files that use an alternate syntax like LESS for CSS or Coffee for Javascript. In most cases you do not need to manually add filters to compile these assets to relevant syntax for output. Simply add them along with your other assets.
+<a name="output"></a>
+### Dumping Output
 
-	$asset
-		->add('theme.css', 'example::styles/example.css')
-		->add('theme.css', 'example::styles/example.less')
-		->add('theme.css', 'example::styles/example.scss')
-		->add('theme.css', 'example::styles/example.styl');
+Whenever you call an output method for a collection the output is dumped and the resulting output is returned.
 
-<a name="obtaining-cached-output-files"></a>
-### Obtaining Cached Output Files
+<div class="alert alert-warning">
+<strong>Caution:</strong> The collection output is only processed when necessary. If you find your assets are not refreshing during development, enable LIVE_ASSETS in your .env file and add the "live" filter.
+</div>
 
-The `path` method on the asset manager is used to compile and retrieve the path to the cached output file. If the output file does not exist, or any included asset has been modified, the file will recompile. If you wish, you may pass a second argument specifying additional filters to apply to the entire collection:
+#### Combining Assets
 
-	$path = $asset->path('example.js');
+To combine the assets in a collection and return the dumped content path use the `path` method. An optional array of filters to apply to the entire collection can be passed as the second parameter.
+
+	$asset->path("collection.js");
+	$asset->path("collection.js", ["min"]);
 	
-	$path = $asset->path('example.js', ['min']);
+	url($path);
 
-#### Obtaining Individual Asset Output
+You can quickly return the URL to a asset dump via the `UrlGenerator` by using the `url` method:
 
-The `paths` method on the asset manager is used to compile and retrieve an `array` of paths to each individual asset in a collection. Each output is cached in a similar fashion as the `path` method. You may again pass a second argument specifying additional filters to be applied to *each asset*.
-
-	$paths = $asset->paths('examples.js');
+	$asset->url('example.css', $filters = [], $parameters = [], $secure = null);
 	
-	$paths = $asset->path('examples.js', ['min']);
+To return the combined assets as a tag use the `style` or `script` method:
 
-<a name="obtaining-cached-output-tags"></a>
-### Obtaining Cached Output Tags
+	$asset->style("example.css", $filters = [], $attributes = []);
+	$asset->script("example.js", $filters = [], $attributes = []);
 
-The `style` method on the asset manager wraps the `path` method in a `<style>` tag. In addition to a second argument specifying additional filters to apply, you may also pass a third argument specifying attributes to be added to the `<style>` tag:
+#### Dumping Individual Assets
 
-	$tag = $asset->style('example.css');
-	
-	$tag = $asset->style('example.css', ['min'], ['media' => 'print']);
+You can also extract the individual assets from a collection. The assets are filtered all the same.
 
-The `script` method on the asset manager wraps the `path` method in a `<script>` tag. In addition to a second argument specifying additional filters to apply, you may also pass a third argument specifying attributes to be added to the `<script>` tag:
+	for ($asset->paths("collection.js", ["min"]) as $path) {
+		echo url($path);
+	}
 
-	$tag = $asset->script('example.css');
-	
-	$tag = $asset->script('example.css', ['min'], ['media' => 'print']);
+The same approach can be used for extracting individual asset URLs and tags:
 
-#### Obtaining Individual Asset Tags
+	$asset->urls('example.css', $filters = [], $parameters = [], $secure = null);
 
-The `styles` method on the asset manager wraps the `paths` method in `<style>` tags. In addition to a second argument specifying additional filters to apply to each asset, you may also pass a third argument specifying attributes to be added to the `<style>` tag:
+	$asset->styles("example.css", $filters = [], $attributes = []);
+	$asset->scripts("example.js", $filters = [], $attributes = []);
 
-	$tags = $asset->styles('example.css');
-	
-	$tags = $asset->styles('example.css', ['min'], ['media' => 'print']);
+#### Displaying Content Inline
 
-The `scripts` method on the asset manager wraps the `paths` method in `<script>` tags. In addition to a second argument specifying additional filters to apply to each asset, you may also pass a third argument specifying attributes to be added to the `<script>` tag:
+The `inline` method can be used to return the dumped content as a string:
 
-	$tags = $asset->scripts('example.js');
-	
-	$tags = $asset->scripts('example.js', ['min'], ['defer']);
+	echo $asset->inline("example.css");
