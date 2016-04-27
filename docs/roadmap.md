@@ -40,7 +40,7 @@
 
 ### Services
 
-- Asset
+- [&check;] Asset
 - Authorization
 - Artisan Console
 - Callbacks
