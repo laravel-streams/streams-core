@@ -57,6 +57,7 @@
 - Messages
 - Pagination
 - Parser
+- Plugin
 - Resolver
 - Session
 - String
