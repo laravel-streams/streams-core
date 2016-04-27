@@ -29,7 +29,7 @@ trait Hookable
      */
     public function hook($hook, $callback)
     {
-        self::$hooks[$hook] = $callback;
+        self::$hooks[get_class($this) . $hook] = $callback;
 
         return $this;
     }
@@ -43,7 +43,7 @@ trait Hookable
      */
     public function call($hook, array $parameters = [])
     {
-        return app()->call(self::$hooks[$hook], $parameters);
+        return app()->call(self::$hooks[get_class($this) . $hook], $parameters);
     }
 
     /**
@@ -54,6 +54,6 @@ trait Hookable
      */
     public function hasHook($hook)
     {
-        return isset(self::$hooks[$hook]);
+        return isset(self::$hooks[get_class($this) . $hook]);
     }
 }
