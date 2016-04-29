@@ -50,8 +50,8 @@
 - Evaluator
 - Events
 - Filesystem
-- Hooks
-- Image
+- [&check;] Hooks
+- [&check;] Image
 - Localization
 - Mail
 - Messages
