@@ -141,6 +141,15 @@ class ImagePaths
 
             list($disk, $folder, $filename) = explode('/', str_replace('://', '/', $path));
 
+            if ($rename = $image->getFilename()) {
+
+                $filename = $rename;
+
+                if (strpos($filename, DIRECTORY_SEPARATOR)) {
+                    $directory = null;
+                }
+            }
+
             return "/app/{$application}/files/{$disk}/{$folder}/{$filename}";
         }
 
@@ -160,6 +169,15 @@ class ImagePaths
             $filename = md5(
                     var_export([$path, $image->getAlterations()], true) . $image->getQuality()
                 ) . '.' . $image->getExtension();
+        }
+
+        if ($rename = $image->getFilename()) {
+
+            $filename = $rename;
+
+            if (strpos($filename, DIRECTORY_SEPARATOR)) {
+                $directory = null;
+            }
         }
 
         return "/app/{$application}/assets/{$directory}{$filename}";

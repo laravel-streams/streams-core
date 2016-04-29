@@ -5,7 +5,7 @@
 	- [Collections](#collections)
 	- [Filters](#filters)
 	- [Paths](#paths)
-- [Managing Assets](#managing-assets)
+- [Basic Usage](#basic-usage)
 	- [Adding Assets](#adding-assets)
 	- [Dumping Output](#output)
 
@@ -75,6 +75,8 @@ You may wish to use files that use an alternate syntax like LESS for CSS or Coff
 To avoid having to use full paths to your assets there are a number of path hints available. Hints are a namespace that prefixes the asset path.
 
 	"theme::js/initialize.js"
+	
+	"anomaly.module.products::js/initialize.js"
 
 #### Available Path Hints
 
@@ -103,8 +105,8 @@ Registering path hints is super easy:
 
 <hr>
 
-<a name="managing-assets"></a>
-## Managing Assets
+<a name="basic-usage"></a>
+## Basic Usage
 
 The `Anomaly\Streams\Platform\Asset\Asset` class provides access to Asset services. Simply inject the class into your own to get started.
 
@@ -115,7 +117,7 @@ The `Anomaly\Streams\Platform\Asset\Asset` class provides access to Asset servic
 	
 	class ExampleController extends PublicController
 	{
-		public function(Asset $asset)
+		public function index(Asset $asset)
 		{
 			$asset->add('example.css', 'module::css/main.css');
 			$asset->add('example.js', 'module::js/main.js');
@@ -134,7 +136,7 @@ For example, let's import the asset manager into a controller and add an asset t
 	
 	class ExampleController extends PublicController
 	{
-		public function(Asset $asset)
+		public function index(Asset $asset)
 		{
 			$asset->add('example.css', 'module::css/main.css');
 			$asset->add('example.js', 'module::js/main.js');

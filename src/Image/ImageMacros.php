@@ -97,10 +97,21 @@ class ImageMacros
      * @param $macro
      * @return $this
      */
-    public function addMacro($namespace, $macro)
+    public function addMacro($macro, $process)
     {
-        $this->macros[$namespace] = $macro;
+        $this->macros[$macro] = $process;
 
         return $this;
+    }
+
+    /**
+     * Return if a macro exists or not.
+     *
+     * @param $macro
+     * @return bool
+     */
+    public function isMacro($macro)
+    {
+        return isset($this->macros[$macro]);
     }
 }

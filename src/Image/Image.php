@@ -21,7 +21,7 @@ use Robbo\Presenter\Presenter;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Asset
+ * @package Anomaly\Streams\Platform\Image
  */
 class Image
 {
@@ -130,6 +130,20 @@ class Image
      * @var null|int
      */
     protected $quality = null;
+
+    /**
+     * The image width.
+     *
+     * @var null|int
+     */
+    protected $width = null;
+
+    /**
+     * The image height.
+     *
+     * @var null|int
+     */
+    protected $height = null;
 
     /**
      * The URL generator.
@@ -382,9 +396,9 @@ class Image
      * @param int  $quality
      * @return String
      */
-    public function encode($format = null, $quality = 100)
+    public function encode($format = null, $quality = null)
     {
-        return $this->manager->make($this->getCachePath())->encode($format, $quality);
+        return $this->manager->make($this->getCachePath())->encode($format, $quality ?: $this->getQuality());
     }
 
     /**
@@ -427,11 +441,7 @@ class Image
      */
     public function width($width = null)
     {
-        if (!$width && ($image = $this->getImage()) instanceof FileInterface) {
-            $width = $image->getWidth();
-        }
-
-        return $this->addAttribute('width', $width);
+        return $this->addAttribute('width', $width ?: $this->getWidth());
     }
 
     /**
@@ -442,11 +452,7 @@ class Image
      */
     public function height($height = null)
     {
-        if (!$height && ($image = $this->getImage()) instanceof FileInterface) {
-            $height = $image->getHeight();
-        }
-
-        return $this->addAttribute('height', $height);
+        return $this->addAttribute('height', $height ?: $this->getHeight());
     }
 
     /**
@@ -574,7 +580,7 @@ class Image
             }
         }
 
-        $image->save($this->directory . $path, $this->getQuality($this->config->get('streams::images.quality')));
+        $image->save($this->directory . $path, $this->getQuality());
     }
 
     /**
@@ -728,21 +734,41 @@ class Image
             $image = $this->paths->realPath($image);
 
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
+
+            $size = getimagesize($image);
+
+            $this->setWidth(array_get($size, 0));
+            $this->setHeight(array_get($size, 1));
         }
 
         if (is_string($image) && str_is('*://*', $image) && !starts_with($image, ['http', 'https'])) {
+
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
+
+            $size = getimagesize($image);
+
+            $this->setWidth(array_get($size, 0));
+            $this->setHeight(array_get($size, 1));
         }
 
         if ($image instanceof FileInterface) {
+
+            /* @var FileInterface $image */
             $this->setExtension($image->getExtension());
+
+            $this->setWidth($image->getWidth());
+            $this->setHeight($image->getHeight());
         }
 
         if ($image instanceof FilePresenter) {
 
+            /* @var FilePresenter|FileInterface $image */
             $image = $image->getObject();
 
             $this->setExtension($image->getExtension());
+
+            $this->setWidth($image->getWidth());
+            $this->setHeight($image->getHeight());
         }
 
         $this->image = $image;
@@ -979,6 +1005,10 @@ class Image
      */
     public function getQuality($default = null)
     {
+        if (!$default) {
+            $this->config->get('streams::images.quality', 80);
+        }
+
         return $this->quality ?: $default;
     }
 
@@ -1043,6 +1073,52 @@ class Image
     }
 
     /**
+     * Get the width.
+     *
+     * @return int|null
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * Set the width.
+     *
+     * @param $width
+     * @return $this
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+
+        return $this;
+    }
+
+    /**
+     * Get the height.
+     *
+     * @return int|null
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    /**
+     * Set the height.
+     *
+     * @param $height
+     * @return $this
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
+
+        return $this;
+    }
+
+    /**
      * Guess the resize callback value
      * from a boolean.
      *
@@ -1085,6 +1161,10 @@ class Image
     {
         if (in_array($name, $this->getAllowedMethods())) {
             return $this->addAlteration($name, $arguments);
+        }
+
+        if ($this->macros->isMacro($macro = snake_case($name))) {
+            return $this->macro($macro);
         }
 
         if (!method_exists($this, $name)) {
