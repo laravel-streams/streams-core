@@ -13,6 +13,7 @@
         "title": "Services",
         "pages": {
             "asset": "Asset",
+            "hooks": "Hooks",
             "image": "Image"
         }
     },
