@@ -51,7 +51,7 @@
 - Events
 - Filesystem
 - Hooks
-- Image
+- [&check;] Image
 - Localization
 - Mail
 - Messages
