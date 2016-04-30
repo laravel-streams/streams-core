@@ -119,5 +119,7 @@ Callbacks are fired with the `fire` method. An optional set of arguments to send
 <a name="examples"></a>
 ## Examples
 
+By far, the most common example of this is the `querying` trigger on tables and other UI components.
+
 Trigger: [https://github.com/anomalylabs/streams-platform/blob/master/src/Model/EloquentTableRepository.php#L70](https://github.com/anomalylabs/streams-platform/blob/master/src/Model/EloquentTableRepository.php#L70)
 Callback: [https://github.com/anomalylabs/files-module/blob/master/src/File/Upload/UploadTableBuilder.php#L103](https://github.com/anomalylabs/files-module/blob/master/src/File/Upload/UploadTableBuilder.php#L103)
