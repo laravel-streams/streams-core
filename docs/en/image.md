@@ -81,6 +81,7 @@ For more information on parameters for the following supported methods please re
 - `greyscale`
 - `heighten`
 - `invert`
+- `insert`
 - `limitColors`
 - `pixelate`
 - `opacity`
