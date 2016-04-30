@@ -66,30 +66,18 @@ There are a number of different ways you can modify an image. To apply alteratio
 
 #### Available Alterations
 
-For more information on parameters for the following supported methods please reference the [Intervention Documentation](http://image.intervention.io).
+The following Intervention methods are available.
 
-- `quality`
-- `blur`
-- `brightness`
-- `colorize`
-- `contrast`
-- `crop`
-- `encode`
-- `fit`
-- `flip`
-- `gamma`
-- `greyscale`
-- `heighten`
-- `invert`
-- `insert`
-- `limitColors`
-- `pixelate`
-- `opacity`
-- `resize`
-- `rotate`
-- `amount`
-- `widen`
-- `orientate`
+{% for api in ['blur', 'brightness', 'colorize', 'contrast', 'crop', 'encode', 'fit', 'flip', 'gamma', 'greyscale', 'heighten', 'invert', 'insert', 'limitColors', 'pixelate', 'opacity', 'resize', 'rotate', 'amount', 'widen', 'orientate'] %}
+- [{{ api }}](http://image.intervention.io/api/{{ api }})
+{% endfor %}
+
+#### Changing Image Quality
+
+You can change the output quality with the `quality` method:
+
+    // Reduce the image quality.
+    $image->quality(50);
 
 #### Renaming Output Files
 
