@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Entry\EntryPresenter;
 use Anomaly\Streams\Platform\Support\Collection;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
+use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -19,6 +20,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 class EloquentCriteria
 {
 
+    use Hookable;
     use DispatchesJobs;
 
     /**
@@ -147,6 +149,11 @@ class EloquentCriteria
      */
     function __call($name, $arguments)
     {
+
+        if ($this->hasHook($name)) {
+            return $this->call($name, $arguments);
+        }
+
         if ($this->methodIsSafe($name)) {
             call_user_func_array([$this->query, $name], $arguments);
         }
