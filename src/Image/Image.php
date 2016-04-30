@@ -113,6 +113,7 @@ class Image
         'gamma',
         'greyscale',
         'heighten',
+        'insert',
         'invert',
         'limitColors',
         'pixelate',
