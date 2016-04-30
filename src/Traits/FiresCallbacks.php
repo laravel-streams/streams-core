@@ -76,7 +76,7 @@ trait FiresCallbacks
     {
 
         /**
-         * Fire listeners first.
+         * First, fire global listeners.
          */
         foreach (array_get(self::$listeners, $trigger, []) as $callback) {
 
@@ -89,26 +89,20 @@ trait FiresCallbacks
             }
         }
 
+        /**
+         * Next, check if the method
+         * exists and run it if it does.
+         */
         $method = camel_case('on_' . $trigger);
 
         if (method_exists($this, $method)) {
             app()->call([$this, $method], $parameters);
         }
 
-        $handler = get_class($this) . ucfirst(camel_case('on_' . $trigger));
-
-        if (class_exists($handler)) {
-            app()->call($handler . '@handle', $parameters);
-        }
-
-        $observer = get_class($this) . 'Callbacks';
-
-        if (class_exists($observer) && $observer = app($observer, $parameters)) {
-            if (method_exists($observer, $method)) {
-                app()->call([$observer, $method], $parameters);
-            }
-        }
-
+        /**
+         * Finally, run through all of
+         * the registered callbacks.
+         */
         foreach (array_get($this->callbacks, get_class($this) . $trigger, []) as $callback) {
 
             if (is_string($callback) || $callback instanceof \Closure) {
