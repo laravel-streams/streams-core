@@ -1,7 +1,7 @@
 # Hooks
 
 - [Introduction](#introduction)
-	- [Adding Hooks](#adding-hooks)
+	- [Registering Hooks](#registering-hooks)
 	- [Calling Hooks](#calling-hooks)
 
 <hr>
@@ -13,8 +13,8 @@ A hook is a method in Pyro of adding functionality to a class without having to 
 
 The `\Anomaly\Streams\Platform\Traits\Hookable` trait makes it easy to register and call hooks on anything from anywhere.
 
-<a name="adding-hooks"></a>
-### Adding Hooks
+<a name="registering-hooks"></a>
+### Registering Hooks
 
 To get started simply add the `\Anomaly\Streams\Platform\Traits\Hookable` trait to your class.
 

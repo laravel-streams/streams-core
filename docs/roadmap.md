@@ -43,7 +43,7 @@
 - [&check;] Asset
 - Authorization
 - Artisan Console
-- Callbacks
+- [&check;] Callbacks
 - Cache
 - Config
 - Collections

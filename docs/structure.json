@@ -13,6 +13,7 @@
         "title": "Services",
         "pages": {
             "asset": "Asset",
+            "callbacks": "Callbacks",
             "hooks": "Hooks",
             "image": "Image"
         }
