@@ -14,7 +14,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-A callback is a type of event in Pyro. Callbacks differ from events in that the scope is relative to a specific to an instance. Whereas events are broadcast across the entire application.
+A callback is a type of event in PyroCMS. Callbacks differ from events in that the scope is relative to a specific to an instance. Whereas events are broadcast across the entire application.
 
 Callbacks consist of a `trigger` or callback name and the actual `callback`.
 

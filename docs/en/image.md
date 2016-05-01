@@ -14,7 +14,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Pyro provides powerful image manipulation and management with zero setup. The `Image` manager is built over the [Intervention Image](https://github.com/Intervention/image) framework by Oliver Vogel.
+PyroCMS provides powerful image manipulation and management with zero setup. The `Image` manager is built over the [Intervention Image](https://github.com/Intervention/image) framework by Oliver Vogel.
 
 By using `\Anomaly\Streams\Platform\Image\Image` you can easily access, manipulate, and/or dump images from anywhere.
 
