@@ -9,7 +9,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-A hook is a method in Pyro of adding functionality to a class without having to extend it. This is especially helpful when you would need to extend or decorate a class multiple times with different extending behaviors. This way, you can leave the class as is, and still extend the classes abilities from different locations.
+A hook is a method in PyroCMS of adding functionality to a class without having to extend it. This is especially helpful when you would need to extend or decorate a class multiple times with different extending behaviors. This way, you can leave the class as is, and still extend the classes abilities from different locations.
 
 The `\Anomaly\Streams\Platform\Traits\Hookable` trait makes it easy to register and call hooks on anything from anywhere.
 

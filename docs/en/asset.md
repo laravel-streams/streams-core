@@ -14,7 +14,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Pyro provides a powerful asset management right out of the box. Built around the [Assetic](https://github.com/kriswallsmith/assetic) framework by Kris Wallsmith, the asset service provides a fluent API for managing collections of assets.
+PyroCMS provides a powerful asset management right out of the box. Built around the [Assetic](https://github.com/kriswallsmith/assetic) framework by Kris Wallsmith, the asset service provides a fluent API for managing collections of assets.
 
 The `\Anomaly\Streams\Platform\Asset\Asset` class makes it easy to add assets to a collection, manipulate the collection and/or it's assets with filters, then dump the result and include it in your markup.
 
