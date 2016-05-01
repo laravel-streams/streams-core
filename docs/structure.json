@@ -2,11 +2,20 @@
     "basics": {
         "title": "The Basics",
         "pages": {
+            "routing": "Routing",
+            "middleware": "Middleware",
+            "controllers": "Controllers",
             "addons": "Addons",
             "streams": "Streams",
             "builders": "Builders",
             "localization": "Localization",
             "views": "Views"
+        }
+    },
+    "foundations": {
+        "title": "Foundations",
+        "pages": {
+            "lifecycle": "Request Lifecycle"
         }
     },
     "services": {

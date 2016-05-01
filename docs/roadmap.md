@@ -9,6 +9,7 @@
 - [&check;] Welcome
 - [&check;] Glossary
 - [&cross;] Overview
+- [&check;] Structure
 - [&check;] Contributing
 - [-] API Documentation
 
@@ -23,18 +24,16 @@
 
 ### The Basics
 
-- Routing
-- Middleware
-- Controllers
-- Requests
-- Responses
+- [&check;] Routing
+- [&check;] Middleware
+- [&check;] Controllers
 - Views
 - Templates
 
 ### Foundations
 
-- Request Lifecycle
-- Application Structure
+- [&check;] Request Lifecycle
+- [&cross;] Application Structure
 - Service Providers
 - Streams API / Workflow
 
