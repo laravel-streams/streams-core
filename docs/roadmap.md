@@ -44,11 +44,10 @@
 - Artisan Console
 - [&check;] Callbacks
 - [&check;] Evaluator
-- Events
 - Filesystem
-- Hooks
-- Image
-- Localization
+- [&check;] Hooks
+- [&check;] Image
+- [&check;] Localization
 - Mail
 - Messages
 - Pagination
