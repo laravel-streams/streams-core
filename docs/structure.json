@@ -19,6 +19,7 @@
         "pages": {
             "asset": "Asset",
             "callbacks": "Callbacks",
+            "config": "Config",
             "evaluator": "Evaluator",
             "hooks": "Hooks",
             "image": "Image",

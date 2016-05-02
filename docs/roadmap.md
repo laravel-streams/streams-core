@@ -43,6 +43,7 @@
 - Authorization
 - Artisan Console
 - [&check;] Callbacks
+- [&check;] Config
 - [&check;] Evaluator
 - Filesystem
 - [&check;] Hooks
