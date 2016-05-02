@@ -21,27 +21,45 @@ class Mailer extends \Illuminate\Mail\Mailer
      */
     public function send($view, array $data, $callback)
     {
-
         /**
          * Split the view into it's
          * namespace and path.
          */
-        list($namespace, $path) = explode('::', $view);
-
-        $path = str_replace('.', '/', $path);
+        list($namespace, $path) = explode('::', str_replace('/', '.', $view));
 
         /**
-         * Catch the emails first.
+         * If the message is in the message directory
+         * then we can assume they want to translate it.
          */
-        if (starts_with($path, 'emails/')) {
+        if (starts_with($path, 'message.')) {
 
-            $email = $namespace . '::' . str_replace('emails/', config('LOCALE', 'en') . 'emails/', $path);
+            $locale = config('app.locale');
 
-            if ($this->views->exists($email)) {
-                $view = $email;
+            if (str_is('*.*.*', $path)) {
+                list($directory, $locale, $message) = explode('.', $path);
             } else {
-                $view = $namespace . '::' . str_replace('emails/', 'emails/en/', $path);
+                list($directory, $message) = explode('.', $path);
             }
+
+            /**
+             * Try sending it in the current locale or the
+             * locale specified in the data path.
+             */
+            $view = "{$namespace}::{$directory}.{$locale}.{$message}";
+
+            if ($this->views->exists($view)) {
+                return parent::send($view, $data, $callback);
+            }
+
+            /**
+             * In the event that the locale is not available
+             * the fallback locale must be used.
+             */
+            $locale = config('app.fallback_locale');
+
+            $view = "{$namespace}::{$directory}.{$locale}.{$message}";
+
+            return parent::send($view, $data, $callback);
         }
 
         return parent::send($view, $data, $callback);

@@ -49,7 +49,7 @@
 - [&check;] Hooks
 - [&check;] Image
 - [&check;] Localization
-- Mail
+- [&check;] Mail
 - Messages
 - Pagination
 - Parser

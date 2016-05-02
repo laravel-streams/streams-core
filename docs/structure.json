@@ -23,7 +23,8 @@
             "evaluator": "Evaluator",
             "hooks": "Hooks",
             "image": "Image",
-            "localization": "Localization"
+            "localization": "Localization",
+            "mail": "Mail"
         }
     },
     "developers": {
