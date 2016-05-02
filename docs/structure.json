@@ -21,7 +21,8 @@
             "callbacks": "Callbacks",
             "evaluator": "Evaluator",
             "hooks": "Hooks",
-            "image": "Image"
+            "image": "Image",
+            "localization": "Localization"
         }
     },
     "developers": {
