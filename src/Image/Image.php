@@ -745,11 +745,6 @@ class Image
         if (is_string($image) && str_is('*://*', $image) && !starts_with($image, ['http', 'https'])) {
 
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
-
-            $size = getimagesize($image);
-
-            $this->setWidth(array_get($size, 0));
-            $this->setHeight(array_get($size, 1));
         }
 
         if ($image instanceof FileInterface) {
