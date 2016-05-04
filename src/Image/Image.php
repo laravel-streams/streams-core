@@ -271,7 +271,7 @@ class Image
         try {
             return $clone->setImage($image);
         } catch (\Exception $e) {
-            return $this;
+           return $this;
         }
     }
 
@@ -745,6 +745,13 @@ class Image
         if (is_string($image) && str_is('*://*', $image) && !starts_with($image, ['http', 'https'])) {
 
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
+            
+            $mmImage = app('League\Flysystem\MountManager')->get($image);
+
+            $size = getimagesize($mmImage->getFilesystem()->getAdapter()->getPathPrefix() . $mmImage->getPath());
+
+            $this->setWidth(array_get($size, 0));
+            $this->setHeight(array_get($size, 1));
         }
 
         if ($image instanceof FileInterface) {
