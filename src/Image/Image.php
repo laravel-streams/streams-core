@@ -746,7 +746,9 @@ class Image
 
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
 
-            $size = getimagesize($image);
+            $mmImage = app('League\Flysystem\MountManager')->get($image);
+
+            $size = getimagesize($mmImage->getFilesystem()->getAdapter()->getPathPrefix() . $mmImage->getPath());
 
             $this->setWidth(array_get($size, 0));
             $this->setHeight(array_get($size, 1));
