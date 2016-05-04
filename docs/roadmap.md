@@ -27,8 +27,8 @@
 - [&check;] Routing
 - [&check;] Middleware
 - [&check;] Controllers
-- Views
-- Templates
+- [&check;] Config
+- [&check;] Views
 
 ### Foundations
 
@@ -43,15 +43,12 @@
 - Authorization
 - Artisan Console
 - [&check;] Callbacks
-- Cache
-- Config
-- Collections
-- Evaluator
-- Events
+- [&check;] Config
+- [&check;] Evaluator
 - Filesystem
 - [&check;] Hooks
 - [&check;] Image
-- Localization
+- [&check;] Localization
 - Mail
 - Messages
 - Pagination

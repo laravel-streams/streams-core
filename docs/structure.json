@@ -5,10 +5,6 @@
             "routing": "Routing",
             "middleware": "Middleware",
             "controllers": "Controllers",
-            "addons": "Addons",
-            "streams": "Streams",
-            "builders": "Builders",
-            "localization": "Localization",
             "views": "Views"
         }
     },
@@ -23,8 +19,12 @@
         "pages": {
             "asset": "Asset",
             "callbacks": "Callbacks",
+            "config": "Config",
+            "evaluator": "Evaluator",
             "hooks": "Hooks",
-            "image": "Image"
+            "image": "Image",
+            "localization": "Localization",
+            "mail": "Mail"
         }
     },
     "developers": {

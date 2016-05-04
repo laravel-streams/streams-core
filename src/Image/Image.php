@@ -12,6 +12,7 @@ use Illuminate\Filesystem\Filesystem;
 use Intervention\Image\Constraint;
 use Intervention\Image\ImageManager;
 use League\Flysystem\File;
+use League\Flysystem\MountManager;
 use Mobile_Detect;
 use Robbo\Presenter\Presenter;
 
@@ -743,13 +744,7 @@ class Image
         }
 
         if (is_string($image) && str_is('*://*', $image) && !starts_with($image, ['http', 'https'])) {
-
             $this->setExtension(pathinfo($image, PATHINFO_EXTENSION));
-
-            $size = getimagesize($image);
-
-            $this->setWidth(array_get($size, 0));
-            $this->setHeight(array_get($size, 1));
         }
 
         if ($image instanceof FileInterface) {
@@ -785,11 +780,11 @@ class Image
     protected function makeImage()
     {
         if ($this->image instanceof FileInterface) {
-            return $this->manager->make(app('League\Flysystem\MountManager')->read($this->image->location()));
+            return $this->manager->make(app(MountManager::class)->read($this->image->location()));
         }
 
         if (is_string($this->image) && str_is('*://*', $this->image)) {
-            return $this->manager->make(app('League\Flysystem\MountManager')->read($this->image));
+            return $this->manager->make(app(MountManager::class)->read($this->image));
         }
 
         if ($this->image instanceof File) {

@@ -1,102 +1,44 @@
 # Views
 
-- [Basic Usage](#basic-usage)
-    - [Addon Views](#addon-views)
-    - [Passing Data To Views](#passing-data-to-views)
-    - [Sharing Data With All Views](#sharing-data-with-all-views)
-- [View Composers](#view-composers)
+- [Introduction](#introduction)
+    - [Paths](#paths)
+    - [Paths](#paths)
 
-<a name="basic-usage"></a>
-## Basic Usage
+<hr>
 
-Views contain the HTML served by your addons and separate your controller / application logic from your presentation logic. Views are stored in the `resources/views` directory of their respective addon.
+<a name="introduction"></a>
+## Introduction
 
-A simple view might look something like this:
+Views in PyroCMS work almost exactly the same as [views in Laravel](https://laravel.com/docs/5.1/views).
 
-    <!-- View stored in addons/shared/anomaly/example-module/resources/views/greeting.twig -->
-    <html>
-        <body>
-            <h1>Hello, {{ name }}</h1>
-        </body>
-    </html>
+The primary difference between PyroCMS and Laravel views is that PyroCMS uses [Twig](http://twig.sensiolabs.org) as it's primary templating language.
 
-Since this view is stored at `addons/shared/anomaly/example-module/resources/views/greeting.php`, we may return it using the global `view` helper function and the addon's `namespace prefix` like so:
+<a name="paths"></a>
+### Paths
 
-    Route::get('/', function ()    {
-        return view('anomaly.module.example::greeting', ['name' => 'Ryan']);
-    });
+To avoid having to use full paths to your views there are a number of path hints available. Hints are a namespace that prefixes the view path.
 
-As you can see, the first argument passed to the `view` helper corresponds to the namespace of the addon the view resides in and the name of the view file in the `resources/views` directory of that addon. The second argument passed to helper is an array of data that should be made available to the view. In this case, we are passing the `name` variable, which is displayed in the view using Twig.
+	"theme::hello"
 
-Of course, views may also be nested within sub-directories of the `resources/views` directory. "Dot" notation may be used to reference nested views. For example, if your view is stored at `resources/views/admin/profile.php`, you may reference it like so:
+	"anomaly.module.products::products"
 
-    return view('anomaly.module.example::admin.profile', $data);
+#### Available Path Hints
 
-#### Determining If A View Exists
+All paths are relative to your applications base path.
 
-If you need to determine if a view exists, you may use the `exists` method after calling the `view` helper with no arguments. This method will return `true` if the view exists on disk:
+- `storage`: storage/streams/{app_reference}/
+- `streams`: vendor/anomaly/streams-platform/resources/views/
+- `theme`: {active\_theme\_path}/resources/views/
+- `module`: {active\_module\_path}/resources/views/
+- `app`: resources/{app_reference}/views/
+- `shared`: resources/core/views/
+- `root`: /
 
-    if (view()->exists('anomaly.module.example::emails.customer')) {
-        //
-    }
+<div class="alert alert-info">
+<strong>Note:</strong> Every single addon also registers a prefix for it's view path like <strong>vendor.module.example</strong>
+</div>
 
-When the `view` helper is called without arguments, an instance of `Illuminate\Contracts\View\Factory` is returned, giving you access to any of the factory's methods.
+<a name="presenters"></a>
+### Presenters
 
-<a name="addon-views"></a>
-### Addon Views
-
-All addons support views. Addon views are stored in the addon's `resources/views` directory. When referencing addon views you must specify a path hint prefix like `prefix::path.to.view` using the addon's namespace:
-
-	view('anomaly.field_type.text::input');
-
-You may also use the `module::` and `theme::` prefixes to reference the active module or theme.
-
-<a name="passing-data-to-views"></a>
-#### Passing Data To Views
-
-As you saw in the previous examples, you may easily pass an array of data to views:
-
-    return view('anomaly.module.example::greetings', ['name' => 'Victoria']);
-
-When passing information in this manner, `$data` should be an array with key/value pairs. Inside your view, you can then access each value using it's corresponding key, such as `<?php echo $key; ?>`. As an alternative to passing a complete array of data to the `view` helper function, you may use the `with` method to add individual pieces of data to the view:
-
-    $view = view('anomaly.module.example::greeting')->with('name', 'Victoria');
-
-<a name="sharing-data-with-all-views"></a>
-#### Sharing Data With All Views
-
-Occasionally, you may need to share a piece of data with all views that are rendered by your application. You may do so using the view factory's `share` method. Typically, you would place calls to `share` within a service provider's `boot` method. You are free to add them to the `AppServiceProvider` or generate a separate service provider to house them:
-
-    <?php
-
-    namespace App\Providers;
-
-    class AppServiceProvider extends ServiceProvider
-    {
-        /**
-         * Bootstrap any application services.
-         *
-         * @return void
-         */
-        public function boot()
-        {
-            view()->share('key', 'value');
-        }
-
-        /**
-         * Register the service provider.
-         *
-         * @return void
-         */
-        public function register()
-        {
-            //
-        }
-    }
-
-<a name="view-composers"></a>
-## View Composers
-
-By default the Streams Application uses a simple view composer to decorate objects and collections going into the view. Objects implementing the `Robbo\Presenter\PresentableInterface` will be decorated by their presenter automatically when passed to a view.
-
-For more information on view composers visit [Laravel's documentation](http://laravel.com/docs/5.1/views#view-composers) on the subject.
+PyroCMS uses a view composer that automatically decorates all data passed into it. For more information check out the [presenter documentation](presenters).
