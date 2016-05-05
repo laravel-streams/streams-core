@@ -173,11 +173,8 @@ class ImagePaths
 
         if ($rename = $image->getFilename()) {
 
-            $filename = $rename;
-
-            if (strpos($filename, DIRECTORY_SEPARATOR)) {
-                $directory = null;
-            }
+            $directory = null;
+            $filename  = ltrim($rename, '/\\');
         }
 
         return "/app/{$application}/assets/{$directory}{$filename}";
