@@ -108,9 +108,7 @@ class HrefGuesser
                     $type = array_get($button, 'button');
 
                     if ($type && !str_contains($type, '\\') && !class_exists($type)) {
-                        $button['attributes']['href'] = $this->url->to(
-                            $this->request->path() . '/' . $type . '/{entry.id}'
-                        );
+                        $button['attributes']['href'] = $section->getHref($type . '/{entry.id}');
                     }
 
                     break;
