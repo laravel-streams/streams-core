@@ -329,7 +329,6 @@ class StreamsPlugin extends Plugin
                     return $addons;
                 }
             ),
-            new \Twig_SimpleFunction('input_get', [$this->request, 'input']),
             new \Twig_SimpleFunction('asset', [$this->url, 'asset'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('action', [$this->url, 'action'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('url', [$this, 'url'], ['is_safe' => ['html']]),
