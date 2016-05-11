@@ -103,7 +103,7 @@ trait FiresCallbacks
          * Finally, run through all of
          * the registered callbacks.
          */
-        foreach (array_get($this->callbacks, get_class($this) . $trigger, []) as $callback) {
+        foreach (array_get($this->callbacks, $trigger, []) as $callback) {
 
             if (is_string($callback) || $callback instanceof \Closure) {
                 app()->call($callback, $parameters);
