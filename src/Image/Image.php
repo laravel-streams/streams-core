@@ -233,7 +233,8 @@ class Image
         Application $application,
         ImagePaths $paths,
         ImageMacros $macros
-    ) {
+    )
+    {
         $this->url         = $url;
         $this->html        = $html;
         $this->files       = $files;
@@ -483,12 +484,12 @@ class Image
 
         $path = $this->paths->outputPath($this);
 
-        if ($this->shouldPublish($path)) {
-            try {
+        try {
+            if ($this->shouldPublish($path)) {
                 $this->publish($path);
-            } catch (\Exception $e) {
-                return $this->config->get('app.debug', false) ? $e->getMessage() : null;
             }
+        } catch (\Exception $e) {
+            return $this->config->get('app.debug', false) ? $e->getMessage() : null;
         }
 
         return $path;
