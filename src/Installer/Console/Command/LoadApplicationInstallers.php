@@ -53,14 +53,5 @@ class LoadApplicationInstallers implements SelfHandling
                 }
             )
         );
-
-        $this->installers->add(
-            new Installer(
-                'streams::installer.running_migrations',
-                function (Kernel $console) {
-                    $console->call('migrate', ['--force' => true, '--no-addons' => true]);
-                }
-            )
-        );
     }
 }
