@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Traits;
 
-use Anomaly\StandardFormExtension\Handler\StandardFormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
