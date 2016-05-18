@@ -22,7 +22,11 @@ class ReadEnvironmentFile implements SelfHandling
     {
         $data = [];
 
-        foreach (file(base_path('.env'), FILE_IGNORE_NEW_LINES) as $line) {
+        if (!file_exists($env = base_path('.env'))) {
+            return $data;
+        }
+
+        foreach (file($env, FILE_IGNORE_NEW_LINES) as $line) {
 
             // Check for # comments.
             if (starts_with($line, '#')) {
