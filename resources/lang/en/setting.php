@@ -11,31 +11,71 @@ return [
         'instructions' => 'What is the description or slogan of your application?',
         'placeholder'  => trans('distribution::addon.description')
     ],
-    'default_timezone' => [
-        'label'        => 'Default Timezone',
-        'instructions' => 'Specify the default system timezone. This will be used by all date and time functions.'
+    'business'         => [
+        'label'        => 'Business Name',
+        'instructions' => 'What is the legal name of your business?'
+    ],
+    'phone'            => [
+        'label'        => 'Contact Phone',
+        'instructions' => 'Specify a general contact phone number.'
+    ],
+    'address'          => [
+        'label' => 'Address'
+    ],
+    'address2'         => [
+        'label' => 'Apt, suite, etc.'
+    ],
+    'city'             => [
+        'label' => 'City'
+    ],
+    'state'            => [
+        'label' => 'State / Province'
+    ],
+    'postal_code'      => [
+        'label' => 'Postal / ZIP Code'
+    ],
+    'country'          => [
+        'label' => 'Country'
+    ],
+    'timezone'         => [
+        'label'        => 'Timezone',
+        'instructions' => 'Specify the default timezone for your site.'
+    ],
+    'unit_system'      => [
+        'label'        => 'Unit System',
+        'instructions' => 'Specify the unit system for your site.',
+        'option'       => [
+            'imperial' => 'Imperial System',
+            'metric'   => 'Metric System'
+        ]
+    ],
+    'currency'         => [
+        'label'        => 'Currency',
+        'instructions' => 'Specify the default currency for your site.'
     ],
     'date_format'      => [
         'label'        => 'Date Format',
-        'instructions' => 'How should dates be displayed across the website and control panel? Using the <a href="http://php.net/manual/en/function.date.php" target="_blank">date format</a> from PHP.',
-        'placeholder'  => 'm/d/Y'
+        'instructions' => 'Specify the default date format for your site.'
     ],
     'time_format'      => [
         'label'        => 'Time Format',
-        'instructions' => 'How should time be displayed across the website and control panel? Using the <a href="http://php.net/manual/en/function.date.php" target="_blank">date format</a> from PHP.',
-        'placeholder'  => 'g:i A'
+        'instructions' => 'Specify the default time format for your site.'
     ],
-    'default_locale'   => [
-        'label'        => 'Default Language',
-        'instructions' => 'What is the default language for your application?'
+    'locale'           => [
+        'label'        => 'Language',
+        'instructions' => 'Specify the default language for your site.'
     ],
-    'enabled_locales'  => [
+    'locales'          => [
         'label'        => 'Enabled Languages',
-        'instructions' => 'Specify which languages are available for your website or application.'
+        'instructions' => 'Specify which languages are available for your site.'
     ],
     'maintenance_mode' => [
         'label'        => 'Maintenance Mode',
-        'instructions' => 'Use this option to the disable the public-facing part of the application.<br>This is useful when you want to take the application down for maintenance or development.'
+        'instructions' => 'Use this option to the disable the public-facing part of the system.<br>This is useful when you want to take the site down for maintenance or development.'
+    ],
+    'debug_mode'       => [
+        'label'        => 'Debug Mode',
+        'instructions' => 'When enabled, detailed messages will be displayed on errors.'
     ],
     'ip_whitelist'     => [
         'label'        => 'IP Whitelist',
