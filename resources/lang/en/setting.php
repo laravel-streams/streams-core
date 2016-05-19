@@ -141,7 +141,7 @@ return [
         'instructions' => 'Specify the SMTP password used to deliver emails.',
     ],
     'mail_debug'      => [
-        'label'        => 'Debug Mode',
+        'label'        => 'Debug Mail',
         'instructions' => 'When this option is enabled, email will not be sent but will instead be written to your log files so you may inspect the message.'
     ],
     'mailgun_domain'  => [
