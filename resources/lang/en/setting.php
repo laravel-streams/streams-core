@@ -101,49 +101,48 @@ return [
             'public' => 'Only force HTTPS for public-facing content'
         ]
     ],
-    'contact_email'   => [
-        'label'        => 'Contact Email',
-        'instructions' => 'All e-mails from users, guests and the application will go to this e-mail address by default.',
+    'email'           => [
+        'label'        => 'System Email',
+        'instructions' => 'Specify the default email to use for system generated messages.',
         'placeholder'  => 'example@domain.com'
     ],
-    'server_email'    => [
-        'label'        => 'Server Email',
-        'instructions' => 'All emails sent from your server will come from this email address.',
-        'placeholder'  => 'noreply@domain.com'
+    'sender'          => [
+        'label'        => 'Sender Name',
+        'instructions' => 'Specify the "From" name to use for system generated messages.'
     ],
     'mail_driver'     => [
         'label'        => 'Email Driver',
-        'instructions' => 'How does your application send email?',
+        'instructions' => 'How does your site send email?',
         'option'       => [
             'smtp'     => 'SMTP',
             'mail'     => 'PHP Mail',
             'sendmail' => 'Sendmail',
             'mailgun'  => 'Mailgun',
-            'mandrill' => 'Mandrill',
-            'log'      => 'Log File'
+            'log'      => 'Log File',
+            'ses'      => 'Amazon SES'
         ]
     ],
     'mail_host'       => [
         'label'        => 'SMTP Host',
-        'instructions' => 'This is the address of the SMTP server used by your application to deliver emails.',
+        'instructions' => 'Specify the address of the SMTP server used to deliver emails.',
         'placeholder'  => 'smtp.mailgun.org'
     ],
     'mail_port'       => [
         'label'        => 'SMTP Port',
-        'instructions' => 'This is the SMTP port used by your application to deliver emails.',
+        'instructions' => 'Specify the SMTP port used to deliver emails.',
         'placeholder'  => '587'
     ],
     'mail_username'   => [
         'label'        => 'SMTP Username',
-        'instructions' => 'This is the SMTP username used by your application to deliver emails.'
+        'instructions' => 'Specify the SMTP username used to deliver emails.',
     ],
     'mail_password'   => [
         'label'        => 'SMTP Password',
-        'instructions' => 'This is the SMTP password used by your application to deliver emails.'
+        'instructions' => 'Specify the SMTP password used to deliver emails.',
     ],
     'mail_debug'      => [
         'label'        => 'Debug Mode',
-        'instructions' => 'When this option is enabled, email will not be sent but will instead be written to your application\'s logs files so you may inspect the message.'
+        'instructions' => 'When this option is enabled, email will not be sent but will instead be written to your log files so you may inspect the message.'
     ],
     'mailgun_domain'  => [
         'label' => 'Mailgun Domain'

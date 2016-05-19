@@ -37,6 +37,8 @@ return [
         'title'   => 'streams::label.formats',
         'fields'  => [
             'timezone',
+            'date_format',
+            'time_format',
             'unit_system',
             'currency'
         ]
@@ -57,6 +59,20 @@ return [
             'maintenance',
             'basic_auth',
             'ip_whitelist'
+        ]
+    ],
+    'email'        => [
+        'context' => 'danger',
+        'title'   => 'streams::label.email',
+        'fields'  => [
+            'mail_debug',
+            'email',
+            'sender',
+            'mail_driver',
+            'mail_host',
+            'mail_port',
+            'mail_username',
+            'mail_password'
         ]
     ]
 ];
