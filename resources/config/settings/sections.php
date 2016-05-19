@@ -28,7 +28,8 @@ return [
         'title'   => 'streams::label.appearance',
         'fields'  => [
             'standard_theme',
-            'admin_theme'
+            'admin_theme',
+            'per_page'
         ]
     ],
     'formats'      => [
@@ -44,16 +45,16 @@ return [
         'context' => 'info',
         'title'   => 'streams::label.localization',
         'fields'  => [
-            'locale',
-            'locales'
+            'default_locale',
+            'enabled_locales'
         ]
     ],
     'maintenance'  => [
         'context' => 'danger',
         'title'   => 'streams::label.maintenance',
         'fields'  => [
-            'debug_mode',
-            'maintenance_mode',
+            'debug',
+            'maintenance',
             'basic_auth',
             'ip_whitelist'
         ]

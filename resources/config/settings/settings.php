@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name'             => [
+    'name'            => [
         'type'   => 'anomaly.field_type.text',
         'config' => [
             'default_value' => function (Repository $config) {
@@ -23,7 +23,7 @@ return [
             },
         ]
     ],
-    'description'      => [
+    'description'     => [
         'type'   => 'anomaly.field_type.text',
         'config' => [
             'default_value' => function (Repository $config) {
@@ -31,7 +31,7 @@ return [
             },
         ]
     ],
-    'email'            => [
+    'email'           => [
         'type'   => 'anomaly.field_type.email',
         'config' => [
             'default_value' => function () {
@@ -39,28 +39,28 @@ return [
             },
         ]
     ],
-    'business'         => [
+    'business'        => [
         'type' => 'anomaly.field_type.text'
     ],
-    'phone'            => [
+    'phone'           => [
         'type' => 'anomaly.field_type.text'
     ],
-    'address'          => [
+    'address'         => [
         'type' => 'anomaly.field_type.text'
     ],
-    'address2'         => [
+    'address2'        => [
         'type' => 'anomaly.field_type.text'
     ],
-    'city'             => [
+    'city'            => [
         'type' => 'anomaly.field_type.text'
     ],
-    'state'            => [
+    'state'           => [
         'type' => 'anomaly.field_type.state'
     ],
-    'postal_code'      => [
+    'postal_code'     => [
         'type' => 'anomaly.field_type.text'
     ],
-    'country'          => [
+    'country'         => [
         'type'   => 'anomaly.field_type.country',
         'config' => [
             'top_options' => [
@@ -68,14 +68,14 @@ return [
             ]
         ]
     ],
-    'timezone'         => [
+    'timezone'        => [
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'handler'       => 'timezones',
             'default_value' => config('app.timezone')
         ]
     ],
-    'unit_system'      => [
+    'unit_system'     => [
         'type'        => 'anomaly.field_type.select',
         'placeholder' => false,
         'required'    => true,
@@ -87,7 +87,7 @@ return [
             ]
         ]
     ],
-    'currency'         => [
+    'currency'        => [
         'type'        => 'anomaly.field_type.select',
         'placeholder' => false,
         'required'    => true,
@@ -96,7 +96,7 @@ return [
             'default_value' => config('streams::currencies.default')
         ]
     ],
-    'standard_theme'   => [
+    'standard_theme'  => [
         'type'        => 'anomaly.field_type.select',
         'placeholder' => false,
         'required'    => true,
@@ -107,7 +107,7 @@ return [
             }
         ]
     ],
-    'admin_theme'      => [
+    'admin_theme'     => [
         'type'        => 'anomaly.field_type.select',
         'placeholder' => false,
         'required'    => true,
@@ -118,7 +118,15 @@ return [
             }
         ]
     ],
-    'locale'           => [
+    'per_page'        => [
+        'type'     => 'anomaly.field_type.integer',
+        'required' => true,
+        'config'   => [
+            'default_value' => 15,
+            'min'           => 5
+        ]
+    ],
+    'default_locale'  => [
         'type'        => 'anomaly.field_type.select',
         'placeholder' => false,
         'required'    => true,
@@ -129,7 +137,7 @@ return [
                     $keys = array_keys($config->get('streams::locales.supported')),
                     array_map(
                         function ($locale) {
-                            return trans('streams::locale.' . $locale . '.name');
+                            return trans('streams::locale.' . $locale . '.name') . ' (' . $locale . ')';
                         },
                         $keys
                     )
@@ -137,7 +145,7 @@ return [
             }
         ]
     ],
-    'locales'          => [
+    'enabled_locales' => [
         'type'     => 'anomaly.field_type.checkboxes',
         'required' => true,
         'config'   => [
@@ -147,7 +155,7 @@ return [
                     $keys = array_keys($config->get('streams::locales.supported')),
                     array_map(
                         function ($locale) {
-                            return trans('streams::locale.' . $locale . '.name');
+                            return trans('streams::locale.' . $locale . '.name') . ' (' . $locale . ')';
                         },
                         $keys
                     )
@@ -155,7 +163,7 @@ return [
             }
         ]
     ],
-    'debug_mode'       => [
+    'debug'           => [
         'type'   => 'anomaly.field_type.boolean',
         'config' => [
             'default_value' => function (Repository $config) {
@@ -165,20 +173,17 @@ return [
             'off_text'      => 'OFF'
         ]
     ],
-    'maintenance_mode' => [
+    'maintenance'     => [
         'type'   => 'anomaly.field_type.boolean',
         'config' => [
-            'default_value' => function (Application $application) {
-                return $application->isDownForMaintenance();
-            },
-            'on_text'       => 'ON',
-            'off_text'      => 'OFF'
+            'on_text'  => 'ON',
+            'off_text' => 'OFF'
         ]
     ],
-    'basic_auth'       => [
+    'basic_auth'      => [
         'type' => 'anomaly.field_type.boolean'
     ],
-    'ip_whitelist'     => [
+    'ip_whitelist'    => [
         'type'   => 'anomaly.field_type.tags',
         'config' => [
             'filter' => 'FILTER_VALIDATE_IP'
