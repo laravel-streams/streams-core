@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Form;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
@@ -68,6 +69,23 @@ class AssignmentFormBuilder extends FormBuilder
         if (!$entry->field_id) {
             $entry->field_id = $field->getId();
         }
+    }
+
+    /**
+     * Get the field's type.
+     *
+     * @return \Anomaly\Streams\Platform\Addon\FieldType\FieldType
+     */
+    public function getFieldType()
+    {
+        if ($field = $this->getField()) {
+            return $field->getType();
+        }
+
+        /* @var AssignmentInterface $entry */
+        $entry = $this->getFormEntry();
+
+        return $entry->getFieldType();
     }
 
     /**

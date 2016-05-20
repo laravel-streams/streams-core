@@ -27,7 +27,8 @@ return [
     'translatable' => [
         'name'         => 'Translatable',
         'label'        => 'Is this field translatable?',
-        'instructions' => 'If translatable this field will be available in all enabled locales.'
+        'instructions' => 'If translatable this field will be available in all enabled locales.',
+        'warning'      => 'The associated field type does not support translated values.'
     ],
     'instructions' => [
         'name'         => 'Instructions',
