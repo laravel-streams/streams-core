@@ -56,6 +56,7 @@ When pulling messages, they will no longer display on subsequent page loads. If 
 
 The message is always available in the `template` variable within views.
 
+	{% verbatim %}
 	{% if template.messages.has('success') %}
         <div class="alert alert-success">
             <button type="button" class="close" data-dismiss="alert">
@@ -66,3 +67,4 @@ The message is always available in the `template` variable within views.
             {% endfor %}
         </div>
     {% endif %}
+	{% endverbatim %}
