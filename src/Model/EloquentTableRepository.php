@@ -84,7 +84,7 @@ class EloquentTableRepository implements TableRepositoryInterface
          * not exist then start walking backwards until
          * we find a page that is has something to show us.
          */
-        $limit  = $builder->getTableOption('limit', 15);
+        $limit  = (int)$builder->getTableOption('limit', config('streams::system.per_page', 15));
         $page   = app('request')->get($builder->getTableOption('prefix') . 'page', 1);
         $offset = $limit * ($page - 1);
 
