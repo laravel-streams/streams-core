@@ -25,11 +25,18 @@ use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
+use Anomaly\Streams\Platform\View\Cache\CacheAdapter;
+use Anomaly\Streams\Platform\View\Cache\CacheKey;
 use Anomaly\Streams\Platform\View\Command\AddViewNamespaces;
 use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Aptoma\Twig\Extension\MarkdownEngine\MichelfMarkdownEngine;
 use Aptoma\Twig\Extension\MarkdownExtension;
+use Asm89\Twig\CacheExtension\CacheStrategy\GenerationalCacheStrategy;
+use Asm89\Twig\CacheExtension\CacheStrategy\IndexedChainingCacheStrategy;
+use Asm89\Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy;
+use Asm89\Twig\CacheExtension\Extension;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Redirector;
@@ -246,6 +253,21 @@ class StreamsServiceProvider extends ServiceProvider
                         if (!$twig->hasExtension('markdown')) {
                             $twig->addExtension(new MarkdownExtension(new MichelfMarkdownEngine()));
                         }
+
+                        $twig->addExtension(
+                            new Extension(
+                                new IndexedChainingCacheStrategy(
+                                    [
+                                        'ttl'   => new LifetimeCacheStrategy(
+                                            new CacheAdapter($this->app->make(Repository::class))
+                                        ),
+                                        'value' => new GenerationalCacheStrategy(
+                                            new CacheAdapter($this->app->make(Repository::class)), new CacheKey()
+                                        )
+                                    ]
+                                )
+                            )
+                        );
                     }
                 );
 
