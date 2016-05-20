@@ -44,6 +44,11 @@ To get started simply use the `\Anomaly\Streams\Platform\Ui\Breadcrumb\Breadcrum
 
 	}
 
+You can also add breadcrumbs directly from your controller like this:
+
+    $this->breadcrumbs->add('Home', '/');
+    $this->breadcrumbs->add('About', 'about/me');
+
 <div class="alert alert-info">
 <strong>Note:</strong> Breadcrumbs are available as a property on public and admin controllers by default.
 </div>
@@ -51,7 +56,7 @@ To get started simply use the `\Anomaly\Streams\Platform\Ui\Breadcrumb\Breadcrum
 <a name="displaying-breadcrumbs"></a>
 ### Displaying Breadcrumbs
 
-The breadcrumb collection is always available in the `template` variable for views.
+The breadcrumb collection is always available in the `template` variable within views.
 
 	{% if template.breadcrumbs %}
 	    <ol>

@@ -50,7 +50,7 @@
 - [&check;] Image
 - [&check;] Localization
 - [&check;] Mail
-- Messages
+- [&check;] Messages
 - Pagination
 - Parser
 - Plugin
