@@ -31,19 +31,6 @@ class MessageBag
     }
 
     /**
-     * Add an error message.
-     *
-     * @param $message
-     * @return $this
-     */
-    public function error($message)
-    {
-        $this->merge(__FUNCTION__, $message);
-
-        return $this;
-    }
-
-    /**
      * Merge a message onto the session.
      *
      * @param $type
@@ -64,6 +51,52 @@ class MessageBag
         $messages = array_unique($messages);
 
         $this->session->set($type, $messages);
+    }
+
+    /**
+     * Return whether messages exist.
+     *
+     * @param $type
+     * @return bool
+     */
+    public function has($type)
+    {
+        return $this->session->has($type);
+    }
+
+    /**
+     * Get messages.
+     *
+     * @param $type
+     * @return bool
+     */
+    public function get($type)
+    {
+        return $this->session->get($type);
+    }
+
+    /**
+     * Pull the messages.
+     *
+     * @param $type
+     * @return array
+     */
+    public function pull($type)
+    {
+        return $this->session->pull($type);
+    }
+
+    /**
+     * Add an error message.
+     *
+     * @param $message
+     * @return $this
+     */
+    public function error($message)
+    {
+        $this->merge(__FUNCTION__, $message);
+
+        return $this;
     }
 
     /**

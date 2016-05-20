@@ -1,19 +1,20 @@
 <?php
 
 return [
-    'datetime'     => [
-        'title'  => 'streams::label.datetime',
-        'fields' => [
+    'display' => [
+        'context' => 'info',
+        'title'   => 'streams::label.display',
+        'fields'  => [
+            'per_page'
+        ]
+    ],
+    'formats' => [
+        'context' => 'danger',
+        'title'   => 'streams::label.formats',
+        'fields'  => [
             'timezone',
             'date_format',
             'time_format'
-        ]
-    ],
-    'localization' => [
-        'title'  => 'streams::label.localization',
-        'fields' => [
-            'admin_locale',
-            'public_locale'
         ]
     ]
 ];

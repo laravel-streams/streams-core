@@ -24,7 +24,14 @@
             "hooks": "Hooks",
             "image": "Image",
             "localization": "Localization",
-            "mail": "Mail"
+            "mail": "Mail",
+            "messages": "Messages"
+        }
+    },
+    "ui": {
+        "title": "User Interface",
+        "pages": {
+            "breadcrumbs": "Breadcrumbs"
         }
     },
     "developers": {

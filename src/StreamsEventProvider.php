@@ -25,7 +25,8 @@ class StreamsEventProvider extends EventServiceProvider
             'Anomaly\Streams\Platform\Application\Listener\CheckIfInstallerExists',
             'Anomaly\Streams\Platform\Ui\ControlPanel\Listener\LoadControlPanel',
             'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\GuessBreadcrumbs',
-            'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\LoadBreadcrumbs'
+            'Anomaly\Streams\Platform\Ui\Breadcrumb\Listener\LoadBreadcrumbs',
+            'Anomaly\Streams\Platform\Message\Listener\LoadMessageBag'
         ],
         'Anomaly\Streams\Platform\Event\Ready'                            => [
             'Anomaly\Streams\Platform\Addon\Theme\Listener\LoadCurrentTheme' => -100

@@ -2,7 +2,7 @@
 
     {% if section.title %}
         <div class="card-header">
-            <h2 class="card-title">
+            <h4 class="card-title">
                 {{ trans(section.title)|raw }}
 
                 {% if section.description %}
@@ -10,7 +10,7 @@
                         <br>{{ trans(section.description)|raw }}
                     </small>
                 {% endif %}
-            </h2>
+            </h4>
         </div>
     {% endif %}
 

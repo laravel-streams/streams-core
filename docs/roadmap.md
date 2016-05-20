@@ -49,8 +49,8 @@
 - [&check;] Hooks
 - [&check;] Image
 - [&check;] Localization
-- Mail
-- Messages
+- [&check;] Mail
+- [&check;] Messages
 - Pagination
 - Parser
 - Plugin
@@ -83,7 +83,7 @@
 ### User Interface
 
 - Getting Started
-- Breadcrumb
+- [&check;] Breadcrumbs
 - Control Panel
 - Forms
 - Tables

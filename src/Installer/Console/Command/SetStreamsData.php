@@ -34,17 +34,11 @@ class SetStreamsData implements SelfHandling
 
     /**
      * Handle the command.
-     *
-     * @param Repository $config
-     * @return array
      */
-    public function handle(Repository $config)
+    public function handle()
     {
         $this->data->put('APP_ENV', 'local');
         $this->data->put('INSTALLED', 'false');
-        $this->data->put('APP_DEBUG', 'false');
         $this->data->put('APP_KEY', str_random(32));
-        $this->data->put('ADMIN_THEME', $config->get('streams::themes.admin'));
-        $this->data->put('STANDARD_THEME', $config->get('streams::themes.standard'));
     }
 }

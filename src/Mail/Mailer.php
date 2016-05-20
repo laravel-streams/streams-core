@@ -59,7 +59,11 @@ class Mailer extends \Illuminate\Mail\Mailer
 
             $view = "{$namespace}::{$directory}.{$locale}.{$message}";
 
-            return parent::send($view, $data, $callback);
+            if ($this->views->exists($view)) {
+                return parent::send($view, $data, $callback);
+            }
+
+            return parent::send($namespace . '::' . $path, $data, $callback);
         }
 
         return parent::send($view, $data, $callback);

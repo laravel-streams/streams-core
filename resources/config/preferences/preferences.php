@@ -1,58 +1,62 @@
 <?php
 
+use Illuminate\Contracts\Config\Repository;
+
 return [
-    /*'timezone'      => [
-        'type'     => 'anomaly.field_type.select',
+    'per_page'    => [
+        'type'     => 'anomaly.field_type.integer',
         'required' => true,
         'config'   => [
-            'default_value' => config('app.timezone'),
-            'options'       => function () {
-                return array_combine(timezone_identifiers_list(), timezone_identifiers_list());
+            'default_value' => 15,
+            'min'           => 5
+        ]
+    ],
+    'timezone'    => [
+        'type'   => 'anomaly.field_type.select',
+        'config' => [
+            'handler'       => 'timezones',
+            'default_value' => function (Repository $config) {
+                return $config->get('app.timezone');
             }
         ]
     ],
-    'date_format'   => [
-        'type'     => 'anomaly.field_type.select',
-        'required' => true,
-        'config'   => [
-            'default_value' => config('streams::datetime.date_format'),
-            'options'       => [
-                'Y/n/j'     => date('Y/n/j'),
-                'n/j/Y'     => date('n/j/Y'),
-                'M j, Y'    => date('M j, Y'),
-                'D M j, Y'  => date('D M j, Y'),
-                'F jS, Y'   => date('F jS, Y'),
-                'l F jS, Y' => date('l F jS, Y'),
+    'date_format' => [
+        'type'        => 'anomaly.field_type.select',
+        'placeholder' => false,
+        'required'    => true,
+        'config'      => [
+            'options' => [
+                'l, j F, Y' => function () {
+                    return date('l, j F, Y'); // Friday, 10 July, 2015
+                },
+                'j F, Y'    => function () {
+                    return date('j F, Y'); // 10 July, 2015
+                },
+                'j M, y'    => function () {
+                    return date('j M, y'); // 10 Jul, 15
+                },
+                'm/d/Y'     => function () {
+                    return date('m/d/Y'); // 07/10/2015
+                },
+                'Y-m-d'     => function () {
+                    return date('Y-m-d'); // 2015-07-10
+                }
             ]
         ]
     ],
-    'time_format'   => [
-        'type'     => 'anomaly.field_type.select',
-        'required' => true,
-        'config'   => [
-            'default_value' => config('streams::datetime.time_format'),
-            'options'       => [
-                'g:i A' => date('g:i A'),
-                'G:i A' => date('G:i A') . ' (24 hr)'
+    'time_format' => [
+        'type'        => 'anomaly.field_type.select',
+        'placeholder' => false,
+        'required'    => true,
+        'config'      => [
+            'options' => [
+                'g:i A' => function () {
+                    return date('g:00 A'); // 4:00 PM
+                },
+                'H:i'   => function () {
+                    return date('H:00'); // 16:00
+                }
             ]
         ]
-    ],
-    'admin_locale'  => [
-        'type'        => 'anomaly.field_type.language',
-        'required'    => true,
-        'placeholder' => false,
-        'config'      => [
-            'default_value'     => config('streams::locales.default'),
-            'available_locales' => true
-        ]
-    ],
-    'public_locale' => [
-        'type'        => 'anomaly.field_type.language',
-        'required'    => true,
-        'placeholder' => false,
-        'config'      => [
-            'default_value'     => config('streams::locales.default'),
-            'available_locales' => true
-        ]
-    ]*/
+    ]
 ];
