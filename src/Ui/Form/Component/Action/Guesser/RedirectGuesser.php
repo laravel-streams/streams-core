@@ -77,7 +77,7 @@ class RedirectGuesser
                     $action['redirect'] = function () use ($section, $builder) {
 
                         if ($builder->getFormMode() == 'create') {
-                            return $section->getHref('edit/' . $builder->getFormEntryId());
+                            return $section->getHref('edit/' . $builder->getContextualId());
                         }
 
                         return $this->request->fullUrl();
