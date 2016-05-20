@@ -58,6 +58,7 @@ You can also add breadcrumbs directly from your controller like this:
 
 The breadcrumb collection is always available in the `template` variable within views.
 
+    {% verbatim %}
 	{% if template.breadcrumbs %}
 	    <ol>
 	        {% for breadcrumb, href in template.breadcrumbs %}
@@ -69,3 +70,4 @@ The breadcrumb collection is always available in the `template` variable within 
 	        {% endfor %}
 	    </ol>
 	{% endif %}
+	{% endverbatim %}
