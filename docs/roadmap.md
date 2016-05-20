@@ -83,7 +83,7 @@
 ### User Interface
 
 - Getting Started
-- Breadcrumb
+- [&check;] Breadcrumbs
 - Control Panel
 - Forms
 - Tables

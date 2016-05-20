@@ -27,6 +27,12 @@
             "mail": "Mail"
         }
     },
+    "ui": {
+        "title": "User Interface",
+        "pages": {
+            "breadcrumbs": "Breadcrumbs"
+        }
+    },
     "developers": {
         "title": "Developer",
         "pages": {
