@@ -42,10 +42,6 @@ class DropAssignmentColumn implements SelfHandling
         $stream = $this->assignment->getStream();
         $type   = $this->assignment->getFieldType();
 
-        if (!$type->getColumnType()) {
-            return;
-        }
-
         if (!$stream) {
             return;
         }
