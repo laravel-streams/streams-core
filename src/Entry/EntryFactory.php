@@ -51,17 +51,21 @@ class EntryFactory
      * @param        $namespace
      * @param        $stream
      * @param string $method
-     * @return EntryCriteria
+     * @return EntryCriteria|null
      */
     public function make($namespace, $stream, $method = 'get')
     {
         $stream    = ucfirst(camel_case($stream));
         $namespace = ucfirst(camel_case($namespace));
 
+        if (!class_exists(
+            $model = 'Anomaly\Streams\Platform\Model\\' . $namespace . '\\' . $namespace . $stream . 'EntryModel'
+        )
+        ) {
+            return null;
+        }
         /* @var EntryModel $model */
-        $model = $this->container->make(
-            'Anomaly\Streams\Platform\Model\\' . $namespace . '\\' . $namespace . $stream . 'EntryModel'
-        );
+        $model = $this->container->make($model);
 
         $criteria = substr(get_class($model), 0, -5) . 'Criteria';
 
