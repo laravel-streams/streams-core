@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * Class Value
@@ -105,22 +104,11 @@ class Value
         }
 
         /**
-         * If the value matches a field with a relation
-         * then parse the string using the eager loaded entry.
+         * If the value matches a dot notation
+         * then parse it as a template.
          */
         if (is_string($value) && preg_match("/^{$term}.([a-zA-Z\\_]+)/", $value, $match)) {
-
-            $fieldSlug = camel_case($match[1]);
-
-            if (method_exists($entry, $fieldSlug) && $entry->{$fieldSlug}() instanceof Relation) {
-
-                $entry = $this->decorator->decorate($entry);
-
-                $value = data_get(
-                    [$term => $entry],
-                    str_replace("{$term}.{$match[1]}.", $term . '.' . camel_case($match[1]) . '.', $value)
-                );
-            }
+            $value = $this->template->render("{{ {$value}|raw }}", $payload);
         }
 
         /**
