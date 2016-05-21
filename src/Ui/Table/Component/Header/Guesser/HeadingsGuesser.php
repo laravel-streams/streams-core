@@ -141,7 +141,7 @@ class HeadingsGuesser
                 continue;
             }
 
-            $field = $stream->getField($column['value']);
+            $field = $stream->getField(array_get($column, 'field'));
 
             /**
              * Detect the title column.
