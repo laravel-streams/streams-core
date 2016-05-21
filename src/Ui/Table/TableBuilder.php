@@ -348,6 +348,19 @@ class TableBuilder
     }
 
     /**
+     * Add a column configuration.
+     *
+     * @param $column
+     * @return $this
+     */
+    public function addColumn($column)
+    {
+        $this->columns[] = $column;
+
+        return $this;
+    }
+
+    /**
      * Set the columns configuration.
      *
      * @param $columns
