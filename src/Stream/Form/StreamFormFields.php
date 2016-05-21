@@ -61,6 +61,7 @@ class StreamFormFields implements SelfHandling
                     'label'        => 'streams::field.translatable.name',
                     'instructions' => 'streams::field.translatable.instructions',
                     'translatable' => true,
+                    'disabled'     => 'edit',
                     'type'         => 'anomaly.field_type.boolean'
                 ],
                 'trashable'    => [

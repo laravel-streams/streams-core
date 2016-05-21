@@ -123,6 +123,10 @@ class AssignmentFormBuilder extends FormBuilder
      */
     public function getStream()
     {
+        if ($entry = $this->getFormEntry()) {
+            return $entry->getStream();
+        }
+
         return $this->stream;
     }
 

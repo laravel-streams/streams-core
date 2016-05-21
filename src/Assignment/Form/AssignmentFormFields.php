@@ -62,6 +62,12 @@ class AssignmentFormFields
                     },
                     'disabled'     => function (AssignmentFormBuilder $builder) {
 
+                        $stream = $builder->getStream();
+
+                        if ($stream && !$stream->isTranslatable()) {
+                            return true;
+                        }
+
                         $type = $builder->getFieldType();
 
                         return $type->getColumnType() == null;
