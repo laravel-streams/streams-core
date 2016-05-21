@@ -59,7 +59,7 @@ class PlaceholdersGuesser
             }
 
             // Get the placeholder off the assignment.
-            if ($assignment = $stream->getAssignment(array_get($filter, 'field'))) {
+            if ($stream && $assignment = $stream->getAssignment(array_get($filter, 'field'))) {
 
                 /**
                  * Always use the field name

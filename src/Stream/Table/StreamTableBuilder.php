@@ -30,6 +30,21 @@ class StreamTableBuilder extends TableBuilder
     protected $namespace = null;
 
     /**
+     * The table filters.
+     *
+     * @var array
+     */
+    protected $filters = [
+        'search' => [
+            'columns' => [
+                'name',
+                'slug',
+                'description'
+            ]
+        ]
+    ];
+
+    /**
      * The table columns.
      *
      * @var array
@@ -40,8 +55,9 @@ class StreamTableBuilder extends TableBuilder
             'value'   => 'entry.name'
         ],
         [
-            'heading' => 'streams::field.slug.name',
-            'value'   => 'entry.slug'
+            'heading'     => 'streams::field.slug.name',
+            'value'       => 'entry.slug',
+            'sort_column' => 'slug'
         ],
         [
             'heading' => 'streams::field.description.name',

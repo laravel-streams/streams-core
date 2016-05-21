@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\SearchFilterInterface;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
@@ -40,17 +41,38 @@ class SearchFilterQuery implements SelfHandling
      * @param Builder               $query
      * @param SearchFilterInterface $filter
      */
-    public function handle(Builder $query, SearchFilterInterface $filter)
+    public function handle(Builder $query, TableBuilder $builder, SearchFilterInterface $filter)
     {
         $stream = $filter->getStream();
+        $model  = $builder->getTableModel();
 
-        /* @var EloquentQueryBuilder $query */
-        if ($stream->isTranslatable() && !$query->hasJoin($stream->getEntryTranslationsTableName())) {
+        /**
+         * If a stream is available then join it's
+         * translation table for filtering.
+         *
+         * @var EloquentQueryBuilder $query
+         */
+        if ($stream && $stream->isTranslatable() && !$query->hasJoin($stream->getEntryTranslationsTableName())) {
             $query->leftJoin(
                 $stream->getEntryTranslationsTableName(),
                 $stream->getEntryTableName() . '.id',
                 '=',
                 $stream->getEntryTranslationsTableName() . '.entry_id'
+            );
+        }
+
+        /**
+         * If a stream is NOT available then join the
+         * model translation table for filtering.
+         *
+         * @var EloquentQueryBuilder $query
+         */
+        if (!$stream && $model->getTranslationModelName() && !$query->hasJoin($model->getTranslationTableName())) {
+            $query->leftJoin(
+                $model->getTranslationTableName(),
+                $model->getTableName() . '.id',
+                '=',
+                $model->getTranslationTableName() . '.stream_id'
             );
         }
 

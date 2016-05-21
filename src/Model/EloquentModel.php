@@ -312,7 +312,7 @@ class EloquentModel extends Model implements Arrayable
     }
 
     /**
-     * @param null $locale
+     * @param null      $locale
      * @param bool|null $withFallback
      * @return Model|null
      */
@@ -348,14 +348,36 @@ class EloquentModel extends Model implements Arrayable
         return false;
     }
 
+    /**
+     * Get the translation model.
+     *
+     * @return EloquentModel
+     */
     public function getTranslationModel()
     {
         return new $this->translationModel;
     }
 
+    /**
+     * Get the translation model name.
+     *
+     * @return string
+     */
     public function getTranslationModelName()
     {
         return $this->translationModel;
+    }
+
+    /**
+     * Get the translation table name.
+     *
+     * @return string
+     */
+    public function getTranslationTableName()
+    {
+        $model = $this->getTranslationModel();
+
+        return $model->getTableName();
     }
 
     public function getTranslationModelNameDefault()
