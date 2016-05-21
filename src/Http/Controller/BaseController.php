@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Http\Controller;
 
+use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Event\Response;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
@@ -40,6 +41,13 @@ class BaseController extends Controller
      * @var Factory
      */
     protected $view;
+
+    /**
+     * The asset manager.
+     *
+     * @var Asset
+     */
+    protected $asset;
 
     /**
      * The route object.
@@ -106,6 +114,7 @@ class BaseController extends Controller
         $this->request     = app('Illuminate\Http\Request');
         $this->redirect    = app('Illuminate\Routing\Redirector');
         $this->view        = app('Illuminate\Contracts\View\Factory');
+        $this->asset       = app('Anomaly\Streams\Platform\Asset\Asset');
         $this->events      = app('Illuminate\Contracts\Events\Dispatcher');
         $this->template    = app('Anomaly\Streams\Platform\View\ViewTemplate');
         $this->messages    = app('Anomaly\Streams\Platform\Message\MessageBag');
