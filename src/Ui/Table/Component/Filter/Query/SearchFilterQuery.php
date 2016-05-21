@@ -47,32 +47,18 @@ class SearchFilterQuery implements SelfHandling
         $model  = $builder->getTableModel();
 
         /**
-         * If a stream is available then join it's
-         * translation table for filtering.
+         * If the model is translatable then
+         * join it's translations so they
+         * are filterable too.
          *
          * @var EloquentQueryBuilder $query
          */
-        if ($stream && $stream->isTranslatable() && !$query->hasJoin($stream->getEntryTranslationsTableName())) {
-            $query->leftJoin(
-                $stream->getEntryTranslationsTableName(),
-                $stream->getEntryTableName() . '.id',
-                '=',
-                $stream->getEntryTranslationsTableName() . '.entry_id'
-            );
-        }
-
-        /**
-         * If a stream is NOT available then join the
-         * model translation table for filtering.
-         *
-         * @var EloquentQueryBuilder $query
-         */
-        if (!$stream && $model->getTranslationModelName() && !$query->hasJoin($model->getTranslationTableName())) {
+        if ($model->getTranslationModelName() && !$query->hasJoin($model->getTranslationTableName())) {
             $query->leftJoin(
                 $model->getTranslationTableName(),
                 $model->getTableName() . '.id',
                 '=',
-                $model->getTranslationTableName() . '.stream_id'
+                $model->getTranslationTableName() . '.' . $model->getRelationKey()
             );
         }
 

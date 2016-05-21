@@ -26,6 +26,13 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
 {
 
     /**
+     * The foreign key for translations.
+     *
+     * @var string
+     */
+    protected $translationForeignKey = 'entry_id';
+
+    /**
      * The validation rules. These are
      * overridden on the compiled models.
      *

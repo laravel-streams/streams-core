@@ -37,6 +37,20 @@ class FieldTableBuilder extends TableBuilder
     protected $model = 'Anomaly\Streams\Platform\Field\FieldModel';
 
     /**
+     * The table filters.
+     *
+     * @var array
+     */
+    protected $filters = [
+        'search' => [
+            'columns' => [
+                'name',
+                'slug'
+            ]
+        ]
+    ];
+
+    /**
      * The table columns.
      *
      * @var array
