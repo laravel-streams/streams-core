@@ -23,7 +23,7 @@ class TablePagination
     {
         $options = $table->getOptions();
 
-        $perPage   = $options->get('limit', config('streams::system.per_page'));
+        $perPage   = $options->get('limit') ?: config('streams::system.per_page');
         $pageName  = $table->getOption('prefix') . 'page';
         $page      = app('request')->get($pageName);
         $path      = '/' . app('request')->path();
