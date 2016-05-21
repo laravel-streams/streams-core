@@ -143,6 +143,10 @@ For example, let's import the asset manager into a controller and add an asset t
 		}
 	}
 
+The asset class is available on base controllers and can be accessed quickly like this:
+
+    $this->asset->add('example.css', 'module::css/main.css');
+
 #### Adding Single Assets
 
 Assets can be added by specifying their path from your application root:
