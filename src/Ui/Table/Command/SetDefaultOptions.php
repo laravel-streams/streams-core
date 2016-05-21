@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Table\Command;
 
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
-use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
@@ -47,12 +46,11 @@ class SetDefaultOptions implements SelfHandling
          */
         if ($table->getOption('sortable') === null) {
 
-            $model = $table->getModel();
+            $stream = $table->getStream();
 
-            if ($model instanceof EntryModel) {
-                if ($table->getOption('sortable')) {
-                    $table->setOption('sortable', true);
-                }
+            if ($stream && $stream->isSortable()) {
+                $table->setOption('sortable', true);
+                $table->setOption('limit', $table->getOption('limit', 9999));
             }
         }
 
