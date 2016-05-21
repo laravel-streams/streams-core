@@ -16,6 +16,8 @@ use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Command\CompileStream;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
+use Robbo\Presenter\PresentableInterface;
+use Robbo\Presenter\Robbo;
 
 /**
  * Class StreamModel
@@ -25,7 +27,7 @@ use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
  * @author  Ryan Thompson <ryan@anomaly.is>
  * @package Anomaly\Streams\Platform\Stream
  */
-class StreamModel extends EloquentModel implements StreamInterface
+class StreamModel extends EloquentModel implements StreamInterface, PresentableInterface
 {
 
     /**
@@ -644,6 +646,16 @@ class StreamModel extends EloquentModel implements StreamInterface
     public function setTranslatableAttribute($translatable)
     {
         $this->attributes['translatable'] = filter_var($translatable, FILTER_VALIDATE_BOOLEAN);
+    }
+
+    /**
+     * Return a created presenter.
+     *
+     * @return \Robbo\Presenter\Presenter
+     */
+    public function getPresenter()
+    {
+        return new StreamPresenter($this);
     }
 
     /**

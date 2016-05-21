@@ -31,6 +31,13 @@ class AssignmentFormBuilder extends FormBuilder
     protected $stream = null;
 
     /**
+     * The form model.
+     *
+     * @var string
+     */
+    protected $model = 'Anomaly\Streams\Platform\Assignment\AssignmentModel';
+
+    /**
      * The form fields.
      *
      * @var string

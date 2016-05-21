@@ -41,7 +41,6 @@ class StreamFormFields implements SelfHandling
                     'instructions' => 'streams::field.slug.instructions',
                     'unique'       => true,
                     'required'     => true,
-                    'disabled'     => 'edit',
                     'type'         => 'anomaly.field_type.slug',
                     'config'       => [
                         'slugify' => 'name',

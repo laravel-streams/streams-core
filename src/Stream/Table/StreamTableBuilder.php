@@ -30,6 +30,29 @@ class StreamTableBuilder extends TableBuilder
     protected $namespace = null;
 
     /**
+     * The table columns.
+     *
+     * @var array
+     */
+    protected $columns = [
+        [
+            'heading' => 'streams::field.name.name',
+            'value'   => 'entry.name'
+        ],
+        [
+            'heading' => 'streams::field.slug.name',
+            'value'   => 'entry.slug'
+        ],
+        [
+            'heading' => 'streams::field.description.name',
+            'value'   => 'entry.description'
+        ],
+        [
+            'value' => 'entry.labels'
+        ]
+    ];
+
+    /**
      * Fired just before querying.
      *
      * @param Builder $query

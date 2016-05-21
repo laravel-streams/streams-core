@@ -53,7 +53,9 @@ class AssignmentTableBuilder extends TableBuilder
      * @var array
      */
     protected $buttons = [
-        'edit'
+        'edit' => [
+            'href' => '{request.path}/edit/{entry.id}'
+        ]
     ];
 
     /**
