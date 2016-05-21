@@ -622,7 +622,7 @@ class EloquentModel extends Model implements Arrayable
             $attributes[$attribute] = $this->{$attribute};
         }
 
-        return array_filter(array_diff_key($attributes, array_flip($this->getGuarded())));
+        return array_diff_key($attributes, array_flip($this->getGuarded()));
     }
 
     /**

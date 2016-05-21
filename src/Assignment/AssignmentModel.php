@@ -6,7 +6,6 @@ use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Robbo\Presenter\PresentableInterface;
-use Robbo\Presenter\Robbo;
 
 /**
  * Class AssignmentModel
