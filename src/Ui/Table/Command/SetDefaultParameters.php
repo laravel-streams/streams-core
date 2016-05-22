@@ -29,9 +29,7 @@ class SetDefaultParameters implements SelfHandling
      *
      * @var array
      */
-    protected $defaults = [
-
-    ];
+    protected $defaults = [];
 
     /**
      * The table builder.

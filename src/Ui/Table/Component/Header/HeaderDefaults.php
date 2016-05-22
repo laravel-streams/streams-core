@@ -20,12 +20,10 @@ class HeaderDefaults
      */
     public function defaults(TableBuilder $builder)
     {
+        $stream = $builder->getTableStream();
+
         if ($builder->getColumns() == []) {
-            $builder->setColumns(
-                [
-                    'entry.title'
-                ]
-            );
+            $builder->setColumns(array_slice($stream->getAssignmentFieldSlugs($builder->getOption('prefix')), 0, 5));
         }
     }
 }
