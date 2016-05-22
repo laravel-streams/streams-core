@@ -15,6 +15,7 @@ use Anomaly\Streams\Platform\Field\FieldModelTranslation;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Stream\Command\CompileStream;
+use Anomaly\Streams\Platform\Stream\Command\MergeStreamConfig;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
 use Robbo\Presenter\PresentableInterface;
 use Robbo\Presenter\Robbo;
@@ -290,13 +291,38 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     }
 
     /**
-     * Get the view options.
+     * Get the config.
      *
-     * @return array
+     * @param null $key
+     * @param null $default
+     * @return mixed
      */
-    public function getConfig()
+    public function getConfig($key = null, $default = null)
     {
+        if (!isset($this->cache['cache'])) {
+            $this->dispatch(new MergeStreamConfig($this));
+        }
+
+        $this->cache['cache'] = $this->config;
+
+        if ($key) {
+            return array_get($this->config, $key, $default);
+        }
+
         return $this->config;
+    }
+
+    /**
+     * Merge configuration.
+     *
+     * @param array $config
+     * @return $this
+     */
+    public function mergeConfig(array $config)
+    {
+        $this->config = array_merge($this->config, $config);
+
+        return $this;
     }
 
     /**

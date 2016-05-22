@@ -190,6 +190,8 @@ class FormBuilder
         $this->build($entry);
         $this->post();
 
+        $this->fire('make', ['builder' => $this]);
+
         if ($this->getFormResponse() === null) {
             $this->dispatch(new LoadForm($this));
             $this->dispatch(new AddAssets($this));

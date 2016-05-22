@@ -43,6 +43,16 @@ class StreamFormBuilder extends FormBuilder
     protected $fields = StreamFormFields::class;
 
     /**
+     * Fired when making the form.
+     */
+    public function onMake()
+    {
+        $editor = $this->getFormField('config');
+
+        $editor->setValue(json_encode($editor->getValue(), JSON_PRETTY_PRINT));
+    }
+
+    /**
      * Fired just before saving.
      */
     public function onSaving()
@@ -56,6 +66,10 @@ class StreamFormBuilder extends FormBuilder
         if ($namespace = $this->getNamespace()) {
             $entry->namespace = $namespace;
         }
+
+        $editor = $this->getFormField('config');
+
+        $this->setFormValue('config', json_decode($editor->getValue(), true));
     }
 
     /**

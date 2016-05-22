@@ -72,9 +72,19 @@ interface StreamInterface
     /**
      * Get the config.
      *
-     * @return array
+     * @param null $key
+     * @param null $default
+     * @return mixed
      */
-    public function getConfig();
+    public function getConfig($key = null, $default = null);
+
+    /**
+     * Merge configuration.
+     *
+     * @param array $config
+     * @return $this
+     */
+    public function mergeConfig(array $config);
 
     /**
      * Get the locked flag.
