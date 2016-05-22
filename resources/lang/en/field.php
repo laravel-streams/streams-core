@@ -41,5 +41,9 @@ return [
     'sortable'     => [
         'name'         => 'Sortable',
         'instructions' => 'Are the entries in this stream manually sortable?'
+    ],
+    'config'       => [
+        'name'         => 'Configuration',
+        'instructions' => 'Specify any optional configuration using JSON.'
     ]
 ];

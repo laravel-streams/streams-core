@@ -75,6 +75,15 @@ class StreamFormFields implements SelfHandling
                     'instructions' => 'streams::field.sortable.instructions',
                     'translatable' => true,
                     'type'         => 'anomaly.field_type.boolean'
+                ],
+                'config'       => [
+                    'label'        => 'streams::field.config.name',
+                    'instructions' => 'streams::field.config.instructions',
+                    'translatable' => true,
+                    'type'         => 'anomaly.field_type.editor',
+                    'config'       => [
+                        'mode' => 'json'
+                    ]
                 ]
             ]
         );
