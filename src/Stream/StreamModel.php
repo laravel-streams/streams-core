@@ -610,7 +610,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      */
     public function setConfigAttribute($config)
     {
-        $this->attributes['config'] = serialize($config);
+        $this->attributes['config'] = serialize((array)$config);
     }
 
     /**
