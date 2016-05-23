@@ -1006,13 +1006,19 @@ class FormBuilder
     /**
      * Get the form field slugs.
      *
+     * @param null $prefix
      * @return array
      */
-    public function getFormFieldSlugs()
+    public function getFormFieldSlugs($prefix = null)
     {
         $fields = $this->form->getFields();
 
-        return array_unique($fields->lists('field')->all());
+        return array_map(
+            function ($slug) use ($prefix) {
+                return $prefix . $slug;
+            },
+            array_unique($fields->lists('field')->all())
+        );
     }
 
     /**
