@@ -55,6 +55,13 @@ class SetDefaultOptions implements SelfHandling
         }
 
         /**
+         * Set the default limit if the table is sortable
+         */
+        if (($table->getOption('sortable') === true) && ($table->getOption('limit') === null)) {
+            $table->setOption('limit', $table->getOption('limit', 9999));
+        }
+
+        /**
          * Set the default breadcrumb.
          */
         if ($table->getOption('breadcrumb') === null && $title = $table->getOption('title')) {
@@ -74,8 +81,7 @@ class SetDefaultOptions implements SelfHandling
          * If the permission is not set then
          * try and automate it.
          */
-        if ($table->getOption('permission') === null && ($module = $modules->active(
-            )) && ($stream = $this->builder->getTableStream())
+        if ($table->getOption('permission') === null && ($module = $modules->active()) && ($stream = $this->builder->getTableStream())
         ) {
             $table->setOption('permission', $module->getNamespace($stream->getSlug() . '.read'));
         }
