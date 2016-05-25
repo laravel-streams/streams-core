@@ -68,7 +68,7 @@ class EagerLoadRelations implements SelfHandling
                         continue;
                     }
 
-                    $eager [] = $match[1];
+                    $eager[] = camel_case($match[1]);
                 }
             }
         }
