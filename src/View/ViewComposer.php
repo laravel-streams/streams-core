@@ -218,6 +218,22 @@ class ViewComposer
          */
         if ($addon = $this->addons->get($namespace)) {
             $path = $this->theme->getNamespace(
+                "addons/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/" . $path
+            );
+        }
+
+        if ($this->view->exists($path)) {
+            return $path;
+        }
+
+        /**
+         * If the view uses a dot syntax namespace then
+         * transform it all into the override view path.
+         *
+         * @deprecated since v3.0.0
+         */
+        if ($addon) {
+            $path = $this->theme->getNamespace(
                 "addon/{$addon->getVendor()}/{$addon->getSlug()}-{$addon->getType()}/" . $path
             );
         }
