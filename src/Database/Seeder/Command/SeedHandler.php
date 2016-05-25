@@ -54,11 +54,14 @@ class SeedHandler
 
         Model::unguard();
 
+        $class = $command->getClass();
+        $addon = $this->addons->get($command->getAddon());
+
         /**
          * If the addon was passed then
          * get it and seed it.
          */
-        if ($addon = $this->addons->get($command->getAddon())) {
+        if ($addon) {
             $this->call($this->getSeederClass($addon));
         }
 
@@ -66,19 +69,8 @@ class SeedHandler
          * If a seeder class was passed then
          * call it from the seeder utility.
          */
-        if ($class = $command->getClass()) {
+        if (!$addon && $class) {
             $this->call($class);
-        }
-
-        /**
-         * If no addon or class was passed then
-         * loop through all addons and run
-         * their seeders.
-         */
-        if (!$addon && !$class) {
-            foreach ($this->addons as $addon) {
-                $this->call($this->getSeederClass($addon));
-            }
         }
     }
 
