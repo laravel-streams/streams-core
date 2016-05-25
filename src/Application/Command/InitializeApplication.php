@@ -2,6 +2,8 @@
 
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Contracts\Foundation\Application as Laravel;
+use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * Class InitializeApplication
@@ -19,15 +21,20 @@ class InitializeApplication implements SelfHandling
      *
      * @param Application $application
      */
-    public function handle(Application $application)
+    public function handle(Application $application, Laravel $laravel)
     {
+        $app = env('APPLICATION_REFERENCE', 'default');
+
+        if ($laravel->runningInConsole()) {
+            $app = (new ArgvInput())->getParameterOption('--app', $app);
+        }
 
         /**
          * Set the reference to our default first.
          * When in a dev environment and working
          * with Artisan this the same as locating.
          */
-        $application->setReference(env('APPLICATION_REFERENCE', 'default'));
+        $application->setReference($app);
 
         /**
          * If the application is installed
