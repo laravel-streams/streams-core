@@ -50,8 +50,14 @@ class SetDefaultOptions implements SelfHandling
 
             if ($stream && $stream->isSortable()) {
                 $table->setOption('sortable', true);
-                $table->setOption('limit', $table->getOption('limit', 9999));
             }
+        }
+
+        /**
+         * Sortable tables have no pages.
+         */
+        if (($table->getOption('sortable') === true)) {
+            $table->setOption('limit', $table->getOption('limit', 99999));
         }
 
         /**
