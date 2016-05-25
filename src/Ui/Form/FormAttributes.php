@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Support\Str;
 
 /**
  * Class FormAttributes
@@ -12,6 +13,22 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
  */
 class FormAttributes
 {
+    /**
+     * The string utility class
+     *
+     * @var Str
+     */
+    protected $str;
+
+    /**
+     * FormAttributes constructor.
+     *
+     * @param Str $str
+     */
+    public function __construct(Str $str)
+    {
+        $this->str = $str;
+    }
 
     /**
      * Make custom validation messages.
@@ -34,6 +51,14 @@ class FormAttributes
 
             if ($locale = $field->getLocale()) {
                 $label .= ' (' . $locale . ')';
+            }
+
+            /**
+             * If there was no label found by this point then return
+             * the field name as a humanized string
+             */
+            if (!$label) {
+               $label = $this->str->humanize($field->getFieldName());
             }
 
             $attributes[$field->getInputName()] = '"' . $label . '"';
