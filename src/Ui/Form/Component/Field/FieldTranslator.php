@@ -48,6 +48,8 @@ class FieldTranslator
 
                 if ($defaultLocale !== $locale) {
                     array_set($translation, 'hidden', true);
+                    array_set($translation, 'required', false);
+                    array_set($translation, 'rules', array_diff(array_get($translation, 'rules', []), ['required']));
                 }
 
                 $translations[] = $translation;
