@@ -104,19 +104,19 @@ class Value
         }
 
         /**
+         * Decorate the entry object before
+         * sending to decorate so that data_get()
+         * can get into the presenter methods.
+         */
+        $payload[$term] = $entry = $this->decorator->decorate($entry);
+
+        /**
          * If the value matches a dot notation
          * then parse it as a template.
          */
         if (is_string($value) && preg_match("/^{$term}.([a-zA-Z\\_]+)/", $value, $match)) {
             $value = $this->template->render("{{ {$value}|raw }}", $payload);
         }
-
-        /**
-         * Decorate the entry object before
-         * sending to decorate so that data_get()
-         * can get into the presenter methods.
-         */
-        $payload[$term] = $entry = $this->decorator->decorate($entry);
 
         /**
          * If the value matches a method in the presenter.
