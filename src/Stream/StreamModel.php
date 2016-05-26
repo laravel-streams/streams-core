@@ -455,6 +455,18 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     }
 
     /**
+     * Get the related unlocked assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getUnlockedAssignments()
+    {
+        $assignments = $this->getAssignments();
+
+        return $assignments->unlocked();
+    }
+
+    /**
      * Get the related translatable assignments.
      *
      * @return AssignmentCollection
