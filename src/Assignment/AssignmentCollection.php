@@ -247,4 +247,14 @@ class AssignmentCollection extends EloquentCollection
 
         return new static($items);
     }
+
+    /**
+     * An alias for notLocked();
+     *
+     * @return AssignmentCollection
+     */
+    public function unlocked()
+    {
+        return $this->notLocked();
+    }
 }
