@@ -227,7 +227,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
 
         $model->saveTranslations();
 
-        return;
+        return $model;
     }
 
     /**
