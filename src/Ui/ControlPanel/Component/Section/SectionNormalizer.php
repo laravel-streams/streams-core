@@ -50,10 +50,9 @@ class SectionNormalizer
              * If the slug is not valid and the section
              * is a string then use the section as the slug.
              */
-            if (is_string($section)) {
+            if (is_numeric($slug) && is_string($section)) {
                 $section = [
-                    'slug' => $slug,
-                    'view' => $section
+                    'slug' => $section
                 ];
             }
 
