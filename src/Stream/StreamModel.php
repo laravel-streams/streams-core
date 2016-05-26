@@ -227,7 +227,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
 
         $model->saveTranslations();
 
-        return;
+        return $model;
     }
 
     /**
@@ -452,6 +452,18 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
         $assignments = $this->getAssignments();
 
         return $assignments->required();
+    }
+
+    /**
+     * Get the related unlocked assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getUnlockedAssignments()
+    {
+        $assignments = $this->getAssignments();
+
+        return $assignments->unlocked();
     }
 
     /**

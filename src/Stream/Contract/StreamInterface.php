@@ -172,6 +172,13 @@ interface StreamInterface
     public function getRequiredAssignments();
 
     /**
+     * Get the related unlocked assignments.
+     *
+     * @return AssignmentCollection
+     */
+    public function getUnlockedAssignments();
+
+    /**
      * Get the related translatable assignments.
      *
      * @return AssignmentCollection

@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Database\Seeder;
 
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentRepositoryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldRepositoryInterface;
+use Anomaly\Streams\Platform\Stream\Contract\StreamRepositoryInterface;
 use Illuminate\Database\Seeder as BaseSeeder;
 
 /**
@@ -14,12 +17,43 @@ class Seeder extends BaseSeeder
 {
 
     /**
+     * The field repository.
+     *
+     * @var FieldRepositoryInterface $fields
+     */
+    protected $fields;
+
+    /**
+     * The stream repository.
+     *
+     * @var StreamRepositoryInterface $streams
+     */
+    protected $streams;
+
+    /**
+     * The assignment repository.
+     *
+     * @var AssignmentRepositoryInterface $assignments
+     */
+    protected $assignments;
+
+    /**
      * The environment this seeder
      * applies too if any.
      *
      * @var string
      */
     protected $env = null;
+
+    /**
+     * Create a new Seeder instance.
+     */
+    public function __construct()
+    {
+        $this->fields      = app(FieldRepositoryInterface::class);
+        $this->streams     = app(StreamRepositoryInterface::class);
+        $this->assignments = app(AssignmentRepositoryInterface::class);
+    }
 
     /**
      * Seed the given connection from the given path.
