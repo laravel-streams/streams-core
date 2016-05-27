@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
+use ArrayAccess;
 use Illuminate\Contracts\Container\Container;
 
 /**
@@ -62,7 +63,7 @@ class Evaluator
          * format then traverse the target using the arguments.
          */
         if (is_string($target) && !isset($arguments[$target]) && $this->isTraversable($target)) {
-            $target = data_get($arguments, $target, $target);
+            $target = $this->data($arguments, $target, $target);
         }
 
         return $target;
@@ -77,5 +78,56 @@ class Evaluator
     protected function isTraversable($target)
     {
         return (!preg_match('/[^a-z._]/', $target));
+    }
+
+    /**
+     * Return the data from the key.
+     *
+     * @param $arguments
+     * @param $target
+     * @return mixed
+     */
+    protected function data($arguments, $target)
+    {
+        if (is_null($arguments)) {
+            return $target;
+        }
+
+        $arguments = is_array($arguments) ? $arguments : explode('.', $arguments);
+
+        foreach ($arguments as $segment) {
+            if (is_array($target)) {
+                if (!array_key_exists($segment, $target)) {
+                    return value($target);
+                }
+
+                $target = $target[$segment];
+            } elseif ($target instanceof ArrayAccess) {
+                if (!isset($target[$segment])) {
+                    return value($target);
+                }
+
+                $target = $target[$segment];
+            } elseif (is_object($target)) {
+
+                /**
+                 * Check if the method exists first
+                 * otherwise we might end up trying to
+                 * access relational methods.
+                 *
+                 * Otherwise this is identical from
+                 * data_get helper.
+                 */
+                if (method_exists($target, $segment) || !isset($target->{$segment})) {
+                    return value($target);
+                }
+
+                $target = $target->{$segment};
+            } else {
+                return value($target);
+            }
+        }
+
+        return $target;
     }
 }
