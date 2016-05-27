@@ -699,6 +699,19 @@ class EloquentModel extends Model implements Arrayable
     {
         return false;
     }
+    
+    /**
+     * Determine if the given attribute exists.
+     * Make sure to skip where there could be an
+     * issue with relational "looking" properties.
+     *
+     * @param  mixed $offset
+     * @return bool
+     */
+    public function offsetExists($offset)
+    {
+        return !method_exists($this, $offset) && isset($this->$offset);
+    }
 
     public function __get($key)
     {
