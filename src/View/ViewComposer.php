@@ -196,6 +196,15 @@ class ViewComposer
         $path = str_replace('.', '/', $path);
 
         /**
+         * If the module is shorthand
+         * then check to see if we have
+         * an active module to use for it.
+         */
+        if ($namespace === 'module' && $this->module) {
+            $namespace = $this->module->getNamespace();
+        }
+
+        /**
          * If the view is already in
          * the theme then skip it.
          */
