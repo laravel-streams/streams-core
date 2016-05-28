@@ -133,7 +133,7 @@ class ViewComposer
      */
     public function compose(View $view)
     {
-        if (!$this->theme || !env('APP_INSTALLED')) {
+        if (!$this->theme || !env('INSTALLED')) {
 
             $this->events->fire(new ViewComposed($view));
 
