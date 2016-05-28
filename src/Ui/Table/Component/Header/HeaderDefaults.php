@@ -23,7 +23,7 @@ class HeaderDefaults
         $stream = $builder->getTableStream();
 
         if ($builder->getColumns() == []) {
-            $builder->setColumns(array_slice($stream->getAssignmentFieldSlugs($builder->getOption('prefix')), 0, 5));
+            $builder->setColumns([$stream->getTitleColumn()]);
         }
     }
 }

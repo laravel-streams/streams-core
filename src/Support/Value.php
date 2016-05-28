@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Support;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Contracts\Support\Arrayable;
 
 /**
@@ -97,7 +98,9 @@ class Value
 
             /* @var EntryInterface $relation */
             if ($entry->assignmentIsRelationship($value) && $relation = $entry->{camel_case($value)}) {
-                $value = $relation->getTitle();
+                if ($relation instanceof EloquentModel) {
+                    $value = $relation->getTitle();
+                }
             } else {
                 $value = $entry->getFieldValue($value);
             }
