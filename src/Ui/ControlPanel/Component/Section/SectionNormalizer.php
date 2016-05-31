@@ -110,6 +110,9 @@ class SectionNormalizer
              */
             if (isset($section['sections'])) {
                 foreach ($section['sections'] as $key => $child) {
+
+                    $child['parent'] = array_get($section, 'slug');
+
                     $sections[$key] = $child;
                 }
             }
