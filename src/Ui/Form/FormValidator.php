@@ -108,9 +108,7 @@ class FormValidator implements SelfHandling
 
         /* @var Validator $validator */
         $validator = $factory->make($input, $rules);
-        //dd($rules);
-        //dd($validator->valid());
-        //dd($validator->passes());
+
         $validator->setCustomMessages($messages);
         $validator->setAttributeNames($attributes);
 
