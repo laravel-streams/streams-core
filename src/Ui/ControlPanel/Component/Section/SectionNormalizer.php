@@ -104,6 +104,15 @@ class SectionNormalizer
             ) {
                 $section['attributes']['data-href'] = url($section['attributes']['data-href']);
             }
+
+            /**
+             * Move child sections into main array.
+             */
+            if (isset($section['sections'])) {
+                foreach ($section['sections'] as $key => $child) {
+                    $sections[$key] = $child;
+                }
+            }
         }
 
         $builder->setSections(array_values($sections));

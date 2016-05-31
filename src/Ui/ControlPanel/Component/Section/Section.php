@@ -418,4 +418,15 @@ class Section implements SectionInterface
     {
         return app(SectionCollection::class)->children($this->getSlug());
     }
+
+    /**
+     * Return whether the section
+     * has children or not.
+     *
+     * @return bool
+     */
+    public function hasChildren()
+    {
+        return !$this->children()->isEmpty();
+    }
 }

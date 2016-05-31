@@ -220,4 +220,12 @@ interface SectionInterface
      * @return SectionCollection
      */
     public function children();
+
+    /**
+     * Return whether the section
+     * has children or not.
+     *
+     * @return bool
+     */
+    public function hasChildren();
 }
