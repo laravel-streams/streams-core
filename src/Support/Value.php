@@ -91,6 +91,13 @@ class Value
         }
 
         /**
+         * If the value uses a template then parse it.
+         */
+        if ($template = array_get($parameters, 'template')) {
+            return $this->template->render($template, ['value' => $value, $term => $entry]);
+        }
+
+        /**
          * If the entry is an instance of EntryInterface
          * then try getting the field value from the entry.
          */
