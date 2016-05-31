@@ -42,7 +42,7 @@ class SectionCollection extends Collection
             array_filter(
                 $this->all(),
                 function (SectionInterface $section) {
-                    return $section->getParent() === null;
+                    return !$section->isSubSection();
                 }
             )
         );
