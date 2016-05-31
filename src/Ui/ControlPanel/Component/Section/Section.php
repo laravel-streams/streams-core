@@ -296,6 +296,17 @@ class Section implements SectionInterface
     }
 
     /**
+     * Return if the section is
+     * a sub-section or not.
+     *
+     * @return bool
+     */
+    public function isSubSection()
+    {
+        return (bool)$this->getParent();
+    }
+
+    /**
      * Set the parent.
      *
      * @param $parent
@@ -414,7 +425,7 @@ class Section implements SectionInterface
      *
      * @return SectionCollection
      */
-    public function children()
+    public function getChildren()
     {
         return app(SectionCollection::class)->children($this->getSlug());
     }
@@ -427,6 +438,6 @@ class Section implements SectionInterface
      */
     public function hasChildren()
     {
-        return !$this->children()->isEmpty();
+        return !$this->getChildren()->isEmpty();
     }
 }

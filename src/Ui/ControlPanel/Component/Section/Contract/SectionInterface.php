@@ -141,6 +141,14 @@ interface SectionInterface
     public function getParent();
 
     /**
+     * Return if the section is
+     * a sub-section or not.
+     *
+     * @return bool
+     */
+    public function isSubSection();
+
+    /**
      * Set the parent.
      *
      * @param $parent
@@ -219,7 +227,7 @@ interface SectionInterface
      *
      * @return SectionCollection
      */
-    public function children();
+    public function getChildren();
 
     /**
      * Return whether the section
