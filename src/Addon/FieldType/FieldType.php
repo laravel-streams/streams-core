@@ -297,6 +297,19 @@ class FieldType extends Addon
     }
 
     /**
+     * Extend the rule set.
+     *
+     * @param array $rules
+     * @return array
+     */
+    public function extendRules(array $rules)
+    {
+        // Extend here.
+
+        return $rules;
+    }
+
+    /**
      * Get the validators.
      *
      * @return array

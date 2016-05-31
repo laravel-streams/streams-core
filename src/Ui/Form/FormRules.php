@@ -60,6 +60,8 @@ class FormRules
 
             $fieldRules = array_filter(array_unique($field->getRules()));
 
+            $fieldRules = $field->extendRules($fieldRules);
+
             if (!$stream instanceof StreamInterface) {
 
                 $rules[$field->getInputName()] = implode('|', $fieldRules);
