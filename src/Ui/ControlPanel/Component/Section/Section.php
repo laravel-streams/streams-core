@@ -408,4 +408,14 @@ class Section implements SectionInterface
             array_get($this->attributes, 'href')
         ) . ($path ? '/' . $path : $path);
     }
+
+    /**
+     * Return the child sections.
+     *
+     * @return SectionCollection
+     */
+    public function children()
+    {
+        return app(SectionCollection::class)->children($this->getSlug());
+    }
 }

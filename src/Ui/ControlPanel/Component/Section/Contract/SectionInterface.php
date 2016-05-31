@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\Contract;
 
+use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
+
 /**
  * Interface SectionInterface
  *
@@ -211,4 +213,11 @@ interface SectionInterface
      * @return string
      */
     public function getHref($path = null);
+
+    /**
+     * Return the child sections.
+     *
+     * @return SectionCollection
+     */
+    public function children();
 }
