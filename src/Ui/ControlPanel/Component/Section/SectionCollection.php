@@ -47,4 +47,22 @@ class SectionCollection extends Collection
             )
         );
     }
+
+    /**
+     * Return only sections with parent.
+     *
+     * @param $parent
+     * @return static
+     */
+    public function children($parent)
+    {
+        return self::make(
+            array_filter(
+                $this->all(),
+                function (SectionInterface $section) use ($parent) {
+                    return $section->getParent() === $parent;
+                }
+            )
+        );
+    }
 }
