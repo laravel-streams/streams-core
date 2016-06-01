@@ -26,7 +26,27 @@ class InitializeApplication implements SelfHandling
         $app = env('APPLICATION_REFERENCE', 'default');
 
         if ($laravel->runningInConsole()) {
+
             $app = (new ArgvInput())->getParameterOption('--app', $app);
+
+            $laravel->bind('path.public', function() use ($laravel) {
+
+                if ($path = env('PUBLIC_PATH')) {
+                    return base_path($path);
+                }
+
+                // Check default path.
+                if (file_exists($path = base_path('public/index.php'))) {
+                    return dirname($path);
+                }
+
+                // Check common alternative.
+                if (file_exists($path = base_path('public_html/index.php'))) {
+                    return dirname($path);
+                }
+
+                return base_path('public');
+            });
         }
 
         /**
