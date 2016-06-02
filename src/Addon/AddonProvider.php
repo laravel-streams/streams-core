@@ -301,7 +301,7 @@ class AddonProvider
 
             array_set($route, 'streams::addon', $addon->getNamespace());
 
-            if (!str_contains($route['uses'], '@')) {
+            if (is_string($route['uses']) && !str_contains($route['uses'], '@')) {
                 $this->router->controller($uri, $route['uses']);
             } else {
                 $this->router->{$verb}($uri, $route)->where($constraints);
