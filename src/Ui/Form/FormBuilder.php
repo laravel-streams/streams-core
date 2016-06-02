@@ -176,6 +176,8 @@ class FormBuilder
 
         $this->dispatch(new BuildForm($this));
 
+        $this->fire('built', ['builder' => $this]);
+
         return $this;
     }
 
