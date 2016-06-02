@@ -8,7 +8,7 @@
             {{ field_type.hidden ? 'hidden' }}
             ">
 
-    {% if not field_type.label == false %}
+    {% if field_type.config.hide_label != true %}
         <label class="control-label">
             {{ field_type.object.label|raw }}
 
