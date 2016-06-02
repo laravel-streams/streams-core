@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
+use Anomaly\Streams\Platform\Model\EloquentQueryBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Filter\Contract\FilterInterface;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -55,12 +56,14 @@ class FieldTypeQuery
 
         if ($assignment->isTranslatable()) {
 
-            $query->leftJoin(
-                $stream->getEntryTranslationsTableName() . ' AS filter_' . $filter->getSlug(),
-                $stream->getEntryTableName() . '.id',
-                '=',
-                $stream->getEntryTranslationsTableName() . '.entry_id'
-            );
+            if ($query instanceof EloquentQueryBuilder && !$query->hasJoin($translations)) {
+                $query->leftJoin(
+                    $stream->getEntryTranslationsTableName(),
+                    $stream->getEntryTableName() . '.id',
+                    '=',
+                    $stream->getEntryTranslationsTableName() . '.entry_id'
+                );
+            }
 
             $query->addSelect($translations . '.locale');
             $query->addSelect($translations . '.' . $column);
