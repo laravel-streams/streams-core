@@ -2,6 +2,7 @@
 
 return [
     'default'   => 'US',
+    'common'    => ['US'],
     'available' => [
         'AD' => [
             'name' => 'Andorra'
