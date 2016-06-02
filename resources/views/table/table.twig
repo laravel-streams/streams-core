@@ -12,11 +12,11 @@
     {{ view("streams::table/partials/filters", {'table': table}) }}
     {{ view("streams::table/partials/views", {'table': table}) }}
 
+    {{ view(table.options.heading ?: "streams::table/partials/heading", {'table': table}) }}
+
     {% if not table.rows.empty() %}
         {% block card %}
             <div class="card">
-
-                {{ view("streams::table/partials/heading", {'table': table}) }}
 
                 {{ form_open({ 'url': url_full() }) }}
                 <div class="table-responsive">
