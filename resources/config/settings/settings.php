@@ -51,10 +51,10 @@ return [
         ]
     ],
     'timezone'        => [
-        'env'     => 'APP_TIMEZONE',
-        'replace' => 'app.timezone',
-        'type'    => 'anomaly.field_type.select',
-        'config'  => [
+        'env'    => 'APP_TIMEZONE',
+        'bind'   => 'app.timezone',
+        'type'   => 'anomaly.field_type.select',
+        'config' => [
             'handler'       => 'timezones',
             'default_value' => config('app.timezone')
         ]
@@ -121,7 +121,7 @@ return [
     ],
     'standard_theme'  => [
         'env'         => 'STANDARD_THEME',
-        'replace'     => 'streams::themes.standard',
+        'bind'        => 'streams::themes.standard',
         'type'        => 'anomaly.field_type.select',
         'placeholder' => false,
         'required'    => true,
@@ -134,7 +134,7 @@ return [
     ],
     'admin_theme'     => [
         'env'         => 'ADMIN_THEME',
-        'replace'     => 'streams::themes.admin',
+        'bind'        => 'streams::themes.admin',
         'type'        => 'anomaly.field_type.select',
         'placeholder' => false,
         'required'    => true,
@@ -147,7 +147,7 @@ return [
     ],
     'per_page'        => [
         'env'      => 'RESULTS_PER_PAGE',
-        'replace'  => 'streams::system.per_page',
+        'bind'     => 'streams::system.per_page',
         'type'     => 'anomaly.field_type.integer',
         'required' => true,
         'config'   => [
@@ -157,7 +157,7 @@ return [
     ],
     'default_locale'  => [
         'env'         => 'DEFAULT_LOCALE',
-        'replace'     => 'streams::locales.default',
+        'bind'        => 'streams::locales.default',
         'type'        => 'anomaly.field_type.select',
         'placeholder' => false,
         'required'    => true,
@@ -178,7 +178,7 @@ return [
     ],
     'enabled_locales' => [
         'env'      => 'ENABLED_LOCALES',
-        'replace'  => 'streams::locales.enabled',
+        'bind'     => 'streams::locales.enabled',
         'type'     => 'anomaly.field_type.checkboxes',
         'required' => true,
         'config'   => [
@@ -197,10 +197,10 @@ return [
         ]
     ],
     'debug'           => [
-        'env'     => 'APP_DEBUG',
-        'replace' => 'app.debug',
-        'type'    => 'anomaly.field_type.boolean',
-        'config'  => [
+        'env'    => 'APP_DEBUG',
+        'bind'   => 'app.debug',
+        'type'   => 'anomaly.field_type.boolean',
+        'config' => [
             'default_value' => function (Repository $config) {
                 return $config->get('app.debug');
             },
@@ -216,23 +216,23 @@ return [
         ]
     ],
     'basic_auth'      => [
-        'env'     => 'MAINTENANCE_AUTH',
-        'replace' => 'streams::maintenance.auth',
-        'type'    => 'anomaly.field_type.boolean'
+        'env'  => 'MAINTENANCE_AUTH',
+        'bind' => 'streams::maintenance.auth',
+        'type' => 'anomaly.field_type.boolean'
     ],
     'ip_whitelist'    => [
-        'env'     => 'IP_WHITELIST',
-        'replace' => 'streams::maintenance.ip_whitelist',
-        'type'    => 'anomaly.field_type.tags',
-        'config'  => [
+        'env'    => 'IP_WHITELIST',
+        'bind'   => 'streams::maintenance.ip_whitelist',
+        'type'   => 'anomaly.field_type.tags',
+        'config' => [
             'filter' => 'FILTER_VALIDATE_IP'
         ]
     ],
     'mail_debug'      => [
-        'env'     => 'MAIL_DEBUG',
-        'replace' => 'mail.debug',
-        'type'    => 'anomaly.field_type.boolean',
-        'config'  => [
+        'env'    => 'MAIL_DEBUG',
+        'bind'   => 'mail.debug',
+        'type'   => 'anomaly.field_type.boolean',
+        'config' => [
             'default_value' => function (Repository $config) {
                 return $config->get('mail.pretend');
             },
@@ -241,7 +241,7 @@ return [
         ]
     ],
     'email'           => [
-        'replace'  => 'mail.from.address',
+        'bind'     => 'mail.from.address',
         'type'     => 'anomaly.field_type.email',
         'required' => true,
         'config'   => [
@@ -251,7 +251,7 @@ return [
         ]
     ],
     'sender'          => [
-        'replace'  => 'mail.from.name',
+        'bind'     => 'mail.from.name',
         'type'     => 'anomaly.field_type.text',
         'required' => true,
         'config'   => [
@@ -262,7 +262,7 @@ return [
     ],
     'mail_driver'     => [
         'env'         => 'MAIL_DRIVER',
-        'replace'     => 'mail.driver',
+        'bind'        => 'mail.driver',
         'type'        => 'anomaly.field_type.select',
         'placeholder' => false,
         'required'    => true,
@@ -279,34 +279,34 @@ return [
         ]
     ],
     'mail_host'       => [
-        'env'     => 'MAIL_HOST',
-        'replace' => 'mail.host',
-        'type'    => 'anomaly.field_type.text',
-        'config'  => [
+        'env'    => 'MAIL_HOST',
+        'bind'   => 'mail.host',
+        'type'   => 'anomaly.field_type.text',
+        'config' => [
             'default_value' => config('mail.host')
         ]
     ],
     'mail_port'       => [
-        'env'     => 'MAIL_PORT',
-        'replace' => 'mail.port',
-        'type'    => 'anomaly.field_type.integer',
-        'config'  => [
+        'env'    => 'MAIL_PORT',
+        'bind'   => 'mail.port',
+        'type'   => 'anomaly.field_type.integer',
+        'config' => [
             'default_value' => config('mail.port')
         ]
     ],
     'mail_username'   => [
-        'env'     => 'MAIL_USERNAME',
-        'replace' => 'mail.username',
-        'type'    => 'anomaly.field_type.text',
-        'config'  => [
+        'env'    => 'MAIL_USERNAME',
+        'bind'   => 'mail.username',
+        'type'   => 'anomaly.field_type.text',
+        'config' => [
             'default_value' => config('mail.username')
         ]
     ],
     'mail_password'   => [
-        'env'     => 'MAIL_PASSWORD',
-        'replace' => 'mail.password',
-        'type'    => 'anomaly.field_type.text',
-        'config'  => [
+        'env'    => 'MAIL_PASSWORD',
+        'bind'   => 'mail.password',
+        'type'   => 'anomaly.field_type.text',
+        'config' => [
             'default_value' => config('mail.password'),
             'type'          => 'password'
         ]
