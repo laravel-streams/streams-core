@@ -4,6 +4,8 @@ use Illuminate\Contracts\Config\Repository;
 
 return [
     'per_page'    => [
+        'env'      => 'RESULTS_PER_PAGE',
+        'bind'     => 'streams::system.per_page',
         'type'     => 'anomaly.field_type.integer',
         'required' => true,
         'config'   => [
@@ -12,6 +14,8 @@ return [
         ]
     ],
     'timezone'    => [
+        'env'    => 'APP_TIMEZONE',
+        'bind'   => 'app.timezone',
         'type'   => 'anomaly.field_type.select',
         'config' => [
             'handler'       => 'timezones',
