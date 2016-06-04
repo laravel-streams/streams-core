@@ -186,8 +186,10 @@ return [
         ]
     ],
     'debug'           => [
-        'type'   => 'anomaly.field_type.boolean',
-        'config' => [
+        'env'      => 'APP_DEBUG',
+        'replaces' => 'app.debug',
+        'type'     => 'anomaly.field_type.boolean',
+        'config'   => [
             'default_value' => function (Repository $config) {
                 return $config->get('app.debug');
             },
