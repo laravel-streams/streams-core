@@ -99,6 +99,8 @@ return [
         ]
     ],
     'unit_system'     => [
+        'env'         => 'UNIT_SYSTEM',
+        'bind'        => 'streams::system.unit_system',
         'type'        => 'anomaly.field_type.select',
         'placeholder' => false,
         'required'    => true,
