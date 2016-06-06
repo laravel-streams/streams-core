@@ -24,16 +24,4 @@ return [
     */
 
     'unit_system' => env('UNIT_SYSTEM', 'imperial'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Storage Localization
-    |--------------------------------------------------------------------------
-    |
-    | Define the storage localization options for your database.
-    |
-    */
-
-    'storage_separator' => ',',
-    'storage_point'     => '.',
 ];
