@@ -172,6 +172,19 @@ class MultipleFormBuilder extends FormBuilder
     }
 
     /**
+     * Get a child's entry.
+     *
+     * @param $key
+     * @return mixed
+     */
+    public function getChildEntry($key)
+    {
+        $builder = $this->getChildForm($key);
+
+        return $builder->getEntry();
+    }
+
+    /**
      * Get the form mode.
      *
      * @return null|string
