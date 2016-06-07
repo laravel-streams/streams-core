@@ -74,5 +74,13 @@ return [
             'basic_auth',
             'ip_whitelist'
         ]
+    ],
+    'access'  => [
+        'context' => 'danger',
+        'title'   => 'streams::label.access',
+        'fields'  => [
+            'redirect_https',
+            'redirect_www',
+        ]
     ]
 ];
