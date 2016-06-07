@@ -445,9 +445,9 @@ class TableBuilder
      * @param array $options
      * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions($options)
     {
-        $this->options = array_merge($this->options, $options);
+        $this->options = $options;
 
         return $this;
     }
