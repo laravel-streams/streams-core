@@ -447,27 +447,7 @@ class TableBuilder
      */
     public function setOptions($options)
     {
-        /**
-         * Options can be an options handler
-         */
-        if(is_string($options)) {
-            $this->options = $options;
-        }
-
-        /**
-         * If we are adding options then merge them
-         */
-        if(is_array($options) && is_array($this->options)) {
-            $this->options = array_merge($this->options, $options);
-        }
-
-        /**
-         * If we came from a string (handler) and are setting
-         * an options array, then overwrite
-         */
-        if(is_array($options) && !is_array($this->options)) {
-            $this->options = $options;
-        }
+        $this->options = $options;
 
         return $this;
     }
