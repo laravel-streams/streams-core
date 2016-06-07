@@ -1,6 +1,5 @@
 <tbody>
 {% for row in table.rows %}
-    {{ dump(table.options) }}
     <tr id="{{ loop.index }}" class="{{ table.options.row_class(row.entry) }}">
 
         {% if table.options.sortable %}
