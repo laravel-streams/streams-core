@@ -454,8 +454,19 @@ class TableBuilder
             $this->options = $options;
         }
 
-        if(is_array($this->options) && is_array($options)) {
+        /**
+         * If we are adding options then merge them
+         */
+        if(is_array($options) && is_array($this->options)) {
             $this->options = array_merge($this->options, $options);
+        }
+
+        /**
+         * If we came from a string (handler) and are setting
+         * an options array, then overwrite
+         */
+        if(is_array($options) && !is_array($this->options)) {
+            $this->options = $options;
         }
 
         return $this;
