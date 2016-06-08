@@ -135,6 +135,16 @@ class FieldModel extends EloquentModel implements FieldInterface
     }
 
     /**
+     * Get the placeholder.
+     *
+     * @return string
+     */
+    public function getPlaceholder()
+    {
+        return $this->placeholder;
+    }
+
+    /**
      * Get the slug.
      *
      * @return mixed
