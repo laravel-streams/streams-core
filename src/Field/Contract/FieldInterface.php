@@ -44,6 +44,13 @@ interface FieldInterface
     public function getInstructions();
 
     /**
+     * Get the instructions.
+     *
+     * @return string
+     */
+    public function getPlaceholder();
+
+    /**
      * Get the stream.
      *
      * @return string
