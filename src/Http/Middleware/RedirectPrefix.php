@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 
 /**
- * Class RedirectProtocol
+ * Class RedirectPrefix
  *
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Http\Middleware
  */
-class RedirectProtocol
+class RedirectPrefix
 {
 
     /**
@@ -50,10 +50,10 @@ class RedirectProtocol
     protected $redirector;
 
     /**
-     * Create a new RedirectProtocol instance.
+     * Create a new RedirectPrefix instance.
      *
      * @param Repository $config
-     * @param Resolver   $resolver
+     * @param Resolver $resolver
      * @param Redirector $redirector
      */
     public function __construct(Repository $config, Resolver $resolver, Redirector $redirector)
@@ -64,9 +64,9 @@ class RedirectProtocol
     }
 
     /**
-     * Say it loud.
+     * Handle the request.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @param  \Closure $next
      * @return mixed
      */
@@ -82,15 +82,24 @@ class RedirectProtocol
             }
         }
 
-        $secure = $request->isSecure();
+        $www = starts_with($host = $request->getHost(), 'www.');
 
-        $https = $this->resolver->resolve($this->config->get('streams::https.redirect'));
+        $preferred = $this->resolver->resolve($this->config->get('streams::www.redirect'));
 
         /**
-         * Force HTTPS
+         * Force WWW
          */
-        if ($https === true && !$secure) {
-            return $this->redirector->to(str_replace('http://', 'https://', $request->fullUrl()));
+        if ($preferred === 'www' && !$www) {
+            return $this->redirector->to(
+                str_replace($request->getHost(), 'www.' . $request->getHost(), $request->fullUrl())
+            );
+        }
+
+        /**
+         * Force non-WWW
+         */
+        if ($preferred === 'non-www' && $www) {
+            return $this->redirector->to(preg_replace('/www./', '', $request->fullUrl(), 1));
         }
 
         return $next($request);
