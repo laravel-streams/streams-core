@@ -133,8 +133,6 @@ class BaseController extends Controller
         // These may be manipulated by the middleware above.
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\ApplicationReady');
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\RedirectProtocol');
-        $this->middleware('Anomaly\Streams\Platform\Http\Middleware\RedirectPrefix');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\SetLocale');
         $this->middleware('Anomaly\Streams\Platform\Http\Middleware\PoweredBy');
         $this->middleware('Barryvdh\HttpCache\Middleware\CacheRequests');
