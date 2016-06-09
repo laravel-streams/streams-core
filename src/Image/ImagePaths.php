@@ -177,6 +177,8 @@ class ImagePaths
             $filename  = ltrim($rename, '/\\');
         }
 
-        return "/app/{$application}/assets/{$directory}{$filename}";
+        $path = rtrim(array_get(parse_url(config('app.url')), 'path'), '/');
+
+        return "{$path}/app/{$application}/assets/{$directory}{$filename}";
     }
 }
