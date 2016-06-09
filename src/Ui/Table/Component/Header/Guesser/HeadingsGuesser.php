@@ -180,7 +180,7 @@ class HeadingsGuesser
              * the heading matches the value (default)
              * then humanize the heading value.
              */
-            if (!isset($column['heading']) && $this->config->get('streams::locales.lazy')) {
+            if (!isset($column['heading']) && $this->config->get('streams::system.lazy_translations')) {
                 $column['heading'] = $this->string->humanize($column['field']);
             }
 
@@ -193,7 +193,7 @@ class HeadingsGuesser
                 isset($column['heading']) &&
                 str_is('*.*.*::*', $column['heading']) &&
                 !$this->translator->has($column['heading']) &&
-                $this->config->get('streams::locales.lazy')
+                $this->config->get('streams::system.lazy_translations')
             ) {
                 $column['heading'] = $this->string->humanize($column['field']);
             }

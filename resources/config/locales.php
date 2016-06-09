@@ -22,31 +22,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Lazy Translations
-    |--------------------------------------------------------------------------
-    |
-    | Do you want to guess strings for missing translation keys?
-    |
-    | By default generators will automate a suggested translation key
-    | paradigm for you. Enabling this feature is helpful for rapidly
-    | building and deploying addons that don't require fulfilled
-    | translation files but can easily support them at a later
-    | date if needed. With this feature disabled it is easy
-    | to spot what translations need to be added still.
-    |
-    | Example:
-    |
-    | A field with the name key "anomaly.module.store::field.product_type.name"
-    | would gracefully fallback to "Product Type" if the translation file has
-    | not been included with the "product_type" field's name.
-    |
-    |
-    */
-
-    'lazy' => env('LAZY_TRANSLATIONS', false),
-
-    /*
-    |--------------------------------------------------------------------------
     | Enabled Locales
     |--------------------------------------------------------------------------
     |
