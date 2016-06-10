@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Assignment\Form;
 
+use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -35,14 +36,14 @@ class AssignmentFormBuilder extends FormBuilder
      *
      * @var string
      */
-    protected $model = 'Anomaly\Streams\Platform\Assignment\AssignmentModel';
+    protected $model = AssignmentModel::class;
 
     /**
      * The form fields.
      *
      * @var string
      */
-    protected $fields = 'Anomaly\Streams\Platform\Assignment\Form\AssignmentFormFields@handle';
+    protected $fields = AssignmentFormFields::class;
 
     /**
      * Fired when the builder is ready to build.

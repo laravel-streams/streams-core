@@ -89,7 +89,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
 
         $model->saveTranslations();
 
-        return;
+        return $model;
     }
 
     /**
