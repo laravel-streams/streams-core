@@ -464,11 +464,21 @@ class FormBuilder
     /**
      * Add a field.
      *
-     * @param $field
+     * @param      $field
      */
     public function addField($field)
     {
-        $this->fields[] = $field;
+        $this->fields[array_get($field, 'field')] = $field;
+    }
+
+    /**
+     * Add fields.
+     *
+     * @param array $fields
+     */
+    public function addFields(array $fields)
+    {
+        $this->fields = array_merge($this->fields, $fields);
     }
 
     /**
