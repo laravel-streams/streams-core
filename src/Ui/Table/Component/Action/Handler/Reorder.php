@@ -31,7 +31,22 @@ class Reorder extends ActionHandler implements SelfHandling
 
         /* @var EloquentModel $entry */
         foreach ($request->get($builder->getTableOption('prefix') . 'order', []) as $k => $id) {
-            if ($entry = $model->find($id)) {
+
+            /**
+             * If this is a many to many relationship (multiple) then use the entry_id and related_id
+             * rather than the id
+             */
+            if (strstr($id, ':')) {
+                $idParts = explode(':', $id);
+                if($model->where('entry_id', $idParts[0])->where('related_id', $idParts[1])->update(['sort_order' => $k + 1])) {
+                    $count++;
+                }
+            }
+
+            /**
+             * Otherwise just use the id
+             */
+            if (is_numeric($id) && $entry = $model->find($id)) {
                 if (($entry->sort_order = $k + 1) && $entry->save()) {
                     $count++;
                 }
