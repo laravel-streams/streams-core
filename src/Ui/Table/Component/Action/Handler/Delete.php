@@ -2,7 +2,6 @@
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
-use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Command\GetRowEntry;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
@@ -32,7 +31,7 @@ class Delete extends ActionHandler implements SelfHandling
         /* @var EloquentModel $entry */
         foreach ($selected as $id) {
 
-            $entry = $this->dispatch(new GetRowEntry($id, $model));
+            $entry = $model->find($id);
 
             if ($entry && $entry->isDeletable() && $entry->delete()) {
 
