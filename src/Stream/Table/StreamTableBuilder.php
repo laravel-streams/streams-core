@@ -69,6 +69,15 @@ class StreamTableBuilder extends TableBuilder
     ];
 
     /**
+     * The table buttons.
+     *
+     * @var array
+     */
+    protected $actions = [
+        'prompt'
+    ];
+
+    /**
      * Fired just before querying.
      *
      * @param Builder $query
