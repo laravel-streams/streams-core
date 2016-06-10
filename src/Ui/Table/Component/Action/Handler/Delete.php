@@ -30,13 +30,43 @@ class Delete extends ActionHandler implements SelfHandling
 
         /* @var EloquentModel $entry */
         foreach ($selected as $id) {
-            if ($entry = $model->find($id)) {
-                if ($entry->isDeletable() && $entry->delete()) {
 
-                    $builder->fire('row_deleted', compact('builder', 'model', 'entry'));
+            $entry = null;
 
-                    $count++;
+            /**
+             * If there is an alternative key we can
+             * use that too by splitting it's key / name.
+             */
+            if (strstr($id, ':')) {
+
+                $ids  = explode(':', $id);
+                $keys = explode(':', $model->getKeyName());
+
+                $query = $model->newQuery();
+
+                foreach ($ids as $key => $id) {
+                    $query->where($keys[$key], $id);
                 }
+
+                $entry = $query->first();
+            }
+
+            /**
+             * If it's a standard key we can just
+             * use the regular find method.
+             */
+            if (is_numeric($id)) {
+                $entry = $model->find($id);
+            }
+
+            /**
+             * Delete the entry!
+             */
+            if ($entry && $entry->isDeletable() && $entry->delete()) {
+
+                $builder->fire('row_deleted', compact('builder', 'model', 'entry'));
+
+                $count++;
             }
         }
 
