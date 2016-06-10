@@ -31,10 +31,14 @@ class Reorder extends ActionHandler implements SelfHandling
 
         /* @var EloquentModel $entry */
         foreach ($request->get($builder->getTableOption('prefix') . 'order', []) as $k => $id) {
+
             if ($entry = $model->find($id)) {
-                if (($entry->sort_order = $k + 1) && $entry->save()) {
-                    $count++;
-                }
+
+                $entry->sort_order = $k + 1;
+
+                $entry->save();
+
+                $count++;
             }
         }
 

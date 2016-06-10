@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
  * Class ActionHandler
@@ -13,6 +14,8 @@ use Illuminate\Contracts\Bus\SelfHandling;
  */
 abstract class ActionHandler implements SelfHandling
 {
+
+    use DispatchesJobs;
 
     /**
      * The message bag.

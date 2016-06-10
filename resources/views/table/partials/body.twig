@@ -5,14 +5,14 @@
         {% if table.options.sortable %}
             <td>
                 {{ icon('fa fa-arrows handle') }}
-                <input type="hidden" name="{{ row.table.options.prefix }}order[]" value="{{ row.entry.id }}"/>
+                <input type="hidden" name="{{ row.table.options.prefix }}order[]" value="{{ row.key }}"/>
             </td>
         {% endif %}
 
         {% if not table.actions.empty() %}
             <td>
                 <label class="c-input c-checkbox">
-                    <input type="checkbox" name="{{ row.table.options.prefix }}id[]" value="{{ row.entry.id }}"/>
+                    <input type="checkbox" name="{{ row.table.options.prefix }}id[]" value="{{ row.key }}"/>
                     <span class="c-indicator"></span>
                 </label>
             </td>

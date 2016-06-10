@@ -30,13 +30,14 @@ class Delete extends ActionHandler implements SelfHandling
 
         /* @var EloquentModel $entry */
         foreach ($selected as $id) {
-            if ($entry = $model->find($id)) {
-                if ($entry->isDeletable() && $entry->delete()) {
 
-                    $builder->fire('row_deleted', compact('builder', 'model', 'entry'));
+            $entry = $model->find($id);
 
-                    $count++;
-                }
+            if ($entry && $entry->isDeletable() && $entry->delete()) {
+
+                $builder->fire('row_deleted', compact('builder', 'model', 'entry'));
+
+                $count++;
             }
         }
 

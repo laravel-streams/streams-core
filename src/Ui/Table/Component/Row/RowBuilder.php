@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Support\Evaluator;
 use Anomaly\Streams\Platform\Ui\Table\Component\Button\ButtonBuilder;
 use Anomaly\Streams\Platform\Ui\Table\Component\Column\ColumnBuilder;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class RowBuilder
@@ -79,6 +80,10 @@ class RowBuilder
             $buttons = $buttons->enabled();
 
             $row = compact('columns', 'buttons', 'entry');
+
+            if ($entry instanceof Model) {
+                $row['key'] = $entry->getKey();
+            }
 
             $row['table'] = $builder->getTable();
 

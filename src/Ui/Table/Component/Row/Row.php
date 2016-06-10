@@ -17,6 +17,13 @@ class Row implements RowInterface
 {
 
     /**
+     * The row key.
+     *
+     * @var null
+     */
+    protected $key = null;
+
+    /**
      * The row entry.
      *
      * @var mixed
@@ -43,6 +50,29 @@ class Row implements RowInterface
      * @var ButtonCollection
      */
     protected $buttons;
+
+    /**
+     * Get the key.
+     *
+     * @return null
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * Set the key.
+     *
+     * @param $key
+     * @return $this
+     */
+    public function setKey($key)
+    {
+        $this->key = $key;
+
+        return $this;
+    }
 
     /**
      * Set the row buttons.
