@@ -178,14 +178,14 @@ class FormCriteria
 
         if (method_exists($this->builder, camel_case('set_' . $name))) {
 
-            array_set($this->parameters, $name, $arguments);
+            array_set($this->parameters, $name, array_shift($arguments));
 
             return $this;
         }
 
         if (method_exists($this->builder, camel_case('add_' . $name))) {
 
-            array_set($this->parameters, $name, $arguments);
+            array_set($this->parameters, $name, array_shift($arguments));
 
             return $this;
         }
