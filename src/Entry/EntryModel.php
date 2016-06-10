@@ -196,21 +196,38 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     /**
      * Set a field value.
      *
-     * @param $fieldSlug
-     * @param $value
+     * @param      $fieldSlug
+     * @param      $value
+     * @param null $locale
+     * @return $this
      */
-    public function setFieldValue($fieldSlug, $value)
+    public function setFieldValue($fieldSlug, $value, $locale = null)
     {
+        if (!$locale) {
+            $locale = config('app.locale');
+        }
+
         $assignment = $this->getAssignment($fieldSlug);
 
         $type = $assignment->getFieldType($this);
 
-        $type->setEntry($this);
+        if ($assignment->isTranslatable()) {
+
+            $entry = $this->translateOrNew($locale);
+
+            $type->setLocale($locale);
+        } else {
+            $entry = $this;
+        }
+
+        $type->setEntry($entry);
 
         $accessor = $type->getAccessor();
         $modifier = $type->getModifier();
 
         $accessor->set($modifier->modify($value));
+
+        return $this;
     }
 
     /**
