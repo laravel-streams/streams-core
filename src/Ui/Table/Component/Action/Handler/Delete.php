@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Command\GetRowEntry;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
@@ -31,37 +32,8 @@ class Delete extends ActionHandler implements SelfHandling
         /* @var EloquentModel $entry */
         foreach ($selected as $id) {
 
-            $entry = null;
+            $entry = $this->dispatch(new GetRowEntry($id, $model));
 
-            /**
-             * If there is an alternative key we can
-             * use that too by splitting it's key / name.
-             */
-            if (strstr($id, ':')) {
-
-                $ids  = explode(':', $id);
-                $keys = explode(':', $model->getKeyName());
-
-                $query = $model->newQuery();
-
-                foreach ($ids as $key => $id) {
-                    $query->where($keys[$key], $id);
-                }
-
-                $entry = $query->first();
-            }
-
-            /**
-             * If it's a standard key we can just
-             * use the regular find method.
-             */
-            if (is_numeric($id)) {
-                $entry = $model->find($id);
-            }
-
-            /**
-             * Delete the entry!
-             */
             if ($entry && $entry->isDeletable() && $entry->delete()) {
 
                 $builder->fire('row_deleted', compact('builder', 'model', 'entry'));

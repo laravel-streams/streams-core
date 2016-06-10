@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
+use Anomaly\Streams\Platform\Ui\Table\Component\Action\Handler\Command\GetRowEntry;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Http\Request;
@@ -32,38 +33,7 @@ class Reorder extends ActionHandler implements SelfHandling
         /* @var EloquentModel $entry */
         foreach ($request->get($builder->getTableOption('prefix') . 'order', []) as $k => $id) {
 
-            $entry = null;
-
-            /**
-             * If there is an alternative key we can
-             * use that too by splitting it's key / name.
-             */
-            if (strstr($id, ':')) {
-
-                $ids  = explode(':', $id);
-                $keys = explode(':', $model->getKeyName());
-
-                $query = $model->newQuery();
-
-                foreach ($ids as $key => $id) {
-                    $query->where($keys[$key], $id);
-                }
-
-                $entry = $query->first();
-            }
-
-            /**
-             * If it's a standard key we can just
-             * use the regular find method.
-             */
-            if (is_numeric($id)) {
-                $entry = $model->find($id);
-            }
-
-            /**
-             * Update the sort order and save.
-             */
-            if ($entry) {
+            if ($entry = $this->dispatch(new GetRowEntry($id, $model))) {
 
                 $entry->sort_order = $k + 1;
 
