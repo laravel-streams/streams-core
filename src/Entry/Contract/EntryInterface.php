@@ -149,11 +149,12 @@ interface EntryInterface
     /**
      * Set a field value.
      *
-     * @param $fieldSlug
-     * @param $value
-     * @return mixed
+     * @param      $fieldSlug
+     * @param      $value
+     * @param null $locale
+     * @return $this
      */
-    public function setFieldValue($fieldSlug, $value);
+    public function setFieldValue($fieldSlug, $value, $locale = null);
 
     /**
      * Get a field's type by the field's slug.
