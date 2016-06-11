@@ -177,7 +177,7 @@ class AssetPaths
             $directory = in_array($this->request->segment(1), ['admin', 'installer']) ? 'admin/' : 'public/';
         }
 
-        $path = rtrim(array_get(parse_url(config('app.url')), 'path'), '/');
+        $path = rtrim(array_get(parse_url($this->request->root()), 'path'), '/');
 
         return "{$path}/app/{$application}/assets/{$directory}{$filename}";
     }
