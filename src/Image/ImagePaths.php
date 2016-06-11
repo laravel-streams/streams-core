@@ -3,6 +3,7 @@
 use Anomaly\FilesModule\File\Contract\FileInterface;
 use Anomaly\Streams\Platform\Application\Application;
 use Illuminate\Config\Repository;
+use Illuminate\Http\Request;
 
 /**
  * Class ImagePaths
@@ -30,6 +31,13 @@ class ImagePaths
     protected $config;
 
     /**
+     * The request object.
+     *
+     * @var Request
+     */
+    protected $request;
+
+    /**
      * The application object.
      *
      * @var Application
@@ -39,11 +47,14 @@ class ImagePaths
     /**
      * Create a new ImagePaths instance.
      *
-     * @param Repository $config
+     * @param Repository  $config
+     * @param Request     $request
+     * @param Application $application
      */
-    public function __construct(Repository $config, Application $application)
+    public function __construct(Repository $config, Request $request, Application $application)
     {
         $this->config      = $config;
+        $this->request     = $request;
         $this->application = $application;
 
         $this->paths = $config->get('streams::images.paths', []);
@@ -177,7 +188,7 @@ class ImagePaths
             $filename  = ltrim($rename, '/\\');
         }
 
-        $path = rtrim(array_get(parse_url(config('app.url')), 'path'), '/');
+        $path = rtrim(array_get(parse_url($this->request->root()), 'path'), '/');
 
         return "{$path}/app/{$application}/assets/{$directory}{$filename}";
     }
