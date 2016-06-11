@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Collection\CacheCollection;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Database\Query\JoinClause;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -207,7 +206,7 @@ class EloquentQueryBuilder extends Builder
 
                     $this
                         ->select($model->getTableName() . '.*')
-                        ->where($model->getTranslationsTableName() . '.locale', config('app.fallback_locale'))
+                        ->where($model->getTranslationsTableName() . '.locale', config('streams::locales.default'))
                         ->orderBy($model->getTranslationsTableName() . '.' . $model->getTitleName(), 'ASC');
                 } elseif ($model->getTitleName() && $model->getTitleName() !== 'id') {
                     $query->orderBy($model->getTitleName(), 'ASC');
