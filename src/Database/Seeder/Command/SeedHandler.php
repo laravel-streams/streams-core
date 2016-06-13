@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Addon\Addon;
 use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Database\Seeder\Seeder;
+use Anomaly\Streams\Platform\Support\Presenter;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -56,6 +57,16 @@ class SeedHandler
 
         $class = $command->getClass();
         $addon = $this->addons->get($command->getAddon());
+
+        /**
+         * Depending on when this is called, and
+         * how seeding uses the view layer the addon's
+         * could be decorated, so un-decorate them real
+         * quick before proceeding.
+         */
+        if ($addon && $addon instanceof Presenter) {
+            $addon = $addon->getObject();
+        }
 
         /**
          * If the addon was passed then
