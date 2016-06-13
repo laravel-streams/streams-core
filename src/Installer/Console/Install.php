@@ -21,10 +21,12 @@ use Anomaly\Streams\Platform\Installer\Console\Command\SetDatabasePrefix;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetOtherData;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetStreamsData;
 use Anomaly\Streams\Platform\Installer\Event\StreamsHasInstalled;
+use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
 use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
@@ -90,6 +92,15 @@ class Install extends Command
 
         $this->dispatch(new ReloadEnvironmentFile());
 
+        $installers->add(
+            new Installer(
+                'streams::installer.running_migrations',
+                function (Kernel $console) {
+                    $console->call('migrate', ['--force' => true, '--no-addons' => true]);
+                }
+            )
+        );
+
         $manager->register(); // Register all of our addons.
 
         $events->fire(new StreamsHasInstalled($installers));
@@ -98,6 +109,15 @@ class Install extends Command
 
         $this->dispatch(new LoadModuleSeeders($installers));
         $this->dispatch(new LoadExtensionSeeders($installers));
+
+        $installers->add(
+            new Installer(
+                'streams::installer.running_seeds',
+                function (Kernel $console) {
+                    $console->call('db:seed');
+                }
+            )
+        );
 
         $this->dispatch(new RunInstallers($installers, $this));
     }
