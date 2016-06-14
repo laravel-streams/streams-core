@@ -62,6 +62,11 @@ class BuildForm implements SelfHandling
         $this->dispatch(new SetDefaultOptions($this->builder));
 
         /**
+         * Load anything we need that might be flashed.
+         */
+        $this->dispatch(new LoadFormErrors($this->builder));
+
+        /**
          * Before we go any further, authorize the request.
          */
         $this->dispatch(new AuthorizeForm($this->builder));

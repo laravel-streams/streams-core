@@ -38,6 +38,8 @@ class FormController extends PublicController
             ->post()
             ->getFormResponse();
 
+        $builder->flash();
+
         if ($response && $response->getStatusCode() !== 200) {
             return $response;
         }
