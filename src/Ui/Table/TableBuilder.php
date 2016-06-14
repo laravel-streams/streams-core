@@ -147,7 +147,7 @@ class TableBuilder
     {
         $this->build();
         $this->post();
-        $this->response();
+        $this->load();
 
         return $this;
     }
@@ -157,13 +157,11 @@ class TableBuilder
      *
      * @return $this
      */
-    public function response()
+    public function load()
     {
-        if ($this->table->getResponse() === null) {
-            $this->dispatch(new LoadTable($this));
-            $this->dispatch(new AddAssets($this));
-            $this->dispatch(new MakeTable($this));
-        }
+        $this->dispatch(new LoadTable($this));
+        $this->dispatch(new AddAssets($this));
+        $this->dispatch(new MakeTable($this));
 
         return $this;
     }
