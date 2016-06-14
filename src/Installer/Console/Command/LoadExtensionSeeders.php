@@ -48,7 +48,13 @@ class LoadExtensionSeeders implements SelfHandling
                 new Installer(
                     trans('streams::installer.seeding', ['seeding' => trans($extension->getName())]),
                     function (Kernel $console) use ($extension) {
-                        $console->call('db:seed', ['--addon' => $extension->getNamespace()]);
+                        $console->call(
+                            'db:seed',
+                            [
+                                '--addon' => $extension->getNamespace(),
+                                '--force' => true
+                            ]
+                        );
                     }
                 )
             );

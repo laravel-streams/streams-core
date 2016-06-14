@@ -53,7 +53,13 @@ class LoadModuleSeeders implements SelfHandling
                 new Installer(
                     trans('streams::installer.seeding', ['seeding' => trans($module->getName())]),
                     function (Kernel $console) use ($module) {
-                        $console->call('db:seed', ['--addon' => $module->getNamespace()]);
+                        $console->call(
+                            'db:seed',
+                            [
+                                '--addon' => $module->getNamespace(),
+                                '--force' => true
+                            ]
+                        );
                     }
                 )
             );

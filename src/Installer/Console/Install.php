@@ -114,7 +114,7 @@ class Install extends Command
             new Installer(
                 'streams::installer.running_seeds',
                 function (Kernel $console) {
-                    $console->call('db:seed');
+                    $console->call('db:seed', ['--force' => true]);
                 }
             )
         );
