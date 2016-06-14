@@ -50,11 +50,6 @@ class RedirectGuesser
     {
         $actions = $builder->getActions();
 
-        // Nothing to do if empty.
-        if (!$section = $this->sections->active()) {
-            return;
-        }
-
         reset($actions);
 
         $first = key($actions);
