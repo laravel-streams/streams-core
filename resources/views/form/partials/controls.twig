@@ -16,7 +16,8 @@
                     </button>
                     <div class="dropdown-menu">
                         {% for iso in config_get('streams::locales.enabled') %}
-                            <a class="dropdown-item {{ iso == config_get('streams::locales.default') ? 'active' }}" href="#"
+                            <a class="dropdown-item {{ iso == config_get('streams::locales.default') ? 'active' }}"
+                               href="#"
                                data-toggle="lang" lang="{{ iso }}">
                                 {{ trans('streams::locale.' ~ iso ~ '.name') }}
                             </a>
