@@ -78,12 +78,7 @@ class ActionHandler implements SelfHandling
             $entry = $entry->toArray();
         }
 
-        // Get the redirect from the form first.
-        $redirect = $builder->getFormOption('redirect');
-
-        if ($redirect === null) {
-            $redirect = $action->getRedirect();
-        }
+        $redirect = $action->getRedirect();
 
         if ($redirect instanceof RedirectResponse) {
 
