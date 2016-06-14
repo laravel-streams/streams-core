@@ -8,7 +8,7 @@
 
     {% for field in section.fields %}
         {% for field in form.fields.translations(field) %}
-            {{ field.render|raw }}
+            {{ field.render({'form': form})|raw }}
         {% endfor %}
     {% endfor %}
 
