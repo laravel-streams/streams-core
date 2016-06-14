@@ -11,6 +11,8 @@ use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Ui\Button\Contract\ButtonInterface;
 use Anomaly\Streams\Platform\Ui\Form\Command\AddAssets;
 use Anomaly\Streams\Platform\Ui\Form\Command\BuildForm;
+use Anomaly\Streams\Platform\Ui\Form\Command\FlashFieldValues;
+use Anomaly\Streams\Platform\Ui\Form\Command\FlashFormErrors;
 use Anomaly\Streams\Platform\Ui\Form\Command\LoadForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\MakeForm;
 use Anomaly\Streams\Platform\Ui\Form\Command\PopulateFields;
@@ -21,7 +23,7 @@ use Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionCollection;
 use Anomaly\Streams\Platform\Ui\Form\Contract\FormRepositoryInterface;
 use Closure;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Support\MessageBag;
+use Illuminate\Contracts\Support\MessageBag;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -239,6 +241,17 @@ class FormBuilder
         }
 
         return $this;
+    }
+
+    /**
+     * Flash form information to be
+     * used in conjunction with redirect
+     * type responses (not self handling).
+     */
+    public function flash()
+    {
+        $this->dispatch(new FlashFieldValues($this));
+        $this->dispatch(new FlashFormErrors($this));
     }
 
     /**
