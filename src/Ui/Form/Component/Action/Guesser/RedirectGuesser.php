@@ -50,10 +50,7 @@ class RedirectGuesser
     {
         $actions = $builder->getActions();
 
-        // Nothing to do if empty.
-        if (!$section = $this->sections->active()) {
-            return;
-        }
+        $section = $this->sections->active();
 
         reset($actions);
 
@@ -79,7 +76,7 @@ class RedirectGuesser
                 case 'save':
                 case 'submit':
                 case 'save_exit':
-                    $action['redirect'] = $section->getHref();
+                    $action['redirect'] = $section ? $section->getHref() : $this->request->fullUrl();
                     break;
 
                 case 'update':
@@ -87,7 +84,7 @@ class RedirectGuesser
                 case 'save_continue':
                     $action['redirect'] = function () use ($section, $builder) {
 
-                        if ($builder->getFormMode() == 'create') {
+                        if ($section && $builder->getFormMode() == 'create') {
                             return $section->getHref('edit/' . $builder->getContextualId());
                         }
 
@@ -99,16 +96,18 @@ class RedirectGuesser
                     $ids = array_filter(explode(',', $builder->getRequestValue('edit_next')));
 
                     if (!$ids) {
-                        $action['redirect'] = $section->getHref();
+                        $action['redirect'] = $section ? $section->getHref() : $this->request->fullUrl();
                     } elseif (count($ids) == 1) {
-                        $action['redirect'] = $section->getHref('edit/' . array_shift($ids));
+                        $action['redirect'] = $section ? $section->getHref(
+                            'edit/' . array_shift($ids)
+                        ) : $this->request->fullUrl();
                     } else {
-                        $action['redirect'] = $section->getHref(
+                        $action['redirect'] = $section ? $section->getHref(
                             'edit/' . array_shift($ids) . '?' . $builder->getOption('prefix') . 'edit_next=' . implode(
                                 ',',
                                 $ids
                             )
-                        );
+                        ) : $this->request->fullUrl();
                     }
                     break;
             }
