@@ -55,11 +55,22 @@ class RedirectGuesser
             return;
         }
 
-        foreach ($actions as &$action) {
+        reset($actions);
+
+        $first = key($actions);
+
+        foreach ($actions as $key => &$action) {
 
             // If we already have an HREF then skip it.
             if (isset($action['redirect'])) {
-                return;
+                continue;
+            }
+
+            if ($key == $first && $redirect = $builder->getOption('redirect')) {
+
+                $action['redirect'] = $redirect;
+
+                continue;
             }
 
             // Determine the HREF based on the action type.
