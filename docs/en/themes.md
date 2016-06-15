@@ -92,6 +92,7 @@ Theme layouts define the *outer most* structure of HTML. Layouts are located in 
 
 All themes **must** at least include a `default` layout. In order display any system output you must use a Twig `block` named `content`.
 
+    {% verbatim %}
 	<!DOCTYPE html>
 	<html lang="en">
 	
@@ -118,6 +119,7 @@ All themes **must** at least include a `default` layout. In order display any sy
 	</body>
 	
 	</html>
+	{% endverbatim %}
 
 <a name="assets"></a>
 ### Assets
