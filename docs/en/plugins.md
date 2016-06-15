@@ -143,4 +143,6 @@ The above `ExamplePluginFunctions` would then need a method called `example`.
 
 After building your plugin you can use it's features immediately.
 
+    {% verbatim %}
     {{ example_function('foo', true) }} // FOO
+    {% endverbatim %}
