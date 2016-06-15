@@ -65,19 +65,23 @@ Theme views are located in the addon's view directory at `example-theme/resource
 
 When using referencing other views you may use the `theme::` namespace to reference views in the current theme.
 
+    {% verbatim %}
 	// Include resources/views/partials/example.twig in active theme
 	
 	{{ view("theme::partials/example") }}
 	
 	{% include "theme::partials/example" %}
+	{% endverbatim %}
 
 If needed, you may also use namespace prefixes like `anomaly.module.example` to reference views in other addons.
 
+    {% verbatim %}
 	// Include example-module/resources/views/example.twig
 	
 	{{ view("anomaly.module.example::example") }}
 	
 	{% include "anomaly.module.example::example" %}
+	{% endverbatim %}
 
 There is no restriction on view organization except for `layouts` as mentioned below, you are free to structure your views any way you like.
 
