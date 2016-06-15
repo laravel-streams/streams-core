@@ -120,6 +120,7 @@ The structure of a plugin is the exact same as other addons. It also can provide
 
 Plugins, as with all addons, are resolved out of Laravel's service container. It may be helpful to inject other classes to handle the logic for plugins.
 
+    {% verbatim %}
     public function __construct(ExamplePluginFunctions $functions)
     {
         $this->functions = $functions;
@@ -131,6 +132,7 @@ Plugins, as with all addons, are resolved out of Laravel's service container. It
             new \Twig_SimpleFunction('example_function', [$this->functions, 'example'])
         ];
     }
+    {% endverbatim %}
 
 The above `ExamplePluginFunctions` would then need a method called `example`.
 
@@ -143,4 +145,6 @@ The above `ExamplePluginFunctions` would then need a method called `example`.
 
 After building your plugin you can use it's features immediately.
 
+    {% verbatim %}
     {{ example_function('foo', true) }} // FOO
+    {% endverbatim %}
