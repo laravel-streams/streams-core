@@ -126,6 +126,7 @@ All themes **must** at least include a `default` layout. In order display any sy
 
 When using the `asset` and `image` plugins, the `theme::` prefix refers to the theme's `resources` directory. You can organize your `js`, `css`, `less`, `scss`, `coffee script` and other assets like `images` however you like.
 
+    {% verbatim %}
 	// Add resources/less/example.less to theme.css
 	
 	{{ asset_add("theme.css", "theme::less/example.less") }}
@@ -143,6 +144,7 @@ As with views you may also, if you desire, reference assets from another addon b
 	// Obtaining the URL for example-module/resources/img/example.jpg
 	
 	{{ image_url("anomaly.module.example::img/example.jpg") }}
+	{% endverbatim %}
 
 For more information on the asset and image plugins please see their documentation.
 
