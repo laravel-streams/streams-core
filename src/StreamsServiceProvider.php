@@ -144,6 +144,7 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $singletons = [
+        'Illuminate\Contracts\Routing\UrlGenerator'                                          => 'url',
         'Intervention\Image\ImageManager'                                                    => 'image',
         'League\Flysystem\MountManager'                                                      => 'League\Flysystem\MountManager',
         'Illuminate\Console\Scheduling\Schedule'                                             => 'Illuminate\Console\Scheduling\Schedule',
