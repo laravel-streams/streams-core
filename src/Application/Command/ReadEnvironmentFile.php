@@ -31,7 +31,7 @@ class ReadEnvironmentFile implements SelfHandling
             // Check for # comments.
             if (starts_with($line, '#')) {
                 $data[] = $line;
-            } else {
+            } elseif (strpos($line, '=')) {
 
                 list($key, $value) = explode('=', $line);
 
