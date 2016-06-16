@@ -134,6 +134,8 @@ class TableBuilder
         $this->fire('ready', ['builder' => $this]);
 
         $this->dispatch(new BuildTable($this));
+        
+        $this->fire('built', ['builder' => $this]);
 
         return $this;
     }
