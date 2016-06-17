@@ -422,7 +422,7 @@ class Asset
         /**
          * If the asset is remote just return it.
          */
-        if (starts_with($collection, 'http')) {
+        if (starts_with($collection, ['http', '//'])) {
             return $collection;
         }
 
