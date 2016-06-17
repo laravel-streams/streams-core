@@ -10,6 +10,16 @@
 
 Basic routing in PyroCMS works exactly the same as [routing in Laravel](https://laravel.com/docs/5.1/routing).
 
+### Deferred Routes
+
+Similar to Laravel you can create a `/resources/core/routes.php` file to define routes. The primary difference is that it is loaded second to last.
+
+You can also create a site specific `/resources/{$appReference}/routes.php` file to define routes specific to a single application in a multisite setup. These routes are only loaded last.
+
+<div class="alert alert-primary">
+<strong>Pro Tip:</strong> A route with the same name or path as another route defined <strong>before</strong> it will take precedence.
+</div>
+
 <hr>
 
 <a name="addon-routing"></a>
