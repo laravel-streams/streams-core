@@ -296,14 +296,6 @@ class AddonProvider
                 ];
             }
 
-            /**
-             * If the URI is defined in the
-             * array then the $uri is the name.
-             */
-            if (isset($route['uri']) && array_set($route, 'as', $uri)) {
-                $uri = array_pull($route, 'uri');
-            }
-
             $verb        = array_pull($route, 'verb', 'any');
             $constraints = array_pull($route, 'constraints', []);
 
