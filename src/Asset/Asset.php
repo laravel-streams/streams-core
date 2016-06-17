@@ -293,7 +293,9 @@ class Asset
      */
     public function script($collection, array $filters = [], array $attributes = [])
     {
-        return $this->html->script($this->path($collection, $filters), $attributes);
+        $attributes['src'] = $this->path($collection, $filters);
+
+        return '<script' . $this->html->attributes($attributes) . '></script>';
     }
 
     /**
@@ -306,7 +308,13 @@ class Asset
      */
     public function style($collection, array $filters = [], array $attributes = [])
     {
-        return $this->html->style($this->path($collection, $filters), $attributes);
+        $defaults = ['media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet'];
+
+        $attributes = $attributes + $defaults;
+
+        $attributes['href'] = $this->path($collection, $filters);
+
+        return '<link' . $this->html->attributes($attributes) . '>';
     }
 
     /**
@@ -321,7 +329,10 @@ class Asset
     {
         return array_map(
             function ($path) use ($attributes) {
-                return $this->html->script($path, $attributes);
+
+                $attributes['src'] = $path;
+
+                return '<script' . $this->html->attributes($attributes) . '></script>';
             },
             $this->paths($collection, $filters)
         );
@@ -339,7 +350,14 @@ class Asset
     {
         return array_map(
             function ($path) use ($attributes) {
-                return $this->html->style($path, $attributes);
+
+                $defaults = ['media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet'];
+
+                $attributes = $attributes + $defaults;
+
+                $attributes['href'] = $path;
+
+                return '<link' . $this->html->attributes($attributes) . '>';
             },
             $this->paths($collection, $filters)
         );

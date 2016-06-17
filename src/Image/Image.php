@@ -233,8 +233,7 @@ class Image
         Application $application,
         ImagePaths $paths,
         ImageMacros $macros
-    )
-    {
+    ) {
         $this->url         = $url;
         $this->html        = $html;
         $this->files       = $files;
@@ -332,7 +331,9 @@ class Image
             $attributes['srcset'] = $srcset;
         }
 
-        return $this->html->image($this->path(), $alt, $attributes);
+        $attributes['alt'] = $alt;
+
+        return '<img src="' . $this->path() . '"' . $this->html->attributes($attributes) . '>';
     }
 
     /**
@@ -381,7 +382,7 @@ class Image
      */
     public function source()
     {
-        $this->addAttribute('srcset', $this->srcset() ?: $this->url() . ' 2x, ' . $this->url() . ' 1x');
+        $this->addAttribute('srcset', $this->srcset() ?: $this->path() . ' 2x, ' . $this->path() . ' 1x');
 
         $attributes = $this->html->attributes($this->getAttributes());
 
@@ -611,7 +612,7 @@ class Image
 
         /* @var Image $image */
         foreach ($this->getSrcsets() as $descriptor => $image) {
-            $sources[] = $image->url() . ' ' . $descriptor;
+            $sources[] = $image->path() . ' ' . $descriptor;
         }
 
         return implode(', ', $sources);
