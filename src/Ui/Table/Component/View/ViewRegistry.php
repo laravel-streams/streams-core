@@ -31,10 +31,10 @@ class ViewRegistry
             'text'    => 'streams::view.trash',
             'view'    => Trash::class,
             'buttons' => [
-                'restore'
+                'restore' => [],
             ],
             'actions' => [
-                'force_delete'
+                'force_delete' => [],
             ]
         ],
         'recently_created' => [
