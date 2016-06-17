@@ -1,8 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Routing;
 
+use Anomaly\Streams\Platform\Support\Presenter;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\RouteCollection;
 use Illuminate\Support\Str;
+use StringTemplate\Engine;
 
 /**
  * Class UrlGenerator
@@ -16,14 +19,23 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
 {
 
     /**
+     * The parser engine.
+     *
+     * @var Engine
+     */
+    protected $parser;
+
+    /**
      * Create a new UrlGenerator instance.
      *
      * @param RouteCollection $routes
-     * @param Request $request
+     * @param Request         $request
      */
     public function __construct(RouteCollection $routes, Request $request)
     {
-        parent::__construct($routes, $request);
+        parent::__construct(app('router')->getRoutes(), $request);
+
+        $this->parser = app(Engine::class);
 
         if (defined('LOCALE')) {
             $this->forceRootUrl($this->getRootUrl($this->getScheme(null)) . '/' . LOCALE);
@@ -34,8 +46,8 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      * Generate an absolute URL to the given asset.
      *
      * @param            $path
-     * @param null $locale
-     * @param  mixed $extra
+     * @param null       $locale
+     * @param  mixed     $extra
      * @param  bool|null $secure
      * @return string
      */
@@ -51,8 +63,8 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
     /**
      * Generate an absolute URL to the given asset.
      *
-     * @param  string $asset
-     * @param  mixed $extra
+     * @param  string    $asset
+     * @param  mixed     $extra
      * @param  bool|null $secure
      * @return string
      */
@@ -88,5 +100,30 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
         }
 
         return $this->trimUrl($root, $asset, $tail) . $query;
+    }
+
+    /**
+     * Make a route path.
+     *
+     * @param       $name
+     * @param       $entry
+     * @param array $parameters
+     * @return mixed|null|string
+     */
+    public function make($name, $entry, array $parameters = [])
+    {
+        if (!$route = $this->routes->getByName($name)) {
+            return null;
+        }
+
+        if ($entry instanceof Presenter) {
+            $entry = $entry->getObject();
+        }
+
+        if ($entry instanceof Arrayable) {
+            $entry = $entry->toArray();
+        }
+
+        return $this->addQueryString($this->parser->render($route->uri(), $entry), $parameters);
     }
 }
