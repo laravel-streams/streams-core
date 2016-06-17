@@ -235,7 +235,7 @@ class AddonServiceProvider
      */
     public function getRoutes()
     {
-        $routes = $this->routes;
+        $routes = [];
 
         foreach (glob($this->addon->getPath('resources/routes/*')) as $include) {
 
@@ -248,7 +248,7 @@ class AddonServiceProvider
             $routes = array_merge($include, $routes);
         }
 
-        return $routes;
+        return array_merge($this->routes, $routes);
     }
 
     /**

@@ -23,6 +23,7 @@ use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
 use Anomaly\Streams\Platform\Mail\Mailer;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
+use Anomaly\Streams\Platform\Routing\Command\IncludeRoutes;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\View\Cache\CacheAdapter;
@@ -144,7 +145,7 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $singletons = [
-        'Illuminate\Contracts\Routing\UrlGenerator'                                          => 'url',
+        'Illuminate\Contracts\Routing\UrlGenerator'                                          => 'Anomaly\Streams\Platform\Routing\UrlGenerator',
         'Intervention\Image\ImageManager'                                                    => 'image',
         'League\Flysystem\MountManager'                                                      => 'League\Flysystem\MountManager',
         'Illuminate\Console\Scheduling\Schedule'                                             => 'Illuminate\Console\Scheduling\Schedule',
@@ -265,6 +266,8 @@ class StreamsServiceProvider extends ServiceProvider
                 );
 
                 $manager->register();
+
+                $this->dispatch(new IncludeRoutes());
 
                 $events->fire(new Ready());
             }
