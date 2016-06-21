@@ -56,7 +56,7 @@ class Configurator
         /* @var SplFileInfo $file */
         foreach ($this->files->allFiles($directory) as $file) {
 
-            $key = ltrim(
+            $key = trim(
                 str_replace(
                     $directory,
                     '',
@@ -84,7 +84,7 @@ class Configurator
         /* @var SplFileInfo $file */
         foreach ($this->files->allFiles($directory) as $file) {
 
-            $key = ltrim(
+            $key = trim(
                 str_replace(
                     $directory,
                     '',
