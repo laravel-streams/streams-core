@@ -68,7 +68,7 @@ return [
         'placeholder'  => 'noreply@domain.com'
     ],
     'mail_driver'      => [
-        'label'        => 'E-Mail Treibet',
+        'label'        => 'E-Mail Treiber',
         'instructions' => 'Wie versendet Ihre Website E-Mails?',
         'option'       => [
             'smtp'     => 'SMTP',
