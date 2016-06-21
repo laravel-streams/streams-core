@@ -29,7 +29,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      * Create a new UrlGenerator instance.
      *
      * @param RouteCollection $routes
-     * @param Request         $request
+     * @param Request $request
      */
     public function __construct(RouteCollection $routes, Request $request)
     {
@@ -46,8 +46,8 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      * Generate an absolute URL to the given asset.
      *
      * @param            $path
-     * @param null       $locale
-     * @param  mixed     $extra
+     * @param null $locale
+     * @param  mixed $extra
      * @param  bool|null $secure
      * @return string
      */
@@ -63,8 +63,8 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
     /**
      * Generate an absolute URL to the given asset.
      *
-     * @param  string    $asset
-     * @param  mixed     $extra
+     * @param  string $asset
+     * @param  mixed $extra
      * @param  bool|null $secure
      * @return string
      */
@@ -124,6 +124,6 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
             $entry = $entry->toArray();
         }
 
-        return $this->addQueryString($this->parser->render($route->uri(), $entry), $parameters);
+        return '/' . $this->addQueryString($this->parser->render($route->uri(), $entry), $parameters);
     }
 }
