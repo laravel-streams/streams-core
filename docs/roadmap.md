@@ -131,9 +131,9 @@
 - [&check;] Email
 - [&check;] Encrypted
 - [&check;] File
-- [-] Files
+- [&check;] Files
 - [-] Image
-- [-] Integer
+- [&check;] Integer
 - [-] Language
 - [&check;] Markdown
 - [-] Multiple
