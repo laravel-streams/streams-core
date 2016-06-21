@@ -65,6 +65,9 @@ class Configurator
                 DIRECTORY_SEPARATOR
             );
 
+            // Normalize key slashes.
+            $key = str_replace('\\', '/', $key);
+
             $this->config->set($namespace . '::' . $key, $this->files->getRequire($file->getPathname()));
         }
     }
@@ -92,6 +95,9 @@ class Configurator
                 ) . DIRECTORY_SEPARATOR . $file->getBaseName('.php'),
                 DIRECTORY_SEPARATOR
             );
+
+            // Normalize key slashes.
+            $key = str_replace('\\', '/', $key);
 
             $this->config->set(
                 $namespace . '::' . $key,
