@@ -61,8 +61,8 @@ class Configurator
                     $directory,
                     '',
                     $file->getPath()
-                ) . '/' . $file->getBaseName('.php'),
-                '/'
+                ) . DIRECTORY_SEPARATOR . $file->getBaseName('.php'),
+                DIRECTORY_SEPARATOR
             );
 
             $this->config->set($namespace . '::' . $key, $this->files->getRequire($file->getPathname()));
@@ -89,8 +89,8 @@ class Configurator
                     $directory,
                     '',
                     $file->getPath()
-                ) . '/' . $file->getBaseName('.php'),
-                '/'
+                ) . DIRECTORY_SEPARATOR . $file->getBaseName('.php'),
+                DIRECTORY_SEPARATOR
             );
 
             $this->config->set(
