@@ -285,6 +285,27 @@ class FieldModel extends EloquentModel implements FieldInterface
     }
 
     /**
+     * Set rules attribute.
+     *
+     * @param array $rules
+     */
+    public function setRulesAttribute($rules)
+    {
+        $this->attributes['rules'] = serialize((array)$rules);
+    }
+
+    /**
+     * Return the decoded rules attribute.
+     *
+     * @param  $rules
+     * @return mixed
+     */
+    public function getRulesAttribute($rules)
+    {
+        return (array)unserialize($rules);
+    }
+
+    /**
      * Set the stream namespace.
      *
      * @param StreamInterface $stream
