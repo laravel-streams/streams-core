@@ -85,6 +85,9 @@ return [
     'th'    => [
         'name' => 'Thai'
     ],
+    'bn'    => [
+        'name' => 'Bengali'
+    ],
     'hi'    => [
         'name' => 'Hindi'
     ],
