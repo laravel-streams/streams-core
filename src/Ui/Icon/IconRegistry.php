@@ -125,6 +125,7 @@ class IconRegistry
         'trash'                => 'fa fa-trash',
         'check'                => 'fa fa-check',
         'cubes'                => 'fa fa-cubes',
+        'minus'                => 'fa fa-minus',
         'flag'                 => 'fa fa-flag',
         'user'                 => 'fa fa-user',
         'locked'               => 'fa fa-lock',
