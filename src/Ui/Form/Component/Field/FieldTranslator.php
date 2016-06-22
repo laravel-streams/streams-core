@@ -45,6 +45,10 @@ class FieldTranslator
 
                 array_set($translation, 'locale', $locale);
                 array_set($translation, 'hidden', $locale !== $locale);
+                
+                if ($value = array_get($field, 'values.' . $locale)) {
+                    array_set($translation, 'value', $value);
+                }
 
                 if ($defaultLocale !== $locale) {
                     array_set($translation, 'hidden', true);
