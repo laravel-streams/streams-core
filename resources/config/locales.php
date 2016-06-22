@@ -137,6 +137,9 @@ return [
         'th'    => [
             'direction' => 'ltr'
         ],
+        'bn'    => [
+            'direction' => 'ltr'
+        ],
         'hi'    => [
             'direction' => 'ltr'
         ]
