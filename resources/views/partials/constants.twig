@@ -7,6 +7,8 @@
     var CSRF_TOKEN = "{{ csrf_token() }}";
     var APP_DEBUG = "{{ config_get('app.debug') }}";
     var APP_URL = "{{ config_get('app.url') }}";
+    var REQUEST_ROOT = "{{ request_root() }}";
+    var REQUEST_ROOT_PATH = "{{ parse_url(request_root()).path }}";
     var TIMEZONE = "{{ config_get('app.timezone') }}";
     var LOCALE = "{{ config_get('app.locale') }}";
 
