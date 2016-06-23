@@ -47,7 +47,7 @@ class AssetPaths
      * Create a new AssetPaths instance.
      *
      * @param Repository $config
-     * @param Request $request
+     * @param Request    $request
      */
     public function __construct(Repository $config, Request $request, Application $application)
     {
@@ -128,7 +128,7 @@ class AssetPaths
     /**
      * Return the download path for a remote asset.
      *
-     * @param $url
+     * @param      $url
      * @param null $path
      * @return string
      */
@@ -177,8 +177,16 @@ class AssetPaths
             $directory = in_array($this->request->segment(1), ['admin', 'installer']) ? 'admin/' : 'public/';
         }
 
-        $path = rtrim(array_get(parse_url($this->request->root()), 'path'), '/');
+        return "/app/{$application}/assets/{$directory}{$filename}";
+    }
 
-        return "{$path}/app/{$application}/assets/{$directory}{$filename}";
+    /**
+     * Return the path prefix.
+     *
+     * @return string
+     */
+    public function prefix()
+    {
+        return rtrim(array_get(parse_url($this->request->root()), 'path'), '/');
     }
 }
