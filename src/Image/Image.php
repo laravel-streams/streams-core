@@ -493,7 +493,7 @@ class Image
             return $this->config->get('app.debug', false) ? $e->getMessage() : null;
         }
 
-        return $path;
+        return $this->paths->prefix() . $path;
     }
 
     /**

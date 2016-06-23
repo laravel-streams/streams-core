@@ -188,8 +188,16 @@ class ImagePaths
             $filename  = ltrim($rename, '/\\');
         }
 
-        $path = rtrim(array_get(parse_url($this->request->root()), 'path'), '/');
+        return "/app/{$application}/assets/{$directory}{$filename}";
+    }
 
-        return "{$path}/app/{$application}/assets/{$directory}{$filename}";
+    /**
+     * Return the path prefix.
+     *
+     * @return string
+     */
+    public function prefix()
+    {
+        return rtrim(array_get(parse_url($this->request->root()), 'path'), '/');
     }
 }

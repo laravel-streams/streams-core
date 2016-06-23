@@ -432,11 +432,11 @@ class Asset
             $this->publish($path, $collection, $filters);
         }
 
-        if (file_exists($path) && filesize($path) == 0) {
+        /*if (file_exists($path) && filesize($path) == 0) {
             return null;
-        }
+        }*/
 
-        return $path;
+        return $this->paths->prefix() . $path;
     }
 
     /**
@@ -664,7 +664,7 @@ class Asset
             return false;
         }
 
-        if (!file_exists($path)) {
+        if (!$this->files->exists($path)) {
             return true;
         }
 
