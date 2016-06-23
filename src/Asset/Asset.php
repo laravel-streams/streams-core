@@ -432,10 +432,6 @@ class Asset
             $this->publish($path, $collection, $filters);
         }
 
-        /*if (file_exists($path) && filesize($path) == 0) {
-            return null;
-        }*/
-
         return $this->paths->prefix() . $path;
     }
 
