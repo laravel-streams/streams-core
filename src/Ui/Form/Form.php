@@ -552,12 +552,28 @@ class Form implements PresentableInterface
     /**
      * Get a form field.
      *
-     * @param $fieldSlug
+     * @param $field
      * @return FieldType|mixed
      */
-    public function getField($fieldSlug)
+    public function getField($field)
     {
-        return $this->fields->get($fieldSlug);
+        return $this->fields->get($field);
+    }
+
+    /**
+     * Set a field value.
+     *
+     * @param $field
+     * @param $value
+     * @return $this
+     */
+    public function setFieldValue($field, $value)
+    {
+        if ($field = $this->getField($field)) {
+            $field->setValue($value);
+        }
+
+        return $this;
     }
 
     /**
