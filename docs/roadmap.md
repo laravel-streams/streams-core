@@ -136,7 +136,7 @@
 - [&check;] Integer
 - [-] Language
 - [&check;] Markdown
-- [-] Multiple
+- [&check;] Multiple
 - [-] Polymorphic
 - [-] Relationship
 - [-] Select
