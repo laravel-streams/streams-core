@@ -15,8 +15,8 @@
 
 ### Getting Started
 
-- [-] Installation
-- [-] Configuration
+- [&check;] Installation
+- [&check;] Configuration
 
 --
 
