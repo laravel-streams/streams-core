@@ -39,10 +39,10 @@ class Kernel extends \App\Http\Kernel
     {
         /**
          * Make sure the ORIGINAL_REQUEST_URI is always available
-         * Overwrite later as neccesary
+         * Overwrite later as necessary
          */
-        $_SERVER['ORIGINAL_REQUEST_URI'] = $_SERVER['REQUEST_URI'];
-        
+        $_SERVER['ORIGINAL_REQUEST_URI'] = array_get($_SERVER, 'REQUEST_URI');
+
         /**
          * First grab the supported i18n locales
          * that we should be looking for.
