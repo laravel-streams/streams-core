@@ -2,7 +2,9 @@
 
 - [Introduction](#introduction)
 - [Basic Usage](#basic-usage)
-	- [Creating Criteria](#criteria)
+	- [Fetching Results](#fetching-results)
+	- [Finding Single Entry](#finding-single-entry)
+	- [Creating Criteria](#creating-criteria)
 
 <hr>
 
@@ -16,7 +18,7 @@ Model criteria help you build flexible queries within views. Think of model crit
 <a name="basic-usage"></a>
 ## Basic Usage
 
-When the `entry` or `entry` plugin functions are invoked a model criteria is returned.  You can then restrict entries by value, order them, and call custom criteria methods.
+When the `entry` or `entries` plugin functions are invoked a model criteria is returned.  You can then restrict entries by value, order them, and call custom criteria methods.
 
     {% verbatim %}
     {# Get all sale products. #}
@@ -34,6 +36,40 @@ When the `entry` or `entry` plugin functions are invoked a model criteria is ret
 
 <div class="alert alert-danger">
 <strong>Important:</strong> Model criteria do not allow you to modify records.
+</div>
+
+<a name="returning-collections"></a>
+### Returning Collections
+
+The following methods can be used with the `entries` method to fetch a collection of entries.
+
+#### `get($columns = ['*'])`
+
+Get all matching entries. Returns the entry model's collection.
+
+#### `paginate($perPage = 15, $columns = ['*'])`
+
+Get all matching entries. Returns a `LengthAwarePaginator`.
+
+<a name="finding-single-entry"></a>
+### Returning Single Entry
+
+The following methods can be used with the `entry` method to fetch a single record. If no entry is found `null` is returned.
+
+#### `find($identifier, $columns = ['*'])`
+
+Find an entry by ID.
+
+#### `findBy($where, $value, $columns = ['*'])`
+
+Find an entry a column value.
+
+#### `first($columns = ['*'])`
+
+Return the first matched entry.
+
+<div class="alert alert-primary">
+<strong>Note:</strong> Criteria results are always decorated. The entry function will return a single presenter and entries will return a collection of presenters.
 </div>
 
 <a name="creating-criteria"></a>
