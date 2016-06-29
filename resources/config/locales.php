@@ -140,6 +140,9 @@ return [
         'bn'    => [
             'direction' => 'ltr'
         ],
+        'sq'    => [
+            'direction' => 'ltr'
+        ],
         'hi'    => [
             'direction' => 'ltr'
         ]
