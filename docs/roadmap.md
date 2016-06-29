@@ -75,7 +75,7 @@
 - Repositories
 - Collections
 - Presenters
-- Criteria
+- [&check;] Criteria
 - Mutators
 - Observers
 - Serialization

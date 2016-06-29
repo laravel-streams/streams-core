@@ -699,7 +699,7 @@ class EloquentModel extends Model implements Arrayable
     {
         return false;
     }
-    
+
     /**
      * Determine if the given attribute exists.
      * Make sure to skip where there could be an
@@ -711,6 +711,18 @@ class EloquentModel extends Model implements Arrayable
     public function offsetExists($offset)
     {
         return !method_exists($this, $offset) && isset($this->$offset);
+    }
+
+    /**
+     * Get the criteria class.
+     *
+     * @return string
+     */
+    public function getCriteriaName()
+    {
+        $criteria = substr(get_class($this), 0, -5) . 'Criteria';
+
+        return class_exists($criteria) ? $criteria : EloquentCriteria::class;
     }
 
     public function __get($key)

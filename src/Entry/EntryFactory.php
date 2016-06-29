@@ -67,14 +67,8 @@ class EntryFactory
         /* @var EntryModel $model */
         $model = $this->container->make($model);
 
-        $criteria = substr(get_class($model), 0, -5) . 'Criteria';
-
-        if (!class_exists($criteria)) {
-            $criteria = 'Anomaly\Streams\Platform\Entry\EntryCriteria';
-        }
-
         return $this->container->make(
-            $criteria,
+            $model->getCriteriaName(),
             [
                 'query'  => $model->newQuery(),
                 'stream' => $model->getStream(),

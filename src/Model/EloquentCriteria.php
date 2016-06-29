@@ -29,7 +29,8 @@ class EloquentCriteria
      * @var array
      */
     private $disabled = [
-        'delete'
+        'delete',
+        'update',
     ];
 
     /**

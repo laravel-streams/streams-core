@@ -28,6 +28,12 @@
             "messages": "Messages"
         }
     },
+    "eloquent": {
+        "title": "Eloquent ORM",
+        "pages": {
+            "criteria": "Criteria"
+        }
+    },
     "ui": {
         "title": "User Interface",
         "pages": {

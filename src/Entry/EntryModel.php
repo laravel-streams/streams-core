@@ -732,6 +732,18 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Get the criteria class.
+     *
+     * @return string
+     */
+    public function getCriteriaName()
+    {
+        $criteria = substr(get_class($this), 0, -5) . 'Criteria';
+
+        return class_exists($criteria) ? $criteria : EntryCriteria::class;
+    }
+
+    /**
      * Override the __get method.
      *
      * @param string $key
