@@ -43,8 +43,8 @@
     "developers": {
         "title": "Developer",
         "pages": {
-            "themes": "Developing Themes",
-            "plugins": "Developing Plugins"
+            "themes": "Themes",
+            "plugins": "Plugins"
         }
     }
 }
