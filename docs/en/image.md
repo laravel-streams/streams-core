@@ -109,6 +109,7 @@ To avoid having to use full paths to your images there are a number of path hint
 All paths are relative to your applications base path.
 
 - `public`: public/
+- `node`: node_modules/
 - `asset`: public/app/{app_reference}/
 - `storage`: storage/streams/{app_reference}/
 - `download`: public/app/{app_reference}/assets/downloads/

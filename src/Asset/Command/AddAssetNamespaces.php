@@ -22,6 +22,7 @@ class AddAssetNamespaces implements SelfHandling
     public function handle(Asset $asset, Container $container, Application $application)
     {
         $asset->addPath('public', public_path());
+        $asset->addPath('node', base_path('node_modules'));
         $asset->addPath('asset', $application->getAssetsPath());
         $asset->addPath('storage', $application->getStoragePath());
         $asset->addPath('download', $application->getAssetsPath('assets/downloads'));
