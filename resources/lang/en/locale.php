@@ -88,6 +88,9 @@ return [
     'bn'    => [
         'name' => 'Bengali'
     ],
+    'sq'    => [
+        'name' => 'Albanian'
+    ],
     'hi'    => [
         'name' => 'Hindi'
     ],
