@@ -28,6 +28,12 @@
             "messages": "Messages"
         }
     },
+    "database": {
+        "title": "Database",
+        "pages": {
+            "migrations": "Migrations"
+        }
+    },
     "eloquent": {
         "title": "Eloquent ORM",
         "pages": {
