@@ -118,7 +118,7 @@ The structure of a plugin is the exact same as other addons. It also can provide
         return [];
     }
 
-Plugins, as with all addons, are resolved out of Laravel's service container. It may be helpful to inject other classes to handle the logic for plugins.
+Most commonly plugins provide functions. Here is an example of how you can define functions in the context of a PyroCMS project.
 
     public function __construct(ExamplePluginFunctions $functions)
     {
@@ -128,21 +128,22 @@ Plugins, as with all addons, are resolved out of Laravel's service container. It
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('example_function', [$this->functions, 'example'])
+            new \Twig_SimpleFunction('example_function', [$this->functions, 'example']), // Where example uppercases the string.
+            new \Twig_SimpleFunction('another_function', function($name = 'Ryan') {
+                return 'Hello ' . $name;
+            }),
+            new \Twig_SimpleFunction('favorite_function', function($params = []) {
+                return $this->dispatch(new GetFavoriteThings($params));
+            })
         ];
     }
 
-The above `ExamplePluginFunctions` would then need a method called `example`.
-
-	public function example($text, $optional = null)
-	{
-		return $optional ? strtoupper($text) : $text;
-	}
-
-	
-
-After building your plugin you can use it's features immediately.
+Now you can use your plugin functions in views.
 
     {% verbatim %}
     {{ example_function('foo', true) }} // FOO
+
+    {{ another_function('Batman') }} // Hello Batman
+
+    {{ favorite_function({'category': 'foo'}) }} // Favorite things in the foo category
     {% endverbatim %}
