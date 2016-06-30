@@ -51,10 +51,10 @@
 - [&check;] Localization
 - [&check;] Mail
 - [&check;] Messages
-- Pagination
+- [&check;] Pagination
 - Parser
 - Plugin
-- Resolver
+- [&check;] Resolver
 - Session
 - String
 - Testing
@@ -93,8 +93,8 @@
 
 - Getting Started
 - Modules
-- Plugins
-- Themes
+- [&check;] Plugins
+- [&check;] Themes
 - Field Types
 - Extensions
 
