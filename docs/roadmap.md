@@ -54,7 +54,7 @@
 - [&check;] Pagination
 - Parser
 - Plugin
-- Resolver
+- [&check;] Resolver
 - Session
 - String
 - Testing
