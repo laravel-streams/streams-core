@@ -66,7 +66,7 @@
 - Getting Started
 - Query Builder
 - [&check;] Migrations
-- Seeding
+- [&check;] Seeding
 
 ### Eloquent ORM
 

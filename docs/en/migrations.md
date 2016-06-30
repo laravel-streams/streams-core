@@ -12,14 +12,14 @@
 Migrations in PyroCMS works exactly the same as [migrations in Laravel](https://laravel.com/docs/5.1/migrations).
 
 <a name="addon-migrations"></a>
-### Addon Migrations
+## Addon Migrations
 
 It is encouraged to bundle your migrations and project logic into addons. To create a migration in an addon you may use the `--addon` flag.
 
     php artisan make:migration create_awesome --addon=foo.module.example
 
 <a name="stream-migrations"></a>
-### Stream Migrations
+## Stream Migrations
 
 Migrations help you quickly create Streams, Fields, and Field Assignments. To get started simply create a migration using the command above.
 
