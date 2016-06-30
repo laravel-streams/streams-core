@@ -86,4 +86,15 @@ class EloquentCollection extends Collection
 
         return new static($this->items);
     }
+
+    /**
+     * An alias for slice.
+     *
+     * @param $offset
+     * @return $this
+     */
+    public function skip($offset)
+    {
+        return $this->slice($offset, null, true);
+    }
 }
