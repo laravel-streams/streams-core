@@ -28,6 +28,14 @@ class ButtonRegistry
             'type' => 'default'
         ],
         /**
+         * Primary Buttons
+         */
+        'options'       => [
+            'text' => 'streams::button.options',
+            'type' => 'primary',
+            'icon' => 'cog',
+        ],
+        /**
          * Success Buttons
          */
         'green'         => [
