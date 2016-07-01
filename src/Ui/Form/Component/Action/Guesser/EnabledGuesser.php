@@ -26,13 +26,15 @@ class EnabledGuesser
 
         foreach ($actions as &$action) {
 
-            if (isset($action['enabled']) && is_bool($action['enabled'])) {
-                return;
+            if (!isset($action['enabled'])) {
+                continue;
             }
 
-            if (isset($action['enabled']) && is_string($action['enabled'])) {
-                $action['enabled'] = $mode === $action['enabled'];
+            if (is_bool($action['enabled'])) {
+                continue;
             }
+
+            $action['enabled'] = ($mode === $action['enabled']);
         }
 
         $builder->setActions($actions);
