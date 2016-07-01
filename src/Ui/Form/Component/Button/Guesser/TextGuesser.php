@@ -1,20 +1,20 @@
-<?php namespace Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser;
+<?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser;
 
 use Anomaly\Streams\Platform\Addon\Module\Module;
 use Anomaly\Streams\Platform\Addon\Module\ModuleCollection;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Ui\Button\ButtonRegistry;
-use Anomaly\Streams\Platform\Ui\ControlPanel\ControlPanelBuilder;
+use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Translation\Translator;
 
 /**
  * Class TextGuesser
  *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\ControlPanel\Component\Button\Guesser
+ * @link          http://pyrocms.com/
+ * @author        PyroCMS, Inc. <support@pyrocms.com>
+ * @author        Ryan Thompson <ryan@pyrocms.com>
+ * @package       Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser
  */
 class TextGuesser
 {
@@ -80,9 +80,9 @@ class TextGuesser
     /**
      * Guess the button from the hint.
      *
-     * @param ControlPanelBuilder $builder
+     * @param FormBuilder $builder
      */
-    public function guess(ControlPanelBuilder $builder)
+    public function guess(FormBuilder $builder)
     {
         $buttons = $builder->getButtons();
 
@@ -116,7 +116,7 @@ class TextGuesser
                 (!isset($button['text']) || !$this->translator->has($button['text']))
                 && $this->config->get('streams::system.lazy_translations')
             ) {
-                $button['text'] = $this->string->humanize(array_get($button, 'slug', $button['button']));
+                $button['text'] = $this->string->humanize($button['button']);
             }
 
             if (!isset($button['text'])) {
