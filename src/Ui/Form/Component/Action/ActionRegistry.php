@@ -29,6 +29,10 @@ class ActionRegistry
             'button' => 'save',
             'text'   => 'streams::button.save_edit'
         ],
+        'save_create'    => [
+            'button' => 'save',
+            'text'   => 'streams::button.save_create'
+        ],
         'save_continue'  => [
             'button' => 'save',
             'text'   => 'streams::button.save_continue'
