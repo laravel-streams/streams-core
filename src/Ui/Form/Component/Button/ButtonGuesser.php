@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser\EnabledGuesser;
 use Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser\HrefGuesser;
+use Anomaly\Streams\Platform\Ui\Form\Component\Button\Guesser\TextGuesser;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 /**
@@ -23,6 +24,13 @@ class ButtonGuesser
     protected $href;
 
     /**
+     * The text guesser.
+     *
+     * @var TextGuesser
+     */
+    protected $text;
+
+    /**
      * The enabled guesser.
      *
      * @var EnabledGuesser
@@ -35,9 +43,10 @@ class ButtonGuesser
      * @param HrefGuesser    $href
      * @param EnabledGuesser $enabled
      */
-    public function __construct(HrefGuesser $href, EnabledGuesser $enabled)
+    public function __construct(HrefGuesser $href, TextGuesser $text, EnabledGuesser $enabled)
     {
         $this->href    = $href;
+        $this->text    = $text;
         $this->enabled = $enabled;
     }
 
@@ -49,6 +58,7 @@ class ButtonGuesser
     public function guess(FormBuilder $builder)
     {
         $this->href->guess($builder);
+        $this->text->guess($builder);
         $this->enabled->guess($builder);
     }
 }
