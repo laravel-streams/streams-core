@@ -43,16 +43,15 @@ class EnabledGuesser
 
         foreach ($buttons as &$button) {
 
-            if (isset($button['enabled']) && is_bool($button['enabled'])) {
-                return;
+            if (!isset($button['enabled'])) {
+                continue;
             }
 
-            switch (array_get($button, 'button')) {
-
-                case 'delete':
-                    $button['enabled'] = ($mode === 'edit');
-                    break;
+            if (is_bool($button['enabled'])) {
+                continue;
             }
+
+            $button['enabled'] = ($mode === $button['enabled']);
         }
 
         $builder->setButtons($buttons);
