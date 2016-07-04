@@ -31,6 +31,14 @@ interface EloquentRepositoryInterface
     public function find($id);
 
     /**
+     * Find all records by IDs.
+     *
+     * @param array $ids
+     * @return EloquentCollection
+     */
+    public function findAll(array $ids);
+
+    /**
      * Find a trashed record by it's ID.
      *
      * @param $id
