@@ -79,6 +79,10 @@ class RedirectGuesser
                     $action['redirect'] = $section ? $section->getHref() : $this->request->fullUrl();
                     break;
 
+                case 'save_create':
+                    $action['redirect'] = $this->request->fullUrl();
+                    break;
+
                 case 'update':
                 case 'save_edit':
                 case 'save_continue':
