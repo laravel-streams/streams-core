@@ -7,7 +7,7 @@
         {% if not button.attributes.name %}
             <a class="btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }} {{ button.class }}" {{ html_attributes(button.attributes) }}>
                 {{ button.icon ? icon(button.icon)|raw }}
-                {{ trans(button.text) }}
+                {{ trans(button.text)|raw }}
             </a>
         {% endif %}
 
@@ -15,7 +15,7 @@
         {% if button.attributes.name %}
             <button class="btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }} {{ button.class }}" {{ html_attributes(button.attributes) }}>
                 {{ button.icon ? icon(button.icon)|raw }}
-                {{ trans(button.text) }}
+                {{ trans(button.text)|raw }}
             </button>
         {% endif %}
 
@@ -30,7 +30,7 @@
             <a class="dropdown-toggle btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }} {{ button.class }}"
                data-toggle="dropdown" {{ html_attributes(button.attributes) }}>
                 {{ button.icon ? icon(button.icon)|raw }}
-                {{ trans(button.text) }}
+                {{ trans(button.text)|raw }}
             </a>
 
             {# Render the actual dropdown links #}
@@ -43,7 +43,7 @@
                             {% if not link.attributes.name %}
                                 <a class="dropdown-item" {{ html_attributes(link.attributes) }}>
                                     {{ link.icon ? icon(link.icon)|raw }}
-                                    {{ trans(link.text) }}
+                                    {{ trans(link.text)|raw }}
                                 </a>
                             {% endif %}
 
@@ -51,7 +51,7 @@
                             {% if link.attributes.name %}
                                 <button class="dropdown-item" {{ html_attributes(link.attributes) }}>
                                     {{ link.icon ? icon(link.icon)|raw }}
-                                    {{ trans(link.text) }}
+                                    {{ trans(link.text)|raw }}
                                 </button>
                             {% endif %}
 
