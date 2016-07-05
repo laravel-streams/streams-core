@@ -121,6 +121,7 @@ class IconRegistry
         'file'                 => 'fa fa-file-o',
         'jcb'                  => 'fa fa-cc-jcb',
         'stripe'               => 'fa-cc-stripe',
+        'truck'                => 'fa fa-truck',
         'phone'                => 'fa fa-phone',
         'users'                => 'fa fa-users',
         'times'                => 'fa fa-times',
