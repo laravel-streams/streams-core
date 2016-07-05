@@ -191,7 +191,10 @@ class EloquentRepository implements EloquentRepositoryInterface
     {
         $entry->forceDelete();
 
-        return true;
+        /**
+         * If we were not able to force delete
+         */
+        return !$entry->exists;
     }
 
     /**
