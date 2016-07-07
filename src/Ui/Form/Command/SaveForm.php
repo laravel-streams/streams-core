@@ -40,10 +40,13 @@ class SaveForm implements SelfHandling
      */
     public function handle(Dispatcher $events)
     {
+        // We can't save if there is no repository.
+        if (!$repository = $this->builder->getRepository()) {
+            return;
+        }
+
         $this->builder->fire('saving', ['builder' => $this->builder]);
         $this->builder->fireFieldEvents('form_saving');
-
-        $repository = $this->builder->getRepository();
 
         $repository->save($this->builder);
 
