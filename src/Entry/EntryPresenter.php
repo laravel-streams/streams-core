@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentPresenter;
+use Anomaly\Streams\Platform\Support\Value;
 
 /**
  * Class EntryPresenter
@@ -79,9 +80,26 @@ class EntryPresenter extends EloquentPresenter
      * @param string $size
      * @return string
      */
-    public function label($text, $context = 'default', $size = 'sm')
+    public function label($text = null, $context = null, $size = null)
     {
-        return '<span class="label label-' . $context . ' label-' . $size . '">' . trans($text) . '</span>';
+        if (!$text) {
+            $text = $this->object->getTitleName();
+        }
+
+        if (!$context) {
+            $context = 'default';
+        }
+
+        if (!$size) {
+            $size = 'sm';
+        }
+
+        /* @var Value $value */
+        $value = app(Value::class);
+
+        return '<span class="label label-' . $context . ' label-' . $size . '">' . trans(
+            $value->make($text, $this->object)
+        ) . '</span>';
     }
 
     /**
