@@ -38,7 +38,9 @@ trait Hookable
     }
 
     /**
-     * Bind a new hook.
+     * Bind a new hook. This is a shortcut
+     * for hooks with the bind option. It's
+     * more descriptive for IDE hinting.
      *
      * @param $hook
      * @param $callback
@@ -46,13 +48,7 @@ trait Hookable
      */
     public function bind($hook, $callback)
     {
-        $bind = true;
-
-        $owner = get_class($this);
-
-        self::$hooks[$hook][] = compact('owner', 'callback', 'bind');
-
-        return $this;
+        return $this->hook($hook, $callback, true);
     }
 
     /**
