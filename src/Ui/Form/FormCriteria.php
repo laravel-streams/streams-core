@@ -199,6 +199,16 @@ class FormCriteria
             return $this;
         }
 
+        if (!method_exists($this->builder, camel_case($name)) && count($arguments) === 0) {
+
+            $key = snake_case($name);
+
+            // Helpful for form.disableLabels().disableFoo() ...
+            array_set($this->parameters, "options.{$key}", true);
+
+            return $this;
+        }
+
         return $this;
     }
 
