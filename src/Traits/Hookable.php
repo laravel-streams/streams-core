@@ -23,19 +23,40 @@ trait Hookable
     /**
      * Register a new hook.
      *
-     * @param $hook
-     * @param $callback
+     * @param      $hook
+     * @param      $callback
+     * @param bool $bind
      * @return $this
      */
-    public function hook($hook, $callback)
+    public function hook($hook, $callback, $bind = false)
     {
-        self::$hooks[get_class($this) . $hook] = $callback;
+        $owner = get_class($this);
+
+        self::$hooks[$hook][] = compact('owner', 'callback', 'bind');
 
         return $this;
     }
 
     /**
-     * Fire a set of closures by trigger.
+     * Bind a new hook.
+     *
+     * @param $hook
+     * @param $callback
+     * @return $this
+     */
+    public function bind($hook, $callback)
+    {
+        $bind = true;
+
+        $owner = get_class($this);
+
+        self::$hooks[$hook][] = compact('owner', 'callback', 'bind');
+
+        return $this;
+    }
+
+    /**
+     * Call a hook.
      *
      * @param       $hook
      * @param array $parameters
@@ -43,7 +64,15 @@ trait Hookable
      */
     public function call($hook, array $parameters = [])
     {
-        return app()->call(self::$hooks[get_class($this) . $hook], $parameters);
+        if (!$hook = $this->getHook($hook)) {
+            throw new \Exception('The hook [' . $hook . '] does not exist for [' . get_class($this) . '].');
+        }
+
+        if ($hook['bind']) {
+            $hook['callback'] = \Closure::bind($hook['callback'], $this);
+        }
+
+        return app()->call($hook['callback'], $parameters);
     }
 
     /**
@@ -54,6 +83,27 @@ trait Hookable
      */
     public function hasHook($hook)
     {
-        return isset(self::$hooks[get_class($this) . $hook]);
+        return $this->getHook($hook) !== null;
+    }
+
+    /**
+     * Get a hook.
+     *
+     * @param $hook
+     * @return bool
+     */
+    public function getHook($hook)
+    {
+        if (!isset(self::$hooks[$hook])) {
+            return null;
+        }
+
+        foreach (self::$hooks[$hook] as $hook) {
+            if ($this instanceof $hook['owner']) {
+                return $hook;
+            }
+        }
+
+        return null;
     }
 }

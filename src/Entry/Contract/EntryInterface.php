@@ -44,6 +44,20 @@ interface EntryInterface
     public function getEntryTitle();
 
     /**
+     * Get the model's bound name.
+     *
+     * @return string
+     */
+    public function getBoundModelName();
+
+    /**
+     * Get the model's bound namespace.
+     *
+     * @return string
+     */
+    public function getBoundModelNamespace();
+
+    /**
      * Get the sort order.
      *
      * @return int

@@ -126,6 +126,30 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Get the model's bound name.
+     *
+     * @return string
+     */
+    public function getBoundModelName()
+    {
+        return get_class(app(get_class($this)));
+    }
+
+    /**
+     * Get the model's bound namespace.
+     *
+     * @return string
+     */
+    public function getBoundModelNamespace()
+    {
+        $namespace = explode('\\', $this->getBoundModelName());
+
+        array_pop($namespace);
+
+        return implode('\\', $namespace);
+    }
+
+    /**
      * Get the sort order.
      *
      * @return int
