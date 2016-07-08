@@ -1,6 +1,5 @@
-<div class="table-filters">
-
-    {% if not table.filters.empty() %}
+{% if not table.filters.empty() %}
+    <div class="table-filters">
 
         {{ form_open({'method': 'get', 'id': 'filters', 'url': url_full(), 'class': 'ajax form-inline'}) }}
         <input type="hidden" name="{{ table.options.prefix }}view" value="{{ table.views.active().getSlug() }}">
@@ -21,6 +20,5 @@
         </a>
         {{ form_close() }}
 
-    {% endif %}
-
-</div>
+    </div>
+{% endif %}
