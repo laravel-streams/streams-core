@@ -8,18 +8,18 @@
 
 {{ view("streams::table/ajax/heading", {'table': table}) }}
 
-<div class="modal-body">
+{{ view("streams::table/ajax/views", {'table': table}) }}
+{{ view("streams::table/ajax/filters", {'table': table}) }}
 
-    {{ view("streams::table/partials/views", {'table': table}) }}
-    {{ view("streams::table/ajax/filters", {'table': table}) }}
-
-    {% if table.rows.empty() %}
-        {% block no_results %}
-            {{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}
-        {% endblock %}
-    {% endif %}
-
-</div>
+{% if table.rows.empty() %}
+    {% block no_results %}
+        <div class="no-results">
+            <p>
+                {{ trans(table.options.get('no_results_message', 'streams::message.no_results')) }}
+            </p>
+        </div>
+    {% endblock %}
+{% endif %}
 
 {% if not table.rows.empty() %}
 

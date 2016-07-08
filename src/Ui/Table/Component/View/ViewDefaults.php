@@ -24,7 +24,7 @@ class ViewDefaults
             return;
         }
 
-        if ($stream->isTrashable() && !$builder->getViews()) {
+        if ($stream->isTrashable() && !$builder->getViews() && !$builder->isAjax()) {
             $builder->setViews(
                 [
                     'all',
