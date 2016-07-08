@@ -101,14 +101,6 @@ class HeadingsGuesser
                 continue;
             }
 
-            /**
-             * No module means we can't
-             * really do much here.
-             */
-            if (!$module instanceof Module) {
-                continue;
-            }
-
             if (!isset($column['field']) && is_string($column['value'])) {
                 $column['field'] = $column['value'];
             }
@@ -168,7 +160,7 @@ class HeadingsGuesser
              * If no field look for
              * a name anyways.
              */
-            if (!$field && $this->translator->has(
+            if ($module && !$field && $this->translator->has(
                     $heading = $module->getNamespace('field.' . $column['field'] . '.name')
                 )
             ) {
@@ -201,7 +193,7 @@ class HeadingsGuesser
             /**
              * Last resort.
              */
-            if (!isset($column['heading'])) {
+            if ($module && !isset($column['heading'])) {
                 $column['heading'] = $module->getNamespace('field.' . $column['field'] . '.name');
             }
         }
