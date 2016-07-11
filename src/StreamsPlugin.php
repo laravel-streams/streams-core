@@ -370,7 +370,8 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('asset_styles', [$this->asset, 'styles'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('asset_inline', [$this->asset, 'inline'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('asset_script', [$this->asset, 'script'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('asset_scripts', [$this->asset, 'scripts'], ['is_safe' => ['html']])
+            new \Twig_SimpleFunction('asset_scripts', [$this->asset, 'scripts'], ['is_safe' => ['html']]),
+            new \Twig_SimpleFunction('old', 'old')
         ];
     }
 
