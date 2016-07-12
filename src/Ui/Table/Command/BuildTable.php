@@ -57,6 +57,7 @@ class BuildTable implements SelfHandling
 
         $this->dispatch(new SetTableOptions($this->builder));
         $this->dispatch(new SetDefaultOptions($this->builder));
+        $this->dispatch(new SaveTableState($this->builder));
 
         /**
          * Before we go any further, authorize the request.

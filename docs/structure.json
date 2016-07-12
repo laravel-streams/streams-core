@@ -25,7 +25,8 @@
             "image": "Image",
             "localization": "Localization",
             "mail": "Mail",
-            "messages": "Messages"
+            "messages": "Messages",
+            "plugin": "Plugin"
         }
     },
     "database": {
