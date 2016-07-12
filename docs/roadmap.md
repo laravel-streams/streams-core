@@ -51,9 +51,9 @@
 - [&check;] Localization
 - [&check;] Mail
 - [&check;] Messages
-- [&check;] Pagination
+- Pagination
 - Parser
-- Plugin
+- [&check;] Plugin
 - [&check;] Resolver
 - Session
 - String
