@@ -126,9 +126,15 @@ class FormValidator implements SelfHandling
     {
         if (!$validator->passes()) {
 
-            $builder
-                ->setSave(false)
-                ->setFormErrors($validator->getMessageBag());
+            $builder->setSave(false);
+
+            $bag = $validator->getMessageBag();
+
+            foreach ($bag->getMessages() as $field => $messages) {
+                foreach ($messages as $message) {
+                    $builder->addFormError($field, $message);
+                }
+            }
 
             $this->dispatch(new SetErrorMessages($builder));
         }
