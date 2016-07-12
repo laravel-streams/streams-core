@@ -122,7 +122,7 @@ class ActionHandler implements SelfHandling
          * we're coming from a table.
          */
         if ($query = $this->session->get('table::' . $redirect)) {
-            $action['redirect'] = strpos($redirect, '?') ? $redirect . '&' . $query : $redirect . '?' . $query;
+            $redirect = strpos($redirect, '?') ? $redirect . '&' . $query : $redirect . '?' . $query;
         }
 
         $builder->setFormResponse($this->redirector->to($redirect));
