@@ -60,6 +60,8 @@ return [
         ]
     ],
     'date_format'     => [
+        'env'      => 'DATE_FORMAT',
+        'bind'     => 'streams::datetime.date_format',
         'type'     => 'anomaly.field_type.select',
         'required' => true,
         'config'   => [
@@ -83,6 +85,8 @@ return [
         ]
     ],
     'time_format'     => [
+        'env'      => 'TIME_FORMAT',
+        'bind'     => 'streams::datetime.time_format',
         'type'     => 'anomaly.field_type.select',
         'required' => true,
         'config'   => [
