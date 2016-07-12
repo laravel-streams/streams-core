@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Ui\ControlPanel\Component\Section\SectionCollection;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Http\Request;
-use Illuminate\Session\Store;
 
 /**
  * Class RedirectGuesser
@@ -15,13 +14,6 @@ use Illuminate\Session\Store;
  */
 class RedirectGuesser
 {
-
-    /**
-     * The session store.
-     *
-     * @var Store
-     */
-    protected $session;
 
     /**
      * The request object.
@@ -40,13 +32,11 @@ class RedirectGuesser
     /**
      * Create a new RedirectGuesser instance.
      *
-     * @param Store             $session
      * @param Request           $request
      * @param SectionCollection $sections
      */
-    public function __construct(Store $session, Request $request, SectionCollection $sections)
+    public function __construct(Request $request, SectionCollection $sections)
     {
-        $this->session  = $session;
         $this->request  = $request;
         $this->sections = $sections;
     }
@@ -124,15 +114,6 @@ class RedirectGuesser
                         ) : $this->request->fullUrl();
                     }
                     break;
-            }
-
-            /**
-             * Restore restore any query string conditions from before.
-             */
-            $redirect = array_get($action, 'redirect');
-
-            if ($query = $this->session->get('query::' . $redirect)) {
-                $action['redirect'] = strpos($redirect, '?') ? $redirect . '&' . $query : $redirect . '?' . $query;
             }
         }
 

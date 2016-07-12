@@ -7,6 +7,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Session\Store;
 
 /**
  * Class ActionHandler
@@ -27,6 +28,13 @@ class ActionHandler implements SelfHandling
     protected $parser;
 
     /**
+     * The session store.
+     *
+     * @var Store
+     */
+    protected $session;
+
+    /**
      * The request object.
      *
      * @var Request
@@ -44,12 +52,14 @@ class ActionHandler implements SelfHandling
      * Create a new ActionHandler instance.
      *
      * @param Parser     $parser
+     * @param Store      $session
      * @param Request    $request
      * @param Redirector $redirector
      */
-    public function __construct(Parser $parser, Request $request, Redirector $redirector)
+    public function __construct(Parser $parser, Store $session, Request $request, Redirector $redirector)
     {
         $this->parser     = $parser;
+        $this->session    = $session;
         $this->request    = $request;
         $this->redirector = $redirector;
     }
@@ -105,6 +115,14 @@ class ActionHandler implements SelfHandling
          */
         if ($redirect instanceof \Closure) {
             $redirect = app()->call($redirect, compact('builder'));
+        }
+
+        /**
+         * Restore the query string prior if
+         * we're coming from a table.
+         */
+        if ($query = $this->session->get('table::' . $redirect)) {
+            $action['redirect'] = strpos($redirect, '?') ? $redirect . '&' . $query : $redirect . '?' . $query;
         }
 
         $builder->setFormResponse($this->redirector->to($redirect));

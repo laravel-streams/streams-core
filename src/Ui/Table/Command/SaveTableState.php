@@ -39,6 +39,6 @@ class SaveTableState implements SelfHandling
      */
     public function handle(Store $session, Request $request)
     {
-        $session->set('query::' . $request->url(), $request->getQueryString());
+        $session->set('table::' . $request->url(), $request->getQueryString());
     }
 }
