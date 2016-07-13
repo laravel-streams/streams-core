@@ -6,6 +6,7 @@ use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
 use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Entry\EntryPresenter;
+use Anomaly\Streams\Platform\Entry\EntryRouter;
 use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
@@ -313,6 +314,34 @@ interface EntryInterface
     public function newPresenter();
 
     /**
+     * Return a model route.
+     *
+     * @return string
+     */
+    public function route($route, array $parameters = []);
+
+    /**
+     * Return a new router instance.
+     *
+     * @return EntryRouter
+     */
+    public function newRouter();
+
+    /**
+     * Get the router.
+     *
+     * @return EntryRouter
+     */
+    public function getRouter();
+
+    /**
+     * Get the router name.
+     *
+     * @return string
+     */
+    public function getRouterName();
+
+    /**
      * Return whether the title column is
      * translatable or not.
      *
@@ -394,4 +423,13 @@ interface EntryInterface
      * @param array $payload
      */
     public function fireFieldTypeEvents($trigger, $payload = []);
+
+    /**
+     * Call a hook.
+     *
+     * @param       $hook
+     * @param array $parameters
+     * @return mixed
+     */
+    public function call($hook, array $parameters = []);
 }

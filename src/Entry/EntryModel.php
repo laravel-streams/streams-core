@@ -739,6 +739,54 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Return a model route.
+     *
+     * @return string
+     */
+    public function route($route, array $parameters = [])
+    {
+        $router = $this->getRouter();
+
+        return $router->make($route, $parameters);
+    }
+
+    /**
+     * Return a new router instance.
+     *
+     * @return EntryRouter
+     */
+    public function newRouter()
+    {
+        return app()->make($this->getRouterName(), ['model' => $this]);
+    }
+
+    /**
+     * Get the router.
+     *
+     * @return EntryRouter
+     */
+    public function getRouter()
+    {
+        if (isset($this->cache['router'])) {
+            return $this->cache['router'];
+        }
+
+        return $this->cache['router'] = $this->newRouter();
+    }
+
+    /**
+     * Get the router name.
+     *
+     * @return string
+     */
+    public function getRouterName()
+    {
+        $router = substr(get_class($this), 0, -5) . 'Router';
+
+        return class_exists($router) ? $router : EntryRouter::class;
+    }
+
+    /**
      * Get a new query builder for the model's table.
      *
      * @return \Illuminate\Database\Eloquent\Builder
