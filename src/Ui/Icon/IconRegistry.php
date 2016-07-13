@@ -107,6 +107,7 @@ class IconRegistry
         'options'              => 'fa fa-options',
         'refresh'              => 'fa fa-refresh',
         'warning'              => 'fa fa-warning',
+        'sliders'              => 'fa fa-sliders',
         'square'               => 'fa fa-square',
         'circle'               => 'fa fa-circle',
         'unlock'               => 'fa fa-unlock',

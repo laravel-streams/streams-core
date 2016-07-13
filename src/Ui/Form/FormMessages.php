@@ -25,7 +25,9 @@ class FormMessages
 
             foreach ($field->getValidators() as $rule => $validator) {
 
-                $message = trans(array_get($validator, 'message'));
+                if ($message = array_get($validator, 'message')) {
+                    $message = trans($message);
+                }
 
                 if ($message && str_contains($message, '::')) {
                     $message = trans($message);
