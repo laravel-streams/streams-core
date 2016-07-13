@@ -108,6 +108,7 @@ class IconRegistry
         'refresh'              => 'fa fa-refresh',
         'warning'              => 'fa fa-warning',
         'sliders'              => 'fa fa-sliders',
+        'percent'              => 'fa fa-percent',
         'square'               => 'fa fa-square',
         'circle'               => 'fa fa-circle',
         'unlock'               => 'fa fa-unlock',
