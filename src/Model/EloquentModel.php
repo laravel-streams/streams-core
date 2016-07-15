@@ -417,6 +417,13 @@ class EloquentModel extends Model implements Arrayable
         return parent::getAttribute($key);
     }
 
+    /**
+     * Set an attribute.
+     *
+     * @param string $key
+     * @param mixed  $value
+     * @return $this
+     */
     public function setAttribute($key, $value)
     {
         if (in_array($key, $this->translatedAttributes)) {
@@ -424,6 +431,8 @@ class EloquentModel extends Model implements Arrayable
         } else {
             parent::setAttribute($key, $value);
         }
+
+        return $this;
     }
 
     /**
