@@ -114,4 +114,48 @@ class AssignmentSchema
             }
         );
     }
+
+    /**
+     * Backup a column's data.
+     *
+     * @param           $table
+     * @param FieldType $type
+     */
+    public function backupColumn($table, FieldType $type)
+    {
+        if (!$this->schema->hasTable($table)) {
+            return;
+        }
+
+        $schema = $type->getSchema();
+
+        $this->schema->table(
+            $table,
+            function (Blueprint $table) use ($schema) {
+                $schema->backupColumn($table);
+            }
+        );
+    }
+
+    /**
+     * Restore a column's data.
+     *
+     * @param           $table
+     * @param FieldType $type
+     */
+    public function restoreColumn($table, FieldType $type)
+    {
+        if (!$this->schema->hasTable($table)) {
+            return;
+        }
+
+        $schema = $type->getSchema();
+
+        $this->schema->table(
+            $table,
+            function (Blueprint $table) use ($schema) {
+                $schema->restoreColumn($table);
+            }
+        );
+    }
 }

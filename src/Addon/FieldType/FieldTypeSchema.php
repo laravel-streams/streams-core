@@ -1,6 +1,9 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
+use Illuminate\Contracts\Cache\Repository;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Database\Connection;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\Fluent;
@@ -17,11 +20,32 @@ class FieldTypeSchema
 {
 
     /**
+     * The cache repository.
+     *
+     * @var Repository
+     */
+    protected $cache;
+
+    /**
      * The schema builder object.
      *
      * @var Builder
      */
     protected $schema;
+
+    /**
+     * The service container.
+     *
+     * @var Container
+     */
+    protected $container;
+
+    /**
+     * The database connection.
+     *
+     * @var Connection
+     */
+    protected $connection;
 
     /**
      * The field type object.
@@ -33,13 +57,18 @@ class FieldTypeSchema
     /**
      * Create a new FieldTypeSchema instance.
      *
-     * @param FieldType $fieldType
+     * @param FieldType  $fieldType
+     * @param Repository $cache
      */
-    public function __construct(FieldType $fieldType)
+    public function __construct(FieldType $fieldType, Container $container, Repository $cache)
     {
+        $this->cache     = $cache;
+        $this->container = $container;
         $this->fieldType = $fieldType;
 
-        $this->schema = app('db')->connection()->getSchemaBuilder();
+        $this->connection = $container->make('db')->connection();
+
+        $this->schema = $this->connection->getSchemaBuilder();
     }
 
     /**
@@ -186,5 +215,70 @@ class FieldTypeSchema
 
         // Drop dat 'ole column.
         $table->dropColumn($this->fieldType->getColumnName());
+    }
+
+    /**
+     * Backup the field type column to cache.
+     *
+     * @param Blueprint $table
+     */
+    public function backupColumn(Blueprint $table)
+    {
+        // Skip if no column type.
+        if (!$this->fieldType->getColumnType()) {
+            return;
+        }
+
+        // Skip if the column doesn't exist.
+        if (!$this->schema->hasColumn($table->getTable(), $this->fieldType->getColumnName())) {
+            return;
+        }
+        // Back dat data up.
+        $results = $this->connection
+            ->table($table->getTable())
+            ->select(['id', $this->fieldType->getColumnName()])
+            ->get();
+
+        $this->cache->put(__CLASS__ . $this->fieldType->getColumnName(), $results, 10);
+    }
+
+    /**
+     * Restore the field type column to cache.
+     *
+     * @param Blueprint $table
+     */
+    public function restoreColumn(Blueprint $table)
+    {
+        // Skip if no column type.
+        if (!$this->fieldType->getColumnType()) {
+            return;
+        }
+
+        // Skip if the column doesn't exist.
+        if (!$this->schema->hasColumn($table->getTable(), $this->fieldType->getColumnName())) {
+            \Log::info($table->getTable() . ' does not have ' . $this->fieldType->getColumnName());
+
+            return;
+        }
+
+        // Translatable or no?
+        $translatable = ends_with($table->getTable(), '_translations');
+
+        // Restore the data.
+        $results = $this->cache->get(__CLASS__ . $this->fieldType->getColumnName());
+
+        foreach ($results as $result) {
+
+            $result = (array)$result;
+
+            \Log::info('Inserting into ' . $table->getTable());
+
+            $this->connection
+                ->table($table->getTable())
+                ->where($translatable ? 'entry_id' : 'id', array_pull($result, 'id'))
+                ->update($result);
+        }
+
+        $this->cache->forget(__CLASS__ . $this->fieldType->getColumnName());
     }
 }

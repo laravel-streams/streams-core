@@ -1,9 +1,11 @@
 <?php namespace Anomaly\Streams\Platform\Assignment;
 
 use Anomaly\Streams\Platform\Assignment\Command\AddAssignmentColumn;
+use Anomaly\Streams\Platform\Assignment\Command\BackupAssignmentData;
 use Anomaly\Streams\Platform\Assignment\Command\DeleteAssignmentTranslations;
 use Anomaly\Streams\Platform\Assignment\Command\DropAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Command\MoveAssignmentColumn;
+use Anomaly\Streams\Platform\Assignment\Command\RestoreAssignmentData;
 use Anomaly\Streams\Platform\Assignment\Command\UpdateAssignmentColumn;
 use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Assignment\Event\AssignmentWasCreated;
@@ -55,7 +57,9 @@ class AssignmentObserver extends Observer
      */
     public function updating(AssignmentInterface $model)
     {
+        $this->dispatch(new BackupAssignmentData($model));
         $this->dispatch(new MoveAssignmentColumn($model));
+        $this->dispatch(new RestoreAssignmentData($model));
     }
 
     /**
