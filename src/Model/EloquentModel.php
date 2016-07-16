@@ -543,6 +543,13 @@ class EloquentModel extends Model implements Arrayable
             }
         }
 
+        if ($this->translations->isEmpty()) {
+
+            $translation = $this->translateOrNew(config('streams::locales.default'));
+
+            $translation->save();
+        }
+
         $this->finishSave([]);
 
         return $saved;
