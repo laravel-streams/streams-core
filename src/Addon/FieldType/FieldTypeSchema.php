@@ -256,8 +256,6 @@ class FieldTypeSchema
 
         // Skip if the column doesn't exist.
         if (!$this->schema->hasColumn($table->getTable(), $this->fieldType->getColumnName())) {
-            \Log::info($table->getTable() . ' does not have ' . $this->fieldType->getColumnName());
-
             return;
         }
 
@@ -270,8 +268,6 @@ class FieldTypeSchema
         foreach ($results as $result) {
 
             $result = (array)$result;
-
-            \Log::info('Inserting into ' . $table->getTable());
 
             $this->connection
                 ->table($table->getTable())
