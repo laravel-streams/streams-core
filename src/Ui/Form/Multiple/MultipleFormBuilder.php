@@ -172,6 +172,19 @@ class MultipleFormBuilder extends FormBuilder
     }
 
     /**
+     * Get the form field slugs.
+     *
+     * @param      $key
+     * @param null $prefix
+     */
+    public function getChildFormFieldSlugs($key, $prefix = null)
+    {
+        $builder = $this->getChildForm($key);
+
+        return $builder->getFormFieldSlugs($prefix);
+    }
+
+    /**
      * Get a child's entry.
      *
      * @param $key
