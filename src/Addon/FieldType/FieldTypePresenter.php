@@ -89,4 +89,16 @@ class FieldTypePresenter extends AddonPresenter
 
         return $decorator->decorate(parent::__get($key));
     }
+
+    /**
+     * Return the field type's raw value.
+     *
+     * @return string
+     */
+    public function __value()
+    {
+        $object = $this->getObject();
+
+        return $object->getValue();
+    }
 }

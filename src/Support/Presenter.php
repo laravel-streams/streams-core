@@ -123,7 +123,7 @@ class Presenter extends \Robbo\Presenter\Presenter
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         if (method_exists($this->object, '__toString')) {
             return $this->object->__toString();
