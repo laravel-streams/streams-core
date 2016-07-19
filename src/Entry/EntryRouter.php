@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Model\Posts\PostsPostsEntryModel;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Support\Locator;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -62,8 +63,8 @@ class EntryRouter
      */
     public function make($route, array $parameters = [])
     {
-        if (!str_contains($route, '.') && $namespace = $this->model->getStreamNamespace()) {
-            $route = "{$namespace}.{$route}";
+        if (!str_contains($route, '.') && $stream = $this->model->getStreamSlug()) {
+            $route = "{$stream}.{$route}";
         }
 
         if (!str_contains($route, '::') && $namespace = $this->locator->locate($this->model)) {
