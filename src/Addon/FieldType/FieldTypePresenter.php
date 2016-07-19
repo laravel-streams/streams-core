@@ -91,7 +91,9 @@ class FieldTypePresenter extends AddonPresenter
     }
 
     /**
-     * Return the field type's raw value.
+     * Return the contextual value.
+     * This is the most basic usable form
+     * of the value for this field type.
      *
      * @return string
      */
