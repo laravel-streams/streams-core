@@ -1,14 +1,10 @@
 <div class="card">
     <div class="card-block">
-        {% for field in form.fields.base() %}
+        {% for field in form.fields.fieldSlugs() %}
             <div class="field-group">
-                {% if not field.locale %}
+                {% for field in form.fields.translations(field) %}
                     {{ field.render({'form': form})|raw }}
-                {% else %}
-                    {% for field in form.fields.translations(field.field) %}
-                        {{ field.render({'form': form})|raw }}
-                    {% endfor %}
-                {% endif %}
+                {% endfor %}
             </div>
         {% endfor %}
     </div>

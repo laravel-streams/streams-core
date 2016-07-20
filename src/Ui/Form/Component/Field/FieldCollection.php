@@ -220,18 +220,20 @@ class FieldCollection extends Collection
     }
 
     /**
-     * Return an array of field slugs
+     * Return a unique array of field slugs
      * for all the fields in the collection.
      *
      * @return array
      */
     public function fieldSlugs()
     {
-        return array_map(
-            function (FieldType $field) {
-                return $field->getField();
-            },
-            $this->all()
+        return array_unique(
+            array_map(
+                function (FieldType $field) {
+                    return $field->getField();
+                },
+                $this->all()
+            )
         );
     }
 
