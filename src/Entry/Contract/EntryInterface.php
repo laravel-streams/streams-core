@@ -172,6 +172,31 @@ interface EntryInterface
     public function setFieldValue($fieldSlug, $value, $locale = null);
 
     /**
+     * Fill the model attributes.
+     *
+     * @param array $attributes
+     * @return $this
+     */
+    public function fill(array $attributes);
+
+    /**
+     * Determine if the model or given
+     * attribute(s) have been modified.
+     *
+     * @param  array|string|null $attributes
+     * @return bool
+     */
+    public function isDirty($attributes = null);
+
+    /**
+     * Get the attributes that have
+     * been changed since last sync.
+     *
+     * @return array
+     */
+    public function getDirty();
+
+    /**
      * Get a field's type by the field's slug.
      *
      * @param  $fieldSlug
