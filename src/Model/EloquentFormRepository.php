@@ -50,9 +50,7 @@ class EloquentFormRepository implements FormRepositoryInterface
      */
     public function save(FormBuilder $builder)
     {
-        $form = $builder->getForm();
-
-        $entry = $form->getEntry();
+        $entry = $builder->getFormEntry();
 
         $data = $this->prepareValueData($builder);
 
@@ -62,7 +60,7 @@ class EloquentFormRepository implements FormRepositoryInterface
             $entry = $entry->create($data);
         }
 
-        $form->setEntry($entry);
+        $builder->setFormEntry($entry);
 
         $this->processSelfHandlingFields($builder);
     }
