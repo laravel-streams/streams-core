@@ -65,6 +65,13 @@ class SectionNormalizer
             }
 
             /**
+             * Make sure we have a slug.
+             */
+            if (is_array($section) && !isset($section['slug'])) {
+                $section['slug'] = $slug;
+            }
+
+            /**
              * Make sure we have attributes.
              */
             $section['attributes'] = array_get($section, 'attributes', []);
