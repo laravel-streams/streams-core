@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Model\EloquentCollection;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Interface EloquentRepositoryInterface
@@ -53,6 +54,13 @@ interface EloquentRepositoryInterface
      * @return EloquentModel
      */
     public function create(array $attributes);
+
+    /**
+     * Return a new query builder.
+     *
+     * @return Builder
+     */
+    public function newQuery();
 
     /**
      * Return a new instance.
