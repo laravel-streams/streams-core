@@ -328,6 +328,12 @@ class StreamsPlugin extends Plugin
                 }
             ),
             new \Twig_SimpleFunction(
+                'addon',
+                function ($identifier) {
+                    return app(AddonCollection::class)->get($identifier);
+                }
+            ),
+            new \Twig_SimpleFunction(
                 'addons',
                 function ($type = null) {
 
