@@ -79,6 +79,16 @@ class EloquentRepository implements EloquentRepositoryInterface
     }
 
     /**
+     * Return a new query builder.
+     *
+     * @return Builder
+     */
+    public function newQuery()
+    {
+        return $this->model->newQuery();
+    }
+
+    /**
      * Return a new instance.
      *
      * @return EloquentModel

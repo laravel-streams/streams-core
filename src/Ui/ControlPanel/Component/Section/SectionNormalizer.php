@@ -109,9 +109,10 @@ class SectionNormalizer
              * Move child sections into main array.
              */
             if (isset($section['sections'])) {
-                foreach ($section['sections'] as $key => $child) {
+                foreach ($section['sections'] as $key => &$child) {
 
                     $child['parent'] = array_get($section, 'slug');
+                    $child['slug']   = array_get($child, 'slug', $key);
 
                     $sections[$key] = $child;
                 }

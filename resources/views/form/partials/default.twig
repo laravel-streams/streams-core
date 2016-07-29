@@ -1,8 +1,8 @@
 <div class="card">
     <div class="card-block">
-        {% for field in form.fields.fieldSlugs() %}
+        {% for field in form.fields %}
             <div class="field-group">
-                {% for field in form.fields.translations(field) %}
+                {% for field in form.fields.translations(field.field_name) %}
                     {{ field.render({'form': form})|raw }}
                 {% endfor %}
             </div>
