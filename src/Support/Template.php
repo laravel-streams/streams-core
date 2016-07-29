@@ -58,7 +58,7 @@ class Template
      * @return string
      * @throws \Exception
      */
-    function render($template, array $payload = [])
+    public function render($template, array $payload = [])
     {
         $view = 'templates/' . md5($template);
         $path = $this->application->getStoragePath($view);

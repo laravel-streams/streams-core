@@ -10,6 +10,7 @@ use Anomaly\Streams\Platform\Image\Command\MakeImageUrl;
 use Anomaly\Streams\Platform\Image\Image;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Str;
+use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Ui\Button\Command\GetButtons;
 use Anomaly\Streams\Platform\Ui\Command\GetElapsedTime;
 use Anomaly\Streams\Platform\Ui\Command\GetMemoryUsage;
@@ -110,6 +111,13 @@ class StreamsPlugin extends Plugin
     protected $session;
 
     /**
+     * The template parser.
+     *
+     * @var Template
+     */
+    protected $template;
+
+    /**
      * The translator utility.
      *
      * @var Translator
@@ -129,6 +137,7 @@ class StreamsPlugin extends Plugin
      * @param Repository   $config
      * @param Request      $request
      * @param Store        $session
+     * @param Template     $template
      */
     public function __construct(
         UrlGenerator $url,
@@ -140,18 +149,20 @@ class StreamsPlugin extends Plugin
         Router $router,
         Repository $config,
         Request $request,
-        Store $session
+        Store $session,
+        Template $template
     ) {
-        $this->url     = $url;
-        $this->str     = $str;
-        $this->auth    = $auth;
-        $this->agent   = $agent;
-        $this->asset   = $asset;
-        $this->image   = $image;
-        $this->router  = $router;
-        $this->config  = $config;
-        $this->request = $request;
-        $this->session = $session;
+        $this->url      = $url;
+        $this->str      = $str;
+        $this->auth     = $auth;
+        $this->agent    = $agent;
+        $this->asset    = $asset;
+        $this->image    = $image;
+        $this->router   = $router;
+        $this->config   = $config;
+        $this->request  = $request;
+        $this->session  = $session;
+        $this->template = $template;
     }
 
     /**
@@ -347,6 +358,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('message_get', [$this->session, 'pull']),
             new \Twig_SimpleFunction('message_exists', [$this->session, 'has']),
             new \Twig_SimpleFunction('session', [$this->session, 'get']),
+            new \Twig_SimpleFunction('parse', [$this->template, 'render'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('csrf_token', [$this->session, 'token'], ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('csrf_field', 'csrf_field', ['is_safe' => ['html']]),
             new \Twig_SimpleFunction('session_get', [$this->session, 'get']),
