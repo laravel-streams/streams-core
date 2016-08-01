@@ -43,7 +43,9 @@
 - Authorization
 - Artisan Console
 - [&check;] Callbacks
+- [&check;] Collections
 - [&check;] Config
+- [&check;] Criteria
 - [&check;] Evaluator
 - Filesystem
 - [&check;] Hooks
@@ -54,7 +56,9 @@
 - Pagination
 - Parser
 - [&check;] Plugin
+- [&check;] Presenters
 - [&check;] Resolver
+- [&check;] Routers
 - Session
 - String
 - Testing
