@@ -47,9 +47,9 @@ The addon functions provide access to the `Anomaly\Streams\Platform\Addon\AddonC
 Returns a single addon. The `$identifier` can be the slug or full namespace of any addon.
 
     {% verbatim %}
-    {{ addon('users).namespace }} // "anomaly.module.users"
+    {{ addon('users').namespace }} // "anomaly.module.users"
     
-    {{ trans(addon('relationship).name) }} // "Relationship Field Type"
+    {{ trans(addon('relationship').name) }} // "Relationship Field Type"
     
     {{ addon('anomaly.module.posts').isInstalled() }} // boolean
     {% endverbatim %}
