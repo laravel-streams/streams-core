@@ -328,6 +328,15 @@ class StreamsPlugin extends Plugin
                 }
             ),
             new \Twig_SimpleFunction(
+                'asset_*',
+                function ($name) {
+
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    return call_user_func_array([$this->asset, camel_case($name)], $arguments);
+                }, ['is_safe' => ['html']]
+            ),
+            new \Twig_SimpleFunction(
                 'addon',
                 function ($identifier) {
                     return app(AddonCollection::class)->get($identifier);
@@ -377,18 +386,7 @@ class StreamsPlugin extends Plugin
             new \Twig_SimpleFunction('agent_is_robot', [$this->agent, 'isRobot']),
             new \Twig_SimpleFunction('agent_is_tablet', [$this->agent, 'isTablet']),
             new \Twig_SimpleFunction('agent_is_mobile', [$this->agent, 'isMobile']),
-            new \Twig_SimpleFunction('agent_is_desktop', [$this->agent, 'isDesktop']),
-            new \Twig_SimpleFunction('asset_add', [$this->asset, 'add']),
-            new \Twig_SimpleFunction('asset_url', [$this->asset, 'url']),
-            new \Twig_SimpleFunction('asset_urls', [$this->asset, 'urls']),
-            new \Twig_SimpleFunction('asset_path', [$this->asset, 'path']),
-            new \Twig_SimpleFunction('asset_paths', [$this->asset, 'paths']),
-            new \Twig_SimpleFunction('asset_download', [$this->asset, 'download']),
-            new \Twig_SimpleFunction('asset_style', [$this->asset, 'style'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('asset_styles', [$this->asset, 'styles'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('asset_inline', [$this->asset, 'inline'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('asset_script', [$this->asset, 'script'], ['is_safe' => ['html']]),
-            new \Twig_SimpleFunction('asset_scripts', [$this->asset, 'scripts'], ['is_safe' => ['html']])
+            new \Twig_SimpleFunction('agent_is_desktop', [$this->agent, 'isDesktop'])
         ];
     }
 

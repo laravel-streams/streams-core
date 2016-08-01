@@ -11,7 +11,8 @@
     "foundations": {
         "title": "Foundations",
         "pages": {
-            "lifecycle": "Request Lifecycle"
+            "lifecycle": "Request Lifecycle",
+            "plugin": "Streams Plugin"
         }
     },
     "services": {
@@ -25,8 +26,7 @@
             "image": "Image",
             "localization": "Localization",
             "mail": "Mail",
-            "messages": "Messages",
-            "plugin": "Plugin"
+            "messages": "Messages"
         }
     },
     "database": {

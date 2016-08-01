@@ -216,20 +216,20 @@ class Asset
      * Download a file and return it's path.
      *
      * @param      $url
+     * @param int  $ttl
      * @param null $path
      * @return null|string
      */
-    public function download($url, $path = null)
+    public function download($url, $ttl = 3600, $path = null)
     {
-        if (!$this->files->exists($path = $this->paths->downloadPath($url, $path))) {
+        $path = $this->paths->downloadPath($url, $path);
 
-            if (!$this->files->isDirectory($directory = dirname($path = public_path(ltrim($path, '/\\'))))) {
-                $this->files->makeDirectory($directory, 0777, true);
-            }
+        if (!$this->files->isDirectory($directory = dirname($path = public_path(ltrim($path, '/\\'))))) {
+            $this->files->makeDirectory($directory, 0777, true);
+        }
 
-            if (!$this->files->exists($path)) {
-                $this->files->put($path, file_get_contents($url));
-            }
+        if (!$this->files->exists($path) || filemtime($path) < (time() - $ttl)) {
+            $this->files->put($path, file_get_contents($url));
         }
 
         return str_replace(public_path(), '', $path);
