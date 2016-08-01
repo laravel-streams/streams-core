@@ -53,7 +53,7 @@ You can also override the `newRouter` method on your entry model in order to spe
 <a name="basic-usage"></a>
 ### Basic Usage
 
-By default the router simply looks for named routes within your addon that match the model.
+By default the router simply looks for named routes within your addon that match the model. Any attributes found in the URL will be merged in.
    
 Named routes should adhere to the following convention:
 
