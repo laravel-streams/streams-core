@@ -20,13 +20,16 @@
         "pages": {
             "asset": "Asset",
             "callbacks": "Callbacks",
+            "collections": "Collections",
             "config": "Config",
             "evaluator": "Evaluator",
             "hooks": "Hooks",
             "image": "Image",
             "localization": "Localization",
             "mail": "Mail",
-            "messages": "Messages"
+            "messages": "Messages",
+            "presenters": "Presenters",
+            "routers": "Routers"
         }
     },
     "database": {
