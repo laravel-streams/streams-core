@@ -5,14 +5,14 @@
             "routing": "Routing",
             "middleware": "Middleware",
             "controllers": "Controllers",
-            "views": "Views"
+            "views": "Views",
+            "plugin": "Plugin"
         }
     },
     "foundations": {
         "title": "Foundations",
         "pages": {
-            "lifecycle": "Request Lifecycle",
-            "plugin": "Streams Plugin"
+            "lifecycle": "Request Lifecycle"
         }
     },
     "services": {
