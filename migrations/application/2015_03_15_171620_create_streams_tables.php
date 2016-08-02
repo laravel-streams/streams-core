@@ -42,7 +42,7 @@ class CreateStreamsTables extends Migration
                     $table->boolean('translatable')->default(0);
                     $table->text('config');
 
-                    $table->unique(['namespace', 'slug']);
+                    $table->unique(['namespace', 'slug'], 'unique_streams');
                 }
             );
         }
