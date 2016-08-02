@@ -12,7 +12,9 @@
     "foundations": {
         "title": "Foundations",
         "pages": {
-            "lifecycle": "Request Lifecycle"
+            "lifecycle": "Request Lifecycle",
+            "structure": "Application Structure",
+            "providers": "Service Providers"
         }
     },
     "services": {

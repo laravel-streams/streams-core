@@ -34,7 +34,7 @@
 
 - [&check;] Request Lifecycle
 - [&cross;] Application Structure
-- Service Providers
+- [&check;] Service Providers
 - Streams API / Workflow
 
 ### Services
