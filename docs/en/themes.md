@@ -18,9 +18,13 @@ Themes are addons that control the way the control panel and public facing conte
 <a name="starter-theme"></a>
 ### Starter Theme
 
-You may reference the official starter standard theme shipped with PyroCMS on GitHub:
+Feel free to fork or reference the starter theme that comes with PyroCMS:
 
 [https://github.com/anomalylabs/starter-theme](https://github.com/anomalylabs/starter-theme).
+
+For a more robust theme boilerplate you can try the Bootstrap 4 starter theme:
+
+[https://github.com/anomalylabs/bootstrap4-theme](https://github.com/anomalylabs/bootstrap4-theme).
 
 <a name="creating-a-theme"></a>
 ### Creating A Theme
