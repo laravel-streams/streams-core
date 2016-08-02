@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
 use Anomaly\Streams\Platform\Collection\CacheCollection;
-use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,7 +21,6 @@ class EloquentModel extends Model implements Arrayable
 
     use DispatchesJobs;
     use Hookable;
-    use FiresCallbacks;
 
     /**
      * Disable timestamps for this model.
