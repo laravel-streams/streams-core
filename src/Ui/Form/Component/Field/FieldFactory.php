@@ -66,7 +66,16 @@ class FieldFactory
         /* @var EntryInterface $entry */
         if ($stream && $entry instanceof EntryInterface && $entry->hasField(array_get($parameters, 'field'))) {
 
-            $field    = clone($entry->getFieldType(array_get($parameters, 'field')));
+            /**
+             * Allow overriding the type here
+             * should they want to do that.
+             */
+            if (array_get($parameters, 'type')) {
+                $field = $this->builder->build($parameters);
+            } else {
+                $field = clone($entry->getFieldType(array_get($parameters, 'field')));
+            }
+
             $modifier = $field->getModifier();
 
             $value = array_pull($parameters, 'value');
