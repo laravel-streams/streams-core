@@ -221,8 +221,23 @@ class StreamsPlugin extends Plugin
             ),
             new \Twig_SimpleFunction(
                 'form',
-                function ($parameters) {
-                    return $this->dispatch(new GetFormCriteria($parameters));
+                function () {
+
+                    $arguments = func_get_args();
+
+                    if (count($arguments) >= 2) {
+                        $arguments = [
+                            'namespace' => array_get(func_get_args(), 0),
+                            'stream'    => array_get(func_get_args(), 1),
+                            'entry'     => array_get(func_get_args(), 2),
+                        ];
+                    }
+
+                    if (count($arguments) == 1) {
+                        $arguments = func_get_arg(0);
+                    }
+
+                    return $this->dispatch(new GetFormCriteria($arguments));
                 },
                 [
                     'is_safe' => ['html']
