@@ -40,6 +40,10 @@ class FlashFieldValues implements SelfHandling
      */
     public function handle(Store $session)
     {
+        if (!$this->builder->hasFormErrors()) {
+            return;
+        }
+
         /* @var FieldType $field */
         foreach ($this->builder->getFormFields() as $field) {
             $session->flash($field->getFieldName(), $field->getPostValue());

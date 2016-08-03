@@ -86,7 +86,7 @@ class FormCriteria
      */
     public function get()
     {
-        $this->builder();
+        $this->build();
 
         return (new Decorator())->decorate($this->builder->make()->getForm());
     }

@@ -250,8 +250,8 @@ class FormBuilder
      */
     public function flash()
     {
-        $this->dispatch(new FlashFieldValues($this));
         $this->dispatch(new FlashFormErrors($this));
+        $this->dispatch(new FlashFieldValues($this));
     }
 
     /**
