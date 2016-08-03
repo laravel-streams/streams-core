@@ -110,8 +110,28 @@ class FormCriteria
     {
         $this->fire('ready', ['criteria' => $this]);
 
+        /**
+         * Hide breadcrumbs by default.
+         */
+        array_set(
+            $this->parameters,
+            'options.breadcrumb',
+            array_get(
+                $this->parameters,
+                'options.breadcrumb',
+                false
+            )
+        );
+
+        /**
+         * Cache and hash!
+         */
         array_set($this->parameters, 'key', md5(json_encode($this->parameters)));
 
+        /**
+         * Set the forms URL after obtaining
+         * our parameter hash for the form.
+         */
         array_set(
             $this->parameters,
             'options.url',
