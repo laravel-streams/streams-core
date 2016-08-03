@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Ui\Form\FormCriteria;
 use Anomaly\Streams\Platform\Ui\Form\FormFactory;
 use Illuminate\Contracts\Bus\SelfHandling;
@@ -43,6 +45,18 @@ class GetFormCriteria implements SelfHandling
         if (is_string($this->parameters)) {
             $this->parameters = [
                 'builder' => $this->parameters
+            ];
+        }
+
+        if ($this->parameters instanceof Presenter) {
+            $this->parameters = $this->parameters->getObject();
+        }
+
+        if ($this->parameters instanceof EntryInterface) {
+            $this->parameters = [
+                'entry'     => $this->parameters->getId(),
+                'stream'    => $this->parameters->getStreamSlug(),
+                'namespace' => $this->parameters->getStreamNamespace(),
             ];
         }
 
