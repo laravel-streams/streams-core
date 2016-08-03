@@ -150,7 +150,7 @@ class FieldType extends Addon
      *
      * @var null|string
      */
-    protected $class = null;
+    protected $class = 'form-control';
 
     /**
      * The database column type.
@@ -654,7 +654,7 @@ class FieldType extends Addon
         return array_filter(
             array_merge(
                 [
-                    'class'           => 'form-control',
+                    'class'           => $this->getClass(),
                     'data-field'      => $this->getField(),
                     'data-field_name' => $this->getFieldName(),
                     'data-provides'   => $this->getNamespace()
