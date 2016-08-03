@@ -58,15 +58,32 @@ class RedirectGuesser
 
         foreach ($actions as $key => &$action) {
 
-            // If we already have an HREF then skip it.
+            /**
+             * If we already have an
+             * HREF then skip it.
+             */
             if (isset($action['redirect'])) {
                 continue;
             }
 
+            /**
+             * If this is the first action and the
+             * form builder has a redirect option
+             * then use it for the action redirect.
+             */
             if ($key == $first && $redirect = $builder->getOption('redirect')) {
 
                 $action['redirect'] = $redirect;
 
+                continue;
+            }
+
+            /**
+             * If we're not in admin then just assume we
+             * need to head back to the form. No redirect
+             * will redirect back in this case.
+             */
+            if ($this->request->segment(1) !== 'admin') {
                 continue;
             }
 
