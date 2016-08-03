@@ -16,6 +16,7 @@ class Hydrator
      *
      * @param       $object
      * @param array $parameters
+     * @return mixed
      */
     public function hydrate($object, array $parameters)
     {
@@ -27,5 +28,7 @@ class Hydrator
                 $object->{$method}($value);
             }
         }
+
+        return $object;
     }
 }

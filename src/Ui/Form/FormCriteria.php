@@ -86,6 +86,28 @@ class FormCriteria
      */
     public function get()
     {
+        $this->builder();
+
+        return (new Decorator())->decorate($this->builder->make()->getForm());
+    }
+
+    /**
+     * Return the hydrated builder.
+     *
+     * @return FormBuilder
+     */
+    public function builder()
+    {
+        $this->build();
+
+        return $this->builder->make();
+    }
+
+    /**
+     * Build the builder.
+     */
+    protected function build()
+    {
         $this->fire('ready', ['criteria' => $this]);
 
         array_set($this->parameters, 'key', md5(json_encode($this->parameters)));
@@ -109,20 +131,20 @@ class FormCriteria
         );
 
         $this->hydrator->hydrate($this->builder, $this->parameters);
-
-        return (new Decorator())->decorate($this->builder->make()->getForm());
     }
 
     /**
-     * Return the hydrated builder.
+     * Set a parameter.
      *
-     * @return FormBuilder
+     * @param $key
+     * @param $value
+     * @return $this
      */
-    public function builder()
+    public function setParameter($key, $value)
     {
-        $this->hydrator->hydrate($this->builder, $this->parameters);
+        $this->parameters[$key] = $value;
 
-        return $this->builder;
+        return $this;
     }
 
     /**
@@ -141,18 +163,15 @@ class FormCriteria
      * @param FormBuilder $builder
      * @return $this
      */
-    protected function setBuilder(FormBuilder $builder)
+    public function setBuilder($builder)
     {
-        array_set($this->parameters, 'builder', get_class($builder));
+        if (!is_string($builder)) {
+            $builder = get_class($builder);
+        }
 
-        array_set(
-            $this->parameters,
-            'options',
-            array_merge(
-                $builder->getOptions(),
-                array_get($this->parameters, 'options', [])
-            )
-        );
+        array_set($this->parameters, 'builder', $builder);
+
+        $this->builder = app($builder);
 
         return $this;
     }
