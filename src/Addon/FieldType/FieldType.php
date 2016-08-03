@@ -104,6 +104,13 @@ class FieldType extends Addon
     protected $locale = null;
 
     /**
+     * The field's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [];
+
+    /**
      * The field instructions.
      *
      * @var null|string
@@ -635,6 +642,39 @@ class FieldType extends Addon
     public function getLocale()
     {
         return $this->locale;
+    }
+
+    /**
+     * Get the attributes.
+     *
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return array_filter(
+            array_merge(
+                [
+                    'class'           => 'form-control',
+                    'data-field'      => $this->getField(),
+                    'data-field_name' => $this->getFieldName(),
+                    'data-provides'   => $this->getNamespace()
+                ],
+                $this->attributes
+            )
+        );
+    }
+
+    /**
+     * Set the attributes.
+     *
+     * @param array $attributes
+     * @return $this
+     */
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
     }
 
     /**
