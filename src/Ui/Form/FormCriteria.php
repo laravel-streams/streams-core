@@ -92,18 +92,6 @@ class FormCriteria
     }
 
     /**
-     * Return the hydrated builder.
-     *
-     * @return FormBuilder
-     */
-    public function builder()
-    {
-        $this->build();
-
-        return $this->builder->make();
-    }
-
-    /**
      * Build the builder.
      *
      * @return FormBuilder
@@ -186,13 +174,13 @@ class FormCriteria
      */
     public function setBuilder($builder)
     {
-        if (!is_string($builder)) {
-            $builder = get_class($builder);
+        if (!is_object($builder)) {
+            $builder = app($builder);
         }
 
-        array_set($this->parameters, 'builder', $builder);
+        $this->builder = $builder;
 
-        $this->builder = app($builder);
+        array_set($this->parameters, 'builder', get_class($this->builder));
 
         return $this;
     }
