@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\FormCriteria;
 use Illuminate\Cache\Repository;
 use Illuminate\Routing\Redirector;
 
@@ -28,10 +29,11 @@ class FormController extends PublicController
     {
         $parameters = $cache->get('form::' . $key);
 
+        /* @var FormCriteria $criteria */
         $criteria = $this->dispatch(new GetFormCriteria($parameters));
 
         /* @var FormBuilder $builder */
-        $builder = $criteria->builder();
+        $builder = $criteria->build();
 
         $response = $builder
             ->build()
@@ -39,7 +41,6 @@ class FormController extends PublicController
             ->getFormResponse();
 
         $builder->flash();
-
         $cache->forget('form::' . $key);
 
         if ($response && $response->getStatusCode() !== 200) {

@@ -105,10 +105,11 @@ class FormCriteria
 
     /**
      * Build the builder.
+     *
+     * @return FormBuilder
      */
-    protected function build()
+    public function build()
     {
-        $this->fire('ready', ['criteria' => $this]);
 
         /**
          * Hide breadcrumbs by default.
@@ -150,7 +151,7 @@ class FormCriteria
             }
         );
 
-        $this->hydrator->hydrate($this->builder, $this->parameters);
+        return $this->hydrator->hydrate($this->builder, $this->parameters);
     }
 
     /**
