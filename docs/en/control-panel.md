@@ -126,12 +126,12 @@ You can however provide as much information about the section as you want to cus
         <th>Description</th>
     </tr>
     <tr>
-        <td>slug (required)</td>
+        <td><pre>slug</pre> <strong class="text-danger">*</strong></td>
         <td>The section array key</td>
         <td>The slug will become the URI segment and must be unique.</td>
     </tr>
     <tr>
-        <td>buttons</td>
+        <td><pre>buttons</pre></td>
         <td>None</td>
         <td>An array of button definitions.</td>
     </tr>
