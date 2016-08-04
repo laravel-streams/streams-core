@@ -35,40 +35,39 @@
 - [&check;] Request Lifecycle
 - [&cross;] Application Structure
 - [&check;] Service Providers
+- [&check;] Streams Plugin
 - Streams API / Workflow
 
 ### Services
 
 - [&check;] Asset
-- Authorization
-- Artisan Console
+- [&check;] Authorization
+- [&check;] Artisan Console
 - [&check;] Callbacks
 - [&check;] Collections
 - [&check;] Config
-- [&check;] Criteria
 - [&check;] Evaluator
-- Filesystem
+- [&check;] Filesystem
 - [&check;] Hooks
 - [&check;] Image
 - [&check;] Localization
 - [&check;] Mail
 - [&check;] Messages
 - Pagination
-- Parser
-- [&check;] Plugin
+- [&check;] Parser
 - [&check;] Presenters
 - [&check;] Resolver
 - [&check;] Routers
-- Session
-- String
-- Testing
+- [&check;] Session
+- [&check;] String
+- [&cross;] Testing
 - Validation
-- Valuation
+- [&check;] Valuation
 
 ### Database
 
 - Getting Started
-- Query Builder
+- [&check;] Query Builder
 - [&check;] Migrations
 - [&check;] Seeding
 
@@ -77,8 +76,6 @@
 - Getting Started
 - Relationships
 - Repositories
-- Collections
-- Presenters
 - [&check;] Criteria
 - Mutators
 - Observers

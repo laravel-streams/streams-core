@@ -14,30 +14,41 @@
         "pages": {
             "lifecycle": "Request Lifecycle",
             "structure": "Application Structure",
-            "providers": "Service Providers"
+            "providers": "Service Providers",
+            "plugin": "Streams Plugin"
         }
     },
     "services": {
         "title": "Services",
         "pages": {
             "asset": "Asset",
+            "authorization": "Authorization",
+            "artisan": "Artisan Console",
             "callbacks": "Callbacks",
             "collections": "Collections",
             "config": "Config",
             "evaluator": "Evaluator",
+            "filesystem": "Filesystem",
             "hooks": "Hooks",
             "image": "Image",
             "localization": "Localization",
             "mail": "Mail",
             "messages": "Messages",
+            "parser": "Parser",
             "presenters": "Presenters",
-            "routers": "Routers"
+            "resolver": "Resolver",
+            "routers": "Routers",
+            "session": "Session",
+            "string": "String",
+            "valuation": "Valuation"
         }
     },
     "database": {
         "title": "Database",
         "pages": {
-            "migrations": "Migrations"
+            "migrations": "Migrations",
+            "queries": "Query Builder",
+            "seeding": "Seeding"
         }
     },
     "eloquent": {

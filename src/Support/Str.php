@@ -20,7 +20,7 @@ class Str extends \Illuminate\Support\Str
      */
     public function humanize($value, $separator = '_')
     {
-        return ucwords(preg_replace('/[' . $separator . ']+/', ' ', strtolower(trim($value))));
+        return preg_replace('/[' . $separator . ']+/', ' ', strtolower(trim($value)));
     }
 
     /**
