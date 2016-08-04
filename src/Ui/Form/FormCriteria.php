@@ -77,6 +77,8 @@ class FormCriteria
         $this->parameters = $parameters;
 
         $this->setBuilder($builder);
+
+        $this->fire('initialized', ['criteria' => $this]);
     }
 
     /**
