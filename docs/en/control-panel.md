@@ -126,7 +126,7 @@ You can however provide as much information about the section as you want to cus
         <th>Description</th>
     </tr>
     <tr>
-        <td><pre>slug</pre> <strong class="text-danger">*</strong></td>
+        <td><code>slug</code> <strong class="text-danger">*</strong></td>
         <td>The section array key</td>
         <td>The slug will become the URI segment and must be unique.</td>
     </tr>
