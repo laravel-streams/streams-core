@@ -68,7 +68,7 @@
 ### Database
 
 - Getting Started
-- Query Builder
+- [&check;] Query Builder
 - [&check;] Migrations
 - [&check;] Seeding
 

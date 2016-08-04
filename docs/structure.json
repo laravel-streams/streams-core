@@ -37,7 +37,9 @@
     "database": {
         "title": "Database",
         "pages": {
-            "migrations": "Migrations"
+            "migrations": "Migrations",
+            "queries": "Query Builder",
+            "seeding": "Seeding"
         }
     },
     "eloquent": {
