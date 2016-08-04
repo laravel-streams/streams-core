@@ -91,7 +91,7 @@ The handler is called from the service container but passed the `$builder`.
         }
     }
 
-##### Defining full section definition
+##### Defining additional section information
 
 By default you only need to define a simple string for a section. This string becomes the `slug` of the section and is used in translating it's name.
 
@@ -118,6 +118,10 @@ You can however provide as much information about the section as you want to cus
             ]
         ]
     ];
+
+##### The section definition
+
+Below is a list of all possible section definition properties available.
 
 <table class="table table-striped">
     <tr>
@@ -196,3 +200,8 @@ You can however provide as much information about the section as you want to cus
         <td>The actual permalink for the section in the case that the HREF is used for something different. This is helpful when the HREF used for the section link needs to be different than the actual HREF for the section. Like a section link that opens a modal as in the above example to take you into the section.</td>
     </tr>
 </table>
+
+<a name="section-buttons"></a>
+### Section Buttons
+
+Section buttons are defined in the section definitions `buttons` property. For more information on button definitions please refer to the button UI documentation. 
