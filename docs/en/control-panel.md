@@ -102,9 +102,14 @@ You can however provide as much information about the section as you want to cus
 
     protected $sections = [
         'users'  => [
+            'title' => 'Users',
+            'description' => 'Manage your users and what they can do.',
             'buttons' => [
                 'new_user'
-            ]
+            ],
+            'icon' => 'fa fa-users',
+            'class' => 'brand-primary',
+            'breadcrumb' => 'User Management',
         ],
         'roles'  => [
             'buttons' => [
