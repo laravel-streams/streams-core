@@ -85,7 +85,7 @@
 
 - Getting Started
 - [&check;] Breadcrumbs
-- Control Panel
+- [&check;] Control Panel
 - Forms
 - Tables
 - Nested Lists

@@ -60,6 +60,7 @@
     "ui": {
         "title": "User Interface",
         "pages": {
+            "control-panel": "Control Panel",
             "breadcrumbs": "Breadcrumbs"
         }
     },
