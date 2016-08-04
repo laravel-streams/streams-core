@@ -102,23 +102,14 @@ You can however provide as much information about the section as you want to cus
 
     protected $sections = [
         'users'  => [
-            'slug' => 'users',
             'title' => 'Users',
-            'description' => 'The users section',
+            'description' => 'Manage your users and what they can do.',
             'buttons' => [
                 'new_user'
             ],
-            'icon' => 'icon-reference',
-            'class' => 'some-cool-class',
-            'matcher' => 'admin/users/*',
-            'parent' => 'parent',
-            'sections' => [
-                'child_sections'
-            ],
-            'attributes' => 'attributes',
-            'href' => 'href',
-            'breadcrumb' => 'breadcrumb',
-            'permalink' => 'permalink'
+            'icon' => 'fa fa-users',
+            'class' => 'brand-primary',
+            'breadcrumb' => 'User Management',
         ],
         'roles'  => [
             'buttons' => [
