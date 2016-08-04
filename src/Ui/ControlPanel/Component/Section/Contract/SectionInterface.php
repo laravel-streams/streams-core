@@ -104,6 +104,21 @@ interface SectionInterface
     public function setMatcher($matcher);
 
     /**
+     * Get the permalink.
+     *
+     * @return null|string
+     */
+    public function getPermalink();
+
+    /**
+     * Set the permalink.
+     *
+     * @param $permalink
+     * @return $this
+     */
+    public function setPermalink($permalink);
+
+    /**
      * Get the description.
      *
      * @return null|string

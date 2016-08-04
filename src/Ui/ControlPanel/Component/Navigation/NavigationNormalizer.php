@@ -58,7 +58,7 @@ class NavigationNormalizer
             }
 
             /**
-             * Make sure the HREF and data-HREF are absolute.
+             * Make sure the HREF is absolute.
              */
             if (
                 isset($link['attributes']['href']) &&

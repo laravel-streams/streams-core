@@ -122,7 +122,7 @@ You can however provide as much information about the section as you want to cus
 <table class="table table-striped">
     <tr>
         <th>Name</th>
-        <th>Default</th>
+        <th>Default/Fallback</th>
         <th>Description</th>
     </tr>
     <tr>
@@ -131,9 +131,68 @@ You can however provide as much information about the section as you want to cus
         <td>The slug will become the URI segment and must be unique.</td>
     </tr>
     <tr>
-        <td><pre>buttons</pre></td>
+        <td><code>title</code></td>
+        <td>{vendor}.module.{module}::section.{slug}.title</td>
+        <td>The section title or translation key.</td>
+    </tr>
+    <tr>
+        <td><code>description</code></td>
+        <td>{vendor}.module.{module}::section.{slug}.description</td>
+        <td>The section description or translation key.</td>
+    </tr>
+    <tr>
+        <td><code>buttons</code></td>
         <td>None</td>
         <td>An array of button definitions.</td>
     </tr>
+    <tr>
+        <td><code>icon</code></td>
+        <td>None</td>
+        <td>A registered icon string or icon class.</td>
+    </tr>
+    <tr>
+        <td><code>class</code></td>
+        <td>None</td>
+        <td>A CSS class to append to the section.</td>
+    </tr>
+    <tr>
+        <td><code>matcher</code></td>
+        <td>None</td>
+        <td>A string pattern to test against a request path to determine if the section is active or not.<br>Example: <code>admin/products/*/variants</code></td>
+    </tr>
+    <tr>
+        <td><code>parent</code></td>
+        <td>None</td>
+        <td>The slug of the parent section if any. Sub-sections will not display in the navigation. Sub-sections highlight their parent when active and display their own buttons.</td>
+    </tr>
+    <tr>
+        <td><code>sections</code></td>
+        <td>None</td>
+        <td>An array of section definitions. These are placed in the base array and <code>parent</code> set on them automatically.</td>
+    </tr>
+    <tr>
+        <td><code>attributes</code></td>
+        <td>None</td>
+        <td>An array of <code>key => value</code> HTML attributes. Any base level definition keys starting with <code>data-</code> will be pushed into attributes automatically.</td>
+    </tr>
+    <tr>
+        <td><code>href</code></td>
+        <td>admin/{module}/{slug}</td>
+        <td>The HREF to the section. This gets pushed into <code>attributes</code> automatically.</td>
+    </tr>
+    <tr>
+        <td><code>breadcrumb</code></td>
+        <td>The section title</td>
+        <td>The breadcrumb text for the section.</td>
+    </tr>
+    <tr>
+        <td><code>permalink</code></td>
+        <td>None</td>
+        <td>The actual permalink for the section in the case that the HREF is used for something different. This is helpful when the HREF used for the section link needs to be different than the actual HREF for the section. Like a section link that opens a modal as in the above example to take you into the section.</td>
+    </tr>
+    <tr>
+        <td><code>permalink</code></td>
+        <td>None</td>
+        <td>The actual permalink for the section in the case that the HREF is used for something different. This is helpful when the HREF used for the section link needs to be different than the actual HREF for the section. Like a section link that opens a modal as in the above example to take you into the section.</td>
+    </tr>
 </table>
-

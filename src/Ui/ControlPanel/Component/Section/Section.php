@@ -56,6 +56,13 @@ class Section implements SectionInterface
     protected $matcher = null;
 
     /**
+     * The section permalink.
+     *
+     * @var null|string
+     */
+    protected $permalink = null;
+
+    /**
      * The section description.
      *
      * @var null|string
@@ -240,6 +247,29 @@ class Section implements SectionInterface
     }
 
     /**
+     * Get the permalink.
+     *
+     * @return null|string
+     */
+    public function getPermalink()
+    {
+        return $this->permalink;
+    }
+
+    /**
+     * Set the permalink.
+     *
+     * @param $permalink
+     * @return $this
+     */
+    public function setPermalink($permalink)
+    {
+        $this->permalink = $permalink;
+
+        return $this;
+    }
+
+    /**
      * Get the description.
      *
      * @return null|string
@@ -413,11 +443,7 @@ class Section implements SectionInterface
      */
     public function getHref($path = null)
     {
-        return array_get(
-            $this->attributes,
-            'data-href',
-            array_get($this->attributes, 'href')
-        ) . ($path ? '/' . $path : $path);
+        return ($this->getPermalink() ?: array_get($this->attributes, 'href')) . ($path ? '/' . $path : $path);
     }
 
     /**

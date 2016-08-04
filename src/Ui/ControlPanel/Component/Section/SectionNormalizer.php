@@ -87,7 +87,16 @@ class SectionNormalizer
             }
 
             /**
-             * Make sure the HREF and data-HREF are absolute.
+             * Move the data-href into the permalink.
+             *
+             * @deprecated as of v3.2
+             */
+            if (!isset($section['permalink']) && isset($section['attributes']['data-href'])) {
+                $section['permalink'] = array_pull($section, 'attributes.data-href');
+            }
+
+            /**
+             * Make sure the HREF and permalink are absolute.
              */
             if (
                 isset($section['attributes']['href']) &&
@@ -98,11 +107,11 @@ class SectionNormalizer
             }
 
             if (
-                isset($section['attributes']['data-href']) &&
-                is_string($section['attributes']['data-href']) &&
-                !starts_with($section['attributes']['data-href'], 'http')
+                isset($section['permalink']) &&
+                is_string($section['permalink']) &&
+                !starts_with($section['permalink'], 'http')
             ) {
-                $section['attributes']['data-href'] = url($section['attributes']['data-href']);
+                $section['permalink'] = url($section['permalink']);
             }
 
             /**
