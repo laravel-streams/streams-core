@@ -67,11 +67,14 @@ Primary module navigation is entirely automated. To get started just make sure t
 
 Sections are defined in your `Module` class in the `$sections` property. 
 
-    protected $sections = [
-        'users',
-        'roles',
-        'fields',
-    ];
+    class class UsersModuleSections extends Module
+    {
+        protected $sections = [
+            'users',
+            'roles',
+            'fields',
+        ];
+    }
 
 Sections also support `handlers` to dynamically control the sections of your module. To do so use a callable string for your `$sections` property or create a valid handler class next to your module class.
 
@@ -79,7 +82,7 @@ Sections also support `handlers` to dynamically control the sections of your mod
 
 The handler is called from the service container but passed the `$builder`.
 
-    class ProductsModuleSections
+    class UsersModuleSections
     {
         public function handle(ControlPanelBuilder $builder)
         {
