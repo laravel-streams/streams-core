@@ -25,34 +25,6 @@ Service providers in PyroCMS work very similar to service providers in Laravel. 
 
 You can register your own custom service providers in the `config/streams.php` configuration file under `providers`.
 
-<a name="register"></a>
-## Register Method
-
-Addon service providers' `register` method is called via the service container. Feel free to method inject anything you need.
-
-    public function register(Repository $config)
-    {
-        if ($config->get('anomaly.module.users::example.test')) {
-            $this->dispatch(new AwesomeCommand());
-        }
-    }
-
-<div class="alert alert-info">
-<strong>Note:</strong> The register method can also replace any of the following "shortcut" methods.
-</div>
-
-<a name="boot"></a>
-## Boot Method
-
-The `boot` method is called after all the addon service providers have been registered and ran. 
-
-    public function boot(AddonCollection $addons)
-    {
-        if ($addons->has('anomaly.module.comments')) {
-            $this->dispatch(new DoSomethingCool());
-        }
-    }
-
 <a name="addon-service-providers"></a>
 ## Addon Service Providers
 
@@ -68,6 +40,34 @@ Your addon service provider should extend `Anomaly\Streams\Platform\Addon\AddonS
     class PostModuleServiceProvider extends AddonServiceProvider
     {
         // Service provider contents
+    }
+
+<a name="register"></a>
+### Register Method
+
+Addon service providers' `register` method is called via the service container. Feel free to method inject anything you need.
+
+    public function register(Repository $config)
+    {
+        if ($config->get('anomaly.module.users::example.test')) {
+            $this->dispatch(new AwesomeCommand());
+        }
+    }
+
+<div class="alert alert-info">
+<strong>Note:</strong> The register method can also replace any of the following "shortcut" methods.
+</div>
+
+<a name="boot"></a>
+### Boot Method
+
+The `boot` method is called after all the addon service providers have been registered and ran.
+
+    public function boot(AddonCollection $addons)
+    {
+        if ($addons->has('anomaly.module.comments')) {
+            $this->dispatch(new DoSomethingCool());
+        }
     }
 
 <a name="routes"></a>
