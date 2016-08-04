@@ -33,7 +33,9 @@ You can easily cache entries by using the `cache` method when building queries.
 
 ##### Auto-caching query results
 
-You can also tell your model to automatically cache all unique queries by setting the `$ttl` property on your model. 
+You can also tell your model to automatically cache all unique queries by setting the `$ttl` property on your model.
+
+In order to enable auto-caching for queries you must add `DB_CACHE=true` to your `.env` file.
 
 <div class="alert alert-info">
 <strong>Note:</strong> Cache is automatically cleared for a model when any of it's records is changed. 
