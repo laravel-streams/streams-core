@@ -197,11 +197,6 @@ Below is a list of all possible section definition properties available.
         <td>None</td>
         <td>The actual permalink for the section in the case that the HREF is used for something different. This is helpful when the HREF used for the section link needs to be different than the actual HREF for the section. Like a section link that opens a modal as in the above example to take you into the section.</td>
     </tr>
-    <tr>
-        <td><code>permalink</code></td>
-        <td>None</td>
-        <td>The actual permalink for the section in the case that the HREF is used for something different. This is helpful when the HREF used for the section link needs to be different than the actual HREF for the section. Like a section link that opens a modal as in the above example to take you into the section.</td>
-    </tr>
 </table>
 
 <a name="section-buttons"></a>
