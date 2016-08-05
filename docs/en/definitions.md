@@ -10,6 +10,10 @@
 
 Object definitions are a simple string or array that define how to build an object. PyroCMS relies heavily on object definitions to reduce the time / effort overhead of building complex objects like forms, tables, and more.
 
+Definitions are used in PyroCMS to define buttons for a table row, columns in a table row, column values, form fields, form layout sections, and much more.
+
+As you explore docs further you can refer back to this page whenever working with definitions.
+
 The gist is simple. Definitions help you type this:
 
     'save'
@@ -84,7 +88,7 @@ The above example would override the otherwise automated title.
 
 While it's rarely required, you can also provide your own class name to use for the target object. This is helpful when your class overrides the target object.
  
-You can define your class with the name of the definition. For example since we're using button examples, the class would be defined as `button`.
+You can define your class with the name of the definition. For example since we're using action examples, the class would be defined as `action`.
 
     'save' =>[
         'text' => 'Save Category'
