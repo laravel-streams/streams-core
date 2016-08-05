@@ -85,6 +85,7 @@
 
 - Getting Started
 - [&check;] Breadcrumbs
+- [&check;] Buttons
 - [&check;] Control Panel
 - Forms
 - Tables
