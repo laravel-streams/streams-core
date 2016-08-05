@@ -1144,7 +1144,12 @@ class Image
      */
     public function __toString()
     {
-        return $this->output();
+        $output = $this->output();
+        if (is_string($output)) {
+            return $this->output();
+        }
+
+        return "";
     }
 
     /**
