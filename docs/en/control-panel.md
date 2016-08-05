@@ -101,27 +101,24 @@ By default you only need to define a simple string for a section. This string be
 You can however provide as much information about the section as you want to customize it's behavior.
 
     protected $sections = [
-        'users'  => [
-            'title' => 'Users',
-            'description' => 'Manage your users and what they can do.',
+        'menus' => [
             'buttons' => [
-                'new_user'
-            ],
-            'icon' => 'fa fa-users',
-            'class' => 'brand-primary',
-            'breadcrumb' => 'User Management',
-        ],
-        'roles'  => [
-            'buttons' => [
-                'new_role'
+                'new_menu'
             ]
         ],
-        'fields' => [
+        'links' => [
+            'title'       => 'Menu Links',
+            'slug'        => 'links',
+            'data-toggle' => 'modal',
+            'data-target' => '#modal',
+            'permalink'   => 'admin/navigation/links/{request.route.parameters.menu}',
+            'href'        => 'admin/navigation/choose',
+
             'buttons' => [
-                'add_field' => [
+                'new_link' => [
                     'data-toggle' => 'modal',
                     'data-target' => '#modal',
-                    'href'        => 'admin/users/fields/choose'
+                    'href'        => 'admin/navigation/links/choose/{request.route.parameters.menu}'
                 ]
             ]
         ]
