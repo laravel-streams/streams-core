@@ -1,7 +1,7 @@
 # Object Definitions
 
 - [Introduction](#introduction)
-    - [The Build Process](#build-process)
+- [The Build Process](#build-process)
 
 <hr>
 
@@ -99,7 +99,7 @@ You can define your class with the name of the definition. For example since we'
 During the hydration process the `special_property` can be set on the `MyActionClass` as long as a public accessor (For example `setSpecialProperty($specialProperty)`) exists.
 
 <a name="build-process"></a>
-### The Build Process
+## The Build Process
 
 While the build process varies slightly from object to object these following processes are always run.
 
