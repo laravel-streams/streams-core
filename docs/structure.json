@@ -62,7 +62,8 @@
         "pages": {
             "breadcrumbs": "Breadcrumbs",
             "buttons": "Buttons",
-            "control-panel": "Control Panel"
+            "control-panel": "Control Panel",
+            "icons": "Icons"
         }
     },
     "developers": {

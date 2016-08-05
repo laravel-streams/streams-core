@@ -88,6 +88,7 @@
 - [&check;] Buttons
 - [&check;] Control Panel
 - Forms
+- [&check;] Icons
 - Tables
 - Nested Lists
 
