@@ -173,6 +173,8 @@ Below is a list of all possible dropdown item definition properties available.
 
 Below are the registered basic buttons. Some definitions that extend buttons may extend on these or use them in their own registry.
 
+Registered buttons can be found in `Anomaly\Streams\Platform\Ui\Button\ButtonRegistry`.
+
     /**
      * Default Buttons
      */

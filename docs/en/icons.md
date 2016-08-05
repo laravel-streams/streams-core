@@ -27,6 +27,8 @@ Icon definitions are only a string. If the icon is not found in the registry the
 
 Below are the registered basic icons. Some definitions that extend icons may extend on these or use them in their own registry.
 
+Registered icons can be found in `Anomaly\Streams\Platform\Ui\Icon\IconRegistry`.
+
     'addon'                => 'fa fa-puzzle-piece',
     'adjust'               => 'glyphicons glyphicons-adjust-alt',
     'airplane'             => 'glyphicons glyphicons-airplane',
