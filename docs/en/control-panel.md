@@ -67,7 +67,7 @@ Primary module navigation is entirely automated. To get started just make sure t
 
 Sections are defined in your `Module` class in the `$sections` property. 
 
-    class class UsersModuleSections extends Module
+    class class UsersModule extends Module
     {
         protected $sections = [
             'users',
