@@ -12,8 +12,8 @@
     "foundations": {
         "title": "Foundations",
         "pages": {
+            "definitions": "Object Definitions",
             "lifecycle": "Request Lifecycle",
-            "structure": "Application Structure",
             "providers": "Service Providers",
             "plugin": "Streams Plugin"
         }

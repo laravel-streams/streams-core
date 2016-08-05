@@ -83,7 +83,7 @@
 
 ### User Interface
 
-- Getting Started
+- [&check;] Introduction
 - [&check;] Breadcrumbs
 - [&check;] Buttons
 - [&check;] Control Panel
