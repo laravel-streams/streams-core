@@ -1144,7 +1144,7 @@ class Image
      */
     public function __toString()
     {
-        return $this->output();
+        return (string) $this->output();
     }
 
     /**
