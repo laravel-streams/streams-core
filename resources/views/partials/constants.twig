@@ -12,6 +12,6 @@
     var TIMEZONE = "{{ config_get('app.timezone') }}";
     var LOCALE = "{{ config_get('app.locale') }}";
 
-    {% if auth_user() %}var IS_ADMIN = true;{% endif %}
+    {% if auth_user() and auth_user().hasRole('admin') %}var IS_ADMIN = true;{% endif %}
 
 </script>
