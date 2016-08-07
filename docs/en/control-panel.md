@@ -196,7 +196,7 @@ Below is a list of all possible section definition properties available.
     </tr>
     <tr>
         <td><code>permission</code></td>
-        <td>&mdash;</td>
+        <td>{vendor}.module.{module}::{slug}.*</td>
         <td>The permission string required to access the section. Note that builders within the section usually automate permissions so this may not be required if using said builders.</td>
     </tr>
     <tr>

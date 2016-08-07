@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Command;
 
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
 
@@ -38,6 +39,7 @@ class SetFormModel implements SelfHandling
     {
         $form  = $this->builder->getForm();
         $model = $this->builder->getModel();
+        $entry = $this->builder->getEntry();
 
         /**
          * If the model is already instantiated
@@ -46,6 +48,19 @@ class SetFormModel implements SelfHandling
         if (is_object($model)) {
 
             $form->setModel($model);
+
+            return;
+        }
+
+        /**
+         * If no model is set, fist try
+         * guessing the model based on the entry.
+         */
+        if ($model === null && $entry instanceof EntryInterface) {
+
+            $stream = $entry->getStream();
+
+            $this->builder->setModel($stream->getEntryModel());
 
             return;
         }

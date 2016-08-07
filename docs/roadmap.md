@@ -87,7 +87,7 @@
 - [&check;] Breadcrumbs
 - [&check;] Buttons
 - [&check;] Control Panel
-- Forms
+- [&check;] Forms
 - [&check;] Icons
 - Tables
 - Nested Lists
