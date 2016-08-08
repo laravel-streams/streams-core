@@ -617,7 +617,7 @@ Form buttons extend base UI buttons and do not add anything to them. Form button
 
 For more information on button definitions please refer to UI button documentation.
 
-    protected = [
+    protected $buttons = [
         'cancel',
         'view',
     ];
