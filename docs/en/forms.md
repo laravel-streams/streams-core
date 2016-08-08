@@ -40,7 +40,7 @@ Every component listed below with have at least a setter and a getter. Some comp
     $builder
         ->setActions(['save'])
         ->setButtons(['cancel'])
-        ->AddOption('title', 'Amazing!']);
+        ->addOption('title', 'Amazing!']);
 
 ##### Rendering the form
 
