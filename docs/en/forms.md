@@ -214,7 +214,7 @@ Custom validation required both the rule and the validator to be defined:
         ]
     ],
 
-Not the message is false because this rule will add it later if failed. You could also define a string or translation key. 
+Note the message is false because this rule will add it later if failed. You could also define a string or translation key. 
 
 Now all that is left is to define your database validator. The validator is called from the service container and is passed the `$builder`.
 
