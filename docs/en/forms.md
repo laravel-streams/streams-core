@@ -2,6 +2,7 @@
 
 - [Introduction](#introduction)
     - [Basic Usage](#basic-usage)
+    - [Property Handlers](#property-handlers)
     - [Form Entries](#form-entries)
 - [Components](#components)
     - [Fields](#fields)
@@ -60,6 +61,39 @@ The `build()` method will take the component definitions and build the form obje
             echo "{$field->getInputName()} is required!";
         }
     }
+
+<a name="property-handlers"></a>
+### Property Handlers
+
+All the properties for the form builder except for the `$model` and the `$repository` support handlers. This means that instead of setting the property on the builder you can instead set a callable string to _handle_ that property.
+
+    protected $fields = MyFieldsHandler::class
+
+Your `MyFieldsHandler` class should be `SelfHandling` since you did not include a `@method` in the handler.
+
+    class MyFieldsHandler implements SelfHandling
+    {
+        public function handle(FormBuilder $builder)
+        {
+            $builder->setFields(
+                [
+                    'name'         => [
+                        'label'        => 'module::field.name.name',
+                        'instructions' => 'module::field.name.instructions',
+                        'type'         => 'anomaly.field_type.text',
+                        'required'     => true,
+                        'config'       => [
+                            'default_value' => function(Guard $auth) {
+                                return $auth->user()->getDisplayName();
+                            }
+                        ]
+                    ],
+                ]
+            );
+        }
+    }
+
+As you can see in the example above this approach allows for you to implement your own logic to dynamically control the property's related components.
 
 <a name="form-entries"></a>
 ### Form Entries
