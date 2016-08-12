@@ -612,6 +612,14 @@ class FormBuilder
      */
     public function setOptions($options)
     {
+        /**
+         * If options have already been set (I.E. by GetFormCriteria)
+         * then we have to merge the options together.
+         */
+        if(!empty($this->options)) {
+            return $this->mergeOptions($options);
+        }
+
         $this->options = $options;
 
         return $this;
