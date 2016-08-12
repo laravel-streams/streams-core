@@ -176,4 +176,14 @@ class EloquentCriteria
 
         return $this;
     }
+    
+    /**
+     * Return the string.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return '';
+    }
 }
