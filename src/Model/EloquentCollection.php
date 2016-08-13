@@ -88,6 +88,22 @@ class EloquentCollection extends Collection
     }
 
     /**
+     * Find a model by key.
+     *
+     * @param $key
+     * @param $value
+     * @return EloquentModel
+     */
+    public function findBy($key, $value)
+    {
+        return $this->first(
+            function ($index, $entry) use ($key, $value) {
+                return $entry->{$key} === $value;
+            }
+        );
+    }
+
+    /**
      * An alias for slice.
      *
      * @param $offset
