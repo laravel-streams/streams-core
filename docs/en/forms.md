@@ -487,6 +487,11 @@ Below is a list of all possible section definition properties available.
         <td>&mdash;</td>
         <td>An array of <code>key => value</code> HTML attributes. Any base level definition keys starting with <code>data-</code> will be pushed into attributes automatically.</td>
     </tr>
+    <tr>
+        <td><code>view</code></td>
+        <td>&mdash;</td>
+        <td>The view to delegate the section to.</td>
+    </tr>
 </table>
 
 ##### The tab definition
@@ -527,7 +532,7 @@ Actions determine what your form does when submitted. Most actions assume the fo
 
 ##### Using registered actions
 
-There are a number of actions registered in the `Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionRegistry` class. To use any of these actions simply inculde their string slug.
+There are a number of actions registered in the `Anomaly\Streams\Platform\Ui\Form\Component\Action\ActionRegistry` class. To use any of these actions simply include their string slug.
  
     protected $actions = [
         'save',
