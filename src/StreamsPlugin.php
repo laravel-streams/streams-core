@@ -8,6 +8,8 @@ use Anomaly\Streams\Platform\Image\Command\MakeImagePath;
 use Anomaly\Streams\Platform\Image\Command\MakeImageTag;
 use Anomaly\Streams\Platform\Image\Command\MakeImageUrl;
 use Anomaly\Streams\Platform\Image\Image;
+use Anomaly\Streams\Platform\Stream\Command\GetStream;
+use Anomaly\Streams\Platform\Stream\Command\GetStreams;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Template;
@@ -173,6 +175,22 @@ class StreamsPlugin extends Plugin
     public function getFunctions()
     {
         return [
+            new \Twig_SimpleFunction(
+                'stream',
+                function ($namespace, $slug = null) {
+                    return (new Decorator())->decorate(
+                        $this->dispatch(new GetStream($namespace, $slug ?: $namespace))
+                    );
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'streams',
+                function ($namespace) {
+                    return (new Decorator())->decorate(
+                        $this->dispatch(new GetStreams($namespace))
+                    );
+                }
+            ),
             new \Twig_SimpleFunction(
                 'entry',
                 function ($namespace, $stream = null) {
