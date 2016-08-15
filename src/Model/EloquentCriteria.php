@@ -82,6 +82,28 @@ class EloquentCriteria
     }
 
     /**
+     * Get the aggregate sum.
+     *
+     * @param array $columns
+     * @return int
+     */
+    public function sum(array $columns = ['*'])
+    {
+        return (new Decorator())->decorate($this->query->sum($columns));
+    }
+
+    /**
+     * Get the entry count.
+     *
+     * @param array $columns
+     * @return int
+     */
+    public function count(array $columns = ['*'])
+    {
+        return (new Decorator())->decorate($this->query->count($columns));
+    }
+
+    /**
      * Find an entry.
      *
      * @param       $identifier
@@ -176,7 +198,7 @@ class EloquentCriteria
 
         return $this;
     }
-    
+
     /**
      * Return the string.
      *
