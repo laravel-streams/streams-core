@@ -757,7 +757,7 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
      */
     public function newRouter()
     {
-        return app()->make($this->getRouterName(), ['model' => $this]);
+        return app()->make($this->getRouterName(), ['entry' => $this]);
     }
 
     /**

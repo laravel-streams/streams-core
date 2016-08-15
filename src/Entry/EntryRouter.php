@@ -1,9 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Model\Posts\PostsPostsEntryModel;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Support\Locator;
+use Anomaly\Streams\Platform\Support\Str;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -20,6 +21,13 @@ class EntryRouter
     use DispatchesJobs;
 
     /**
+     * The string utility.
+     *
+     * @var Str
+     */
+    protected $str;
+
+    /**
      * The URL generator;
      *
      * @var UrlGenerator
@@ -27,11 +35,11 @@ class EntryRouter
     protected $url;
 
     /**
-     * The entry model.
+     * The entry instance.
      *
      * @var EntryInterface
      */
-    protected $model;
+    protected $entry;
 
     /**
      * The locator utility.
@@ -41,17 +49,33 @@ class EntryRouter
     protected $locator;
 
     /**
+     * The service container.
+     *
+     * @var Container
+     */
+    protected $container;
+
+    /**
      * Create a new EntryRouter instance.
      *
      * @param UrlGenerator   $url
-     * @param EntryInterface $model
+     * @param Str            $str
+     * @param EntryInterface $entry
      * @param Locator        $locator
+     * @param Container      $container
      */
-    public function __construct(UrlGenerator $url, EntryInterface $model, Locator $locator)
-    {
-        $this->url     = $url;
-        $this->model   = $model;
-        $this->locator = $locator;
+    public function __construct(
+        UrlGenerator $url,
+        Str $str,
+        EntryInterface $entry,
+        Locator $locator,
+        Container $container
+    ) {
+        $this->str       = $str;
+        $this->url       = $url;
+        $this->entry     = $entry;
+        $this->locator   = $locator;
+        $this->container = $container;
     }
 
     /**
@@ -63,14 +87,18 @@ class EntryRouter
      */
     public function make($route, array $parameters = [])
     {
-        if (!str_contains($route, '.') && $stream = $this->model->getStreamSlug()) {
+        if (method_exists($this, $method = $this->str->camel($route))) {
+            return $this->container->call([$this, $method], $parameters);
+        }
+
+        if (!str_contains($route, '.') && $stream = $this->entry->getStreamSlug()) {
             $route = "{$stream}.{$route}";
         }
 
-        if (!str_contains($route, '::') && $namespace = $this->locator->locate($this->model)) {
+        if (!str_contains($route, '::') && $namespace = $this->locator->locate($this->entry)) {
             $route = "{$namespace}::{$route}";
         }
 
-        return $this->url->make($route, $this->model, $parameters);
+        return $this->url->make($route, $this->entry, $parameters);
     }
 }
