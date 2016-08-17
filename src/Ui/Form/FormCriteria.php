@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Hydrator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
 use Illuminate\Contracts\Cache\Repository;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Http\Request;
 
 /**
@@ -48,6 +49,13 @@ class FormCriteria
     protected $hydrator;
 
     /**
+     * The service container.
+     *
+     * @var Container
+     */
+    protected $container;
+
+    /**
      * The parameters.
      *
      * @var array
@@ -60,6 +68,7 @@ class FormCriteria
      * @param Repository  $cache
      * @param Request     $request
      * @param Hydrator    $hydrator
+     * @param Container   $container
      * @param FormBuilder $builder
      * @param array       $parameters
      */
@@ -67,6 +76,7 @@ class FormCriteria
         Repository $cache,
         Request $request,
         Hydrator $hydrator,
+        Container $container,
         FormBuilder $builder,
         array $parameters = []
     ) {
@@ -74,6 +84,7 @@ class FormCriteria
         $this->builder    = $builder;
         $this->request    = $request;
         $this->hydrator   = $hydrator;
+        $this->container  = $container;
         $this->parameters = $parameters;
 
         $this->setBuilder($builder);
