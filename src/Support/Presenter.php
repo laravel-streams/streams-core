@@ -77,6 +77,16 @@ class Presenter extends \Robbo\Presenter\Presenter
             return call_user_func_array([$this->object, camel_case($var)], []);
         }
 
+        // Check the for a getter style hook.
+        if (method_exists($this->object, 'call') && $this->object->hasHook('get_' . $var)) {
+            return $this->object->call('get_' . $var);
+        }
+
+        // Check the for a normal style hook.
+        if (method_exists($this->object, 'call') && $this->object->hasHook($var)) {
+            return $this->object->call($var);
+        }
+
         try {
             // Lastly try generic property access.
             return $this->__getDecorator()->decorate(
