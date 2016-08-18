@@ -19,9 +19,13 @@ return [
     | Timezones
     |--------------------------------------------------------------------------
     |
-    | This is the default timezone used for display.
+    | Configure the various timezones used.
+    |
+    | Default: The default timezone for the application when none is set.
+    | Database: The timezone of the database.
     |
     */
 
-    'default_timezone' => env('DEFAULT_TIMEZONE', 'UTC')
+    'default_timezone'  => env('DEFAULT_TIMEZONE', 'UTC'),
+    'database_timezone' => env('DATABASE_TIMEZONE', 'UTC'),
 ];
