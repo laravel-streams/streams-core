@@ -14,15 +14,6 @@ class Kernel extends \Illuminate\Foundation\Console\Kernel
 {
 
     /**
-     * The Artisan commands provided by your application.
-     *
-     * @var array
-     */
-    protected $commands = [
-        \TestApp\Console\Commands\Inspire::class,
-    ];
-
-    /**
      * Get the Artisan application instance.
      *
      * @return \Illuminate\Console\Application
