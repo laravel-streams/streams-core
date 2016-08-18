@@ -32,9 +32,9 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth'       => \TestApp\Http\Middleware\Authenticate::class,
+        'auth'       => \Anomaly\Streams\Platform\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'guest'      => \TestApp\Http\Middleware\RedirectIfAuthenticated::class,
+        'guest'      => \Anomaly\Streams\Platform\Http\Middleware\RedirectIfAuthenticated::class,
     ];
 
     /**
