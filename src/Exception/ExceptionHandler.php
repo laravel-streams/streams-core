@@ -1,6 +1,5 @@
 <?php namespace Anomaly\Streams\Platform\Exception;
 
-use App\Exceptions\Handler;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,8 +14,17 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Exception
  */
-class ExceptionHandler extends Handler
+class ExceptionHandler extends \Illuminate\Foundation\Exceptions\Handler
 {
+
+    /**
+     * A list of the exception types that should not be reported.
+     *
+     * @var array
+     */
+    protected $dontReport = [
+        HttpException::class,
+    ];
 
     /**
      * Render an exception into an HTTP response.

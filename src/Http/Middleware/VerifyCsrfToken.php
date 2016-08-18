@@ -15,7 +15,7 @@ use Illuminate\Session\TokenMismatchException;
  * @author        Ryan Thompson <ryan@anomaly.is>
  * @package       Anomaly\Streams\Platform\Http\Middleware
  */
-class VerifyCsrfToken extends \App\Http\Middleware\VerifyCsrfToken
+class VerifyCsrfToken extends \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken
 {
 
     /**

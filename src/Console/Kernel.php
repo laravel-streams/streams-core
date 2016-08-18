@@ -10,8 +10,17 @@ use Illuminate\Contracts\Events\Dispatcher;
  * @author        Ryan Thompson <ryan@pyrocms.com>
  * @package       Anomaly\Streams\Platform\Console
  */
-class Kernel extends \App\Console\Kernel
+class Kernel extends \Illuminate\Foundation\Console\Kernel
 {
+
+    /**
+     * The Artisan commands provided by your application.
+     *
+     * @var array
+     */
+    protected $commands = [
+        \TestApp\Console\Commands\Inspire::class,
+    ];
 
     /**
      * Get the Artisan application instance.
