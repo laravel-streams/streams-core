@@ -54,15 +54,15 @@ The easiest way to override a view is to simply place your own view in your them
 
 The override path pattern looks like this:
  
-    your-theme/resources/addons/{vendor}/{addon}-{type}/{view}
+    your-theme/resources/views/addons/{vendor}/{addon}-{type}/{view}
 
 You can also override views from the streams platform.
 
-    your-theme/resources/streams/{view}
+    your-theme/resources/views/streams/{view}
 
 Let's assume we have a view `example.module.forum::discussions/view` that we want to override in our theme. The override path would look like this:
 
-    your-theme/resources/addons/example/forum-module/discussions/view.twig
+    your-theme/resources/views/addons/example/forum-module/discussions/view.twig
 
 ##### Addon Service Provider
 
