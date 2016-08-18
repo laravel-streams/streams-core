@@ -4,6 +4,7 @@
 - [Agent](#agent)
 - [Asset](#asset)
 - [Auth](#auth)
+- [Carbon](#carbon)
 - [Config](#config)
 - [CSRF](#csrf)
 - [Entries](#entries)
@@ -111,6 +112,19 @@ The auth functions provide limited access to the `Illuminate\Contracts\Auth\Guar
     {% if auth_guest() %}
         Welcome guest!
     {% endif %}
+    {% endverbatim %}
+
+<hr>
+
+<a name="carbon"></a>
+### Carbon
+
+The carbon function provides access to the `Carbon` datetime class. The `$time` and `$timezone` arguments are optional.
+
+    {% verbatim %}
+    {{ carbon('-1 day', config('app.timezone')) }} // "2016-08-17 15:05:26"
+    
+    {{ carbon('-1 day', config('app.timezone')).diffInHours() }} // 24
     {% endverbatim %}
 
 <hr>

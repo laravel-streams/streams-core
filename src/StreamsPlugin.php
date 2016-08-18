@@ -22,6 +22,7 @@ use Anomaly\Streams\Platform\Ui\Icon\Command\GetIcon;
 use Anomaly\Streams\Platform\View\Command\GetConstants;
 use Anomaly\Streams\Platform\View\Command\GetLayoutName;
 use Anomaly\Streams\Platform\View\Command\GetView;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Routing\UrlGenerator;
@@ -301,6 +302,12 @@ class StreamsPlugin extends Plugin
                 'env',
                 function ($key, $default = null) {
                     return env($key, $default);
+                }
+            ),
+            new \Twig_SimpleFunction(
+                'carbon',
+                function ($time = null, $timezone = null) {
+                    return new Carbon($time, $timezone);
                 }
             ),
             new \Twig_SimpleFunction(
