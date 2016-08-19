@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Asset\Asset;
 use Anomaly\Streams\Platform\Event\Response;
 use Anomaly\Streams\Platform\Message\MessageBag;
+use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection;
 use Anomaly\Streams\Platform\View\ViewTemplate;
 use Illuminate\Contracts\Container\Container;
@@ -34,6 +35,13 @@ class BaseController extends Controller
      * @var Container
      */
     protected $container;
+
+    /**
+     * The URL generator.
+     *
+     * @var UrlGenerator
+     */
+    protected $url;
 
     /**
      * The view factory.
@@ -119,6 +127,7 @@ class BaseController extends Controller
         $this->template    = app('Anomaly\Streams\Platform\View\ViewTemplate');
         $this->messages    = app('Anomaly\Streams\Platform\Message\MessageBag');
         $this->response    = app('Illuminate\Contracts\Routing\ResponseFactory');
+        $this->url         = app('Anomaly\Streams\Platform\Routing\UrlGenerator');
         $this->breadcrumbs = app('Anomaly\Streams\Platform\Ui\Breadcrumb\BreadcrumbCollection');
 
         $this->route = $this->request->route();
