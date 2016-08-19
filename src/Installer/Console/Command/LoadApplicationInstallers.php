@@ -2,7 +2,7 @@
 
 use Anomaly\Streams\Platform\Installer\Installer;
 use Anomaly\Streams\Platform\Installer\InstallerCollection;
-use App\Console\Kernel;
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Bus\SelfHandling;
 
 /**
