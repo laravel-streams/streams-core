@@ -711,6 +711,16 @@ class EloquentModel extends Model implements Arrayable
         return $attributes;
     }
 
+    /**
+     * Return the routable array information.
+     *
+     * @return array
+     */
+    public function toRoutable()
+    {
+        return $this->toArray();
+    }
+
     private function alwaysFillable()
     {
         return false;

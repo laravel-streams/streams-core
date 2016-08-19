@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Routing;
 
+use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Support\Presenter;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
@@ -114,6 +115,10 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
     {
         if (!$route = $this->routes->getByName($name)) {
             return null;
+        }
+
+        if ($entry instanceof EloquentModel) {
+            $entry = $entry->toRoutable();
         }
 
         if ($entry instanceof Presenter) {

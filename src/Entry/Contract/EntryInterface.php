@@ -442,6 +442,13 @@ interface EntryInterface
     public function flushCache();
 
     /**
+     * Return the routable array.
+     *
+     * @return array
+     */
+    public function toRoutable();
+
+    /**
      * Fire field type events.
      *
      * @param       $trigger
