@@ -63,8 +63,8 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
     /**
      * Generate an absolute URL to the given asset.
      *
-     * @param  string $asset
-     * @param  mixed $extra
+     * @param  string    $asset
+     * @param  mixed     $extra
      * @param  bool|null $secure
      * @return string
      */
@@ -128,5 +128,26 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
             $this->parser->render(str_replace('?}', '}', $route->uri()), $entry),
             $parameters
         );
+    }
+
+    /**
+     * Get the URL to a named route.
+     *
+     * @param  string $name
+     * @param  mixed  $parameters
+     * @param  bool   $absolute
+     * @return string
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function route($name, $parameters = [], $absolute = true)
+    {
+        $route = parent::route($name, $parameters, $absolute);
+
+        if (!array_filter($parameters)) {
+            $route = trim($route, '?');
+        }
+
+        return $route;
     }
 }
