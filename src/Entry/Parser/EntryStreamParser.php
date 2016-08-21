@@ -121,7 +121,7 @@ class EntryStreamParser
             }
 
             if (is_array($value)) {
-                $value = serialize($value);
+                $value = addcslashes(serialize($value), '\'');
             }
 
             $string .= "\n'{$key}' => '{$value}',";
