@@ -152,6 +152,12 @@ class FormCriteria
             }
         );
 
+        if (is_array(array_get($this->parameters, 'options'))) {
+            foreach (array_pull($this->parameters, 'options') as $key => $value) {
+                $this->builder->setOption($key, $value);
+            }
+        }
+
         return $this->hydrator->hydrate($this->builder, $this->parameters);
     }
 
