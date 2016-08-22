@@ -40,7 +40,7 @@ class Authorizer
     /**
      * Create a new Authorizer instance.
      *
-     * @param Guard      $guard
+     * @param Guard $guard
      * @param Repository $config
      */
     function __construct(Guard $guard, Repository $config)
@@ -76,18 +76,19 @@ class Authorizer
     /**
      * Authorize a user against any permission.
      *
-     * @param array         $permissions
+     * @param array $permissions
      * @param UserInterface $user
+     * @param bool $strict
      * @return bool
      */
-    public function authorizeAny(array $permissions, UserInterface $user = null)
+    public function authorizeAny(array $permissions, UserInterface $user = null, $strict = false)
     {
         if (!$user) {
             $user = $this->guard->user();
         }
 
         if (!$user) {
-            return true; // Don't know about this.
+            return !$strict;
         }
 
         foreach ($permissions as $permission) {
@@ -102,18 +103,19 @@ class Authorizer
     /**
      * Authorize a user against all permission.
      *
-     * @param array         $permissions
+     * @param array $permissions
      * @param UserInterface $user
+     * @param bool $strict
      * @return bool
      */
-    public function authorizeAll(array $permissions, UserInterface $user = null)
+    public function authorizeAll(array $permissions, UserInterface $user = null, $strict = false)
     {
         if (!$user) {
             $user = $this->guard->user();
         }
 
         if (!$user) {
-            return true; // Don't know about this.
+            return !$strict;
         }
 
         foreach ($permissions as $permission) {
