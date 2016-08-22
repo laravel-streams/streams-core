@@ -4,6 +4,7 @@ use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 use Illuminate\Contracts\Bus\SelfHandling;
+use Illuminate\Http\Request;
 use Illuminate\Translation\Translator;
 
 /**
@@ -37,9 +38,11 @@ class SetErrorMessages implements SelfHandling
     /**
      * Handle the command.
      *
+     * @param Request $request
      * @param MessageBag $messages
+     * @param Translator $translator
      */
-    public function handle(MessageBag $messages, Translator $translator)
+    public function handle(Request $request, MessageBag $messages, Translator $translator)
     {
         if ($this->builder->isAjax()) {
             return;
@@ -49,7 +52,7 @@ class SetErrorMessages implements SelfHandling
 
         $messages->error($errors->all());
 
-        if (($stream = $this->builder->getFormStream()) && $stream->isTrashable()) {
+        if ($request->segment(1) == 'admin' && ($stream = $this->builder->getFormStream()) && $stream->isTrashable()) {
 
             /* @var AssignmentInterface $assignment */
             foreach ($stream->getUniqueAssignments() as $assignment) {
