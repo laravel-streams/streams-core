@@ -3,7 +3,6 @@
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewInterface;
 use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewQueryInterface;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
-use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -38,8 +37,8 @@ class ViewQuery
     /**
      * Handle the view query.
      *
-     * @param TableBuilder  $builder
-     * @param Builder       $query
+     * @param TableBuilder $builder
+     * @param Builder $query
      * @param ViewInterface $view
      * @return mixed
      * @throws \Exception
@@ -53,7 +52,7 @@ class ViewQuery
         }
 
         // Self handling implies @handle
-        if (is_string($handler) && !str_contains($handler, '@') && class_implements($handler, SelfHandling::class)) {
+        if (is_string($handler) && !str_contains($handler, '@')) {
             $handler .= '@handle';
         }
 
