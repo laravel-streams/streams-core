@@ -30,8 +30,8 @@ class CreateFieldsTables extends Migration
                 function (Blueprint $table) {
 
                     $table->increments('id');
-                    $table->string('namespace');
-                    $table->string('slug');
+                    $table->string('namespace', 150);
+                    $table->string('slug', 150);
                     $table->string('type');
                     $table->text('config');
                     $table->boolean('locked')->default(0);

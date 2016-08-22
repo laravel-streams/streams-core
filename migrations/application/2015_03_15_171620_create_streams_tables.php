@@ -30,8 +30,8 @@ class CreateStreamsTables extends Migration
                 function (Blueprint $table) {
 
                     $table->increments('id');
-                    $table->string('namespace');
-                    $table->string('slug');
+                    $table->string('namespace', 150);
+                    $table->string('slug', 150);
                     $table->string('prefix')->nullable();
                     $table->string('title_column')->default('id');
                     $table->string('order_by')->default('id');
