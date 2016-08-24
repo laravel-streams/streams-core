@@ -406,6 +406,16 @@ class Image
     }
 
     /**
+     * Return the image contents.
+     *
+     * @return string
+     */
+    public function data()
+    {
+        return $this->dumpImage();
+    }
+
+    /**
      * Return the output.
      *
      * @return string
@@ -1144,7 +1154,7 @@ class Image
      */
     public function __toString()
     {
-        return (string) $this->output();
+        return (string)$this->output();
     }
 
     /**
