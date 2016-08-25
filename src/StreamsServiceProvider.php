@@ -50,11 +50,9 @@ use Illuminate\Support\ServiceProvider;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform
  */
 class StreamsServiceProvider extends ServiceProvider
 {
-
     use DispatchesJobs;
 
     /**
@@ -83,7 +81,7 @@ class StreamsServiceProvider extends ServiceProvider
         'TwigBridge\Extension\Laravel\Form',
         'TwigBridge\Extension\Laravel\Html',
         'Anomaly\Streams\Platform\StreamsPlugin',
-        'Phive\Twig\Extensions\Deferred\DeferredExtension'
+        'Phive\Twig\Extensions\Deferred\DeferredExtension',
     ];
 
     /**
@@ -136,7 +134,7 @@ class StreamsServiceProvider extends ServiceProvider
         'extension.collection'                                                           => 'Anomaly\Streams\Platform\Addon\Extension\ExtensionCollection',
         'field_type.collection'                                                          => 'Anomaly\Streams\Platform\Addon\FieldType\FieldTypeCollection',
         'plugin.collection'                                                              => 'Anomaly\Streams\Platform\Addon\Plugin\PluginCollection',
-        'theme.collection'                                                               => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection'
+        'theme.collection'                                                               => 'Anomaly\Streams\Platform\Addon\Theme\ThemeCollection',
     ];
 
     /**
@@ -195,7 +193,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Anomaly\Streams\Platform\View\ViewMobileOverrides'                                  => 'Anomaly\Streams\Platform\View\ViewMobileOverrides',
         'Anomaly\Streams\Platform\View\Listener\LoadTemplateData'                            => 'Anomaly\Streams\Platform\View\Listener\LoadTemplateData',
         'Anomaly\Streams\Platform\View\Listener\DecorateData'                                => 'Anomaly\Streams\Platform\View\Listener\DecorateData',
-        'Anomaly\Streams\Platform\Support\Template'                                          => 'Anomaly\Streams\Platform\Support\Template'
+        'Anomaly\Streams\Platform\Support\Template'                                          => 'Anomaly\Streams\Platform\Support\Template',
     ];
 
     /**
@@ -231,7 +229,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         $this->app->booted(
             function () use ($events) {
-
                 $events->fire(new Booted());
 
                 /* @var AddonManager $manager */
@@ -243,7 +240,6 @@ class StreamsServiceProvider extends ServiceProvider
                 $events->listen(
                     'Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins',
                     function (RegisteringTwigPlugins $event) {
-
                         $twig = $event->getTwig();
 
                         foreach ($this->plugins as $plugin) {
@@ -284,12 +280,10 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        /**
+        /*
          * Register all third party packages first.
          */
         $this->app->register('TwigBridge\ServiceProvider');
-        $this->app->register('Barryvdh\HttpCache\ServiceProvider');
-        $this->app->register('Collective\Html\HtmlServiceProvider');
         $this->app->register('Intervention\Image\ImageServiceProvider');
 
         if (env('APP_DEBUG')) {
@@ -327,7 +321,7 @@ class StreamsServiceProvider extends ServiceProvider
             }
         }
 
-        /**
+        /*
          * Change the default language path so
          * that there MUST be a prefix hint.
          */
@@ -338,7 +332,7 @@ class StreamsServiceProvider extends ServiceProvider
             }
         );
 
-        /**
+        /*
          * Register the path to the streams platform.
          * This is handy for helping load other streams things.
          */
@@ -347,12 +341,11 @@ class StreamsServiceProvider extends ServiceProvider
             $this->app->make('path.base') . '/vendor/anomaly/streams-platform'
         );
 
-        /**
+        /*
          * If we don't have an .env file we need to head
          * to the installer (unless that's where we're at).
          */
         if (!env('INSTALLED') && $this->app->make('request')->segment(1) !== 'installer') {
-
             $this->app->make('router')->any(
                 '{url?}',
                 function (Redirector $redirector) {
@@ -363,7 +356,7 @@ class StreamsServiceProvider extends ServiceProvider
             return;
         }
 
-        /**
+        /*
          * Register system routes.
          */
         $this->app->make('router')->post(
