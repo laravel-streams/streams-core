@@ -19,7 +19,6 @@ use Anomaly\Streams\Platform\Event\Ready;
 use Anomaly\Streams\Platform\Field\FieldModel;
 use Anomaly\Streams\Platform\Field\FieldObserver;
 use Anomaly\Streams\Platform\Image\Command\AddImageNamespaces;
-use Anomaly\Streams\Platform\Mail\Command\RegisterMailer;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
 use Anomaly\Streams\Platform\Routing\Command\IncludeRoutes;
@@ -216,7 +215,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->dispatch(new AddAssetNamespaces());
         $this->dispatch(new AddImageNamespaces());
         $this->dispatch(new AddViewNamespaces());
-        $this->dispatch(new RegisterMailer());
 
         // Observe our base models.
         EntryModel::observe(EntryObserver::class);
