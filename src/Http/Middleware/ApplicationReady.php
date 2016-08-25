@@ -6,14 +6,6 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Class ApplicationReady
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Http\Middleware
- */
 class ApplicationReady
 {
 
@@ -46,7 +38,7 @@ class ApplicationReady
     {
         $response = $this->events->fire(new ApplicationHasLoaded(), [], true);
 
-        if(!defined('IS_ADMIN')) {
+        if (!defined('IS_ADMIN')) {
             define('IS_ADMIN', $request->segment(1) == 'admin');
         }
 

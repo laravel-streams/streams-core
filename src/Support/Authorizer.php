@@ -2,17 +2,9 @@
 
 use Anomaly\UsersModule\Role\Contract\RoleInterface;
 use Anomaly\UsersModule\User\Contract\UserInterface;
-use Illuminate\Auth\Guard;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Config\Repository;
 
-/**
- * Class Authorizer
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Support
- */
 class Authorizer
 {
 
@@ -40,10 +32,10 @@ class Authorizer
     /**
      * Create a new Authorizer instance.
      *
-     * @param Guard $guard
+     * @param Guard      $guard
      * @param Repository $config
      */
-    function __construct(Guard $guard, Repository $config)
+    public function __construct(Guard $guard, Repository $config)
     {
         $this->guard  = $guard;
         $this->config = $config;
@@ -52,8 +44,8 @@ class Authorizer
     /**
      * Authorize a user against a permission.
      *
-     * @param               $permission
-     * @param UserInterface $user
+     * @param                $permission
+     * @param  UserInterface $user
      * @return bool
      */
     public function authorize($permission, UserInterface $user = null)
@@ -76,9 +68,9 @@ class Authorizer
     /**
      * Authorize a user against any permission.
      *
-     * @param array $permissions
-     * @param UserInterface $user
-     * @param bool $strict
+     * @param  array         $permissions
+     * @param  UserInterface $user
+     * @param  bool          $strict
      * @return bool
      */
     public function authorizeAny(array $permissions, UserInterface $user = null, $strict = false)
@@ -103,9 +95,9 @@ class Authorizer
     /**
      * Authorize a user against all permission.
      *
-     * @param array $permissions
-     * @param UserInterface $user
-     * @param bool $strict
+     * @param  array         $permissions
+     * @param  UserInterface $user
+     * @param  bool          $strict
      * @return bool
      */
     public function authorizeAll(array $permissions, UserInterface $user = null, $strict = false)
@@ -130,25 +122,24 @@ class Authorizer
     /**
      * Return a user's permission.
      *
-     * @param               $permission
-     * @param UserInterface $user
+     * @param                $permission
+     * @param  UserInterface $user
      * @return bool
      */
     protected function checkPermission($permission, UserInterface $user)
     {
-        /**
+        /*
          * No permission, let it proceed.
          */
         if (!$permission) {
             return true;
         }
 
-        /**
+        /*
          * If the permission does not actually exist
          * then we cant really do anything with it.
          */
         if (str_is('*::*.*', $permission) && !ends_with($permission, '*')) {
-
             $parts = explode('.', str_replace('::', '.', $permission));
             $end   = array_pop($parts);
             $group = array_pop($parts);
@@ -159,17 +150,15 @@ class Authorizer
                 return true;
             }
         } elseif (ends_with($permission, '*')) {
-
             $parts = explode('::', $permission);
 
             $addon = array_shift($parts);
 
-            /**
+            /*
              * Check vendor.module.slug::group.*
              * then check vendor.module.slug::*
              */
             if (str_is('*.*.*::*.*.*', $permission)) {
-
                 $end = trim(substr($permission, strpos($permission, '::') + 2), '.*');
 
                 if (!$permissions = $this->config->get($addon . '::permissions.' . $end)) {
@@ -178,13 +167,11 @@ class Authorizer
                     return $user->hasAnyPermission($permissions);
                 }
             } elseif (str_is('*.*.*::*.*', $permission)) {
-
                 $end = trim(substr($permission, strpos($permission, '::') + 2), '.*');
 
                 if (!$permissions = $this->config->get($addon . '::permissions.' . $end)) {
                     return true;
                 } else {
-
                     $check = [];
 
                     foreach ($permissions as &$permission) {
@@ -197,7 +184,6 @@ class Authorizer
                 if (!$permissions = $this->config->get($addon . '::permissions')) {
                     return true;
                 } else {
-
                     $check = [];
 
                     foreach ($permissions as $group => &$permission) {
@@ -210,7 +196,6 @@ class Authorizer
                 }
             }
         } else {
-
             $parts = explode('::', $permission);
 
             $end = array_pop($parts);
@@ -241,7 +226,7 @@ class Authorizer
     /**
      * Set the guest role.
      *
-     * @param RoleInterface $guest
+     * @param  RoleInterface $guest
      * @return $this
      */
     public function setGuest(RoleInterface $guest)

@@ -1,18 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command;
 
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Illuminate\Auth\Guard;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Database\Query\Builder;
 
-/**
- * Class SetMetaInformation
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Entry\Command
- */
 class SetMetaInformation implements SelfHandling
 {
 

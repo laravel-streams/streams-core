@@ -279,8 +279,9 @@ class StreamsServiceProvider extends ServiceProvider
         /*
          * Register all third party packages first.
          */
-        $this->app->register('TwigBridge\ServiceProvider');
-        $this->app->register('Intervention\Image\ImageServiceProvider');
+        $this->app->register(\TwigBridge\ServiceProvider::class);
+        $this->app->register(\Collective\Html\HtmlServiceProvider::class);
+        $this->app->register(\Intervention\Image\ImageServiceProvider::class);
 
         if (env('APP_DEBUG')) {
             $this->app->register('Barryvdh\Debugbar\ServiceProvider');
