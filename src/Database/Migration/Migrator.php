@@ -6,17 +6,8 @@ use Anomaly\Streams\Platform\Database\Migration\Command\Rollback;
 use Anomaly\Streams\Platform\Database\Migration\Command\TransformMigrationNameToClass;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
-/**
- * Class Migrator
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Database\Migration
- */
 class Migrator extends \Illuminate\Database\Migrations\Migrator
 {
-
     use DispatchesJobs;
 
     /**
@@ -48,24 +39,26 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
     /**
      * Run an array of migrations.
      *
-     * @param  array $migrations
-     * @param  bool  $pretend
+     * @param array $migrations
+     * @param bool  $pretend
      *
      * @return void
      */
-    public function runMigrationList($migrations, $pretend = false)
+    public function runMigrationList($migrations, array $options = [])
     {
         // First we will just make sure that there are any migrations to run. If there
         // aren't, we will just make a note of it to the developer so they're aware
         // that all of the migrations have been run against this database system.
         if (count($migrations) == 0) {
-
             $this->note("<info>Nothing to migrate: {$this->namespace}</info>");
 
             return;
         }
 
         $batch = $this->repository->getNextBatchNumber();
+
+        $step    = Arr::get($options, 'step', false);
+        $pretend = Arr::get($options, 'pretend', false);
 
         // Once we have the array of migrations, we will spin through them and run the
         // migrations "up" so the changes are made to the databases. We'll then log
@@ -78,9 +71,9 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
     /**
      * Run "up" a migration instance.
      *
-     * @param  string $file
-     * @param  int    $batch
-     * @param  bool   $pretend
+     * @param string $file
+     * @param int    $batch
+     * @param bool   $pretend
      *
      * @return void
      */
@@ -98,21 +91,21 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
     /**
      * Run "down" a migration instance.
      *
-     * @param  object $migration
-     * @param  bool   $pretend
+     * @param object $migration
+     * @param bool   $pretend
      *
      * @return void
      */
-    protected function runDown($migration, $pretend)
-    {
-        $instance = $this->resolve($migration->migration);
-
-        if ($instance instanceof Migration) {
-            $this->dispatch(new Rollback($instance));
-        }
-
-        parent::runDown($migration, $pretend);
-    }
+    // protected function runDown($migration, $pretend)
+    // {
+    //     $instance = $this->resolve($migration->migration);
+    //
+    //     if ($instance instanceof Migration) {
+    //         $this->dispatch(new Rollback($instance));
+    //     }
+    //
+    //     parent::runDown($migration, $pretend);
+    // }
 
     /**
      * Require a given migration file.
@@ -140,7 +133,7 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
     /**
      * Resolve a migration instance from a file.
      *
-     * @param  string $file
+     * @param string $file
      *
      * @return Migration
      */
@@ -198,7 +191,6 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
         $migrations = $this->repository->findManyByNamespace($namespace);
 
         if (count($migrations) == 0) {
-
             $this->note("<info>Nothing to rollback: {$namespace}</info>");
 
             return count($migrations);
@@ -233,7 +225,6 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
         $this->requireFiles($path, $files);
 
         if (count($migrations) == 0) {
-
             $this->note("<info>Nothing to rollback: {$path}</info>");
 
             return count($migrations);
