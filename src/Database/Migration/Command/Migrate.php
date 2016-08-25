@@ -30,12 +30,14 @@ class Migrate
     }
 
     /**
-     * Get the migration.
+     * Handle the command.
      *
-     * @return Migration
+     * @param Migrate $command
      */
-    public function getMigration()
+    public function handle()
     {
-        return $this->migration;
+        $this->migration->createFields();
+        $this->migration->createStream();
+        $this->migration->assignFields();
     }
 }

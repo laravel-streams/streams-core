@@ -57,8 +57,8 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
 
         $batch = $this->repository->getNextBatchNumber();
 
-        $step    = Arr::get($options, 'step', false);
-        $pretend = Arr::get($options, 'pretend', false);
+        $step    = array_get($options, 'step', false);
+        $pretend = array_get($options, 'pretend', false);
 
         // Once we have the array of migrations, we will spin through them and run the
         // migrations "up" so the changes are made to the databases. We'll then log

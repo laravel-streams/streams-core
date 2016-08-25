@@ -1,14 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Database\Migration\Command;
 
+use Anomaly\Streams\Platform\Addon\AddonCollection;
 use Anomaly\Streams\Platform\Database\Migration\Migration;
 
-/**
- * Class GetAddonFromMigration
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- */
 class GetAddonFromMigration
 {
 
@@ -30,12 +24,21 @@ class GetAddonFromMigration
     }
 
     /**
-     * Get the migration.
+     * Handle the command.
      *
-     * @return string
+     * @param  AddonCollection $addons
+     * @return Addon|null
      */
-    public function getMigration()
+    public function handle(AddonCollection $addons)
     {
-        return $this->migration;
+        $matcher = "/(^[a-zA-Z0-9._]+?)(?=__)/";
+
+        $reflection = new \ReflectionClass($this->migration);
+
+        $fileName = implode('_', array_slice(explode('_', basename($reflection->getFileName())), 4));
+
+        preg_match($matcher, $fileName, $matches);
+
+        return $addons->get(isset($matches[1]) ? $matches[1] : null);
     }
 }
