@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform;
 
 use Anomaly\Streams\Platform\Addon\AddonManager;
-use Anomaly\Streams\Platform\Application\Command\ConfigureCommandBus;
 use Anomaly\Streams\Platform\Application\Command\ConfigureTranslator;
 use Anomaly\Streams\Platform\Application\Command\ConfigureUriValidator;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
@@ -208,7 +207,6 @@ class StreamsServiceProvider extends ServiceProvider
 
         // Next take care of core utilities.
         $this->dispatch(new SetCoreConnection());
-        $this->dispatch(new ConfigureCommandBus());
         $this->dispatch(new ConfigureUriValidator());
         $this->dispatch(new InitializeApplication());
 
