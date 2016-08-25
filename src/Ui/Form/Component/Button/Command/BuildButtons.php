@@ -1,15 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form\Component\Button\Command;
 
 use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
+use Anomaly\Streams\Platform\Ui\Form\Component\Button\ButtonBuilder;
 
-/**
- * Class BuildButtons
- *
- * @link          http://anomaly.is/streams-platform
- * @author        AnomalyLabs, Inc. <hello@anomaly.is>
- * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Ui\Form\Component\Button\Command
- */
 class BuildButtons
 {
 
@@ -31,12 +24,12 @@ class BuildButtons
     }
 
     /**
-     * Get the form builder.
+     * Handle the command.
      *
-     * @return FormBuilder
+     * @param ButtonBuilder $builder
      */
-    public function getBuilder()
+    public function handle(ButtonBuilder $builder)
     {
-        return $this->builder;
+        $builder->build($this->builder);
     }
 }

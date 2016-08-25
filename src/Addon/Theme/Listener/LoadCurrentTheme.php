@@ -8,14 +8,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Translation\Translator;
 
-/**
- * Class LoadCurrentTheme
- *
- * @link    http://anomaly.is/streams-platform
- * @author  AnomalyLabs, Inc. <hello@anomaly.is>
- * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Addon\Listener
- */
 class LoadCurrentTheme
 {
 
@@ -105,7 +97,7 @@ class LoadCurrentTheme
     {
         $admin    = $this->themes->get($this->config->get('streams::themes.admin'));
         $standard = $this->themes->get($this->config->get('streams::themes.standard'));
-
+        
         if ($admin) {
             $admin->setActive(true);
         }
@@ -121,7 +113,6 @@ class LoadCurrentTheme
         }
 
         if ($theme = $this->themes->current()) {
-
             $this->view->addNamespace('theme', $theme->getPath('resources/views'));
             $this->translator->addNamespace('theme', $theme->getPath('resources/lang'));
 
