@@ -18,7 +18,6 @@ use Carbon\Carbon;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Entry\Contract
  */
 interface EntryInterface
 {
@@ -155,8 +154,8 @@ interface EntryInterface
     /**
      * Get a field value.
      *
-     * @param      $fieldSlug
-     * @param null $locale
+     * @param        $fieldSlug
+     * @param  null  $locale
      * @return mixed
      */
     public function getFieldValue($fieldSlug, $locale = null);
@@ -164,9 +163,9 @@ interface EntryInterface
     /**
      * Set a field value.
      *
-     * @param      $fieldSlug
-     * @param      $value
-     * @param null $locale
+     * @param        $fieldSlug
+     * @param        $value
+     * @param  null  $locale
      * @return $this
      */
     public function setFieldValue($fieldSlug, $value, $locale = null);
@@ -174,7 +173,7 @@ interface EntryInterface
     /**
      * Fill the model attributes.
      *
-     * @param array $attributes
+     * @param  array $attributes
      * @return $this
      */
     public function fill(array $attributes);
@@ -230,7 +229,7 @@ interface EntryInterface
     /**
      * Get the field slugs for assigned fields.
      *
-     * @param null $prefix
+     * @param  null  $prefix
      * @return array
      */
     public function getAssignmentFieldSlugs($prefix = null);
@@ -412,8 +411,8 @@ interface EntryInterface
     /**
      * Get a raw unmodified attribute.
      *
-     * @param      $key
-     * @param bool $process
+     * @param             $key
+     * @param  bool       $process
      * @return mixed|null
      */
     public function getRawAttribute($key, $process = true);
@@ -446,7 +445,7 @@ interface EntryInterface
      *
      * @return array
      */
-    public function toRoutable();
+    public function toRoutableArray();
 
     /**
      * Fire field type events.
@@ -459,8 +458,8 @@ interface EntryInterface
     /**
      * Call a hook.
      *
-     * @param       $hook
-     * @param array $parameters
+     * @param        $hook
+     * @param  array $parameters
      * @return mixed
      */
     public function call($hook, array $parameters = []);

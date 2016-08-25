@@ -14,7 +14,6 @@ use StringTemplate\Engine;
  * @link          http://anomaly.is/streams-platform
  * @author        AnomalyLabs, Inc. <hello@anomaly.is>
  * @author        Ryan Thompson <ryan@anomaly.is>
- * @package       Anomaly\Streams\Platform\Routing
  */
 class UrlGenerator extends \Illuminate\Routing\UrlGenerator
 {
@@ -47,7 +46,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
      * Generate an absolute URL to the given asset.
      *
      * @param            $path
-     * @param null       $locale
+     * @param  null      $locale
      * @param  mixed     $extra
      * @param  bool|null $secure
      * @return string
@@ -106,9 +105,9 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
     /**
      * Make a route path.
      *
-     * @param       $name
-     * @param       $entry
-     * @param array $parameters
+     * @param                    $name
+     * @param                    $entry
+     * @param  array             $parameters
      * @return mixed|null|string
      */
     public function make($name, $entry, array $parameters = [])
@@ -118,7 +117,7 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
         }
 
         if ($entry instanceof EloquentModel) {
-            $entry = $entry->toRoutable();
+            $entry = $entry->toRoutableArray();
         }
 
         if ($entry instanceof Presenter) {

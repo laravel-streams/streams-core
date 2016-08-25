@@ -14,11 +14,9 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
  * @link    http://anomaly.is/streams-platform
  * @author  AnomalyLabs, Inc. <hello@anomaly.is>
  * @author  Ryan Thompson <ryan@anomaly.is>
- * @package Anomaly\Streams\Platform\Model
  */
 class EloquentModel extends Model implements Arrayable
 {
-
     use DispatchesJobs;
     use Hookable;
 
@@ -68,7 +66,7 @@ class EloquentModel extends Model implements Arrayable
         'updatingMultiple',
         'updatedMultiple',
         'deletingMultiple',
-        'deletedMultiple'
+        'deletedMultiple',
     ];
 
     /**
@@ -123,10 +121,10 @@ class EloquentModel extends Model implements Arrayable
     /**
      * Return a new collection class with our models.
      *
-     * @param  array $items
+     * @param  array      $items
      * @return Collection
      */
-    public function newCollection(array $items = array())
+    public function newCollection(array $items = [])
     {
         $collection = substr(get_class($this), 0, -5) . 'Collection';
 
@@ -312,8 +310,8 @@ class EloquentModel extends Model implements Arrayable
     }
 
     /**
-     * @param null      $locale
-     * @param bool|null $withFallback
+     * @param  null       $locale
+     * @param  bool|null  $withFallback
      * @return Model|null
      */
     public function getTranslation($locale = null, $withFallback = false)
@@ -337,7 +335,6 @@ class EloquentModel extends Model implements Arrayable
         $locale = $locale ?: $this->getFallbackLocale();
 
         foreach ($this->translations as $translation) {
-
             $translation->setRelation('parent', $this);
 
             if ($translation->getAttribute($this->getLocaleKey()) == $locale) {
@@ -420,8 +417,8 @@ class EloquentModel extends Model implements Arrayable
     /**
      * Set an attribute.
      *
-     * @param string $key
-     * @param mixed  $value
+     * @param  string $key
+     * @param  mixed  $value
      * @return $this
      */
     public function setAttribute($key, $value)
@@ -442,17 +439,16 @@ class EloquentModel extends Model implements Arrayable
      * accommodate translations. First sa
      * then save translations is translatable.
      *
-     * @param array $options
+     * @param  array $options
      * @return bool
      */
-    public function save(array $options = array())
+    public function save(array $options = [])
     {
         if (!$this->getTranslationModelName()) {
             return $this->saveModel($options);
         }
 
         if ($this->exists) {
-
             if (count($this->getDirty()) > 0) {
 
                 // If $this->exists and dirty, $this->saveModel() has to return true. If not,
@@ -489,7 +485,7 @@ class EloquentModel extends Model implements Arrayable
      * @param  array $options
      * @return bool
      */
-    public function saveModel(array $options = array())
+    public function saveModel(array $options = [])
     {
         $query = $this->newQueryWithoutScopes();
 
@@ -531,12 +527,10 @@ class EloquentModel extends Model implements Arrayable
         $saved = true;
 
         foreach ($this->translations as $translation) {
-
             $translation->setRelation('parent', $this);
 
             /* @var EloquentModel $translation */
             if ($saved && $this->isTranslationDirty($translation)) {
-
                 $translation->setAttribute($this->getRelationKey(), $this->getKey());
 
                 $saved = $translation->save();
@@ -544,7 +538,6 @@ class EloquentModel extends Model implements Arrayable
         }
 
         if ($this->translations->isEmpty()) {
-
             $translation = $this->translateOrNew(config('streams::locales.default'));
 
             $translation->save();
@@ -583,7 +576,6 @@ class EloquentModel extends Model implements Arrayable
     private function getTranslationByLocaleKey($key)
     {
         foreach ($this->translations as $translation) {
-
             $translation->setRelation('parent', $this);
 
             if ($translation->getAttribute($this->getLocaleKey()) == $key) {
@@ -716,7 +708,7 @@ class EloquentModel extends Model implements Arrayable
      *
      * @return array
      */
-    public function toRoutable()
+    public function toRoutableArray()
     {
         return $this->toArray();
     }
@@ -772,7 +764,7 @@ class EloquentModel extends Model implements Arrayable
     /**
      * Check if an attribute exists.
      *
-     * @param string $key
+     * @param  string $key
      * @return bool
      */
     public function __isset($key)
@@ -785,7 +777,7 @@ class EloquentModel extends Model implements Arrayable
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return json_encode($this->toArray());
     }
